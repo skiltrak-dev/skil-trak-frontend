@@ -21,9 +21,9 @@ export const RelatedJobCard = ({
                 <div className="flex flex-col gap-y-1 px-4 pt-4">
                     <div title={title}>
                         <Typography variant="title">
-                            {title.length <= 40
+                            {title?.length <= 40
                                 ? title
-                                : title.substr(0, 40) + '...' || 'N/A'}
+                                : title?.substr(0, 40) + '...' || 'N/A'}
                         </Typography>
                     </div>
                     <div className="flex items-center flex-row gap-x-2">
@@ -63,9 +63,10 @@ export const RelatedJobCard = ({
                             </div>
                             <div className="" title={suburb}>
                                 <Typography variant="small">
-                                    {suburb.length <= 14
+                                    {suburb?.length <= 14
                                         ? suburb
-                                        : suburb.substr(0, 14) + '...' || 'N/A'}
+                                        : suburb?.substr(0, 14) + '...' ||
+                                          'N/A'}
                                 </Typography>
                             </div>
                         </div>
@@ -101,12 +102,12 @@ export const RelatedJobCard = ({
                         </div>
                     </div>
                     <div className="flex items-center gap-x-2">
-                        {sectors?.map(({ sector, index }: any) => (
+                        {sectors?.slice(0, 1).map((sector: any, index: any) => (
                             <span
                                 key={index}
                                 className="py-0.5 px-2 text-xs rounded-full border text-center text-blue-400 border-blue-400"
                             >
-                                {sector.name || 'N/A'}
+                                {sector?.name || 'N/A'}
                             </span>
                         ))}
                     </div>

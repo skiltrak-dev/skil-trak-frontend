@@ -17,18 +17,17 @@ export const RecentJobCard = ({
     id,
     sectors,
 }: any) => {
-    console.log('home page sectors', sectors)
 
     return (
         <>
-            <div className="bg-white rounded-lg shadow-sm">
+            <div className="bg-white rounded-lg shadow-sm h-[320px]">
                 <div className="flex flex-col gap-y-2">
-                    <div className="flex flex-col gap-y-1 px-4 pt-4">
+                    <div className="flex flex-col gap-y-1 px-4 pt-4 h-[108px]">
                         <div title="title">
                             <Typography variant="title">
-                                {title.length <= 40
+                                {title?.length <= 40
                                     ? title
-                                    : title.substr(0, 40) + '...'}
+                                    : title?.substr(0, 40) + '...'}
                             </Typography>
                         </div>
                         <div className="flex items-center flex-row gap-x-2">
@@ -60,9 +59,9 @@ export const RecentJobCard = ({
                             </div>
                             <div title={suburb}>
                                 <Typography variant="small">
-                                    {suburb.length <= 14
+                                    {suburb?.length <= 14
                                         ? suburb
-                                        : suburb.substr(0, 14) + '...'}
+                                        : suburb?.substr(0, 14) + '...'}
                                 </Typography>
                             </div>
                         </div>
@@ -102,20 +101,22 @@ export const RecentJobCard = ({
                                     variant="small"
                                     color="text-gray-400"
                                 >
-                                    {description.length <= 100
+                                    {description?.length <= 100
                                         ? description
-                                        : description.substr(0, 100) + '...'}
+                                        : description?.substr(0, 100) + '...'}
                                 </Typography>
                             </div>
 
-                            {sectors?.map(({ sector, index }: any) => (
-                                <span
-                                    key={index}
-                                    className="py-0.5 px-2 text-xs rounded-full border text-center text-blue-400 border-blue-400"
-                                >
-                                    {sector?.name || 'N/A'}
-                                </span>
-                            ))}
+                            {/* <div className='flex flex-col'> */}
+                                {sectors?.slice(0,1)?.map((sector: any, index: any) => (
+                                    <span
+                                        key={index}
+                                        className="py-0.5 px-2 w-full text-xs rounded-full border text-center text-blue-400 border-blue-400"
+                                    >
+                                        {sector?.name || 'N/A'}
+                                    </span>
+                                ))}
+                            {/* </div> */}
                         </div>
 
                         <div>

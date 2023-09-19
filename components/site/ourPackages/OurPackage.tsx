@@ -297,9 +297,9 @@ export const OurPackage = ({
             </div>
             <div className="card__side card__side--back absolute top-0 left-0">
                 <div
-                    className={`${color} rounded-2xl p-6 md:pb-8 md:h-[450px] overflow-hidden  w-full md:w-96`}
+                    className={`${color} rounded-2xl p-6 md:pb-12 md:h-[470px] overflow-hidden  w-full md:w-96`}
                 >
-                    <div className="overflow-auto remove-scrollbar custom-scrollbar max-h-[450px]">
+                    <div className="overflow-auto remove-scrollbar custom-scrollbar max-h-[470px]">
                         <div className="">
                             {/* Filter the packFeatures and include packtype if true then return that object */}
                             {packagesFeatures

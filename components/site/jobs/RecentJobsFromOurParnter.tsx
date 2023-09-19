@@ -66,7 +66,6 @@ export const RecentJobsFromOurParnter = () => {
     const { data, isLoading, isError } = commonApi.useGetAllAdvertisedJobsQuery(
         {}
     )
-
     return (
         <div className="bg-[#F4F4F4] py-8 px-4 md:px-[140px] md:py-[72px]">
             <div className="max-w-7xl mx-auto">
@@ -85,15 +84,18 @@ export const RecentJobsFromOurParnter = () => {
                     <LoadingAnimation />
                 ) : data?.data?.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-x-2 gap-y-2 md:gap-y-0">
-                        {data?.data?.slice(0, 4).map(({ job, index }: any) => (
-                            <div key={index}>
-                                <RecentJobCard key={job.id} {...job} />
-                            </div>
-                        ))}
+                        {data?.data?.slice(0, 4).map((job: any, index: any) => {
+
+                            return (
+                                <div key={index}>
+                                    <RecentJobCard key={job?.id} {...job} />
+                                </div>
+                            )
+                        })}
                     </div>
                 ) : (
                     <div className="border border-dashed rounded-md flex items-center justify-center flex-col p-12 gap-y-4 w-full">
-                        <p className="text-lg font-semibold text-[#52595D] text-center">
+                        <p className="text-lg text-slate-300 text-center">
                             We are sorry, but there are currently no job
                             openings posted by industries on our platform. We
                             understand that finding the right opportunity is

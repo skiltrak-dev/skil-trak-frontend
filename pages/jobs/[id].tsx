@@ -85,7 +85,6 @@ const JobDetail: NextPage = () => {
             industry: jobDetail?.data?.job?.industry?.id,
         }
     )
-    console.log('data', jobDetail)
     return (
         <>
             <Navbar2 />
@@ -101,20 +100,35 @@ const JobDetail: NextPage = () => {
                                         <>
                                             <div className="flex items-center justify-between">
                                                 <div>
-                                                    {jobDetail?.data?.job?.sectors?.map(
-                                                        ({
-                                                            sector,
-                                                            index,
-                                                        }: any) => (
-                                                            <span
-                                                                key={index}
-                                                                className="py-0.5 px-2 text-xs rounded-full border text-center text-blue-400 border-blue-400"
-                                                            >
-                                                                {sector.name ||
-                                                                    'N/A'}
-                                                            </span>
-                                                        )
-                                                    )}
+                                                    <div className="flex items-center gap-x-2">
+                                                        {jobDetail?.data?.job?.sectors
+                                                            ?.slice(0, 2)
+                                                            .map(
+                                                                (
+                                                                    sector: any,
+                                                                    index: any
+                                                                ) => (
+                                                                    <span
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                        className="py-0.5 px-2 text-xs rounded-full border text-center text-blue-400 border-blue-400"
+                                                                    >
+                                                                        {sector
+                                                                            ?.name
+                                                                            .length <=
+                                                                        40
+                                                                            ? sector?.name
+                                                                            : sector.name.substr(
+                                                                                  0,
+                                                                                  40
+                                                                              ) +
+                                                                                  '...' ||
+                                                                              'N/A'}
+                                                                    </span>
+                                                                )
+                                                            )}
+                                                    </div>{' '}
                                                     <div>
                                                         <Typography variant="title">
                                                             {jobDetail?.data
@@ -261,7 +275,7 @@ const JobDetail: NextPage = () => {
                                 ) : data?.data?.length > 0 ? (
                                     data?.data
                                         ?.slice(0, 3)
-                                        ?.map(({ job, index }: any) => (
+                                        ?.map((job: any, index: any) => (
                                             <div
                                                 key={index}
                                                 onClick={() =>
@@ -272,7 +286,7 @@ const JobDetail: NextPage = () => {
                                                 className="cursor-pointer"
                                             >
                                                 <RelatedJobCard
-                                                    key={job.id}
+                                                    key={job?.id}
                                                     {...job}
                                                 />
                                             </div>
@@ -296,16 +310,16 @@ const JobDetail: NextPage = () => {
                                 <LoadingAnimation size={60} />
                             ) : jobDetail?.data?.relatedJobs?.length > 0 ? (
                                 jobDetail?.data?.relatedJobs?.map(
-                                    ({ job, index }: any) => (
+                                    (job: any, index: any) => (
                                         <div
                                             key={index}
                                             onClick={() =>
-                                                router.push(`/jobs/${job.id}`)
+                                                router.push(`/jobs/${job?.id}`)
                                             }
                                             className="cursor-pointer"
                                         >
                                             <RelatedJobCard
-                                                key={job.id}
+                                                key={job?.id}
                                                 {...job}
                                             />
                                         </div>
