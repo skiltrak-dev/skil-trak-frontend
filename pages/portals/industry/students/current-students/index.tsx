@@ -5,7 +5,11 @@ import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout, UserStatus } from '@types'
 
 import { TabNavigation, TabProps } from '@components/TabNavigation'
-import { PendingStudents, Approved, IndustryStudentsLayout } from '@partials/industry'
+import {
+    PendingStudents,
+    Approved,
+    IndustryStudentsLayout,
+} from '@partials/industry'
 
 const CurrentStudents: NextPageWithLayout = () => {
     const router = useRouter()
@@ -37,7 +41,8 @@ const CurrentStudents: NextPageWithLayout = () => {
     ]
     return (
         <div>
-            <TabNavigation tabs={tabs}>
+            <Approved />
+            {/* <TabNavigation tabs={tabs}>
                 {({ header, element }: any) => {
                     return (
                         <div>
@@ -46,7 +51,7 @@ const CurrentStudents: NextPageWithLayout = () => {
                         </div>
                     )
                 }}
-            </TabNavigation>
+            </TabNavigation> */}
         </div>
     )
 }

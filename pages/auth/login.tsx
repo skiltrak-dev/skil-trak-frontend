@@ -115,7 +115,7 @@ const Login: NextPage = () => {
             const role = autoLogoutUrl?.split('/')[2]
             setAutoLogoutUrl({
                 url: localStorage.getItem('autoLogoutPath') as any,
-                role,
+                role: role === 'sub-admin' ? UserRoles.SUBADMIN : role,
             })
         }
         AuthUtils.logout()

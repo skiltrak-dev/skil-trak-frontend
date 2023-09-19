@@ -19,34 +19,37 @@ export const DetailTabs = ({
             href: { pathname: String(id), query: { tab: 'overview' } },
             element: <OverViewTab workplace={workplace} />,
         },
+        // {
+        //     label: 'Submissions',
+        //     href: {
+        //         pathname: String(id),
+        //         query: { tab: 'submissions' },
+        //     },
+        //     element: (
+        //         <AssessmentsEvidence
+        //             studentId={workplace?.student?.id}
+        //             studentUserId={workplace?.student?.user?.id}
+        //             courses={workplace?.courses}
+        //         />
+        //     ),
+        // },
+        // {
+        //     label: 'Industry Checks',
+        //     href: { pathname: String(id), query: { tab: 'industry-checks' } },
+        //     element: (
+        //         <RequiredDocs
+        //             studentId={workplace?.student?.id}
+        //             studentUserId={workplace?.student?.user?.id}
+        //             courses={workplace?.courses}
+        //         />
+        //     ),
+        // },
         {
-            label: 'Submissions',
+            label: 'Student Availability',
             href: {
                 pathname: String(id),
-                query: { tab: 'submissions' },
+                query: { tab: 'student-availability' },
             },
-            element: (
-                <AssessmentsEvidence
-                    studentId={workplace?.student?.id}
-                    studentUserId={workplace?.student?.user?.id}
-                    courses={workplace?.courses}
-                />
-            ),
-        },
-        {
-            label: 'Industry Checks',
-            href: { pathname: String(id), query: { tab: 'industry-checks' } },
-            element: (
-                <RequiredDocs
-                    studentId={workplace?.student?.id}
-                    studentUserId={workplace?.student?.user?.id}
-                    courses={workplace?.courses}
-                />
-            ),
-        },
-        {
-            label: 'Questions',
-            href: { pathname: String(id), query: { tab: 'questions' } },
             element: <QuestionsTab workplace={workplace} />,
         },
         {

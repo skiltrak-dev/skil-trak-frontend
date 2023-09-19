@@ -1,6 +1,7 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 //Layouts
 import { RtoLayout } from '@layouts'
+import debounce from 'lodash/debounce'
 import { NextPageWithLayout, StudentsFilterType, UserStatus } from '@types'
 
 //components
@@ -14,6 +15,8 @@ import {
     StudentFilters,
     TabNavigation,
     TabProps,
+    TechnicalError,
+    TextInput,
 } from '@components'
 import { useContextBar, useJoyRide } from '@hooks'
 import {
@@ -27,7 +30,7 @@ import {
 import { useRouter } from 'next/router'
 import { FaChevronDown, FaFileImport, FaUserGraduate } from 'react-icons/fa'
 import { useGetRtoStudentsQuery, RtoApi } from '@queries'
-import { getCountData } from '@utils'
+import { checkFilteredDataLength, getCountData } from '@utils'
 
 const filterKeys = [
     'name',
@@ -60,6 +63,11 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
     )
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
+    const [showDropDown, setShowDropDown] = useState(false)
+    const [studentId, setStudentId] = useState<any | null>(null)
+    const [studentName, setStudentName] = useState<any | null>(null)
+    const [studentIdValue, setStudentIdValue] = useState<string>('')
+    const [studentNameValue, setStudentNameValue] = useState<string>('')
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
@@ -68,7 +76,11 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
     const count = RtoApi.Students.useCount()
     const filteredStudents = useGetRtoStudentsQuery(
         {
-            search: `${JSON.stringify(filter)
+            search: `${JSON.stringify({
+                ...filter,
+                ...studentId,
+                ...studentName,
+            })
                 .replaceAll('{', '')
                 .replaceAll('}', '')
                 .replaceAll('"', '')
@@ -76,7 +88,13 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         },
-        { skip: !Object.keys(filter).length }
+        {
+            skip: !Object.keys({
+                ...filter,
+                ...(studentId?.studentId ? studentId : {}),
+                ...(studentName?.name ? studentName : {}),
+            }).length,
+        }
     )
 
     const studentCount = getCountData<{ [key: string]: number }>(count?.data)
@@ -140,7 +158,25 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
         },
     ]
 
-    const [showDropDown, setShowDropDown] = useState(false)
+    const delayedSearch = useCallback(
+        debounce((value) => {
+            setStudentId({ studentId: value })
+        }, 700),
+        []
+    )
+
+    const delayedNameSearch = useCallback(
+        debounce((value) => {
+            setStudentName({ name: value })
+        }, 700),
+        []
+    )
+
+    const filteredDataLength = checkFilteredDataLength({
+        ...filter,
+        ...(studentId?.studentId ? studentId : {}),
+        ...(studentName?.name ? studentName : {}),
+    })
 
     return (
         <>
@@ -224,8 +260,30 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
 
                 <div>
                     <div className="px-4">
-                        <div className="flex justify-end mb-2">
-                            {filterAction}
+                        <div className="flex justify-end gap-x-2 mb-2">
+                            <div className="w-60">
+                                <TextInput
+                                    name={'name'}
+                                    placeholder={'Search by Student Name'}
+                                    value={studentNameValue}
+                                    onChange={(e: any) => {
+                                        setStudentNameValue(e.target.value)
+                                        delayedNameSearch(e.target.value)
+                                    }}
+                                />
+                            </div>
+                            <div>
+                                <TextInput
+                                    name={'studentId'}
+                                    placeholder={'Search by Student Id'}
+                                    value={studentIdValue}
+                                    onChange={(e: any) => {
+                                        setStudentIdValue(e.target.value)
+                                        delayedSearch(e.target.value)
+                                    }}
+                                />
+                            </div>
+                            <div className="flex-shrink-0">{filterAction}</div>
                         </div>
                         <Filter<StudentsFilterType>
                             component={StudentFilters}
@@ -235,21 +293,26 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                             filterKeys={filterKeys}
                         />
                     </div>
-                    {filteredStudents.isLoading ? (
-                        <div className="px-4 mt-4">
-                            <Card>
-                                <LoadingAnimation />
-                            </Card>
-                        </div>
-                    ) : Object.keys(filter).length &&
-                      filteredStudents.isSuccess ? (
-                        <FilteredStudents
-                            setPage={setPage}
-                            itemPerPage={itemPerPage}
-                            student={filteredStudents}
-                            setItemPerPage={setItemPerPage}
-                        />
-                    ) : (
+
+                    {filteredDataLength && filteredStudents.isError && (
+                        <TechnicalError />
+                    )}
+                    {filteredDataLength ? (
+                        filteredStudents.isLoading ? (
+                            <LoadingAnimation />
+                        ) : (
+                            filteredStudents.isSuccess && (
+                                <FilteredStudents
+                                    setPage={setPage}
+                                    itemPerPage={itemPerPage}
+                                    student={filteredStudents}
+                                    setItemPerPage={setItemPerPage}
+                                />
+                            )
+                        )
+                    ) : null}
+
+                    {!filteredDataLength && (
                         <TabNavigation tabs={tabs}>
                             {({ header, element }: any) => {
                                 return (

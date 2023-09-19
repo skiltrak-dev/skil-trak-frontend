@@ -110,15 +110,6 @@ export const StudentProfileForm = ({
         }
     }, [sectorDefaultOptions, sectorResponse, courses])
 
-    useEffect(() => {
-        if (result.isSuccess) {
-            notification.success({
-                title: 'Profile Updated',
-                description: 'Profile Updated Successfully',
-            })
-        }
-    }, [result])
-
     const onSectorChanged = (
         sectors: any,
         chkDefaultOptions: boolean = true

@@ -77,6 +77,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                     assessmentsFolders={assessmentsFolders}
                     assessmentsCourses={assessmentsCourses}
                     isFilesUploaded={isFilesUploaded}
+                    results={selectedCourse?.results}
                 />
             </Desktop>
             <Mobile>

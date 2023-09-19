@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import {
     useGetStudentProfileDetailQuery,
     useUpdateStudentProfileMutation,
@@ -15,6 +15,7 @@ import {
     Typography,
 } from '@components'
 import { getThemeColors } from '@theme'
+import { useNotification } from '@hooks'
 
 const colors = getThemeColors()
 
@@ -34,14 +35,40 @@ interface ModalProps {
 
 export const ProfileModal = ({
     profileCompletion,
+    keys,
 }: {
     profileCompletion: number
+    keys: string[]
 }) => {
+    const { notification } = useNotification()
     const profile = useGetStudentProfileDetailQuery(undefined, {
         refetchOnMountOrArgChange: true,
     })
     const [updateProfile, updateProfileResult] =
         useUpdateStudentProfileMutation()
+
+    const values = { ...profile?.data, ...profile?.data?.user }
+
+    const missingFields = keys.filter((key) => {
+        const keyValue = values[key as keyof typeof values]
+        if (
+            !keyValue ||
+            keyValue == 'NA' ||
+            keyValue == 'N/A' ||
+            (Array.isArray(keyValue) && !keyValue?.length)
+        ) {
+            return key
+        }
+    })
+
+    useEffect(() => {
+        if (updateProfileResult?.isSuccess) {
+            notification.success({
+                title: 'Profile Updated',
+                description: 'Profile Updated Successfully',
+            })
+        }
+    }, [updateProfileResult])
 
     const onSubmit = (values: any) => {
         if (!values?.courses) {
@@ -82,6 +109,21 @@ export const ProfileModal = ({
                             'text-center text-[11px] font-semibold mx-auto text-white'
                         }
                     />
+
+                    {missingFields && missingFields?.length > 0 && (
+                        <div className="bg-error p-3 rounded-lg w-full mt-2">
+                            <Typography variant={'label'} color="text-white">
+                                Missing Fields
+                            </Typography>
+                            <ul className="unordered-list">
+                                {missingFields?.map((field) => (
+                                    <li className="text-white capitalize text-xs">
+                                        {field}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                     {profile.isError && <TechnicalError />}
                     {profile.isLoading ? (
                         <LoadingAnimation height={'h-[70vh]'} />

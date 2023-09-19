@@ -7,7 +7,12 @@ import { AdminApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { AuthUtils } from '@utils'
 import { format } from 'date-fns'
-import { SectorCourseStudentCount, Typography } from '@components'
+import {
+    LoadingAnimation,
+    NoData,
+    SectorCourseStudentCount,
+    Typography,
+} from '@components'
 import StackGrid, { transitions } from 'react-stack-grid'
 import { useMediaQuery } from 'react-responsive'
 const { scaleDown } = transitions
@@ -21,6 +26,7 @@ const AdminDashboard: NextPageWithLayout = () => {
     const [name, setName] = useState('')
     const credentials = AuthUtils.getUserCredentials()
     const stats = AdminApi.Admin.useCount()
+    const sectorsStudentsCount = AdminApi.Admin.useSectorsStudentsCount()
 
     useEffect(() => {
         navBar.setTitle('Admin Dashboard')
@@ -140,29 +146,48 @@ const AdminDashboard: NextPageWithLayout = () => {
                 </div>
             </div>
 
-            {/* <Typography>
-                <span className="font-semibold">Sectors & Courses</span>
-            </Typography>
+            <div>
+                <Typography>
+                    <span className="font-semibold">Sectors & Courses</span>
+                </Typography>
 
-            <StackGrid
-                columnWidth={isMobile ? '100%' : isTablet ? '50%' : '33%'}
-                gutterWidth={11}
-                gutterHeight={11}
-                appear={scaleDown.appear}
-                appeared={scaleDown.appeared}
-                enter={scaleDown.enter}
-                entered={scaleDown.entered}
-                leaved={scaleDown.leaved}
-            >
-                {[...Array(9)].map((_, i) => (
-                    <SectorCourseStudentCount
-                        imageUrl="/images/icons/rto.png"
-                        loading={false}
-                        index={i}
-                        key={i}
-                    />
-                ))}
-            </StackGrid> */}
+                {sectorsStudentsCount.isError && (
+                    <NoData text={'There is some technical issue'} />
+                )}
+                {sectorsStudentsCount.isLoading ? (
+                    <LoadingAnimation size={80} height={'h-48'} />
+                ) : sectorsStudentsCount?.data &&
+                  sectorsStudentsCount?.data?.length > 0 ? (
+                    <StackGrid
+                        columnWidth={
+                            isMobile ? '100%' : isTablet ? '50%' : '33%'
+                        }
+                        gutterWidth={11}
+                        gutterHeight={11}
+                        appear={scaleDown.appear}
+                        appeared={scaleDown.appeared}
+                        enter={scaleDown.enter}
+                        entered={scaleDown.entered}
+                        leaved={scaleDown.leaved}
+                    >
+                        {sectorsStudentsCount?.data?.map(
+                            (sector: any, i: number) => (
+                                <SectorCourseStudentCount
+                                    imageUrl="/images/icons/rto.png"
+                                    loading={false}
+                                    index={i}
+                                    key={i}
+                                    sector={sector}
+                                />
+                            )
+                        )}
+                    </StackGrid>
+                ) : (
+                    sectorsStudentsCount.isSuccess && (
+                        <NoData text={'No Sectors Student Count'} />
+                    )
+                )}
+            </div>
         </div>
     )
 }

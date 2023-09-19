@@ -380,7 +380,7 @@ export const ActiveAssessmentDetail = ({
         )
     }
 
-    const isFilesUploaded = getFolders?.data?.some(
+    const isFilesUploaded = getFolders?.data?.every(
         (f: any) => f?.studentResponse[0]?.files?.length > 0
     )
 
@@ -653,6 +653,12 @@ export const ActiveAssessmentDetail = ({
                                                     selectedCourse?.id
                                                 }
                                                 student={studentProfile?.data}
+                                                isFilesUploaded={
+                                                    isFilesUploaded
+                                                }
+                                                results={
+                                                    selectedCourse?.results
+                                                }
                                             />
                                         )
                                     ) : (
@@ -662,6 +668,12 @@ export const ActiveAssessmentDetail = ({
                                                     selectedCourse?.id
                                                 }
                                                 student={studentProfile?.data}
+                                                isFilesUploaded={
+                                                    isFilesUploaded
+                                                }
+                                                results={
+                                                    selectedCourse?.results
+                                                }
                                             />
                                         )
                                     )
@@ -669,6 +681,8 @@ export const ActiveAssessmentDetail = ({
                                     <SubmitSubmissionForAssessment
                                         selectedCourseId={selectedCourse?.id}
                                         student={studentProfile?.data}
+                                        isFilesUploaded={isFilesUploaded}
+                                        results={selectedCourse?.results}
                                     />
                                 )
                             ) : null}

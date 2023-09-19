@@ -7,9 +7,13 @@ import React, { useEffect } from 'react'
 export const SubmitSubmissionForAssessment = ({
     selectedCourseId,
     student,
+    isFilesUploaded,
+    results,
 }: {
     selectedCourseId: number
     student: Student | undefined
+    isFilesUploaded: boolean | undefined
+    results: any
 }) => {
     const { notification } = useNotification()
     const [submitAssessment, submitAssessmentResult] =
@@ -24,7 +28,7 @@ export const SubmitSubmissionForAssessment = ({
         }
     }, [submitAssessmentResult])
 
-    const onSubmit = (values: any) => {
+    const onSubmitAssessment = () => {
         submitAssessment({
             body: {
                 notifyCoordinator: false,
@@ -33,6 +37,16 @@ export const SubmitSubmissionForAssessment = ({
             student: student?.user?.id,
             id: selectedCourseId,
         })
+    }
+
+    useEffect(() => {
+        if (isFilesUploaded && !results?.length) {
+            onSubmitAssessment()
+        }
+    }, [isFilesUploaded])
+
+    const onSubmit = (values: any) => {
+        onSubmitAssessment()
     }
     return (
         <div>

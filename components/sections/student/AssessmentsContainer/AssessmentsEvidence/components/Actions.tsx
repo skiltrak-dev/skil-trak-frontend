@@ -9,7 +9,15 @@ import { useSubmitStudentAssessmentMutation } from '@queries'
 import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 
-export const Actions = ({ selectedCourseId }: { selectedCourseId: number }) => {
+export const Actions = ({
+    selectedCourseId,
+    isFilesUploaded,
+    results,
+}: {
+    results: any
+    selectedCourseId: number
+    isFilesUploaded: boolean
+}) => {
     const { notification } = useNotification()
     const [submitAssessment, submitAssessmentResult] =
         useSubmitStudentAssessmentMutation()
@@ -27,8 +35,20 @@ export const Actions = ({ selectedCourseId }: { selectedCourseId: number }) => {
         mode: 'all',
     })
 
-    const onSubmit = (values: any) => {
+    const onSubmitAssessment = (values?: any) => {
         submitAssessment({ body: values, id: selectedCourseId })
+    }
+    useEffect(() => {
+        if (isFilesUploaded && !results?.length) {
+            onSubmitAssessment({
+                notifyCoordinator: true,
+                notifyRto: true,
+            })
+        }
+    }, [isFilesUploaded])
+
+    const onSubmit = (values: any) => {
+        onSubmitAssessment(values)
     }
     return (
         <>
