@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
-
+import { AuthApi } from '@queries'
 import {
     TextInput,
     Select,
@@ -11,6 +11,7 @@ import {
     LoadingAnimation,
     Button,
 } from '@components'
+import { OptionType, Sector } from '@types'
 
 const jobType = [
     {
@@ -31,7 +32,45 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
     const [defaultValue, setDefaultValue] = useState<any | null | undefined>(
         null
     )
+    const [courseOptions, setCourseOptions] = useState<OptionType[]>([])
+    const [courseLoading, setCourseLoading] = useState(false)
+    const [storedData, setStoredData] = useState<any>(null)
+    const sectorResponse = AuthApi.useSectors({})
 
+    const onSectorChanged = (sectors: OptionType[]) => {
+        setCourseLoading(true)
+        const filteredCourses = sectors.map((selectedSector: OptionType) => {
+            const sectorExisting = sectorResponse.data.find(
+                (sector: Sector) => sector.id === selectedSector.value
+            )
+            if (sectorExisting && sectorExisting?.courses?.length) {
+                return sectorExisting.courses
+            }
+        })
+
+        const newCourseOptions: OptionType[] = []
+        filteredCourses.map((courseList: any) => {
+            if (courseList && courseList.length) {
+                return courseList.map((course: any) =>
+                    newCourseOptions.push({
+                        label: course.title,
+                        value: course.id,
+                        item: course,
+                    })
+                )
+            }
+        })
+
+        setCourseOptions(newCourseOptions)
+        setCourseLoading(false)
+    }
+    const sectorOptions =
+        sectorResponse.data && sectorResponse.data?.length > 0
+            ? sectorResponse.data?.map((sector: any) => ({
+                  label: sector.name,
+                  value: sector.id,
+              }))
+            : []
     useEffect(() => {
         if (initialValues) {
             setDefaultValue(
@@ -66,6 +105,7 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
             .min(1, 'Salary to range must be greater than 0')
             .positive("Salary to can't be negative")
             .required('Please provide salary for your job'),
+        sectors: yup.array().min(1, 'Must select at least 1 sector'),
 
         // Contact Validation
         phone: yup.string().required('Phone is required field!'),
@@ -117,6 +157,22 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                                   }
                                 : {})}
                             options={jobType}
+                            onlyValue
+                        />
+                        <Select
+                            label={'Sector'}
+                            // {...(storedData
+                            //     ? {
+                            //           defaultValue: storedData.sectors,
+                            //       }
+                            //     : {})}
+                            name={'sectors'}
+                            options={sectorOptions}
+                            placeholder={'Select Sectors...'}
+                            multi
+                            loading={sectorResponse.isLoading}
+                            onChange={onSectorChanged}
+                            validationIcons
                             onlyValue
                         />
 
