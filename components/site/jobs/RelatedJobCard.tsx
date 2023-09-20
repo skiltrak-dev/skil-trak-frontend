@@ -16,7 +16,7 @@ export const RelatedJobCard = ({
     sectors,
 }: any) => {
     return (
-        <div className="bg-white rounded-lg shadow-md w-full border">
+        <div className="bg-white rounded-lg shadow-md w-full border min-h-[180px]">
             <div className="flex flex-col gap-y-2">
                 <div className="flex flex-col gap-y-1 px-4 pt-4">
                     <div title={title}>
@@ -101,13 +101,17 @@ export const RelatedJobCard = ({
                             </div>
                         </div>
                     </div>
-                    <div className="flex items-center gap-x-2">
-                        {sectors?.slice(0, 1).map((sector: any, index: any) => (
+                    <div className="flex flex-wrap whitespace-nowrap gap-2">
+                        {sectors?.map((sector: any, index: any) => (
                             <span
+                                title={sector?.name}
                                 key={index}
                                 className="py-0.5 px-2 text-xs rounded-full border text-center text-blue-400 border-blue-400"
                             >
-                                {sector?.name || 'N/A'}
+                                {sector?.name?.length <= 8
+                                    ? sector?.name
+                                    : sector?.name?.substr(0, 8) + '...' ||
+                                      'N/A'}
                             </span>
                         ))}
                     </div>

@@ -69,7 +69,7 @@ export const ActiveIndustries = () => {
             />
         )
     }
-    const onIsContactedClicked = (industry: Industry) => {
+    const onDefaultClicked = (industry: Industry) => {
         setModal(
             <DefaultModal
                 industry={industry}
@@ -77,7 +77,7 @@ export const ActiveIndustries = () => {
             />
         )
     }
-    const onIsPartnerClicked = (industry: Industry) => {
+    const onFavoriteClicked = (industry: Industry) => {
         setModal(
             <FavoriteModal
                 industry={industry}
@@ -94,15 +94,15 @@ export const ActiveIndustries = () => {
         return [
             {
                 text: 'Default',
-                onClick: (industry: Industry) => onIsContactedClicked(industry),
+                onClick: (industry: Industry) => onDefaultClicked(industry),
                 Icon: AiFillCheckCircle,
                 color: `'text-green-500 hover:bg-green-100 hover:border-green-200'`,
             },
             {
                 text: 'Favorite',
-                onClick: (industry: Industry) => onIsPartnerClicked(industry),
+                onClick: (industry: Industry) => onFavoriteClicked(industry),
                 Icon: MdOutlineFavorite,
-                color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
+                color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
             },
             {
                 text: 'Do Not Disturb',
@@ -126,78 +126,31 @@ export const ActiveIndustries = () => {
     }
 
     const columns: ColumnDef<any>[] = [
-        // {
-        //     accessorKey: 'user.name',
-        //     cell: (info) => {
-        //         return <IndustryCell industry={info.row.original} />
-        //     },
-        //     header: () => <span>Industry</span>,
-        // },
         {
             accessorKey: 'businessName',
             header: () => <span>Name</span>,
-        },
-        {
-            accessorKey: 'email',
-            header: () => <span>Email</span>,
+            cell: (info) => {
+                console.log('info:::::', info?.row?.original)
+                return (
+                    <div className="flex flex-col gap-y-1">
+                        <Typography variant={'label'}>
+                            {info?.row?.original?.businessName}
+                        </Typography>
+                        <Typography variant={'label'}>
+                            {info?.row?.original?.email}
+                        </Typography>
+                    </div>
+                )
+            },
         },
         {
             accessorKey: 'phone',
-            header: () => <span>Phone</span>,
+            header: () => <Typography variant={'label'}>Phone</Typography>,
         },
         {
             accessorKey: 'address',
-            header: () => <span>Address</span>,
+            header: () => <Typography variant={'label'}>Address</Typography>,
         },
-        // {
-        //     accessorKey: 'isContacted',
-        //     header: () => <span>Is Contacted</span>,
-        //     cell: (info) => {
-        //         return (
-        //             <div>
-        //                 {info.row.original.isContacted === true ? (
-        //                     <div className="flex items-center gap-x-2">
-        //                         <p>Contacted</p>
-        //                         <MdCall className="text-green-500" />
-        //                     </div>
-        //                 ) : (
-        //                     <div className="flex items-center gap-x-2">
-        //                         <p>Not Contacted</p>
-        //                         <FcCancel />
-        //                     </div>
-        //                 )}
-        //             </div>
-        //         )
-        //     },
-        // },
-        // {
-        //     accessorKey: 'isPartner',
-        //     header: () => <span>Is Partner</span>,
-        //     cell: (info) => {
-        //         return (
-        //             <div>
-        //                 {info.row.original.isPartner === true ? (
-        //                     <div className="flex items-center gap-x-2">
-        //                         <p>Partner</p>
-        //                         <FaHandshake className="text-orange-500" />
-        //                     </div>
-        //                 ) : (
-        //                     <p>Not Partner</p>
-        //                 )}
-        //                 {/* <p className="text-xs text-gray-500">
-        //                     {info.row.original.contactPersonNumber}
-        //                 </p> */}
-        //             </div>
-        //         )
-        //     },
-        // },
-        // {
-        //     accessorKey: 'sectors',
-        //     header: () => <span>Sectors</span>,
-        //     cell: (info) => {
-        //         return <SectorCell industry={info.row.original} />
-        //     },
-        // },
         {
             accessorKey: 'status',
             header: () => <span>Status</span>,
@@ -206,14 +159,18 @@ export const ActiveIndustries = () => {
                     <div>
                         {info.row.original.status ===
                         IndustryStatus.FAVOURITE ? (
-                            <div className="rounded-lg flex items-center gap-x-3">
-                                <p className="text-orange-500 font-semibold">Favorite</p>
-                                <MdOutlineFavorite className="text-orange-500" />
+                            <div className="rounded-lg flex items-center gap-x-2">
+                                <p className="text-green-500 font-semibold">
+                                    Favorite
+                                </p>
+                                <MdOutlineFavorite className="text-green-500" />
                             </div>
                         ) : info.row.original.status ===
                           IndustryStatus.DO_NOT_DISTURB ? (
                             <div className="rounded-lg flex items-center gap-x-2">
-                                <p className="text-red-500 font-semibold">Do Not Disturb</p>
+                                <p className="text-red-500 font-semibold">
+                                    Do Not Disturb
+                                </p>
                                 <AiFillWarning className="text-red-500 text-lg" />
                             </div>
                         ) : (
@@ -315,7 +272,11 @@ export const ActiveIndustries = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="px-6">{table}</div>
+                                    <div className=" overflow-x-scroll remove-scrollbar">
+                                        <div className="px-6 w-full">
+                                            {table}
+                                        </div>
+                                    </div>
                                     {data?.data?.length > 10 && (
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize(

@@ -17,10 +17,9 @@ export const RecentJobCard = ({
     id,
     sectors,
 }: any) => {
-
     return (
         <>
-            <div className="bg-white rounded-lg shadow-sm h-[320px]">
+            <div className="bg-white rounded-lg shadow-lg border min-h-[340px]">
                 <div className="flex flex-col gap-y-2">
                     <div className="flex flex-col gap-y-1 px-4 pt-4 h-[108px]">
                         <div title="title">
@@ -107,16 +106,20 @@ export const RecentJobCard = ({
                                 </Typography>
                             </div>
 
-                            {/* <div className='flex flex-col'> */}
-                                {sectors?.slice(0,1)?.map((sector: any, index: any) => (
-                                    <span
-                                        key={index}
-                                        className="py-0.5 px-2 w-full text-xs rounded-full border text-center text-blue-400 border-blue-400"
-                                    >
-                                        {sector?.name || 'N/A'}
-                                    </span>
-                                ))}
-                            {/* </div> */}
+                            <div className='whitespace-nowrap flex flex-wrap gap-2'>
+                            {sectors?.map((sector: any, index: any) => (
+                                <span
+                                    title={sector?.name}
+                                    key={index}
+                                    className="py-0.5 px-2 text-xs rounded-full border text-center text-blue-400 border-blue-400"
+                                >
+                                    {sector?.name?.length <= 8
+                                        ? sector?.name
+                                        : sector?.name.substr(0, 8) + '...' ||
+                                          'N/A'}
+                                </span>
+                            ))}
+                            </div>
                         </div>
 
                         <div>
