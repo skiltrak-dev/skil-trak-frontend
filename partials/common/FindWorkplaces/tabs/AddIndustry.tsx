@@ -19,6 +19,7 @@ import {
     TextInput,
     Typography,
     ShowErrorNotifications,
+    Card,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -184,12 +185,12 @@ export const AddIndustry = () => {
             <ShowErrorNotifications result={addIndustryResult} />
             <FormProvider {...formMethods}>
                 <form
-                    className="flex ml-12 flex-col gap-y-4"
+                    className="flex flex-col"
                     onSubmit={formMethods.handleSubmit(onSubmit)}
                 >
                     <div className="">
-                        <div className="w-4/6">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
+                        <div className="">
+                            <div className="grid grid-cols-1  gap-y-2">
                                 <TextInput
                                     label={'Name'}
                                     name={'businessName'}
@@ -198,12 +199,6 @@ export const AddIndustry = () => {
                                     required
                                 />
 
-                                <TextInput
-                                    label={'Website (Optional)'}
-                                    name={'website'}
-                                    placeholder={'Website Url...'}
-                                    validationIcons
-                                />
                                 <TextInput
                                     label={'Email'}
                                     name={'email'}
@@ -214,22 +209,6 @@ export const AddIndustry = () => {
                                     onBlur={onEmailChange}
                                     loading={emailCheckResult.isLoading}
                                 />
-
-                                <TextInput
-                                    label={'Phone Number'}
-                                    name={'phone'}
-                                    placeholder={'Your phone number...'}
-                                    validationIcons
-                                    required
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Sector Information */}
-                    <div className="flex gap-x-16 border-t py-4">
-                        <div className="w-4/6 grid grid-cols-2 gap-x-8 gap-y-4">
-                            <div>
                                 <Select
                                     label={'Sector'}
                                     //  {...(storedData
@@ -245,6 +224,19 @@ export const AddIndustry = () => {
                                     validationIcons
                                 />
                             </div>
+                        </div>
+                    </div>
+
+                    <div className="py-4 pr-8">
+                        <div className="grid grid-cols-1 gap-y-2">
+                            <TextInput
+                                label={'Phone Number'}
+                                name={'phone'}
+                                placeholder={'Your phone number...'}
+                                validationIcons
+                                required
+                            />
+
                             <TextInput
                                 label={'Address'}
                                 name={'address'}
@@ -252,11 +244,19 @@ export const AddIndustry = () => {
                                 validationIcons
                                 placesSuggetions
                             />
+                            <div>
+                                <TextInput
+                                    label={'Website (Optional)'}
+                                    name={'website'}
+                                    placeholder={'Website Url...'}
+                                    validationIcons
+                                />
+                            </div>
                         </div>
                     </div>
 
-                    <div className="w-1/2 pl-12">
-                        <div className="flex justify-center">
+                    <div className="mb-4">
+                        <div className="flex justify-start">
                             <Button
                                 text={'Add Industry'}
                                 submit
