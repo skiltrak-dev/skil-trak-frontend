@@ -198,6 +198,8 @@ const {
     useGetAllIndustriesQuery,
     useAllGetIndustriesListQuery,
     useGetBulkEmailSubadminIndustriesQuery,
+    useGetAllAdvertisedJobsQuery,
+    useGetAdvertisedJobDetailQuery,
 
     useGetAllRtosQuery,
     useGetFilterSubAdminRtosQuery,
@@ -342,6 +344,8 @@ export const CommonApi = {
     Industries: {
         useIndustriesList: useAllGetIndustriesListQuery,
         bulkEmailSubadminIndustries: useGetBulkEmailSubadminIndustriesQuery,
+        getAllAdvertisedJobs: useGetAllAdvertisedJobsQuery,
+        getAdvertisedJobDetail: useGetAdvertisedJobDetailQuery,
     },
     Courses: {
         useCoursesList: useGetCoursesListQuery,
