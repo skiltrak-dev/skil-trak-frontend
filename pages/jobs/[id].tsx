@@ -85,6 +85,7 @@ const JobDetail: NextPage = () => {
             industry: jobDetail?.data?.job?.industry?.id,
         }
     )
+    const openJobId = jobDetail?.data?.job?.id
     return (
         <>
             <Navbar2 />
@@ -109,6 +110,9 @@ const JobDetail: NextPage = () => {
                                                                     index: any
                                                                 ) => (
                                                                     <span
+                                                                        title={
+                                                                            sector?.name
+                                                                        }
                                                                         key={
                                                                             index
                                                                         }
@@ -117,11 +121,11 @@ const JobDetail: NextPage = () => {
                                                                         {sector
                                                                             ?.name
                                                                             .length <=
-                                                                        40
+                                                                        12
                                                                             ? sector?.name
                                                                             : sector.name.substr(
                                                                                   0,
-                                                                                  40
+                                                                                  12
                                                                               ) +
                                                                                   '...' ||
                                                                               'N/A'}
@@ -178,7 +182,7 @@ const JobDetail: NextPage = () => {
                                                             '/auth/login'
                                                         )
                                                     }
-                                                    className="cursor-pointer hover:bg-blue-500 hover:transition-all rounded-lg text-xs md:text-base px-4 py-2 md:px-8 md:py-4 text-white bg-blue-400"
+                                                    className="cursor-pointer hover:bg-blue-500 hover:transition-all rounded-lg text-xs md:text-base px-2 py-1 md:px-4 md:py-2 text-white bg-blue-400"
                                                 >
                                                     Apply to this job
                                                 </div>
@@ -266,7 +270,7 @@ const JobDetail: NextPage = () => {
                                 </div>
                             </div>
                         </div>
-                        {/* Related Jobs Right Sidebar */}
+                        {/* Other Jobs From This Industry Right Sidebar */}
                         <div className="md:w-1/3">
                             Other Jobs From This Industry
                             <div className="flex flex-col gap-y-2">
@@ -274,8 +278,11 @@ const JobDetail: NextPage = () => {
                                     <LoadingAnimation size={60} />
                                 ) : data?.data?.length > 0 ? (
                                     data?.data
-                                        ?.slice(0, 3)
-                                        ?.map((job: any, index: any) => (
+                                        .filter(
+                                            (job: any) => job.id !== openJobId
+                                        )
+                                        .slice(0, 3)
+                                        .map((job: any, index: any) => (
                                             <div
                                                 key={index}
                                                 onClick={() =>

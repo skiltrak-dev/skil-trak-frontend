@@ -9,7 +9,7 @@ import {
     SearchLocation,
 } from '@partials/common'
 import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import GoogleMapReact from 'google-map-react'
 import {
     Filter,
@@ -23,12 +23,14 @@ import {
 import { AdminApi, commonApi } from '@queries'
 import { checkFilteredDataLength } from '@utils'
 import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
+import { useContextBar } from '@hooks'
 type Props = {}
 const filterKeys = ['businessName', 'address', 'sector', 'email', 'phone']
 const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+    const contextBar = useContextBar()
     const [filter, setFilter] = useState<FindWorkplaceFilter>(
         {} as FindWorkplaceFilter
     )
@@ -93,9 +95,15 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
         // },
     ]
     const filteredDataLength = checkFilteredDataLength(filter)
+
+
+    useEffect(()=>{
+        contextBar.setContent(<AddIndustry />)
+        contextBar.show(false)
+    },[])
     return (
         <div>
-            <AddIndustry />
+            
             <SetDetaultQueryFilteres<FindWorkplaceFilter>
                 filterKeys={filterKeys}
                 setFilter={setFilter}

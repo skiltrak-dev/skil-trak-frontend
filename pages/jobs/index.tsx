@@ -30,7 +30,6 @@ const Jobs: NextPage = () => {
         { skip: itemPerPage * page - itemPerPage, limit: itemPerPage }
     )
 
-    console.log('Job Detail>>>>', data)
 
     return (
         <>
