@@ -13,7 +13,7 @@ export const ReportModal = ({ onCancel, workIndustry, student }: any) => {
 
     const { notification } = useNotification()
 
-    const [selectedReport, setSelectedReport] = useState<string>('')
+    const [report, setReport] = useState<string>('')
 
     const [addReport, addReportResult] = useAddReportMutation()
 
@@ -62,7 +62,7 @@ export const ReportModal = ({ onCancel, workIndustry, student }: any) => {
                 onCancelClick={onCancel}
                 onConfirmClick={() => {
                     addReport({
-                        comment: selectedReport,
+                        comment: report,
                         workIndustry,
                         student,
                     })
@@ -70,17 +70,20 @@ export const ReportModal = ({ onCancel, workIndustry, student }: any) => {
                 confirmText={'Add Report'}
                 loading={addReportResult?.isLoading}
             >
-                <Select
+                {/* <Select
                     name={'comment'}
                     options={reportOptions}
                     onChange={(e: any) => {
-                        setSelectedReport(e?.value)
+                        setReport(e?.value)
                     }}
-                />
+                /> */}
                 <TextArea
                     name={'comment'}
-                    placeholder={'Add Feedback'}
+                    placeholder={'Report'}
                     rows={6}
+                    onChange={(e: any) => {
+                        setReport(e.target.value)
+                    }}
                 />
             </Modal>
         </>

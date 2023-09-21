@@ -1,5 +1,12 @@
-import { Modal, Select, ShowErrorNotifications, TextArea } from '@components'
+import {
+    Modal,
+    Select,
+    ShowErrorNotifications,
+    TextArea,
+    Typography,
+} from '@components'
 import { useEffect, useState } from 'react'
+import ReactStars from 'react-stars'
 
 // query
 import { useAddFeedbackMutation } from '@queries'
@@ -14,8 +21,8 @@ export const Feedback = ({ onCancel, workIndustry, student }: any) => {
     // })
 
     const { notification } = useNotification()
-
-    const [selectedFeedback, setSelectedFeedback] = useState<string>('')
+    const [feedback, setFeedback] = useState<string>('')
+    const [rating, setRating] = useState<number>(0)
 
     const [addFeedBack, addFeedBackResult] = useAddFeedbackMutation()
 
@@ -64,7 +71,8 @@ export const Feedback = ({ onCancel, workIndustry, student }: any) => {
                 onCancelClick={onCancel}
                 onConfirmClick={() => {
                     addFeedBack({
-                        comment: selectedFeedback,
+                        rating,
+                        comment: feedback,
                         workIndustry,
                         student,
                     })
@@ -72,17 +80,31 @@ export const Feedback = ({ onCancel, workIndustry, student }: any) => {
                 confirmText={'Add Feedback'}
                 loading={addFeedBackResult?.isLoading}
             >
-                <Select
+                {/* <Select
                     name={'comment'}
                     options={feedBackOptions}
                     onChange={(e: any) => {
                         setSelectedFeedback(e?.value)
                     }}
+                /> */}
+                <Typography>Rating</Typography>
+                <ReactStars
+                    count={5}
+                    value={rating}
+                    onChange={(e) => {
+                        setRating(e)
+                    }}
+                    size={24}
+                    color2={'#ffd700'}
                 />
                 <TextArea
                     name={'comment'}
+                    label={'Feedback'}
                     placeholder={'Add Feedback'}
                     rows={6}
+                    onChange={(e: any) => {
+                        setFeedback(e.target.value)
+                    }}
                 />{' '}
             </Modal>
         </>
