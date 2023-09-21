@@ -108,6 +108,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
         createAppointment({
             ...values,
             ...selectedTime,
+            coordinator: values?.appointmentFor,
             type,
             date,
         })

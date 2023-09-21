@@ -64,6 +64,10 @@ export const OverViewTab = ({ workplace }: { workplace: any }) => {
                     courses={workplace?.courses}
                 />
             </div>
+            <RecentAppointment
+                userId={workplace?.student?.user?.id}
+                link={'/portals/industry/students/appointments'}
+            />
         </div>
     )
 }

@@ -12,6 +12,7 @@ export enum SocketNotificationsEvents {
     MailNotification = 'mailNotification',
     AppointmentReminder = 'appointmentReminder',
     ExpiryReminder = 'expiryReminder',
+    FeedBackNotification = 'feedback',
 }
 
 export const Socket = ({ children }: any) => {
@@ -120,6 +121,22 @@ export const Socket = ({ children }: any) => {
                 (notify: any) => {
                     seteventListener({
                         eventName: SocketNotificationsEvents.ExpiryReminder,
+                        eventListener: notify,
+                    })
+                    notification.success({
+                        title: notify?.title,
+                        description: notify?.description,
+                    })
+                }
+            )
+
+            socket?.on(
+                SocketNotificationsEvents.FeedBackNotification,
+                (notify: any) => {
+                    console.log({ notify })
+                    seteventListener({
+                        eventName:
+                            SocketNotificationsEvents.FeedBackNotification,
                         eventListener: notify,
                     })
                     notification.success({
