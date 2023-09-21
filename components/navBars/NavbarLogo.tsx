@@ -1,9 +1,7 @@
-import Link from 'next/link'
-import Image from 'next/image'
-import { useMediaQuery } from 'react-responsive'
-import classNames from 'classnames'
 import { MediaQueries } from '@constants'
 import { getUserCredentials } from '@utils'
+import Link from 'next/link'
+import { useMediaQuery } from 'react-responsive'
 
 export const HeaderLogo = () => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)

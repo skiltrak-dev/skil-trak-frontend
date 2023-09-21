@@ -21,6 +21,36 @@ export const SectorCourseStudentCount = ({
     sector,
 }: FigureCardProps) => {
     const countNumber = Math.floor(Math.random() * 9)
+
+    const studentCountDetail = {
+        'Pending Requests': {
+            color: 'text-gray-400',
+            bgColor: 'bg-gray-100',
+            count: sector?.AwaitingAgreementSigned,
+        },
+        'Expired Student': {
+            color: 'text-red-400',
+            bgColor: 'bg-red-100',
+            count: sector?.ExpiredStudents,
+        },
+        'Partner Industries': {
+            color: 'text-orange-400',
+            bgColor: 'bg-orange-100',
+            count: sector?.PartnerIndustries,
+        },
+        'New Students': {
+            color: 'text-cyan-500',
+            bgColor: 'bg-cyan-100',
+            count: sector?.newStudents,
+            last30Days: true,
+        },
+        'Placement Started': {
+            color: 'text-green-400',
+            bgColor: 'bg-green-100',
+            count: sector?.placementStarted,
+            last30Days: true,
+        },
+    }
     return (
         <Link legacyBehavior href={''}>
             <a className="w-full">
@@ -59,7 +89,93 @@ export const SectorCourseStudentCount = ({
                         </div>
                     </div>
 
-                    <div className="mt-2.5 flex justify-between items-center border-b border-[#E8E8E8] py-2">
+                    <div className="flex flex-wrap items-start gap-2">
+                        {Object.entries(studentCountDetail)?.map(
+                            ([key, value]: any) => (
+                                <div
+                                    key={key}
+                                    className={`rounded-md shadow p-3 flex flex-col gap-x-1 ${value?.bgColor}`}
+                                >
+                                    <div className={`flex gap-x-1`}>
+                                        <Typography
+                                            variant={'small'}
+                                            right
+                                            color={value.color}
+                                        >
+                                            <span className="font-semibold">
+                                                {' '}
+                                                {value?.count || 0}
+                                            </span>
+                                        </Typography>
+                                        <Typography
+                                            variant={'small'}
+                                            color={value.color}
+                                        >
+                                            <span
+                                                className="font-normal block"
+                                                dangerouslySetInnerHTML={{
+                                                    __html: key,
+                                                }}
+                                            ></span>
+                                        </Typography>
+                                    </div>
+                                    {value?.last30Days && (
+                                        <Typography
+                                            variant={'small'}
+                                            color={value.color}
+                                        >
+                                            <span className="text-[10px] block">
+                                                (last 30 days)
+                                            </span>
+                                        </Typography>
+                                    )}
+                                </div>
+                            )
+                        )}
+
+                        {/* <div className="rounded-md shadow p-3 flex flex-col gap-y-1">
+                            <Typography variant={'small'} right>
+                                {sector?.ExpiredStudents || 0}
+                            </Typography>
+                            <Typography variant={'small'}>
+                                <span className="font-semibold">
+                                    Expired Student
+                                </span>
+                            </Typography>
+                        </div>
+                        <div className="rounded-md shadow p-3 flex flex-col gap-y-1">
+                            <Typography variant={'small'} right>
+                                {sector?.PartnerIndustries || 0}
+                            </Typography>
+                            <Typography variant={'small'}>
+                                <span className="font-semibold">
+                                    Industry Partners
+                                </span>
+                            </Typography>
+                        </div>
+                        <div className="rounded-md shadow p-3 flex flex-col gap-y-1">
+                            <Typography variant={'small'} right>
+                                {sector?.newStudents || 0}
+                            </Typography>
+                            <Typography variant={'small'}>
+                                <span className="font-semibold">
+                                    New Students
+                                </span>
+                            </Typography>
+                        </div>
+                        <div className="rounded-md shadow p-3 flex flex-col gap-y-1">
+                            <Typography variant={'small'} right>
+                                {sector?.placementStarted || 0}
+                            </Typography>
+                            <Typography variant={'small'}>
+                                <span className="font-semibold">
+                                    Placement Started Students
+                                </span>
+                            </Typography>
+                        </div> */}
+                    </div>
+
+                    {/* <div className="mt-2.5 flex justify-between items-center border-b border-[#E8E8E8] py-2">
                         <Typography variant={'small'}>
                             <span className="font-medium">
                                 Pending Requests
@@ -69,14 +185,14 @@ export const SectorCourseStudentCount = ({
                             {sector?.AwaitingAgreementSigned}
                         </Typography>
                     </div>
-                    {/* <div className="flex justify-between items-center border-b border-[#E8E8E8] py-2">
+                    <div className="flex justify-between items-center border-b border-[#E8E8E8] py-2">
                         <Typography variant={'small'}>
                             <span className="font-medium">Expired Student</span>
                         </Typography>
                         <Typography variant={'small'}>
-                            {sector?.totalStudents}
+                            {sector?.ExpiredStudents}
                         </Typography>
-                    </div> */}
+                    </div>
                     <div className="flex justify-between items-center border-b border-[#E8E8E8] py-2">
                         <Typography variant={'small'}>
                             <span className="font-medium">
@@ -104,7 +220,7 @@ export const SectorCourseStudentCount = ({
                         <Typography variant={'small'}>
                             {sector?.placementStarted}
                         </Typography>
-                    </div>
+                    </div> */}
 
                     <div className="mt-4">
                         <Typography variant={'small'}>
