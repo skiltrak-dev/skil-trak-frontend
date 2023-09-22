@@ -4,7 +4,7 @@ import React from 'react'
 import { AdminApi } from '@queries'
 import { Course } from '@types'
 import { Select, SelectOption } from '@components'
-import { CourseSelectOption } from '@utils'
+import { CourseSelectOption, formatOptionLabel } from '@utils'
 
 export const Courses = ({
     setSelectedCourse,
@@ -30,6 +30,7 @@ export const Courses = ({
                     setSelectedCourse(Number(e?.value))
                 }}
                 components={{ Option: CourseSelectOption }}
+                formatOptionLabel={formatOptionLabel}
             />
         </div>
     )

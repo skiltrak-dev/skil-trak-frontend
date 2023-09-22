@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import * as yup from 'yup'
 
-import { CourseSelectOption, onlyAlphabets } from '@utils'
+import { CourseSelectOption, formatOptionLabel, onlyAlphabets } from '@utils'
 
 import {
     Button,
@@ -354,6 +354,9 @@ export const RTOProfileEditForm = ({
                                                         components={{
                                                             Option: CourseSelectOption,
                                                         }}
+                                                        formatOptionLabel={
+                                                            formatOptionLabel
+                                                        }
                                                     />
                                                 )}
                                             {!courseOptions?.length && (
@@ -371,6 +374,9 @@ export const RTOProfileEditForm = ({
                                                     components={{
                                                         Option: CourseSelectOption,
                                                     }}
+                                                    formatOptionLabel={
+                                                        formatOptionLabel
+                                                    }
                                                 />
                                             )}
                                         </div>

@@ -9,6 +9,7 @@ import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
 import {
     CourseSelectOption,
+    formatOptionLabel,
     isEmailValid,
     onlyAlphabets,
     SignUpUtils,
@@ -269,6 +270,7 @@ export const RtoSignUpForm = ({
                                 }
                                 validationIcons
                                 components={{ Option: CourseSelectOption }}
+                                formatOptionLabel={formatOptionLabel}
                             />
                         </div>
                     </div>

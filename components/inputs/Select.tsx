@@ -30,6 +30,7 @@ export type SelectProps = {
     inputRef?: any
     menuPlacement?: MenuPlacement
     components?: any
+    formatOptionLabel?: any
 } & InputProps
 
 export const Select = forwardRef(
@@ -60,6 +61,7 @@ export const Select = forwardRef(
             onlyValue,
             components,
             menuPlacement,
+            formatOptionLabel,
         }: SelectProps,
         ref: any
     ) => {
@@ -196,6 +198,7 @@ export const Select = forwardRef(
                     isClearable={value !== ''}
                     defaultValue={defaultValue}
                     className="basic-single w-full"
+                    formatOptionLabel={formatOptionLabel}
                     {...(components ? { components } : {})}
                     {...(menuPlacement ? { menuPlacement } : {})}
                 />

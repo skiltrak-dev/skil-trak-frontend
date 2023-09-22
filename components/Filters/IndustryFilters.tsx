@@ -6,7 +6,7 @@ import { StatusOptions } from './StatusOptions'
 import { CommonApi } from '@queries'
 import { AdminIndustryFormFilter, OptionType, UserStatus } from '@types'
 import { SetQueryFilters } from './SetQueryFilters'
-import { CourseSelectOption } from '@utils'
+import { CourseSelectOption, formatOptionLabel } from '@utils'
 
 interface ItemFilterProps {
     onFilterChange: (values: AdminIndustryFormFilter) => void
@@ -111,6 +111,7 @@ export const IndustryFilters = ({
                     components={{
                         Option: CourseSelectOption,
                     }}
+                    formatOptionLabel={formatOptionLabel}
                 />
             </div>
         </>

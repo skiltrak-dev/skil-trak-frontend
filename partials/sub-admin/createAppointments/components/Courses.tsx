@@ -4,7 +4,7 @@ import { CommonApi } from '@queries'
 // query
 import { Select } from '@components'
 import { Course, OptionType } from '@types'
-import { CourseSelectOption } from '@utils'
+import { CourseSelectOption, formatOptionLabel } from '@utils'
 
 export const Courses = ({
     setSelectedCourse,
@@ -33,6 +33,7 @@ export const Courses = ({
                 components={{
                     Option: CourseSelectOption,
                 }}
+                formatOptionLabel={formatOptionLabel}
             />
         </div>
     )

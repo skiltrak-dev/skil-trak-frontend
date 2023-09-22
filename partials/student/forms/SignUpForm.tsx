@@ -11,6 +11,7 @@ import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
 import {
     CourseSelectOption,
+    formatOptionLabel,
     getDate,
     isEmailValid,
     onlyAlphabets,
@@ -384,6 +385,7 @@ export const StudentSignUpForm = ({
                                 components={{
                                     Option: CourseSelectOption,
                                 }}
+                                formatOptionLabel={formatOptionLabel}
                             />
                         </div>
                     </div>

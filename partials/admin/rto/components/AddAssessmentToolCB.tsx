@@ -15,7 +15,7 @@ import { UploadFile } from '@components/inputs/UploadFile'
 import { useContextBar, useNotification } from '@hooks'
 import { RtoAssessmentToolFormType } from '@types'
 import { omit } from 'lodash'
-import { CourseSelectOption } from '@utils'
+import { CourseSelectOption, formatOptionLabel } from '@utils'
 type Props = {
     edit?: boolean
     assessment?: any
@@ -124,6 +124,7 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
                                 disabled={rtoCourses.isLoading}
                                 onlyValue
                                 components={{ Option: CourseSelectOption }}
+                                formatOptionLabel={formatOptionLabel}
                             />
                         )}
                         <TextInput

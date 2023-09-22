@@ -6,7 +6,7 @@ import { CommonApi, RtoApi } from '@queries'
 import { SetQueryFilters } from './SetQueryFilters'
 import { SelectOption } from './types'
 import { OptionType, RTOWorkplaceFormFilter } from '@types'
-import { CourseSelectOption } from '@utils'
+import { CourseSelectOption, formatOptionLabel } from '@utils'
 
 interface FilterPropType {
     studentId: string
@@ -145,6 +145,7 @@ export const RTOWorkplaceFilters = ({
                     components={{
                         Option: CourseSelectOption,
                     }}
+                    formatOptionLabel={formatOptionLabel}
                 />
             </div>
         </>

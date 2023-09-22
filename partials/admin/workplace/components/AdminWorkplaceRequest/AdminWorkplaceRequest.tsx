@@ -18,7 +18,7 @@ import {
 
 import { AdminApi } from '@queries'
 import { Course, OptionType } from '@types'
-import { CourseSelectOption, checkWorkplaceStatus } from '@utils'
+import { CourseSelectOption, checkWorkplaceStatus, formatOptionLabel } from '@utils'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { RiBook2Fill } from 'react-icons/ri'
@@ -138,6 +138,7 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                                 components={{ Option: CourseSelectOption }}
                                 loading={assignCourseResult.isLoading}
                                 disabled={assignCourseResult.isLoading}
+                                formatOptionLabel={formatOptionLabel}
                             />
                         )}
 
