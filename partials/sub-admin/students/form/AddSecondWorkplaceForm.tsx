@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import _debounce from 'lodash/debounce'
-import { CourseSelectOption, isEmailValid } from '@utils'
+import { CourseSelectOption, formatOptionLabel, isEmailValid } from '@utils'
 
 import { AuthApi, SubAdminApi } from '@queries'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -192,6 +192,7 @@ export const AddSecondWorkplaceForm = ({
                         components={{
                             Option: CourseSelectOption,
                         }}
+                        formatOptionLabel={formatOptionLabel}
                         validationIcons
                     />
 

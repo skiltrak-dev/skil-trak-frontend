@@ -4,7 +4,7 @@ export const HeadWrapper = ({ children }: any) => {
     return (
         <>
             <Head>
-                <title>SkilTrak 2.0</title>
+                <title>SkilTrak</title>
             </Head>
             {children}
         </>

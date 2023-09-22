@@ -4,7 +4,7 @@ import { useShowExistingIndustriesQuery, SubAdminApi } from '@queries'
 import { Course } from '@types'
 import React, { useEffect, useState } from 'react'
 import { AddSecondWorkplaceForm } from '../form'
-import { CourseSelectOption } from '@utils'
+import { CourseSelectOption, formatOptionLabel } from '@utils'
 
 export const AddSecondWPCB = ({
     studentId,
@@ -97,6 +97,7 @@ export const AddSecondWPCB = ({
                         components={{
                             Option: CourseSelectOption,
                         }}
+                        formatOptionLabel={formatOptionLabel}
                     />
                     <Select
                         label={'Industries'}

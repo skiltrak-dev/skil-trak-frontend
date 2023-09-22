@@ -25,7 +25,7 @@ import { UserRoles } from '@constants'
 import { AuthApi } from '@queries'
 import { Course } from '@types'
 import { useRouter } from 'next/router'
-import { CourseSelectOption } from '@utils'
+import { CourseSelectOption, formatOptionLabel } from '@utils'
 
 export const IndustryProfileFrom = ({
     result,
@@ -399,6 +399,7 @@ export const IndustryProfileFrom = ({
                                         components={{
                                             Option: CourseSelectOption,
                                         }}
+                                        formatOptionLabel={formatOptionLabel}
                                     />
                                 )}
                                 {!courseOptions?.length && (
@@ -416,6 +417,7 @@ export const IndustryProfileFrom = ({
                                         components={{
                                             Option: CourseSelectOption,
                                         }}
+                                        formatOptionLabel={formatOptionLabel}
                                     />
                                 )}
                             </div>

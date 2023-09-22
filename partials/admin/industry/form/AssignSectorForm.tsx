@@ -2,7 +2,7 @@ import { Button, Select, TextArea, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AdminApi } from '@queries'
 import { Course, Sector } from '@types'
-import { CourseSelectOption } from '@utils'
+import { CourseSelectOption, formatOptionLabel } from '@utils'
 import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -103,6 +103,7 @@ export const AssignSectorForm = ({
                         components={{
                             Option: CourseSelectOption,
                         }}
+                        formatOptionLabel={formatOptionLabel}
                         multi
                     />
 

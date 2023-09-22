@@ -1,7 +1,7 @@
 import { Select, TextInput } from '@components/inputs'
 import { CommonApi } from '@queries'
 import { OptionType, RTOFilterType, UserStatus } from '@types'
-import { CourseSelectOption } from '@utils'
+import { CourseSelectOption, formatOptionLabel } from '@utils'
 import { SetQueryFilters } from './SetQueryFilters'
 import { StatusOptions } from './StatusOptions'
 
@@ -83,6 +83,7 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     components={{
                         Option: CourseSelectOption,
                     }}
+                    formatOptionLabel={formatOptionLabel}
                 />
             </div>
         </>

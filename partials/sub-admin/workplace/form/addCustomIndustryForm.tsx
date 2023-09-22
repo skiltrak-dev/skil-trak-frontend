@@ -9,6 +9,7 @@ import { useContextBar, useNotification } from '@hooks'
 import { AuthApi, useAddCustomIndustryMutation } from '@queries'
 import {
     CourseSelectOption,
+    formatOptionLabel,
     isEmailValid,
     onlyAlphabets,
     SignUpUtils,
@@ -298,6 +299,7 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
                         components={{
                             Option: CourseSelectOption,
                         }}
+                        formatOptionLabel={formatOptionLabel}
                     />
 
                     {/* Profile Information */}

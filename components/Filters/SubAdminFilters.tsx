@@ -4,7 +4,7 @@ import { SetQueryFilters } from './SetQueryFilters'
 import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
 import { AdminSubadminFilter, Course, OptionType, UserStatus } from '@types'
-import { CourseSelectOption } from '@utils'
+import { CourseSelectOption, formatOptionLabel } from '@utils'
 
 interface ItemFilterProps {
     onFilterChange: (values: AdminSubadminFilter) => void
@@ -80,6 +80,7 @@ export const SubAdminFilters = ({
                     components={{
                         Option: CourseSelectOption,
                     }}
+                    formatOptionLabel={formatOptionLabel}
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}
                 />

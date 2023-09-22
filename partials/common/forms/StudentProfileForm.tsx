@@ -16,7 +16,13 @@ import {
 } from '@components'
 
 // utils
-import { CourseSelectOption, getDate, isBrowser, onlyAlphabets } from '@utils'
+import {
+    CourseSelectOption,
+    formatOptionLabel,
+    getDate,
+    isBrowser,
+    onlyAlphabets,
+} from '@utils'
 import { AuthApi } from '@queries'
 import { Course, Sector } from '@types'
 import { useActionModal, useNotification } from '@hooks'
@@ -451,6 +457,9 @@ export const StudentProfileForm = ({
                                                 components={{
                                                     Option: CourseSelectOption,
                                                 }}
+                                                formatOptionLabel={
+                                                    formatOptionLabel
+                                                }
                                             />
                                         )}
                                     {!courseOptions?.length && (
@@ -468,6 +477,9 @@ export const StudentProfileForm = ({
                                             }}
                                             validationIcons
                                             disabled={student}
+                                            formatOptionLabel={
+                                                formatOptionLabel
+                                            }
                                         />
                                     )}
                                 </div>

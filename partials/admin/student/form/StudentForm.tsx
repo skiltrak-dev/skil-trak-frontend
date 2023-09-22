@@ -10,6 +10,7 @@ import { useNotification } from '@hooks'
 import { AuthApi, AdminApi } from '@queries'
 import {
     CourseSelectOption,
+    formatOptionLabel,
     isEmailValid,
     onlyAlphabets,
     SignUpUtils,
@@ -304,6 +305,7 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
                             }
                             validationIcons
                             components={{ Option: CourseSelectOption }}
+                            formatOptionLabel={formatOptionLabel}
                         />
                     </div>
                 </div>

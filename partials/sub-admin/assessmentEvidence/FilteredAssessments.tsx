@@ -22,11 +22,12 @@ export const FilteredAssessments = ({
     itemPerPage: any
     setItemPerPage: any
 }) => {
-    const { columns } = useColumns()
+    const { columns, modal } = useColumns()
     const router = useRouter()
 
     return (
         <div>
+            {modal}
             <PageHeading
                 title={'Filtered Assessments'}
                 subtitle={'List of Filtered Assessments'}

@@ -1,13 +1,13 @@
-import { useRouter } from 'next/router'
 import { NextPageWithLayout } from '@types'
-import { ReactElement, useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect } from 'react'
 
 //Layouts
+import { SubAdminStudentProfile } from '@components'
+import { useContextBar, useNavbar } from '@hooks'
 import { SubAdminLayout } from '@layouts'
 import { Detail } from '@partials/sub-admin'
-import { useContextBar, useNavbar } from '@hooks'
-import { useGetSubAdminStudentDetailQuery, SubAdminApi } from '@queries'
-import { Modal, SubAdminStudentProfile } from '@components'
+import { useGetSubAdminStudentDetailQuery } from '@queries'
 
 type Props = {}
 
