@@ -25,6 +25,7 @@ import {
     WorkplaceCurrentStatus,
     checkStudentStatus,
     checkWorkplaceStatus,
+    getStudentWorkplaceAppliedIndustry,
     studentsListWorkplace,
 } from '@utils'
 import moment from 'moment'
@@ -210,7 +211,15 @@ export const ArchivedStudent = () => {
                 const studentStatus = checkStudentStatus(
                     row.original?.studentStatus
                 )
-                return <StudentStatusProgressCell step={studentStatus} />
+                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+                    workplace?.industries
+                )
+                return (
+                    <StudentStatusProgressCell
+                        step={studentStatus}
+                        appliedIndustry={appliedIndustry}
+                    />
+                )
                 // return industries?.length > 0 ? (
                 //     <StudentStatusProgressCell step={studentStatus} />
                 // ) : (

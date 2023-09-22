@@ -1,11 +1,7 @@
 import { TabNavigation, TabProps } from '@components'
-import { Detail } from '@partials/sub-admin/assessmentEvidence'
 
 import { NotesTab } from '@partials/common'
 import { OverViewTab } from './OverviewTab'
-import { AssessmentsEvidence } from './AssessmentsEvidence'
-import { QuestionsTab } from './QuestionsTab'
-import { RequiredDocs } from './RequiredDocs'
 export const DetailTabs = ({
     id,
     workplace,
@@ -44,14 +40,14 @@ export const DetailTabs = ({
         //         />
         //     ),
         // },
-        {
-            label: 'Student Availability',
-            href: {
-                pathname: String(id),
-                query: { tab: 'student-availability' },
-            },
-            element: <QuestionsTab workplace={workplace} />,
-        },
+        // {
+        //     label: 'Student Availability',
+        //     href: {
+        //         pathname: String(id),
+        //         query: { tab: 'student-availability' },
+        //     },
+        //     element: <QuestionsTab workplace={workplace} />,
+        // },
         {
             label: 'Notes',
             href: { pathname: String(id), query: { tab: 'notes' } },

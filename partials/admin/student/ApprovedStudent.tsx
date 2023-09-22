@@ -199,9 +199,7 @@ export const ApprovedStudent = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell student={info.row.original} />
-            },
+            cell: (info) => <SectorCell student={info.row.original} />,
         },
         {
             accessorKey: 'expiry',

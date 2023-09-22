@@ -369,3 +369,19 @@ tr[aria-hidden] td {
     list-style: inside;
     list-style-type: disc !important;
 }
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.85);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+
+.modal-animation {
+    /* ... (previous styles) */
+    animation: zoomIn 0.2s ease;
+}

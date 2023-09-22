@@ -41,9 +41,9 @@ export const Modal = ({
     const TitleIcon = titleIcon
 
     return (
-        <div className="bg-[#00000050] w-full h-screen flex items-center justify-center fixed top-0 left-0 z-40">
+        <div className="bg-[#00000050] w-full h-screen  flex items-center justify-center fixed top-0 left-0 z-40">
             <div
-                className="bg-white rounded-2xl flex flex-col justify-between shadow-md min-w-[450px]"
+                className="bg-white rounded-2xl modal-animation flex flex-col justify-between shadow-md min-w-[450px]"
                 style={{ zIndex: 99999 }}
             >
                 <div className="px-4 py-2 border-b border-secondary-dark flex justify-between items-center">

@@ -54,8 +54,7 @@ export const AddIndividualStudentForm = () => {
             .required('Must provide email'),
         expiryDate: yup.date().required('Must provide Expiry Date'),
         // sector and courses
-        sectors: yup.array().min(1, 'Must select at least 1 sector'),
-        courses: yup.array().min(1, 'Must select at least 1 course'),
+        courses: yup.array().min(1, 'Must select at least 1 course').required(),
 
         // Address Information
         // addressLine1: yup.string().required('Must provide address'),

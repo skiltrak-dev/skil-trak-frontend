@@ -78,6 +78,7 @@ export const ReportModal = ({ onCancel, workIndustry, student }: any) => {
                     }}
                 /> */}
                 <TextArea
+                    label={'Comment'}
                     name={'comment'}
                     placeholder={'Report'}
                     rows={6}

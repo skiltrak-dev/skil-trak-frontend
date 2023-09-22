@@ -7,15 +7,11 @@ import { NextPageWithLayout } from '@types'
 import { Animations } from '@animations'
 // Components
 import {
-    Button,
-    DisplayPrimaryActions,
-    HelpQuestionSet,
-    RtoContextBarData,
-    SidebarCalendar,
+    DisplayPrimaryActions
 } from '@components'
 import { RecentAppointment } from '@partials/common'
 // Hooks
-import { useContextBar, useJoyRide } from '@hooks'
+import { useJoyRide } from '@hooks'
 
 // query
 import { SubAdminApi } from '@queries'
@@ -61,17 +57,7 @@ const OtherQuestions = [
 ]
 
 const SubAdminTasks: NextPageWithLayout = () => {
-    const { setContent } = useContextBar()
     const statistics = SubAdminApi.Count.statistics()
-    useEffect(() => {
-        setContent(
-            <>
-                <Button variant={'dark'} text={'My Schedule'} />
-                <SidebarCalendar />
-                <RtoContextBarData />
-            </>
-        )
-    }, [setContent])
 
     // WORKPLACE JOY RIDE - Start
     const joyride = useJoyRide()
@@ -142,18 +128,6 @@ const SubAdminTasks: NextPageWithLayout = () => {
                     />
                 </div>
             </div>
-
-            {/* <div className="mt-6 flex justify-between">
-                <HelpQuestionSet
-                    title={'What you want to do here?'}
-                    questions={RelatedQuestions}
-                />
-
-                <HelpQuestionSet
-                    title={'What else you want to do?'}
-                    questions={OtherQuestions}
-                />
-            </div> */}
         </div>
     )
 }

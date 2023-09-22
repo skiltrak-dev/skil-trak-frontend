@@ -2,9 +2,20 @@ import { ActionButton } from '@components'
 import { useContextBar } from '@hooks'
 import { Course, SubAdmin } from '@types'
 import { ViewSectorsCB } from '../contextBar'
+import { useEffect } from 'react'
 
 export const SectorCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
     const contextBar = useContextBar()
+
+    useEffect(() => {
+        return () => {
+            if (contextBar.content) {
+                contextBar.setTitle('')
+                contextBar.setContent(null)
+                contextBar.hide()
+            }
+        }
+    }, [])
 
     const onViewSectorClicked = (subAdmin: SubAdmin) => {
         contextBar.setTitle('Sectors & Courses')

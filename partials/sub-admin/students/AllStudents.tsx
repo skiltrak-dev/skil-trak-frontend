@@ -238,7 +238,7 @@ export const AllStudents = () => {
                 )
 
                 return industry && industry?.length > 0 ? (
-                    <IndustryCellInfo industry={industry[0]} />
+                    <IndustryCellInfo industry={industry?.[0]} />
                 ) : info.row.original?.workplace &&
                   info.row.original?.workplace?.length > 0 &&
                   appliedIndustry ? (

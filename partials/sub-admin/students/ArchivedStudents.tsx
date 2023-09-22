@@ -34,6 +34,7 @@ import {
     WorkplaceCurrentStatus,
     checkStudentStatus,
     checkWorkplaceStatus,
+    getStudentWorkplaceAppliedIndustry,
     setLink,
     studentsListWorkplace,
 } from '@utils'
@@ -202,7 +203,16 @@ export const ArchivedStudents = () => {
                 const studentStatus = checkStudentStatus(
                     row.original?.studentStatus
                 )
-                return <StudentStatusProgressCell step={studentStatus} />
+                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+                    workplace?.industries
+                )
+
+                return (
+                    <StudentStatusProgressCell
+                        step={studentStatus}
+                        appliedIndustry={appliedIndustry}
+                    />
+                )
                 // return industries?.length > 0 ? (
                 //     <StudentStatusProgressCell step={studentStatus} />
                 // ) : (
@@ -212,7 +222,7 @@ export const ArchivedStudents = () => {
                 // )
             },
         },
-        
+
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,

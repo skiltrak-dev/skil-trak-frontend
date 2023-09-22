@@ -20,7 +20,12 @@ import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
 import { useGetRtoStudentsQuery } from '@queries'
-import { checkStudentStatus, studentsListWorkplace } from '@utils'
+import {
+    WorkplaceCurrentStatus,
+    checkStudentStatus,
+    getStudentWorkplaceAppliedIndustry,
+    studentsListWorkplace,
+} from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdUnarchive } from 'react-icons/md'
@@ -169,7 +174,23 @@ export const ArchivedStudent = () => {
                     row.original?.studentStatus
                 )
 
-                return <StudentStatusProgressCell step={studentStatus} />
+                const workplace = row.original.workplace?.reduce(
+                    (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
+                    {
+                        currentStatus: WorkplaceCurrentStatus.NotRequested,
+                    }
+                )
+
+                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+                    workplace?.industries
+                )
+
+                return (
+                    <StudentStatusProgressCell
+                        step={studentStatus}
+                        appliedIndustry={appliedIndustry}
+                    />
+                )
             },
         },
         {
