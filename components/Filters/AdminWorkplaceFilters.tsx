@@ -16,7 +16,7 @@ import { SetQueryFilters } from './SetQueryFilters'
 import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
 import { ChangeEvent } from 'react'
-import { CourseSelectOption } from '@utils'
+import { CourseSelectOption, formatOptionLabel } from '@utils'
 
 interface ItemFilterProps {
     onFilterChange: (values: AdminWorkplaceFiltersType) => void
@@ -190,6 +190,7 @@ export const AdminWorkplaceFilters = ({
                         Option: CourseSelectOption,
                     }}
                     disabled={getCourses.isLoading}
+                    formatOptionLabel={formatOptionLabel}
                 />
             </div>
         </>

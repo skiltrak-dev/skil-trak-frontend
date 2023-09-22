@@ -15,7 +15,7 @@ import {
     useGetSubAdminRTODetailQuery,
 } from '@queries'
 import { Course, OptionType, Sector } from '@types'
-import { CourseSelectOption, SignUpUtils, onlyAlphabets } from '@utils'
+import { CourseSelectOption, SignUpUtils, formatOptionLabel, onlyAlphabets } from '@utils'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -196,6 +196,7 @@ export const AddIndividualStudentForm = () => {
                                 components={{
                                     Option: CourseSelectOption,
                                 }}
+                                formatOptionLabel={formatOptionLabel}
                             />
                             <TextInput
                                 label={'Expiry Date'}

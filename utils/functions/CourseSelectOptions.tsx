@@ -1,3 +1,5 @@
+import { ellipsisText } from './ellipsisText'
+
 export const CourseSelectOption = (optionItem: any) => (
     <div
         ref={optionItem.innerRef}
@@ -13,3 +15,15 @@ export const CourseSelectOption = (optionItem: any) => (
         </div>
     </div>
 )
+
+export const formatOptionLabel = (option: any) => {
+    return (
+        <div>
+            <span>
+                {option?.item?.code}
+                {' - '}
+            </span>
+            <span>{option?.label} </span>
+        </div>
+    )
+}

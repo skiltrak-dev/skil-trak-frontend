@@ -15,7 +15,7 @@ import {
     useApplyWorkplaceOnExistingIndustryMutation,
 } from '@queries'
 import { Course } from '@types'
-import { CourseSelectOption } from '@utils'
+import { CourseSelectOption, formatOptionLabel } from '@utils'
 
 export const ExistinIndustryCard = ({
     industry,
@@ -84,6 +84,7 @@ export const ExistinIndustryCard = ({
                         components={{
                             Option: CourseSelectOption,
                         }}
+                        formatOptionLabel={formatOptionLabel}
                     />
                 </div>
 

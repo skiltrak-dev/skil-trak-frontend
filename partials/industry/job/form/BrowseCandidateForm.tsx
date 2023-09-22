@@ -5,7 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { Select, Button } from '@components'
 import { useGetIndustrySectorsQuery } from '@queries'
 import { useEffect, useState } from 'react'
-import { CourseSelectOption, SignUpUtils } from '@utils'
+import { CourseSelectOption, SignUpUtils, formatOptionLabel } from '@utils'
 export const BrowseCandidateForm = ({ setCourseId }: any) => {
     const sectorResponse = useGetIndustrySectorsQuery()
     const [sectorOptions, setSectorOptions] = useState([])
@@ -99,6 +99,7 @@ export const BrowseCandidateForm = ({ setCourseId }: any) => {
                             components={{
                                 Option: CourseSelectOption,
                             }}
+                            formatOptionLabel={formatOptionLabel}
                         />
                     </div>
                 </form>

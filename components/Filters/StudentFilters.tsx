@@ -11,7 +11,7 @@ import {
     StudentsFilterType,
     UserStatus,
 } from '@types'
-import { AuthUtils, CourseSelectOption, WorkplaceCurrentStatus } from '@utils'
+import { AuthUtils, CourseSelectOption, WorkplaceCurrentStatus, formatOptionLabel } from '@utils'
 import { SetQueryFilters } from './SetQueryFilters'
 import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
@@ -217,6 +217,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     components={{
                         Option: CourseSelectOption,
                     }}
+                    formatOptionLabel={formatOptionLabel}
                 />
                 <Select
                     label={'Search by Progress'}

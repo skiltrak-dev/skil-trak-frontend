@@ -380,9 +380,23 @@ export const ActiveAssessmentDetail = ({
         )
     }
 
-    const isFilesUploaded = getFolders?.data?.every(
-        (f: any) => f?.studentResponse[0]?.files?.length > 0
-    )
+    const isFilesUploaded =
+        !getFolders.isLoading &&
+        !getFolders.isFetching &&
+        getFolders.isSuccess &&
+        getFolders?.data?.every(
+            (f: any) => f?.studentResponse[0]?.files?.length > 0
+        )
+
+    console.log({
+        isFilesUploaded,
+    })
+    console.log({
+        isFilesUploaded: getFolders?.data?.filter(
+            (f: any) => f?.studentResponse[0]?.files?.length > 0
+        ),
+    })
+    //
 
     return (
         <div className="mb-10">
@@ -646,6 +660,8 @@ export const ActiveAssessmentDetail = ({
                                 selectedCourse?.results?.length > 0 ? (
                                     results?.totalSubmission < 3 ? (
                                         (results?.result === Result.ReOpened ||
+                                            results?.result ===
+                                                Result.ReOpened ||
                                             results?.result ===
                                                 Result.NotCompetent) && (
                                             <SubmitSubmissionForAssessment

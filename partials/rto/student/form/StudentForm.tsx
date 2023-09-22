@@ -9,6 +9,7 @@ import { AuthApi } from '@queries'
 import {
     CourseSelectOption,
     SignUpUtils,
+    formatOptionLabel,
     isEmailValid,
     onlyAlphabets,
 } from '@utils'
@@ -302,6 +303,7 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
                             components={{
                                 Option: CourseSelectOption,
                             }}
+                            formatOptionLabel={formatOptionLabel}
                         />
                     </div>
                 </div>

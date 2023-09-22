@@ -8,7 +8,7 @@ import {
 } from '@queries'
 import { useNotification } from '@hooks'
 import { Course } from '@types'
-import { CourseSelectOption } from '@utils'
+import { CourseSelectOption, formatOptionLabel } from '@utils'
 
 export const ExistingIndustryCard = ({
     industry,
@@ -70,6 +70,7 @@ export const ExistingIndustryCard = ({
                         components={{
                             Option: CourseSelectOption,
                         }}
+                        formatOptionLabel={formatOptionLabel}
                     />
                 </div>
                 <div className="-mt-2 bg-gray-100 py-2 px-4 rounded-lg flex justify-between items-center">

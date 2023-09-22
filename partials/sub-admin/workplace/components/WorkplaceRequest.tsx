@@ -15,6 +15,7 @@ import {
     CourseSelectOption,
     WorkplaceCurrentStatus,
     ellipsisText,
+    formatOptionLabel,
 } from '@utils'
 
 // hooks
@@ -160,6 +161,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                                     components={{
                                         Option: CourseSelectOption,
                                     }}
+                                    formatOptionLabel={formatOptionLabel}
                                     loading={assignCourseResult.isLoading}
                                     disabled={assignCourseResult.isLoading}
                                 />

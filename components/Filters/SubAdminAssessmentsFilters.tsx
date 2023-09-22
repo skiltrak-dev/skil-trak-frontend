@@ -6,7 +6,7 @@ import { CommonApi, SubAdminApi } from '@queries'
 import { SetQueryFilters } from './SetQueryFilters'
 import { SelectOption } from './types'
 import { Course, OptionType, Rto, SubAdminAssessmentsFiltersType } from '@types'
-import { CourseSelectOption } from '@utils'
+import { CourseSelectOption, formatOptionLabel } from '@utils'
 interface ItemFilterProps {
     onFilterChange: (values: SubAdminAssessmentsFiltersType) => void
     filter: SubAdminAssessmentsFiltersType
@@ -138,6 +138,7 @@ export const SubAdminAssessmentsFilters = ({
                     components={{
                         Option: CourseSelectOption,
                     }}
+                    formatOptionLabel={formatOptionLabel}
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}
                 />

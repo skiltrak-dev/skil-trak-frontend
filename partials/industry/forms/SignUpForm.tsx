@@ -10,6 +10,8 @@ import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
 import {
     CourseSelectOption,
+    ellipsisText,
+    formatOptionLabel,
     isEmailValid,
     onlyAlphabets,
     SignUpUtils,
@@ -349,6 +351,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 }}
                                 disabled={courseOptions.length === 0}
                                 validationIcons
+                                formatOptionLabel={formatOptionLabel}
                             />
                         </div>
                     </div>
