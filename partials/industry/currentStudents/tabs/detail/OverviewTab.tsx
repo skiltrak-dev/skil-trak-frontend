@@ -13,6 +13,8 @@ import { SectorCard } from '@partials/admin/components'
 import { NoData, Typography } from '@components'
 import { AssessmentsEvidence } from './AssessmentsEvidence'
 import { RequiredDocs } from './RequiredDocs'
+import { SmallDetail } from '../../components/SmallDetail'
+import { ViewStudentProfileCB } from '../../contextBar'
 
 type StudentsProfileOverviewProps = {
     student: any
@@ -37,12 +39,27 @@ export const OverViewTab = ({ workplace }: { workplace: any }) => {
 
     return (
         <div className="mt-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                <SectorCard
-                    sector={{
-                        ...workplace?.courses[0]?.sector,
-                        courses: workplace?.courses,
-                    }}
+            <ViewStudentProfileCB student={workplace?.student} />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 my-7">
+                <div>
+                    <Typography>
+                        <span className="font-semibold">Sector</span>
+                    </Typography>
+                    <SectorCard
+                        sector={{
+                            ...workplace?.courses[0]?.sector,
+                            courses: workplace?.courses,
+                        }}
+                    />
+                </div>
+            </div>
+            <div className="pt-5 border-t">
+                <Typography variant="label">Student Availability</Typography>
+                <SmallDetail
+                    currentWork={workplace?.currentWork}
+                    haveTransport={workplace?.haveTransport}
+                    haveDrivingLicense={workplace?.haveDrivingLicense}
+                    currentQualification={workplace?.currentQualification}
                 />
             </div>
             <div className="my-6 border-t border-b">

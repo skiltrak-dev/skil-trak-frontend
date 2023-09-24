@@ -202,6 +202,7 @@ export const Students = ({ industry }: { industry: Industry }) => {
                     <StudentStatusProgressCell
                         studentId={row.original?.id}
                         step={studentStatus}
+                        appliedIndustry={appliedIndustry}
                     />
                 ) : (
                     <ProgressCell

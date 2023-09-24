@@ -170,6 +170,7 @@ export const Approved = () => {
                                 ? 4
                                 : studentStatus
                         }
+                        appliedIndustry={appliedIndustry}
                     />
                 ) : (
                     <ProgressCell

@@ -3,9 +3,20 @@ import { useContextBar } from '@hooks'
 import { Course, Industry, Rto, Student } from '@types'
 import { ViewSectorsCB } from '../contextBar'
 import { CourseDot } from './CourseDot'
+import { useEffect } from 'react'
 
 export const SectorCell = ({ industry }: { industry: Industry }) => {
     const contextBar = useContextBar()
+
+    useEffect(() => {
+        return () => {
+            if (contextBar.content) {
+                contextBar.setTitle('')
+                contextBar.setContent(null)
+                contextBar.hide()
+            }
+        }
+    }, [])
 
     const onViewSectorClicked = (industry: Industry) => {
         contextBar.setTitle('Sectors & Courses')

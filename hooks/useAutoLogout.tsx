@@ -189,7 +189,7 @@ export const AutoLogoutProvider = ({
 
     useEffect(() => {
         let time: any = null
-        if (AuthUtils.isAuthenticated()) {
+        if (AuthUtils.isAuthenticated() && path?.includes('portals')) {
             time = setTimeout(async () => {
                 if (AuthUtils.getToken()) {
                     await logoutActivity({ type: LogoutType.Auto })

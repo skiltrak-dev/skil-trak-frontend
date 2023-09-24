@@ -39,6 +39,7 @@ export const CaseOfficerAssignedStudent = ({
                     ? 4
                     : studentStatus
             }
+            appliedIndustry={appliedIndustry}
         />
     ) : student?.workplace && student?.workplace?.length > 0 ? (
         <ProgressCell

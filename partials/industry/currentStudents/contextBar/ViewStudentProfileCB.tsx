@@ -1,4 +1,4 @@
-import { StudentAvatar, Typography } from '@components'
+import { Card, StudentAvatar, StudentTimer, Typography } from '@components'
 import moment from 'moment'
 import { FaAddressCard, FaUserCircle } from 'react-icons/fa'
 import { IoLocation } from 'react-icons/io5'
@@ -10,13 +10,20 @@ import { Student } from '@types'
 import { ellipsisText } from '@utils'
 import { useRouter } from 'next/router'
 import { BiRename } from 'react-icons/bi'
+import Countdown from 'react-countdown'
+import { useCountDownRendered } from '@components/StudentTimer/useCountDownRendered'
 export const ViewStudentProfileCB = ({ student }: { student: Student }) => {
     const router = useRouter()
 
+    const CountDownRendered = useCountDownRendered({
+        date: student?.expiryDate,
+        oldExpiry: student?.oldExpiry,
+    })
+
     return (
-        <div>
+        <Card>
             {/* Profile */}
-            <div>
+            <div className="flex justify-between gap-x-6 p-6">
                 <div className="relative flex flex-col items-center">
                     <StudentAvatar
                         name={student?.user?.name}
@@ -40,141 +47,154 @@ export const ViewStudentProfileCB = ({ student }: { student: Student }) => {
                 </div>
 
                 {/* Info Row 1 */}
-                <div className="flex justify-between divide-x border-b mt-4">
-                    <div className="p-2">
-                        <div className="flex items-center space-x-2">
-                            <span className="text-gray-300">
-                                <FaAddressCard />
-                            </span>
-                            <p className="text-sm font-medium">
-                                {student?.studentId}
-                            </p>
-                        </div>
-                        <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                            Student ID
-                        </div>
-                    </div>
 
-                    {student?.batch ? (
+                <div className="flex ">
+                    <div className="grid grid-cols-2">
                         <div className="p-2">
                             <div className="flex items-center space-x-2">
                                 <span className="text-gray-300">
-                                    <MdBatchPrediction />
+                                    <FaAddressCard />
                                 </span>
                                 <p className="text-sm font-medium">
-                                    {student.batch}
+                                    {student?.studentId}
                                 </p>
                             </div>
                             <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                                Batch
+                                Student ID
                             </div>
                         </div>
-                    ) : null}
-                </div>
-
-                {/* Info Row 2 */}
-                <div className="flex justify-around divide-x border-b">
-                    <div className="p-2">
-                        <div className="flex items-center space-x-2">
-                            <span className="text-gray-300">
-                                <MdPhone />
-                            </span>
-                            <p className="text-sm font-medium">
-                                {student?.phone}
-                            </p>
-                        </div>
-                        <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                            Phone Number
-                        </div>
-                    </div>
-
-                    <div className="p-2">
-                        <div className="flex items-center space-x-2">
-                            <span className="text-gray-300">
-                                <FaUserCircle />
-                            </span>
-                            <p className="text-sm font-medium">
-                                {getGender(student?.gender)}
-                            </p>
-                        </div>
-                        <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                            Gender
-                        </div>
-                    </div>
-                </div>
-
-                {/* Info Row 3 */}
-                <div className="flex justify-around divide-x border-b">
-                    <div className="p-2">
-                        <div className="flex items-center space-x-2">
-                            <span className="text-gray-300">
-                                <IoLocation />
-                            </span>
-                            <p className="text-sm font-medium">
-                                {student?.addressLine1}, {student?.addressLine2}
-                                , {student?.state}, {student?.suburb}
-                            </p>
-                        </div>
-                        <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                            Address
-                        </div>
-                    </div>
-                </div>
-
-                <div className="mt-4">
-                    <Typography variant={'small'} color={'text-gray-500'}>
-                        Emergency Contact Person
-                    </Typography>
-                    <div className="flex justify-around divide-x border-t border-b">
+                        {student?.batch ? (
+                            <div className="p-2">
+                                <div className="flex items-center space-x-2">
+                                    <span className="text-gray-300">
+                                        <MdBatchPrediction />
+                                    </span>
+                                    <p className="text-sm font-medium">
+                                        {student.batch}
+                                    </p>
+                                </div>
+                                <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
+                                    Batch
+                                </div>
+                            </div>
+                        ) : null}
                         <div className="p-2">
-                            <div className="flex items-center gap-x-2">
-                                <BiRename className="text-gray-400" size={12} />
-                                <Typography
-                                    variant={'muted'}
-                                    color={'text-gray-400'}
-                                >
-                                    Name
-                                </Typography>
+                            <div className="flex items-center space-x-2">
+                                <span className="text-gray-300">
+                                    <MdPhone />
+                                </span>
+                                <p className="text-sm font-medium">
+                                    {student?.phone}
+                                </p>
                             </div>
-                            <Typography variant={'small'} color={'text-black'}>
-                                {student?.emergencyPerson}
-                            </Typography>
+                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
+                                Phone Number
+                            </div>
                         </div>
                         <div className="p-2">
-                            <div className="flex items-center gap-x-2">
-                                <MdPhone className="text-gray-400" size={12} />
-                                <Typography
-                                    variant={'muted'}
-                                    color={'text-gray-400'}
-                                >
-                                    Phone
-                                </Typography>
+                            <div className="flex items-center space-x-2">
+                                <span className="text-gray-300">
+                                    <FaUserCircle />
+                                </span>
+                                <p className="text-sm font-medium">
+                                    {getGender(student?.gender)}
+                                </p>
                             </div>
-                            <div className="py-1">
+                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
+                                Gender
+                            </div>
+                        </div>
+                        <div className="p-2">
+                            <div className="flex items-center space-x-2">
+                                <span className="text-gray-300">
+                                    <IoLocation />
+                                </span>
+                                <p className="text-sm font-medium">
+                                    {student?.addressLine1},{' '}
+                                    {student?.addressLine2}, {student?.state},{' '}
+                                    {student?.suburb}
+                                </p>
+                            </div>
+                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
+                                Address
+                            </div>
+                        </div>
+                    </div>
+                    <div className="mt-4">
+                        <Typography variant={'small'} color={'text-gray-500'}>
+                            Emergency Contact Person
+                        </Typography>
+                        <div className="flex justify-around divide-x border-t border-b">
+                            <div className="p-2">
+                                <div className="flex items-center gap-x-2">
+                                    <BiRename
+                                        className="text-gray-400"
+                                        size={12}
+                                    />
+                                    <Typography
+                                        variant={'muted'}
+                                        color={'text-gray-400'}
+                                    >
+                                        Name
+                                    </Typography>
+                                </div>
                                 <Typography
                                     variant={'small'}
                                     color={'text-black'}
                                 >
-                                    {student?.emergencyPersonPhone}
+                                    {student?.emergencyPerson}
                                 </Typography>
+                            </div>
+                            <div className="p-2">
+                                <div className="flex items-center gap-x-2">
+                                    <MdPhone
+                                        className="text-gray-400"
+                                        size={12}
+                                    />
+                                    <Typography
+                                        variant={'muted'}
+                                        color={'text-gray-400'}
+                                    >
+                                        Phone
+                                    </Typography>
+                                </div>
+                                <div className="py-1">
+                                    <Typography
+                                        variant={'small'}
+                                        color={'text-black'}
+                                    >
+                                        {student?.emergencyPersonPhone}
+                                    </Typography>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="flex flex-col gap-y-1">
-                <Typography variant={'muted'} color={'text-gray-500'}>
-                    Expires on
-                </Typography>
-                <Typography variant={'label'}>
-                    {moment(student?.expiryDate).format('Do MMMM YYYY')}
-                </Typography>
-            </div>
 
-            {/* Important Documents */}
-            {/* <div className="mt-4">
-            <ImportantDocuments sidebar />
-        </div> */}
-        </div>
+                {/* <div className="flex flex-col gap-y-1">
+                    <Typography variant={'muted'} color={'text-gray-500'}>
+                        Expires on
+                    </Typography>
+                    <Typography variant={'label'}>
+                        {moment(student?.expiryDate).format('Do MMMM YYYY')}
+                    </Typography>
+                </div> */}
+                <div className="pl-4 flex flex-col gap-y-2">
+                    <Typography variant={'label'}>Expiry Date</Typography>
+                    <div className="relative group">
+                        <Countdown
+                            date={student?.expiryDate}
+                            renderer={CountDownRendered}
+                        />
+                        <div className="group-hover:block hidden text-xs whitespace-nowrap shadow-lg text-gray-100 bg-gray-700 px-2 py-1 rounded-md absolute z-10 right-0">
+                            Expires At{' '}
+                            {moment(student?.expiryDate).format(
+                                'DD MMMM, YYYY'
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Card>
     )
 }

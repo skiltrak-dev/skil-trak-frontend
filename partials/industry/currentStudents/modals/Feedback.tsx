@@ -87,7 +87,9 @@ export const Feedback = ({ onCancel, workIndustry, student }: any) => {
                         setSelectedFeedback(e?.value)
                     }}
                 /> */}
-                <Typography>Rating</Typography>
+                <Typography variant={'label'}>
+                    Please Rate this Student
+                </Typography>
                 <ReactStars
                     count={5}
                     value={rating}
@@ -99,7 +101,7 @@ export const Feedback = ({ onCancel, workIndustry, student }: any) => {
                 />
                 <TextArea
                     name={'comment'}
-                    label={'Feedback'}
+                    label={'Comment'}
                     placeholder={'Add Feedback'}
                     rows={6}
                     onChange={(e: any) => {
