@@ -1,7 +1,9 @@
+import { Typography } from '@components/Typography'
 import { useContextBar } from '@hooks'
 import { ChangeWorkplaceStatus } from '@partials/common'
 import { Student } from '@types'
 import classNames from 'classnames'
+import moment from 'moment'
 import Link from 'next/link'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
@@ -11,12 +13,21 @@ type StudentProgressStatus =
     | '3-Cancelled'
     | '4-Terminated'
 
-const StudentProgress = {
+type StudentPrgressStatusDetail = {
+    status: string
+    description: string
+    color: string
+    image: string
+    date?: string
+}
+
+const StudentProgress = (appliedIndustry?: any) => ({
     '1-PlacementStarted': {
         status: 'Placement Started',
         description: '',
         color: 'text-white',
         image: 'placement-started.png',
+        date: appliedIndustry?.placementStartedDate,
     },
     '2-Completed': {
         status: 'Completed',
@@ -42,30 +53,35 @@ const StudentProgress = {
         color: 'text-error',
         image: 'placement-cancelled.png',
     },
-}
+})
 
 export const StudentStatusProgressCell = ({
     studentId,
     status,
     step,
+    appliedIndustry,
 }: {
     studentId?: any
     status?: StudentProgressStatus
     step: 1 | 2 | 3 | 4 | number
+    appliedIndustry: any
 }) => {
+    console.log('Place', appliedIndustry)
     const contextBar = useContextBar()
     // const currentStatus = StudentProgress[status]
-    const currentStatus = Object.values(StudentProgress)[step - 1]
+    const currentStatus: StudentPrgressStatusDetail = Object.values(
+        StudentProgress(appliedIndustry)
+    )[step - 1]
 
     const classes = classNames({
         'px-2 py-1 rounded-md flex items-center gap-x-2 min-w-max cursor-pointer':
             true,
         'bg-white':
             currentStatus.status !==
-            StudentProgress['1-PlacementStarted'].status,
+            StudentProgress()['1-PlacementStarted'].status,
         'bg-green-500':
             currentStatus.status ===
-            StudentProgress['1-PlacementStarted'].status,
+            StudentProgress()['1-PlacementStarted'].status,
     })
 
     const onProgressClicked = (studentId: number | undefined) => {
@@ -95,6 +111,13 @@ export const StudentStatusProgressCell = ({
                 <p className="text-[11px] text-gray-400 whitespace-nowrap">
                     {currentStatus.description}
                 </p>
+                {currentStatus?.date && (
+                    <Typography>
+                        <span className="text-[10px] font-semibold">
+                            {moment(currentStatus?.date).format('Do MMM YYYY')}
+                        </span>
+                    </Typography>
+                )}
             </div>
         </div>
     )

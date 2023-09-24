@@ -23,6 +23,20 @@ export const Industries = ({
         null
     )
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const { notification } = useNotification()
+    const { setContent, show, setTitle, content, hide } = useContextBar()
+
+    useEffect(() => {
+        return () => {
+            // if (content) {
+            hide()
+            setTitle('')
+            setContent(null)
+        }
+        // }
+    }, [])
+
     useEffect(() => {
         setSuggestedIndustries(
             industries?.filter((i: any) => !i.applied)
@@ -42,9 +56,6 @@ export const Industries = ({
             />
         )
     }
-
-    const { setContent, show } = useContextBar()
-    const { notification } = useNotification()
 
     return (
         <div>

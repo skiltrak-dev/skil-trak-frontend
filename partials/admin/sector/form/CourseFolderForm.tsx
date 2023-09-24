@@ -20,8 +20,6 @@ interface CourseFolderFormProps {
     result: any
 }
 
-
-
 export const CourseFolderForm = ({
     onSubmit,
     edit,
@@ -100,6 +98,7 @@ export const CourseFolderForm = ({
                             validationIcons
                         />
 
+                        <Checkbox label={'Is Agreement'} name="isAgreement" />
                         <Checkbox label={'Required'} name="isRequired" />
                     </div>
 

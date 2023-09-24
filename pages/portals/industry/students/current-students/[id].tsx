@@ -24,18 +24,18 @@ const StudentDetail: NextPageWithLayout = () => {
         { skip: !router.query.id }
     )
 
-    useEffect(() => {
-        if (detail.isSuccess && detail.data?.student) {
-            contextBar.show(false)
-            contextBar.setContent(
-                <ViewStudentProfileCB student={detail?.data?.student} />
-            )
-        }
-        return () => {
-            contextBar.hide()
-            contextBar.setContent(null)
-        }
-    }, [detail])
+    // useEffect(() => {
+    //     if (detail.isSuccess && detail.data?.student) {
+    //         contextBar.show(false)
+    //         contextBar.setContent(
+    //             <ViewStudentProfileCB student={detail?.data?.student} />
+    //         )
+    //     }
+    //     return () => {
+    //         contextBar.hide()
+    //         contextBar.setContent(null)
+    //     }
+    // }, [detail])
 
     return (
         <>
