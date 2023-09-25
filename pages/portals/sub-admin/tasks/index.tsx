@@ -107,6 +107,13 @@ const SubAdminTasks: NextPageWithLayout = () => {
             animation: Animations.Student.Appointments.AssessmentEvidence,
             id: 'my-student-report',
         },
+        {
+            title: 'Industry Listing',
+            description: 'Industry Listing',
+            link: 'tasks/industry-listing?tab=all&page=1&pageSize=50',
+            animation: Animations.Student.Appointments.AssessmentEvidence,
+            id: 'industry-listing',
+        },
     ]
 
     // WORKPLACE JOY RIDE - END
