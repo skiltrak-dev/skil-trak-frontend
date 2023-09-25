@@ -22,34 +22,60 @@ export const ViewStudentProfileCB = ({ student }: { student: Student }) => {
 
     return (
         <Card>
-            {/* Profile */}
-            <div className="flex justify-between gap-x-6 p-6">
-                <div className="relative flex flex-col items-center">
+            <div className="flex justify-between">
+                <div className="relative flex items-center gap-x-4">
                     <StudentAvatar
                         name={student?.user?.name}
                         imageUrl={student?.user?.avatar}
                         gender={student?.gender}
                     />
 
-                    <div className="flex flex-col items-center">
-                        <p className="text-lg font-semibold">
-                            {student?.user?.name} {student?.familyName}
-                        </p>
-                        <div className="flex items-center gap-x-2">
-                            <p className="text-sm text-gray-400">
-                                {ellipsisText(student?.user?.email, 30)}
+                    <div className="flex flex-col">
+                        <div className="relative group">
+                            <p className="text-lg font-semibold">
+                                {ellipsisText(student?.user?.name, 15)}
                             </p>
-                            <span className="text-blue-500">
-                                <MdVerified />
-                            </span>
+                            <div className="group-hover:block hidden text-xs whitespace-nowrap shadow-lg text-gray-100 bg-gray-700 px-2 py-1 rounded-md absolute z-10 right-0">
+                                {student?.user?.name}
+                            </div>
+                        </div>
+                        <div className="relative group">
+                            <div className="flex items-center gap-x-2">
+                                <p className="text-sm text-gray-400">
+                                    {ellipsisText(student?.user?.email, 25)}
+                                </p>
+                                <span className="text-blue-500">
+                                    <MdVerified />
+                                </span>
+                            </div>
+                            <div className="group-hover:block hidden text-xs whitespace-nowrap shadow-lg text-gray-100 bg-gray-700 px-2 py-1 rounded-md absolute z-10 right-0">
+                                {student?.user?.email}
+                            </div>
                         </div>
                     </div>
                 </div>
-
+                <div className="pl-4 flex flex-col gap-y-2">
+                    <Typography variant={'label'}>Expiry Date</Typography>
+                    <div className="relative group">
+                        <Countdown
+                            date={student?.expiryDate}
+                            renderer={CountDownRendered}
+                        />
+                        <div className="group-hover:block hidden text-xs whitespace-nowrap shadow-lg text-gray-100 bg-gray-700 px-2 py-1 rounded-md absolute z-10 right-0">
+                            Expires At{' '}
+                            {moment(student?.expiryDate).format(
+                                'DD MMMM, YYYY'
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* Profile */}
+            <div className="flex justify-between gap-x-6 pt-6 px-6">
                 {/* Info Row 1 */}
 
                 <div className="flex ">
-                    <div className="grid grid-cols-2">
+                    <div className="flex flex-wrap gap-x-10">
                         <div className="p-2">
                             <div className="flex items-center space-x-2">
                                 <span className="text-gray-300">
@@ -59,7 +85,7 @@ export const ViewStudentProfileCB = ({ student }: { student: Student }) => {
                                     {student?.studentId}
                                 </p>
                             </div>
-                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
+                            <div className="text-gray-400 text-[11px] -mt-0.5">
                                 Student ID
                             </div>
                         </div>
@@ -73,24 +99,11 @@ export const ViewStudentProfileCB = ({ student }: { student: Student }) => {
                                         {student.batch}
                                     </p>
                                 </div>
-                                <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
+                                <div className="text-gray-400 text-[11px] -mt-0.5">
                                     Batch
                                 </div>
                             </div>
                         ) : null}
-                        <div className="p-2">
-                            <div className="flex items-center space-x-2">
-                                <span className="text-gray-300">
-                                    <MdPhone />
-                                </span>
-                                <p className="text-sm font-medium">
-                                    {student?.phone}
-                                </p>
-                            </div>
-                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                                Phone Number
-                            </div>
-                        </div>
                         <div className="p-2">
                             <div className="flex items-center space-x-2">
                                 <span className="text-gray-300">
@@ -100,8 +113,21 @@ export const ViewStudentProfileCB = ({ student }: { student: Student }) => {
                                     {getGender(student?.gender)}
                                 </p>
                             </div>
-                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
+                            <div className="text-gray-400 text-[11px] -mt-0.5">
                                 Gender
+                            </div>
+                        </div>
+                        <div className="p-2">
+                            <div className="flex items-center space-x-2">
+                                <span className="text-gray-300">
+                                    <MdPhone />
+                                </span>
+                                <p className="text-sm font-medium">
+                                    {student?.phone}
+                                </p>
+                            </div>
+                            <div className="text-gray-400 text-[11px] -mt-0.5">
+                                Phone Number
                             </div>
                         </div>
                         <div className="p-2">
@@ -115,16 +141,44 @@ export const ViewStudentProfileCB = ({ student }: { student: Student }) => {
                                     {student?.suburb}
                                 </p>
                             </div>
-                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
+                            <div className="text-gray-400 text-[11px] -mt-0.5">
                                 Address
                             </div>
                         </div>
                     </div>
-                    <div className="mt-4">
+                    <div className="">
                         <Typography variant={'small'} color={'text-gray-500'}>
                             Emergency Contact Person
                         </Typography>
-                        <div className="flex justify-around divide-x border-t border-b">
+                        <div className="flex gap-x-10">
+                            <div className="p-2">
+                                <div className="flex items-center space-x-2">
+                                    <span className="text-gray-300">
+                                        <BiRename />
+                                    </span>
+                                    <p className="text-sm font-medium">
+                                        {student?.emergencyPerson}
+                                    </p>
+                                </div>
+                                <div className="text-gray-400 text-[11px] -mt-0.5">
+                                    Name
+                                </div>
+                            </div>
+                            <div className="p-2">
+                                <div className="flex items-center space-x-2">
+                                    <span className="text-gray-300">
+                                        <MdPhone />
+                                    </span>
+                                    <p className="text-sm font-medium">
+                                        {student?.emergencyPersonPhone}
+                                    </p>
+                                </div>
+                                <div className="text-gray-400 text-[11px] -mt-0.5">
+                                    Phone
+                                </div>
+                            </div>
+                        </div>
+                        {/* <div className="flex justify-around divide-x border-t border-b">
                             <div className="p-2">
                                 <div className="flex items-center gap-x-2">
                                     <BiRename
@@ -167,7 +221,7 @@ export const ViewStudentProfileCB = ({ student }: { student: Student }) => {
                                     </Typography>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
@@ -179,21 +233,6 @@ export const ViewStudentProfileCB = ({ student }: { student: Student }) => {
                         {moment(student?.expiryDate).format('Do MMMM YYYY')}
                     </Typography>
                 </div> */}
-                <div className="pl-4 flex flex-col gap-y-2">
-                    <Typography variant={'label'}>Expiry Date</Typography>
-                    <div className="relative group">
-                        <Countdown
-                            date={student?.expiryDate}
-                            renderer={CountDownRendered}
-                        />
-                        <div className="group-hover:block hidden text-xs whitespace-nowrap shadow-lg text-gray-100 bg-gray-700 px-2 py-1 rounded-md absolute z-10 right-0">
-                            Expires At{' '}
-                            {moment(student?.expiryDate).format(
-                                'DD MMMM, YYYY'
-                            )}
-                        </div>
-                    </div>
-                </div>
             </div>
         </Card>
     )
