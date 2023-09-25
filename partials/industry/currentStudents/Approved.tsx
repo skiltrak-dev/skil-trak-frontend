@@ -160,6 +160,32 @@ export const Approved = () => {
                     workplace?.industries
                 )
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
+
+                const wpStatus = [
+                    WorkplaceCurrentStatus.PlacementStarted,
+                    WorkplaceCurrentStatus.Completed,
+                    WorkplaceCurrentStatus.Terminated,
+                ]
+
+                return wpStatus.includes(row.original?.currentStatus) ? (
+                    <StudentStatusProgressCell
+                        studentId={row.original?.student?.id}
+                        step={
+                            workplace?.currentStatus ===
+                            WorkplaceCurrentStatus.Cancelled
+                                ? 4
+                                : studentStatus
+                        }
+                        appliedIndustry={appliedIndustry}
+                    />
+                ) : (
+                    <ProgressCell
+                        appliedIndustry={appliedIndustry}
+                        studentId={row.original?.student?.id}
+                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                    />
+                )
+
                 return workplace?.currentStatus ===
                     WorkplaceCurrentStatus.PlacementStarted ? (
                     <StudentStatusProgressCell
@@ -188,10 +214,16 @@ export const Approved = () => {
                 const appliedIndustry = getStudentWorkplaceAppliedIndustry(
                     info.row.original?.industries
                 )
+
+                const currentStatus = info.row.original?.currentStatus
                 return (
                     <div className="flex gap-x-1 items-center">
                         {appliedIndustry &&
-                        !appliedIndustry?.industryResponse ? (
+                        !appliedIndustry?.industryResponse &&
+                        WorkplaceCurrentStatus.Cancelled !== currentStatus &&
+                        WorkplaceCurrentStatus.Terminated !== currentStatus &&
+                        WorkplaceCurrentStatus.NoResponse !== currentStatus &&
+                        WorkplaceCurrentStatus.Rejected !== currentStatus ? (
                             <>
                                 <ActionButton
                                     variant="success"
@@ -254,7 +286,9 @@ export const Approved = () => {
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize(
                                                 itemPerPage,
-                                                setItemPerPage
+                                                setItemPerPage,
+                                                industryWorkplace.data?.data
+                                                    ?.length
                                             )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
