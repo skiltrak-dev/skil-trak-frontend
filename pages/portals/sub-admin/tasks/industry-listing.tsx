@@ -1,4 +1,4 @@
-import { AdminLayout } from '@layouts'
+import { AdminLayout, SubAdminLayout } from '@layouts'
 import {
     ActiveIndustries,
     AddIndustry,
@@ -26,7 +26,7 @@ import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/Filter
 import { useContextBar } from '@hooks'
 type Props = {}
 const filterKeys = ['businessName', 'address', 'sector', 'email', 'phone']
-const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
+const IndustryListing: NextPageWithLayout = (props: Props) => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -48,7 +48,7 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
         {
             label: 'All',
             href: {
-                pathname: 'search-workplaces',
+                pathname: 'industry-listing',
                 query: { tab: 'all', page: 1, pageSize: 50 },
             },
             // badge: {
@@ -161,7 +161,7 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
         </div>
     )
 }
-SearchWorkplaces.getLayout = (page: ReactElement) => {
-    return <AdminLayout>{page}</AdminLayout>
+IndustryListing.getLayout = (page: ReactElement) => {
+    return <SubAdminLayout>{page}</SubAdminLayout>
 }
-export default SearchWorkplaces
+export default IndustryListing

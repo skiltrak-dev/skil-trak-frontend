@@ -53,10 +53,6 @@ const Jobs: NextPage = () => {
                     )}
 
                     <div className="flex items-center justify-end mb-4">
-                        {/* <PageSize
-                            itemPerPage={itemPerPage}
-                            setItemPerPage={setItemPerPage}
-                        /> */}
                         <Pagination
                             pagination={data?.pagination}
                             setPage={setPage}
