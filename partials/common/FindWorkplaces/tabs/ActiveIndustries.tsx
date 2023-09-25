@@ -130,7 +130,6 @@ export const ActiveIndustries = () => {
             accessorKey: 'businessName',
             header: () => <span>Name</span>,
             cell: (info) => {
-                console.log('info:::::', info?.row?.original)
                 return (
                     <div className="flex flex-col gap-y-1">
                         <Typography variant={'label'}>

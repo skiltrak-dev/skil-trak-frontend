@@ -179,7 +179,7 @@ const AddIndustry: NextPageWithLayout = () => {
         // }
         // SignUpUtils.setValuesToStorage(data)
         // addIndustry(data)
-        // router.push('/portals/admin/search-workplaces?tab=all&page=1&pageSize=50')
+        
     }
     return (
         <FormProvider {...formMethods}>
