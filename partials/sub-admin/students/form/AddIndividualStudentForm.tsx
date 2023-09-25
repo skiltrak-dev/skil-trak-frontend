@@ -15,7 +15,13 @@ import {
     useGetSubAdminRTODetailQuery,
 } from '@queries'
 import { Course, OptionType, Sector } from '@types'
-import { CourseSelectOption, SignUpUtils, formatOptionLabel, onlyAlphabets } from '@utils'
+import {
+    CourseSelectOption,
+    SignUpUtils,
+    formatOptionLabel,
+    getDate,
+    onlyAlphabets,
+} from '@utils'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -205,6 +211,7 @@ export const AddIndividualStudentForm = () => {
                                 validationIcons
                                 required
                                 type="date"
+                                min={getDate()}
                             />
                         </div>
 
