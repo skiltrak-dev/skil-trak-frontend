@@ -20,7 +20,7 @@ import { useActionModal } from '@hooks'
 import { BulkDeleteModal } from '@modals'
 import { AdminApi, commonApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import { studentsListWorkplace } from '@utils'
+import { getBlockedByStudent, studentsListWorkplace } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
@@ -175,6 +175,20 @@ export const BlockedStudent = () => {
             cell: ({ row }) => (
                 <CaseOfficerAssignedStudent student={row.original} />
             ),
+        },
+        {
+            accessorKey: 'blockedBy',
+            header: () => <span>Blocked By</span>,
+            cell: ({ row }) => {
+                const blockedBy = getBlockedByStudent(
+                    row.original?.user?.statusChangeHistory
+                )
+                return (
+                    <Typography variant={'small'} capitalize>
+                        <span className="font-bold">{blockedBy?.updateBy}</span>
+                    </Typography>
+                )
+            },
         },
         {
             accessorKey: 'createdAt',

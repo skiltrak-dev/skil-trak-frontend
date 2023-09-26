@@ -1,5 +1,5 @@
 export type OptionType = {
     label: string
-    value: number | string | boolean
+    value: number | string | boolean | null | undefined
     item?: any
 }

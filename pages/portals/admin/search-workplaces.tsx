@@ -1,16 +1,3 @@
-import { AdminLayout } from '@layouts'
-import {
-    ActiveIndustries,
-    AddIndustry,
-    DoNotDisturbIndustries,
-    FindWorkplaces,
-    IsContactedIndustries,
-    IsPartneredIndustries,
-    SearchLocation,
-} from '@partials/common'
-import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
-import { ReactElement, useEffect, useState } from 'react'
-import GoogleMapReact from 'google-map-react'
 import {
     Filter,
     FindWorkplaceFilters,
@@ -20,10 +7,14 @@ import {
     TabProps,
     TechnicalError,
 } from '@components'
-import { AdminApi, commonApi } from '@queries'
-import { checkFilteredDataLength } from '@utils'
-import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
 import { useContextBar } from '@hooks'
+import { AdminLayout } from '@layouts'
+import { ActiveIndustries, AddIndustry } from '@partials/common'
+import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
+import { CommonApi, commonApi } from '@queries'
+import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
+import { checkFilteredDataLength } from '@utils'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 type Props = {}
 const filterKeys = ['businessName', 'address', 'sector', 'email', 'phone']
 const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
@@ -34,8 +25,9 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
     const [filter, setFilter] = useState<FindWorkplaceFilter>(
         {} as FindWorkplaceFilter
     )
-    // const { isLoading, data, isError } = commonApi.useFindIndustriesCountQuery()
-    const filteredIndustries = commonApi.useGetAllFindWorkplacesQuery({
+    const [industryData, setIndustryData] = useState<any>(null)
+
+    const filteredIndustries = CommonApi.FindWorkplace.useGetAllFindWorkplaces({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -44,6 +36,11 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+
+    const onSetIndustryData = useCallback((data: any) => {
+        setIndustryData(data)
+    }, [])
+
     const tabs: TabProps[] = [
         {
             label: 'All',
@@ -51,60 +48,27 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
                 pathname: 'search-workplaces',
                 query: { tab: 'all', page: 1, pageSize: 50 },
             },
-            // badge: {
-            //     text: data?.all,
-            //     loading: false,
-            // },
-            element: <ActiveIndustries />,
+
+            element: (
+                <ActiveIndustries
+                    onSetIndustryData={(data: any) => {
+                        onSetIndustryData(data)
+                    }}
+                />
+            ),
         },
-        // {
-        //     label: 'Is Partnered',
-        //     href: {
-        //         pathname: 'search-workplaces',
-        //         query: { tab: 'isPartner', page: 1, pageSize: 50 },
-        //     },
-        //     badge: {
-        //         text: data?.isPartner,
-        //         loading: false,
-        //     },
-        //     element: <IsPartneredIndustries />,
-        // },
-        // {
-        //     label: 'Is Contacted',
-        //     href: {
-        //         pathname: 'search-workplaces',
-        //         query: { tab: 'isContacted', page: 1, pageSize: 50 },
-        //     },
-        //     badge: {
-        //         text: data?.isContacted,
-        //         loading: false,
-        //     },
-        //     element: <IsContactedIndustries />,
-        // },
-        // {
-        //     label: 'Do Not Disturb',
-        //     href: {
-        //         pathname: 'search-workplaces',
-        //         query: { tab: 'do-not-disturb', page: 1, pageSize: 50 },
-        //     },
-        //     badge: {
-        //         text: data?.doNotDisturb,
-        //         loading: false,
-        //     },
-        //     element: <DoNotDisturbIndustries />,
-        // },
     ]
     const filteredDataLength = checkFilteredDataLength(filter)
 
     useEffect(() => {
-        contextBar.setContent(<AddIndustry />)
+        contextBar.setContent(<AddIndustry industryData={industryData} />)
         contextBar.show(false)
 
         return () => {
             contextBar.setContent(null)
             contextBar.hide()
         }
-    }, [])
+    }, [industryData])
     return (
         <div>
             <SetDetaultQueryFilteres<FindWorkplaceFilter>
@@ -143,13 +107,6 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
                             <div>
                                 <div className="flex items-end justify-between">
                                     <div className="flex-grow">{header}</div>
-                                    <div className="px-6">
-                                        {/* <Button
-                                            text={'Add Sub Admin'}
-                                            variant={'primary'}
-                                            onClick={onAddSubAdmin}
-                                        /> */}
-                                    </div>
                                 </div>
                                 <div className="p-4">{element}</div>
                             </div>
@@ -157,7 +114,6 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
                     }}
                 </TabNavigation>
             )}
-            {/* <SearchLocation /> */}
         </div>
     )
 }
