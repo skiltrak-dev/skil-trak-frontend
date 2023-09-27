@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-import { Form, Formik } from 'formik'
 import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
@@ -10,9 +9,9 @@ import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
 import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 
-import { Button, Checkbox, Select, TextInput, Typography } from '@components'
-import { FormProvider, useForm } from 'react-hook-form'
+import { Button, Checkbox, Select, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { FormProvider, useForm } from 'react-hook-form'
 
 export const IndustriesForm = ({ onSubmit }: { onSubmit: any }) => {
     const router = useRouter()
