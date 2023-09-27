@@ -1,4 +1,4 @@
-import { ActionModal } from '@components'
+import { ActionModal, ShowErrorNotifications } from '@components'
 import { useAlert, useNotification } from '@hooks'
 import { Student } from '@types'
 import { useEffect } from 'react'
@@ -21,7 +21,7 @@ export const BlockModal = ({
     const onConfirmClicked = async (item: Student) => {
         await onBlock(item)
     }
-    
+
     useEffect(() => {
         if (setResult) {
             setResult(changeStatusResult)
@@ -36,26 +36,23 @@ export const BlockModal = ({
             })
             onCancel()
         }
-        if (changeStatusResult.isError) {
-            notification.error({
-                title: 'Request Failed',
-                description: `Your request for blocking Student was failed`,
-            })
-        }
     }, [changeStatusResult])
 
     return (
-        <ActionModal
-            Icon={FaBan}
-            variant="error"
-            title="Are you sure!"
-            description={`You are about to block <em>"${item?.user?.name}"</em>. Do you wish to continue?`}
-            onConfirm={onConfirmClicked}
-            onCancel={onCancel}
-            input
-            inputKey={item?.user?.email}
-            actionObject={item}
-            loading={changeStatusResult.isLoading}
-        />
+        <>
+            <ShowErrorNotifications result={changeStatusResult} />
+            <ActionModal
+                Icon={FaBan}
+                variant="error"
+                title="Are you sure!"
+                description={`You are about to block <em>"${item?.user?.name}"</em>. Do you wish to continue?`}
+                onConfirm={onConfirmClicked}
+                onCancel={onCancel}
+                input
+                inputKey={item?.user?.email}
+                actionObject={item}
+                loading={changeStatusResult.isLoading}
+            />
+        </>
     )
 }

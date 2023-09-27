@@ -9,7 +9,7 @@ import {
     SearchLocation,
 } from '@partials/common'
 import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 import GoogleMapReact from 'google-map-react'
 import {
     Filter,
@@ -34,6 +34,8 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
     const [filter, setFilter] = useState<FindWorkplaceFilter>(
         {} as FindWorkplaceFilter
     )
+    const [industryData, setIndustryData] = useState<any>(null)
+
     // const { isLoading, data, isError } = commonApi.useFindIndustriesCountQuery()
     const filteredIndustries = commonApi.useGetAllFindWorkplacesQuery({
         search: `${JSON.stringify(filter)
@@ -44,6 +46,11 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+
+    const onSetIndustryData = useCallback((data: any) => {
+        setIndustryData(data)
+    }, [])
+
     const tabs: TabProps[] = [
         {
             label: 'All',
@@ -51,53 +58,13 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
                 pathname: 'industry-listing',
                 query: { tab: 'all', page: 1, pageSize: 50 },
             },
-            // badge: {
-            //     text: data?.all,
-            //     loading: false,
-            // },
-            element: <ActiveIndustries />,
+            element: <ActiveIndustries onSetIndustryData={onSetIndustryData} />,
         },
-        // {
-        //     label: 'Is Partnered',
-        //     href: {
-        //         pathname: 'search-workplaces',
-        //         query: { tab: 'isPartner', page: 1, pageSize: 50 },
-        //     },
-        //     badge: {
-        //         text: data?.isPartner,
-        //         loading: false,
-        //     },
-        //     element: <IsPartneredIndustries />,
-        // },
-        // {
-        //     label: 'Is Contacted',
-        //     href: {
-        //         pathname: 'search-workplaces',
-        //         query: { tab: 'isContacted', page: 1, pageSize: 50 },
-        //     },
-        //     badge: {
-        //         text: data?.isContacted,
-        //         loading: false,
-        //     },
-        //     element: <IsContactedIndustries />,
-        // },
-        // {
-        //     label: 'Do Not Disturb',
-        //     href: {
-        //         pathname: 'search-workplaces',
-        //         query: { tab: 'do-not-disturb', page: 1, pageSize: 50 },
-        //     },
-        //     badge: {
-        //         text: data?.doNotDisturb,
-        //         loading: false,
-        //     },
-        //     element: <DoNotDisturbIndustries />,
-        // },
     ]
     const filteredDataLength = checkFilteredDataLength(filter)
 
     useEffect(() => {
-        contextBar.setContent(<AddIndustry />)
+        contextBar.setContent(<AddIndustry industryData={industryData} />)
         contextBar.show(false)
 
         return () => {

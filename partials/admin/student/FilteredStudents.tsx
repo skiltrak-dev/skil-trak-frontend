@@ -5,6 +5,7 @@ import {
     EmptyData,
     LoadingAnimation,
     StudentExpiryDaysLeft,
+    StudentStatusProgressCell,
     StudentSubAdmin,
     Table,
     TableAction,
@@ -17,8 +18,15 @@ import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 
 import { useActionModal } from '@hooks'
 import { RtoCellInfo } from '@partials/admin/rto/components'
-import { Student, UserStatus } from '@types'
-import { calculateRemainingDays, studentsListWorkplace } from '@utils'
+import { Student, StudentStatusEnum, UserStatus } from '@types'
+import {
+    WorkplaceCurrentStatus,
+    calculateRemainingDays,
+    checkStudentStatus,
+    checkWorkplaceStatus,
+    getStudentWorkplaceAppliedIndustry,
+    studentsListWorkplace,
+} from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
@@ -26,7 +34,7 @@ import { CgUnblock } from 'react-icons/cg'
 import { MdBlock } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
-import { SectorCell, StudentCellInfo } from './components'
+import { ProgressCell, SectorCell, StudentCellInfo } from './components'
 import {
     AcceptModal,
     ArchiveModal,
@@ -43,12 +51,14 @@ interface StatusTableActionOption extends TableActionOption {
 }
 
 export const FilteredStudents = ({
+    filter,
     student,
     setPage,
     itemPerPage,
     setItemPerPage,
     setStatusSuccessResult,
 }: {
+    filter: any
     student: any
     setPage: any
     itemPerPage: any
@@ -260,9 +270,84 @@ export const FilteredStudents = ({
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
-            cell: ({ row }) => (
-                <CaseOfficerAssignedStudent student={row.original} />
-            ),
+            cell: ({ row }) => {
+                return (
+                    <CaseOfficerAssignedStudent
+                        student={row.original}
+                        workplaceFilter={filter?.currentStatus}
+                    />
+                )
+                const student = row.original
+                const workplace = student?.workplace?.reduce(
+                    (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
+                    {
+                        currentStatus: WorkplaceCurrentStatus.NotRequested,
+                    }
+                )
+                const industries = student?.industries
+                const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                const studentStatus = checkStudentStatus(student?.studentStatus)
+                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+                    workplace?.industries
+                )
+
+                console.log('studentStatus', studentStatus)
+
+                const studentStatusValues = Object.values(
+                    StudentStatusEnum
+                )?.filter(
+                    (status: string) => status !== StudentStatusEnum.ACTIVE
+                )
+
+                const wpStatusValues = [
+                    WorkplaceCurrentStatus.PlacementStarted,
+                    WorkplaceCurrentStatus.Completed,
+                    WorkplaceCurrentStatus.Terminated,
+                ]
+
+                console.log({ filter: workplace?.currentStatus })
+
+                return filter?.currentStatus ? (
+                    <ProgressCell
+                        appliedIndustry={appliedIndustry}
+                        studentId={student?.id}
+                        assigned={student?.subadmin || workplace?.assignedTo}
+                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                    />
+                ) : industries?.length > 0 ? (
+                    <StudentStatusProgressCell
+                        studentId={student?.id}
+                        step={
+                            workplace?.currentStatus ===
+                            WorkplaceCurrentStatus.Cancelled
+                                ? 4
+                                : studentStatus
+                        }
+                        appliedIndustry={appliedIndustry}
+                    />
+                ) : student?.workplace && student?.workplace?.length > 0 ? (
+                    <ProgressCell
+                        appliedIndustry={appliedIndustry}
+                        studentId={student?.id}
+                        assigned={student?.subadmin || workplace?.assignedTo}
+                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                    />
+                ) : student?.subadmin ? (
+                    <ProgressCell
+                        appliedIndustry={appliedIndustry}
+                        studentId={student?.id}
+                        step={3}
+                        assigned={student?.subadmin || workplace?.assignedTo}
+                    />
+                ) : (
+                    <ProgressCell
+                        appliedIndustry={appliedIndustry}
+                        studentId={student?.id}
+                        step={1}
+                        assigned={student?.subadmin || workplace?.assignedTo}
+                    />
+                )
+            },
         },
         {
             accessorKey: 'user.status',

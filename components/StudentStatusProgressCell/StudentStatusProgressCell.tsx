@@ -77,11 +77,11 @@ export const StudentStatusProgressCell = ({
         'px-2 py-1 rounded-md flex items-center gap-x-2 min-w-max cursor-pointer':
             true,
         'bg-white':
-            currentStatus.status !==
-            StudentProgress()['1-PlacementStarted'].status,
+            currentStatus?.status !==
+            StudentProgress()['1-PlacementStarted']?.status,
         'bg-green-500':
-            currentStatus.status ===
-            StudentProgress()['1-PlacementStarted'].status,
+            currentStatus?.status ===
+            StudentProgress()['1-PlacementStarted']?.status,
     })
 
     const onProgressClicked = (studentId: number | undefined) => {
@@ -98,13 +98,13 @@ export const StudentStatusProgressCell = ({
             }}
         >
             <img
-                src={`/images/students/workplace-progress/${currentStatus.image}`}
+                src={`/images/students/workplace-progress/${currentStatus?.image}`}
                 alt=""
                 width={24}
             />
             <div>
                 <p
-                    className={`${currentStatus.color} text-xs font-semibold whitespace-nowrap`}
+                    className={`${currentStatus?.color} text-xs font-semibold whitespace-nowrap`}
                 >
                     {currentStatus.status}
                 </p>

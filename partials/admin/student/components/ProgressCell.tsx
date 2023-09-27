@@ -150,6 +150,8 @@ export const ProgressCell = ({
         WorkplaceRequestProgress(appliedIndustry)
     )[step - 1]
 
+    console.log({ step })
+
     const contextBar = useContextBar()
 
     const classes = classNames({
