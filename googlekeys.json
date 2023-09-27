@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "skiltrak-400304",
+    "private_key_id": "743923c9f936bf1e6aa19b6216585fe6aa77d057",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCSsvMbYsO+sdpa\nSDCpBqnGEWF332uRj0VeJ0jHBF82aTLJeg9A/xdg6YH5MFc19onArD9uDr9lzFjf\nwH+bmsvqiXeRa6WjJdOOziJG3DX+k7INF5/ifc4OtblONd8Q3a1xGipuN2RK13l/\n07HWroCrMxCdjdBWUMfB1IaeUuA0DL0svO473raKWFKDb9AYRI7NhiRPz1LuUCIi\nU1CDhtJTveSSJ1X3cq/aPImcDimlNQmuRhLPTe55dMQdtuMXTU3ocjIQ/6sgNO9P\nvrwmCMEBDaDLdBj6m2h2n3mqYhg3n3lHP/sRgckGRMhHewvHSETA/B4yZcxP0cTW\nfxEHOHGtAgMBAAECggEAR6cdZDp05q9DOka5cc293e8+XskjZtkGZksk2oRxpwdy\nFYPHcJVIS38yi07HwiVVumTHpI+Sf/v0SvHgwlW1FS0o2EAuisYek8luZ5MG0n48\ngPWRlBSjsX6kcKWSe0/zd+NyZxwqIf4mK7/wRK4+TaCnFHWglZBmSW/vguRy+yii\nG11H4vNcQx/aSrjfyoc1QNYRYmsoF7gHXT5HjOwIOn6Sv0LC/M7uEJW3soySScCW\nabrN7PElYdonZjpo4O5YuQ6pzt1u5nIF4ci7puXohfusGWrd6olvu7xEcuVJWoyE\nBO2x0dirD7LvP4do7fnGinVRKv2CqCIAZZWJ0PKOtwKBgQDNUilSVXT1TrYkFlMw\ncp5GTo+7V6/3NF4yqgsDyYpRd60DUfGqEpXEvYbtlHDdjd01K/JD3VuVq8MZCdgi\n+jU4D7X7VT1I96ckW+YSu62odKAO/gUXPZfwbIloaQ7S9/8DcnT6im80j2YrH8AD\nCvB6O71QYfuxdprIAUdO2XVS2wKBgQC26JS16uvxQNjN2WxF/DqpBh+lkMGOlzUd\n4WUQXV0z0hlKi6w+GPNWCG8N7Bfj6zThWKnOkj3S0s7cVZsn4HrsdgIuD1+6zF1f\nwdqT4af9xSv8hMw3sHyhiEv56uND6AM5K+w0hrd/odn84lL4/F1B1eFIGXsnc4LK\nX2zLPWoAFwKBgBgN7iVlOaSbqh8kNm7QntZh0dkC9uyhR//riArTi87rlGt1KDji\noIVCJxKid26ddjMKiQGGZ3prexnt21KNubptrMZbQCjSStSpp5S+RCQeNbpL7FDC\nuJBERvzigggZYdkHicjoewrPWgrnV1mD6JSJdy55rEEoQg34iGAmfeZNAoGAF0xx\nBOszurtj4nS7kf6bCkS5a0GRJjSkk3XOhdMeuCcfCZvZCN/svxy76K4WLPYc+kds\n+d8u+NfZeb990AqMHeq6RFu4+fZmPnhW+1dXKsAe5j+UM9PLTFgsNV1yLYg0QOgT\nYm12mk9nkQrTPtwGlQhFdgWo5lGUa2rUVN8xzWkCgYBfN6GCy/DZl459RTalrl8S\nZZBKFxpkMlMHzU3bYX+Pqtyy1YdTE9I0q9jICx5x2orihQAtfWYq3ulrVVizP/uV\nKFVl/l95ELlN9YfkgPOfzGduwuSdzH0zaX+3ZP6aMU+XLD5r8ra3MLIIbWI9W7E4\nCg20rXwhgJys7Pgy96O+vg==\n-----END PRIVATE KEY-----\n",
+    "client_email": "skiltrak@skiltrak-400304.iam.gserviceaccount.com",
+    "client_id": "114663651032028679454",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/skiltrak%40skiltrak-400304.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+}  

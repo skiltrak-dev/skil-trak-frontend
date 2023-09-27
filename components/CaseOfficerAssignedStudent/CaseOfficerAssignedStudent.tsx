@@ -33,13 +33,6 @@ export const CaseOfficerAssignedStudent = ({
         workplace?.industries
     )
 
-    console.log(
-        'Khaluu',
-        industries?.find(
-            (ind: any) => ind?.id === appliedIndustry?.industry?.id
-        )
-    )
-
     const studentStatusValues = Object.values(StudentStatusEnum)?.filter(
         (status: string) => status !== StudentStatusEnum.ACTIVE
     )

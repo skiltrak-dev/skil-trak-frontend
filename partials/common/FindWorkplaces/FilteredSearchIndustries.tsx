@@ -1,89 +1,145 @@
 import {
     ActionButton,
-    Button,
     Card,
     EmptyData,
     LoadingAnimation,
     Table,
     TableAction,
     TableActionOption,
-    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaHandshake } from 'react-icons/fa'
+import { FaEdit } from 'react-icons/fa'
 
 import { useActionModal, useContextBar } from '@hooks'
-import { SubAdmin } from '@types'
+import { IndustryStatus, SubAdmin } from '@types'
 import { useRouter } from 'next/router'
-import { MdBlock, MdCall } from 'react-icons/md'
+import { MdBlock, MdDelete, MdOutlineFavorite } from 'react-icons/md'
 // import { RtoCell, SectorCell, SubAdminCell } from './components'
 // import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { FcCancel } from 'react-icons/fc'
+import { ReactElement, useState } from 'react'
+import { AiFillCheckCircle, AiFillWarning } from 'react-icons/ai'
+import { BiPencil } from 'react-icons/bi'
+import { FiLogIn } from 'react-icons/fi'
+import { DefaultModal } from './DefaultModal'
+import { DoNotDisturbModal } from './DoNotDisturbModal'
+import { FavoriteModal } from './FavoriteModal'
+import {
+    DeleteFutureIndustryModal,
+    DeleteMultiFutureIndustryModal,
+} from './modal'
+import { checkListLength } from '@utils'
 
 export const FilteredSearchIndustries = ({
     subAdmin,
     setPage,
     itemPerPage,
     setItemPerPage,
+    onSetIndustryData,
 }: {
     subAdmin: any
     setPage: any
     itemPerPage: any
     setItemPerPage: any
+    onSetIndustryData: (val: any) => void
 }) => {
     const router = useRouter()
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const contextBar = useContextBar()
 
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    // const onEditSubAdmin = (subAdmin: SubAdmin) => {
-    //     contextBar.setContent(<AddSubAdminCB edit subAdmin={subAdmin} />)
-    //     contextBar.setTitle('Edit SubAdmin')
-    //     contextBar.show()
-    // }
+    const onModalCancelClicked = () => setModal(null)
+
+    const onDoNotDisturbClicked = (industry: any) => {
+        setModal(
+            <DoNotDisturbModal
+                industry={industry}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+    const onDefaultClicked = (industry: any) => {
+        setModal(
+            <DefaultModal
+                industry={industry}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+    const onFavoriteClicked = (industry: any) => {
+        setModal(
+            <FavoriteModal
+                industry={industry}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onDeleteFutureIndustry = (industry: any) => {
+        setModal(
+            <DeleteFutureIndustryModal
+                futureIndustry={industry}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
+    const onDeleteMultiFutureIndustry = (industry: any) => {
+        setModal(
+            <DeleteMultiFutureIndustryModal
+                futureIndustries={industry}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
 
     const tableActionOptions: TableActionOption[] = [
         {
-            text: 'View',
+            text: 'Default',
+            onClick: (industry: any) => onDefaultClicked(industry),
+            Icon: AiFillCheckCircle,
+            color: `'text-green-500 hover:bg-green-100 hover:border-green-200'`,
+        },
+        {
+            text: 'Favorite',
+            onClick: (industry: any) => onFavoriteClicked(industry),
+            Icon: MdOutlineFavorite,
+            color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
+        },
+        {
+            text: 'Do Not Disturb',
+            onClick: (industry: any) => onDoNotDisturbClicked(industry),
+            Icon: AiFillWarning,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            text: 'SignUp',
             onClick: (industry: any) => {
-                router.push(
-                    `/portals/admin/industry/${industry.id}?tab=students`
-                )
+                localStorage.setItem('signup-data', JSON.stringify(industry))
+                router.push(`/auth/signup/industry?step=account-info`)
             },
-            Icon: FaEye,
+            Icon: FiLogIn,
         },
         {
             text: 'Edit',
-            onClick: (row: any) => {
-                router.push(`/portals/admin/industry/edit-industry/${row.id}`)
+            onClick: (futureIndustry: any) => {
+                onSetIndustryData(futureIndustry)
             },
-            Icon: FaEdit,
+            Icon: BiPencil,
         },
         {
-            text: 'View Password',
-            onClick: (industry: any) => onViewPassword(industry),
-            Icon: RiLockPasswordFill,
+            text: 'Delete',
+            onClick: (futureIndustry: any) => {
+                onDeleteFutureIndustry(futureIndustry)
+            },
+            Icon: MdDelete,
         },
-        // {
-        //     text: 'Block',
-        //     onClick: (industry: Industry) => onBlockClicked(industry),
-        //     Icon: MdBlock,
-        //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        // },
     ]
 
     const columns: ColumnDef<any>[] = [
-        // {
-        //     accessorKey: 'user.name',
-        //     cell: (info) => {
-        //         return <IndustryCell industry={info.row.original} />
-        //     },
-        //     header: () => <span>Industry</span>,
-        // },
         {
             accessorKey: 'businessName',
             header: () => <span>Name</span>,
@@ -93,73 +149,55 @@ export const FilteredSearchIndustries = ({
             header: () => <span>Email</span>,
         },
         {
-            accessorKey: "phone",
-            header: () => <span>Phone</span>
+            accessorKey: 'phone',
+            header: () => <span>Phone</span>,
         },
         {
-            accessorKey: "address",
-            header: () => <span>Address</span>
+            accessorKey: 'address',
+            header: () => <span>Address</span>,
         },
-        // {
-        //     accessorKey: 'isContacted',
-        //     header: () => <span>Is Contacted</span>,
-        //     cell: (info) => {
-        //         return (
-        //             <div>
-        //                 {info.row.original.isContacted === true ? (
-        //                     <div className="flex items-center gap-x-2">
-        //                         <p>Contacted</p>
-        //                         <MdCall className="text-green-500" />
-        //                     </div>
-        //                 ) : (
-        //                     <div className="flex items-center gap-x-2">
-        //                         <p>Not Contacted</p>
-        //                         <FcCancel />
-        //                     </div>
-        //                 )}
-        //             </div>
-        //         )
-        //     },
-        // },
-        // {
-        //     accessorKey: 'isPartner',
-        //     header: () => <span>Is Partner</span>,
-        //     cell: (info) => {
-        //         return (
-        //             <div>
-        //                 {info.row.original.isPartner === true ? (
-        //                     <div className="flex items-center gap-x-2">
-        //                         <p>Partner</p>
-        //                         <FaHandshake className="text-orange-500" />
-        //                     </div>
-        //                 ) : (
-        //                     <p>Not Partner</p>
-        //                 )}
-        //                 {/* <p className="text-xs text-gray-500">
-        //                     {info.row.original.contactPersonNumber}
-        //                 </p> */}
-        //             </div>
-        //         )
-        //     },
-        // },
-        // {
-        //     accessorKey: 'sectors',
-        //     header: () => <span>Sectors</span>,
-        //     cell: (info) => {
-        //         return <SectorCell industry={info.row.original} />
-        //     },
-        // },
-       
-
+        {
+            accessorKey: 'status',
+            header: () => <span>Status</span>,
+            cell: (info) => {
+                return (
+                    <div>
+                        {info.row.original.status ===
+                        IndustryStatus.FAVOURITE ? (
+                            <div className="rounded-lg flex items-center gap-x-2">
+                                <p className="text-green-500 font-semibold">
+                                    Favorite
+                                </p>
+                                <MdOutlineFavorite className="text-green-500" />
+                            </div>
+                        ) : info.row.original.status ===
+                          IndustryStatus.DO_NOT_DISTURB ? (
+                            <div className="rounded-lg flex items-center gap-x-2">
+                                <p className="text-red-500 font-semibold">
+                                    Do Not Disturb
+                                </p>
+                                <AiFillWarning className="text-red-500 text-lg" />
+                            </div>
+                        ) : (
+                            <div className="flex items-center gap-x-2">
+                                ----
+                            </div>
+                        )}
+                    </div>
+                )
+            },
+        },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info: any) => {
+                const length = checkListLength<any>(subAdmin?.data?.data)
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
                             options={tableActionOptions}
                             rowItem={info.row.original}
+                            lastIndex={length.includes(info.row?.index)}
                         />
                     </div>
                 )
@@ -187,6 +225,7 @@ export const FilteredSearchIndustries = ({
 
     return (
         <>
+            {modal}
             {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 p-4">
                 <PageHeading
