@@ -221,11 +221,12 @@ const StudentList: NextPageWithLayout = () => {
                 ) : (
                     filteredStudents.isSuccess && (
                         <FilteredStudents
-                            setStatusSuccessResult={setStatusSuccessResult}
+                            filter={filter}
                             setPage={setPage}
                             itemPerPage={itemPerPage}
                             student={filteredStudents}
                             setItemPerPage={setItemPerPage}
+                            setStatusSuccessResult={setStatusSuccessResult}
                         />
                     )
                 )

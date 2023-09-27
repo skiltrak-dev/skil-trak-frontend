@@ -1,6 +1,6 @@
 import { StudentStatusProgressCell } from '@components/StudentStatusProgressCell'
 import { ProgressCell } from '@partials/admin/student/components'
-import { Student, SubAdmin } from '@types'
+import { Student, StudentStatusEnum, SubAdmin } from '@types'
 import {
     WorkplaceCurrentStatus,
     checkStudentStatus,
@@ -15,7 +15,9 @@ export interface StudentSubAdmin extends Student {
 
 export const CaseOfficerAssignedStudent = ({
     student,
+    workplaceFilter,
 }: {
+    workplaceFilter?: WorkplaceCurrentStatus
     student: StudentSubAdmin
 }) => {
     const workplace = student?.workplace?.reduce(
@@ -31,7 +33,33 @@ export const CaseOfficerAssignedStudent = ({
         workplace?.industries
     )
 
-    return industries?.length > 0 ? (
+    console.log(
+        'Khaluu',
+        industries?.find(
+            (ind: any) => ind?.id === appliedIndustry?.industry?.id
+        )
+    )
+
+    const studentStatusValues = Object.values(StudentStatusEnum)?.filter(
+        (status: string) => status !== StudentStatusEnum.ACTIVE
+    )
+
+    const wpStatusValues = [
+        WorkplaceCurrentStatus.PlacementStarted,
+        WorkplaceCurrentStatus.Completed,
+        WorkplaceCurrentStatus.Terminated,
+    ]
+
+    return workplaceFilter ? (
+        <ProgressCell
+            appliedIndustry={appliedIndustry}
+            studentId={student?.id}
+            assigned={student?.subadmin || workplace?.assignedTo}
+            step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+        />
+    ) : industries?.length > 0 &&
+      studentStatusValues.includes(student?.studentStatus) &&
+      wpStatusValues.includes(workplace.currentStatus) ? (
         <StudentStatusProgressCell
             studentId={student?.id}
             step={

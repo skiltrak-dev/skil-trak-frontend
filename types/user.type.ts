@@ -19,6 +19,13 @@ export enum UserStatus {
     Blocked = 'blocked',
 }
 
+interface StatusChangeHistory {
+    current: UserStatus
+    previous: string
+    updateAt: Date
+    updateBy: string
+}
+
 export interface User extends BaseResponse {
     id: number
     email: string
@@ -29,6 +36,7 @@ export interface User extends BaseResponse {
     password: string
     avatar: string | undefined
     appointmentFor: any
+    statusChangeHistory: StatusChangeHistory
 }
 
 export interface UserCount {

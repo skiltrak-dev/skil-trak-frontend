@@ -179,7 +179,6 @@ const AddIndustry: NextPageWithLayout = () => {
         // }
         // SignUpUtils.setValuesToStorage(data)
         // addIndustry(data)
-        
     }
     return (
         <FormProvider {...formMethods}>
@@ -189,19 +188,6 @@ const AddIndustry: NextPageWithLayout = () => {
             >
                 {/* Personal Information */}
                 <div className="flex gap-x-16 border-t py-4">
-                    {/* <div className="w-2/6">
-                        <Typography
-                            variant={'subtitle'}
-                            color={'text-gray-500'}
-                        >
-                            Industry Information
-                        </Typography>
-                        <p className="text-gray-400 text-sm leading-6">
-                            Your information is required to make things clear
-                            and transparent
-                        </p>
-                    </div> */}
-
                     <div className="w-4/6">
                         <TextInput
                             label={'Name'}
@@ -212,14 +198,6 @@ const AddIndustry: NextPageWithLayout = () => {
                         />
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
-                            {/* <TextInput
-                                label={'ABN'}
-                                name={'abn'}
-                                placeholder={'ABN...'}
-                                validationIcons
-                                required
-                            /> */}
-
                             <TextInput
                                 label={'Website (Optional)'}
                                 name={'website'}
@@ -237,62 +215,9 @@ const AddIndustry: NextPageWithLayout = () => {
                         </div>
                     </div>
                 </div>
-                {/* Business Information */}
-                <div className="flex gap-x-16 border-t py-4">
-                    {/* <div className="w-2/6">
-                        <Typography
-                            variant={'subtitle'}
-                            color={'text-gray-500'}
-                        >
-                            Business Information
-                        </Typography>
-                        <p className="text-gray-400 text-sm leading-6">
-                            Your information is required to make things clear
-                            and transparent
-                        </p>
-                    </div> */}
-
-                    <div className="w-4/6">
-                        {/* <TextInput
-                    label={'Business Name'}
-                    name={'businessName'}
-                    placeholder={'Industry Name...'}
-                    validationIcons
-                    required
-                /> */}
-                        {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
-                            <TextInput
-                                label={'Contact Person Number'}
-                                name={'contactPersonNumber'}
-                                placeholder={'Contact Person Number ...'}
-                                validationIcons
-                                required
-                            />
-                            <TextInput
-                                label={'Contact Person Name'}
-                                name={'contactPerson'}
-                                placeholder={'Contact Person Name...'}
-                                validationIcons
-                                required
-                            />
-                        </div> */}
-                    </div>
-                </div>
 
                 {/* Sector Information */}
                 <div className="flex gap-x-16 border-t py-4">
-                    {/* <div className="w-2/6">
-                        <Typography
-                            variant={'subtitle'}
-                            color={'text-gray-500'}
-                        >
-                            Sector Information
-                        </Typography>
-                        <p className="text-gray-400 text-sm leading-6">
-                            Select your eligible sectors, and related courses.
-                        </p>
-                    </div> */}
-
                     <div className="w-4/6 grid grid-cols-1 gap-y-4">
                         <div>
                             <Select

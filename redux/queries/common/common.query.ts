@@ -303,10 +303,12 @@ const {
     useGetAllStudentAssessmentFilesQuery,
 
     // ----- FIND WORKPLACE ----- //
-    useGetAllFindWorkplacesQuery,
-    useIndustriesStatusChangeMutation,
     useAddIndustryMutation,
     useFindIndustriesCountQuery,
+    useGetAllFindWorkplacesQuery,
+    useRemoveFutureIndustryMutation,
+    useIndustriesStatusChangeMutation,
+    useRemoveMultiFutureIndustryMutation,
 } = commonApi
 
 export const CommonApi = {
@@ -442,9 +444,11 @@ export const CommonApi = {
         useAllStudentAssessmentFiles: useGetAllStudentAssessmentFilesQuery,
     },
     FindWorkplace: {
-        useGetAllFindWorkplaces: useGetAllFindWorkplacesQuery,
-        useIndustriesStatusChange: useIndustriesStatusChangeMutation,
         useAddIndustry: useAddIndustryMutation,
         useFindIndustriesCount: useFindIndustriesCountQuery,
+        useGetAllFindWorkplaces: useGetAllFindWorkplacesQuery,
+        useIndustriesStatusChange: useIndustriesStatusChangeMutation,
+        useRemoveFutureIndustryMutation: useRemoveFutureIndustryMutation,
+        useRemoveMultiFutureIndustry: useRemoveMultiFutureIndustryMutation,
     },
 }

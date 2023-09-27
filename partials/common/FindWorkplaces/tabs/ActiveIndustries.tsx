@@ -6,55 +6,55 @@ import {
     LoadingAnimation,
     Table,
     TableAction,
-    TableActionOption,
     TechnicalError,
     Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaHandshake } from 'react-icons/fa'
+import { FaEdit, FaFileExport } from 'react-icons/fa'
 
-import { AdminApi, commonApi } from '@queries'
-import { Industry, IndustryStatus, UserStatus } from '@types'
+import { CommonApi, commonApi } from '@queries'
+import { Industry, IndustryStatus } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useRef, useState } from 'react'
-import { MdBlock, MdCall, MdOutlineFavorite } from 'react-icons/md'
+import { ReactElement, useEffect, useState } from 'react'
 import { FiLogIn } from 'react-icons/fi'
+import { MdBlock, MdOutlineFavorite, MdDelete } from 'react-icons/md'
 // import { IndustryCell, SectorCell } from './components'
 // import { BlockModal } from './modals'
 
 // hooks
 import { useActionModal } from '@hooks'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { FcCancel } from 'react-icons/fc'
-import { DoNotDisturbModal } from '../DoNotDisturbModal'
-import { DefaultModal } from '../DefaultModal'
-import { FavoriteModal } from '../FavoriteModal'
 import { AiFillCheckCircle, AiFillWarning } from 'react-icons/ai'
+import { DefaultModal } from '../DefaultModal'
+import { DoNotDisturbModal } from '../DoNotDisturbModal'
+import { FavoriteModal } from '../FavoriteModal'
+import {
+    DeleteFutureIndustryModal,
+    DeleteMultiFutureIndustryModal,
+} from '../modal'
+import { BiPencil } from 'react-icons/bi'
 
-export const ActiveIndustries = () => {
-    const selectInputRef = useRef()
-
+export const ActiveIndustries = ({
+    onSetIndustryData,
+}: {
+    onSetIndustryData: (val: any) => void
+}) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-
-    // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError } = commonApi.useGetAllFindWorkplacesQuery(
-        {
-            search: ``,
+    const { isLoading, data, isError } =
+        CommonApi.FindWorkplace.useGetAllFindWorkplaces({
+            search: '',
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
-        }
-    )
+        })
 
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
@@ -82,6 +82,24 @@ export const ActiveIndustries = () => {
             <FavoriteModal
                 industry={industry}
                 onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onDeleteFutureIndustry = (industry: any) => {
+        setModal(
+            <DeleteFutureIndustryModal
+                futureIndustry={industry}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
+    const onDeleteMultiFutureIndustry = (industry: any) => {
+        setModal(
+            <DeleteMultiFutureIndustryModal
+                futureIndustries={industry}
+                onCancel={onModalCancelClicked}
             />
         )
     }
@@ -121,6 +139,20 @@ export const ActiveIndustries = () => {
                     router.push(`/auth/signup/industry?step=account-info`)
                 },
                 Icon: FiLogIn,
+            },
+            {
+                text: 'Edit',
+                onClick: (futureIndustry: any) => {
+                    onSetIndustryData(futureIndustry)
+                },
+                Icon: BiPencil,
+            },
+            {
+                text: 'Delete',
+                onClick: (futureIndustry: any) => {
+                    onDeleteFutureIndustry(futureIndustry)
+                },
+                Icon: MdDelete,
             },
         ]
     }
@@ -174,8 +206,7 @@ export const ActiveIndustries = () => {
                             </div>
                         ) : (
                             <div className="flex items-center gap-x-2">
-                                {/* <p className="">Default</p> */}
-                                {/* <AiFillCheckCircle className="text-green-500" /> */}
+                                ----
                             </div>
                         )}
                     </div>
@@ -210,13 +241,14 @@ export const ActiveIndustries = () => {
         common: (ids: Industry[]) => (
             <ActionButton
                 onClick={() => {
-                    const arrayOfIds = ids.map((id: any) => id?.user.id)
-                    bulkAction({ ids: arrayOfIds, status: 'blocked' })
+                    const arrayOfIds = ids.map((id: any) => id?.id)
+                    onDeleteMultiFutureIndustry(arrayOfIds)
+                    // bulkAction({ ids: arrayOfIds, status: 'blocked' })
                 }}
-                Icon={MdBlock}
+                Icon={MdDelete}
                 variant="error"
             >
-                Block
+                Delete
             </ActionButton>
         ),
     }
@@ -224,7 +256,6 @@ export const ActiveIndustries = () => {
     return (
         <>
             {modal && modal}
-            {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'All Industries'}
