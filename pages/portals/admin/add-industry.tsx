@@ -30,6 +30,9 @@ const AddIndustry: NextPageWithLayout = () => {
     const [courseOptions, setCourseOptions] = useState([])
     const [courseLoading, setCourseLoading] = useState(false)
 
+    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(false)
+    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(false)
+
     const [storedData, setStoredData] = useState<any>(null)
 
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
@@ -171,14 +174,19 @@ const AddIndustry: NextPageWithLayout = () => {
     })
 
     const onSubmit = (values: any) => {
-        // const data = {
-        //     ...values,
-        //     // courses: values.courses.map((course: any) => course.value),
-        //     sectors: values.sectors.map((sector: any) => sector.value),
-        //     role: UserRoles.INDUSTRY,
-        // }
-        // SignUpUtils.setValuesToStorage(data)
-        // addIndustry(data)
+        if (!onAddressClicked) {
+            notification.error({
+                title: 'You must select on Address Dropdown',
+                description: 'You must select on Address Dropdown',
+            })
+        } else if (!onSuburbClicked) {
+            notification.error({
+                title: 'You must select on Suburb Dropdown',
+                description: 'You must select on Suburb Dropdown',
+            })
+        } else if (onAddressClicked && onSuburbClicked) {
+            // api call
+        }
     }
     return (
         <FormProvider {...formMethods}>
@@ -327,6 +335,13 @@ const AddIndustry: NextPageWithLayout = () => {
                                 placeholder={'Your Address Line 1...'}
                                 validationIcons
                                 placesSuggetions
+                                onChange={() => {
+                                    setOnAddressClicked(false)
+                                }}
+                                onPlaceSuggetions={{
+                                    placesSuggetions: onAddressClicked,
+                                    setIsPlaceSelected: setOnAddressClicked,
+                                }}
                             />
                         </div>
 
@@ -337,6 +352,13 @@ const AddIndustry: NextPageWithLayout = () => {
                                 placeholder={'Suburb...'}
                                 validationIcons
                                 placesSuggetions
+                                onChange={() => {
+                                    setOnSuburbClicked(false)
+                                }}
+                                onPlaceSuggetions={{
+                                    placesSuggetions: onSuburbClicked,
+                                    setIsPlaceSelected: setOnSuburbClicked,
+                                }}
                             />
 
                             <TextInput

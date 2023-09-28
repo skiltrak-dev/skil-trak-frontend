@@ -64,7 +64,14 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
     const filteredDataLength = checkFilteredDataLength(filter)
 
     useEffect(() => {
-        contextBar.setContent(<AddIndustry industryData={industryData} />)
+        contextBar.setContent(
+            <AddIndustry
+                industryData={industryData}
+                onSetIndustryData={() => {
+                    onSetIndustryData(null)
+                }}
+            />
+        )
         contextBar.show(false)
 
         return () => {
@@ -99,6 +106,9 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
                             itemPerPage={itemPerPage}
                             subAdmin={filteredIndustries}
                             setItemPerPage={setItemPerPage}
+                            onSetIndustryData={(data: any) => {
+                                onSetIndustryData(data)
+                            }}
                         />
                     )
                 )

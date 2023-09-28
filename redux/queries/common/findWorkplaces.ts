@@ -42,6 +42,14 @@ export const findWorkplaceEndpoints = (
         }),
         invalidatesTags: ['Industries'],
     }),
+    updateIndustry: builder.mutation<any, any>({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}/${id}`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['Industries'],
+    }),
     removeFutureIndustry: builder.mutation<any, any>({
         query: (id) => ({
             url: `${PREFIX}/remove/${id}`,

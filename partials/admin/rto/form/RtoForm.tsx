@@ -34,6 +34,9 @@ export const RtoForm = ({ onSubmit }: { onSubmit: any }) => {
     const [courseOptions, setCourseOptions] = useState<OptionType[]>([])
     const [courseLoading, setCourseLoading] = useState(false)
 
+    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(false)
+    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(false)
+
     const [storedData, setStoredData] = useState<any>(null)
 
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
@@ -201,11 +204,27 @@ export const RtoForm = ({ onSubmit }: { onSubmit: any }) => {
         defaultValues: storedData || initialValues,
     })
 
+    const onHandleSubmit = (values: any) => {
+        if (!onAddressClicked) {
+            notification.error({
+                title: 'You must select on Address Dropdown',
+                description: 'You must select on Address Dropdown',
+            })
+        } else if (!onSuburbClicked) {
+            notification.error({
+                title: 'You must select on Suburb Dropdown',
+                description: 'You must select on Suburb Dropdown',
+            })
+        } else if (onAddressClicked && onSuburbClicked) {
+            onSubmit(values)
+        }
+    }
+
     return (
         <FormProvider {...formMethods}>
             <form
                 className="flex flex-col gap-y-8"
-                onSubmit={formMethods.handleSubmit(onSubmit)}
+                onSubmit={formMethods.handleSubmit(onHandleSubmit)}
             >
                 <div className="w-4/6 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 mt-2">
                     <TextInput
@@ -350,6 +369,13 @@ export const RtoForm = ({ onSubmit }: { onSubmit: any }) => {
                             placeholder={'Your Address Line 1...'}
                             validationIcons
                             placesSuggetions
+                            onChange={() => {
+                                setOnAddressClicked(false)
+                            }}
+                            onPlaceSuggetions={{
+                                placesSuggetions: onAddressClicked,
+                                setIsPlaceSelected: setOnAddressClicked,
+                            }}
                         />
 
                         <TextInput
@@ -374,6 +400,13 @@ export const RtoForm = ({ onSubmit }: { onSubmit: any }) => {
                             placeholder={'Suburb...'}
                             validationIcons
                             placesSuggetions
+                            onChange={() => {
+                                setOnSuburbClicked(false)
+                            }}
+                            onPlaceSuggetions={{
+                                placesSuggetions: onSuburbClicked,
+                                setIsPlaceSelected: setOnSuburbClicked,
+                            }}
                         />
 
                         <TextInput

@@ -17,12 +17,8 @@ export const StepAccountInfo = () => {
     }
 
     return (
-        <div>
-            <div>
-                <div className="w-full mt-4 pb-10">
-                    <StudentSignUpForm onSubmit={onSubmit} />
-                </div>
-            </div>
+        <div className="w-full mt-4 pb-10">
+            <StudentSignUpForm onSubmit={onSubmit} />
         </div>
     )
 }
