@@ -265,6 +265,20 @@ const RtoDetail: NextPageWithLayout = () => {
                                     onViewPassword({ user: rto?.data?.user })
                                 }}
                             />
+                            <Button
+                                text="Book Appointment"
+                                variant="info"
+                                onClick={() => {
+                                    router.push({
+                                        pathname:
+                                            '/portals/admin/appointment-type/create-appointment',
+                                        query: {
+                                            rto: rto?.data?.user?.id,
+                                        },
+                                    })
+                                }}
+                                disabled={!rto?.isSuccess}
+                            />
                             {statusBaseActions()}
                         </div>
                     </div>

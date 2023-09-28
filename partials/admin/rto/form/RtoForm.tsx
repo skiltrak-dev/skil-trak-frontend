@@ -34,8 +34,8 @@ export const RtoForm = ({ onSubmit }: { onSubmit: any }) => {
     const [courseOptions, setCourseOptions] = useState<OptionType[]>([])
     const [courseLoading, setCourseLoading] = useState(false)
 
-    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(false)
-    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(false)
+    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(true)
+    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
     const [storedData, setStoredData] = useState<any>(null)
 

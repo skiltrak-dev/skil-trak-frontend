@@ -51,8 +51,8 @@ export const IndustryProfileFrom = ({
     const [courseOptions, setCourseOptions] = useState([])
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
 
-    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(false)
-    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(false)
+    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(true)
+    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
     const { onUpdatePassword, passwordModal } = useActionModal()
 
@@ -489,6 +489,14 @@ export const IndustryProfileFrom = ({
                                         placeholder={'Your Address Line 1...'}
                                         validationIcons
                                         placesSuggetions
+                                        onChange={() => {
+                                            setOnAddressClicked(false)
+                                        }}
+                                        onPlaceSuggetions={{
+                                            placesSuggetions: onAddressClicked,
+                                            setIsPlaceSelected:
+                                                setOnAddressClicked,
+                                        }}
                                     />
                                 </div>
 
@@ -499,6 +507,14 @@ export const IndustryProfileFrom = ({
                                         placeholder={'Suburb...'}
                                         validationIcons
                                         placesSuggetions
+                                        onChange={() => {
+                                            setOnSuburbClicked(false)
+                                        }}
+                                        onPlaceSuggetions={{
+                                            placesSuggetions: onSuburbClicked,
+                                            setIsPlaceSelected:
+                                                setOnSuburbClicked,
+                                        }}
                                     />
 
                                     <TextInput

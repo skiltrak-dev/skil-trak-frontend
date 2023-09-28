@@ -42,9 +42,6 @@ export const AddIndustry = ({
 
     const [sectorOptions, setSectorOptions] = useState<any>([])
 
-    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(false)
-    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(false)
-
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
     const [selectedSector, setSelectedSector] = useState<number[] | null>(null)
 
@@ -60,15 +57,17 @@ export const AddIndustry = ({
     }
     const validationSchema = yup.object({
         // Profile Information
-        businessName: yup
-            .string()
-            .required('Must provide your name'),
+        businessName: yup.string().required('Must provide your name'),
         email: yup
             .string()
             .email('Invalid Email')
             .required('Must provide email'),
         phone: yup.string().required('Must provide phone number'),
-        sector: yup.object().nullable(true).required(),
+        sector: yup
+            .array()
+            .of(yup.number()) // Specify that the array should contain numbers
+            .required('This field is required') // Make the array field required
+            .min(1, 'At least one number is required'),
         address: yup.string().required('Must provide address'),
     })
     const formMethods = useForm({
@@ -166,21 +165,6 @@ export const AddIndustry = ({
         }
     }
 
-    const onHandleSubmit = (values: any) => {
-        if (!onAddressClicked) {
-            notification.error({
-                title: 'You must select on Address Dropdown',
-                description: 'You must select on Address Dropdown',
-            })
-        } else if (!onSuburbClicked) {
-            notification.error({
-                title: 'You must select on Suburb Dropdown',
-                description: 'You must select on Suburb Dropdown',
-            })
-        } else if (onAddressClicked && onSuburbClicked) {
-            onSubmit(values)
-        }
-    }
     return (
         <>
             <ShowErrorNotifications result={updateResult} />
@@ -188,7 +172,7 @@ export const AddIndustry = ({
             <FormProvider {...formMethods}>
                 <form
                     className="flex flex-col"
-                    onSubmit={formMethods.handleSubmit(onHandleSubmit)}
+                    onSubmit={formMethods.handleSubmit(onSubmit)}
                 >
                     <div className="">
                         <div className="">
@@ -245,13 +229,6 @@ export const AddIndustry = ({
                                     placeholder={'Your Address Line 1...'}
                                     validationIcons
                                     placesSuggetions
-                                    onChange={() => {
-                                        setOnAddressClicked(false)
-                                    }}
-                                    onPlaceSuggetions={{
-                                        placesSuggetions: onAddressClicked,
-                                        setIsPlaceSelected: setOnAddressClicked,
-                                    }}
                                 />
                                 <TextInput
                                     label={'Website (Optional)'}
