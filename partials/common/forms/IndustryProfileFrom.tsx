@@ -51,6 +51,9 @@ export const IndustryProfileFrom = ({
     const [courseOptions, setCourseOptions] = useState([])
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
 
+    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(false)
+    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(false)
+
     const { onUpdatePassword, passwordModal } = useActionModal()
 
     const sectorOptions = sectorResponse?.data
@@ -233,12 +236,25 @@ export const IndustryProfileFrom = ({
         }
     }, [courseValues])
 
-    const onFormSubmit = (values: any) => {
-        onSubmit({
-            ...values,
-            isPartner: values?.isPartner === 'yes' ? true : false,
-            studentCapacity: isPartner === 'yes' ? values?.studentCapacity : 0,
-        })
+    const onHandleSubmit = (values: any) => {
+        if (!onAddressClicked) {
+            notification.error({
+                title: 'You must select on Address Dropdown',
+                description: 'You must select on Address Dropdown',
+            })
+        } else if (!onSuburbClicked) {
+            notification.error({
+                title: 'You must select on Suburb Dropdown',
+                description: 'You must select on Suburb Dropdown',
+            })
+        } else if (onAddressClicked && onSuburbClicked) {
+            onSubmit({
+                ...values,
+                isPartner: values?.isPartner === 'yes' ? true : false,
+                studentCapacity:
+                    isPartner === 'yes' ? values?.studentCapacity : 0,
+            })
+        }
     }
 
     return (
@@ -259,7 +275,7 @@ export const IndustryProfileFrom = ({
                 <FormProvider {...formMethods}>
                     <form
                         className="flex flex-col gap-y-4"
-                        onSubmit={formMethods.handleSubmit(onFormSubmit)}
+                        onSubmit={formMethods.handleSubmit(onHandleSubmit)}
                     >
                         {/* Personal Information */}
                         <div className="flex gap-x-16 border-t py-4">

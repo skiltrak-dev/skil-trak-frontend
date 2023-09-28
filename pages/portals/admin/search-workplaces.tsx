@@ -11,10 +11,11 @@ import { useContextBar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { ActiveIndustries, AddIndustry } from '@partials/common'
 import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
-import { CommonApi, commonApi } from '@queries'
+import { CommonApi } from '@queries'
 import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
 import { checkFilteredDataLength } from '@utils'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
+
 type Props = {}
 const filterKeys = ['businessName', 'address', 'sector', 'email', 'phone']
 const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
@@ -61,7 +62,14 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
     const filteredDataLength = checkFilteredDataLength(filter)
 
     useEffect(() => {
-        contextBar.setContent(<AddIndustry industryData={industryData} />)
+        contextBar.setContent(
+            <AddIndustry
+                industryData={industryData}
+                onSetIndustryData={() => {
+                    onSetIndustryData(null)
+                }}
+            />
+        )
         contextBar.show(false)
 
         return () => {
@@ -96,6 +104,9 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
                             itemPerPage={itemPerPage}
                             subAdmin={filteredIndustries}
                             setItemPerPage={setItemPerPage}
+                            onSetIndustryData={(data: any) => {
+                                onSetIndustryData(data)
+                            }}
                         />
                     )
                 )
@@ -120,4 +131,5 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
 SearchWorkplaces.getLayout = (page: ReactElement) => {
     return <AdminLayout>{page}</AdminLayout>
 }
+
 export default SearchWorkplaces

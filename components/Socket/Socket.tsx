@@ -133,7 +133,6 @@ export const Socket = ({ children }: any) => {
             socket?.on(
                 SocketNotificationsEvents.FeedBackNotification,
                 (notify: any) => {
-                    console.log({ notify })
                     seteventListener({
                         eventName:
                             SocketNotificationsEvents.FeedBackNotification,

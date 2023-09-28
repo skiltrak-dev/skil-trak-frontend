@@ -43,11 +43,13 @@ import moment from 'moment'
 import { AiOutlineWarning } from 'react-icons/ai'
 
 export const FilteredStudents = ({
+    filter,
     student,
     setPage,
     itemPerPage,
     setItemPerPage,
 }: {
+    filter: any
     student: any
     setPage: any
     itemPerPage: any
@@ -229,7 +231,10 @@ export const FilteredStudents = ({
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
             cell: ({ row }) => (
-                <CaseOfficerAssignedStudent student={row.original} />
+                <CaseOfficerAssignedStudent
+                    student={row.original}
+                    workplaceFilter={filter?.currentStatus}
+                />
             ),
         },
         {

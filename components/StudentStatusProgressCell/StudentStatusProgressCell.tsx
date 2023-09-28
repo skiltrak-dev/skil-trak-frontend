@@ -66,7 +66,6 @@ export const StudentStatusProgressCell = ({
     step: 1 | 2 | 3 | 4 | number
     appliedIndustry: any
 }) => {
-    console.log('Place', appliedIndustry)
     const contextBar = useContextBar()
     // const currentStatus = StudentProgress[status]
     const currentStatus: StudentPrgressStatusDetail = Object.values(
