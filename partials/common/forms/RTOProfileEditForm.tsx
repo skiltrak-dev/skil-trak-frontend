@@ -41,6 +41,8 @@ export const RTOProfileEditForm = ({
     const [sectors, setSectors] = useState<any | null>(null)
     const [courseOptions, setCourseOptions] = useState([])
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
+    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(true)
+    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
     const [isPlaceSelected, setIsPlaceSelected] = useState<{
         isFocused: boolean
@@ -208,27 +210,19 @@ export const RTOProfileEditForm = ({
         }
     }, [profile, sectorResponse])
 
-    const handleSubmit = (values: any) => {
-        if (!isPlaceSelected.isFocused && !isSuburbSelected.isFocused) {
-            onSubmit(values)
-        }
-        if (
-            (isPlaceSelected.isFocused && isPlaceSelected.isAddressSelected) ||
-            (isSuburbSelected.isFocused && isSuburbSelected.isSuburbSelected)
-        ) {
-            onSubmit(values)
-        }
-        if (!isPlaceSelected.isFocused) {
-            notification.warning({
-                title: 'Select the address from dropdown',
-                description: 'Select the address from dropdown',
+    const onHandleSubmit = (values: any) => {
+        if (!onAddressClicked) {
+            notification.error({
+                title: 'You must select on Address Dropdown',
+                description: 'You must select on Address Dropdown',
             })
-        }
-        if (!isSuburbSelected.isFocused) {
-            notification.warning({
-                title: 'Select the Suburb from dropdown',
-                description: 'Select the Suburb from dropdown',
+        } else if (!onSuburbClicked) {
+            notification.error({
+                title: 'You must select on Suburb Dropdown',
+                description: 'You must select on Suburb Dropdown',
             })
+        } else if (onAddressClicked && onSuburbClicked) {
+            onSubmit(values)
         }
     }
 
@@ -246,7 +240,7 @@ export const RTOProfileEditForm = ({
                                 <form
                                     className="flex flex-col gap-y-4"
                                     onSubmit={formMethods.handleSubmit(
-                                        handleSubmit
+                                        onHandleSubmit
                                     )}
                                 >
                                     {/* Personal Information */}
@@ -392,21 +386,15 @@ export const RTOProfileEditForm = ({
                                                     'Your Address Line 1...'
                                                 }
                                                 validationIcons
+                                                placesSuggetions
+                                                onChange={() => {
+                                                    setOnAddressClicked(false)
+                                                }}
                                                 onPlaceSuggetions={{
-                                                    placesSuggetions: true,
-                                                    setIsPlaceSelected: (
-                                                        value: boolean
-                                                    ) => {
-                                                        setIsPlaceSelected(
-                                                            (
-                                                                isPlaceSelected: any
-                                                            ) => ({
-                                                                ...isPlaceSelected,
-                                                                isAddressSelected:
-                                                                    value,
-                                                            })
-                                                        )
-                                                    },
+                                                    placesSuggetions:
+                                                        onAddressClicked,
+                                                    setIsPlaceSelected:
+                                                        setOnAddressClicked,
                                                 }}
                                                 onFocus={(e: any) => {
                                                     setIsPlaceSelected({
@@ -423,10 +411,15 @@ export const RTOProfileEditForm = ({
                                                 name={'suburb'}
                                                 placeholder={'Suburb...'}
                                                 validationIcons
+                                                placesSuggetions
+                                                onChange={() => {
+                                                    setOnSuburbClicked(false)
+                                                }}
                                                 onPlaceSuggetions={{
-                                                    placesSuggetions: true,
+                                                    placesSuggetions:
+                                                        onSuburbClicked,
                                                     setIsPlaceSelected:
-                                                        setIsSuburbSelected,
+                                                        setOnSuburbClicked,
                                                 }}
                                             />
 

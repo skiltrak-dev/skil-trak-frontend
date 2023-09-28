@@ -59,6 +59,7 @@ const AppointmentTypeAddPage: NextPageWithLayout = () => {
             <Card layout="wrap">
                 <div className="">
                     <AppointmentTypeForm
+                        result={addResult}
                         onSubmit={onSubmit}
                         emailContent={emailContent}
                         setEmailContent={setEmailContent}

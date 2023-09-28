@@ -33,6 +33,9 @@ export const RtoSignUpForm = ({
     const sectorResponse = AuthApi.useSectors({})
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
+    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(true)
+    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
+
     const [courseOptions, setCourseOptions] = useState<OptionType[]>([])
     const [courseLoading, setCourseLoading] = useState(false)
 
@@ -165,11 +168,27 @@ export const RtoSignUpForm = ({
         resolver: yupResolver(validationSchema),
     })
 
+    const onHandleSubmit = (values: any) => {
+        if (!onAddressClicked) {
+            notification.error({
+                title: 'You must select on Address Dropdown',
+                description: 'You must select on Address Dropdown',
+            })
+        } else if (!onSuburbClicked) {
+            notification.error({
+                title: 'You must select on Suburb Dropdown',
+                description: 'You must select on Suburb Dropdown',
+            })
+        } else if (onAddressClicked && onSuburbClicked) {
+            onSubmit(values)
+        }
+    }
+
     return (
         <FormProvider {...formMethods}>
             <form
                 className="flex flex-col gap-y-4"
-                onSubmit={formMethods.handleSubmit(onSubmit)}
+                onSubmit={formMethods.handleSubmit(onHandleSubmit)}
             >
                 {/* Personal Information */}
                 <div className="flex gap-x-16 border-t py-4">
@@ -347,6 +366,13 @@ export const RtoSignUpForm = ({
                                 placeholder={'Your Address Line 1...'}
                                 validationIcons
                                 placesSuggetions
+                                onChange={() => {
+                                    setOnAddressClicked(false)
+                                }}
+                                onPlaceSuggetions={{
+                                    placesSuggetions: onAddressClicked,
+                                    setIsPlaceSelected: setOnAddressClicked,
+                                }}
                             />
 
                             <TextInput
@@ -372,6 +398,13 @@ export const RtoSignUpForm = ({
                                 placeholder={'Suburb...'}
                                 validationIcons
                                 placesSuggetions
+                                onChange={() => {
+                                    setOnSuburbClicked(false)
+                                }}
+                                onPlaceSuggetions={{
+                                    placesSuggetions: onSuburbClicked,
+                                    setIsPlaceSelected: setOnSuburbClicked,
+                                }}
                             />
 
                             <TextInput

@@ -36,7 +36,7 @@ export const PersonalInfoForm = ({
 
     const [work, setWork] = useState<string>('')
     const [qualification, setQualification] = useState<string>('')
-    const [isPlaceSelected, setIsPlaceSelected] = useState<boolean>(false)
+    const [onLocationClicked, setOnLocationClicked] = useState<boolean>(true)
 
     const { notification } = useNotification()
     useEffect(() => {
@@ -172,16 +172,15 @@ export const PersonalInfoForm = ({
     // const { ref: preferableLocationRef, ...rest } =
     //     formMethods.register('preferableLocation')
 
-    const handleSubmit = (values: any) => {
-        // if (isPlaceSelected) {
-        //     onSubmit(values)
-        // } else {
-        //     notification.warning({
-        //         title: 'Select on the suggested locations',
-        //         description: 'Select on the suggestions below location',
-        //     })
-        // }
-        onSubmit(values)
+    const onHandleSubmit = (values: any) => {
+        if (!onLocationClicked) {
+            notification.error({
+                title: 'You must select on Address Dropdown',
+                description: 'You must select on Address Dropdown',
+            })
+        } else if (onLocationClicked) {
+            onSubmit(values)
+        }
     }
 
     return (
@@ -192,7 +191,7 @@ export const PersonalInfoForm = ({
 
             <Card>
                 <FormProvider {...formMethods}>
-                    <form onSubmit={formMethods.handleSubmit(handleSubmit)}>
+                    <form onSubmit={formMethods.handleSubmit(onHandleSubmit)}>
                         <div>
                             <Select
                                 id="courses"
@@ -289,12 +288,13 @@ export const PersonalInfoForm = ({
                                 id={'map'}
                                 required
                                 placeholder="Where would you want to locate your self? (Suburb)"
-                                onBlur={() => {
-                                    setIsPlaceSelected(false)
+                                placesSuggetions
+                                onChange={() => {
+                                    setOnLocationClicked(false)
                                 }}
                                 onPlaceSuggetions={{
-                                    placesSuggetions: true,
-                                    setIsPlaceSelected,
+                                    placesSuggetions: onLocationClicked,
+                                    setIsPlaceSelected: setOnLocationClicked,
                                 }}
                             />
 

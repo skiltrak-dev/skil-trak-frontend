@@ -3,6 +3,7 @@ import {
     Checkbox,
     ContentEditor,
     RadioButton,
+    RadioGroup,
     TextInput,
     Typography,
 } from '@components'
@@ -19,6 +20,7 @@ interface AppointmentTypeFormProps {
     initialValues?: AppointmentType
     emailContent: string
     setEmailContent: Function
+    result: any
 }
 
 export const AppointmentTypeForm = ({
@@ -27,6 +29,7 @@ export const AppointmentTypeForm = ({
     initialValues,
     emailContent,
     setEmailContent,
+    result,
 }: AppointmentTypeFormProps) => {
     const validationSchema = yup.object({
         duration: yup.string().required('Duration is required'),
@@ -78,27 +81,24 @@ export const AppointmentTypeForm = ({
                         />
 
                         <div>
-                            <div className="mb-2">
-                                <Typography variant={'label'}>
-                                    Appointment Type for
-                                </Typography>
-                            </div>
                             <div className="flex items-center gap-x-4">
-                                <RadioButton
-                                    name={'appointmentFor'}
-                                    value={'student'}
-                                    label={'Student'}
-                                    defaultChecked
-                                />
-                                <RadioButton
-                                    name={'appointmentFor'}
-                                    value={'rto'}
-                                    label={'RTO'}
-                                />
-                                <RadioButton
-                                    name={'appointmentFor'}
-                                    value={'industry'}
-                                    label={'Industry'}
+                                <RadioGroup
+                                    name="appointmentFor"
+                                    label={'Appointment Type for'}
+                                    options={[
+                                        {
+                                            label: 'Student',
+                                            value: 'student',
+                                        },
+                                        {
+                                            label: 'RTO',
+                                            value: 'rto',
+                                        },
+                                        {
+                                            label: 'Industry',
+                                            value: 'industry',
+                                        },
+                                    ]}
                                 />
                             </div>
                         </div>
@@ -148,8 +148,8 @@ export const AppointmentTypeForm = ({
                     <div className="mt-4">
                         <Button
                             submit
-                            // disabled={!(isValid && dirty)}
-                            // loading={loginResult.isLoading}
+                            loading={result.isLoading}
+                            disabled={result.isLoading}
                         >
                             {edit ? 'Update' : 'Add'} Appointment Type
                         </Button>

@@ -50,8 +50,8 @@ export const StudentSignUpForm = ({
 
     const [courseValues, setCourseValues] = useState<SelectOption[]>([])
 
-    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(false)
-    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(false)
+    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(true)
+    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
     const sectorOptions = sectorResponse.data?.length
         ? sectorResponse.data?.map((sector: any) => ({

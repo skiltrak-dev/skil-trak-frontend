@@ -61,6 +61,7 @@ export const ActiveIndustries = ({
     const onModalCancelClicked = () => {
         setModal(null)
     }
+
     const onDoNotDisturbClicked = (industry: Industry) => {
         setModal(
             <DoNotDisturbModal

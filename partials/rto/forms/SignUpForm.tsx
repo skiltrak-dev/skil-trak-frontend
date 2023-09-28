@@ -47,8 +47,8 @@ export const RtoSignUpForm = ({
 
     const [storedData, setStoredData] = useState<any>(null)
 
-    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(false)
-    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(false)
+    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(true)
+    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
 
