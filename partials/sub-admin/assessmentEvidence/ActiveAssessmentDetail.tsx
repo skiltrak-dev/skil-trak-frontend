@@ -388,16 +388,6 @@ export const ActiveAssessmentDetail = ({
             (f: any) => f?.studentResponse[0]?.files?.length > 0
         )
 
-    console.log({
-        isFilesUploaded,
-    })
-    console.log({
-        isFilesUploaded: getFolders?.data?.filter(
-            (f: any) => f?.studentResponse[0]?.files?.length > 0
-        ),
-    })
-    //
-
     return (
         <div className="mb-10">
             <ShowErrorNotifications result={uploadDocsResult} />

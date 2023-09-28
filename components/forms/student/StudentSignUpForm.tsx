@@ -345,7 +345,6 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                         : courseOptions?.length === 0
                                 }
                                 validationIcons
-                                
                             />
                         </div>
                     </div>

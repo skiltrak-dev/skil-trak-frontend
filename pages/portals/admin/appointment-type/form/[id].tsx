@@ -71,9 +71,10 @@ const AppointmentTypeEditPage: NextPageWithLayout = () => {
                     <AppointmentTypeForm
                         edit
                         onSubmit={onSubmit}
-                        emailContent={data?.emailContent || ''}
-                        setEmailContent={setEmailContent}
                         initialValues={data}
+                        result={updateResult}
+                        setEmailContent={setEmailContent}
+                        emailContent={data?.emailContent || ''}
                     />
                 ) : (
                     <LoadingAnimation />
