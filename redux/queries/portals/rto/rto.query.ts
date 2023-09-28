@@ -127,6 +127,7 @@ export const {
     useGetAppointmentsReportQuery,
     useGetReportedStudentsReportQuery,
     useGetReportDownloadLinkQuery,
+    useGetExportStudentListQuery,
 
     // --- WORKPLACES --- //
     useGetRTOWorkplacesQuery,
@@ -159,6 +160,7 @@ export const RtoApi = {
         useAppointmentsReport: useGetAppointmentsReportQuery,
         useReportedStudentsReport: useGetReportedStudentsReportQuery,
         useReportDownloadLink: useGetReportDownloadLinkQuery,
+        useExportStudentList: useGetExportStudentListQuery,
     },
     Coordinator: {
         useCreate: useCoordinatorCreateMutation,

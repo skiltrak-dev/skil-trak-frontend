@@ -20,20 +20,31 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
-import { useGetRtoStudentsQuery } from '@queries'
+import { useGetRtoStudentsQuery, RtoApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import { studentsListWorkplace } from '@utils'
+import { AuthUtils, studentsListWorkplace } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { SectorCell, StudentCellInfo } from './components'
 import { IndustryCell } from './components/IndustryCell'
 import { ArchiveModal, BlockModal } from './modals'
-
+import { saveAs } from 'file-saver'
+import { getUserCredentials } from '@utils'
 export const ApprovedStudent = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [changeExpiryData, setChangeExpiryData] = useState(false)
+    const [isExcelDownload, setIsExcelDownload] = useState<boolean>(false)
+    const userId = getUserCredentials()?.id
+
+    const exportList = RtoApi.Students.useExportStudentList(
+        {
+            status: `active`,
+            userId,
+        },
+        { skip: !isExcelDownload }
+    )
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -48,6 +59,28 @@ export const ApprovedStudent = () => {
             refetch()
         }
     }, [changeExpiryData])
+
+    // Download excel
+    useEffect(() => {
+        if (exportList?.data?.file?.data && exportList?.isSuccess) {
+            const buffer = Buffer.from(exportList.data.file.data)
+            const blob = new Blob([buffer], {
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            })
+            saveAs(blob)
+            setIsExcelDownload(false)
+        }
+    }, [exportList?.data, exportList?.isSuccess])
+
+    useEffect(() => {
+        if (exportList?.isError) {
+            setIsExcelDownload(false)
+        }
+    }, [exportList?.isError])
+
+    const handleDownloadExcel = () => {
+        setIsExcelDownload(true)
+    }
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -215,6 +248,8 @@ export const ApprovedStudent = () => {
         ),
     }
 
+    console.log('Rto Id', data?.data[0]?.rto?.id)
+
     return (
         <>
             {modal && modal}
@@ -225,11 +260,27 @@ export const ApprovedStudent = () => {
                 >
                     {data && data?.data.length ? (
                         <>
-                            <Button
+                            {/* <Button
                                 text="Export"
                                 variant="action"
                                 Icon={FaFileExport}
-                            />
+                                onClick={handleDownloadExcel}
+                                loading={exportList?.isLoading}
+                                disabled={exportList?.isLoading}
+                            /> */}
+                            <a
+                                href={`${process.env.NEXT_PUBLIC_END_POINT}/rtos/students-list/download/${userId}?status=active
+                        `}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                {' '}
+                                <Button
+                                    text={'Export'}
+                                    variant={'action'}
+                                    Icon={FaFileExport}
+                                />
+                            </a>
                         </>
                     ) : null}
                 </PageHeading>

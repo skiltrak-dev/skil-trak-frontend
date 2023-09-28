@@ -24,6 +24,7 @@ import {
     WorkplaceCurrentStatus,
     checkStudentStatus,
     getStudentWorkplaceAppliedIndustry,
+    getUserCredentials,
     studentsListWorkplace,
 } from '@utils'
 import { useRouter } from 'next/router'
@@ -39,7 +40,7 @@ export const ArchivedStudent = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [changeExpiryData, setChangeExpiryData] = useState(false)
-
+    const userId = getUserCredentials()?.id
     const { isLoading, data, isError, refetch } = useGetRtoStudentsQuery({
         search: `status:${UserStatus.Archived}`,
         skip: itemPerPage * page - itemPerPage,
@@ -243,11 +244,17 @@ export const ArchivedStudent = () => {
             >
                 {data && data?.data.length ? (
                     <>
-                        <Button
-                            text="Export"
-                            variant="action"
-                            Icon={FaFileExport}
-                        />
+                        <a
+                            href={`${process.env.NEXT_PUBLIC_END_POINT}/rtos/students-list/download/${userId}?status=expired`}
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <Button
+                                text={'Export'}
+                                variant={'action'}
+                                Icon={FaFileExport}
+                            />
+                        </a>
                     </>
                 ) : null}
             </PageHeading>
