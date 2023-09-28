@@ -248,8 +248,6 @@ export const ApprovedStudent = () => {
         ),
     }
 
-    console.log('Rto Id', data?.data[0]?.rto?.id)
-
     return (
         <>
             {modal && modal}
