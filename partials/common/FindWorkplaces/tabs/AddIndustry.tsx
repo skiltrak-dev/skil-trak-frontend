@@ -60,22 +60,15 @@ export const AddIndustry = ({
     }
     const validationSchema = yup.object({
         // Profile Information
-        businessName: yup.string().required('Must provide your name'),
-
+        businessName: yup
+            .string()
+            .required('Must provide your name'),
         email: yup
             .string()
             .email('Invalid Email')
             .required('Must provide email'),
-
         phone: yup.string().required('Must provide phone number'),
-
-        sector: yup
-            .array()
-            .of(yup.number().required('Sector is required'))
-            .required('At least one Sector is required'),
-        // sector: yup.number().required('Sector is required'),
-
-        // Address Information
+        sector: yup.object().nullable(true).required(),
         address: yup.string().required('Must provide address'),
     })
     const formMethods = useForm({
