@@ -293,6 +293,7 @@ const Students: NextPageWithLayout = (props: Props) => {
                 ) : (
                     filteredStudents.isSuccess && (
                         <FilteredStudents
+                            filter={filter}
                             setPage={setPage}
                             itemPerPage={itemPerPage}
                             student={filteredStudents}

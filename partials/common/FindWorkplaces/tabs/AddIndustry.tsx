@@ -11,8 +11,24 @@ import { SignUpUtils, isEmailValid } from '@utils'
 import { Button, Select, ShowErrorNotifications, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
-import { OptionType } from '@types'
-export const AddIndustry = ({ industryData }: { industryData: any }) => {
+import { OptionType, Sector } from '@types'
+
+const FormKeys = {
+    BusinessName: 'businessName',
+    Email: 'email',
+    Sector: 'sector',
+    Phone: 'phone',
+    Address: 'address',
+    Website: 'website',
+}
+
+export const AddIndustry = ({
+    industryData,
+    onSetIndustryData,
+}: {
+    industryData: any
+    onSetIndustryData: () => void
+}) => {
     const router = useRouter()
 
     const { notification } = useNotification()
@@ -20,13 +36,17 @@ export const AddIndustry = ({ industryData }: { industryData: any }) => {
     const sectorResponse = AuthApi.useSectors({})
     const [addIndustry, addIndustryResult] =
         CommonApi.FindWorkplace.useAddIndustry()
+    const [update, updateResult] = CommonApi.FindWorkplace.useUpdateIndustry()
 
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
     const [sectorOptions, setSectorOptions] = useState<any>([])
 
+    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(false)
+    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(false)
+
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
-    const [selectedSector, setSelectedSector] = useState<number | null>(null)
+    const [selectedSector, setSelectedSector] = useState<number[] | null>(null)
 
     const onEmailChange = (e: any) => {
         _debounce(() => {
@@ -38,7 +58,6 @@ export const AddIndustry = ({ industryData }: { industryData: any }) => {
             }
         }, 300)()
     }
-    console.log({ addIndustryResult })
     const validationSchema = yup.object({
         // Profile Information
         businessName: yup
@@ -71,17 +90,31 @@ export const AddIndustry = ({ industryData }: { industryData: any }) => {
             let obj: any = {}
             keys.forEach((key: string) => {
                 obj[key as keyof typeof obj] =
-                    industryData[key as keyof typeof industryData]
+                    key === 'sector'
+                        ? industryData[key as keyof typeof industryData]?.map(
+                              (sector: Sector) => sector?.id
+                          )
+                        : industryData[key as keyof typeof industryData]
             })
 
             Object.entries(obj)?.forEach(([key, value]: any) => {
                 formMethods.setValue(key, value)
             })
-            setSelectedSector(industryData?.sector?.id)
+            setSelectedSector(
+                industryData?.sector?.map((sector: Sector) => sector?.id)
+            )
         }
     }, [industryData])
 
-    console.log({ industryData })
+    const resetFormValues = () => {
+        let obj: any = {}
+        Object.values(FormKeys).forEach((val: string, i: number) => {
+            val !== FormKeys.Sector && (obj[val] = '')
+        })
+        obj[FormKeys.Sector] = formMethods.getValues(FormKeys.Sector)
+
+        formMethods.reset(obj)
+    }
 
     useEffect(() => {
         if (addIndustryResult?.isSuccess) {
@@ -89,9 +122,20 @@ export const AddIndustry = ({ industryData }: { industryData: any }) => {
                 title: 'Industry Added',
                 description: `Industry  has been added successfully.`,
             })
-            formMethods.reset()
+            resetFormValues()
         }
     }, [addIndustryResult])
+
+    useEffect(() => {
+        if (updateResult?.isSuccess) {
+            notification.warning({
+                title: 'Industry Updated',
+                description: `Industry  has been Updated successfully.`,
+            })
+            resetFormValues()
+            onSetIndustryData()
+        }
+    }, [updateResult])
 
     useEffect(() => {
         if (sectorResponse.data?.length) {
@@ -114,27 +158,44 @@ export const AddIndustry = ({ industryData }: { industryData: any }) => {
     }, [emailCheckResult])
 
     const onSubmit = (values: any) => {
-        const data = {
-            ...values,
-            sector: values.sector.value,
-        }
         SignUpUtils.setValuesToStorage(values)
-        addIndustry(data)
+        if (industryData) {
+            update({ ...values, id: industryData?.id })
+        } else {
+            addIndustry(values)
+        }
+    }
+
+    const onHandleSubmit = (values: any) => {
+        if (!onAddressClicked) {
+            notification.error({
+                title: 'You must select on Address Dropdown',
+                description: 'You must select on Address Dropdown',
+            })
+        } else if (!onSuburbClicked) {
+            notification.error({
+                title: 'You must select on Suburb Dropdown',
+                description: 'You must select on Suburb Dropdown',
+            })
+        } else if (onAddressClicked && onSuburbClicked) {
+            onSubmit(values)
+        }
     }
     return (
         <>
+            <ShowErrorNotifications result={updateResult} />
             <ShowErrorNotifications result={addIndustryResult} />
             <FormProvider {...formMethods}>
                 <form
                     className="flex flex-col"
-                    onSubmit={formMethods.handleSubmit(onSubmit)}
+                    onSubmit={formMethods.handleSubmit(onHandleSubmit)}
                 >
                     <div className="">
                         <div className="">
                             <div className="grid grid-cols-1  gap-y-2">
                                 <TextInput
                                     label={'Name'}
-                                    name={'businessName'}
+                                    name={FormKeys.BusinessName}
                                     placeholder={'Industry Name...'}
                                     validationIcons
                                     required
@@ -142,7 +203,7 @@ export const AddIndustry = ({ industryData }: { industryData: any }) => {
 
                                 <TextInput
                                     label={'Email'}
-                                    name={'email'}
+                                    name={FormKeys.Email}
                                     type={'email'}
                                     placeholder={'Your Email...'}
                                     validationIcons
@@ -152,23 +213,27 @@ export const AddIndustry = ({ industryData }: { industryData: any }) => {
                                 />
                                 <Select
                                     label={'Sector'}
-                                    name={'sector'}
+                                    name={FormKeys.Sector}
                                     options={sectorOptions}
                                     placeholder={'Select Sectors...'}
                                     loading={sectorResponse.isLoading}
-                                    value={sectorOptions?.find(
+                                    value={sectorOptions?.filter(
                                         (sector: any) =>
-                                            sector?.value === selectedSector
+                                            selectedSector?.includes(
+                                                sector?.value
+                                            )
                                     )}
                                     validationIcons
                                     onChange={(e: any) => {
-                                        setSelectedSector(e?.value)
+                                        setSelectedSector(e)
                                     }}
+                                    onlyValue
+                                    multi
                                 />
 
                                 <TextInput
                                     label={'Phone Number'}
-                                    name={'phone'}
+                                    name={FormKeys.Phone}
                                     placeholder={'Your phone number...'}
                                     validationIcons
                                     required
@@ -176,14 +241,21 @@ export const AddIndustry = ({ industryData }: { industryData: any }) => {
 
                                 <TextInput
                                     label={'Address'}
-                                    name={'address'}
+                                    name={FormKeys.Address}
                                     placeholder={'Your Address Line 1...'}
                                     validationIcons
                                     placesSuggetions
+                                    onChange={() => {
+                                        setOnAddressClicked(false)
+                                    }}
+                                    onPlaceSuggetions={{
+                                        placesSuggetions: onAddressClicked,
+                                        setIsPlaceSelected: setOnAddressClicked,
+                                    }}
                                 />
                                 <TextInput
                                     label={'Website (Optional)'}
-                                    name={'website'}
+                                    name={FormKeys.Website}
                                     placeholder={'Website Url...'}
                                     validationIcons
                                 />
@@ -193,10 +265,21 @@ export const AddIndustry = ({ industryData }: { industryData: any }) => {
 
                     <div className="mb-4 flex justify-start">
                         <Button
-                            text={'Add Industry'}
+                            text={
+                                industryData
+                                    ? 'Update Industry'
+                                    : 'Add Industry'
+                            }
                             submit
-                            disabled={addIndustryResult?.isLoading}
-                            loading={addIndustryResult?.isLoading}
+                            {...(industryData ? { outline: true } : {})}
+                            disabled={
+                                addIndustryResult?.isLoading ||
+                                updateResult.isLoading
+                            }
+                            loading={
+                                addIndustryResult?.isLoading ||
+                                updateResult.isLoading
+                            }
                         />
                     </div>
                 </form>
