@@ -48,6 +48,9 @@ export const StudentProfileForm = ({
     const rtoResponse = AuthApi.useRtos({})
     const [sectorDefaultOptions, setSectorDefaultOptions] = useState<any>([])
 
+    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(true)
+    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
+
     const [courseValues, setCourseValues] = useState<any>([])
     const [sectors, setSectors] = useState<any | null>(null)
     const [courseOptions, setCourseOptions] = useState([])
@@ -243,6 +246,23 @@ export const StudentProfileForm = ({
             formMethods.setValue('courses', courseValues)
         }
     }, [courseValues])
+
+    const onHandleSubmit = (values: any) => {
+        if (!onAddressClicked) {
+            notification.error({
+                title: 'You must select on Address Dropdown',
+                description: 'You must select on Address Dropdown',
+            })
+        } else if (!onSuburbClicked) {
+            notification.error({
+                title: 'You must select on Suburb Dropdown',
+                description: 'You must select on Suburb Dropdown',
+            })
+        } else if (onAddressClicked && onSuburbClicked) {
+            onSubmit(values)
+        }
+    }
+
     return (
         <>
             <ShowErrorNotifications result={result} />
@@ -251,7 +271,7 @@ export const StudentProfileForm = ({
                 <FormProvider {...formMethods}>
                     <form
                         className="flex flex-col gap-y-4"
-                        onSubmit={formMethods.handleSubmit(onSubmit)}
+                        onSubmit={formMethods.handleSubmit(onHandleSubmit)}
                     >
                         {/* Personal Information */}
                         <div className="flex flex-col md:flex-row gap-x-16 border-t py-4">
@@ -538,6 +558,14 @@ export const StudentProfileForm = ({
                                         validationIcons
                                         required
                                         placesSuggetions
+                                        onChange={() => {
+                                            setOnAddressClicked(false)
+                                        }}
+                                        onPlaceSuggetions={{
+                                            placesSuggetions: onAddressClicked,
+                                            setIsPlaceSelected:
+                                                setOnAddressClicked,
+                                        }}
                                     />
                                 </div>
 
@@ -549,6 +577,14 @@ export const StudentProfileForm = ({
                                         validationIcons
                                         required
                                         placesSuggetions
+                                        onChange={() => {
+                                            setOnSuburbClicked(false)
+                                        }}
+                                        onPlaceSuggetions={{
+                                            placesSuggetions: onSuburbClicked,
+                                            setIsPlaceSelected:
+                                                setOnSuburbClicked,
+                                        }}
                                     />
 
                                     <TextInput

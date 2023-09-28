@@ -38,6 +38,9 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
     const [courseOptions, setCourseOptions] = useState([])
     const [courseLoading, setCourseLoading] = useState(false)
 
+    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(true)
+    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
+
     const [storedData, setStoredData] = useState<any>(null)
 
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
@@ -202,24 +205,36 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
         }
     }, [addCustomIndustryResult])
 
-    const onSubmit = (values: any) => {
-        addCustomIndustry({
-            id: workplaceId,
-            body: {
-                ...values,
-                password: 'N/A',
-                role: UserRoles.INDUSTRY,
-                courses: [values.courses],
-                sectors: [values.sectors.value],
-            },
-        })
+    const onHandleSubmit = (values: any) => {
+        if (!onAddressClicked) {
+            notification.error({
+                title: 'You must select on Address Dropdown',
+                description: 'You must select on Address Dropdown',
+            })
+        } else if (!onSuburbClicked) {
+            notification.error({
+                title: 'You must select on Suburb Dropdown',
+                description: 'You must select on Suburb Dropdown',
+            })
+        } else if (onAddressClicked && onSuburbClicked) {
+            addCustomIndustry({
+                id: workplaceId,
+                body: {
+                    ...values,
+                    password: 'N/A',
+                    role: UserRoles.INDUSTRY,
+                    courses: [values.courses],
+                    sectors: [values.sectors.value],
+                },
+            })
+        }
     }
 
     return (
         <>
             <ShowErrorNotifications result={addCustomIndustryResult} />
             <FormProvider {...formMethods}>
-                <form onSubmit={formMethods.handleSubmit(onSubmit)}>
+                <form onSubmit={formMethods.handleSubmit(onHandleSubmit)}>
                     {/* Personal Information */}
                     <TextInput
                         label={'Name'}
@@ -321,6 +336,13 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
                         placeholder={'Your Address Line 1...'}
                         validationIcons
                         placesSuggetions
+                        onChange={() => {
+                            setOnAddressClicked(false)
+                        }}
+                        onPlaceSuggetions={{
+                            placesSuggetions: onAddressClicked,
+                            setIsPlaceSelected: setOnAddressClicked,
+                        }}
                     />
 
                     <TextInput
@@ -329,6 +351,13 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
                         placeholder={'Suburb...'}
                         validationIcons
                         placesSuggetions
+                        onChange={() => {
+                            setOnSuburbClicked(false)
+                        }}
+                        onPlaceSuggetions={{
+                            placesSuggetions: onSuburbClicked,
+                            setIsPlaceSelected: setOnSuburbClicked,
+                        }}
                     />
 
                     <TextInput

@@ -48,7 +48,8 @@ export const AddCustomIndustryForm = ({
         label: course?.title,
     }))
 
-    const [storedData, setStoredData] = useState<any>(null)
+    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(true)
+    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
 
@@ -120,6 +121,22 @@ export const AddCustomIndustryForm = ({
         resolver: yupResolver(validationSchema),
     })
 
+    const onHandleSubmit = (values: any) => {
+        if (!onAddressClicked) {
+            notification.error({
+                title: 'You must select on Address Dropdown',
+                description: 'You must select on Address Dropdown',
+            })
+        } else if (!onSuburbClicked) {
+            notification.error({
+                title: 'You must select on Suburb Dropdown',
+                description: 'You must select on Suburb Dropdown',
+            })
+        } else if (onAddressClicked && onSuburbClicked) {
+            onSubmit(values)
+        }
+    }
+
     return (
         <Card>
             <div
@@ -137,7 +154,7 @@ export const AddCustomIndustryForm = ({
                 <FormProvider {...formMethods}>
                     <form
                         className="flex flex-col gap-y-4"
-                        onSubmit={formMethods.handleSubmit(onSubmit)}
+                        onSubmit={formMethods.handleSubmit(onHandleSubmit)}
                     >
                         {/* Personal Information */}
                         <div>
@@ -235,6 +252,13 @@ export const AddCustomIndustryForm = ({
                                     placeholder={'Your Address Line 1...'}
                                     validationIcons
                                     placesSuggetions
+                                    onChange={() => {
+                                        setOnAddressClicked(false)
+                                    }}
+                                    onPlaceSuggetions={{
+                                        placesSuggetions: onAddressClicked,
+                                        setIsPlaceSelected: setOnAddressClicked,
+                                    }}
                                 />
                             </div>
 
@@ -245,6 +269,13 @@ export const AddCustomIndustryForm = ({
                                     placeholder={'Suburb...'}
                                     validationIcons
                                     placesSuggetions
+                                    onChange={() => {
+                                        setOnSuburbClicked(false)
+                                    }}
+                                    onPlaceSuggetions={{
+                                        placesSuggetions: onSuburbClicked,
+                                        setIsPlaceSelected: setOnSuburbClicked,
+                                    }}
                                 />
 
                                 <TextInput

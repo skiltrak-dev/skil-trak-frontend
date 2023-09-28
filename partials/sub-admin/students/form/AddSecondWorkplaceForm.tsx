@@ -22,6 +22,9 @@ export const AddSecondWorkplaceForm = ({
     const [courseOptions, setCourseOptions] = useState([])
     const [courseLoading, setCourseLoading] = useState(false)
 
+    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(true)
+    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
+
     const { notification } = useNotification()
 
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
@@ -110,20 +113,32 @@ export const AddSecondWorkplaceForm = ({
         resolver: yupResolver(validationSchema),
     })
 
-    const onSubmit = (values: any) => {
-        addWorkplaceIndustry({
-            ...values,
-            courses: [values?.course],
-            role: UserRoles.INDUSTRY,
-            studentId: studentUserId,
-            password: 'N/A',
-        })
+    const onHandleSubmit = (values: any) => {
+        if (!onAddressClicked) {
+            notification.error({
+                title: 'You must select on Address Dropdown',
+                description: 'You must select on Address Dropdown',
+            })
+        } else if (!onSuburbClicked) {
+            notification.error({
+                title: 'You must select on Suburb Dropdown',
+                description: 'You must select on Suburb Dropdown',
+            })
+        } else if (onAddressClicked && onSuburbClicked) {
+            addWorkplaceIndustry({
+                ...values,
+                courses: [values?.course],
+                role: UserRoles.INDUSTRY,
+                studentId: studentUserId,
+                password: 'N/A',
+            })
+        }
     }
     return (
         <div>
             <ShowErrorNotifications result={addWorkplaceIndustryResult} />
             <FormProvider {...formMethods}>
-                <form onSubmit={formMethods.handleSubmit(onSubmit)}>
+                <form onSubmit={formMethods.handleSubmit(onHandleSubmit)}>
                     {/* Personal Information */}
                     <TextInput
                         label={'Name'}
@@ -215,6 +230,13 @@ export const AddSecondWorkplaceForm = ({
                         placeholder={'Your Address Line 1...'}
                         validationIcons
                         placesSuggetions
+                        onChange={() => {
+                            setOnAddressClicked(false)
+                        }}
+                        onPlaceSuggetions={{
+                            placesSuggetions: onAddressClicked,
+                            setIsPlaceSelected: setOnAddressClicked,
+                        }}
                     />
 
                     <TextInput
@@ -223,6 +245,13 @@ export const AddSecondWorkplaceForm = ({
                         placeholder={'Suburb...'}
                         validationIcons
                         placesSuggetions
+                        onChange={() => {
+                            setOnSuburbClicked(false)
+                        }}
+                        onPlaceSuggetions={{
+                            placesSuggetions: onSuburbClicked,
+                            setIsPlaceSelected: setOnSuburbClicked,
+                        }}
                     />
 
                     <TextInput
