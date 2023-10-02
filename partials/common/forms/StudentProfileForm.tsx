@@ -48,7 +48,6 @@ export const StudentProfileForm = ({
     const rtoResponse = AuthApi.useRtos({})
     const [sectorDefaultOptions, setSectorDefaultOptions] = useState<any>([])
 
-    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(true)
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
     const [courseValues, setCourseValues] = useState<any>([])
@@ -248,17 +247,12 @@ export const StudentProfileForm = ({
     }, [courseValues])
 
     const onHandleSubmit = (values: any) => {
-        if (!onAddressClicked) {
-            notification.error({
-                title: 'You must select on Address Dropdown',
-                description: 'You must select on Address Dropdown',
-            })
-        } else if (!onSuburbClicked) {
+        if (!onSuburbClicked) {
             notification.error({
                 title: 'You must select on Suburb Dropdown',
                 description: 'You must select on Suburb Dropdown',
             })
-        } else if (onAddressClicked && onSuburbClicked) {
+        } else if (onSuburbClicked) {
             onSubmit(values)
         }
     }
@@ -558,14 +552,6 @@ export const StudentProfileForm = ({
                                         validationIcons
                                         required
                                         placesSuggetions
-                                        onChange={() => {
-                                            setOnAddressClicked(false)
-                                        }}
-                                        onPlaceSuggetions={{
-                                            placesSuggetions: onAddressClicked,
-                                            setIsPlaceSelected:
-                                                setOnAddressClicked,
-                                        }}
                                     />
                                 </div>
 
