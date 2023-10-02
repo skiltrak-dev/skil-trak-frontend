@@ -1,17 +1,16 @@
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
-import { AuthApi, CommonApi, commonApi } from '@queries'
+import { AuthApi, CommonApi } from '@queries'
 import { SignUpUtils, isEmailValid } from '@utils'
 
 import { Button, Select, ShowErrorNotifications, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { IndustryStatus, Sector } from '@types'
 import { FormProvider, useForm } from 'react-hook-form'
-import { OptionType, Sector } from '@types'
 
 const FormKeys = {
     BusinessName: 'businessName',
@@ -20,6 +19,7 @@ const FormKeys = {
     Phone: 'phone',
     Address: 'address',
     Website: 'website',
+    Status: 'status',
 }
 
 export const AddIndustry = ({
@@ -29,8 +29,6 @@ export const AddIndustry = ({
     industryData: any
     onSetIndustryData: () => void
 }) => {
-    const router = useRouter()
-
     const { notification } = useNotification()
 
     const sectorResponse = AuthApi.useSectors({})
@@ -44,6 +42,7 @@ export const AddIndustry = ({
 
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
     const [selectedSector, setSelectedSector] = useState<number[] | null>(null)
+    const [selectedStatus, setSelectedStatus] = useState<number[] | null>(null)
 
     const onEmailChange = (e: any) => {
         _debounce(() => {
@@ -108,9 +107,12 @@ export const AddIndustry = ({
     const resetFormValues = () => {
         let obj: any = {}
         Object.values(FormKeys).forEach((val: string, i: number) => {
-            val !== FormKeys.Sector && (obj[val] = '')
+            val !== FormKeys.Sector &&
+                val !== FormKeys.Status &&
+                (obj[val] = '')
         })
         obj[FormKeys.Sector] = formMethods.getValues(FormKeys.Sector)
+        obj[FormKeys.Status] = formMethods.getValues(FormKeys.Status)
 
         formMethods.reset(obj)
     }
@@ -155,6 +157,21 @@ export const AddIndustry = ({
             })
         }
     }, [emailCheckResult])
+
+    const statusOptions = [
+        {
+            label: 'Default',
+            value: IndustryStatus.DEFAULT,
+        },
+        {
+            label: 'FAVOURITE',
+            value: IndustryStatus.FAVOURITE,
+        },
+        {
+            label: 'DO NOT DISTURB',
+            value: IndustryStatus.DO_NOT_DISTURB,
+        },
+    ]
 
     const onSubmit = (values: any) => {
         SignUpUtils.setValuesToStorage(values)
@@ -213,6 +230,21 @@ export const AddIndustry = ({
                                     }}
                                     onlyValue
                                     multi
+                                />
+                                <Select
+                                    label={'Status'}
+                                    name={FormKeys.Status}
+                                    options={statusOptions}
+                                    placeholder={'Select Status...'}
+                                    value={statusOptions?.find(
+                                        (sector: any) =>
+                                            sector?.value === selectedStatus
+                                    )}
+                                    validationIcons
+                                    onChange={(e: any) => {
+                                        setSelectedStatus(e)
+                                    }}
+                                    onlyValue
                                 />
 
                                 <TextInput

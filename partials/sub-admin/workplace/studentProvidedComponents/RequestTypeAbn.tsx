@@ -11,11 +11,13 @@ import { useNotification } from '@hooks'
 import { UserStatus } from '@types'
 import OutsideClickHandler from 'react-outside-click-handler'
 import {
+    ApproveRequestModal,
     CompleteWorkplaceModal,
     PlacementStartedModal,
     TerminateWorkplaceModal,
 } from '../modals'
 import { StudentProvidedForwardModal } from '../modals/StudentProvidedForwardModal'
+import { WorkplaceCurrentStatus } from '@utils'
 
 export type isClearedFunctionType = (e: boolean) => void
 
@@ -77,6 +79,15 @@ export const RequestTypeAbn = ({
         )
     }
 
+    const onApproveModal = () => {
+        setModal(
+            <ApproveRequestModal
+                appliedIndustryId={appliedIndustry?.id}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
     const requestTypeActions = [
         {
             primaryText: 'Request Sent',
@@ -118,12 +129,11 @@ export const RequestTypeAbn = ({
             color: 'text-info',
             onClick: (isCleared: isClearedFunctionType) => {
                 isCleared(false)
-                if (workplace?.currentStatus === 'awaitingWorkplaceResponse') {
-                    notification.info({
-                        title: 'Upload Agrement',
-                        description:
-                            'Upload Agrement on clicking sign agreement button',
-                    })
+                if (
+                    workplace?.currentStatus ===
+                    WorkplaceCurrentStatus.AwaitingWorkplaceResponse
+                ) {
+                    onApproveModal()
                     isCleared(false)
                 } else {
                     isCleared(false)

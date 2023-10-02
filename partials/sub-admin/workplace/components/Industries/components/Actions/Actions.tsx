@@ -276,11 +276,6 @@ export const Actions = ({
                                 variant={'secondary'}
                                 onClick={() => {
                                     onApproveModal()
-                                    // setActionStatus(userStatus.APPROVED)
-                                    // updateStatus({
-                                    //     id: Number(appliedIndustry?.id),
-                                    //     response: userStatus.APPROVED,
-                                    // })
                                 }}
                                 loading={
                                     updateStatusResult?.isLoading &&
