@@ -26,7 +26,6 @@ export const UpdateDetails = ({
     const router = useRouter()
     const { id } = router.query
 
-    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(true)
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
     const { data, isLoading, isError, isSuccess } =
@@ -114,17 +113,12 @@ export const UpdateDetails = ({
     }, [data])
 
     const onHandleSubmit = (values: any) => {
-        if (!onAddressClicked) {
-            notification.error({
-                title: 'You must select on Address Dropdown',
-                description: 'You must select on Address Dropdown',
-            })
-        } else if (!onSuburbClicked) {
+        if (!onSuburbClicked) {
             notification.error({
                 title: 'You must select on Suburb Dropdown',
                 description: 'You must select on Suburb Dropdown',
             })
-        } else if (onAddressClicked && onSuburbClicked) {
+        } else if (onSuburbClicked) {
             onSubmit(values)
         }
     }
@@ -210,13 +204,6 @@ export const UpdateDetails = ({
                                     placeholder={'Your Address Line 1...'}
                                     validationIcons
                                     placesSuggetions
-                                    onChange={() => {
-                                        setOnAddressClicked(false)
-                                    }}
-                                    onPlaceSuggetions={{
-                                        placesSuggetions: onAddressClicked,
-                                        setIsPlaceSelected: setOnAddressClicked,
-                                    }}
                                 />
                                 <TextInput
                                     label={'Suburb'}

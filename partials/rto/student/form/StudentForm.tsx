@@ -32,7 +32,6 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
 
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
 
-    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(true)
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
     const onEmailChange = (e: any) => {
@@ -198,17 +197,12 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
     })
 
     const onHandleSubmit = (values: any) => {
-        if (!onAddressClicked) {
-            notification.error({
-                title: 'You must select on Address Dropdown',
-                description: 'You must select on Address Dropdown',
-            })
-        } else if (!onSuburbClicked) {
+        if (!onSuburbClicked) {
             notification.error({
                 title: 'You must select on Suburb Dropdown',
                 description: 'You must select on Suburb Dropdown',
             })
-        } else if (onAddressClicked && onSuburbClicked) {
+        } else if (onSuburbClicked) {
             onSubmit(values)
         }
     }
@@ -364,13 +358,6 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
                             placeholder={'Your Address Line 1...'}
                             validationIcons
                             placesSuggetions
-                            onChange={() => {
-                                setOnAddressClicked(false)
-                            }}
-                            onPlaceSuggetions={{
-                                placesSuggetions: onAddressClicked,
-                                setIsPlaceSelected: setOnAddressClicked,
-                            }}
                         />
 
                         <TextInput

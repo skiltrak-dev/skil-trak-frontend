@@ -50,7 +50,6 @@ export const StudentSignUpForm = ({
 
     const [courseValues, setCourseValues] = useState<SelectOption[]>([])
 
-    const [onAddressClicked, setOnAddressClicked] = useState<boolean>(true)
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
     const sectorOptions = sectorResponse.data?.length
@@ -225,17 +224,12 @@ export const StudentSignUpForm = ({
     }))
 
     const onHandleSubmit = (values: any) => {
-        if (!onAddressClicked) {
-            notification.error({
-                title: 'You must select on Address Dropdown',
-                description: 'You must select on Address Dropdown',
-            })
-        } else if (!onSuburbClicked) {
+        if (!onSuburbClicked) {
             notification.error({
                 title: 'You must select on Suburb Dropdown',
                 description: 'You must select on Suburb Dropdown',
             })
-        } else if (onAddressClicked && onSuburbClicked) {
+        } else if (onSuburbClicked) {
             onSubmit(values)
         }
     }
@@ -481,13 +475,6 @@ export const StudentSignUpForm = ({
                                 placeholder={'Your Address Line 1...'}
                                 validationIcons
                                 placesSuggetions
-                                onChange={() => {
-                                    setOnAddressClicked(false)
-                                }}
-                                onPlaceSuggetions={{
-                                    placesSuggetions: onAddressClicked,
-                                    setIsPlaceSelected: setOnAddressClicked,
-                                }}
                             />
                         </div>
 
