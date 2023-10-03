@@ -121,7 +121,7 @@
     "@types/gapi": "^0.0.43",
     "@types/html-to-draftjs": "^1.4.0",
     "@types/node": "18.6.4",
-    "@types/react": "18.0.15",
+    "@types/react": "^18.2.24",
     "@types/react-big-calendar": "^0.38.2",
     "@types/react-calendar": "^3.5.2",
     "@types/react-dom": "18.0.6",
