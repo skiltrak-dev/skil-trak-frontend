@@ -8,6 +8,7 @@ import {
 import { AddIndustryCB } from '../../contextBar'
 import { Actions, IndustryCard } from './components'
 import { Student } from '@types'
+import { ByAbnActions } from './components/Actions'
 
 export const Industries = ({
     industries,
@@ -89,7 +90,16 @@ export const Industries = ({
 
                 {/* Book Appointment Button */}
                 {!appliedIndustry?.cancelled &&
-                    appliedIndustry?.industryResponse !== 'rejected' && (
+                appliedIndustry?.industryResponse !== 'rejected' ? (
+                    workplace?.byExistingAbn ? (
+                        <ByAbnActions
+                            appliedIndustry={appliedIndustry}
+                            workplaceId={workplaceId}
+                            workplace={workplace}
+                            folders={folders}
+                            student={workplace?.student as Student}
+                        />
+                    ) : (
                         <Actions
                             appliedIndustry={appliedIndustry}
                             workplaceId={workplaceId}
@@ -97,7 +107,8 @@ export const Industries = ({
                             folders={folders}
                             student={workplace?.student as Student}
                         />
-                    )}
+                    )
+                ) : null}
 
                 {appliedIndustry?.industryResponse !== 'approved' &&
                     suggestedIndustries?.map(

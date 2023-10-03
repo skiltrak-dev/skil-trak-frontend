@@ -6,17 +6,20 @@ type AssessmentFolderCardProps = {
     selectedFolderId?: string | null
     id?: string
     assessment?: boolean
+    isAgreement?: boolean
 }
 import { Badge } from '@components'
 import { Typography } from '@components/Typography'
 import classNames from 'classnames'
 import { FaFolder } from 'react-icons/fa'
+import { PiHandshakeDuotone } from 'react-icons/pi'
 export const AssessmentFolderCard = ({
     name,
     isActive,
     response,
     onClick,
     selectedFolderId,
+    isAgreement,
     id,
     assessment,
 }: AssessmentFolderCardProps) => {
@@ -88,8 +91,9 @@ export const AssessmentFolderCard = ({
                         <div className="">
                             <FaFolder className="text-blue-500" />
                         </div>
-                        <div>
+                        <div className="flex gap-x-3">
                             <Typography variant="label">{name}</Typography>
+                            {isAgreement && <PiHandshakeDuotone />}
                         </div>
                         <Typography variant={'small'}>
                             {response?.files?.length &&
