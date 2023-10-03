@@ -177,11 +177,11 @@ export const ActiveIndustries = ({
         },
         {
             accessorKey: 'phone',
-            header: () => <Typography variant={'label'}>Phone</Typography>,
+            header: () => <span>Phone</span>,
         },
         {
             accessorKey: 'address',
-            header: () => <Typography variant={'label'}>Address</Typography>,
+            header: () => <span>Address</span>,
         },
         {
             accessorKey: 'status',
