@@ -182,12 +182,10 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         formMethods.setValue('addressLine1', selectedRowData?.address || '')
         setSelectedSector(
             selectedRowData?.sector
-                ? [
-                      {
-                          label: selectedRowData?.sector?.name,
-                          value: selectedRowData?.sector?.id,
-                      },
-                  ]
+                ? selectedRowData?.sector?.map((s: any) => ({
+                      label: s?.name,
+                      value: s?.id,
+                  }))
                 : []
         )
     }, [formMethods.setValue, selectedRowDataString])
