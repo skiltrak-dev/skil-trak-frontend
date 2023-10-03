@@ -747,6 +747,9 @@ export const ActiveAssessmentDetail = ({
                                             key={assessment?.id}
                                             id={assessment?.id}
                                             name={assessment?.name}
+                                            isAgreement={
+                                                assessment?.isAgreement
+                                            }
                                             // isActive={folder.isActive}
                                             selectedFolderId={
                                                 selectedFolder?.id

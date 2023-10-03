@@ -173,14 +173,15 @@ export const PersonalInfoForm = ({
     //     formMethods.register('preferableLocation')
 
     const onHandleSubmit = (values: any) => {
-        if (!onLocationClicked) {
-            notification.error({
-                title: 'You must select on Address Dropdown',
-                description: 'You must select on Address Dropdown',
-            })
-        } else if (onLocationClicked) {
-            onSubmit(values)
-        }
+        onSubmit(values)
+        // if (!onLocationClicked) {
+        //     notification.error({
+        //         title: 'You must select on Address Dropdown',
+        //         description: 'You must select on Address Dropdown',
+        //     })
+        // } else if (onLocationClicked) {
+        //     onSubmit(values)
+        // }
     }
 
     return (
