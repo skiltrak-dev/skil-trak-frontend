@@ -176,18 +176,17 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
             ? JSON.parse(selectedRowDataString)
             : {}
 
+        const sectors = selectedRowData?.sector?.map((s: any) => ({
+            label: s?.name,
+            value: s?.id,
+        }))
+
         formMethods.setValue('name', selectedRowData?.businessName || '')
         formMethods.setValue('email', selectedRowData?.email || '')
         formMethods.setValue('phoneNumber', selectedRowData?.phone || '')
         formMethods.setValue('addressLine1', selectedRowData?.address || '')
-        setSelectedSector(
-            selectedRowData?.sector
-                ? selectedRowData?.sector?.map((s: any) => ({
-                      label: s?.name,
-                      value: s?.id,
-                  }))
-                : []
-        )
+        formMethods.setValue('sectors', sectors || [])
+        setSelectedSector(selectedRowData?.sector ? sectors : [])
     }, [formMethods.setValue, selectedRowDataString])
     useEffect(() => {
         const selectedRowData = selectedRowDataString
