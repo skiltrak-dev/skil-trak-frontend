@@ -31,6 +31,7 @@ export * from './UserCardRole'
 export * from './CaseOfficerAssignedStudent'
 export * from './AuthorizedUserComponent'
 export * from './StudentExpiryDaysLeft'
+export * from './SwitchDarkMode'
 
 // export * from './Pagination'
 export * from './PopUp'

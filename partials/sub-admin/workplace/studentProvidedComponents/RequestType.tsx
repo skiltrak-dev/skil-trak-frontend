@@ -27,9 +27,11 @@ import { UserStatus } from '@types'
 export const RequestType = ({
     appliedIndustry,
     workplace,
+    isOpen,
 }: {
     appliedIndustry: any
     workplace: any
+    isOpen: boolean
 }) => {
     const [visibleRequestType, setVisibleRequestType] = useState(false)
     const [selectedRequestType, setSelectedRequestType] = useState<
@@ -350,7 +352,11 @@ export const RequestType = ({
                 </div>
 
                 {visibleRequestType && (
-                    <div className="shadow absolute z-10 w-full bg-white rounded-md py-2 mt-1 h-80 overflow-auto custom-scrollbar">
+                    <div
+                        className={`shadow absolute z-10 w-full bg-white rounded-md py-2 mt-1 ${
+                            isOpen ? 'h-80' : 'h-32 xl:h-36'
+                        } overflow-auto custom-scrollbar`}
+                    >
                         {requestTypeActions.map((type, i) => (
                             <div
                                 key={`request_type_${i}`}

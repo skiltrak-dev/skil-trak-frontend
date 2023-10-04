@@ -7,6 +7,12 @@ const colors = {
         light: 'var(--theme-primary-light)',
     },
 
+    layout: {
+        DEFAULT: 'var(--theme-layout-default)',
+        dark: 'var(--theme-layout-dark)',
+        light: 'var(--theme-layout-light)',
+    },
+
     secondary: {
         DEFAULT: 'var(--theme-secondary-default)',
         dark: 'var(--theme-secondary-dark)',

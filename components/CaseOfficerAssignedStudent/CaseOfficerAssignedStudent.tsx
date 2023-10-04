@@ -33,16 +33,6 @@ export const CaseOfficerAssignedStudent = ({
         workplace?.industries
     )
 
-    const studentStatusValues = Object.values(StudentStatusEnum)?.filter(
-        (status: string) => status !== StudentStatusEnum.ACTIVE
-    )
-
-    const wpStatusValues = [
-        WorkplaceCurrentStatus.PlacementStarted,
-        WorkplaceCurrentStatus.Completed,
-        WorkplaceCurrentStatus.Terminated,
-    ]
-
     return workplaceFilter ? (
         <ProgressCell
             appliedIndustry={appliedIndustry}
@@ -50,9 +40,7 @@ export const CaseOfficerAssignedStudent = ({
             assigned={student?.subadmin || workplace?.assignedTo}
             step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
         />
-    ) : industries?.length > 0 &&
-      studentStatusValues.includes(student?.studentStatus) &&
-      wpStatusValues.includes(workplace.currentStatus) ? (
+    ) : industries?.length > 0 ? (
         <StudentStatusProgressCell
             studentId={student?.id}
             step={
