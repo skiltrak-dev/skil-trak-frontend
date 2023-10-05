@@ -1,17 +1,17 @@
-import React, { Fragment, useState } from 'react'
+import { useState } from 'react'
 
 // Icons
-import { MdMessage, MdKeyboardArrowDown } from 'react-icons/md'
 import { IoMdNotifications } from 'react-icons/io'
+import { MdMessage } from 'react-icons/md'
 
 // components
 import { Typography } from '@components'
 
 // components
-import { BadgeButton, MessageDropDown, NavbarBreadCrumbs } from './components'
 import { useNavbar } from '@hooks'
 import { useRouter } from 'next/router'
 import OutsideClickHandler from 'react-outside-click-handler'
+import { BadgeButton, MessageDropDown, NavbarBreadCrumbs } from './components'
 import { NotificationDropDown } from './components/notifications'
 
 // query

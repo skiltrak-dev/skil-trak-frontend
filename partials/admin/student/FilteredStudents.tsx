@@ -5,7 +5,6 @@ import {
     EmptyData,
     LoadingAnimation,
     StudentExpiryDaysLeft,
-    StudentStatusProgressCell,
     StudentSubAdmin,
     Table,
     TableAction,
@@ -18,15 +17,8 @@ import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 
 import { useActionModal } from '@hooks'
 import { RtoCellInfo } from '@partials/admin/rto/components'
-import { Student, StudentStatusEnum, UserStatus } from '@types'
-import {
-    WorkplaceCurrentStatus,
-    calculateRemainingDays,
-    checkStudentStatus,
-    checkWorkplaceStatus,
-    getStudentWorkplaceAppliedIndustry,
-    studentsListWorkplace,
-} from '@utils'
+import { Student, UserStatus } from '@types'
+import { studentsListWorkplace } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
@@ -34,7 +26,7 @@ import { CgUnblock } from 'react-icons/cg'
 import { MdBlock } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
-import { ProgressCell, SectorCell, StudentCellInfo } from './components'
+import { SectorCell, StudentCellInfo } from './components'
 import {
     AcceptModal,
     ArchiveModal,
@@ -44,7 +36,6 @@ import {
     RejectModal,
     UnblockModal,
 } from './modals'
-import { AiOutlineWarning } from 'react-icons/ai'
 
 interface StatusTableActionOption extends TableActionOption {
     status: string[]
