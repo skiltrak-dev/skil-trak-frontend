@@ -96,7 +96,7 @@ export const OurPartners = () => {
                             alt="Partners"
                         />
                     </div> */}
-                    <div className="md:w-48 w-16 absolute top-8 right-36 md:top-48  md:right-[18rem]">
+                    <div className="md:w-48 w-16 absolute top-4 right-20 md:top-48  md:right-[18rem]">
                         <Image
                             className=""
                             src="/images/site/partners/pv-7.webp"
