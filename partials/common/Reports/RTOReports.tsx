@@ -1,4 +1,5 @@
 import { Button, Card, PageTitle } from '@components'
+import { useContextBar } from '@hooks'
 import { ReportListModal } from '@partials/rto/components/ReportListModal'
 import {
     AppointmentsReport,
@@ -32,6 +33,9 @@ export const RTOReports = ({ user }: { user?: User }) => {
     const onClose = () => {
         setModal(null)
     }
+
+    const contextBar = useContextBar()
+
     const onViewClicked = () => {
         setModal(
             <ReportListModal
@@ -195,17 +199,26 @@ export const RTOReports = ({ user }: { user?: User }) => {
             <div className="flex items-center justify-between mb-4">
                 <PageTitle title="Statistics" />
 
-                <Button
-                    onClick={() => {
-                        onViewClicked()
-                    }}
-                    variant="dark"
-                >
-                    <span className="flex items-center gap-x-2">
-                        <IoMdDownload size={18} />
-                        <span>Download</span>
-                    </span>
-                </Button>
+                <div className="flex items-center gap-x-3">
+                    {/* <Button
+                        onClick={() => {
+                            contextBar.show()
+                            contextBar.setTitle('Weekly Report')
+                            contextBar.setContent('Saad')
+                        }}
+                        variant="dark"
+                        text={'Weekly Report'}
+                    /> */}
+
+                    <Button
+                        onClick={() => {
+                            onViewClicked()
+                        }}
+                        variant="dark"
+                        Icon={IoMdDownload}
+                        text={'Download'}
+                    />
+                </div>
             </div>
             {/* <div className="w-1/4">
                 <ReportType

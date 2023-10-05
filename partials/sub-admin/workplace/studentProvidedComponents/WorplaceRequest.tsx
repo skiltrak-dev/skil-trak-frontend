@@ -5,39 +5,36 @@ import { RiBook2Fill } from 'react-icons/ri'
 
 // components
 import {
-    Card,
-    Typography,
-    Button,
     ActionButton,
+    Card,
     InitialAvatar,
     ShowErrorNotifications,
+    Typography,
 } from '@components'
 
 // utils
-import { WorkplaceCurrentStatus, ellipsisText, userStatus } from '@utils'
+import { WorkplaceCurrentStatus } from '@utils'
 
 // query
 import {
-    useAssignToSubAdminMutation,
     useCancelWorkplaceStatusMutation,
     useGetWorkplaceFoldersQuery,
 } from '@queries'
 import { useEffect, useState } from 'react'
-import { useContextBar } from '@hooks'
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
+import {
+    IWorkplaceIndustries,
+    WorkplaceWorkIndustriesType,
+} from 'redux/queryTypes'
 import {
     AssignToMe,
-    StudentDetail,
-    WorkplaceFolders,
     Notes,
+    StudentDetail,
     WPStatusForCancelButon,
 } from '../components'
 import { Industries } from './Industries'
 import { RequestType } from './RequestType'
 import { RequestTypeAbn } from './RequestTypeAbn'
-import {
-    IWorkplaceIndustries,
-    WorkplaceWorkIndustriesType,
-} from 'redux/queryTypes'
 
 export const WorkplaceRequest = ({
     workplace,
@@ -47,6 +44,9 @@ export const WorkplaceRequest = ({
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
     const [course, setCourse] = useState<any | null>(null)
     const [folders, setFolders] = useState<any | null>(null)
+
+    const [isOpened, setIsOpened] = useState<boolean>(false)
+    const [isOpen, setIsOpen] = useState<boolean>(false)
 
     // query
     const [cancelWorkplace, cancelWorkplaceResult] =
@@ -92,86 +92,116 @@ export const WorkplaceRequest = ({
         getFolders()
     }, [workplaceFolders])
 
-    const { setContent, show } = useContextBar()
-
     return (
         <Card noPadding>
             <ShowErrorNotifications result={cancelWorkplaceResult} />
             <div
-                className={`w-full h-full p-4 rounded-md shadow-lg ${
+                className={`w-full transition-all duration-700 overflow-hidden p-4 rounded-md shadow-lg ${
                     appliedIndustry?.isCompleted ? 'bg-gray-50' : ''
-                } bg-gray-100`}
+                } ${isOpen ? 'max-h-[1000px]' : 'max-h-[250px]'} bg-gray-100`}
             >
-                <div className="flex justify-between items-center flex-wrap gap-5 pb-2.5 border-b border-dashed">
-                    <AssignToMe
-                        workplace={workplace}
-                        appliedIndustry={appliedIndustry}
-                    />
+                <div>
+                    <div className="flex justify-between items-center flex-wrap gap-5 pb-2.5 border-b border-dashed">
+                        <AssignToMe
+                            workplace={workplace}
+                            appliedIndustry={appliedIndustry}
+                        />
 
-                    <div className="flex items-center relative">
-                        <div className="flex items-center gap-x-2">
-                            {workplace?.student?.rto?.user?.name && (
-                                <InitialAvatar
-                                    name={
-                                        workplace?.student?.rto?.user
-                                            ?.name as string
-                                    }
-                                    imageUrl={
-                                        workplace?.student?.rto?.user?.avatar
-                                    }
-                                />
-                            )}
-                            <div>
-                                <Typography color={'black'} variant={'small'}>
-                                    {workplace?.student?.rto?.user?.name}
-                                </Typography>
-                                <div className="flex items-center gap-x-2">
+                        <div className="flex items-center relative">
+                            <div className="flex items-center gap-x-2">
+                                {workplace?.student?.rto?.user?.name && (
+                                    <InitialAvatar
+                                        name={
+                                            workplace?.student?.rto?.user
+                                                ?.name as string
+                                        }
+                                        imageUrl={
+                                            workplace?.student?.rto?.user
+                                                ?.avatar
+                                        }
+                                    />
+                                )}
+                                <div>
                                     <Typography
-                                        variant={'muted'}
-                                        color={'text-gray-400'}
+                                        color={'black'}
+                                        variant={'small'}
                                     >
-                                        {workplace?.student?.rto?.user?.email}
+                                        {workplace?.student?.rto?.user?.name}
                                     </Typography>
-                                    <span className="text-gray-400">|</span>
-                                    <Typography
-                                        variant={'muted'}
-                                        color={'text-gray-400'}
-                                    >
-                                        {workplace?.student?.rto?.phone}
+                                    <div className="flex items-center gap-x-2">
+                                        <Typography
+                                            variant={'muted'}
+                                            color={'text-gray-400'}
+                                        >
+                                            {
+                                                workplace?.student?.rto?.user
+                                                    ?.email
+                                            }
+                                        </Typography>
+                                        <span className="text-gray-400">|</span>
+                                        <Typography
+                                            variant={'muted'}
+                                            color={'text-gray-400'}
+                                        >
+                                            {workplace?.student?.rto?.phone}
+                                        </Typography>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/*  */}
+                        <div className="flex items-center relative">
+                            <div className="flex items-center gap-x-2">
+                                <RiBook2Fill className="text-gray-400 text-2xl" />
+                                <div>
+                                    <Typography color={'black'} variant={'xs'}>
+                                        {course?.sector?.name}
+                                    </Typography>
+                                    <Typography variant={'muted'}>
+                                        {course?.code} - {course?.title}
                                     </Typography>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/*  */}
-                    <div className="flex items-center relative">
-                        <div className="flex items-center gap-x-2">
-                            <RiBook2Fill className="text-gray-400 text-2xl" />
-                            <div>
-                                <Typography color={'black'} variant={'xs'}>
-                                    {course?.sector?.name}
-                                </Typography>
-                                <Typography variant={'muted'}>
-                                    {course?.code} - {course?.title}
-                                </Typography>
-                            </div>
+                        {/* Request Type Selection */}
+                        <div className="flex items-center justify-end">
+                            {workplace?.studentProvidedWorkplace ? (
+                                <RequestType
+                                    appliedIndustry={appliedIndustry}
+                                    workplace={workplace}
+                                    isOpen={isOpen}
+                                />
+                            ) : workplace?.byExistingAbn ? (
+                                <RequestTypeAbn
+                                    appliedIndustry={appliedIndustry}
+                                    workplace={workplace}
+                                    isOpen={isOpen}
+                                />
+                            ) : null}
                         </div>
                     </div>
-
-                    {/* Request Type Selection */}
-                    <div className="flex items-center justify-end">
-                        {workplace?.studentProvidedWorkplace ? (
-                            <RequestType
-                                appliedIndustry={appliedIndustry}
-                                workplace={workplace}
-                            />
-                        ) : workplace?.byExistingAbn ? (
-                            <RequestTypeAbn
-                                appliedIndustry={appliedIndustry}
-                                workplace={workplace}
-                            />
-                        ) : null}
+                    <div className="flex justify-end ml-auto">
+                        <ActionButton
+                            variant="info"
+                            simple
+                            Icon={
+                                isOpen ? MdKeyboardArrowUp : MdKeyboardArrowDown
+                            }
+                            onClick={() => {
+                                setIsOpen(!isOpen)
+                                if (isOpened) {
+                                    setTimeout(() => {
+                                        setIsOpened(!isOpened)
+                                    }, 480)
+                                } else {
+                                    setIsOpened(!isOpened)
+                                }
+                            }}
+                        >
+                            {isOpened ? 'Show Less' : 'Show More'}
+                        </ActionButton>
                     </div>
                 </div>
 
@@ -194,49 +224,55 @@ export const WorkplaceRequest = ({
                 </div>
 
                 {/* Industries and notes */}
-                <div className="grid grid-cols-2 gap-x-3 mt-4">
-                    {/* Industries */}
-                    <div>
-                        <Industries
-                            appliedIndustry={appliedIndustry}
-                            industries={
-                                workplace?.industries as WorkplaceWorkIndustriesType[]
-                            }
-                            workplaceId={Number(workplace?.id)}
-                            workplace={workplace}
-                            courseId={course?.id}
-                            folders={folders}
-                        />
+                {isOpened && (
+                    <div className="grid grid-cols-2 gap-x-3 mt-4">
+                        {/* Industries */}
+                        <div>
+                            <Industries
+                                appliedIndustry={appliedIndustry}
+                                industries={
+                                    workplace?.industries as WorkplaceWorkIndustriesType[]
+                                }
+                                workplaceId={Number(workplace?.id)}
+                                workplace={workplace}
+                                courseId={course?.id}
+                                folders={folders}
+                            />
 
-                        {WPStatusForCancelButon.includes(
-                            workplace?.currentStatus as WorkplaceCurrentStatus
-                        ) && (
-                            <div className="mt-3">
-                                <ActionButton
-                                    variant={'error'}
-                                    onClick={async () => {
-                                        await cancelWorkplace(
-                                            Number(workplace?.id)
-                                        )
-                                    }}
-                                    loading={cancelWorkplaceResult.isLoading}
-                                    disabled={cancelWorkplaceResult.isLoading}
-                                >
-                                    Cancel Request
-                                </ActionButton>
-                            </div>
-                        )}
-                        {/* {!appliedIndustry?.cancelled &&
+                            {WPStatusForCancelButon.includes(
+                                workplace?.currentStatus as WorkplaceCurrentStatus
+                            ) && (
+                                <div className="mt-3">
+                                    <ActionButton
+                                        variant={'error'}
+                                        onClick={async () => {
+                                            await cancelWorkplace(
+                                                Number(workplace?.id)
+                                            )
+                                        }}
+                                        loading={
+                                            cancelWorkplaceResult.isLoading
+                                        }
+                                        disabled={
+                                            cancelWorkplaceResult.isLoading
+                                        }
+                                    >
+                                        Cancel Request
+                                    </ActionButton>
+                                </div>
+                            )}
+                            {/* {!appliedIndustry?.cancelled &&
                             appliedIndustry?.industryResponse !== 'rejected' &&
                             !appliedIndustry?.isCompleted &&
                             !appliedIndustry?.terminated && (
                                 
                             )} */}
-                    </div>
+                        </div>
 
-                    {/* Notes */}
-                    <Notes workplace={workplace} />
-                </div>
+                        {/* Notes */}
+                        <Notes workplace={workplace} />
+                    </div>
+                )}
             </div>
         </Card>
     )

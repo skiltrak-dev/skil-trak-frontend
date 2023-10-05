@@ -24,9 +24,11 @@ export type isClearedFunctionType = (e: boolean) => void
 export const RequestTypeAbn = ({
     appliedIndustry,
     workplace,
+    isOpen,
 }: {
     appliedIndustry: any
     workplace: any
+    isOpen: boolean
 }) => {
     const [visibleRequestType, setVisibleRequestType] = useState(false)
     const [selectedRequestType, setSelectedRequestType] = useState<
@@ -329,7 +331,11 @@ export const RequestTypeAbn = ({
                 </div>
 
                 {visibleRequestType && (
-                    <div className="shadow absolute z-10 w-full bg-white rounded-md py-2 mt-1 h-80 overflow-auto custom-scrollbar">
+                    <div
+                        className={`shadow absolute z-10 w-full bg-white rounded-md py-2 mt-1 ${
+                            isOpen ? 'h-96' : 'h-32 xl:h-36'
+                        } overflow-auto custom-scrollbar`}
+                    >
                         {requestTypeActions.map((type, i) => (
                             <div
                                 key={`request_type_${i}`}

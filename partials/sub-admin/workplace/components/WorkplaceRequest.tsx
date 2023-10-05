@@ -41,6 +41,7 @@ import { RtoDetail } from './RtoDetail'
 import { StudentDetail } from './StudentDetail'
 import { WorkplaceFolders } from './WorkplaceFolders'
 import { SmallDetail } from './SmallDetail'
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
 
 export const WPStatusForCancelButon = [
     WorkplaceCurrentStatus.Applied,
@@ -56,6 +57,9 @@ export const WorkplaceRequest = ({ workplace }: any) => {
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
     const [course, setCourse] = useState<any | null>(null)
     const [onEnterWorkplace, setOnEnterWorkplace] = useState<boolean>(false)
+
+    const [isOpened, setIsOpened] = useState<boolean>(false)
+    const [isOpen, setIsOpen] = useState<boolean>(false)
 
     const { setContent, show } = useContextBar()
     const { notification } = useNotification()
@@ -110,84 +114,110 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                 <Card noPadding>
                     <ShowErrorNotifications result={cancelWorkplaceResult} />
                     <div
-                        className={`w-full h-full p-4 rounded-md shadow-lg ${
+                        className={`w-full transition-all duration-700 overflow-hidden p-4 rounded-md shadow-lg ${
                             appliedIndustry?.isCompleted ? 'bg-gray-50' : ''
-                        } `}
+                        } ${isOpen ? 'max-h-[1000px]' : 'max-h-[250px]'}`}
                     >
-                        <div className="flex justify-between items-center flex-wrap gap-5 pb-2.5 border-b border-dashed">
-                            <AssignToMe
-                                workplace={workplace}
-                                appliedIndustry={appliedIndustry}
-                            />
-
-                            <RtoDetail rto={workplace?.student?.rto} />
-
-                            {/*  */}
-                            {workplace?.courses?.length > 0 ? (
-                                <div className="flex items-center relative">
-                                    <div className="flex items-center gap-x-2">
-                                        <RiBook2Fill className="text-gray-400 text-2xl" />
-                                        <div>
-                                            <Typography
-                                                color={'black'}
-                                                variant={'xs'}
-                                            >
-                                                {course?.sector?.name}
-                                            </Typography>
-                                            <Typography variant={'muted'}>
-                                                {course?.code} -{' '}
-                                                {ellipsisText(
-                                                    course?.title,
-                                                    15
-                                                )}
-                                            </Typography>
-                                        </div>
-                                    </div>
-                                </div>
-                            ) : (
-                                <Select
-                                    label={'Course'}
-                                    name={'course'}
-                                    options={courseOptions}
-                                    placeholder={'Select Course...'}
-                                    onChange={(e: any) => {
-                                        if (e?.value) {
-                                            assignCourse({
-                                                courseId: e?.value,
-                                                workplaceId: workplace?.id,
-                                            })
-                                        }
-                                    }}
-                                    components={{
-                                        Option: CourseSelectOption,
-                                    }}
-                                    formatOptionLabel={formatOptionLabel}
-                                    loading={assignCourseResult.isLoading}
-                                    disabled={assignCourseResult.isLoading}
-                                />
-                            )}
-
-                            {/* Request Type Selection */}
-                            <div className="flex items-center justify-end gap-x-2">
-                                {appliedIndustry?.AgreementSigned && (
-                                    <Button
-                                        variant={'info'}
-                                        text={'View Agreement'}
-                                        onClick={() => {
-                                            setContent(
-                                                <ViewAgreement
-                                                    workplace={workplace}
-                                                />
-                                            )
-                                            show(false)
-                                        }}
-                                    />
-                                )}
-                                <RequestType
-                                    folders={folders}
+                        <div>
+                            <div className="flex justify-between items-center flex-wrap gap-5 pb-2.5 border-b border-dashed">
+                                <AssignToMe
                                     workplace={workplace}
                                     appliedIndustry={appliedIndustry}
                                 />
+
+                                <RtoDetail rto={workplace?.student?.rto} />
+
+                                {/*  */}
+                                {workplace?.courses?.length > 0 ? (
+                                    <div className="flex items-center relative">
+                                        <div className="flex items-center gap-x-2">
+                                            <RiBook2Fill className="text-gray-400 text-2xl" />
+                                            <div>
+                                                <Typography
+                                                    color={'black'}
+                                                    variant={'xs'}
+                                                >
+                                                    {course?.sector?.name}
+                                                </Typography>
+                                                <Typography variant={'muted'}>
+                                                    {course?.code} -{' '}
+                                                    {ellipsisText(
+                                                        course?.title,
+                                                        15
+                                                    )}
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <Select
+                                        label={'Course'}
+                                        name={'course'}
+                                        options={courseOptions}
+                                        placeholder={'Select Course...'}
+                                        onChange={(e: any) => {
+                                            if (e?.value) {
+                                                assignCourse({
+                                                    courseId: e?.value,
+                                                    workplaceId: workplace?.id,
+                                                })
+                                            }
+                                        }}
+                                        components={{
+                                            Option: CourseSelectOption,
+                                        }}
+                                        formatOptionLabel={formatOptionLabel}
+                                        loading={assignCourseResult.isLoading}
+                                        disabled={assignCourseResult.isLoading}
+                                    />
+                                )}
+
+                                {/* Request Type Selection */}
+                                <div className="flex items-center justify-end gap-x-2">
+                                    {appliedIndustry?.AgreementSigned && (
+                                        <Button
+                                            variant={'info'}
+                                            text={'View Agreement'}
+                                            onClick={() => {
+                                                setContent(
+                                                    <ViewAgreement
+                                                        workplace={workplace}
+                                                    />
+                                                )
+                                                show(false)
+                                            }}
+                                        />
+                                    )}
+                                    <RequestType
+                                        folders={folders}
+                                        workplace={workplace}
+                                        appliedIndustry={appliedIndustry}
+                                        isOpen={isOpen}
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex justify-end ml-auto">
+                                <ActionButton
+                                    variant="info"
+                                    simple
+                                    Icon={
+                                        isOpen
+                                            ? MdKeyboardArrowUp
+                                            : MdKeyboardArrowDown
+                                    }
+                                    onClick={() => {
+                                        setIsOpen(!isOpen)
+                                        if (isOpened) {
+                                            setTimeout(() => {
+                                                setIsOpened(!isOpened)
+                                            }, 480)
+                                        } else {
+                                            setIsOpened(!isOpened)
+                                        }
+                                    }}
+                                >
+                                    {isOpened ? 'Show Less' : 'Show More'}
+                                </ActionButton>
                             </div>
                         </div>
 
@@ -205,64 +235,67 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                         </div>
 
                         {/*  */}
-                        <div className="w-full flex flex-col md:flex-row justify-between items-center">
-                            <SmallDetail
-                                currentWork={workplace?.currentWork}
-                                haveTransport={workplace?.haveTransport}
-                                haveDrivingLicense={
-                                    workplace?.haveDrivingLicense
-                                }
-                                currentQualification={
-                                    workplace?.currentQualification
-                                }
-                            />
+                        {isOpened && (
+                            <>
+                                <div className="w-full flex flex-col md:flex-row justify-between items-center">
+                                    <SmallDetail
+                                        currentWork={workplace?.currentWork}
+                                        haveTransport={workplace?.haveTransport}
+                                        haveDrivingLicense={
+                                            workplace?.haveDrivingLicense
+                                        }
+                                        currentQualification={
+                                            workplace?.currentQualification
+                                        }
+                                    />
 
-                            <div className="flex-shrink-0 flex justify-end ml-auto">
-                                <Availability
-                                    availability={
-                                        workplace?.generalAvailability
-                                    }
-                                />
-                            </div>
-                        </div>
-
-                        {/* Industries and notes */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 mt-4">
-                            {/* Industries */}
-                            <div>
-                                <Industries
-                                    appliedIndustry={appliedIndustry}
-                                    industries={workplace?.industries}
-                                    workplaceId={workplace?.id}
-                                    workplace={workplace}
-                                    courseId={course?.id}
-                                    folders={folders}
-                                    student={workplace?.student}
-                                />
-
-                                {WPStatusForCancelButon.includes(
-                                    workplace?.currentStatus
-                                ) && (
-                                    <div className="mt-3">
-                                        <ActionButton
-                                            variant={'error'}
-                                            onClick={async () => {
-                                                await cancelWorkplace(
-                                                    Number(workplace?.id)
-                                                )
-                                            }}
-                                            loading={
-                                                cancelWorkplaceResult.isLoading
+                                    <div className="flex-shrink-0 flex justify-end ml-auto">
+                                        <Availability
+                                            availability={
+                                                workplace?.generalAvailability
                                             }
-                                            disabled={
-                                                cancelWorkplaceResult.isLoading
-                                            }
-                                        >
-                                            Cancel Request
-                                        </ActionButton>
+                                        />
                                     </div>
-                                )}
-                                {/* {workplace?.currentStatus !==
+                                </div>
+                                {/* Industries and notes */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 mt-4">
+                                    {/* Industries */}
+                                    <div>
+                                        <Industries
+                                            appliedIndustry={appliedIndustry}
+                                            industries={workplace?.industries}
+                                            workplaceId={workplace?.id}
+                                            workplace={workplace}
+                                            courseId={course?.id}
+                                            folders={folders}
+                                            student={workplace?.student}
+                                        />
+
+                                        {WPStatusForCancelButon.includes(
+                                            workplace?.currentStatus
+                                        ) && (
+                                            <div className="mt-3">
+                                                <ActionButton
+                                                    variant={'error'}
+                                                    onClick={async () => {
+                                                        await cancelWorkplace(
+                                                            Number(
+                                                                workplace?.id
+                                                            )
+                                                        )
+                                                    }}
+                                                    loading={
+                                                        cancelWorkplaceResult.isLoading
+                                                    }
+                                                    disabled={
+                                                        cancelWorkplaceResult.isLoading
+                                                    }
+                                                >
+                                                    Cancel Request
+                                                </ActionButton>
+                                            </div>
+                                        )}
+                                        {/* {workplace?.currentStatus !==
                             WorkplaceCurrentStatus.Cancelled &&
                             !appliedIndustry?.cancelled &&
                             appliedIndustry?.industryResponse !== 'rejected' &&
@@ -270,11 +303,13 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                             !appliedIndustry?.terminated && (
                                 
                             )} */}
-                            </div>
+                                    </div>
 
-                            {/* Notes */}
-                            <Notes workplace={workplace} />
-                        </div>
+                                    {/* Notes */}
+                                    <Notes workplace={workplace} />
+                                </div>
+                            </>
+                        )}
                     </div>
                 </Card>
             </div>
