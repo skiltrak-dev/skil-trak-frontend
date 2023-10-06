@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import {
     ReactTable,
@@ -29,6 +29,12 @@ export const RtoMOUContainer = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    useEffect(() => {
+        setPage(Number(router.query?.page || 1))
+        setItemPerPage(Number(router.query?.pageSize || 50))
+    }, [router])
+
     const { data, isLoading, isError } = useGetRtoMOUListQuery({
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
@@ -152,7 +158,7 @@ export const RtoMOUContainer = () => {
                                         text: 'View',
                                         onClick: () => {
                                             router.push(
-                                                `/portals/rto/industries/mous/${mou.id}`
+                                                `/portals/rto/industries/mous/${mou?.id}`
                                             )
                                         },
                                         Icon: '',
@@ -273,7 +279,11 @@ export const RtoMOUContainer = () => {
                             return (
                                 <div>
                                     <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        {pageSize(
+                                            itemPerPage,
+                                            setItemPerPage,
+                                            data?.data.length
+                                        )}
                                         <div className="flex gap-x-2">
                                             {quickActions}
                                             {pagination(

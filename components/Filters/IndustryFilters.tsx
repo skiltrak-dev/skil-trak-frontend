@@ -3,7 +3,7 @@ import { Select, TextInput } from '@components/inputs'
 import { StatusOptions } from './StatusOptions'
 
 // queries
-import { CommonApi } from '@queries'
+import { CommonApi, AuthApi } from '@queries'
 import { AdminIndustryFormFilter, OptionType, UserStatus } from '@types'
 import { SetQueryFilters } from './SetQueryFilters'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
@@ -20,6 +20,7 @@ export const IndustryFilters = ({
 }: ItemFilterProps) => {
     // query
     const getCourses = CommonApi.Filter.useCourses()
+    const getSectors = AuthApi.useSectors({})
 
     const coursesOptions = getCourses?.data?.map((course: any) => ({
         item: course,
@@ -35,10 +36,15 @@ export const IndustryFilters = ({
         delete updatedFilter[key as keyof typeof updatedFilter]
     })
 
+    const sectorOptions = getSectors.data?.map((sector: any) => ({
+        label: sector.name,
+        value: sector.id,
+    }))
+
     return (
         <>
             <SetQueryFilters<AdminIndustryFormFilter> filter={updatedFilter} />
-            <div className="grid grid-cols-3 gap-x-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3">
                 <TextInput
                     name="name"
                     label={'Name'}
@@ -95,13 +101,29 @@ export const IndustryFilters = ({
                     }}
                 />
                 <Select
+                    label={'Search by Sectors'}
+                    name={'sectorId'}
+                    options={sectorOptions}
+                    placeholder={'Select Sectors...'}
+                    value={sectorOptions?.find(
+                        (sector: OptionType) =>
+                            sector?.value === Number(filter?.sectorId)
+                    )}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, sectorId: e })
+                    }}
+                    loading={getCourses.isLoading}
+                    disabled={getCourses.isLoading}
+                    onlyValue
+                />
+                <Select
                     label={'Search by Courses'}
                     name={'courseId'}
                     options={coursesOptions}
                     placeholder={'Select Courses...'}
                     defaultValue={coursesOptions?.find(
                         (course: OptionType) =>
-                            course.value === filter?.courseId
+                            course.value === Number(filter?.courseId)
                     )}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, courseId: e?.value })

@@ -7,4 +7,5 @@ export interface AdminIndustryFormFilter {
     status: UserStatus
     address: string
     courseId: number
+    sectorId: number
 }
