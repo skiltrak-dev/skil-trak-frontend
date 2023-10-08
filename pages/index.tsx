@@ -14,6 +14,7 @@ import { OurPackages } from '@components/site/ourPackages'
 import { StudentPlacementManagement } from '@components/site/studentPlacementManagement'
 import { RecentJobCard } from '@components/site/jobs/RecentJobCard'
 import { RecentJobsFromOurParnter } from '@components/site/jobs/RecentJobsFromOurParnter'
+import { OurTechnicalPartners } from '@components/site/OurTechnicalPartners'
 
 const Home3: NextPage = ({ data }: any) => {
     const contactUsRef = useRef(null)
@@ -38,6 +39,8 @@ const Home3: NextPage = ({ data }: any) => {
             <GetStartedWithUs contactUsRef={contactUsRef} />
             {/* Lets Talk */}
             <ContactUs contactUsRef={contactUsRef} />
+            {/* Our Technical Partners */}
+            <OurTechnicalPartners />
             {/*  Footer */}
             <Footer3 />
         </div>
