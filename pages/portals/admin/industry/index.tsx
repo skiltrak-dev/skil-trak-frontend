@@ -30,9 +30,10 @@ const filterKeys = [
     'email',
     'status',
     'phone',
-    'industryId',
-    'courseId',
     'address',
+    'courseId',
+    'sectorId',
+    'industryId',
 ]
 
 const removeFilterKeysToUrl = ['name']

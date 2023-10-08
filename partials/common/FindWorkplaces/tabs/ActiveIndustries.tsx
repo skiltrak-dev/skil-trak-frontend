@@ -3,11 +3,14 @@ import {
     Button,
     Card,
     EmptyData,
+    InitialAvatar,
     LoadingAnimation,
     Table,
     TableAction,
     TechnicalError,
+    Tooltip,
     Typography,
+    UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -33,6 +36,8 @@ import {
     DeleteMultiFutureIndustryModal,
 } from '../modal'
 import { BiPencil } from 'react-icons/bi'
+import { FigureCard } from '@components/sections/subAdmin'
+import Image from 'next/image'
 
 export const ActiveIndustries = ({
     onSetIndustryData,
@@ -164,13 +169,33 @@ export const ActiveIndustries = ({
             header: () => <span>Name</span>,
             cell: (info) => {
                 return (
-                    <div className="flex flex-col gap-y-1">
-                        <Typography variant={'label'}>
-                            {info?.row?.original?.businessName}
-                        </Typography>
-                        <Typography variant={'label'}>
-                            {info?.row?.original?.email}
-                        </Typography>
+                    <div className="flex items-center gap-x-1.5">
+                        {info?.row?.original?.businessName && (
+                            <InitialAvatar
+                                name={info?.row?.original?.businessName}
+                            />
+                        )}
+                        <div className="flex flex-col gap-y-1">
+                            <div className="flex items-center gap-x-2">
+                                <Typography variant={'label'}>
+                                    {info?.row?.original?.businessName}
+                                </Typography>
+                                {info.row.original?.signedUp && (
+                                    <div className="relative group">
+                                        <Image
+                                            src={'/images/signup.png'}
+                                            alt={''}
+                                            width={20}
+                                            height={20}
+                                        />
+                                        <Tooltip>Signed Up</Tooltip>
+                                    </div>
+                                )}
+                            </div>
+                            <Typography variant={'label'}>
+                                {info?.row?.original?.email}
+                            </Typography>
+                        </div>
                     </div>
                 )
             },
@@ -213,6 +238,13 @@ export const ActiveIndustries = ({
                     </div>
                 )
             },
+        },
+        {
+            accessorKey: 'createdAt',
+            header: () => <span>Created At</span>,
+            cell: (info) => (
+                <UserCreatedAt createdAt={info.row.original?.createdAt} />
+            ),
         },
         {
             accessorKey: 'action',

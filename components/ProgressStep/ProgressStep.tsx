@@ -80,10 +80,10 @@ export const ProgressStep = ({ status }: Props) => {
                         <React.Fragment key={item.id}>
                             <div className="flex flex-col items-center gap-y-1">
                                 <div
-                                    className={`w-12 h-12 bg-sky-50 overflow-hidden border-[1px]  rounded-full ${
+                                    className={`w-12 h-12 bg-sky-50 overflow-hidden  rounded-full ${
                                         index <= currentStatus
-                                            ? 'border-green-500'
-                                            : 'border-gray-400 border-dashed'
+                                            ? 'border-green-500 border-4'
+                                            : 'border-gray-400 border-dashed border-2'
                                     }`}
                                 >
                                     <Image

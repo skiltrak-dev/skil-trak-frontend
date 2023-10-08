@@ -17,6 +17,10 @@ export const findWorkplaceEndpoints = (
         }),
         providesTags: ['Industries'],
     }),
+    getFindWorkplacesCount: builder.query<any, void>({
+        query: () => `${PREFIX}/count`,
+        providesTags: ['Industries'],
+    }),
     findIndustriesCount: builder.query<any, void>({
         query: () => ({
             url: `industries/count`,

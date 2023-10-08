@@ -7,6 +7,7 @@ import {
     TabProps,
     TechnicalError,
 } from '@components'
+import { FigureCard } from '@components/sections/subAdmin'
 import { useContextBar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { ActiveIndustries, AddIndustry } from '@partials/common'
@@ -37,6 +38,7 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    const count = CommonApi.FindWorkplace.useGetFindWorkplacesCount()
 
     const onSetIndustryData = useCallback((data: any) => {
         setIndustryData(data)
@@ -118,6 +120,50 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
                             <div>
                                 <div className="flex items-end justify-between">
                                     <div className="flex-grow">{header}</div>
+                                </div>
+                                <div className="flex items-center gap-x-2 mt-3">
+                                    <FigureCard
+                                        count={count?.data?.all}
+                                        loading={count?.isLoading}
+                                        title={'All Industries'}
+                                        imageUrl={
+                                            '/images/icons/allIndustry.jpg'
+                                        }
+                                        onClick={() => {
+                                            // setTarget('call made to  student')
+                                        }}
+                                    />
+                                    <FigureCard
+                                        count={count?.data?.newlyCreated}
+                                        loading={count?.isLoading}
+                                        title={'Today Added Industries'}
+                                        imageUrl={
+                                            '/images/icons/newlyAdded.jpg'
+                                        }
+                                        onClick={() => {
+                                            // setTarget('call made to  student')
+                                        }}
+                                    />
+                                    <FigureCard
+                                        count={count?.data?.favourite}
+                                        loading={count?.isLoading}
+                                        title={'Favourite Industries'}
+                                        imageUrl={'/images/icons/favorite.jpg'}
+                                        onClick={() => {
+                                            // setTarget('call made to  student')
+                                        }}
+                                    />
+                                    <FigureCard
+                                        count={count?.data?.doNotDisturb}
+                                        loading={count?.isLoading}
+                                        title={'Do Not Disturb'}
+                                        imageUrl={
+                                            '/images/icons/doNotDisturb.jpg'
+                                        }
+                                        onClick={() => {
+                                            // setTarget('call made to  student')
+                                        }}
+                                    />
                                 </div>
                                 <div className="p-4">{element}</div>
                             </div>
