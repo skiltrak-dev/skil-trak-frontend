@@ -5,6 +5,7 @@ import {
     ActionButton,
     Button,
     Card,
+    InitialAvatar,
     Select,
     ShowErrorNotifications,
     Typography,
@@ -16,6 +17,7 @@ import {
     WorkplaceCurrentStatus,
     ellipsisText,
     formatOptionLabel,
+    getUserCredentials,
 } from '@utils'
 
 // hooks
@@ -42,6 +44,9 @@ import { StudentDetail } from './StudentDetail'
 import { WorkplaceFolders } from './WorkplaceFolders'
 import { SmallDetail } from './SmallDetail'
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
+import Link from 'next/link'
+import { UserRoles } from '@constants'
+import { BsDot } from 'react-icons/bs'
 
 export const WPStatusForCancelButon = [
     WorkplaceCurrentStatus.Applied,
@@ -105,6 +110,8 @@ export const WorkplaceRequest = ({ workplace }: any) => {
               }))
             : []
 
+    const role = getUserCredentials()?.role
+
     return (
         <Waypoint
             onEnter={() => setOnEnterWorkplace(true)}
@@ -116,7 +123,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                     <div
                         className={`w-full transition-all duration-700 overflow-hidden p-4 rounded-md shadow-lg ${
                             appliedIndustry?.isCompleted ? 'bg-gray-50' : ''
-                        } ${isOpen ? 'max-h-[1000px]' : 'max-h-[250px]'}`}
+                        } ${isOpen ? 'max-h-[1000px]' : 'max-h-[450px]'}`}
                     >
                         <div>
                             <div className="flex justify-between items-center flex-wrap gap-5 pb-2.5 border-b border-dashed">
@@ -224,6 +231,89 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                         {/* Student Small Details */}
                         <div className="mt-3 flex flex-col md:flex-row gap-y-5 justify-between items-center">
                             <StudentDetail data={workplace?.student} />
+
+                            {!isOpen && (
+                                <div>
+                                    {appliedIndustry ? (
+                                        <>
+                                            <Typography variant={'label'}>
+                                                Work Industry
+                                            </Typography>
+                                            <Link
+                                                href={
+                                                    role === UserRoles.ADMIN
+                                                        ? `/portals/admin/industry/${appliedIndustry?.industry?.id}?tab=sectors`
+                                                        : role ===
+                                                          UserRoles.SUBADMIN
+                                                        ? `/portals/sub-admin/users/industries/${appliedIndustry?.industry?.id}?tab=overview`
+                                                        : '#'
+                                                }
+                                                className="flex items-center gap-x-2 cursor-pointer bg-gray-100 py-1 px-2 rounded-md"
+                                            >
+                                                {appliedIndustry?.industry?.user
+                                                    ?.name && (
+                                                    <InitialAvatar
+                                                        name={
+                                                            appliedIndustry
+                                                                ?.industry?.user
+                                                                ?.name
+                                                        }
+                                                        imageUrl={
+                                                            appliedIndustry
+                                                                ?.industry?.user
+                                                                ?.avatar
+                                                        }
+                                                    />
+                                                )}
+                                                <div>
+                                                    <div className="flex items-center gap-x-0.5">
+                                                        <Typography
+                                                            variant={'label'}
+                                                        >
+                                                            <span className="cursor-pointer">
+                                                                {
+                                                                    appliedIndustry
+                                                                        ?.industry
+                                                                        ?.user
+                                                                        ?.name
+                                                                }
+                                                            </span>
+                                                        </Typography>
+                                                        <BsDot />
+                                                        <Typography
+                                                            variant={'xs'}
+                                                            color={
+                                                                'text-gray-500'
+                                                            }
+                                                        >
+                                                            {Number(
+                                                                appliedIndustry?.distance
+                                                            )?.toFixed(2)}{' '}
+                                                            Km Away
+                                                        </Typography>
+                                                    </div>
+                                                    <Typography
+                                                        variant={'muted'}
+                                                        color={'gray'}
+                                                    >
+                                                        {
+                                                            appliedIndustry
+                                                                ?.industry
+                                                                ?.addressLine1
+                                                        }
+                                                        ,{' '}
+                                                        {
+                                                            appliedIndustry
+                                                                ?.industry
+                                                                ?.addressLine2
+                                                        }
+                                                    </Typography>
+                                                </div>
+                                            </Link>
+                                        </>
+                                    ) : null}
+                                </div>
+                            )}
 
                             {/*  */}
                             <WorkplaceFolders
