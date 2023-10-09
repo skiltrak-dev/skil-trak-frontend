@@ -24,6 +24,16 @@ export const industriesEndpoints = (
         }),
         providesTags: ['Industry'],
     }),
+    applyForJobFromHomePage: builder.mutation<any, any>({
+        query: ({ id, body }) => {
+            return {
+                url: `students/job/apply/from-website/${id}`,
+                method: 'POST',
+                body,
+            }
+        },
+        invalidatesTags: ['Industry'],
+    }),
     getAdvertisedJobDetail: builder.query<any, any>({
         query: (id) => `jobs/view-related/${id}`,
         providesTags: ['Industry'],

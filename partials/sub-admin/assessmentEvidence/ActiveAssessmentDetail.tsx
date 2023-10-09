@@ -568,6 +568,26 @@ export const ActiveAssessmentDetail = ({
                                     <span>Download Files</span>
                                 </div>
                             </Link> */}
+                            {/* <FileUpload
+                                onChange={onUploadDocs}
+                                name={'folder?.name'}
+                                component={AddFileButton}
+                                multiple
+                                limit={
+                                    selectedFolder?.id === AgreementFile
+                                        ? 10
+                                        : Number(selectedFolder?.capacity) -
+                                          Number(
+                                              selectedFolder?.studentResponse
+                                                  ?.length > 0
+                                                  ? selectedFolder
+                                                        ?.studentResponse[0]
+                                                        ?.files?.length
+                                                  : 0
+                                          )
+                                }
+                                acceptTypes={getDocType(selectedFolder?.type)}
+                            /> */}
                             {results?.result !== Result.Competent && (
                                 <div className="flex items-center gap-x-2 mb-1">
                                     <div>

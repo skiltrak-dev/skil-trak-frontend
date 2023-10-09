@@ -2,10 +2,10 @@ import { LoadingAnimation } from '@components/LoadingAnimation'
 import { Modal } from '@components/Modal'
 import { PdfViewer } from '@components/PdfViewer'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
-import { TextArea, UploadFile } from '@components/inputs'
+import { TextArea, TextInput, UploadFile } from '@components/inputs'
 import { FileUpload } from '@hoc'
 import { useNotification } from '@hooks'
-import { StudentApi } from '@queries'
+import { CommonApi, StudentApi } from '@queries'
 import { useEffect, useState } from 'react'
 import { AiFillCheckCircle } from 'react-icons/ai'
 
@@ -16,6 +16,7 @@ export const ApplyJobModal = ({
     id: number
     onCancel: () => void
 }) => {
+    const [email, setEmail] = useState<any>(null)
     const [resume, setResume] = useState<any>(null)
     const [coverLetter, setCoverLetter] = useState<any>(null)
     const [selectedResume, setSelectedResume] = useState<boolean>(false)
@@ -25,7 +26,8 @@ export const ApplyJobModal = ({
     const { notification } = useNotification()
 
     const getJobResume = StudentApi.Job.useGetStudentUploadedResume()
-    const [applyForJob, applyForJobResult] = StudentApi.Job.useApplyJob()
+    const [applyForJob, applyForJobResult] =
+        CommonApi.Industries.useApplyForJob()
 
     useEffect(() => {
         if (getJobResume.isSuccess) {
@@ -52,10 +54,13 @@ export const ApplyJobModal = ({
             'resume',
             getJobResume?.data && !newResumeUploaded ? resume : (file as File)
         )
+        formData.append('email', email)
         formData.append('cover_latter', coverLetter)
 
         applyForJob({ id, body: formData })
     }
+
+    console.log({applyForJobResult})
 
     return (
         <div>
@@ -78,6 +83,14 @@ export const ApplyJobModal = ({
                 ) : (
                     <div className={`relative`}>
                         <div className={`max-h-[70vh] overflow-auto  `}>
+                            <TextInput
+                                name="email"
+                                label={'Email'}
+                                placeholder={'Enter Email'}
+                                onChange={(e: any) => {
+                                    setEmail(e.target.value)
+                                }}
+                            />
                             <TextArea
                                 name="coverletter"
                                 rows={6}

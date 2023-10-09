@@ -197,9 +197,10 @@ const {
     // ------ Industry ------ //
     useGetAllIndustriesQuery,
     useAllGetIndustriesListQuery,
-    useGetBulkEmailSubadminIndustriesQuery,
     useGetAllAdvertisedJobsQuery,
     useGetAdvertisedJobDetailQuery,
+    useApplyForJobFromHomePageMutation,
+    useGetBulkEmailSubadminIndustriesQuery,
 
     useGetAllRtosQuery,
     useGetFilterSubAdminRtosQuery,
@@ -346,6 +347,7 @@ export const CommonApi = {
         useRtosList: useGetRtosListQuery,
     },
     Industries: {
+        useApplyForJob: useApplyForJobFromHomePageMutation,
         useIndustriesList: useAllGetIndustriesListQuery,
         bulkEmailSubadminIndustries: useGetBulkEmailSubadminIndustriesQuery,
         getAllAdvertisedJobs: useGetAllAdvertisedJobsQuery,
