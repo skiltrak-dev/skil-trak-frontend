@@ -13,15 +13,14 @@ import { Footer3 } from '@components/site/Footer3'
 import { Navbar2 } from '@components/site/navbar'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
-import { ReactNode, useState } from 'react'
+import { ReactElement, ReactNode, useState } from 'react'
 import { useContextBar } from '@hooks'
 import { ApplyJobModal } from '@components/site/jobs'
+import { SiteLayout } from '@layouts'
+import { NextPageWithLayout } from '@types'
 
-const JobDetail: NextPage = () => {
-    const [itemPerPage, setItemPerPage] = useState(50)
-    const [page, setPage] = useState(1)
+const JobDetail: NextPageWithLayout = () => {
     const [modal, setModal] = useState<ReactNode | null>(null)
-    const [onClickId, setOnClickId] = useState(null)
     const router = useRouter()
     const { id } = router.query
 
@@ -46,7 +45,6 @@ const JobDetail: NextPage = () => {
     return (
         <>
             {modal}
-            <Navbar2 />
             <div className="md:px-[140px] md:py-[72px] px-4 py-8">
                 <div className="max-w-7xl mx-auto">
                     <div className="flex md:flex-row flex-col items-start gap-y-4 md:gap-x-12">
@@ -293,18 +291,12 @@ const JobDetail: NextPage = () => {
                     </div>
                 </div>
             </div>
-            {/* Footer */}
-            <Footer3 />
         </>
     )
 }
 
-// export async function getStaticProps() {
-//     return {
-//         props: {
-//             data: [],
-//         },
-//     }
-// }
+JobDetail.getLayout = (page: ReactElement) => {
+    return <SiteLayout>{page}</SiteLayout>
+}
 
 export default JobDetail

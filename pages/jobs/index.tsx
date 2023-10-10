@@ -1,35 +1,28 @@
-import { useState } from 'react'
-import { NextPage } from 'next'
-import Image from 'next/image'
+import { ReactElement, useState } from 'react'
 // Components
 import {
     EmptyData,
     LoadingAnimation,
-    NoData,
-    PageSize,
     Pagination,
-    TechnicalError,
-    Typography,
+    TechnicalError
 } from '@components'
 import { RecentJobCard } from '@components/site/jobs/RecentJobCard'
-import { RelatedJobCard } from '@components/site/jobs/RelatedJobCard'
 // react icons
-import { HiCurrencyDollar } from 'react-icons/hi2'
-import { MdLocationOn } from 'react-icons/md'
 //Queries
 import { commonApi } from '@queries'
 //  site components
 import { Footer3 } from '@components/site/Footer3'
 import { Navbar2 } from '@components/site/navbar'
+import { SiteLayout } from '@layouts'
+import { NextPageWithLayout } from '@types'
 
-const Jobs: NextPage = () => {
+const Jobs: NextPageWithLayout = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
     const { data, isLoading, isError } = commonApi.useGetAllAdvertisedJobsQuery(
         { skip: itemPerPage * page - itemPerPage, limit: itemPerPage }
     )
-
 
     return (
         <>
@@ -66,12 +59,8 @@ const Jobs: NextPage = () => {
     )
 }
 
-// export async function getStaticProps() {
-//     return {
-//         props: {
-//             data: [],
-//         },
-//     }
-// }
+Jobs.getLayout = (page: ReactElement) => {
+    return <SiteLayout>{page}</SiteLayout>
+}
 
 export default Jobs

@@ -292,6 +292,7 @@ const {
     useGetTicketQuery,
     useAddReplyMutation,
     useGetAllTicketQuery,
+    useGetTicketCountQuery,
     useCloseTicketMutation,
     useCreateTicketMutation,
     useGetTicketDetailQuery,
@@ -441,6 +442,7 @@ export const CommonApi = {
         useCreateTicket: useCreateTicketMutation,
         useGetTicketReplies: useGetTicketRepliesQuery,
         useSeenTicketReply: useSeenTicketReplyMutation,
+        useGetTicketCountQuery: useGetTicketCountQuery,
     },
     StudentAssessmentFiles: {
         useGalleryFileViewDetail: useGalleryFileViewDetailQuery,

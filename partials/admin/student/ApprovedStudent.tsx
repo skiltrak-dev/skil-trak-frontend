@@ -1,17 +1,17 @@
 import {
-    ActionButton,
     Card,
-    CaseOfficerAssignedStudent,
-    EmptyData,
-    LoadingAnimation,
-    StudentExpiryDaysLeft,
-    StudentSubAdmin,
     Table,
+    EmptyData,
+    Typography,
     TableAction,
+    ActionButton,
+    TechnicalError,
+    StudentSubAdmin,
+    LoadingAnimation,
     TableActionOption,
     TableChildrenProps,
-    TechnicalError,
-    Typography,
+    StudentExpiryDaysLeft,
+    CaseOfficerAssignedStudent,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -20,12 +20,7 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import {
-    calculateRemainingDays,
-    checkListLength,
-    setLink,
-    studentsListWorkplace,
-} from '@utils'
+import { checkListLength, setLink, studentsListWorkplace } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
@@ -43,7 +38,6 @@ import {
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { useActionModal } from '@hooks'
 import moment from 'moment'
-import { AiOutlineWarning } from 'react-icons/ai'
 
 export const ApprovedStudent = () => {
     const router = useRouter()
