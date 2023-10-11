@@ -44,6 +44,8 @@ export interface NotificationProps {
     variant?: (typeof VariantOptions)[number]
     icon?: any
     avatar?: string
+    dissmissTimer?: number
+    uniqueId?: number
 }
 
 export const Notification = ({
@@ -56,6 +58,7 @@ export const Notification = ({
     variant = VariantOptions[0],
     icon,
     avatar,
+    dissmissTimer,
 }: NotificationProps) => {
     const { dismiss } = useNotification()
 
@@ -73,7 +76,7 @@ export const Notification = ({
         if (autoDismiss && !hovered) {
             const timer = setTimeout(() => {
                 setDismissing(!dismissingRef.current)
-            }, 3000)
+            }, dissmissTimer || 3000)
             return () => {
                 clearTimeout(timer)
             }

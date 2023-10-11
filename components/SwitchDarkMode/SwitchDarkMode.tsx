@@ -9,7 +9,6 @@ export const SwitchDarkMode = () => {
         <div className="relative group">
             <DarkModeToggle
                 onChange={(e: any) => {
-                    console.log({ e })
                     setIsDarkMode(e)
                     if (isBrowser()) {
                         if (e) {

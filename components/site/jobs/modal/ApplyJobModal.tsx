@@ -62,8 +62,6 @@ export const ApplyJobModal = ({
         applyForJob({ id, body: formData })
     }
 
-    console.log({ applyForJobResult })
-
     return (
         <div>
             <ShowErrorNotifications result={applyForJobResult} />
