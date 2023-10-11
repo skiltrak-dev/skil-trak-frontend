@@ -69,6 +69,15 @@ export const MyClosedTickets = () => {
             header: () => <span>Assigned To</span>,
         },
         {
+            accessorKey: 'priority',
+            header: () => <span>Priority</span>,
+            cell: (info) => (
+                <Typography variant="label" capitalize semibold>
+                    {info.row.original?.priority}
+                </Typography>
+            ),
+        },
+        {
             accessorKey: 'replies',
             header: () => <span>Replies</span>,
         },

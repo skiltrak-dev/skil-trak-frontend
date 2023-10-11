@@ -7,6 +7,7 @@ import TawkMessengerReact from '@tawk.to/tawk-messenger-react'
 import { useRef } from 'react'
 import { Navbar2 } from '@components/site/navbar/Navbar2'
 import { Footer3 } from '@components/site/Footer3'
+import { DisplayNotifications } from '@components'
 
 export const SiteLayout = ({ children, title }: any) => {
     const tawkMessengerRef = useRef<any>()
@@ -19,6 +20,7 @@ export const SiteLayout = ({ children, title }: any) => {
         <div>
             <title>Home | SkilTrak</title>
             <Navbar2 />
+            <DisplayNotifications />
             <main>{children}</main>
             <Footer3 />
             <TawkMessengerReact

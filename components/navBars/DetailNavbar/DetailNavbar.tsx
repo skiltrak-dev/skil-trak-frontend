@@ -31,6 +31,7 @@ export const DetailNavbar = () => {
         skip: undefined,
         limit: undefined,
     })
+    const ticketCount = CommonApi.Tickets.useGetTicketCountQuery()
 
     const { data: mailCount } = CommonApi.Messages.useMailCount()
     const allMails = CommonApi.Messages.useRecentMails()
@@ -82,25 +83,31 @@ export const DetailNavbar = () => {
                 </AuthorizedUserComponent>
 
                 <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
-                    <Link
-                        legacyBehavior
-                        href={'/portals/sub-admin/tickets?tab=all-tickets'}
-                    >
-                        <a
-                            className={` ${
-                                router.pathname === '/portals/sub-admin/tickets'
-                                    ? 'bg-green-100 text-green-700'
-                                    : 'text-slate-700'
-                            } transition-all duration-300 px-4 py-2 flex gap-x-2 items-center rounded-md hover:bg-green-100 hover:text-green-700`}
+                    <div className="relative">
+                        <Link
+                            legacyBehavior
+                            href={'/portals/sub-admin/tickets?tab=all-tickets'}
                         >
-                            <span>
-                                <BsFillTicketDetailedFill />
-                            </span>
-                            <span className="text-sm font-semibold">
-                                Tickets
-                            </span>
-                        </a>
-                    </Link>
+                            <a
+                                className={` ${
+                                    router.pathname ===
+                                    '/portals/sub-admin/tickets'
+                                        ? 'bg-green-100 text-green-700'
+                                        : 'text-slate-700'
+                                } transition-all duration-300 px-4 py-2 flex gap-x-2 items-center rounded-md hover:bg-green-100 hover:text-green-700`}
+                            >
+                                <span>
+                                    <BsFillTicketDetailedFill />
+                                </span>
+                                <span className="text-sm font-semibold">
+                                    Tickets
+                                </span>
+                            </a>
+                        </Link>
+                        <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute -top-2 -right-2 bg-error rounded-full text-xs">
+                            {ticketCount?.data}
+                        </span>
+                    </div>
                 </AuthorizedUserComponent>
 
                 <OutsideClickHandler
