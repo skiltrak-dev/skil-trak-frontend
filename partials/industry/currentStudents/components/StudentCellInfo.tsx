@@ -17,15 +17,17 @@ export const StudentCellInfo = ({
                 pathname: `/portals/industry/students/current-students/${id}`,
                 query: { tab: 'overview' },
             }}
-        // href={`}
+            // href={`}
         >
             <a className="flex items-center gap-x-2">
-                <div className="">
-                    <InitialAvatar
-                        name={student?.user?.name || ""}
-                        imageUrl={student?.user?.avatar || ""}
-                    />
-                </div>
+                {student?.user?.name && (
+                    <div className="">
+                        <InitialAvatar
+                            name={student?.user?.name || ''}
+                            imageUrl={student?.user?.avatar || ''}
+                        />
+                    </div>
+                )}
                 <div>
                     <p className="flex items-center gap-x-1 text-xs">
                         {student?.studentId}

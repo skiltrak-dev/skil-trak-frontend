@@ -138,7 +138,7 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
                                         loading={count?.isLoading}
                                         title={'Today Added Industries'}
                                         imageUrl={
-                                            '/images/icons/newlyAdded.jpg'
+                                            '/images/icons/newlyAdded.png'
                                         }
                                         onClick={() => {
                                             // setTarget('call made to  student')
@@ -148,7 +148,7 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
                                         count={count?.data?.favourite}
                                         loading={count?.isLoading}
                                         title={'Favourite Industries'}
-                                        imageUrl={'/images/icons/favorite.jpg'}
+                                        imageUrl={'/images/icons/favorite.png'}
                                         onClick={() => {
                                             // setTarget('call made to  student')
                                         }}

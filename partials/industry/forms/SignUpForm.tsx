@@ -29,6 +29,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const sectorResponse = AuthApi.useSectors({})
 
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
+    const [checkAbnExist, checkAbnExistResult] = AuthApi.useAbn()
 
     const [sectorOptions, setSectorOptions] = useState<any>([])
     const [selectedSector, setSelectedSector] = useState<any>(null)
@@ -40,6 +41,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const [storedData, setStoredData] = useState<any>(null)
 
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
+    const [lastEnteredAbn, setLastEnteredAbn] = useState('')
 
     const onEmailChange = (e: any) => {
         _debounce(() => {
@@ -48,6 +50,17 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
             if (isEmailValid(email)) {
                 checkEmailExists({ email })
                 setLastEnteredEmail(email)
+            }
+        }, 300)()
+    }
+
+    const onAbnChange = (e: any) => {
+        _debounce(() => {
+            // Regex for email, only valid mail should be sent
+            const abn = e.target.value
+            if (abn) {
+                checkAbnExist({ abn })
+                setLastEnteredAbn(abn)
             }
         }, 300)()
     }
@@ -161,6 +174,15 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         }
     }, [emailCheckResult])
 
+    useEffect(() => {
+        if (checkAbnExistResult.isError) {
+            notification.error({
+                title: 'Abn Exist',
+                description: `'${lastEnteredAbn}' is already being used.`,
+            })
+        }
+    }, [checkAbnExistResult])
+
     const onBackToReview = () => {
         SignUpUtils.setEditingMode(false)
         router.push('/auth/signup/review-signup-info')
@@ -248,18 +270,20 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                             <TextInput
-                                label={'ABN'}
-                                name={'abn'}
-                                placeholder={'ABN...'}
-                                validationIcons
                                 required
+                                name={'abn'}
+                                label={'ABN'}
+                                validationIcons
+                                onBlur={onAbnChange}
+                                placeholder={'ABN...'}
+                                loading={checkAbnExistResult.isLoading}
                             />
 
                             <TextInput
-                                label={'Website (Optional)'}
-                                name={'website'}
-                                placeholder={'Website Url...'}
                                 validationIcons
+                                name={'website'}
+                                label={'Website (Optional)'}
+                                placeholder={'Website Url...'}
                             />
 
                             <TextInput

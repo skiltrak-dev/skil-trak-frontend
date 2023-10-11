@@ -50,6 +50,12 @@ interface TypographyProps {
     right?: boolean
 
     color?: string
+
+    bold?: boolean
+    semibold?: boolean
+    medium?: boolean
+    light?: boolean
+    normal?: boolean
 }
 
 export const Typography = ({
@@ -70,6 +76,12 @@ export const Typography = ({
 
     // tailwind class
     color = 'text-typography',
+
+    bold,
+    medium,
+    light,
+    normal,
+    semibold,
 }: TypographyProps) => {
     let classes = `${color}`
 
@@ -85,6 +97,18 @@ export const Typography = ({
         classes = `${classes} capitalize`
     } else if (uppercase) {
         classes = `${classes} uppercase`
+    }
+
+    if (bold) {
+        classes = `${classes} !font-bold`
+    } else if (semibold) {
+        classes = `${classes} !font-semibold`
+    } else if (medium) {
+        classes = `${classes} !font-medium`
+    } else if (normal) {
+        classes = `${classes} !font-normal`
+    } else if (light) {
+        classes = `${classes} !font-light`
     }
 
     const Component = `${

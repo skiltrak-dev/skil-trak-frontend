@@ -44,7 +44,7 @@ export const FindWorkplaceFilters = ({
     return (
         <>
             <SetQueryFilters<FindWorkplaceFilter> filter={filter} />
-            <div className="grid grid-cols-4 gap-x-3">
+            <div className="grid grid-cols-3 gap-x-3">
                 <TextInput
                     name="businessName"
                     label={'Business Name'}

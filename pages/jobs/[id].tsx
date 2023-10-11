@@ -6,89 +6,45 @@ import {
 } from '@components'
 import { RelatedJobCard } from '@components/site/jobs/RelatedJobCard'
 import { NextPage } from 'next'
-import Image from 'next/image'
 import { HiCurrencyDollar } from 'react-icons/hi2'
 import { MdLocationOn } from 'react-icons/md'
 //Queries
-import { IndustryApi, commonApi } from '@queries'
-import { useState } from 'react'
 import { Footer3 } from '@components/site/Footer3'
 import { Navbar2 } from '@components/site/navbar'
+import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
+import { ReactElement, ReactNode, useState } from 'react'
+import { useContextBar } from '@hooks'
+import { ApplyJobModal } from '@components/site/jobs'
+import { SiteLayout } from '@layouts'
+import { NextPageWithLayout } from '@types'
 
-const RecentJobsData = [
-    {
-        id: 1,
-        title: 'Job Title',
-        avatar: '/images/site/partners/p14.png',
-        industryName: 'Industry Name',
-        address: 'Address Here',
-        salaryFrom: '33',
-        salaryTo: '35',
-        sectorName: 'Sector Name Goes here',
-    },
-    {
-        id: 2,
-        title: 'Job Title',
-        avatar: '/images/site/partners/p14.png',
-        industryName: 'Industry Name',
-        address: 'Address Here',
-        salaryFrom: '33',
-        salaryTo: '35',
-        sectorName: 'Sector Name Goes here',
-    },
-    {
-        id: 3,
-        title: 'Job Title',
-        avatar: '/images/site/partners/p14.png',
-        industryName: 'Industry Name',
-        address: 'Address Here',
-        salaryFrom: '33',
-        salaryTo: '35',
-        sectorName: 'Sector Name Goes here',
-    },
-    {
-        id: 4,
-        title: 'Job Title',
-        avatar: '/images/site/partners/p14.png',
-        industryName: 'Industry Name',
-        address: 'Address Here',
-        salaryFrom: '33',
-        salaryTo: '35',
-        sectorName: 'Sector Name Goes here',
-    },
-    {
-        id: 5,
-        title: 'Job Title',
-        avatar: '/images/site/partners/p14.png',
-        industryName: 'Industry Name',
-        address: 'Address Here',
-        salaryFrom: '33',
-        salaryTo: '35',
-        sectorName: 'Sector Name Goes here',
-    },
-]
-
-const JobDetail: NextPage = () => {
-    const [itemPerPage, setItemPerPage] = useState(50)
-    const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
-    const [onClickId, setOnClickId] = useState(null)
+const JobDetail: NextPageWithLayout = () => {
+    const [modal, setModal] = useState<ReactNode | null>(null)
     const router = useRouter()
     const { id } = router.query
 
-    const jobDetail = commonApi.useGetAdvertisedJobDetailQuery(id, {
+    const contextBar = useContextBar()
+
+    const jobDetail = CommonApi.Industries.getAdvertisedJobDetail(id, {
         skip: !id,
     })
-    const { data, isLoading, isError } = commonApi.useGetAllAdvertisedJobsQuery(
-        {
+    const { data, isLoading, isError } =
+        CommonApi.Industries.getAllAdvertisedJobs({
             industry: jobDetail?.data?.job?.industry?.id,
-        }
-    )
+        })
     const openJobId = jobDetail?.data?.job?.id
+
+    const onCancelModal = () => setModal(null)
+
+    const onApplyJobClicked = () => {
+        setModal(
+            <ApplyJobModal id={openJobId} onCancel={() => onCancelModal()} />
+        )
+    }
     return (
         <>
-            <Navbar2 />
+            {modal}
             <div className="md:px-[140px] md:py-[72px] px-4 py-8">
                 <div className="max-w-7xl mx-auto">
                     <div className="flex md:flex-row flex-col items-start gap-y-4 md:gap-x-12">
@@ -178,9 +134,7 @@ const JobDetail: NextPage = () => {
                                                 </div>
                                                 <div
                                                     onClick={() =>
-                                                        router.push(
-                                                            '/auth/login'
-                                                        )
+                                                        onApplyJobClicked()
                                                     }
                                                     className="cursor-pointer hover:bg-blue-500 hover:transition-all rounded-lg text-xs md:text-base px-2 py-1 md:px-4 md:py-2 text-white bg-blue-400"
                                                 >
@@ -337,18 +291,12 @@ const JobDetail: NextPage = () => {
                     </div>
                 </div>
             </div>
-            {/* Footer */}
-            <Footer3 />
         </>
     )
 }
 
-// export async function getStaticProps() {
-//     return {
-//         props: {
-//             data: [],
-//         },
-//     }
-// }
+JobDetail.getLayout = (page: ReactElement) => {
+    return <SiteLayout>{page}</SiteLayout>
+}
 
 export default JobDetail

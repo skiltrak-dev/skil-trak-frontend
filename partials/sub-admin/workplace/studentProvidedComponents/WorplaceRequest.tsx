@@ -6,6 +6,7 @@ import { RiBook2Fill } from 'react-icons/ri'
 // components
 import {
     ActionButton,
+    Button,
     Card,
     InitialAvatar,
     ShowErrorNotifications,
@@ -38,6 +39,8 @@ import { RequestTypeAbn } from './RequestTypeAbn'
 import Link from 'next/link'
 import { UserRoles } from '@constants'
 import { BsDot } from 'react-icons/bs'
+import { ViewAgreement } from '@partials/common'
+import { useContextBar } from '@hooks'
 
 export const WorkplaceRequest = ({
     workplace,
@@ -63,6 +66,8 @@ export const WorkplaceRequest = ({
         },
         { skip: !workplace || !appliedIndustry || !course }
     )
+
+    const { setContent, show } = useContextBar()
 
     useEffect(() => {
         setAppliedIndustry(
@@ -103,7 +108,7 @@ export const WorkplaceRequest = ({
             <div
                 className={`w-full transition-all duration-700 overflow-hidden p-4 rounded-md shadow-lg ${
                     appliedIndustry?.isCompleted ? 'bg-gray-50' : ''
-                } ${isOpen ? 'max-h-[1000px]' : 'max-h-[250px]'} bg-gray-100`}
+                } ${isOpen ? 'max-h-[1000px]' : 'max-h-[300px]'} bg-gray-100`}
             >
                 <div>
                     <div className="flex justify-between items-center flex-wrap gap-5 pb-2.5 border-b border-dashed">
@@ -171,7 +176,23 @@ export const WorkplaceRequest = ({
                         </div>
 
                         {/* Request Type Selection */}
-                        <div className="flex items-center justify-end">
+
+                        {/* Request Type Selection */}
+                        <div className="flex items-center justify-end gap-x-2">
+                            {appliedIndustry?.AgreementSigned && (
+                                <Button
+                                    variant={'info'}
+                                    text={'View Agreement'}
+                                    onClick={() => {
+                                        setContent(
+                                            <ViewAgreement
+                                                workplace={workplace}
+                                            />
+                                        )
+                                        show(false)
+                                    }}
+                                />
+                            )}
                             {workplace?.studentProvidedWorkplace ? (
                                 <RequestType
                                     appliedIndustry={appliedIndustry}

@@ -146,7 +146,7 @@ export const AdvertisedJobsContainer = () => {
                             simple
                             onClick={() => {
                                 router.push(
-                                    `/portals/industry/jobs/view-applicants/${row.original?.id}`
+                                    `/portals/industry/jobs/view-applicants/${row.original?.id}?tab=portal-applied`
                                 )
                             }}
                         >

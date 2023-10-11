@@ -67,6 +67,14 @@ export const authApi = createApi({
             }),
         }),
 
+        checkAbn: builder.mutation<any, any>({
+            query: (body) => ({
+                url: `industries/abn/validate`,
+                method: 'POST',
+                body,
+            }),
+        }),
+
         checkStatus: builder.mutation<any, number>({
             query: (id) => ({
                 url: `${PREFIX}user-status/${id}`,
@@ -78,9 +86,10 @@ export const authApi = createApi({
 
 const {
     useLoginMutation,
+    useCheckAbnMutation,
+    useGetSectorsQuery,
     useCheckStatusMutation,
     useCheckEmailMutation,
-    useGetSectorsQuery,
     useRegisterIndustryMutation,
     useRegisterRtoMutation,
     useRegisterStudentMutation,
@@ -101,4 +110,6 @@ export const AuthApi = {
     useRegisterRto: useRegisterRtoMutation,
     useRegisterStudent: useRegisterStudentMutation,
     useRtos: useGetRtosQuery,
+
+    useAbn: useCheckAbnMutation,
 }

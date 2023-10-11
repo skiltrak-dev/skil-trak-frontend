@@ -33,43 +33,9 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
     const [defaultValue, setDefaultValue] = useState<any | null | undefined>(
         null
     )
-    const [courseOptions, setCourseOptions] = useState<OptionType[]>([])
-    const [courseLoading, setCourseLoading] = useState(false)
-    const [storedData, setStoredData] = useState<any>(null)
-
-    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
-
-    const { notification } = useNotification()
 
     const sectorResponse = AuthApi.useSectors({})
 
-    const onSectorChanged = (sectors: OptionType[]) => {
-        setCourseLoading(true)
-        const filteredCourses = sectors.map((selectedSector: OptionType) => {
-            const sectorExisting = sectorResponse.data.find(
-                (sector: Sector) => sector.id === selectedSector.value
-            )
-            if (sectorExisting && sectorExisting?.courses?.length) {
-                return sectorExisting.courses
-            }
-        })
-
-        const newCourseOptions: OptionType[] = []
-        filteredCourses.map((courseList: any) => {
-            if (courseList && courseList.length) {
-                return courseList.map((course: any) =>
-                    newCourseOptions.push({
-                        label: course.title,
-                        value: course.id,
-                        item: course,
-                    })
-                )
-            }
-        })
-
-        setCourseOptions(newCourseOptions)
-        setCourseLoading(false)
-    }
     const sectorOptions =
         sectorResponse.data && sectorResponse.data?.length > 0
             ? sectorResponse.data?.map((sector: any) => ({
@@ -133,22 +99,11 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
         mode: 'all',
     })
 
-    const onHandleSubmit = (values: any) => {
-        if (!onSuburbClicked) {
-            notification.error({
-                title: 'You must select on Suburb Dropdown',
-                description: 'You must select on Suburb Dropdown',
-            })
-        } else if (onSuburbClicked) {
-            onSubmit(values)
-        }
-    }
-
     return (
         <FormProvider {...methods}>
             <form
                 className="mt-2 w-full"
-                onSubmit={methods.handleSubmit(onHandleSubmit)}
+                onSubmit={methods.handleSubmit(onSubmit)}
             >
                 <div className="mb-8">
                     <div className="mb-3 pb-2 border-b">
@@ -178,17 +133,11 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                         />
                         <Select
                             label={'Sector'}
-                            // {...(storedData
-                            //     ? {
-                            //           defaultValue: storedData.sectors,
-                            //       }
-                            //     : {})}
                             name={'sectors'}
                             options={sectorOptions}
                             placeholder={'Select Sectors...'}
                             multi
                             loading={sectorResponse.isLoading}
-                            onChange={onSectorChanged}
                             validationIcons
                             onlyValue
                         />
@@ -280,13 +229,6 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                             placeholder={'Suburb...'}
                             validationIcons
                             placesSuggetions
-                            onChange={() => {
-                                setOnSuburbClicked(false)
-                            }}
-                            onPlaceSuggetions={{
-                                placesSuggetions: onSuburbClicked,
-                                setIsPlaceSelected: setOnSuburbClicked,
-                            }}
                         />
                         <TextInput
                             label={'Zip Code'}
