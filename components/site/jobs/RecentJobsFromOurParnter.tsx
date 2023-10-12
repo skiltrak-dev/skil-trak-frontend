@@ -1,72 +1,22 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { RecentJobCard } from './RecentJobCard'
 import { RelatedJobCard } from './RelatedJobCard'
+import { useNotification } from '@hooks'
 
-import { IndustryApi, commonApi } from '@queries'
+import { AdminApi, IndustryApi, commonApi } from '@queries'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 import { NoData } from '@components/ActionAnimations'
 import Image from 'next/image'
 import { TextInput } from '@components/inputs'
+import { DisplayNotifications } from '@components/Notification'
 
-const RecentJobsData = [
-    {
-        id: 1,
-        title: 'Job Title',
-        avatar: '/images/site/partners/p14.png',
-        industryName: 'Industry Name',
-        address: 'Address Here',
-        salaryFrom: '33',
-        salaryTo: '35',
-        description:
-            'Our exciting, team-friendly centre is seeking an experienced (min 2yrs experience) Early Childhood ...',
-        sectorName: 'Sector Name Goes here',
-        viewJob: '#',
-    },
-    {
-        id: 2,
-        title: 'Job Title',
-        avatar: '/images/site/partners/p14.png',
-        industryName: 'Industry Name',
-        address: 'Address Here',
-        salaryFrom: '33',
-        salaryTo: '35',
-        description:
-            'Our exciting, team-friendly centre is seeking an experienced (min 2yrs experience) Early Childhood ...',
-        sectorName: 'Sector Name Goes here',
-        viewJob: '#',
-    },
-    {
-        id: 3,
-        title: 'Job Title',
-        avatar: '/images/site/partners/p14.png',
-        industryName: 'Industry Name',
-        address: 'Address Here',
-        salaryFrom: '33',
-        salaryTo: '35',
-        description:
-            'Our exciting, team-friendly centre is seeking an experienced (min 2yrs experience) Early Childhood ...',
-        sectorName: 'Sector Name Goes here',
-        viewJob: '#',
-    },
-    {
-        id: 4,
-        title: 'Job Title',
-        avatar: '/images/site/partners/p14.png',
-        industryName: 'Industry Name',
-        address: 'Address Here',
-        salaryFrom: '33',
-        salaryTo: '35',
-        description:
-            'Our exciting, team-friendly centre is seeking an experienced (min 2yrs experience) Early Childhood ...',
-        sectorName: 'Sector Name Goes here',
-        viewJob: '#',
-    },
-]
 export const RecentJobsFromOurParnter = () => {
+    const { notification } = useNotification()
     const [isSubscriptionExpanded, setSubscriptionExpanded] = useState(false)
     const [showDelayedDiv, setShowDelayedDiv] = useState(true)
-
+    const [email, setEmail] = useState('')
+    const [subscribe, subscribeResult] = AdminApi.Subscribers.useSubscribe()
     const toggleSubscription = () => {
         setTimeout(() => {
             setShowDelayedDiv(false)
@@ -77,8 +27,36 @@ export const RecentJobsFromOurParnter = () => {
     const { data, isLoading, isError } = commonApi.useGetAllAdvertisedJobsQuery(
         {}
     )
+
+    // subscribe onsubmit method
+    const subscribeOnSubmit = () => {
+        subscribe(email)
+    }
+
+    useEffect(() => {
+        if (subscribeResult.isSuccess) {
+            setEmail('')
+            notification.info({
+                title: 'User subscribed',
+                description: `User "${subscribeResult?.data?.email}" has been subscribed`,
+            })
+        }
+    }, [subscribeResult])
+    useEffect(() => {
+        if (subscribeResult.isError) {
+            setEmail('')
+            notification.error({
+                title: 'Already Exists',
+                description: `User "${subscribeResult?.data?.email}" already exists`,
+            })
+        }
+    }, [subscribeResult])
+
     return (
-        <div className="bg-[#F4F4F4]  py-8 px-4 md:px-[140px] md:py-[72px]">
+        <div
+            id="recent_jobs"
+            className="bg-[#F4F4F4]  py-8 px-4 md:px-[140px] md:py-[72px]"
+        >
             <div className="max-w-7xl mx-auto">
                 <div className="mb-8 flex md:flex-row flex-col gap-y-2 items-center justify-between">
                     <h2 className="font-bold md:text-4xl text-2xl text-center">
@@ -107,11 +85,15 @@ export const RecentJobsFromOurParnter = () => {
                         <div
                             className={`bg-white rounded-lg p-4  z-40 shadow-lg border transition-all ease-linear duration-500  ${
                                 isSubscriptionExpanded
-                                    ? 'w-full absolute top-0 right-0 min-h-[350px]'
-                                    : 'w-72 h-[340px] '
+                                    ? 'w-full absolute top-0 right-0 md:min-h-[350px] h-full'
+                                    : 'md:w-72 md:h-[340px] '
                             }`}
                         >
-                            <div className={``}>
+                            <div
+                                className={`flex flex-col gap-y-2 justify-center items-center  ${
+                                    isSubscriptionExpanded && 'mt-36 md:mt-0'
+                                }`}
+                            >
                                 <div
                                     className={`${
                                         isSubscriptionExpanded
@@ -144,13 +126,20 @@ export const RecentJobsFromOurParnter = () => {
                                             : 'hidden'
                                     }`}
                                 >
-                                    <div className="mt-6">
+                                    <div className="mt-6 md:min-w-[20rem]">
                                         <TextInput
                                             placeholder="Enter your email"
                                             name="subscribe"
+                                            value={email}
+                                            onChange={(e: any) => {
+                                                setEmail(e.target.value)
+                                            }}
                                         />
                                     </div>
-                                    <button className="bg-orange-500 text-white px-4 py-[7px] rounded-r-lg z-20 -mt-1 -ml-2">
+                                    <button
+                                        onClick={subscribeOnSubmit}
+                                        className="bg-orange-500 text-white px-4 py-[7px] rounded-r-lg z-20 -mt-1 -ml-2"
+                                    >
                                         Subscribe
                                     </button>
                                 </div>
@@ -191,14 +180,21 @@ export const RecentJobsFromOurParnter = () => {
                             in your industry
                         </p>
                         <div className="flex items-center justify-center">
-                            <div className="mt-6">
+                            <div className="mt-6 md:min-w-[20rem]">
                                 <TextInput
                                     placeholder="Enter your email"
                                     name="subscribe"
-                                    className=""
+                                    value={email}
+                                    onChange={(e: any) => {
+                                        e.preventDefault()
+                                        setEmail(e.target.value)
+                                    }}
                                 />
                             </div>
-                            <button className="bg-orange-400 hover:bg-orange-500 text-white px-2 py-1.5 rounded-r-lg z-20 -mt-1 -ml-2">
+                            <button
+                                onClick={subscribeOnSubmit}
+                                className="bg-orange-400 hover:bg-orange-500 text-white px-2 py-1.5 rounded-r-lg z-20 -mt-1 -ml-2"
+                            >
                                 Subscribe
                             </button>
                         </div>
@@ -219,6 +215,7 @@ export const RecentJobsFromOurParnter = () => {
                     ))}
                 </div> */}
             </div>
+            <DisplayNotifications />
         </div>
     )
 }

@@ -1,4 +1,5 @@
 import {
+    Button,
     Card,
     Table,
     EmptyData,
@@ -15,7 +16,7 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye } from 'react-icons/fa'
+import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
@@ -310,10 +311,30 @@ export const ApprovedStudent = () => {
             {modal && modal}
             {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4">
-                <PageHeading
-                    title={'Approved Students'}
-                    subtitle={'List of Approved Students'}
-                />
+                <div className="flex">
+                    <PageHeading
+                        title={'Approved Students'}
+                        subtitle={'List of Approved Students'}
+                    />
+                    {data && data?.data.length ? (
+                        <div className="">
+                            <a
+                                href={`${process.env.NEXT_PUBLIC_END_POINT}/admin/students/list/download
+                        `}
+                                target="_blank"
+                                rel="noreferrer"
+                                className=""
+                            >
+                                {' '}
+                                <Button
+                                    text={'Export'}
+                                    variant={'action'}
+                                    Icon={FaFileExport}
+                                />
+                            </a>
+                        </div>
+                    ) : null}
+                </div>
                 <Card noPadding>
                     {isError && <TechnicalError />}
                     {isLoading || isFetching ? (

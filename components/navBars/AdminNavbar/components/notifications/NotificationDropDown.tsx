@@ -74,10 +74,10 @@ export const NotificationDropDown = ({
                         resultIsReadNotification={resultIsReadNotification}
                         isRead={notification?.isRead}
                         onClick={() => {
-                            router.push(
-                                notification?.link ||
-                                    `/portals/${role(getRole?.role)}`
-                            )
+                            // router.push(
+                            //     notification?.link ||
+                            //         `/portals/${role(getRole?.role)}`
+                            // )
                             setNotificationsExpanded(false)
                             // router.push(`/portals/${notification?.link}`)
                             // router.push(
