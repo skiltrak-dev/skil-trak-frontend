@@ -1,4 +1,4 @@
-import { useContextBar, useNavbar } from '@hooks'
+import { useContextBar, useNavbar, useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
@@ -17,6 +17,7 @@ const EditStudent: NextPageWithLayout = () => {
     const editStudentId = Number(router.query.editStudentId)
     const navBar = useNavbar()
     const contextBar = useContextBar()
+    const { notification } = useNotification()
 
     const student = AdminApi.Students.useProfile(editStudentId, {
         skip: !editStudentId,
@@ -32,6 +33,10 @@ const EditStudent: NextPageWithLayout = () => {
 
     useEffect(() => {
         if (updateProfileResult.isSuccess) {
+            notification.success({
+                title: 'Profile Updated',
+                description: 'Student Profile Updated',
+            })
             router.back()
         }
     }, [updateProfileResult])

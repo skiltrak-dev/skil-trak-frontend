@@ -2,8 +2,8 @@ import { ReactElement, useState } from 'react'
 import { FaChevronDown } from 'react-icons/fa'
 
 export interface TableActionOption {
-    text: string | ReactElement
-    onClick: Function
+    text?: string | ReactElement
+    onClick?: Function
     Icon?: any
     color?: string
 }
@@ -55,22 +55,26 @@ export const TableAction = ({
                     {options?.map((option, idx) => (
                         <li
                             className={`${
-                                option.color
-                                    ? option.color
+                                option?.color
+                                    ? option?.color
                                     : 'text-gray-700 hover:bg-gray-100'
                             } text-xs cursor-pointer px-4 py-2 font-medium border-b whitespace-nowrap ${
                                 idx === 0 ? 'rounded-t-xl' : ''
                             } ${
-                                idx === options.length - 1 ? 'rounded-b-xl' : ''
+                                idx === options?.length - 1
+                                    ? 'rounded-b-xl'
+                                    : ''
                             } flex items-center gap-x-1`}
-                            onClick={() => option.onClick(rowItem)}
+                            onClick={() =>
+                                option?.onClick && option?.onClick(rowItem)
+                            }
                             key={idx}
                         >
-                            {option.Icon && (
+                            {option?.Icon && (
                                 <span
                                     className={`${
-                                        option.color
-                                            ? option.color
+                                        option?.color
+                                            ? option?.color
                                             : 'text-gray-400'
                                     }`}
                                 >
@@ -85,7 +89,7 @@ export const TableAction = ({
                                     textOverflow: 'ellipsis',
                                 }}
                             >
-                                {option.text}
+                                {option?.text}
                             </div>
                         </li>
                     ))}

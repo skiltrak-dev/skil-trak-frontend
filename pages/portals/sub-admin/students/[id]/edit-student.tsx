@@ -43,6 +43,10 @@ const EditStudentDetail: NextPageWithLayout = () => {
 
     useEffect(() => {
         if (updateDetailResult.isSuccess) {
+            notification.success({
+                title: 'Profile Updated',
+                description: 'Student Profile Updated',
+            })
             router.back()
         }
     }, [updateDetailResult])

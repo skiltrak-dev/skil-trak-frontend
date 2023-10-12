@@ -28,6 +28,7 @@ import { toNamespacedPath } from 'path'
 import { useJoyRide, useNotification } from '@hooks'
 import { DeleteModal } from '@partials/admin/sub-admin/modals'
 import { CoursesCell } from '@partials/rto/coordinators'
+import { UserRoles } from '@constants'
 
 type Props = {}
 
@@ -118,7 +119,7 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions = (coordinator: any) => [
         {
             text: 'View',
             onClick: (coordinator: any) => {
@@ -127,11 +128,15 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
             Icon: '',
         },
         {
-            text: 'Delete',
-            onClick: (coordinator: any) => {
-                removeCoordinator(coordinator?.user?.id)
-            },
-            Icon: '',
+            ...(coordinator?.createdBy?.role === UserRoles.RTO
+                ? {
+                      text: 'Delete',
+                      onClick: (coordinator: any) => {
+                          removeCoordinator(coordinator?.user?.id)
+                      },
+                      Icon: '',
+                  }
+                : null),
         },
     ]
 
@@ -180,15 +185,28 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
             header: () => 'Address',
             accessorKey: 'addressLine1',
         },
+        {
+            header: () => 'Created By',
+            accessorKey: 'createdBy.role',
+            cell: (info) => (
+                <Typography variant="small" semibold uppercase>
+                    {info.row.original?.createdBy?.role}
+                </Typography>
+            ),
+        },
 
         {
             header: () => 'Action',
             accessorKey: 'Action',
             cell: ({ row }: any) => {
+                const tableActionOption: TableActionOption[] =
+                    tableActionOptions(row?.original)
                 return (
                     <TableAction
                         rowItem={row?.original}
-                        options={tableActionOptions}
+                        options={tableActionOption?.filter(
+                            (action) => action?.text
+                        )}
                     />
                 )
             },

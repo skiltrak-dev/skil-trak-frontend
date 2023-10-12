@@ -9,6 +9,7 @@ import {
     LoadingAnimation,
 } from '@components'
 import { WorkplaceRequest } from './components'
+import { WorkplaceRequest as StudentProvidedWorkplace } from './studentProvidedComponents'
 
 // query
 import { useGetMyStudentsWorkplacesQuery } from '@queries'
@@ -51,12 +52,25 @@ export const MyWorkplaces = () => {
             ) : subAdminWorkplace?.data?.data &&
               subAdminWorkplace?.data?.data?.length > 0 ? (
                 <div className="flex flex-col gap-y-4">
-                    {subAdminWorkplace?.data?.data?.map((workplace: any) => (
-                        <WorkplaceRequest
-                            key={workplace.id}
-                            workplace={workplace}
-                        />
-                    ))}
+                    {subAdminWorkplace?.data?.data?.map((workplace: any) => {
+                        if (
+                            workplace?.studentProvidedWorkplace ||
+                            workplace?.byExistingAbn
+                        ) {
+                            return (
+                                <StudentProvidedWorkplace
+                                    key={workplace.id}
+                                    workplace={workplace}
+                                />
+                            )
+                        }
+                        return (
+                            <WorkplaceRequest
+                                key={workplace.id}
+                                workplace={workplace}
+                            />
+                        )
+                    })}
                 </div>
             ) : (
                 !subAdminWorkplace.isError && (
