@@ -16,6 +16,7 @@ import {
     TableAction,
     Typography,
     UserCreatedAt,
+    Button
 } from '@components'
 import { StudentCellInfo } from './components'
 
@@ -33,15 +34,16 @@ import {
 import { useActionModal } from '@hooks'
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import { calculateRemainingDays, setLink, studentsListWorkplace } from '@utils'
+import { calculateRemainingDays, getUserCredentials, setLink, studentsListWorkplace } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCellInfo } from '../Industries'
 import moment from 'moment'
 import { AiOutlineWarning } from 'react-icons/ai'
+import {  FaFileExport } from 'react-icons/fa'
 
 export const MyStudents = () => {
     const router = useRouter()
-
+    const userId = getUserCredentials()?.id
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -223,6 +225,25 @@ export const MyStudents = () => {
             {passwordModal}
             <Card noPadding>
                 {isError && <TechnicalError />}
+
+                {data && data?.data.length ? (
+                    <div className='flex justify-end'>
+                        <a
+                            href={`${process.env.NEXT_PUBLIC_END_POINT}/subadmin/students/download-list/${userId}
+                        `}
+                            target="_blank"
+                            rel="noreferrer"
+                            className=''
+                        >
+                            {' '}
+                            <Button
+                                text={'Export'}
+                                variant={'action'}
+                                Icon={FaFileExport}
+                            />
+                        </a>
+                    </div>
+                ) : null}
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (

@@ -47,11 +47,13 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
         variant,
         icon,
         avatar,
+        dissmissTimer,
+        uniqueId = 0,
     }: NotificationProps) => {
         setNotification((prevNotifications: NotificationProps[]) => [
             ...prevNotifications,
             {
-                id: lastId,
+                id: lastId + uniqueId,
                 element: (
                     <Notification
                         id={lastId}
@@ -63,12 +65,13 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
                         autoDismiss={autoDismiss}
                         icon={icon}
                         avatar={avatar}
+                        dissmissTimer={dissmissTimer}
                     />
                 ),
             },
         ])
 
-        setLastId(lastId + 1)
+        setLastId((lastId) => lastId + 1)
     }
 
     const notification = {

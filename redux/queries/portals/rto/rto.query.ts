@@ -46,6 +46,12 @@ export const rtoApi = emptySplitApi.injectEndpoints({
             query: () => `rtos/dashboard/count`,
             providesTags: ['RTO'],
         }),
+
+        rtoWeelyReport: build.query<any, void>({
+            query: () => `rtos/weekly-report/list`,
+            providesTags: ['RTO'],
+        }),
+
         ...mouEndpoints(build),
         ...profileEndpoints(build),
         ...coursesEndpoints(build),
@@ -61,6 +67,9 @@ export const rtoApi = emptySplitApi.injectEndpoints({
 })
 
 export const {
+    // ---- REPORT ----- //
+    useRtoWeelyReportQuery,
+
     // ------ SELF ------ //
     useRtoMyProfileQuery,
     useDashboardQuery,
@@ -135,6 +144,9 @@ export const {
 } = rtoApi
 
 export const RtoApi = {
+    Report: {
+        useRtoWeelyReport: useRtoWeelyReportQuery,
+    },
     Rto: {
         useProfile: useRtoMyProfileQuery,
         useContactPersons: useContactPersonsQuery,

@@ -1,4 +1,5 @@
-import { Button, Card, PageTitle } from '@components'
+import { AuthorizedUserComponent, Button, Card, PageTitle } from '@components'
+import { UserRoles } from '@constants'
 import { useContextBar } from '@hooks'
 import { ReportListModal } from '@partials/rto/components/ReportListModal'
 import {
@@ -15,16 +16,13 @@ import {
     WorkplaceRequestReport,
 } from '@partials/rto/report'
 import { ReportType } from '@partials/rto/report/ReportType'
+import { RtoApi, useRtoWeelyReportQuery } from '@queries'
 import { ReportOptionsEnum, User } from '@types'
 import { ReactElement, useState } from 'react'
 import { IoMdDownload } from 'react-icons/io'
+import { WeeklyReport } from './contextBar'
 
 export const RTOReports = ({ user }: { user?: User }) => {
-    // const monthEnd = new Date()
-    // monthEnd.setDate(monthEnd.getDate() - 30)
-    // const [startDate, setStartDate] = useState<Date>(monthEnd)
-    // const [endDate, setEndDate] = useState<Date>(new Date())
-
     const [reportType, setReportType] = useState({
         label: 'Non Contactable',
         value: 'non-contactable',
@@ -45,150 +43,15 @@ export const RTOReports = ({ user }: { user?: User }) => {
         )
     }
 
-    // const reports = () => {
-    //     switch (reportType?.value) {
-    //         case ReportOptionsEnum.NON_CONTACTABLE:
-    //             return (
-    //                 <NonContactableReport
-    //                     setStartDate={setStartDate}
-    //                     setEndDate={setEndDate}
-    //                     startDate={startDate}
-    //                     endDate={endDate}
-    //                     user={user?.id}
-    //                 />
-    //             )
-    //         case ReportOptionsEnum.NEW_STUDENTS:
-    //             return (
-    //                 <NewStudentReport
-    //                     setStartDate={setStartDate}
-    //                     setEndDate={setEndDate}
-    //                     startDate={startDate}
-    //                     endDate={endDate}
-    //                     user={user?.id}
-    //                 />
-    //             )
-    //         case ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST:
-    //             return (
-    //                 <CancelledWorkplaceReport
-    //                     setStartDate={setStartDate}
-    //                     setEndDate={setEndDate}
-    //                     startDate={startDate}
-    //                     endDate={endDate}
-    //                     user={user?.id}
-    //                 />
-    //             )
-    //         case ReportOptionsEnum.BLOCKED_STUDENTS:
-    //             return <BlockedStudentsReport user={user?.id} />
-    //         case ReportOptionsEnum.ARCHIVED_STUDENTS:
-    //             return <ArchivedStudentsReport user={user?.id} />
-    //         case ReportOptionsEnum.WORKPLACE_REQUEST_COMPLETED:
-    //             return (
-    //                 <CompletedWorkplaceReport
-    //                     setStartDate={setStartDate}
-    //                     setEndDate={setEndDate}
-    //                     startDate={startDate}
-    //                     endDate={endDate}
-    //                     user={user?.id}
-    //                 />
-    //             )
-    //         case ReportOptionsEnum.WORKPLACE_REQUEST_TERMINATED:
-    //             return (
-    //                 <TerminatedWorkplaceReport
-    //                     setStartDate={setStartDate}
-    //                     setEndDate={setEndDate}
-    //                     startDate={startDate}
-    //                     endDate={endDate}
-    //                     user={user?.id}
-    //                 />
-    //             )
-    //         case ReportOptionsEnum.WORKPLACE_REQUEST:
-    //             return (
-    //                 <WorkplaceRequestReport
-    //                     setStartDate={setStartDate}
-    //                     setEndDate={setEndDate}
-    //                     startDate={startDate}
-    //                     endDate={endDate}
-    //                     user={user?.id}
-    //                 />
-    //             )
-    //         case ReportOptionsEnum.STUDENT_WITHOUT_WORKPLACE_REQUEST:
-    //             return <StudentsWithoutWorkplaceReport user={user?.id} />
-    //         case ReportOptionsEnum.APPOINTMENTS_REPORT:
-    //             return (
-    //                 <AppointmentsReport
-    //                     setStartDate={setStartDate}
-    //                     setEndDate={setEndDate}
-    //                     startDate={startDate}
-    //                     endDate={endDate}
-    //                     user={user?.id}
-    //                 />
-    //             )
-    //         case ReportOptionsEnum.REPORTED_STUDENTS:
-    //             return <ReportedStudents user={user?.id} />
-    //         default:
-    //             return (
-    //                 <NonContactableReport
-    //                     setStartDate={setStartDate}
-    //                     setEndDate={setEndDate}
-    //                     startDate={startDate}
-    //                     endDate={endDate}
-    //                     user={user?.id}
-    //                 />
-    //             )
-    //     }
-    // }
     const reports = [
-        <NonContactableReport
-            // setStartDate={setStartDate}
-            // setEndDate={setEndDate}
-            // startDate={startDate}
-            // endDate={endDate}
-            user={user?.id}
-        />,
-        <NewStudentReport
-            // setStartDate={setStartDate}
-            // setEndDate={setEndDate}
-            // startDate={startDate}
-            // endDate={endDate}
-            user={user?.id}
-        />,
-        <CancelledWorkplaceReport
-            // setStartDate={setStartDate}
-            // setEndDate={setEndDate}
-            // startDate={startDate}
-            // endDate={endDate}
-            user={user?.id}
-        />,
+        <NonContactableReport user={user?.id} />,
+        <NewStudentReport user={user?.id} />,
+        <CancelledWorkplaceReport user={user?.id} />,
         <BlockedStudentsReport user={user?.id} />,
-        // <ArchivedStudentsReport user={user?.id} />,
-        <CompletedWorkplaceReport
-            // setStartDate={setStartDate}
-            // setEndDate={setEndDate}
-            // startDate={startDate}
-            // endDate={endDate}
-            user={user?.id}
-        />,
-        <TerminatedWorkplaceReport
-            // setStartDate={setStartDate}
-            // setEndDate={setEndDate}
-            // startDate={startDate}
-            // endDate={endDate}
-            user={user?.id}
-        />,
-        <WorkplaceRequestReport
-            // setStartDate={setStartDate}
-            // setEndDate={setEndDate}
-            // startDate={startDate}
-            // endDate={endDate}
-            user={user?.id}
-        />,
-        <AppointmentsReport
-            // setStartDate={setStartDate}
-            // setEndDate={setEndDate}
-            // startDate={startDate}
-            // endDate={endDate}
-            user={user?.id}
-        />,
+        <CompletedWorkplaceReport user={user?.id} />,
+        <TerminatedWorkplaceReport user={user?.id} />,
+        <WorkplaceRequestReport user={user?.id} />,
+        <AppointmentsReport user={user?.id} />,
         <StudentsWithoutWorkplaceReport user={user?.id} />,
         <ReportedStudents user={user?.id} />,
     ]
@@ -200,15 +63,17 @@ export const RTOReports = ({ user }: { user?: User }) => {
                 <PageTitle title="Statistics" />
 
                 <div className="flex items-center gap-x-3">
-                    {/* <Button
-                        onClick={() => {
-                            contextBar.show()
-                            contextBar.setTitle('Weekly Report')
-                            contextBar.setContent('Saad')
-                        }}
-                        variant="dark"
-                        text={'Weekly Report'}
-                    /> */}
+                    <AuthorizedUserComponent roles={[UserRoles.RTO]}>
+                        <Button
+                            onClick={() => {
+                                contextBar.show()
+                                contextBar.setTitle('Weekly Report')
+                                contextBar.setContent(<WeeklyReport />)
+                            }}
+                            variant="action"
+                            text={'Weekly Report'}
+                        />
+                    </AuthorizedUserComponent>
 
                     <Button
                         onClick={() => {
