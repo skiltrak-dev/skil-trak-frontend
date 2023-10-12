@@ -1,13 +1,13 @@
 import { Tooltip } from '@components/Tooltip'
 import { isBrowser } from '@utils'
 import React, { useState } from 'react'
-import DarkModeToggle from 'react-dark-mode-toggle'
+// import DarkModeToggle from 'react-dark-mode-toggle'
 
 export const SwitchDarkMode = () => {
     const [isDarkMode, setIsDarkMode] = useState(false)
     return (
         <div className="relative group">
-            <DarkModeToggle
+            {/* <DarkModeToggle
                 onChange={(e: any) => {
                     console.log({ e })
                     setIsDarkMode(e)
@@ -21,7 +21,7 @@ export const SwitchDarkMode = () => {
                 }}
                 checked={isDarkMode}
                 size={55}
-            />
+            /> */}
             <Tooltip>
                 {isDarkMode ? 'Switch To Light Mode' : 'Swich To Dark Mode'}
             </Tooltip>

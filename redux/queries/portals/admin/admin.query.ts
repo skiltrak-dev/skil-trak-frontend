@@ -150,6 +150,7 @@ const {
     useListSubscribersQuery,
     useResubscribeMutation,
     useUnsubscribeMutation,
+    useSubscribeMutation,
 
     // ------ SUB ADMINS ------ //
     useSubAdminsQuery,
@@ -211,6 +212,9 @@ const {
     // ---- DOCUMENTS ---- //
     useAddDocumentsMutation,
     useGetDocumentsQuery,
+ 
+    
+
 } = adminApi
 
 export const AdminApi = {
@@ -320,6 +324,7 @@ export const AdminApi = {
         useListQuery: useListSubscribersQuery,
         useResubscribeMutation,
         useUnsubscribeMutation,
+        useSubscribe: useSubscribeMutation,
     },
 
     Sectors: {
