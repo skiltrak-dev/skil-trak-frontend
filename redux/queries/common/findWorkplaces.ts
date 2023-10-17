@@ -38,6 +38,13 @@ export const findWorkplaceEndpoints = (
         }),
         invalidatesTags: ['Industries'],
     }),
+    addToSignup: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/sign-up/${id}`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Industries'],
+    }),
     addIndustry: builder.mutation<any, any>({
         query: (body) => ({
             url: `${PREFIX}/create`,

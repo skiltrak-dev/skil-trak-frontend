@@ -10,9 +10,9 @@ import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 
 export const Actions = ({
-    selectedCourseId,
-    isFilesUploaded,
     results,
+    isFilesUploaded,
+    selectedCourseId,
 }: {
     results: any
     selectedCourseId: number
@@ -38,6 +38,8 @@ export const Actions = ({
     const onSubmitAssessment = (values?: any) => {
         submitAssessment({ body: values, id: selectedCourseId })
     }
+
+    console.log('Hello', isFilesUploaded && !results?.length)
     useEffect(() => {
         if (isFilesUploaded && !results?.length) {
             onSubmitAssessment({
@@ -45,7 +47,7 @@ export const Actions = ({
                 notifyRto: true,
             })
         }
-    }, [isFilesUploaded])
+    }, [isFilesUploaded, results])
 
     const onSubmit = (values: any) => {
         onSubmitAssessment(values)

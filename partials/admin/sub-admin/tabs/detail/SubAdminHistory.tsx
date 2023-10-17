@@ -8,7 +8,7 @@ import {
 import { FigureCard } from '@components/sections/subAdmin'
 import { HistoryDates, HistoryFilters } from '@partials/common'
 import { CommonApi } from '@queries'
-import { getCommonDates } from '@utils'
+import { getCommonDates, removeEmptyValues } from '@utils'
 import moment from 'moment'
 import { FilterType } from 'pages/portals/sub-admin/history'
 import React, { useState } from 'react'
@@ -28,6 +28,7 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
         endDate: null,
     })
     const [searchedValue, setSearchedValue] = useState<string>('')
+    const [target, setTarget] = useState<string>('')
 
     const { data, isError, isLoading, isFetching } =
         CommonApi.RecentActivities.useRecentActivities(
@@ -42,8 +43,14 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
                     : filterType === FilterType['7Days']
                     ? { last7days: undefined }
                     : ''),
+                search: `${JSON.stringify(
+                    removeEmptyValues({ target, status: searchedValue })
+                )
+                    .replaceAll('{', '')
+                    .replaceAll('}', '')
+                    .replaceAll('"', '')
+                    .trim()}`,
                 coordinator: subadmin,
-                search: `status:${searchedValue}`,
             },
             {
                 refetchOnMountOrArgChange: true,
@@ -108,16 +115,33 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
                             count={count?.data?.callsMadeToStudent}
                             title={'Calls Made to Students'}
                             imageUrl={'/images/history/call-made.png'}
+                            onClick={() => {
+                                setTarget('call made to  student')
+                            }}
                         />
                         <FigureCard
                             count={count?.data?.callsMadeToIndustry}
                             title={'Calls Made to Industry'}
                             imageUrl={'/images/history/industry-call.png'}
+                            onClick={() => {
+                                setTarget('call made to  industry')
+                            }}
                         />
                         <FigureCard
                             count={count?.data?.notes}
                             title={'Notes Added'}
                             imageUrl={'/images/history/notes-added.png'}
+                            onClick={() => {
+                                setTarget('Note Added for')
+                            }}
+                        />
+                        <FigureCard
+                            count={count?.data?.studentProfileViewed}
+                            title={'Student Profile Viewed'}
+                            imageUrl={'/images/history/student-profile.png'}
+                            onClick={() => {
+                                setTarget(' Profile Viewed')
+                            }}
                         />
                     </div>
                 )

@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from 'react'
+import { ReactElement, ReactNode, useEffect, useRef } from 'react'
 
 // components
 import {
@@ -30,6 +30,7 @@ import { RiShieldUserFill, RiVoiceRecognitionLine } from 'react-icons/ri'
 import { MdNotificationsActive, MdEmail } from 'react-icons/md'
 import { BsFillTicketDetailedFill } from 'react-icons/bs'
 import { HiOutlineDocumentText } from 'react-icons/hi2'
+import { useRouter } from 'next/router'
 
 type Route = {
     type?: 'title' | 'divider'
@@ -167,6 +168,28 @@ const routes: Route[] = [
 ]
 
 export const AdminLayout = ({ children }: { children: ReactNode }) => {
+    const router = useRouter()
+    const childrenRef = useRef<any>(null)
+
+    useEffect(() => {
+        const handleRouteChange = () => {
+            if (childrenRef.current) {
+                childrenRef.current.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: 'smooth',
+                })
+            }
+        }
+
+        // Add event listener for route changes
+        router.events.on('routeChangeComplete', handleRouteChange)
+
+        // Remove event listener when component unmounts
+        return () => {
+            router.events.off('routeChangeComplete', handleRouteChange)
+        }
+    }, [router])
     return (
         <ProtectedRoute>
             <div className="flex w-full h-screen overflow-hidden bg-layout ">
@@ -179,6 +202,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
                     <div className="flex h-full">
                         <div
                             className={`h-full overflow-scroll remove-scrollbar w-full relative`}
+                            ref={childrenRef}
                         >
                             <DisplayAlerts />
                             <DisplayNotifications />
