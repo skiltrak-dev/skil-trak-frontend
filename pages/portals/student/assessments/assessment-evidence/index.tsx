@@ -56,9 +56,17 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
         }
     }, [assessmentsFolders])
 
-    const isFilesUploaded = assessmentsFolders?.data?.every(
-        (f: any) => f?.studentResponse[0]?.files?.length > 0
-    )
+    // const isFilesUploaded = assessmentsFolders?.data?.every(
+    //     (f: any) => f?.studentResponse[0]?.files?.length > 0
+    // )
+
+    const isFilesUploaded =
+        !assessmentsFolders.isLoading &&
+        !assessmentsFolders.isFetching &&
+        assessmentsFolders.isSuccess &&
+        assessmentsFolders?.data?.every(
+            (f: any) => f?.studentResponse[0]?.files?.length > 0
+        )
 
     return (
         <>
@@ -82,7 +90,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
             </Desktop>
             <Mobile>
                 <MobileAssessment
-                    results={result}
+                    result={result}
                     selectedFolder={selectedFolder}
                     selectedCourse={selectedCourse}
                     setSelectedCourse={setSelectedCourse}

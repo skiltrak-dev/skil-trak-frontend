@@ -15,6 +15,7 @@ import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/Filter
 import { CommonApi } from '@queries'
 import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
 import { checkFilteredDataLength } from '@utils'
+import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 
 type Props = {}
@@ -28,6 +29,8 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
         {} as FindWorkplaceFilter
     )
     const [industryData, setIndustryData] = useState<any>(null)
+
+    const router = useRouter()
 
     const filteredIndustries = CommonApi.FindWorkplace.useGetAllFindWorkplaces({
         search: `${JSON.stringify(filter)
@@ -79,6 +82,7 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
             contextBar.hide()
         }
     }, [industryData])
+
     return (
         <div>
             <SetDetaultQueryFilteres<FindWorkplaceFilter>
@@ -127,7 +131,7 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
                                         loading={count?.isLoading}
                                         title={'All Industries'}
                                         imageUrl={
-                                            '/images/icons/allIndustry.jpg'
+                                            '/images/icons/allIndustry.png'
                                         }
                                         onClick={() => {
                                             // setTarget('call made to  student')
@@ -153,6 +157,7 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
                                             // setTarget('call made to  student')
                                         }}
                                     />
+
                                     <FigureCard
                                         count={count?.data?.doNotDisturb}
                                         loading={count?.isLoading}

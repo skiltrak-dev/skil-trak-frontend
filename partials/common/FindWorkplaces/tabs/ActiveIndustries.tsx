@@ -21,23 +21,22 @@ import { Industry, IndustryStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { FiLogIn } from 'react-icons/fi'
-import { MdBlock, MdOutlineFavorite, MdDelete } from 'react-icons/md'
+import { MdBlock, MdDelete, MdOutlineFavorite } from 'react-icons/md'
 // import { IndustryCell, SectorCell } from './components'
 // import { BlockModal } from './modals'
 
 // hooks
-import { useActionModal } from '@hooks'
+import Image from 'next/image'
 import { AiFillCheckCircle, AiFillWarning } from 'react-icons/ai'
+import { BiPencil } from 'react-icons/bi'
 import { DefaultModal } from '../DefaultModal'
 import { DoNotDisturbModal } from '../DoNotDisturbModal'
 import { FavoriteModal } from '../FavoriteModal'
 import {
+    AddToSignupModal,
     DeleteFutureIndustryModal,
     DeleteMultiFutureIndustryModal,
 } from '../modal'
-import { BiPencil } from 'react-icons/bi'
-import { FigureCard } from '@components/sections/subAdmin'
-import Image from 'next/image'
 
 export const ActiveIndustries = ({
     onSetIndustryData,
@@ -110,6 +109,15 @@ export const ActiveIndustries = ({
         )
     }
 
+    const onAddToSignupClicked = (industry: any) => {
+        setModal(
+            <AddToSignupModal
+                industry={industry}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
     const tableActionOptions = (industry: any) => {
         const stored = localStorage.setItem(
             'signup-data',
@@ -119,6 +127,14 @@ export const ActiveIndustries = ({
             {
                 text: 'Default',
                 onClick: (industry: Industry) => onDefaultClicked(industry),
+                Icon: AiFillCheckCircle,
+                color: `'text-green-500 hover:bg-green-100 hover:border-green-200'`,
+            },
+            {
+                text: industry?.signedUp
+                    ? 'Remove From Signup'
+                    : 'Add to Signup',
+                onClick: (industry: any) => onAddToSignupClicked(industry),
                 Icon: AiFillCheckCircle,
                 color: `'text-green-500 hover:bg-green-100 hover:border-green-200'`,
             },

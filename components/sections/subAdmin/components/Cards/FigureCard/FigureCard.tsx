@@ -23,7 +23,7 @@ export const FigureCard = ({
     onClick,
 }: FigureCardProps) => {
     return (
-        <Link legacyBehavior href={link || ''}>
+        <Link legacyBehavior href={link || '#'}>
             <a
                 className="w-full"
                 onClick={() => {
