@@ -109,7 +109,6 @@ export const HistoryFilters = ({
                                                 })
                                             }}
                                             value={customRangeDate?.startDate}
-                                            
                                         />
                                     </CalendarStyles>
                                     <CalendarStyles>

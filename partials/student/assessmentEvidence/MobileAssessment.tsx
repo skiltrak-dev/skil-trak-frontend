@@ -11,7 +11,7 @@ import { Result } from '@constants'
 import { IoIosArrowRoundBack } from 'react-icons/io'
 
 export const MobileAssessment = ({
-    results,
+    result,
     selectedFolder,
     selectedCourse,
     setSelectedCourse,
@@ -20,7 +20,7 @@ export const MobileAssessment = ({
     assessmentsCourses,
     isFilesUploaded,
 }: {
-    results: any
+    result: any
     selectedFolder: any
     selectedCourse: any
     assessmentsCourses: any
@@ -98,8 +98,8 @@ export const MobileAssessment = ({
                             </Typography>
                             <Typography variant="muted" color="text-gray-500">
                                 Submission #
-                                {results?.totalSubmission
-                                    ? results?.totalSubmission + 1
+                                {result?.totalSubmission
+                                    ? result?.totalSubmission + 1
                                     : 1}
                             </Typography>
                         </div>
@@ -168,6 +168,27 @@ export const MobileAssessment = ({
                             )}
                         </div>
                     </div>
+
+                    {isFilesUploaded ? (
+                        selectedCourse?.results?.length > 0 ? (
+                            (result?.totalSubmission < 3 ||
+                                result?.isManualSubmission) &&
+                            (result?.result === Result.ReOpened ||
+                                result?.result === Result.NotCompetent) ? (
+                                <Actions
+                                    selectedCourseId={selectedCourse?.id}
+                                    results={selectedCourse?.results}
+                                    isFilesUploaded={isFilesUploaded}
+                                />
+                            ) : null
+                        ) : (
+                            <Actions
+                                selectedCourseId={selectedCourse?.id}
+                                results={selectedCourse?.results}
+                                isFilesUploaded={isFilesUploaded}
+                            />
+                        )
+                    ) : null}
                 </>
             )}
 
@@ -188,27 +209,6 @@ export const MobileAssessment = ({
                     />
                 </>
             )}
-
-            {isFilesUploaded ? (
-                selectedCourse?.results?.length > 0 ? (
-                    (results?.totalSubmission < 3 ||
-                        results?.isManualSubmission) &&
-                    (results?.result === Result.ReOpened ||
-                        results?.result === Result.NotCompetent) ? (
-                        <Actions
-                            selectedCourseId={selectedCourse?.id}
-                            results={results}
-                            isFilesUploaded={isFilesUploaded}
-                        />
-                    ) : null
-                ) : (
-                    <Actions
-                        selectedCourseId={selectedCourse?.id}
-                        results={results}
-                        isFilesUploaded={isFilesUploaded}
-                    />
-                )
-            ) : null}
 
             <div className="my-2">
                 <Typography variant="muted" color="text-neutral-500">

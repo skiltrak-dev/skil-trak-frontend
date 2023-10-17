@@ -352,6 +352,15 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
                         </div>
                         <div>
                             <div>
+                                <Badge
+                                    variant={'primary'}
+                                    text={
+                                        wpIndustry?.studentProvidedWorkplace ||
+                                        wpIndustry?.byExistingAbn
+                                            ? 'Student Provided Workplace'
+                                            : 'Requested Workplace'
+                                    }
+                                />
                                 <div className="flex justify-between items-center gap-x-2">
                                     <p className="font-medium">
                                         {wp?.industry?.user?.name}

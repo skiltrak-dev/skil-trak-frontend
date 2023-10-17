@@ -2,10 +2,14 @@ import {
     ActionButton,
     Card,
     EmptyData,
+    InitialAvatar,
     LoadingAnimation,
     Table,
     TableAction,
     TableActionOption,
+    Tooltip,
+    Typography,
+    UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -25,10 +29,12 @@ import { DefaultModal } from './DefaultModal'
 import { DoNotDisturbModal } from './DoNotDisturbModal'
 import { FavoriteModal } from './FavoriteModal'
 import {
+    AddToSignupModal,
     DeleteFutureIndustryModal,
     DeleteMultiFutureIndustryModal,
 } from './modal'
 import { checkListLength } from '@utils'
+import Image from 'next/image'
 
 export const FilteredSearchIndustries = ({
     subAdmin,
@@ -96,57 +102,160 @@ export const FilteredSearchIndustries = ({
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
-        {
-            text: 'Default',
-            onClick: (industry: any) => onDefaultClicked(industry),
-            Icon: AiFillCheckCircle,
-            color: `'text-green-500 hover:bg-green-100 hover:border-green-200'`,
-        },
-        {
-            text: 'Favorite',
-            onClick: (industry: any) => onFavoriteClicked(industry),
-            Icon: MdOutlineFavorite,
-            color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
-        },
-        {
-            text: 'Do Not Disturb',
-            onClick: (industry: any) => onDoNotDisturbClicked(industry),
-            Icon: AiFillWarning,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-        {
-            text: 'SignUp',
-            onClick: (industry: any) => {
-                localStorage.setItem('signup-data', JSON.stringify(industry))
-                router.push(`/auth/signup/industry?step=account-info`)
+    const onAddToSignupClicked = (industry: any) => {
+        setModal(
+            <AddToSignupModal
+                industry={industry}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
+    // const tableActionOptions: TableActionOption[] = [
+    //     {
+    //         text: 'Add to Signup',
+    //         onClick: (industry: any) => onAddToSignupClicked(industry),
+    //         Icon: AiFillCheckCircle,
+    //         color: `'text-green-500 hover:bg-green-100 hover:border-green-200'`,
+    //     },
+    //     {
+    //         text: 'Default',
+    //         onClick: (industry: any) => onDefaultClicked(industry),
+    //         Icon: AiFillCheckCircle,
+    //         color: `'text-green-500 hover:bg-green-100 hover:border-green-200'`,
+    //     },
+    //     {
+    //         text: 'Favorite',
+    //         onClick: (industry: any) => onFavoriteClicked(industry),
+    //         Icon: MdOutlineFavorite,
+    //         color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
+    //     },
+    //     {
+    //         text: 'Do Not Disturb',
+    //         onClick: (industry: any) => onDoNotDisturbClicked(industry),
+    //         Icon: AiFillWarning,
+    //         color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+    //     },
+    //     {
+    //         text: 'SignUp',
+    //         onClick: (industry: any) => {
+    //             localStorage.setItem('signup-data', JSON.stringify(industry))
+    //             router.push(`/auth/signup/industry?step=account-info`)
+    //         },
+    //         Icon: FiLogIn,
+    //     },
+    //     {
+    //         text: 'Edit',
+    //         onClick: (futureIndustry: any) => {
+    //             onSetIndustryData(futureIndustry)
+    //         },
+    //         Icon: BiPencil,
+    //     },
+    //     {
+    //         text: 'Delete',
+    //         onClick: (futureIndustry: any) => {
+    //             onDeleteFutureIndustry(futureIndustry)
+    //         },
+    //         Icon: MdDelete,
+    //     },
+    // ]
+
+    const tableActionOptions = (industry: any) => {
+        const stored = localStorage.setItem(
+            'signup-data',
+            JSON.stringify(industry)
+        )
+        return [
+            {
+                text: 'Default',
+                onClick: (industry: any) => onDefaultClicked(industry),
+                Icon: AiFillCheckCircle,
+                color: `'text-green-500 hover:bg-green-100 hover:border-green-200'`,
             },
-            Icon: FiLogIn,
-        },
-        {
-            text: 'Edit',
-            onClick: (futureIndustry: any) => {
-                onSetIndustryData(futureIndustry)
+            {
+                text: industry?.signedUp
+                    ? 'Remove From Signup'
+                    : 'Add to Signup',
+                onClick: (industry: any) => onAddToSignupClicked(industry),
+                Icon: AiFillCheckCircle,
+                color: `'text-green-500 hover:bg-green-100 hover:border-green-200'`,
             },
-            Icon: BiPencil,
-        },
-        {
-            text: 'Delete',
-            onClick: (futureIndustry: any) => {
-                onDeleteFutureIndustry(futureIndustry)
+            {
+                text: 'Favorite',
+                onClick: (industry: any) => onFavoriteClicked(industry),
+                Icon: MdOutlineFavorite,
+                color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
             },
-            Icon: MdDelete,
-        },
-    ]
+            {
+                text: 'Do Not Disturb',
+                onClick: (industry: any) => onDoNotDisturbClicked(industry),
+                Icon: AiFillWarning,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+            {
+                text: 'SignUp',
+                onClick: (industry: any) => {
+                    localStorage.setItem(
+                        'signup-data',
+                        JSON.stringify(industry)
+                    )
+                    router.push(`/auth/signup/industry?step=account-info`)
+                },
+                Icon: FiLogIn,
+            },
+            {
+                text: 'Edit',
+                onClick: (futureIndustry: any) => {
+                    onSetIndustryData(futureIndustry)
+                },
+                Icon: BiPencil,
+            },
+            {
+                text: 'Delete',
+                onClick: (futureIndustry: any) => {
+                    onDeleteFutureIndustry(futureIndustry)
+                },
+                Icon: MdDelete,
+            },
+        ]
+    }
 
     const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'businessName',
             header: () => <span>Name</span>,
-        },
-        {
-            accessorKey: 'email',
-            header: () => <span>Email</span>,
+            cell: (info) => {
+                return (
+                    <div className="flex items-center gap-x-1.5">
+                        {info?.row?.original?.businessName && (
+                            <InitialAvatar
+                                name={info?.row?.original?.businessName}
+                            />
+                        )}
+                        <div className="flex flex-col gap-y-1">
+                            <div className="flex items-center gap-x-2">
+                                <Typography variant={'label'}>
+                                    {info?.row?.original?.businessName}
+                                </Typography>
+                                {info.row.original?.signedUp && (
+                                    <div className="relative group">
+                                        <Image
+                                            src={'/images/signup.png'}
+                                            alt={''}
+                                            width={20}
+                                            height={20}
+                                        />
+                                        <Tooltip>Signed Up</Tooltip>
+                                    </div>
+                                )}
+                            </div>
+                            <Typography variant={'label'}>
+                                {info?.row?.original?.email}
+                            </Typography>
+                        </div>
+                    </div>
+                )
+            },
         },
         {
             accessorKey: 'phone',
@@ -188,18 +297,22 @@ export const FilteredSearchIndustries = ({
             },
         },
         {
+            accessorKey: 'createdAt',
+            header: () => <span>Created At</span>,
+            cell: (info) => (
+                <UserCreatedAt createdAt={info.row.original?.createdAt} />
+            ),
+        },
+        {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info: any) => {
-                const length = checkListLength<any>(subAdmin?.data?.data)
+            cell: ({ row }: any) => {
+                const tableActionOption = tableActionOptions(row.original)
                 return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original}
-                            lastIndex={length.includes(info.row?.index)}
-                        />
-                    </div>
+                    <TableAction
+                        options={tableActionOption}
+                        rowItem={row.original}
+                    />
                 )
             },
         },
