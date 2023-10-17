@@ -212,13 +212,13 @@ export const ApprovedIndustry = () => {
                     title={'Approved Industries'}
                     subtitle={'List of Approved Industries'}
                 >
-                    {data && data?.data?.length ? (
+                    {/* {data && data?.data?.length ? (
                         <Button
                             text="Export"
                             variant="action"
                             Icon={FaFileExport}
                         />
-                    ) : null}
+                    ) : null} */}
                 </PageHeading>
 
                 <Card noPadding>

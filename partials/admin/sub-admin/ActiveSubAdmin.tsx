@@ -224,13 +224,13 @@ export const ActiveSubAdmin = () => {
                     title={'Active Sub Admin'}
                     subtitle={'List of Active Sub Admin'}
                 >
-                    {data && data?.data.length ? (
+                    {/* {data && data?.data.length ? (
                         <Button
                             text="Export"
                             variant="action"
                             Icon={FaFileExport}
                         />
-                    ) : null}
+                    ) : null} */}
                 </PageHeading>
 
                 <Card noPadding>
