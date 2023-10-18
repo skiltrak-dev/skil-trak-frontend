@@ -4,6 +4,7 @@ import { RtoLayout } from '@layouts'
 import { NextPageWithLayout, RTOWorkplaceFormFilter } from '@types'
 //components
 import {
+    Button,
     Card,
     EmptyData,
     Filter,
@@ -25,6 +26,8 @@ import { useGetRTOWorkplacesQuery } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { useRouter } from 'next/router'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
+import { FaFileExport } from 'react-icons/fa'
+import { getUserCredentials } from '@utils'
 
 type Props = {}
 
@@ -46,6 +49,7 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
     )
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+    const userId = getUserCredentials()?.id
 
     const { isLoading, data, isError } = useGetRTOWorkplacesQuery({
         search: `${JSON.stringify(filter)
@@ -200,6 +204,7 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
                     />
                     {filterAction}
                 </div>
+
                 <Filter<RTOWorkplaceFormFilter>
                     component={RTOWorkplaceFilters}
                     initialValues={filter}
@@ -207,6 +212,23 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
                     setFilterAction={setFilterAction}
                     setFilter={setFilter}
                 />
+                <div className="flex justify-end">
+                    {data && data?.data.length ? (
+                        <>
+                            <a
+                                href={`${process.env.NEXT_PUBLIC_END_POINT}/rtos/workplaces/download/${userId}`}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <Button
+                                    text={'Export'}
+                                    variant={'action'}
+                                    Icon={FaFileExport}
+                                />
+                            </a>
+                        </>
+                    ) : null}
+                </div>
             </div>
             <Card noPadding>
                 {isError && <TechnicalError />}

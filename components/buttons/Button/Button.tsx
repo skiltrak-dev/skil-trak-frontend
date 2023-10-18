@@ -72,6 +72,7 @@ export const Button = ({
         ? theme[variant as any].loading.outline
         : theme[variant as any].loading.default
 
+
     return (
         <button
             disabled={disabled}
