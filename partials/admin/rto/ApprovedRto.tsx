@@ -193,11 +193,11 @@ export const ApprovedRto = () => {
                     title={'Approved RTOs'}
                     subtitle={'List of Approved RTOs'}
                 >
-                    <Button
+                    {/* <Button
                         text="Export"
                         variant="action"
                         Icon={FaFileExport}
-                    />
+                    /> */}
                 </PageHeading>
 
                 <Card noPadding>
