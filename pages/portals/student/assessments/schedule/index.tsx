@@ -1,14 +1,31 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 import { StudentLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
-import { BigCalendar, Button, CalendarEvent } from '@components'
+import { Course, NextPageWithLayout } from '@types'
+import {
+    BigCalendar,
+    Button,
+    CalendarEvent,
+    Card,
+    EmptyData,
+    LoadingAnimation,
+    Select,
+    ShowErrorNotifications,
+    TechnicalError,
+    Typography,
+} from '@components'
 import { useRouter } from 'next/router'
+import { StudentApi, useGetStudentCoursesQuery } from '@queries'
+import { ScheduleCalendar } from '@partials/student/Schedule'
+import { CourseSelectOption, formatOptionLabel } from '@utils'
+import moment from 'moment'
 
 type Props = {}
 
 const Schedule: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
+    const [selectedCourse, setSelectedCourse] = useState<number[] | null>(null)
+
     const events: CalendarEvent[] = [
         {
             allDay: false,
@@ -54,16 +71,121 @@ const Schedule: NextPageWithLayout = (props: Props) => {
             priority: 'high',
         },
     ]
+
+    const schedules = StudentApi.Schedule.useGetStudentSchedule(
+        Number(selectedCourse),
+        {
+            skip: !selectedCourse,
+        }
+    )
+    const courses = useGetStudentCoursesQuery()
+
+    useEffect(() => {
+        if (courses.isSuccess) {
+            setSelectedCourse(courses?.data?.[0]?.id)
+        }
+    }, [courses])
+
+    const courseOptions = courses.data?.map((course: Course) => ({
+        label: course?.title,
+        value: course?.id,
+        item: course,
+    }))
     return (
         <>
-            <Button
-                text={'Add Schedule'}
-                variant={'info'}
-                onClick={() => {
-                    router.push('schedule/add-schedule')
-                }}
-            />
-            <BigCalendar events={events} />
+            <ShowErrorNotifications result={schedules} />
+            <div className="flex justify-between items-center">
+                <div className="w-72">
+                    <Select
+                        label={'Courses'}
+                        name={'courses'}
+                        defaultValue={courseOptions}
+                        value={courseOptions?.find(
+                            (c: any) => c?.value === selectedCourse
+                        )}
+                        options={courseOptions}
+                        loading={courses.isLoading}
+                        onlyValue
+                        disabled={courses.isLoading}
+                        validationIcons
+                        components={{
+                            Option: CourseSelectOption,
+                        }}
+                        formatOptionLabel={formatOptionLabel}
+                        onChange={(e: any) => {
+                            setSelectedCourse(e)
+                        }}
+                    />
+                </div>
+                <Button
+                    text={'Add Schedule'}
+                    variant={'info'}
+                    onClick={() => {
+                        router.push('schedule/add-schedule')
+                    }}
+                />
+            </div>
+            <div className="mt-3">
+                <Card>
+                    {schedules.isError && <TechnicalError />}
+                    {schedules?.isLoading ? (
+                        <LoadingAnimation />
+                    ) : schedules?.data ? (
+                        <>
+                            <Typography>
+                                Start Date :{' '}
+                                {moment(schedules?.data?.startDate).format(
+                                    'MMM DD, YYYY'
+                                )}
+                            </Typography>
+                            <Typography>
+                                End Date :{' '}
+                                {moment(schedules?.data?.endDate).format(
+                                    'MMM DD, YYYY'
+                                )}
+                            </Typography>
+                            <ScheduleCalendar
+                                events={[
+                                    ...schedules?.data?.calendar?.map(
+                                        (c: any) => {
+                                            const [year, month, day] = c?.date
+                                                .split('-')
+                                                .map(Number)
+                                            const [hour, minute] =
+                                                c?.openingTime
+                                                    .split(':')
+                                                    .map(Number)
+                                            const [closingHour, closingMinute] =
+                                                c?.closingTime
+                                                    .split(':')
+                                                    .map(Number)
+                                            return {
+                                                start: new Date(
+                                                    year,
+                                                    month - 1,
+                                                    day,
+                                                    hour,
+                                                    minute
+                                                ),
+                                                end: new Date(
+                                                    year,
+                                                    month - 1,
+                                                    day,
+                                                    closingHour,
+                                                    closingMinute
+                                                ),
+                                                course: schedules?.data?.course,
+                                            }
+                                        }
+                                    ),
+                                ]}
+                            />
+                        </>
+                    ) : (
+                        schedules?.isSuccess && <EmptyData />
+                    )}
+                </Card>
+            </div>
         </>
     )
 }

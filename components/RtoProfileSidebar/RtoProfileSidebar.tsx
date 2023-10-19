@@ -104,20 +104,47 @@ export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
 
                         {/* Info Row 1 */}
                         <div className="flex flex-col divide-y mt-4">
-                            <div className="p-2">
-                                <div className="flex items-center space-x-2">
-                                    <span className="text-gray-300">
-                                        <FaAddressCard />
-                                    </span>
-
-                                    <div>
-                                        <div className="text-gray-400 text-[11px] -mb-1">
+                            <div className="flex justify-around divide-x border-t">
+                                <div className="p-2">
+                                    <div className="flex items-center gap-x-2">
+                                        <FaAddressCard
+                                            className="text-gray-400"
+                                            size={12}
+                                        />
+                                        <Typography
+                                            variant={'xs'}
+                                            color={'text-gray-400'}
+                                        >
                                             RTO Code
-                                        </div>
-                                        <p className="text-xs font-medium">
-                                            {rto?.data?.rtoCode}
-                                        </p>
+                                        </Typography>
                                     </div>
+                                    <Typography
+                                        variant={'small'}
+                                        color={'text-black'}
+                                    >
+                                        {rto?.data?.rtoCode || 'N/A'}
+                                    </Typography>
+                                </div>
+                                <div className="p-2">
+                                    <div className="flex items-center gap-x-2">
+                                        <FaMoneyBill
+                                            className="text-gray-400"
+                                            size={12}
+                                        />
+                                        <Typography
+                                            variant={'xs'}
+                                            color={'text-gray-400'}
+                                        >
+                                            RTO ABN
+                                        </Typography>
+                                    </div>
+                                    <Typography
+                                        variant={'small'}
+                                        color={'text-black'}
+                                        capitalize
+                                    >
+                                        {rto?.data?.abn || 'N/A'}
+                                    </Typography>
                                 </div>
                             </div>
 

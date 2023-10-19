@@ -49,6 +49,17 @@ export const workplaceEndpoints = (
         providesTags: ['IndustryWorkplace'],
     }),
 
+    getIndustryStudentSchedule: builder.query<
+        any,
+        { studentUserId: number; courseId: number }
+    >({
+        query: ({ studentUserId, courseId }) => ({
+            url: `${PREFIX}/student/schedule/view/${studentUserId}`,
+            params: { course: courseId },
+        }),
+        providesTags: ['IndustryWorkplace'],
+    }),
+
     getIndustryRequiredDocsResponse: builder.query<
         any,
         { selectedFolderId: number; studentId: number }

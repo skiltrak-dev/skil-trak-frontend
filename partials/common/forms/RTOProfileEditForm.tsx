@@ -240,15 +240,21 @@ export const RTOProfileEditForm = ({
                                 >
                                     {/* Personal Information */}
 
-                                    <TextInput
-                                        label={'Name'}
-                                        name={'name'}
-                                        placeholder={'RTO Name...'}
-                                        validationIcons
-                                        required
-                                    />
-
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
+                                        <TextInput
+                                            label={'Name'}
+                                            name={'name'}
+                                            placeholder={'RTO Name...'}
+                                            validationIcons
+                                            required
+                                        />
+                                        <TextInput
+                                            label={'Abn'}
+                                            name={'abn'}
+                                            placeholder={'RTO ABN...'}
+                                            validationIcons
+                                            required
+                                        />
                                         <TextInput
                                             label={'Code'}
                                             name={'rtoCode'}
