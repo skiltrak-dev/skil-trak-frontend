@@ -22,24 +22,24 @@ import { UserRoles } from '@constants'
 import { Waypoint } from 'react-waypoint'
 
 type Props = {
-    // startDate: Date
-    // setStartDate: (startDate: Date) => void
-    // endDate: Date
-    // setEndDate: (endDate: Date) => void
+    startDate: Date
+    setStartDate: (startDate: Date) => void
+    endDate: Date
+    setEndDate: (endDate: Date) => void
     user?: number
 }
 
 export const AppointmentsReport = ({
-    // setStartDate,
-    // setEndDate,
-    // startDate,
-    // endDate,
+    setStartDate,
+    setEndDate,
+    startDate,
+    endDate,
     user,
 }: Props) => {
     const monthEnd = new Date()
     monthEnd.setDate(monthEnd.getDate() - 30)
-    const [startDate, setStartDate] = useState<Date>(monthEnd)
-    const [endDate, setEndDate] = useState<Date>(new Date())
+    // const [startDate, setStartDate] = useState<Date>(monthEnd)
+    // const [endDate, setEndDate] = useState<Date>(new Date())
     const [renderComponent, setRenderComponent] = useState(false)
 
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -161,12 +161,12 @@ export const AppointmentsReport = ({
                     </div>
 
                     <div className="flex items-center gap-x-4">
-                        <FilterReport
+                        {/* <FilterReport
                             startDate={startDate}
                             setStartDate={setStartDate}
                             endDate={endDate}
                             setEndDate={setEndDate}
-                        />
+                        /> */}
 
                         <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                             <ActionButton

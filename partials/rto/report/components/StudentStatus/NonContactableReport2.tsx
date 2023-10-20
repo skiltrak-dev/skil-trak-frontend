@@ -1,7 +1,6 @@
 import {
     ActionButton,
     AuthorizedUserComponent,
-    EmptyData,
     InitialAvatar,
     LoadingAnimation,
     NoData,
@@ -9,17 +8,14 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { CourseDot } from '@partials/rto/student/components'
+import { UserRoles } from '@constants'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import React, { useState } from 'react'
-
-import { Course, ReportOptionsEnum } from '@types'
-import { FilterReport } from '../../FilterReport'
-import { ViewFullListReport } from '../../ViewFullListReport'
+import { ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
-import { UserRoles } from '@constants'
+import { useState } from 'react'
 import { Waypoint } from 'react-waypoint'
+import { FilterReport } from '../../FilterReport'
 type Props = {
     startDate: Date
     setStartDate: (startDate: Date) => void
@@ -28,7 +24,7 @@ type Props = {
     user?: number
 }
 
-export const CancelledWorkplaceReport = ({
+export const NonContactableReport2 = ({
     setStartDate,
     setEndDate,
     startDate,
@@ -43,8 +39,12 @@ export const CancelledWorkplaceReport = ({
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
+
+    // let end = new Date(endDate)
+    // end.setDate(end.getDate() + 1)
+
     const { data, isLoading, isError } =
-        RtoApi.Students.useCancelledWorkplaceReport(
+        RtoApi.Students.useGetNotContactableStudents(
             {
                 user,
                 startDate: startDate.toISOString().slice(0, 10),
@@ -59,37 +59,35 @@ export const CancelledWorkplaceReport = ({
         {
             header: () => <span>Name</span>,
             accessorKey: 'user',
-            cell: (info: any) => {
-                return (
-                    <a className="flex items-center gap-x-2">
-                        {info.row.original?.user?.name && (
-                            <InitialAvatar
-                                name={info.row.original?.user?.name}
-                                imageUrl={info.row.original?.user?.avatar}
-                            />
-                        )}
-                        <div className="flex flex-col">
-                            <span>{info.row.original?.studentId}</span>
-                            <span>{info.row.original?.user?.name}</span>
-                        </div>
-                    </a>
-                )
-            },
+            cell: (info: any) => (
+                <a className="flex items-center gap-x-2">
+                    <InitialAvatar
+                        name={info?.row?.original?.user?.name}
+                        imageUrl={info?.row?.original?.user?.avatar}
+                    />
+                    <div className="flex flex-col">
+                        <span>{info?.row?.original?.studentId}</span>
+                        <span>{info?.row?.original?.user?.name}</span>
+                    </div>
+                </a>
+            ),
         },
         {
             accessorKey: 'email',
             header: () => <span>Email</span>,
-            cell: (info) => <span>{info?.row.original?.user?.email}</span>,
+            cell: (info) => <span>{info?.row?.original?.user?.email}</span>,
         },
         {
             accessorKey: 'phone',
             header: () => <span>Phone</span>,
-            cell: (info) => <span>{info.row.original?.phone}</span>,
         },
         {
             accessorKey: 'courses',
             header: () => <span>Courses</span>,
             cell: (info) => {
+                // return info?.row?.original?.courses?.map((c: Course) => (
+                //     <CourseDot key={c?.id} course={c} />
+                // ))
                 return (
                     <span>
                         {info?.row?.original?.courses[0]?.title || 'N/A'}
@@ -108,49 +106,54 @@ export const CancelledWorkplaceReport = ({
     return (
         <Waypoint onLeave={handleLeave} onEnter={handleEnter}>
             <div>
-                <div className="flex justify-between">
+                <div className="flex justify-between items-start">
                     <div className="">
                         <Typography variant="title" color="text-gray-400">
-                            Cancelled Students
+                            Non Contactable Students
                         </Typography>
                         <Typography variant="h3">{count || 0}</Typography>
                     </div>
-
+                    {/* <ViewFullListReport data={data} columns={columns} /> */}
                     <div className="flex items-center gap-x-4">
-                        {/* <FilterReport
+                        <FilterReport
                             startDate={startDate}
                             setStartDate={setStartDate}
                             endDate={endDate}
                             setEndDate={setEndDate}
-                        /> */}
+                        />
 
+                        {/* Only Show in Admin */}
                         <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                             <ActionButton
                                 onClick={() => {
                                     router.push(
-                                        `/portals/admin/rto/${router.query?.id}/${ReportOptionsEnum.CANCELLED_STUDENTS}`
+                                        `/portals/admin/rto/${router.query?.id}/${ReportOptionsEnum.NON_CONTACTABLE}`
                                     )
                                 }}
                             >
                                 View Full List
                             </ActionButton>
                         </AuthorizedUserComponent>
+
+                        {/* Only Show in SubAdmin */}
                         <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
                             <ActionButton
                                 onClick={() => {
                                     router.push(
-                                        `/portals/sub-admin/users/rtos/${router.query?.id}/${ReportOptionsEnum.CANCELLED_STUDENTS}`
+                                        `/portals/sub-admin/users/rtos/${router.query?.id}/${ReportOptionsEnum.NON_CONTACTABLE}`
                                     )
                                 }}
                             >
                                 View Full List
                             </ActionButton>
                         </AuthorizedUserComponent>
+
+                        {/* Only Show in RTO */}
                         <AuthorizedUserComponent roles={[UserRoles.RTO]}>
                             <ActionButton
                                 onClick={() => {
                                     router.push(
-                                        `/portals/rto/report/${ReportOptionsEnum.CANCELLED_STUDENTS}`
+                                        `/portals/rto/report/${ReportOptionsEnum.NON_CONTACTABLE}`
                                     )
                                 }}
                             >
@@ -159,6 +162,7 @@ export const CancelledWorkplaceReport = ({
                         </AuthorizedUserComponent>
                     </div>
                 </div>
+
                 {isError && <TechnicalError />}
                 {isLoading ? (
                     <LoadingAnimation height="h-[60vh]" />
@@ -175,7 +179,6 @@ export const CancelledWorkplaceReport = ({
                                     <div className="p-6 mb-2 flex justify-between">
                                         {pageSize(itemPerPage, setItemPerPage)}
                                         <div className="flex gap-x-2">
-                                            {/* {quickActions} */}
                                             {pagination(
                                                 data?.pagination,
                                                 setPage
@@ -188,7 +191,9 @@ export const CancelledWorkplaceReport = ({
                         }}
                     </Table>
                 ) : (
-                    !isError && <NoData text="No Cancelled Requests Found" />
+                    !isError && (
+                        <NoData text="No Not Contactable Students Found" />
+                    )
                 )}
             </div>
         </Waypoint>

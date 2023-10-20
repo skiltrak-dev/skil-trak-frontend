@@ -61,7 +61,12 @@ export const DetailTabs = ({
         {
             label: 'Reports',
             href: { query: { tab: 'reports', id } },
-            element: <RTOReports user={rto?.data?.user} />,
+            element: (
+                <RTOReports
+                    user={rto?.data?.user}
+                    createdAt={rto?.data?.createdAt}
+                />
+            ),
         },
         {
             label: 'Gallery',

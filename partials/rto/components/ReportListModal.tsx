@@ -15,7 +15,7 @@ import { getUserCredentials } from '@utils'
 import { saveAs } from 'file-saver'
 import { DownloadLoader } from './DownloadLoader'
 
-export const ReportListModal = ({
+export const  ReportListModal = ({
     onClose,
     user,
 }: {
