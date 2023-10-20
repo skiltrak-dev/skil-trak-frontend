@@ -59,6 +59,7 @@ const SubAdminList: NextPageWithLayout = () => {
     }, [])
 
     const tabs: TabProps[] = [
+        
         {
             label: 'Active',
             href: {
@@ -71,6 +72,7 @@ const SubAdminList: NextPageWithLayout = () => {
             },
             element: <ActiveSubAdmin />,
         },
+
         {
             label: 'Blocked',
             href: {

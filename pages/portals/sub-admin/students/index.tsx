@@ -110,6 +110,7 @@ const Students: NextPageWithLayout = (props: Props) => {
     const studentCount = getCountData<{ [key: string]: number }>(count?.data)
 
     const tabs: TabProps[] = [
+        
         {
             label: 'Pending',
             href: { pathname: 'students', query: { tab: UserStatus.Pending } },

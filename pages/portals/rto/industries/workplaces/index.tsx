@@ -103,6 +103,7 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
             link: '#',
         },
     ]
+    
     const columns: ColumnDef<any>[] = [
         {
             header: () => 'Industry Name',
@@ -189,6 +190,7 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
             },
         },
     ]
+
     return (
         <>
             <SetDetaultQueryFilteres
