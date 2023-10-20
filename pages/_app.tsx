@@ -48,7 +48,6 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                                 <NotificationProvider>
                                     <NavbarProvider>
                                         <ContextBarProvider>
-                                            {/* <Component {...pageProps} /> */}
                                             <SocketListenerProvider>
                                                 <Socket>
                                                     <NetworkProvider>
@@ -75,4 +74,3 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
 }
 
 export default MyApp
-//

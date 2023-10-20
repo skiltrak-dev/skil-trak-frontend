@@ -129,6 +129,11 @@ export const IndustryProfile = ({ data }: Props) => {
         )
     }
 
+    var inputString = 'Saad australia'
+    var resultString = inputString.replace(/Australia/i, '') // 'i' flag makes the search case-insensitive
+
+    console.log({ resultString })
+
     const onRemoveBranch = () => {
         setModal(
             <RemoveBranchModal industry={data} onCancel={onCancelClicked} />
@@ -246,7 +251,8 @@ export const IndustryProfile = ({ data }: Props) => {
                                             })
                                             notification.success({
                                                 title: 'Cpoied',
-                                                description: 'Phone Number Copied',
+                                                description:
+                                                    'Phone Number Copied',
                                             })
                                         }}
                                     >
@@ -447,8 +453,9 @@ export const IndustryProfile = ({ data }: Props) => {
                                 <IoLocation />
                             </span>
                             <Typography variant={'small'} color={'text-black'}>
-                                {data?.addressLine1}, {data?.addressLine2},{' '}
-                                {data?.state}, {data?.suburb}
+                                {data?.addressLine1},{' '}
+                                {data?.suburb?.replace(/Australia/i, '')}
+                                {data?.state}, Australia
                             </Typography>
                         </div>
                         <div className="text-gray-400 text-[11px] -mt-0.5 text-center">

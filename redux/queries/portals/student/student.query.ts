@@ -10,6 +10,7 @@ import { studentAssessmentEvidenceEndpoints } from './studentAssessmentEvidence'
 import { studentJobEndpoints } from './studentsJobs'
 import { profileEndpoints } from './profile'
 import { workplaceEndpoints } from './workplace'
+import { studentsScheduleEndpoints } from './schedule'
 
 export const studentApi = emptySplitApi.injectEndpoints({
     // ---------- RTO ENDPOINTS ---------- //
@@ -20,11 +21,12 @@ export const studentApi = emptySplitApi.injectEndpoints({
         }),
         ...coursesEndpoints(build),
         ...studentEndpoints(build),
-        ...assessmentToolEndpoints(build),
-        ...studentAssessmentEvidenceEndpoints(build),
-        ...studentJobEndpoints(build),
         ...profileEndpoints(build),
         ...workplaceEndpoints(build),
+        ...studentJobEndpoints(build),
+        ...assessmentToolEndpoints(build),
+        ...studentsScheduleEndpoints(build),
+        ...studentAssessmentEvidenceEndpoints(build),
     }),
     // overrideExisting: true,
 })
@@ -80,6 +82,10 @@ export const {
     useUpdateFindAbnMutation,
     useAddWorkplaceMutation,
     useApplyWorkplaceWithAbnIndustryMutation,
+
+    // ----- SCHEDULE ----- //
+    useGetStudentScheduleQuery,
+    useCreateStudentScheduleMutation,
 } = studentApi
 
 export const StudentApi = {
@@ -132,5 +138,9 @@ export const StudentApi = {
         useUpdateFindAbnMutation,
         useAddWorkplaceMutation,
         useApplyWorkplaceWithAbnIndustryMutation,
+    },
+    Schedule: {
+        useGetStudentSchedule: useGetStudentScheduleQuery,
+        useCreateStudentSchedule: useCreateStudentScheduleMutation,
     },
 }

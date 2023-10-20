@@ -240,7 +240,8 @@ export const Select = forwardRef(
                     {formContext
                         ? getControlledSelect()
                         : getSimpleSelect(
-                              (event: any) => onChange(handleChange(event)),
+                              (event: any) =>
+                                  onChange && onChange(handleChange(event)),
                               onBlur,
                               defaultValue
                           )}

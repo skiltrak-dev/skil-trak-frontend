@@ -274,13 +274,16 @@ export const AssessmentFolderDetailX = ({
                         <NoData text={'No Files Uploaded'} />
                     )}
                     <div className="mt-4 border-dashed border border-gray-300 rounded-lg p-2">
-                        <Typography variant="muted" color="text-gray-400">
-                            Assessed On:{' '}
-                            {moment(
-                                getAssessmentResponse.data?.assessmentFolder
-                                    ?.updatedAt
-                            ).format('Do MMM, YYYY')}
-                        </Typography>
+                        {getAssessmentResponse.data?.assessmentFolder
+                            ?.updatedAt && (
+                            <Typography variant="muted" color="text-gray-400">
+                                Assessed On:{' '}
+                                {moment(
+                                    getAssessmentResponse.data?.assessmentFolder
+                                        ?.updatedAt
+                                ).format('Do MMM, YYYY')}
+                            </Typography>
+                        )}
                         <Typography variant="body" color="text-gray-600">
                             {getAssessmentResponse.data?.comment}
                         </Typography>

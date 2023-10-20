@@ -9,6 +9,7 @@ import {
     TableActionOption,
     TechnicalError,
     Typography,
+    UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -161,6 +162,13 @@ export const RejectedIndustry = () => {
             cell: (info) => {
                 return <SectorCell industry={info.row.original} />
             },
+        },
+        {
+            accessorKey: 'createdAt',
+            header: () => <span>Created At</span>,
+            cell: (info) => (
+                <UserCreatedAt createdAt={info.row.original?.createdAt} />
+            ),
         },
         {
             accessorKey: 'action',
