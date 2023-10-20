@@ -191,6 +191,7 @@ export const ActiveSubAdmin = () => {
     ]
 
     const quickActionsElements = {
+        
         id: 'id',
         individual: (id: SubAdmin) => (
             <div className="flex gap-x-2">

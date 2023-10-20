@@ -16,7 +16,10 @@ import { DisplayNotifications } from '@components/Notification'
 import { MediaQueries, UserRoles } from '@constants'
 import { CommonApi } from '@queries'
 import Link from 'next/link'
-import { BsFillTicketDetailedFill } from 'react-icons/bs'
+import {
+    BsFillTicketDetailedFill,
+    BsFillCloudDownloadFill,
+} from 'react-icons/bs'
 import { useMediaQuery } from 'react-responsive'
 import { ProfileOptionsDropDown } from './components'
 import { ProfileOptionButton } from './components/profileOption/ProfileOptionButton'
@@ -107,6 +110,33 @@ export const DetailNavbar = () => {
                         <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute -top-2 -right-2 bg-error rounded-full text-xs">
                             {ticketCount?.data}
                         </span>
+                    </div>
+                </AuthorizedUserComponent>
+                <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                    <div className="relative">
+                        <Link
+                            legacyBehavior
+                            href={'/portals/sub-admin/downloads'}
+                        >
+                            <a
+                                className={` ${
+                                    router.pathname ===
+                                    '/portals/sub-admin/tickets'
+                                        ? 'bg-green-100 text-orange-700'
+                                        : 'text-slate-700'
+                                } transition-all duration-300 px-4 py-2 flex gap-x-2 items-center rounded-md hover:bg-green-100 hover:text-green-700`}
+                            >
+                                <span>
+                                    <BsFillCloudDownloadFill />
+                                </span>
+                                <span className="text-sm font-semibold">
+                                    Downloads
+                                </span>
+                            </a>
+                        </Link>
+                        {/* <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute -top-2 -right-2 bg-error rounded-full text-xs">
+                            {ticketCount?.data}
+                        </span> */}
                     </div>
                 </AuthorizedUserComponent>
 
