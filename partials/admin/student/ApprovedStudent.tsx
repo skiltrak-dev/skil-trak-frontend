@@ -106,6 +106,27 @@ export const ApprovedStudent = () => {
         )
     }
 
+    const numberOfWeeks = 20
+    const endDate = new Date() // Starting from the current date
+
+    const dateObjects = []
+
+    for (let i = numberOfWeeks - 1; i >= 0; i--) {
+        const currentDate = new Date(endDate)
+        currentDate.setDate(currentDate.getDate() - i * 7) // Decrement by a week
+
+        const lastWeekDate = new Date(currentDate)
+        lastWeekDate.setDate(lastWeekDate.getDate() + 6) // End of the week
+
+        const dateObject = {
+            startDate: currentDate.toISOString().slice(0, 10), // Format as YYYY-MM-DD
+            endDate: lastWeekDate.toISOString().slice(0, 10),
+        }
+
+        dateObjects.push(dateObject)
+    }
+
+    console.log(dateObjects)
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',

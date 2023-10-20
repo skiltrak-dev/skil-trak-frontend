@@ -68,7 +68,7 @@ const Downloads: NextPageWithLayout = () => {
                                     }/shared/industries/download?sectors=${sectorIds.join(
                                         ','
                                     )}`}
-                                    target="_blank"
+                                    target="_blank noreferrer"
                                 >
                                     <div className="flex flex-col gap-y-1 items-center group justify-center">
                                         <FaDownload
@@ -99,7 +99,10 @@ const Downloads: NextPageWithLayout = () => {
                                 />
                             </div>
                             <div className="flex flex-col justify-center items-center">
-                                <Typography variant="label" color=' group-hover:text-blue-300'>
+                                <Typography
+                                    variant="label"
+                                    color=" group-hover:text-blue-300"
+                                >
                                     Download Industries
                                 </Typography>
                                 <Typography

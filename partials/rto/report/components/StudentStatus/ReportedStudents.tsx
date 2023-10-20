@@ -17,25 +17,39 @@ import { useState } from 'react'
 import { Waypoint } from 'react-waypoint'
 import { FilterReport } from '../../FilterReport'
 
-export const ReportedStudents = ({ user }: { user?: number }) => {
+type Props = {
+    startDate: Date
+    setStartDate: (startDate: Date) => void
+    endDate: Date
+    setEndDate: (endDate: Date) => void
+    user?: number
+}
+
+export const ReportedStudents = ({
+    setStartDate,
+    setEndDate,
+    startDate,
+    endDate,
+    user,
+}: Props) => {
     const [renderComponent, setRenderComponent] = useState(false)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
     const monthEnd = new Date()
     monthEnd.setDate(monthEnd.getDate() - 30)
-    const [startDate, setStartDate] = useState<Date>(monthEnd)
-    const [endDate, setEndDate] = useState<Date>(new Date())
+    // const [startDate, setStartDate] = useState<Date>(monthEnd)
+    // const [endDate, setEndDate] = useState<Date>(new Date())
 
-    let end = new Date(endDate)
-    end.setDate(end.getDate() + 1)
+    // let end = new Date(endDate)
+    // end.setDate(end.getDate() + 1)
 
     const { data, isLoading, isError } =
         RtoApi.Students.useReportedStudentsReport(
             {
                 user,
                 startDate: startDate.toISOString().slice(0, 10),
-                endDate: end.toISOString().slice(0, 10),
+                endDate: endDate.toISOString().slice(0, 10),
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
@@ -137,12 +151,12 @@ export const ReportedStudents = ({ user }: { user?: number }) => {
                     </div>
 
                     <div className="flex items-center gap-x-4">
-                        <FilterReport
+                        {/* <FilterReport
                             startDate={startDate}
                             setStartDate={setStartDate}
                             endDate={endDate}
                             setEndDate={setEndDate}
-                        />
+                        /> */}
                         <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                             <ActionButton
                                 onClick={() => {
