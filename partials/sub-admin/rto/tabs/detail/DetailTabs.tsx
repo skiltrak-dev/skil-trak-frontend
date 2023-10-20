@@ -49,7 +49,12 @@ export const DetailTabs = ({ rto }: { rto: Rto }) => {
         {
             label: 'Reports',
             href: { pathname: String(rto?.id), query: { tab: 'reports' } },
-            element: <RTOReports user={rto?.user} />,
+            element: (
+                <RTOReports
+                    user={rto?.user}
+                    createdAt={rto?.createdAt as Date}
+                />
+            ),
         },
         {
             label: 'Gallery',

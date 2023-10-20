@@ -5,9 +5,11 @@ import { ReactElement } from 'react'
 import { RtoLayout } from '@layouts'
 
 import { RTOReports } from '@partials/common/Reports'
+import { RtoApi } from '@queries'
 
 const Report: NextPageWithLayout = () => {
-    return <RTOReports />
+    const profile = RtoApi.Rto.useProfile()
+    return <RTOReports createdAt={profile?.data?.createdAt} />
     //     const [startDate, setStartDate] = useState<any>(new Date())
     //     const [endDate, setEndDate] = useState<any>(new Date())
 
