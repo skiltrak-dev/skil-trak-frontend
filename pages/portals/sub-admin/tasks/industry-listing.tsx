@@ -45,7 +45,9 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
             .trim()}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
-    })
+    }) 
+
+    
 
     const onSetIndustryData = useCallback((data: any) => {
         setIndustryData(data)

@@ -2,13 +2,14 @@ import { AppointmentViewModal } from '@components/Appointment/AppointmentModal'
 import { Portal } from '@components/Portal'
 import { Appointment } from '@types'
 import classNames from 'classnames'
+import moment from 'moment'
 import { ReactElement, useState } from 'react'
 
 // export const EventWrapper = <T extends object>(event: EventWrapperProps<T>) => {
 export const EventWrapper = <T extends object>(event: any) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const classes = classNames({
-        'absolute max-h-full min-h-[20px] hover:min-h-[80px] border-l-2 px-1 py-1 overflow-hidden transition-all cursor-pointer':
+        'bg-blue-200/50 border-blue-400 absolute max-h-full min-h-[20px] hover:min-h-[80px] border-l-2 px-1 py-1 overflow-hidden transition-all cursor-pointer':
             true,
         'bg-indigo-200/50 border-indigo-400':
             event.event.priority === 'high' &&
@@ -79,7 +80,9 @@ export const EventWrapper = <T extends object>(event: any) => {
         )
     }
 
-    console.log({ event })
+    console.log({
+        event,
+    })
 
     return (
         <>
@@ -91,15 +94,23 @@ export const EventWrapper = <T extends object>(event: any) => {
                     width: `${event.style?.width}%`,
                     left: `${event.style?.xOffset}%`,
                 }}
-                className={classes}
-                onClick={() => {
-                    onClicked(event.event?.appointment)
-                }}
+                className={`${classes} `}
+                // onClick={() => {
+                //     onClicked(event.event?.appointment)
+                // }}
             >
-                <p className={labelClasses}>{event.label}</p>
-                <p className={textClasses}>{event.event.title}</p>
-                <p className={subtitleClasses}>
-                    {event.event.subTitle || 'Unknown'}
+                <p className={labelClasses}>
+                    Start Time:
+                    {moment(event?.event?.start).format('DD MMM YYYY')}
+                </p>
+                <p className={labelClasses}>
+                    {moment(event?.event?.start).format('h:mm a')} -{' '}
+                    {moment(event?.event?.end).format('h:mm a')}
+                </p>
+                <p className={labelClasses}></p>
+
+                <p className={textClasses}>
+                    Course:{event.event?.course?.title}
                 </p>
             </div>
         </>

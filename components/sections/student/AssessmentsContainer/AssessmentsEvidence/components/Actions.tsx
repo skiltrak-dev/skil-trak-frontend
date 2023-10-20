@@ -39,7 +39,6 @@ export const Actions = ({
         submitAssessment({ body: values, id: selectedCourseId })
     }
 
-    console.log('Hello', isFilesUploaded && !results?.length)
     useEffect(() => {
         if (isFilesUploaded && !results?.length) {
             onSubmitAssessment({
