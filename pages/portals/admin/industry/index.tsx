@@ -34,6 +34,8 @@ const filterKeys = [
     'courseId',
     'sectorId',
     'industryId',
+    'suburb',
+    'state',
 ]
 
 const removeFilterKeysToUrl = ['name']

@@ -46,6 +46,24 @@ export const SubAdminIndustryFilter = ({
                     }}
                 />
                 <TextInput
+                    name="suburb"
+                    label={'Suburb'}
+                    placeholder={'Search Industry Suburb ...'}
+                    value={filter?.suburb}
+                    onChange={(e: any) => {``
+                        onFilterChange({ ...filter, suburb: e.target.value })
+                    }}
+                />
+                <TextInput
+                    name="state"
+                    label={'State'}
+                    placeholder={'Search Industry by State ...'}
+                    value={filter?.state}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, state: e.target.value })
+                    }}
+                />
+                <TextInput
                     label={'Phone Number'}
                     name={'phone'}
                     value={filter?.phone}
