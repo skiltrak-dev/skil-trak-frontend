@@ -30,7 +30,7 @@ export const Schedule = ({ user }: { user: User }) => {
     }))
     return (
         <div>
-            <div className='w-full h-14 border rounded-md text-lg font-bold'>
+            <div className='w-full h-14 border rounded-md text-2xl font-bold flex justify-center items-center'>
                 In Progress
             </div>
             {addSchedule ? (
