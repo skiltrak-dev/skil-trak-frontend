@@ -121,10 +121,10 @@ export const DetailNavbar = () => {
                             <a
                                 className={` ${
                                     router.pathname ===
-                                    '/portals/sub-admin/tickets'
-                                        ? 'bg-green-100 text-orange-700'
+                                    '/portals/sub-admin/downloads'
+                                        ? 'bg-orange-100 text-orange-700'
                                         : 'text-slate-700'
-                                } transition-all duration-300 px-4 py-2 flex gap-x-2 items-center rounded-md hover:bg-green-100 hover:text-green-700`}
+                                } transition-all duration-300 px-4 py-2 flex gap-x-2 items-center rounded-md hover:bg-orange-100 hover:text-orange-700`}
                             >
                                 <span>
                                     <BsFillCloudDownloadFill />

@@ -43,6 +43,7 @@ const filterKeys = [
     'phone',
     'address',
     'suburb',
+    'state',
     'abn',
     'courseId',
 ]
