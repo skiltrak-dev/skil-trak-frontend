@@ -18,12 +18,14 @@ import { ScheduleCard } from '@partials/student/Schedule'
 import moment from 'moment'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
 import { useNotification } from '@hooks'
-import { AddScheduleContainer } from '@partials/common'
 
 type Props = {}
 
-const Schedule: NextPageWithLayout = (props: Props) => {
-    return <AddScheduleContainer />
+export const AddScheduleContainer = ({
+    onAddStudentCourse,
+}: {
+    onAddStudentCourse?: () => void
+}) => {
     const router = useRouter()
     const events: CalendarEvent[] = [
         {
@@ -181,7 +183,11 @@ const Schedule: NextPageWithLayout = (props: Props) => {
 
     useEffect(() => {
         if (createScheduleResult.isSuccess) {
-            router.push(`/portals/student/assessments/schedule`)
+            if (onAddStudentCourse) {
+                onAddStudentCourse()
+            } else {
+                router.push(`/portals/student/assessments/schedule`)
+            }
         }
     }, [createScheduleResult])
 
@@ -376,10 +382,3 @@ const Schedule: NextPageWithLayout = (props: Props) => {
         </>
     )
 }
-Schedule.getLayout = (page: ReactElement) => {
-    return (
-        <StudentLayout pageTitle={{ title: 'Schedule' }}>{page}</StudentLayout>
-    )
-}
-
-export default Schedule

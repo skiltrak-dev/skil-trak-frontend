@@ -15,10 +15,14 @@ import { RtoAvatar } from '@components/avatars'
 import { SubAdmin } from '@types'
 import { ActionButton } from '@components'
 import { getUserCredentials } from '@utils'
+import { useMediaQuery } from 'react-responsive'
+import { MediaQueries } from '@constants'
 
 export const MyRto = ({ myRto }: any) => {
     const pathname = useRouter()
     const role = getUserCredentials()?.role
+    const isLargeDevice = useMediaQuery(MediaQueries.Large)
+
     return (
         <Card fullHeight>
             {/* Card Header */}
@@ -26,9 +30,9 @@ export const MyRto = ({ myRto }: any) => {
                 {/* Icon Title */}
                 <div className="flex items-center gap-x-2">
                     <div className="w-8 h-8 bg-orange-100 text-orange-600 rounded-full flex justify-center items-center">
-                        <FaSchool size={16} />
+                        <FaSchool size={isLargeDevice ? 16 : 14} />
                     </div>
-                    <p className="text-sm font-semibold">My RTO</p>
+                    <p className="text-xs 2xl:text-sm font-semibold">My RTO</p>
                 </div>
 
                 {role !== 'rto' ? (
@@ -60,8 +64,10 @@ export const MyRto = ({ myRto }: any) => {
                 </div>
                 <div>
                     <div>
-                        <p className="font-medium">{myRto?.user?.name}</p>
-                        <p className="text-slate-400 text-sm">
+                        <p className="font-medium text-sm 2xl:text-base">
+                            {myRto?.user?.name}
+                        </p>
+                        <p className="text-slate-400 text-xs 2xl:text-sm">
                             {myRto?.user?.email}
                         </p>
                     </div>
@@ -70,14 +76,18 @@ export const MyRto = ({ myRto }: any) => {
                             <span className="text-gray-400">
                                 <MdPermContactCalendar size={14} />
                             </span>
-                            <span className="text-xs">{myRto?.phone}</span>
+                            <span className="text-[11px] 2xl:text-xs">
+                                {myRto?.phone}
+                            </span>
                         </div>
                         <div className="flex gap-x-6 mt-1">
                             <div className="flex items-center gap-x-2">
                                 <span className="text-gray-400">
                                     <MdPhone size={14} />
                                 </span>
-                                <span className="text-xs">{myRto?.phone}</span>
+                                <span className="text-[11px] 2xl:text-xs">
+                                    {myRto?.phone}
+                                </span>
                             </div>
                         </div>
                     </div>

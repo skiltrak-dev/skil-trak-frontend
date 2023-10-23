@@ -29,7 +29,7 @@ const formattedCount = (count: number) => {
 
 export const Tab = ({ label, href, badge, active, element }: TabProps) => {
     const classes = classNames({
-        'text-sm font-semibold p-4 border-b transition-all duration-500 hover:text-gray-600':
+        'text-xs 2xl:text-sm font-semibold p-4 border-b transition-all duration-500 hover:text-gray-600':
             true,
         'flex items-center flex-shrink-0': true,
         'text-gray-400 border-transparent': !active,

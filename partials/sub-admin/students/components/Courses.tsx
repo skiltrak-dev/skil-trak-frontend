@@ -7,8 +7,12 @@ import { Course } from './Course'
 // query
 import { SubAdminApi } from '@queries'
 import { LoadingAnimation, NoData } from '@components'
+import { useMediaQuery } from 'react-responsive'
+import { MediaQueries } from '@constants'
 
 export const Courses = ({ id }: { id: number }) => {
+    const isLargeDevice = useMediaQuery(MediaQueries.Large)
+
     const courses = SubAdminApi.Student.useCourses(id, {
         skip: !id,
         refetchOnMountOrArgChange: true,
@@ -24,7 +28,7 @@ export const Courses = ({ id }: { id: number }) => {
                         <div className="bg-gray-100 p-2 rounded-full">
                             <FaBook className="text-xl text-red-500" />
                         </div>
-                        <Typography variant={'label'}>
+                        <Typography variant={isLargeDevice ? 'label' : 'small'}>
                             <span className="font-semibold">
                                 My Sector {'&'} Courses
                             </span>
@@ -37,13 +41,16 @@ export const Courses = ({ id }: { id: number }) => {
                             <div key={course?.id}>
                                 <div className="mt-2">
                                     <Typography
-                                        variant={'small'}
+                                        variant={isLargeDevice ? 'small' : 'xs'}
                                         color={'text-gray-500'}
                                     >
                                         Sector
                                     </Typography>
                                     <Typography
-                                        variant={'label'}
+                                        variant={
+                                            isLargeDevice ? 'label' : 'small'
+                                        }
+                                        semibold
                                         color={'text-gray-700'}
                                     >
                                         {course?.sector?.name}

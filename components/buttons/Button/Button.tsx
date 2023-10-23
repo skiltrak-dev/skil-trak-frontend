@@ -52,7 +52,7 @@ export const Button = ({
     fullWidth,
     mini,
 }: ButtonProps) => {
-    const buttonClass = `text-xs font-medium uppercase transition-all duration-300 border px-4 py-2 shadow focus:outline-none focus:ring-4 ${
+    const buttonClass = `text-[11px] 2xl:text-xs font-medium uppercase transition-all duration-300 border px-4 py-2 shadow focus:outline-none focus:ring-4 ${
         rounded ? 'rounded-full' : 'rounded-md'
     } ${fullWidth ? 'w-full' : 'min-w-[80px]'} `
 
@@ -71,7 +71,6 @@ export const Button = ({
         : outline
         ? theme[variant as any].loading.outline
         : theme[variant as any].loading.default
-
 
     return (
         <button
