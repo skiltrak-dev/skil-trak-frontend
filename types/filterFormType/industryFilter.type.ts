@@ -8,4 +8,6 @@ export interface AdminIndustryFormFilter {
     address: string
     courseId: number
     sectorId: number
+    state: string
+    suburb: string
 }
