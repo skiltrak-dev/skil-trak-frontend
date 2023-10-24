@@ -26,7 +26,6 @@ export const DesktopAssessment = ({
     setSelectedFolder: Function
     isFilesUploaded: any
 }) => {
-    console.log({ results, isFilesUploaded })
     const assessmentActions = () => (
         <Actions
             selectedCourseId={selectedCourse?.id}

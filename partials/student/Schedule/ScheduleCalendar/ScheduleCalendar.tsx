@@ -47,8 +47,6 @@ export const ScheduleCalendar = ({
         59
     )
 
-    console.log({ events })
-
     return (
         <CalendarStyles>
             {loading && (

@@ -38,7 +38,6 @@ export const CancelSchedule = ({
 
     const onSubmit = (values: any) => {
         cancelSchedule(schedule?.id)
-        console.log({ values })
     }
     return (
         <div className="max-h-[60vh] overflow-auto custom-scrollbar">

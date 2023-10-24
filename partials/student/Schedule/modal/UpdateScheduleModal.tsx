@@ -32,8 +32,6 @@ export const UpdateScheduleModal = ({
 }) => {
     const [selectedType, setSelectedType] = useState<string>(ScheduleType.Notes)
 
-    console.log({ selectedType })
-
     const ShowTypesData = () => {
         switch (selectedType) {
             case ScheduleType.Notes:

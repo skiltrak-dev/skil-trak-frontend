@@ -171,11 +171,7 @@ export const AddScheduleContainer = ({
         return result
     }
 
-    console.log({ result: findUniqueDays() })
-
     const { notification } = useNotification()
-
-    console.log({ scheduleTime })
 
     useEffect(() => {
         if (createScheduleResult.isSuccess) {
@@ -213,8 +209,6 @@ export const AddScheduleContainer = ({
                     tempAvailabilities[dayIndex].isActive = true
                 })
 
-                console.log({ tempAvailabilities })
-
                 setAvailabilities(tempAvailabilities)
                 setScheduleTime(tempAvailabilities)
                 setSelectedCourse(schedules?.data?.course?.id)
@@ -227,7 +221,6 @@ export const AddScheduleContainer = ({
     }, [schedules])
 
     useEffect(() => {
-        console.log({ selectedCourse })
         setScheduleTime(initialSchedule)
     }, [selectedCourse])
 
@@ -288,18 +281,13 @@ export const AddScheduleContainer = ({
                     course: course?.id,
                     hours: selectedHours,
                 }).then((res: any) => {
-                    console.log('Outer')
-                    console.log({ res })
                     if (res?.data) {
-                        console.log('Inner')
                         router.push(`/portals/student/assessments/schedule`)
                     }
                 })
             }
         }
     }
-
-    console.log({ course })
 
     return (
         <>

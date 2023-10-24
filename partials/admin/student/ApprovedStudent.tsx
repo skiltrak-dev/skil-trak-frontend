@@ -62,7 +62,6 @@ export const ApprovedStudent = () => {
     }, [savedScrollPosition, listingRef])
 
     // Function to handle scrolling
-    console.log({ listingRef })
     const handleScroll = () => {
         if (listingRef.current) {
             isBrowser() &&
@@ -163,7 +162,6 @@ export const ApprovedStudent = () => {
         dateObjects.push(dateObject)
     }
 
-    console.log(dateObjects)
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',

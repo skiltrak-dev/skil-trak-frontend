@@ -132,8 +132,6 @@ export const IndustryProfile = ({ data }: Props) => {
     var inputString = 'Saad australia'
     var resultString = inputString.replace(/Australia/i, '') // 'i' flag makes the search case-insensitive
 
-    console.log({ resultString })
-
     const onRemoveBranch = () => {
         setModal(
             <RemoveBranchModal industry={data} onCancel={onCancelClicked} />

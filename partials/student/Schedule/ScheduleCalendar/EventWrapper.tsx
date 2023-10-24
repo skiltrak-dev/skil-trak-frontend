@@ -78,10 +78,6 @@ export const EventWrapper = <T extends object>(event: any) => {
         )
     }
 
-    console.log({
-        event,
-    })
-
     return (
         <>
             {modal}
