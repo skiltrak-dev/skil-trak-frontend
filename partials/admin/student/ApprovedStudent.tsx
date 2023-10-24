@@ -21,9 +21,14 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import { checkListLength, setLink, studentsListWorkplace } from '@utils'
+import {
+    checkListLength,
+    isBrowser,
+    setLink,
+    studentsListWorkplace,
+} from '@utils'
 import { useRouter } from 'next/router'
-import { ReactElement, useCallback, useEffect, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
@@ -46,6 +51,38 @@ export const ApprovedStudent = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+    const listingRef = useRef<any>(null)
+
+    const savedScrollPosition =
+        isBrowser() && localStorage.getItem('lastScroll')
+    useEffect(() => {
+        if (listingRef.current && savedScrollPosition) {
+            listingRef.current.scrollTop = parseInt(savedScrollPosition, 10)
+        }
+    }, [savedScrollPosition, listingRef])
+
+    // Function to handle scrolling
+    console.log({ listingRef })
+    const handleScroll = () => {
+        if (listingRef.current) {
+            isBrowser() &&
+                localStorage.setItem('lastScroll', listingRef.current.scrollTop)
+        }
+    }
+
+    // Attach the scroll event listener when the component mounts
+    // useEffect(() => {
+    //     if (listingRef.current) {
+    //         listingRef.current.addEventListener('scroll', handleScroll)
+    //     }
+
+    //     // Remove the event listener when the component unmounts
+    //     return () => {
+    //         if (listingRef.current) {
+    //             listingRef.current.removeEventListener('scroll', handleScroll)
+    //         }
+    //     }
+    // }, [listingRef])
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -375,7 +412,11 @@ export const ApprovedStudent = () => {
                             }: TableChildrenProps) => {
                                 return (
                                     <div>
-                                        <div className="p-6 mb-2 flex justify-between">
+                                        <div
+                                            ref={listingRef}
+                                            onScroll={handleScroll}
+                                            className="p-6 mb-2 flex justify-between"
+                                        >
                                             {pageSize
                                                 ? pageSize(
                                                       itemPerPage,

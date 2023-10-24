@@ -1,13 +1,14 @@
-import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
+import { Calendar, momentLocalizer } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
+import { LoadingAnimation } from '@components/LoadingAnimation'
 import { CustomToolbar } from './CustomToolbar'
+import { EventWrapper } from './EventWrapper'
+import { TimeSlotWrapper } from './TimeSlotWrapper'
 import { WeekHeaderWrapper } from './WeekHeaderWrapper'
 import { CalendarStyles } from './style'
-import { TimeSlotWrapper } from './TimeSlotWrapper'
-import { EventWrapper } from './EventWrapper'
-import { LoadingAnimation } from '@components/LoadingAnimation'
+import { useEffect, useRef } from 'react'
 
 const localizer = momentLocalizer(moment)
 
@@ -58,7 +59,7 @@ export const ScheduleCalendar = ({
             <Calendar
                 localizer={localizer}
                 events={events || []}
-                defaultView="week"
+                defaultView="month"
                 startAccessor="start"
                 endAccessor="end"
                 style={{ height: 500 }}

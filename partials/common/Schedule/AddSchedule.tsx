@@ -22,11 +22,21 @@ import { useNotification } from '@hooks'
 type Props = {}
 
 export const AddScheduleContainer = ({
+    course,
     onAddStudentCourse,
 }: {
+    course: Course
     onAddStudentCourse?: () => void
 }) => {
+    const [selectedHours, setSelectedHours] = useState<number | null>(null)
     const router = useRouter()
+
+    useEffect(() => {
+        if (course) {
+            setSelectedHours(course?.hours)
+        }
+    }, [course])
+
     const events: CalendarEvent[] = [
         {
             allDay: false,
@@ -72,20 +82,6 @@ export const AddScheduleContainer = ({
             priority: 'high',
         },
     ]
-
-    const courses = useGetStudentCoursesQuery()
-
-    const courseOptions = courses.data?.map((course: Course) => ({
-        label: course?.title,
-        value: course?.id,
-        item: course,
-    }))
-
-    useEffect(() => {
-        if (courses.isSuccess) {
-            setSelectedCourse(courses?.data?.[0]?.id)
-        }
-    }, [courses])
 
     const initialSchedule = [
         {
@@ -258,7 +254,12 @@ export const AddScheduleContainer = ({
                 title: 'Start Date',
                 description: 'Start Date is Required!',
             })
-        } else if (!selectedCourse) {
+        } else if (!selectedHours) {
+            notification.warning({
+                title: 'Hours',
+                description: 'Hours is Required!',
+            })
+        } else if (!course) {
             notification.warning({
                 title: 'Course',
                 description: 'Course is Required!',
@@ -271,8 +272,9 @@ export const AddScheduleContainer = ({
         } else {
             if (
                 startDate &&
-                selectedCourse &&
-                scheduleTime?.filter((c: any) => c?.isActive)?.length > 0
+                course &&
+                scheduleTime?.filter((c: any) => c?.isActive)?.length > 0 &&
+                selectedHours
             ) {
                 createSchedule({
                     startDate,
@@ -283,7 +285,8 @@ export const AddScheduleContainer = ({
                             openingTime: c?.openingTime,
                             closingTime: c?.closingTime,
                         })),
-                    course: selectedCourse,
+                    course: course?.id,
+                    hours: selectedHours,
                 }).then((res: any) => {
                     console.log('Outer')
                     console.log({ res })
@@ -296,6 +299,8 @@ export const AddScheduleContainer = ({
         }
     }
 
+    console.log({ course })
+
     return (
         <>
             <ShowErrorNotifications result={createScheduleResult} />
@@ -303,6 +308,28 @@ export const AddScheduleContainer = ({
                 <Typography variant="title">Manage Schedule</Typography>
                 <div className="flex justify-between items-center">
                     <div>
+                        <div className="w-72">
+                            <Typography variant="small">Course</Typography>
+                            <div className="flex flex-col border rounded py-2 px-1">
+                                <Typography variant="small">
+                                    {course?.code}
+                                </Typography>
+                                <Typography variant="label" semibold>
+                                    {course?.title}
+                                </Typography>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex gap-x-2">
+                        <TextInput
+                            name="hours"
+                            label="Add Hours"
+                            placeholder="Add Hours"
+                            value={selectedHours}
+                            onChange={(e: any) => {
+                                setSelectedHours(e.target.value)
+                            }}
+                        />
                         <TextInput
                             name="startingDate"
                             label={'Starting Date'}
@@ -310,28 +337,6 @@ export const AddScheduleContainer = ({
                             type={'date'}
                             value={startDate}
                             onChange={(e: any) => setStartDate(e.target?.value)}
-                        />
-                    </div>
-                    <div className="w-72">
-                        <Select
-                            label={'Courses'}
-                            name={'courses'}
-                            defaultValue={courseOptions}
-                            value={courseOptions?.find(
-                                (c: any) => c?.value === selectedCourse
-                            )}
-                            options={courseOptions}
-                            loading={courses.isLoading}
-                            onlyValue
-                            disabled={courses.isLoading}
-                            validationIcons
-                            components={{
-                                Option: CourseSelectOption,
-                            }}
-                            formatOptionLabel={formatOptionLabel}
-                            onChange={(e: any) => {
-                                setSelectedCourse(e)
-                            }}
                         />
                     </div>
                 </div>

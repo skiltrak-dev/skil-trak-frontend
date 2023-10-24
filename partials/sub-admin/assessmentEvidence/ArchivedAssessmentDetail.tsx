@@ -11,6 +11,7 @@ import {
     LoadingAnimation,
     NoData,
     ShowErrorNotifications,
+    Tooltip,
     Typography,
 } from '@components'
 
@@ -28,6 +29,7 @@ import {
 import { ellipsisText, getCourseResult, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { AiFillDelete } from 'react-icons/ai'
+import { MdOutlineUnarchive } from 'react-icons/md'
 
 export const ArchivedAssessmentDetail = ({
     studentId,
@@ -175,7 +177,10 @@ export const ArchivedAssessmentDetail = ({
                 archiveFileResult?.originalArgs === fileId ? (
                     <PulseLoader size={3} />
                 ) : (
-                    <AiFillDelete className="text-red-500 text-sm" />
+                    <div className="group relative">
+                        <MdOutlineUnarchive className="text-red-500 text-sm" />
+                        <Tooltip>Un Archive File</Tooltip>
+                    </div>
                 )}
             </div>
         )
