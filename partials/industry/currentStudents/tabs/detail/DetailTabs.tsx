@@ -54,16 +54,11 @@ export const DetailTabs = ({
             href: { pathname: String(id), query: { tab: 'notes' } },
             element: <NotesTab user={workplace?.student?.user} />,
         },
-        {
-            label: 'Schedule',
-            href: { pathname: String(id), query: { tab: 'schedule' } },
-            element: (
-                <StudentSchedule
-                    course={workplace?.courses?.[0]}
-                    user={workplace?.student?.user}
-                />
-            ),
-        },
+        // {
+        //     label: 'Schedule',
+        //     href: { pathname: String(id), query: { tab: 'schedule' } },
+        //     element: <StudentSchedule course={workplace?.courses?.[0]} />,
+        // },
     ]
 
     return (

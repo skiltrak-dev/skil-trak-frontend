@@ -1,13 +1,28 @@
-import React, { useEffect, useState } from 'react'
-import { SubAdminApi } from '@queries'
+import {
+    Button,
+    Card,
+    EmptyData,
+    LoadingAnimation,
+    Select,
+    TechnicalError,
+    Typography,
+} from '@components'
+import { ScheduleCalendar } from '@partials/student/Schedule'
+import { StudentApi, SubAdminApi } from '@queries'
 import { Course, User } from '@types'
-import { StudentSchedule } from '@partials/industry/currentStudents/tabs/detail/StudentSchedule'
-import { useRouter } from 'next/router'
-import { Button, Select } from '@components'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
-import { AddScheduleContainer } from '@partials/common'
+import moment from 'moment'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { AddSchedule } from './AddSchedule'
 
-export const Schedule = ({ user }: { user: User }) => {
+export const Schedule = ({
+    user,
+    studentId,
+}: {
+    studentId: number
+    user: User
+}) => {
     const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
     const [addSchedule, setAddSchedule] = useState<boolean>(false)
 
@@ -16,6 +31,12 @@ export const Schedule = ({ user }: { user: User }) => {
         skip: !router.query?.id,
         refetchOnMountOrArgChange: true,
     })
+    const schedules = StudentApi.Schedule.useGetStudentSchedule(
+        { courseId: Number(selectedCourse), userId: user?.id },
+        {
+            skip: !selectedCourse,
+        }
+    )
 
     useEffect(() => {
         if (courses.data && courses.data?.length > 0) {
@@ -30,15 +51,14 @@ export const Schedule = ({ user }: { user: User }) => {
     }))
     return (
         <div>
-            <div className="w-full h-14 border rounded-md text-2xl font-bold flex justify-center items-center">
-                In Progress
-            </div>
             {addSchedule ? (
-                <AddScheduleContainer
+                <AddSchedule
+                    user={user}
+                    studentId={studentId}
+                    selectedCourse={Number(selectedCourse)}
                     onAddStudentCourse={() => {
                         setAddSchedule(false)
                     }}
-                    course={{} as Course}
                 />
             ) : (
                 <>
@@ -66,7 +86,11 @@ export const Schedule = ({ user }: { user: User }) => {
                         </div>
                         <div>
                             <Button
-                                text={'Add Schedule'}
+                                text={
+                                    schedules?.data
+                                        ? 'Edit Schedule'
+                                        : 'Add Schedule'
+                                }
                                 variant={'info'}
                                 onClick={() => {
                                     setAddSchedule(true)
@@ -74,10 +98,86 @@ export const Schedule = ({ user }: { user: User }) => {
                             />
                         </div>
                     </div>
-                    <StudentSchedule
-                        course={{ id: Number(selectedCourse) } as Course}
-                        user={user}
-                    />
+                    <div className="mt-3">
+                        <Card>
+                            {schedules.isError && <TechnicalError />}
+                            {schedules?.isLoading ? (
+                                <LoadingAnimation />
+                            ) : schedules?.data ? (
+                                <>
+                                    <div className="flex gap-x-4 items-center">
+                                        <div>
+                                            <Typography variant="subtitle">
+                                                Start Date
+                                            </Typography>
+                                            <Typography variant="label">
+                                                {moment(
+                                                    schedules?.data?.startDate
+                                                ).format('MMMM DD, YYYY')}
+                                            </Typography>
+                                        </div>
+                                        <div>
+                                            <Typography variant="subtitle">
+                                                End Date
+                                            </Typography>
+                                            <Typography variant="label">
+                                                {moment(
+                                                    schedules?.data?.endDate
+                                                ).format('MMMM DD, YYYY')}
+                                            </Typography>
+                                        </div>
+                                    </div>
+
+                                    <ScheduleCalendar
+                                        events={[
+                                            ...schedules?.data?.timeTables?.map(
+                                                (c: any) => {
+                                                    const [year, month, day] =
+                                                        moment(c?.date)
+                                                            .format(
+                                                                'YYYY-MM-DD'
+                                                            )
+                                                            .split('-')
+                                                            .map(Number)
+                                                    const [hour, minute] =
+                                                        c?.openingTime
+                                                            .split(':')
+                                                            .map(Number)
+                                                    const [
+                                                        closingHour,
+                                                        closingMinute,
+                                                    ] = c?.closingTime
+                                                        .split(':')
+                                                        .map(Number)
+                                                    return {
+                                                        start: new Date(
+                                                            year,
+                                                            month - 1,
+                                                            day,
+                                                            hour,
+                                                            minute
+                                                        ),
+                                                        end: new Date(
+                                                            year,
+                                                            month - 1,
+                                                            day,
+                                                            closingHour,
+                                                            closingMinute
+                                                        ),
+                                                        course: schedules?.data
+                                                            ?.course,
+                                                        schedule: c,
+                                                    }
+                                                }
+                                            ),
+                                        ]}
+                                    />
+                                </>
+                            ) : (
+                                schedules?.isSuccess && <EmptyData />
+                            )}
+                        </Card>
+                    </div>
                 </>
             )}
         </div>

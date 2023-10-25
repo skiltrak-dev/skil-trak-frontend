@@ -5,18 +5,31 @@ const PREFIX = 'students'
 export const studentsScheduleEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    getStudentSchedule: builder.query<any, number>({
-        query: (courseId) => ({
+    getStudentSchedule: builder.query<
+        any,
+        { courseId: number; userId?: number }
+    >({
+        query: ({ courseId, userId }) => ({
             url: `${PREFIX}/schedule/view`,
-            params: { course: courseId },
+            params: { course: courseId, stdUser: userId },
         }),
         providesTags: ['StudentSchedule'],
     }),
 
     createStudentSchedule: builder.mutation({
-        query: (body) => ({
+        query: ({ stdUser, ...body }) => ({
             url: `${PREFIX}/schedule/add`,
             method: 'POST',
+            params: { stdUser },
+            body,
+        }),
+        invalidatesTags: ['StudentSchedule'],
+    }),
+    editStudentSchedule: builder.mutation({
+        query: ({ id, stdUser, ...body }) => ({
+            url: `${PREFIX}/schedule/edit/${id}`,
+            method: 'POST',
+            params: { stdUser },
             body,
         }),
         invalidatesTags: ['StudentSchedule'],
@@ -29,13 +42,16 @@ export const studentsScheduleEndpoints = (
         }),
         invalidatesTags: ['StudentSchedule'],
     }),
-    cancelScheduleShift: builder.mutation<any, number>({
-        query: (id) => ({
-            url: `${PREFIX}/schedule/cancel/${id}`,
-            method: 'PATCH',
-        }),
-        invalidatesTags: ['StudentSchedule'],
-    }),
+    cancelScheduleShift: builder.mutation<any, { id: number; comment: string }>(
+        {
+            query: ({ id, comment }) => ({
+                url: `${PREFIX}/schedule/cancel/${id}`,
+                body: { comment },
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['StudentSchedule'],
+        }
+    ),
     rescheduleShift: builder.mutation<any, any>({
         query: ({ id, ...body }) => ({
             url: `${PREFIX}/schedule/re-schedule/slot/${id}`,

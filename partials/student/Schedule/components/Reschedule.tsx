@@ -29,6 +29,12 @@ export const Reschedule = ({
     })
 
     useEffect(() => {
+        if (schedule?.note) {
+            methods.setValue('comment', schedule?.note?.comment)
+        }
+    }, [schedule])
+
+    useEffect(() => {
         if (rescheduleResult.isSuccess) {
             notification.success({
                 title: 'Schedule Rescheduled',
@@ -62,7 +68,7 @@ export const Reschedule = ({
 
                         <TextArea
                             label={'Note'}
-                            name={'note'}
+                            name={'comment'}
                             placeholder={'Your Note Here...'}
                             validationIcons
                             required
