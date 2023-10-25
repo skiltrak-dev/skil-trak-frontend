@@ -88,6 +88,7 @@ export const {
     useAddScheduleNoteMutation,
     useGetStudentScheduleQuery,
     useCancelScheduleShiftMutation,
+    useEditStudentScheduleMutation,
     useCreateStudentScheduleMutation,
 } = studentApi
 
@@ -147,6 +148,7 @@ export const StudentApi = {
         useCancelSchedule: useCancelScheduleShiftMutation,
         useGetStudentSchedule: useGetStudentScheduleQuery,
         useCreateStudentSchedule: useCreateStudentScheduleMutation,
+        useEditStudentSchedule: useEditStudentScheduleMutation,
         useRescheduleShift: useRescheduleShiftMutation,
     },
 }

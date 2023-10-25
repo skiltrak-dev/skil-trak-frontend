@@ -27,6 +27,12 @@ export const CancelSchedule = ({
     })
 
     useEffect(() => {
+        if (schedule?.note) {
+            methods.setValue('comment', schedule?.note?.comment)
+        }
+    }, [schedule])
+
+    useEffect(() => {
         if (cancelScheduleResult.isSuccess) {
             notification.error({
                 title: 'Schedule Cancelled',
@@ -37,7 +43,7 @@ export const CancelSchedule = ({
     }, [cancelScheduleResult])
 
     const onSubmit = (values: any) => {
-        cancelSchedule(schedule?.id)
+        cancelSchedule({ id: schedule?.id, comment: values?.comment })
     }
     return (
         <div className="max-h-[60vh] overflow-auto custom-scrollbar">
@@ -50,7 +56,7 @@ export const CancelSchedule = ({
                     <div className="">
                         <TextArea
                             label={'Note'}
-                            name={'note'}
+                            name={'comment'}
                             placeholder={'Your Note Here...'}
                             validationIcons
                             required

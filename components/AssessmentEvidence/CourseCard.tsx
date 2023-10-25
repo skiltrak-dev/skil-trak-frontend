@@ -1,7 +1,8 @@
 import { Badge } from '@components/Badge'
 import { Typography } from '@components/Typography'
-import { Result } from '@constants'
+import { MediaQueries, Result } from '@constants'
 import moment from 'moment'
+import { useMediaQuery } from 'react-responsive'
 
 type Props = {
     id?: string
@@ -26,6 +27,7 @@ export const CourseCard = ({
     course,
     result,
 }: Props) => {
+    const isLargeScreen = useMediaQuery(MediaQueries.Large)
     const getResultBadge = () => {
         switch (result?.result) {
             case Result.Competent:
@@ -54,7 +56,10 @@ export const CourseCard = ({
             >
                 <div className="flex justify-between items-center">
                     <div>
-                        <Typography variant="xs" color="text-black">
+                        <Typography
+                            variant={isLargeScreen ? 'xs' : 'badge'}
+                            color="text-black"
+                        >
                             {code}
                         </Typography>
                     </div>
@@ -76,12 +81,18 @@ export const CourseCard = ({
                 </div>
                 <div>
                     <div>
-                        <Typography variant="label" color="text-black">
+                        <Typography
+                            variant={isLargeScreen ? 'label' : 'small'}
+                            color="text-black"
+                        >
                             {title}
                         </Typography>
                     </div>
                     <div className="">
-                        <Typography variant="label" color="text-gray-400">
+                        <Typography
+                            variant={isLargeScreen ? 'label' : 'small'}
+                            color="text-gray-400"
+                        >
                             {result?.assessor?.name}
                         </Typography>
                     </div>

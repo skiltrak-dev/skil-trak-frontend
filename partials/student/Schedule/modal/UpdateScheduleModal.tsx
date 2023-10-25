@@ -1,6 +1,7 @@
 import { Modal, Select, Typography } from '@components'
 import React, { useState } from 'react'
 import { AddNote, CancelSchedule, Reschedule } from '../components'
+import moment from 'moment'
 
 enum ScheduleType {
     Reschedule = 'reschedule',
@@ -78,10 +79,52 @@ export const UpdateScheduleModal = ({
             >
                 {schedule?.isCancelled ? (
                     <>
-                        <Typography>Schedule Cancelled</Typography>
+                        <Typography variant="label" semibold>
+                            Schedule Cancelled
+                        </Typography>
+                        <div>
+                            <Typography>Note:</Typography>
+                            <Typography variant="small">
+                                {schedule?.note?.comment}
+                            </Typography>
+                        </div>
                     </>
                 ) : (
                     <>
+                        {schedule?.reScheduled && (
+                            <div className="flex justify-between items-center">
+                                <div>
+                                    <Typography variant="label">
+                                        Shift Date
+                                    </Typography>
+                                    <Typography variant="small">
+                                        {moment(schedule?.data).format(
+                                            'DD MMMM, YYYY'
+                                        )}
+                                    </Typography>
+                                </div>
+                                <div>
+                                    <Typography variant="label">
+                                        Shift Timing
+                                    </Typography>
+                                    <div className="flex items-center gap-x-0.5">
+                                        <Typography variant="small">
+                                            {moment(
+                                                schedule?.openingTime,
+                                                'h:mm'
+                                            ).format('h:mm a')}
+                                        </Typography>
+                                        <span>-</span>
+                                        <Typography variant="small">
+                                            {moment(
+                                                schedule?.closingTime,
+                                                'h:mm'
+                                            ).format('h:mm a')}
+                                        </Typography>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                         <Select
                             name={'schedule'}
                             defaultValue={options[0]}

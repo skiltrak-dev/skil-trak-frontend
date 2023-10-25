@@ -6,27 +6,16 @@ import {
     Typography,
 } from '@components'
 import { ScheduleCalendar } from '@partials/student/Schedule'
-import { IndustryApi } from '@queries'
-import { Course, User } from '@types'
+import { Course } from '@types'
 import moment from 'moment'
-import React from 'react'
 
 export const StudentSchedule = ({
-    user,
     course,
+    schedules,
 }: {
     course: Course
-    user: User
+    schedules: any
 }) => {
-    const schedules = IndustryApi.Workplace.useStudentSchedule(
-        {
-            courseId: course?.id,
-            studentUserId: user?.id,
-        },
-        {
-            skip: !course?.id || !user?.id,
-        }
-    )
     return (
         <div>
             <div className="mt-3">

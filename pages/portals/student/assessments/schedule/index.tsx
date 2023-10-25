@@ -73,7 +73,7 @@ const Schedule: NextPageWithLayout = (props: Props) => {
     ]
 
     const schedules = StudentApi.Schedule.useGetStudentSchedule(
-        Number(selectedCourse),
+        { courseId: Number(selectedCourse) },
         {
             skip: !selectedCourse,
         }
@@ -118,7 +118,7 @@ const Schedule: NextPageWithLayout = (props: Props) => {
                     />
                 </div>
                 <Button
-                    text={'Add Schedule'}
+                    text={schedules ? 'Edit Schedule' : 'Add Schedule'}
                     variant={'info'}
                     onClick={() => {
                         router.push({
@@ -137,18 +137,29 @@ const Schedule: NextPageWithLayout = (props: Props) => {
                         <LoadingAnimation />
                     ) : schedules?.data ? (
                         <>
-                            <Typography>
-                                Start Date :{' '}
-                                {moment(schedules?.data?.startDate).format(
-                                    'MMM DD, YYYY'
-                                )}
-                            </Typography>
-                            <Typography>
-                                End Date :{' '}
-                                {moment(schedules?.data?.endDate).format(
-                                    'MMM DD, YYYY'
-                                )}
-                            </Typography>
+                            <div className="flex gap-x-4 items-center">
+                                <div>
+                                    <Typography variant="subtitle">
+                                        Start Date
+                                    </Typography>
+                                    <Typography variant="label">
+                                        {moment(
+                                            schedules?.data?.startDate
+                                        ).format('MMMM DD, YYYY')}
+                                    </Typography>
+                                </div>
+                                <div>
+                                    <Typography variant="subtitle">
+                                        End Date
+                                    </Typography>
+                                    <Typography variant="label">
+                                        {moment(
+                                            schedules?.data?.endDate
+                                        ).format('MMMM DD, YYYY')}
+                                    </Typography>
+                                </div>
+                            </div>
+
                             <ScheduleCalendar
                                 events={[
                                     ...schedules?.data?.timeTables?.map(
