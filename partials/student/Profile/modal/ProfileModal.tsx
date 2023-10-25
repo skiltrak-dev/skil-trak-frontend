@@ -114,7 +114,7 @@ export const ProfileModal = ({
 
     return (
         <div className="bg-[#00000080] w-full h-screen flex items-center justify-center fixed top-0 left-0 z-40">
-            <div className="bg-white rounded-2xl flex flex-col justify-between shadow-md w-[90vw] h-[90vh] overflow-auto custom-scrollbar">
+            <div className="bg-white rounded-2xl modal-animation flex flex-col justify-between shadow-md w-[90vw] h-[90vh] overflow-auto custom-scrollbar">
                 <div className="px-4 py-6">
                     <Typography variant={'subtitle'}>
                         Complete Your Profile

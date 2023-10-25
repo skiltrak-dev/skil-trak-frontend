@@ -16,6 +16,7 @@ interface ModalProps {
     onCancelClick?: Function
     loading?: boolean
     disabled?: boolean
+    showActions?: boolean
 }
 
 export const Modal = ({
@@ -29,6 +30,7 @@ export const Modal = ({
     loading,
     disabled,
     titleIcon,
+    showActions = true,
 }: ModalProps) => {
     const onConfirmButtonClick = () => {
         onConfirmClick && onConfirmClick()
@@ -64,18 +66,23 @@ export const Modal = ({
 
                 <div className="p-4">{children}</div>
 
-                <div className="flex justify-end items-end gap-x-4 px-4 py-2">
-                    <Button variant={'secondary'} onClick={onCancelButtonClick}>
-                        {cancelText || 'Cancel'}
-                    </Button>
-                    <Button
-                        onClick={onConfirmButtonClick}
-                        loading={loading}
-                        disabled={disabled || loading}
-                    >
-                        {confirmText || 'Confirm'}
-                    </Button>
-                </div>
+                {showActions && (
+                    <div className="flex justify-end items-end gap-x-4 px-4 py-2">
+                        <Button
+                            variant={'secondary'}
+                            onClick={onCancelButtonClick}
+                        >
+                            {cancelText || 'Cancel'}
+                        </Button>
+                        <Button
+                            onClick={onConfirmButtonClick}
+                            loading={loading}
+                            disabled={disabled || loading}
+                        >
+                            {confirmText || 'Confirm'}
+                        </Button>
+                    </div>
+                )}
             </div>
         </div>
     )

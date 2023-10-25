@@ -44,7 +44,7 @@ export const SubAdminNavbar = () => {
                             <span>
                                 <MdSpaceDashboard />
                             </span>
-                            <span className="text-sm font-semibold">
+                            <span className="text-xs 2xl:text-sm font-semibold">
                                 Dashboard
                             </span>
                         </a>
@@ -64,7 +64,7 @@ export const SubAdminNavbar = () => {
                             <span>
                                 <FaUserGraduate />
                             </span>
-                            <span className="text-sm font-semibold">
+                            <span className="text-xs 2xl:text-sm font-semibold">
                                 Students
                             </span>
                         </a>
@@ -84,7 +84,9 @@ export const SubAdminNavbar = () => {
                             <span>
                                 <HiUsers />
                             </span>
-                            <span className="text-sm font-semibold">Users</span>
+                            <span className="text-xs 2xl:text-sm font-semibold">
+                                Users
+                            </span>
                         </a>
                     </Link>
                 </li>
@@ -102,7 +104,9 @@ export const SubAdminNavbar = () => {
                             <span>
                                 <FaClipboardList />
                             </span>
-                            <span className="text-sm font-semibold">Tasks</span>
+                            <span className="text-xs 2xl:text-sm font-semibold">
+                                Tasks
+                            </span>
                         </a>
                     </Link>
                 </li>
@@ -119,7 +123,7 @@ export const SubAdminNavbar = () => {
                             <span>
                                 <MdNotifications />
                             </span>
-                            <span className="text-sm font-semibold">
+                            <span className="text-xs 2xl:text-sm font-semibold">
                                 Notifications
                             </span>
                         </a>
@@ -138,7 +142,7 @@ export const SubAdminNavbar = () => {
                             <span>
                                 <FaHistory />
                             </span>
-                            <span className="text-sm font-semibold">
+                            <span className="text-xs 2xl:text-sm font-semibold">
                                 History
                             </span>
                         </a>
@@ -157,7 +161,9 @@ export const SubAdminNavbar = () => {
                         <span>
                             <HiDocumentReport />
                         </span>
-                        <span className="text-sm font-semibold">Reports</span>
+                        <span className="text-xs 2xl:text-sm font-semibold">
+                            Reports
+                        </span>
                     </a>
                 </Link>
                 <Link legacyBehavior href={Routes.Settings}>
@@ -171,7 +177,9 @@ export const SubAdminNavbar = () => {
                         <span>
                             <MdNotifications />
                         </span>
-                        <span className="text-sm font-semibold">Settings</span>
+                        <span className="text-xs 2xl:text-sm font-semibold">
+                            Settings
+                        </span>
                     </a>
                 </Link>
             </div>

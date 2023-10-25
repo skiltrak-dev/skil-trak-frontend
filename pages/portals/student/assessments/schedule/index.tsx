@@ -121,7 +121,12 @@ const Schedule: NextPageWithLayout = (props: Props) => {
                     text={'Add Schedule'}
                     variant={'info'}
                     onClick={() => {
-                        router.push('schedule/add-schedule')
+                        router.push({
+                            pathname: 'schedule/add-schedule',
+                            query: {
+                                course: selectedCourse,
+                            },
+                        })
                     }}
                 />
             </div>
@@ -146,9 +151,12 @@ const Schedule: NextPageWithLayout = (props: Props) => {
                             </Typography>
                             <ScheduleCalendar
                                 events={[
-                                    ...schedules?.data?.calendar?.map(
+                                    ...schedules?.data?.timeTables?.map(
                                         (c: any) => {
-                                            const [year, month, day] = c?.date
+                                            const [year, month, day] = moment(
+                                                c?.date
+                                            )
+                                                .format('YYYY-MM-DD')
                                                 .split('-')
                                                 .map(Number)
                                             const [hour, minute] =
@@ -175,6 +183,7 @@ const Schedule: NextPageWithLayout = (props: Props) => {
                                                     closingMinute
                                                 ),
                                                 course: schedules?.data?.course,
+                                                schedule: c,
                                             }
                                         }
                                     ),

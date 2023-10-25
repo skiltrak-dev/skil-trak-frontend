@@ -38,6 +38,8 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
 
     const getLayout = Component.getLayout ?? ((page) => page)
 
+    console.clear()
+
     return (
         <Provider store={store}>
             <AutoLogoutProvider>

@@ -57,9 +57,15 @@ export const DocumentsView = () => {
                 />
             )
         } else if (
-            ['mp4', 'mkv', 'avi', 'mpeg', 'quicktime', 'mov'].includes(
-                file?.extension?.toLowerCase()
-            )
+            [
+                'mp4',
+                'mkv',
+                'avi',
+                'mpeg',
+                'quicktime',
+                'mov',
+                'octet-stream',
+            ].includes(file?.extension?.toLowerCase())
         ) {
             // const fileSplit = file.file.split('https://')
             // const url = `https://www.${fileSplit[1]}`

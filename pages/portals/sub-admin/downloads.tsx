@@ -14,7 +14,6 @@ const Downloads: NextPageWithLayout = () => {
 
     const [sectorIds, setSectorIds] = useState([])
     const sectorResponse = AuthApi.useSectors({})
-    console.log('sectorResponse', show)
 
     // onchange
 
@@ -55,7 +54,6 @@ const Downloads: NextPageWithLayout = () => {
                                     loading={sectorResponse.isLoading}
                                     onChange={(e: any) => {
                                         setSectorIds(e)
-                                        console.log('e:::::', e)
                                     }}
                                     validationIcons
                                     onlyValue

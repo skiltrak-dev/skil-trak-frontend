@@ -97,7 +97,7 @@ export const AddSecondWorkplaceForm = ({
         course: yup.number().required(),
 
         // Contact Person Information
-        contactPersonName: yup.string().required(),
+        contactPerson: yup.string().required(),
         contactPersonEmail: yup.string().email('Must be a valid email'),
         contactPersonNumber: yup.string(),
 
@@ -174,7 +174,7 @@ export const AddSecondWorkplaceForm = ({
                     />
                     <TextInput
                         label={'Contact Person Name'}
-                        name={'contactPersonName'}
+                        name={'contactPerson'}
                         placeholder={'Contact Person Name...'}
                         validationIcons
                         required

@@ -148,6 +148,15 @@ export const ApprovedIndustry = () => {
             ),
         },
         {
+            accessorKey: 'createdBy',
+            header: () => <span>Created By</span>,
+            cell: (info) => (
+                <Typography variant="label" semibold>
+                    Self
+                </Typography>
+            ),
+        },
+        {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
             cell: (info) => (
@@ -260,7 +269,11 @@ export const ApprovedIndustry = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="px-6">{table}</div>
+                                    <div className=" overflow-x-scroll remove-scrollbar">
+                                        <div className="px-6 w-full">
+                                            {table}
+                                        </div>
+                                    </div>
                                     {data?.data?.length > 10 && (
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize(

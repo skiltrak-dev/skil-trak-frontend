@@ -57,8 +57,6 @@ export const RTOReports = ({
         setModal(null)
     }
 
-    console.log({ createdAt })
-
     const dates = () => {
         const currentDate = new Date() // Current date
         const maxWeeks = 20
@@ -110,8 +108,6 @@ export const RTOReports = ({
         return dateObjects.reverse() // Reverse the array to start from the current date
     }
     const dateObjects = dates()
-
-    console.log({ dateObjects })
 
     useEffect(() => {
         if (dateObjects && dateObjects?.length > 0) {
