@@ -40,7 +40,15 @@ const Loading = () => {
 export const getDocType = (type: string) => {
     const docs = ['pdf', 'document']
     const images = ['jpg', 'png', 'jpeg', 'JPG', 'jfif', 'webp']
-    const videos = ['mp4', 'mkv', 'avi', 'mpeg', 'quicktime', 'mov']
+    const videos = [
+        'mp4',
+        'mkv',
+        'avi',
+        'mpeg',
+        'quicktime',
+        'mov',
+        'octet-stream',
+    ]
     switch (type) {
         case 'docs':
             return docs

@@ -4,23 +4,21 @@ import { Appointment } from '@types'
 import classNames from 'classnames'
 import moment from 'moment'
 import { ReactElement, useState } from 'react'
+import { UpdateScheduleModal } from '../modal'
 
 // export const EventWrapper = <T extends object>(event: EventWrapperProps<T>) => {
 export const EventWrapper = <T extends object>(event: any) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const classes = classNames({
-        'bg-blue-200/50 border-blue-400 absolute max-h-full min-h-[20px] hover:min-h-[80px] border-l-2 px-1 py-1 overflow-hidden transition-all cursor-pointer':
+        'bg-/50 border-blue-400 absolute max-h-full min-h-[20px] hover:min-h-[80px] border-l-2 px-1 py-1 overflow-hidden transition-all cursor-pointer':
             true,
+        'bg-red-600/50 border-indigo-400': event?.event?.schedule?.isCancelled,
         'bg-indigo-200/50 border-indigo-400':
-            event.event.priority === 'high' &&
-            !event.event?.appointment?.isCancelled,
-        'bg-blue-200/50 border-blue-400':
-            event.event.priority === 'medium' &&
-            !event.event?.appointment?.isCancelled,
-        'bg-green-200/50 border-green-600':
-            event.event.priority === 'low' &&
-            !event.event?.appointment?.isCancelled,
-        'bg-red-600 border-green-600': event.event?.appointment?.isCancelled,
+            !event?.event?.schedule?.isCancelled &&
+            !event.event?.schedule?.reScheduled,
+        'bg-green-400/50 border-green-400': event.event?.schedule?.reScheduled,
+        'bg-success border-green-600': event.event?.schedule?.note,
+        // 'bg-red-600 border-green-600': event.event?.appointment?.isCancelled,
     })
 
     const labelClasses = classNames({
@@ -69,20 +67,16 @@ export const EventWrapper = <T extends object>(event: any) => {
         setModal(null)
     }
 
-    const onClicked = (appointment: Appointment) => {
+    const onClicked = (schedule: any) => {
         setModal(
             <Portal>
-                <AppointmentViewModal
-                    id={appointment?.id}
+                <UpdateScheduleModal
+                    schedule={schedule}
                     onCancel={onModalCancelled}
                 />
             </Portal>
         )
     }
-
-    console.log({
-        event,
-    })
 
     return (
         <>
@@ -95,22 +89,13 @@ export const EventWrapper = <T extends object>(event: any) => {
                     left: `${event.style?.xOffset}%`,
                 }}
                 className={`${classes} `}
-                // onClick={() => {
-                //     onClicked(event.event?.appointment)
-                // }}
+                onClick={() => {
+                    onClicked(event.event?.schedule)
+                }}
             >
-                <p className={labelClasses}>
-                    Start Time:
-                    {moment(event?.event?.start).format('DD MMM YYYY')}
-                </p>
                 <p className={labelClasses}>
                     {moment(event?.event?.start).format('h:mm a')} -{' '}
                     {moment(event?.event?.end).format('h:mm a')}
-                </p>
-                <p className={labelClasses}></p>
-
-                <p className={textClasses}>
-                    Course:{event.event?.course?.title}
                 </p>
             </div>
         </>

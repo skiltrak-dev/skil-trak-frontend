@@ -55,7 +55,6 @@ export const ScheduleCard = ({
                     name={'openingTime'}
                     disabled={!isAvailable}
                     onChange={(e: any) => {
-                        console.log({ e: e.target.value })
                         setOpeningTime(e.target.value)
                         // onChange(e)
                     }}

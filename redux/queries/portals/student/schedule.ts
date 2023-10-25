@@ -21,4 +21,27 @@ export const studentsScheduleEndpoints = (
         }),
         invalidatesTags: ['StudentSchedule'],
     }),
+    addScheduleNote: builder.mutation<any, any>({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}/schedule/comment/add/${id}`,
+            body,
+            method: 'POST',
+        }),
+        invalidatesTags: ['StudentSchedule'],
+    }),
+    cancelScheduleShift: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/schedule/cancel/${id}`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['StudentSchedule'],
+    }),
+    rescheduleShift: builder.mutation<any, any>({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}/schedule/re-schedule/slot/${id}`,
+            body,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['StudentSchedule'],
+    }),
 })

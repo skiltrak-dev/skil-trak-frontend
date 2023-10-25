@@ -84,7 +84,10 @@ export const {
     useApplyWorkplaceWithAbnIndustryMutation,
 
     // ----- SCHEDULE ----- //
+    useRescheduleShiftMutation,
+    useAddScheduleNoteMutation,
     useGetStudentScheduleQuery,
+    useCancelScheduleShiftMutation,
     useCreateStudentScheduleMutation,
 } = studentApi
 
@@ -140,7 +143,10 @@ export const StudentApi = {
         useApplyWorkplaceWithAbnIndustryMutation,
     },
     Schedule: {
+        useAddScheduleNote: useAddScheduleNoteMutation,
+        useCancelSchedule: useCancelScheduleShiftMutation,
         useGetStudentSchedule: useGetStudentScheduleQuery,
         useCreateStudentSchedule: useCreateStudentScheduleMutation,
+        useRescheduleShift: useRescheduleShiftMutation,
     },
 }

@@ -18,6 +18,8 @@ import { CommonApi } from '@queries'
 import { RiShieldUserFill } from 'react-icons/ri'
 import { AppointmentViewModal } from '@components/Appointment/AppointmentModal'
 import { Appointment, Industry, User, appointmentWithUser } from '@types'
+import { useMediaQuery } from 'react-responsive'
+import { MediaQueries } from '@constants'
 
 type Props = {}
 
@@ -30,6 +32,8 @@ export const RecentAppointment = ({
 }) => {
     const [id, setId] = useState(getUserCredentials()?.id)
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const isLargeDevice = useMediaQuery(MediaQueries.Large)
 
     const router = useRouter()
 
@@ -91,7 +95,7 @@ export const RecentAppointment = ({
                 <div className="bg-gradient-to-r from-[#3883F3] to-[#5D1BE0] rounded-2xl p-4">
                     <div className="flex gap-x-16 justify-between items-center mb-1.5">
                         <div>
-                            <p className="font-medium text-sm text-white">
+                            <p className="font-medium text-xs 2xl:text-sm text-white">
                                 Recent Appointment
                             </p>
                         </div>
@@ -124,10 +128,10 @@ export const RecentAppointment = ({
                             ) : appointment ? (
                                 <div>
                                     <div className="mb-4">
-                                        <h2 className="text-[#0644AF] font-semibold text-lg">
+                                        <h2 className="text-[#0644AF] font-semibold text-sm 2xl:text-lg">
                                             {appointment?.type?.title}
                                         </h2>
-                                        <p className="text-[#8CD2F9] font-medium ">
+                                        <p className="text-[#8CD2F9] font-medium text-sm 2xl:text-base">
                                             {appointmentUser?.name}(
                                             {appointmentUser?.role})
                                         </p>
@@ -138,6 +142,12 @@ export const RecentAppointment = ({
                                                 <RiShieldUserFill className="text-[#E3F2FF]" />
                                                 <Typography
                                                     color={'text-[#E3F2FF]'}
+                                                    variant={
+                                                        isLargeDevice
+                                                            ? 'body'
+                                                            : 'small'
+                                                    }
+                                                    semibold
                                                 >
                                                     {profile?.studentId}
                                                 </Typography>
@@ -145,7 +155,7 @@ export const RecentAppointment = ({
                                         )}
                                         <div className="flex items-center gap-x-2.5">
                                             <IoTime className="text-[#E3F2FF]" />
-                                            <p className="text-[#E3F2FF] font-bold text-sm">
+                                            <p className="text-[#E3F2FF] font-bold text-xs 2xl:text-sm">
                                                 {moment(
                                                     appointment?.startTime,
                                                     'hh:mm:ss'
@@ -159,7 +169,7 @@ export const RecentAppointment = ({
                                         </div>
                                         <div className="flex items-center gap-x-2.5">
                                             <BsCalendarDateFill className="text-[#E3F2FF]" />
-                                            <p className="text-[#E3F2FF] font-bold text-sm">
+                                            <p className="text-[#E3F2FF] font-bold text-xs 2xl:text-sm">
                                                 {moment(
                                                     appointment?.date
                                                 ).format('dddd, Do MMMM, YYYY')}
@@ -167,7 +177,7 @@ export const RecentAppointment = ({
                                         </div>
                                         <div className="flex items-center gap-x-2.5">
                                             <IoLocationSharp className="text-[#E3F2FF]" />
-                                            <p className="text-[#E3F2FF] font-bold text-sm">
+                                            <p className="text-[#E3F2FF] font-bold text-xs 2xl:text-sm">
                                                 {`${profile?.addressLine1}, ${
                                                     profile?.addressLine2 || ''
                                                 }`}
