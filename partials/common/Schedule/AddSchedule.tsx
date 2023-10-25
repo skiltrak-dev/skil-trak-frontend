@@ -12,7 +12,7 @@ import {
 } from '@components'
 import { StudentLayout } from '@layouts'
 import { StudentApi, useGetStudentCoursesQuery } from '@queries'
-import { Course, NextPageWithLayout } from '@types'
+import { Course, NextPageWithLayout, User } from '@types'
 import { useRouter } from 'next/router'
 import { ScheduleCard } from '@partials/student/Schedule'
 import moment from 'moment'
@@ -22,66 +22,24 @@ import { useNotification } from '@hooks'
 type Props = {}
 
 export const AddScheduleContainer = ({
+    user,
     course,
     onAddStudentCourse,
 }: {
+    user?: User
     course: Course
     onAddStudentCourse?: () => void
 }) => {
     const [selectedHours, setSelectedHours] = useState<number | null>(null)
     const router = useRouter()
 
+    console.log({ course })
+
     useEffect(() => {
         if (course) {
             setSelectedHours(course?.hours)
         }
     }, [course])
-
-    const events: CalendarEvent[] = [
-        {
-            allDay: false,
-            start: new Date('2022-12-26T02:00:15.221Z'),
-            end: new Date('2022-12-27T02:00:15.221Z'),
-            title: 'Appointment',
-            priority: 'high',
-            subTitle: 'Go For It',
-        },
-        {
-            allDay: false,
-            end: new Date('2022-11-29T05:00:00.000Z'),
-            start: new Date('2022-11-29T07:00:00.000Z'),
-            title: 'test larger',
-            priority: 'low',
-        },
-        {
-            allDay: false,
-            end: new Date('2022-11-29T18:00:00.000Z'),
-            start: new Date('2022-11-29T10:00:00.000Z'),
-            title: 'test larger',
-            priority: 'medium',
-        },
-        {
-            allDay: true,
-            end: new Date('2022-11-29T19:00:00.000Z'),
-            start: new Date('2022-11-28T19:00:00.000Z'),
-            title: 'test all day',
-            priority: 'high',
-        },
-        {
-            allDay: true,
-            end: new Date('2022-11-30T19:00:00.000Z'),
-            start: new Date('2022-11-28T19:00:00.000Z'),
-            title: 'test 2 days',
-            priority: 'high',
-        },
-        {
-            allDay: false,
-            end: new Date('2022-12-02T10:48:15.222Z'),
-            start: new Date('2022-11-29T10:48:15.222Z'),
-            title: 'test multi-day',
-            priority: 'high',
-        },
-    ]
 
     const initialSchedule = [
         {
@@ -138,6 +96,8 @@ export const AddScheduleContainer = ({
     const [startDate, setStartDate] = useState<string | null>(null)
     const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
 
+    console.log({ startDate })
+
     const [scheduleTime, setScheduleTime] = useState<any | null>(
         initialSchedule
     )
@@ -148,28 +108,35 @@ export const AddScheduleContainer = ({
 
     const [createSchedule, createScheduleResult] =
         StudentApi.Schedule.useCreateStudentSchedule()
+    const [editSchedule, editScheduleResult] =
+        StudentApi.Schedule.useEditStudentSchedule()
+
     const schedules = StudentApi.Schedule.useGetStudentSchedule(
-        Number(selectedCourse),
+        { courseId: Number(course?.id), userId: user?.id },
         {
-            skip: !selectedCourse,
+            skip: !course,
         }
     )
 
-    const findUniqueDays = () => {
-        const uniqueDays = {}
-        const result = []
+    console.log({ selectedCourse })
 
-        if (schedules?.data) {
-            for (const item of schedules?.data?.calendar) {
-                if (!uniqueDays[item.day as keyof typeof uniqueDays]) {
-                    ;(uniqueDays as any)[item.day] = true
-                    result.push(item)
-                }
-            }
-        }
+    // console.log({ courseId: Number(selectedCourse), userId: user?.id })
 
-        return result
-    }
+    // const findUniqueDays = () => {
+    //     const uniqueDays = {}
+    //     const result = []
+
+    //     if (schedules?.data) {
+    //         for (const item of schedules?.data?.calendar) {
+    //             if (!uniqueDays[item.day as keyof typeof uniqueDays]) {
+    //                 ;(uniqueDays as any)[item.day] = true
+    //                 result.push(item)
+    //             }
+    //         }
+    //     }
+
+    //     return result
+    // }
 
     const { notification } = useNotification()
 
@@ -182,6 +149,15 @@ export const AddScheduleContainer = ({
             }
         }
     }, [createScheduleResult])
+    useEffect(() => {
+        if (editScheduleResult.isSuccess) {
+            if (onAddStudentCourse) {
+                onAddStudentCourse()
+            } else {
+                router.push(`/portals/student/assessments/schedule`)
+            }
+        }
+    }, [editScheduleResult])
 
     useEffect(() => {
         if (schedules?.data) {
@@ -189,7 +165,7 @@ export const AddScheduleContainer = ({
             const result = []
 
             if (schedules?.data) {
-                for (const item of schedules?.data?.calendar) {
+                for (const item of schedules?.data?.timeTables) {
                     if (!uniqueDays[item.day as keyof typeof uniqueDays]) {
                         ;(uniqueDays as any)[item.day] = true
                         result.push(item)
@@ -212,17 +188,17 @@ export const AddScheduleContainer = ({
                 setAvailabilities(tempAvailabilities)
                 setScheduleTime(tempAvailabilities)
                 setSelectedCourse(schedules?.data?.course?.id)
-                const startDate = schedules?.data?.startDate?.split('/')
-                const date = `${startDate[2]}-${startDate[0]}-${startDate[1]}`
+                const startDate = moment(schedules?.data?.startDate)
+                    .format('YYYY-MM-DD')
+                    ?.split('-')
+
+                console.log({ startDate })
+                const date = `${startDate[0]}-${startDate[1]}-${startDate[2]}`
                 setStartDate(date)
             }
             setIsUpdated(true)
         }
     }, [schedules])
-
-    useEffect(() => {
-        setScheduleTime(initialSchedule)
-    }, [selectedCourse])
 
     const onScheduleChange = (schedule: any) => {
         const tempSchedule: any = [...scheduleTime]
@@ -240,6 +216,8 @@ export const AddScheduleContainer = ({
 
         setScheduleTime(tempSchedule)
     }
+
+    console.log({ schedules })
 
     const onSubmit = () => {
         if (!startDate) {
@@ -269,28 +247,43 @@ export const AddScheduleContainer = ({
                 scheduleTime?.filter((c: any) => c?.isActive)?.length > 0 &&
                 selectedHours
             ) {
-                createSchedule({
-                    startDate,
-                    days: scheduleTime
-                        ?.filter((c: any) => c?.isActive)
-                        ?.map((c: any) => ({
-                            name: c?.name,
-                            openingTime: c?.openingTime,
-                            closingTime: c?.closingTime,
-                        })),
-                    course: course?.id,
-                    hours: selectedHours,
-                }).then((res: any) => {
-                    if (res?.data) {
-                        router.push(`/portals/student/assessments/schedule`)
-                    }
-                })
+                if (schedules?.data) {
+                    editSchedule({
+                        id: schedules?.data?.id,
+                        startDate,
+                        days: scheduleTime
+                            ?.filter((c: any) => c?.isActive)
+                            ?.map((c: any) => ({
+                                name: c?.name,
+                                openingTime: c?.openingTime,
+                                closingTime: c?.closingTime,
+                            })),
+                        course: course?.id,
+                        hours: selectedHours,
+                        stdUser: user?.id,
+                    })
+                } else {
+                    createSchedule({
+                        startDate,
+                        days: scheduleTime
+                            ?.filter((c: any) => c?.isActive)
+                            ?.map((c: any) => ({
+                                name: c?.name,
+                                openingTime: c?.openingTime,
+                                closingTime: c?.closingTime,
+                            })),
+                        course: course?.id,
+                        hours: selectedHours,
+                        stdUser: user?.id,
+                    })
+                }
             }
         }
     }
 
     return (
         <>
+            <ShowErrorNotifications result={editScheduleResult} />
             <ShowErrorNotifications result={createScheduleResult} />
             <Card>
                 <Typography variant="title">Manage Schedule</Typography>
@@ -362,12 +355,18 @@ export const AddScheduleContainer = ({
 
                 <div className="flex items-center gap-x-4 text-sm text-green-500 mt-3">
                     <Button
-                        text={'Submit'}
+                        text={schedules?.data ? 'Update' : 'Submit'}
+                        {...(schedules?.data
+                            ? {
+                                  outline: true,
+                              }
+                            : {})}
                         onClick={() => onSubmit()}
                         loading={createScheduleResult.isLoading}
                         disabled={createScheduleResult.isLoading}
                     />
-                    {createScheduleResult.isSuccess ? (
+                    {createScheduleResult.isSuccess ||
+                    editScheduleResult.isSuccess ? (
                         <div> - Saved</div>
                     ) : null}
                 </div>
