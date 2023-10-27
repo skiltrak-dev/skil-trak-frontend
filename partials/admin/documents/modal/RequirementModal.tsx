@@ -31,7 +31,7 @@ export const RequirementModal = ({
                     </button>
                 </div>
                 <div
-                    className="h-[75vh] overflow-auto custom-scrollbar"
+                    className="h-[75vh] overflow-auto custom-scrollbar content-editor flex flex-col gap-y-3"
                     dangerouslySetInnerHTML={{
                         __html: document?.content,
                     }}

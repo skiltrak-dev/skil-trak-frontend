@@ -43,7 +43,6 @@ export const AssessmentResponse = ({
     activeAssessment?: boolean
     editAssessment?: boolean
 }) => {
-    console.log({ folder })
     const [comment, setComment] = useState<string>('')
     const [commentType, setCommentType] = useState<OptionType | null>(null)
 
