@@ -32,13 +32,13 @@ export const SkiltrakPackages = [
     {
         id: 3,
         title: 'The Complete Package',
-        titleColor: 'text-[#52595D]',
+        titleColor: 'text-white',
         tagline: 'We Do It All',
         price: 'From $375/student Applies for STI courses only',
-        color: 'bg-gradient-to-b from-[#F1F1F1] to-[#C3C3C3]',
+        color: 'bg-gradient-to-b from-[#B39797] to-[#151415]',
         textColor: 'text-[#6BB8FF]',
-        bgBtnColor: 'bg-[#a7a4a4]', 
-        btnTextColor: "text-[#504b4b]",
+        bgBtnColor: 'bg-[#231921]', 
+        btnTextColor: "text-white",
         prevButton: 'The Start up',
     },
 ]

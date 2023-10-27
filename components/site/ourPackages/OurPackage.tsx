@@ -322,7 +322,7 @@ export const OurPackage = ({
                                                                 ? 'text-[#98c4ec]'
                                                                 : title === "The Startup Package"
                                                                 ? 'text-[#e5641a]'
-                                                                : 'text-[#52595D]'
+                                                                : 'text-white'
                                                         } `}
                                                     >
                                                         {feature?.text}

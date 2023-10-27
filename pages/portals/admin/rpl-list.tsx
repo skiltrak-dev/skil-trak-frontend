@@ -175,7 +175,7 @@ const RPLList: NextPageWithLayout = (props: Props) => {
                     subtitle={'List of Requested RPL'}
                 >
                     {/* {filterAction} */}
-                    {data && data?.data.length ? (
+                    {data && data?.data?.length ? (
                         <Button
                             text="Export"
                             variant="action"
@@ -195,7 +195,7 @@ const RPLList: NextPageWithLayout = (props: Props) => {
                     {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : data && data?.data.length ? (
+                    ) : data && data?.data?.length ? (
                         <Table
                             columns={columns}
                             data={data.data}
