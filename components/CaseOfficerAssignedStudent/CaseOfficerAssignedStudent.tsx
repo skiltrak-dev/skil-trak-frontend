@@ -20,12 +20,13 @@ export const CaseOfficerAssignedStudent = ({
     workplaceFilter?: WorkplaceCurrentStatus
     student: StudentSubAdmin
 }) => {
-    const workplace = student?.workplace?.reduce(
-        (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
-        {
+    const workplace = student?.workplace
+        ?.filter(
+            (w: any) => w?.currentStatus !== WorkplaceCurrentStatus.Cancelled
+        )
+        ?.reduce((a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b), {
             currentStatus: WorkplaceCurrentStatus.NotRequested,
-        }
-    )
+        })
     const industries = student?.industries
     const steps = checkWorkplaceStatus(workplace?.currentStatus)
     const studentStatus = checkStudentStatus(student?.studentStatus)

@@ -22,6 +22,12 @@ export const EditorModal = ({
     const [addDocument, addDocumentResult] = AdminApi.Documents.addDocuments()
 
     useEffect(() => {
+        if (item?.content) {
+            setContent(item?.content)
+        }
+    }, [item])
+
+    useEffect(() => {
         if (addDocumentResult.isSuccess) {
             notification.success({
                 title: 'Document Added',
@@ -51,7 +57,9 @@ export const EditorModal = ({
                 loading={addDocumentResult.isLoading}
                 onConfirmClick={onConfirmClick}
             >
-                <ContentEditor content={content} setContent={setContent} />
+                <div className="max-w-[70vw]">
+                    <ContentEditor content={content} setContent={setContent} />
+                </div>
             </Modal>
         </div>
     )

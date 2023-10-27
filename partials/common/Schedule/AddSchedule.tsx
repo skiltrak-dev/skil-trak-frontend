@@ -33,8 +33,6 @@ export const AddScheduleContainer = ({
     const [selectedHours, setSelectedHours] = useState<number | null>(null)
     const router = useRouter()
 
-    console.log({ course })
-
     useEffect(() => {
         if (course) {
             setSelectedHours(course?.hours)
@@ -96,8 +94,6 @@ export const AddScheduleContainer = ({
     const [startDate, setStartDate] = useState<string | null>(null)
     const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
 
-    console.log({ startDate })
-
     const [scheduleTime, setScheduleTime] = useState<any | null>(
         initialSchedule
     )
@@ -117,10 +113,6 @@ export const AddScheduleContainer = ({
             skip: !course,
         }
     )
-
-    console.log({ selectedCourse })
-
-    // console.log({ courseId: Number(selectedCourse), userId: user?.id })
 
     // const findUniqueDays = () => {
     //     const uniqueDays = {}
@@ -192,7 +184,6 @@ export const AddScheduleContainer = ({
                     .format('YYYY-MM-DD')
                     ?.split('-')
 
-                console.log({ startDate })
                 const date = `${startDate[0]}-${startDate[1]}-${startDate[2]}`
                 setStartDate(date)
             }
@@ -216,8 +207,6 @@ export const AddScheduleContainer = ({
 
         setScheduleTime(tempSchedule)
     }
-
-    console.log({ schedules })
 
     const onSubmit = () => {
         if (!startDate) {

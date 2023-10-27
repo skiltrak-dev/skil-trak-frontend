@@ -49,6 +49,10 @@ export const ContentEditor = ({
     const [contentState, setContentState] = useState(EditorState.createEmpty())
     const [contentChange, setContentChange] = useState(false)
 
+    const [test, setTest] = useState<boolean>(false)
+
+    console.log({ contentState })
+
     useEffect(() => {
         const blocksFromHTML = convertFromHTML(`<div>${content}</div>`)
         const bodyValue = EditorState.createWithContent(
@@ -58,7 +62,7 @@ export const ContentEditor = ({
             )
         )
         setContentState(bodyValue)
-    }, [])
+    }, [content])
 
     useEffect(() => {
         if (setContent) {
@@ -69,6 +73,7 @@ export const ContentEditor = ({
                       )
                     : content
             )
+            setTest(true)
         }
     }, [contentState])
 
