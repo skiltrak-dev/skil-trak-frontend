@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import Link from 'next/link'
-import { MouseEventHandler, ReactNode } from 'react'
+import { MouseEventHandler, ReactNode, useEffect, useState } from 'react'
+import { AdminApi } from '@queries'
 
 interface NavItemProps {
     link?: string
@@ -19,9 +20,15 @@ export const SideBarItem = ({
     color,
     onClick,
 }: NavItemProps) => {
+    const [rplItemCount, setRplItemCount] = useState('0')
+    const [volunteerItemCount, setVolunteerItemCount] = useState('0')
+    const { data: rplCount } = AdminApi.Rpl.useRplCount()
+    const { data: volunteerCount } = AdminApi.Volunteer.useVolunteerCount()
+    console.log('Data', volunteerCount)
+    const max = 9
     const classes = classNames({
         // Display
-        'flex justify-start items-center cursor-pointer': true,
+        'flex justify-start items-center cursor-pointer relative': true,
 
         // Text
         'text-xs font-semibold': true,
@@ -54,11 +61,35 @@ export const SideBarItem = ({
         'transition-all duration-300': true,
     })
 
+    useEffect(() => {
+        if (rplCount > max) {
+            setRplItemCount(`${max}+`)
+        } else {
+            setRplItemCount(`${rplCount}`)
+        }
+    }, [rplCount])
+    useEffect(() => {
+        if (volunteerCount > max) {
+            setVolunteerItemCount(`${max}+`)
+        } else {
+            setVolunteerItemCount(`${volunteerCount}`)
+        }
+    }, [volunteerCount])
+
     return link ? (
         <Link legacyBehavior href={link}>
             <div className={classes}>
                 <Icon className={iconClasses} />
                 {children}
+                {children === 'RPL' && rplCount !== 0 ? (
+                    <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs">
+                        {rplItemCount}
+                    </span>
+                ) : children === 'Volunteer Request' && volunteerCount !== 0 ? (
+                    <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs">
+                        {volunteerItemCount}
+                    </span>
+                ) : null}
             </div>
         </Link>
     ) : (

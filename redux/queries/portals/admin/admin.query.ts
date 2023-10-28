@@ -131,6 +131,7 @@ const {
     // ----- RPL ----- //
     useRplRequestListQuery,
     useRplDeleteMutation,
+    useRplCountQuery,
 
     // ------ SECTOR ------ //
     useSectorsQuery,
@@ -205,6 +206,7 @@ const {
 
     // --- VOLUNTEER --- //
     useGetVolunteerRequestsQuery,
+    useRequestVolunteerCountQuery,
 
     // ----- SMS ----- //
     useSendSMSMutation,
@@ -212,9 +214,6 @@ const {
     // ---- DOCUMENTS ---- //
     useAddDocumentsMutation,
     useGetDocumentsQuery,
- 
-    
-
 } = adminApi
 
 export const AdminApi = {
@@ -318,6 +317,7 @@ export const AdminApi = {
     Rpl: {
         useRplList: useRplRequestListQuery,
         useRemoveRpl: useRplDeleteMutation,
+        useRplCount: useRplCountQuery,
     },
 
     Subscribers: {
@@ -367,6 +367,7 @@ export const AdminApi = {
     },
     Volunteer: {
         useList: useGetVolunteerRequestsQuery,
+        useVolunteerCount: useRequestVolunteerCountQuery,
     },
     SMS: {
         sendSMS: useSendSMSMutation,
