@@ -80,9 +80,7 @@ export const ReportListDownload = ({
     //     const dateValue = e.target.value.trim()
     //     setEndDate(dateValue)
     // }
-    const handleDownloadPDF = () => {
-        setIsPdfDownload(true)
-    }
+   
 
     return (
         <>

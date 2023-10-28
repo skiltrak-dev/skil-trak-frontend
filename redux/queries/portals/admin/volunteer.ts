@@ -8,7 +8,7 @@ import {
     VolunteerRequest,
 } from '@types'
 
-const PREFIX = 'admin'
+const PREFIX = 'admin/'
 export const volunteerEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
@@ -17,9 +17,13 @@ export const volunteerEndpoints = (
         PaginationWithSearch
     >({
         query: (params) => ({
-            url: `${PREFIX}/volunteer-requests/list`,
+            url: `${PREFIX}volunteer-requests/list`,
             params,
         }),
+        providesTags: ['Volunteer'],
+    }),
+    requestVolunteerCount: builder.query<any, void>({
+        query: () => `${PREFIX}volunteer-requests/count`,
         providesTags: ['Volunteer'],
     }),
 })
