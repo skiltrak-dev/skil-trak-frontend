@@ -112,6 +112,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                     title={'Student Assessments'}
                     subtitle={'Student Assessments'}
                     onCancelClick={onCancel}
+                    showActions={false}
                 >
                     You need to enable Student Assessments from Setting to
                     recive Student Assessments

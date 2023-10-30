@@ -8,11 +8,13 @@ import { IoIosArrowRoundBack } from 'react-icons/io'
 
 export const AddSchedule = ({
     user,
+    workplace,
     studentId,
     selectedCourse,
     onAddStudentCourse,
 }: {
     user: User
+    workplace: any
     studentId: number
     selectedCourse: number
     onAddStudentCourse: () => void
@@ -24,6 +26,7 @@ export const AddSchedule = ({
     const course = courses?.data?.find(
         (c: Course) => c.id === Number(selectedCourse)
     )
+    console.log({ workplace })
     return (
         <>
             <div
@@ -36,8 +39,9 @@ export const AddSchedule = ({
                 <span className="ml-2">{'Back To Previous'}</span>
             </div>
             <AddScheduleContainer
-                course={course as Course}
                 user={user}
+                workplace={workplace}
+                course={course as Course}
                 onAddStudentCourse={() => onAddStudentCourse()}
             />
         </>

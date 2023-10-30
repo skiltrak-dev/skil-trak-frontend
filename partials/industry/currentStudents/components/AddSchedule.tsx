@@ -10,14 +10,15 @@ import {
 } from '@components'
 import { useNotification } from '@hooks'
 import { ScheduleCard } from '@partials/student/Schedule'
-import { StudentApi } from '@queries'
+import { IndustryApi } from '@queries'
 import { Course, Industry, User } from '@types'
 import moment from 'moment'
 import { useRouter } from 'next/router'
+import { IoIosArrowRoundBack } from 'react-icons/io'
 
 type Props = {}
 
-export const AddScheduleContainer = ({
+export const AddSchedule = ({
     user,
     course,
     workplace,
@@ -26,10 +27,12 @@ export const AddScheduleContainer = ({
     user?: User
     course: Course
     workplace: Industry
-    onAddStudentCourse?: () => void
+    onAddStudentCourse: () => void
 }) => {
     const [selectedHours, setSelectedHours] = useState<number | null>(null)
     const router = useRouter()
+
+    console.log({ workplace })
 
     useEffect(() => {
         if (course) {
@@ -101,18 +104,18 @@ export const AddScheduleContainer = ({
     const [isUpdated, setIsUpdated] = useState<boolean>(false)
 
     const [createSchedule, createScheduleResult] =
-        StudentApi.Schedule.useCreateStudentSchedule()
+        IndustryApi.Workplace.useCreateSchedule()
     const [editSchedule, editScheduleResult] =
-        StudentApi.Schedule.useEditStudentSchedule()
+        IndustryApi.Workplace.useUpdateSchedule()
 
-    const schedules = StudentApi.Schedule.useGetStudentSchedule(
+    const schedules = IndustryApi.Workplace.useStudentSchedule(
         {
             courseId: Number(course?.id),
-            userId: user?.id,
+            studentUserId: Number(user?.id),
             workplace: Number(workplace?.id),
         },
         {
-            skip: !course,
+            skip: !course || !workplace || !user,
         }
     )
 
@@ -138,14 +141,6 @@ export const AddScheduleContainer = ({
         if (createScheduleResult.isSuccess) {
             if (onAddStudentCourse) {
                 onAddStudentCourse()
-            } else {
-                router.push({
-                    pathname: `/portals/student/assessments/schedule`,
-                    query: {
-                        course: router.query?.course,
-                        workplace: router.query?.workplace,
-                    },
-                })
             }
         }
     }, [createScheduleResult])
@@ -153,14 +148,6 @@ export const AddScheduleContainer = ({
         if (editScheduleResult.isSuccess) {
             if (onAddStudentCourse) {
                 onAddStudentCourse()
-            } else {
-                router.push({
-                    pathname: `/portals/student/assessments/schedule`,
-                    query: {
-                        course: router.query?.course,
-                        workplace: router.query?.workplace,
-                    },
-                })
             }
         }
     }, [editScheduleResult])
@@ -223,6 +210,7 @@ export const AddScheduleContainer = ({
     }
 
     const onSubmit = () => {
+        console.log()
         if (!startDate) {
             notification.warning({
                 title: 'Start Date',
@@ -251,6 +239,7 @@ export const AddScheduleContainer = ({
                 selectedHours
             ) {
                 if (schedules?.data?.schedule) {
+                    console.log('Inner Call')
                     editSchedule({
                         id: schedules?.data?.schedule?.id,
                         workplace: workplace?.id,
@@ -264,7 +253,7 @@ export const AddScheduleContainer = ({
                             })),
                         course: course?.id,
                         hours: selectedHours,
-                        stdUser: user?.id,
+                        user: user?.id,
                     })
                     // createSchedule({
                     //     startDate,
@@ -293,7 +282,7 @@ export const AddScheduleContainer = ({
                             })),
                         course: course?.id,
                         hours: selectedHours,
-                        stdUser: user?.id,
+                        user: user?.id,
                     })
                 }
             }
@@ -304,6 +293,16 @@ export const AddScheduleContainer = ({
         <>
             <ShowErrorNotifications result={editScheduleResult} />
             <ShowErrorNotifications result={createScheduleResult} />
+            <div
+                className={
+                    'group max-w-max transition-all text-xs flex justify-start items-center py-2.5 text-muted hover:text-muted-dark rounded-lg cursor-pointer'
+                }
+                onClick={() => onAddStudentCourse()}
+            >
+                <IoIosArrowRoundBack className="transition-all inline-flex text-base group-hover:-translate-x-1" />
+                <span className="ml-2">{'Back To Previous'}</span>
+            </div>
+
             <Card>
                 <Typography variant="title">Manage Schedule</Typography>
                 <div className="flex justify-between items-center">
