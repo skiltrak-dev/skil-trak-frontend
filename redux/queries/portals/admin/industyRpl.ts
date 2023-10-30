@@ -22,4 +22,8 @@ export const industryRplEndpoints = (
         }),
         invalidatesTags: ['RPL'],
     }),
+    rplCount: builder.query<any, void>({
+        query: () => `${PREFIX}rpl-requests/count`,
+        providesTags: ['RPL'],
+    }),
 })
