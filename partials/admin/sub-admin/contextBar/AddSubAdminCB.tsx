@@ -53,9 +53,10 @@ export const AddSubAdminCB = ({
                 body: values,
             })
         } else {
+            const { sectors, ...newValues } = values;
             createSubAmin({
                 role: UserRoles.SUBADMIN,
-                ...values,
+                ...newValues,
                 password: 'NA',
             })
         }

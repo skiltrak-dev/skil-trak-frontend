@@ -1,13 +1,15 @@
 import {
     Button,
+    Select,
     ShowErrorNotifications,
     TextArea,
     TextInput,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { AuthApi } from '@queries'
 import { SubAdmin, SubadminFromType } from '@types'
 import { onlyAlphabets } from '@utils'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -22,20 +24,71 @@ export const SubAdminForm = ({
     result: any
     subAdmin?: SubAdmin
 }) => {
+    const [sectorOptions, setSectorOptions] = useState<any>([])
+    const [selectedSector, setSelectedSector] = useState<any>(null)
+    const [courseOptions, setCourseOptions] = useState([])
+    const [courseLoading, setCourseLoading] = useState(false)
     const validationSchema = yup.object({
         // Profile Information
         name: yup.string().required('Must provide your name'),
         coordinatorId: yup.string().required('Must provide your name'),
         phone: yup.string().required('Must provide your name'),
-
         email: yup
             .string()
             .email('Invalid Email')
             .required('Must provide email'),
-
+        sectors: yup.array().min(1, 'Must select at least 1 sector').required(),
+        courses: yup.array().min(1, 'Must select at least 1 course').required(),
         // Address Information
         addressLine1: yup.string().required('Must provide address'),
     })
+    const sectorResponse = AuthApi.useSectors({})
+    
+
+    const onSectorChanged = (sectors: any) => {
+        setSelectedSector(sectors)
+        setCourseLoading(true)
+        const filteredCourses = sectors?.map((selectedSector: any) => {
+            const sectorExisting = sectorResponse?.data?.find(
+                (sector: any) => sector.id === selectedSector.value
+            )
+            if (sectorExisting && sectorExisting?.courses?.length) {
+                return sectorExisting.courses
+            }
+        })
+
+        const newCourseOptions: any = []
+        filteredCourses.map((courseList: any) => {
+            if (courseList && courseList.length) {
+                return courseList.map((course: any) =>
+                    newCourseOptions.push({
+                        item: course,
+                        value: course.id,
+                        label: course.title,
+                    })
+                )
+            }
+        })
+
+        setCourseOptions(newCourseOptions)
+        setCourseLoading(false)
+    }
+
+    // map over sectorResponse and there is another array of courses pick those course with label and value
+    // const coursesOption = sectorResponse.data
+    //     ?.map((sector: any) => {
+    //         console.log('map sectors', sector)
+    //         return sector.courses.map((course: any) => {
+    //             console.log('course inner', course)
+    //             return {
+    //                 label: course?.title,
+    //                 value: course?.id,
+    //             }
+    //         })
+    //     })
+    //     .flat()
+
+    // console.log('coursesOption', coursesOption)
 
     const formMethods = useForm<SubadminFromType>({
         mode: 'all',
@@ -47,6 +100,16 @@ export const SubAdminForm = ({
             formMethods.reset()
         }
     }, [result])
+
+    useEffect(() => {
+        if (sectorResponse.data?.length) {
+            const options = sectorResponse.data?.map((sector: any) => ({
+                label: sector?.name,
+                value: sector?.id,
+            }))
+            setSectorOptions(options)
+        }
+    }, [sectorResponse?.data])
 
     useEffect(() => {
         if (subAdmin) {
@@ -68,6 +131,14 @@ export const SubAdminForm = ({
             // }
         }
     }, [subAdmin])
+
+    // const rtoCoursesOptions =
+    //     rto.isSuccess && rto?.data?.courses && rto?.data?.courses?.length > 0
+    //         ? rto?.data?.courses?.map((course: Course) => ({
+    //               label: course?.title,
+    //               value: course?.id,
+    //           }))
+    //         : []
 
     return (
         <>
@@ -114,6 +185,40 @@ export const SubAdminForm = ({
                         placeholder={'Email...'}
                         validationIcons
                         required
+                    />
+                    {/* <Select
+                        label={'Courses'}
+                        name={'courses'}
+                        options={coursesOption}
+                        multi
+                        validationIcons
+                        onlyValue
+                    /> */}
+                    <Select
+                        label={'Sector'}
+                        value={selectedSector}
+                        name={'sectors'}
+                        options={sectorOptions}
+                        placeholder={'Select Sectors...'}
+                        multi
+                        loading={sectorResponse.isLoading}
+                        disabled={sectorResponse.isLoading}
+                        onChange={onSectorChanged}
+                        validationIcons
+                    />
+                    <Select
+                        label={'Courses'}
+                        name={'courses'}
+                        defaultValue={courseOptions}
+                        options={courseOptions}
+                        multi
+                        loading={courseLoading}
+                        // components={{
+                        //     Option: CourseSelectOption,
+                        // }}
+                        disabled={courseOptions.length === 0}
+                        validationIcons
+                        onlyValue
                     />
                     <TextArea
                         label={'Address'}
