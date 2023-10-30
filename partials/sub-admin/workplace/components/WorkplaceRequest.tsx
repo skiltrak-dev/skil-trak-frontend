@@ -181,20 +181,20 @@ export const WorkplaceRequest = ({ workplace }: any) => {
 
                                 {/* Request Type Selection */}
                                 <div className="flex items-center justify-end gap-x-2">
-                                    {appliedIndustry?.AgreementSigned && (
-                                        <Button
-                                            variant={'info'}
-                                            text={'View Agreement'}
-                                            onClick={() => {
-                                                setContent(
-                                                    <ViewAgreement
-                                                        workplace={workplace}
-                                                    />
-                                                )
-                                                show(false)
-                                            }}
-                                        />
-                                    )}
+                                    {/* {appliedIndustry?.AgreementSigned && ( */}
+                                    <Button
+                                        variant={'info'}
+                                        text={'View Agreement'}
+                                        onClick={() => {
+                                            setContent(
+                                                <ViewAgreement
+                                                    workplace={workplace}
+                                                />
+                                            )
+                                            show(false)
+                                        }}
+                                    />
+                                    {/* )} */}
                                     <RequestType
                                         folders={folders}
                                         workplace={workplace}

@@ -1,5 +1,6 @@
 export * from './Notes'
 export * from './RequestType'
+export * from './AddSchedule'
 export * from './StudentDetail'
 export * from './StudentCellInfo'
 export * from './IndustryDetail'

@@ -3,6 +3,7 @@ import { TabNavigation, TabProps } from '@components'
 import { NotesTab } from '@partials/common'
 import { OverViewTab } from './OverviewTab'
 import { StudentSchedule } from './StudentSchedule'
+import { WorkplaceCurrentStatus } from '@utils'
 export const DetailTabs = ({
     id,
     workplace,
@@ -10,6 +11,7 @@ export const DetailTabs = ({
     id: number | string | string[] | undefined
     workplace: any
 }) => {
+    console.log({ workplace })
     const tabs: TabProps[] = [
         {
             label: 'Overview',
@@ -54,11 +56,20 @@ export const DetailTabs = ({
             href: { pathname: String(id), query: { tab: 'notes' } },
             element: <NotesTab user={workplace?.student?.user} />,
         },
-        // {
-        //     label: 'Schedule',
-        //     href: { pathname: String(id), query: { tab: 'schedule' } },
-        //     element: <StudentSchedule course={workplace?.courses?.[0]} />,
-        // },
+        {
+            label: 'Schedule',
+            href: {
+                pathname: String(id),
+                query: { tab: 'schedule' },
+            },
+            element: (
+                <StudentSchedule
+                    workplace={workplace}
+                    student={workplace?.student}
+                    course={workplace?.courses?.[0]}
+                />
+            ),
+        },
     ]
 
     return (

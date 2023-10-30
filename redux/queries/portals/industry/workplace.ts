@@ -51,13 +51,31 @@ export const workplaceEndpoints = (
 
     getIndustryStudentSchedule: builder.query<
         any,
-        { studentUserId: number; courseId: number }
+        { studentUserId: number; courseId: number; workplace: number }
     >({
-        query: ({ studentUserId, courseId }) => ({
+        query: ({ studentUserId, courseId, workplace }) => ({
             url: `${PREFIX}/student/schedule/view/${studentUserId}`,
-            params: { course: courseId },
+            params: { course: courseId, workplace },
         }),
-        providesTags: ['IndustryWorkplace'],
+        providesTags: ['IndustryWorkplace', 'StudentSchedule'],
+    }),
+
+    createScheduleForStudent: builder.mutation({
+        query: (body) => ({
+            url: `${PREFIX}/schedule/add`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['IndustryWorkplace'],
+    }),
+
+    updateScheduleForStudent: builder.mutation({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}/schedule/edit/${id}`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['IndustryWorkplace'],
     }),
 
     getIndustryRequiredDocsResponse: builder.query<

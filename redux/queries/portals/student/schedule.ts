@@ -7,11 +7,11 @@ export const studentsScheduleEndpoints = (
 ) => ({
     getStudentSchedule: builder.query<
         any,
-        { courseId: number; userId?: number }
+        { courseId: number; userId?: number; workplace: number }
     >({
-        query: ({ courseId, userId }) => ({
+        query: ({ courseId, userId, workplace }) => ({
             url: `${PREFIX}/schedule/view`,
-            params: { course: courseId, stdUser: userId },
+            params: { course: courseId, stdUser: userId, workplace },
         }),
         providesTags: ['StudentSchedule'],
     }),
@@ -58,6 +58,6 @@ export const studentsScheduleEndpoints = (
             body,
             method: 'PATCH',
         }),
-        invalidatesTags: ['StudentSchedule'],
+        invalidatesTags: ['StudentSchedule', 'IndustryWorkplace'],
     }),
 })

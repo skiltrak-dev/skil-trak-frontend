@@ -11,17 +11,22 @@ import { useState, useEffect } from 'react'
 import { useColumns } from './hooks'
 import { useJoyRide } from '@hooks'
 export const PendingAssessment = () => {
-    const {columns, modal} = useColumns()
+    const { columns, modal } = useColumns()
     const router = useRouter()
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
-    const { isLoading, isError, data } = useGetAssessmentEvidenceQuery({
-        search: `result:pending`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, isError, data } = useGetAssessmentEvidenceQuery(
+        {
+            search: `result:pending`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        {
+            refetchOnMountOrArgChange: true,
+        }
+    )
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
