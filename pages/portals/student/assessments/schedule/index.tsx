@@ -1,7 +1,7 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useMemo, useState } from 'react'
 
 import { StudentLayout } from '@layouts'
-import { Course, NextPageWithLayout } from '@types'
+import { Course, Industry, NextPageWithLayout } from '@types'
 import {
     BigCalendar,
     Button,
@@ -15,7 +15,11 @@ import {
     Typography,
 } from '@components'
 import { useRouter } from 'next/router'
-import { StudentApi, useGetStudentCoursesQuery } from '@queries'
+import {
+    StudentApi,
+    useGetStudentCoursesQuery,
+    useGetWorkplaceIndustriesQuery,
+} from '@queries'
 import { ScheduleCalendar } from '@partials/student/Schedule'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
 import moment from 'moment'
@@ -24,7 +28,10 @@ type Props = {}
 
 const Schedule: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
-    const [selectedCourse, setSelectedCourse] = useState<number[] | null>(null)
+    const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
+    const [selectedIndustry, setSelectedIndustry] = useState<number | null>(
+        null
+    )
 
     const events: CalendarEvent[] = [
         {
@@ -73,58 +80,115 @@ const Schedule: NextPageWithLayout = (props: Props) => {
     ]
 
     const schedules = StudentApi.Schedule.useGetStudentSchedule(
-        { courseId: Number(selectedCourse) },
         {
-            skip: !selectedCourse,
+            courseId: Number(selectedCourse),
+            workplace: Number(selectedIndustry),
+        },
+        {
+            skip: !selectedCourse || !selectedIndustry,
         }
     )
     const courses = useGetStudentCoursesQuery()
+    const workplace = useGetWorkplaceIndustriesQuery()
+
+    const industriesOptions = useMemo(
+        () =>
+            workplace?.data
+                ?.map((w: any) =>
+                    w?.industries
+                        ?.filter((i: any) => i?.applied)
+                        ?.map((ind: any) => ind?.industry)
+                )
+                ?.flat()
+                ?.map((ind: Industry) => ({
+                    label: ind?.user?.name,
+                    value: ind?.id,
+                    item: ind,
+                })),
+        [workplace]
+    )
 
     useEffect(() => {
-        if (courses.isSuccess) {
+        if (router.query?.course) {
+            setSelectedCourse(Number(router.query.course))
+        } else if (courses.isSuccess) {
             setSelectedCourse(courses?.data?.[0]?.id)
         }
-    }, [courses])
+
+        if (router.query?.workplace) {
+            setSelectedIndustry(Number(router.query.workplace))
+        } else if (industriesOptions && industriesOptions?.length > 0) {
+            setSelectedIndustry(industriesOptions?.[0]?.value)
+        }
+    }, [courses, industriesOptions, router])
 
     const courseOptions = courses.data?.map((course: Course) => ({
         label: course?.title,
         value: course?.id,
         item: course,
     }))
+
+    console.log({ industriesOptions })
+
     return (
         <>
             <ShowErrorNotifications result={schedules} />
             <div className="flex justify-between items-center">
-                <div className="w-72">
-                    <Select
-                        label={'Courses'}
-                        name={'courses'}
-                        defaultValue={courseOptions}
-                        value={courseOptions?.find(
-                            (c: any) => c?.value === selectedCourse
-                        )}
-                        options={courseOptions}
-                        loading={courses.isLoading}
-                        onlyValue
-                        disabled={courses.isLoading}
-                        validationIcons
-                        components={{
-                            Option: CourseSelectOption,
-                        }}
-                        formatOptionLabel={formatOptionLabel}
-                        onChange={(e: any) => {
-                            setSelectedCourse(e)
-                        }}
-                    />
+                <div className="flex gap-x-2">
+                    <div className="w-72">
+                        <Select
+                            label={'Courses'}
+                            name={'courses'}
+                            defaultValue={courseOptions}
+                            value={courseOptions?.find(
+                                (c: any) => c?.value === selectedCourse
+                            )}
+                            options={courseOptions}
+                            loading={courses.isLoading}
+                            onlyValue
+                            disabled={courses.isLoading}
+                            validationIcons
+                            components={{
+                                Option: CourseSelectOption,
+                            }}
+                            formatOptionLabel={formatOptionLabel}
+                            onChange={(e: any) => {
+                                setSelectedCourse(e)
+                            }}
+                        />
+                    </div>
+                    <div className="w-72">
+                        <Select
+                            label={'Workplaces'}
+                            name={'workplace'}
+                            defaultValue={industriesOptions}
+                            value={industriesOptions?.find(
+                                (c: any) => c?.value === selectedIndustry
+                            )}
+                            options={industriesOptions}
+                            loading={workplace.isLoading}
+                            onlyValue
+                            disabled={workplace.isLoading}
+                            validationIcons
+                            onChange={(e: any) => {
+                                setSelectedIndustry(e)
+                            }}
+                        />
+                    </div>
                 </div>
                 <Button
-                    text={schedules ? 'Edit Schedule' : 'Add Schedule'}
+                    text={
+                        schedules?.data && schedules?.data?.schedule
+                            ? 'Edit Schedule'
+                            : 'Add Schedule'
+                    }
                     variant={'info'}
                     onClick={() => {
                         router.push({
                             pathname: 'schedule/add-schedule',
                             query: {
                                 course: selectedCourse,
+                                workplace: selectedIndustry,
                             },
                         })
                     }}
@@ -133,9 +197,9 @@ const Schedule: NextPageWithLayout = (props: Props) => {
             <div className="mt-3">
                 <Card>
                     {schedules.isError && <TechnicalError />}
-                    {schedules?.isLoading ? (
+                    {schedules?.isLoading || schedules.isFetching ? (
                         <LoadingAnimation />
-                    ) : schedules?.data ? (
+                    ) : schedules?.data && schedules?.data?.schedule ? (
                         <>
                             <div className="flex gap-x-4 items-center">
                                 <div>
@@ -144,7 +208,7 @@ const Schedule: NextPageWithLayout = (props: Props) => {
                                     </Typography>
                                     <Typography variant="label">
                                         {moment(
-                                            schedules?.data?.startDate
+                                            schedules?.data?.schedule?.startDate
                                         ).format('MMMM DD, YYYY')}
                                     </Typography>
                                 </div>
@@ -154,15 +218,24 @@ const Schedule: NextPageWithLayout = (props: Props) => {
                                     </Typography>
                                     <Typography variant="label">
                                         {moment(
-                                            schedules?.data?.endDate
+                                            schedules?.data?.schedule?.endDate
                                         ).format('MMMM DD, YYYY')}
+                                    </Typography>
+                                </div>
+                                <div>
+                                    <Typography variant="subtitle">
+                                        Total Hours
+                                    </Typography>
+                                    <Typography variant="label">
+                                        {schedules?.data?.schedule?.hours} :
+                                        Hours
                                     </Typography>
                                 </div>
                             </div>
 
                             <ScheduleCalendar
                                 events={[
-                                    ...schedules?.data?.timeTables?.map(
+                                    ...schedules?.data?.schedule?.timeTables?.map(
                                         (c: any) => {
                                             const [year, month, day] = moment(
                                                 c?.date
@@ -202,7 +275,7 @@ const Schedule: NextPageWithLayout = (props: Props) => {
                             />
                         </>
                     ) : (
-                        schedules?.isSuccess && <EmptyData />
+                        <EmptyData />
                     )}
                 </Card>
             </div>

@@ -89,6 +89,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                     title={'Workplace'}
                     subtitle={'Workplace'}
                     onCancelClick={onCancel}
+                    showActions={false}
                 >
                     You need to enable recive workplace from Setting to recive
                     workplace
