@@ -37,13 +37,15 @@ export const SubAdminForm = ({
             .string()
             .email('Invalid Email')
             .required('Must provide email'),
+        rtos: yup.array().min(1, 'Must select at least 1 RTO').required(),
         sectors: yup.array().min(1, 'Must select at least 1 sector').required(),
         courses: yup.array().min(1, 'Must select at least 1 course').required(),
         // Address Information
         addressLine1: yup.string().required('Must provide address'),
     })
     const sectorResponse = AuthApi.useSectors({})
-    
+    const getRtos = AuthApi.useRtos({})
+    console.log('getRtos', getRtos)
 
     const onSectorChanged = (sectors: any) => {
         setSelectedSector(sectors)
@@ -140,6 +142,14 @@ export const SubAdminForm = ({
     //           }))
     //         : []
 
+    const rtosOptions =
+        getRtos?.isSuccess && getRtos?.data && getRtos?.data.length > 0
+            ? getRtos?.data.map((rto: any) => ({
+                  label: rto?.user?.name,
+                  value: rto?.id,
+              }))
+            : []
+
     return (
         <>
             <ShowErrorNotifications result={result} />
@@ -186,14 +196,14 @@ export const SubAdminForm = ({
                         validationIcons
                         required
                     />
-                    {/* <Select
-                        label={'Courses'}
-                        name={'courses'}
-                        options={coursesOption}
+                    <Select
+                        label={'RTOs'}
+                        name={'rtos'}
+                        options={rtosOptions}
                         multi
                         validationIcons
                         onlyValue
-                    /> */}
+                    />
                     <Select
                         label={'Sector'}
                         value={selectedSector}
