@@ -9,10 +9,10 @@ import {
 } from '@components'
 import { UserRoles } from '@constants'
 import { useContextBar } from '@hooks'
+import { ReportListDownload } from '@partials/rto/components/ReportListDownload'
 import { ReportListModal } from '@partials/rto/components/ReportListModal'
 import {
     AppointmentsReport,
-    ArchivedStudentsReport,
     BlockedStudentsReport,
     CancelledWorkplaceReport,
     CompletedWorkplaceReport,
@@ -23,17 +23,12 @@ import {
     TerminatedWorkplaceReport,
     WorkplaceRequestReport,
 } from '@partials/rto/report'
-import { ReportType } from '@partials/rto/report/ReportType'
-import { RtoApi, useRtoWeelyReportQuery } from '@queries'
-import { ReportOptionsEnum, User } from '@types'
-import { ReactElement, useCallback, useEffect, useState } from 'react'
-import { IoMdDownload } from 'react-icons/io'
-import { WeeklyReport } from './contextBar'
-import { NonContactableReport2 } from '@partials/rto/report/components/StudentStatus/NonContactableReport2'
-import { IoDocumentText } from 'react-icons/io5'
-import moment from 'moment'
-import { ReportListDownload } from '@partials/rto/components/ReportListDownload'
+import { User } from '@types'
 import { getUserCredentials } from '@utils'
+import moment from 'moment'
+import { ReactElement, useEffect, useState } from 'react'
+import { IoDocumentText } from 'react-icons/io5'
+import { WeeklyReport } from './contextBar'
 
 export const RTOReports = ({
     user,
