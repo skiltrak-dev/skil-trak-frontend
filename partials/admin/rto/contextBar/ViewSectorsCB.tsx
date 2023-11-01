@@ -33,8 +33,12 @@ export const ViewSectorsCB = ({ rto }: { rto: Rto }) => {
     const onSubmit = async (values: any) => {
         const { courses } = values
         await assignCourses({
-            user: rto.id,
-            courses: courses.map((c: any) => c.value),
+            user: rto?.id,
+            courses: courses.map((c: any) => c?.value),
+            rtoCourses: courses.map((c: any) => ({
+                course: c?.value,
+                hours: c?.hours,
+            })),
         })
     }
 
@@ -101,6 +105,7 @@ export const ViewSectorsCB = ({ rto }: { rto: Rto }) => {
                     Selected Sectors &amp; Courses
                 </Typography>
 
+                {rtoCourses.isError && <NoData text={'Technical Issue'} />}
                 {rtoCourses.isLoading ? (
                     <ContextBarLoading />
                 ) : rtoCourses.data?.length ? (
@@ -125,7 +130,9 @@ export const ViewSectorsCB = ({ rto }: { rto: Rto }) => {
                         )
                     })
                 ) : (
-                    <NoData text={'No Courses Assigned'} />
+                    !rtoCourses.isError && (
+                        <NoData text={'No Courses Assigned'} />
+                    )
                 )}
             </div>
         </div>

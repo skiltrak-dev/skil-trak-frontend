@@ -133,7 +133,7 @@ export const rtoEndpoints = (
 
     rtoAssignCourses: builder.mutation<
         Rto,
-        { user: number; courses: number[] }
+        { user: number; courses: number[]; rtoCourses: any }
     >({
         query: (body) => ({
             url: `${PREFIX}/rtos/course/add`,
