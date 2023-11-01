@@ -11,7 +11,7 @@ import { AuthorizedUserComponent } from '@components'
 export const StudentDetail = ({ data }: any) => {
     const role = getUserCredentials()?.role
     return (
-        <div className="flex flex-col md:flex-row md:items-center gap-4">
+        <div className="col-span-2 flex flex-col md:flex-row md:items-center gap-4">
             <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                 <AdminStudentCellInfo student={data} />
             </AuthorizedUserComponent>

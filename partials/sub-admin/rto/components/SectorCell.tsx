@@ -1,15 +1,14 @@
 import { ActionButton } from '@components'
 import { useContextBar } from '@hooks'
-import { Course, SubAdmin } from '@types'
+import { Course, Rto } from '@types'
 import { ViewSectorsCB } from '../contextBar'
-import { useEffect } from 'react'
 
-export const SectorCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
+export const SectorCell = ({ rto }: { rto: Rto }) => {
     const contextBar = useContextBar()
 
-    const onViewSectorClicked = (subAdmin: SubAdmin) => {
+    const onViewSectorClicked = (rto: Rto) => {
         contextBar.setTitle('Sectors & Courses')
-        contextBar.setContent(<ViewSectorsCB subAdmin={subAdmin} />)
+        contextBar.setContent(<ViewSectorsCB rto={rto} />)
         contextBar.show()
     }
 
@@ -18,13 +17,13 @@ export const SectorCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
             <div className="flex flex-col items-center">
                 <ActionButton
                     variant="link"
-                    onClick={() => onViewSectorClicked(subAdmin)}
+                    onClick={() => onViewSectorClicked(rto)}
                     simple
                 >
                     <span className="whitespace-pre">View / Edit</span>
                 </ActionButton>
                 <div className="flex gap-x-1">
-                    {subAdmin.courses.map((c: Course) => (
+                    {rto.courses.map((c: Course) => (
                         <div className="relative group" key={c.id}>
                             <div className="w-[9px] h-[9px] rounded-full bg-gray-400 cursor-pointer"></div>
                             <div className="bg-white p-2 rounded-xl shadow-xl z-20 absolute whitespace-nowrap hidden group-hover:block">
