@@ -58,6 +58,7 @@ export const AssessmentFolderCard = ({
                         size="xs"
                     />
                 )
+
             default:
                 return (
                     <Badge
@@ -74,7 +75,8 @@ export const AssessmentFolderCard = ({
         'text-xs': true,
         'text-gray-500': response?.status === 'pending',
         'text-green-700': response?.status === 'approved',
-        'text-red-700': response?.status === 'rejected',
+        'text-red-700':
+            response?.status === 'rejected' || response?.status === 'blocked',
     })
     return (
         <>
@@ -104,9 +106,18 @@ export const AssessmentFolderCard = ({
                         <div className={` px-2 `}>
                             {assessment &&
                             response &&
-                            response?.files?.length > 0
-                                ? getStatusBadge()
-                                : null}
+                            response?.files?.length > 0 ? (
+                                response?.reSubmitted ? (
+                                    <Badge
+                                        text={'Re-Submitted'}
+                                        variant="info"
+                                        shape="pill"
+                                        size="xs"
+                                    />
+                                ) : (
+                                    getStatusBadge()
+                                )
+                            ) : null}
                             {/* {isActive ? (
                             ) : (
                                 <Badge text="Not Approved" variant="error" />
@@ -116,7 +127,10 @@ export const AssessmentFolderCard = ({
                 </div>
                 {response && (
                     <div>
-                        <p className={commentClasses}>{response?.comment}</p>
+                        <p className={commentClasses}>
+                            {response?.reSubmitted && 'Previous Comment:'}{' '}
+                            {response?.comment}
+                        </p>
                     </div>
                 )}
             </div>

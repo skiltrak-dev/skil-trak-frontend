@@ -28,6 +28,8 @@ export const AssignSectorForm = ({
 
     const courses = AdminApi.Courses.useListQuery(undefined)
     const [selectableCourses, setSelectableCourses] = useState<Course[]>([])
+    const [selectedCourses, setSelectedCourses] = useState<any>([])
+    const [selectedHours, setSelectedHours] = useState<any>([])
 
     const onSectorSelect = (options: any) => {
         const currentSelectedSectors = options.map(
@@ -63,6 +65,8 @@ export const AssignSectorForm = ({
         mode: 'all',
     })
 
+    console.log({ selectedHours })
+
     useEffect(() => {
         if (result.isSuccess) {
             methods.reset()
@@ -75,11 +79,17 @@ export const AssignSectorForm = ({
         )
     }
 
+    console.log({ selectedCourses })
+
+    const onHandleSubmit = (values: any) => {
+        onSubmit({ ...values, courses: selectedCourses })
+    }
+
     return (
         <FormProvider {...methods}>
             <form
                 className="mt-2 w-full"
-                onSubmit={methods.handleSubmit(onSubmit)}
+                onSubmit={methods.handleSubmit(onHandleSubmit)}
             >
                 <div className={'flex flex-col gap-y-2'}>
                     <Typography variant={'muted'} color={'text-gray-400'}>
@@ -114,8 +124,54 @@ export const AssignSectorForm = ({
                         components={{
                             Option: CourseSelectOption,
                         }}
+                        onChange={(option: OptionType[]) =>
+                            setSelectedCourses(
+                                option?.map((o) => ({
+                                    ...o,
+                                    hours: o?.item?.hours,
+                                }))
+                            )
+                        }
                         formatOptionLabel={formatOptionLabel}
                     />
+
+                    {selectedCourses && selectedCourses?.length > 0 && (
+                        <>
+                            <Typography variant="small" bold>
+                                Edit Courses Hours
+                            </Typography>
+                            {selectedCourses?.map((s: any) => (
+                                <div className="grid grid-cols-4 items-center">
+                                    <div className="col-span-3">
+                                        <Typography variant="small">
+                                            {s?.label}
+                                        </Typography>
+                                    </div>
+                                    <input
+                                        placeholder="Hours"
+                                        className="border rounded p-1.5 text-xs"
+                                        name="hours"
+                                        type="number"
+                                        value={s?.hours}
+                                        onChange={(e: any) => {
+                                            setSelectedCourses((course: any) =>
+                                                course?.map((c: any) =>
+                                                    c?.value === s?.value
+                                                        ? {
+                                                              ...c,
+                                                              hours: Number(
+                                                                  e.target.value
+                                                              ),
+                                                          }
+                                                        : c
+                                                )
+                                            )
+                                        }}
+                                    />
+                                </div>
+                            ))}
+                        </>
+                    )}
 
                     <div className="flex">
                         <Button
