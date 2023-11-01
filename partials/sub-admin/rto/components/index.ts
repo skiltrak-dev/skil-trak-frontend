@@ -1,4 +1,6 @@
 export * from './UploadFile'
+export * from './SectorCell'
 export * from './RTOCellInfo'
+export * from './AssignedCourse'
 export * from './PendingStudents'
 export * from './RecentAppointment'

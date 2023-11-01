@@ -28,8 +28,7 @@ import { useGetSubAdminRtosQuery } from '@queries'
 // icons
 import { useActionModal, useContextBar } from '@hooks'
 
-import { SectorCell } from '@partials/admin/sub-admin'
-import { RTOCellInfo } from '@partials/sub-admin/rto/components'
+import { RTOCellInfo, SectorCell } from '@partials/sub-admin/rto/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { checkFilteredDataLength, getFilterQuery, setLink } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
@@ -150,7 +149,7 @@ const RTOs: NextPageWithLayout = () => {
             header: () => 'Courses',
             accessorKey: 'courses',
             cell: (info) => {
-                return <SectorCell subAdmin={info.row.original as any} />
+                return <SectorCell rto={info.row.original} />
             },
         },
         {

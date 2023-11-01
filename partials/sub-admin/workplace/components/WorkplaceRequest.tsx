@@ -123,7 +123,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                     <div
                         className={`w-full transition-all duration-700 overflow-hidden p-4 rounded-md shadow-lg ${
                             appliedIndustry?.isCompleted ? 'bg-gray-50' : ''
-                        } ${isOpen ? 'max-h-[1000px]' : 'max-h-[450px]'}`}
+                        } ${isOpen ? 'max-h-[1000px]' : 'max-h-[500px]'}`}
                     >
                         <div>
                             <div className="flex justify-between items-center flex-wrap gap-5 pb-2.5 border-b border-dashed">
@@ -229,10 +229,16 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                         </div>
 
                         {/* Student Small Details */}
-                        <div className="mt-3 flex flex-col md:flex-row gap-y-5 justify-between items-center">
+                        <div
+                            className={`mt-3  gap-y-5 justify-between items-center ${
+                                isOpened
+                                    ? 'flex flex-col md:flex-row'
+                                    : 'grid grid-cols-2'
+                            }`}
+                        >
                             <StudentDetail data={workplace?.student} />
 
-                            {!isOpen && (
+                            {!isOpened && (
                                 <div>
                                     {appliedIndustry ? (
                                         <>
@@ -316,12 +322,14 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                             )}
 
                             {/*  */}
-                            <WorkplaceFolders
-                                workplace={workplace}
-                                // courseId={course?.id}
-                                // appliedIndustryId={appliedIndustry?.industry?.id}
-                                folders={folders}
-                            />
+                            <div className="ml-auto">
+                                <WorkplaceFolders
+                                    workplace={workplace}
+                                    // courseId={course?.id}
+                                    // appliedIndustryId={appliedIndustry?.industry?.id}
+                                    folders={folders}
+                                />
+                            </div>
                         </div>
 
                         {/*  */}
