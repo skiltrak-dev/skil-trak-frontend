@@ -29,6 +29,7 @@ import moment from 'moment'
 import { ReactElement, useEffect, useState } from 'react'
 import { IoDocumentText } from 'react-icons/io5'
 import { WeeklyReport } from './contextBar'
+import { IoMdDownload } from 'react-icons/io'
 
 export const RTOReports = ({
     user,
@@ -205,7 +206,7 @@ export const RTOReports = ({
                 <PageTitle title="Statistics" />
 
                 <div className="flex items-center gap-x-3">
-                    <AuthorizedUserComponent roles={[UserRoles.RTO]}>
+                    {/* <AuthorizedUserComponent roles={[UserRoles.RTO]}>
                         <Button
                             onClick={() => {
                                 contextBar.show()
@@ -215,22 +216,21 @@ export const RTOReports = ({
                             variant="action"
                             text={'Weekly Report'}
                         />
-                    </AuthorizedUserComponent>
-
-                    {/* <Button
-                        onClick={() => {
-                            onViewClicked()
-                        }}
-                        variant="dark"
-                        Icon={IoMdDownload}
-                        text={'Download'}
-                    /> */}
+                    </AuthorizedUserComponent> */}
                     <ReportListDownload
                         user={Number(user?.id)}
                         startDate={startDate}
                         setStartDate={setStartDate}
                         endDate={endDate}
                         setEndDate={setEndDate}
+                    />
+                    <Button
+                        onClick={() => {
+                            onViewClicked()
+                        }}
+                        variant="action"
+                        Icon={IoMdDownload}
+                        text={'Monthly Report Download'}
                     />
                 </div>
             </div>
