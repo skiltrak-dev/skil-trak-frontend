@@ -15,7 +15,7 @@ export const subAdminRtoEndpoints = (
             url: `${PREFIX}/rtos/list`,
             params,
         }),
-        providesTags: ['SubAdminRtos'],
+        providesTags: ['SubAdminRtos', 'RTOS'],
     }),
     getSubAdminRtosFilterList: builder.query<Rto[], void>({
         query: () => `${PREFIX}/rtos/filter-list`,

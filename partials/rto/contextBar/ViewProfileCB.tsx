@@ -24,9 +24,10 @@ import {
 } from '@components'
 import { BiPackage, BiRename } from 'react-icons/bi'
 import { useRouter } from 'next/router'
-import { CourseList } from '@partials/common'
 import { BsUnlockFill } from 'react-icons/bs'
 import { useActionModal } from '@hooks'
+import { CourseList } from '../components'
+import { RtoSectors } from '../components/RtoSectors'
 
 const getSectors = (courses: any) => {
     if (!courses) return {}
@@ -282,36 +283,17 @@ export const ViewProfileCB = () => {
                     </div>
 
                     {/* Eligible sectors */}
-                    <div className="mt-4">
+                    <RtoSectors sectorsWithCourses={sectorsWithCourses} />
+                    {/* <div className="mt-4">
                         <Typography variant={'small'} color={'text-gray-500'}>
                             Eligible Sectors
                         </Typography>
 
-                        {sectorsWithCourses ? (
-                            Object.keys(sectorsWithCourses).map((sector) => {
-                                return (
-                                    <>
-                                        <Typography
-                                            variant={'label'}
-                                            color={'text-black'}
-                                        >
-                                            {sector}
-                                        </Typography>
-
-                                        <CourseList
-                                            courses={
-                                                (sectorsWithCourses as any)[
-                                                    sector
-                                                ]
-                                            }
-                                        />
-                                    </>
-                                )
-                            })
-                        ) : (
-                            <NoData text={'No Sectors Assigned'} />
-                        )}
-                    </div>
+                        <CourseList
+                            // courses={(sectorsWithCourses as any)[sector]}
+                            sectorsWithCourses={sectorsWithCourses}
+                        />
+                    </div> */}
                 </div>
             )}
         </>

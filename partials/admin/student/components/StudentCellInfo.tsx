@@ -83,7 +83,10 @@ export const StudentCellInfo = ({
                             ) : null)}
                     </div>
                     <p className="font-semibold">
-                        {student?.user?.name} {student?.familyName}
+                        {student?.user?.name}{' '}
+                        {student?.familyName?.toLowerCase() === 'na'
+                            ? ''
+                            : student?.familyName}
                     </p>
                     <div className="font-medium text-xs text-gray-500">
                         <p className="flex items-center gap-x-1">

@@ -108,7 +108,7 @@ export const WorkplaceRequest = ({
             <div
                 className={`w-full transition-all duration-700 overflow-hidden p-4 rounded-md shadow-lg ${
                     appliedIndustry?.isCompleted ? 'bg-gray-50' : ''
-                } ${isOpen ? 'max-h-[1000px]' : 'max-h-[300px]'} bg-gray-100`}
+                } ${isOpen ? 'max-h-[1000px]' : 'max-h-[350px]'} bg-gray-100`}
             >
                 <div>
                     <div className="flex justify-between items-center flex-wrap gap-5 pb-2.5 border-b border-dashed">
@@ -232,7 +232,11 @@ export const WorkplaceRequest = ({
                 </div>
 
                 {/* Student Small Details */}
-                <div className="mt-3 flex justify-between items-center">
+                <div
+                    className={`mt-3  items-center ${
+                        isOpen ? 'flex justify-between' : 'grid grid-cols-2 gap-y-3'
+                    }`}
+                >
                     <StudentDetail data={workplace?.student} />
 
                     {!isOpen && (
@@ -309,7 +313,7 @@ export const WorkplaceRequest = ({
                     )}
 
                     {/*  */}
-                    <div>
+                    <div className="ml-auto">
                         <Typography variant={'xs'}>Recieved On:</Typography>
                         <Typography variant={'small'}>
                             <span className="font-semibold">

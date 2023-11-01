@@ -605,7 +605,7 @@ const RTODashboard: NextPageWithLayout = () => {
                         imageUrl="/images/icons/job.png"
                         count={count?.data?.pendingResult}
                         title={'Pending Result'}
-                        link={'/portals/rto/students/2426?tab=submissions'}
+                        link={'/portals/rto/students?tab=active'}
                     />
                 </div>
             </div>
