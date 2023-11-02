@@ -27,13 +27,14 @@ const RtoPlacementNotifications: NextPageWithLayout = () => {
         isError,
         isLoading,
     } = CommonApi.Notifications.usePlacementNotifications({
+        status: `placementStarted`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
     const [readNotifications, resultReadNotifications] =
         CommonApi.Notifications.useIsReadNotification()
 
-    console.log("from Placement Notifications page", notifications)
+    console.log('from Placement Notifications page', notifications)
 
     return (
         <Card>
@@ -150,7 +151,9 @@ const RtoPlacementNotifications: NextPageWithLayout = () => {
 
 RtoPlacementNotifications.getLayout = (page: ReactElement) => {
     return (
-        <RtoLayout pageTitle={{ title: 'Placement Notifications' }}>{page}</RtoLayout>
+        <RtoLayout pageTitle={{ title: 'Placement Notifications' }}>
+            {page}
+        </RtoLayout>
     )
 }
 
