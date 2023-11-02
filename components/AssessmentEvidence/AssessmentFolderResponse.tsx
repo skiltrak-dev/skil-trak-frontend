@@ -326,11 +326,7 @@ export const AssessmentResponse = ({
                                         std: Number(studentId),
                                     })
                                 }}
-                                loading={
-                                    addCommentResult?.isLoading &&
-                                    addCommentResult?.originalArgs?.status ===
-                                        AddCommentEnum.Approved
-                                }
+                                loading={addCommentResult?.isLoading}
                                 disabled={
                                     addCommentResult?.isLoading || !comment
                                 }
