@@ -18,4 +18,5 @@ export const workplaceEndpoints = (
         query: (id) => `${PREFIX}/work-place/view/${id}`,
         providesTags: ['RTOWorkplace'],
     }),
+   
 })

@@ -75,50 +75,56 @@ export const IndustryCard = ({
     }
 
     const role = getUserCredentials()?.role
+    console.log('industry', industry)
 
     return (
         <>
             {modal}
             <ShowErrorNotifications result={applyForWorkplaceResult} />
-            <div className="bg-secondary py-1 px-2 rounded-lg flex flex-col lg:flex-row justify-between lg:items-center">
-                <Link
-                    href={
-                        role === UserRoles.ADMIN
-                            ? `/portals/admin/industry/${industry?.industry?.id}?tab=sectors`
-                            : role === UserRoles.SUBADMIN
-                            ? `/portals/sub-admin/users/industries/${industry?.industry?.id}?tab=overview`
-                            : '#'
-                    }
-                    className="flex items-center gap-x-2 cursor-pointer"
-                >
-                    {industry?.industry?.user?.name && (
-                        <InitialAvatar
-                            name={industry?.industry?.user?.name}
-                            imageUrl={industry?.industry?.user?.avatar}
-                        />
-                    )}
-                    <div>
-                        <div className="flex items-center gap-x-0.5">
-                            <Typography variant={'label'}>
-                                <span className="cursor-pointer">
-                                    {industry?.industry?.user?.name}
-                                </span>
-                            </Typography>
-                            <BsDot />
-                            <Typography variant={'xs'} color={'text-gray-500'}>
-                                {Number(industry?.distance)?.toFixed(2)} Km Away
+            <div className="bg-secondary rounded-lg py-1 px-2">
+                <div className="flex flex-col lg:flex-row justify-between lg:items-center">
+                    <Link
+                        href={
+                            role === UserRoles.ADMIN
+                                ? `/portals/admin/industry/${industry?.industry?.id}?tab=sectors`
+                                : role === UserRoles.SUBADMIN
+                                ? `/portals/sub-admin/users/industries/${industry?.industry?.id}?tab=overview`
+                                : '#'
+                        }
+                        className="flex items-center gap-x-2 cursor-pointer"
+                    >
+                        {industry?.industry?.user?.name && (
+                            <InitialAvatar
+                                name={industry?.industry?.user?.name}
+                                imageUrl={industry?.industry?.user?.avatar}
+                            />
+                        )}
+                        <div>
+                            <div className="flex items-center gap-x-0.5">
+                                <Typography variant={'label'}>
+                                    <span className="cursor-pointer">
+                                        {industry?.industry?.user?.name}
+                                    </span>
+                                </Typography>
+                                <BsDot />
+                                <Typography
+                                    variant={'xs'}
+                                    color={'text-gray-500'}
+                                >
+                                    {Number(industry?.distance)?.toFixed(2)} Km
+                                    Away
+                                </Typography>
+                            </div>
+                            <Typography variant={'muted'} color={'gray'}>
+                                {industry?.industry?.addressLine1},{' '}
+                                {industry?.industry?.addressLine2}
                             </Typography>
                         </div>
-                        <Typography variant={'muted'} color={'gray'}>
-                            {industry?.industry?.addressLine1},{' '}
-                            {industry?.industry?.addressLine2}
-                        </Typography>
-                    </div>
-                </Link>
-                <div className="flex items-center gap-x-2 ml-auto">
-                    {applied && (
-                        <div className="flex justify-end gap-x-2 top-0 right-0">
-                            {/* <ActionButton
+                    </Link>
+                    <div className="flex items-center gap-x-2 ml-auto">
+                        {applied && (
+                            <div className="flex justify-end gap-x-2 top-0 right-0">
+                                {/* <ActionButton
                                 rounded
                                 Icon={AiFillEdit}
                                 variant={'info'}
@@ -127,87 +133,87 @@ export const IndustryCard = ({
                                 }}
                                 title="Edit Industry"
                             /> */}
-                            <ActionButton
-                                rounded
-                                Icon={MdDelete}
-                                variant={'error'}
-                                onClick={() => onDeleteIndustry(industry)}
-                                title="Delete Industry"
-                            />
-                        </div>
-                    )}
-                    {industry.applied &&
-                        industry.industryResponse !== 'noResponse' &&
-                        industry.industryResponse !== 'rejected' && (
-                            <Typography
-                                variant={'xs'}
-                                color={'text-red-800'}
-                                center
-                            >
-                                APPLIED
-                            </Typography>
+                                <ActionButton
+                                    rounded
+                                    Icon={MdDelete}
+                                    variant={'error'}
+                                    onClick={() => onDeleteIndustry(industry)}
+                                    title="Delete Industry"
+                                />
+                            </div>
                         )}
-                    {industry.industryResponse === 'noResponse' && (
-                        <Typography
-                            variant={'xs'}
-                            color={'text-red-500'}
-                            center
-                        >
-                            No Response
-                        </Typography>
-                    )}
-                    {industry.industryResponse === 'rejected' && (
-                        <Typography
-                            variant={'xs'}
-                            color={'text-red-500'}
-                            center
-                        >
-                            Rejected
-                        </Typography>
-                    )}
-                    {industry.applied &&
-                        industry.industryResponse === 'approved' && (
-                            <Typography variant={'xs'}>
-                                <span className="bg-success px-2 py-0.5 text-white rounded-full">
-                                    Approved
-                                </span>
-                            </Typography>
-                        )}
-                    {!appliedIndustry &&
-                        !industry.applied &&
-                        industry.industryResponse !== 'noResponse' &&
-                        industry.industryResponse !== 'rejected' && (
-                            <Typography
-                                variant={'xs'}
-                                color={'text-red-800'}
-                                center
-                            >
-                                <span
-                                    className="cursor-pointer"
-                                    onClick={() => {
-                                        if (!appliedIndustry) {
-                                            applyForWorkplace({
-                                                industry: industry?.id,
-                                                id: workplace?.id,
-                                            })
-                                        } else {
-                                            notification.error({
-                                                title: 'Already Applied',
-                                                description:
-                                                    'Already Applied to another Industry',
-                                            })
-                                        }
-                                    }}
+                        {industry.applied &&
+                            industry.industryResponse !== 'noResponse' &&
+                            industry.industryResponse !== 'rejected' && (
+                                <Typography
+                                    variant={'xs'}
+                                    color={'text-red-800'}
+                                    center
                                 >
-                                    {applyForWorkplaceResult.isLoading ? (
-                                        <PulseLoader size={4} />
-                                    ) : (
-                                        'APPLY HERE'
-                                    )}
-                                </span>
+                                    APPLIED
+                                </Typography>
+                            )}
+                        {industry.industryResponse === 'noResponse' && (
+                            <Typography
+                                variant={'xs'}
+                                color={'text-red-500'}
+                                center
+                            >
+                                No Response
                             </Typography>
                         )}
-                    {/* {industry.industryResponse !== 'approved' && industry.applied ? (
+                        {industry.industryResponse === 'rejected' && (
+                            <Typography
+                                variant={'xs'}
+                                color={'text-red-500'}
+                                center
+                            >
+                                Rejected
+                            </Typography>
+                        )}
+                        {industry.applied &&
+                            industry.industryResponse === 'approved' && (
+                                <Typography variant={'xs'}>
+                                    <span className="bg-success px-2 py-0.5 text-white rounded-full">
+                                        Approved
+                                    </span>
+                                </Typography>
+                            )}
+                        {!appliedIndustry &&
+                            !industry.applied &&
+                            industry.industryResponse !== 'noResponse' &&
+                            industry.industryResponse !== 'rejected' && (
+                                <Typography
+                                    variant={'xs'}
+                                    color={'text-red-800'}
+                                    center
+                                >
+                                    <span
+                                        className="cursor-pointer"
+                                        onClick={() => {
+                                            if (!appliedIndustry) {
+                                                applyForWorkplace({
+                                                    industry: industry?.id,
+                                                    id: workplace?.id,
+                                                })
+                                            } else {
+                                                notification.error({
+                                                    title: 'Already Applied',
+                                                    description:
+                                                        'Already Applied to another Industry',
+                                                })
+                                            }
+                                        }}
+                                    >
+                                        {applyForWorkplaceResult.isLoading ? (
+                                            <PulseLoader size={4} />
+                                        ) : (
+                                            'APPLY HERE'
+                                        )}
+                                    </span>
+                                </Typography>
+                            )}
+                        {/* {industry.industryResponse !== 'approved' && industry.applied ? (
             <Typography variant={'xs'} color={'text-red-800'} center>
                APPLIED
             </Typography>
@@ -237,6 +243,12 @@ export const IndustryCard = ({
                </Typography>
             )
          )} */}
+                    </div>
+                </div>
+                <div>
+                    {/* {industry?.industry?.courses[0]?.folders?.map((folder:any) => (
+                        <>{folder?.name}</>
+                    ))} */}
                 </div>
             </div>
         </>

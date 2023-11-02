@@ -30,6 +30,15 @@ export const workplaceEndpoints = (
         },
         providesTags: ['Workplace'],
     }),
+    getIndustryFolders:builder.query<any, any>({
+        query: (params) => {
+            return {
+                url: `/industries/document/required-by-industry/list`,
+                params,
+            }
+        },
+        providesTags: ['Workplace'],
+    }),
     getStudentIndustries: builder.query<any, void>({
         query: () => `${PREFIX}/industries/list`,
         providesTags: ['Workplace'],

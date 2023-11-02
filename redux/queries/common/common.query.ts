@@ -262,6 +262,7 @@ const {
     // ------ Notifications ------ //
     useGetNotificationsQuery,
     useIsReadNotificationMutation,
+    useGetPlacementNotificationsQuery,
 
     // ------ Bulk Status ------ //
     useBulkStatusMutation,
@@ -412,6 +413,7 @@ export const CommonApi = {
     Notifications: {
         useNotifications: useGetNotificationsQuery,
         useIsReadNotification: useIsReadNotificationMutation,
+        usePlacementNotifications: useGetPlacementNotificationsQuery,
     },
     Documents: {
         useList: useGetCommonDocumentsQuery,

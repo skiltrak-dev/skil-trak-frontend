@@ -220,6 +220,7 @@ export const ArchivedAssessmentDetail = ({
                             onClick={() => {
                                 setSelectedCourse(course)
                             }}
+                            results={selectedCourse?.results}
                         />
                     ))}
                 </div>

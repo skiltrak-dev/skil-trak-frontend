@@ -198,6 +198,7 @@ export const {
     useSubmitAssessmentEvidenceMutation,
     useMaulallyReopenSubmissionRequestMutation,
     useUploadAssessmentDocsMutation,
+    useInitiateSigningMutation,
     useDownloadAllCourseFilesMutation,
     useDownloadArhiveCourseFilesMutation,
     useArchiveUploadedFileMutation,
@@ -372,6 +373,7 @@ export const SubAdminApi = {
     },
     AssessmentEvidence: {
         uploadDocs: useUploadAssessmentDocsMutation,
+        useInitiateSigning: useInitiateSigningMutation,
         archiveUploadedFile: useArchiveUploadedFileMutation,
         deleteAssessmentEvidence: useDeleteAssessmentEvidenceMutation,
         downloadFiles: useDownloadAllCourseFilesMutation,
