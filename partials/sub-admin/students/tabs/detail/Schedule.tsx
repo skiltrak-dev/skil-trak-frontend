@@ -45,7 +45,7 @@ export const Schedule = ({
             skip: !studentId,
         }
     )
-
+    
     const schedules = StudentApi.Schedule.useGetStudentSchedule(
         {
             courseId: Number(selectedCourse),

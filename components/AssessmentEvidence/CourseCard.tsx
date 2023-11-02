@@ -14,6 +14,7 @@ type Props = {
     selectedCourseId: string | null
     course?: any
     result?: any
+    results?:any
 }
 
 export const CourseCard = ({
@@ -26,6 +27,7 @@ export const CourseCard = ({
     selectedCourseId,
     course,
     result,
+    results,
 }: Props) => {
     const isLargeScreen = useMediaQuery(MediaQueries.Large)
     const getResultBadge = () => {
@@ -37,8 +39,11 @@ export const CourseCard = ({
                 return <Badge text="Not Competent" size="xs" variant="error" />
             case Result.ReOpened:
                 return <Badge text="Re-Opened" size="xs" variant="info" />
+            case (results?.length > 1 && Result.Pending):
+                return <Badge text="Resubmitted" size="xs" variant="info" />
             case Result.Pending:
                 return <Badge text="Submitted" size="xs" variant="info" />
+            
             default:
                 return <Badge text={result?.result} size="xs" variant="muted" />
         }
