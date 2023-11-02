@@ -1,4 +1,5 @@
 import { InitialAvatar } from '@components'
+import { useScrollIntoView } from '@hooks'
 import { Student } from '@types'
 import { setLink } from '@utils'
 import moment from 'moment'
@@ -16,6 +17,8 @@ export const StudentCellInfo = ({
 }) => {
     const router = useRouter()
 
+    useScrollIntoView(student) // Scroll into view with scroll ID
+
     const callLog = student?.callLog?.reduce(
         (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
         {
@@ -32,7 +35,7 @@ export const StudentCellInfo = ({
     const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
 
     return (
-        <div className="flex items-center relative">
+        <div className="flex items-center relative" id={student?.studentId}>
             <div className="flex items-center gap-x-2">
                 <div>
                     {student?.user?.name && (
@@ -43,41 +46,46 @@ export const StudentCellInfo = ({
                     )}
                 </div>
 
-                <Link
-                    legacyBehavior
-                    href={`/portals/sub-admin/students/${student?.id}?tab=overview`}
+                <div
+                    onClick={() => {
+                        router.push({
+                            pathname: router.pathname,
+                            query: {
+                                ...router.query,
+                                scrollId: student?.studentId,
+                            },
+                        }) // First router.push is using for the save the full url in session storage to access when go back from detail page to list page
+                        setLink('subadmin-student', router)
+                        router.push(
+                            `/portals/sub-admin/students/${student?.id}?tab=overview`
+                        ) // Secound Router.push is using for the navigating to detail page
+                    }}
+                    className="cursor-pointer"
                 >
-                    <a
-                        onClick={() => {
-                            setLink('subadmin-student', router)
-                        }}
-                    >
+                    <div className="flex items-center gap-x-2">
                         <div className="flex items-center gap-x-2">
-                            <div className="flex items-center gap-x-2">
-                                <p className={'text-xs text-gray-500'}>
-                                    {student?.studentId}
-                                </p>
-                                {call &&
-                                    isDateExist &&
-                                    (callLog.isAnswered ? (
-                                        <div className="rounded-full bg-success p-0.5">
-                                            <ImPhone
-                                                title={'Call Made and Answered'}
-                                                className="text-white text-[10px]"
-                                            />
-                                        </div>
-                                    ) : callLog.isAnswered === false ? (
-                                        <div className="rounded-full bg-red-700 p-0.5">
-                                            <ImPhoneHangUp
-                                                title={
-                                                    'Call Made and Not Answered'
-                                                }
-                                                className="text-white text-[10px]"
-                                            />
-                                        </div>
-                                    ) : null)}
-                            </div>
-                            {/* <div className="flex items-center gap-x-2 ">
+                            <p className={'text-xs text-gray-500'}>
+                                {student?.studentId}
+                            </p>
+                            {call &&
+                                isDateExist &&
+                                (callLog.isAnswered ? (
+                                    <div className="rounded-full bg-success p-0.5">
+                                        <ImPhone
+                                            title={'Call Made and Answered'}
+                                            className="text-white text-[10px]"
+                                        />
+                                    </div>
+                                ) : callLog.isAnswered === false ? (
+                                    <div className="rounded-full bg-red-700 p-0.5">
+                                        <ImPhoneHangUp
+                                            title={'Call Made and Not Answered'}
+                                            className="text-white text-[10px]"
+                                        />
+                                    </div>
+                                ) : null)}
+                        </div>
+                        {/* <div className="flex items-center gap-x-2 ">
                                             <div
                                                 className={`w-1 h-1 rounded-full ${
                                                     industries === null
@@ -92,26 +100,23 @@ export const StudentCellInfo = ({
                                                 Completed
                                             </Typography>
                                         </div> */}
-                        </div>
-                        <p className="text-gray-800 font-medium">
-                            {student?.user?.name} {student?.familyName}
-                        </p>
-                        <div className="flex items-center gap-x-2 text-sm">
-                            <span className="text-gray-400">
-                                <FaEnvelope />
-                            </span>
-                            <p className="text-gray-500">
-                                {student?.user?.email}
-                            </p>
-                        </div>
-                        <div className="flex items-center gap-x-2 text-sm">
-                            <span className="text-gray-400">
-                                <FaPhone />
-                            </span>
-                            <p className="text-gray-500">{student?.phone}</p>
-                        </div>
-                    </a>
-                </Link>
+                    </div>
+                    <p className="text-gray-800 font-medium">
+                        {student?.user?.name} {student?.familyName}
+                    </p>
+                    <div className="flex items-center gap-x-2 text-sm">
+                        <span className="text-gray-400">
+                            <FaEnvelope />
+                        </span>
+                        <p className="text-gray-500">{student?.user?.email}</p>
+                    </div>
+                    <div className="flex items-center gap-x-2 text-sm">
+                        <span className="text-gray-400">
+                            <FaPhone />
+                        </span>
+                        <p className="text-gray-500">{student?.phone}</p>
+                    </div>
+                </div>
             </div>
         </div>
     )
