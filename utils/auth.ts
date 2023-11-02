@@ -5,6 +5,7 @@ import { UserStatus } from '@types'
 const KEYS = {
     TOKEN: 'user-token',
     REFRESHTOKEN: 'refresh-token',
+    ScrollId: 'scrollId',
 }
 
 type UserCredentials = {
@@ -92,6 +93,7 @@ export const logout = (router?: any) => {
 }
 
 export const AuthUtils = {
+    KEYS,
     token,
     setToken,
     getToken,

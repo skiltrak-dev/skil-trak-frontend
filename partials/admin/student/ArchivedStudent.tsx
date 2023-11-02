@@ -52,11 +52,16 @@ export const ArchivedStudent = () => {
     const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, isFetching, data, isError, refetch } =
-        AdminApi.Students.useListQuery({
-            search: `status:${UserStatus.Archived}`,
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+        AdminApi.Students.useListQuery(
+            {
+                search: `status:${UserStatus.Archived}`,
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: true,
+            }
+        )
 
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
