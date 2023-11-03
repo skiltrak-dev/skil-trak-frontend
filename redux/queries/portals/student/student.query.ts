@@ -78,6 +78,7 @@ export const {
     useUploadDocumentsMutation,
     useUploadAgreementMutation,
     useCancelWorkplaceRequestMutation,
+    useGetIndustryFoldersQuery,
     useApplyForWorkplaceMutation,
     useUpdateFindAbnMutation,
     useAddWorkplaceMutation,
@@ -142,6 +143,7 @@ export const StudentApi = {
         useUpdateFindAbnMutation,
         useAddWorkplaceMutation,
         useApplyWorkplaceWithAbnIndustryMutation,
+        useGetIndustryFoldersQuery,
     },
     Schedule: {
         useAddScheduleNote: useAddScheduleNoteMutation,

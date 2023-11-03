@@ -192,6 +192,7 @@ export const AssessmentResponse = ({
                             </div>
                         ) : (
                             <div className="p-3">
+                           
                                 <NoData text={'No Uploaded Files were found'} />
                             </div>
                         )}

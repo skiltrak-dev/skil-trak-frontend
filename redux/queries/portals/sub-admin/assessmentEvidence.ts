@@ -178,6 +178,14 @@ export const assessmentEvidenceEndpoints = (
         }),
         invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
     }),
+    initiateSigning: builder.mutation<any, any>({
+        query: ({id,body}) => ({
+            url: `docusign/template/send/${id}`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],    
+    }),
     archiveUploadedFile: builder.mutation<FileType, number>({
         query: (fileId) => ({
             url: `subadmin/assessment-evidence/file/archive/${fileId}`,

@@ -22,4 +22,14 @@ export const notificationsEndpoints = (
         }),
         invalidatesTags: ['AllNotifications'],
     }),
+    getPlacementNotifications: builder.query<
+        any,
+        { status?: string | undefined; skip?: number; limit?: number }
+    >({
+        query: (params: any) => ({
+            url: `${PREFIX}/placement-started`,
+            params,
+        }),
+        providesTags: ['AllNotifications'],
+    }),
 })

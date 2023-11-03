@@ -8,7 +8,11 @@ import { MdMessage } from 'react-icons/md'
 // components
 import { useRouter } from 'next/router'
 import OutsideClickHandler from 'react-outside-click-handler'
-import { BadgeButton, MessageDropDown } from '../AdminNavbar/components'
+import {
+    BadgeButton,
+    MessageDropDown,
+    PlacementNotificationDropDown,
+} from '../AdminNavbar/components'
 import { NotificationDropDown } from '../AdminNavbar/components/notifications'
 
 import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
@@ -34,6 +38,12 @@ export const DetailNavbar = () => {
         skip: undefined,
         limit: undefined,
     })
+    const placementNotifications =
+        CommonApi.Notifications.usePlacementNotifications({
+            status: 'placementStarted',
+            skip: undefined,
+            limit: undefined,
+        })
     const ticketCount = CommonApi.Tickets.useGetTicketCountQuery()
 
     const { data: mailCount } = CommonApi.Messages.useMailCount()
@@ -45,6 +55,8 @@ export const DetailNavbar = () => {
 
     const [messagesExpanded, setMessagesExpanded] = useState(false)
     const [notificationsExpanded, setNotificationsExpanded] = useState(false)
+    const [placementNotificationsExpanded, setPlacementNotificationsExpanded] =
+        useState(false)
     const [profileOptionsExpanded, setProfileOptionsExpanded] = useState(false)
 
     useEffect(() => {
@@ -190,6 +202,50 @@ export const DetailNavbar = () => {
                         />
                     </div>
                 </OutsideClickHandler>
+                <AuthorizedUserComponent roles={[UserRoles.RTO]}>
+                    <OutsideClickHandler
+                        onOutsideClick={() => {
+                            setPlacementNotificationsExpanded(false)
+                        }}
+                    >
+                        <div className="relative">
+                            <BadgeButton
+                                icon={IoMdNotifications}
+                                count={count || 0}
+                                max={9}
+                                onClick={() =>
+                                    setPlacementNotificationsExpanded(
+                                        !placementNotificationsExpanded
+                                    )
+                                }
+                                text={'Placement'}
+                            />
+
+                            {/* <NotificationDropDown
+                                expanded={notificationsExpanded}
+                                data={data?.data}
+                                isReadNotification={isReadNotification}
+                                resultIsReadNotification={
+                                    resultIsReadNotification
+                                }
+                                setNotificationsExpanded={(value: boolean) => {
+                                    setNotificationsExpanded(value)
+                                }}
+                            /> */}
+                            <PlacementNotificationDropDown
+                                expanded={placementNotificationsExpanded}
+                                data={placementNotifications?.data}
+                                isReadNotification={isReadNotification}
+                                resultIsReadNotification={
+                                    resultIsReadNotification
+                                }
+                                setNotificationsExpanded={(value: boolean) => {
+                                    setPlacementNotificationsExpanded(value)
+                                }}
+                            />
+                        </div>
+                    </OutsideClickHandler>
+                </AuthorizedUserComponent>
 
                 <OutsideClickHandler
                     onOutsideClick={() => {

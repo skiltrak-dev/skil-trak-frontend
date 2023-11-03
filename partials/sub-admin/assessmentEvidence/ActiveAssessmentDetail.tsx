@@ -131,6 +131,8 @@ export const ActiveAssessmentDetail = ({
         student: Number(studentId),
     })
 
+    
+
     const [manullyReopenSubmission, manuallyReopenSubmissionResult] =
         useMaulallyReopenSubmissionRequestMutation()
     const [downloadFiles, downloadFilesResult] =
@@ -387,6 +389,9 @@ export const ActiveAssessmentDetail = ({
         getFolders?.data?.every(
             (f: any) => f?.studentResponse[0]?.files?.length > 0
         )
+
+    console.log('Student email', studentCourses)
+    console.log('selectedCourse', selectedCourse)
 
     return (
         <div className="mb-10">
@@ -819,6 +824,9 @@ export const ActiveAssessmentDetail = ({
                                     selectedFolder?.id !== AgreementFile
                                 }
                                 editAssessment={editAssessment}
+                                isAgreement={selectedFolder?.isAgreement}
+                                studentData={studentProfile?.data}
+                                courseId={selectedCourse?.id}
                             />
 
                             {/* <AddFolderComment

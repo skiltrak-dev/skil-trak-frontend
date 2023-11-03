@@ -18,7 +18,7 @@ import { TextInput } from '@components/inputs'
 // query
 import { Result } from '@constants'
 import { DocumentsView, useNotification } from '@hooks'
-import { useAddCommentOnAssessmentMutation } from '@queries'
+import { useAddCommentOnAssessmentMutation, SubAdminApi } from '@queries'
 import { AddCommentEnum, OptionType } from '@types'
 import moment from 'moment'
 
@@ -32,6 +32,9 @@ export const AssessmentResponse = ({
     deleteAction,
     activeAssessment,
     editAssessment,
+    isAgreement,
+    studentData,
+    courseId,
 }: {
     folder?: any
     studentId?: number
@@ -42,6 +45,9 @@ export const AssessmentResponse = ({
     deleteAction?: any
     activeAssessment?: boolean
     editAssessment?: boolean
+    isAgreement?: boolean
+    studentData?: any
+    courseId?: any
 }) => {
     const [comment, setComment] = useState<string>('')
     const [commentType, setCommentType] = useState<OptionType | null>(null)
@@ -132,7 +138,6 @@ export const AssessmentResponse = ({
                 return <Badge text={result?.result} variant="muted" />
         }
     }
-
     useEffect(() => {
         setComment('')
     }, [folder, getAssessmentResponse])
@@ -175,11 +180,11 @@ export const AssessmentResponse = ({
         (file: any) => file
     )
 
-    console.log(
-        `Saad`,
-        result?.result !== Result.Competent &&
-            result?.result !== Result.NotCompetent
-    )
+    
+    const [initiateSigning, initiateSigningResult] =
+        SubAdminApi.AssessmentEvidence.useInitiateSigning()
+
+   
 
     return (
         <>
@@ -255,9 +260,40 @@ export const AssessmentResponse = ({
                         ) : (
                             !getAssessmentResponse.isError && (
                                 <div className="p-3">
-                                    <NoData
-                                        text={'No Uploaded Files were found'}
-                                    />
+                                    {isAgreement ? (
+                                        <div>
+                                            <Button
+                                                variant="primary"
+                                                text="Initiate Signing"
+                                                onClick={() => {
+                                                    initiateSigning({
+                                                        id: courseId,
+                                                        body: {
+                                                            student:
+                                                                studentData
+                                                                    ?.user?.id,
+                                                            industry:
+                                                                studentData
+                                                                    ?.industries[0]
+                                                                    ?.user?.id,
+                                                        },
+                                                    })
+                                                }}
+                                                loading={
+                                                    initiateSigningResult?.isLoading
+                                                }
+                                                disabled={
+                                                    initiateSigningResult?.isLoading
+                                                }
+                                            />
+                                        </div>
+                                    ) : (
+                                        <NoData
+                                            text={
+                                                'No Uploaded Files were found'
+                                            }
+                                        />
+                                    )}
                                 </div>
                             )
                         )}
