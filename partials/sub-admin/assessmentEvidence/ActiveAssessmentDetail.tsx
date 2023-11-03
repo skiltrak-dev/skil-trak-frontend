@@ -402,8 +402,6 @@ export const ActiveAssessmentDetail = ({
         getFolders.isSuccess &&
         rejectedFolderes === resubmitFiles
 
-    console.log({ selectedCourse })
-
     return (
         <div className="mb-10">
             <ShowErrorNotifications result={uploadDocsResult} />

@@ -56,18 +56,18 @@ export const SubmitSubmissionForAssessment = ({
         ) {
             onSubmitAssessment()
         }
-    }, [isFilesUploaded, submitAssessmentResult, results])
+    }, [isFilesUploaded, submitAssessmentResult, results, result])
 
     useEffect(() => {
         if (
             isResubmittedFiles &&
             results?.length > 0 &&
-            results?.status !== Result.Pending &&
+            result?.status !== Result.Pending &&
             !submitAssessmentResult.isLoading
         ) {
             onSubmitAssessment()
         }
-    }, [result, isResubmittedFiles, submitAssessmentResult])
+    }, [result, results, isResubmittedFiles, submitAssessmentResult])
 
     const onSubmit = (values: any) => {
         onSubmitAssessment()

@@ -117,9 +117,7 @@ export const AllStudents = () => {
     //         const element = document.getElementById(
     //             String(router.query.scrollId)
     //         )
-    //         console.log('element OuterRRR', element, router.query.scrollId)
     //         if (element) {
-    //             console.log('element', element)
     //             // Set the ref to the element you want to scroll to
     //             element.scrollIntoView({
     //                 behavior: 'smooth',

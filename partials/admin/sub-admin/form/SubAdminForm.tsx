@@ -45,7 +45,6 @@ export const SubAdminForm = ({
     })
     const sectorResponse = AuthApi.useSectors({})
     const getRtos = AuthApi.useRtos({})
-    console.log('getRtos', getRtos)
 
     const onSectorChanged = (sectors: any) => {
         setSelectedSector(sectors)
