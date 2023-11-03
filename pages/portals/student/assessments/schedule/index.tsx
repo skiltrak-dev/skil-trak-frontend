@@ -128,8 +128,6 @@ const Schedule: NextPageWithLayout = (props: Props) => {
         item: course,
     }))
 
-    console.log({ industriesOptions })
-
     return (
         <>
             <ShowErrorNotifications result={schedules} />

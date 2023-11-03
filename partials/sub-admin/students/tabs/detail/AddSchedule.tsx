@@ -26,7 +26,6 @@ export const AddSchedule = ({
     const course = courses?.data?.find(
         (c: Course) => c.id === Number(selectedCourse)
     )
-    console.log({ workplace })
     return (
         <>
             <div

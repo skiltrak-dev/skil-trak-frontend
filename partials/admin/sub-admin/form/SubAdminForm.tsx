@@ -45,7 +45,6 @@ export const SubAdminForm = ({
     })
     const sectorResponse = AuthApi.useSectors({})
     const getRtos = AuthApi.useRtos({})
-    console.log('getRtos', getRtos)
 
     const onSectorChanged = (sectors: any) => {
         setSelectedSector(sectors)
@@ -89,8 +88,6 @@ export const SubAdminForm = ({
     //         })
     //     })
     //     .flat()
-
-    // console.log('coursesOption', coursesOption)
 
     const formMethods = useForm<SubadminFromType>({
         mode: 'all',

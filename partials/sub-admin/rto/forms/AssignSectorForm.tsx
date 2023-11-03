@@ -65,8 +65,6 @@ export const AssignSectorForm = ({
         mode: 'all',
     })
 
-    console.log({ selectedHours })
-
     useEffect(() => {
         if (result.isSuccess) {
             methods.reset()
@@ -78,8 +76,6 @@ export const AssignSectorForm = ({
             (f) => f?.courses?.length !== sectorsWithCourses[f.name]?.length
         )
     }
-
-    console.log({ selectedCourses })
 
     const onHandleSubmit = (values: any) => {
         onSubmit({ ...values, courses: selectedCourses })
