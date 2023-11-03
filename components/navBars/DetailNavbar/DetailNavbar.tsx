@@ -40,6 +40,7 @@ export const DetailNavbar = () => {
     })
     const placementNotifications =
         CommonApi.Notifications.usePlacementNotifications({
+            status: 'placementStarted',
             skip: undefined,
             limit: undefined,
         })
