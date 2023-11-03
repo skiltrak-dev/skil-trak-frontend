@@ -93,7 +93,10 @@ export const Legal = ({
             <div className="p-4">
                 <Card>
                     <Typography variant={'h4'}>Legal</Typography>
-                    <Table columns={columns} data={rtoDoc(data) || data}>
+                    <Table
+                        columns={columns}
+                        data={rtoDoc ? rtoDoc(data) : data}
+                    >
                         {({ table }: any) => {
                             return (
                                 <div>

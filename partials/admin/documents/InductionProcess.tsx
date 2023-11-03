@@ -66,7 +66,7 @@ export const InductionProcess = ({
             <Card>
                 <Typography variant={'h4'}>Induction Process</Typography>
 
-                <Table columns={columns} data={rtoDoc(data) || data}>
+                <Table columns={columns} data={rtoDoc ? rtoDoc(data) : data}>
                     {({ table }: any) => {
                         return (
                             <div>
