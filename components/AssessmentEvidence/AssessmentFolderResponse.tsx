@@ -49,7 +49,6 @@ export const AssessmentResponse = ({
     studentData?: any
     courseId?: any
 }) => {
-    console.log({ studentData })
     const [comment, setComment] = useState<string>('')
     const [commentType, setCommentType] = useState<OptionType | null>(null)
 
@@ -173,7 +172,6 @@ export const AssessmentResponse = ({
         }
     }, [addCommentResult])
 
-    console.log({ folder })
 
     // query
 

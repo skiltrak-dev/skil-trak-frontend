@@ -10,7 +10,6 @@ export const RtoSectors = ({
 }) => {
     const [editCourse, setEditCourse] = useState<boolean>(false)
     const [selectedCourses, setSelectedCourses] = useState<any>([])
-    console.log({ selectedCourses })
     return (
         <div>
             <div className="mt-4">

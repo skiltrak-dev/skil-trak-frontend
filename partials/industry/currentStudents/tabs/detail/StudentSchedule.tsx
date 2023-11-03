@@ -32,7 +32,6 @@ export const StudentSchedule = ({
         workplace: workplace?.id,
     })
 
-    console.log({ workplace })
 
     return (
         <div>
