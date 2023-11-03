@@ -7,35 +7,25 @@ import { useNotification } from '@hooks'
 import { useEditor } from '../hooks'
 
 export const EditorModal = ({
-    onCancel,
-    // content,
-    // setContent,
     item,
+    loading,
+    onCancel,
+    onAddDocument,
 }: {
-    onCancel: Function
     item: any
+    loading: boolean
+    onCancel: Function
+    onAddDocument: (val: any) => void
 }) => {
     const [content, setContent] = useState('')
 
     const { notification } = useNotification()
-
-    const [addDocument, addDocumentResult] = AdminApi.Documents.addDocuments()
 
     useEffect(() => {
         if (item?.content) {
             setContent(item?.content)
         }
     }, [item])
-
-    useEffect(() => {
-        if (addDocumentResult.isSuccess) {
-            notification.success({
-                title: 'Document Added',
-                description: 'Document Added Successfully',
-            })
-            onCancel()
-        }
-    }, [addDocumentResult])
 
     const onConfirmClick = () => {
         const formData = new FormData()
@@ -44,17 +34,17 @@ export const EditorModal = ({
             formData.append('for', item.role),
             formData.append('fileType', item.type),
             formData.append('docType', item.docType),
-            addDocument(formData)
+            onAddDocument(formData)
+        // addDocument(formData)
     }
 
     return (
         <div>
-            <ShowErrorNotifications result={addDocumentResult} />
             <Modal
                 title={'Add Content'}
                 subtitle={'Add Content'}
                 onCancelClick={onCancel}
-                loading={addDocumentResult.isLoading}
+                loading={loading}
                 onConfirmClick={onConfirmClick}
             >
                 <div className="max-w-[70vw]">

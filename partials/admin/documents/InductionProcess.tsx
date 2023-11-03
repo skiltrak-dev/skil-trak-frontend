@@ -5,8 +5,14 @@ import { inductionProcessData, UploadDoc } from './componnets'
 
 export const InductionProcess = ({
     inductionProcess,
+    onAddDocument,
+    loading,
+    rtoDoc,
 }: {
+    rtoDoc?: any
     inductionProcess: any
+    loading: boolean
+    onAddDocument: (val: any) => void
 }) => {
     const data = inductionProcessData?.map((d) => {
         const findData = inductionProcess?.find((f: any) => f?.for === d?.role)
@@ -45,6 +51,10 @@ export const InductionProcess = ({
                     <UploadDoc
                         text={row.original?.docType + row.original?.name}
                         item={row.original}
+                        loading={loading}
+                        onAddDocument={(val: any) => {
+                            onAddDocument(val)
+                        }}
                     />
                 )
             },
@@ -56,7 +66,7 @@ export const InductionProcess = ({
             <Card>
                 <Typography variant={'h4'}>Induction Process</Typography>
 
-                <Table columns={columns} data={data}>
+                <Table columns={columns} data={rtoDoc(data) || data}>
                     {({ table }: any) => {
                         return (
                             <div>

@@ -46,6 +46,7 @@ const rtoTagTypes = [
     'RTOCourses',
     'Rto-Students',
     'RTOWorkplace',
+    'RtoDocuments',
     'RTOIndustries',
     'RTOAppointment',
     'ContactPersons',

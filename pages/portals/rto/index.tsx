@@ -12,13 +12,13 @@ import { FigureCard } from '@components/sections/subAdmin'
 import { useContextBar } from '@hooks'
 import { RtoLayout } from '@layouts'
 import { ViewProfileCB } from '@partials/rto/contextBar'
-import { ImportantDocuments } from '@partials/student/components'
 import { RtoApi } from '@queries'
 import { Course, NextPageWithLayout } from '@types'
 import { AuthUtils } from '@utils'
 import { useRouter } from 'next/router'
 import { FaSchool } from 'react-icons/fa'
 import { CallBackProps } from 'react-joyride'
+import { ImportantDocuments } from '@partials/rto/components'
 
 const RTODashboard: NextPageWithLayout = () => {
     const contextBar = useContextBar()
@@ -666,7 +666,7 @@ const RTODashboard: NextPageWithLayout = () => {
                 <ImportantDocuments
                     coureseRequirementsLink={'/portals/rto/course-requirements'}
                 />
-            </div>
+            </div>  
             <Card>
                 {/* Card Header */}
                 <div className="flex justify-between items-center">

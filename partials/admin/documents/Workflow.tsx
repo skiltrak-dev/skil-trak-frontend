@@ -3,12 +3,26 @@ import { Button, Card, InitialAvatar, Table, Typography } from '@components'
 import { ColumnDef } from '@tanstack/react-table'
 import { useState } from 'react'
 import { UploadDoc, workflowData } from './componnets'
+import { UserRoles } from '@constants'
 
-export const Workflow = ({ workflow }: { workflow: any }) => {
+export const Workflow = ({
+    loading,
+    workflow,
+    onAddDocument,
+    rtoDoc,
+}: {
+    workflow: any
+    onAddDocument: (val: any) => void
+    loading: boolean
+    rtoDoc?: any
+}) => {
+    console.log({ workflow })
     const data = workflowData?.map((d) => {
         const findData = workflow?.find((f: any) => f?.for === d?.role)
         return findData ? { ...d, file: findData?.file } : d
     })
+
+    console.log({ data })
 
     const columns: ColumnDef<any>[] = [
         {
@@ -40,8 +54,10 @@ export const Workflow = ({ workflow }: { workflow: any }) => {
             header: () => <span>Actions</span>,
             cell: ({ row }) => (
                 <UploadDoc
-                    text={row.original?.docType + row.original?.name}
                     item={row.original}
+                    onAddDocument={(val: any) => onAddDocument(val)}
+                    text={row.original?.docType + row.original?.name}
+                    loading={loading}
                 />
             ),
         },
@@ -51,7 +67,7 @@ export const Workflow = ({ workflow }: { workflow: any }) => {
         <div className="p-4">
             <Card>
                 <Typography variant={'h4'}>Work FLow</Typography>
-                <Table columns={columns} data={data}>
+                <Table columns={columns} data={rtoDoc(data) || data}>
                     {({ table }: any) => {
                         return (
                             <div>

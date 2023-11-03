@@ -7,11 +7,30 @@ import { legalData } from './componnets'
 import { useEditor } from './hooks'
 import { EditorModal, RequirementModal } from './modal'
 
-export const Legal = ({ legal }: { legal: any }) => {
+export const Legal = ({
+    loading,
+    legal,
+    rtoDoc,
+    onAddDocument,
+}: {
+    loading: boolean
+    legal: any
+    rtoDoc?: any
+    onAddDocument: (val: any) => void
+}) => {
     const { modal, setModal, onCancelClicked } = useEditor()
 
     const onAddContentClicked = (item: any) => {
-        setModal(<EditorModal onCancel={onCancelClicked} item={item} />)
+        setModal(
+            <EditorModal
+                loading={loading}
+                onCancel={onCancelClicked}
+                onAddDocument={(val: any) => {
+                    onAddDocument(val)
+                }}
+                item={item}
+            />
+        )
     }
 
     const data = legalData?.map((d) => {
@@ -74,7 +93,7 @@ export const Legal = ({ legal }: { legal: any }) => {
             <div className="p-4">
                 <Card>
                     <Typography variant={'h4'}>Legal</Typography>
-                    <Table columns={columns} data={data}>
+                    <Table columns={columns} data={rtoDoc(data) || data}>
                         {({ table }: any) => {
                             return (
                                 <div>
