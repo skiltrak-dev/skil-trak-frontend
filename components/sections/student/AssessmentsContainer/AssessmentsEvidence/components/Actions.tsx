@@ -1,11 +1,13 @@
 //components
 import { Button, Checkbox, ShowErrorNotifications } from '@components'
+import { Result } from '@constants'
 
 // hooks
 import { useNotification } from '@hooks'
 
 // query
 import { useSubmitStudentAssessmentMutation } from '@queries'
+import { getCourseResult } from '@utils'
 import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 
@@ -13,10 +15,12 @@ export const Actions = ({
     results,
     isFilesUploaded,
     selectedCourseId,
+    isResubmittedFiles,
 }: {
     results: any
     selectedCourseId: number
     isFilesUploaded: boolean
+    isResubmittedFiles?: boolean
 }) => {
     const { notification } = useNotification()
     const [submitAssessment, submitAssessmentResult] =
@@ -39,6 +43,8 @@ export const Actions = ({
         submitAssessment({ body: values, id: selectedCourseId })
     }
 
+    const result = getCourseResult(results)
+
     useEffect(() => {
         if (isFilesUploaded && !results?.length) {
             onSubmitAssessment({
@@ -47,6 +53,17 @@ export const Actions = ({
             })
         }
     }, [isFilesUploaded, results])
+
+    useEffect(() => {
+        if (
+            isResubmittedFiles &&
+            results?.length > 0 &&
+            result?.status !== Result.Pending &&
+            !submitAssessmentResult.isLoading
+        ) {
+            onSubmitAssessment()
+        }
+    }, [result, isResubmittedFiles, submitAssessmentResult])
 
     const onSubmit = (values: any) => {
         onSubmitAssessment(values)

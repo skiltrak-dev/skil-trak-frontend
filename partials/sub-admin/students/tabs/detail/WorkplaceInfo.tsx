@@ -12,7 +12,6 @@ export const WorkplaceInfo = ({ studentId }: { studentId: number }) => {
             skip: !studentId,
         }
     )
-    console.log('studentWorkplace', studentWorkplace)
 
     return (
         <div className="mt-8">

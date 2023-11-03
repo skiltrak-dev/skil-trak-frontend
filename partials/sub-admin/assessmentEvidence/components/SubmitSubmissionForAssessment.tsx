@@ -1,7 +1,9 @@
 import { Button } from '@components'
+import { Result } from '@constants'
 import { useNotification } from '@hooks'
 import { useSubmitStudentAssessmentMutation } from '@queries'
 import { Student } from '@types'
+import { getCourseResult } from '@utils'
 import React, { useEffect } from 'react'
 
 export const SubmitSubmissionForAssessment = ({
@@ -9,11 +11,15 @@ export const SubmitSubmissionForAssessment = ({
     student,
     isFilesUploaded,
     results,
+    isResubmittedFiles,
+    test,
 }: {
     selectedCourseId: number
     student: Student | undefined
     isFilesUploaded: boolean | undefined
     results: any
+    isResubmittedFiles?: boolean
+    test: number
 }) => {
     const { notification } = useNotification()
     const [submitAssessment, submitAssessmentResult] =
@@ -28,6 +34,8 @@ export const SubmitSubmissionForAssessment = ({
         }
     }, [submitAssessmentResult])
 
+    const result = getCourseResult(results)
+
     const onSubmitAssessment = () => {
         submitAssessment({
             body: {
@@ -40,10 +48,26 @@ export const SubmitSubmissionForAssessment = ({
     }
 
     useEffect(() => {
-        if (isFilesUploaded && !results?.length) {
+        if (
+            isFilesUploaded &&
+            !results?.length &&
+            result?.result === Result.NotSubmitted &&
+            !submitAssessmentResult.isLoading
+        ) {
             onSubmitAssessment()
         }
-    }, [isFilesUploaded])
+    }, [isFilesUploaded, submitAssessmentResult, results, result])
+
+    useEffect(() => {
+        if (
+            isResubmittedFiles &&
+            results?.length > 0 &&
+            result?.status !== Result.Pending &&
+            !submitAssessmentResult.isLoading
+        ) {
+            onSubmitAssessment()
+        }
+    }, [result, results, isResubmittedFiles, submitAssessmentResult])
 
     const onSubmit = (values: any) => {
         onSubmitAssessment()
