@@ -32,7 +32,6 @@ export const AddSchedule = ({
     const [selectedHours, setSelectedHours] = useState<number | null>(null)
     const router = useRouter()
 
-    console.log({ workplace })
 
     useEffect(() => {
         if (course) {
@@ -210,7 +209,6 @@ export const AddSchedule = ({
     }
 
     const onSubmit = () => {
-        console.log()
         if (!startDate) {
             notification.warning({
                 title: 'Start Date',
@@ -239,7 +237,6 @@ export const AddSchedule = ({
                 selectedHours
             ) {
                 if (schedules?.data?.schedule) {
-                    console.log('Inner Call')
                     editSchedule({
                         id: schedules?.data?.schedule?.id,
                         workplace: workplace?.id,

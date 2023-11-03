@@ -34,8 +34,6 @@ const RtoPlacementNotifications: NextPageWithLayout = () => {
     const [readNotifications, resultReadNotifications] =
         CommonApi.Notifications.useIsReadNotification()
 
-    console.log('from Placement Notifications page', notifications)
-
     return (
         <Card>
             {isError && <TechnicalError />}

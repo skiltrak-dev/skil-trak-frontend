@@ -51,7 +51,6 @@ export const ContentEditor = ({
 
     const [test, setTest] = useState<boolean>(false)
 
-    console.log({ contentState })
 
     useEffect(() => {
         const blocksFromHTML = convertFromHTML(`<div>${content}</div>`)

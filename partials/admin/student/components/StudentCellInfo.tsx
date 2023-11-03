@@ -50,7 +50,6 @@ export const StudentCellInfo = ({
     const createdAt = moment(callLog?.createdAt, 'YYYY-MM-DD')
 
     const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
-    console.log(router)
 
     return (
         <div

@@ -172,7 +172,6 @@ export const AssessmentResponse = ({
         }
     }, [addCommentResult])
 
-    console.log({ folder })
 
     // query
 
@@ -180,11 +179,15 @@ export const AssessmentResponse = ({
         (file: any) => file
     )
 
-    
     const [initiateSigning, initiateSigningResult] =
         SubAdminApi.AssessmentEvidence.useInitiateSigning()
 
-   
+    const docuSignStatus = SubAdminApi.AssessmentEvidence.useDocuSignStatus(
+        studentData?.user?.id,
+        {
+            skip: !studentData?.user?.id,
+        }
+    )
 
     return (
         <>
@@ -232,7 +235,7 @@ export const AssessmentResponse = ({
                                 text={'There is some network issue, Try reload'}
                             />
                         )}
-                        {getAssessmentResponse.isLoading ||
+                        {/* {getAssessmentResponse.isLoading ||
                         getAssessmentResponse.isFetching ? (
                             <div className="flex flex-col justify-center items-center gap-y-2">
                                 <LoadingAnimation size={50} />
@@ -241,7 +244,6 @@ export const AssessmentResponse = ({
                                 </Typography>
                             </div>
                         ) : filteredFiles && filteredFiles?.length > 0 ? (
-                            // <div className="p-2 grid grid-cols-6 gap-x-2  overflow-hidden">
                             <div className="p-2 flex flex-wrap gap-x-2 gap-y-2 items-end  overflow-hidden">
                                 {filteredFiles?.map((file: any, i: number) => (
                                     <AssessmentFolderFileCard
@@ -294,6 +296,40 @@ export const AssessmentResponse = ({
                                             }
                                         />
                                     )}
+                                </div>
+                            )
+                        )} */}
+                        {getAssessmentResponse.isLoading ||
+                        getAssessmentResponse.isFetching ? (
+                            <div className="flex flex-col justify-center items-center gap-y-2">
+                                <LoadingAnimation size={50} />
+                                <Typography variant="label">
+                                    Assessment Files Loading
+                                </Typography>
+                            </div>
+                        ) : filteredFiles && filteredFiles?.length > 0 ? (
+                            // <div className="p-2 grid grid-cols-6 gap-x-2  overflow-hidden">
+                            <div className="p-2 flex flex-wrap gap-x-2 gap-y-2 items-end  overflow-hidden">
+                                {filteredFiles?.map((file: any, i: number) => (
+                                    <AssessmentFolderFileCard
+                                        key={file?.id}
+                                        file={file}
+                                        index={i}
+                                        filename={file?.filename}
+                                        fileUrl={file?.file}
+                                        type={file?.type}
+                                        selected={selected?.id === file?.id}
+                                        onClick={onFileClicked}
+                                        deleteAction={deleteAction}
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+                            !getAssessmentResponse.isError && (
+                                <div className="p-3">
+                                    <NoData
+                                        text={'No Uploaded Files were found'}
+                                    />
                                 </div>
                             )
                         )}

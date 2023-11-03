@@ -49,7 +49,6 @@ export const EventWrapper = <T extends object>(event: any) => {
         'text-white': event.event?.appointment?.isCancelled,
     })
 
-    console.log({ event })
 
     const subtitleClasses = classNames({
         'text-[11px]': true,

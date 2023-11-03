@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
+import { ReactElement, useRef } from 'react'
 
 // Icons
 import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
@@ -20,7 +20,7 @@ import {
 import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { useActionModal, useJoyRide } from '@hooks'
+import { useActionModal, useJoyRide, useScrollIntoView } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
@@ -86,12 +86,49 @@ export const AllStudents = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError, isFetching, refetch } =
-        SubAdminApi.Student.useList({
-            search: `status:${UserStatus.Approved}`,
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+    const { isSuccess, isLoading, data, isError, isFetching, refetch } =
+        SubAdminApi.Student.useList(
+            {
+                search: `status:${UserStatus.Approved}`,
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: true,
+            }
+        )
+
+    console.log({ data })
+
+    const scrollTargetRef = useRef<any>(null)
+
+    // useEffect(() => {
+    //     if (scrollTargetRef.current) {
+    //         scrollTargetRef.current.scrollIntoView({ behavior: 'smooth' })
+    //     }
+    // }, [scrollTargetRef.current])
+
+    // useEffect(() => {
+    //     if (
+    //         data?.data &&
+    //         isSuccess &&
+    //         !isLoading &&
+    //         !isFetching &&
+    //         router.query.scrollId
+    //     ) {
+    //         const element = document.getElementById(
+    //             String(router.query.scrollId)
+    //         )
+    //         console.log('element OuterRRR', element, router.query.scrollId)
+    //         if (element) {
+    //             console.log('element', element)
+    //             // Set the ref to the element you want to scroll to
+    //             element.scrollIntoView({
+    //                 behavior: 'smooth',
+    //             })
+    //         }
+    //     }
+    // }, [data, router])
 
     useEffect(() => {
         if (refetchStudents) {
@@ -219,7 +256,13 @@ export const AllStudents = () => {
             header: () => 'Name',
             accessorKey: 'user',
             cell: (info) => {
-                return <StudentCellInfo student={info.row.original} call />
+                return (
+                    <StudentCellInfo
+                        ref={scrollTargetRef}
+                        student={info.row.original}
+                        call
+                    />
+                )
             },
         },
         {
