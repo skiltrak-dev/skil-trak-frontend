@@ -24,7 +24,6 @@ export const SideBarItem = ({
     const [volunteerItemCount, setVolunteerItemCount] = useState('0')
     const { data: rplCount } = AdminApi.Rpl.useRplCount()
     const { data: volunteerCount } = AdminApi.Volunteer.useVolunteerCount()
-    console.log('Data', volunteerCount)
     const max = 9
     const classes = classNames({
         // Display

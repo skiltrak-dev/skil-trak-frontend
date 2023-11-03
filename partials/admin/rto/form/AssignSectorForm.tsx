@@ -65,7 +65,6 @@ export const AssignSectorForm = ({
         mode: 'all',
     })
 
-    console.log({ selectedHours })
 
     useEffect(() => {
         if (result.isSuccess) {
@@ -79,7 +78,6 @@ export const AssignSectorForm = ({
         )
     }
 
-    console.log({ selectedCourses })
 
     const onHandleSubmit = (values: any) => {
         onSubmit({ ...values, courses: selectedCourses })
