@@ -90,8 +90,6 @@ export const SubAdminForm = ({
     //     })
     //     .flat()
 
-    // console.log('coursesOption', coursesOption)
-
     const formMethods = useForm<SubadminFromType>({
         mode: 'all',
         resolver: yupResolver(validationSchema),

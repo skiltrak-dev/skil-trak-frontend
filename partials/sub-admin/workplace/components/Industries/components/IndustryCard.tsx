@@ -75,7 +75,6 @@ export const IndustryCard = ({
     }
 
     const role = getUserCredentials()?.role
-    console.log('industry', industry)
 
     return (
         <>

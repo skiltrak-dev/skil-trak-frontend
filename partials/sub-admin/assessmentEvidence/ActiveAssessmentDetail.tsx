@@ -388,6 +388,22 @@ export const ActiveAssessmentDetail = ({
             (f: any) => f?.studentResponse[0]?.files?.length > 0
         )
 
+    const rejectedFolderes = getFolders?.data?.filter(
+        (f: any) => f?.studentResponse?.[0]?.status === 'rejected'
+    )?.length
+
+    const resubmitFiles = getFolders?.data?.filter(
+        (f: any) => f?.studentResponse?.[0]?.reSubmitted
+    )?.length
+
+    const isResubmittedFiles =
+        !getFolders.isLoading &&
+        !getFolders.isFetching &&
+        getFolders.isSuccess &&
+        rejectedFolderes === resubmitFiles
+
+    console.log({ selectedCourse })
+
     return (
         <div className="mb-10">
             <ShowErrorNotifications result={uploadDocsResult} />
@@ -665,53 +681,75 @@ export const ActiveAssessmentDetail = ({
                                 student={studentProfile?.data}
                                 selectedCourseId={selectedCourse?.id}
                             /> */}
-                            {getFolders?.data &&
-                            getFolders?.data?.length > 0 ? (
-                                selectedCourse?.results?.length > 0 ? (
-                                    results?.totalSubmission < 3 ? (
-                                        (results?.result === Result.ReOpened ||
-                                            results?.result ===
-                                                Result.ReOpened ||
-                                            results?.result ===
-                                                Result.NotCompetent) && (
-                                            <SubmitSubmissionForAssessment
-                                                selectedCourseId={
-                                                    selectedCourse?.id
-                                                }
-                                                student={studentProfile?.data}
-                                                isFilesUploaded={
-                                                    isFilesUploaded
-                                                }
-                                                results={
-                                                    selectedCourse?.results
-                                                }
-                                            />
-                                        )
-                                    ) : (
-                                        results?.isManualSubmission && (
-                                            <SubmitSubmissionForAssessment
-                                                selectedCourseId={
-                                                    selectedCourse?.id
-                                                }
-                                                student={studentProfile?.data}
-                                                isFilesUploaded={
-                                                    isFilesUploaded
-                                                }
-                                                results={
-                                                    selectedCourse?.results
-                                                }
-                                            />
-                                        )
-                                    )
-                                ) : (
-                                    <SubmitSubmissionForAssessment
-                                        selectedCourseId={selectedCourse?.id}
-                                        student={studentProfile?.data}
-                                        isFilesUploaded={isFilesUploaded}
-                                        results={selectedCourse?.results}
-                                    />
-                                )
-                            ) : null}
+                            {!getFolders.isLoading &&
+                            !getFolders.isFetching &&
+                            getFolders.isSuccess &&
+                            getFolders?.data &&
+                            getFolders?.data?.length > 0
+                                ? selectedCourse?.results?.length > 0
+                                    ? results?.totalSubmission < 3
+                                        ? (results?.result ===
+                                              Result.ReOpened ||
+                                              results?.result ===
+                                                  Result.ReOpened ||
+                                              results?.result ===
+                                                  Result.NotCompetent) && (
+                                              <SubmitSubmissionForAssessment
+                                                  selectedCourseId={
+                                                      selectedCourse?.id
+                                                  }
+                                                  student={studentProfile?.data}
+                                                  isFilesUploaded={
+                                                      isFilesUploaded
+                                                  }
+                                                  results={
+                                                      selectedCourse?.results
+                                                  }
+                                                  isResubmittedFiles={
+                                                      isResubmittedFiles
+                                                  }
+                                                  test={1}
+                                              />
+                                          )
+                                        : !getFolders.isLoading &&
+                                          !getFolders.isFetching &&
+                                          getFolders.isSuccess &&
+                                          results?.isManualSubmission && (
+                                              <SubmitSubmissionForAssessment
+                                                  selectedCourseId={
+                                                      selectedCourse?.id
+                                                  }
+                                                  student={studentProfile?.data}
+                                                  isFilesUploaded={
+                                                      isFilesUploaded
+                                                  }
+                                                  results={
+                                                      selectedCourse?.results
+                                                  }
+                                                  isResubmittedFiles={
+                                                      isResubmittedFiles
+                                                  }
+                                                  test={2}
+                                              />
+                                          )
+                                    : !getFolders.isLoading &&
+                                      !getFolders.isFetching &&
+                                      getFolders.isSuccess &&
+                                      selectedCourse && (
+                                          <SubmitSubmissionForAssessment
+                                              selectedCourseId={
+                                                  selectedCourse?.id
+                                              }
+                                              student={studentProfile?.data}
+                                              isFilesUploaded={isFilesUploaded}
+                                              results={selectedCourse?.results}
+                                              isResubmittedFiles={
+                                                  isResubmittedFiles
+                                              }
+                                              test={3}
+                                          />
+                                      )
+                                : null}
                         </div>
                     </div>
                     <div className="grid grid-cols-3 h-[450px]">

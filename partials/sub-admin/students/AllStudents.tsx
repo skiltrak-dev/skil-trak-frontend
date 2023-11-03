@@ -98,8 +98,6 @@ export const AllStudents = () => {
             }
         )
 
-    console.log({ data })
-
     const scrollTargetRef = useRef<any>(null)
 
     // useEffect(() => {

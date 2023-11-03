@@ -45,7 +45,7 @@ export const Schedule = ({
             skip: !studentId,
         }
     )
-    
+
     const schedules = StudentApi.Schedule.useGetStudentSchedule(
         {
             courseId: Number(selectedCourse),
@@ -89,7 +89,6 @@ export const Schedule = ({
         item: course,
     }))
 
-    console.log({ industriesOptions })
     return (
         <div>
             <ShowErrorNotifications result={schedules} />
