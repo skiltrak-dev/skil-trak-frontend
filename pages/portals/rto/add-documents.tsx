@@ -1,49 +1,44 @@
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
-import { AdminLayout } from '@layouts'
+import { RtoLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
 // query
-import { AdminApi } from '@queries'
+import { RtoApi } from '@queries'
 
 // hooks
-import { useContextBar, useNavbar, useNotification } from '@hooks'
+import { ShowErrorNotifications } from '@components'
+import { useContextBar, useNavbar } from '@hooks'
 import {
     InductionProcess,
     Legal,
     PlacementInfo,
     Workflow,
 } from '@partials/admin/documents'
-import { DocumentType } from '@partials/admin/documents/componnets'
-import { ShowErrorNotifications } from '@components'
+import {
+    DocumentType,
+    placementInfoData,
+} from '@partials/admin/documents/componnets'
+import { UserRoles } from '@constants'
 
-const Documents: NextPageWithLayout = () => {
+const AddDocuments: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const navbar = useNavbar()
-    const { notification } = useNotification()
 
-    const getDocuments = AdminApi.Documents.useGetDocuments()
-
-    const [addDocument, addDocumentResult] = AdminApi.Documents.addDocuments()
-
-    useEffect(() => {
-        if (addDocumentResult.isSuccess) {
-            notification.success({
-                title: 'Document Added',
-                description: 'Document Added Successfully',
-            })
-        }
-    }, [addDocumentResult])
+    const getDocuments = RtoApi.RtoDocument.useGetRtoDocuments()
+    const [addDocument, addDocumentResult] =
+        RtoApi.RtoDocument.useAddRtoDocuments()
 
     useEffect(() => {
         contextBar.setContent(null)
         contextBar.hide()
-        navbar.setTitle('Documents')
+        navbar.setTitle('')
     }, [])
 
-    const filterDocuments = (docType: string) => {
-        return getDocuments.data?.filter((doc: any) => doc?.docType === docType)
-    }
+    const filterDocuments = (docType: string) =>
+        getDocuments.data
+            ?.filter((doc: any) => doc?.docType === docType)
+            ?.map((doc: any) => ({ ...doc, for: 'rto' }))
 
     const data = {
         workflow: filterDocuments(DocumentType.WorkFlow),
@@ -56,6 +51,11 @@ const Documents: NextPageWithLayout = () => {
         addDocument(values)
     }
 
+    console.log({ addDocumentResult })
+
+    const rtoDoc = (data: any) =>
+        data?.filter((d: any) => d?.role === UserRoles.RTO)
+
     return (
         <>
             <ShowErrorNotifications result={addDocumentResult} />
@@ -65,6 +65,7 @@ const Documents: NextPageWithLayout = () => {
                 onAddDocument={(values: any) => {
                     onAddDocument(values)
                 }}
+                rtoDoc={rtoDoc}
             />
             <InductionProcess
                 loading={addDocumentResult.isLoading}
@@ -72,6 +73,7 @@ const Documents: NextPageWithLayout = () => {
                     onAddDocument(values)
                 }}
                 inductionProcess={data?.inductionProcess}
+                rtoDoc={rtoDoc}
             />
             <PlacementInfo
                 loading={addDocumentResult.isLoading}
@@ -79,6 +81,7 @@ const Documents: NextPageWithLayout = () => {
                     onAddDocument(values)
                 }}
                 placementInfo={data?.placementInfo}
+                rtoDoc={rtoDoc}
             />
             <Legal
                 loading={addDocumentResult.isLoading}
@@ -86,13 +89,14 @@ const Documents: NextPageWithLayout = () => {
                     onAddDocument(values)
                 }}
                 legal={data?.legal}
+                rtoDoc={rtoDoc}
             />
         </>
     )
 }
 
-Documents.getLayout = (page: ReactElement) => {
-    return <AdminLayout>{page}</AdminLayout>
+AddDocuments.getLayout = (page: ReactElement) => {
+    return <RtoLayout>{page}</RtoLayout>
 }
 
-export default Documents
+export default AddDocuments

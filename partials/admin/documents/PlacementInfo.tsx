@@ -5,11 +5,30 @@ import { placementInfoData } from './componnets'
 import { useEditor } from './hooks'
 import { EditorModal, RequirementModal } from './modal'
 
-export const PlacementInfo = ({ placementInfo }: { placementInfo: any }) => {
+export const PlacementInfo = ({
+    placementInfo,
+    onAddDocument,
+    loading,
+    rtoDoc,
+}: {
+    loading: boolean
+    placementInfo: any
+    rtoDoc?: any
+    onAddDocument: (val: any) => void
+}) => {
     const { modal, setModal, onCancelClicked } = useEditor()
 
     const onAddContentClicked = (item: any) => {
-        setModal(<EditorModal onCancel={onCancelClicked} item={item} />)
+        setModal(
+            <EditorModal
+                onCancel={onCancelClicked}
+                item={item}
+                onAddDocument={(val: any) => {
+                    onAddDocument(val)
+                }}
+                loading={loading}
+            />
+        )
     }
 
     const data = placementInfoData?.map((d) => {
@@ -72,7 +91,10 @@ export const PlacementInfo = ({ placementInfo }: { placementInfo: any }) => {
             <div className="p-4">
                 <Card>
                     <Typography variant={'h4'}>Placement Info</Typography>
-                    <Table columns={columns} data={data}>
+                    <Table
+                        columns={columns}
+                        data={rtoDoc ? rtoDoc(data) : data}
+                    >
                         {({ table }: any) => {
                             return (
                                 <div>

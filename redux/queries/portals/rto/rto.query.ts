@@ -5,6 +5,7 @@ import { contactPersonEndpoints } from './contactPerson'
 import { coordinatorEndpoints } from './coordinator'
 import { coursesEndpoints } from './courses'
 import { industriesEndpoints } from './industries'
+import { rtoDocumentsEndpoints } from './rtoDocuments'
 import { mouEndpoints } from './mou'
 import { profileEndpoints } from './profile'
 import { studentEndpoints } from './student'
@@ -60,6 +61,7 @@ export const rtoApi = emptySplitApi.injectEndpoints({
         ...industriesEndpoints(build),
         ...coordinatorEndpoints(build),
         ...appointmentsEndpoints(build),
+        ...rtoDocumentsEndpoints(build),
         ...contactPersonEndpoints(build),
         ...assessmentToolsEndpoints(build),
     }),
@@ -141,6 +143,10 @@ export const {
     // --- WORKPLACES --- //
     useGetRTOWorkplacesQuery,
     useGetRTOWorkplaceDetailQuery,
+
+    // ---- DOCUMENTS ---- //
+    useGetRtoDocumentsQuery,
+    useAddRtoDocumentsMutation,
 } = rtoApi
 
 export const RtoApi = {
@@ -182,5 +188,9 @@ export const RtoApi = {
     },
     Courses: {
         useRtoCourses: useGetRTOCoursesQuery,
+    },
+    RtoDocument: {
+        useGetRtoDocuments: useGetRtoDocumentsQuery,
+        useAddRtoDocuments: useAddRtoDocumentsMutation,
     },
 }

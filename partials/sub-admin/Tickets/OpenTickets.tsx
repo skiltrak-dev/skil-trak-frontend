@@ -63,6 +63,15 @@ export const OpenTickets = () => {
             header: () => <span>Created By</span>,
         },
         {
+            accessorKey: 'student',
+            cell: (info) => (
+                <TicketUser
+                    ticket={info?.row?.original?.student?.user || 'N/A'}
+                />
+            ),
+            header: () => <span>Linked Student</span>,
+        },
+        {
             accessorKey: 'assignedTo',
             cell: (info) => (
                 <TicketUser ticket={info?.row?.original?.assignedTo} />

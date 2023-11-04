@@ -420,6 +420,12 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['Students', 'SubAdminStudents'],
     }),
+    getSubAdminTicketStudentsList: builder.query<any, any>({
+        query: (id) => ({
+            url: `${PREFIX}/students/list/${id}`,
+        }),
+        providesTags: ['SubAdminStudents'],
+    }),
 
     // updateSubAdminRtoStudentStatus: builder.mutation<any, any | null>({
     //     query: ({id, status}:any) => {

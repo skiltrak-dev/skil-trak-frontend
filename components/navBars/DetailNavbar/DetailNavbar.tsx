@@ -246,7 +246,7 @@ export const DetailNavbar = () => {
                         </div>
                     </OutsideClickHandler>
                 </AuthorizedUserComponent>
-
+ 
                 <OutsideClickHandler
                     onOutsideClick={() => {
                         setProfileOptionsExpanded(false)
