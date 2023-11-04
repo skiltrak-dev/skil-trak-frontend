@@ -28,10 +28,12 @@ export const TicketUser = ({
                     <>
                         <div className="font-medium text-xs text-gray-500">
                             <p className="flex items-center gap-x-1">
-                                <span>
-                                    <MdEmail />
-                                </span>
-                                {ticket?.email}
+                                {ticket?.email && (
+                                    <span>
+                                        <MdEmail />
+                                    </span>
+                                )}
+                                {ticket?.email || 'N/A'}
                             </p>
                         </div>
                         {ticket?.phone && (
