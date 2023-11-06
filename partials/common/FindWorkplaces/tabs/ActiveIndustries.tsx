@@ -256,6 +256,10 @@ export const ActiveIndustries = ({
             },
         },
         {
+            accessorKey: 'note',
+            header: () => <span>Note</span>,
+        },
+        {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
             cell: (info) => (
