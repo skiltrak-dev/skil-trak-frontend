@@ -151,13 +151,25 @@ export const AllIndustries = () => {
             header: () => <span>ABN</span>,
         },
         {
+            header: () => 'Suburb',
+            accessorKey: 'suburb',
+            cell: ({ row }: any) => {
+                const { suburb } = row.original
+                return (
+                    <Typography variant={'label'} color={'black'}>
+                        {suburb}
+                    </Typography>
+                )
+            },
+        },
+        {
             header: () => 'Address',
             accessorKey: 'address',
             cell: ({ row }: any) => {
-                const { addressLine1, suburb } = row.original
+                const { addressLine1 } = row.original
                 return (
                     <Typography variant={'label'} color={'black'}>
-                        {addressLine1}, {suburb}
+                        {addressLine1}
                     </Typography>
                 )
             },

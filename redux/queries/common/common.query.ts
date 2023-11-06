@@ -69,6 +69,15 @@ export const commonApi = emptySplitApi.injectEndpoints({
             query: () => `admin/documents/list`,
             providesTags: ['Documents'],
         }),
+
+        getSpecificUserDocuments: build.query<any, number>({
+            query: (id) => ({
+                url: `admin/documents/for-student/list`,
+                params: { rto: id },
+            }),
+            providesTags: ['Documents'],
+        }),
+
         getRecentActivities: build.query<
             any,
             {
@@ -273,6 +282,7 @@ const {
 
     // ---- DOCUMENTS ---- //
     useGetCommonDocumentsQuery,
+    useGetSpecificUserDocumentsQuery,
 
     // ---- USER ---- //
     useChangeUserStatusMutation,
@@ -417,6 +427,7 @@ export const CommonApi = {
     },
     Documents: {
         useList: useGetCommonDocumentsQuery,
+        useGetSpecificUserDocuments: useGetSpecificUserDocumentsQuery,
     },
     RecentActivities: {
         useRecentActivities: useGetRecentActivitiesQuery,

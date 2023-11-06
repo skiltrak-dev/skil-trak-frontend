@@ -13,6 +13,7 @@ import { AssessmentToolsSubAdmin } from './AssessmentToolsSubAdmin'
 import { RtoProfileOverview } from './RtoProfileOverview'
 import { RTOReports } from '@partials/common/Reports'
 import { RtoStudentsAssessmentGallery } from '@partials/common/RtoStudentsAssessmentGallery'
+import { RtoAddDocuments } from '@partials/rto/components'
 export const DetailTabs = ({ rto }: { rto: Rto }) => {
     const rtoStatsCount = SubAdminApi.Rto.useRtoStatsCount(
         Number(rto?.user?.id),
@@ -64,6 +65,11 @@ export const DetailTabs = ({ rto }: { rto: Rto }) => {
                     <RtoStudentsAssessmentGallery />
                 </div>
             ),
+        },
+        {
+            label: 'Documents',
+            href: { pathname: String(rto?.id), query: { tab: 'documents' } },
+            element: <RtoAddDocuments rto={rto} />,
         },
         {
             label: 'Mails',
