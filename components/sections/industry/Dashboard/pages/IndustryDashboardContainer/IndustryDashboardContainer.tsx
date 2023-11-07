@@ -12,7 +12,6 @@ import { Animations } from '@animations'
 import { Desktop, Mobile } from '@components/Responsive'
 import { AdForRPL } from '@components/sections/industry'
 // import { ImportantDocuments } from '@partials/industry'
-import { ImportantDocuments } from '@partials/student/components'
 import { ViewProfileCB } from '@partials/industry/contextBar'
 import { AuthUtils } from '@utils'
 import { useContextBar } from 'hooks'
@@ -20,6 +19,7 @@ import { useRouter } from 'next/router'
 import { CallBackProps } from 'react-joyride'
 import { FigureCard } from '@components/sections/subAdmin'
 import { Course, GetSectorsType } from '@types'
+import { ImportantDocuments } from '@partials/common'
 
 export const PrimaryActions = [
     {

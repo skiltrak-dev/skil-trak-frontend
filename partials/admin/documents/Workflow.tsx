@@ -1,7 +1,7 @@
 // hooks
 import { Button, Card, InitialAvatar, Table, Typography } from '@components'
 import { ColumnDef } from '@tanstack/react-table'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { UploadDoc, workflowData } from './componnets'
 import { UserRoles } from '@constants'
 
@@ -16,13 +16,20 @@ export const Workflow = ({
     loading: boolean
     rtoDoc?: any
 }) => {
+    const [type, setType] = useState<any>({})
     console.log({ workflow })
+
+    useEffect(() => {
+        if (!loading) {
+            setType({})
+        }
+    }, [loading])
     const data = workflowData?.map((d) => {
         const findData = workflow?.find((f: any) => f?.for === d?.role)
         return findData ? { ...d, file: findData?.file } : d
     })
 
-    console.log({ data })
+    console.log({ type })
 
     const columns: ColumnDef<any>[] = [
         {
@@ -55,9 +62,20 @@ export const Workflow = ({
             cell: ({ row }) => (
                 <UploadDoc
                     item={row.original}
-                    onAddDocument={(val: any) => onAddDocument(val)}
+                    onAddDocument={(val: any) => {
+                        onAddDocument(val)
+                        setType({
+                            docType: row.original?.docType,
+                            role: row.original?.role,
+                        })
+                        console.log('ROW', row.original)
+                    }}
                     text={row.original?.docType + row.original?.name}
-                    loading={loading}
+                    loading={
+                        loading &&
+                        type?.docType === row.original?.docType &&
+                        type?.role === row.original?.role
+                    }
                 />
             ),
         },

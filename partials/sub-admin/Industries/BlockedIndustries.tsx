@@ -123,13 +123,25 @@ export const BlockedIndustries = () => {
             header: () => <span>ABN</span>,
         },
         {
+            header: () => 'Suburb',
+            accessorKey: 'suburb',
+            cell: ({ row }: any) => {
+                const { suburb } = row.original
+                return (
+                    <Typography variant={'label'} color={'black'}>
+                        {suburb}
+                    </Typography>
+                )
+            },
+        },
+        {
             header: () => 'Address',
             accessorKey: 'address',
             cell: ({ row }: any) => {
-                const { addressLine1, addressLine2 } = row.original
+                const { addressLine1 } = row.original
                 return (
                     <Typography variant={'label'} color={'black'}>
-                        {addressLine1}, {addressLine2}
+                        {addressLine1}
                     </Typography>
                 )
             },

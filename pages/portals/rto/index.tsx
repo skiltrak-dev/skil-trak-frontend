@@ -665,8 +665,9 @@ const RTODashboard: NextPageWithLayout = () => {
             <div>
                 <ImportantDocuments
                     coureseRequirementsLink={'/portals/rto/course-requirements'}
+                    rto={rto}
                 />
-            </div>  
+            </div>
             <Card>
                 {/* Card Header */}
                 <div className="flex justify-between items-center">

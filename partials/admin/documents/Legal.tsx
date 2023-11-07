@@ -2,7 +2,7 @@
 import { ActionButton, Button, Card, Table, Typography } from '@components'
 import { AdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { legalData } from './componnets'
 import { useEditor } from './hooks'
 import { EditorModal, RequirementModal } from './modal'
@@ -19,6 +19,12 @@ export const Legal = ({
     onAddDocument: (val: any) => void
 }) => {
     const { modal, setModal, onCancelClicked } = useEditor()
+
+    useEffect(() => {
+        if (!loading) {
+            onCancelClicked()
+        }
+    }, [loading])
 
     const onAddContentClicked = (item: any) => {
         setModal(
