@@ -41,8 +41,14 @@ export const coursesEndpoints = (
         }),
         invalidatesTags: ['Course'],
     }),
-    getIndustryCourses: builder.query<any, void>({
-        query: () => 'industries/course/list',
+    getIndustryCourses: builder.query<any, number>({
+        query: (id) => {
+            const params = id ? { id } : {}
+            return {
+                url: 'industries/course/list',
+                params,
+            }
+        },
         providesTags: ['Course'],
     }),
     getIndustrySectors: builder.query<any, void>({

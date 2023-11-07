@@ -14,14 +14,11 @@ import { DocumentType } from '@partials/admin/documents/componnets'
 import { Rto } from '@types'
 
 export const RtoAddDocuments = ({ rto }: { rto?: Rto }) => {
-    console.log({ rto })
     const getDocuments = RtoApi.RtoDocument.useGetRtoDocuments(
         Number(rto?.user?.id)
     )
     const [addDocument, addDocumentResult] =
         RtoApi.RtoDocument.useAddRtoDocuments()
-
-    console.log({ rto })
 
     const filterDocuments = (docType: string) =>
         getDocuments.data

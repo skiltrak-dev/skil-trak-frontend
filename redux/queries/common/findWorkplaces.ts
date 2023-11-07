@@ -1,16 +1,14 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 import { Industry, PaginatedResponse, PaginationWithSearch } from '@types'
+import { any } from 'cypress/types/bluebird'
 
 const PREFIX = 'futureindustries'
 
 export const findWorkplaceEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    getAllFindWorkplaces: builder.query<
-        PaginatedResponse<Industry>,
-        PaginationWithSearch
-    >({
+    getAllFindWorkplaces: builder.query<any, PaginationWithSearch>({
         query: (params) => ({
             url: `${PREFIX}/list`,
             params,

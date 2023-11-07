@@ -11,6 +11,7 @@ import { SectorsTab } from './SectorsTab'
 import { Students } from './Students'
 import { useEffect, useState } from 'react'
 import { IndustryHistory } from './IndustryHistory'
+import { RequiredDocs } from './RequiredDocs'
 
 export const DetailTabs = ({
     id,
@@ -31,9 +32,14 @@ export const DetailTabs = ({
             element: <IndustryHistory industry={industry?.data?.user?.id} />,
         },
         {
-            label: 'Supervisors',
-            href: { query: { tab: 'supervisors', id } },
-            element: <Supervisor industry={industry?.data} />,
+            label: 'History',
+            href: { query: { tab: 'history', id } },
+            element: <IndustryHistory industry={industry?.data?.user?.id} />,
+        },
+        {
+            label: 'Required Docs',
+            href: { query: { tab: 'requireddocs', id } },
+            element: <RequiredDocs industry={industry?.data} />,
         },
 
         {
