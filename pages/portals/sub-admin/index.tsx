@@ -23,10 +23,10 @@ import { FigureCard } from '@components/sections/subAdmin/components/Cards/Figur
 
 import { AuthUtils } from '@utils'
 
-import { ImportantDocuments } from '@partials/student/components'
 import { SubAdminApi, useGetSubAdminIndustryStudentsQuery } from '@queries'
 import { CallBackProps } from 'react-joyride'
 import { useRouter } from 'next/router'
+import { ImportantDocuments } from '@partials/common'
 
 const NotificationQuestions = [
     {

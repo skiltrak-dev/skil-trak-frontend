@@ -4,6 +4,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { placementInfoData } from './componnets'
 import { useEditor } from './hooks'
 import { EditorModal, RequirementModal } from './modal'
+import { useEffect } from 'react'
 
 export const PlacementInfo = ({
     placementInfo,
@@ -17,6 +18,12 @@ export const PlacementInfo = ({
     onAddDocument: (val: any) => void
 }) => {
     const { modal, setModal, onCancelClicked } = useEditor()
+
+    useEffect(() => {
+        if (!loading) {
+            onCancelClicked()
+        }
+    }, [loading])
 
     const onAddContentClicked = (item: any) => {
         setModal(

@@ -13,11 +13,14 @@ import { CommonApi } from '@queries'
 import Image from 'next/image'
 import { ReactElement, useState } from 'react'
 import { useRouter } from 'next/router'
+import { Rto } from '@types'
 
 export const ImportantDocuments = ({
+    rto,
     sidebar,
     coureseRequirementsLink,
 }: {
+    rto: Rto
     coureseRequirementsLink: string
     sidebar?: boolean
 }) => {
@@ -27,7 +30,9 @@ export const ImportantDocuments = ({
 
     const { notification } = useNotification()
 
-    const documents = CommonApi.Documents.useList()
+    const documents = CommonApi.Documents.useGetSpecificUserDocuments(rto?.id, {
+        skip: !rto?.id,
+    })
 
     const titleClasses = classNames({
         'mb-2': true,

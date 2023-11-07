@@ -24,6 +24,7 @@ export const UploadDoc = ({
             formData.append('fileType', item.type),
             formData.append('docType', item.docType),
             // addDocument(formData)
+            // setIsLoading(item)
 
             onAddDocument(formData)
         // onFileSelected()
@@ -42,9 +43,7 @@ export const UploadDoc = ({
     return (
         <div>
             <FileUpload
-                onChange={(doc: any) => {
-                    onFileUpload(doc)
-                }}
+                onChange={onFileUpload}
                 name={item.name + item.docType}
                 component={UploadButton}
                 acceptTypes={['jpg', 'jpeg', 'png']}

@@ -2,6 +2,7 @@
 import { Button, Card, InitialAvatar, Table, Typography } from '@components'
 import { ColumnDef } from '@tanstack/react-table'
 import { inductionProcessData, UploadDoc } from './componnets'
+import { useEffect, useState } from 'react'
 
 export const InductionProcess = ({
     inductionProcess,
@@ -14,6 +15,14 @@ export const InductionProcess = ({
     loading: boolean
     onAddDocument: (val: any) => void
 }) => {
+    const [type, setType] = useState<any>({})
+
+    useEffect(() => {
+        if (!loading) {
+            setType({})
+        }
+    }, [loading])
+
     const data = inductionProcessData?.map((d) => {
         const findData = inductionProcess?.find((f: any) => f?.for === d?.role)
         return findData ? { ...d, file: findData?.file } : d
@@ -51,10 +60,19 @@ export const InductionProcess = ({
                     <UploadDoc
                         text={row.original?.docType + row.original?.name}
                         item={row.original}
-                        loading={loading}
                         onAddDocument={(val: any) => {
                             onAddDocument(val)
+                            console.log('row.original', row.original)
+                            setType({
+                                docType: row.original?.docType,
+                                role: row.original?.role,
+                            })
                         }}
+                        loading={
+                            loading &&
+                            type?.docType === row.original?.docType &&
+                            type?.role === row.original?.role
+                        }
                     />
                 )
             },

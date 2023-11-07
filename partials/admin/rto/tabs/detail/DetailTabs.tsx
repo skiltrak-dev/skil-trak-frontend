@@ -12,6 +12,7 @@ import {
 } from '@partials/common'
 import { RTOReports } from '@partials/common/Reports'
 import { RtoStudentsAssessmentGallery } from '@partials/common/RtoStudentsAssessmentGallery'
+import { RtoAddDocuments } from '@partials/rto/components'
 
 export const DetailTabs = ({
     id,
@@ -67,6 +68,11 @@ export const DetailTabs = ({
                     createdAt={rto?.data?.createdAt}
                 />
             ),
+        },
+        {
+            label: 'Documents',
+            href: { query: { tab: 'documents', id } },
+            element: <RtoAddDocuments rto={rto?.data} />,
         },
         {
             label: 'Gallery',

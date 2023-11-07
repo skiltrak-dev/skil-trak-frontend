@@ -140,6 +140,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                     coureseRequirementsLink={
                         '/portals/student/course-requirements'
                     }
+                    rto={data?.rto}
                 />
             </Desktop>
 
@@ -442,6 +443,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                     coureseRequirementsLink={
                         '/portals/student/course-requirements'
                     }
+                    rto={data?.rto}
                 />
             </Mobile>
         </div>

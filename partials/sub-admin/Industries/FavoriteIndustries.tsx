@@ -104,17 +104,26 @@ export const FavoriteIndustries = () => {
             header: () => <span>ABN</span>,
         },
         {
+            header: () => 'Suburb',
+            accessorKey: 'suburb',
+            cell: ({ row }: any) => {
+                const { suburb } = row.original
+                return (
+                    <Typography variant={'label'} color={'black'}>
+                        {suburb}
+                    </Typography>
+                )
+            },
+        },
+        {
             header: () => 'Address',
             accessorKey: 'address',
             cell: ({ row }: any) => {
-                const { addressLine1, addressLine2 } = row.original
+                const { addressLine1 } = row.original
                 return (
                     <div className="flex justify-center gap-x-2">
                         <Typography variant={'label'} color={'black'}>
                             {addressLine1}
-                        </Typography>
-                        <Typography variant={'label'} color={'black'}>
-                            {addressLine2}
                         </Typography>
                     </div>
                 )

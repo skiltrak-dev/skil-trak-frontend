@@ -8,24 +8,32 @@ import {
 import classNames from 'classnames'
 
 // query
-import { CommonApi } from '@queries'
+import {
+    CommonApi,
+    StudentApi,
+    useGetStudentProfileDetailQuery,
+} from '@queries'
 import { ReactElement, useState } from 'react'
 import { useNotification } from '@hooks'
 import { ellipsisText } from '@utils'
 import Image from 'next/image'
+import { Rto } from '@types'
 
 export const ImportantDocuments = ({
+    rto,
     sidebar,
     coureseRequirementsLink,
 }: {
+    rto: Rto
     coureseRequirementsLink: string
     sidebar?: boolean
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const { notification } = useNotification()
-
-    const documents = CommonApi.Documents.useList()
+    const documents = CommonApi.Documents.useGetSpecificUserDocuments(rto?.id, {
+        skip: !rto?.id,
+    })
 
     const titleClasses = classNames({
         'mb-2': true,
@@ -37,8 +45,6 @@ export const ImportantDocuments = ({
         'grid grid-cols-2 gap-4 md:flex md:gap-x-4': !sidebar,
         'flex flex-col gap-y-2': sidebar,
     })
-
-    const [selected, setSelected] = useState<any>(null)
 
     const onModalCancel = () => {
         setModal(null)

@@ -11,6 +11,7 @@ import { studentJobEndpoints } from './studentsJobs'
 import { profileEndpoints } from './profile'
 import { workplaceEndpoints } from './workplace'
 import { studentsScheduleEndpoints } from './schedule'
+import { documentsEndpoints } from './documents'
 
 export const studentApi = emptySplitApi.injectEndpoints({
     // ---------- RTO ENDPOINTS ---------- //
@@ -23,6 +24,7 @@ export const studentApi = emptySplitApi.injectEndpoints({
         ...studentEndpoints(build),
         ...profileEndpoints(build),
         ...workplaceEndpoints(build),
+        ...documentsEndpoints(build),
         ...studentJobEndpoints(build),
         ...assessmentToolEndpoints(build),
         ...studentsScheduleEndpoints(build),
@@ -91,6 +93,9 @@ export const {
     useCancelScheduleShiftMutation,
     useEditStudentScheduleMutation,
     useCreateStudentScheduleMutation,
+
+    // ----- DOCUMENTS ----- //
+    useGetStudentDocumentsQuery,
 } = studentApi
 
 export const StudentApi = {
@@ -152,5 +157,8 @@ export const StudentApi = {
         useCreateStudentSchedule: useCreateStudentScheduleMutation,
         useEditStudentSchedule: useEditStudentScheduleMutation,
         useRescheduleShift: useRescheduleShiftMutation,
+    },
+    Documents: {
+        useStudentDocuments: useGetStudentDocumentsQuery,
     },
 }

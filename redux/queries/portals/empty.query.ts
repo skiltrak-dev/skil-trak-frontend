@@ -79,6 +79,7 @@ const studentTagTypes = [
     'StudentCourses',
     'StudentProfile',
     'StudentSchedule',
+    'StudentDocuments',
     'StudentAppointments',
     'StudentAssessmentEvidence',
     'StudentAssessmentEvidence',
