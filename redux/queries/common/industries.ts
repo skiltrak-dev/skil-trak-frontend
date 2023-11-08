@@ -1,6 +1,6 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { Course, PaginatedResponse } from '@types'
+import { Course, Industry, PaginatedResponse, UserStatus } from '@types'
 
 export const industriesEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
@@ -24,6 +24,16 @@ export const industriesEndpoints = (
         }),
         providesTags: ['Industry'],
     }),
+
+    snoozeIndustry: builder.mutation<Industry, { id: number; date: Date }>({
+        query: ({ id, date }) => ({
+            url: `shared/industry/snooze/${id}`,
+            method: 'POST',
+            body: { date },
+        }),
+        invalidatesTags: ['Industries'],
+    }),
+
     applyForJobFromHomePage: builder.mutation<any, any>({
         query: ({ id, body }) => {
             return {

@@ -12,6 +12,7 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AdminApi, SubAdminApi } from '@queries'
 import { getUserCredentials } from '@utils'
+import { OptionType } from '@types'
 
 enum Priority {
     Low = 'low',
@@ -22,17 +23,14 @@ enum Priority {
 export const AddTicketForm = ({
     result,
     onSubmit,
+    students,
+    subadmins,
 }: {
     result: any
     onSubmit: (values: any) => void
+    students: any
+    subadmins: any
 }) => {
-    const subadmins = AdminApi.Workplace.subadminForAssignWorkplace()
-    const subAdminId = getUserCredentials()
-
-    const studentList = SubAdminApi.Student.useSubAdminStudentList(
-        subAdminId?.id
-    )
-
     const validationSchema = yup.object({
         assignedTo: yup.number().required('Must provide Assign To'),
         subject: yup.string().required('Must provide Subject'),
@@ -49,21 +47,24 @@ export const AddTicketForm = ({
         resolver: yupResolver(validationSchema),
     })
 
-    const subAdminOptions = subadmins?.data?.map((subAdmin: any) => ({
-        label: subAdmin?.user?.name,
-        value: subAdmin?.user?.id,
-    }))
-    const studentOptions = studentList?.data?.map((student: any) => ({
-        label: student?.user?.name,
-        value: student?.id,
-    }))
-
     const priorityOptions = [
         ...Object.entries(Priority).map(([label, value]) => ({
             label,
             value,
         })),
     ]
+
+    const studentsOptions = students?.data?.length
+        ? students?.data?.map((student: any) => ({
+              label: student?.user?.name,
+              value: student?.id,
+          }))
+        : []
+
+    const subAdminOptions = subadmins?.data?.map((subAdmin: any) => ({
+        label: subAdmin?.user?.name,
+        value: subAdmin?.user?.id,
+    }))
     return (
         <div>
             <Card>
@@ -83,10 +84,10 @@ export const AddTicketForm = ({
                                 label={'Link Student (Optional)'}
                                 name={'student'}
                                 placeholder={'Link Student (Optional)'}
-                                options={studentOptions}
-                                loading={studentList?.isLoading}
-                                disabled={studentList?.isLoading}
+                                options={studentsOptions}
                                 onlyValue
+                                loading={students.isLoading}
+                                disabled={students?.isLoading}
                             />
                             <Select
                                 label={'Priority'}

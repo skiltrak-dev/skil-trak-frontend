@@ -67,4 +67,8 @@ export const ticketEndpoints = (
         }),
         invalidatesTags: ['Tickets'],
     }),
+    getStudentTicketsList: builder.query<any, number>({
+        query: (id) => `students/tickets/list/${id}`,
+        providesTags: ['SubAdminStudents'],
+    }),
 })

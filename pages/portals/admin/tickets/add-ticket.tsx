@@ -12,7 +12,7 @@ import { PageHeading } from '@components/headings'
 import { useNavbar, useNotification } from '@hooks'
 import { AddTicketForm } from '@partials/common/Tickets'
 import { NextPageWithLayout } from '@types'
-import { CommonApi } from '@queries'
+import { AdminApi, CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 
 const AddTicket: NextPageWithLayout = () => {
@@ -20,6 +20,7 @@ const AddTicket: NextPageWithLayout = () => {
     const { notification } = useNotification()
     const router = useRouter()
 
+    const subadmins = AdminApi.Workplace.subadminForAssignWorkplace()
     const [createTicket, createTicketResult] =
         CommonApi.Tickets.useCreateTicket()
 
@@ -44,6 +45,9 @@ const AddTicket: NextPageWithLayout = () => {
         createTicket({ ...values, message })
     }
 
+    const adminAllStudents =
+        CommonApi.Messages.useSearchBulkMailStudents(undefined)
+
     return (
         <>
             <ShowErrorNotifications result={createTicketResult} />
@@ -61,7 +65,9 @@ const AddTicket: NextPageWithLayout = () => {
 
                 <AddTicketForm
                     onSubmit={onSubmit}
+                    subadmins={subadmins}
                     result={createTicketResult}
+                    students={adminAllStudents}
                 />
             </div>
         </>

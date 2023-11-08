@@ -18,6 +18,8 @@ import { InputErrorMessage, RequiredStar } from '@components/inputs/components'
 import { Course } from '@types'
 import { Card, Typography } from 'components'
 import { useNotification } from '@hooks'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 type PersonalInfoProps = {
     onSubmit: any
@@ -39,6 +41,8 @@ export const PersonalInfoForm = ({
     const [onLocationClicked, setOnLocationClicked] = useState<boolean>(true)
 
     const { notification } = useNotification()
+
+    const role = getUserCredentials()?.role
     useEffect(() => {
         if (
             personalInfoData?.courses ||

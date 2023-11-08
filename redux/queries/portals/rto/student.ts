@@ -40,6 +40,10 @@ export const studentEndpoints = (
         },
         providesTags: ['Rto-Students'],
     }),
+    getRtoStudentsList: builder.query<any, void>({
+        query: () => `${PREFIX}/students/names/list`,
+        providesTags: ['Rto-Students'],
+    }),
     getRtoStudentProfile: builder.query<any, any>({
         query: (id) => {
             return {

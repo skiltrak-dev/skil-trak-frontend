@@ -17,10 +17,9 @@ import moment from 'moment'
 import { useRouter } from 'next/router'
 import { TicketSubject, TicketUser } from '@partials/common/Tickets/components'
 import { TicketStatus } from 'pages/portals/admin/tickets'
-import { CloseTicketModal } from './modals'
-import { StudentCellInfo } from '../student/components'
+import { CloseTicketModal } from '@partials/admin/Tickets'
 
-export const MyOpenTickets = () => {
+export const StudentTickets = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -69,18 +68,6 @@ export const MyOpenTickets = () => {
                 return <TicketSubject ticket={info?.row?.original} />
             },
             header: () => <span>Subject</span>,
-        },
-        {
-            accessorKey: 'user.name',
-            cell: (info) => {
-                return (
-                    <StudentCellInfo
-                        student={info?.row?.original?.student}
-                        call
-                    />
-                )
-            },
-            header: () => <span>Student</span>,
         },
         {
             accessorKey: 'createdBy',

@@ -164,6 +164,10 @@ export const RejectedIndustry = () => {
             },
         },
         {
+            accessorKey: 'channel',
+            header: () => <span>Created By</span>,
+        },
+        {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
             cell: (info) => (

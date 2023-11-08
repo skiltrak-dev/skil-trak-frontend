@@ -16,7 +16,7 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { useActionModal, useContextBar } from '@hooks'
 import { AdminApi, commonApi } from '@queries'
-import { SubAdmin, UserStatus } from '@types'
+import { Rto, SubAdmin, User, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { BsArchiveFill } from 'react-icons/bs'
@@ -24,6 +24,8 @@ import { RiLockPasswordFill } from 'react-icons/ri'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
 import { ArchiveModal, BlockModal } from './modals'
+import { UserRoles } from '@constants'
+import { RtoCellInfo } from '../rto/components'
 
 export const ActiveSubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -168,13 +170,38 @@ export const ActiveSubAdmin = () => {
         {
             accessorKey: 'createdBy.role',
             header: () => <span>Created By</span>,
-            cell: (info) => (
-                <Typography variant={'small'} uppercase>
-                    <span className="font-semibold">
-                        {info.row.original?.createdBy?.role}
-                    </span>
-                </Typography>
-            ),
+            cell: (info) =>
+                info.row.original?.createdBy?.role === UserRoles.RTO ? (
+                    <>
+                        <RtoCellInfo
+                            rto={
+                                {
+                                    id: info.row.original?.createdBy?.rto?.id,
+                                    user: info.row.original?.createdBy as User,
+                                } as Rto
+                            }
+                            short
+                        />
+                        <Typography variant={'small'} uppercase>
+                            <span className="font-semibold">
+                                {info.row.original?.createdBy?.role}
+                            </span>
+                        </Typography>
+                    </>
+                ) : (
+                    <Typography variant={'small'} uppercase>
+                        <span className="font-semibold">
+                            {info.row.original?.createdBy?.role}
+                        </span>
+                    </Typography>
+                ),
+            // cell: (info) => (
+            //     <Typography variant={'small'} uppercase>
+            //         <span className="font-semibold">
+            //             {info.row.original?.createdBy?.role}
+            //         </span>
+            //     </Typography>
+            // ),
         },
         {
             accessorKey: 'action',

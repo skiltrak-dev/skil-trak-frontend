@@ -97,6 +97,33 @@ export const DetailNavbar = () => {
                     </Link>
                 </AuthorizedUserComponent>
 
+                <AuthorizedUserComponent roles={[UserRoles.RTO]}>
+                    <div className="relative">
+                        <Link
+                            legacyBehavior
+                            href={'/portals/rto/tickets?tab=all-tickets'}
+                        >
+                            <a
+                                className={` ${
+                                    router.pathname ===
+                                    '/portals/sub-admin/tickets'
+                                        ? 'bg-green-100 text-green-700'
+                                        : 'text-slate-700'
+                                } transition-all duration-300 px-4 py-2 flex gap-x-2 items-center rounded-md hover:bg-green-100 hover:text-green-700`}
+                            >
+                                <span>
+                                    <BsFillTicketDetailedFill />
+                                </span>
+                                <span className="text-sm font-semibold">
+                                    Tickets
+                                </span>
+                            </a>
+                        </Link>
+                        <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute -top-2 -right-2 bg-error rounded-full text-xs">
+                            {ticketCount?.data}
+                        </span>
+                    </div>
+                </AuthorizedUserComponent>
                 <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
                     <div className="relative">
                         <Link
@@ -246,7 +273,7 @@ export const DetailNavbar = () => {
                         </div>
                     </OutsideClickHandler>
                 </AuthorizedUserComponent>
- 
+
                 <OutsideClickHandler
                     onOutsideClick={() => {
                         setProfileOptionsExpanded(false)
