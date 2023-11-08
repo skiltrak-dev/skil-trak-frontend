@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 import { Course, ImportStudentFormType } from '@types'
-import { getDate } from '@utils'
+import { CourseSelectOption, formatOptionLabel, getDate } from '@utils'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -131,6 +131,8 @@ export const ImportStudentForm = ({
                                     options={rtoCourses}
                                     multi
                                     onlyValue
+                                    components={{ Option: CourseSelectOption }}
+                                    formatOptionLabel={formatOptionLabel}
                                 />
                             </div>
                         </div>

@@ -1,22 +1,42 @@
 import { useEffect, useState } from 'react'
 import { DocsCheckbox } from '../DocsCheckbox'
-import { Switch } from '@components'
+import { ShowErrorNotifications, Switch } from '@components'
 
 // query
 import { useAddOrUpdateRequiredDocumentMutation } from '@queries'
+import { Industry } from '@types'
 
 export const DocumentInputField = ({
     name,
     checked,
     required,
     folder,
-}: any) => {
+    industry,
+}: {
+    name: any
+    checked: any
+    required: any
+    folder: any
+    industry: Industry
+}) => {
     const [updateDocument, result] = useAddOrUpdateRequiredDocumentMutation()
     const [isChecked, setChecked] = useState(checked)
 
+    console.log({ checked })
+
     const onCheckChange = (event: any) => {
-        updateDocument({ ...folder, checked: event.target.checked })
+        updateDocument({
+            ...folder,
+            checked: event.target.checked,
+            industry: industry?.user?.id,
+        })
     }
+
+    useEffect(() => {
+        if (checked) {
+            setChecked(checked)
+        }
+    }, [checked])
 
     useEffect(() => {
         if (result.data?.checked !== checked) {
@@ -25,21 +45,24 @@ export const DocumentInputField = ({
     }, [result])
 
     return (
-        <div key={name} className="flex items-center gap-x-4 my-1">
-            <div className="flex-grow">
-                <DocsCheckbox
-                    onChange={(event: any) => onCheckChange(event)}
-                    checked={isChecked}
-                    label={name}
-                    loading={result.isLoading}
+        <>
+            <ShowErrorNotifications result={result} />
+            <div key={name} className="flex items-center gap-x-4 my-1">
+                <div className="flex-grow">
+                    <DocsCheckbox
+                        onChange={(event: any) => onCheckChange(event)}
+                        checked={isChecked}
+                        label={name}
+                        loading={result.isLoading}
+                    />
+                </div>
+                <Switch
+                    value={required}
+                    name={name}
+                    // setFieldValue={isRequiredForCustomField}
+                    // disabled={!isChecked}
                 />
             </div>
-            <Switch
-                value={required}
-                name={name}
-                // setFieldValue={isRequiredForCustomField}
-                // disabled={!isChecked}
-            />
-        </div>
+        </>
     )
 }

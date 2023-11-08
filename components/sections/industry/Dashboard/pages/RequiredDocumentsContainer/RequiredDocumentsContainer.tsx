@@ -11,9 +11,16 @@ import { CourseDocuments } from './components'
 
 // redux
 import { useGetIndustryCoursesQuery } from '@queries'
+import { Industry } from '@types'
 
-export const RequiredDocumentsContainer = () => {
-    const { data, isError, isLoading } = useGetIndustryCoursesQuery()
+export const RequiredDocumentsContainer = ({
+    industry,
+}: {
+    industry?: Industry
+}) => {
+    const { data, isError, isLoading } = useGetIndustryCoursesQuery(
+        Number(industry?.user?.id)
+    )
 
     return (
         <div className="h-full">
@@ -42,9 +49,7 @@ export const RequiredDocumentsContainer = () => {
                         </div>
                         <CourseDocuments
                             course={course}
-                            documentCourseId={course.id}
-                            showCustomFields
-                            courseId={course.id}
+                            industry={industry as Industry}
                         />
                     </Fragment>
                 ))

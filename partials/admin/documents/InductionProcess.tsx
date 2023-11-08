@@ -62,7 +62,6 @@ export const InductionProcess = ({
                         item={row.original}
                         onAddDocument={(val: any) => {
                             onAddDocument(val)
-                            console.log('row.original', row.original)
                             setType({
                                 docType: row.original?.docType,
                                 role: row.original?.role,

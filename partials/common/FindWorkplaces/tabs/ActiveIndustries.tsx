@@ -184,8 +184,11 @@ export const ActiveIndustries = ({
             accessorKey: 'businessName',
             header: () => <span>Name</span>,
             cell: (info) => {
+                const isDuplicated = data?.dupicatedListing
+                    ?.map((e: any) => e?.listing_email)
+                    ?.includes(info?.row?.original?.email)
                 return (
-                    <div className="flex items-center gap-x-1.5">
+                    <div className={`flex items-center gap-x-1.5`}>
                         {info?.row?.original?.businessName && (
                             <InitialAvatar
                                 name={info?.row?.original?.businessName}
@@ -208,9 +211,28 @@ export const ActiveIndustries = ({
                                     </div>
                                 )}
                             </div>
-                            <Typography variant={'label'}>
-                                {info?.row?.original?.email}
-                            </Typography>
+                            {/* <Highlighter
+                                highlightClassName="YourHighlightClass"
+                                searchWords={
+                                    isDuplicated
+                                        ? [info?.row?.original?.email]
+                                        : ['']
+                                }
+                                autoEscape={true}
+                                textToHighlight={info?.row?.original?.email}
+                            /> */}
+                            <div
+                                className={` relative group ${
+                                    isDuplicated ? 'bg-gray-300' : ''
+                                } px-1.5 rounded-md`}
+                            >
+                                <Typography variant={'label'}>
+                                    {info?.row?.original?.email}
+                                </Typography>
+                                {isDuplicated ? (
+                                    <Tooltip>Duplicated Found</Tooltip>
+                                ) : null}
+                            </div>
                         </div>
                     </div>
                 )
@@ -327,10 +349,10 @@ export const ActiveIndustries = ({
                     {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : data && data?.data?.length ? (
+                    ) : data && data?.paginatedResults?.data?.length ? (
                         <Table
                             columns={columns as any}
-                            data={data.data}
+                            data={data?.paginatedResults?.data}
                             quickActions={quickActionsElements}
                             enableRowSelection
                         >

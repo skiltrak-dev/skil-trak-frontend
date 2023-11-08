@@ -12,11 +12,19 @@ import { DocumentInputField } from './DocumentInputField'
 
 // redux
 import { useGetIndustryDocumentsQuery } from '@queries'
+import { Course, Industry } from '@types'
 
-export const CourseDocuments = ({ course }: any) => {
-    const { data, isSuccess, isLoading } = useGetIndustryDocumentsQuery(
-        course.id
-    )
+export const CourseDocuments = ({
+    course,
+    industry,
+}: {
+    industry: Industry
+    course: Course
+}) => {
+    const { data, isSuccess, isLoading } = useGetIndustryDocumentsQuery({
+        course: course.id,
+        id: industry?.user?.id,
+    })
 
     const [showCustomRequirementForm, setShowCustomRequirementForm] =
         useState(false)
@@ -43,6 +51,8 @@ export const CourseDocuments = ({ course }: any) => {
         )
     }
 
+    console.log('Hello', getRelatedData())
+
     return (
         <Card>
             {isLoading ? (
@@ -52,6 +62,7 @@ export const CourseDocuments = ({ course }: any) => {
             ) : showCustomRequirementForm ? (
                 <CustomRequirementForm
                     courseId={course.id}
+                    industry={industry as Industry}
                     onCancel={() => setShowCustomRequirementForm(false)}
                 />
             ) : (
@@ -103,6 +114,7 @@ export const CourseDocuments = ({ course }: any) => {
                                                 courseId: folder_courseId,
                                                 isCustom: folder_isCustom,
                                             }}
+                                            industry={industry}
                                         />
                                     )
                             )}
@@ -161,6 +173,7 @@ export const CourseDocuments = ({ course }: any) => {
                                                 courseId: folder_courseId,
                                                 isCustom: folder_isCustom,
                                             }}
+                                            industry={industry as Industry}
                                         />
                                     )
                                 )}

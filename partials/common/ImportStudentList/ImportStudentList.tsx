@@ -241,7 +241,7 @@ export const ImportStudentList = ({
                     </div>
                 ) : (
                     <div>
-                        {result.data?.created.length ? (
+                        {result.data?.created?.length ? (
                             <div className="bg-green-100 rounded-lg p-4">
                                 <p className="text-green-600 font-medium">
                                     {result.data?.created.length | 0} student(s)
