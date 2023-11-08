@@ -1,14 +1,21 @@
 import {
+    AuthorizedUserComponent,
     Button,
     Select,
     ShowErrorNotifications,
     TextArea,
     TextInput,
 } from '@components'
+import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AuthApi } from '@queries'
-import { SubAdmin, SubadminFromType } from '@types'
-import { onlyAlphabets } from '@utils'
+import { OptionType, SubAdmin, SubadminFromType } from '@types'
+import {
+    CourseSelectOption,
+    formatOptionLabel,
+    getUserCredentials,
+    onlyAlphabets,
+} from '@utils'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -18,18 +25,22 @@ export const SubAdminForm = ({
     result,
     subAdmin,
     edit,
+    rtoCoursesOptions,
 }: {
     edit?: boolean
     onSubmit: (values: SubadminFromType) => void
     result: any
     subAdmin?: SubAdmin
+    rtoCoursesOptions?: OptionType[]
 }) => {
     const [sectorOptions, setSectorOptions] = useState<any>([])
     const [selectedSector, setSelectedSector] = useState<any>(null)
     const [courseOptions, setCourseOptions] = useState([])
     const [courseLoading, setCourseLoading] = useState(false)
-    const validationSchema = yup.object({
-        // Profile Information
+
+    const role = getUserCredentials()?.role
+
+    const validationObject = {
         name: yup.string().required('Must provide your name'),
         coordinatorId: yup.string().required('Must provide your name'),
         phone: yup.string().required('Must provide your name'),
@@ -37,12 +48,25 @@ export const SubAdminForm = ({
             .string()
             .email('Invalid Email')
             .required('Must provide email'),
-        rtos: yup.array().min(1, 'Must select at least 1 RTO').required(),
-        sectors: yup.array().min(1, 'Must select at least 1 sector').required(),
-        courses: yup.array().min(1, 'Must select at least 1 course').required(),
+
         // Address Information
         addressLine1: yup.string().required('Must provide address'),
-    })
+        courses: yup.array().min(1, 'Must select at least 1 course').required(),
+    }
+
+    const validation = {
+        ...validationObject,
+        rtos: yup.array().min(1, 'Must select at least 1 RTO').required(),
+        sectors: yup.array().min(1, 'Must select at least 1 sector').required(),
+    }
+
+    const rtoValidation = {
+        ...validationObject,
+    }
+
+    const validationSchema = yup.object(
+        role === UserRoles.ADMIN ? validation : rtoValidation
+    )
     const sectorResponse = AuthApi.useSectors({})
     const getRtos = AuthApi.useRtos({})
 
@@ -193,40 +217,64 @@ export const SubAdminForm = ({
                         validationIcons
                         required
                     />
-                    <Select
-                        label={'RTOs'}
-                        name={'rtos'}
-                        options={rtosOptions}
-                        multi
-                        validationIcons
-                        onlyValue
-                    />
-                    <Select
-                        label={'Sector'}
-                        value={selectedSector}
-                        name={'sectors'}
-                        options={sectorOptions}
-                        placeholder={'Select Sectors...'}
-                        multi
-                        loading={sectorResponse.isLoading}
-                        disabled={sectorResponse.isLoading}
-                        onChange={onSectorChanged}
-                        validationIcons
-                    />
-                    <Select
-                        label={'Courses'}
-                        name={'courses'}
-                        defaultValue={courseOptions}
-                        options={courseOptions}
-                        multi
-                        loading={courseLoading}
-                        // components={{
-                        //     Option: CourseSelectOption,
-                        // }}
-                        disabled={courseOptions.length === 0}
-                        validationIcons
-                        onlyValue
-                    />
+
+                    <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                        <Select
+                            label={'RTOs'}
+                            name={'rtos'}
+                            options={rtosOptions}
+                            multi
+                            validationIcons
+                            onlyValue
+                        />
+                        <Select
+                            label={'Sector'}
+                            value={selectedSector}
+                            name={'sectors'}
+                            options={sectorOptions}
+                            placeholder={'Select Sectors...'}
+                            multi
+                            loading={sectorResponse.isLoading}
+                            disabled={sectorResponse.isLoading}
+                            onChange={onSectorChanged}
+                            validationIcons
+                        />
+                        <Select
+                            label={'Courses'}
+                            name={'courses'}
+                            defaultValue={courseOptions}
+                            options={courseOptions}
+                            multi
+                            loading={courseLoading}
+                            // components={{
+                            //     Option: CourseSelectOption,
+                            // }}
+                            disabled={courseOptions.length === 0}
+                            validationIcons
+                            onlyValue
+                        />
+                    </AuthorizedUserComponent>
+
+                    <AuthorizedUserComponent roles={[UserRoles.RTO]}>
+                        <Select
+                            label={'Courses'}
+                            name={'courses'}
+                            options={rtoCoursesOptions}
+                            multi
+                            loading={courseLoading}
+                            components={{
+                                Option: CourseSelectOption,
+                            }}
+                            formatOptionLabel={formatOptionLabel}
+                            disabled={
+                                rtoCoursesOptions &&
+                                rtoCoursesOptions?.length === 0
+                            }
+                            validationIcons
+                            onlyValue
+                        />
+                    </AuthorizedUserComponent>
+
                     <TextArea
                         label={'Address'}
                         name={'addressLine1'}

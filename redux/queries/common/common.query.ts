@@ -205,6 +205,7 @@ const {
 
     // ------ Industry ------ //
     useGetAllIndustriesQuery,
+    useSnoozeIndustryMutation,
     useAllGetIndustriesListQuery,
     useGetAllAdvertisedJobsQuery,
     useGetAdvertisedJobDetailQuery,
@@ -309,6 +310,7 @@ const {
     useGetTicketDetailQuery,
     useGetTicketRepliesQuery,
     useSeenTicketReplyMutation,
+    useGetStudentTicketsListQuery,
 
     // ----- STUDENTASSESSMENTFILES ----- //
     useGalleryFileViewDetailQuery,
@@ -360,11 +362,12 @@ export const CommonApi = {
         useRtosList: useGetRtosListQuery,
     },
     Industries: {
-        useApplyForJob: useApplyForJobFromHomePageMutation,
+        useSnoozeIndustry: useSnoozeIndustryMutation,
         useIndustriesList: useAllGetIndustriesListQuery,
-        bulkEmailSubadminIndustries: useGetBulkEmailSubadminIndustriesQuery,
+        useApplyForJob: useApplyForJobFromHomePageMutation,
         getAllAdvertisedJobs: useGetAllAdvertisedJobsQuery,
         getAdvertisedJobDetail: useGetAdvertisedJobDetailQuery,
+        bulkEmailSubadminIndustries: useGetBulkEmailSubadminIndustriesQuery,
     },
     Courses: {
         useCoursesList: useGetCoursesListQuery,
@@ -448,6 +451,8 @@ export const CommonApi = {
         getNoteDarft: useGetNoteDarftQuery,
     },
     Tickets: {
+        useStudentTicketsList: useGetStudentTicketsListQuery,
+
         useGetTicket: useGetTicketQuery,
         useAddReply: useAddReplyMutation,
         useGetAllTicket: useGetAllTicketQuery,

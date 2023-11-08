@@ -2,26 +2,23 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
-    Portal,
     Table,
     TableAction,
     TableActionOption,
     TechnicalError,
     Typography,
 } from '@components'
-import { CommonApi } from '@queries'
+import { TicketSubject, TicketUser } from '@partials/common/Tickets/components'
+import { CommonApi, SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import React, { ReactElement, useState } from 'react'
-import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
 import moment from 'moment'
 import { useRouter } from 'next/router'
-import { TicketSubject, TicketUser } from '@partials/common/Tickets/components'
 import { TicketStatus } from 'pages/portals/admin/tickets'
-import { CloseTicketModal } from './modals'
+import { useState } from 'react'
+import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
 import { StudentCellInfo } from '../student/components'
 
-export const MyOpenTickets = () => {
-    const [modal, setModal] = useState<ReactElement | null>(null)
+export const ClosedTickets = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
@@ -30,35 +27,23 @@ export const MyOpenTickets = () => {
     const { isLoading, isFetching, data, isError } =
         CommonApi.Tickets.useGetTicket(
             {
-                search: `status:${TicketStatus.OPEN}`,
+                search: `status:${TicketStatus.CLOSED}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
             { refetchOnMountOrArgChange: true }
         )
 
-    const onCancel = () => {
-        setModal(null)
-    }
-
-    const onCloseClicked = (ticket: any) => {
-        setModal(
-            <Portal>
-                <CloseTicketModal onCancel={onCancel} ticket={ticket} />
-            </Portal>
-        )
-    }
-
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
             onClick: (ticket: any) =>
-                router.push(`/portals/admin/tickets/detail/${ticket?.id}`),
+                router.push(`/portals/sub-admin/tickets/detail/${ticket?.id}`),
             Icon: AiFillCloseCircle,
         },
         {
-            text: 'Close',
-            onClick: (ticket: any) => onCloseClicked(ticket),
+            text: 'Delete',
+            onClick: () => {},
             Icon: AiFillDelete,
         },
     ]
@@ -137,13 +122,12 @@ export const MyOpenTickets = () => {
     ]
     return (
         <div>
-            {modal}
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data?.length ? (
-                    <Table columns={columns} data={data?.data}>
+                ) : data && data?.data.length ? (
+                    <Table columns={columns} data={data.data}>
                         {({
                             table,
                             pagination,

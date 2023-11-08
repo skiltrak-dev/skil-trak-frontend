@@ -64,7 +64,6 @@ export const AutoLogoutProvider = ({
 
             const intervalTime = expTime - 1000 * 1770 - timestamp
 
-
             if (timestamp < expTime && !refreshTokenResult.isLoading) {
                 time = setInterval(() => {
                     console.log(
@@ -87,35 +86,34 @@ export const AutoLogoutProvider = ({
         refreshTokenResult,
     ])
 
-    useEffect(() => {
-        let time: any = null
+    // useEffect(() => {
+    //     let time: any = null
 
-        if (AuthUtils.isAuthenticated() && path?.includes('portals')) {
-            const { expTime, timestamp } = getExpAndCurrTime()
+    //     if (AuthUtils.isAuthenticated() && path?.includes('portals')) {
+    //         const { expTime, timestamp } = getExpAndCurrTime()
 
-            const secondIntervalTime = expTime - 1000 * 1725 - timestamp
+    //         const secondIntervalTime = expTime - 1000 * 1725 - timestamp
 
+    //         if (
+    //             secondIntervalTime &&
+    //             secondIntervalTime > 0 &&
+    //             !refreshTokenResult.isLoading
+    //         ) {
+    //             time = setInterval(() => {
+    //                 console.log(
+    //                     '2',
+    //                     secondIntervalTime,
+    //                     timestamp && moment(timestamp).format('YYYY-MM-DD')
+    //                 )
+    //                 refreshToken()
+    //             }, secondIntervalTime)
+    //         }
+    //     }
 
-            if (
-                secondIntervalTime &&
-                secondIntervalTime > 0 &&
-                !refreshTokenResult.isLoading
-            ) {
-                time = setInterval(() => {
-                    console.log(
-                        '2',
-                        secondIntervalTime,
-                        timestamp && moment(timestamp).format('YYYY-MM-DD')
-                    )
-                    refreshToken()
-                }, secondIntervalTime)
-            }
-        }
-
-        return () => {
-            clearInterval(time)
-        }
-    }, [router, AuthUtils.getUserCredentials(), refreshTokenResult])
+    //     return () => {
+    //         clearInterval(time)
+    //     }
+    // }, [router, AuthUtils.getUserCredentials(), refreshTokenResult])
 
     useEffect(() => {
         const { expireTime, currentTime, expTime, timestamp } =

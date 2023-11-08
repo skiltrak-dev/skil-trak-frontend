@@ -16,6 +16,7 @@ import { useRouter } from 'next/router'
 import { TicketStatus } from 'pages/portals/admin/tickets'
 import { useState } from 'react'
 import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
+import { StudentCellInfo } from '../students'
 
 export const ClosedTickets = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -53,6 +54,18 @@ export const ClosedTickets = () => {
                 return <TicketSubject ticket={info?.row?.original} />
             },
             header: () => <span>Subject</span>,
+        },
+        {
+            accessorKey: 'user.name',
+            cell: (info) => {
+                return (
+                    <StudentCellInfo
+                        student={info?.row?.original?.student}
+                        call
+                    />
+                )
+            },
+            header: () => <span>Student</span>,
         },
         {
             accessorKey: 'createdBy',

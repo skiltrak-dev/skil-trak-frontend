@@ -106,6 +106,10 @@ export interface Student extends BaseResponse {
     gender: string
 }
 
+interface UserExtend extends User {
+    rto: Rto
+}
+
 export interface SubAdmin extends BaseResponse {
     id: number
     user: User
@@ -114,7 +118,7 @@ export interface SubAdmin extends BaseResponse {
     courses: Course[]
     coordinatorId: string
     addressLine1: string
-    createdBy: User
+    createdBy: UserExtend
 }
 
 export interface Industry extends BaseResponse {

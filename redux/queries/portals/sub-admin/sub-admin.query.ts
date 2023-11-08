@@ -293,7 +293,7 @@ export const SubAdminApi = {
     Student: {
         useCount: useSubAdminStudentCountQuery,
         useList: useGetSubAdminStudentsQuery,
-        useSubAdminStudentList:useGetSubAdminTicketStudentsListQuery,
+        useSubAdminStudentList: useGetSubAdminTicketStudentsListQuery,
         assignCourse: useSubadminStudentAssignCoursesMutation,
         subadminStudentUnassignCourses:
             useSubadminStudentUnassignCoursesMutation,

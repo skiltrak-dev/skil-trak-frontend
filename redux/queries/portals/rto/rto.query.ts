@@ -85,6 +85,7 @@ export const {
 
     // ------ STUDENT ------ //
     useStudentsCountQuery,
+    useGetRtoStudentsListQuery,
     useStudentsImportMutation,
     useAddStudentMutation,
     useGetNotContactableStudentsQuery,
@@ -97,6 +98,7 @@ export const {
     useRemoveCoordinatorMutation,
     useCoordinatorCreateMutation,
     useGetRtoCoordinatorsDetailQuery,
+    useGetRtoAssignedCoordinatorsQuery,
 
     // --- APPOINTMENTS --- //
     useGetRTOAppointmentsQuery,
@@ -165,6 +167,7 @@ export const RtoApi = {
     Students: {
         useCount: useStudentsCountQuery,
         useImportStudents: useStudentsImportMutation,
+        useRtoStudentsList: useGetRtoStudentsListQuery,
         useAddStudent: useAddStudentMutation,
         useGetNotContactableStudents: useGetNotContactableStudentsQuery,
         useNewStudentsReport: useGetNewStudentsReportQuery,
@@ -184,6 +187,7 @@ export const RtoApi = {
         useCreate: useCoordinatorCreateMutation,
         useList: useGetRtoCoordinatorsQuery,
         useDetail: useGetRtoCoordinatorsDetailQuery,
+        useAssignedCoordinators: useGetRtoAssignedCoordinatorsQuery,
         useRemove: useRemoveCoordinatorMutation,
     },
     Courses: {

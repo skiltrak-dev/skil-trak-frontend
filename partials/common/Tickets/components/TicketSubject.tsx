@@ -16,6 +16,8 @@ export const TicketSubject = ({ ticket }: { ticket: any }) => {
                     ? `/portals/admin/tickets/detail/${ticket?.id}`
                     : role === UserRoles.SUBADMIN
                     ? `/portals/sub-admin/tickets/detail/${ticket?.id}`
+                    : role === UserRoles.RTO
+                    ? `/portals/rto/tickets/detail/${ticket?.id}`
                     : ''
             }
         >

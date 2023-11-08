@@ -420,21 +420,8 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['Students', 'SubAdminStudents'],
     }),
-    getSubAdminTicketStudentsList: builder.query<any, any>({
-        query: (id) => ({
-            url: `${PREFIX}/students/list/${id}`,
-        }),
+    getSubAdminTicketStudentsList: builder.query<any, void>({
+        query: () => `${PREFIX}/students/list`,
         providesTags: ['SubAdminStudents'],
     }),
-
-    // updateSubAdminRtoStudentStatus: builder.mutation<any, any | null>({
-    //     query: ({id, status}:any) => {
-    //         return {
-    //             url: `subadmin/student/update-status/${id}`,
-    //             method: 'PATCH',
-    //             body: {status}
-    //         }
-    //     },
-    //     invalidatesTags: ['SubAdminRtos'],
-    // }),
 })

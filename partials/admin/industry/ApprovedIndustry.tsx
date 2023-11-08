@@ -148,13 +148,8 @@ export const ApprovedIndustry = () => {
             ),
         },
         {
-            accessorKey: 'createdBy',
+            accessorKey: 'channel',
             header: () => <span>Created By</span>,
-            cell: (info) => (
-                <Typography variant="label" semibold>
-                    Self
-                </Typography>
-            ),
         },
         {
             accessorKey: 'createdAt',

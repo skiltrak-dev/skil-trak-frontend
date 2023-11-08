@@ -81,7 +81,7 @@ export const SubAdminsTab = ({ rto }: any) => {
         {
             accessorKey: 'user.name',
             cell: (info) => (
-                <SubAdminCell subAdmin={info.row.original as RTOSubAdmin} />
+                <SubAdminCell subAdmin={info.row.original as any} />
             ),
             header: () => <span>Name</span>,
         },
@@ -151,7 +151,7 @@ export const SubAdminsTab = ({ rto }: any) => {
                         <Table<RTOSubAdmin>
                             columns={columns}
                             data={data.data}
-                            quickActions={quickActionsElements}
+                            quickActions={quickActionsElements as any}
                             enableRowSelection
                         >
                             {({

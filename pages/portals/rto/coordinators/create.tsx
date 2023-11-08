@@ -45,6 +45,14 @@ const AddCoordinator: NextPageWithLayout = () => {
         }
     }, [createCoordinatorResult])
 
+    const rto = RtoApi.Rto.useProfile()
+
+    const rtoCoursesOptions = rto?.data?.courses?.map((course: any) => ({
+        label: course?.title,
+        value: course?.id,
+        item: course,
+    }))
+
     return (
         <div className="p-6 flex flex-col gap-y-4 mb-20">
             <ShowErrorNotifications result={createCoordinatorResult} />
@@ -54,6 +62,7 @@ const AddCoordinator: NextPageWithLayout = () => {
                     <SubAdminForm
                         onSubmit={onSubmit}
                         result={createCoordinatorResult}
+                        rtoCoursesOptions={rtoCoursesOptions}
                     />
                 </Card>
             </div>
