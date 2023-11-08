@@ -15,6 +15,7 @@ import moment from 'moment'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
+import { StudentCellInfo } from '../student/components'
 
 export const AllTickets = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -51,6 +52,18 @@ export const AllTickets = () => {
                 return <TicketSubject ticket={info?.row?.original} />
             },
             header: () => <span>Subject</span>,
+        },
+        {
+            accessorKey: 'user.name',
+            cell: (info) => {
+                return (
+                    <StudentCellInfo
+                        student={info?.row?.original?.student}
+                        call
+                    />
+                )
+            },
+            header: () => <span>Student</span>,
         },
         {
             accessorKey: 'createdBy',

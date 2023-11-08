@@ -1,14 +1,14 @@
 import { ReactElement, useEffect } from 'react'
 
 // Layouts
-import { SubAdminLayout } from '@layouts'
+import { RtoLayout, SubAdminLayout } from '@layouts'
 // Types
 import { BackButton, draftToHtmlText } from '@components'
 import { PageHeading } from '@components/headings'
 import { useNavbar, useNotification } from '@hooks'
 import { AddTicketForm } from '@partials/common/Tickets'
 import { NextPageWithLayout } from '@types'
-import { AdminApi, CommonApi, SubAdminApi } from '@queries'
+import { AdminApi, CommonApi, RtoApi, SubAdminApi } from '@queries'
 import { useRouter } from 'next/router'
 
 const AddTicket: NextPageWithLayout = () => {
@@ -18,8 +18,8 @@ const AddTicket: NextPageWithLayout = () => {
 
     const [createTicket, createTicketResult] =
         CommonApi.Tickets.useCreateTicket()
-    const subadmins = AdminApi.Workplace.subadminForAssignWorkplace()
-    const studentList = SubAdminApi.Student.useSubAdminStudentList()
+    const subadmins = RtoApi.Coordinator.useAssignedCoordinators()
+    const studentList = RtoApi.Students.useRtoStudentsList()
 
     useEffect(() => {
         setTitle('Add Tickets')
@@ -32,7 +32,7 @@ const AddTicket: NextPageWithLayout = () => {
                 description: 'Ticket Created Successfully',
             })
             router.push(
-                `/portals/sub-admin/tickets/detail/${createTicketResult.data?.id}`
+                `/portals/rto/tickets/detail/${createTicketResult.data?.id}`
             )
         }
     }, [createTicketResult])
@@ -57,16 +57,16 @@ const AddTicket: NextPageWithLayout = () => {
 
             <AddTicketForm
                 onSubmit={onSubmit}
-                result={createTicketResult}
-                students={studentList}
                 subadmins={subadmins}
+                students={studentList}
+                result={createTicketResult}
             />
         </div>
     )
 }
 
 AddTicket.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout>{page}</SubAdminLayout>
+    return <RtoLayout>{page}</RtoLayout>
 }
 
 export default AddTicket

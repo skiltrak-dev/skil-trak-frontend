@@ -17,6 +17,7 @@ import { TicketStatus } from 'pages/portals/admin/tickets'
 import { useState } from 'react'
 import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
 import { BsFillEyeFill } from 'react-icons/bs'
+import { StudentCellInfo } from '../students'
 
 export const OpenTickets = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -55,6 +56,7 @@ export const OpenTickets = () => {
             },
             header: () => <span>Subject</span>,
         },
+
         {
             accessorKey: 'createdBy',
             cell: (info) => (
@@ -63,12 +65,15 @@ export const OpenTickets = () => {
             header: () => <span>Created By</span>,
         },
         {
-            accessorKey: 'student',
-            cell: (info) => (
-                <TicketUser
-                    ticket={info?.row?.original?.student?.user || 'N/A'}
-                />
-            ),
+            accessorKey: 'user.name',
+            cell: (info) => {
+                return (
+                    <StudentCellInfo
+                        student={info?.row?.original?.student}
+                        call
+                    />
+                )
+            },
             header: () => <span>Linked Student</span>,
         },
         {

@@ -1,4 +1,10 @@
-import { Button, Card, Portal, Typography } from '@components'
+import {
+    AuthorizedUserComponent,
+    Button,
+    Card,
+    Portal,
+    Typography,
+} from '@components'
 import React, { ReactElement, useState } from 'react'
 import { BsArrowLeft, BsDot } from 'react-icons/bs'
 import { TicketUser } from './TicketUser'
@@ -9,6 +15,9 @@ import { UserRoles } from '@constants'
 import { CloseTicketModal } from '@partials/admin/Tickets'
 import { FaLongArrowAltLeft } from 'react-icons/fa'
 import { useRouter } from 'next/router'
+import { StudentCellInfo as SubadminStudentCellInfo } from '@partials/sub-admin/students'
+import { StudentCellInfo as RtoStudentCellInfo } from '@partials/rto/student/components'
+import { StudentCellInfo } from '@partials/admin/student/components'
 
 export const TicketDetailHeaderCard = ({
     ticket,
@@ -103,6 +112,18 @@ export const TicketDetailHeaderCard = ({
                         </div>
                     </div>
                     <div className="flex items-center gap-x-12">
+                        <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                            <StudentCellInfo student={ticket?.student} />
+                        </AuthorizedUserComponent>
+                        <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                            <SubadminStudentCellInfo
+                                student={ticket?.student}
+                            />
+                        </AuthorizedUserComponent>
+                        <AuthorizedUserComponent roles={[UserRoles.RTO]}>
+                            <RtoStudentCellInfo student={ticket?.student} />
+                        </AuthorizedUserComponent>
+
                         <div>
                             <Typography color={'text-gray-400'} variant={'xs'}>
                                 Created By:

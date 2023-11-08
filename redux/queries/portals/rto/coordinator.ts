@@ -28,6 +28,10 @@ export const coordinatorEndpoints = (
         }),
         providesTags: ['Rto-Coordinators', 'SubAdmins'],
     }),
+    getRtoAssignedCoordinators: builder.query<any, void>({
+        query: () => `${PREFIX}/coordinator/names/list`,
+        providesTags: ['Rto-Coordinators', 'SubAdmins'],
+    }),
     getRtoCoordinatorsDetail: builder.query<any, number>({
         query: (id) => `${PREFIX}/coordinator/profile/${id}`,
         providesTags: ['Rto-Coordinators'],

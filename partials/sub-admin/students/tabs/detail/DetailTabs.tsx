@@ -11,6 +11,7 @@ import { OverViewTab } from './OverviewTab'
 import { RequiredDocs } from './RequiredDocs'
 import { Schedule } from './Schedule'
 import { WorkplaceTab } from './WorkplaceTab'
+import { StudentTickets } from './StudentTickets'
 export const DetailTabs = ({
     id,
     student,
@@ -62,6 +63,11 @@ export const DetailTabs = ({
             label: 'Workplace',
             href: { pathname: String(id), query: { tab: 'workplace' } },
             element: <WorkplaceTab studentId={student?.id} />,
+        },
+        {
+            label: 'Student Ticket',
+            href: { pathname: String(id), query: { tab: 'studenttickets' } },
+            element: <StudentTickets student={student} />,
         },
         {
             label: 'Appointments',

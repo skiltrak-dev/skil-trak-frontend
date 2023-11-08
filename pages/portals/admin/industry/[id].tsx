@@ -6,8 +6,15 @@ import {
     IndustryProfile,
     LoadingAnimation,
     TechnicalError,
+    TextInput,
 } from '@components'
-import { useActionModal, useAlert, useContextBar, useNavbar } from '@hooks'
+import {
+    useActionModal,
+    useAlert,
+    useContextBar,
+    useNavbar,
+    useNotification,
+} from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout, UserStatus } from '@types'
 import { useRouter } from 'next/router'
@@ -15,13 +22,14 @@ import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import { FaArchive, FaBan, FaEdit } from 'react-icons/fa'
 
 import { DetailTabs } from '@partials/admin/industry/tabs'
-import { AdminApi } from '@queries'
+import { AdminApi, CommonApi } from '@queries'
 
 import { FigureCard } from '@components/sections/subAdmin'
 import { PinnedNotes } from '@partials'
 import { useActionModals } from '@partials/admin/industry/hooks/useActionModals'
 import { getUserCredentials } from '@utils'
 import { AcceptModal } from '@partials/admin/industry/modals'
+import { SnoozeIndustry } from '@partials/common'
 
 const Detail: NextPageWithLayout = () => {
     const [newModal, setNewModal] = useState<ReactNode | null>(null)
@@ -273,7 +281,6 @@ const Detail: NextPageWithLayout = () => {
                             {statusBaseActions()}
                         </div>
                     </div>
-
                     <div className="flex">
                         <FigureCard
                             imageUrl="/images/icons/students.png"
@@ -282,6 +289,7 @@ const Detail: NextPageWithLayout = () => {
                             link={`/portals/admin/industry/${industry?.data?.id}?tab=students`}
                         />
                     </div>
+                    <SnoozeIndustry industry={industry?.data} />
 
                     <PinnedNotes id={industry?.data?.user?.id} />
                     <DetailTabs id={router.query.id} industry={industry} />
