@@ -7,9 +7,6 @@ import { NextPageWithLayout } from '@types'
 import { RequiredDocumentsContainer } from '@components/sections/industry/Dashboard'
 
 const RequiredDocuments: NextPageWithLayout = () => {
-    const router = useRouter()
-    const { query } = router
-
     return (
         <div>
             <RequiredDocumentsContainer />

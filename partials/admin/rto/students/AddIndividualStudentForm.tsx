@@ -10,7 +10,7 @@ import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AdminApi, AuthApi } from '@queries'
 import { Course } from '@types'
-import { onlyAlphabets } from '@utils'
+import { CourseSelectOption, formatOptionLabel, onlyAlphabets } from '@utils'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -32,6 +32,7 @@ export const AddIndividualStudentForm = () => {
             ? rto?.data?.courses?.map((course: Course) => ({
                   label: course?.title,
                   value: course?.id,
+                  item: course,
               }))
             : []
 
@@ -199,6 +200,8 @@ export const AddIndividualStudentForm = () => {
                                 options={rtoCoursesOptions}
                                 multi
                                 validationIcons
+                                components={{ Option: CourseSelectOption }}
+                                formatOptionLabel={formatOptionLabel}
                             />
                             <TextInput
                                 label={'Expiry Date'}

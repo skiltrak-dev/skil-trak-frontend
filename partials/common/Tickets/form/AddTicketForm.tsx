@@ -32,7 +32,6 @@ export const AddTicketForm = ({
     const studentList = SubAdminApi.Student.useSubAdminStudentList(
         subAdminId?.id
     )
-    console.log(studentList)
 
     const validationSchema = yup.object({
         assignedTo: yup.number().required('Must provide Assign To'),

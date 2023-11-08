@@ -41,6 +41,7 @@ const RtoStudentLists: NextPageWithLayout = () => {
             ? rto?.data?.courses?.map((course: Course) => ({
                   label: course?.title,
                   value: course?.id,
+                  item: course,
               }))
             : []
 

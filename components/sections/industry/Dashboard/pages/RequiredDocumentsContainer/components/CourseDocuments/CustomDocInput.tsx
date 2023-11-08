@@ -1,19 +1,27 @@
-import { useEffect, useState } from 'react'
-import { DocsCheckbox } from '../DocsCheckbox'
-import { Button, TextInput, Select, Switch, ActionButton } from '@components'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { FormProvider, useForm } from 'react-hook-form'
+import {
+    ActionButton,
+    Button,
+    Portal,
+    Select,
+    ShowErrorNotifications,
+    Switch,
+    TextInput,
+} from '@components'
 import {
     useAddOrUpdateRequiredDocumentMutation,
-    useEditDocumentMutation,
     useDeleteDocumentMutation,
+    useUpdateFolderMutation,
 } from '@queries'
+import { ReactElement, useEffect, useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { DocsCheckbox } from '../DocsCheckbox'
 
-import { MdCheck, MdEdit, MdOutlineClose } from 'react-icons/md'
 import { AiFillDelete } from 'react-icons/ai'
+import { MdCheck, MdEdit, MdOutlineClose } from 'react-icons/md'
 // import { DeleteActionPopup } from 'components'
+import { Industry } from '@types'
 import { useNotification } from 'hooks'
-import { Formik, Form } from 'formik'
+import { DeleteModal } from '../../modal'
 
 export const CustomDocInput = ({
     name,
@@ -21,21 +29,30 @@ export const CustomDocInput = ({
     required,
     type,
     folder,
-}: any) => {
+    industry,
+}: {
+    name: string
+    checked: boolean
+    required: boolean
+    type: any
+    folder: any
+    industry: Industry
+}) => {
     const { notification } = useNotification()
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [updateDocument, result] = useAddOrUpdateRequiredDocumentMutation()
     const [isChecked, setChecked] = useState<boolean | null>(checked)
 
-    const [deletePopup, setDeletePopUp] = useState<any | null>(null)
-    const [deleteDocument, deleteResult] = useDeleteDocumentMutation()
-
-    const [editDocument, editResult] = useEditDocumentMutation()
-
+    const [updateFolder, updateFolderResult] = useUpdateFolderMutation()
     const [editing, setEditing] = useState(false)
 
     const onCheckChange = (event: any) => {
-        updateDocument({ ...folder, checked: event.target.checked })
+        updateDocument({
+            ...folder,
+            checked: event.target.checked,
+            industry: industry?.user?.id,
+        })
     }
 
     useEffect(() => {
@@ -44,60 +61,50 @@ export const CustomDocInput = ({
         }
     }, [result])
 
-    const onConfirmDelete = () => {
-        deleteDocument({ id: folder.folderId })
-        setDeletePopUp(null)
+    const onCancelClicked = () => {
+        setModal(null)
     }
 
-    const onCancelDelete = () => {
-        setDeletePopUp(null)
-    }
-
-    const onDelete = () => {
-        // setDeletePopUp(
-        //   <DeleteActionPopup
-        //     title="Delete Folder Requirement"
-        //     description={`You are about to delete '${name}' folder requirement`}
-        //     onCancel={onCancelDelete}
-        //     onConfirm={onConfirmDelete}
-        //   />
-        // )
-    }
-
-    const onEdit = (values: any) => {
-        editDocument({
-            ...values,
-            id: folder.documentId,
-        })
+    const onDeleteFolder = () => {
+        setModal(
+            <Portal>
+                <DeleteModal
+                    onCancel={onCancelClicked}
+                    folder={{ ...folder, name }}
+                />
+            </Portal>
+        )
     }
 
     useEffect(() => {
-        if (deleteResult && deleteResult.isSuccess) {
-            notification.error({
-                title: `Requirement Deleted!`,
-                description: `Your folder requirement '${name}' was deleted successfully.`,
-            })
-        }
-
-        if (editResult && editResult.isSuccess) {
-            notification.info({
-                title: `Requirement Updated!`,
+        if (updateFolderResult.isSuccess) {
+            notification.success({
+                title: `Folder Updated!`,
                 description: `Your folder requirement '${name}' was updated successfully.`,
             })
-
             setEditing(false)
         }
-    }, [deleteResult, editResult, name])
+    }, [updateFolderResult])
 
     const methods = useForm({
         mode: 'all',
+        defaultValues: {
+            name,
+        },
     })
 
-    const onSubmit = () => {}
+    const onSubmit = (values: any) => {
+        updateFolder({
+            ...values,
+            id: folder?.folderId,
+        })
+    }
 
     return (
         <>
-            {deletePopup && deletePopup}
+            {modal}
+            <ShowErrorNotifications result={result} />
+            <ShowErrorNotifications result={updateFolderResult} />
             {editing ? (
                 <FormProvider {...methods}>
                     <form
@@ -144,10 +151,12 @@ export const CustomDocInput = ({
                                     mini
                                     Icon={MdCheck}
                                     variant={'success'}
-                                    loading={editResult.isLoading}
+                                    loading={updateFolderResult.isLoading}
+                                    disabled={updateFolderResult.isLoading}
                                     submit
                                 />
-                                {!editResult.isLoading && (
+
+                                {!updateFolderResult.isLoading && (
                                     <Button
                                         mini
                                         Icon={MdOutlineClose}
@@ -175,12 +184,7 @@ export const CustomDocInput = ({
                         />
                     </div>
                     <div className="w-1/5 flex justify-center">
-                        <Switch
-                            value={required}
-                            name={name}
-                            // setFieldValue={isRequiredForCustomField}
-                            // disabled={!isChecked}
-                        />
+                        <Switch value={required} name={name} />
                     </div>
                     <div className="w-1/5 capitalize text-sm text-center">
                         {type}
@@ -199,10 +203,8 @@ export const CustomDocInput = ({
                             Icon={AiFillDelete}
                             variant={'error'}
                             onClick={() => {
-                                !deleteResult.isLoading && onDelete()
-                                onConfirmDelete()
+                                onDeleteFolder()
                             }}
-                            loading={deleteResult.isLoading}
                             title={'Delete Custom Docs'}
                         />
                     </div>

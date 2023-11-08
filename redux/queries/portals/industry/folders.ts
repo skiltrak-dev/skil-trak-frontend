@@ -15,7 +15,7 @@ export const foldersEndpoints = (
     }),
     updateFolder: builder.mutation<any, any>({
         query: (body) => ({
-            url: `admin/folder/update/${body.id}`,
+            url: `industries/folder/update/${body.id}`,
             method: 'PATCH',
             body,
         }),
@@ -23,7 +23,7 @@ export const foldersEndpoints = (
     }),
     removeFolder: builder.mutation({
         query: (id) => ({
-            url: `admin/folder/remove/${id}`,
+            url: `industries/folder/remove/${id}`,
             method: 'DELETE',
         }),
         invalidatesTags: ['Document'],
@@ -51,44 +51,35 @@ export const foldersEndpoints = (
         }),
         invalidatesTags: ['Document'],
     }),
-    getIndustryDocuments: builder.query<any, any>({
-        query: (course) => {
-            return {
-                url: 'industries/folder/list',
-                params: { course },
-            }
-        },
+    getIndustryDocuments: builder.query<any, { course: number; id?: number }>({
+        query: (params) => ({
+            url: 'industries/folder/list',
+            params,
+        }),
         providesTags: ['Document'],
     }),
     addOrUpdateRequiredDocument: builder.mutation<any, any>({
-        query: (body) => ({
+        query: ({ industry, ...body }) => ({
             url: `industries/folder/add-or-update`,
             method: 'POST',
+            params: { id: industry },
             body,
         }),
         invalidatesTags: ['Document'],
     }),
     addDocument: builder.mutation({
-        query: (body) => ({
+        query: ({ industry, ...body }) => ({
             url: `industries/folder/add`,
             method: 'POST',
-            body: body,
+            params: { id: industry },
+            body,
         }),
         invalidatesTags: ['Document'],
     }),
-    deleteDocument: builder.mutation({
-        query: (body) => ({
-            url: `industries/folder/delete`,
+    deleteDocument: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `industries/folder/delete/${id}`,
             method: 'DELETE',
-            body: body,
-        }),
-        invalidatesTags: ['Document'],
-    }),
-    editDocument: builder.mutation({
-        query: (body) => ({
-            url: `industries/folder/edit`,
-            method: 'PATCH',
-            body: body,
         }),
         invalidatesTags: ['Document'],
     }),

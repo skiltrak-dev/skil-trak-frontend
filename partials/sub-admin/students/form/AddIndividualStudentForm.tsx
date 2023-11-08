@@ -193,7 +193,6 @@ export const AddIndividualStudentForm = () => {
                             <Select
                                 label={'Courses'}
                                 name={'courses'}
-                                defaultValue={courseOptions}
                                 options={courseOptions}
                                 multi
                                 loading={rtoCourses.isLoading}
