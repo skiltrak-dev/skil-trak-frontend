@@ -12,6 +12,7 @@ import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 import GoogleMapReact from 'google-map-react'
 import {
+    Button,
     Filter,
     FindWorkplaceFilters,
     LoadingAnimation,
@@ -24,6 +25,7 @@ import { AdminApi, commonApi } from '@queries'
 import { checkFilteredDataLength } from '@utils'
 import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
 import { useContextBar } from '@hooks'
+import { FaIndustry } from 'react-icons/fa'
 type Props = {}
 const filterKeys = ['businessName', 'address', 'sector', 'email', 'phone']
 const IndustryListing: NextPageWithLayout = (props: Props) => {
@@ -45,9 +47,7 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
             .trim()}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
-    }) 
-
-    
+    })
 
     const onSetIndustryData = useCallback((data: any) => {
         setIndustryData(data)
@@ -66,6 +66,13 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
     const filteredDataLength = checkFilteredDataLength(filter)
 
     useEffect(() => {
+        return () => {
+            contextBar.setContent(null)
+            contextBar.hide()
+        }
+    }, [])
+
+    const onAddIndustry = () => {
         contextBar.setContent(
             <AddIndustry
                 industryData={industryData}
@@ -75,19 +82,25 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
             />
         )
         contextBar.show(false)
-
-        return () => {
-            contextBar.setContent(null)
-            contextBar.hide()
-        }
-    }, [])
+        contextBar.setTitle('Add Future Industry')
+    }
     return (
         <div>
             <SetDetaultQueryFilteres<FindWorkplaceFilter>
                 filterKeys={filterKeys}
                 setFilter={setFilter}
             />
-            <div className="flex justify-end mt-4 mr-6">{filterAction}</div>
+            <div className="flex justify-end gap-x-2 mt-4 mr-6">
+                {filterAction}{' '}
+                <Button
+                    text={'Add Industry'}
+                    variant="dark"
+                    Icon={FaIndustry}
+                    onClick={() => {
+                        onAddIndustry()
+                    }}
+                />
+            </div>
             <Filter<FindWorkplaceFilter>
                 component={FindWorkplaceFilters}
                 initialValues={filter}
@@ -106,7 +119,7 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
                         <FilteredSearchIndustries
                             setPage={setPage}
                             itemPerPage={itemPerPage}
-                            subAdmin={filteredIndustries}
+                            industries={filteredIndustries}
                             setItemPerPage={setItemPerPage}
                             onSetIndustryData={(data: any) => {
                                 onSetIndustryData(data)
