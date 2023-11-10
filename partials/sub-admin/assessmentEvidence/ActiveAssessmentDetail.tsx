@@ -388,6 +388,10 @@ export const ActiveAssessmentDetail = ({
             (f: any) => f?.studentResponse[0]?.files?.length > 0
         )
 
+    const files = getFolders?.data
+        ?.map((f: any) => f?.studentResponse?.[0]?.files?.length > 0)
+        ?.filter((f: any) => f)?.length
+
     const rejectedFolderes = getFolders?.data?.filter(
         (f: any) => f?.studentResponse?.[0]?.status === 'rejected'
     )?.length
@@ -400,7 +404,8 @@ export const ActiveAssessmentDetail = ({
         !getFolders.isLoading &&
         !getFolders.isFetching &&
         getFolders.isSuccess &&
-        rejectedFolderes === resubmitFiles
+        rejectedFolderes === resubmitFiles &&
+        Number(files) > 0
 
     return (
         <div className="mb-10">
