@@ -349,7 +349,8 @@ export const ActiveIndustries = ({
                     {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : data && data?.paginatedResults?.data?.length ? (
+                    ) : data?.paginatedResults?.data &&
+                      data?.paginatedResults?.data?.length ? (
                         <Table
                             columns={columns as any}
                             data={data?.paginatedResults?.data}
@@ -367,12 +368,13 @@ export const ActiveIndustries = ({
                                         {pageSize(
                                             itemPerPage,
                                             setItemPerPage,
-                                            data?.data?.length
+                                            data?.paginatedResults?.data?.length
                                         )}
                                         <div className="flex gap-x-2">
                                             {quickActions}
                                             {pagination(
-                                                data?.pagination,
+                                                data?.paginatedResults
+                                                    ?.pagination,
                                                 setPage
                                             )}
                                         </div>

@@ -45,9 +45,7 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
             .trim()}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
-    }) 
-
-    
+    })
 
     const onSetIndustryData = useCallback((data: any) => {
         setIndustryData(data)
@@ -106,7 +104,7 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
                         <FilteredSearchIndustries
                             setPage={setPage}
                             itemPerPage={itemPerPage}
-                            subAdmin={filteredIndustries}
+                            industries={filteredIndustries}
                             setItemPerPage={setItemPerPage}
                             onSetIndustryData={(data: any) => {
                                 onSetIndustryData(data)

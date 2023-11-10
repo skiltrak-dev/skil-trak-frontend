@@ -37,13 +37,13 @@ import { checkListLength } from '@utils'
 import Image from 'next/image'
 
 export const FilteredSearchIndustries = ({
-    subAdmin,
+    industries,
     setPage,
     itemPerPage,
     setItemPerPage,
     onSetIndustryData,
 }: {
-    subAdmin: any
+    industries: any
     setPage: any
     itemPerPage: any
     setItemPerPage: any
@@ -347,12 +347,13 @@ export const FilteredSearchIndustries = ({
                 />
 
                 <Card noPadding>
-                    {subAdmin?.isLoading || subAdmin?.isFetching ? (
+                    {industries?.isLoading || industries?.isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : subAdmin?.data && subAdmin?.data?.data.length ? (
+                    ) : industries?.data &&
+                      industries?.data?.paginatedResults?.data?.length ? (
                         <Table
                             columns={columns as any}
-                            data={subAdmin?.data.data}
+                            data={industries.data?.paginatedResults?.data}
                             quickActions={quickActionsElements}
                             enableRowSelection
                         >
@@ -367,12 +368,17 @@ export const FilteredSearchIndustries = ({
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize(
                                                 itemPerPage,
-                                                setItemPerPage
+                                                setItemPerPage,
+                                                industries.data
+                                                    ?.paginatedResults?.data
+                                                    ?.length
                                             )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
                                                 {pagination(
-                                                    subAdmin?.data?.pagination,
+                                                    industries?.data
+                                                        ?.paginatedResults
+                                                        ?.pagination,
                                                     setPage
                                                 )}
                                             </div>
