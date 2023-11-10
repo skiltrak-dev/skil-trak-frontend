@@ -78,6 +78,7 @@ export const AssessmentFolderCard = ({
         'text-red-700':
             response?.status === 'rejected' || response?.status === 'blocked',
     })
+
     return (
         <>
             <div
@@ -104,9 +105,7 @@ export const AssessmentFolderCard = ({
                     </div>
                     <div>
                         <div className={` px-2 `}>
-                            {assessment &&
-                            response &&
-                            response?.files?.length > 0 ? (
+                            {assessment && response ? (
                                 response?.reSubmitted ? (
                                     <Badge
                                         text={'Re-Submitted'}
