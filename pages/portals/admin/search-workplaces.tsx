@@ -19,6 +19,7 @@ import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { FaIndustry } from 'react-icons/fa'
+import { MdAddBusiness } from 'react-icons/md'
 
 type Props = {}
 const filterKeys = ['businessName', 'address', 'sector', 'email', 'phone']
@@ -99,7 +100,7 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
                 <Button
                     text={'Add Industry'}
                     variant="dark"
-                    Icon={FaIndustry}
+                    Icon={MdAddBusiness}
                     onClick={() => {
                         onAddIndustry()
                     }}
