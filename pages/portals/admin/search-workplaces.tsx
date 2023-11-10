@@ -1,4 +1,5 @@
 import {
+    Button,
     Filter,
     FindWorkplaceFilters,
     LoadingAnimation,
@@ -17,6 +18,7 @@ import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
 import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
+import { FaIndustry } from 'react-icons/fa'
 
 type Props = {}
 const filterKeys = ['businessName', 'address', 'sector', 'email', 'phone']
@@ -67,6 +69,13 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
     const filteredDataLength = checkFilteredDataLength(filter)
 
     useEffect(() => {
+        return () => {
+            contextBar.setContent(null)
+            contextBar.hide()
+        }
+    }, [industryData])
+
+    const onAddIndustry = () => {
         contextBar.setContent(
             <AddIndustry
                 industryData={industryData}
@@ -76,12 +85,8 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
             />
         )
         contextBar.show(false)
-
-        return () => {
-            contextBar.setContent(null)
-            contextBar.hide()
-        }
-    }, [industryData])
+        contextBar.setTitle('Add Future Industry')
+    }
 
     return (
         <div>
@@ -89,7 +94,17 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
                 filterKeys={filterKeys}
                 setFilter={setFilter}
             />
-            <div className="flex justify-end mt-4 mr-6">{filterAction}</div>
+            <div className="flex justify-end gap-x-2 mt-4 mr-6">
+                {filterAction}
+                <Button
+                    text={'Add Industry'}
+                    variant="dark"
+                    Icon={FaIndustry}
+                    onClick={() => {
+                        onAddIndustry()
+                    }}
+                />
+            </div>
             <Filter<FindWorkplaceFilter>
                 component={FindWorkplaceFilters}
                 initialValues={filter}
@@ -108,7 +123,7 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
                         <FilteredSearchIndustries
                             setPage={setPage}
                             itemPerPage={itemPerPage}
-                            subAdmin={filteredIndustries}
+                            industries={filteredIndustries}
                             setItemPerPage={setItemPerPage}
                             onSetIndustryData={(data: any) => {
                                 onSetIndustryData(data)

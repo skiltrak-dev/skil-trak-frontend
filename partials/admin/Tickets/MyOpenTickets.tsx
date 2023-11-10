@@ -73,11 +73,13 @@ export const MyOpenTickets = () => {
         {
             accessorKey: 'user.name',
             cell: (info) => {
-                return (
+                return info?.row?.original?.student ? (
                     <StudentCellInfo
                         student={info?.row?.original?.student}
                         call
                     />
+                ) : (
+                    'N/A'
                 )
             },
             header: () => <span>Student</span>,
