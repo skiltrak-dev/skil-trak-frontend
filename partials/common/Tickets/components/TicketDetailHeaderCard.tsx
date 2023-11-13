@@ -112,17 +112,31 @@ export const TicketDetailHeaderCard = ({
                         </div>
                     </div>
                     <div className="flex items-center gap-x-12">
-                        <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
-                            <StudentCellInfo student={ticket?.student} />
-                        </AuthorizedUserComponent>
-                        <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
-                            <SubadminStudentCellInfo
-                                student={ticket?.student}
-                            />
-                        </AuthorizedUserComponent>
-                        <AuthorizedUserComponent roles={[UserRoles.RTO]}>
-                            <RtoStudentCellInfo student={ticket?.student} />
-                        </AuthorizedUserComponent>
+                        {ticket?.student && (
+                            <>
+                                <AuthorizedUserComponent
+                                    roles={[UserRoles.ADMIN]}
+                                >
+                                    <StudentCellInfo
+                                        student={ticket?.student}
+                                    />
+                                </AuthorizedUserComponent>
+                                <AuthorizedUserComponent
+                                    roles={[UserRoles.SUBADMIN]}
+                                >
+                                    <SubadminStudentCellInfo
+                                        student={ticket?.student}
+                                    />
+                                </AuthorizedUserComponent>
+                                <AuthorizedUserComponent
+                                    roles={[UserRoles.RTO]}
+                                >
+                                    <RtoStudentCellInfo
+                                        student={ticket?.student}
+                                    />
+                                </AuthorizedUserComponent>
+                            </>
+                        )}
 
                         <div>
                             <Typography color={'text-gray-400'} variant={'xs'}>

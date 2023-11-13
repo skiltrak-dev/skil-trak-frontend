@@ -342,6 +342,30 @@ export const StudentProfileForm = ({
                                             },
                                         ]}
                                     />
+                                    <div>
+                                        <RadioGroup
+                                            gridColumns="2"
+                                            layout="grid"
+                                            // value={'yes'}
+                                            name="qualification"
+                                            label="Are you international student domestic?"
+                                            options={[
+                                                {
+                                                    value: 'international',
+                                                    label: 'International',
+                                                },
+                                                {
+                                                    value: 'domestic',
+                                                    label: 'Domestic',
+                                                },
+                                            ]}
+                                            // onChange={(e: any) => {
+                                            //     setQualification(
+                                            //         e?.target?.value
+                                            //     )
+                                            // }}
+                                        />
+                                    </div>
                                 </div>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                                     <TextInput
