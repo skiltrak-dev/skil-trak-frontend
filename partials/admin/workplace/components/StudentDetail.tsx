@@ -19,7 +19,7 @@ export const StudentDetail = ({ data }: any) => {
                 <div className="flex items-center gap-x-2">
                     <MdLocationOn className="text-gray-400 rounded-full" />
                     <Typography variant={'label'}>
-                        {data?.addressLine1}, {data?.addressLine2}
+                        {data?.addressLine1},{data?.suburb}, {data?.state}
                     </Typography>
                 </div>
             </div>

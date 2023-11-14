@@ -25,8 +25,6 @@ export const SubmitSubmissionForAssessment = ({
     const [submitAssessment, submitAssessmentResult] =
         useSubmitStudentAssessmentMutation()
 
-    console.log({ test })
-
     useEffect(() => {
         if (submitAssessmentResult.isSuccess) {
             notification.success({
@@ -56,7 +54,6 @@ export const SubmitSubmissionForAssessment = ({
             result?.result === Result.NotSubmitted &&
             !submitAssessmentResult.isLoading
         ) {
-            console.log('First')
             onSubmitAssessment()
         }
     }, [isFilesUploaded, submitAssessmentResult, results, result])
@@ -68,7 +65,6 @@ export const SubmitSubmissionForAssessment = ({
             result?.status !== Result.Pending &&
             !submitAssessmentResult.isLoading
         ) {
-            console.log('Second')
             onSubmitAssessment()
         }
     }, [result, results, isResubmittedFiles, submitAssessmentResult])

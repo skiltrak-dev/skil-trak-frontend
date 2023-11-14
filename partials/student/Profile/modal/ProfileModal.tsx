@@ -104,6 +104,8 @@ export const ProfileModal = ({
                           })),
                       }
                     : {}),
+                isInternational:
+                    values?.isInternational === 'international' ? true : false,
                 user: {
                     name,
                     email,

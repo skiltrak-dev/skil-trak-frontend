@@ -62,6 +62,8 @@ const EditStudent: NextPageWithLayout = () => {
                       }
                     : {}),
                 dob,
+                isInternational:
+                    values?.isInternational === 'international' ? true : false,
                 user: {
                     id: student?.data?.user?.id,
                     name,

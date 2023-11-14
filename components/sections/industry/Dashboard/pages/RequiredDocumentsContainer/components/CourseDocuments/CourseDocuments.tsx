@@ -51,8 +51,6 @@ export const CourseDocuments = ({
         )
     }
 
-    console.log('Hello', getRelatedData())
-
     return (
         <Card>
             {isLoading ? (

@@ -17,7 +17,6 @@ export const Workflow = ({
     rtoDoc?: any
 }) => {
     const [type, setType] = useState<any>({})
-    console.log({ workflow })
 
     useEffect(() => {
         if (!loading) {
@@ -28,8 +27,6 @@ export const Workflow = ({
         const findData = workflow?.find((f: any) => f?.for === d?.role)
         return findData ? { ...d, file: findData?.file } : d
     })
-
-    console.log({ type })
 
     const columns: ColumnDef<any>[] = [
         {
@@ -68,7 +65,6 @@ export const Workflow = ({
                             docType: row.original?.docType,
                             role: row.original?.role,
                         })
-                        console.log('ROW', row.original)
                     }}
                     text={row.original?.docType + row.original?.name}
                     loading={
