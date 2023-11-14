@@ -14,8 +14,9 @@ import { FaTimes } from 'react-icons/fa'
 import { getUserCredentials } from '@utils'
 import { saveAs } from 'file-saver'
 import { DownloadLoader } from './DownloadLoader'
+import moment from 'moment'
 
-export const  ReportListModal = ({
+export const ReportListModal = ({
     onClose,
     user,
 }: {
@@ -70,7 +71,7 @@ export const  ReportListModal = ({
 
     const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const dateValue = e.target.value.trim()
-        setEndDate(dateValue)
+        setEndDate(moment(dateValue).add(1, 'days').format('YYYY-MM-DD'))
     }
     const handleDownloadPDF = () => {
         setIsPdfDownload(true)

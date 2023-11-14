@@ -178,7 +178,6 @@ export const DetailTabs = ({ industry }: { industry: Industry }) => {
                                     link={`/portals/sub-admin/users/industries/${industry?.id}?tab=students`}
                                 />
                             </div>
-                            <SnoozeIndustry industry={industry} />
                             <div>{header}</div>
                             <div className="mt-3">{element}</div>
                         </div>

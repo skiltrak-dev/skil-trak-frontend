@@ -172,7 +172,6 @@ export const AssessmentResponse = ({
         }
     }, [addCommentResult])
 
-
     // query
 
     const filteredFiles = getAssessmentResponse?.data?.files?.filter(
@@ -341,8 +340,6 @@ export const AssessmentResponse = ({
                     result?.result !== Result.Competent &&
                     result?.result !== Result.NotSubmitted &&
                     !getAssessmentResponse.isError) ||
-                    (result?.result !== Result.Competent &&
-                        folder?.isAgreement) ||
                     editAssessment) && (
                     <div className="flex justify-between gap-x-2 mt-3 mx-3">
                         <div className="grid grid-cols-3 gap-x-2 w-full">

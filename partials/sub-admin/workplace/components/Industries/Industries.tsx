@@ -29,19 +29,14 @@ export const Industries = ({
 
     useEffect(() => {
         return () => {
-            // if (content) {
             hide()
             setTitle('')
             setContent(null)
         }
-        // }
     }, [])
 
     useEffect(() => {
-        setSuggestedIndustries(
-            industries?.filter((i: any) => !i.applied)
-            // ?.slice(0, appliedIndustry ? 3 : 4)
-        )
+        setSuggestedIndustries(industries?.filter((i: any) => !i.applied))
     }, [industries, appliedIndustry])
 
     const onCancelClicked = () => setModal(null)
@@ -65,11 +60,7 @@ export const Industries = ({
                     Suggested Industries
                 </Typography>
                 <div className="flex items-center gap-x-3">
-                    <Typography
-                        variant={'small'}
-                        color={'text-info'}
-                        // color={appliedIndustry ? 'text-gray-300' : 'text-info'}
-                    >
+                    <Typography variant={'small'} color={'text-info'}>
                         <span
                             className="font-semibold cursor-pointer"
                             onClick={() => {
@@ -188,7 +179,10 @@ export const Industries = ({
                                 ?.map((industry: any, i: number) => (
                                     <IndustryCard
                                         key={industry.id}
-                                        industry={industry}
+                                        industry={{
+                                            ...industry,
+                                            distance: Math.random() * 30,
+                                        }}
                                         appliedIndustry={appliedIndustry}
                                         workplace={workplace}
                                     />

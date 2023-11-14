@@ -23,6 +23,11 @@ export const SectorCourseStudentCount = ({
     const countNumber = Math.floor(Math.random() * 9)
 
     const studentCountDetail = {
+        Pending: {
+            color: 'text-gray-400',
+            bgColor: 'bg-green-100',
+            count: sector?.Pending,
+        },
         'Pending Requests': {
             color: 'text-gray-400',
             bgColor: 'bg-gray-100',
