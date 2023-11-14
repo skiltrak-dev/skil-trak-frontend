@@ -80,7 +80,7 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                         workplace?.byExistingAbn
                             ? 'bg-gray-100'
                             : ''
-                    } p-4`}
+                    } p-4 rounded-lg`}
                 >
                     <div className="grid grid-cols-4 gap-x-5 items-center pb-2.5 border-b border-dashed">
                         <AssignWorkplace workplace={workplace} />

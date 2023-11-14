@@ -48,7 +48,7 @@ export const AllStudentProvidedWorkplace = () => {
                 <LoadingAnimation />
             ) : subAdminWorkplace.data?.data &&
               subAdminWorkplace.data?.data?.length > 0 ? (
-                <div className="flex flex-col gap-y-2">
+                <div className="flex flex-col gap-y-4">
                     {subAdminWorkplace?.data?.data?.map(
                         (workplace: IWorkplaceIndustries) => (
                             <AdminWorkplaceRequest

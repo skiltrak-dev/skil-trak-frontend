@@ -22,8 +22,6 @@ export const DocumentInputField = ({
     const [updateDocument, result] = useAddOrUpdateRequiredDocumentMutation()
     const [isChecked, setChecked] = useState(checked)
 
-    console.log({ checked })
-
     const onCheckChange = (event: any) => {
         updateDocument({
             ...folder,

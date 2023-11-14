@@ -58,6 +58,8 @@ const MyProfile: NextPageWithLayout = () => {
                       }
                     : {}),
                 dob,
+                isInternational:
+                    values?.isInternational === 'international' ? true : false,
                 user: {
                     name,
                     email,

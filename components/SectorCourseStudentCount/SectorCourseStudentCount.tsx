@@ -28,7 +28,7 @@ export const SectorCourseStudentCount = ({
             bgColor: 'bg-green-100',
             count: sector?.Pending,
         },
-        'Pending Requests': {
+        'Awaiting Agreement Signed': {
             color: 'text-gray-400',
             bgColor: 'bg-gray-100',
             count: sector?.AwaitingAgreementSigned,
