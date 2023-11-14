@@ -18,6 +18,7 @@ import {
 // utils
 import {
     CourseSelectOption,
+    StudentOrigin,
     formatOptionLabel,
     getDate,
     isBrowser,
@@ -220,6 +221,7 @@ export const StudentProfileForm = ({
                 expiryDate,
                 updatedAt,
                 createdAt,
+                isInternational,
                 ...rest
             } = profile?.data
 
@@ -234,9 +236,18 @@ export const StudentProfileForm = ({
                 ...rest,
                 ...userValues,
             }
+
             for (const key in values) {
                 values[key] !== 'NA' && formMethods.setValue(key, values[key])
             }
+            formMethods.setValue(
+                'isInternational',
+                isInternational
+                    ? 'international'
+                    : isInternational === false
+                    ? 'domestic'
+                    : ''
+            )
         }
     }, [profile])
 
@@ -347,7 +358,7 @@ export const StudentProfileForm = ({
                                             gridColumns="2"
                                             layout="grid"
                                             // value={'yes'}
-                                            name="qualification"
+                                            name="isInternational"
                                             label="Are you international student domestic?"
                                             options={[
                                                 {
@@ -359,11 +370,6 @@ export const StudentProfileForm = ({
                                                     label: 'Domestic',
                                                 },
                                             ]}
-                                            // onChange={(e: any) => {
-                                            //     setQualification(
-                                            //         e?.target?.value
-                                            //     )
-                                            // }}
                                         />
                                     </div>
                                 </div>

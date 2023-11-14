@@ -33,6 +33,8 @@ const EditStudent: NextPageWithLayout = () => {
             id: student?.data?.user?.id,
             body: {
                 ...values,
+                isInternational:
+                    values?.isInternational === 'international' ? true : false,
                 courses:
                     values?.courses?.map((course: any) => course?.value) || [],
             },
