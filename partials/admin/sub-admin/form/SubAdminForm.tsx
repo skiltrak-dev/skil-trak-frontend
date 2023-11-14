@@ -99,20 +99,6 @@ export const SubAdminForm = ({
         setCourseLoading(false)
     }
 
-    // map over sectorResponse and there is another array of courses pick those course with label and value
-    // const coursesOption = sectorResponse.data
-    //     ?.map((sector: any) => {
-    //         console.log('map sectors', sector)
-    //         return sector.courses.map((course: any) => {
-    //             console.log('course inner', course)
-    //             return {
-    //                 label: course?.title,
-    //                 value: course?.id,
-    //             }
-    //         })
-    //     })
-    //     .flat()
-
     const formMethods = useForm<SubadminFromType>({
         mode: 'all',
         resolver: yupResolver(validationSchema),

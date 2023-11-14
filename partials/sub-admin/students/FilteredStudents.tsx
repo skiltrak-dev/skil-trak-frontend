@@ -19,7 +19,9 @@ import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { Industry, Student, UserStatus } from '@types'
 import {
+    WorkplaceCurrentStatus,
     calculateRemainingDays,
+    checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
     setLink,
     studentsListWorkplace,
@@ -41,6 +43,7 @@ import {
 } from './modals'
 import moment from 'moment'
 import { AiOutlineWarning } from 'react-icons/ai'
+import { ProgressCell } from '@partials/admin/student/components'
 
 export const FilteredStudents = ({
     filter,
@@ -230,12 +233,54 @@ export const FilteredStudents = ({
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
-            cell: ({ row }) => (
-                <CaseOfficerAssignedStudent
-                    student={row.original}
-                    workplaceFilter={filter?.currentStatus}
-                />
-            ),
+            cell: (info) => {
+                const student = info.row.original
+                const appliedIndustry = studentsListWorkplace(
+                    student?.workplace
+                )
+                const workplace = student?.workplace
+                    ?.filter(
+                        (w: any) =>
+                            w?.currentStatus !==
+                            WorkplaceCurrentStatus.Cancelled
+                    )
+                    ?.reduce(
+                        (a: any, b: any) =>
+                            a?.createdAt > b?.createdAt ? a : b,
+                        {
+                            currentStatus: WorkplaceCurrentStatus.NotRequested,
+                        }
+                    )
+                const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                return student?.workplace && student?.workplace?.length > 0 ? (
+                    <ProgressCell
+                        appliedIndustry={appliedIndustry}
+                        studentId={student?.id}
+                        assigned={student?.subadmin || workplace?.assignedTo}
+                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                    />
+                ) : student?.subadmin ? (
+                    <ProgressCell
+                        appliedIndustry={appliedIndustry}
+                        studentId={student?.id}
+                        step={3}
+                        assigned={student?.subadmin || workplace?.assignedTo}
+                    />
+                ) : (
+                    <ProgressCell
+                        appliedIndustry={appliedIndustry}
+                        studentId={student?.id}
+                        step={1}
+                        assigned={student?.subadmin || workplace?.assignedTo}
+                    />
+                )
+            },
+            // cell: ({ row }) => (
+            //     <CaseOfficerAssignedStudent
+            //         student={row.original}
+            //         workplaceFilter={filter?.currentStatus}
+            //     />
+            // ),
         },
         {
             accessorKey: 'user.status',
@@ -296,6 +341,29 @@ export const FilteredStudents = ({
         ),
     }
 
+    const ind = student?.data?.data?.map((s: any) => s?.industries?.[0]?.id)
+    const abc = student?.data?.data?.filter((s: any) =>
+        ind?.includes(Number(filter?.industryId))
+    )
+    const wp = student?.data?.data
+        ?.map((s: any) => s?.workplace)
+        ?.flat()
+        ?.map((s: any) => s?.industries?.filter((s: any) => s?.applied))
+        ?.flat()
+
+    // const ddd = filter?.industryId
+    //     ? abc && abc?.length > 0
+    //         ? abc
+    //         : student?.data.filter((item: any) => {
+    //               // Check if any of the industries have an ID of 32
+    //               return item.industries.some(
+    //                   (industry: any) =>
+    //                       industry.id === Number(filter?.industryId)
+    //               )
+    //           })
+    //     : student?.data?.data
+
+    // console.log({ abc })
     return (
         <>
             {modal && modal}
