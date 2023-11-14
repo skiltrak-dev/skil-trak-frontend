@@ -7,20 +7,20 @@ import {
     TechnicalError,
 } from '@components'
 
-import { StudentLayout, SubAdminLayout } from '@layouts'
+import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
 // query
 import {
-    useGetSubAdminStudentWorkplaceQuery,
+    Availability,
+    IndustrySelection,
+    PersonalInfo,
+} from '@partials/sub-admin/students'
+import {
     useGetSubAdminStudentDetailQuery,
+    useGetSubAdminStudentWorkplaceQuery,
 } from '@queries'
 import { useRouter } from 'next/router'
-import {
-    Availability,
-    PersonalInfo,
-    IndustrySelection,
-} from '@partials/sub-admin/students'
 
 type Props = {}
 

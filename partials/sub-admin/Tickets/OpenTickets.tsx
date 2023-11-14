@@ -28,7 +28,6 @@ export const OpenTickets = () => {
     const { isLoading, isFetching, data, isError } =
         CommonApi.Tickets.useGetTicket(
             {
-                search: `status:${TicketStatus.OPEN}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },

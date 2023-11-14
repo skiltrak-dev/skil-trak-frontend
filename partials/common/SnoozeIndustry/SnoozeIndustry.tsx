@@ -36,6 +36,7 @@ export const SnoozeIndustry = memo(({ industry }: { industry: Industry }) => {
     return (
         <>
             <ShowErrorNotifications result={snoozeIndustryResult} />
+
             <div className="flex justify-end ml-auto w-80 items-center gap-x-2">
                 <TextInput
                     label={'Enter Snoozing Date'}

@@ -128,6 +128,7 @@ export interface Industry extends BaseResponse {
     phoneNumber: string
     dob: Date
     contactPerson: string
+    snoozedDate: Date
     contactPersonNumber: string
     isPartner: boolean
     studentCapacity: number | null

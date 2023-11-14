@@ -92,7 +92,7 @@ export const AllTickets = () => {
         },
         {
             accessorKey: 'replies',
-            cell: (info) => Math.floor(Math.random() * 100),
+            // cell: (info) => Math.floor(Math.random() * 100),
             header: () => <span>Replies</span>,
         },
         {

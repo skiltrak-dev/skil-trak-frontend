@@ -1,10 +1,12 @@
 import {
+    AuthorizedUserComponent,
     EmptyData,
     LoadingAnimation,
     Mail,
     Note,
     TechnicalError,
     Timeline,
+    Typography,
 } from '@components'
 import { useContextBar } from '@hooks'
 import { CommonApi } from '@queries'
@@ -12,6 +14,11 @@ import { CommonApi } from '@queries'
 import { getCommonDates, getDate, getUserCredentials } from '@utils'
 import moment from 'moment'
 import { HistoryCard } from '../History'
+import { TicketSubject, TicketUser } from '../Tickets'
+import { StudentCellInfo } from '@partials/admin/student/components'
+import { UserRoles } from '@constants'
+import { StudentCellInfo as SubadminStudentCellInfo } from '@partials/sub-admin/students'
+import { StudentCellInfo as RtoStudentCellInfo } from '@partials/rto/student/components'
 
 export const AllCommunicationTab = ({ user }: { user: any }) => {
     const contextBar = useContextBar()
@@ -54,7 +61,7 @@ export const AllCommunicationTab = ({ user }: { user: any }) => {
                                         {/* <div className='w-2/5 h-[1px] bg-gray-700'/> */}
                                     </div>
 
-                                    <div className="border-l-4 border-gray-700 ml-8">
+                                    <div className="border-l-4 border-gray-700 ml-8 overflow-x-auto custom-scrollbar">
                                         {allCommunications.data.map(
                                             (item: any, i: number) => {
                                                 if (item?.calledBy) {
@@ -84,7 +91,173 @@ export const AllCommunicationTab = ({ user }: { user: any }) => {
                                                     date ==
                                                     getDate(item?.updatedAt)
                                                 ) {
-                                                    if (item?.title) {
+                                                    if (item?.assignedTo) {
+                                                        return (
+                                                            <div>
+                                                                <table className="w-full">
+                                                                    <tr className="table-row">
+                                                                        <td>
+                                                                            <div className="mb-1.5">
+                                                                                <Typography
+                                                                                    variant="small"
+                                                                                    bold
+                                                                                >
+                                                                                    Subject
+                                                                                </Typography>
+                                                                            </div>
+                                                                            <TicketSubject
+                                                                                ticket={
+                                                                                    item
+                                                                                }
+                                                                            />
+                                                                        </td>
+                                                                        <td>
+                                                                            <div className="mb-1.5">
+                                                                                <Typography
+                                                                                    variant="small"
+                                                                                    bold
+                                                                                >
+                                                                                    Student
+                                                                                </Typography>
+                                                                            </div>
+                                                                            {item?.student ? (
+                                                                                <>
+                                                                                    <AuthorizedUserComponent
+                                                                                        roles={[
+                                                                                            UserRoles.ADMIN,
+                                                                                        ]}
+                                                                                    >
+                                                                                        <StudentCellInfo
+                                                                                            student={
+                                                                                                item?.student
+                                                                                            }
+                                                                                        />
+                                                                                    </AuthorizedUserComponent>
+                                                                                    <AuthorizedUserComponent
+                                                                                        roles={[
+                                                                                            UserRoles.SUBADMIN,
+                                                                                        ]}
+                                                                                    >
+                                                                                        <SubadminStudentCellInfo
+                                                                                            student={
+                                                                                                item?.student
+                                                                                            }
+                                                                                        />
+                                                                                    </AuthorizedUserComponent>
+                                                                                    <AuthorizedUserComponent
+                                                                                        roles={[
+                                                                                            UserRoles.RTO,
+                                                                                        ]}
+                                                                                    >
+                                                                                        <RtoStudentCellInfo
+                                                                                            student={
+                                                                                                item?.student
+                                                                                            }
+                                                                                        />
+                                                                                    </AuthorizedUserComponent>
+                                                                                </>
+                                                                            ) : (
+                                                                                'N/A'
+                                                                            )}
+                                                                        </td>
+                                                                        <td>
+                                                                            <div className="mb-1.5">
+                                                                                <Typography
+                                                                                    variant="small"
+                                                                                    bold
+                                                                                >
+                                                                                    Created
+                                                                                    By
+                                                                                </Typography>
+                                                                            </div>
+                                                                            <TicketUser
+                                                                                ticket={
+                                                                                    item?.createdBy
+                                                                                }
+                                                                            />
+                                                                        </td>
+                                                                        <td>
+                                                                            <div className="mb-1.5">
+                                                                                <Typography
+                                                                                    variant="small"
+                                                                                    bold
+                                                                                >
+                                                                                    Assigned
+                                                                                    To
+                                                                                </Typography>
+                                                                            </div>
+                                                                            <TicketUser
+                                                                                ticket={
+                                                                                    item?.assignedTo
+                                                                                }
+                                                                            />
+                                                                        </td>
+                                                                        <td>
+                                                                            <div className="mb-1.5">
+                                                                                <Typography
+                                                                                    variant="small"
+                                                                                    bold
+                                                                                >
+                                                                                    Priority
+                                                                                </Typography>
+                                                                            </div>
+                                                                            <Typography
+                                                                                variant="label"
+                                                                                capitalize
+                                                                                semibold
+                                                                            >
+                                                                                {
+                                                                                    item?.priority
+                                                                                }
+                                                                            </Typography>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div className="mb-1.5">
+                                                                                <Typography
+                                                                                    variant="small"
+                                                                                    bold
+                                                                                >
+                                                                                    Replies
+                                                                                </Typography>
+                                                                            </div>
+                                                                            <Typography
+                                                                                variant="label"
+                                                                                capitalize
+                                                                                semibold
+                                                                            >
+                                                                                {
+                                                                                    item?.replies
+                                                                                }
+                                                                            </Typography>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div className="mb-1.5">
+                                                                                <Typography
+                                                                                    variant="small"
+                                                                                    bold
+                                                                                >
+                                                                                    Last
+                                                                                    Activity
+                                                                                </Typography>
+                                                                            </div>
+                                                                            <Typography
+                                                                                variant={
+                                                                                    'label'
+                                                                                }
+                                                                                capitalize
+                                                                            >
+                                                                                <span className="whitespace-pre">
+                                                                                    {moment(
+                                                                                        item?.updatedAt
+                                                                                    ).fromNow()}
+                                                                                </span>
+                                                                            </Typography>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        )
+                                                    } else if (item?.title) {
                                                         return (
                                                             <Timeline
                                                                 key={item?.id}

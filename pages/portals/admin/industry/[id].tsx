@@ -1,5 +1,6 @@
 import {
     ActionButton,
+    Alert,
     BackButton,
     Button,
     EmptyData,
@@ -16,7 +17,7 @@ import {
     useNotification,
 } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout, UserStatus } from '@types'
+import { Industry, NextPageWithLayout, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import { FaArchive, FaBan, FaEdit } from 'react-icons/fa'
@@ -29,7 +30,7 @@ import { PinnedNotes } from '@partials'
 import { useActionModals } from '@partials/admin/industry/hooks/useActionModals'
 import { getUserCredentials } from '@utils'
 import { AcceptModal } from '@partials/admin/industry/modals'
-import { SnoozeIndustry } from '@partials/common'
+import { SnoozeIndustry, SnoozeIndustryModal } from '@partials/common'
 
 const Detail: NextPageWithLayout = () => {
     const [newModal, setNewModal] = useState<ReactNode | null>(null)
@@ -120,6 +121,7 @@ const Detail: NextPageWithLayout = () => {
             }
             showAlert()
         }
+
         return () => {
             setAlerts([])
             contextBar.setContent(null)
@@ -242,6 +244,17 @@ const Detail: NextPageWithLayout = () => {
         }
     }
 
+    const onCancelModal = () => setNewModal(null)
+
+    const onSnooze = () => {
+        setNewModal(
+            <SnoozeIndustryModal
+                onCancel={onCancelModal}
+                industry={industry?.data as Industry}
+            />
+        )
+    }
+
     return (
         <>
             {newModal}
@@ -251,6 +264,14 @@ const Detail: NextPageWithLayout = () => {
                 <LoadingAnimation height={'h-[70vh]'} />
             ) : industry.data ? (
                 <div className="p-6 flex flex-col gap-y-4">
+                    {industry?.data?.snoozedDate && (
+                        <Alert
+                            title="Industry Snoozed"
+                            description="Industry Snoozed"
+                            variant="warning"
+                            autoDismiss={false}
+                        />
+                    )}
                     {modal && modal}
                     {/* Action Bar */}
                     <div className="flex items-center justify-between">
@@ -278,6 +299,13 @@ const Detail: NextPageWithLayout = () => {
                                 }}
                                 disabled={!industry.isSuccess}
                             />
+                            <Button
+                                text="Snooze"
+                                variant="action"
+                                onClick={() => {
+                                    onSnooze()
+                                }}
+                            />
                             {statusBaseActions()}
                         </div>
                     </div>
@@ -289,7 +317,6 @@ const Detail: NextPageWithLayout = () => {
                             link={`/portals/admin/industry/${industry?.data?.id}?tab=students`}
                         />
                     </div>
-                    <SnoozeIndustry industry={industry?.data} />
 
                     <PinnedNotes id={industry?.data?.user?.id} />
                     <DetailTabs id={router.query.id} industry={industry} />
