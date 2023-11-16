@@ -18,6 +18,7 @@ import {
     PlacementStartedModal,
     TerminateWorkplaceModal,
 } from '../modals'
+import moment from 'moment'
 
 export const RequestType = ({
     workplace,
@@ -36,11 +37,17 @@ export const RequestType = ({
         number | null
     >(0)
 
+    const industryResponse = workplace?.industries?.find(
+        (wp: any) => wp?.industryResponseDate
+    )
+
     const { notification } = useNotification()
 
     const onModalCancelClicked = () => {
         setModal(null)
     }
+
+    console.log({ workplace: workplace?.currentStatus })
 
     const onForwardClicked = (industry: any) => {
         setModal(
@@ -110,14 +117,16 @@ export const RequestType = ({
             secondaryText: 'No Case Officer',
             color: 'text-primary-dark',
             onClick: () => {},
-            status: 'applied',
+            status: WorkplaceCurrentStatus.Applied,
+            date: appliedIndustry?.appliedDate,
         },
         {
             primaryText: 'Assigned',
             secondaryText: 'Case Officer',
             color: 'text-primary',
             onClick: () => {},
-            status: 'caseOfficerAssigned',
+            status: WorkplaceCurrentStatus.CaseOfficerAssigned,
+            date: appliedIndustry?.caseOfficerAssignedDate,
         },
         {
             primaryText: 'Interview',
@@ -127,7 +136,8 @@ export const RequestType = ({
                 isCleared(true)
                 onInterviewClicked()
             },
-            status: 'interview',
+            status: WorkplaceCurrentStatus.Interview,
+            date: appliedIndustry?.interviewDate,
         },
         {
             primaryText: 'Meeting',
@@ -147,7 +157,8 @@ export const RequestType = ({
                     })
                 }
             },
-            status: 'appointmentBooked',
+            status: WorkplaceCurrentStatus.AppointmentBooked,
+            date: appliedIndustry?.appointmentBookedDate,
         },
         {
             primaryText: 'Waiting',
@@ -174,7 +185,8 @@ export const RequestType = ({
                     })
                 }
             },
-            status: 'awaitingWorkplaceResponse',
+            status: WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
+            date: appliedIndustry?.awaitingWorkplaceResponseDate,
         },
         {
             primaryText: 'Agreement & Eligibility ',
@@ -198,7 +210,8 @@ export const RequestType = ({
                     })
                 }
             },
-            status: 'awaitingAgreementSigned',
+            status: WorkplaceCurrentStatus.AwaitingAgreementSigned,
+            date: appliedIndustry?.awaitingAgreementSignedDate,
         },
         {
             primaryText: 'Agreement & Eligibility ',
@@ -221,7 +234,8 @@ export const RequestType = ({
                     })
                 }
             },
-            status: 'AgreementSigned',
+            status: WorkplaceCurrentStatus.AgreementSigned,
+            date: appliedIndustry?.AgreementSignedDate,
         },
         {
             primaryText: 'Placement Started',
@@ -240,7 +254,8 @@ export const RequestType = ({
                     isCleared(false)
                 }
             },
-            status: 'placementStarted',
+            status: WorkplaceCurrentStatus.PlacementStarted,
+            date: appliedIndustry?.placementStartedDate,
         },
         {
             primaryText: 'Completed',
@@ -249,21 +264,24 @@ export const RequestType = ({
             onClick: () => {
                 onCompleteClicked()
             },
-            status: 'completed',
+            status: WorkplaceCurrentStatus.Completed,
+            date: appliedIndustry?.isCompletedDate,
         },
         {
             primaryText: 'Cancelled',
             secondaryText: 'Cancelled',
             color: 'text-error',
             onClick: () => {},
-            status: 'cancelled',
+            status: WorkplaceCurrentStatus.Cancelled,
+            date: appliedIndustry?.cancelledDate,
         },
         {
             primaryText: 'Rejected',
             secondaryText: 'Rejected',
             color: 'text-error',
             onClick: () => {},
-            status: 'rejected',
+            status: WorkplaceCurrentStatus.Rejected,
+            date: industryResponse?.industryResponseDate,
         },
         {
             primaryText: 'Terminated',
@@ -272,7 +290,16 @@ export const RequestType = ({
             onClick: () => {
                 onTerminateClicked()
             },
-            status: 'terminated',
+            status: WorkplaceCurrentStatus.Terminated,
+            date: appliedIndustry?.terminatedDate,
+        },
+        {
+            primaryText: 'No Response',
+            secondaryText: 'No Response',
+            color: 'text-error',
+            onClick: () => {},
+            status: WorkplaceCurrentStatus.NoResponse,
+            date: industryResponse?.industryResponseDate,
         },
     ]
 
@@ -281,28 +308,10 @@ export const RequestType = ({
     )
 
     useEffect(() => {
-        if (appliedIndustry?.industryResponse === 'rejected') {
-            setSelectedRequestType(requestTypeActions.length - 1)
-        } else {
+        if (findStatusIndex) {
             setSelectedRequestType(findStatusIndex)
         }
-
-        // if (data?.caseOfficerAssigned) {
-        //     setSelectedRequestType(1)
-        // }
-        // if (data?.interview) {
-        //     setSelectedRequestType(2)
-        // }
-        // if (data?.awaitingWorkplaceResponse) {
-        //     setSelectedRequestType(3)
-        // }
-        // if (data?.awaitingAgreementSigned) {
-        //     setSelectedRequestType(5)
-        // }
-        // if (data?.AgreementSigned) {
-        //     setSelectedRequestType(6)
-        // }
-    }, [appliedIndustry])
+    }, [findStatusIndex])
 
     const isLoading = false
 
@@ -319,24 +328,16 @@ export const RequestType = ({
                     className={`border border-dashed border-gray-400 rounded-lg w-56 px-4 py-1 flex items-center justify-between gap-x-1 cursor-pointer relative`}
                     onClick={() => {
                         if (workplace?.assignedTo) {
-                            if (appliedIndustry || true) {
-                                if (
-                                    !appliedIndustry?.terminated ||
-                                    !appliedIndustry?.isCompleted ||
-                                    !appliedIndustry?.cancelled
-                                ) {
-                                    setVisibleRequestType(!visibleRequestType)
-                                } else {
-                                    notification.warning({
-                                        title: 'Action cant perform',
-                                        description: 'Action cant perform',
-                                    })
-                                }
+                            if (
+                                !appliedIndustry?.terminated ||
+                                !appliedIndustry?.isCompleted ||
+                                !appliedIndustry?.cancelled
+                            ) {
+                                setVisibleRequestType(!visibleRequestType)
                             } else {
-                                notification.error({
-                                    title: 'Workplace Not applied',
-                                    description:
-                                        'Apply on any industry before changing status',
+                                notification.warning({
+                                    title: 'Action cant perform',
+                                    description: 'Action cant perform',
                                 })
                             }
                         } else {
@@ -373,6 +374,19 @@ export const RequestType = ({
                                     ?.secondaryText
                             }
                         </Typography>
+                        {requestTypeActions[selectedRequestType as any]
+                            ?.date && (
+                            <Typography>
+                                <span className="text-[10px] font-semibold">
+                                    {' '}
+                                    {moment(
+                                        requestTypeActions[
+                                            selectedRequestType as any
+                                        ]?.date
+                                    ).format('Do MMM YYYY')}
+                                </span>
+                            </Typography>
+                        )}
                     </div>
                     <IoMdArrowDropdown
                         className={`${

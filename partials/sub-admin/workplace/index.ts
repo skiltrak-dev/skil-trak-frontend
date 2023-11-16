@@ -1,5 +1,6 @@
 export * from './MyWorkplaces'
 export * from './AllWorkplaces'
+export * from './NeedWorkplaces'
 export * from './FilteredWorkplaces'
 export * from './CancelledWorkplaces'
 export * from './StudentAddedWorkplaces'

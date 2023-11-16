@@ -31,6 +31,11 @@ export const ReportListDownload = ({
     endDate,
     user,
 }: Props) => {
+    let end = new Date(endDate)
+    // end.setDate(end.getDate() + 1)
+
+    console.log({ end: endDate.toISOString().slice(0, 10) })
+
     const [filterReports, setFilterReports] = useState({
         label: 'Monthly',
         value: 'monthly',
@@ -46,19 +51,28 @@ export const ReportListDownload = ({
         {
             userId,
             startDate: startDate.toISOString().slice(0, 10),
-            endDate: endDate.toISOString().slice(0, 10),
+            endDate: end.toISOString().slice(0, 10),
         },
-        { skip: !isPdfDownload }
+        {
+            skip: !isPdfDownload,
+            refetchOnFocus: true,
+            refetchOnMountOrArgChange: true,
+        }
     )
 
     useEffect(() => {
-        if (downloadAsPdf?.data?.file?.data && downloadAsPdf?.isSuccess) {
+        if (
+            downloadAsPdf?.data?.file?.data &&
+            downloadAsPdf?.isSuccess &&
+            !downloadAsPdf.isLoading &&
+            !downloadAsPdf.isFetching
+        ) {
             const buffer = Buffer.from(downloadAsPdf.data.file.data)
             const blob = new Blob([buffer], { type: 'application/pdf' })
             saveAs(blob, rtoName)
             setIsPdfDownload(false)
         }
-    }, [downloadAsPdf?.data, downloadAsPdf?.isSuccess])
+    }, [downloadAsPdf])
 
     useEffect(() => {
         if (downloadAsPdf?.isError) {
@@ -80,7 +94,6 @@ export const ReportListDownload = ({
     //     const dateValue = e.target.value.trim()
     //     setEndDate(dateValue)
     // }
-   
 
     return (
         <>
@@ -89,8 +102,8 @@ export const ReportListDownload = ({
                 onClick={() => {
                     setIsPdfDownload(true)
                 }}
-                loading={downloadAsPdf.isLoading}
-                disabled={downloadAsPdf.isLoading}
+                loading={downloadAsPdf.isLoading || downloadAsPdf.isFetching}
+                disabled={downloadAsPdf.isLoading || downloadAsPdf.isFetching}
                 variant="dark"
                 Icon={IoMdDownload}
                 text={'Download'}

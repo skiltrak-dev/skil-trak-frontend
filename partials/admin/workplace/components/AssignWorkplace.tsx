@@ -69,8 +69,12 @@ export const AssignWorkplace = ({
                     name={'subAdmin'}
                     placeholder={'Select Sub Admin'}
                     options={subAdminOptions}
-                    loading={subadmins?.isLoading}
-                    disabled={subadmins?.isLoading}
+                    loading={
+                        subadmins?.isLoading || assignSubAdminResult.isLoading
+                    }
+                    disabled={
+                        subadmins?.isLoading || assignSubAdminResult.isLoading
+                    }
                     onChange={(e: OptionType) => {
                         onAssignSubAdmin(e)
                     }}

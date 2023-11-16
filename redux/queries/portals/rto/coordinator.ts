@@ -28,6 +28,13 @@ export const coordinatorEndpoints = (
         }),
         providesTags: ['Rto-Coordinators', 'SubAdmins'],
     }),
+    getRtoAssignedCoordinatorsList: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/assigned/coordinator`,
+            params,
+        }),
+        providesTags: ['Rto-Coordinators', 'SubAdmins'],
+    }),
     getRtoAssignedCoordinators: builder.query<any, void>({
         query: () => `${PREFIX}/coordinator/names/list`,
         providesTags: ['Rto-Coordinators', 'SubAdmins'],

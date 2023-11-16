@@ -10,6 +10,7 @@ const adminTagTypes = [
     'Jobs',
     'RTOS',
     'Notes',
+    'E-Sign',
     'Folders',
     'Profile',
     'Message',

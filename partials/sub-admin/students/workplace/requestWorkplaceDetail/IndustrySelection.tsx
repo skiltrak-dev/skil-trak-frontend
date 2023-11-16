@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 // import { ApplyForWorkplaceIndustry } from './ApplyForWorkplaceIndustry'
 
 // components
@@ -7,7 +7,7 @@ import { ActionButton, Card, LoadingAnimation, Typography } from '@components'
 import { IndustryNotResponded } from '@partials/common'
 import {
     useSubAdminCancelStudentWorkplaceRequestMutation,
-    useSubAdminRequestIndustryWorkplaceMutation
+    useSubAdminRequestIndustryWorkplaceMutation,
 } from '@queries'
 import { getStudentWorkplaceAppliedIndustry } from '@utils'
 import { AppliedIndustry } from './AppliedIndustry'
@@ -19,11 +19,15 @@ export const IndustrySelection = ({
     userId,
     workplace,
     studentProvidedWorkplace,
+    setIsCancelled,
+    isCancelled,
 }: {
     setActive: Function
     userId: number
     workplace: any
     studentProvidedWorkplace?: boolean
+    setIsCancelled: (e: any) => void
+    isCancelled: boolean
 }) => {
     const [industries, setIndustries] = useState<any | null>([])
     const [noRespondedIndustries, setNoRespondedIndustries] = useState<
@@ -65,21 +69,30 @@ export const IndustrySelection = ({
     }, [workplace, industrySelection])
 
     useEffect(() => {
-        if (cancelRequestResult.isSuccess) {
+        if (
+            (cancelRequestResult.isSuccess ||
+                cancelRequestResult.isUninitialized) &&
+            isCancelled
+        ) {
             setActive(1)
         }
-    }, [cancelRequestResult])
+    }, [
+        cancelRequestResult.isSuccess,
+        cancelRequestResult.isUninitialized,
+        isCancelled,
+    ])
 
-    const onCancelWorkplace = async () => {
+    const onCancelWorkplace = useCallback(async () => {
+        setIsCancelled(true)
         await cancelRequest(workplace?.data[0]?.id)
-    }
+    }, [])
 
     const workplaceCancelRequest = (simple: boolean = false) => {
         return (
             <div className="mt-3">
                 <ActionButton
                     variant={'error'}
-                    onClick={onCancelWorkplace}
+                    onClick={() => onCancelWorkplace()}
                     loading={cancelRequestResult.isLoading}
                     disabled={cancelRequestResult.isLoading}
                     simple={simple}

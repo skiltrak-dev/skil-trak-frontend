@@ -18,6 +18,8 @@ import {
     Button,
     TableActionOption,
     InitialAvatar,
+    TabProps,
+    TabNavigation,
 } from '@components'
 // queries
 import { RtoApi } from '@queries'
@@ -27,8 +29,11 @@ import Link from 'next/link'
 import { toNamespacedPath } from 'path'
 import { useJoyRide, useNotification } from '@hooks'
 import { DeleteModal } from '@partials/admin/sub-admin/modals'
-import { CoursesCell } from '@partials/rto/coordinators'
 import { UserRoles } from '@constants'
+import {
+    AssignedCoordinators,
+    MyCoordinators,
+} from '@partials/rto/coordinators'
 
 type Props = {}
 
@@ -41,10 +46,7 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data, isError } = RtoApi.Coordinator.useList({
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+
     const [removeCoordinator, removeCoordinatorResult] =
         RtoApi.Coordinator.useRemove()
 
@@ -119,99 +121,25 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
         )
     }
 
-    const tableActionOptions = (coordinator: any) => [
+    const tabs: TabProps[] = [
         {
-            text: 'View',
-            onClick: (coordinator: any) => {
-                router.push(`/portals/rto/coordinators/${coordinator?.id}`)
+            label: 'My Coordinators',
+            href: {
+                pathname: 'coordinators',
+                query: { tab: 'my-coordinators' },
             },
-            Icon: '',
+            element: <MyCoordinators />,
         },
         {
-            ...(coordinator?.createdBy?.role === UserRoles.RTO
-                ? {
-                      text: 'Delete',
-                      onClick: (coordinator: any) => {
-                          removeCoordinator(coordinator?.user?.id)
-                      },
-                      Icon: '',
-                  }
-                : null),
+            label: 'Assigned Coordinators',
+            href: {
+                pathname: 'coordinators',
+                query: { tab: 'assigned-coordinators' },
+            },
+            element: <AssignedCoordinators />,
         },
     ]
 
-    const Columns: ColumnDef<any>[] = [
-        {
-            header: () => 'Coordinator',
-            accessorKey: 'title',
-            cell: ({ row }: any) => {
-                const {
-                    user: { name, email, avatar },
-                } = row.original
-                return (
-                    <Link
-                        legacyBehavior
-                        href={`/portals/rto/coordinators/${row.original.id}`}
-                        className="flex items-center gap-x-2 relative"
-                    >
-                        <a className="flex items-center gap-x-1">
-                            <InitialAvatar name={name} imageUrl={avatar} />
-                            <div>
-                                <Typography color={'black'}>
-                                    {' '}
-                                    {name}{' '}
-                                </Typography>
-                                <Typography variant={'muted'} color={'gray'}>
-                                    {email}
-                                </Typography>
-                            </div>
-                        </a>
-                    </Link>
-                )
-            },
-        },
-        {
-            header: () => 'Phone',
-            accessorKey: 'phone',
-        },
-        {
-            header: () => 'Courses',
-            accessorKey: 'course',
-            cell: (info) => {
-                return <CoursesCell coordinator={info.row.original} />
-            },
-        },
-        {
-            header: () => 'Address',
-            accessorKey: 'addressLine1',
-        },
-        {
-            header: () => 'Created By',
-            accessorKey: 'createdBy.role',
-            cell: (info) => (
-                <Typography variant="small" semibold uppercase>
-                    {info.row.original?.createdBy?.role}
-                </Typography>
-            ),
-        },
-
-        {
-            header: () => 'Action',
-            accessorKey: 'Action',
-            cell: ({ row }: any) => {
-                const tableActionOption: TableActionOption[] =
-                    tableActionOptions(row?.original)
-                return (
-                    <TableAction
-                        rowItem={row?.original}
-                        options={tableActionOption?.filter(
-                            (action) => action?.text
-                        )}
-                    />
-                )
-            },
-        },
-    ]
     return (
         <div>
             <div className="flex justify-between items-end mb-6">
@@ -225,50 +153,14 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
                     />
                 </div>
             </div>
-            <Card noPadding>
-                {isError && <TechnicalError />}
-                {isLoading ? (
-                    <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length ? (
-                    <Table
-                        columns={Columns}
-                        data={data.data}
-                        // quickActions={quickActionsElements}
-                        enableRowSelection
-                    >
-                        {({
-                            table,
-                            pagination,
-                            pageSize,
-                            quickActions,
-                        }: any) => {
-                            return (
-                                <div>
-                                    <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(itemPerPage, setItemPerPage)}
-                                        <div className="flex gap-x-2">
-                                            {quickActions}
-                                            {pagination(
-                                                data?.pagination,
-                                                setPage
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="px-6">{table}</div>
-                                </div>
-                            )
-                        }}
-                    </Table>
-                ) : (
-                    !isError && (
-                        <EmptyData
-                            title={'No Coordinator!'}
-                            description={'You have not any Coordinator yet'}
-                            height={'50vh'}
-                        />
-                    )
+            <TabNavigation tabs={tabs}>
+                {({ header, element }: any) => (
+                    <div>
+                        <div>{header}</div>
+                        <div className="mt-3">{element}</div>
+                    </div>
                 )}
-            </Card>
+            </TabNavigation>
             <div className="mt-6 flex justify-between">
                 {/* Related Questions */}
                 <HelpQuestionSet

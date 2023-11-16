@@ -31,6 +31,7 @@ import { MdNotificationsActive, MdEmail } from 'react-icons/md'
 import { BsFillTicketDetailedFill } from 'react-icons/bs'
 import { HiOutlineDocumentText } from 'react-icons/hi2'
 import { useRouter } from 'next/router'
+import { FaFileSignature } from 'react-icons/fa'
 
 type Route = {
     type?: 'title' | 'divider'
@@ -126,6 +127,11 @@ const routes: Route[] = [
         path: getRoutePath('/documents'),
         Icon: HiOutlineDocumentText,
     },
+    // {
+    //     text: 'E-Sign',
+    //     path: getRoutePath('/e-sign'),
+    //     Icon: FaFileSignature,
+    // },
     {
         text: 'Tickets',
         path: getRoutePath('/tickets?tab=my-open-tickets'),

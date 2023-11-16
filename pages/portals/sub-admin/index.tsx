@@ -536,7 +536,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push(
-                            '/portals/sub-admin/tasks/workplace?tab=all'
+                            '/portals/sub-admin/tasks/workplace?tab=all&subTab=case-officer-not-assigned'
                         )
                     } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
@@ -740,7 +740,9 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                         imageUrl="/images/icons/workplace.png"
                         count={statistics?.data?.workplaceRequest}
                         title={'Workplace Requests'}
-                        link={'sub-admin/tasks/workplace?tab=all'}
+                        link={
+                            'sub-admin/tasks/workplace?tab=all&subTab=case-officer-not-assigned'
+                        }
                     />
                     <FigureCard
                         imageUrl="/images/icons/pending-student.png"

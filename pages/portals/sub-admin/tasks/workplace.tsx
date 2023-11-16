@@ -25,6 +25,7 @@ import {
     StudentAddedWorkplaces,
     FilteredWorkplaces,
     PlacementStartedWorkplaces,
+    NeedWorkplaces,
 } from '@partials/sub-admin'
 import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
@@ -111,6 +112,18 @@ const Workplace: NextPageWithLayout = (props: Props) => {
             },
             element: <AllWorkplaces />,
         },
+        // {
+        //     label: 'Need Workplaces',
+        //     href: {
+        //         pathname: 'workplace',
+        //         query: { tab: 'all', subTab: 'case-officer-not-assigned' },
+        //     },
+        //     badge: {
+        //         text: count?.data?.all,
+        //         loading: count?.isLoading,
+        //     },
+        //     element: <NeedWorkplaces />,
+        // },
         {
             label: 'My Requests',
             badge: {
