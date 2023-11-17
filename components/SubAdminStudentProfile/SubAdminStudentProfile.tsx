@@ -71,6 +71,8 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
         )
     }
 
+    console.log({ student })
+
     return (
         <div>
             {modal}
@@ -294,6 +296,27 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
                             </Typography>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div>
+                <Typography variant="label" semibold>
+                    Student Type
+                </Typography>
+                <div>
+                    {
+                        <Typography
+                            variant="small"
+                            color="text-gray-600"
+                            semibold
+                        >
+                            {student?.isInternational
+                                ? 'International'
+                                : student?.isInternational === false
+                                ? 'Domestic'
+                                : '---'}
+                        </Typography>
+                    }
                 </div>
             </div>
 
