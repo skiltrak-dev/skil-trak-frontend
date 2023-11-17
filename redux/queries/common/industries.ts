@@ -34,6 +34,14 @@ export const industriesEndpoints = (
         invalidatesTags: ['Industries'],
     }),
 
+    unSnoozeIndustry: builder.mutation<Industry, number>({
+        query: (id) => ({
+            url: `shared/industry/reactivate/${id}`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Industries'],
+    }),
+
     applyForJobFromHomePage: builder.mutation<any, any>({
         query: ({ id, body }) => {
             return {

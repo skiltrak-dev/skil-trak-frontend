@@ -206,6 +206,7 @@ const {
     // ------ Industry ------ //
     useGetAllIndustriesQuery,
     useSnoozeIndustryMutation,
+    useUnSnoozeIndustryMutation,
     useAllGetIndustriesListQuery,
     useGetAllAdvertisedJobsQuery,
     useGetAdvertisedJobDetailQuery,
@@ -363,6 +364,7 @@ export const CommonApi = {
     },
     Industries: {
         useSnoozeIndustry: useSnoozeIndustryMutation,
+        useUnSnoozeIndustry: useUnSnoozeIndustryMutation,
         useIndustriesList: useAllGetIndustriesListQuery,
         useApplyForJob: useApplyForJobFromHomePageMutation,
         getAllAdvertisedJobs: useGetAllAdvertisedJobsQuery,

@@ -1,5 +1,6 @@
 import {
     ActionButton,
+    Button,
     Modal,
     ShowErrorNotifications,
     TextInput,
@@ -10,6 +11,7 @@ import { Industry } from '@types'
 import { getDate } from '@utils'
 import React, { useEffect, useState } from 'react'
 import { AiFillCheckCircle } from 'react-icons/ai'
+import { MdSnooze } from 'react-icons/md'
 
 export const SnoozeIndustryModal = ({
     onCancel,
@@ -50,25 +52,29 @@ export const SnoozeIndustryModal = ({
         <>
             <ShowErrorNotifications result={snoozeIndustryResult} />
             <Modal
+                titleIcon={MdSnooze}
                 showActions={false}
                 onConfirmClick={() => {}}
                 title="Snooze Industry"
                 subtitle="Snooze Industry"
                 onCancelClick={onCancel}
             >
-                <div className="flex w-80 items-center gap-x-2">
-                    <TextInput
-                        label={'Enter Snoozing Date'}
-                        name={'endDate'}
-                        placeholder="Enter Snoozing End Date"
-                        type={'date'}
-                        onChange={(e: any) => {
-                            onChange(e.target?.value)
-                        }}
-                        min={getDate()}
-                    />
-                    <ActionButton
-                        Icon={AiFillCheckCircle}
+                <div className="flex w-full items-center gap-x-2">
+                    <div className="w-full">
+                        <TextInput
+                            label={'Enter Snoozing Date'}
+                            name={'endDate'}
+                            placeholder="Enter Snoozing End Date"
+                            type={'date'}
+                            onChange={(e: any) => {
+                                onChange(e.target?.value)
+                            }}
+                            min={getDate()}
+                        />
+                    </div>
+                    <Button
+                        // Icon={AiFillCheckCircle}
+                        text={'Snooze'}
                         onClick={() => {
                             onSubmit()
                         }}
