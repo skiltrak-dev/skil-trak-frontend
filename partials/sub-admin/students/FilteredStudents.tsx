@@ -238,21 +238,25 @@ export const FilteredStudents = ({
                 const appliedIndustry = studentsListWorkplace(
                     student?.workplace
                 )
-                const workplace = student?.workplace
-                    ?.filter(
-                        (w: any) =>
-                            w?.currentStatus !==
-                            WorkplaceCurrentStatus.Cancelled
-                    )
-                    ?.reduce(
-                        (a: any, b: any) =>
-                            a?.createdAt > b?.createdAt ? a : b,
-                        {
-                            currentStatus: WorkplaceCurrentStatus.NotRequested,
-                        }
-                    )
+                const workplace = student?.workplace?.reduce(
+                    (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
+                    {
+                        currentStatus: WorkplaceCurrentStatus.NotRequested,
+                    }
+                )
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                return student?.workplace && student?.workplace?.length > 0 ? (
+
+                console.log({ steps: workplace?.currentStatus })
+
+                return !student?.workplace?.length &&
+                    student?.industries?.length ? (
+                    <ProgressCell
+                        appliedIndustry={appliedIndustry}
+                        studentId={student?.id}
+                        assigned={student?.subadmin || workplace?.assignedTo}
+                        step={9}
+                    />
+                ) : student?.workplace && student?.workplace?.length > 0 ? (
                     <ProgressCell
                         appliedIndustry={appliedIndustry}
                         studentId={student?.id}

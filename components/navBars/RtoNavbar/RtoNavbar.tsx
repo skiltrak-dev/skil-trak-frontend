@@ -118,7 +118,10 @@ export const RtoNavbar = () => {
                 </li>
 
                 <li>
-                    <Link legacyBehavior href="/portals/rto/coordinators">
+                    <Link
+                        legacyBehavior
+                        href="/portals/rto/coordinators?tab=my-coordinators"
+                    >
                         <a
                             className={`${
                                 router.pathname == '/portals/rto/coordinators'

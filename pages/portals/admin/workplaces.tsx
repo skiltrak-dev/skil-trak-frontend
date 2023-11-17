@@ -74,7 +74,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         },
-        { skip: !Object.keys(filter).length }
+        { skip: !Object.keys(filter).length, refetchOnMountOrArgChange: true }
     )
 
     const tabs: TabProps[] = [

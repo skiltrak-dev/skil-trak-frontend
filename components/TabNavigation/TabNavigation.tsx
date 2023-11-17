@@ -10,13 +10,20 @@ export interface TabNavigationChildrenProps {
 interface TabNavigationProps {
     children: ({ header, element }: TabNavigationChildrenProps) => JSX.Element
     tabs: TabProps[]
+    subTab?: boolean
 }
 
-export const TabNavigation = ({ children, tabs }: TabNavigationProps) => {
+export const TabNavigation = ({
+    children,
+    tabs,
+    subTab,
+}: TabNavigationProps) => {
     const router = useRouter()
     const { query } = router
 
-    const currentTab = tabs.find((tab) => query.tab === tab?.href?.query?.tab)
+    const currentTab = subTab
+        ? tabs.find((tab) => query.subTab === tab?.href?.query?.subTab)
+        : tabs.find((tab) => query.tab === tab?.href?.query?.tab)
 
     return children({
         header: (
@@ -28,7 +35,11 @@ export const TabNavigation = ({ children, tabs }: TabNavigationProps) => {
                             label={tab.label}
                             href={tab.href}
                             badge={tab.badge}
-                            active={query.tab === tab?.href?.query?.tab}
+                            active={
+                                subTab
+                                    ? query.subTab === tab?.href?.query?.subTab
+                                    : query.tab === tab?.href?.query?.tab
+                            }
                             element={tab.element}
                         />
                     ))}

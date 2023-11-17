@@ -19,10 +19,15 @@ export const UnAssignedRequest = () => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(30)
 
-    const subAdminWorkplace = AdminApi.Workplace.useUnAssignedWorkplace({
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const subAdminWorkplace = AdminApi.Workplace.useUnAssignedWorkplace(
+        {
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        {
+            refetchOnMountOrArgChange: true,
+        }
+    )
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))

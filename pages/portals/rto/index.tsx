@@ -225,7 +225,9 @@ const RTODashboard: NextPageWithLayout = () => {
                             ...prev,
                             run: false,
                         }))
-                        router.push('/portals/rto/coordinators')
+                        router.push(
+                            '/portals/rto/coordinators?tab=my-coordinators'
+                        )
                     } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,

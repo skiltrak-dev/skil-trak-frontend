@@ -23,6 +23,7 @@ import {
     TerminateWorkplaceModal,
 } from '../modals'
 import { UserStatus } from '@types'
+import moment from 'moment'
 
 export const RequestType = ({
     appliedIndustry,
@@ -121,6 +122,7 @@ export const RequestType = ({
             color: 'text-primary-dark',
             onClick: () => {},
             status: 'applied',
+            date: appliedIndustry?.appliedDate,
         },
         {
             primaryText: 'Assigned',
@@ -128,6 +130,7 @@ export const RequestType = ({
             color: 'text-primary',
             onClick: () => {},
             status: 'caseOfficerAssigned',
+            date: appliedIndustry?.caseOfficerAssignedDate,
         },
         {
             primaryText: 'Interview',
@@ -139,6 +142,7 @@ export const RequestType = ({
                 onInterviewClicked()
             },
             status: 'interview',
+            date: appliedIndustry?.interviewDate,
         },
         {
             primaryText: 'Agreement & Eligibility ',
@@ -163,6 +167,7 @@ export const RequestType = ({
                 }
             },
             status: 'awaitingAgreementSigned',
+            date: appliedIndustry?.awaitingAgreementSignedDate,
         },
         {
             primaryText: 'Agreement & Eligibility ',
@@ -186,6 +191,7 @@ export const RequestType = ({
                 }
             },
             status: 'AgreementSigned',
+            date: appliedIndustry?.AgreementSignedDate,
         },
         {
             primaryText: 'Placement Started',
@@ -205,6 +211,7 @@ export const RequestType = ({
                 }
             },
             status: 'placementStarted',
+            date: appliedIndustry?.placementStartedDate,
         },
         {
             primaryText: 'Completed',
@@ -214,6 +221,7 @@ export const RequestType = ({
                 onCompleteClicked()
             },
             status: 'completed',
+            date: appliedIndustry?.isCompletedDate,
         },
         {
             primaryText: 'Cancelled',
@@ -221,6 +229,7 @@ export const RequestType = ({
             color: 'text-error',
             onClick: () => {},
             status: 'cancelled',
+            date: appliedIndustry?.cancelledDate,
         },
         {
             primaryText: 'Rejected',
@@ -237,6 +246,7 @@ export const RequestType = ({
                 onTerminateClicked()
             },
             status: 'terminated',
+            date: appliedIndustry?.terminatedDate,
         },
     ]
 
@@ -272,23 +282,16 @@ export const RequestType = ({
 
     const onRequestClicked = () => {
         if (workplace?.assignedTo) {
-            if (workplace.industryStatus === UserStatus.Approved || true) {
-                if (
-                    !appliedIndustry?.terminated &&
-                    !appliedIndustry?.isCompleted &&
-                    !appliedIndustry?.isCancelled
-                ) {
-                    setVisibleRequestType(!visibleRequestType)
-                } else {
-                    notification.warning({
-                        title: 'Action cant perform',
-                        description: 'Action cant perform',
-                    })
-                }
+            if (
+                !appliedIndustry?.terminated &&
+                !appliedIndustry?.isCompleted &&
+                !appliedIndustry?.isCancelled
+            ) {
+                setVisibleRequestType(!visibleRequestType)
             } else {
-                notification.error({
-                    title: 'Industry Not Approved',
-                    description: 'Approve the Industry before changing status',
+                notification.warning({
+                    title: 'Action cant perform',
+                    description: 'Action cant perform',
                 })
             }
         } else {
@@ -343,6 +346,19 @@ export const RequestType = ({
                                     ?.secondaryText
                             }
                         </Typography>
+                        {requestTypeActions[selectedRequestType as any]
+                            ?.date && (
+                            <Typography>
+                                <span className="text-[10px] font-semibold">
+                                    {' '}
+                                    {moment(
+                                        requestTypeActions[
+                                            selectedRequestType as any
+                                        ]?.date
+                                    ).format('Do MMM YYYY')}
+                                </span>
+                            </Typography>
+                        )}
                     </div>
                     <IoMdArrowDropdown
                         className={`${

@@ -18,6 +18,7 @@ import {
 } from '../modals'
 import { StudentProvidedForwardModal } from '../modals/StudentProvidedForwardModal'
 import { WorkplaceCurrentStatus } from '@utils'
+import moment from 'moment'
 
 export type isClearedFunctionType = (e: boolean) => void
 
@@ -97,6 +98,7 @@ export const RequestTypeAbn = ({
             color: 'text-primary-dark',
             onClick: () => {},
             status: 'applied',
+            date: appliedIndustry?.appliedDate,
         },
         {
             primaryText: 'Assigned',
@@ -104,6 +106,7 @@ export const RequestTypeAbn = ({
             color: 'text-primary',
             onClick: () => {},
             status: 'caseOfficerAssigned',
+            date: appliedIndustry?.caseOfficerAssignedDate,
         },
         {
             primaryText: 'Waiting',
@@ -124,6 +127,7 @@ export const RequestTypeAbn = ({
                 }
             },
             status: 'awaitingWorkplaceResponse',
+            date: appliedIndustry?.awaitingWorkplaceResponseDate,
         },
         {
             primaryText: 'Agreement & Eligibility ',
@@ -147,6 +151,7 @@ export const RequestTypeAbn = ({
                 }
             },
             status: 'awaitingAgreementSigned',
+            date: appliedIndustry?.awaitingAgreementSignedDate,
         },
         {
             primaryText: 'Agreement & Eligibility ',
@@ -170,6 +175,7 @@ export const RequestTypeAbn = ({
                 }
             },
             status: 'AgreementSigned',
+            date: appliedIndustry?.AgreementSignedDate,
         },
         {
             primaryText: 'Placement Started',
@@ -193,6 +199,7 @@ export const RequestTypeAbn = ({
                 }
             },
             status: 'placementStarted',
+            date: appliedIndustry?.placementStartedDate,
         },
         {
             primaryText: 'Completed',
@@ -202,6 +209,7 @@ export const RequestTypeAbn = ({
                 onCompleteClicked()
             },
             status: 'completed',
+            date: appliedIndustry?.isCompletedDate,
         },
         {
             primaryText: 'Cancelled',
@@ -209,6 +217,7 @@ export const RequestTypeAbn = ({
             color: 'text-error',
             onClick: () => {},
             status: 'cancelled',
+            date: appliedIndustry?.cancelledDate,
         },
         {
             primaryText: 'Rejected',
@@ -225,6 +234,7 @@ export const RequestTypeAbn = ({
                 onTerminateClicked()
             },
             status: 'terminated',
+            date: appliedIndustry?.terminatedDate,
         },
     ]
 
@@ -258,23 +268,16 @@ export const RequestTypeAbn = ({
 
     const onRequestClicked = () => {
         if (workplace?.assignedTo) {
-            if (workplace.industryStatus === UserStatus.Approved || true) {
-                if (
-                    !appliedIndustry?.terminated &&
-                    !appliedIndustry?.isCompleted &&
-                    !appliedIndustry?.isCancelled
-                ) {
-                    setVisibleRequestType(!visibleRequestType)
-                } else {
-                    notification.warning({
-                        title: 'Action cant perform',
-                        description: 'Action cant perform',
-                    })
-                }
+            if (
+                !appliedIndustry?.terminated &&
+                !appliedIndustry?.isCompleted &&
+                !appliedIndustry?.isCancelled
+            ) {
+                setVisibleRequestType(!visibleRequestType)
             } else {
-                notification.error({
-                    title: 'Industry Not Approved',
-                    description: 'Approve the Industry before changing status',
+                notification.warning({
+                    title: 'Action cant perform',
+                    description: 'Action cant perform',
                 })
             }
         } else {
@@ -322,6 +325,18 @@ export const RequestTypeAbn = ({
                                     ?.secondaryText
                             }
                         </Typography>
+                        {requestTypeActions[selectedRequestType as any]
+                            ?.date && (
+                            <Typography>
+                                <span className="text-[10px] font-semibold">
+                                    {moment(
+                                        requestTypeActions[
+                                            selectedRequestType as any
+                                        ]?.date
+                                    ).format('Do MMM YYYY')}
+                                </span>
+                            </Typography>
+                        )}
                     </div>
                     <IoMdArrowDropdown
                         className={`${

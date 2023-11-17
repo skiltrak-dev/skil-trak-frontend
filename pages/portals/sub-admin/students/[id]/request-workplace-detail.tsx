@@ -28,6 +28,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     const [active, setActive] = useState(1)
     const [personalInfoData, setPersonalInfoData] = useState({})
     const [availabilities, setAvailabilities] = useState<any | null>(Array())
+    const [isCancelled, setIsCancelled] = useState<boolean>(false)
 
     const router = useRouter()
     const { id } = router.query
@@ -133,6 +134,10 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                                         setActive={setActive}
                                         workplace={workplace}
                                         userId={Number(data?.user?.id)}
+                                        setIsCancelled={(e: any) => {
+                                            setIsCancelled(e)
+                                        }}
+                                        isCancelled={isCancelled}
                                     />
                                 )}
                             </div>

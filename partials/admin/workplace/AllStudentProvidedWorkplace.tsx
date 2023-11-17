@@ -20,10 +20,15 @@ export const AllStudentProvidedWorkplace = () => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(30)
 
-    const subAdminWorkplace = AdminApi.Workplace.useStudentProvidedWorkplace({
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const subAdminWorkplace = AdminApi.Workplace.useStudentProvidedWorkplace(
+        {
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        {
+            refetchOnMountOrArgChange: true,
+        }
+    )
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))

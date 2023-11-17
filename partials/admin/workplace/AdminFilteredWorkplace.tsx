@@ -1,15 +1,14 @@
 // components
 import {
-    TechnicalError,
-    LoadingAnimation,
     EmptyData,
-    Pagination,
+    LoadingAnimation,
     PageSize,
+    Pagination,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 
 // queries
-import { AdminApi } from '@queries'
 import { AdminWorkplaceRequest } from './components'
 
 export const AdminFilteredWorkplace = ({
