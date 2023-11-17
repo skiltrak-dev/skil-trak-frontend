@@ -30,7 +30,13 @@ import { PinnedNotes } from '@partials'
 import { useActionModals } from '@partials/admin/industry/hooks/useActionModals'
 import { getUserCredentials } from '@utils'
 import { AcceptModal } from '@partials/admin/industry/modals'
-import { SnoozeIndustry, SnoozeIndustryModal } from '@partials/common'
+import {
+    SnoozeIndustry,
+    SnoozeIndustryModal,
+    UnSnoozeIndustryModal,
+} from '@partials/common'
+import { MdSnooze } from 'react-icons/md'
+import moment from 'moment'
 
 const Detail: NextPageWithLayout = () => {
     const [newModal, setNewModal] = useState<ReactNode | null>(null)
@@ -255,6 +261,15 @@ const Detail: NextPageWithLayout = () => {
         )
     }
 
+    const UnSnoozeModal = () => {
+        setNewModal(
+            <UnSnoozeIndustryModal
+                onCancel={onCancelModal}
+                industry={industry?.data as Industry}
+            />
+        )
+    }
+
     return (
         <>
             {newModal}
@@ -267,7 +282,9 @@ const Detail: NextPageWithLayout = () => {
                     {industry?.data?.snoozedDate && (
                         <Alert
                             title="Industry Snoozed"
-                            description="Industry Snoozed"
+                            description={`Industry Snoozed till ${moment(
+                                industry?.data?.snoozedDate
+                            ).format('MMM DD YYYY')}`}
                             variant="warning"
                             autoDismiss={false}
                         />
@@ -300,10 +317,17 @@ const Detail: NextPageWithLayout = () => {
                                 disabled={!industry.isSuccess}
                             />
                             <Button
-                                text="Snooze"
+                                text={
+                                    industry?.data?.snoozedDate
+                                        ? 'Un Snooze'
+                                        : 'Snooze'
+                                }
                                 variant="action"
+                                Icon={MdSnooze}
                                 onClick={() => {
-                                    onSnooze()
+                                    industry?.data?.snoozedDate
+                                        ? UnSnoozeModal()
+                                        : onSnooze()
                                 }}
                             />
                             {statusBaseActions()}

@@ -6,9 +6,7 @@ import { NextPageWithLayout } from '@types'
 // Animations
 import { Animations } from '@animations'
 // Components
-import {
-    DisplayPrimaryActions
-} from '@components'
+import { DisplayPrimaryActions } from '@components'
 import { RecentAppointment } from '@partials/common'
 // Hooks
 import { useJoyRide } from '@hooks'
@@ -74,7 +72,7 @@ const SubAdminTasks: NextPageWithLayout = () => {
         {
             title: 'Workplace Requests',
             description: 'Student Workplace',
-            link: 'tasks/workplace?tab=all',
+            link: 'tasks/workplace?tab=all&subTab=case-officer-not-assigned',
             animation: Animations.Student.Appointments.AssessmentTool,
             id: 'workplace',
             badge: {

@@ -221,7 +221,7 @@ export const RTOReports = ({
                         user={Number(user?.id)}
                         startDate={startDate}
                         setStartDate={setStartDate}
-                        endDate={endDate}
+                        endDate={end}
                         setEndDate={setEndDate}
                     />
                     <Button
@@ -279,6 +279,12 @@ export const RTOReports = ({
                                                     : ''
                                             } shadow p-3 rounded-md cursor-pointer flex items-center gap-x-2`}
                                             onClick={() => {
+                                                let endDateObject = new Date(
+                                                    dateObject.endDatee
+                                                )
+                                                endDateObject.setDate(
+                                                    endDateObject.getDate() + 1
+                                                )
                                                 setStartDate(
                                                     new Date(
                                                         dateObject.startDate

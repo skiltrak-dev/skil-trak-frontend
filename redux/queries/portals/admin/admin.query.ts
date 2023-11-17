@@ -16,6 +16,7 @@ import { subAdminEndpoints } from './sub-admin'
 import { subscriberEndpoints } from './subscribers'
 import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
+import { eSignEndpoints } from './e-sign'
 
 const PREFIX = 'admin'
 
@@ -47,6 +48,7 @@ export const adminApi = emptySplitApi.injectEndpoints({
         ...rtoEndpoints(build),
         ...studentEndpoints(build),
         ...jobEndpoints(build),
+        ...eSignEndpoints(build),
         ...sectorEndpoints(build),
         ...courseEndpoints(build),
         ...folderEndpoints(build),
@@ -214,6 +216,9 @@ const {
     // ---- DOCUMENTS ---- //
     useAddDocumentsMutation,
     useGetDocumentsQuery,
+
+    // ---- ESIGN ---- //
+    useSaveEsignMutation,
 } = adminApi
 
 export const AdminApi = {
@@ -375,5 +380,8 @@ export const AdminApi = {
     Documents: {
         addDocuments: useAddDocumentsMutation,
         useGetDocuments: useGetDocumentsQuery,
+    },
+    ESign: {
+        useSaveEsign: useSaveEsignMutation,
     },
 }

@@ -135,7 +135,10 @@ const SubAdminDetail: NextPageWithLayout = () => {
                                 <div className="w-full flex items-center gap-x-2 px-4 py-2">
                                     <img
                                         className="w-24 h-24 border rounded-lg p-1"
-                                        src={data?.user.avatar}
+                                        src={
+                                            data?.user.avatar ||
+                                            '/images/avatar.png'
+                                        }
                                         alt="RTO Logo"
                                     />
                                     <div>

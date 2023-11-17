@@ -39,6 +39,7 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     const [active, setActive] = useState(1)
     const [personalInfoData, setPersonalInfoData] = useState({})
     const [industryABN, setIndustryABN] = useState<string | null>(null)
+    const [isCancelled, setIsCancelled] = useState<boolean>(false)
 
     const [workplaceData, setWorkplaceData] = useState<any | null>(null)
     const { notification } = useNotification()
@@ -228,6 +229,10 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                                             workplace={workplace}
                                             userId={Number(data?.user?.id)}
                                             studentProvidedWorkplace
+                                            setIsCancelled={(e: any) => {
+                                                setIsCancelled(e)
+                                            }}
+                                            isCancelled={isCancelled}
                                         />
                                     ) : workplaceData[0]?.industryStatus ===
                                       UserStatus.Rejected ? (
