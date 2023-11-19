@@ -32,6 +32,7 @@ import { BsFillTicketDetailedFill } from 'react-icons/bs'
 import { HiOutlineDocumentText } from 'react-icons/hi2'
 import { useRouter } from 'next/router'
 import { FaFileSignature } from 'react-icons/fa'
+import { BiLogoBlogger } from 'react-icons/bi'
 
 type Route = {
     type?: 'title' | 'divider'
@@ -116,6 +117,11 @@ const routes: Route[] = [
         text: 'Jobs',
         path: getRoutePath('/jobs'),
         Icon: IoMdBriefcase,
+    },
+    {
+        text: 'Blogs',
+        path: getRoutePath('/blogs?tab=published&page=1&pageSize=50'),
+        Icon: BiLogoBlogger,
     },
     {
         text: 'Subscribers',

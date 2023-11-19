@@ -406,3 +406,12 @@ ul.landing-content {
     padding-left: 20px;
     /* padding: 10px !important; */
 }
+
+
+.ql-editor{
+    min-height: 500px !important;
+    /* max-height: 300px; */
+    /* overflow: hidden;
+    overflow-y: scroll;
+    overflow-x: scroll; */
+  }

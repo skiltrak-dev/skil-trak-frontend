@@ -44,6 +44,88 @@ export const adminApi = emptySplitApi.injectEndpoints({
             query: () => `${PREFIX}/sectors/count`,
             providesTags: ['Statistics'],
         }),
+        createBlog: build.mutation<any, any>({
+            query: (body) => {
+                return {
+                    url: `blogs/create`,
+                    method: 'POST',
+                    body,
+                }
+            },
+            invalidatesTags: ['Blog'],
+        }),
+        addBlogTags: build.mutation<any, any>({
+            query: (body) => {
+                return {
+                    url: `blogs/tag`,
+                    method: 'POST',
+                    body,
+                }
+            },
+            invalidatesTags: ['Blog'],
+        }),
+        addBlogCategories: build.mutation<any, any>({
+            query: (body) => {
+                return {
+                    url: `blogs/category`,
+                    method: 'POST',
+                    body,
+                }
+            },
+            invalidatesTags: ['Blog'],
+        }),
+        getBlogs: build.query<any, any>({
+            query: (params) => ({
+                url: `blogs`,
+                params,
+            }),
+            providesTags: ['Blog'],
+        }),
+        getTags: build.query<any, void>({
+            query: () => ({
+                url: `blogs/tag`,
+            }),
+            providesTags: ['Blog'],
+        }),
+        getCategories: build.query<any, void>({
+            query: () => ({
+                url: `blogs/category`,
+            }),
+            providesTags: ['Blog'],
+        }),
+        getBlogDetail: build.query<any, any>({
+            query: (id) => ({
+                url: `blogs/${id}`,
+            }),
+            providesTags: ['Blog'],
+        }),
+        removeBlog: build.mutation({
+            query: (id) => ({
+                url: `blogs/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Blog'],
+        }),
+        bulkRemoveBlog: build.mutation({
+            query: (ids) => ({
+                url: `blogs/remove/multiple`,
+                method: 'DELETE',
+                body: { ids: ids },
+                // ids: [1,2,3]
+            }),
+            invalidatesTags: ['Blog'],
+        }),
+        updateBlog: build.mutation<any, { id: any; body: any }>({
+            query: ({ id, body }) => {
+                console.log('body', body)
+                return {
+                    url: `blogs/${id}`,
+                    method: 'PATCH',
+                    body,
+                }
+            },
+            invalidatesTags: ['Blog'],
+        }),
 
         ...rtoEndpoints(build),
         ...studentEndpoints(build),
@@ -71,6 +153,18 @@ const {
     useGetProfileQuery,
     useSectorsStudentsCountQuery,
     useUpdateAdminProfileMutation,
+
+    // Blogs
+    useCreateBlogMutation,
+    useGetBlogsQuery,
+    useGetBlogDetailQuery,
+    useRemoveBlogMutation,
+    useBulkRemoveBlogMutation,
+    useUpdateBlogMutation,
+    useAddBlogTagsMutation,
+    useGetTagsQuery,
+    useAddBlogCategoriesMutation,
+    useGetCategoriesQuery,
 
     // ------ RTO ------ //
     useRtoCountQuery,

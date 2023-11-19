@@ -103,13 +103,12 @@ export const InputContentEditor = ({
 
     // const cleanedString = inputString.replace(imgTagRegex, '')
 
-
     return (
         <div>
             <Typography variant={'label'}>{label}</Typography>
             <Controller
                 name={name}
-                control={methods.control}
+                control={methods?.control}
                 render={({ field }) => {
                     return (
                         <Editor
@@ -117,21 +116,21 @@ export const InputContentEditor = ({
                                 padding: '0px 10px 10px',
                                 height: '200px',
                             }}
-                            toolbar={{
-                                options: [
-                                    'inline',
-                                    'blockType',
-                                    'fontSize',
-                                    'list',
-                                    'textAlign',
-                                    'history',
-                                ],
-                                inline: { inDropdown: true },
-                                list: { inDropdown: true },
-                                textAlign: { inDropdown: true },
-                                link: { inDropdown: true },
-                                history: { inDropdown: true },
-                            }}
+                            // toolbar={{
+                            //     options: [
+                            //         'inline',
+                            //         'blockType',
+                            //         'fontSize',
+                            //         'list',
+                            //         'textAlign',
+                            //         'history',
+                            //     ],
+                            //     inline: { inDropdown: true },
+                            //     list: { inDropdown: true },
+                            //     textAlign: { inDropdown: true },
+                            //     link: { inDropdown: true },
+                            //     history: { inDropdown: true },
+                            // }}
                             editorState={field?.value}
                             wrapperClassName={`border ${
                                 error ? 'border-error' : ''

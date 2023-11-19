@@ -11,6 +11,9 @@
         "cypress:run": "cypress run"
     },
     "dependencies": {
+        "@dnd-kit/core": "^6.0.8",
+        "@dnd-kit/modifiers": "^6.0.1",
+        "@dnd-kit/utilities": "^3.2.1",
         "@hookform/error-message": "^2.0.0",
         "@hookform/resolvers": "^2.9.8",
         "@ramonak/react-progress-bar": "^5.0.3",
@@ -92,6 +95,7 @@
         "react-phone-number-input": "^3.2.16",
         "react-places-autocomplete": "^7.3.0",
         "react-player": "^2.10.1",
+        "react-quill": "^2.0.0",
         "react-redux": "^8.0.2",
         "react-responsive": "^9.0.2",
         "react-rte": "^0.16.5",
@@ -111,21 +115,18 @@
         "socket.io-client": "^4.5.4",
         "styled-components": "^5.3.5",
         "swiper": "^8.4.5",
+        "uuid": "^9.0.1",
         "uuidv4": "^6.2.13",
         "xlsx": "^0.18.5",
-        "yup": "^0.32.11",
-        "@dnd-kit/core": "^6.0.8",
-        "@dnd-kit/modifiers": "^6.0.1",
-        "@dnd-kit/utilities": "^3.2.1",
-        "uuid": "^9.0.1"
+        "yup": "^0.32.11"
     },
     "devDependencies": {
-        "@types/lodash.throttle": "^4.1.8",
         "@types/draft-js": "^0.11.9",
         "@types/draftjs-to-html": "^0.8.1",
         "@types/file-saver": "^2.0.5",
         "@types/gapi": "^0.0.43",
         "@types/html-to-draftjs": "^1.4.0",
+        "@types/lodash.throttle": "^4.1.8",
         "@types/node": "18.6.4",
         "@types/react": "^18.2.24",
         "@types/react-big-calendar": "^0.38.2",

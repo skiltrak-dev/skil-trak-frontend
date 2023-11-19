@@ -1,4 +1,16 @@
+.blog-bg{
+    background-image: url("/images/site/blog-hero-image.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
 /* Features Page */
+
+
 .feat-card {
     position: relative;
 }
