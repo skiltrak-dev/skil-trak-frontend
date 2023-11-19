@@ -13,6 +13,10 @@ const links = [
         url: '/features',
     },
     {
+        text: 'Blogs',
+        url: '/blogs',
+    },
+    {
         text: 'About Us',
         url: '/about-us',
     },

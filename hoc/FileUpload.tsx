@@ -93,6 +93,8 @@ export const FileUpload = ({
         }
     }, [values])
 
+    console.log('Hello', values)
+
     // Uploading Media
     const handleChange = (event: any, isDragging: boolean) => {
         setDragging(false)
@@ -214,7 +216,10 @@ export const FileUpload = ({
                     // )}
                     {...(formContext ? formContext.register(name) : { name })}
                     onChange={(e: any) => {
-                        setValues(e.target.files)
+                        ;[...e.target.files]?.forEach((e: any) => {
+                            setValues([e])
+                        })
+                        // setValues(e.target.files)
                         handleChange(e, false)
                         // onChange && onChange(e);
                     }}
