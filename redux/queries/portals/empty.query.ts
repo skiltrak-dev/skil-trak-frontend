@@ -6,6 +6,8 @@ import { AuthUtils } from '@utils'
 
 const adminTagTypes = [
     'Blog',
+    'Tags',
+    'BlogCategories',
     'SMS',
     'RPL',
     'Jobs',

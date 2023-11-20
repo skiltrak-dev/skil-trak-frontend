@@ -72,7 +72,7 @@ export const adminApi = emptySplitApi.injectEndpoints({
                     body,
                 }
             },
-            invalidatesTags: ['Blog'],
+            invalidatesTags: ['BlogCategories'],
         }),
         getBlogs: build.query<any, any>({
             query: (params) => ({
@@ -85,7 +85,7 @@ export const adminApi = emptySplitApi.injectEndpoints({
             query: () => ({
                 url: `blogs/tag`,
             }),
-            providesTags: ['Blog'],
+            providesTags: ['Tags'],
         }),
         getCategories: build.query<any, void>({
             query: () => ({

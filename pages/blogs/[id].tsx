@@ -12,25 +12,27 @@ const BlogDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const blogId = router.query.id as string
     const { data, isLoading, isFetching, isError } =
-        adminApi.useGetBlogDetailQuery(blogId)
+        adminApi.useGetBlogDetailQuery(blogId, {
+            skip: !blogId,
+        })
     console.log('blog detail', data)
     return (
         <div className="">
-                <HeroSectionBlog />
-            <div className='p-10 mx-auto max-w-7xl'>
-
+            <HeroSectionBlog />
+            <div className="p-10 mx-auto max-w-7xl">
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data ? (
                     <div className="bg-[#FFFCF7] rounded-xl shadow-md px-8 py-4">
-                        <Image
-                            src={data?.featuredImage}
-                            alt="blog-card"
-                            width={150}
-                            height={150}
-                            sizes="100vw"
-                            className="rounded-xl w-full h-[250px]"
-                        />
+                        <div className="h-[250px] relative overflow-hidden rounded-xl">
+                            <Image
+                                src={data?.featuredImage}
+                                alt="blog-card"
+                                fill
+                                sizes="100vw"
+                                className=""
+                            />
+                        </div>
                         <div className="flex items-center justify-between my-3">
                             <p className="text-[#DADADA] text-xs font-bold">
                                 Published

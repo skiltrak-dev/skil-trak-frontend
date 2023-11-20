@@ -49,7 +49,7 @@ export const PublishedBlogs = () => {
         {
             text: 'View',
             onClick: (blog: any) => {
-                router.push(`http://localhost:3000/blogs/${blog?.id}`)
+                router.push(`https://skiltrak.com.au/blogs/${blog?.id}`)
             },
             Icon: FaEye,
         },
@@ -128,7 +128,7 @@ export const PublishedBlogs = () => {
                     <ActionButton
                         onClick={() => {
                             router.push(
-                                `http://localhost:3000/blogs/${blog?.id}`
+                                `https://www.skiltrak.com.au/blogs/${blog?.id}`
                             )
                         }}
                     >
@@ -174,6 +174,8 @@ export const PublishedBlogs = () => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
+
+
     return (
         <>
             {modal}

@@ -9,7 +9,14 @@ import {
     useForm,
     useFormContext,
 } from 'react-hook-form'
-import { Button, Select, ShowErrorNotifications, TextInput, UploadFile } from '@components'
+import {
+    Button,
+    Checkbox,
+    Select,
+    ShowErrorNotifications,
+    TextInput,
+    UploadFile,
+} from '@components'
 import { FileUpload } from '@hoc'
 import { adminApi } from '@queries'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -25,16 +32,24 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
     const { notification } = useNotification()
     const router = useRouter()
     const [isPublish, setIsPublish] = useState<boolean>(true)
+    const [isFeatured, setIsFeatured] = useState(false)
+    const [blogPost, setBlogPost] = useState<any>('')
+    const blogPostEnum = {
+        Save: 'save',
+        SaveAndPublish: 'saveAndPublish',
+    }
 
     const [createBlog, createBlogResult] = adminApi.useCreateBlogMutation()
     const { data, isLoading } = adminApi.useGetCategoriesQuery()
-
+    console.log('isFeatured', isFeatured)
     // const handleSave = () => {
     //     // const editorContent = quillRef.current.getEditor().getContents()
     //     const html = quillRef.current.getEditor().root.innerHTML
     //     console.log(html)
     // }
-
+    const handleChecked = () => {
+        setIsFeatured(!isFeatured)
+    }
     // Validation
     const validationSchema = yup.object({
         featuredImage: yup.mixed().required('Featured Image is required'),
@@ -72,12 +87,13 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
         formData.append('title', data.title)
         formData.append('content', content)
         formData.append('isPublished', publish.toString())
+        formData.append('isFeatured', data.isFeatured.toString())
         formData.append('tags', tagIds)
         formData.append('category', data?.category)
+        formData.append('author', data?.author)
 
         createBlog(formData)
     }
-    console.log('getCategories', data)
 
     const options = data?.map((item: any) => ({
         label: item?.title,
@@ -87,17 +103,20 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
     useEffect(() => {
         if (createBlogResult.isSuccess) {
             notification.success({
-                title: 'Appointment Rescheduled',
-                description: 'Appointment Rescheduled Successfully',
+                title: 'Blog Published',
+                description: 'Blog Published Successfully',
             })
+            // router.push('/portals/admin/blogs?tab=draft&page=1&pageSize=50')
+            console.log({ blogPost })
+            if (blogPost === blogPostEnum.Save) {
+                router.push('/portals/admin/blogs?tab=draft&page=1&pageSize=50')
+            } else if (blogPost === blogPostEnum.SaveAndPublish) {
+                router.push(
+                    '/portals/admin/blogs?tab=published&page=1&pageSize=50'
+                )
+            }
         }
-        // if (isPublish) {
-        //     router.push('/portals/admin/blogs?tab=published&page=1&pageSize=50');
-        // } else {
-        //     router.push('/portals/admin/blogs?tab=draft&page=1&pageSize=50');
-        // }
-    
-    }, [createBlogResult])
+    }, [createBlogResult.isSuccess])
     return (
         <div>
             <ShowErrorNotifications result={createBlogResult} />
@@ -122,26 +141,48 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                         multi
                         onlyValue
                     />
+                    <TextInput name="author" label="Author" />
                     <TextInput name="title" label="Title" />
                     <ReactQuill theme="snow" ref={quillRef} modules={modules} />
-                    <div className="flex items-center gap-x-4 mt-5">
+                    <div className="mt-4">
+                        <Checkbox
+                            onChange={handleChecked}
+                            name={'isFeatured'}
+                            label={'Featured'}
+                        />
+                    </div>
+                    <div className="flex items-center gap-x-4">
                         <Button
                             text="Save & Publish"
-                            submit
-                            loading={createBlogResult?.isLoading}
-                            disabled={createBlogResult?.isLoading}
+                            // submit
+                            loading={
+                                createBlogResult?.isLoading &&
+                                blogPost === blogPostEnum.SaveAndPublish
+                            }
+                            disabled={
+                                createBlogResult?.isLoading &&
+                                blogPost === blogPostEnum.SaveAndPublish
+                            }
                             onClick={() => {
                                 setIsPublish(true)
+                                setBlogPost(blogPostEnum.SaveAndPublish)
                                 onSubmit(formMethods.getValues(), true)
-                                router.push("/portals/admin/blogs?tab=published&page=1&pageSize=50")
                             }}
                         />
                         <Button
                             text="Save"
+                            loading={
+                                createBlogResult?.isLoading &&
+                                blogPost === blogPostEnum.Save
+                            }
+                            disabled={
+                                createBlogResult?.isLoading &&
+                                blogPost === blogPostEnum.Save
+                            }
                             onClick={() => {
                                 setIsPublish(false)
+                                setBlogPost(blogPostEnum.Save)
                                 onSubmit(formMethods.getValues(), false)
-                                router.push("/portals/admin/blogs?tab=draft&page=1&pageSize=50")
                             }}
                         />
                     </div>
