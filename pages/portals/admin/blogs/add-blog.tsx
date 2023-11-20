@@ -18,15 +18,15 @@ import { BlogContextBar } from '@partials/admin/blog'
 import { useRouter } from 'next/router'
 import { adminApi } from '@queries'
 // import { TextEditor } from '@partials'
-
+const TextEditor = dynamic(
+    () => import('../../../../partials/admin/blog/TextEditor'),
+    { ssr: false }
+)
 const AddBlog: NextPageWithLayout = () => {
     const [tagIds, setTagIds] = useState<any[]>([])
     const [categoryIds, setCategoryIds] = useState<any[]>([])
     const contextBar = useContextBar()
-    const TextEditor = dynamic(
-        () => import('../../../../partials/admin/blog/TextEditor'),
-        { ssr: false }
-    )
+    
 
     const [addTags, addTagsResult] = adminApi.useAddBlogTagsMutation()
     const [addCategories, addCategoriesResult] =

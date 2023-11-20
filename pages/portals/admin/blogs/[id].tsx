@@ -35,14 +35,29 @@ const EditBlog: NextPageWithLayout = () => {
         { ssr: false }
     )
     const { data, isLoading, isFetching, isError } =
-        adminApi.useGetBlogDetailQuery(blogId)
+        adminApi.useGetBlogDetailQuery(blogId, {
+            skip: !blogId,
+        })
+    const [addTags, addTagsResult] = adminApi.useAddBlogTagsMutation()
+
+    const [addCategories, addCategoriesResult] =
+        adminApi.useAddBlogCategoriesMutation()
+    const tags = adminApi.useGetTagsQuery()
+
     const navBar = useNavbar()
     useEffect(() => {
         navBar.setTitle('edit blog')
     }, [])
 
     useEffect(() => {
-        contextBar.setContent(<BlogContextBar />)
+        contextBar.setContent(
+            <BlogContextBar
+                addTags={addTags}
+                data={tags?.data}
+                addCategories={addCategories}
+                addCategoriesResult={addCategoriesResult}
+            />
+        )
         contextBar.show(false)
         contextBar.setTitle('Blog')
         return () => {
@@ -52,6 +67,36 @@ const EditBlog: NextPageWithLayout = () => {
     }, [])
 
     console.log('blog data', data)
+
+    // const onSubmit: any = (data: any, publish: boolean) => {
+    //     const content = quillRef.current.getEditor().root.innerHTML
+
+    //     const values = {
+    //         featuredImage: data.featuredImage?.[0],
+    //         title: data.title,
+    //         content,
+    //         isPublished: publish.toString(),
+    //         isFeatured: isFeatured.toString(),
+    //         tags: tagIds,
+    //         category: data?.category,
+    //     }
+
+    //     const formData = new FormData()
+
+    //     Object.entries(values).forEach(([key, value]: any) => {
+    //         formData.append(key, value)
+    //     })
+
+    //     // formData.append('featuredImage', data.featuredImage?.[0])
+    //     // formData.append('title', data.title)
+    //     // formData.append('content', content)
+    //     // formData.append('isPublished', publish.toString())
+    //     // formData.append('isFeatured', isFeatured.toString())
+    //     // formData.append('tags', tagIds)
+    //     // formData.append('category', data?.category)
+
+    //     updateBlog({ id: blogData?.id, body: formData })
+    // }
     return (
         <div className="p-6">
             {isError && <TechnicalError />}
@@ -59,7 +104,12 @@ const EditBlog: NextPageWithLayout = () => {
                 <LoadingAnimation height="h-[60vh]" />
             ) : data && data ? (
                 <>
-                    <TextEditor blogData={data} />
+                    <TextEditor
+                        blogData={data}
+                        // onSubmit={() => {
+                        //     onSubmit()
+                        // }}
+                    />
                 </>
             ) : (
                 !isError && (
