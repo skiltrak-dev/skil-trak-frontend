@@ -26,8 +26,8 @@ export const BlogCategory = ({ addCategories, addCategoriesResult }: any) => {
 
                     <TextInput name="title" label="Category title" />
                     <Button
-                        loading={addCategoriesResult.isLoading}
-                        disabled={addCategoriesResult.isLoading}
+                        loading={addCategoriesResult?.isLoading}
+                        disabled={addCategoriesResult?.isLoading}
                         submit
                     >
                         Add New Category

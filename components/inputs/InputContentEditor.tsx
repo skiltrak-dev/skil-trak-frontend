@@ -116,21 +116,21 @@ export const InputContentEditor = ({
                                 padding: '0px 10px 10px',
                                 height: '200px',
                             }}
-                            // toolbar={{
-                            //     options: [
-                            //         'inline',
-                            //         'blockType',
-                            //         'fontSize',
-                            //         'list',
-                            //         'textAlign',
-                            //         'history',
-                            //     ],
-                            //     inline: { inDropdown: true },
-                            //     list: { inDropdown: true },
-                            //     textAlign: { inDropdown: true },
-                            //     link: { inDropdown: true },
-                            //     history: { inDropdown: true },
-                            // }}
+                            toolbar={{
+                                options: [
+                                    'inline',
+                                    'blockType',
+                                    'fontSize',
+                                    'list',
+                                    'textAlign',
+                                    'history',
+                                ],
+                                inline: { inDropdown: true },
+                                list: { inDropdown: true },
+                                textAlign: { inDropdown: true },
+                                link: { inDropdown: true },
+                                history: { inDropdown: true },
+                            }}
                             editorState={field?.value}
                             wrapperClassName={`border ${
                                 error ? 'border-error' : ''
