@@ -151,7 +151,7 @@ export const DetailNavbar = () => {
                         </span>
                     </div>
                 </AuthorizedUserComponent>
-                <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                {/* <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
                     <div className="relative">
                         <Link
                             legacyBehavior
@@ -173,11 +173,9 @@ export const DetailNavbar = () => {
                                 </span>
                             </a>
                         </Link>
-                        {/* <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute -top-2 -right-2 bg-error rounded-full text-xs">
-                            {ticketCount?.data}
-                        </span> */}
+                      
                     </div>
-                </AuthorizedUserComponent>
+                </AuthorizedUserComponent> */}
 
                 <OutsideClickHandler
                     onOutsideClick={() => {
