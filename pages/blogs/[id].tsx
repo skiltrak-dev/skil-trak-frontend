@@ -24,7 +24,7 @@ const BlogDetail: NextPageWithLayout = () => {
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data ? (
                     <div className="bg-[#FFFCF7] rounded-xl shadow-md px-8 py-4">
-                        <div className="h-[250px] relative overflow-hidden rounded-xl">
+                        <div className="h-[650px] relative overflow-hidden rounded-xl">
                             <Image
                                 src={data?.featuredImage}
                                 alt="blog-card"
