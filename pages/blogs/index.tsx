@@ -36,7 +36,7 @@ const Blogs: NextPageWithLayout = () => {
                         <div className="flex md:flex-row flex-col gap-y-5 md:gap-x-12 mb-10">
                             <div className="w-full md:w-3/4">
                                 <div className="bg-[#FFFCF7] rounded-xl shadow-md px-2 py-1.5 min-h-[720px]">
-                                    <Link href={`blogs/${data?.data[0]?.id}`}>
+                                    <Link href={`blogs/${data?.data[0]?.title}/${data?.data[0]?.id}`}>
                                         <div className="relative h-[600px] rounded-xl overflow-hidden">
                                             <Image
                                                 src={

@@ -59,6 +59,11 @@ TextEditorProps) {
     const validationSchema = yup.object({
         featuredImage: yup.mixed().required('Featured Image is required'),
         title: yup.string().required('Title is required'),
+        author: yup.string().required('Author is required'),
+        category: yup
+            .array()
+            .min(1, 'Must select at least 1 category')
+            .required(),
         // content: yup
         //     .string()
         //     .test('notEmpty', 'Content is required', (value: any) => {
@@ -150,7 +155,6 @@ TextEditorProps) {
         value: item?.id,
     }))
 
-    console.log('blog post', updateBlogResult)
     // useEffect(() => {
     //     if (updateBlogResult?.isSuccess) {
     //         notification.success({
@@ -166,8 +170,6 @@ TextEditorProps) {
     //         }
     //     }
     // }, [updateBlogResult?.isSuccess])
-
-    console.log('updateBlogResult', updateBlogResult)
 
     const onSubmit: any = (data: any, publish: boolean) => {
         const content = quillRef.current.getEditor().root.innerHTML

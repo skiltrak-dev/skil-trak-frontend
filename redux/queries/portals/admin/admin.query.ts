@@ -228,6 +228,7 @@ const {
     useRplRequestListQuery,
     useRplDeleteMutation,
     useRplCountQuery,
+    useRplIsReadMutation,
 
     // ------ SECTOR ------ //
     useSectorsQuery,
@@ -417,6 +418,7 @@ export const AdminApi = {
         useRplList: useRplRequestListQuery,
         useRemoveRpl: useRplDeleteMutation,
         useRplCount: useRplCountQuery,
+        useRplIsRead: useRplIsReadMutation,
     },
 
     Subscribers: {

@@ -26,4 +26,11 @@ export const industryRplEndpoints = (
         query: () => `${PREFIX}rpl-requests/count`,
         providesTags: ['RPL'],
     }),
+    rplIsRead: builder.mutation({
+        query: () => ({
+            url: `${PREFIX}rpl/read`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['RPL'],
+    }),
 })

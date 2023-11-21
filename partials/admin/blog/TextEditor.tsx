@@ -54,6 +54,8 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
     const validationSchema = yup.object({
         featuredImage: yup.mixed().required('Featured Image is required'),
         title: yup.string().required('Title is required'),
+        author: yup.string().required('Author is required'),
+        category: yup.array().min(1, 'Must select at least 1 category').required(),
         // content: yup
         //     .string()
         //     .test('notEmpty', 'Content is required', (value: any) => {
