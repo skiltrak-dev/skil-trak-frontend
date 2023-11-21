@@ -48,10 +48,14 @@ export const Note = ({ note }: { note: NoteType }) => {
     }, [removeResult])
 
     return (
-        <div className="relative w-full bg-[#FEF6E6] p-4 rounded-xl shadow-lg">
+        <div
+            className={`relative w-full ${
+                note?.isPinned ? 'bg-[#F0479A]' : 'bg-[#FEF6E6] '
+            } p-4 rounded-xl shadow-lg`}
+        >
             <button
                 className={pinClasses}
-                title={note.isPinned ? 'Un-Pin' : 'Pin'}
+                title={note?.isPinned ? 'Un-Pin' : 'Pin'}
                 onClick={togglePin}
             >
                 {statusChangeResult.isLoading ? (
@@ -92,10 +96,22 @@ export const Note = ({ note }: { note: NoteType }) => {
 
                     <div className="flex justify-between">
                         <div className="mr-6">
-                            <p className="text-xs font-medium text-gray-500">
+                            <p
+                                className={`text-xs font-medium ${
+                                    note?.isPinned
+                                        ? 'text-gray-200'
+                                        : 'text-gray-500'
+                                } `}
+                            >
                                 {note.author.name}
                             </p>
-                            <p className="text-[11px] font-medium text-[#BFBF80]">
+                            <p
+                                className={`text-[11px] font-medium ${
+                                    note.isPinned
+                                        ? 'text-gray-200'
+                                        : 'text-[#BFBF80]'
+                                } `}
+                            >
                                 {format(
                                     new Date(note.createdAt!!),
                                     'EEE dd, LLL, yyyy'

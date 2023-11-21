@@ -54,7 +54,9 @@ export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
 
     return (
         <div
-            className={`bg-[#FEF6E6] p-4 rounded-xl shadow-lg relative ${
+            className={`${
+                pinnedNote ? 'bg-[#F0479A]' : 'bg-[#FEF6E6]'
+            }  p-4 rounded-xl shadow-lg relative ${
                 pinnedNote ? 'w-full' : 'w-fit'
             }`}
         >
@@ -111,11 +113,23 @@ export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
                     {/*  */}
                     <div className="mt-2 flex justify-between items-center gap-x-4">
                         <div className="">
-                            <p className="text-xs font-medium text-gray-500">
+                            <p
+                                className={`text-xs font-medium ${
+                                    note.isPinned
+                                        ? 'text-gray-200'
+                                        : 'text-gray-500'
+                                } `}
+                            >
                                 {note.author.name}
                             </p>
-
-                            <p className="text-[11px] font-medium text-[#BFBF80]">
+                            {/*  #BFBF80*/}
+                            <p
+                                className={`text-[11px] font-medium ${
+                                    note.isPinned
+                                        ? 'text-gray-200'
+                                        : 'text-[#BFBF80]'
+                                } `}
+                            >
                                 {moment(note?.createdAt).format(
                                     'ddd Do, MMM, YYYY [at] hh:mm a'
                                 )}

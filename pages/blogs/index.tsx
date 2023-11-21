@@ -18,17 +18,16 @@ const Blogs: NextPageWithLayout = () => {
     const [currentItems, setCurrentItems] = useState([])
     const router = useRouter()
     const [page, setPage] = useState(1)
+
     const { data, isLoading, isError, isFetching } = adminApi.useGetBlogsQuery({
         isPublished: `${true}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    console.log('currentItems', currentItems)
     return (
         <>
             <HeroSectionBlog />
             <div className="container mx-auto mt-24 md:px-0 px-4">
-                {/* Featured blog */}
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data?.data && data?.data?.length ? (
@@ -36,7 +35,9 @@ const Blogs: NextPageWithLayout = () => {
                         <div className="flex md:flex-row flex-col gap-y-5 md:gap-x-12 mb-10">
                             <div className="w-full md:w-3/4">
                                 <div className="bg-[#FFFCF7] rounded-xl shadow-md px-2 py-1.5 min-h-[720px]">
-                                    <Link href={`blogs/${data?.data[0]?.title}/${data?.data[0]?.id}`}>
+                                    <Link
+                                        href={`blogs/${data?.data[0]?.title}/${data?.data[0]?.id}`}
+                                    >
                                         <div className="relative h-[600px] rounded-xl overflow-hidden">
                                             <Image
                                                 src={
@@ -156,5 +157,16 @@ const Blogs: NextPageWithLayout = () => {
 Blogs.getLayout = (page: ReactElement) => {
     return <SiteLayout>{page}</SiteLayout>
 }
+// export const getStaticProps = async () => {
+//     const res = await fetch(
+//         `https://api.skiltrak.com.au/blogs?isPublished=true&skip=0&limit=50`
+//     )
+//     const data = await res.json()
 
+//     return {
+//         props: {
+//             data: data,
+//         },
+//     }
+// }
 export default Blogs

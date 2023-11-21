@@ -22,12 +22,20 @@ import { adminApi } from '@queries'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
 import { useNotification } from '@hooks'
+import { InputErrorMessage } from '@components/inputs/components'
 
 interface TextEditorProps {
     tagIds?: any
 }
+
+export const imageSizeErrorMessage = (file: File) => {
+    if (file && file.size && file.size > 2 * 1024 * 1024) {
+        return 'Image size must be less than 2MB'
+    }
+    return true
+}
+
 export default function TextEditor({ tagIds }: TextEditorProps) {
-    console.log('tagIds', tagIds)
     const quillRef = useRef<any>(null)
     const { notification } = useNotification()
     const router = useRouter()
@@ -41,7 +49,6 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
 
     const [createBlog, createBlogResult] = adminApi.useCreateBlogMutation()
     const { data, isLoading } = adminApi.useGetCategoriesQuery()
-    console.log('isFeatured', isFeatured)
     // const handleSave = () => {
     //     // const editorContent = quillRef.current.getEditor().getContents()
     //     const html = quillRef.current.getEditor().root.innerHTML
@@ -52,15 +59,25 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
     }
     // Validation
     const validationSchema = yup.object({
-        featuredImage: yup.mixed().required('Featured Image is required'),
-        title: yup.string().required('Title is required'),
-        author: yup.string().required('Author is required'),
-        category: yup.array().min(1, 'Must select at least 1 category').required(),
-        // content: yup
-        //     .string()
-        //     .test('notEmpty', 'Content is required', (value: any) => {
-        //         return value && value.trim() !== ''
-        //     }),
+        title: yup
+            .string()
+            .required('Title is required')
+            .matches(/^[^\d]+$/, 'Title cannot contain numbers')
+            .matches(/^[\w\s!@#$%^&*()\-+=_{}|:"<>?,./;'[\]]{5,160}$/, {
+                message:
+                    'Title must be between 5 and 160 characters and only contain special characters',
+                excludeEmptyString: true,
+            }),
+
+        author: yup
+            .string()
+            .required('Author is required')
+            .min(3, 'Author must be at least 3 characters')
+            .max(20, 'Author cannot exceed 20 characters'),
+        category: yup
+            .array()
+            .min(1, 'Must select at least 1 category')
+            .required(),
     })
     const formMethods = useForm({
         mode: 'all',
@@ -83,6 +100,29 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
 
     const onSubmit: any = (data: any, publish: boolean) => {
         const content = quillRef.current.getEditor().root.innerHTML
+        if (!data.featuredImage || !data.featuredImage[0]) {
+            formMethods.setError('featuredImage', {
+                type: 'emptyImage',
+                message: 'Image must not be empty',
+            })
+            return
+        }
+
+        if (imageSizeErrorMessage(data.featuredImage[0]) !== true) {
+            formMethods.setError('featuredImage', {
+                type: 'imageSizeError',
+                message: 'Image size must be less than 2MB',
+            })
+            return
+        }
+        if (content === '<p><br></p>' || content.trim() === '<p><br></p>') {
+            console.log('content === <p><br></p>')
+            formMethods.setError('content', {
+                type: 'emptyContent',
+                message: 'Content is required',
+            })
+            return
+        }
 
         const formData = new FormData()
         formData.append('featuredImage', data.featuredImage?.[0])
@@ -95,6 +135,28 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
         formData.append('author', data?.author)
 
         createBlog(formData)
+        validationSchema
+            .validate(data)
+            .then(() => {
+                // If the validation passes, proceed with form submission
+                const formData = new FormData()
+                formData.append('featuredImage', data.featuredImage?.[0])
+                formData.append('title', data.title)
+                formData.append('content', content)
+                formData.append('isPublished', publish.toString())
+                formData.append('isFeatured', data.isFeatured.toString())
+                formData.append('tags', tagIds)
+                formData.append('category', data?.category)
+                formData.append('author', data?.author)
+
+                createBlog(formData)
+            })
+            .catch((validationError) => {
+                notification.error({
+                    title: 'Validation Error ',
+                    description: 'Category is required',
+                })
+            })
     }
 
     const options = data?.map((item: any) => ({
@@ -119,6 +181,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
             }
         }
     }, [createBlogResult.isSuccess])
+
     return (
         <div>
             <ShowErrorNotifications result={createBlogResult} />
@@ -146,6 +209,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                     <TextInput name="author" label="Author" />
                     <TextInput name="title" label="Title" />
                     <ReactQuill theme="snow" ref={quillRef} modules={modules} />
+                    <InputErrorMessage name={'content'} />
                     <div className="mt-4">
                         <Checkbox
                             onChange={handleChecked}
@@ -190,6 +254,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                     </div>
                 </form>
             </FormProvider>
+            <InputErrorMessage name={'quill editor'} />
         </div>
     )
 }

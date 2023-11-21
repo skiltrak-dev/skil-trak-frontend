@@ -16,6 +16,15 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
 import { useRouter } from 'next/router'
 
+import { InputErrorMessage } from '@components/inputs/components'
+
+const imageSizeErrorMessage = (file: File) => {
+    if (file && file.size && file.size > 2 * 1024 * 1024) {
+        return 'Image size must be less than 2MB'
+    }
+    return true
+}
+
 interface TextEditorProps {
     tagIds?: any
     blogData: any
@@ -50,25 +59,32 @@ TextEditorProps) {
     const preFilledCategoriesOption = blogData?.category?.map(
         (category: any) => category?.id
     )
-    console.log({ selectedCategories })
     const handleChecked = () => {
         setIsFeatured(!isFeatured)
     }
 
     // Validation
     const validationSchema = yup.object({
-        featuredImage: yup.mixed().required('Featured Image is required'),
-        title: yup.string().required('Title is required'),
-        author: yup.string().required('Author is required'),
+        title: yup
+            .string()
+            .required('Title is required')
+            .matches(/^[^\d]+$/, 'Title cannot contain numbers')
+            .matches(/^[\w\s!@#$%^&*()\-+=_{}|:"<>?,./;'[\]]{5,160}$/, {
+                message:
+                    'Title must be between 5 and 160 characters and only contain special characters',
+                excludeEmptyString: true,
+            }),
+
+        author: yup
+            .string()
+            .required('Author is required')
+            .min(3, 'Author must be at least 3 characters')
+            .max(20, 'Author cannot exceed 20 characters'),
         category: yup
             .array()
             .min(1, 'Must select at least 1 category')
             .required(),
-        // content: yup
-        //     .string()
-        //     .test('notEmpty', 'Content is required', (value: any) => {
-        //         return value && value.trim() !== ''
-        //     }),
+        // content: yup.string().required('Content is required'),
     })
     const formMethods = useForm({
         mode: 'all',
@@ -79,6 +95,7 @@ TextEditorProps) {
             author: blogData?.author || '',
             isFeatured: blogData?.isFeatured || false,
             category: [],
+            content: "",
         },
     })
 
@@ -173,12 +190,36 @@ TextEditorProps) {
 
     const onSubmit: any = (data: any, publish: boolean) => {
         const content = quillRef.current.getEditor().root.innerHTML
+        if (!data.featuredImage || !data.featuredImage[0]) {
+            formMethods.setError('featuredImage', {
+                type: 'emptyImage',
+                message: 'Image must not be empty',
+            })
+            return
+        }
+
+        const imageSizeError = imageSizeErrorMessage(data.featuredImage[0])
+        if (imageSizeError !== true) {
+            formMethods.setError('featuredImage', {
+                type: 'imageSizeError',
+                message: imageSizeError,
+            })
+            return
+        }
+
+        if (content === '<p><br></p>' || content.trim() === '<p><br></p>') {
+            formMethods.setError('content', {
+                type: 'emptyContent',
+                message: 'Content is required',
+            })
+            return
+        }
 
         const values = {
             featuredImage: data.featuredImage?.[0],
             title: data.title,
             author: data.author,
-            content,
+            content: content,
             isPublished: publish.toString(),
             isFeatured: isFeatured.toString(),
             category: data?.category,
@@ -256,6 +297,7 @@ TextEditorProps) {
                     <TextInput name="author" label="Author" />
                     <TextInput name="title" label="Title" />
                     <ReactQuill theme="snow" ref={quillRef} modules={modules} />
+                    <InputErrorMessage name={'content'} />
                     <div className="mt-4">
                         <Checkbox
                             onChange={handleChecked}
