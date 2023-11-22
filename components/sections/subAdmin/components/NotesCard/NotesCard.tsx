@@ -65,7 +65,11 @@ export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
             ) : (
                 <div>
                     <div className="flex justify-between mb-2 gap-x-2">
-                        <p className="text-sm font-semibold">
+                        <p
+                            className={`text-sm font-semibold ${
+                                pinnedNote ? 'text-[#fcdaeb]' : ''
+                            }`}
+                        >
                             {pinnedNote
                                 ? ellipsisText(note.title, 15)
                                 : note.title}
@@ -100,7 +104,11 @@ export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
                         />
                     </div> */}
 
-                    <div className="text-sm">
+                    <div
+                        className={`${
+                            note?.isPinned ? 'text-[#fbc8e1]' : ''
+                        } text-sm`}
+                    >
                         <div
                             dangerouslySetInnerHTML={{
                                 __html: pinnedNote
@@ -115,8 +123,8 @@ export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
                         <div className="">
                             <p
                                 className={`text-xs font-medium ${
-                                    note.isPinned
-                                        ? 'text-gray-200'
+                                    note?.isPinned
+                                        ? 'text-[#300e1f]'
                                         : 'text-gray-500'
                                 } `}
                             >
@@ -126,7 +134,7 @@ export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
                             <p
                                 className={`text-[11px] font-medium ${
                                     note.isPinned
-                                        ? 'text-gray-200'
+                                        ? 'text-[#601c3e]'
                                         : 'text-[#BFBF80]'
                                 } `}
                             >

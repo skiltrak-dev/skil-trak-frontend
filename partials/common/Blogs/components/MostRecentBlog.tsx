@@ -9,6 +9,7 @@ export const MostRecentBlog = ({
     content,
     featuredImage,
     id,
+    author,
 }: any) => {
     const router = useRouter()
     return (
@@ -25,7 +26,7 @@ export const MostRecentBlog = ({
                 </div>
                 <div className="flex items-center justify-between my-3">
                     <p className="text-[#DADADA] text-xs font-bold">
-                        Published
+                        Published by {author || 'N/A'}
                     </p>
                     <p className="text-[#DADADA] text-xs">
                         {moment(date).format('Do MMM YYYY')}

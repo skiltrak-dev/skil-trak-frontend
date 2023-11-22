@@ -78,6 +78,7 @@ TextEditorProps) {
         author: yup
             .string()
             .required('Author is required')
+            .matches(/^[^\d]+$/, 'Author name cannot contain numbers')
             .min(3, 'Author must be at least 3 characters')
             .max(20, 'Author cannot exceed 20 characters'),
         category: yup
@@ -95,7 +96,7 @@ TextEditorProps) {
             author: blogData?.author || '',
             isFeatured: blogData?.isFeatured || false,
             category: [],
-            content: "",
+            content: '',
         },
     })
 

@@ -81,6 +81,13 @@ export const adminApi = emptySplitApi.injectEndpoints({
             }),
             providesTags: ['Blog'],
         }),
+        getFeaturedBlogs: build.query<any, any>({
+            query: (params) => ({
+                url: `blogs/featured`,
+                params,
+            }),
+            providesTags: ['Blog'],
+        }),
         getTags: build.query<any, void>({
             query: () => ({
                 url: `blogs/tag`,
@@ -126,6 +133,7 @@ export const adminApi = emptySplitApi.injectEndpoints({
             },
             invalidatesTags: ['Blog'],
         }),
+        
 
         ...rtoEndpoints(build),
         ...studentEndpoints(build),
@@ -154,9 +162,11 @@ const {
     useSectorsStudentsCountQuery,
     useUpdateAdminProfileMutation,
 
+
     // Blogs
     useCreateBlogMutation,
     useGetBlogsQuery,
+    useGetFeaturedBlogsQuery,
     useGetBlogDetailQuery,
     useRemoveBlogMutation,
     useBulkRemoveBlogMutation,
@@ -223,12 +233,14 @@ const {
     useIndustryStatusChangeMutation,
     useIndustryAssignCoursesMutation,
     useIndustryUnassignCourseMutation,
+    useVolunteerIsReadMutation,
 
     // ----- RPL ----- //
     useRplRequestListQuery,
     useRplDeleteMutation,
     useRplCountQuery,
     useRplIsReadMutation,
+ 
 
     // ------ SECTOR ------ //
     useSectorsQuery,
@@ -418,7 +430,8 @@ export const AdminApi = {
         useRplList: useRplRequestListQuery,
         useRemoveRpl: useRplDeleteMutation,
         useRplCount: useRplCountQuery,
-        useRplIsRead: useRplIsReadMutation,
+        useRplRead: useRplIsReadMutation,
+      
     },
 
     Subscribers: {
@@ -469,6 +482,7 @@ export const AdminApi = {
     Volunteer: {
         useList: useGetVolunteerRequestsQuery,
         useVolunteerCount: useRequestVolunteerCountQuery,
+        useVolunteerRead: useVolunteerIsReadMutation, 
     },
     SMS: {
         sendSMS: useSendSMSMutation,
