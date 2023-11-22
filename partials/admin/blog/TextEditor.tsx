@@ -1,14 +1,3 @@
-import React, { useEffect, useRef, useState } from 'react'
-import ReactQuill from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
-import * as yup from 'yup'
-import * as Quill from 'quill'
-import {
-    Controller,
-    FormProvider,
-    useForm,
-    useFormContext,
-} from 'react-hook-form'
 import {
     Button,
     Checkbox,
@@ -18,11 +7,16 @@ import {
     UploadFile,
 } from '@components'
 import { FileUpload } from '@hoc'
-import { adminApi } from '@queries'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useRouter } from 'next/router'
 import { useNotification } from '@hooks'
 import { InputErrorMessage } from '@components/inputs/components'
+import { adminApi } from '@queries'
+import { useRouter } from 'next/router'
+import { useEffect, useRef, useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
+import * as yup from 'yup'
 
 interface TextEditorProps {
     tagIds?: any

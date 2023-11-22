@@ -37,8 +37,6 @@ export const ReportListDownload = ({
     let end = new Date(endDate)
     // end.setDate(end.getDate() + 1)
 
-    console.log({ end: endDate.toISOString().slice(0, 10) })
-
     const [filterReports, setFilterReports] = useState({
         label: 'Monthly',
         value: 'monthly',

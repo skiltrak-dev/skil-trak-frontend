@@ -36,24 +36,40 @@ const DynamicSvgLoader = ({
 }) => {
     const [svgContent, setSvgContent] = useState('')
 
+    console.log({ svgContent })
+
     const [saveEsign, saveEsignResult] = AdminApi.ESign.useSaveEsign()
 
     const pageItems = items.filter((item: any) => item.page === page)
+
+    console.log({ pageItems, page })
 
     useEffect(() => {
         const fetchSvg = async () => {
             try {
                 const response = await fetch(path) // Adjust the path based on your setup
                 const svgText = await response.text()
+                console.log({ svgText })
                 setSvgContent(svgText)
-                // console.log("::: SVG TEXT", svgText);
             } catch (error) {
                 console.error('Error fetching SVG:', error)
             }
         }
 
+        console.log({ path })
+
         if (!svgContent) {
-            fetchSvg()
+            // setSvgContent(
+            //     path
+            //         ?.replace(/width="([\d.]+)pt"/, 'width="$1"')
+            //         .replace(/height="([\d.]+)pt"/, 'height="$1"')
+            // )
+            setSvgContent(
+                path
+                    ?.replace(/width="([\d.]+)pt"/, 'width="$1"')
+                    .replace(/height="([\d.]+)pt"/, 'height="$1"')
+            )
+            // fetchSvg()
         }
     }, [path])
 
@@ -95,7 +111,7 @@ const DynamicSvgLoader = ({
             }}
         >
             {/* <div ref={setNodeRef} className="w-fit"> */}
-            <div ref={setNodeRef} className="w-[80%] mx-auto">
+            <div ref={setNodeRef} className="w-[80%] mx-auto bg-white">
                 <div className="fixed w-full left-0 bottom-0 p-4 bg-white flex justify-end">
                     <button
                         className="bg-blue-500 text-white px-8 py-2"
@@ -116,11 +132,12 @@ const DynamicSvgLoader = ({
                     onClick={handleSvgClick}
                 >
                     <g>
-                        <g
+                        {/* <g
                             dangerouslySetInnerHTML={{
                                 __html: svgContent,
                             }}
-                        />
+                        /> */}
+                        <image href={`data:image/svg+xml,${encodeURIComponent(svgContent)}`}  />
 
                         {pageItems &&
                             pageItems.map((item: any, i: number) => (

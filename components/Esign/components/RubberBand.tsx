@@ -77,7 +77,7 @@ export const RubberBand = ({ item, onResize, onResized }: RubberBandProps) => {
                 r={circleRadius}
                 style={circleStyle}
                 cursor={'nwse-resize'}
-                onMouseDown={() => onMouseDown()}
+                onMouseDown={onMouseDown() as any}
             />
 
             {/* Top Right */}

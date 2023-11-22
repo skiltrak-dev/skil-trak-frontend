@@ -246,8 +246,6 @@ export const FilteredStudents = ({
                 )
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
 
-                console.log({ steps: workplace?.currentStatus })
-
                 return !student?.workplace?.length &&
                     student?.industries?.length ? (
                     <ProgressCell
@@ -367,7 +365,6 @@ export const FilteredStudents = ({
     //           })
     //     : student?.data?.data
 
-    // console.log({ abc })
     return (
         <>
             {modal && modal}

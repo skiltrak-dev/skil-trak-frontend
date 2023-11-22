@@ -44,6 +44,6 @@
       "**/*.ts",
       "**/*.tsx",
       "pages/portals/admin/subscribers"
-, "pages/portals/admin/rto/[id]/student-list.tss"   ],
+, "pages/portals/admin/rto/[id]/student-list.tss", "pages/portals/admin/e-sign/[id]"   ],
    "exclude": ["node_modules"]
 }

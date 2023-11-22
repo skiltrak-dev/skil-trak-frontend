@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 //Layouts
 import { UserStatus } from '@types'
@@ -46,6 +46,8 @@ import {
     FaUserGraduate,
 } from 'react-icons/fa'
 import { UserRoles } from '@constants'
+import { AddNoteNotificationModal } from '@partials/sub-admin/students/modals'
+import { IoIosArrowRoundBack } from 'react-icons/io'
 
 export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     const contextBar = useContextBar()
@@ -54,6 +56,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
 
     const [isMouseMove, setIsMouseMove] = useState<any>(null)
     const [showDropDown, setShowDropDown] = useState(false)
+    const [notifModal, setNotifModal] = useState<ReactElement | null>(null)
 
     useEffect(() => {
         window.addEventListener('mousemove', () => setIsMouseMove(true))
@@ -148,12 +151,37 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
         }
     }, [data])
 
+    const onCancelNotifModal = () => setNotifModal(null)
+
+    // useEffect(() => {
+    //     const handleBeforeUnload = (event: any) => {
+    //         const message = 'Are you sure you want to leave?'
+    //         setNotifModal(
+    //             <AddNoteNotificationModal
+    //                 onCancel={() => onCancelNotifModal()}
+    //             />
+    //         )
+
+    //         event.returnValue = message // Standard for most browsers
+    //         return message // For some older browsers
+    //     }
+
+    //     window.addEventListener('beforeunload', handleBeforeUnload)
+
+    //     return () => {
+    //         window.removeEventListener('beforeunload', handleBeforeUnload)
+    //     }
+    // }, [])
+
     useEffect(() => {
         if (isSuccess && data) {
             navBar.setSubTitle(data?.user?.name)
             contextBar.show(false)
             contextBar.setContent(<SubAdminStudentProfile student={data} />)
         }
+        // setNotifModal(
+        //     <AddNoteNotificationModal onCancel={() => onCancelNotifModal()} />
+        // )
         return () => {
             contextBar.setContent(null)
             contextBar.hide()
@@ -286,26 +314,41 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
 
     return (
         <>
-            {modal && modal}
+            {modal}
+            {notifModal}
             {passwordModal}
             <ShowErrorNotifications result={notContactableResult} />
             <div className="mb-16">
                 <div className="flex justify-between flex-col xl:flex-row flex-wrap xl:items-end mb-4">
                     <div>
-                        <BackButton
-                            link={
-                                role === 'admin'
-                                    ? getLink('student') ||
-                                      'portals/admin/student?tab=active&page=1&pageSize=50'
-                                    : role === 'subadmin'
-                                    ? getLink('subadmin-student') ||
-                                      'portals/sub-admin/students?tab=all'
-                                    : role === 'rto'
-                                    ? 'portals/rto/students?tab=active'
-                                    : '#'
+                        <div
+                            className={
+                                'group max-w-max transition-all text-xs flex justify-start items-center py-2.5 text-muted hover:text-muted-dark rounded-lg cursor-pointer'
                             }
-                            text="Students"
-                        />
+                            onClick={() => {
+                                role === 'admin'
+                                    ? router.push(
+                                          getLink('student') ||
+                                              'portals/admin/student?tab=active&page=1&pageSize=50'
+                                      )
+                                    : role === 'subadmin'
+                                    ? setNotifModal(
+                                          <AddNoteNotificationModal
+                                              onCancel={() =>
+                                                  onCancelNotifModal()
+                                              }
+                                          />
+                                      )
+                                    : role === 'rto'
+                                    ? router.push(
+                                          'portals/rto/students?tab=active'
+                                      )
+                                    : '#'
+                            }}
+                        >
+                            <IoIosArrowRoundBack className="transition-all inline-flex text-base group-hover:-translate-x-1" />
+                            <span className="ml-2">{'Students'}</span>
+                        </div>
                         {!noTitle ? (
                             <PageTitle title="Student Profile" />
                         ) : (

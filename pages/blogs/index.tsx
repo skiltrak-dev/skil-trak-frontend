@@ -24,6 +24,7 @@ const Blogs: NextPageWithLayout = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+
     const featuredBlogs = adminApi.useGetFeaturedBlogsQuery({
         isFeatured: `${true}`,
         skip: itemPerPage * page - itemPerPage,
@@ -33,6 +34,7 @@ const Blogs: NextPageWithLayout = () => {
         (item: any) => item.isPublished === true && !item.isFeatured
     )
     console.log('filterPublishedBlogs', filterPublishedBlogs)
+
     return (
         <>
             <HeroSectionBlog />
