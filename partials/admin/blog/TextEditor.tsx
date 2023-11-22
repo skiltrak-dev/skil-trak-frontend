@@ -66,6 +66,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
         author: yup
             .string()
             .required('Author is required')
+            .matches(/^[^\d]+$/, 'Author name cannot contain numbers')
             .min(3, 'Author must be at least 3 characters')
             .max(20, 'Author cannot exceed 20 characters'),
         category: yup
@@ -117,18 +118,25 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
             })
             return
         }
+        const wordCount = content.trim().split(/\s+/).length
+        if (wordCount > 3000) {
+            formMethods.setError('content', {
+                type: 'exceedsWordLimit',
+                message: 'Content should not exceed 3000 words',
+            })
+            return
+        }
+        // const formData = new FormData()
+        // formData.append('featuredImage', data.featuredImage?.[0])
+        // formData.append('title', data.title)
+        // formData.append('content', content)
+        // formData.append('isPublished', publish.toString())
+        // formData.append('isFeatured', data.isFeatured.toString())
+        // formData.append('tags', tagIds)
+        // formData.append('category', data?.category)
+        // formData.append('author', data?.author)
 
-        const formData = new FormData()
-        formData.append('featuredImage', data.featuredImage?.[0])
-        formData.append('title', data.title)
-        formData.append('content', content)
-        formData.append('isPublished', publish.toString())
-        formData.append('isFeatured', data.isFeatured.toString())
-        formData.append('tags', tagIds)
-        formData.append('category', data?.category)
-        formData.append('author', data?.author)
-
-        createBlog(formData)
+        // createBlog(formData)
         validationSchema
             .validate(data)
             .then(() => {
@@ -174,12 +182,9 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                 )
             }
         }
-        // if (isPublish) {
-        //     router.push('/portals/admin/blogs?tab=published&page=1&pageSize=50');
-        // } else {
-        //     router.push('/portals/admin/blogs?tab=draft&page=1&pageSize=50');
-        // }
-    }, [createBlogResult])
+    }, [createBlogResult.isSuccess])
+
+
     return (
         <div>
             <ShowErrorNotifications result={createBlogResult} />

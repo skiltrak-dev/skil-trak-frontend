@@ -19,12 +19,12 @@ const BlogDetail: NextPageWithLayout = () => {
     return (
         <div className="">
             <HeroSectionBlog />
-            <div className="p-10 mx-auto max-w-7xl">
+            <div className="md:p-10 p-0 mt-8 md:mt-0 mx-auto max-w-7xl">
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data ? (
-                    <div className="bg-[#FFFCF7] rounded-xl shadow-md px-8 py-4">
-                        <div className="h-[650px] relative overflow-hidden rounded-xl">
+                    <div className="bg-[#FFFCF7] rounded-xl shadow-md md:px-8 px-4 py-8 md:py-4">
+                        <div className="md:h-[650px] h-[250px] relative overflow-hidden rounded-xl">
                             <Image
                                 src={data?.featuredImage}
                                 alt="blog-card"
@@ -42,11 +42,11 @@ const BlogDetail: NextPageWithLayout = () => {
                             </p>
                         </div>
 
-                        <h1 className="font-bold text-[40px] uppercase mb-1.5">
+                        <h1 className="font-bold text-xl md:text-[40px] md:leading-10 uppercase my-2 md:my-10">
                             {data?.title}
                         </h1>
                         <div
-                            className="break-all block mr-6 text-gray-400 text-sm leading-6"
+                            className="break-all block text-sm md:text-normal mr-0 md:mr-6 text-gray-600 leading-6"
                             dangerouslySetInnerHTML={{
                                 __html: data?.content,
                             }}

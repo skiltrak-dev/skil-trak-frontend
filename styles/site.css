@@ -571,4 +571,8 @@ img {
     box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.15);
   }
   
-  
+  /* Blogs */
+  .ql-align-center{
+    display: flex;
+    justify-content: center;
+  }

@@ -1,7 +1,8 @@
 import classNames from 'classnames'
 import Link from 'next/link'
 import { MouseEventHandler, ReactNode, useEffect, useState } from 'react'
-import { AdminApi } from '@queries'
+import { AdminApi, adminApi } from '@queries'
+import { useRouter } from 'next/router'
 
 interface NavItemProps {
     link?: string
@@ -22,11 +23,14 @@ export const SideBarItem = ({
 }: NavItemProps) => {
     const [rplItemCount, setRplItemCount] = useState('0')
     const [volunteerItemCount, setVolunteerItemCount] = useState('0')
+    const router = useRouter()
     // const [rplCountReset, setRplCountReset] = useState(0)
     // const [volunteerCountReset, setVolunteerCountReset] = useState(0)
     const { data: rplCount } = AdminApi.Rpl.useRplCount()
     const { data: volunteerCount } = AdminApi.Volunteer.useVolunteerCount()
-    const [markAsRead, markAsReadResult] = AdminApi.Rpl.useRplIsRead()
+    const [markAsRead, markAsReadResult] = AdminApi.Rpl.useRplRead()
+    const [volunteerRead, volunteerReadResult] =
+        AdminApi.Volunteer.useVolunteerRead()
     const max = 9
     const classes = classNames({
         // Display
@@ -77,36 +81,33 @@ export const SideBarItem = ({
             setVolunteerItemCount(`${volunteerCount}`)
         }
     }, [volunteerCount])
-
-    // const handleMarkAsRead = () => {
-    //     markAsRead({})
-    // }
-
+    console.log('router.pathname', link)
     return link ? (
         <Link legacyBehavior href={link}>
             <div
                 onClick={() => {
-                    if (
-                        link === '/portals/admin/rpl-list' ||
-                        link === '/portals/admin/volunteer-requests'
-                    ) {
+                    if (router.pathname === 'portal/admin/rpl-list') {
                         markAsRead({})
+                    } else if (
+                        router.pathname === '/portals/admin/volunteer-requests'
+                    ) {
+                        volunteerRead({})
                     }
                 }}
                 className={classes}
             >
                 <Icon className={iconClasses} />
                 {children}
-                {children === 'RPL' && rplCount !== 0 ? (
-                    <span
-                        className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs"
-                    >
+                {children === 'RPL' &&
+                rplCount !== 0 &&
+                rplCount !== undefined ? (
+                    <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs">
                         {rplItemCount}
                     </span>
-                ) : children === 'Volunteer Request' && volunteerCount !== 0 ? (
-                    <span
-                        className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs"
-                    >
+                ) : children === 'Volunteer Request' &&
+                  volunteerCount !== 0 &&
+                  rplCount !== undefined ? (
+                    <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs">
                         {volunteerItemCount}
                     </span>
                 ) : null}
