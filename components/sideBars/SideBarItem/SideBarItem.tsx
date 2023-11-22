@@ -22,8 +22,11 @@ export const SideBarItem = ({
 }: NavItemProps) => {
     const [rplItemCount, setRplItemCount] = useState('0')
     const [volunteerItemCount, setVolunteerItemCount] = useState('0')
+    // const [rplCountReset, setRplCountReset] = useState(0)
+    // const [volunteerCountReset, setVolunteerCountReset] = useState(0)
     const { data: rplCount } = AdminApi.Rpl.useRplCount()
     const { data: volunteerCount } = AdminApi.Volunteer.useVolunteerCount()
+    const [markAsRead, markAsReadResult] = AdminApi.Rpl.useRplIsRead()
     const max = 9
     const classes = classNames({
         // Display
@@ -75,17 +78,35 @@ export const SideBarItem = ({
         }
     }, [volunteerCount])
 
+    // const handleMarkAsRead = () => {
+    //     markAsRead({})
+    // }
+
     return link ? (
         <Link legacyBehavior href={link}>
-            <div className={classes}>
+            <div
+                onClick={() => {
+                    if (
+                        link === '/portals/admin/rpl-list' ||
+                        link === '/portals/admin/volunteer-requests'
+                    ) {
+                        markAsRead({})
+                    }
+                }}
+                className={classes}
+            >
                 <Icon className={iconClasses} />
                 {children}
                 {children === 'RPL' && rplCount !== 0 ? (
-                    <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs">
+                    <span
+                        className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs"
+                    >
                         {rplItemCount}
                     </span>
                 ) : children === 'Volunteer Request' && volunteerCount !== 0 ? (
-                    <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs">
+                    <span
+                        className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs"
+                    >
                         {volunteerItemCount}
                     </span>
                 ) : null}

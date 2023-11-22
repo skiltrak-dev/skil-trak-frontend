@@ -59,7 +59,8 @@ export const ReportListDownload = ({
             refetchOnMountOrArgChange: true,
         }
     )
-
+    let reportStart = startDate.toISOString().slice(0, 10)
+    let reportEnd = end.toISOString().slice(0, 10)
     useEffect(() => {
         if (
             downloadAsPdf?.data?.file?.data &&
@@ -98,7 +99,30 @@ export const ReportListDownload = ({
     return (
         <>
             <ShowErrorNotifications result={downloadAsPdf} />
-            <Button
+
+            <a
+                href={`${process.env.NEXT_PUBLIC_END_POINT}/statistics/rto/summary/${user}?startDate=${reportStart}&endDate=${reportEnd}`}
+                target="_blank"
+                rel="noreferrer"
+                download
+            >
+                <Button
+                    // onClick={() => {
+                    //     setIsPdfDownload(true)
+                    // }}
+                    // loading={
+                    //     downloadAsPdf.isLoading || downloadAsPdf.isFetching
+                    // }
+                    // disabled={
+                    //     downloadAsPdf.isLoading || downloadAsPdf.isFetching
+                    // }
+                    variant="dark"
+                    Icon={IoMdDownload}
+                    text={'Download'}
+                />
+            </a>
+
+            {/* <Button
                 onClick={() => {
                     setIsPdfDownload(true)
                 }}
@@ -107,7 +131,7 @@ export const ReportListDownload = ({
                 variant="dark"
                 Icon={IoMdDownload}
                 text={'Download'}
-            />
+            /> */}
         </>
     )
 }

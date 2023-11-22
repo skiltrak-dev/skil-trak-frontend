@@ -13,7 +13,7 @@ export const MostRecentBlog = ({
     const router = useRouter()
     return (
         <div className="bg-[#FFFCF7] rounded-xl shadow-md px-2 py-1.5 h-[220px]">
-            <Link href={`blogs/${id}`} className="">
+            <Link href={`blogs/${title}/${id}`} className="">
                 <div className="overflow-hidden relative rounded-xl h-[100px]">
                     <Image
                         src={featuredImage}

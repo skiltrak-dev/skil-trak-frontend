@@ -27,6 +27,7 @@ export const ReportListModal = ({
         label: 'Monthly',
         value: 'monthly',
     })
+    console.log('user', user)
     const [isPdfDownload, setIsPdfDownload] = useState<boolean>(false)
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
@@ -138,13 +139,20 @@ export const ReportListModal = ({
                             </div>
                             <div className="flex gap-x-4 items-center justify-end mt-auto">
                                 <div className="flex items-center gap-x-2">
-                                    <Button
-                                        text="Download as PDF"
-                                        variant="dark"
-                                        onClick={handleDownloadPDF}
-                                        loading={downloadAsPdf?.isLoading}
-                                        disabled={downloadAsPdf?.isLoading}
-                                    />
+                                    <a
+                                        href={`${process.env.NEXT_PUBLIC_END_POINT}/statistics/rto/summary/${user}?startDate=${startDate}&endDate=${endDate}`}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        download
+                                    >
+                                        <Button
+                                            text="Download as Xls"
+                                            variant="dark"
+                                            // onClick={handleDownloadPDF}
+                                            // loading={downloadAsPdf?.isLoading}
+                                            // disabled={downloadAsPdf?.isLoading}
+                                        />
+                                    </a>
 
                                     {/* <Button
                                         text="Download as CSV"
