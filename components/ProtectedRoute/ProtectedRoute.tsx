@@ -1,7 +1,7 @@
-import React, { ReactNode, useEffect, useLayoutEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import { AuthUtils } from '@utils'
 import { UserRoles } from '@constants'
+import { AuthUtils } from '@utils'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
     const [authorized, setAuthorized] = useState(false)
@@ -12,32 +12,6 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
     const pathename = router.pathname
     const assessRole = pathename ? pathename?.split('/')[2] : ''
 
-    // useEffect(() => {
-    //     if (!authenticated) {
-    //         setAuthorized(false)
-    //         router.push('/auth/login')
-    //     } else {
-    //         setAuthorized(true)
-    //     }
-    // const isAuth = () => {
-    //     if (!authenticated) {
-    //         setAuthorized(false)
-    //         router.push('/auth/login')
-    //     } else {
-    //         setAuthorized(true)
-    //     }
-    // }
-    // const preventAccess = () => setAuthorized(false)
-
-    // router.events.on('routeChangeStart', preventAccess)
-    // router.events.on('routeChangeComplete', isAuth)
-
-    // return () => {
-    //     router.events.off('routeChangeStart', preventAccess)
-    //     router.events.off('routeChangeComplete', isAuth)
-    // }
-    // }, [router])
-
     const updatedRoute =
         assessRole === 'sub-admin' ? UserRoles.SUBADMIN : assessRole
 
@@ -45,25 +19,13 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
         if (!authenticated) {
             setAuthorized(false)
             router.push('/auth/login')
-        }
-        // else if (
-        //     updatedRoute === UserRoles.ADMIN &&
-        //     role === UserRoles.SUBADMIN
-        // ) {
-        //     setAuthorized(true)
-        // }
-        else if (updatedRoute !== role) {
+        } else if (updatedRoute !== role) {
             setAuthorized(false)
             router.push('/404')
         } else {
             setAuthorized(true)
         }
-        // else if (authenticated) {
-        //     router.push(`/portals/${role}`)
-        //     setAuthorized(true)
-        // }
     }, [router, updatedRoute, role])
 
     return authorized ? children : null
-    // return authenticated && assessRole === role ? children : null
 }

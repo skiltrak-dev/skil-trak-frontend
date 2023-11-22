@@ -117,7 +117,6 @@ export const adminApi = emptySplitApi.injectEndpoints({
         }),
         updateBlog: build.mutation<any, { id: any; body: any }>({
             query: ({ id, body }) => {
-                console.log('body', body)
                 return {
                     url: `blogs/${id}`,
                     method: 'PATCH',
@@ -313,7 +312,12 @@ const {
     useGetDocumentsQuery,
 
     // ---- ESIGN ---- //
+
+    useGetEsignListQuery,
     useSaveEsignMutation,
+    useGetEsignRtosQuery,
+    useGetEsignTemplateQuery,
+    useChangeEsignStatusMutation,
 } = adminApi
 
 export const AdminApi = {
@@ -478,6 +482,10 @@ export const AdminApi = {
         useGetDocuments: useGetDocumentsQuery,
     },
     ESign: {
+        useGetEsign: useGetEsignListQuery,
         useSaveEsign: useSaveEsignMutation,
+        useGetEsignRtos: useGetEsignRtosQuery,
+        useEsignTemplate: useGetEsignTemplateQuery,
+        useChangeStatus: useChangeEsignStatusMutation,
     },
 }

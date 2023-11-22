@@ -144,7 +144,6 @@ export const ProgressCell = ({
     assigned?: SubAdmin
     appliedIndustry: any
 }) => {
-    console.log({ step })
     const [modal, setModal] = useState<ReactElement | null>(null)
     // const currentStatus = WorkplaceRequestProgress[status]
     const currentStatus: CurrentStatus = Object.values(

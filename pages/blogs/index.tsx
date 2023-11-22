@@ -24,6 +24,8 @@ const Blogs: NextPageWithLayout = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    console.log('currentItems', currentItems)
+    // useGetBlogDetailQuery
     return (
         <>
             <HeroSectionBlog />

@@ -149,7 +149,6 @@ export const AutoLogoutProvider = ({
                             refreshTokenResult.data.refreshToken
                         )
                     } else {
-                        console.log({ rememberLogin })
                         AuthUtils.setTokenToSession(
                             refreshTokenResult.data.access_token
                         )

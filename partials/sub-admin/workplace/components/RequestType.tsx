@@ -47,8 +47,6 @@ export const RequestType = ({
         setModal(null)
     }
 
-    console.log({ workplace: workplace?.currentStatus })
-
     const onForwardClicked = (industry: any) => {
         setModal(
             <ForwardModal

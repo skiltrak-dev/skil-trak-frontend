@@ -8,7 +8,6 @@ export const BlogCategory = ({ addCategories, addCategoriesResult }: any) => {
     const { handleSubmit } = methods
     const onSubmitCategories = (data: any) => {
         addCategories(data)
-        console.log('data', data)
     }
 
   

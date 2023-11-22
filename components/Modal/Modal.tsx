@@ -2,7 +2,7 @@
 import { MdCancel } from 'react-icons/md'
 
 // components
-import { Typography, Button } from '@components'
+import { Typography, Button, Portal } from '@components'
 import { MouseEventHandler, ReactNode } from 'react'
 
 interface ModalProps {
@@ -11,7 +11,7 @@ interface ModalProps {
     subtitle: string
     children: ReactNode
     confirmText?: string
-    onConfirmClick: Function
+    onConfirmClick?: Function
     cancelText?: string
     onCancelClick?: Function
     loading?: boolean
@@ -43,48 +43,57 @@ export const Modal = ({
     const TitleIcon = titleIcon
 
     return (
-        <div className="bg-[#00000050] w-full h-screen  flex items-center justify-center fixed top-0 left-0 z-40">
-            <div
-                className="bg-white rounded-2xl modal-animation flex flex-col justify-between shadow-md min-w-[450px]"
-                style={{ zIndex: 99999 }}
-            >
-                <div className="px-4 py-2 border-b border-secondary-dark flex justify-between items-center">
-                    <div>
-                        <div className="flex items-center gap-x-2">
-                            <Typography variant={'title'}>{title}</Typography>
-                            {TitleIcon && <TitleIcon className="text-info" />}
+        <Portal>
+            <div className="bg-[#00000050] w-full h-screen  flex items-center justify-center fixed top-0 left-0 z-40">
+                <div
+                    className="bg-white rounded-2xl modal-animation flex flex-col justify-between shadow-md min-w-[450px]"
+                    style={{ zIndex: 99999 }}
+                >
+                    <div className="px-4 py-2 border-b border-secondary-dark flex justify-between items-center">
+                        <div>
+                            <div className="flex items-center gap-x-2">
+                                <Typography variant={'title'}>
+                                    {title}
+                                </Typography>
+                                {TitleIcon && (
+                                    <TitleIcon className="text-info" />
+                                )}
+                            </div>
+                            <Typography
+                                variant={'subtitle'}
+                                color={'text-muted'}
+                            >
+                                {subtitle}
+                            </Typography>
                         </div>
-                        <Typography variant={'subtitle'} color={'text-muted'}>
-                            {subtitle}
-                        </Typography>
-                    </div>
-                    <MdCancel
-                        onClick={onCancelButtonClick}
-                        className="transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
-                    />
-                </div>
-
-                <div className="p-4">{children}</div>
-
-                {showActions && (
-                    <div className="flex justify-end items-end gap-x-4 px-4 py-2">
-                        <Button
-                            variant={'secondary'}
+                        <MdCancel
                             onClick={onCancelButtonClick}
-                        >
-                            {cancelText || 'Cancel'}
-                        </Button>
-                        <Button
-                            onClick={onConfirmButtonClick}
-                            loading={loading}
-                            disabled={disabled || loading}
-                        >
-                            {confirmText || 'Confirm'}
-                        </Button>
+                            className="transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
+                        />
                     </div>
-                )}
+
+                    <div className="p-4">{children}</div>
+
+                    {showActions && (
+                        <div className="flex justify-end items-end gap-x-4 px-4 py-2">
+                            <Button
+                                variant={'secondary'}
+                                onClick={onCancelButtonClick}
+                            >
+                                {cancelText || 'Cancel'}
+                            </Button>
+                            <Button
+                                onClick={onConfirmButtonClick}
+                                loading={loading}
+                                disabled={disabled || loading}
+                            >
+                                {confirmText || 'Confirm'}
+                            </Button>
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
+        </Portal>
     )
 }
 
