@@ -6,6 +6,7 @@ import { FileDrop } from 'react-file-drop'
 // components
 import {
     HelpText,
+    InputErrorMessage,
     RequiredStar,
     Tooltip,
 } from '../components/inputs/components'
@@ -13,6 +14,7 @@ import { Typography } from '@components'
 
 import { InputProps } from '@components/inputs/InputPropType'
 import {
+    checkFileSize,
     getMimeTypes,
     SupportedDocumentFormats,
     SupportedImageFormats,
@@ -47,6 +49,7 @@ export type FileUploadProps = InputProps & {
     component?: any
     multiple?: boolean
     limit?: number
+    maximumFileSize?: any
 }
 
 export const FileUpload = ({
@@ -70,8 +73,10 @@ export const FileUpload = ({
     loading,
     component,
     multiple,
+    maximumFileSize,
 }: FileUploadProps) => {
     const formContext = useFormContext()
+
 
     const [values, setValues] = useState<File[] | null>(null)
     const [file, setFile] = useState<File | null>(null)
@@ -90,10 +95,9 @@ export const FileUpload = ({
     useEffect(() => {
         if (formContext && values) {
             formContext.setValue(name, values)
+            
         }
     }, [values])
-
-    console.log('Hello', values)
 
     // Uploading Media
     const handleChange = (event: any, isDragging: boolean) => {
@@ -260,6 +264,7 @@ export const FileUpload = ({
             </FileDrop>
 
             <HelpText text={helpText} />
+            <InputErrorMessage name={name} />
         </div>
     )
 }

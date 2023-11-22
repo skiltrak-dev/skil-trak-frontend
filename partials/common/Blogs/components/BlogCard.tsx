@@ -7,7 +7,7 @@ export const BlogCard = ({ title, date, content, featuredImage, id }: any) => {
     const router = useRouter()
     return (
         <div className="bg-[#FFFCF7] rounded-xl shadow-md px-2 py-1.5 h-[390px]">
-            <Link href={`blogs/${id}`}>
+            <Link href={`blogs/${title}/${id}`}>
                 <div className="h-[150px] relative overflow-hidden rounded-xl">
                     <Image
                         src={featuredImage}

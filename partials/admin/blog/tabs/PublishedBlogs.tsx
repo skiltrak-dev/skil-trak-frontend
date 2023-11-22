@@ -49,7 +49,7 @@ export const PublishedBlogs = () => {
         {
             text: 'View',
             onClick: (blog: any) => {
-                router.push(`https://skiltrak.com.au/blogs/${blog?.id}`)
+                router.push(`https://skiltrak.com.au/blogs/${blog?.title}/${blog?.id}`)
             },
             Icon: FaEye,
         },
@@ -128,7 +128,7 @@ export const PublishedBlogs = () => {
                     <ActionButton
                         onClick={() => {
                             router.push(
-                                `https://www.skiltrak.com.au/blogs/${blog?.id}`
+                                `https://www.skiltrak.com.au/blogs/${blog?.title}/${blog?.id}`
                             )
                         }}
                     >
