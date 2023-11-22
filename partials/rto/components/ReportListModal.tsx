@@ -44,15 +44,15 @@ export const ReportListModal = ({
         { skip: !isPdfDownload }
     )
 
-    useEffect(() => {
-        if (downloadAsPdf?.data?.file?.data && downloadAsPdf?.isSuccess) {
-            const buffer = Buffer.from(downloadAsPdf.data.file.data)
-            const blob = new Blob([buffer], { type: 'application/pdf' })
-            saveAs(blob, rtoName)
-            setIsPdfDownload(false)
-            onClose()
-        }
-    }, [downloadAsPdf?.data, downloadAsPdf?.isSuccess, onClose])
+    // useEffect(() => {
+    //     if (downloadAsPdf?.data?.file?.data && downloadAsPdf?.isSuccess) {
+    //         const buffer = Buffer.from(downloadAsPdf.data.file.data)
+    //         const blob = new Blob([buffer], { type: 'application/pdf' })
+    //         saveAs(blob, rtoName)
+    //         setIsPdfDownload(false)
+    //         onClose()
+    //     }
+    // }, [downloadAsPdf?.data, downloadAsPdf?.isSuccess, onClose])
 
     useEffect(() => {
         if (downloadAsPdf?.isError) {
@@ -147,19 +147,29 @@ export const ReportListModal = ({
                                     >
                                         <Button
                                             text="Download as Xls"
-                                            variant="dark"
+                                            variant="success"
                                             // onClick={handleDownloadPDF}
                                             // loading={downloadAsPdf?.isLoading}
                                             // disabled={downloadAsPdf?.isLoading}
+                                            onClick={() => {
+                                                onClose()
+                                            }}
                                         />
                                     </a>
-
-                                    {/* <Button
-                                        text="Download as CSV"
-                                        variant="dark"
-                                        onClick={() => {
-                                        }}
-                                    /> */}
+                                    <a
+                                        href={`${process.env.NEXT_PUBLIC_END_POINT}/statistics/rto/summary/csv/${user}?startDate=${startDate}&endDate=${endDate}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        download
+                                    >
+                                        <Button
+                                            text="Download as CSV"
+                                            variant="info"
+                                            onClick={() => {
+                                                onClose()
+                                            }}
+                                        />
+                                    </a>
                                 </div>
                             </div>
                         </>

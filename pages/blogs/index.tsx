@@ -24,6 +24,15 @@ const Blogs: NextPageWithLayout = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    const featuredBlogs = adminApi.useGetFeaturedBlogsQuery({
+        isFeatured: `${true}`,
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
+    const filterPublishedBlogs = currentItems.filter(
+        (item: any) => item.isPublished === true && !item.isFeatured
+    )
+    console.log('filterPublishedBlogs', filterPublishedBlogs)
     return (
         <>
             <HeroSectionBlog />
@@ -89,21 +98,24 @@ const Blogs: NextPageWithLayout = () => {
                                     Featured Blogs
                                 </Typography>
                                 <div className="flex flex-col gap-y-5">
-                                    {data?.data
-                                        ?.slice(1, 4)
-                                        .map((blog: any) => (
-                                            <div key={blog?.id}>
-                                                <MostRecentBlog
-                                                    title={blog?.title}
-                                                    content={blog?.content}
-                                                    featuredImage={
-                                                        blog?.featuredImage
-                                                    }
-                                                    date={blog?.createdAt}
-                                                    id={blog?.id}
-                                                />
-                                            </div>
-                                        ))}
+                                    {featuredBlogs.data?.data &&
+                                        featuredBlogs.data?.data.length > 0 &&
+                                        featuredBlogs.data?.data
+                                            ?.slice(0, 4)
+                                            .map((blog: any) => (
+                                                <div key={blog?.id}>
+                                                    <MostRecentBlog
+                                                        title={blog?.title}
+                                                        content={blog?.content}
+                                                        featuredImage={
+                                                            blog?.featuredImage
+                                                        }
+                                                        date={blog?.createdAt}
+                                                        id={blog?.id}
+                                                        author={blog?.author}
+                                                    />
+                                                </div>
+                                            ))}
                                 </div>
                             </div>
                         </div>
@@ -118,7 +130,7 @@ const Blogs: NextPageWithLayout = () => {
                             <div
                                 className={`grid grid-col-1 md:grid-cols-3 mx-auto  gap-7 `}
                             >
-                                {currentItems?.map((blog: any) => (
+                                {filterPublishedBlogs?.map((blog: any) => (
                                     <div key={blog?.id}>
                                         <BlogCard
                                             title={blog?.title}

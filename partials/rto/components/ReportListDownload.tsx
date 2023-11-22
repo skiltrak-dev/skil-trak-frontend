@@ -10,12 +10,13 @@ import {
 import { Button } from '@components/buttons'
 import { RtoApi } from '@queries'
 import { useEffect, useState } from 'react'
-import { FaTimes } from 'react-icons/fa'
+import { FaChevronDown, FaTimes } from 'react-icons/fa'
 import { getUserCredentials } from '@utils'
 import { saveAs } from 'file-saver'
 import { DownloadLoader } from './DownloadLoader'
 import { IoMdDownload } from 'react-icons/io'
-
+import { FaFileCsv } from 'react-icons/fa'
+import { BsFiletypeXls } from 'react-icons/bs'
 type Props = {
     startDate: Date
     setStartDate: (startDate: Date) => void
@@ -31,6 +32,8 @@ export const ReportListDownload = ({
     endDate,
     user,
 }: Props) => {
+    const [showDropDown, setShowDropDown] = useState(false)
+    const [isPdfDownload, setIsPdfDownload] = useState<boolean>(false)
     let end = new Date(endDate)
     // end.setDate(end.getDate() + 1)
 
@@ -40,7 +43,6 @@ export const ReportListDownload = ({
         label: 'Monthly',
         value: 'monthly',
     })
-    const [isPdfDownload, setIsPdfDownload] = useState<boolean>(false)
     // const [startDate, setStartDate] = useState('')
     // const [endDate, setEndDate] = useState('')
 
@@ -100,7 +102,7 @@ export const ReportListDownload = ({
         <>
             <ShowErrorNotifications result={downloadAsPdf} />
 
-            <a
+            {/* <a
                 href={`${process.env.NEXT_PUBLIC_END_POINT}/statistics/rto/summary/${user}?startDate=${reportStart}&endDate=${reportEnd}`}
                 target="_blank"
                 rel="noreferrer"
@@ -120,7 +122,61 @@ export const ReportListDownload = ({
                     Icon={IoMdDownload}
                     text={'Download'}
                 />
-            </a>
+            </a> */}
+
+            <div
+                className="relative"
+                onMouseEnter={() => setShowDropDown(true)}
+                onMouseLeave={() => setShowDropDown(false)}
+            >
+                <Button variant="dark" Icon={IoMdDownload}>
+                    <span
+                        id="add-students"
+                        className="flex items-center gap-x-2"
+                    >
+                        <span>Download</span>
+                        <FaChevronDown />
+                    </span>
+                </Button>
+
+                {showDropDown ? (
+                    <ul className="bg-white shadow-xl rounded-xl overflow-hidden z-30 absolute">
+                        <li>
+                            <a
+                                href={`${process.env.NEXT_PUBLIC_END_POINT}/statistics/rto/summary/csv/${user}?startDate=${reportStart}&endDate=${reportEnd}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                download
+                                className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
+                            >
+                                <span className="text-gray-500">
+                                    <FaFileCsv />
+                                </span>
+                                <span className="whitespace-nowrap text-xs font-medium">
+                                    {' '}
+                                    Download As CSV
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href={`${process.env.NEXT_PUBLIC_END_POINT}/statistics/rto/summary/${user}?startDate=${reportStart}&endDate=${reportEnd}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                download
+                                className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
+                            >
+                                <span className="text-gray-500">
+                                    <BsFiletypeXls />
+                                </span>
+                                <span className="text-xs font-medium">
+                                    Download As XLS
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                ) : null}
+            </div>
 
             {/* <Button
                 onClick={() => {
