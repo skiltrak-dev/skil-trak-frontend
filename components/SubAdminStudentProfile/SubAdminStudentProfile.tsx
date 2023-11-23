@@ -71,8 +71,6 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
         )
     }
 
-    console.log({ student })
-
     return (
         <div>
             {modal}

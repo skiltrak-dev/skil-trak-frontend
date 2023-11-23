@@ -27,7 +27,6 @@ export const ReportListModal = ({
         label: 'Monthly',
         value: 'monthly',
     })
-    console.log('user', user)
     const [isPdfDownload, setIsPdfDownload] = useState<boolean>(false)
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')

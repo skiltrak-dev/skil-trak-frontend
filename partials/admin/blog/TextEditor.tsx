@@ -111,7 +111,6 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
             return
         }
         if (content === '<p><br></p>' || content.trim() === '<p><br></p>') {
-            console.log('content === <p><br></p>')
             formMethods.setError('content', {
                 type: 'emptyContent',
                 message: 'Content is required',

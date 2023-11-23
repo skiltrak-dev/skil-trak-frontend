@@ -15,7 +15,6 @@ const BlogDetail: NextPageWithLayout = () => {
         adminApi.useGetBlogDetailQuery(blogId, {
             skip: !blogId,
         })
-    console.log(router.asPath)
     return (
         <div className="">
             <HeroSectionBlog />

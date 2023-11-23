@@ -55,10 +55,7 @@ const AddESign = () => {
         }
     }, [saveEsignResult, isSaveAndNext])
 
-    console.log({ isSaveAndNext })
-
     const onSave = (values: any) => {
-        console.log({ values })
         // return null
         const formData = new FormData()
         Object.entries({ ...values, file: values?.file?.[0] }).forEach(
@@ -75,7 +72,6 @@ const AddESign = () => {
     }
 
     const onHandleSave = (values: any) => {
-        console.log('Nope')
         setIsSaveAndNext(false)
         onSave(values)
     }

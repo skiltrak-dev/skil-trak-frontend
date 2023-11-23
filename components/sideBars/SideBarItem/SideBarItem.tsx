@@ -81,7 +81,6 @@ export const SideBarItem = ({
             setVolunteerItemCount(`${volunteerCount}`)
         }
     }, [volunteerCount])
-    console.log('router.pathname', link)
     return link ? (
         <Link legacyBehavior href={link}>
             <div
