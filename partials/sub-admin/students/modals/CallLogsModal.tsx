@@ -41,7 +41,7 @@ export const CallLogsModal = ({
                                 }
                             />
                         )}
-                        Saad
+
                         {callLogs.isLoading ? (
                             <LoadingAnimation />
                         ) : callLogs.data &&

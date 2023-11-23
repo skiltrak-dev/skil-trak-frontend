@@ -35,6 +35,7 @@ const Blogs: NextPageWithLayout = () => {
     )
     console.log('filterPublishedBlogs', filterPublishedBlogs)
 
+    // useGetBlogDetailQuery
     return (
         <>
             <HeroSectionBlog />

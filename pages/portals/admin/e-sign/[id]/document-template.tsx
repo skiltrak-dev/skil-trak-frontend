@@ -33,8 +33,6 @@ export default function ESign() {
 
     // const [template, settemplate] = useState<any>('')
 
-    console.log({ template })
-
     // useEffect(() => {
     //      if (router.query?.id && !template && !template?.length) {
     //     const test = async () => {
@@ -46,8 +44,6 @@ export default function ESign() {
     //     test()
     //     }
     // }, [])
-
-    console.log({ template: template })
 
     useEffect(() => {
         navBar.setTitle('E-Sign')
@@ -121,6 +117,7 @@ export default function ESign() {
     // };
 
     const onItemSelected = (item: any, selected: boolean) => {
+        setContextBar(item)
         // Deselect Previous Item
         if (lastSelectedItem) {
             const oldItem = items.find((x: any) => x.id === lastSelectedItem.id)
@@ -204,6 +201,28 @@ export default function ESign() {
             setItems(updatedList)
         }
         setLastSelectedItem(null)
+    }
+
+    const onSetContextBar = ({ content, e }: any) => {
+        if (content) {
+            const updatedContent = {
+                ...content,
+                data: { ...content?.data, dataLabel: e.target?.value },
+            }
+            setItems((items: any) =>
+                items?.map((item: any) =>
+                    item.id === content?.id ? updatedContent : item
+                )
+            )
+            setContextBar(updatedContent)
+        }
+    }
+
+    const onSetCoordinates = (content: any, e: any, key: string) => {
+        // setContextBar({
+        //     ...content,
+        //     location: { ...content?.location, [key]: e.target?.value },
+        // })
     }
 
     const [coords, setCoords] = useState({ x: 0, y: 0 })
@@ -346,7 +365,19 @@ export default function ESign() {
                                 template.isSuccess && <EmptyData />
                             )}
                         </div>
-                        <Contextbar content={contextBar} />
+                        <Contextbar
+                            content={contextBar}
+                            onSetContextBar={(e: any) => {
+                                onSetContextBar(e)
+                            }}
+                            onSetCoordinates={(
+                                content: any,
+                                e: any,
+                                key: string
+                            ) => {
+                                onSetCoordinates(content, e, key)
+                            }}
+                        />
                     </div>
                 </div>
             </DndContext>
