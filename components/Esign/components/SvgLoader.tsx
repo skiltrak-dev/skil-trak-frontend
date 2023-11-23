@@ -12,6 +12,7 @@ import {
     useSensors,
 } from '@dnd-kit/core'
 import { AdminApi } from '@queries'
+import { useRouter } from 'next/router'
 
 const DynamicSvgLoader = ({
     items,
@@ -34,29 +35,25 @@ const DynamicSvgLoader = ({
     onItemResized: any
     onItemRemove: any
 }) => {
+    const router = useRouter()
+
     const [svgContent, setSvgContent] = useState('')
 
-    console.log({ svgContent })
-
-    const [saveEsign, saveEsignResult] = AdminApi.ESign.useSaveEsign()
+    const [saveEsignTemplate, saveEsignTemplateResult] =
+        AdminApi.ESign.useSaveTemplate()
 
     const pageItems = items.filter((item: any) => item.page === page)
-
-    console.log({ pageItems, page })
 
     useEffect(() => {
         const fetchSvg = async () => {
             try {
                 const response = await fetch(path) // Adjust the path based on your setup
                 const svgText = await response.text()
-                console.log({ svgText })
                 setSvgContent(svgText)
             } catch (error) {
                 console.error('Error fetching SVG:', error)
             }
         }
-
-        console.log({ path })
 
         if (!svgContent) {
             // setSvgContent(
@@ -79,7 +76,13 @@ const DynamicSvgLoader = ({
     }
 
     const onSaveClick = () => {
-        saveEsign(JSON.stringify(items))
+        const updatedItems = items.map((item: any) => ({
+            label: item?.data?.dataLabel,
+            position: item?.location?.x + ',' + item?.location?.y,
+            pageNumber: item?.page,
+            size: item?.size?.width + ',' + item?.size?.height,
+        }))
+        saveEsignTemplate({ slots: updatedItems, id: router?.query?.id })
             .then((res) => {
                 console.log('::: RES', res)
             })
@@ -137,7 +140,11 @@ const DynamicSvgLoader = ({
                                 __html: svgContent,
                             }}
                         /> */}
-                        <image href={`data:image/svg+xml,${encodeURIComponent(svgContent)}`}  />
+                        <image
+                            href={`data:image/svg+xml,${encodeURIComponent(
+                                svgContent
+                            )}`}
+                        />
 
                         {pageItems &&
                             pageItems.map((item: any, i: number) => (

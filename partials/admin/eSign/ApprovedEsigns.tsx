@@ -153,19 +153,17 @@ export const ApprovedEsigns = () => {
         {
             text: 'View',
             onClick: (student: any) => {
-                router.push(
-                    `/portals/admin/student/${student?.id}?tab=overview`
-                )
-                setLink('student', router)
+                // router.push(
+                //     `/portals/admin/student/${student?.id}?tab=overview`
+                // )
+                // setLink('student', router)
             },
             Icon: FaEye,
         },
         {
             text: 'Edit',
-            onClick: (student: Student) => {
-                router.push(
-                    `/portals/admin/student/edit-student/${student?.id}`
-                )
+            onClick: (eSign: any) => {
+                router.push(`/portals/admin/e-sign/${eSign?.id}/edit`)
             },
             Icon: FaEdit,
         },

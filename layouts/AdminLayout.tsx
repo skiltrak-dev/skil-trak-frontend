@@ -133,11 +133,11 @@ const routes: Route[] = [
         path: getRoutePath('/documents'),
         Icon: HiOutlineDocumentText,
     },
-    // {
-    //     text: 'E-Sign',
-    //     path: getRoutePath('/e-sign?tab=approved&page=1&pageSize=50'),
-    //     Icon: FaFileSignature,
-    // },
+    {
+        text: 'E-Sign',
+        path: getRoutePath('/e-sign?tab=approved&page=1&pageSize=50'),
+        Icon: FaFileSignature,
+    },
     {
         text: 'Tickets',
         path: getRoutePath('/tickets?tab=my-open-tickets'),

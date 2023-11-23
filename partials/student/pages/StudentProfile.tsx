@@ -352,7 +352,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                             onClick={() => {
                                 role === 'admin'
                                     ? router.push(
-                                          getLink('student') ||
+                                          `/${getLink('student')}` ||
                                               'portals/admin/student?tab=active&page=1&pageSize=50'
                                       )
                                     : role === 'subadmin'

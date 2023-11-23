@@ -231,6 +231,8 @@ export const Schedule = ({
                                                     ] = c?.closingTime
                                                         .split(':')
                                                         .map(Number)
+
+                                                    console.log({ day })
                                                     return {
                                                         start: new Date(
                                                             year,
