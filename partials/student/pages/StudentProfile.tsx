@@ -58,6 +58,30 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     const [showDropDown, setShowDropDown] = useState(false)
     const [notifModal, setNotifModal] = useState<ReactElement | null>(null)
 
+    const handleRouteChangeStart = (url: string) => {
+        const mainUrl = url.split('?')[0]
+        const routeToBe = router.asPath.split('?')[0]
+
+        if (mainUrl !== routeToBe) {
+            const userConfirmed = window.confirm(
+                `You are about to leave student profile. Have you added notes?`
+            )
+
+            if (!userConfirmed) {
+                router.events.emit('routeChangeError')
+                throw 'Abort route change'
+            }
+        }
+    }
+
+    useEffect(() => {
+        router.events.on('beforeHistoryChange', handleRouteChangeStart)
+
+        return () => {
+            router.events.off('beforeHistoryChange', handleRouteChangeStart)
+        }
+    }, [])
+
     useEffect(() => {
         window.addEventListener('mousemove', () => setIsMouseMove(true))
         return () => {
@@ -71,7 +95,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
         }
     }, [contextBar])
 
-    const { alert, setAlerts, alerts } = useAlert()
+    const { alert: alertMessage, setAlerts, alerts } = useAlert()
     const { notification } = useNotification()
 
     const { data, isLoading, isError, isSuccess, refetch } =
@@ -109,28 +133,28 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
             const showAlert = () => {
                 switch (data?.user?.status) {
                     case UserStatus.Pending:
-                        alert.warning({
+                        alertMessage.warning({
                             title: 'Student is Pending',
                             description: 'Student is Pending',
                             autoDismiss: false,
                         })
                         break
                     case UserStatus.Archived:
-                        alert.warning({
+                        alertMessage.warning({
                             title: 'Student is Archived',
                             description: 'Student is Archived',
                             autoDismiss: false,
                         })
                         break
                     case UserStatus.Rejected:
-                        alert.error({
+                        alertMessage.error({
                             title: 'Student is Rejected',
                             description: 'Student is Rejected',
                             autoDismiss: false,
                         })
                         break
                     case UserStatus.Blocked:
-                        alert.error({
+                        alertMessage.error({
                             title: 'Student is Blocked',
                             description: 'Student is Blocked',
                             autoDismiss: false,

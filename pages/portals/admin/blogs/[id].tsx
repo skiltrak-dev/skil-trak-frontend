@@ -66,8 +66,6 @@ const EditBlog: NextPageWithLayout = () => {
         }
     }, [])
 
-    console.log('blog data', data)
-
     // const onSubmit: any = (data: any, publish: boolean) => {
     //     const content = quillRef.current.getEditor().root.innerHTML
 

@@ -166,7 +166,6 @@ TextEditorProps) {
         }
     }, [blogData])
 
-    // console.log('Hello', formMethods.getValues('category'))
     const options = data?.map((item: any) => ({
         label: item?.title,
         value: item?.id,
