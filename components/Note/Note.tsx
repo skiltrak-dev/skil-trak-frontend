@@ -79,12 +79,20 @@ export const Note = ({ note }: { note: NoteType }) => {
                 >
                     <div>
                         <div className="flex justify-between mb-2">
-                            <p className="text-sm font-semibold">
+                            <p
+                                className={`text-sm font-semibold ${
+                                    note?.isPinned ? 'text-[#fcdaeb]' : ''
+                                }`}
+                            >
                                 {note.title}
                             </p>
                         </div>
 
-                        <div className="text-sm">
+                        <div
+                            className={`${
+                                note?.isPinned ? 'text-[#fbc8e1]' : ''
+                            } text-sm`}
+                        >
                             <span
                                 className="block mr-6"
                                 dangerouslySetInnerHTML={{
@@ -99,16 +107,16 @@ export const Note = ({ note }: { note: NoteType }) => {
                             <p
                                 className={`text-xs font-medium ${
                                     note?.isPinned
-                                        ? 'text-gray-200'
+                                        ? 'text-[#300e1f]'
                                         : 'text-gray-500'
                                 } `}
                             >
-                                {note.author.name}
+                                {note?.author?.name}
                             </p>
                             <p
                                 className={`text-[11px] font-medium ${
                                     note.isPinned
-                                        ? 'text-gray-200'
+                                        ? 'text-[#601c3e]'
                                         : 'text-[#BFBF80]'
                                 } `}
                             >

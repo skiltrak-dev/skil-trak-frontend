@@ -135,7 +135,7 @@ const routes: Route[] = [
     },
     // {
     //     text: 'E-Sign',
-    //     path: getRoutePath('/e-sign'),
+    //     path: getRoutePath('/e-sign?tab=approved&page=1&pageSize=50'),
     //     Icon: FaFileSignature,
     // },
     {

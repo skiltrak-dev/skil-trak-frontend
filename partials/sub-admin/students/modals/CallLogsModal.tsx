@@ -31,6 +31,7 @@ export const CallLogsModal = ({
                     onCancelClick={onCancel}
                     onConfirmClick={onCancel}
                     titleIcon={LuPhoneCall}
+                    showActions={false}
                 >
                     <div className="min-w-[600px] max-w-[80vw] min-h-[20vh] max-h-[60vh] overflow-auto custom-scrollbar">
                         {callLogs.isError && (
@@ -40,6 +41,7 @@ export const CallLogsModal = ({
                                 }
                             />
                         )}
+                        Saad
                         {callLogs.isLoading ? (
                             <LoadingAnimation />
                         ) : callLogs.data &&

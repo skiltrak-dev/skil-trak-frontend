@@ -31,7 +31,7 @@ export const CourseList = ({
                             <div className="bg-blue-400 p-2 rounded-full"></div>
                             <div className="bg-blue-400 w-[1px] h-full"></div>
                         </div>
-                        <div className="grid grid-cols-4 items-center">
+                        <div className="grid grid-cols-4 w-full items-center">
                             <div className="pb-2 col-span-3">
                                 <Typography
                                     variant={'small'}
@@ -59,7 +59,7 @@ export const CourseList = ({
                                     </Typography>
                                     <input
                                         placeholder="Hours"
-                                        className="border rounded p-1.5 text-xs"
+                                        className="border rounded p-1.5 text-xs w-full"
                                         name="hours"
                                         type="number"
                                         value={

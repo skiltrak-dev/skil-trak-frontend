@@ -16,6 +16,7 @@ interface BadgeProps {
     shape?: 'rounded' | 'pill' | 'flat'
     disabled?: boolean
     loading?: boolean
+    onClick?: () => void
 }
 
 const LoaderColor = {
@@ -34,6 +35,7 @@ export const Badge = ({
     size = 'sm',
     shape = 'rounded',
     disabled,
+    onClick,
     loading,
 }: BadgeProps) => {
     const classes = classNames({
@@ -55,9 +57,10 @@ export const Badge = ({
         'bg-amber-100 text-amber-500': !disabled && variant === 'warning',
         'bg-slate-200 text-slate-500': !disabled && variant === 'muted',
         'bg-gray-100 text-gray-500': disabled,
+        'cursor-pointer': onClick,
     })
     return (
-        <div className={classes}>
+        <div className={classes} {...(onClick ? { onClick } : {})}>
             {loading ? (
                 <PulseLoader size={5} color={(LoaderColor as any)[variant]} />
             ) : (

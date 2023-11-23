@@ -1,7 +1,8 @@
-import { ActionButton, Button, NoData, Typography } from '@components'
-import { Course } from '@types'
-import React, { useState } from 'react'
+import { ActionButton, NoData, Typography } from '@components'
+import { RtoApi } from '@queries'
+import { useEffect, useState } from 'react'
 import { CourseList } from './CourseList'
+import { useNotification } from '@hooks'
 
 export const RtoSectors = ({
     sectorsWithCourses,
@@ -10,6 +11,32 @@ export const RtoSectors = ({
 }) => {
     const [editCourse, setEditCourse] = useState<boolean>(false)
     const [selectedCourses, setSelectedCourses] = useState<any>([])
+
+    const { notification } = useNotification()
+
+    const [updateHours, updateHoursResult] =
+        RtoApi.Courses.useUpdateCourseHours()
+
+    useEffect(() => {
+        if (updateHoursResult.isSuccess) {
+            setEditCourse(false)
+            setSelectedCourses([])
+            notification.success({
+                title: 'Course Hours Updated',
+                description: 'Course Hours Updated Successfully',
+            })
+        }
+    }, [updateHoursResult])
+
+    const onUpdateHours = () => {
+        updateHours({
+            courses: selectedCourses?.map((c: any) => ({
+                course: c?.id,
+                hours: c?.hours,
+            })),
+        })
+    }
+
     return (
         <div>
             <div className="mt-4">
@@ -62,8 +89,10 @@ export const RtoSectors = ({
                     <ActionButton
                         variant="link"
                         onClick={() => {
-                            setEditCourse(false)
+                            onUpdateHours()
                         }}
+                        loading={updateHoursResult.isLoading}
+                        disabled={updateHoursResult.isLoading}
                     >
                         Update
                     </ActionButton>

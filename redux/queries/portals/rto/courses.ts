@@ -9,4 +9,12 @@ export const coursesEndpoints = (
         query: () => `${PREFIX}/courses/list`,
         providesTags: ['RTOCourses'],
     }),
+    updateCourseHours: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `${PREFIX}/course/edit-hours`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['RTOCourses', 'RTO'],
+    }),
 })

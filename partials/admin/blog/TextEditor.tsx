@@ -1,14 +1,3 @@
-import React, { useEffect, useRef, useState } from 'react'
-import ReactQuill from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
-import * as yup from 'yup'
-import * as Quill from 'quill'
-import {
-    Controller,
-    FormProvider,
-    useForm,
-    useFormContext,
-} from 'react-hook-form'
 import {
     Button,
     Checkbox,
@@ -18,11 +7,16 @@ import {
     UploadFile,
 } from '@components'
 import { FileUpload } from '@hoc'
-import { adminApi } from '@queries'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useRouter } from 'next/router'
 import { useNotification } from '@hooks'
 import { InputErrorMessage } from '@components/inputs/components'
+import { adminApi } from '@queries'
+import { useRouter } from 'next/router'
+import { useEffect, useRef, useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
+import * as yup from 'yup'
 
 interface TextEditorProps {
     tagIds?: any
@@ -72,6 +66,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
         author: yup
             .string()
             .required('Author is required')
+            .matches(/^[^\d]+$/, 'Author name cannot contain numbers')
             .min(3, 'Author must be at least 3 characters')
             .max(20, 'Author cannot exceed 20 characters'),
         category: yup
@@ -123,18 +118,25 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
             })
             return
         }
+        const wordCount = content.trim().split(/\s+/).length
+        if (wordCount > 3000) {
+            formMethods.setError('content', {
+                type: 'exceedsWordLimit',
+                message: 'Content should not exceed 3000 words',
+            })
+            return
+        }
+        // const formData = new FormData()
+        // formData.append('featuredImage', data.featuredImage?.[0])
+        // formData.append('title', data.title)
+        // formData.append('content', content)
+        // formData.append('isPublished', publish.toString())
+        // formData.append('isFeatured', data.isFeatured.toString())
+        // formData.append('tags', tagIds)
+        // formData.append('category', data?.category)
+        // formData.append('author', data?.author)
 
-        const formData = new FormData()
-        formData.append('featuredImage', data.featuredImage?.[0])
-        formData.append('title', data.title)
-        formData.append('content', content)
-        formData.append('isPublished', publish.toString())
-        formData.append('isFeatured', data.isFeatured.toString())
-        formData.append('tags', tagIds)
-        formData.append('category', data?.category)
-        formData.append('author', data?.author)
-
-        createBlog(formData)
+        // createBlog(formData)
         validationSchema
             .validate(data)
             .then(() => {
@@ -181,6 +183,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
             }
         }
     }, [createBlogResult.isSuccess])
+
 
     return (
         <div>

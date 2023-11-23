@@ -9,7 +9,7 @@ import { BsFillPlayCircleFill } from 'react-icons/bs'
 import { isBrowser } from '@utils'
 
 export const VideoPreview = ({ url }: { url: any }) => {
-    const tempUrlSplit = url.split('https://')
+    const tempUrlSplit = url?.split('https://')
     // const tempUrl = `https://www.${tempUrlSplit[1]}`
     const tempUrl = url
     const [thumbnail, setThumbnail] = useState('')

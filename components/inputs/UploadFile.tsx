@@ -2,6 +2,11 @@ import { Typography } from '@components/Typography'
 import Image from 'next/image'
 import React from 'react'
 import { AiFillDelete, AiFillFileImage } from 'react-icons/ai'
+import { FileMimeTypes } from './FileUpload'
+import { VideoPreview } from '@components/VideoPreview'
+import { PdfViewer } from '@components/PdfViewer'
+import { IoMdDocument } from 'react-icons/io'
+import { FileFormat } from '@utils'
 
 export const ObjectType = {
     COVER: 'object-cover',
@@ -17,10 +22,9 @@ export const UploadFile = ({
     objectType,
 }: any) => {
     const fileType = fileObject?.type?.split('/')[0]
-
     return (
         <div
-            className={`w-full h-40 ${
+            className={`w-full h-40 overflow-hidden ${
                 dragging ? 'bg-amber-200 border-amber-200' : 'border-blue-600'
             } flex flex-col justify-center items-center border border-dashed  rounded-md`}
         >
@@ -55,6 +59,27 @@ export const UploadFile = ({
                         />
                     ) : (
                         ''
+                    )}
+                    {FileMimeTypes.video.includes(fileType) && (
+                        // Preview Video
+                        <div className="bg-black h-full">
+                            <div className="h-[70%]">
+                                <VideoPreview url={fileObject} />
+                            </div>
+                        </div>
+                    )}
+
+                    {/* PDF Preview */}
+                    {FileMimeTypes.documents.includes(fileType) && (
+                        <div className="flex justify-center items-center w-full h-full">
+                            {fileObject && FileFormat.isPdf(file) ? (
+                                <div className="w-full h-full">
+                                    <PdfViewer file={fileObject} />
+                                </div>
+                            ) : (
+                                <IoMdDocument className="text-5xl text-gray" />
+                            )}
+                        </div>
                     )}
                     <div className="absolute bottom-2 left-2 bg-white rounded-md px-3 py-0.5">
                         <Typography variant={'small'} color={'text-primary'}>

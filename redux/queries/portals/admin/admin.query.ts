@@ -81,6 +81,13 @@ export const adminApi = emptySplitApi.injectEndpoints({
             }),
             providesTags: ['Blog'],
         }),
+        getFeaturedBlogs: build.query<any, any>({
+            query: (params) => ({
+                url: `blogs/featured`,
+                params,
+            }),
+            providesTags: ['Blog'],
+        }),
         getTags: build.query<any, void>({
             query: () => ({
                 url: `blogs/tag`,
@@ -117,7 +124,6 @@ export const adminApi = emptySplitApi.injectEndpoints({
         }),
         updateBlog: build.mutation<any, { id: any; body: any }>({
             query: ({ id, body }) => {
-                console.log('body', body)
                 return {
                     url: `blogs/${id}`,
                     method: 'PATCH',
@@ -126,6 +132,7 @@ export const adminApi = emptySplitApi.injectEndpoints({
             },
             invalidatesTags: ['Blog'],
         }),
+        
 
         ...rtoEndpoints(build),
         ...studentEndpoints(build),
@@ -154,9 +161,11 @@ const {
     useSectorsStudentsCountQuery,
     useUpdateAdminProfileMutation,
 
+
     // Blogs
     useCreateBlogMutation,
     useGetBlogsQuery,
+    useGetFeaturedBlogsQuery,
     useGetBlogDetailQuery,
     useRemoveBlogMutation,
     useBulkRemoveBlogMutation,
@@ -223,12 +232,14 @@ const {
     useIndustryStatusChangeMutation,
     useIndustryAssignCoursesMutation,
     useIndustryUnassignCourseMutation,
+    useVolunteerIsReadMutation,
 
     // ----- RPL ----- //
     useRplRequestListQuery,
     useRplDeleteMutation,
     useRplCountQuery,
     useRplIsReadMutation,
+ 
 
     // ------ SECTOR ------ //
     useSectorsQuery,
@@ -313,7 +324,12 @@ const {
     useGetDocumentsQuery,
 
     // ---- ESIGN ---- //
+
+    useGetEsignListQuery,
     useSaveEsignMutation,
+    useGetEsignRtosQuery,
+    useGetEsignTemplateQuery,
+    useChangeEsignStatusMutation,
 } = adminApi
 
 export const AdminApi = {
@@ -418,7 +434,8 @@ export const AdminApi = {
         useRplList: useRplRequestListQuery,
         useRemoveRpl: useRplDeleteMutation,
         useRplCount: useRplCountQuery,
-        useRplIsRead: useRplIsReadMutation,
+        useRplRead: useRplIsReadMutation,
+      
     },
 
     Subscribers: {
@@ -469,6 +486,7 @@ export const AdminApi = {
     Volunteer: {
         useList: useGetVolunteerRequestsQuery,
         useVolunteerCount: useRequestVolunteerCountQuery,
+        useVolunteerRead: useVolunteerIsReadMutation, 
     },
     SMS: {
         sendSMS: useSendSMSMutation,
@@ -478,6 +496,10 @@ export const AdminApi = {
         useGetDocuments: useGetDocumentsQuery,
     },
     ESign: {
+        useGetEsign: useGetEsignListQuery,
         useSaveEsign: useSaveEsignMutation,
+        useGetEsignRtos: useGetEsignRtosQuery,
+        useEsignTemplate: useGetEsignTemplateQuery,
+        useChangeStatus: useChangeEsignStatusMutation,
     },
 }
