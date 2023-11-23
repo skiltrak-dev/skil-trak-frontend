@@ -121,6 +121,20 @@ export const studentEndpoints = (
         }),
         providesTags: ['Rto-Students'],
     }),
+    getPlacementStartedReport: builder.query<any, any>({
+        query: (params) => ({
+            url: `statistics/rto/placementStarted`,
+            params,
+        }),
+        providesTags: ['Rto-Students'],
+    }),
+    getStudentsResultsReport: builder.query<any, any>({
+        query: (params) => ({
+            url: `statistics/rto/result`,
+            params,
+        }),
+        providesTags: ['Rto-Students'],
+    }),
     getTerminatedWorkplaceReport: builder.query<any, any>({
         query: (params) => ({
             url: `statistics/rto/workplace-requests/terminated`,

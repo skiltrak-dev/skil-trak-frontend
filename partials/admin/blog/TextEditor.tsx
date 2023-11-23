@@ -67,6 +67,10 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
             .string()
             .required('Author is required')
             .matches(/^[^\d]+$/, 'Author name cannot contain numbers')
+            .matches(
+                /^[a-zA-Z\s']+$/,
+                'Author name cannot contain special characters'
+            )
             .min(3, 'Author must be at least 3 characters')
             .max(20, 'Author cannot exceed 20 characters'),
         category: yup
@@ -181,7 +185,6 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
             }
         }
     }, [createBlogResult.isSuccess])
-
 
     return (
         <div>

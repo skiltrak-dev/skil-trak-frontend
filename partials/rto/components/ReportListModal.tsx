@@ -77,6 +77,8 @@ export const ReportListModal = ({
         setIsPdfDownload(true)
     }
 
+    console.log('user:::::', user)
+
     return (
         <>
             <ShowErrorNotifications result={downloadAsPdf} />

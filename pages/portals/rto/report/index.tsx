@@ -6,10 +6,12 @@ import { RtoLayout } from '@layouts'
 
 import { RTOReports } from '@partials/common/Reports'
 import { RtoApi } from '@queries'
+import { getUserCredentials } from '@utils'
 
 const Report: NextPageWithLayout = () => {
     const profile = RtoApi.Rto.useProfile()
-    return <RTOReports createdAt={profile?.data?.createdAt} />
+    const user = getUserCredentials()
+    return <RTOReports user={user} createdAt={profile?.data?.createdAt} />
     //     const [startDate, setStartDate] = useState<any>(new Date())
     //     const [endDate, setEndDate] = useState<any>(new Date())
 
