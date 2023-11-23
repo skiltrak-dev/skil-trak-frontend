@@ -132,7 +132,6 @@ export const adminApi = emptySplitApi.injectEndpoints({
             },
             invalidatesTags: ['Blog'],
         }),
-        
 
         ...rtoEndpoints(build),
         ...studentEndpoints(build),
@@ -160,7 +159,6 @@ const {
     useGetProfileQuery,
     useSectorsStudentsCountQuery,
     useUpdateAdminProfileMutation,
-
 
     // Blogs
     useCreateBlogMutation,
@@ -239,7 +237,6 @@ const {
     useRplDeleteMutation,
     useRplCountQuery,
     useRplIsReadMutation,
- 
 
     // ------ SECTOR ------ //
     useSectorsQuery,
@@ -329,7 +326,9 @@ const {
     useSaveEsignMutation,
     useGetEsignRtosQuery,
     useGetEsignTemplateQuery,
+    useSaveEsignTemplateMutation,
     useChangeEsignStatusMutation,
+    useGetEsignTemplateDetailQuery,
 } = adminApi
 
 export const AdminApi = {
@@ -435,7 +434,6 @@ export const AdminApi = {
         useRemoveRpl: useRplDeleteMutation,
         useRplCount: useRplCountQuery,
         useRplRead: useRplIsReadMutation,
-      
     },
 
     Subscribers: {
@@ -486,7 +484,7 @@ export const AdminApi = {
     Volunteer: {
         useList: useGetVolunteerRequestsQuery,
         useVolunteerCount: useRequestVolunteerCountQuery,
-        useVolunteerRead: useVolunteerIsReadMutation, 
+        useVolunteerRead: useVolunteerIsReadMutation,
     },
     SMS: {
         sendSMS: useSendSMSMutation,
@@ -500,6 +498,8 @@ export const AdminApi = {
         useSaveEsign: useSaveEsignMutation,
         useGetEsignRtos: useGetEsignRtosQuery,
         useEsignTemplate: useGetEsignTemplateQuery,
+        useSaveTemplate: useSaveEsignTemplateMutation,
         useChangeStatus: useChangeEsignStatusMutation,
+        useEsignTemplateDetail: useGetEsignTemplateDetailQuery,
     },
 }

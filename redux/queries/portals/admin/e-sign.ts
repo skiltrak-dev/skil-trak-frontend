@@ -18,12 +18,28 @@ export const eSignEndpoints = (
         }),
         invalidatesTags: ['E-Sign'],
     }),
+    saveEsignTemplate: builder.mutation<any, any>({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}/template/tabs/${id}`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['E-Sign'],
+    }),
+    // getEsignTemplate: builder.query<any, number>({
+    //     query: (id) => `${PREFIX}/template/tabs/${id}`,
+    //     providesTags: ['E-Sign'],
+    // }),
 
     getEsignList: builder.query<any, PaginationWithSearch>({
         query: (params) => ({
             url: `${PREFIX}/template/list`,
             params,
         }),
+        providesTags: ['E-Sign'],
+    }),
+    getEsignTemplateDetail: builder.query<any, number>({
+        query: (id) => `${PREFIX}/template/view/${id}`,
         providesTags: ['E-Sign'],
     }),
     getEsignTemplate: builder.query<any, number>({

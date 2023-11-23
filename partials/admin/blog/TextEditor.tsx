@@ -172,7 +172,6 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                 description: 'Blog Published Successfully',
             })
             // router.push('/portals/admin/blogs?tab=draft&page=1&pageSize=50')
-            console.log({ blogPost })
             if (blogPost === blogPostEnum.Save) {
                 router.push('/portals/admin/blogs?tab=draft&page=1&pageSize=50')
             } else if (blogPost === blogPostEnum.SaveAndPublish) {

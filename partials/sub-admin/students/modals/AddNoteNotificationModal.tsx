@@ -17,6 +17,8 @@ export const AddNoteNotificationModal = ({
         <Modal
             title="Add Note"
             subtitle="Are you sure"
+            confirmText="Leave"
+            cancelText="Add Note"
             onCancelClick={() => {
                 onCancel()
                 router.push({

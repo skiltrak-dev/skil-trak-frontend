@@ -21,7 +21,7 @@ import { AdminApi } from '@queries'
 import { useNotification } from '@hooks'
 import { AddEsignForm } from '@partials'
 
-const AddESign = () => {
+const EditESign = () => {
     const router = useRouter()
 
     const [isSaveAndNext, setIsSaveAndNext] = useState<boolean | null>(null)
@@ -30,11 +30,18 @@ const AddESign = () => {
 
     const [saveEsign, saveEsignResult] = AdminApi.ESign.useSaveEsign()
 
+    const detail = AdminApi.ESign.useEsignTemplateDetail(
+        Number(router.query.id),
+        {
+            skip: !router.query?.id,
+        }
+    )
+
     useEffect(() => {
         if (saveEsignResult.isSuccess) {
             notification.success({
-                title: 'Teplate Created',
-                description: 'Template Created Successfully',
+                title: 'Teplate Updated',
+                description: 'Template Updated Successfully',
             })
             if (isSaveAndNext) {
                 router.push(
@@ -105,8 +112,8 @@ const AddESign = () => {
     )
 }
 
-AddESign.getLayout = (page: ReactElement) => {
+EditESign.getLayout = (page: ReactElement) => {
     return <AdminLayout>{page}</AdminLayout>
 }
 
-export default AddESign
+export default EditESign
