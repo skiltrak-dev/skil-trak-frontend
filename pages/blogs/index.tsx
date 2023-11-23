@@ -48,9 +48,14 @@ const Blogs: NextPageWithLayout = () => {
                             <div className="w-full md:w-3/4">
                                 <div className="bg-[#FFFCF7] rounded-xl shadow-md px-2 py-1.5 min-h-[720px]">
                                     <Link
-                                        href={`blogs/${data?.data[0]?.title}/${data?.data[0]?.id}`}
+                                        href={`blogs/${data?.data[0]?.title
+                                            .replace(/[^a-zA-Z0-9\s]/g, '')
+                                            .replace(/\s+/g, '-')
+                                            .toLowerCase()}/${
+                                            data?.data[0]?.id
+                                        }`}
                                     >
-                                        <div className="relative h-[600px] rounded-xl overflow-hidden">
+                                        <div className="relative md:h-[600px] h-[250px] rounded-xl overflow-hidden">
                                             <Image
                                                 src={
                                                     data?.data[0]?.featuredImage
@@ -58,9 +63,10 @@ const Blogs: NextPageWithLayout = () => {
                                                 alt="blog-card"
                                                 fill
                                                 sizes="100vw"
+                                                className="object-cover"
                                             />
                                         </div>
-                                        <div className="px-8">
+                                        <div className="md:px-8 px-2">
                                             <div className="h-[480px]">
                                                 <div className="flex items-center justify-between my-3">
                                                     <p className="text-[#DADADA] text-xs font-bold">

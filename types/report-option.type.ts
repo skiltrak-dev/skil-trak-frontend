@@ -5,6 +5,8 @@ export enum ReportOptionsEnum {
     CANCELLED_STUDENTS = 'cancelled-workplace-request',
     STUDENTS_COMPLETED = 'workplace-request-completed',
     STUDENTS_TERMINATED = 'workplace-request-terminated',
+    PLACEMENT_STARTED = 'placement-started',
+    STUDENT_RESULTS = 'student-results',
     // CANCELLED_WORKPLACE_REQUEST = 'cancelled-workplace-request',
     // WORKPLACE_REQUEST_COMPLETED = 'workplace-request-completed',
     // WORKPLACE_REQUEST_TERMINATED = 'workplace-request-terminated',

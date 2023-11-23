@@ -1,7 +1,6 @@
 import {
     ActionButton,
     AuthorizedUserComponent,
-    EmptyData,
     InitialAvatar,
     LoadingAnimation,
     NoData,
@@ -9,18 +8,14 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-
+import { UserRoles } from '@constants'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import React, { useState } from 'react'
-import { FilterReport } from '../../FilterReport'
-import { CourseDot } from '@partials/rto/student/components'
-import { Course, ReportOptionsEnum } from '@types'
-import { ViewFullListReport } from '../../ViewFullListReport'
+import { ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
-import { UserRoles } from '@constants'
+import { useState } from 'react'
 import { Waypoint } from 'react-waypoint'
-
+import { FilterReport } from '../../FilterReport'
 type Props = {
     startDate: Date
     setStartDate: (startDate: Date) => void
@@ -29,7 +24,7 @@ type Props = {
     user?: number
 }
 
-export const AppointmentsReport = ({
+export const StudentResultsReport = ({
     setStartDate,
     setEndDate,
     startDate,
@@ -41,105 +36,81 @@ export const AppointmentsReport = ({
     // const [startDate, setStartDate] = useState<Date>(monthEnd)
     // const [endDate, setEndDate] = useState<Date>(new Date())
     const [renderComponent, setRenderComponent] = useState(false)
-
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
-    const { data, isLoading, isError } = RtoApi.Students.useAppointmentsReport(
-        {
-            user,
-            startDate: startDate.toISOString().slice(0, 10),
-            endDate: endDate.toISOString().slice(0, 10),
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        },
-        { skip: !renderComponent }
-    )
-        
+
+    // let end = new Date(endDate)
+    // end.setDate(end.getDate() + 1)
+
+    const { data, isLoading, isError, isFetching } =
+        RtoApi.Students.useStudentsResultsReport(
+            {
+                user,
+                startDate: startDate.toISOString().slice(0, 10),
+                endDate: endDate.toISOString().slice(0, 10),
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            { skip: !renderComponent }
+        )
+    console.log('dataaaa results', data)
     const columns: ColumnDef<any>[] = [
         {
-            header: () => <span>Appointment By</span>,
-            accessorKey: 'appointmentBy',
-            cell: (info: any) => {
-                return (
-                    <a className="flex items-center gap-x-2">
-                        <InitialAvatar
-                            name={
-                                info?.row?.original?.appointmentBy?.name ||
-                                'N/A'
-                            }
-                            imageUrl={
-                                info?.row?.original?.appointmentBy?.avatar ||
-                                'N/A'
-                            }
-                        />
-                        <div className="flex flex-col">
-                            <span>{info.row.original.appointmentBy?.id}</span>
-                            <span>
-                                {info.row.original.appointmentBy?.name || 'N/A'}
-                            </span>
-                            <span>
-                                {info.row.original.appointmentBy?.email}
-                            </span>
-                        </div>
-                    </a>
-                )
-            },
+            header: () => <span>Name</span>,
+            accessorKey: 'user',
+            cell: (info: any) => (
+                <a className="flex items-center gap-x-2">
+                    <InitialAvatar
+                        name={info?.row?.original?.student?.user?.name || 'N/A'}
+                        imageUrl={info?.row?.original?.student?.user?.avatar}
+                    />
+                    <div className="flex flex-col">
+                        <span>{info?.row?.original?.student?.studentId}</span>
+                        <span>{info?.row?.original?.student?.user?.name}</span>
+                    </div>
+                </a>
+            ),
         },
         {
-            accessorKey: 'appointmentFor',
-            header: () => <span>Appointment For</span>,
+            accessorKey: 'email',
+            header: () => <span>Email</span>,
+            cell: (info) => (
+                <span>{info?.row?.original?.student?.user?.email}</span>
+            ),
+        },
+        {
+            accessorKey: 'phone',
+            header: () => <span>Phone</span>,
+            cell: (info) => (
+                <span>{info?.row?.original?.student?.phone}</span>
+            ),
+        },
+        {
+            accessorKey: 'courses',
+            header: () => <span>Courses</span>,
             cell: (info) => {
-                // const { appointmentFor: { name, id, avatar } } = info.row.original;
+                // return info?.row?.original?.courses?.map((c: Course) => (
+                //     <CourseDot key={c?.id} course={c} />
+                // ))
                 return (
-                    <a className="flex items-center gap-x-2">
-                        <InitialAvatar
-                            name={
-                                info?.row?.original?.appointmentFor?.name ||
-                                'N/A'
-                            }
-                            imageUrl={info.row.original?.appointmentFor?.avatar}
-                        />
-                        <div className="flex flex-col">
-                            <span>{info.row.original.appointmentFor?.id}</span>
-                            <span>
-                                {info.row.original.appointmentFor?.name ||
-                                    'N/A'}
-                            </span>
-                        </div>
-                    </a>
+                    <span>
+                        {info?.row?.original?.course?.title || 'N/A'}
+                    </span>
                 )
             },
         },
-        // {
-        //     accessorKey: 'email',
-        //     header: () => <span>Email</span>,
-
-        // },
-        // {
-        //     accessorKey: 'phone',
-        //     header: () => <span>Phone</span>,
-        // },
-        // {
-        //     accessorKey: 'courses',
-        //     header: () => <span>Courses</span>,
-        //     cell: (info) => {
-        //         return info?.row?.original?.courses?.map((c: Course) => (
-        //     <CourseDot key={c?.id} course={c} />
-        //     ))
-        //     },
-        // },
         {
-            accessorKey: 'startTime',
-            header: () => <span>Start Time</span>,
-        },
-        {
-            accessorKey: 'endTime',
-            header: () => <span>End Time</span>,
-        },
-        {
-            accessorKey: 'date',
-            header: () => <span>Date</span>,
+            accessorKey: 'result',
+            header: () => <span>Result</span>,
+            cell: (info) => {
+                // return info?.row?.original?.courses?.map((c: Course) => (
+                //     <CourseDot key={c?.id} course={c} />
+                // ))
+                return (
+                    <span> {info?.row?.original?.result || 'N/A'} </span>
+                )
+            },
         },
     ]
     const count = data?.pagination?.totalResult
@@ -152,14 +123,14 @@ export const AppointmentsReport = ({
     return (
         <Waypoint onLeave={handleLeave} onEnter={handleEnter}>
             <div>
-                <div className="flex justify-between">
+                <div className="flex justify-between items-start">
                     <div className="">
                         <Typography variant="title" color="text-gray-400">
-                            Appointments
+                            Results
                         </Typography>
                         <Typography variant="h3">{count || 0}</Typography>
                     </div>
-
+                    {/* <ViewFullListReport data={data} columns={columns} /> */}
                     <div className="flex items-center gap-x-4">
                         {/* <FilterReport
                             startDate={startDate}
@@ -168,33 +139,38 @@ export const AppointmentsReport = ({
                             setEndDate={setEndDate}
                         /> */}
 
+                        {/* Only Show in Admin */}
                         <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                             <ActionButton
                                 onClick={() => {
                                     router.push(
-                                        `/portals/admin/rto/${router.query?.id}/${ReportOptionsEnum.APPOINTMENTS_REPORT}`
+                                        `/portals/admin/rto/${router.query?.id}/${ReportOptionsEnum.STUDENT_RESULTS}`
                                     )
                                 }}
                             >
                                 View Full List
                             </ActionButton>
                         </AuthorizedUserComponent>
+
+                        {/* Only Show in SubAdmin */}
                         <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
                             <ActionButton
                                 onClick={() => {
                                     router.push(
-                                        `/portals/sub-admin/users/rtos/${router.query?.id}/${ReportOptionsEnum.APPOINTMENTS_REPORT}`
+                                        `/portals/sub-admin/users/rtos/${router.query?.id}/${ReportOptionsEnum.STUDENT_RESULTS}`
                                     )
                                 }}
                             >
                                 View Full List
                             </ActionButton>
                         </AuthorizedUserComponent>
+
+                        {/* Only Show in RTO */}
                         <AuthorizedUserComponent roles={[UserRoles.RTO]}>
                             <ActionButton
                                 onClick={() => {
                                     router.push(
-                                        `/portals/rto/report/${ReportOptionsEnum.APPOINTMENTS_REPORT}`
+                                        `/portals/rto/report/${ReportOptionsEnum.STUDENT_RESULTS}`
                                     )
                                 }}
                             >
@@ -203,8 +179,9 @@ export const AppointmentsReport = ({
                         </AuthorizedUserComponent>
                     </div>
                 </div>
+
                 {isError && <TechnicalError />}
-                {isLoading ? (
+                {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data?.data && data?.data?.length ? (
                     <Table columns={columns} data={data?.data}>
@@ -219,7 +196,6 @@ export const AppointmentsReport = ({
                                     <div className="p-6 mb-2 flex justify-between">
                                         {pageSize(itemPerPage, setItemPerPage)}
                                         <div className="flex gap-x-2">
-                                            {/* {quickActions} */}
                                             {pagination(
                                                 data?.pagination,
                                                 setPage
@@ -232,7 +208,7 @@ export const AppointmentsReport = ({
                         }}
                     </Table>
                 ) : (
-                    !isError && <NoData text="No Appointments Found" />
+                    !isError && <NoData text="No Results Found" />
                 )}
             </div>
         </Waypoint>
