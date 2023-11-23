@@ -50,7 +50,7 @@ export const Note = ({ note }: { note: NoteType }) => {
     return (
         <div
             className={`relative w-full ${
-                note?.isPinned ? 'bg-[#F0479A]' : 'bg-[#FEF6E6] '
+                note?.isPinned ? 'bg-red-400' : 'bg-[#FEF6E6] '
             } p-4 rounded-xl shadow-lg`}
         >
             <button
@@ -90,7 +90,7 @@ export const Note = ({ note }: { note: NoteType }) => {
 
                         <div
                             className={`${
-                                note?.isPinned ? 'text-[#fbc8e1]' : ''
+                                note?.isPinned ? 'text-red-100' : ''
                             } text-sm`}
                         >
                             <span
@@ -107,7 +107,7 @@ export const Note = ({ note }: { note: NoteType }) => {
                             <p
                                 className={`text-xs font-medium ${
                                     note?.isPinned
-                                        ? 'text-[#300e1f]'
+                                        ? 'text-red-800'
                                         : 'text-gray-500'
                                 } `}
                             >
@@ -116,7 +116,7 @@ export const Note = ({ note }: { note: NoteType }) => {
                             <p
                                 className={`text-[11px] font-medium ${
                                     note.isPinned
-                                        ? 'text-[#601c3e]'
+                                        ? 'text-red-800'
                                         : 'text-[#BFBF80]'
                                 } `}
                             >

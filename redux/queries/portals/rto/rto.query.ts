@@ -91,6 +91,8 @@ export const {
     useGetNotContactableStudentsQuery,
     useGetArchivedStudentsReportQuery,
     useGetCompletedWorkplaceReportQuery,
+    useGetPlacementStartedReportQuery,
+    useGetStudentsResultsReportQuery,
     useGetTerminatedWorkplaceReportQuery,
 
     // ------ COORDINATOR ------ //
@@ -177,6 +179,8 @@ export const RtoApi = {
         useBlockedStudentsReport: useGetBlockedStudentsReportQuery,
         useArchivedStudentsReport: useGetArchivedStudentsReportQuery,
         useCompletedWorkplaceReport: useGetCompletedWorkplaceReportQuery,
+        usePlacementStartedReport: useGetPlacementStartedReportQuery,
+        useStudentsResultsReport: useGetStudentsResultsReportQuery,
         useTerminatedWorkplaceReport: useGetTerminatedWorkplaceReportQuery,
         useWorkplaceRequestReport: useGetWorkplaceRequestsReportQuery,
         useWithoutWorkplaceReport: useGetWithoutWorkplaceReportQuery,

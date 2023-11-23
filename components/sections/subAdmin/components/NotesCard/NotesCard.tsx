@@ -55,7 +55,7 @@ export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
     return (
         <div
             className={`${
-                pinnedNote ? 'bg-[#F0479A]' : 'bg-[#FEF6E6]'
+                pinnedNote ? 'bg-red-400' : 'bg-[#FEF6E6]'
             }  p-4 rounded-xl shadow-lg relative ${
                 pinnedNote ? 'w-full' : 'w-fit'
             }`}
@@ -106,7 +106,7 @@ export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
 
                     <div
                         className={`${
-                            note?.isPinned ? 'text-[#fbc8e1]' : ''
+                            note?.isPinned ? 'text-red-100' : ''
                         } text-sm`}
                     >
                         <div
@@ -124,7 +124,7 @@ export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
                             <p
                                 className={`text-xs font-medium ${
                                     note?.isPinned
-                                        ? 'text-[#300e1f]'
+                                        ? 'text-red-800'
                                         : 'text-gray-500'
                                 } `}
                             >
@@ -134,7 +134,7 @@ export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
                             <p
                                 className={`text-[11px] font-medium ${
                                     note.isPinned
-                                        ? 'text-[#601c3e]'
+                                        ? 'text-red-800'
                                         : 'text-[#BFBF80]'
                                 } `}
                             >

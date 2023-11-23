@@ -18,7 +18,9 @@ import {
     CompletedWorkplaceReport,
     NewStudentReport,
     NonContactableReport,
+    PlacementStartedReport,
     ReportedStudents,
+    StudentResultsReport,
     StudentsWithoutWorkplaceReport,
     TerminatedWorkplaceReport,
     WorkplaceRequestReport,
@@ -132,27 +134,27 @@ export const RTOReports = ({
             setEndDate={setEndDate}
             user={user?.id}
         />,
-        <NewStudentReport
-            user={user?.id}
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-        />,
-        <CancelledWorkplaceReport
-            user={user?.id}
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-        />,
-        <BlockedStudentsReport
-            user={user?.id}
-            // startDate={startDate}
-            // setStartDate={setStartDate}
-            // endDate={endDate}
-            // setEndDate={setEndDate}
-        />,
+        // <NewStudentReport
+        //     user={user?.id}
+        //     startDate={startDate}
+        //     setStartDate={setStartDate}
+        //     endDate={endDate}
+        //     setEndDate={setEndDate}
+        // />,
+        // <CancelledWorkplaceReport
+        //     user={user?.id}
+        //     startDate={startDate}
+        //     setStartDate={setStartDate}
+        //     endDate={endDate}
+        //     setEndDate={setEndDate}
+        // />,
+        // <BlockedStudentsReport
+        //     user={user?.id}
+        //     // startDate={startDate}
+        //     // setStartDate={setStartDate}
+        //     // endDate={endDate}
+        //     // setEndDate={setEndDate}
+        // />,
         <CompletedWorkplaceReport
             user={user?.id}
             startDate={startDate}
@@ -160,13 +162,27 @@ export const RTOReports = ({
             endDate={endDate}
             setEndDate={setEndDate}
         />,
-        <TerminatedWorkplaceReport
+        <PlacementStartedReport
             user={user?.id}
             startDate={startDate}
             setStartDate={setStartDate}
             endDate={endDate}
             setEndDate={setEndDate}
         />,
+        <StudentResultsReport
+            user={user?.id}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+        />,
+        // <TerminatedWorkplaceReport
+        //     user={user?.id}
+        //     startDate={startDate}
+        //     setStartDate={setStartDate}
+        //     endDate={endDate}
+        //     setEndDate={setEndDate}
+        // />,
         <WorkplaceRequestReport
             user={user?.id}
             startDate={startDate}
@@ -181,23 +197,25 @@ export const RTOReports = ({
             endDate={endDate}
             setEndDate={setEndDate}
         />,
-        <StudentsWithoutWorkplaceReport
-            user={user?.id}
-            // startDate={startDate}
-            // setStartDate={setStartDate}
-            // endDate={endDate}
-            // setEndDate={setEndDate}
-        />,
-        <ReportedStudents
-            user={user?.id}
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-        />,
+        // <StudentsWithoutWorkplaceReport
+        //     user={user?.id}
+        //     // startDate={startDate}
+        //     // setStartDate={setStartDate}
+        //     // endDate={endDate}
+        //     // setEndDate={setEndDate}
+        // />,
+        // <ReportedStudents
+        //     user={user?.id}
+        //     startDate={startDate}
+        //     setStartDate={setStartDate}
+        //     endDate={endDate}
+        //     setEndDate={setEndDate}
+        // />,
     ]
 
     const role = getUserCredentials()?.role
+
+    console.log("user", user)
 
     return (
         <>

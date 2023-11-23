@@ -81,6 +81,7 @@ export const SideBarItem = ({
             setVolunteerItemCount(`${volunteerCount}`)
         }
     }, [volunteerCount])
+    
     return link ? (
         <Link legacyBehavior href={link}>
             <div
