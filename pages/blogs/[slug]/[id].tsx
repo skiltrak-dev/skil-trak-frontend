@@ -23,13 +23,13 @@ const BlogDetail: NextPageWithLayout = () => {
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data ? (
                     <div className="bg-[#FFFCF7] rounded-xl shadow-md md:px-8 px-4 py-8 md:py-4">
-                        <div className="md:h-[400px] h-[250px] relative overflow-hidden rounded-xl">
+                        <div className="md:h-[600px] h-[250px] w-full relative overflow-hidden rounded-xl">
                             <Image
                                 src={data?.featuredImage}
                                 alt="blog-card"
                                 fill
                                 sizes="100vw"
-                                className="object-cover"
+                                className="object-cover w-full"
                             />
                         </div>
                         <div className="flex items-center justify-between my-3">
