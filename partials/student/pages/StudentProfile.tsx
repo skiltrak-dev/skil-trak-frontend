@@ -64,7 +64,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
 
         if (mainUrl !== routeToBe) {
             const userConfirmed = window.confirm(
-                `You are about to leave student profile. Have you added notes?`
+                `Are you sure to leave this page without notes?`
             )
 
             if (!userConfirmed) {
@@ -356,14 +356,18 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                                               'portals/admin/student?tab=active&page=1&pageSize=50'
                                       )
                                     : role === 'subadmin'
-                                    ? setNotifModal(
-                                          <AddNoteNotificationModal
-                                              onCancel={() =>
-                                                  onCancelNotifModal()
-                                              }
-                                          />
+                                    ? router.push(
+                                          `/${getLink('subadmin-student')}` ||
+                                              '/portals/sub-admin/students?tab=all'
                                       )
-                                    : role === 'rto'
+                                    : //  setNotifModal(
+                                    //       <AddNoteNotificationModal
+                                    //           onCancel={() =>
+                                    //               onCancelNotifModal()
+                                    //           }
+                                    //       />
+                                    //   )
+                                    role === 'rto'
                                     ? router.push(
                                           'portals/rto/students?tab=active'
                                       )
