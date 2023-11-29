@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
-import { useNotification } from '@hooks'
+import { useContextBar, useNotification } from '@hooks'
 import { AuthApi, CommonApi } from '@queries'
 import { SignUpUtils, isEmailValid } from '@utils'
 
@@ -36,6 +36,8 @@ export const AddIndustry = ({
     onSetIndustryData: () => void
 }) => {
     const { notification } = useNotification()
+
+    const contextBar = useContextBar()
 
     const sectorResponse = AuthApi.useSectors({})
     const [addIndustry, addIndustryResult] =
@@ -89,6 +91,7 @@ export const AddIndustry = ({
                 'phone',
                 'address',
                 'website',
+                'status',
             ]
 
             let obj: any = {}
@@ -107,6 +110,7 @@ export const AddIndustry = ({
             setSelectedSector(
                 industryData?.sector?.map((sector: Sector) => sector?.id)
             )
+            setSelectedStatus(industryData?.status)
         }
     }, [industryData])
 
@@ -141,6 +145,9 @@ export const AddIndustry = ({
             })
             resetFormValues()
             onSetIndustryData()
+            contextBar.setContent(null)
+            contextBar.hide()
+            contextBar.setTitle('')
         }
     }, [updateResult])
 
