@@ -27,7 +27,7 @@ const links = [
     {
         text: 'Login',
         // url: "/login",
-        // url: 'https://www.skiltrak.com.au/login',
+        // url: 'https://www.skiltrak.com.au',
         url: '/auth/login',
         asButton: true,
         external: true,

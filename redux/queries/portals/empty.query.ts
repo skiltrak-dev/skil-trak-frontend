@@ -7,7 +7,6 @@ import { AuthUtils } from '@utils'
 const adminTagTypes = [
     'Blog',
     'Tags',
-    'BlogCategories',
     'SMS',
     'RPL',
     'Jobs',
@@ -27,6 +26,7 @@ const adminTagTypes = [
     'Industries',
     'Workplaces',
     'Subscribers',
+    'BlogCategories',
     'AppointmentTypes',
 ]
 
@@ -107,6 +107,7 @@ const commonTagTypes = [
     'BulkStatus',
     'MailsRecent',
     'Appointments',
+    'Impersonation',
     'BulkUsersDelete',
     'RecentActivities',
     'AllNotifications',
