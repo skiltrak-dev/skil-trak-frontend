@@ -37,6 +37,8 @@ import {
     DeleteFutureIndustryModal,
     DeleteMultiFutureIndustryModal,
 } from '../modal'
+import { useContextBar } from '@hooks'
+import { AddIndustry } from './AddIndustry'
 
 export const ActiveIndustries = ({
     onSetIndustryData,
@@ -47,6 +49,8 @@ export const ActiveIndustries = ({
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    const contextBar = useContextBar()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -118,6 +122,19 @@ export const ActiveIndustries = ({
         )
     }
 
+    const onEditIndustry = (industryData: any) => {
+        contextBar.setContent(
+            <AddIndustry
+                industryData={industryData}
+                onSetIndustryData={() => {
+                    onSetIndustryData(null)
+                }}
+            />
+        )
+        contextBar.show(false)
+        contextBar.setTitle('Edit Future Industry')
+    }
+
     const tableActionOptions = (industry: any) => {
         const stored = localStorage.setItem(
             'signup-data',
@@ -165,7 +182,9 @@ export const ActiveIndustries = ({
             {
                 text: 'Edit',
                 onClick: (futureIndustry: any) => {
-                    onSetIndustryData(futureIndustry)
+                    console.log({ futureIndustry })
+                    // onSetIndustryData(futureIndustry)
+                    onEditIndustry(futureIndustry)
                 },
                 Icon: BiPencil,
             },
