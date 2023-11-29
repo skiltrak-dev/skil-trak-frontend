@@ -38,7 +38,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
 
     const getLayout = Component.getLayout ?? ((page) => page)
 
-    console.clear()
+    // console.clear()
 
     return (
         <Provider store={store}>

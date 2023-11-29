@@ -2,6 +2,7 @@ import { allCommunicationEndpoints } from './allCommunication'
 import { appointmentsEndpoints } from './appointments'
 import { changeProfileImageEndpoints } from './changeProfileImage'
 import { coursesEndpoints } from './courses'
+import { impersonationEndpoints } from './impersonation'
 import { industriesEndpoints } from './industries'
 import { mailsEndpoints } from './mails'
 import { notesEndpoints } from './notes'
@@ -178,14 +179,15 @@ export const commonApi = emptySplitApi.injectEndpoints({
         ...mailsEndpoints(build),
         ...ticketEndpoints(build),
         ...coursesEndpoints(build),
-        ...agreementsEndpoints(build),
         ...industriesEndpoints(build),
+        ...agreementsEndpoints(build),
         ...appointmentsEndpoints(build),
         ...notificationsEndpoints(build),
+        ...findWorkplaceEndpoints(build),
+        ...impersonationEndpoints(build),
         ...allCommunicationEndpoints(build),
         ...changeProfileImageEndpoints(build),
         ...studentAssessmentGalleryEndpoints(build),
-        ...findWorkplaceEndpoints(build),
     }),
     // overrideExisting: true,
 })
@@ -328,6 +330,10 @@ const {
     useRemoveFutureIndustryMutation,
     useIndustriesStatusChangeMutation,
     useRemoveMultiFutureIndustryMutation,
+
+    // Impersonation
+    useImpersonationToggleMutation,
+    useAllowAsAdminMutation,
 } = commonApi
 
 export const CommonApi = {
@@ -480,5 +486,9 @@ export const CommonApi = {
         useIndustriesStatusChange: useIndustriesStatusChangeMutation,
         useRemoveFutureIndustryMutation: useRemoveFutureIndustryMutation,
         useRemoveMultiFutureIndustry: useRemoveMultiFutureIndustryMutation,
+    },
+    Impersonation: {
+        useImpersonationToggle: useImpersonationToggleMutation,
+        useAllowAsAdmin: useAllowAsAdminMutation,
     },
 }

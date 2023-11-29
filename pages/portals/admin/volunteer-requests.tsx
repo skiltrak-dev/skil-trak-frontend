@@ -24,6 +24,7 @@ import {
 import { useNavbar } from '@hooks'
 import { FaFileExport } from 'react-icons/fa'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
+import moment from 'moment'
 
 type Props = {}
 
@@ -58,7 +59,7 @@ const VolunteerRequests: NextPageWithLayout = (props: Props) => {
                 const {
                     phoneNumber,
                     user: { name, email, avatar },
-                } = info.row.original?.industry || {}
+                } = info?.row?.original?.industry || {}
                 return (
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
@@ -92,14 +93,22 @@ const VolunteerRequests: NextPageWithLayout = (props: Props) => {
             header: () => <span>Address</span>,
             accessorKey: 'industry.addressLine1',
             cell: (info) =>
-                `${info.row.original?.industry.addressLine1 || 'N/A'}, ${
-                    info.row.original?.industry.addressLine2 || ''
+                `${info?.row?.original?.industry?.addressLine1 || 'N/A'}, ${
+                    info?.row?.original?.industry?.addressLine2 || ''
                 }`,
         },
         {
             header: () => <span>Enrolled Students</span>,
             accessorKey: 'industry.enrolledStudents',
-            cell: (info) => info.getValue(),
+            cell: (info) => info?.getValue(),
+        },
+        {
+            header: () => <span>Created At</span>,
+            accessorKey: 'industry.addressLine1',
+            cell: (info) =>
+                ` ${moment(info?.row?.original?.industry?.createdAt).format(
+                    'Do MMMM, YYYY'
+                )}`,
         },
     ]
 
