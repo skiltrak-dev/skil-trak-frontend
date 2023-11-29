@@ -101,7 +101,7 @@ const Blogs: NextPageWithLayout = () => {
 
                             <div className="md:w-1/4 w-full">
                                 <Typography
-                                    variant="subtitle"
+                                    variant="title"
                                     color="text-gray-500"
                                 >
                                     Featured Blogs

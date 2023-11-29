@@ -15,7 +15,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { useActionModal, useContextBar } from '@hooks'
-import { AdminApi, commonApi } from '@queries'
+import { AdminApi, CommonApi, commonApi } from '@queries'
 import { Rto, SubAdmin, User, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
@@ -23,9 +23,11 @@ import { BsArchiveFill } from 'react-icons/bs'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
-import { ArchiveModal, BlockModal } from './modals'
+import { AllowAsAdminModal, ArchiveModal, BlockModal } from './modals'
 import { UserRoles } from '@constants'
 import { RtoCellInfo } from '../rto/components'
+import { MdAdminPanelSettings } from 'react-icons/md'
+import { getUserCredentials } from '@utils'
 
 export const ActiveSubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -76,6 +78,15 @@ export const ActiveSubAdmin = () => {
         )
     }
 
+    const onMakeAsAdminClicked = (subAdmin: SubAdmin) => {
+        setModal(
+            <AllowAsAdminModal
+                subAdmin={subAdmin}
+                setChangeStatusResult={setChangeStatusResult}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
     const onArchivedClicked = (subAdmin: SubAdmin) => {
         setModal(
             <ArchiveModal
@@ -91,58 +102,75 @@ export const ActiveSubAdmin = () => {
         contextBar.setTitle('Edit SubAdmin')
         contextBar.show()
     }
-
-    const tableActionOptions: TableActionOption[] = [
-        {
-            text: 'View',
-            onClick: (subAdmin: any) => {
-                router.push(
-                    `/portals/admin/sub-admin/${subAdmin?.id}?tab=notes`
-                )
+    const role = getUserCredentials()?.role
+    console.log('role', role)
+    const tableActionOptions = (subAdmin: any) => {
+        return [
+            {
+                text: 'View',
+                onClick: (subAdmin: any) => {
+                    router.push(
+                        `/portals/admin/sub-admin/${subAdmin?.id}?tab=notes`
+                    )
+                },
+                Icon: FaEye,
             },
-            Icon: FaEye,
-        },
-        {
-            text: 'Assign Courses',
-            onClick: (subAdmin: any) => {
-                contextBar.setTitle('Sectors & Courses')
-                contextBar.setContent(<ViewSectorsCB subAdmin={subAdmin} />)
-                contextBar.show()
+            {
+                text: 'Assign Courses',
+                onClick: (subAdmin: any) => {
+                    contextBar.setTitle('Sectors & Courses')
+                    contextBar.setContent(<ViewSectorsCB subAdmin={subAdmin} />)
+                    contextBar.show()
+                },
             },
-        },
-        {
-            text: 'Assign RTO',
-            onClick: (subAdmin: any) => {
-                contextBar.setTitle('Assigned RTOs')
-                contextBar.setContent(<ViewRtosCB subAdmin={subAdmin} />)
-                contextBar.show()
+            {
+                text: 'Assign RTO',
+                onClick: (subAdmin: any) => {
+                    contextBar.setTitle('Assigned RTOs')
+                    contextBar.setContent(<ViewRtosCB subAdmin={subAdmin} />)
+                    contextBar.show()
+                },
             },
-        },
-        {
-            text: 'Edit',
-            onClick: (subadmin: SubAdmin) => {
-                onEditSubAdmin(subadmin)
+            {
+                text: 'Edit',
+                onClick: (subadmin: SubAdmin) => {
+                    onEditSubAdmin(subadmin)
+                },
+                Icon: FaEdit,
             },
-            Icon: FaEdit,
-        },
-        {
-            text: 'View Password',
-            onClick: (subAdmin: SubAdmin) => onViewPassword(subAdmin),
-            Icon: RiLockPasswordFill,
-        },
-        {
-            text: 'Block',
-            onClick: (subAdmin: SubAdmin) => onBlockedClicked(subAdmin),
-            Icon: BsArchiveFill,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-        {
-            text: 'Archive',
-            onClick: (subAdmin: SubAdmin) => onArchivedClicked(subAdmin),
-            Icon: BsArchiveFill,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-    ]
+            {
+                text: 'View Password',
+                onClick: (subAdmin: SubAdmin) => onViewPassword(subAdmin),
+                Icon: RiLockPasswordFill,
+            },
+            {
+                ...(role === UserRoles.ADMIN
+                    ? {
+                          text: `${
+                              !subAdmin?.canAdmin
+                                  ? 'Allow as Admin'
+                                  : 'Remove As Admin'
+                          }`,
+                          onClick: (subAdmin: SubAdmin) =>
+                              onMakeAsAdminClicked(subAdmin),
+                          Icon: MdAdminPanelSettings,
+                      }
+                    : {}),
+            },
+            {
+                text: 'Block',
+                onClick: (subAdmin: SubAdmin) => onBlockedClicked(subAdmin),
+                Icon: BsArchiveFill,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+            {
+                text: 'Archive',
+                onClick: (subAdmin: SubAdmin) => onArchivedClicked(subAdmin),
+                Icon: BsArchiveFill,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+        ]
+    }
 
     const columns: ColumnDef<SubAdmin>[] = [
         {
@@ -207,9 +235,10 @@ export const ActiveSubAdmin = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info: any) => {
+                const actions = tableActionOptions(info?.row?.original)
                 return (
                     <TableAction
-                        options={tableActionOptions}
+                        options={actions}
                         rowItem={info.row.original}
                     />
                 )
