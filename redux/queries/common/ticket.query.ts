@@ -40,6 +40,14 @@ export const ticketEndpoints = (
         }),
         invalidatesTags: ['Tickets'],
     }),
+    forwardTicket: builder.mutation<any, { id: any; userId: any }>({
+        query: ({ id, userId }) => ({
+            url: `${PREFIX}/forward/${id}`,
+            params: { userId },
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Tickets'],
+    }),
     closeTicket: builder.mutation<any, { id: number; status: TicketStatus }>({
         query: ({ id, status }) => ({
             url: `${PREFIX}/update-status/${id}`,
