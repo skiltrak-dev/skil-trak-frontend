@@ -35,6 +35,7 @@ import {
 } from './modal'
 import { checkListLength } from '@utils'
 import Image from 'next/image'
+import { AddIndustry } from './tabs'
 
 export const FilteredSearchIndustries = ({
     industries,
@@ -109,6 +110,19 @@ export const FilteredSearchIndustries = ({
                 onCancel={onModalCancelClicked}
             />
         )
+    }
+
+    const onEditIndustry = (industryData: any) => {
+        contextBar.setContent(
+            <AddIndustry
+                industryData={industryData}
+                onSetIndustryData={() => {
+                    onSetIndustryData(null)
+                }}
+            />
+        )
+        contextBar.show(false)
+        contextBar.setTitle('Edit Future Industry')
     }
 
     // const tableActionOptions: TableActionOption[] = [
@@ -206,7 +220,7 @@ export const FilteredSearchIndustries = ({
             {
                 text: 'Edit',
                 onClick: (futureIndustry: any) => {
-                    onSetIndustryData(futureIndustry)
+                    onEditIndustry(futureIndustry)
                 },
                 Icon: BiPencil,
             },
