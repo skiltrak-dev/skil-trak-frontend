@@ -182,8 +182,6 @@ export const ActiveIndustries = ({
             {
                 text: 'Edit',
                 onClick: (futureIndustry: any) => {
-                    console.log({ futureIndustry })
-                    // onSetIndustryData(futureIndustry)
                     onEditIndustry(futureIndustry)
                 },
                 Icon: BiPencil,
