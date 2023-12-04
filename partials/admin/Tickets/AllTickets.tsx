@@ -82,6 +82,15 @@ export const AllTickets = () => {
             header: () => <span>Assigned To</span>,
         },
         {
+            accessorKey: 'course',
+            header: () => <span>Course</span>,
+            cell: (info) => (
+                <Typography variant="muted" capitalize>
+                    {info?.row?.original?.course?.title || 'N/A'}
+                </Typography>
+            ),
+        },
+        {
             accessorKey: 'priority',
             header: () => <span>Priority</span>,
             cell: (info) => (

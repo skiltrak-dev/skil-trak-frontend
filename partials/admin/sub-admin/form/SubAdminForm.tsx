@@ -203,8 +203,46 @@ export const SubAdminForm = ({
                         validationIcons
                         required
                     />
+                    <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                        <Select
+                            label={'RTOs'}
+                            name={'rtos'}
+                            options={rtosOptions}
+                            multi
+                            validationIcons
+                            onlyValue
+                        />
+                        <Select
+                            label={'Sector'}
+                            value={selectedSector}
+                            name={'sectors'}
+                            options={sectorOptions}
+                            placeholder={'Select Sectors...'}
+                            multi
+                            loading={sectorResponse.isLoading}
+                            disabled={sectorResponse.isLoading}
+                            onChange={onSectorChanged}
+                            validationIcons
+                        />
+                        <Select
+                            label={'Courses'}
+                            name={'courses'}
+                            defaultValue={courseOptions}
+                            options={courseOptions}
+                            multi
+                            loading={courseLoading}
+                            // components={{
+                            //     Option: CourseSelectOption,
+                            // }}
+                            disabled={courseOptions.length === 0}
+                            validationIcons
+                            onlyValue
+                        />
+                    </AuthorizedUserComponent>
 
-                    <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                    <AuthorizedUserComponent
+                        roles={[UserRoles.ADMIN] || [UserRoles.SUBADMIN]}
+                    >
                         <Select
                             label={'RTOs'}
                             name={'rtos'}

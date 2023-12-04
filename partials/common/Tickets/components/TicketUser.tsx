@@ -2,40 +2,72 @@ import { InitialAvatar, Typography } from '@components'
 import { UserRoles } from '@constants'
 import React from 'react'
 import { MdEmail, MdPhone } from 'react-icons/md'
+import { StatusEnum } from './TicketMessageCard'
 
 export const TicketUser = ({
     ticket,
     small,
+    forwarded,
 }: {
     ticket: any
     small?: boolean
+    forwarded?: any
 }) => {
+    // const forwardedLen = Object?.keys(forwarded).length
+    // console.log('Object.keys(forwarded).length', Object?.keys(forwarded)?.length)
     return (
         <div className="flex items-center gap-x-2">
             <div className="shadow-inner-image rounded-full">
-                {ticket?.name && (
+                {forwarded?.action === StatusEnum.FORWARDED &&
+                forwarded?.actionOn ? (
                     <InitialAvatar
-                        name={ticket?.name}
-                        imageUrl={ticket?.avatar}
+                        name={forwarded?.actionOn?.name}
+                        imageUrl={forwarded?.actionOn?.avatar}
                     />
+                ) : (
+                    ticket?.name && (
+                        <InitialAvatar
+                            name={ticket?.name}
+                            imageUrl={ticket?.avatar}
+                        />
+                    )
                 )}
             </div>
             <div>
                 <Typography variant={'label'}>
-                    {ticket?.role === UserRoles.ADMIN ? 'Admin' : ticket?.name}
+                    {forwarded?.action === StatusEnum.FORWARDED &&
+                    forwarded?.actionOn
+                        ? forwarded?.actionOn?.name
+                        : ticket?.role === UserRoles.ADMIN
+                        ? 'Admin'
+                        : ticket?.name}
                 </Typography>
                 {!small && (
                     <>
-                        <div className="font-medium text-xs text-gray-500">
-                            <p className="flex items-center gap-x-1">
-                                {ticket?.email && (
-                                    <span>
-                                        <MdEmail />
-                                    </span>
-                                )}
-                                {ticket?.email || 'N/A'}
-                            </p>
-                        </div>
+                        {forwarded?.action === StatusEnum.FORWARDED &&
+                        forwarded?.actionOn ? (
+                            <div className="font-medium text-xs text-gray-500">
+                                <p className="flex items-center gap-x-1">
+                                    {forwarded?.actionOn?.email && (
+                                        <span>
+                                            <MdEmail />
+                                        </span>
+                                    )}
+                                    {forwarded?.actionOn?.email}
+                                </p>
+                            </div>
+                        ) : (
+                            <div className="font-medium text-xs text-gray-500">
+                                <p className="flex items-center gap-x-1">
+                                    {ticket?.email && (
+                                        <span>
+                                            <MdEmail />
+                                        </span>
+                                    )}
+                                    {ticket?.email}
+                                </p>
+                            </div>
+                        )}
                         {ticket?.phone && (
                             <div className="font-medium text-xs text-gray-500">
                                 <p className="flex items-center gap-x-1">

@@ -4,6 +4,7 @@ import { QueryType, queryToUrl } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
+import { RiAdminLine } from 'react-icons/ri'
 
 export const SubAdminCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
     const router = useRouter()
@@ -31,7 +32,13 @@ export const SubAdminCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                     )}
                 </div>
                 <div>
-                    <p className="font-semibold">{subAdmin?.user?.name}</p>
+                    <div className="flex items-center gap-x-2">
+                        <p className="font-semibold">{subAdmin?.user?.name}</p>
+                        {subAdmin?.canAdmin && (
+                            <RiAdminLine className="text-red-500" size={18} />
+                        )}
+                    </div>
+
                     <div className="font-medium text-xs text-gray-500">
                         <p className="flex items-center gap-x-1">
                             <span>

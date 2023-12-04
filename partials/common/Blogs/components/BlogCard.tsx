@@ -3,13 +3,19 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-export const BlogCard = ({ title, date, content, featuredImage, id }: any) => {
+export const BlogCard = ({
+    title,
+    date,
+    content,
+    featuredImage,
+    id,
+    slug,
+    author
+}: any) => {
     const router = useRouter()
     return (
         <div className="bg-[#FFFCF7] rounded-xl shadow-md px-2 py-1.5 h-[390px]">
-            <Link
-                href={`blogs/${title.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase()}/${id}`}
-            >
+            <Link href={`blogs/${slug}`}>
                 <div className="h-[150px] relative overflow-hidden rounded-xl">
                     <Image
                         src={featuredImage}
@@ -23,7 +29,7 @@ export const BlogCard = ({ title, date, content, featuredImage, id }: any) => {
                 <div className="min-h-[130px] px-3 py-2">
                     <div className="flex items-center justify-between my-1">
                         <p className="text-[#DADADA] text-xs font-bold">
-                            Published
+                            Published by {author}
                         </p>
                         <p className="text-[#DADADA] text-xs">
                             {moment(date)?.format('Do MMM YYYY')}
