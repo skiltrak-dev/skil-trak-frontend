@@ -47,14 +47,7 @@ const Blogs: NextPageWithLayout = () => {
                         <div className="flex md:flex-row flex-col gap-y-5 md:gap-x-12 mb-10">
                             <div className="w-full md:w-3/4">
                                 <div className="bg-[#FFFCF7] rounded-xl shadow-md px-2 py-1.5 min-h-[720px]">
-                                    <Link
-                                        href={`blogs/${data?.data[0]?.title
-                                            .replace(/[^a-zA-Z0-9\s]/g, '')
-                                            .replace(/\s+/g, '-')
-                                            .toLowerCase()}/${
-                                            data?.data[0]?.id
-                                        }`}
-                                    >
+                                    <Link href={`blogs/${data?.data[0]?.slug}`}>
                                         <div className="relative md:h-[600px] h-[250px] rounded-xl overflow-hidden">
                                             <Image
                                                 src={
@@ -122,6 +115,7 @@ const Blogs: NextPageWithLayout = () => {
                                                         date={blog?.createdAt}
                                                         id={blog?.id}
                                                         author={blog?.author}
+                                                        slug={blog?.slug}
                                                     />
                                                 </div>
                                             ))}
@@ -147,6 +141,8 @@ const Blogs: NextPageWithLayout = () => {
                                             featuredImage={blog?.featuredImage}
                                             date={blog?.createdAt}
                                             id={blog.id}
+                                            slug={blog?.slug}
+                                            author={blog?.author}
                                         />
                                     </div>
                                 ))}

@@ -10,11 +10,12 @@ import { HeroSectionBlog } from '@partials/common/Blogs'
 
 const BlogDetail: NextPageWithLayout = () => {
     const router = useRouter()
-    const blogId = router.query.id as string
+    const blogId = router.query.slug as string
     const { data, isLoading, isFetching, isError } =
         adminApi.useGetBlogDetailQuery(blogId, {
             skip: !blogId,
         })
+    console.log('data', data)
     return (
         <div className="">
             <HeroSectionBlog />
@@ -34,7 +35,7 @@ const BlogDetail: NextPageWithLayout = () => {
                         </div>
                         <div className="flex items-center justify-between my-3">
                             <p className="text-[#DADADA] text-xs font-bold">
-                                Published
+                                Published by : {data?.author}
                             </p>
                             <p className="text-[#DADADA] text-xs">
                                 {moment(data?.createdAt).format('Do MMM YYYY')}

@@ -25,11 +25,11 @@ import { BlogContextBar } from '@partials/admin/blog'
 import { useRouter } from 'next/router'
 import { adminApi } from '@queries'
 // import { TextEditor } from '@partials'
-
+//  TODO ID REPLACED WITH SLUG
 const EditBlog: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const router = useRouter()
-    const blogId = router?.query?.id as string
+    const blogId = router?.query?.slug as string
     const TextEditor = dynamic(
         () => import('../../../../partials/admin/blog/EditTextEditor'),
         { ssr: false }

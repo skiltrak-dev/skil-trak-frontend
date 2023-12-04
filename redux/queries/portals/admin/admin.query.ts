@@ -102,7 +102,7 @@ export const adminApi = emptySplitApi.injectEndpoints({
         }),
         getBlogDetail: build.query<any, any>({
             query: (id) => ({
-                url: `blogs/${id}`,
+                url: `blogs/slug/${id}`,
             }),
             providesTags: ['Blog'],
         }),
