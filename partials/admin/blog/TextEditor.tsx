@@ -56,7 +56,6 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
         title: yup
             .string()
             .required('Title is required')
-            .matches(/^[^\d]+$/, 'Title cannot contain numbers')
             .matches(/^[\w\s!@#$%^&*()\-+=_{}|:"<>?,./;'[\]]{5,160}$/, {
                 message:
                     'Title must be between 5 and 160 characters and only contain special characters',
