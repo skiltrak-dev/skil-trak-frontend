@@ -10,11 +10,12 @@ export const MostRecentBlog = ({
     featuredImage,
     id,
     author,
+    slug,
 }: any) => {
     const router = useRouter()
     return (
         <div className="bg-[#FFFCF7] rounded-xl shadow-md px-2 py-1.5 h-[220px]">
-            <Link href={`blogs/${title.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase()}/${id}`} className="">
+            <Link href={`blogs/${slug}`} className="">
                 <div className="overflow-hidden relative rounded-xl h-[100px]">
                     <Image
                         src={featuredImage}

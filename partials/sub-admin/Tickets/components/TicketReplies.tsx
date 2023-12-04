@@ -1,9 +1,10 @@
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { useSocketListener } from '@hooks'
-import { TicketMessageCard } from '@partials/common/Tickets'
+import { StatusEnum, TicketMessageCard } from '@partials/common/Tickets'
 import { CommonApi } from '@queries'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { ActionCard } from './ActionCard'
 
 export const TicketReplies = ({ ticket }: { ticket: any }) => {
     const dispatch = useDispatch()
@@ -24,7 +25,7 @@ export const TicketReplies = ({ ticket }: { ticket: any }) => {
     useEffect(() => {
         seenReply(ticket?.id)
     }, [])
-
+    console.log('replies', replies)
     return (
         <>
             {replies.isError && <TechnicalError />}
@@ -32,18 +33,31 @@ export const TicketReplies = ({ ticket }: { ticket: any }) => {
                 <LoadingAnimation height={'h-[50vh]'} />
             ) : replies?.data && replies.isSuccess ? (
                 <>
-                    <div className="flex flex-col gap-y-4 mt-4 ">
+                    <div className="flex flex-col gap-y-2 mt-4 ">
                         {replies?.data?.map((response: any) => (
-                            <TicketMessageCard
-                                key={response?.id}
-                                message={response}
-                            />
+                            <>
+                                <TicketMessageCard
+                                    key={response?.id}
+                                    message={response}
+                                    ticketDetail={ticket}
+                                />
+                                {response?.action !== null &&
+                                    response?.action?.action ===
+                                        StatusEnum.FORWARDED && (
+                                        <>
+                                            <ActionCard
+                                                action={response?.action}
+                                            />
+                                        </>
+                                    )}
+                            </>
                         ))}
                         <TicketMessageCard
                             message={{
                                 ...ticket,
                                 author: ticket?.createdBy,
                             }}
+                            ticketDetail={ticket}
                         />
                     </div>
                 </>

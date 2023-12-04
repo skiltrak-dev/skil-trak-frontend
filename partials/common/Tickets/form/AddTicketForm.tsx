@@ -10,7 +10,7 @@ import React from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { AdminApi, SubAdminApi } from '@queries'
+import { AdminApi, AuthApi, SubAdminApi } from '@queries'
 import { getUserCredentials } from '@utils'
 import { OptionType } from '@types'
 
@@ -31,6 +31,16 @@ export const AddTicketForm = ({
     students: any
     subadmins: any
 }) => {
+    const sectorResponse = AuthApi.useSectors({})
+
+    const courses = sectorResponse?.data
+        ?.map((sector: any) => {
+            return sector?.courses?.map((course: any) => {
+                return course
+            })
+        })
+        .flat()
+    console.log('courses', courses)
     const validationSchema = yup.object({
         assignedTo: yup.number().required('Must provide Assign To'),
         subject: yup.string().required('Must provide Subject'),
@@ -65,6 +75,12 @@ export const AddTicketForm = ({
         label: subAdmin?.user?.name,
         value: subAdmin?.user?.id,
     }))
+
+    const courseOptions = courses?.map((opt: any) => ({
+        label: opt?.title,
+        value: opt?.id,
+    }))
+
     return (
         <div>
             <Card>
@@ -88,6 +104,15 @@ export const AddTicketForm = ({
                                 onlyValue
                                 loading={students.isLoading}
                                 disabled={students?.isLoading}
+                            />
+                            <Select
+                                label={'Select Course'}
+                                name={'course'}
+                                placeholder={'Select Course'}
+                                options={courseOptions}
+                                onlyValue
+                                loading={sectorResponse.isLoading}
+                                disabled={sectorResponse?.isLoading}
                             />
                             <Select
                                 label={'Priority'}

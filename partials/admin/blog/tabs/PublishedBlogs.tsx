@@ -49,14 +49,14 @@ export const PublishedBlogs = () => {
         {
             text: 'View',
             onClick: (blog: any) => {
-                router.push(`https://skiltrak.com.au/blogs/${blog?.title}/${blog?.id}`)
+                router.push(`https://skiltrak.com.au/blogs/${blog?.slug}`)
             },
             Icon: FaEye,
         },
         {
             text: 'Edit',
             onClick: (blog: any) => {
-                router.push(`/portals/admin/blogs/${blog?.id}`)
+                router.push(`/portals/admin/blogs/${blog?.slug}`)
             },
             Icon: FaEdit,
         },

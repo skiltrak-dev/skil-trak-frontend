@@ -13,7 +13,7 @@ import {
     TechnicalError,
     draftToHtmlText,
 } from '@components'
-import { useNavbar, useNotification } from '@hooks'
+import { useContextBar, useNavbar, useNotification } from '@hooks'
 import { ReplyTicketForm } from '@partials/common/Tickets'
 import {
     TicketDetailHeaderCard,
@@ -26,6 +26,7 @@ import { CloseTicketModal, TicketReplies } from '@partials/admin/Tickets'
 import { TicketStatus } from '../index'
 
 const Tickets: NextPageWithLayout = () => {
+    const contextBar = useContextBar()
     const { setTitle } = useNavbar()
     const router = useRouter()
     const { notification } = useNotification()
@@ -54,6 +55,21 @@ const Tickets: NextPageWithLayout = () => {
         ticketDetail?.data?.status === TicketStatus.OPEN ||
         ticketDetail?.data?.status === TicketStatus.REOPENED
 
+        useEffect(() => {
+            contextBar.setContent(
+                <TicketDetailHeaderCard
+                    ticket={ticketDetail?.data}
+                    isOpened={isOpened}
+                />
+            )
+            contextBar.show(false)
+            contextBar.setTitle('Ticket Info')
+            return () => {
+                contextBar.setContent(null)
+                contextBar.hide()
+            }
+        }, [ticketDetail?.data])
+
     return (
         <>
             <ShowErrorNotifications result={addReplyResult} />
@@ -64,12 +80,12 @@ const Tickets: NextPageWithLayout = () => {
                 ) : ticketDetail?.data && ticketDetail.isSuccess ? (
                     <>
                         <div className="h-[calc(100vh-320px)] overflow-auto custom-scrollbar">
-                            <div className="sticky top-0 z-20">
+                            {/* <div className="sticky top-0 z-20">
                                 <TicketDetailHeaderCard
                                     ticket={ticketDetail?.data}
                                     isOpened={isOpened}
                                 />
-                            </div>
+                            </div> */}
 
                             <TicketReplies ticket={ticketDetail?.data} />
                         </div>
