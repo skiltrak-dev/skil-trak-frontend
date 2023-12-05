@@ -71,13 +71,14 @@ export const ReportListModal = ({
 
     const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const dateValue = e.target.value.trim()
-        setEndDate(moment(dateValue).add(1, 'days').format('YYYY-MM-DD'))
+        setEndDate(moment(dateValue).format('YYYY-MM-DD'))
     }
     const handleDownloadPDF = () => {
         setIsPdfDownload(true)
     }
 
-    console.log('user:::::', user)
+    console.log('Start Date', startDate)
+    console.log('End Date', endDate)
 
     return (
         <>

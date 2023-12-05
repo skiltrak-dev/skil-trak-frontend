@@ -54,7 +54,6 @@ export const StudentResultsReport = ({
             },
             { skip: !renderComponent }
         )
-    console.log('dataaaa results', data)
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,
