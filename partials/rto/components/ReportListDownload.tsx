@@ -35,6 +35,7 @@ export const ReportListDownload = ({
     const [showDropDown, setShowDropDown] = useState(false)
     const [isPdfDownload, setIsPdfDownload] = useState<boolean>(false)
     let end = new Date(endDate)
+
     // end.setDate(end.getDate() + 1)
 
     const [filterReports, setFilterReports] = useState({
@@ -95,7 +96,8 @@ export const ReportListDownload = ({
     //     const dateValue = e.target.value.trim()
     //     setEndDate(dateValue)
     // }
-
+    // console.log('start Date', reportStart)
+    // console.log('end Date', reportEnd)
     return (
         <>
             <ShowErrorNotifications result={downloadAsPdf} />

@@ -77,9 +77,20 @@ export const StudentCellInfo = ({
             </div>
             <div>
                 <div className="flex items-center gap-x-2">
-                    <p className="flex items-center gap-x-1 text-xs">
-                        {student?.studentId}
-                    </p>
+                    <div className="flex items-center gap-x-2">
+                        <p
+                            className={
+                                'whitespace-nowrap text-xs text-gray-500'
+                            }
+                        >
+                            {student?.studentId}
+                        </p>
+                        {student?.isHighPriority && (
+                            <div className="rounded-md whitespace-nowrap px-1 py-0.5 border border-red-400 text-red-400 text-xs font-medium">
+                                High Priority
+                            </div>
+                        )}
+                    </div>
                     {call &&
                         isDateExist &&
                         (callLog.isAnswered ? (

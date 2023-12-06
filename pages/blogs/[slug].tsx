@@ -3,7 +3,7 @@ import { NextPageWithLayout } from '@types'
 import { ReactElement } from 'react'
 import { adminApi } from '@queries'
 import { useRouter } from 'next/router'
-import { LoadingAnimation, NoData } from '@components'
+import { LoadingAnimation, NoData, TechnicalError } from '@components'
 import Image from 'next/image'
 import moment from 'moment'
 import { HeroSectionBlog } from '@partials/common/Blogs'
@@ -20,6 +20,7 @@ const BlogDetail: NextPageWithLayout = () => {
         <div className="">
             <HeroSectionBlog />
             <div className="md:p-10 p-0 mt-8 md:mt-0 mx-auto max-w-7xl">
+                {isError && <TechnicalError />}
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data ? (

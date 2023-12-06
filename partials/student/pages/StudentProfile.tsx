@@ -50,6 +50,7 @@ import { AddNoteNotificationModal } from '@partials/sub-admin/students/modals'
 import { IoIosArrowRoundBack } from 'react-icons/io'
 
 export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
+    const [refetchStudent, setRefetchStudent] = useState(false)
     const contextBar = useContextBar()
     const router = useRouter()
     const { id } = router.query
@@ -107,6 +108,12 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
         SubAdminApi.Student.useNotContactable()
     const { passwordModal, onViewPassword } = useActionModal()
 
+    useEffect(() => {
+        if (refetchStudent) {
+            refetch()
+            setRefetchStudent(false)
+        }
+    }, [data])
     // hooks
     const navBar = useNavbar()
     const {
@@ -201,7 +208,11 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
         if (isSuccess && data) {
             navBar.setSubTitle(data?.user?.name)
             contextBar.show(false)
-            contextBar.setContent(<SubAdminStudentProfile student={data} />)
+            contextBar.setContent(
+                <SubAdminStudentProfile
+                    student={data}
+                />
+            )
         }
         // setNotifModal(
         //     <AddNoteNotificationModal onCancel={() => onCancelNotifModal()} />

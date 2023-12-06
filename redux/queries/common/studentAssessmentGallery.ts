@@ -22,4 +22,18 @@ export const studentAssessmentGalleryEndpoints = (
         query: (id) => `shared/student/file/view/${id}`,
         providesTags: ['RTO'],
     }),
+    makeAsHighPriority: builder.mutation<any, any>({
+        query: (id: any) => ({
+            url: `shared/high-priority/${id}`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: [
+            'Students',
+            'HighPriority',
+            'SubAdminStudents',
+            'SubAdminWorkplace',
+            'SubAdminStudents',
+            'SubAdminStudents',
+        ],
+    }),
 })

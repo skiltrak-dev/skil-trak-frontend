@@ -29,7 +29,7 @@ import {
 } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
-import { MdBlock } from 'react-icons/md'
+import { MdBlock, MdPriorityHigh } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
 import { SectorCell, StudentCellInfo } from './components'
@@ -38,6 +38,7 @@ import {
     BlockModal,
     BlockMultiStudentsModal,
     ChangeStatusModal,
+    HighPriorityModal,
 } from './modals'
 
 // hooks
@@ -48,7 +49,7 @@ import moment from 'moment'
 export const ApprovedStudent = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
-
+    const [refetchStudents, setRefetchStudents] = useState(false)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const listingRef = useRef<any>(null)
@@ -101,6 +102,12 @@ export const ApprovedStudent = () => {
             { refetchOnMountOrArgChange: true }
         )
 
+    useEffect(() => {
+        if (refetchStudents) {
+            refetch()
+        }
+    }, [refetchStudents, data])
+
     const onModalCancelClicked = useCallback(() => {
         setModal(null)
     }, [])
@@ -120,6 +127,15 @@ export const ApprovedStudent = () => {
     const onArchiveClicked = (student: Student) => {
         setModal(
             <ArchiveModal item={student} onCancel={onModalCancelClicked} />
+        )
+    }
+    const onMarkAsHighPriorityClicked = (studetnt: Student) => {
+        setModal(
+            <HighPriorityModal
+                item={studetnt}
+                onCancel={onModalCancelClicked}
+                // setRefetchStudents={setRefetchStudents}
+            />
         )
     }
 
@@ -162,54 +178,65 @@ export const ApprovedStudent = () => {
         dateObjects.push(dateObject)
     }
 
-    const tableActionOptions: TableActionOption[] = [
-        {
-            text: 'View',
-            onClick: (student: any) => {
-                router.push(
-                    `/portals/admin/student/${student?.id}?tab=overview`
-                )
-                setLink('student', router)
+    const tableActionOptions = (student: any) => {
+        return [
+            {
+                text: 'View',
+                onClick: (student: any) => {
+                    router.push(
+                        `/portals/admin/student/${student?.id}?tab=overview`
+                    )
+                    setLink('student', router)
+                },
+                Icon: FaEye,
             },
-            Icon: FaEye,
-        },
-        {
-            text: 'Edit',
-            onClick: (student: Student) => {
-                router.push(
-                    `/portals/admin/student/edit-student/${student?.id}`
-                )
+            {
+                text: 'Edit',
+                onClick: (student: Student) => {
+                    router.push(
+                        `/portals/admin/student/edit-student/${student?.id}`
+                    )
+                },
+                Icon: FaEdit,
             },
-            Icon: FaEdit,
-        },
-        {
-            text: 'Change Status',
-            onClick: (student: Student) => onChangeStatus(student),
-            Icon: FaEdit,
-        },
-        {
-            text: 'Change Expiry',
-            onClick: (student: Student) => onDateClick(student),
-            Icon: FaEdit,
-        },
-        {
-            text: 'View Password',
-            onClick: (student: Student) => onViewPassword(student),
-            Icon: RiLockPasswordFill,
-        },
-        {
-            text: 'Block',
-            onClick: (student: Student) => onBlockClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-        {
-            text: 'Archive',
-            onClick: (student: Student) => onArchiveClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-400 hover:bg-red-100 hover:border-red-200',
-        },
-    ]
+            {
+                text: 'Change Status',
+                onClick: (student: Student) => onChangeStatus(student),
+                Icon: FaEdit,
+            },
+            {
+                text: 'Change Expiry',
+                onClick: (student: Student) => onDateClick(student),
+                Icon: FaEdit,
+            },
+            {
+                text: 'View Password',
+                onClick: (student: Student) => onViewPassword(student),
+                Icon: RiLockPasswordFill,
+            },
+            {
+                text: 'Block',
+                onClick: (student: Student) => onBlockClicked(student),
+                Icon: MdBlock,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+            {
+                text: student?.isHighPriority
+                    ? 'Remove Mark High Priority'
+                    : 'Mark High Priority',
+                onClick: (student: Student) =>
+                    onMarkAsHighPriorityClicked(student),
+                Icon: MdPriorityHigh,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+            {
+                text: 'Archive',
+                onClick: (student: Student) => onArchiveClicked(student),
+                Icon: MdBlock,
+                color: 'text-red-400 hover:bg-red-100 hover:border-red-200',
+            },
+        ]
+    }
 
     const columns: ColumnDef<StudentSubAdmin>[] = [
         {
@@ -299,13 +326,13 @@ export const ApprovedStudent = () => {
                 const length = checkListLength<StudentSubAdmin>(
                     data?.data as StudentSubAdmin[]
                 )
-
+                const tableActionOption = tableActionOptions(info?.row?.original)
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original}
-                            lastIndex={length.includes(info.row?.index)}
+                            options={tableActionOption}
+                            rowItem={info?.row?.original}
+                            lastIndex={length.includes(info?.row?.index)}
                         />
                     </div>
                 )

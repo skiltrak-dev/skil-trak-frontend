@@ -239,7 +239,7 @@ export const RTOReports = ({
                         user={Number(user?.id)}
                         startDate={startDate}
                         setStartDate={setStartDate}
-                        endDate={end}
+                        endDate={endDate}
                         setEndDate={setEndDate}
                     />
                     <Button

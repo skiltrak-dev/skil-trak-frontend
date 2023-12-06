@@ -24,12 +24,13 @@ import { useActionModal, useJoyRide, useScrollIntoView } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
-import { MdBlock } from 'react-icons/md'
+import { MdBlock, MdPriorityHigh } from 'react-icons/md'
 import {
     AddToNonContactableStudents,
     AssignStudentModal,
     BlockModal,
     ChangeStudentStatusModal,
+    HighPriorityModal,
 } from './modals'
 
 import { EditTimer } from '@components/StudentTimer/EditTimer'
@@ -130,7 +131,7 @@ export const AllStudents = () => {
         if (refetchStudents) {
             refetch()
         }
-    }, [refetchStudents])
+    }, [refetchStudents,data])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -175,6 +176,15 @@ export const AllStudents = () => {
 
     const onBlockClicked = (student: Student) => {
         setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
+    }
+    const onMarkAsHighPriorityClicked = (studetnt: Student) => {
+        setModal(
+            <HighPriorityModal
+                item={studetnt}
+                onCancel={onModalCancelClicked}
+                // setRefetchStudents={setRefetchStudents}
+            />
+        )
     }
 
     const onInterviewClicked = (student: Student) => {
@@ -237,6 +247,15 @@ export const AllStudents = () => {
                 text: 'Block',
                 onClick: (student: Student) => onBlockClicked(student),
                 Icon: MdBlock,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+            {
+                text: student?.isHighPriority
+                    ? 'Remove Mark High Priority'
+                    : 'Mark High Priority',
+                onClick: (student: Student) =>
+                    onMarkAsHighPriorityClicked(student),
+                Icon: MdPriorityHigh,
                 color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
             },
             {

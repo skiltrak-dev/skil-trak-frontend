@@ -29,7 +29,7 @@ export const StudentCellInfo = forwardRef(
         const createdAt = moment(callLog?.createdAt, 'YYYY-MM-DD')
 
         const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
-
+        console.log('student', student)
         return (
             <div
                 ref={ref}
@@ -64,9 +64,16 @@ export const StudentCellInfo = forwardRef(
                     >
                         <div className="flex items-center gap-x-2">
                             <div className="flex items-center gap-x-2">
-                                <p className={'text-xs text-gray-500'}>
-                                    {student?.studentId}
-                                </p>
+                                <div className="flex items-center gap-x-2">
+                                    <p className={'whitespace-nowrap text-xs text-gray-500'}>
+                                        {student?.studentId}
+                                    </p>
+                                    {student?.isHighPriority && (
+                                        <div className="rounded-md whitespace-nowrap px-1 py-0.5 border border-red-400 text-red-400 text-xs font-medium">
+                                            High Priority
+                                        </div>
+                                    )}
+                                </div>
                                 {call &&
                                     isDateExist &&
                                     (callLog.isAnswered ? (

@@ -18,14 +18,16 @@ import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 import { Tooltip } from '@components/Tooltip'
 import { UserCreatedAt } from '@components/UserCreatedAt'
 import { StudentAvatar } from '@components/avatars'
-import { ActionButton } from '@components/buttons'
+import { ActionButton, Button } from '@components/buttons'
 import { CallLogsModal } from '@partials/sub-admin/students/modals'
-import { SubAdminApi } from '@queries'
+import { CommonApi, SubAdminApi } from '@queries'
 import { ellipsisText, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
 import { IoMdEye } from 'react-icons/io'
 import { StudentStatus } from './StudentStatus'
+import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
+import { UserRoles } from '@constants'
 
 const getGender = (gender: string | undefined) => {
     if (!gender) return 'N/A'
@@ -33,12 +35,20 @@ const getGender = (gender: string | undefined) => {
     if (gender.toLocaleLowerCase() === 'm') return 'Male'
     if (gender.toLocaleLowerCase() === 'f') return 'Female'
 }
-export const SubAdminStudentProfile = ({ student }: { student: any }) => {
+export const SubAdminStudentProfile = ({
+    student,
+    setRefetchStudent,
+}: {
+    student: any
+    setRefetchStudent?: any
+}) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
     const router = useRouter()
     const { notification } = useNotification()
     const { passwordModal, onUpdatePassword } = useActionModal()
     const [callLog, callLogResult] = SubAdminApi.Student.useStudentCallLog()
+    const [makeAsHighPriority, makeAsHighPriorityResult] =
+        CommonApi.StudentAssessmentFiles.useMakeAsHighPriority()
 
     const role = getUserCredentials()?.role
 
@@ -50,7 +60,21 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
     //         })
     //     }
     // }, [resultCalledStudent])
+    useEffect(() => {
+        if (makeAsHighPriorityResult.isSuccess) {
+            notification.success({
+                title: student.isHighPriority
+                    ? 'Remove Mark As High Priority'
+                    : 'Mark As High Priority',
+                description: student.isHighPriority
+                    ? `Removed Marked ${student?.studentId} As High Priority`
+                    : `Marked ${student?.studentId} As High Priority`,
+            })
+        }
 
+    }, [makeAsHighPriorityResult])
+
+    // useEffect
     useEffect(() => {
         if (callLogResult.isSuccess) {
             notification.success({
@@ -323,7 +347,40 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
                 id={student?.user?.id}
                 currentStatus={student?.studentStatus}
             />
-
+            <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                <div className="mt-2">
+                    <Button
+                        text={
+                            student?.isHighPriority
+                                ? 'Remove Mark As High Priority'
+                                : 'Mark As High Priority'
+                        }
+                        variant={student?.isHighPriority ? 'success' : 'error'}
+                        onClick={() => {
+                            makeAsHighPriority(student?.id)
+                        }}
+                        loading={makeAsHighPriorityResult?.isLoading}
+                        disabled={makeAsHighPriorityResult?.isLoading}
+                    />
+                </div>
+            </AuthorizedUserComponent>
+            <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                <div className="mt-2">
+                    <Button
+                        text={
+                            student?.isHighPriority
+                                ? 'Remove Mark As High Priority'
+                                : 'Mark As High Priority'
+                        }
+                        variant={student?.isHighPriority ? 'success' : 'error'}
+                        onClick={() => {
+                            makeAsHighPriority(student?.id)
+                        }}
+                        loading={makeAsHighPriorityResult?.isLoading}
+                        disabled={makeAsHighPriorityResult?.isLoading}
+                    />
+                </div>
+            </AuthorizedUserComponent>
             {/* Sector & Courses */}
             {/* <div className="mt-4">
         <Typography variant={'small'} color={'text-gray-500'}>
