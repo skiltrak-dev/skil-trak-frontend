@@ -104,7 +104,7 @@ export const CompletedWorkplaceReport = ({
             },
         },
     ]
-    const count = data?.pagination?.totalResult
+    const count = data?.length
 
     const handleEnter = () => {
         setRenderComponent(true)
@@ -173,8 +173,8 @@ export const CompletedWorkplaceReport = ({
                     {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : data?.data && data?.data?.length ? (
-                        <Table columns={columns} data={data?.data}>
+                    ) : data && data?.length ? (
+                        <Table columns={columns} data={data}>
                             {({
                                 table,
                                 pagination,
