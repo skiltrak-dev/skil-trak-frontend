@@ -41,11 +41,11 @@ export const ClosedTickets = () => {
                 router.push(`/portals/sub-admin/tickets/detail/${ticket?.id}`),
             Icon: AiFillCloseCircle,
         },
-        {
-            text: 'Delete',
-            onClick: () => {},
-            Icon: AiFillDelete,
-        },
+        // {
+        //     text: 'Delete',
+        //     onClick: () => {},
+        //     Icon: AiFillDelete,
+        // },
     ]
     const columns: ColumnDef<any>[] = [
         {
