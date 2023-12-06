@@ -24,10 +24,11 @@ import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useGetSubAdminMyStudentsQuery } from '@queries'
 import { Student } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
-import { MdBlock } from 'react-icons/md'
+import { MdBlock, MdPriorityHigh } from 'react-icons/md'
 import {
     AddToNonContactableStudents,
     BlockModal,
+    HighPriorityModal,
     UnAssignStudentModal,
 } from './modals'
 
@@ -50,7 +51,7 @@ export const MyStudents = () => {
     const router = useRouter()
     const userId = getUserCredentials()?.id
     const [modal, setModal] = useState<ReactElement | null>(null)
-
+    const [refetchStudents, setRefetchStudents] = useState(false)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
@@ -62,11 +63,17 @@ export const MyStudents = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, isFetching, data, isError } =
+    const { isLoading, isFetching, data, isError, refetch } =
         useGetSubAdminMyStudentsQuery({
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
+
+    useEffect(() => {
+        if (refetchStudents) {
+            refetch()
+        }
+    }, [refetchStudents, data])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -90,6 +97,15 @@ export const MyStudents = () => {
             <AddToNonContactableStudents
                 student={student}
                 onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+    const onMarkAsHighPriorityClicked = (studetnt: Student) => {
+        setModal(
+            <HighPriorityModal
+                item={studetnt}
+                onCancel={onModalCancelClicked}
+                // setRefetchStudents={setRefetchStudents}
             />
         )
     }
@@ -129,6 +145,15 @@ export const MyStudents = () => {
                 text: 'Block',
                 onClick: (student: Student) => onBlockClicked(student),
                 Icon: MdBlock,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+            {
+                text: student?.isHighPriority
+                    ? 'Remove Mark High Priority'
+                    : 'Mark High Priority',
+                onClick: (student: Student) =>
+                    onMarkAsHighPriorityClicked(student),
+                Icon: MdPriorityHigh,
                 color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
             },
         ]

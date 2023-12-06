@@ -320,6 +320,7 @@ const {
     useGalleryFileViewDetailQuery,
     useGetAllRtoGalleryStudentsQuery,
     useGetAllStudentAssessmentFilesQuery,
+    useMakeAsHighPriorityMutation, 
 
     // ----- FIND WORKPLACE ----- //
     useAddIndustryMutation,
@@ -477,6 +478,7 @@ export const CommonApi = {
         useGalleryFileViewDetail: useGalleryFileViewDetailQuery,
         useGetAllRtoGalleryStudents: useGetAllRtoGalleryStudentsQuery,
         useAllStudentAssessmentFiles: useGetAllStudentAssessmentFilesQuery,
+        useMakeAsHighPriority: useMakeAsHighPriorityMutation,
     },
     FindWorkplace: {
         useAddIndustry: useAddIndustryMutation,

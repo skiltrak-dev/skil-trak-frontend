@@ -10,7 +10,13 @@ import {
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import moment from 'moment'
-import { LoadingAnimation, NoData, Paginate, Typography } from '@components'
+import {
+    LoadingAnimation,
+    NoData,
+    Paginate,
+    TechnicalError,
+    Typography,
+} from '@components'
 import Link from 'next/link'
 
 const Blogs: NextPageWithLayout = () => {
@@ -40,6 +46,7 @@ const Blogs: NextPageWithLayout = () => {
         <>
             <HeroSectionBlog />
             <div className="container mx-auto mt-24 md:px-0 px-4">
+                {isError && <TechnicalError />}
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data?.data && data?.data?.length ? (
@@ -82,7 +89,7 @@ const Blogs: NextPageWithLayout = () => {
                                                         __html:
                                                             data?.data[0]?.content.substr(
                                                                 0,
-                                                                760
+                                                                380
                                                             ) + '...',
                                                     }}
                                                 />
@@ -156,9 +163,9 @@ const Blogs: NextPageWithLayout = () => {
             <div className="py-4 px-10">
                 {data?.data && data.data.length > 0 && (
                     <div className="flex items-center justify-end gap-x-4">
-                        <span className="text-gray-600 text-sm">
-                            results({data?.data?.length})
-                        </span>
+                        {/* <span className="text-gray-600 text-sm">
+                            Total Blogs({data?.data?.length})
+                        </span> */}
                         <Paginate
                             data={data?.data}
                             itemsPerPage={6}

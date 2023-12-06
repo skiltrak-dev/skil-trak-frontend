@@ -80,6 +80,7 @@ const industryTagTypes = [
 const studentTagTypes = [
     'Workplace',
     'StudentJobs',
+    'HighPriority',
     'StudentCourses',
     'StudentProfile',
     'StudentSchedule',
@@ -87,6 +88,7 @@ const studentTagTypes = [
     'StudentAppointments',
     'StudentAssessmentEvidence',
     'StudentAssessmentEvidence',
+
 ]
 
 const commonTagTypes = [

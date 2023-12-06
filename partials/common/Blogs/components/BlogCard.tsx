@@ -40,7 +40,7 @@ export const BlogCard = ({
                     <div
                         className="break-all block mr-6 text-gray-400 text-sm"
                         dangerouslySetInnerHTML={{
-                            __html: content?.substr(0, 200) + '...',
+                            __html: content?.substr(0, 80) + '...',
                         }}
                     />
                 </div>
