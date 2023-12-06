@@ -25,7 +25,6 @@ export const TicketReplies = ({ ticket }: { ticket: any }) => {
     useEffect(() => {
         seenReply(ticket?.id)
     }, [])
-    console.log('replies', replies)
     return (
         <>
             {replies.isError && <TechnicalError />}

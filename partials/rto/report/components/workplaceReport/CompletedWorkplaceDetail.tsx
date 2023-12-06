@@ -65,7 +65,7 @@ export const CompletedWorkplaceDetail = ({ rtoUser }: Props) => {
             ),
         },
     ]
-    const count = data?.pagination?.totalResult
+    const count = data?.length
     return (
         <>
             <div className="flex justify-between">
@@ -79,8 +79,8 @@ export const CompletedWorkplaceDetail = ({ rtoUser }: Props) => {
             {isError && <TechnicalError />}
             {isLoading ? (
                 <LoadingAnimation height="h-[60vh]" />
-            ) : data?.data && data?.data?.length ? (
-                <Table columns={columns} data={data?.data}>
+            ) : data && data?.length ? (
+                <Table columns={columns} data={data}>
                     {({ table, pagination, pageSize, quickActions }: any) => {
                         return (
                             <div>

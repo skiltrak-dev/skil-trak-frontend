@@ -142,7 +142,7 @@ export const AppointmentsReport = ({
             header: () => <span>Date</span>,
         },
     ]
-    const count = data?.pagination?.totalResult
+    const count = data?.length
     const handleEnter = () => {
         setRenderComponent(true)
     }
@@ -206,8 +206,8 @@ export const AppointmentsReport = ({
                 {isError && <TechnicalError />}
                 {isLoading ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : data?.data && data?.data?.length ? (
-                    <Table columns={columns} data={data?.data}>
+                ) : data && data?.length ? (
+                    <Table columns={columns} data={data}>
                         {({
                             table,
                             pagination,

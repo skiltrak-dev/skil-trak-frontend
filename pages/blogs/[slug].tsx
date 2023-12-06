@@ -35,10 +35,10 @@ const BlogDetail: NextPageWithLayout = () => {
                             />
                         </div>
                         <div className="flex items-center justify-between my-3">
-                            <p className="text-[#DADADA] text-xs font-bold">
+                            <p className="text-slate-400 text-xs font-bold">
                                 Published by : {data?.author}
                             </p>
-                            <p className="text-[#DADADA] text-xs">
+                            <p className="text-slate-400 text-xs">
                                 {moment(data?.createdAt).format('Do MMM YYYY')}
                             </p>
                         </div>
