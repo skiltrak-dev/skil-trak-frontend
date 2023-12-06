@@ -2,7 +2,11 @@ import React, { useEffect } from 'react'
 import { CommonApi } from '@queries'
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { useSocketListener } from '@hooks'
-import { TicketMessageCard } from '@partials/common/Tickets/components/TicketMessageCard'
+import {
+    StatusEnum,
+    TicketMessageCard,
+} from '@partials/common/Tickets/components/TicketMessageCard'
+import { ActionCard } from '@partials/sub-admin/Tickets'
 
 export const TicketReplies = ({ ticket }: { ticket: any }) => {
     const { eventListener } = useSocketListener()
@@ -31,10 +35,22 @@ export const TicketReplies = ({ ticket }: { ticket: any }) => {
                 <>
                     <div className="flex flex-col gap-y-4 mt-4 ">
                         {replies?.data?.map((response: any) => (
-                            <TicketMessageCard
-                                key={response?.id}
-                                message={response}
-                            />
+                            <>
+                                <TicketMessageCard
+                                    key={response?.id}
+                                    message={response}
+                                    ticketDetail={ticket}
+                                />
+                                {response?.action !== null &&
+                                    response?.action?.action ===
+                                        StatusEnum.FORWARDED && (
+                                        <>
+                                            <ActionCard
+                                                action={response?.action}
+                                            />
+                                        </>
+                                    )}
+                            </>
                         ))}
                         <TicketMessageCard
                             message={{

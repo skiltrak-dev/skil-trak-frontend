@@ -99,6 +99,26 @@ export const commonApi = emptySplitApi.injectEndpoints({
             }),
             providesTags: ['RecentActivities'],
         }),
+        getSubAdminActivitiesAsAdmin: build.query<
+            any,
+            {
+                search?: string
+                currentDate?: number
+                startDate?: string
+                endDate?: string
+                last7days?: any
+                skip?: number
+                limit?: number
+                // coordinator?: number
+                // objectId?: number
+            }
+        >({
+            query: (params) => ({
+                url: `activity-logger/list`,
+                params,
+            }),
+            providesTags: ['RecentActivities'],
+        }),
 
         perFormAcivityOnLogout: build.mutation<
             any,
@@ -281,6 +301,7 @@ const {
     useBulkStatusMutation,
     // ------ Recent Activities ------ //
     useGetRecentActivitiesQuery,
+    useGetSubAdminActivitiesAsAdminQuery,
     useGetRecentActivitiesCountQuery,
     useGetIndustryRecentActivitiesQuery,
 
@@ -320,7 +341,7 @@ const {
     useGalleryFileViewDetailQuery,
     useGetAllRtoGalleryStudentsQuery,
     useGetAllStudentAssessmentFilesQuery,
-    useMakeAsHighPriorityMutation, 
+    useMakeAsHighPriorityMutation,
 
     // ----- FIND WORKPLACE ----- //
     useAddIndustryMutation,
@@ -444,6 +465,7 @@ export const CommonApi = {
     },
     RecentActivities: {
         useRecentActivities: useGetRecentActivitiesQuery,
+        useSubAdminActivitiesAsAdmin: useGetSubAdminActivitiesAsAdminQuery,
         useRecentActivitiesCount: useGetRecentActivitiesCountQuery,
         useIndustryRecentActivities: useGetIndustryRecentActivitiesQuery,
     },
