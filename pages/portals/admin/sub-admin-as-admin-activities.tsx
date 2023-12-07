@@ -6,14 +6,16 @@ import {
     TechnicalError,
 } from '@components'
 import { FigureCard } from '@components/sections/subAdmin'
+import { AdminLayout } from '@layouts'
 import { HistoryDates, HistoryFilters } from '@partials/common'
 import { CommonApi } from '@queries'
+import { NextPageWithLayout } from '@types'
 import { getCommonDates, removeEmptyValues } from '@utils'
 import moment from 'moment'
 import { FilterType } from 'pages/portals/sub-admin/history'
-import React, { useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 
-export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
+const SubAdminAsAdminActivities: NextPageWithLayout = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [isCustomRange, setIsCustomRange] = useState<boolean>(false)
@@ -31,7 +33,7 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
     const [targetStr, setTargetStr] = useState<string>('')
 
     const { data, isError, isLoading, isFetching } =
-        CommonApi.RecentActivities.useRecentActivities(
+        CommonApi.RecentActivities.useSubAdminActivitiesAsAdmin(
             {
                 ...(filterType === FilterType.Today
                     ? { currentDate: 1 }
@@ -50,44 +52,46 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
                     .replaceAll('}', '')
                     .replaceAll('"', '')
                     .trim()}`,
-                coordinator: subadmin,
+                // coordinator: subadmin,
             },
             {
                 refetchOnMountOrArgChange: true,
             }
         )
 
-    const count = CommonApi.RecentActivities.useRecentActivitiesCount(
-        {
-            ...(filterType === FilterType.Today
-                ? { currentDate: 1 }
-                : filterType === FilterType.Range
-                ? {
-                      startDate: moment(customRangeDate?.startDate)
-                          .add(1, 'days')
-                          ?.toISOString(),
-                      endDate: moment(customRangeDate?.endDate)
-                          .add(1, 'days')
-                          ?.toISOString(),
-                  }
-                : filterType === FilterType['7Days']
-                ? { last7days: undefined }
-                : ''),
-            user: subadmin,
-        },
-        {
-            skip:
-                filterType === FilterType.Range &&
-                (!customRangeDate?.startDate || !customRangeDate?.endDate),
-            refetchOnMountOrArgChange: true,
-        }
-    )
+    console.log('subadmin as history:::::', data)
+
+    // const count = CommonApi.RecentActivities.useRecentActivitiesCount(
+    //     {
+    //         ...(filterType === FilterType.Today
+    //             ? { currentDate: 1 }
+    //             : filterType === FilterType.Range
+    //             ? {
+    //                   startDate: moment(customRangeDate?.startDate)
+    //                       .add(1, 'days')
+    //                       ?.toISOString(),
+    //                   endDate: moment(customRangeDate?.endDate)
+    //                       .add(1, 'days')
+    //                       ?.toISOString(),
+    //               }
+    //             : filterType === FilterType['7Days']
+    //             ? { last7days: undefined }
+    //             : ''),
+    //         user: subadmin,
+    //     },
+    //     {
+    //         skip:
+    //             filterType === FilterType.Range &&
+    //             (!customRangeDate?.startDate || !customRangeDate?.endDate),
+    //         refetchOnMountOrArgChange: true,
+    //     }
+    // )
 
     const dates = getCommonDates(data?.data)
     return (
-        <div>
+        <div className="px-10 py-5">
             <div className="flex justify-between items-center">
-                <PageTitle title={'History'} />
+                <PageTitle title={'SubAdmin As Admin Activities'} />
                 <HistoryFilters
                     filterType={filterType}
                     isCustomRange={isCustomRange}
@@ -99,12 +103,12 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
                 />
             </div>
 
-            {count.isError && (
+            {/* {count.isError && (
                 <NoData
                     text={'There is some technical issue in history count'}
                 />
-            )}
-            {count.isLoading ? (
+            )} */}
+            {/* {count.isLoading ? (
                 <LoadingAnimation size={60} />
             ) : (
                 count.isSuccess && (
@@ -116,7 +120,7 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
                             title={'Calls Made to Students'}
                             imageUrl={'/images/history/call-made.png'}
                             onClick={() => {
-                                setTargetStr('call made to  student')
+                                setTarget('call made to  student')
                             }}
                         />
                         <FigureCard
@@ -124,7 +128,7 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
                             title={'Calls Made to Industry'}
                             imageUrl={'/images/history/industry-call.png'}
                             onClick={() => {
-                                setTargetStr('call made to  industry')
+                                setTarget('call made to  industry')
                             }}
                         />
                         <FigureCard
@@ -132,7 +136,7 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
                             title={'Notes Added'}
                             imageUrl={'/images/history/notes-added.png'}
                             onClick={() => {
-                                setTargetStr('Note Added for')
+                                setTarget('Note Added for')
                             }}
                         />
                         <FigureCard
@@ -140,12 +144,12 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
                             title={'Student Profile Viewed'}
                             imageUrl={'/images/history/student-profile.png'}
                             onClick={() => {
-                                setTargetStr(' Profile Viewed')
+                                setTarget(' Profile Viewed')
                             }}
                         />
                     </div>
                 )
-            )}
+            )} */}
 
             {isError && <TechnicalError />}
             {isLoading || isFetching ? (
@@ -155,7 +159,7 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
                     <HistoryDates
                         history={data?.data}
                         date={date}
-                        subadmin={subadmin}
+                        // subadmin={subadmin}
                         customRangeDate={customRangeDate}
                         filterType={filterType}
                     />
@@ -173,3 +177,8 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
         </div>
     )
 }
+
+SubAdminAsAdminActivities.getLayout = (page: ReactElement) => {
+    return <AdminLayout>{page}</AdminLayout>
+}
+export default SubAdminAsAdminActivities

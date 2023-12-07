@@ -36,7 +36,7 @@ export const MostRecentBlog = ({
 
                 <h1 className="font-bold uppercase mb-1.5">{title}</h1>
                 <div
-                    className="break-all block mr-6 text-gray-400 text-xs"
+                    className="break-keep block mr-6 text-gray-400 text-xs"
                     dangerouslySetInnerHTML={{
                         __html: content.substr(0, 10) + '...',
                     }}

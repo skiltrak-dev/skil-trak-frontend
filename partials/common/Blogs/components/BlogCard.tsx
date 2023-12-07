@@ -38,7 +38,7 @@ export const BlogCard = ({
 
                     <h1 className="font-bold uppercase mb-1.5">{title}</h1>
                     <div
-                        className="break-all block mr-6 text-gray-400 text-sm"
+                        className="break-keep block mr-6 text-gray-400 text-sm"
                         dangerouslySetInnerHTML={{
                             __html: content?.substr(0, 80) + '...',
                         }}
