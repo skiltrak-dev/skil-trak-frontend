@@ -10,7 +10,7 @@ export const BlogCard = ({
     featuredImage,
     id,
     slug,
-    author
+    author,
 }: any) => {
     const router = useRouter()
     return (
@@ -38,7 +38,7 @@ export const BlogCard = ({
 
                     <h1 className="font-bold uppercase mb-1.5">{title}</h1>
                     <div
-                        className="break-keep block mr-6 text-gray-400 text-sm"
+                        className="blog-content block mr-6 text-gray-400 text-sm"
                         dangerouslySetInnerHTML={{
                             __html: content?.substr(0, 80) + '...',
                         }}

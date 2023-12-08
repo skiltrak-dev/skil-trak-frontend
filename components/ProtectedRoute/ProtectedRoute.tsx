@@ -21,7 +21,7 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
     const updatedRoute =
         assessRole === 'sub-admin' ? UserRoles.SUBADMIN : assessRole
     useEffect(() => {
-        const isAdmin = subadmin?.data?.isAdmin;
+        const isAdmin = subadmin?.data?.isAdmin
         if (role === UserRoles.SUBADMIN) {
             if (subadmin?.data && subadmin.isSuccess) {
                 if (!authenticated) {
@@ -30,7 +30,7 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
                 }
                 // else if (subadmin.isLoading || subadmin.isFetching) {
                 if (isAdmin) {
-                    if (!router.pathname.split("/").includes("admin")) {
+                    if (!router.pathname.split('/').includes('admin')) {
                         setAuthorized(true)
                         router.push('/portals/admin')
                     } else {
@@ -39,11 +39,10 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
                     }
                     // }
                 } else if (!isAdmin) {
-                    if (!router.pathname.split("/").includes("sub-admin")) {
+                    if (!router.pathname.split('/').includes('sub-admin')) {
                         setAuthorized(true)
                         router.push('/portals/sub-admin')
                     } else {
-                        
                         setAuthorized(true)
                     }
 

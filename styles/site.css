@@ -576,3 +576,7 @@ img {
     display: flex;
     justify-content: center;
   }
+
+.blog-content p{
+    word-break: keep-all;
+}
