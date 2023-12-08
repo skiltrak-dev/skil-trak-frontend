@@ -105,10 +105,10 @@ export const StudentStatusProgressCell = ({
                 <p
                     className={`${currentStatus?.color} text-xs font-semibold whitespace-nowrap`}
                 >
-                    {currentStatus.status}
+                    {currentStatus?.status}
                 </p>
                 <p className="text-[11px] text-gray-400 whitespace-nowrap">
-                    {currentStatus.description}
+                    {currentStatus?.description || 'N/A'}
                 </p>
                 {currentStatus?.date && (
                     <Typography>

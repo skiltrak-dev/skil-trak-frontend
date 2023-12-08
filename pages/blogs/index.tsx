@@ -84,7 +84,7 @@ const Blogs: NextPageWithLayout = () => {
                                                     {data?.data[0]?.title}
                                                 </h1>
                                                 <div
-                                                    className="break-keep block mr-6 text-gray-400 text-sm"
+                                                    className="blog-content block mr-6 text-gray-400 text-sm"
                                                     dangerouslySetInnerHTML={{
                                                         __html:
                                                             data?.data[0]?.content.substr(

@@ -59,7 +59,6 @@ const SubAdminAsAdminActivities: NextPageWithLayout = () => {
             }
         )
 
-    console.log('subadmin as history:::::', data)
 
     // const count = CommonApi.RecentActivities.useRecentActivitiesCount(
     //     {
