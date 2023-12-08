@@ -47,7 +47,7 @@ const BlogDetail: NextPageWithLayout = () => {
                             {data?.title}
                         </h1>
                         <div
-                            className="break-keep block text-sm md:text-normal mr-0 md:mr-6 text-gray-600 leading-6"
+                            className="blog-content block text-sm md:text-normal mr-0 md:mr-6 text-gray-600 leading-6"
                             dangerouslySetInnerHTML={{
                                 __html: data?.content,
                             }}

@@ -23,6 +23,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { DeleteModal, RequirementModal } from '../modals'
 import { IndustryCell } from '@partials/admin/industry/components'
+import moment from 'moment'
 
 export const Jobs = () => {
     const router = useRouter()
@@ -176,7 +177,14 @@ export const Jobs = () => {
                 )
             },
         },
-
+        {
+            header: () => <span>Created At</span>,
+            accessorKey: 'industry.addressLine1',
+            cell: (info) =>
+                ` ${moment(info?.row?.original?.industry?.createdAt).format(
+                    'Do MMMM, YYYY'
+                )}`,
+        },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
