@@ -25,6 +25,7 @@ import {
     MdSubscriptions,
     MdVolunteerActivism,
     MdFindInPage,
+    MdHistory,
 } from 'react-icons/md'
 import { RiShieldUserFill, RiVoiceRecognitionLine } from 'react-icons/ri'
 import { MdNotificationsActive, MdEmail } from 'react-icons/md'
@@ -143,6 +144,12 @@ const routes: Route[] = [
         path: getRoutePath('/tickets?tab=my-open-tickets'),
         Icon: BsFillTicketDetailedFill,
     },
+    {
+        text: 'Sub-Admin As Admin Activities',
+        path: getRoutePath('/sub-admin-as-admin-activities'),
+        Icon: MdHistory,
+    },
+    // sub-admin-as-admin-activities
     {
         type: 'divider',
     },

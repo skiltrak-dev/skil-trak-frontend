@@ -55,52 +55,100 @@ export const RTOReports = ({
         setModal(null)
     }
 
+    // const dates = () => {
+    //     const currentDate = new Date() // Current date
+    //     const maxWeeks = 20
+    //     const dateObjects = []
+
+    //     if (createdAt) {
+    //         // Calculate the difference in weeks
+    //         const weeksDifference = Math.floor(
+    //             (currentDate.getTime() - new Date(createdAt).getTime()) /
+    //                 (7 * 24 * 60 * 60 * 1000)
+    //         )
+
+    //         // Determine the number of weeks to generate, capped at 20 weeks
+    //         const numberOfWeeks = Math.min(weeksDifference, maxWeeks)
+
+    //         for (let i = 0; i < numberOfWeeks; i++) {
+    //             const startDate = new Date(currentDate)
+    //             startDate.setDate(startDate.getDate() - i * 7) // Decrement by a week
+
+    //             const endDate = new Date(startDate)
+    //             endDate.setDate(endDate.getDate() + 6) // End of the week
+
+    //             const dateObject = {
+    //                 startDate: startDate.toISOString().slice(0, 10), // Format as YYYY-MM-DD
+    //                 endDatee: endDate.toISOString().slice(0, 10),
+    //                 // createdAt: createdAt.toISOString().slice(0, 10),
+    //             }
+
+    //             dateObjects.push(dateObject)
+    //         }
+    //     } else {
+    //         // If createdAt is not provided, generate 20 weeks of dates starting from the current date
+    //         for (let i = 0; i < maxWeeks; i++) {
+    //             const startDate = new Date(currentDate)
+    //             startDate.setDate(startDate.getDate() - i * 7) // Decrement by a week
+
+    //             const endDate = new Date(startDate)
+    //             endDate.setDate(endDate.getDate() + 6) // End of the week
+
+    //             const dateObject = {
+    //                 startDate: startDate.toISOString().slice(0, 10), // Format as YYYY-MM-DD
+    //                 endDatee: endDate.toISOString().slice(0, 10),
+    //             }
+
+    //             dateObjects.push(dateObject)
+    //         }
+    //     }
+
+    //     return dateObjects.reverse() // Reverse the array to start from the current date
+    // }
+
     const dates = () => {
         const currentDate = new Date() // Current date
         const maxWeeks = 20
         const dateObjects = []
 
-        if (createdAt) {
-            // Calculate the difference in weeks
-            const weeksDifference = Math.floor(
-                (currentDate.getTime() - new Date(createdAt).getTime()) /
-                    (7 * 24 * 60 * 60 * 1000)
+        // Function to get the start of the week (Monday)
+        const getStartOfWeek = (date: Date) => {
+            const dayOfWeek = date.getDay()
+            const difference = dayOfWeek === 1 ? 0 : dayOfWeek === 0 ? 6 : 1 // Adjust for Sunday
+            return new Date(
+                date.getFullYear(),
+                date.getMonth(),
+                date.getDate() - difference
             )
+        }
 
-            // Determine the number of weeks to generate, capped at 20 weeks
-            const numberOfWeeks = Math.min(weeksDifference, maxWeeks)
+        // Calculate the start of the current week (Monday)
+        const startOfWeek = getStartOfWeek(currentDate)
 
-            for (let i = 0; i < numberOfWeeks; i++) {
-                const startDate = new Date(currentDate)
-                startDate.setDate(startDate.getDate() - i * 7) // Decrement by a week
+        // Calculate the difference in weeks
+        const weeksDifference = createdAt
+            ? Math.floor(
+                  (currentDate.getTime() - new Date(createdAt).getTime()) /
+                      (7 * 24 * 60 * 60 * 1000)
+              )
+            : 0
 
-                const endDate = new Date(startDate)
-                endDate.setDate(endDate.getDate() + 6) // End of the week
+        // Determine the number of weeks to generate, capped at 20 weeks
+        const numberOfWeeks = Math.min(weeksDifference, maxWeeks)
 
-                const dateObject = {
-                    startDate: startDate.toISOString().slice(0, 10), // Format as YYYY-MM-DD
-                    endDatee: endDate.toISOString().slice(0, 10),
-                    // createdAt: createdAt.toISOString().slice(0, 10),
-                }
+        for (let i = 0; i < numberOfWeeks; i++) {
+            const startDate = new Date(startOfWeek)
+            startDate.setDate(startDate.getDate() - i * 7) // Decrement by a week
 
-                dateObjects.push(dateObject)
+            const endDate = new Date(startDate)
+            endDate.setDate(endDate.getDate() + 6) // End of the week (Sunday)
+
+            const dateObject = {
+                startDate: startDate.toISOString().slice(0, 10), // Format as YYYY-MM-DD
+                endDatee: endDate.toISOString().slice(0, 10),
             }
-        } else {
-            // If createdAt is not provided, generate 20 weeks of dates starting from the current date
-            for (let i = 0; i < maxWeeks; i++) {
-                const startDate = new Date(currentDate)
-                startDate.setDate(startDate.getDate() - i * 7) // Decrement by a week
 
-                const endDate = new Date(startDate)
-                endDate.setDate(endDate.getDate() + 6) // End of the week
-
-                const dateObject = {
-                    startDate: startDate.toISOString().slice(0, 10), // Format as YYYY-MM-DD
-                    endDatee: endDate.toISOString().slice(0, 10),
-                }
-
-                dateObjects.push(dateObject)
-            }
+            dateObjects.push(dateObject)
         }
 
         return dateObjects.reverse() // Reverse the array to start from the current date
