@@ -109,7 +109,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
                 last7days?: any
                 skip?: number
                 limit?: number
-                // coordinator?: number
+                coordinator?: any
                 // objectId?: number
             }
         >({
