@@ -260,6 +260,7 @@ const {
 
     // ------ SUB ADMINS ------ //
     useSubAdminsQuery,
+    useSubAdminAsAdminListQuery,
     useViewSummaryQuery,
     useSubAdminCountQuery,
     useSubAdminProfileQuery,
@@ -386,6 +387,7 @@ export const AdminApi = {
 
     SubAdmins: {
         useListQuery: useSubAdminsQuery,
+        useSubAdminAsAdminList: useSubAdminAsAdminListQuery,
         useCountQuery: useSubAdminCountQuery,
         useProfileCount: useSubAdminProfileCountQuery,
         createSubAmin: useCreateSubAdminMutation,

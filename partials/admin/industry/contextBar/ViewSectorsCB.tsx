@@ -83,6 +83,7 @@ export const ViewSectorsCB = ({ industry }: { industry: Industry }) => {
         }
     }, [unassignCourseResult])
 
+    console.log('courses', courses)
     return (
         <div className="flex flex-col gap-y-6">
             <div>

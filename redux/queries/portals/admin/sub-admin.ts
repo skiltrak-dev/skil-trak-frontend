@@ -46,7 +46,12 @@ export const subAdminEndpoints = (
         }),
         providesTags: ['SubAdmins'],
     }),
-
+    subAdminAsAdminList: builder.query<any, void>({
+        query: () => ({
+            url: `${PREFIX}/can-admin/list`,
+        }),
+        providesTags: ['SubAdmins'],
+    }),
     subAdminProfile: builder.query<SubAdmin, number>({
         query: (id) => `${PREFIX}/subadmin/profile/${id}`,
         providesTags: ['SubAdmins'],
