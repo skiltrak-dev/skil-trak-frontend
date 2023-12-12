@@ -19,6 +19,6 @@ export interface Job extends BaseResponse {
     salaryFrom: number
     salaryTo: number
     expiry: number
-    status: number
+    status: any
     industry: Industry
 }

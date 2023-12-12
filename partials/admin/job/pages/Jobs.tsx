@@ -45,7 +45,8 @@ export const Jobs = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-
+    const filterJobs = data?.data?.filter((job) => job?.status === 'pending')
+    console.log('filterJobs', filterJobs)
     const onModalCancelClicked = () => {
         setModal(null)
     }
@@ -181,7 +182,7 @@ export const Jobs = () => {
             header: () => <span>Created At</span>,
             accessorKey: 'industry.addressLine1',
             cell: (info) =>
-                ` ${moment(info?.row?.original?.industry?.createdAt).format(
+                ` ${moment(info?.row?.original?.createdAt).format(
                     'Do MMMM, YYYY'
                 )}`,
         },
@@ -226,7 +227,7 @@ export const Jobs = () => {
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading title={'Jobs'} subtitle={'List of All Jobs'}>
                     {/* {filterAction} */}
-                    {data && data?.data.length ? (
+                    {filterJobs && filterJobs?.length ? (
                         <Button
                             text="Export"
                             variant="action"
@@ -246,10 +247,10 @@ export const Jobs = () => {
                     {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : data && data?.data.length ? (
+                    ) : filterJobs &&filterJobs.length ? (
                         <Table
                             columns={columns}
-                            data={data.data}
+                            data={filterJobs}
                             quickActions={quickActionsElements}
                             enableRowSelection
                         >

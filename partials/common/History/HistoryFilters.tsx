@@ -1,4 +1,4 @@
-import { Badge, Button, Card, TextInput, Typography } from '@components'
+import { Badge, Button, Card, Select, TextInput, Typography } from '@components'
 import moment from 'moment'
 import React, { useCallback } from 'react'
 import OutsideClickHandler from 'react-outside-click-handler'
@@ -7,6 +7,8 @@ import Calendar from 'react-calendar'
 import { FilterType } from 'pages/portals/sub-admin/history'
 import { debounce } from 'lodash'
 import { BiFilterAlt } from 'react-icons/bi'
+import { AdminApi } from '@queries'
+import { useRouter } from 'next/router'
 
 export const HistoryFilters = ({
     filterType,
@@ -16,6 +18,7 @@ export const HistoryFilters = ({
     setIsCustomRange,
     setSearchedValue,
     setCustomRangeDate,
+    setSubAdminId,
 }: {
     filterType: any
     isCustomRange: any
@@ -23,6 +26,7 @@ export const HistoryFilters = ({
     customRangeDate: any
     setIsCustomRange: any
     setSearchedValue: any
+    setSubAdminId?: any
     setCustomRangeDate: ({
         startDate,
         endDate,
@@ -31,10 +35,18 @@ export const HistoryFilters = ({
         endDate: Date
     }) => void
 }) => {
+    const router = useRouter()
     const delayedSearch = useCallback(
         debounce((value) => setSearchedValue(value), 700),
         []
     )
+    const { data, isLoading, isError } =
+        AdminApi.SubAdmins.useSubAdminAsAdminList()
+    const subAdminOptions = data?.map((subAdmin: any) => ({
+        label: subAdmin?.user?.name,
+        value: subAdmin?.user?.id,
+    }))
+    
     return (
         <div className="flex items-start gap-x-2">
             <TextInput
@@ -42,6 +54,24 @@ export const HistoryFilters = ({
                 placeholder={'Search History...'}
                 onChange={(e: any) => delayedSearch(e.target.value)}
             />
+            {router.pathname ===
+                '/portals/admin/sub-admin-as-admin-activities' && (
+                <div className="w-full">
+                    <Select
+                        // label={'Filter By Sub Admin'}
+                        name={'subAdmin'}
+                        placeholder={'Filter Subadmin...'}
+                        options={subAdminOptions}
+                        // value={subAdminId}
+                        // loading={isLoading}
+                        // disabled={isLoading}
+                        onChange={(e: any) => {
+                            setSubAdminId(e)
+                        }}
+                        onlyValue
+                    />
+                </div>
+            )}
 
             <Typography>
                 <span className="font-semibold whitespace-pre mt-1.5 block">

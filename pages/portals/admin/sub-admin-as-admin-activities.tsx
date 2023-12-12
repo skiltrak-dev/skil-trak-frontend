@@ -22,6 +22,7 @@ const SubAdminAsAdminActivities: NextPageWithLayout = () => {
     const [filterType, setFilterType] = useState<FilterType>(
         FilterType['7Days']
     )
+    const [subAdminId, setSubAdminId] = useState('')
     const [customRangeDate, setCustomRangeDate] = useState<{
         startDate: Date | null
         endDate: Date | null
@@ -46,19 +47,23 @@ const SubAdminAsAdminActivities: NextPageWithLayout = () => {
                     ? { last7days: undefined }
                     : ''),
                 search: `${JSON.stringify(
-                    removeEmptyValues({ targetStr, target: searchedValue })
+                    removeEmptyValues({
+                        targetStr,
+                        target: searchedValue,
+                    })
                 )
                     .replaceAll('{', '')
                     .replaceAll('}', '')
                     .replaceAll('"', '')
                     .trim()}`,
-                // coordinator: subadmin,
+                coordinator: subAdminId,
             },
             {
                 refetchOnMountOrArgChange: true,
             }
         )
 
+    console.log('subAdminId', subAdminId)
 
     // const count = CommonApi.RecentActivities.useRecentActivitiesCount(
     //     {
@@ -99,6 +104,7 @@ const SubAdminAsAdminActivities: NextPageWithLayout = () => {
                     setSearchedValue={setSearchedValue}
                     setIsCustomRange={setIsCustomRange}
                     setCustomRangeDate={setCustomRangeDate}
+                    setSubAdminId={setSubAdminId}
                 />
             </div>
 
@@ -155,13 +161,15 @@ const SubAdminAsAdminActivities: NextPageWithLayout = () => {
                 <LoadingAnimation />
             ) : data?.data && data?.data?.length > 0 ? (
                 dates?.map((date: Date, i: number) => (
-                    <HistoryDates
-                        history={data?.data}
-                        date={date}
-                        // subadmin={subadmin}
-                        customRangeDate={customRangeDate}
-                        filterType={filterType}
-                    />
+                    <div key={i}>
+                        <HistoryDates
+                            history={data?.data}
+                            date={date}
+                            // subadmin={subadmin}
+                            customRangeDate={customRangeDate}
+                            filterType={filterType}
+                        />
+                    </div>
                 ))
             ) : (
                 !isError && (
