@@ -78,6 +78,14 @@ const StudentList: NextPageWithLayout = () => {
         contextBar.hide()
     }, [])
 
+    useEffect(() => {
+        const getScrollId = sessionStorage.getItem('scrollId')
+        router.push({
+            pathname: router.pathname,
+            query: { ...router.query, scrollId: getScrollId },
+        })
+    }, [])
+
     const tabs: TabProps[] = [
         {
             label: 'Pending',

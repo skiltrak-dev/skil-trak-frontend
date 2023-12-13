@@ -39,9 +39,8 @@ const Blogs: NextPageWithLayout = () => {
     const filterPublishedBlogs = currentItems.filter(
         (item: any) => item.isPublished === true && !item.isFeatured
     )
-    console.log('filterPublishedBlogs', filterPublishedBlogs)
 
-    // useGetBlogDetailQuery
+
     return (
         <>
             <HeroSectionBlog />
