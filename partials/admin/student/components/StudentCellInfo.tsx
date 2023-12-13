@@ -2,7 +2,7 @@ import { InitialAvatar } from '@components'
 import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary'
 import { useScrollIntoView } from '@hooks'
 import { Student } from '@types'
-import { AuthUtils, QueryType, queryToUrl, setLink } from '@utils'
+import { AuthUtils, QueryType, isBrowser, queryToUrl, setLink } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -52,78 +52,93 @@ export const StudentCellInfo = ({
     const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
 
     return (
-        <div
-            onClick={() => {
-                router.push({
-                    pathname: router.pathname,
-                    query: { ...router.query, scrollId: student?.studentId },
-                }) // First router.push is using for the save the full url in session storage to access when go back from detail page to list page
-                setLink('student', router)
-                router.push(
-                    `/portals/admin/student/${student?.id}?tab=overview`
-                ) // Secound Router.push is using for the navigating to detail page
-            }}
-            className="flex items-center gap-x-2 cursor-pointer"
+        // <div
+        //     onClick={() => {
+        //         router.push({
+        //             pathname: router.pathname,
+        //             query: { ...router.query, scrollId: student?.studentId },
+        //         }) // First router.push is using for the save the full url in session storage to access when go back from detail page to list page
+        //         setLink('student', router)
+        //         router.push(
+        //             /portals/admin/student/${student?.id}?tab=overview
+        //         ) // Secound Router.push is using for the navigating to detail page
+        //     }}
+        //     className="flex items-center gap-x-2 cursor-pointer"
+        // >
+        <Link
+            legacyBehavior
+            href={`/portals/admin/student/${student?.id}?tab=overview`}
         >
-            <div className="" id={student?.studentId}>
-                <ErrorBoundary>
-                    {student?.user?.name && (
-                        <InitialAvatar
-                            name={student?.user?.name}
-                            imageUrl={student?.user?.avatar}
-                        />
-                    )}
-                </ErrorBoundary>
-            </div>
-            <div>
-                <div className="flex items-center gap-x-2">
-                    <div className="flex items-center gap-x-2">
-                        <p
-                            className={
-                                'whitespace-nowrap text-xs text-gray-500'
-                            }
-                        >
-                            {student?.studentId}
-                        </p>
-                        {student?.isHighPriority && (
-                            <div className="rounded-md whitespace-nowrap px-1 py-0.5 border border-red-400 text-red-400 text-xs font-medium">
-                                High Priority
-                            </div>
+            <a
+                onClick={() => {
+                    setLink('student', router)
+                    if (isBrowser()) {
+                        sessionStorage.setItem('scrollId', student?.studentId)
+                    }
+                    console.log('Saad')
+                }}
+                className="flex items-center gap-x-2 cursor-pointer"
+            >
+                <div className="" id={student?.studentId}>
+                    <ErrorBoundary>
+                        {student?.user?.name && (
+                            <InitialAvatar
+                                name={student?.user?.name}
+                                imageUrl={student?.user?.avatar}
+                            />
                         )}
+                    </ErrorBoundary>
+                </div>
+                <div>
+                    <div className="flex items-center gap-x-2">
+                        <div className="flex items-center gap-x-2">
+                            <p
+                                className={
+                                    'whitespace-nowrap text-xs text-gray-500'
+                                }
+                            >
+                                {student?.studentId}
+                            </p>
+                            {student?.isHighPriority && (
+                                <div className="rounded-md whitespace-nowrap px-1 py-0.5 border border-red-400 text-red-400 text-xs font-medium">
+                                    High Priority
+                                </div>
+                            )}
+                        </div>
+                        {call &&
+                            isDateExist &&
+                            (callLog.isAnswered ? (
+                                <div className="rounded-full bg-success p-0.5">
+                                    <ImPhone
+                                        title={'Call Made and Answered'}
+                                        className="text-white text-[10px]"
+                                    />
+                                </div>
+                            ) : callLog.isAnswered === false ? (
+                                <div className="rounded-full bg-red-700 p-0.5">
+                                    <ImPhoneHangUp
+                                        title={'Call Made and Not Answered'}
+                                        className="text-white text-[10px]"
+                                    />
+                                </div>
+                            ) : null)}
                     </div>
-                    {call &&
-                        isDateExist &&
-                        (callLog.isAnswered ? (
-                            <div className="rounded-full bg-success p-0.5">
-                                <ImPhone
-                                    title={'Call Made and Answered'}
-                                    className="text-white text-[10px]"
-                                />
-                            </div>
-                        ) : callLog.isAnswered === false ? (
-                            <div className="rounded-full bg-red-700 p-0.5">
-                                <ImPhoneHangUp
-                                    title={'Call Made and Not Answered'}
-                                    className="text-white text-[10px]"
-                                />
-                            </div>
-                        ) : null)}
-                </div>
-                <p className="font-semibold">
-                    {student?.user?.name}{' '}
-                    {student?.familyName?.toLowerCase() === 'na'
-                        ? ''
-                        : student?.familyName}
-                </p>
-                <div className="font-medium text-xs text-gray-500">
-                    <p className="flex items-center gap-x-1">
-                        <span>
-                            <MdEmail />
-                        </span>
-                        {student?.user?.email}
+                    <p className="font-semibold">
+                        {student?.user?.name}{' '}
+                        {student?.familyName?.toLowerCase() === 'na'
+                            ? ''
+                            : student?.familyName}
                     </p>
+                    <div className="font-medium text-xs text-gray-500">
+                        <p className="flex items-center gap-x-1">
+                            <span>
+                                <MdEmail />
+                            </span>
+                            {student?.user?.email}
+                        </p>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </a>
+        </Link>
     )
 }
