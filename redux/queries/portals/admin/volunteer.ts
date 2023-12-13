@@ -26,7 +26,7 @@ export const volunteerEndpoints = (
         query: () => `${PREFIX}volunteer-requests/count`,
         providesTags: ['Volunteer'],
     }),
-    volunteerIsRead: builder.mutation({
+    volunteerIsRead: builder.mutation<any, void>({
         query: () => ({
             url: `${PREFIX}volunteer/read`,
             method: 'PATCH',

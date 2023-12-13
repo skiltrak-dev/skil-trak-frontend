@@ -27,7 +27,7 @@ export const Courses = ({
                 label={'Select Course'}
                 onlyValue
                 onChange={(e: any) => {
-                    setSelectedCourse(Number(e?.value))
+                    setSelectedCourse(Number(e))
                 }}
                 components={{ Option: CourseSelectOption }}
                 formatOptionLabel={formatOptionLabel}

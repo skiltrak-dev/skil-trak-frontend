@@ -211,7 +211,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
     }, [router])
     return (
         <ProtectedRoute>
-            <div className="flex w-full h-screen overflow-hidden bg-layout ">
+            <div className="flex w-full h-screen overflow-hidden bg-layout">
                 <SideBar portalType={'admin'} routes={routes} />
                 {/* <div className="flex-grow flex flex-col justify-between"> */}
                 <div className="flex-grow w-[calc(100vh-224px)]  justify-between">

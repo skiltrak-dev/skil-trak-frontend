@@ -81,17 +81,16 @@ export const SideBarItem = ({
             setVolunteerItemCount(`${volunteerCount}`)
         }
     }, [volunteerCount])
-    
     return link ? (
         <Link legacyBehavior href={link}>
             <div
                 onClick={() => {
-                    if (router.pathname === 'portal/admin/rpl-list') {
-                        markAsRead({})
+                    if (router.pathname === '/portals/admin/rpl-list') {
+                        markAsRead()
                     } else if (
                         router.pathname === '/portals/admin/volunteer-requests'
                     ) {
-                        volunteerRead({})
+                        volunteerRead()
                     }
                 }}
                 className={classes}
