@@ -90,10 +90,10 @@ export const TimeSlots = ({
             subAdmin
                 ? appointmentWith === 'Self'
                     ? daysId
-                    : [1, 2, 3, 4, 5, 6]
+                    : [0, 1, 2, 3, 4, 5, 6]
                 : daysId?.length > 0 && daysId
                 ? daysId
-                : [1, 2, 3, 4, 5, 6]
+                : [0, 1, 2, 3, 4, 5, 6]
         )
         setTimeAvailability(appointmentAvailability)
     }, [appointmentAvailability, appointmentWith])

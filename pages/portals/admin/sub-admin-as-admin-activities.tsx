@@ -174,9 +174,9 @@ const SubAdminAsAdminActivities: NextPageWithLayout = () => {
             ) : (
                 !isError && (
                     <EmptyData
-                        title={'No Title were found'}
+                        title={'No Activity found'}
                         description={
-                            'It may be due to you have perform any action yet'
+                            "It may be due to you haven't perform any action yet"
                         }
                     />
                 )
