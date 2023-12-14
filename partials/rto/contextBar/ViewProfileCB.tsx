@@ -78,7 +78,11 @@ export const ViewProfileCB = () => {
                         />
                     </div>
                     <div className="flex flex-col items-center">
-                        <RtoAvatar imageUrl={rto?.user.avatar} canEdit />
+                        <RtoAvatar
+                            imageUrl={rto?.user.avatar}
+                            canEdit
+                            user={rto?.user?.id}
+                        />
 
                         <div className="flex flex-col items-center mt-2">
                             <p className="text-md font-semibold">

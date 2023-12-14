@@ -61,7 +61,10 @@ export const Actions = ({
             result?.status !== Result.Pending &&
             !submitAssessmentResult.isLoading
         ) {
-            onSubmitAssessment()
+            onSubmitAssessment({
+                notifyCoordinator: true,
+                notifyRto: true,
+            })
         }
     }, [result, isResubmittedFiles, submitAssessmentResult])
 
