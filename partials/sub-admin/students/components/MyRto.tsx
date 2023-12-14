@@ -60,7 +60,7 @@ export const MyRto = ({ myRto }: any) => {
             {/* Card Body */}
             <div className="flex items-center gap-x-6 py-4">
                 <div className="flex-shrink-0">
-                    <RtoAvatar imageUrl={myRto?.user?.avatar} />
+                    <RtoAvatar imageUrl={myRto?.user?.avatar} user={myRto?.user?.id} />
                 </div>
                 <div>
                     <div>
