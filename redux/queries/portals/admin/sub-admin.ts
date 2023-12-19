@@ -145,4 +145,11 @@ export const subAdminEndpoints = (
         }),
         invalidatesTags: ['SubAdmins'],
     }),
+    toggleAutoWorkplaceAssignment: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `admin/auto-assignment/${id}`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['AutoAssignWorkplace'],
+    }),
 })

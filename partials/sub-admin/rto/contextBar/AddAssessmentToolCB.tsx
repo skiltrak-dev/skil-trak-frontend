@@ -46,7 +46,7 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
     })
     const [create, createResult] = useCreateRtoSubAdminAssessmentToolsMutation()
     const [update, updateResult] = useUpdateRtoSubAdminAssessmentToolsMutation()
-
+   
     useEffect(() => {
         if (createResult.isSuccess) {
             notification.success({
@@ -99,10 +99,10 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
         <div>
             <ShowErrorNotifications result={createResult} />
             <ShowErrorNotifications result={updateResult} />
-            <Typography variant={'small'} color={'text-gray-500'}>
-                Add Assessment To:
-            </Typography>
-            <Typography variant={'label'}>Job Tranining Institute</Typography>
+            {/* <Typography variant={'small'} color={'text-gray-500'}>
+                Add Assessment
+            </Typography> */}
+            {/* <Typography variant={'label'}>Job Tranining Institute</Typography> */}
             <FormProvider {...methods}>
                 <form
                     className="mt-2 w-full"

@@ -28,6 +28,7 @@ const adminTagTypes = [
     'Subscribers',
     'BlogCategories',
     'AppointmentTypes',
+    'AutoAssignWorkplace',
 ]
 
 const subadminTagTypes = [

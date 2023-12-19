@@ -62,12 +62,13 @@ export const AddAssessmentForm = ({ edit, assessment, courses }: Props) => {
         formData.append('file', fileData)
         create(formData)
     }
+    
     return (
         <div>
-            <Typography variant={'small'} color={'text-gray-500'}>
-                Add Assessment To:
-            </Typography>
-            <Typography variant={'label'}>Job Tranining Institute</Typography>
+            {/* <Typography variant={'small'} color={'text-gray-500'}>
+                Add Assessment
+            </Typography> */}
+            {/* <Typography variant={'label'}>Job Training Institute</Typography> */}
             <FormProvider {...methods}>
                 <form
                     className="mt-2 w-full"

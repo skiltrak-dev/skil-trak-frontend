@@ -30,7 +30,7 @@ export const StudentProvidedForwardModal = ({
     // query
     const [forwardToIndustry, forwardToIndustryResult] =
         useForwardWorkplaceToIndustryMutation()
-
+   
     const onConfirmUClicked = async () => {
         forwardToIndustry({
             industryId: industry?.id,

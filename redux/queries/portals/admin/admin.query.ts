@@ -268,6 +268,7 @@ const {
     useCreateSubAdminMutation,
     useUpdateSubAdminMutation,
     useSubAdminProfileCountQuery,
+    useToggleAutoWorkplaceAssignmentMutation,
 
     useSubAdminCoursesQuery,
     useSubAdminAssignCoursesMutation,
@@ -394,6 +395,7 @@ export const AdminApi = {
         useRtoProfile: useSubAdminProfileQuery,
         useUpdate: useUpdateSubAdminMutation,
         useRemove: useSubadminRemoveMutation,
+        useToggleAutoAssignWorkplace: useToggleAutoWorkplaceAssignmentMutation,
 
         useCourses: useSubAdminCoursesQuery,
         useAssignCourses: useSubAdminAssignCoursesMutation,
