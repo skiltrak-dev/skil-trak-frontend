@@ -1,7 +1,7 @@
 import { InitialAvatar } from '@components'
 import { useScrollIntoView } from '@hooks'
 import { Student } from '@types'
-import { setLink } from '@utils'
+import { isBrowser, setLink } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -9,63 +9,72 @@ import { forwardRef } from 'react'
 import { FaEnvelope, FaPhone } from 'react-icons/fa'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 
-export const StudentCellInfo = forwardRef(
-    ({ student, call }: { student: Student; call?: boolean }, ref: any) => {
-        const router = useRouter()
+export const StudentCellInfo = (
+    { student, call }: { student: Student; call?: boolean },
+) => {
+    const router = useRouter()
 
-        useScrollIntoView(student) // Scroll into view with scroll ID
+    useScrollIntoView(student) // Scroll into view with scroll ID
 
-        const callLog = student?.callLog?.reduce(
-            (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
-            {
-                isExpired: true,
-                createdAt: null,
-            }
-        )
+    const callLog = student?.callLog?.reduce(
+        (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
+        {
+            isExpired: true,
+            createdAt: null,
+        }
+    )
 
-        const today = moment()
-        const startDate = today.startOf('week').format('MM-DD-YYYY')
-        const endDate = today.endOf('week').format('MM-DD-YYYY')
-        const createdAt = moment(callLog?.createdAt, 'YYYY-MM-DD')
+    const today = moment()
+    const startDate = today.startOf('week').format('MM-DD-YYYY')
+    const endDate = today.endOf('week').format('MM-DD-YYYY')
+    const createdAt = moment(callLog?.createdAt, 'YYYY-MM-DD')
 
-        const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
-        console.log('student', student)
-        return (
-            <div
-                ref={ref}
-                className="flex items-center relative"
-                id={student?.studentId}
-            >
-                <div className="flex items-center gap-x-2">
-                    <div>
-                        {student?.user?.name && (
-                            <InitialAvatar
-                                name={student?.user?.name}
-                                imageUrl={student?.user?.avatar}
-                            />
-                        )}
-                    </div>
+    const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
+    return (
+        <div
+            className="flex items-center relative"
+            id={student?.studentId}
+        >
+            <div className="flex items-center gap-x-2">
+                <div>
+                    {student?.user?.name && (
+                        <InitialAvatar
+                            name={student?.user?.name}
+                            imageUrl={student?.user?.avatar}
+                        />
+                    )}
+                </div>
 
-                    <div
+                <Link
+                    href={`/portals/sub-admin/students/${student?.id}?tab=overview`}
+                    legacyBehavior
+                >
+                    <a
                         onClick={() => {
-                            router.push({
-                                pathname: router.pathname,
-                                query: {
-                                    ...router.query,
-                                    scrollId: student?.studentId,
-                                },
-                            }) // First router.push is using for the save the full url in session storage to access when go back from detail page to list page
+                            // router.push({
+                            //     pathname: router.pathname,
+                            //     query: {
+                            //         ...router.query,
+                            //         scrollId: student?.studentId,
+                            //     },
+                            // }) // First router.push is using for the save the full url in session storage to access when go back from detail page to list page
                             setLink('subadmin-student', router)
-                            router.push(
-                                `/portals/sub-admin/students/${student?.id}?tab=overview`
-                            ) // Secound Router.push is using for the navigating to detail page
+                            if (isBrowser()) {
+                                sessionStorage.setItem(
+                                    'scrollId',
+                                    student?.studentId
+                                )
+                            }
                         }}
-                        className="cursor-pointer"
                     >
                         <div className="flex items-center gap-x-2">
                             <div className="flex items-center gap-x-2">
                                 <div className="flex items-center gap-x-2">
-                                    <p className={'whitespace-nowrap text-xs text-gray-500'}>
+                                    <p
+                                        className={
+                                            'whitespace-nowrap text-xs text-gray-500'
+                                        }
+                                    >
                                         {student?.studentId}
                                     </p>
                                     {student?.isHighPriority && (
@@ -127,9 +136,9 @@ export const StudentCellInfo = forwardRef(
                             </span>
                             <p className="text-gray-500">{student?.phone}</p>
                         </div>
-                    </div>
-                </div>
+                    </a>
+                </Link>
             </div>
-        )
-    }
-)
+        </div>
+    )
+}

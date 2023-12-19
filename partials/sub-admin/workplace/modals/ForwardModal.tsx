@@ -23,7 +23,7 @@ export const ForwardModal = ({
 }) => {
     const [isDocsUploaded, setIsDocsUploaded] = useState<boolean | null>(null)
     const [missingDocuments, setMissingDocuments] = useState<any | null>(null)
-
+    
     const contextBar = useContextBar()
 
     // hooks

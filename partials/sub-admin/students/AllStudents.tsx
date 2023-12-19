@@ -99,8 +99,6 @@ export const AllStudents = () => {
             }
         )
 
-    const scrollTargetRef = useRef<any>(null)
-
     // useEffect(() => {
     //     if (scrollTargetRef.current) {
     //         scrollTargetRef.current.scrollIntoView({ behavior: 'smooth' })
@@ -131,7 +129,7 @@ export const AllStudents = () => {
         if (refetchStudents) {
             refetch()
         }
-    }, [refetchStudents,data])
+    }, [refetchStudents, data])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -271,13 +269,7 @@ export const AllStudents = () => {
             header: () => 'Name',
             accessorKey: 'user',
             cell: (info) => {
-                return (
-                    <StudentCellInfo
-                        ref={scrollTargetRef}
-                        student={info.row.original}
-                        call
-                    />
-                )
+                return <StudentCellInfo student={info.row.original} call />
             },
         },
         {

@@ -23,10 +23,15 @@ import { BsArchiveFill } from 'react-icons/bs'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
-import { AllowAsAdminModal, ArchiveModal, BlockModal } from './modals'
+import {
+    AllowAsAdminModal,
+    ArchiveModal,
+    AssignAutoWorkplaceModal,
+    BlockModal,
+} from './modals'
 import { UserRoles } from '@constants'
 import { RtoCellInfo } from '../rto/components'
-import { MdAdminPanelSettings } from 'react-icons/md'
+import { MdAdminPanelSettings, MdOutlineAssignmentReturn } from 'react-icons/md'
 import { getUserCredentials } from '@utils'
 
 export const ActiveSubAdmin = () => {
@@ -81,6 +86,15 @@ export const ActiveSubAdmin = () => {
     const onMakeAsAdminClicked = (subAdmin: SubAdmin) => {
         setModal(
             <AllowAsAdminModal
+                subAdmin={subAdmin}
+                setChangeStatusResult={setChangeStatusResult}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+    const onAutoAssignWorkplace = (subAdmin: SubAdmin) => {
+        setModal(
+            <AssignAutoWorkplaceModal
                 subAdmin={subAdmin}
                 setChangeStatusResult={setChangeStatusResult}
                 onCancel={() => onModalCancelClicked()}
@@ -156,6 +170,16 @@ export const ActiveSubAdmin = () => {
                           Icon: MdAdminPanelSettings,
                       }
                     : {}),
+            },
+            {
+                text: `${
+                    !subAdmin?.allowAutoAssignment
+                        ? 'Allow Auto Assignment'
+                        : 'Remove Auto Assignment'
+                }`,
+                onClick: (subAdmin: SubAdmin) =>
+                    onAutoAssignWorkplace(subAdmin),
+                Icon: MdOutlineAssignmentReturn,
             },
             {
                 text: 'Block',
