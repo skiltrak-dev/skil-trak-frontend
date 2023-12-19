@@ -109,8 +109,17 @@ const Students: NextPageWithLayout = (props: Props) => {
 
     const studentCount = getCountData<{ [key: string]: number }>(count?.data)
 
+    useEffect(() => {
+        const getScrollId = sessionStorage.getItem('scrollId')
+        if (getScrollId) {
+            router.push({
+                pathname: router.pathname,
+                query: { ...router.query, scrollId: getScrollId },
+            })
+        }
+    }, [])
+
     const tabs: TabProps[] = [
-        
         {
             label: 'Pending',
             href: { pathname: 'students', query: { tab: UserStatus.Pending } },
