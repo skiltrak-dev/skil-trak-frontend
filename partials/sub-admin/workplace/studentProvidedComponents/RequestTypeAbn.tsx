@@ -71,7 +71,7 @@ export const RequestTypeAbn = ({
             />
         )
     }
-
+   
     const onForwardClicked = (industry: any) => {
         setModal(
             <StudentProvidedForwardModal

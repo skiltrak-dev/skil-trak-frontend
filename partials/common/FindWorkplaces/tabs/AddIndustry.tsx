@@ -26,6 +26,7 @@ const FormKeys = {
     Address: 'address',
     Website: 'website',
     Status: 'status',
+    Note: 'note',
 }
 
 export const AddIndustry = ({
@@ -92,6 +93,7 @@ export const AddIndustry = ({
                 'address',
                 'website',
                 'status',
+                'note',
             ]
 
             let obj: any = {}

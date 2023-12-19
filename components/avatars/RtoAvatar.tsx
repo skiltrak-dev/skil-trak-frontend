@@ -55,7 +55,7 @@ export const RtoAvatar = ({
                 <div>
                     {imageUrl ? (
                         <div
-                            className="relative w-20 h-20 overflow-hidden group rounded-full bg-cover bg-center bg-no-repeat"
+                            className="relative !w-20 !h-20 overflow-hidden group rounded-full bg-cover bg-center bg-no-repeat"
                             style={{ backgroundImage: `url(${imageUrl})` }}
                         >
                             {/* {canEdit && (

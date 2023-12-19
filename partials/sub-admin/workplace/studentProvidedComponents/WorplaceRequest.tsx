@@ -66,12 +66,12 @@ export const WorkplaceRequest = ({
         },
         { skip: !workplace || !appliedIndustry || !course }
     )
-
+    
     const { setContent, show } = useContextBar()
 
     useEffect(() => {
         setAppliedIndustry(
-            workplace.industries?.find(
+            workplace?.industries?.find(
                 (i: WorkplaceWorkIndustriesType) => i.applied
             )
         )
@@ -234,7 +234,9 @@ export const WorkplaceRequest = ({
                 {/* Student Small Details */}
                 <div
                     className={`mt-3  items-center ${
-                        isOpen ? 'flex justify-between' : 'grid grid-cols-2 gap-y-3'
+                        isOpen
+                            ? 'flex justify-between'
+                            : 'grid grid-cols-2 gap-y-3'
                     }`}
                 >
                     <StudentDetail data={workplace?.student} />
