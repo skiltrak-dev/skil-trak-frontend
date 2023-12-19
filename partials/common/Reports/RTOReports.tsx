@@ -263,8 +263,6 @@ export const RTOReports = ({
 
     const role = getUserCredentials()?.role
 
-    console.log("user", user)
-
     return (
         <>
             {modal && modal}

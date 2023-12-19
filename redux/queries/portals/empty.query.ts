@@ -12,7 +12,6 @@ const adminTagTypes = [
     'Jobs',
     'RTOS',
     'Notes',
-    'E-Sign',
     'Folders',
     'Profile',
     'Message',
@@ -89,7 +88,6 @@ const studentTagTypes = [
     'StudentAppointments',
     'StudentAssessmentEvidence',
     'StudentAssessmentEvidence',
-
 ]
 
 const commonTagTypes = [
@@ -99,6 +97,7 @@ const commonTagTypes = [
     'Draft',
     'Notes',
     'Mails',
+    'E-Sign',
     'Avatar',
     'Course',
     'Profile',
@@ -118,6 +117,7 @@ const commonTagTypes = [
     'StudentAppointments',
 ]
 export const emptySplitApi = createApi({
+    reducerPath: 'allApis',
     baseQuery: fetchBaseQuery({
         baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
         prepareHeaders: (headers, { getState }) => {

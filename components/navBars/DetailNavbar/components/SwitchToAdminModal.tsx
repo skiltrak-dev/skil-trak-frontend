@@ -9,7 +9,6 @@ import { CommonApi } from '@queries'
 export const SwitchToAdminModal = ({
     subAdmin,
     onCancel,
-    
 }: {
     subAdmin: SubAdmin
     onCancel: Function
@@ -19,7 +18,6 @@ export const SwitchToAdminModal = ({
     // const { onBlock, changeStatusResult } = useChangeStatus()
     const [switchUserRole, resultSwitchUserRole] =
         CommonApi.Impersonation.useImpersonationToggle()
-    console.log('subAdmin', subAdmin)
     const onConfirmClicked = async (subAdmin: SubAdmin) => {
         await switchUserRole()
     }

@@ -46,10 +46,7 @@ export const MobileAssessment = ({
                             {assessmentsCourses?.data?.map((course: any) => (
                                 <CourseCard
                                     key={course?.id}
-                                    id={course?.id}
-                                    code={course?.code}
-                                    title={course?.title}
-                                    isActive={course?.isActive}
+                                    course={course}
                                     result={course?.results?.reduce(
                                         (a: any, b: any) =>
                                             a.totalSubmission >
@@ -60,9 +57,6 @@ export const MobileAssessment = ({
                                             result: Result.NotSubmitted,
                                         }
                                     )}
-                                    coordinator={
-                                        course?.subadmin[0]?.user?.name
-                                    }
                                     selectedCourseId={selectedCourse?.id}
                                     onClick={() => {
                                         setSelectedCourse(course)

@@ -42,8 +42,23 @@ export const eSignEndpoints = (
         query: (id) => `${PREFIX}/template/view/${id}`,
         providesTags: ['E-Sign'],
     }),
-    getEsignTemplate: builder.query<any, number>({
-        query: (id) => `${PREFIX}/template/get/${id}`,
+    updateEsignTemplateDetail: builder.mutation<any, any>({
+        query: ({ id, body }) => ({
+            url: `${PREFIX}/template/update/${id}`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['E-Sign'],
+    }),
+    getEsignTemplate: builder.query<any, { id: number; pageNumber: number }>({
+        query: ({ id, ...params }) => ({
+            url: `${PREFIX}/template/get/${id}`,
+            params,
+        }),
+        providesTags: ['E-Sign'],
+    }),
+    getEsignTemplateTabs: builder.query<any, number>({
+        query: (id) => `${PREFIX}/template/tabs-get/${id}`,
         providesTags: ['E-Sign'],
     }),
     changeEsignStatus: builder.mutation<

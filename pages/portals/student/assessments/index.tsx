@@ -31,13 +31,13 @@ const PrimaryLinks = [
         animation: Animations.Student.Appointments.Esign,
         id: 'e-sign',
     },
-    // {
-    //     title: 'E-Sign',
-    //     description: 'Sign your digital documents',
-    //     link: 'assessments/e-sign',
-    //     animation: Animations.Student.Appointments.Esign,
-    //     id: 'e-sign',
-    // },
+    {
+        title: 'E-Sign',
+        description: 'Sign your digital documents',
+        link: 'assessments/e-sign',
+        animation: Animations.Student.Appointments.Esign,
+        id: 'e-sign',
+    },
 ]
 
 const RelatedQuestions = [

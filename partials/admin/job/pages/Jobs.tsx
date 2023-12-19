@@ -46,7 +46,6 @@ export const Jobs = () => {
         limit: itemPerPage,
     })
     const filterJobs = data?.data?.filter((job) => job?.status === 'pending')
-    console.log('filterJobs', filterJobs)
     const onModalCancelClicked = () => {
         setModal(null)
     }
@@ -247,7 +246,7 @@ export const Jobs = () => {
                     {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : filterJobs &&filterJobs.length ? (
+                    ) : filterJobs && filterJobs.length ? (
                         <Table
                             columns={columns}
                             data={filterJobs}

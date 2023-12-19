@@ -72,9 +72,9 @@ export const UploadFile = ({
                     {/* PDF Preview */}
                     {FileMimeTypes.documents.includes(fileType) && (
                         <div className="flex justify-center items-center w-full h-full">
-                            {fileObject && FileFormat.isPdf(file) ? (
+                            {fileObject && FileFormat.isPdf(file, fileType) ? (
                                 <div className="w-full h-full">
-                                    <PdfViewer file={fileObject} />
+                                    <PdfViewer file={file || fileObject} />
                                 </div>
                             ) : (
                                 <IoMdDocument className="text-5xl text-gray" />

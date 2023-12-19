@@ -26,7 +26,7 @@ import { MdBlock } from 'react-icons/md'
 
 // hooks
 import { EditTimer } from '@components/StudentTimer/EditTimer'
-import { useActionModal } from '@hooks'
+import { DocumentsView, useActionModal } from '@hooks'
 import {
     BlockModal,
     BlockMultiStudentsModal,
@@ -41,45 +41,13 @@ export const ApprovedEsigns = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const listingRef = useRef<any>(null)
 
-    const savedScrollPosition =
-        isBrowser() && localStorage.getItem('lastScroll')
-    useEffect(() => {
-        if (listingRef.current && savedScrollPosition) {
-            listingRef.current.scrollTop = parseInt(savedScrollPosition, 10)
-        }
-    }, [savedScrollPosition, listingRef])
-
-    // Function to handle scrolling
-    const handleScroll = () => {
-        if (listingRef.current) {
-            isBrowser() &&
-                localStorage.setItem('lastScroll', listingRef.current.scrollTop)
-        }
-    }
-
-    // Attach the scroll event listener when the component mounts
-    // useEffect(() => {
-    //     if (listingRef.current) {
-    //         listingRef.current.addEventListener('scroll', handleScroll)
-    //     }
-
-    //     // Remove the event listener when the component unmounts
-    //     return () => {
-    //         if (listingRef.current) {
-    //             listingRef.current.removeEventListener('scroll', handleScroll)
-    //         }
-    //     }
-    // }, [listingRef])
+    const { onFileClicked, documentsViewModal } = DocumentsView()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
-
-    // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
 
     const getEsign = AdminApi.ESign.useGetEsign(
         {
@@ -110,53 +78,15 @@ export const ApprovedEsigns = () => {
         setModal(<ArchiveModal eSign={eSign} onCancel={onModalCancelClicked} />)
     }
 
-    const onChangeStatus = (student: Student) => {
-        setModal(
-            <ChangeStatusModal
-                student={student}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const onDateClick = (student: Student) => {
-        setModal(
-            <EditTimer
-                studentId={student?.user?.id}
-                date={student?.expiryDate}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const numberOfWeeks = 20
-    const endDate = new Date() // Starting from the current date
-
-    const dateObjects = []
-
-    for (let i = numberOfWeeks - 1; i >= 0; i--) {
-        const currentDate = new Date(endDate)
-        currentDate.setDate(currentDate.getDate() - i * 7) // Decrement by a week
-
-        const lastWeekDate = new Date(currentDate)
-        lastWeekDate.setDate(lastWeekDate.getDate() + 6) // End of the week
-
-        const dateObject = {
-            startDate: currentDate.toISOString().slice(0, 10), // Format as YYYY-MM-DD
-            endDate: lastWeekDate.toISOString().slice(0, 10),
-        }
-
-        dateObjects.push(dateObject)
-    }
-
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: (student: any) => {
-                // router.push(
-                //     `/portals/admin/student/${student?.id}?tab=overview`
-                // )
-                // setLink('student', router)
+            onClick: (eSign: any) => {
+                onFileClicked({
+                    ...eSign,
+                    extension: 'pdf',
+                    type: 'all',
+                })
             },
             Icon: FaEye,
         },
@@ -181,7 +111,7 @@ export const ApprovedEsigns = () => {
             cell: (info) => {
                 return (
                     <Link
-                        href={`/portals/admin/e-sign/${info.row.original?.id}/document-template`}
+                        href={`/portals/admin/e-sign/${info.row.original?.id}/edit`}
                     >
                         <Typography variant="label" semibold>
                             <span className="cursor-pointer">
@@ -309,8 +239,8 @@ export const ApprovedEsigns = () => {
 
     return (
         <>
-            {modal && modal}
-            {passwordModal && passwordModal}
+            {modal}
+            {documentsViewModal}
             <div className="flex flex-col gap-y-4">
                 <div className="flex">
                     <PageHeading
@@ -337,11 +267,7 @@ export const ApprovedEsigns = () => {
                             }: TableChildrenProps) => {
                                 return (
                                     <div>
-                                        <div
-                                            ref={listingRef}
-                                            onScroll={handleScroll}
-                                            className="p-6 mb-2 flex justify-between"
-                                        >
+                                        <div className="p-6 mb-2 flex justify-between">
                                             {pageSize
                                                 ? pageSize(
                                                       itemPerPage,

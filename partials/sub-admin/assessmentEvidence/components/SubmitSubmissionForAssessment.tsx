@@ -12,14 +12,12 @@ export const SubmitSubmissionForAssessment = ({
     isFilesUploaded,
     results,
     isResubmittedFiles,
-    test,
 }: {
     selectedCourseId: number
     student: Student | undefined
     isFilesUploaded: boolean | undefined
     results: any
     isResubmittedFiles?: boolean
-    test: number
 }) => {
     const { notification } = useNotification()
     const [submitAssessment, submitAssessmentResult] =

@@ -203,13 +203,8 @@ export const ArchivedAssessmentDetail = ({
                     {studentCourses?.data?.map((course: any) => (
                         <CourseCard
                             key={course.id}
-                            id={course.id}
-                            code={course.code}
-                            title={course.title}
-                            isActive={course.isActive}
-                            coordinator={getUserCredentials()?.name}
-                            selectedCourseId={selectedCourse?.id}
                             course={course}
+                            selectedCourseId={selectedCourse?.id}
                             result={course?.results?.reduce(
                                 (a: any, b: any) =>
                                     a?.createdAt > b?.createdAt ? a : b,

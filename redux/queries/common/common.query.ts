@@ -17,6 +17,7 @@ import { ticketEndpoints } from './ticket.query'
 import { studentAssessmentGalleryEndpoints } from './studentAssessmentGallery'
 import { LogoutType } from '@hooks'
 import { findWorkplaceEndpoints } from './findWorkplaces'
+import { eSignEndpoints } from './eSign'
 
 export const commonApi = emptySplitApi.injectEndpoints({
     // ---------- COMMON ENDPOINTS ---------- //
@@ -197,6 +198,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
         ...draftEndpoints(build),
         ...notesEndpoints(build),
         ...mailsEndpoints(build),
+        ...eSignEndpoints(build),
         ...ticketEndpoints(build),
         ...coursesEndpoints(build),
         ...industriesEndpoints(build),
@@ -357,6 +359,16 @@ const {
     // Impersonation
     useImpersonationToggleMutation,
     useAllowAsAdminMutation,
+
+    // ---- ESIGN ---- //
+    useGetTabsForUsersQuery,
+    useGetDocumentForUsersQuery,
+    useSignDocumentByUserMutation,
+    useAddCustomFieldDataMutation,
+    useCancelEsignDocumentMutation,
+    useUsersPendingDocumentsListQuery,
+    useGetUserTemplateDocumentForSignQuery,
+    useGetUserSignatureTabForTemplateQuery,
 } = commonApi
 
 export const CommonApi = {
@@ -516,5 +528,15 @@ export const CommonApi = {
     Impersonation: {
         useImpersonationToggle: useImpersonationToggleMutation,
         useAllowAsAdmin: useAllowAsAdminMutation,
+    },
+    ESign: {
+        useGetTabs: useGetTabsForUsersQuery,
+        useGetDocument: useGetDocumentForUsersQuery,
+        addCustomFieldData: useAddCustomFieldDataMutation,
+        cancelEsignDocument: useCancelEsignDocumentMutation,
+        useSignDocumentByUser: useSignDocumentByUserMutation,
+        usePendingDocumentsList: useUsersPendingDocumentsListQuery,
+        useTemplateDocumentForSign: useGetUserTemplateDocumentForSignQuery,
+        useSignatureTabForTemplate: useGetUserSignatureTabForTemplateQuery,
     },
 }

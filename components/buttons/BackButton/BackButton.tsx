@@ -7,13 +7,18 @@ import { IoIosArrowRoundBack } from 'react-icons/io'
 interface BackButtonProps {
     text?: string
     link?: string | null
+    onClick?: () => void
 }
 
-export const BackButton = ({ text, link }: BackButtonProps) => {
+export const BackButton = ({ text, link, onClick }: BackButtonProps) => {
     const router = useRouter()
 
     const navigateBack = () => {
-        router.back()
+        if (onClick) {
+            onClick()
+        } else {
+            router.back()
+        }
     }
 
     const classes =

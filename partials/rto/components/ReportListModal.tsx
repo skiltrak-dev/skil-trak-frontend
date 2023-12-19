@@ -77,9 +77,6 @@ export const ReportListModal = ({
         setIsPdfDownload(true)
     }
 
-    console.log('Start Date', startDate)
-    console.log('End Date', endDate)
-
     return (
         <>
             <ShowErrorNotifications result={downloadAsPdf} />

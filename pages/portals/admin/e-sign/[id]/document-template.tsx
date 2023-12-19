@@ -1,49 +1,54 @@
 'use client'
 import {
     AdminNavbar,
+    DisplayNotifications,
     EmptyData,
     LoadingAnimation,
     TechnicalError,
+    Typography,
 } from '@components'
 import { Contextbar, Sidebar } from '@components/Esign'
 import DynamicSvgLoader from '@components/Esign/components/SvgLoader'
-import {
-    DndContext,
-    DragOverlay,
-    closestCorners,
-    pointerWithin,
-} from '@dnd-kit/core'
+import { DndContext, DragOverlay } from '@dnd-kit/core'
 import { restrictToWindowEdges } from '@dnd-kit/modifiers'
 import { useNavbar } from '@hooks'
 import { AdminApi } from '@queries'
-import axios from 'axios'
 import { useRouter } from 'next/router'
 import { Fragment, useEffect, useState } from 'react'
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { uuid } from 'uuidv4'
 
 export default function ESign() {
     const [mounted, setMounted] = useState(false)
+    const [currentPage, setCurrentPage] = useState<number>(0)
+    const [activeItem, setActiveItem] = useState(true)
 
     const navBar = useNavbar()
 
     const router = useRouter()
 
-    const template = AdminApi.ESign.useEsignTemplate(Number(router.query?.id), {
-        skip: !router.query?.id,
-    })
+    const template = AdminApi.ESign.useEsignTemplate(
+        { id: Number(router.query?.id), pageNumber: currentPage },
+        {
+            skip: !router.query?.id,
+            refetchOnMountOrArgChange: true,
+        }
+    )
+    const [tabDropCoordinates, setTabDropCoordinates] = useState<any>(null)
 
     // const [template, settemplate] = useState<any>('')
 
-    // useEffect(() => {
-    //      if (router.query?.id && !template && !template?.length) {
-    //     const test = async () => {
-    //         const abc = await axios.get(
-    //             `http://192.168.1.51:3001/esign/template/get/${router.query?.id}`
-    //         )
-    //         settemplate(abc.data)
-    //     }
-    //     test()
-    //     }
-    // }, [])
+    const tabs = AdminApi.ESign.useGetEsignTemplateTabs(
+        Number(router.query?.id),
+        {
+            skip:
+                !router.query?.id ||
+                !template?.data ||
+                template?.isLoading ||
+                template?.isFetching ||
+                !template?.isSuccess,
+        }
+    )
 
     useEffect(() => {
         navBar.setTitle('E-Sign')
@@ -54,11 +59,15 @@ export default function ESign() {
 
     const [contextBar, setContextBar] = useState<any>()
 
-    const [lastId, setLastId] = useState<number>(0)
+    const [lastId, setLastId] = useState<any>('')
     const [items, setItems] = useState<any>([])
     const [lastSelectedItem, setLastSelectedItem] = useState<any>()
 
+    console.log({ items })
+
     const onItemMove = (eventData: any) => {
+        setActiveItem(true)
+
         const item = eventData.active.data.current
         if (!item.moving && !item.resizing) {
             const existingItem = items.find((x: any) => x.id === item.id)
@@ -147,47 +156,70 @@ export default function ESign() {
     }
 
     const handleDragEnd = (data: any) => {
-        if (data.over) {
-            const delta_x = (() => {
-                console.log('::: WAS GREATER', data)
-                if (data.delta.x <= data.over.rect.left) {
-                    return 0
-                } else if (data.delta.x > data.over.rect.left) {
-                    return data.delta.x - data.over.rect.left
-                }
-                return data.over.rect.left - data.delta.x
-            })()
+        console.log({ data })
+        setActiveItem(false)
 
-            const delta_y = (() => {
-                const calDeltaY = data.delta.y % data.over.rect.height
-                if (data.delta.y > data.over.rect.bottom) {
-                    const percent =
-                        (data.delta.y - data.over.rect.height) /
-                        data.over.rect.height
-                    console.log('::: PERCENT', percent)
-                    return percent * 842
-                }
-                return data.delta.y
-            })()
+        // const newLocX = Math.abs(
+        //     data?.delta?.x * (842.04 / data?.over?.rect?.width) -
+        //         data?.over?.rect?.left
+        // )
+        // const newLocY = Math.abs(
+        //     Math.abs(data?.delta?.y * (594.96 / data?.over?.rect?.height))
+        // )
 
-            const newId = lastId + 1
+        const newLocX = tabDropCoordinates?.x
+        const newLocY = tabDropCoordinates?.y
+
+        // const newLocY = Math.abs(
+        //     data.delta.y - data.active.data.current.clientY / 2
+        // )
+
+        if (data) {
+            // const delta_x = (() => {
+            //     console.log('::: WAS GREATER', data)
+            //     if (data.delta.x <= data.over.rect.left) {
+            //         return 0
+            //     } else if (data.delta.x > data.over.rect.left) {
+            //         return data.delta.x - data.over.rect.left
+            //     }
+            //     return data.over.rect.left - data.delta.x
+            // })()
+
+            // const delta_y = (() => {
+            //     const calDeltaY = data.delta.y % data.over.rect.height
+            //     if (data.delta.y > data.over.rect.bottom) {
+            //         const percent =
+            //             (data.delta.y - data.over.rect.height) /
+            //             data.over.rect.height
+            //         console.log('::: PERCENT', percent)
+            //         return percent * 842
+            //     }
+            //     return data.delta.y
+            // })()
+
+            const newId = uuid()
             const tab = {
                 id: newId,
-                page: data.over.id,
-                location: { x: delta_x, y: delta_y, page: data.over.id },
+                page: data?.over?.id,
+                location: { x: newLocX, y: newLocY, page: data?.over?.id },
                 size: { width: 120, height: 24 },
-                data: data.active.data.current,
+                data: {
+                    ...data.active.data.current,
+                    dataLabel: data.active.id,
+                },
                 parent: {
-                    width: data.over?.rect.width,
-                    height: data.over?.rect.height,
-                    left: data.over.rect.left,
-                    right: data.over.rect.right,
-                    top: data.over.rect.top,
-                    bottom: data.over.rect.bottom,
+                    width: data?.over?.rect.width,
+                    height: data?.over?.rect.height,
+                    left: data?.over?.rect.left,
+                    right: data?.over?.rect.right,
+                    top: data?.over?.rect.top,
+                    bottom: data?.over?.rect.bottom,
                 },
                 moving: false,
                 resizing: false,
             }
+
+            console.log({ tab })
 
             setLastId(newId)
             setItems((prevState: any) => [...prevState, tab])
@@ -195,9 +227,13 @@ export default function ESign() {
     }
 
     const onItemRemove = (item: any) => {
-        const existingItem = items.find((x: any) => x.id === item.id)
+        console.log('Banka', item, items)
+        setContextBar(null)
+        const existingItem = items.find((x: any) => x.id === contextBar?.id)
         if (existingItem) {
-            const updatedList = items.filter((x: any) => x.id !== item.id)
+            const updatedList = items.filter(
+                (x: any) => x.id !== contextBar?.id
+            )
             setItems(updatedList)
         }
         setLastSelectedItem(null)
@@ -241,26 +277,6 @@ export default function ESign() {
     // 	};
     // }, []);
 
-    const SvgData = () => {
-        const arr = []
-        for (let i = 0; i < template?.data?.length; i++) {
-            arr.push(
-                <DynamicSvgLoader
-                    page={i + 1}
-                    items={items}
-                    onItemMove={onItemMove}
-                    path={template?.data?.[i]}
-                    onItemResize={onItemResize}
-                    onItemRemove={onItemRemove}
-                    onItemResized={onItemResized}
-                    onItemSelected={onItemSelected}
-                    onItemLocationChanged={onItemLocationChanged}
-                />
-            )
-        }
-        return arr
-    }
-
     return (
         <div className="h-screen overflow-hidden">
             <div className="border-b bg-white">
@@ -275,38 +291,74 @@ export default function ESign() {
                     <div className="flex">
                         <Sidebar />
                         <div className="w-full h-screen overflow-y-scroll pb-24">
-                            <DragOverlay></DragOverlay>
+                            <DragOverlay>
+                                {activeItem ? <div>Test Drag</div> : null}
+                            </DragOverlay>
 
                             {template.isError && (
                                 <TechnicalError height="bg-white" />
                             )}
-                            {/* {SvgData()} */}
-                            {/* {template && (
-                                <DynamicSvgLoader
-                                    items={items}
-                                    path={template}
-                                    page={1}
-                                    onItemSelected={onItemSelected}
-                                    onItemMove={onItemMove}
-                                    onItemLocationChanged={
-                                        onItemLocationChanged
-                                    }
-                                    onItemResize={onItemResize}
-                                    onItemResized={onItemResized}
-                                    onItemRemove={onItemRemove}
-                                />
-                            )} */}
+
                             {template.isLoading ? (
                                 <LoadingAnimation height="h-[70vh]" />
                             ) : mounted &&
                               template?.data &&
-                              template?.data?.length > 0 ? (
+                              template?.data?.data?.length > 0 ? (
                                 <div className="p-5">
-                                    {template?.data?.map(
+                                    <div className="px-4 flex justify-end gap-x-5">
+                                        <button
+                                            className={`flex items-center gap-x-1 text-xs font-semibold text-gray-500 hover:text-black disabled:text-gray-300 disabled:cursor-not-allowed`}
+                                            onClick={() => {
+                                                setCurrentPage((currentPage) =>
+                                                    currentPage > 0
+                                                        ? currentPage - 1
+                                                        : 1
+                                                )
+                                            }}
+                                            disabled={currentPage <= 0}
+                                        >
+                                            <FaChevronLeft />
+                                            Previous
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                setCurrentPage((currentPage) =>
+                                                    currentPage <
+                                                    template?.data?.totalPages
+                                                        ? currentPage + 1
+                                                        : template?.data
+                                                              ?.totalPages
+                                                )
+                                            }}
+                                            className={`flex items-center gap-x-1 text-xs font-semibold text-gray-500 hover:text-black disabled:text-gray-300 disabled:cursor-not-allowed`}
+                                            disabled={
+                                                currentPage + 1 ===
+                                                template?.data?.totalPages
+                                            }
+                                        >
+                                            Next
+                                            <FaChevronRight />
+                                        </button>
+                                    </div>
+
+                                    {template?.data?.data?.map(
                                         (item: any, i: number) => (
                                             <Fragment key={i}>
-                                                <div className="bg-white">
+                                                <div className="bg-white w-full">
+                                                    <div className="flex justify-center">
+                                                        <Typography variant="label">
+                                                            {currentPage + 1}
+                                                        </Typography>
+                                                    </div>
                                                     <DynamicSvgLoader
+                                                        setTabDropCoordinates={(coordinates: {
+                                                            x: number
+                                                            y: number
+                                                        }) => {
+                                                            setTabDropCoordinates(
+                                                                coordinates
+                                                            )
+                                                        }}
                                                         items={items}
                                                         path={item}
                                                         page={i + 1}
@@ -332,34 +384,6 @@ export default function ESign() {
                                             </Fragment>
                                         )
                                     )}
-                                    {/* <DynamicSvgLoader
-                                        items={items}
-                                        path={template?.data[2]}
-                                        page={1}
-                                        onItemSelected={onItemSelected}
-                                        onItemMove={onItemMove}
-                                        onItemLocationChanged={
-                                            onItemLocationChanged
-                                        }
-                                        onItemResize={onItemResize}
-                                        onItemResized={onItemResized}
-                                        onItemRemove={onItemRemove}
-                                    />
-                                    <div className="my-8" />
-
-                                    <DynamicSvgLoader
-                                        items={items}
-                                        path={template?.data[3]}
-                                        page={4}
-                                        onItemSelected={onItemSelected}
-                                        onItemMove={onItemMove}
-                                        onItemLocationChanged={
-                                            onItemLocationChanged
-                                        }
-                                        onItemResize={onItemResize}
-                                        onItemResized={onItemResized}
-                                        onItemRemove={onItemRemove}
-                                    /> */}
                                 </div>
                             ) : (
                                 template.isSuccess && <EmptyData />
@@ -377,6 +401,11 @@ export default function ESign() {
                             ) => {
                                 onSetCoordinates(content, e, key)
                             }}
+                            setCurrentPage={(currentPage: number) => {
+                                setCurrentPage(currentPage)
+                            }}
+                            items={items}
+                            totalPages={template?.data?.totalPages}
                         />
                     </div>
                 </div>

@@ -27,7 +27,6 @@ export const StudentResultsDetail = ({ rtoUser }: Props) => {
                     !rtoUser,
             }
         )
-    console.log('daaaaataaaaa', data)
 
     const columns: ColumnDef<any>[] = [
         {

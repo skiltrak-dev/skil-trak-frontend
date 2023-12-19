@@ -61,12 +61,14 @@ export const PlacementStartedDetail = ({ rtoUser }: Props) => {
             accessorKey: 'courses',
             header: () => <span>Courses</span>,
             cell: (info) => (
-                <span>{info?.row?.original?.workplace[0]?.courses[0]?.title || 'N/A'}</span>
+                <span>
+                    {info?.row?.original?.workplace[0]?.courses[0]?.title ||
+                        'N/A'}
+                </span>
             ),
         },
     ]
     const count = data?.pagination?.totalResult
-    console.log("dataaaaa", data)
     return (
         <>
             <div className="flex justify-between">

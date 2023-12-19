@@ -34,7 +34,6 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
                         setAuthorized(true)
                         router.push('/portals/admin')
                     } else {
-                        console.log('after router push admin')
                         setAuthorized(true)
                     }
                     // }
@@ -48,7 +47,6 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 
                     // router.push('/portals/sub-admin')
                 } else if (updatedRoute !== role) {
-                    console.log('after router push back to sub-admin')
                     setAuthorized(false)
                     router.push('/404')
                 } else {

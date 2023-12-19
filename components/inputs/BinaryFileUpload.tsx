@@ -43,7 +43,7 @@ export const isFileTypeSelectable = (fileType: string, types: string[]) => {
 }
 
 export type FileUploadProps = InputProps & {
-    acceptTypes?: typeof AcceptMimeTypes[number][]
+    acceptTypes?: (typeof AcceptMimeTypes)[number][]
     fileAsObject?: boolean
 }
 

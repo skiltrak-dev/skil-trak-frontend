@@ -26,8 +26,10 @@ export const ViewSectorsCB = ({ industry }: { industry: Industry }) => {
     const contextBar = useContextBar()
 
     const courses = AdminApi.Industries.useIndustrySectors(industry?.id)
-    const [assignCourses, assignCoursesResult] = AdminApi.Industries.useAssignCourses()
-    const [unassignCourse, unassignCourseResult] = AdminApi.Industries.useUnassignCourses()
+    const [assignCourses, assignCoursesResult] =
+        AdminApi.Industries.useAssignCourses()
+    const [unassignCourse, unassignCourseResult] =
+        AdminApi.Industries.useUnassignCourses()
 
     const sectorsWithCourses = getSectors(courses.data)
 
@@ -81,7 +83,6 @@ export const ViewSectorsCB = ({ industry }: { industry: Industry }) => {
         }
     }, [unassignCourseResult])
 
-    console.log('courses', courses)
     return (
         <div className="flex flex-col gap-y-6">
             <div>

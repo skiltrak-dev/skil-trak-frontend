@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
 // components
 import {
@@ -21,6 +21,7 @@ import { DocumentsView, useNotification } from '@hooks'
 import { useAddCommentOnAssessmentMutation, SubAdminApi } from '@queries'
 import { AddCommentEnum, OptionType } from '@types'
 import moment from 'moment'
+import { AgreementInitiate, ViewInitiatedSign } from '@partials/sub-admin'
 
 export const AssessmentResponse = ({
     folder,
@@ -62,6 +63,29 @@ export const AssessmentResponse = ({
 
     // query
     const [addComment, addCommentResult] = useAddCommentOnAssessmentMutation()
+    const eSignDocument = SubAdminApi.eSign.useStudentEsignDocument(
+        {
+            std: studentData?.user?.id,
+            folder: folder?.id,
+        },
+        {
+            skip: !folder || !isAgreement,
+            refetchOnMountOrArgChange: true,
+        }
+    )
+    const getTemplate = SubAdminApi.eSign.useESignTemplateDetail(
+        { folder: Number(folder?.id), userId: studentData?.rto?.user?.id },
+        {
+            skip: !folder,
+            refetchOnMountOrArgChange: true,
+        }
+    )
+
+    const onEsignRefetch = useCallback(() => {
+        if (isAgreement) {
+            eSignDocument.refetch()
+        }
+    }, [isAgreement])
 
     const onModalCancel = () => {
         setModal(null)
@@ -234,79 +258,9 @@ export const AssessmentResponse = ({
                                 text={'There is some network issue, Try reload'}
                             />
                         )}
-                        {/* {getAssessmentResponse.isLoading ||
-                        getAssessmentResponse.isFetching ? (
-                            <div className="flex flex-col justify-center items-center gap-y-2">
-                                <LoadingAnimation size={50} />
-                                <Typography variant="label">
-                                    Assessment Files Loading
-                                </Typography>
-                            </div>
-                        ) : filteredFiles && filteredFiles?.length > 0 ? (
-                            <div className="p-2 flex flex-wrap gap-x-2 gap-y-2 items-end  overflow-hidden">
-                                {filteredFiles?.map((file: any, i: number) => (
-                                    <AssessmentFolderFileCard
-                                        key={file?.id}
-                                        file={file}
-                                        index={i}
-                                        filename={file?.filename}
-                                        fileUrl={file?.file}
-                                        type={file?.type}
-                                        selected={selected?.id === file?.id}
-                                        onClick={onFileClicked}
-                                        deleteAction={deleteAction}
-                                    />
-                                ))}
-                            </div>
-                        ) : (
-                            !getAssessmentResponse.isError && (
-                                <div className="p-3">
-                                    {isAgreement ? (
-                                        <div>
-                                            <Button
-                                                variant="primary"
-                                                text="Initiate Signing"
-                                                onClick={() => {
-                                                    initiateSigning({
-                                                        id: courseId,
-                                                        body: {
-                                                            student:
-                                                                studentData
-                                                                    ?.user?.id,
-                                                            industry:
-                                                                studentData
-                                                                    ?.industries[0]
-                                                                    ?.user?.id,
-                                                        },
-                                                    })
-                                                }}
-                                                loading={
-                                                    initiateSigningResult?.isLoading
-                                                }
-                                                disabled={
-                                                    initiateSigningResult?.isLoading
-                                                }
-                                            />
-                                        </div>
-                                    ) : (
-                                        <NoData
-                                            text={
-                                                'No Uploaded Files were found'
-                                            }
-                                        />
-                                    )}
-                                </div>
-                            )
-                        )} */}
-                        {getAssessmentResponse.isLoading ||
-                        getAssessmentResponse.isFetching ? (
-                            <div className="flex flex-col justify-center items-center gap-y-2">
-                                <LoadingAnimation size={50} />
-                                <Typography variant="label">
-                                    Assessment Files Loading
-                                </Typography>
-                            </div>
-                        ) : filteredFiles && filteredFiles?.length > 0 ? (
+                        {getAssessmentResponse.isSuccess &&
+                        filteredFiles &&
+                        filteredFiles?.length > 0 ? (
                             // <div className="p-2 grid grid-cols-6 gap-x-2  overflow-hidden">
                             <div className="p-2 flex flex-wrap gap-x-2 gap-y-2 items-end  overflow-hidden">
                                 {filteredFiles?.map((file: any, i: number) => (
@@ -324,7 +278,9 @@ export const AssessmentResponse = ({
                                 ))}
                             </div>
                         ) : (
-                            !getAssessmentResponse.isError && (
+                            !getAssessmentResponse.isLoading &&
+                            !getAssessmentResponse.isFetching &&
+                            getAssessmentResponse.isSuccess && (
                                 <div className="p-3">
                                     <NoData
                                         text={'No Uploaded Files were found'}
@@ -332,6 +288,40 @@ export const AssessmentResponse = ({
                                 </div>
                             )
                         )}
+                        {getTemplate.isLoading ||
+                        eSignDocument.isLoading ||
+                        getAssessmentResponse.isLoading ||
+                        getAssessmentResponse.isFetching ? (
+                            <div className="flex flex-col justify-center items-center gap-y-2">
+                                <LoadingAnimation size={50} />
+                                <Typography variant="label">
+                                    Assessment Files Loading
+                                </Typography>
+                            </div>
+                        ) : getAssessmentResponse.isSuccess &&
+                          eSignDocument?.data ? (
+                            <ViewInitiatedSign
+                                document={eSignDocument?.data}
+                                courseId={courseId}
+                                folder={folder}
+                                rto={studentData?.rto}
+                                filteredFiles={filteredFiles}
+                                fileDeleteAction={deleteAction}
+                                onEsignRefetch={() => {
+                                    onEsignRefetch()
+                                }}
+                            />
+                        ) : getAssessmentResponse.isSuccess &&
+                          getTemplate?.data ? (
+                            <AgreementInitiate
+                                courseId={courseId}
+                                folder={folder}
+                                onEsignRefetch={() => {
+                                    onEsignRefetch()
+                                }}
+                                rto={studentData?.rto}
+                            />
+                        ) : null}
                     </div>
                 </div>
                 {((activeAssessment &&

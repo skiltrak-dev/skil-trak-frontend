@@ -2,10 +2,14 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { isActiveRoute } from '@utils'
-import { FaClipboardList, FaHistory, FaUserGraduate } from 'react-icons/fa'
+import {
+    FaClipboardList,
+    FaFileSignature,
+    FaHistory,
+    FaUserGraduate,
+} from 'react-icons/fa'
 import { HiDocumentReport, HiUsers } from 'react-icons/hi'
 import { MdNotifications, MdSpaceDashboard } from 'react-icons/md'
-import { BsFillTicketDetailedFill } from 'react-icons/bs'
 
 const PREFIX = '/portals/sub-admin'
 const Routes = {
@@ -18,6 +22,7 @@ const Routes = {
     Settings: '/portals/sub-admin/setting',
     Report: '/portals/sub-admin/report',
     History: '/portals/sub-admin/history',
+    ESign: '/portals/sub-admin/e-sign',
 }
 export const SubAdminNavbar = () => {
     const router = useRouter()
@@ -144,6 +149,24 @@ export const SubAdminNavbar = () => {
                             </span>
                             <span className="text-xs 2xl:text-sm font-semibold">
                                 History
+                            </span>
+                        </a>
+                    </Link>
+                </li>
+                <li>
+                    <Link legacyBehavior href={Routes.ESign}>
+                        <a
+                            className={`${
+                                isActive(Routes.ESign)
+                                    ? 'bg-green-100 text-green-700'
+                                    : 'text-slate-700'
+                            } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
+                        >
+                            <span>
+                                <FaFileSignature />
+                            </span>
+                            <span className="text-xs 2xl:text-sm font-semibold">
+                                E-Sign
                             </span>
                         </a>
                     </Link>

@@ -1,25 +1,18 @@
 import {
     BackButton,
     Button,
-    Card,
-    Checkbox,
-    Select,
+    EmptyData,
+    LoadingAnimation,
     ShowErrorNotifications,
-    TextInput,
-    Typography,
-    UploadFile,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
-import { AdminLayout } from '@layouts'
-import { AddCommentEnum, Course, Folder, Rto } from '@types'
-import React, { ReactElement, useEffect, useState } from 'react'
-import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
-import { FileUpload } from '@hoc'
-import { UserRoles } from '@constants'
-import { useRouter } from 'next/router'
-import { AdminApi } from '@queries'
 import { useNotification } from '@hooks'
+import { AdminLayout } from '@layouts'
 import { AddEsignForm } from '@partials'
+import { AdminApi } from '@queries'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
 
 const EditESign = () => {
     const router = useRouter()
@@ -28,7 +21,8 @@ const EditESign = () => {
 
     const { notification } = useNotification()
 
-    const [saveEsign, saveEsignResult] = AdminApi.ESign.useSaveEsign()
+    const [updateEsign, updateEsignResult] =
+        AdminApi.ESign.useUpdateEsignDetail()
 
     const detail = AdminApi.ESign.useEsignTemplateDetail(
         Number(router.query.id),
@@ -38,14 +32,14 @@ const EditESign = () => {
     )
 
     useEffect(() => {
-        if (saveEsignResult.isSuccess) {
+        if (updateEsignResult.isSuccess) {
             notification.success({
                 title: 'Teplate Updated',
                 description: 'Template Updated Successfully',
             })
             if (isSaveAndNext) {
                 router.push(
-                    `/portals/admin/e-sign/${saveEsignResult?.data?.id}/document-template`
+                    `/portals/admin/e-sign/${updateEsignResult?.data?.id}/document-template`
                 )
             } else if (isSaveAndNext === false) {
                 router.push(
@@ -53,17 +47,21 @@ const EditESign = () => {
                 )
             }
         }
-    }, [saveEsignResult, isSaveAndNext])
+    }, [updateEsignResult, isSaveAndNext])
 
     const onSave = (values: any) => {
-        // return null
+        const { file, ...data } = values
         const formData = new FormData()
-        Object.entries({ ...values, file: values?.file?.[0] }).forEach(
-            ([key, value]: any) => {
-                formData.append(key, value)
-            }
-        )
-        saveEsign(formData)
+        Object.entries({
+            ...data,
+            ...(values?.file?.[0] ? { file: values?.file?.[0] } : {}),
+        }).forEach(([key, value]: any) => {
+            formData.append(key, value)
+        })
+        updateEsign({
+            id: detail?.data?.id,
+            body: formData,
+        })
     }
 
     const onSubmit = (values: any) => {
@@ -71,35 +69,37 @@ const EditESign = () => {
         onSave(values)
     }
 
-    const onHandleSave = (values: any) => {
-        setIsSaveAndNext(false)
-        onSave(values)
-    }
-
-    const Actions = (methods: any) => (
+    const Actions = () => (
         <div className="mt-4 flex gap-x-4 items-center justify-end">
             <Button
-                submit
-                loading={saveEsignResult.isLoading && Boolean(isSaveAndNext)}
-                disabled={saveEsignResult.isLoading && Boolean(isSaveAndNext)}
+                onClick={() => {
+                    router.push(
+                        `/portals/admin/e-sign/${router.query?.id}/document-template`
+                    )
+                }}
+                outline
+                variant={'info'}
+                loading={updateEsignResult.isLoading && Boolean(!isSaveAndNext)}
+                disabled={
+                    updateEsignResult.isLoading && Boolean(!isSaveAndNext)
+                }
             >
-                Save & Next
+                Next
             </Button>
             <Button
-                onClick={() => {
-                    onHandleSave(methods.getValues())
-                }}
-                loading={saveEsignResult.isLoading && Boolean(!isSaveAndNext)}
-                disabled={saveEsignResult.isLoading && Boolean(!isSaveAndNext)}
+                submit
+                variant={'info'}
+                loading={updateEsignResult.isLoading && Boolean(isSaveAndNext)}
+                disabled={updateEsignResult.isLoading && Boolean(isSaveAndNext)}
             >
-                Save
+                Update & Next
             </Button>
         </div>
     )
 
     return (
         <div className="p-4">
-            <ShowErrorNotifications result={saveEsignResult} />
+            <ShowErrorNotifications result={updateEsignResult} />
             <BackButton link={'/portals/admin'} text="Back To Dashboard" />
             <div className="flex">
                 <PageHeading
@@ -107,7 +107,19 @@ const EditESign = () => {
                     subtitle={'Create and manage e-sign templates'}
                 />
             </div>
-            <AddEsignForm actions={Actions} onSubmit={onSubmit} />
+            {detail.isError && <TechnicalError />}
+            {detail.isLoading ? (
+                <LoadingAnimation />
+            ) : detail?.data && detail.isSuccess ? (
+                <AddEsignForm
+                    actions={Actions}
+                    onSubmit={onSubmit}
+                    data={detail?.data}
+                    edit
+                />
+            ) : (
+                detail.isSuccess && <EmptyData />
+            )}
         </div>
     )
 }
