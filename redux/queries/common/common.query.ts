@@ -362,6 +362,7 @@ const {
 
     // ---- ESIGN ---- //
     useGetTabsForUsersQuery,
+    useAddSignForUserMutation,
     useGetDocumentForUsersQuery,
     useSignDocumentByUserMutation,
     useAddCustomFieldDataMutation,
@@ -531,6 +532,7 @@ export const CommonApi = {
     },
     ESign: {
         useGetTabs: useGetTabsForUsersQuery,
+        useAddSign: useAddSignForUserMutation,
         useGetDocument: useGetDocumentForUsersQuery,
         addCustomFieldData: useAddCustomFieldDataMutation,
         cancelEsignDocument: useCancelEsignDocumentMutation,

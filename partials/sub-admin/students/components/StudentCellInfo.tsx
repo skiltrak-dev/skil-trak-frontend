@@ -5,13 +5,16 @@ import { isBrowser, setLink } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { forwardRef } from 'react'
 import { FaEnvelope, FaPhone } from 'react-icons/fa'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 
-export const StudentCellInfo = (
-    { student, call }: { student: Student; call?: boolean },
-) => {
+export const StudentCellInfo = ({
+    student,
+    call,
+}: {
+    student: Student
+    call?: boolean
+}) => {
     const router = useRouter()
 
     useScrollIntoView(student) // Scroll into view with scroll ID
@@ -31,10 +34,7 @@ export const StudentCellInfo = (
 
     const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
     return (
-        <div
-            className="flex items-center relative"
-            id={student?.studentId}
-        >
+        <div className="flex items-center relative" id={student?.studentId}>
             <div className="flex items-center gap-x-2">
                 <div>
                     {student?.user?.name && (

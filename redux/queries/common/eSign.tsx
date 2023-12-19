@@ -92,4 +92,22 @@ export const eSignEndpoints = (
         }),
         providesTags: ['E-Sign'],
     }),
+
+    addSignForUser: builder.mutation<
+        any,
+        {
+            id: number
+            tabId: number
+            signature: string
+            documentId: number
+        }
+    >({
+        query: ({ id, signature, ...params }) => ({
+            url: `${PREFIX}/document/sign/through-mail/${id}`,
+            method: 'POST',
+            params,
+            body: { signature },
+        }),
+        invalidatesTags: ['E-Sign'],
+    }),
 })

@@ -12,16 +12,15 @@ import { MdCancel } from 'react-icons/md'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import { useNotification } from '@hooks'
-import jwt from 'jwt-decode'
 
-export const EsignSignatureModal = ({
+export const EsignSignatureModalForUser = ({
     tab,
-    action,
     onCancel,
+    action,
 }: {
     tab: any
-    action?: any
     onCancel: () => void
+    action: any
 }) => {
     const router = useRouter()
 
@@ -29,9 +28,8 @@ export const EsignSignatureModal = ({
 
     const { notification } = useNotification()
 
-    const [signDocument, signDocumentResult] = action
-        ? action()
-        : CommonApi.ESign.useSignDocumentByUser()
+    const [signDocument, signDocumentResult] =
+        CommonApi.ESign.useSignDocumentByUser()
 
     useEffect(() => {
         if (signDocumentResult.isSuccess) {
@@ -50,21 +48,11 @@ export const EsignSignatureModal = ({
     const onSubmit = async () => {
         var dataURL = ref?.current?.toDataURL('image/jpg+xml')
 
-        const token: any = await jwt(String(router.query?.token))
-
-        console.log({ token })
-
         if (!ref?.current?.isEmpty()) {
             await signDocument({
                 tabId: tab?.id,
                 signature: String(dataURL),
                 documentId: Number(router.query?.id),
-
-                ...(action
-                    ? {
-                          id: token?.id,
-                      }
-                    : {}),
             })
         }
     }

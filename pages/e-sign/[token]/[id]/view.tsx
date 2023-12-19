@@ -9,7 +9,11 @@ import {
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import { PageHeading } from '@components/headings'
 import { SiteLayout } from '@layouts'
-import { EsignSignatureModal, SVGView } from '@partials'
+import {
+    EsignSignatureModal,
+    EsignSignatureModalForUser,
+    SVGView,
+} from '@partials'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import React, { ReactNode, useCallback, useEffect, useState } from 'react'
@@ -22,17 +26,17 @@ const ESign = () => {
 
     const tabs = CommonApi.ESign.useGetTabs(
         {
-            docId: Number(router.query?.docId),
+            docId: Number(router.query?.id),
             token: String(router.query?.token),
         },
         {
-            skip: !router.query?.docId || !router.query?.token,
+            skip: !router.query?.id || !router.query?.token,
         }
     )
     const getDocument = CommonApi.ESign.useGetDocument(
-        Number(router.query?.docId),
+        Number(router.query?.id),
         {
-            skip: !router.query?.docId,
+            skip: !router.query?.id,
         }
     )
 
@@ -85,6 +89,7 @@ const ESign = () => {
                 onCancel={() => {
                     onCancelClicked()
                 }}
+                action={CommonApi.ESign.useAddSign}
             />
         )
     }
@@ -103,6 +108,7 @@ const ESign = () => {
     }, [])
     return (
         <SiteLayout title={'E Sign'}>
+            {modal}
             <div className="max-w-7xl mx-auto py-10">
                 <PageHeading title="E-Sign" subtitle="E Sign" />
 

@@ -57,16 +57,6 @@ const DynamicSvgLoader = ({
     const pageItems = items.filter((item: any) => item.page === page)
 
     useEffect(() => {
-        if (saveEsignTemplateResult.isSuccess) {
-            notification.success({
-                title: 'Template saved',
-                description: 'Template saved successfully',
-            })
-            router.push(`/portals/admin/e-sign?tab=approved&page=1&pageSize=50`)
-        }
-    }, [saveEsignTemplateResult])
-
-    useEffect(() => {
         const fetchSvg = async () => {
             try {
                 const response = await fetch(path) // Adjust the path based on your setup
@@ -232,7 +222,7 @@ const DynamicSvgLoader = ({
                             width="100%"
                             // height="842"
                             height="100%"
-                            viewBox="0 0 596 842"
+                            viewBox={viewport || '0 0 596 842'}
                             // dangerouslySetInnerHTML={{ __html: svgContent }}
                             onClick={handleSvgClick}
                         >
@@ -242,6 +232,7 @@ const DynamicSvgLoader = ({
                                 __html: svgContent,
                             }}
                         /> */}
+
                                 <image
                                     href={`data:image/svg+xml,${encodeURIComponent(
                                         svgContent

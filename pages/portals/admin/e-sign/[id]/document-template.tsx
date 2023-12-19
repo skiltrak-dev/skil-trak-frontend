@@ -47,6 +47,7 @@ export default function ESign() {
                 template?.isLoading ||
                 template?.isFetching ||
                 !template?.isSuccess,
+            refetchOnMountOrArgChange: true,
         }
     )
 
@@ -64,6 +65,40 @@ export default function ESign() {
     const [lastSelectedItem, setLastSelectedItem] = useState<any>()
 
     console.log({ items })
+
+    useEffect(() => {
+        if (tabs?.data && tabs?.data?.length > 0 && tabs?.isSuccess) {
+            const updatedItems = tabs?.data?.map((tab: any) => {
+                const location = tab?.position?.split(',')
+                const size = tab?.size?.split(',')
+                return {
+                    id: tab?.id,
+                    page: tab?.number,
+                    location: {
+                        x: Number(location?.[0]),
+                        y: Number(location?.[1]),
+                        page: tab?.number,
+                    },
+                    size: {
+                        width: Number(size?.[0]),
+                        height: Number(size?.[1]),
+                    },
+                    data: {
+                        role: tab?.role,
+                        type: tab?.type,
+                        color: tab?.colour,
+                        dataLabel: tab?.label,
+                        column: tab?.columnName,
+                        isCustom: tab?.isCustom,
+                        placeholder: tab?.placeholder,
+                        option: tab?.option,
+                    },
+                    saved: true,
+                }
+            })
+            setItems(updatedItems)
+        }
+    }, [tabs])
 
     const onItemMove = (eventData: any) => {
         setActiveItem(true)
@@ -239,11 +274,26 @@ export default function ESign() {
         setLastSelectedItem(null)
     }
 
-    const onSetContextBar = ({ content, e }: any) => {
+    // const onSetContextBar = ({ content, e }: any) => {
+    //     if (content) {
+    //         const updatedContent = {
+    //             ...content,
+    //             data: { ...content?.data, dataLabel: e.target?.value },
+    //         }
+    //         setItems((items: any) =>
+    //             items?.map((item: any) =>
+    //                 item.id === content?.id ? updatedContent : item
+    //             )
+    //         )
+    //         setContextBar(updatedContent)
+    //     }
+    // }
+    const onSetContextBar = ({ content, e }: any, key: string) => {
+        console.log({ key })
         if (content) {
             const updatedContent = {
                 ...content,
-                data: { ...content?.data, dataLabel: e.target?.value },
+                data: { ...content?.data, [key]: e.target?.value },
             }
             setItems((items: any) =>
                 items?.map((item: any) =>
@@ -279,6 +329,8 @@ export default function ESign() {
 
     return (
         <div className="h-screen overflow-hidden">
+            <DisplayNotifications />
+
             <div className="border-b bg-white">
                 <AdminNavbar />
             </div>
@@ -299,7 +351,7 @@ export default function ESign() {
                                 <TechnicalError height="bg-white" />
                             )}
 
-                            {template.isLoading ? (
+                            {template.isLoading || template.isFetching ? (
                                 <LoadingAnimation height="h-[70vh]" />
                             ) : mounted &&
                               template?.data &&
@@ -361,7 +413,7 @@ export default function ESign() {
                                                         }}
                                                         items={items}
                                                         path={item}
-                                                        page={i + 1}
+                                                        page={currentPage + 1}
                                                         onItemSelected={
                                                             onItemSelected
                                                         }
@@ -391,8 +443,8 @@ export default function ESign() {
                         </div>
                         <Contextbar
                             content={contextBar}
-                            onSetContextBar={(e: any) => {
-                                onSetContextBar(e)
+                            onSetContextBar={(e: any, key: string) => {
+                                onSetContextBar(e, key)
                             }}
                             onSetCoordinates={(
                                 content: any,

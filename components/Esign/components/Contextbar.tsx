@@ -1,8 +1,7 @@
 'use client'
 
-import { DraggableInput } from './DraggableInput'
-import { UserRoles } from '@constants'
 import { Typography } from '@components/Typography'
+import { UserRoles } from '@constants'
 import { FieldsTypeEnum } from './SidebarData'
 
 export const Contextbar = ({
@@ -20,13 +19,15 @@ export const Contextbar = ({
     onSetContextBar: (e: any, key: string) => void
     onSetCoordinates: (content: any, cordinate: any, key: string) => void
 }) => {
-    // const isExist = (key: string) =>
-    //     items?.find(
-    //         (item: any) =>
-    //             item?.data?.[key]?.toLowerCase() ===
-    //                 content?.data?.[key]?.toLowerCase() &&
-    //             item?.id != content?.id
-    //     )
+    const isExist = (key: string) =>
+        items?.find(
+            (item: any) =>
+                item?.data?.[key]?.toLowerCase() ===
+                    content?.data?.[key]?.toLowerCase() &&
+                item?.id != content?.id
+        )
+
+    console.log({ content })
 
     return (
         <div className="min-w-[250px] h-[89vh] overflow-auto custom-scrollbar bg-white px-4 py-2">
@@ -225,13 +226,17 @@ export const Contextbar = ({
                     </>
                 )}
 
-                <div className="mt-4">
-                    <Typography variant="label" color="text-gray-600" semibold>
-                        Page Numbers
-                    </Typography>
-                    <div className="grid grid-cols-3 gap-3 mt-2">
-                        {totalPages &&
-                            [...Array(Number(totalPages))]?.map((_, i) => (
+                {totalPages && (
+                    <div className="mt-4">
+                        <Typography
+                            variant="label"
+                            color="text-gray-600"
+                            semibold
+                        >
+                            Page Numbers
+                        </Typography>
+                        <div className="grid grid-cols-4 gap-3 mt-2">
+                            {[...Array(Number(totalPages))]?.map((_, i) => (
                                 <span
                                     key={i}
                                     onClick={() => {
@@ -242,8 +247,9 @@ export const Contextbar = ({
                                     {i + 1}
                                 </span>
                             ))}
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
             {/* <div className="mt-2">
                 <p className="text-sm font-medium">Data Type</p>
