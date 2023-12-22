@@ -31,7 +31,14 @@ export default function ESign() {
         { id: Number(router.query?.id), pageNumber: currentPage },
         {
             skip: !router.query?.id,
-            refetchOnMountOrArgChange: true,
+            // refetchOnMountOrArgChange: true,
+        }
+    )
+    const pagesCount = AdminApi.ESign.useTamplatePagesCount(
+        Number(router.query?.id),
+        {
+            skip: !router.query?.id,
+            // refetchOnMountOrArgChange: true,
         }
     )
     const [tabDropCoordinates, setTabDropCoordinates] = useState<any>(null)
@@ -92,6 +99,7 @@ export default function ESign() {
                         isCustom: tab?.isCustom,
                         placeholder: tab?.placeholder,
                         option: tab?.option,
+                        isRequired: tab?.required,
                     },
                     saved: true,
                 }
@@ -168,7 +176,9 @@ export default function ESign() {
             const updatedList = items.filter(
                 (x: any) => x.id !== lastSelectedItem.id
             )
-            oldItem.selected = false
+            if (oldItem) {
+                oldItem.selected = false
+            }
             updatedList.push(oldItem)
         }
 
@@ -208,6 +218,8 @@ export default function ESign() {
         // const newLocY = Math.abs(
         //     data.delta.y - data.active.data.current.clientY / 2
         // )
+
+        console.log({ data })
 
         if (data) {
             // const delta_x = (() => {
@@ -289,11 +301,17 @@ export default function ESign() {
     //     }
     // }
     const onSetContextBar = ({ content, e }: any, key: string) => {
-        console.log({ key })
+        console.log({ e: e.target.value })
         if (content) {
             const updatedContent = {
                 ...content,
-                data: { ...content?.data, [key]: e.target?.value },
+                data: {
+                    ...content?.data,
+                    [key]:
+                        key === 'isRequired'
+                            ? e.target.checked
+                            : e.target?.value,
+                },
             }
             setItems((items: any) =>
                 items?.map((item: any) =>
@@ -327,6 +345,13 @@ export default function ESign() {
     // 	};
     // }, []);
 
+    const onHandleScroll = (id: number) => {
+        const detailItem = document.getElementById(`document-template-${id}`)
+        if (detailItem) {
+            detailItem.scrollIntoView({ behavior: 'smooth' })
+        }
+    }
+
     return (
         <div className="h-screen overflow-hidden">
             <DisplayNotifications />
@@ -347,17 +372,15 @@ export default function ESign() {
                                 {activeItem ? <div>Test Drag</div> : null}
                             </DragOverlay>
 
-                            {template.isError && (
+                            {pagesCount.isError && (
                                 <TechnicalError height="bg-white" />
                             )}
 
-                            {template.isLoading || template.isFetching ? (
+                            {pagesCount.isLoading || pagesCount.isFetching ? (
                                 <LoadingAnimation height="h-[70vh]" />
-                            ) : mounted &&
-                              template?.data &&
-                              template?.data?.data?.length > 0 ? (
+                            ) : mounted && pagesCount?.data ? (
                                 <div className="p-5">
-                                    <div className="px-4 flex justify-end gap-x-5">
+                                    {/* <div className="px-4 flex justify-end gap-x-5">
                                         <button
                                             className={`flex items-center gap-x-1 text-xs font-semibold text-gray-500 hover:text-black disabled:text-gray-300 disabled:cursor-not-allowed`}
                                             onClick={() => {
@@ -391,15 +414,18 @@ export default function ESign() {
                                             Next
                                             <FaChevronRight />
                                         </button>
-                                    </div>
+                                    </div> */}
 
-                                    {template?.data?.data?.map(
+                                    {pagesCount?.data?.size?.map(
                                         (item: any, i: number) => (
-                                            <Fragment key={i}>
-                                                <div className="bg-white w-full">
+                                            <div
+                                                id={`document-template-${i}`}
+                                                key={i}
+                                            >
+                                                <div className="bg-white w-full rounded-lg overflow-hidden">
                                                     <div className="flex justify-center">
                                                         <Typography variant="label">
-                                                            {currentPage + 1}
+                                                            {i + 1}
                                                         </Typography>
                                                     </div>
                                                     <DynamicSvgLoader
@@ -411,8 +437,10 @@ export default function ESign() {
                                                                 coordinates
                                                             )
                                                         }}
+                                                        size={item}
                                                         items={items}
-                                                        path={item}
+                                                        pageNumber={i}
+                                                        // path={item}
                                                         page={currentPage + 1}
                                                         onItemSelected={
                                                             onItemSelected
@@ -433,7 +461,7 @@ export default function ESign() {
                                                     />
                                                 </div>
                                                 <div className="my-8" />
-                                            </Fragment>
+                                            </div>
                                         )
                                     )}
                                 </div>
@@ -442,6 +470,7 @@ export default function ESign() {
                             )}
                         </div>
                         <Contextbar
+                            onHandleScroll={onHandleScroll}
                             content={contextBar}
                             onSetContextBar={(e: any, key: string) => {
                                 onSetContextBar(e, key)
@@ -457,7 +486,7 @@ export default function ESign() {
                                 setCurrentPage(currentPage)
                             }}
                             items={items}
-                            totalPages={template?.data?.totalPages}
+                            totalPages={pagesCount?.data?.totalPages}
                         />
                     </div>
                 </div>

@@ -69,7 +69,7 @@ export const AssessmentResponse = ({
             folder: folder?.id,
         },
         {
-            skip: !folder || !isAgreement,
+            skip: !folder,
             refetchOnMountOrArgChange: true,
         }
     )
@@ -82,10 +82,8 @@ export const AssessmentResponse = ({
     )
 
     const onEsignRefetch = useCallback(() => {
-        if (isAgreement) {
-            eSignDocument.refetch()
-        }
-    }, [isAgreement])
+        eSignDocument.refetch()
+    }, [])
 
     const onModalCancel = () => {
         setModal(null)

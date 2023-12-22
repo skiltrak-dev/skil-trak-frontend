@@ -49,17 +49,16 @@ export const EsignSignatureModal = ({
 
     const onSubmit = async () => {
         var dataURL = ref?.current?.toDataURL('image/jpg+xml')
-
-        const token: any = await jwt(String(router.query?.token))
+        const token: any = router.query?.token
+            ? await jwt(String(router.query?.token))
+            : {}
 
         console.log({ token })
-
         if (!ref?.current?.isEmpty()) {
             await signDocument({
                 tabId: tab?.id,
                 signature: String(dataURL),
                 documentId: Number(router.query?.id),
-
                 ...(action
                     ? {
                           id: token?.id,

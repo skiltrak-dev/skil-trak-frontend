@@ -17,8 +17,14 @@ export const eSignEndpoints = (
         providesTags: ['E-Sign'],
     }),
 
-    getUserTemplateDocumentForSign: builder.query<any, number>({
-        query: (id) => `${PREFIX}/documents/${id}/retrieve-svgs`,
+    getUserTemplateDocumentForSign: builder.query<
+        any,
+        { id: number; pageNumber: number }
+    >({
+        query: ({ id, ...params }) => ({
+            url: `${PREFIX}/documents/${id}/retrieve-svgs`,
+            params,
+        }),
         providesTags: ['E-Sign'],
     }),
 
@@ -30,6 +36,11 @@ export const eSignEndpoints = (
             url: `${PREFIX}/signature-tab/retrieve-for-document/${template}`,
             params,
         }),
+        providesTags: ['E-Sign'],
+    }),
+
+    getTotalPagesForDocuments: builder.query<any, number>({
+        query: (id) => `${PREFIX}/document/${id}/pages/get-count`,
         providesTags: ['E-Sign'],
     }),
     signDocumentByUser: builder.mutation<

@@ -17,10 +17,13 @@ import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 import { Button } from '@components/buttons'
 import { CursorCoordinates } from './CursorCoordinates'
 import { useNotification } from '@hooks'
+import { Waypoint } from 'react-waypoint'
+import Skeleton from 'react-loading-skeleton'
 
 const DynamicSvgLoader = ({
     items,
-    path,
+    // path,
+    size,
     page,
     onItemSelected,
     onItemMove,
@@ -28,11 +31,14 @@ const DynamicSvgLoader = ({
     onItemResize,
     onItemResized,
     onItemRemove,
+    pageNumber,
     setTabDropCoordinates,
 }: {
+    size: any
+    pageNumber: number
     setTabDropCoordinates: (coordinates: { x: number; y: number }) => void
     items: any
-    path: string
+    // path: string
     page: number
     onItemSelected: any
     onItemMove: any
@@ -48,13 +54,33 @@ const DynamicSvgLoader = ({
     const [viewport, setViewport] = useState<string | null>('')
     const [width, setWidth] = useState<string | null>('')
     const [height, setHeight] = useState<string | null>('')
+    const [timerId, setTimerId] = useState<any>(null)
+    const [loadSvg, setLoadSvg] = useState(false)
 
     const { notification } = useNotification()
 
     const [saveEsignTemplate, saveEsignTemplateResult] =
         AdminApi.ESign.useSaveTemplate()
+    const template = AdminApi.ESign.useEsignTemplate(
+        { id: Number(router.query?.id), pageNumber },
+        {
+            skip: !router.query?.id || !loadSvg,
+            // refetchOnMountOrArgChange: true,
+        }
+    )
 
-    const pageItems = items.filter((item: any) => item.page === page)
+    const path = template?.data?.data?.[0]
+
+    const pageItems = items.filter((item: any) => item.page === pageNumber)
+
+    useEffect(() => {
+        // Clear the timeout when the component unmounts or when currentPage changes
+        return () => {
+            if (timerId) {
+                clearTimeout(timerId)
+            }
+        }
+    }, [timerId])
 
     useEffect(() => {
         const fetchSvg = async () => {
@@ -88,6 +114,8 @@ const DynamicSvgLoader = ({
         }
     }, [path])
 
+    console.log({ pageItems, pageNumber, viewport })
+
     const handleSvgClick = (event: any) => {
         const dataViewName = event.target.getAttribute('data-view-name')
         if (dataViewName !== 'tab') onItemSelected(null, false)
@@ -117,6 +145,7 @@ const DynamicSvgLoader = ({
                 type: item?.data?.type,
                 columnName: item?.data?.column,
                 role: item?.data?.role,
+                required: item?.data?.isRequired,
                 ...(item?.saved ? { id: item?.id } : {}),
             }))
 
@@ -165,9 +194,9 @@ const DynamicSvgLoader = ({
         }
     }
 
-    const id = `drop-target-${page}`
+    const id = `drop-target-${pageNumber}`
     const { setNodeRef } = useDroppable({
-        id: page,
+        id: pageNumber,
     })
 
     const sensors = useSensors(
@@ -179,82 +208,136 @@ const DynamicSvgLoader = ({
 
     const dimensionRef = useRef<any>()
 
+    const handleEnter = () => {
+        if (timerId) {
+            clearTimeout(timerId)
+        }
+
+        // Set a timeout to make the API call after 1 second of inactivity
+        const id = setTimeout(() => {
+            setLoadSvg(true)
+        }, 1000)
+
+        setTimerId(id)
+    }
+
     return (
         <>
-            {submitError && (
-                <ShowErrorNotifications
-                    result={{
-                        isError: true,
-                        error: submitError,
-                    }}
-                />
-            )}
-            <div className="fixed w-full left-0 bottom-0 p-4 bg-white flex justify-end">
-                <Button
-                    variant="info"
-                    text={'Save'}
-                    loading={saveEsignTemplateResult.isLoading}
-                    disabled={saveEsignTemplateResult.isLoading}
-                    onClick={onSaveClick}
-                />
-            </div>
-            <div ref={dimensionRef} className="relative">
-                {dimensionRef.current && (
-                    <CursorCoordinates
-                        viewport={viewport}
-                        element={dimensionRef.current}
-                        setTabDropCoordinates={setTabDropCoordinates}
-                    />
-                )}
-                <DndContext
-                    sensors={sensors}
-                    onDragEnd={(data) => {
-                        onItemLocationChanged(data)
-                    }}
-                    onDragMove={(data) => {
-                        onItemMove(data)
-                    }}
-                >
-                    <div ref={setNodeRef} className="w-full mx-auto">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            // width="596"
-                            width="100%"
-                            // height="842"
-                            height="100%"
-                            viewBox={viewport || '0 0 596 842'}
-                            // dangerouslySetInnerHTML={{ __html: svgContent }}
-                            onClick={handleSvgClick}
-                        >
-                            <g>
-                                {/* <g
+            <Waypoint
+                onEnter={handleEnter}
+                onLeave={() => {
+                    setLoadSvg(false)
+                    if (timerId) {
+                        clearTimeout(timerId)
+                    }
+                }}
+            >
+                <div>
+                    {template?.data ? (
+                        <div>
+                            {submitError && (
+                                <ShowErrorNotifications
+                                    result={{
+                                        isError: true,
+                                        error: submitError,
+                                    }}
+                                />
+                            )}
+                            <div className="z-20 fixed w-full left-0 bottom-0 p-4 bg-white flex justify-end">
+                                <Button
+                                    variant="info"
+                                    text={'Save'}
+                                    loading={saveEsignTemplateResult.isLoading}
+                                    disabled={saveEsignTemplateResult.isLoading}
+                                    onClick={onSaveClick}
+                                />
+                            </div>
+                            <div ref={dimensionRef} className="relative">
+                                {dimensionRef.current && (
+                                    <CursorCoordinates
+                                        viewport={viewport}
+                                        element={dimensionRef.current}
+                                        setTabDropCoordinates={
+                                            setTabDropCoordinates
+                                        }
+                                    />
+                                )}
+                                <DndContext
+                                    sensors={sensors}
+                                    onDragEnd={(data) => {
+                                        onItemLocationChanged(data)
+                                    }}
+                                    onDragMove={(data) => {
+                                        onItemMove(data)
+                                    }}
+                                >
+                                    <div
+                                        ref={setNodeRef}
+                                        className="w-full mx-auto"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            // width="596"
+                                            width="100%"
+                                            // height="842"
+                                            height="100%"
+                                            viewBox={String(viewport)}
+                                            // dangerouslySetInnerHTML={{ __html: svgContent }}
+                                            onClick={handleSvgClick}
+                                        >
+                                            <g>
+                                                {/* <g
                             dangerouslySetInnerHTML={{
                                 __html: svgContent,
                             }}
                         /> */}
 
-                                <image
-                                    href={`data:image/svg+xml,${encodeURIComponent(
-                                        svgContent
-                                    )}`}
-                                />
+                                                <image
+                                                    href={`data:image/svg+xml,${encodeURIComponent(
+                                                        svgContent
+                                                    )}`}
+                                                />
 
-                                {pageItems &&
-                                    pageItems.map((item: any, i: number) => (
-                                        <DraggableTab
-                                            item={item}
-                                            key={i}
-                                            onResize={onItemResize}
-                                            onResized={onItemResized}
-                                            onItemSelected={onItemSelected}
-                                            onRemove={onItemRemove}
-                                        ></DraggableTab>
-                                    ))}
-                            </g>
-                        </svg>
-                    </div>
-                </DndContext>
-            </div>
+                                                {pageItems &&
+                                                    pageItems.map(
+                                                        (
+                                                            item: any,
+                                                            i: number
+                                                        ) => (
+                                                            <DraggableTab
+                                                                item={item}
+                                                                key={i}
+                                                                onResize={
+                                                                    onItemResize
+                                                                }
+                                                                onResized={
+                                                                    onItemResized
+                                                                }
+                                                                onItemSelected={
+                                                                    onItemSelected
+                                                                }
+                                                                onRemove={
+                                                                    onItemRemove
+                                                                }
+                                                            ></DraggableTab>
+                                                        )
+                                                    )}
+                                            </g>
+                                        </svg>
+                                    </div>
+                                </DndContext>
+                            </div>
+                        </div>
+                    ) : (
+                        <Skeleton
+                            className="w-full rounded-lg z-10"
+                            style={{
+                                height: `${size?.height}px`,
+                            }}
+                        />
+                    )}
+                </div>
+            </Waypoint>
         </>
     )
 }

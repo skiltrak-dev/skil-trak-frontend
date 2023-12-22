@@ -38,7 +38,7 @@ const filterKeys = [
     'state',
 ]
 
-const removeFilterKeysToUrl = ['name']
+const removeFilterKeysToUrl = ['']
 
 const IndustryList: NextPageWithLayout = () => {
     const router = useRouter()

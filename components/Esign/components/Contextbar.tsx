@@ -3,6 +3,7 @@
 import { Typography } from '@components/Typography'
 import { UserRoles } from '@constants'
 import { FieldsTypeEnum } from './SidebarData'
+import { Checkbox } from '@components/inputs'
 
 export const Contextbar = ({
     items,
@@ -11,7 +12,9 @@ export const Contextbar = ({
     setCurrentPage,
     onSetContextBar,
     onSetCoordinates,
+    onHandleScroll,
 }: {
+    onHandleScroll: any
     items: any
     content: any
     totalPages: number
@@ -125,6 +128,7 @@ export const Contextbar = ({
                     <option value={FieldsTypeEnum.Date}>Date</option>
                 </select>
             </div> */}
+
                 {content?.data?.isCustom && (
                     <>
                         <div className="mt-3">
@@ -223,6 +227,32 @@ export const Contextbar = ({
                                 ))}
                             </select>
                         </div>
+                        <div className="mt-2 flex items-center gap-x-2">
+                            {/* <input
+                            onChange={(e) => {
+                                onSetContextBar({ content, e }, 'isRequired')
+                            }}
+                            defaultChecked={content?.data?.isRequired}
+                            type="checkbox"
+                            name=""
+                            value={content?.data?.isRequired}
+                            id="isRequired"
+                        /> */}
+                            <Checkbox
+                                name={'isRequired'}
+                                onChange={(e: any) => {
+                                    onSetContextBar(
+                                        { content, e },
+                                        'isRequired'
+                                    )
+                                }}
+                                defaultChecked={content?.data?.isRequired}
+                                value={content?.data?.isRequired}
+                                id="isRequired"
+                                label={'IsRequired'}
+                            />
+                            {/* <label htmlFor="isRequired">IsRequired</label> */}
+                        </div>
                     </>
                 )}
 
@@ -240,7 +270,8 @@ export const Contextbar = ({
                                 <span
                                     key={i}
                                     onClick={() => {
-                                        setCurrentPage(i)
+                                        // setCurrentPage(i)
+                                        onHandleScroll(i)
                                     }}
                                     className="w-8 h-8 rounded-full bg-success text-white text-xs font-bold flex justify-center items-center cursor-pointer"
                                 >

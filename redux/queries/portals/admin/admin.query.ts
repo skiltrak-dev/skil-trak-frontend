@@ -331,6 +331,7 @@ const {
     useSaveEsignTemplateMutation,
     useChangeEsignStatusMutation,
     useGetEsignTemplateTabsQuery,
+    useGetTemplatePagesCountQuery,
     useGetEsignTemplateDetailQuery,
     useUpdateEsignTemplateDetailMutation,
 } = adminApi
@@ -506,6 +507,7 @@ export const AdminApi = {
         useEsignTemplate: useGetEsignTemplateQuery,
         useSaveTemplate: useSaveEsignTemplateMutation,
         useChangeStatus: useChangeEsignStatusMutation,
+        useTamplatePagesCount: useGetTemplatePagesCountQuery,
         useGetEsignTemplateTabs: useGetEsignTemplateTabsQuery,
         useEsignTemplateDetail: useGetEsignTemplateDetailQuery,
         useUpdateEsignDetail: useUpdateEsignTemplateDetailMutation,

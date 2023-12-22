@@ -18,6 +18,10 @@ export const eSignEndpoints = (
         }),
         invalidatesTags: ['E-Sign'],
     }),
+    getTemplatePagesCount: builder.query<any, any>({
+        query: (id) => `${PREFIX}/template/${id}/pages/get-count`,
+        providesTags: ['E-Sign'],
+    }),
     saveEsignTemplate: builder.mutation<any, any>({
         query: ({ id, ...body }) => ({
             url: `${PREFIX}/template/tabs/${id}`,
