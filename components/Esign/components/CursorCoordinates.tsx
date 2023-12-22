@@ -9,9 +9,19 @@ export const CursorCoordinates = ({
     setTabDropCoordinates: (coordinates: { x: number; y: number }) => void
     element: any
 }) => {
-    const [a, b, width, height] = viewport?.split(' ')
+    const [viewPortData, setViewPortData] = useState<string[]>([])
+    console.log('viewport', viewport)
     const [coords, setCoords] = useState({ x: 0, y: 0 })
     const [cursorCoords, setCursorCoords] = useState({ x: 0, y: 0 })
+
+    useEffect(() => {
+        if (viewport) {
+            setViewPortData(viewport?.split(' '))
+        }
+    }, [viewport])
+
+    const [a, b, width, height] = viewPortData
+
     useEffect(() => {
         const handleWindowMouseMove = (event: any) => {
             const clientRect = element.getBoundingClientRect()

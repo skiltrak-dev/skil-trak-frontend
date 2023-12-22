@@ -80,11 +80,11 @@ export default function ESign() {
                 const size = tab?.size?.split(',')
                 return {
                     id: tab?.id,
-                    page: tab?.number,
+                    page: Number(tab?.number) - 1,
                     location: {
                         x: Number(location?.[0]),
                         y: Number(location?.[1]),
-                        page: tab?.number,
+                        page: Number(tab?.number) - 1,
                     },
                     size: {
                         width: Number(size?.[0]),
@@ -439,7 +439,7 @@ export default function ESign() {
                                                         }}
                                                         size={item}
                                                         items={items}
-                                                        pageNumber={i}
+                                                        pageNumber={i + 1}
                                                         // path={item}
                                                         page={currentPage + 1}
                                                         onItemSelected={
@@ -486,7 +486,7 @@ export default function ESign() {
                                 setCurrentPage(currentPage)
                             }}
                             items={items}
-                            totalPages={pagesCount?.data?.totalPages}
+                            totalPages={pagesCount?.data?.pageCount}
                         />
                     </div>
                 </div>

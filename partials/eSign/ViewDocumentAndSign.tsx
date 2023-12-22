@@ -137,6 +137,8 @@ export const ViewDocumentAndSign = () => {
         })
     }
 
+    console.log({ sign })
+
     return (
         <div>
             {modal}

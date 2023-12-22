@@ -62,7 +62,7 @@ const DynamicSvgLoader = ({
     const [saveEsignTemplate, saveEsignTemplateResult] =
         AdminApi.ESign.useSaveTemplate()
     const template = AdminApi.ESign.useEsignTemplate(
-        { id: Number(router.query?.id), pageNumber },
+        { id: Number(router.query?.id), pageNumber: pageNumber - 1 },
         {
             skip: !router.query?.id || !loadSvg,
             // refetchOnMountOrArgChange: true,
@@ -71,7 +71,7 @@ const DynamicSvgLoader = ({
 
     const path = template?.data?.data?.[0]
 
-    const pageItems = items.filter((item: any) => item.page === pageNumber)
+    const pageItems = items.filter((item: any) => item.page === pageNumber - 1)
 
     useEffect(() => {
         // Clear the timeout when the component unmounts or when currentPage changes
@@ -137,7 +137,7 @@ const DynamicSvgLoader = ({
                 label: item?.data?.dataLabel,
                 position: item?.location?.x + ',' + item?.location?.y,
                 isCustom: item?.data?.isCustom,
-                number: item?.page,
+                number: item?.page + 1,
                 size: item?.size?.width + ',' + item?.size?.height,
                 colour: item?.data?.color,
                 placeholder: item?.data?.placeholder,
@@ -196,7 +196,7 @@ const DynamicSvgLoader = ({
 
     const id = `drop-target-${pageNumber}`
     const { setNodeRef } = useDroppable({
-        id: pageNumber,
+        id: pageNumber - 1,
     })
 
     const sensors = useSensors(

@@ -16,14 +16,28 @@ import {
 } from '@partials'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
-import React, { ReactNode, useCallback, useEffect, useState } from 'react'
+import React, {
+    ReactNode,
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from 'react'
+import { FaSignature } from 'react-icons/fa'
 
 const ESign = () => {
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [customFieldsData, setCustomFieldsData] = useState<any>([])
+    const scrollTargetRef = useRef<any>([])
 
+    const documentsTotalPages = CommonApi.ESign.useGetDocumentTotalPages(
+        Number(router.query?.id),
+        {
+            skip: !router.query?.id,
+        }
+    )
     const tabs = CommonApi.ESign.useGetTabs(
         {
             docId: Number(router.query?.id),
@@ -106,16 +120,24 @@ const ESign = () => {
             )
         )
     }, [])
+
+    const scrollToPage = (pageIndex: number) => {
+        const targetElement = scrollTargetRef.current[pageIndex]
+        if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' })
+        }
+    }
     return (
         <SiteLayout title={'E Sign'}>
             {modal}
             <div className="max-w-7xl mx-auto py-10">
                 <PageHeading title="E-Sign" subtitle="E Sign" />
 
-                {getDocument.isError && <TechnicalError />}
-                {getDocument.isLoading || getDocument.isFetching ? (
+                {documentsTotalPages.isError && <TechnicalError />}
+                {documentsTotalPages.isLoading ||
+                documentsTotalPages.isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : getDocument.data?.data && getDocument?.data.data?.length ? (
+                ) : documentsTotalPages.data ? (
                     <div>
                         <div className="flex justify-end items-center gap-x-2">
                             <input
@@ -127,9 +149,34 @@ const ESign = () => {
                             />
                             <label htmlFor="selectAll">Select All</label>
                         </div>
+
+                        {sign && (
+                            <div
+                                onClick={() => {
+                                    scrollToPage(Number(sign?.number - 1))
+                                }}
+                                className="w-fit mt-4 ml-auto z-10 px-7 py-2 h-full bg-red-600 flex justify-center items-center gap-x-2 text-white"
+                            >
+                                <FaSignature className="text-2xl" />
+                                <button className="text-lg">
+                                    {sign?.responses &&
+                                    sign?.responses?.length > 0
+                                        ? 'View Sign'
+                                        : 'Sign Here'}
+                                </button>
+                            </div>
+                        )}
                         <div className="flex flex-col gap-y-3">
-                            {getDocument?.data?.data?.map(
-                                (doc: any, i: number) => (
+                            {[
+                                ...Array(
+                                    Number(documentsTotalPages?.data?.pageCount)
+                                ),
+                            ]?.map((doc: any, i: number) => (
+                                <div
+                                    ref={(el) =>
+                                        (scrollTargetRef.current[i] = el)
+                                    }
+                                >
                                     <Card key={i}>
                                         <div className="flex justify-center">
                                             <Typography
@@ -141,7 +188,7 @@ const ESign = () => {
                                         </div>
                                         <SVGView
                                             index={i}
-                                            doc={doc}
+                                            // doc={doc}
                                             sign={sign}
                                             customFieldsData={customFieldsData}
                                             onSignatureClicked={
@@ -150,10 +197,13 @@ const ESign = () => {
                                             onAddCustomFieldsData={
                                                 onAddCustomFieldsData
                                             }
+                                            documentData={
+                                                documentsTotalPages?.data
+                                            }
                                         />
                                     </Card>
-                                )
-                            )}
+                                </div>
+                            ))}
                         </div>
                     </div>
                 ) : (
