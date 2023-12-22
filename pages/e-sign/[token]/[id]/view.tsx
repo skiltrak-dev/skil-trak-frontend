@@ -173,6 +173,7 @@ const ESign = () => {
                                 ),
                             ]?.map((doc: any, i: number) => (
                                 <div
+                                    key={i}
                                     ref={(el) =>
                                         (scrollTargetRef.current[i] = el)
                                     }
