@@ -14,10 +14,11 @@ import {
     TechnicalError,
     EmptyData,
     LoadingAnimation,
+    TableChildrenProps,
     // Alerts,
     // DeleteActionPopup,
     // ActionDropDown,
-} from 'components'
+} from '@components'
 import { EmployeeDetailForm } from './form'
 
 // Context
@@ -173,29 +174,37 @@ export const EmployeeSchedule = () => {
                 {isError && <TechnicalError />}
                 {isLoading ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length ? (
+                ) : data?.data && data?.data?.length ? (
                     <Table
                         columns={Columns}
-                        data={data.data}
+                        data={data?.data}
                         // quickActions={quickActionsElements}
                         enableRowSelection
                     >
                         {({
-                            table,
-                            pagination,
-                            pageSize,
                             quickActions,
-                        }: any) => {
+                            pageSize,
+                            pagination,
+                            table,
+                        }: TableChildrenProps) => {
                             return (
                                 <div>
                                     <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        {pageSize
+                                            ? pageSize(
+                                                  itemPerPage,
+                                                  setItemPerPage,
+                                                  data?.data?.length
+                                              )
+                                            : null}
                                         <div className="flex gap-x-2">
                                             {quickActions}
-                                            {pagination(
-                                                data?.pagination,
-                                                setPage
-                                            )}
+                                            {pagination
+                                                ? pagination(
+                                                      data?.pagination,
+                                                      setPage
+                                                  )
+                                                : null}
                                         </div>
                                     </div>
                                     <div className="px-6">{table}</div>

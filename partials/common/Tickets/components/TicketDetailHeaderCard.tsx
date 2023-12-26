@@ -43,7 +43,6 @@ export const TicketDetailHeaderCard = ({
 
     const role = getUserCredentials()?.role
     const userId = getUserCredentials()?.id
-    console.log('ticket?.assignedTo?.id === userId', ticket)
     // ticket.course.title
     // ticket.course.code
     return (

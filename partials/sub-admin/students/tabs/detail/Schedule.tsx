@@ -232,7 +232,6 @@ export const Schedule = ({
                                                         .split(':')
                                                         .map(Number)
 
-                                                    console.log({ day })
                                                     return {
                                                         start: new Date(
                                                             year,

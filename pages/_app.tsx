@@ -15,6 +15,7 @@ import { useEffect } from 'react'
 import { Provider } from 'react-redux'
 import { ErrorBoundaryContext } from 'react-use-error-boundary'
 import '../styles/globals.css'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 import { NextPageWithLayout } from '@types'
 import { store } from '../redux/store'

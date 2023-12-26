@@ -1,17 +1,30 @@
 import { Typography } from '@components/Typography'
+import { getUserCredentials } from '@utils'
 import React from 'react'
 import { FaFileSignature } from 'react-icons/fa'
 type ESignTitleCardProps = {
-    courseName: string
-    status: string
+    doc: any
+    onClick: () => void
+    selectedFolder: any
 }
 
-export const ESignTitleCard = ({ courseName, status }: ESignTitleCardProps) => {
+export const ESignTitleCard = ({
+    doc,
+    onClick,
+    selectedFolder,
+}: ESignTitleCardProps) => {
+    const role = getUserCredentials()?.role
+
+    const { status } =
+        doc?.signers?.find((d: any) => d?.user?.role === role) || {}
     return (
         <div
+            onClick={() => {
+                onClick()
+            }}
             className={`${
-                status === 'Signed' ? 'bg-white' : 'bg-[#FEE1B2]'
-            } px-2 py-4`}
+                doc?.id === selectedFolder?.id ? 'bg-[#FEE1B2]' : 'bg-white'
+            } px-2 py-4 cursor-pointer`}
         >
             <div className={`flex justify-between items-center`}>
                 <div className="flex items-center gap-x-2">
@@ -19,7 +32,11 @@ export const ESignTitleCard = ({ courseName, status }: ESignTitleCardProps) => {
                         <FaFileSignature className="text-orange-400" />
                     </div>
                     <div>
-                        <Typography variant="label">{courseName}</Typography>
+                        <Typography variant="label">
+                            <span className="cursor-pointer">
+                                {doc?.template?.name}
+                            </span>
+                        </Typography>
                     </div>
                 </div>
                 <div

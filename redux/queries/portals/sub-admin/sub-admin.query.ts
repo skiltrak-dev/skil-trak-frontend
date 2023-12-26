@@ -4,6 +4,7 @@ import { subAdminAppointmentspoints } from './appointments'
 import { assessmentEvidenceEndpoints } from './assessmentEvidence'
 import { subAdminIndustriesEndpoints } from './industries'
 import { notesEndpoints } from './notes'
+import { eSignEndpoints } from './eSign'
 import { profileEndpoints } from './profile'
 import { subAdminReports } from './reports'
 import { subAdminRtoEndpoints } from './rto'
@@ -29,20 +30,6 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
     // keepUnusedDataFor: 200,
     // refetchOnMountOrArgChange: true,
     // refetchOnReconnect: true,
-
-    // tagTypes: [
-    //     'Notes',
-    //     'Setting',
-    //     'SubAdmin',
-    //     'Statistics',
-    //     'Appointment',
-    //     'SetSchedule',
-    //     'SubAdminRtos',
-    //     'SubAdminStudents',
-    //     'SubAdminWorkplace',
-    //     'AssessmentEvidence',
-    //     'SubAdminIndustries',
-    // ],
 
     // ---------- Sub Admin ENDPOINTS ---------- //
     endpoints: (build) => ({
@@ -75,6 +62,8 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
         }),
 
         ...notesEndpoints(build),
+        ...eSignEndpoints(build),
+        ...subAdminReports(build),
         ...profileEndpoints(build),
         ...studentsEndpoints(build),
         ...workplaceEndpoints(build),
@@ -85,7 +74,6 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
         ...subAdminAppointmentspoints(build),
         ...assessmentEvidenceEndpoints(build),
         ...subAdminIndustriesEndpoints(build),
-        ...subAdminReports(build),
     }),
     // overrideExisting: false,
 })
@@ -272,6 +260,15 @@ export const {
     useGetStudentWithNoWorkplaceReportQuery,
     useGetSubAdminReportDownloadLinkQuery,
     useGetStudentProvidedWorkplaceReportQuery,
+
+    // ---- ESIGN ---- //
+    useCancelESignMutation,
+    useInitiateESignMutation,
+    useGetESignStudentDetailQuery,
+    useRequestResignForESignMutation,
+    useGetESignTemplateDetailQuery,
+    useViewStudentEsignDocumentQuery,
+    usePreviewAsSignerTemplateQuery,
 } = subAdminApi
 
 export const SubAdminApi = {
@@ -404,5 +401,14 @@ export const SubAdminApi = {
         useDownloadLink: useGetSubAdminReportDownloadLinkQuery,
         useStudentProvidedWorkplaceReport:
             useGetStudentProvidedWorkplaceReportQuery,
+    },
+    eSign: {
+        useCancelESign: useCancelESignMutation,
+        useInitiateESign: useInitiateESignMutation,
+        useGetESignStudent: useGetESignStudentDetailQuery,
+        useESignTemplateDetail: useGetESignTemplateDetailQuery,
+        requestResignForESign: useRequestResignForESignMutation,
+        usePreviewAsSignerTemplate: usePreviewAsSignerTemplateQuery,
+        useStudentEsignDocument: useViewStudentEsignDocumentQuery,
     },
 }

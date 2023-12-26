@@ -19,10 +19,10 @@ export const DraggableTab = ({
         ...(transform
             ? {
                   transform: CSS.Translate.toString({
-                      x: transform.x + item.location.x,
-                      y: transform.y + item.location.y,
-                      scaleX: transform.scaleX,
-                      scaleY: transform.scaleY,
+                      x: transform.x + item.location?.x,
+                      y: transform.y + item.location?.y,
+                      scaleX: transform?.scaleX,
+                      scaleY: transform?.scaleY,
                   }),
               }
             : {}),
@@ -55,23 +55,23 @@ export const DraggableTab = ({
             {...attributes}
         >
             <rect
-                width={item.size.width}
-                height={item.size.height}
+                width={item.size?.width}
+                height={item.size?.height}
                 // fill="#F7910F"
-                fill={item.data.color}
+                fill={item.data?.color}
                 fillOpacity="0.25"
             />
             <rect
                 x="0.5"
                 y="0.5"
-                width={item.size.width}
-                height={item.size.height}
+                width={item.size?.width}
+                height={item.size?.height}
                 // stroke="#A9650E"
-                stroke={item.data.color}
+                stroke={item.data?.color}
                 fillOpacity={'0'}
             />
-            <text className="text-[13px]" x="6" y="18" fill={item.data.color}>
-                {item.data.placeholder || 'Text'}
+            <text className="text-[13px]" x="6" y="18" fill={item.data?.color}>
+                {item.data?.placeholder || 'Text'}
             </text>
 
             {item.selected && (

@@ -26,6 +26,7 @@ import { BlockModal, MultiBlockModal } from './modals'
 // hooks
 import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
+import { ellipsisText } from '@utils'
 
 export const ApprovedIndustry = () => {
     const selectInputRef = useRef()
@@ -136,14 +137,27 @@ export const ApprovedIndustry = () => {
             },
         },
         {
+            accessorKey: 'suburb',
+            header: () => <span>Suburb</span>,
+        },
+        {
             accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
             cell: (info) => (
-                <div>
+                <div className="group relative">
                     <Typography variant={'label'}>
+                        <span className="cursor-pointer">
+                            {ellipsisText(
+                                `${info.row.original?.addressLine1}, 
+                        ${info.row.original?.suburb}`,
+                                15
+                            )}
+                        </span>
+                    </Typography>
+                    <div className="hidden group-hover:block w-60 absolute top-full left-0 p-2 z-20 shadow rounded-md bg-white">
                         {info.row.original?.addressLine1},{' '}
                         {info.row.original?.suburb}
-                    </Typography>
+                    </div>
                 </div>
             ),
         },

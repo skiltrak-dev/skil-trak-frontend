@@ -25,6 +25,7 @@ import {
     useUpdateFindAbnMutation,
 } from '@queries'
 import { useMediaQuery } from 'react-responsive'
+import { WorkplaceCurrentStatus } from '@utils'
 
 type Props = {}
 
@@ -87,21 +88,32 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     }, [cancelRequestResult.isSuccess])
 
     const workplaceCancelRequest = (simple: boolean = false) => {
-        return (
-            <div className="mt-3">
-                <ActionButton
-                    variant={'error'}
-                    onClick={async () => {
-                        await cancelRequest()
-                    }}
-                    loading={cancelRequestResult.isLoading}
-                    disabled={cancelRequestResult.isLoading}
-                    simple={simple}
-                >
-                    Cancel Request
-                </ActionButton>
-            </div>
-        )
+        const workplaceStatus = [
+            WorkplaceCurrentStatus.NotRequested,
+            WorkplaceCurrentStatus.Applied,
+            WorkplaceCurrentStatus.CaseOfficerAssigned,
+            WorkplaceCurrentStatus.Interview,
+            WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
+        ]
+
+        if (workplaceStatus.includes(workplaceData?.currentStatus)) {
+            return (
+                <div className="mt-3">
+                    <ActionButton
+                        variant={'error'}
+                        onClick={async () => {
+                            await cancelRequest()
+                        }}
+                        loading={cancelRequestResult.isLoading}
+                        disabled={cancelRequestResult.isLoading}
+                        simple={simple}
+                    >
+                        Cancel Request
+                    </ActionButton>
+                </div>
+            )
+        }
+        return null
     }
 
     const StepIndicatorOptions = [

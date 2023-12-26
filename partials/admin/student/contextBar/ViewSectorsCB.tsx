@@ -26,6 +26,7 @@ export const ViewSectorsCB = ({ student }: { student: Student }) => {
     const contextBar = useContextBar()
 
     const courses = AdminApi.Students.useSectors(student.id)
+    // const sectorsWithCourses = getSectors(courses.data)
     const sectorsWithCourses = getSectors(courses.data)
 
     const [assignCourses, assignCoursesResult] =

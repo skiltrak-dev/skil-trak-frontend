@@ -1,5 +1,6 @@
 import { ReactElement, useState } from 'react'
 import { FaChevronDown } from 'react-icons/fa'
+import { usePopper } from 'react-popper'
 
 export interface TableActionOption {
     text?: string | ReactElement
@@ -23,6 +24,20 @@ export const TableAction = ({
     const [isOverButton, setIsOverButton] = useState(false)
     const [isOverList, setIsOverList] = useState(false)
 
+    // const [referenceElement, setReferenceElement] =
+    //     useState<HTMLElement | null>(null)
+    // const [popperElement, setPopperElement] = useState<HTMLElement | null>(null)
+    // const [arrowElement, setArrowElement] = useState<HTMLElement | null>(null)
+
+    // const { styles, attributes } = usePopper(referenceElement, popperElement, {
+    //     modifiers: [
+    //         {
+    //             name: 'arrow',
+    //             options: { element: arrowElement },
+    //         },
+    //     ],
+    // })
+
     return (
         <div
             className="relative w-fit"
@@ -38,13 +53,19 @@ export const TableAction = ({
                 <FaChevronDown />
             </button>
 
-            {options && (
+            {options && (isOverButton || isOverList) && (
                 <ul
-                    className={`bg-white rounded-xl shadow-xl min-w-[130px] max-w-[175px] ${
-                        isOverButton || isOverList ? 'block' : 'hidden'
-                    } absolute ${
+                    className={`bg-white rounded-xl shadow-xl min-w-[130px] max-w-[175px]  absolute ${
                         lastIndex ? 'bottom-full' : 'top-full'
                     } right-0 z-10`}
+                    // className={`bg-white rounded-xl shadow-xl min-w-[130px] max-w-[175px] ${
+                    //     isOverButton || isOverList ? 'block' : 'hidden'
+                    // } absolute ${
+                    //     lastIndex ? 'bottom-full' : 'top-full'
+                    // } right-0 z-10`}
+                    // ref={setPopperElement}
+                    // style={styles.popper}
+                    // {...attributes.popper}
                     onMouseEnter={() => {
                         setIsOverList(true)
                     }}

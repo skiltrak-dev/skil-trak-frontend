@@ -1,4 +1,5 @@
 export * from './Modal'
 export * from './ActionModal'
+export * from './GlobalModal'
 export * from './MultiActionModal'
 export * from './SessionExpireModal'

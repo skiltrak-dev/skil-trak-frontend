@@ -1,25 +1,11 @@
-import {
-    BackButton,
-    Button,
-    Card,
-    Checkbox,
-    Select,
-    ShowErrorNotifications,
-    TextInput,
-    Typography,
-    UploadFile,
-} from '@components'
+import { BackButton, Button, ShowErrorNotifications } from '@components'
 import { PageHeading } from '@components/headings'
-import { AdminLayout } from '@layouts'
-import { AddCommentEnum, Course, Folder, Rto } from '@types'
-import React, { ReactElement, useEffect, useState } from 'react'
-import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
-import { FileUpload } from '@hoc'
-import { UserRoles } from '@constants'
-import { useRouter } from 'next/router'
-import { AdminApi } from '@queries'
 import { useNotification } from '@hooks'
+import { AdminLayout } from '@layouts'
 import { AddEsignForm } from '@partials'
+import { AdminApi } from '@queries'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
 
 const AddESign = () => {
     const router = useRouter()

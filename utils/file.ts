@@ -41,8 +41,8 @@ export const SupportedDocumentFormats = `${formatAndJoin(
 )},${formatAndJoin('text', TextFormats)}`
 
 export const FileFormat = {
-    isPdf: (file: any) => {
-        const extension = file.name.split('.').reverse()[0]
+    isPdf: (file: any, ext?: any) => {
+        const extension = ext ? ext : file.name.split('.').reverse()[0]
         return file.type === 'application/pdf' || extension === 'pdf'
     },
 }

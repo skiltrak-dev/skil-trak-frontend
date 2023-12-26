@@ -63,15 +63,11 @@ export const DesktopAssessment = ({
                         {assessmentsCourses?.data?.map((course: any) => (
                             <CourseCard
                                 key={course?.id}
-                                id={course?.id}
-                                code={course?.code}
-                                title={course?.title}
+                                course={course}
                                 result={getCourseResult(
                                     course?.results,
                                     'Not Assessed'
                                 )}
-                                isActive={course?.isActive}
-                                coordinator={course?.subadmin[0]?.user?.name}
                                 selectedCourseId={selectedCourse?.id}
                                 onClick={() => {
                                     setSelectedCourse(course)
