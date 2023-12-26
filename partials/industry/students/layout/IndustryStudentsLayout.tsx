@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React, { ReactNode } from 'react'
 import classNames from 'classnames'
-import { FaClipboardList } from 'react-icons/fa'
+import { FaClipboardList, FaFileSignature } from 'react-icons/fa'
 import { HiInformationCircle, HiUsers } from 'react-icons/hi2'
 import { MdSpaceDashboard } from 'react-icons/md'
 import { IndustryLayout } from '@layouts'
@@ -91,6 +91,24 @@ export const IndustryStudentsLayout = ({
                                 </span>
                                 <span className="text-sm font-semibold">
                                     Appointments
+                                </span>
+                            </a>
+                        </Link>
+                    </li>
+
+                    <li>
+                        <Link
+                            legacyBehavior
+                            href="/portals/industry/students/e-sign"
+                        >
+                            <a
+                                className={`text-slate-700 ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
+                            >
+                                <span>
+                                    <FaFileSignature />
+                                </span>
+                                <span className="text-sm font-semibold">
+                                    E Sign
                                 </span>
                             </a>
                         </Link>

@@ -14,7 +14,6 @@ export const TicketUser = ({
     forwarded?: any
 }) => {
     // const forwardedLen = Object?.keys(forwarded).length
-    // console.log('Object.keys(forwarded).length', Object?.keys(forwarded)?.length)
     return (
         <div className="flex items-center gap-x-2">
             <div className="shadow-inner-image rounded-full">

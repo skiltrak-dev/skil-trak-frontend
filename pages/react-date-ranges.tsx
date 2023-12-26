@@ -10,6 +10,8 @@ import { FaTimes } from 'react-icons/fa'
 import OutsideClickHandler from 'react-outside-click-handler'
 import { useJsApiLoader } from '@react-google-maps/api'
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
+import { ViewUsersForEsignModal } from '@partials'
+import Skeleton from 'react-loading-skeleton'
 
 const ReactDateRanges = () => {
     const { isLoaded } = useJsApiLoader({
@@ -40,7 +42,14 @@ const ReactDateRanges = () => {
 
     return (
         <>
-            {' '}
+            {[...Array(10)].map((_, i) => (
+                <div key={i}>
+                    <Skeleton
+                        baseColor="#000000"
+                        className="min-w-[320px] min-h-[200px] rounded-lg"
+                    />
+                </div>
+            ))}
             {/* <GooglePlacesAutocomplete
                 apiKey={'AIzaSyCMEGspm5WHyXte3TN4Lfrkcg9DchsbYEk'}
                 // secret={SECRET}

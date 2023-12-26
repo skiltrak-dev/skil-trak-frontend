@@ -28,12 +28,12 @@ const PrimaryLinks = [
         animation: Animations.Student.Appointments.AssessmentTool,
         id: 'appointments',
     },
-    // {
-    //     title: 'E-Signs',
-    //     description: 'View & Sign Your Digital Documents',
-    //     link: 'tasks/e-signs',
-    //     animation: Animations.Student.Appointments.Esign,
-    // },
+    {
+        title: 'E-Signs',
+        description: 'View & Sign Your Digital Documents',
+        link: 'tasks/e-sign',
+        animation: Animations.Student.Appointments.Esign,
+    },
 ]
 
 const RelatedQuestions = [

@@ -56,7 +56,7 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     name={'status'}
                     options={StatusOptions}
                     placeholder={'Select Status...'}
-                    defaultValue={StatusOptions.find(
+                    value={StatusOptions.find(
                         (status) => status.value === filter?.status
                     )}
                     onChange={(e: OptionType) => {
@@ -71,9 +71,9 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     name={'courseId'}
                     options={coursesOptions}
                     placeholder={'Select Courses...'}
-                    defaultValue={coursesOptions?.find(
+                    value={coursesOptions?.find(
                         (course: OptionType) =>
-                            course.value === filter?.courseId
+                            course.value === Number(filter?.courseId)
                     )}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, courseId: e?.value })

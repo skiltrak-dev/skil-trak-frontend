@@ -7,14 +7,10 @@ import { ESignatures } from '@components/sections/student/AssessmentsContainer'
 type Props = {}
 
 const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
-    return (
-        <>
-            <ESignatures />
-        </>
-    )
+    return <ESignatures />
 }
 AssessmentEvidence.getLayout = (page: ReactElement) => {
-    return <StudentLayout pageTitle={{title:"E-Sign"}}>{page}</StudentLayout>
+    return <StudentLayout pageTitle={{ title: 'E-Sign' }}>{page}</StudentLayout>
 }
 
 export default AssessmentEvidence

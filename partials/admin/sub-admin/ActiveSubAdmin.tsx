@@ -117,7 +117,6 @@ export const ActiveSubAdmin = () => {
         contextBar.show()
     }
     const role = getUserCredentials()?.role
-    console.log('role', role)
     const tableActionOptions = (subAdmin: any) => {
         return [
             {

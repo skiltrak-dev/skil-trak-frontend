@@ -145,11 +145,7 @@ export const RequiredDocs = ({
                     {studentCourses?.data?.map((course: any) => (
                         <CourseCard
                             key={course.id}
-                            id={course.id}
-                            code={course.code}
-                            title={course.title}
-                            isActive={course.isActive}
-                            coordinator={getUserCredentials()?.name}
+                            course={course}
                             selectedCourseId={selectedCourse?.id}
                             onClick={() => {
                                 setSelectedCourse(course)

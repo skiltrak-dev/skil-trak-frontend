@@ -47,7 +47,7 @@ const colors: ThemeColors = {
     muted: {
         DEFAULT: '#A5A3A9',
         dark: '#77757F',
-        light: '#CCCCCC',
+        light: '#ffffff',
     },
 }
 

@@ -5,25 +5,15 @@ import moment from 'moment'
 import { useMediaQuery } from 'react-responsive'
 
 type Props = {
-    id?: string
-    code: string
-    title: string
     onClick: () => void
-    coordinator?: string
-    isActive: boolean | null
     selectedCourseId: string | null
-    course?: any
+    course: any
     result?: any
-    results?:any
+    results?: any
 }
 
 export const CourseCard = ({
-    id,
-    code,
-    title,
     onClick,
-    isActive,
-    coordinator,
     selectedCourseId,
     course,
     result,
@@ -39,11 +29,11 @@ export const CourseCard = ({
                 return <Badge text="Not Competent" size="xs" variant="error" />
             case Result.ReOpened:
                 return <Badge text="Re-Opened" size="xs" variant="info" />
-            case (results?.length > 1 && Result.Pending):
+            case results?.length > 1 && Result.Pending:
                 return <Badge text="Resubmitted" size="xs" variant="info" />
             case Result.Pending:
                 return <Badge text="Submitted" size="xs" variant="info" />
-            
+
             default:
                 return <Badge text={result?.result} size="xs" variant="muted" />
         }
@@ -53,7 +43,7 @@ export const CourseCard = ({
         <>
             <div
                 className={`${
-                    id === selectedCourseId ? 'bg-blue-100' : 'bg-white'
+                    course?.id === selectedCourseId ? 'bg-blue-100' : 'bg-white'
                 } rounded-lg border p-2 w-full cursor-pointer`}
                 onClick={() => {
                     onClick()
@@ -65,7 +55,7 @@ export const CourseCard = ({
                             variant={isLargeScreen ? 'xs' : 'badge'}
                             color="text-black"
                         >
-                            {code}
+                            {course?.code}
                         </Typography>
                     </div>
                     {result && (
@@ -90,7 +80,7 @@ export const CourseCard = ({
                             variant={isLargeScreen ? 'label' : 'small'}
                             color="text-black"
                         >
-                            {title}
+                            {course?.title}
                         </Typography>
                     </div>
                     <div className="">

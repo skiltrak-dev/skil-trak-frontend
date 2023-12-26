@@ -75,8 +75,8 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
             workplace?.data &&
             workplace?.data?.length > 0
         ) {
-            setWorkplaceData(workplace?.data)
             setActive(3)
+            setWorkplaceData(workplace?.data)
         }
     }, [workplace])
 
@@ -180,8 +180,8 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                     <div className="flex gap-x-5 w-full">
                         <ShowErrorNotifications result={addWorkplaceResult} />
                         {/* <GoBackButton>Workplace Choice</GoBackButton> */}
-
                         {/*  */}
+
                         <div className="py-4 w-[25%]">
                             <StepIndicator
                                 steps={StepIndicatorOptions}
@@ -189,7 +189,6 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                                 vertical
                             />
                         </div>
-
                         <div className="w-[75%]">
                             {active === 1 && (
                                 <FindWorkplaceForm

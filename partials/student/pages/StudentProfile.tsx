@@ -208,11 +208,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
         if (isSuccess && data) {
             navBar.setSubTitle(data?.user?.name)
             contextBar.show(false)
-            contextBar.setContent(
-                <SubAdminStudentProfile
-                    student={data}
-                />
-            )
+            contextBar.setContent(<SubAdminStudentProfile student={data} />)
         }
         // setNotifModal(
         //     <AddNoteNotificationModal onCancel={() => onCancelNotifModal()} />

@@ -18,6 +18,10 @@ export const eSignEndpoints = (
         }),
         invalidatesTags: ['E-Sign'],
     }),
+    getTemplatePagesCount: builder.query<any, any>({
+        query: (id) => `${PREFIX}/template/${id}/pages/get-count`,
+        providesTags: ['E-Sign'],
+    }),
     saveEsignTemplate: builder.mutation<any, any>({
         query: ({ id, ...body }) => ({
             url: `${PREFIX}/template/tabs/${id}`,
@@ -42,8 +46,23 @@ export const eSignEndpoints = (
         query: (id) => `${PREFIX}/template/view/${id}`,
         providesTags: ['E-Sign'],
     }),
-    getEsignTemplate: builder.query<any, number>({
-        query: (id) => `${PREFIX}/template/get/${id}`,
+    updateEsignTemplateDetail: builder.mutation<any, any>({
+        query: ({ id, body }) => ({
+            url: `${PREFIX}/template/update/${id}`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['E-Sign'],
+    }),
+    getEsignTemplate: builder.query<any, { id: number; pageNumber: number }>({
+        query: ({ id, ...params }) => ({
+            url: `${PREFIX}/template/get/${id}`,
+            params,
+        }),
+        providesTags: ['E-Sign'],
+    }),
+    getEsignTemplateTabs: builder.query<any, number>({
+        query: (id) => `${PREFIX}/template/tabs-get/${id}`,
         providesTags: ['E-Sign'],
     }),
     changeEsignStatus: builder.mutation<

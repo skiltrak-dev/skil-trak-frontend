@@ -40,7 +40,6 @@ export const AddTicketForm = ({
             })
         })
         .flat()
-    console.log('courses', courses)
     const validationSchema = yup.object({
         assignedTo: yup.number().required('Must provide Assign To'),
         subject: yup.string().required('Must provide Subject'),

@@ -2,11 +2,10 @@ import { InitialAvatar } from '@components'
 import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary'
 import { useScrollIntoView } from '@hooks'
 import { Student } from '@types'
-import { AuthUtils, QueryType, isBrowser, queryToUrl, setLink } from '@utils'
+import { QueryType, isBrowser, queryToUrl, setLink } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { MdEmail } from 'react-icons/md'
 
@@ -75,7 +74,6 @@ export const StudentCellInfo = ({
                     if (isBrowser()) {
                         sessionStorage.setItem('scrollId', student?.studentId)
                     }
-                    console.log('Saad')
                 }}
                 className="flex items-center gap-x-2 cursor-pointer"
             >
@@ -97,7 +95,9 @@ export const StudentCellInfo = ({
                                     'whitespace-nowrap text-xs text-gray-500'
                                 }
                             >
-                                {student?.studentId}
+                                <ErrorBoundary>
+                                    {student?.studentId}
+                                </ErrorBoundary>
                             </p>
                             {student?.isHighPriority && (
                                 <div className="rounded-md whitespace-nowrap px-1 py-0.5 border border-red-400 text-red-400 text-xs font-medium">

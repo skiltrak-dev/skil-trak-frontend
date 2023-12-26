@@ -42,6 +42,7 @@ export type TextInputProps = InputProps & {
     placesSuggetions?: any
     onFocus?: any
     color?: string
+    defaultValue?: string
 }
 
 export const TextInput = ({
@@ -70,6 +71,7 @@ export const TextInput = ({
     min,
     max,
     onPlaceSuggetions,
+    defaultValue,
     onFocus,
 }: TextInputProps) => {
     const [passwordType, setPasswordType] = useState<string | null>(
@@ -129,6 +131,7 @@ export const TextInput = ({
                         name={name}
                         min={min}
                         max={max}
+                        {...(defaultValue ? { defaultValue } : {})}
                         {...getMethodsForInput(
                             name,
                             formContext,

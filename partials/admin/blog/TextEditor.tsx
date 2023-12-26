@@ -46,7 +46,6 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
     // const handleSave = () => {
     //     // const editorContent = quillRef.current.getEditor().getContents()
     //     const html = quillRef.current.getEditor().root.innerHTML
-    //     console.log(html)
     // }
     const handleChecked = () => {
         setIsFeatured(!isFeatured)

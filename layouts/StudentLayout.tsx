@@ -9,13 +9,14 @@ import {
 import { useAlert, useJoyRide } from '@hooks'
 import { ProfileModal } from '@partials/student/Profile/modal/ProfileModal'
 import { StudentContextBar } from '@partials/student/components'
-import { useGetStudentProfileDetailQuery } from '@queries'
+import { CommonApi, useGetStudentProfileDetailQuery } from '@queries'
 import { UserStatus } from '@types'
-import { getUserCredentials } from '@utils'
+import { EsignDocumentStatus, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
+import { ViewUsersForEsignModal } from '@partials'
 
 interface StudentLayoutProps {
     pageTitle?: PageTitleProps
@@ -46,6 +47,9 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
 
     const { alert, setAlerts } = useAlert()
     const userData = getUserCredentials()
+    const pendingDocuments = CommonApi.ESign.usePendingDocumentsList({
+        status: EsignDocumentStatus.PENDING,
+    })
     const joyride = useJoyRide()
 
     useEffect(() => {
@@ -107,17 +111,35 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     const profileCompletion = Math.floor((filledValues / totalValues) * 100)
 
     useEffect(() => {
-        if (profileCompletion && profileCompletion < 100) {
-            setModal(
-                <ProfileModal
-                    profileCompletion={profileCompletion}
-                    keys={keys}
-                />
-            )
-        } else {
-            setModal(null)
+        if (profile.isSuccess) {
+            if (profileCompletion && profileCompletion < 100) {
+                setModal(
+                    <ProfileModal
+                        profileCompletion={profileCompletion}
+                        keys={keys}
+                    />
+                )
+            } else if (pendingDocuments.isSuccess) {
+                const route = `/portals/student/assessments/e-sign/${pendingDocuments?.data?.[0]?.id}`
+                if (
+                    pendingDocuments?.data &&
+                    pendingDocuments?.data?.length > 0 &&
+                    route !== router.asPath
+                ) {
+                    setModal(
+                        <ViewUsersForEsignModal
+                            document={pendingDocuments?.data?.[0]}
+                            onClick={() => router.push(route)}
+                        />
+                    )
+                } else if (route === router.asPath) {
+                    setModal(null)
+                }
+            } else {
+                setModal(null)
+            }
         }
-    }, [profileCompletion])
+    }, [profileCompletion, profile, pendingDocuments, router])
 
     return (
         <RedirectUnApprovedUsers

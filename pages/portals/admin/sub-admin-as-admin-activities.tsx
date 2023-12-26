@@ -63,8 +63,6 @@ const SubAdminAsAdminActivities: NextPageWithLayout = () => {
             }
         )
 
-    console.log('subAdminId', subAdminId)
-
     // const count = CommonApi.RecentActivities.useRecentActivitiesCount(
     //     {
     //         ...(filterType === FilterType.Today

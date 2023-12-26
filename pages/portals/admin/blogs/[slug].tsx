@@ -29,7 +29,6 @@ import { adminApi } from '@queries'
 const EditBlog: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const router = useRouter()
-    console.log('router', router)
     const blogId = router?.query?.slug as string
     const TextEditor = dynamic(
         () => import('../../../../partials/admin/blog/EditTextEditor'),

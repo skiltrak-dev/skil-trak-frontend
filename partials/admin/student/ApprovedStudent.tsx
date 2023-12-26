@@ -459,7 +459,7 @@ export const ApprovedStudent = () => {
                                                     : null}
                                             </div>
                                         </div>
-                                        <div className=" overflow-x-scroll remove-scrollbar">
+                                        <div className="overflow-x-auto remove-scrollbar">
                                             <div className="px-6 w-full">
                                                 {table}
                                             </div>

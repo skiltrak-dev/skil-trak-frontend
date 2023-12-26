@@ -1,22 +1,13 @@
-import {
-    LoadingAnimation,
-    NoData,
-    Select,
-    ShowErrorNotifications,
-    Table,
-    TextInput,
-} from '@components'
+import { ShowErrorNotifications } from '@components'
 
 import { Button } from '@components/buttons'
 import { RtoApi } from '@queries'
-import { useEffect, useState } from 'react'
-import { FaChevronDown, FaTimes } from 'react-icons/fa'
 import { getUserCredentials } from '@utils'
 import { saveAs } from 'file-saver'
-import { DownloadLoader } from './DownloadLoader'
-import { IoMdDownload } from 'react-icons/io'
-import { FaFileCsv } from 'react-icons/fa'
+import { useEffect, useState } from 'react'
 import { BsFiletypeXls } from 'react-icons/bs'
+import { FaChevronDown, FaFileCsv } from 'react-icons/fa'
+import { IoMdDownload } from 'react-icons/io'
 type Props = {
     startDate: Date
     setStartDate: (startDate: Date) => void
@@ -96,8 +87,7 @@ export const ReportListDownload = ({
     //     const dateValue = e.target.value.trim()
     //     setEndDate(dateValue)
     // }
-    // console.log('start Date', reportStart)
-    // console.log('end Date', reportEnd)
+
     return (
         <>
             <ShowErrorNotifications result={downloadAsPdf} />

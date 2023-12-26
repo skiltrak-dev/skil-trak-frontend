@@ -19,7 +19,6 @@ export const RtoAvatar = ({
     canEdit?: boolean
 }) => {
     const { notification } = useNotification()
-    console.log("user", user)
 
     const [changeProfileImage, changeProfileImageResult] =
         CommonApi.Avatar.useChangeProfile()
