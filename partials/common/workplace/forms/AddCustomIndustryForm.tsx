@@ -80,7 +80,9 @@ export const AddCustomIndustryForm = ({
         phoneNumber: yup.string().required('Must provide phone number'),
 
         // Contact Person Information
-        contactPerson: yup.string(),
+        contactPerson: yup
+            .string()
+            .matches(onlyAlphabets(), 'Please enter valid name'),
         contactPersonEmail: yup.string().email('Must be a valid email'),
         contactPersonNumber: yup.string(),
 
@@ -189,16 +191,16 @@ export const AddCustomIndustryForm = ({
                         <div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                                 <TextInput
-                                    label={'Contact Person Number'}
-                                    name={'contactPersonNumber'}
-                                    placeholder={'Contact Person Number ...'}
+                                    label={'Contact Person Name'}
+                                    name={'contactPerson'}
+                                    placeholder={'Contact Person Name...'}
                                     validationIcons
                                     required
                                 />
                                 <TextInput
-                                    label={'Contact Person Name'}
-                                    name={'contactPerson'}
-                                    placeholder={'Contact Person Name...'}
+                                    label={'Contact Person Number'}
+                                    name={'contactPersonNumber'}
+                                    placeholder={'Contact Person Number ...'}
                                     validationIcons
                                     required
                                 />

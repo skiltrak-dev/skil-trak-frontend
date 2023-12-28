@@ -53,7 +53,6 @@ export const EsignSignatureModal = ({
             ? await jwt(String(router.query?.token))
             : {}
 
-        console.log({ token })
         if (!ref?.current?.isEmpty()) {
             await signDocument({
                 tabId: tab?.id,

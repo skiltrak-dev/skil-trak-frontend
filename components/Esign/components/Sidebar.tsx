@@ -13,8 +13,8 @@ export const ColorPreset = {
 }
 export const Sidebar = () => {
     return (
-        <div className="min-w-[250px] h-[89vh] overflow-hidden overflow-y-auto custom-scrollbar bg-white  py-2">
-            <div className="h-[92%] w-full custom-scrollbar overflow-auto px-4">
+        <div className="min-w-[250px] h-screen overflow-hidden overflow-y-auto custom-scrollbar bg-white py-2">
+            <div className="h-[81%] w-full custom-scrollbar overflow-auto px-4">
                 {Object.entries(SideBarFieldsData)?.map(([key, value]: any) => (
                     <div key={key} className="min-w-[100px] overflow-hidden">
                         <div className="text-sm font-medium">{key}</div>

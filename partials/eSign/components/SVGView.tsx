@@ -81,8 +81,6 @@ export const SVGView = ({
         setTimerId(id)
     }
 
-    console.log({ viewport })
-
     return (
         <>
             <Waypoint
