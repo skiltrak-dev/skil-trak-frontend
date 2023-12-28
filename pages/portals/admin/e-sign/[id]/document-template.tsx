@@ -71,8 +71,6 @@ export default function ESign() {
     const [items, setItems] = useState<any>([])
     const [lastSelectedItem, setLastSelectedItem] = useState<any>()
 
-    console.log({ items })
-
     useEffect(() => {
         if (tabs?.data && tabs?.data?.length > 0 && tabs?.isSuccess) {
             const updatedItems = tabs?.data?.map((tab: any) => {
@@ -201,7 +199,6 @@ export default function ESign() {
     }
 
     const handleDragEnd = (data: any) => {
-        console.log({ data })
         setActiveItem(false)
 
         // const newLocX = Math.abs(
@@ -218,8 +215,6 @@ export default function ESign() {
         // const newLocY = Math.abs(
         //     data.delta.y - data.active.data.current.clientY / 2
         // )
-
-        console.log({ data })
 
         if (data) {
             // const delta_x = (() => {
@@ -266,15 +261,12 @@ export default function ESign() {
                 resizing: false,
             }
 
-            console.log({ tab })
-
             setLastId(newId)
             setItems((prevState: any) => [...prevState, tab])
         }
     }
 
     const onItemRemove = (item: any) => {
-        console.log('Banka', item, items)
         setContextBar(null)
         const existingItem = items.find((x: any) => x.id === contextBar?.id)
         if (existingItem) {
@@ -301,7 +293,6 @@ export default function ESign() {
     //     }
     // }
     const onSetContextBar = ({ content, e }: any, key: string) => {
-        console.log({ e: e.target.value })
         if (content) {
             const updatedContent = {
                 ...content,

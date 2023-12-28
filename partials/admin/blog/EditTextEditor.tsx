@@ -258,9 +258,7 @@ TextEditorProps) {
                     )
                 }
             })
-            .catch((err: any) => {
-                console.log('err', err)
-            })
+            .catch((err: any) => {})
     }
 
     return (

@@ -114,8 +114,6 @@ const DynamicSvgLoader = ({
         }
     }, [path])
 
-    console.log({ pageItems, pageNumber, viewport })
-
     const handleSvgClick = (event: any) => {
         const dataViewName = event.target.getAttribute('data-view-name')
         if (dataViewName !== 'tab') onItemSelected(null, false)
@@ -124,7 +122,6 @@ const DynamicSvgLoader = ({
     const onSaveClick = () => {
         const notRoles = items.filter((item: any) => !item?.data?.role)
         if (notRoles && notRoles?.length > 0) {
-            console.log({ notRoles })
             notRoles?.forEach((item: any) => {
                 notification.error({
                     title: 'Add Role',
