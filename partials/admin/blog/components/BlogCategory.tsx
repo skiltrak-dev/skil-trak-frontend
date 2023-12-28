@@ -25,9 +25,7 @@ export const BlogCategory = ({ addCategories, addCategoriesResult }: any) => {
                     description: 'New Category Added Successfully',
                 })
             })
-            .catch((err: any) => {
-                console.log('err', err)
-            })
+            .catch((err: any) => {})
         methods.reset()
     }
 

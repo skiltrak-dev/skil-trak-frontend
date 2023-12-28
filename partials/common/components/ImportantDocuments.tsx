@@ -63,6 +63,7 @@ export const ImportantDocuments = ({
                     subtitle=""
                     onCancelClick={onCancel}
                     onConfirmClick={onCancel}
+                    showActions={false}
                 >
                     {document?.fileType === 'file' ? (
                         ['jpg', 'jpeg', 'png'].includes(

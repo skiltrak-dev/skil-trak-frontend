@@ -30,11 +30,9 @@ export const Contextbar = ({
                 item?.id != content?.id
         )
 
-    console.log({ content })
-
     return (
-        <div className="min-w-[250px] h-[89vh] overflow-auto custom-scrollbar bg-white px-4 py-2">
-            <div className="h-[92%] overflow-auto custom-scrollbar">
+        <div className="min-w-[250px] h-screen overflow-auto custom-scrollbar bg-white px-4 py-2">
+            <div className="h-[81%] overflow-auto custom-scrollbar">
                 <div className="text-sm font-medium">
                     {content?.type || 'Select Input'}
                 </div>

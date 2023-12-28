@@ -10,9 +10,9 @@ export const CursorCoordinates = ({
     element: any
 }) => {
     const [viewPortData, setViewPortData] = useState<string[]>([])
-    console.log('viewport', viewport)
     const [coords, setCoords] = useState({ x: 0, y: 0 })
     const [cursorCoords, setCursorCoords] = useState({ x: 0, y: 0 })
+    const [scrollY, setScrollY] = useState(0)
 
     useEffect(() => {
         if (viewport) {
@@ -23,6 +23,10 @@ export const CursorCoordinates = ({
     const [a, b, width, height] = viewPortData
 
     useEffect(() => {
+        const handleScroll = () => {
+            setScrollY(window.scrollY)
+        }
+
         const handleWindowMouseMove = (event: any) => {
             const clientRect = element.getBoundingClientRect()
 
@@ -40,10 +44,14 @@ export const CursorCoordinates = ({
             })
 
             if (width && height) {
-                setTabDropCoordinates({
-                    x: clientX * (Number(width) / clientRect.width),
-                    y: clientY * (Number(height) / clientRect.height),
-                })
+                const tabX = clientX * (Number(width) / clientRect.width)
+                const tabY = clientY * (Number(height) / clientRect.height)
+                if (tabX >= 0 && tabY >= 0) {
+                    setTabDropCoordinates({
+                        x: tabX,
+                        y: tabY,
+                    })
+                }
             }
 
             setCursorCoords({
@@ -52,9 +60,11 @@ export const CursorCoordinates = ({
             })
         }
         window.addEventListener('mousemove', handleWindowMouseMove)
+        window.addEventListener('scroll', handleScroll, { passive: true })
 
         return () => {
             window.removeEventListener('mousemove', handleWindowMouseMove)
+            window.removeEventListener('scroll', handleScroll)
         }
     }, [width, height])
 
