@@ -116,7 +116,7 @@ export const ApprovedIndustry = () => {
             cell: (info) => {
                 return (
                     <div className="flex justify-start">
-                        {info?.row?.original?.branches.length > 0 ? (
+                        {info?.row?.original?.branches?.length > 0 ? (
                             <BranchCell industry={info.row.original} />
                         ) : info.row.original.headQuarter !== null ? (
                             <div className="flex flex-col gap-y-1 items-center">

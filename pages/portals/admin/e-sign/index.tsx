@@ -91,7 +91,7 @@ const ESign: NextPageWithLayout = () => {
                 <div className="flex justify-end gap-x-2 mb-2">
                     <Button
                         Icon={FaFileSignature}
-                        text="Add E-Sign"
+                        text="Create E-Sign Template"
                         onClick={() =>
                             router.push('/portals/admin/e-sign/add-e-sign')
                         }

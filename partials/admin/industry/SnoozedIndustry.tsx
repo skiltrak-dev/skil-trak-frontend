@@ -22,10 +22,11 @@ import { useRouter } from 'next/router'
 import { MdBlock } from 'react-icons/md'
 import { IndustryCell, SectorCell } from './components'
 import { BlockModal, MultiBlockModal } from './modals'
-
+import { MdSnooze } from "react-icons/md";
 // hooks
 import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
+import { SnoozeIndustryModal, UnSnoozeIndustryModal } from '@partials/common'
 
 export const SnoozedIndustry = () => {
     const selectInputRef = useRef()
@@ -70,7 +71,31 @@ export const SnoozedIndustry = () => {
             />
         )
     }
+    // const onSnoozedClicked = (industry: Industry) => {
+    //     setModal(
+    //         <SnoozedModal
+    //             industry={industry}
+    //             onCancel={() => onModalCancelClicked()}
+    //         />
+    //     )
+    // }
+    const onSnooze = (industry: Industry) => {
+        setModal(
+            <SnoozeIndustryModal
+                onCancel={onModalCancelClicked}
+                industry={industry}
+            />
+        )
+    }
 
+    const UnSnoozeModal = (industry: Industry) => {
+        setModal(
+            <UnSnoozeIndustryModal
+                onCancel={onModalCancelClicked}
+                industry={industry}
+            />
+        )
+    }
     const onMultiBlockClicked = (industries: Industry[]) => {
         setModal(
             <MultiBlockModal
@@ -80,41 +105,55 @@ export const SnoozedIndustry = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
-        {
-            text: 'View',
-            onClick: (industry: any) => {
-                router.push(
-                    `/portals/admin/industry/${industry.id}?tab=students`
-                )
+    const tableActionOptions = (industry: any) => {
+        console.log('industry:::', industry)
+        return [
+            {
+                text: 'View',
+                onClick: (industry: any) => {
+                    router.push(
+                        `/portals/admin/industry/${industry.id}?tab=students`
+                    )
+                },
+                Icon: FaEye,
             },
-            Icon: FaEye,
-        },
-        {
-            text: 'Edit',
-            onClick: (row: any) => {
-                router.push(`/portals/admin/industry/edit-industry/${row.id}`)
+            {
+                text: 'Edit',
+                onClick: (row: any) => {
+                    router.push(
+                        `/portals/admin/industry/edit-industry/${row.id}`
+                    )
+                },
+                Icon: FaEdit,
             },
-            Icon: FaEdit,
-        },
-        {
-            text: 'View Password',
-            onClick: (industry: Industry) => onViewPassword(industry),
-            Icon: RiLockPasswordFill,
-        },
-        {
-            text: 'Block',
-            onClick: (industry: Industry) => onBlockClicked(industry),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-    ]
+            {
+                text: `Unsnooze`,
+                // onClick: (industry: Industry) => onSnoozedClicked(industry),
+                onClick: (industry: any) => {
+                    UnSnoozeModal(industry)
+                },
+                Icon: MdSnooze,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+            {
+                text: 'View Password',
+                onClick: (industry: Industry) => onViewPassword(industry),
+                Icon: RiLockPasswordFill,
+            },
+            {
+                text: 'Block',
+                onClick: (industry: Industry) => onBlockClicked(industry),
+                Icon: MdBlock,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+        ]
+    }
 
     const columns: ColumnDef<Industry>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info:any) => {
-            console.log("info::::", info?.row?.original)
+            cell: (info: any) => {
+                console.log('info::::', info?.row?.original)
                 return <IndustryCell industry={info.row.original} />
             },
             header: () => <span>Industry</span>,
@@ -126,7 +165,7 @@ export const SnoozedIndustry = () => {
         {
             accessorKey: 'contactPerson',
             header: () => <span>Contact Person</span>,
-            cell: (info:any) => {
+            cell: (info: any) => {
                 return (
                     <div>
                         <p>{info.row.original.contactPerson || 'N/A'}</p>
@@ -147,7 +186,7 @@ export const SnoozedIndustry = () => {
         {
             accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
-            cell: (info:any) => (
+            cell: (info: any) => (
                 <div>
                     <Typography variant={'label'}>
                         {info.row.original?.addressLine1},{' '}
@@ -161,20 +200,49 @@ export const SnoozedIndustry = () => {
             header: () => <span>Created By</span>,
         },
         {
-            accessorKey: 'createdAt',
-            header: () => <span>Created At</span>,
-            cell: (info: any) => (
-                <UserCreatedAt createdAt={info.row.original?.createdAt} />
-            ),
+            header: () => 'Snoozed By',
+            accessorKey: 'snoozedBy',
+            cell: ({ row }: any) => {
+                return (
+                    <Typography variant={'muted'} color={'gray'}>
+                        {row?.original?.snoozedBy?.name}
+                    </Typography>
+                )
+            },
+        },
+        {
+            header: () => 'Snoozed At',
+            accessorKey: 'snoozedAt',
+            cell: ({ row }: any) => {
+                return (
+                    <Typography variant={'muted'} color={'gray'}>
+                        {row?.original?.snoozedAt?.slice(0, 10)}
+                    </Typography>
+                )
+            },
+        },
+        {
+            header: () => 'Snoozed Date',
+            accessorKey: 'snoozedDate',
+            cell: ({ row }: any) => {
+                return (
+                    <Typography variant={'muted'} color={'gray'}>
+                        {row?.original?.snoozedDate?.slice(0, 10)}
+                    </Typography>
+                )
+            },
         },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info: any) => {
+                const tableActionOption = tableActionOptions(
+                    info?.row?.original
+                )
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
-                            options={tableActionOptions}
+                            options={tableActionOption}
                             rowItem={info.row.original}
                         />
                     </div>

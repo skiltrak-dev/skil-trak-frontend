@@ -37,7 +37,7 @@ export const AddIndustry = ({
     onSetIndustryData: () => void
 }) => {
     const { notification } = useNotification()
-
+    const [countryId, setCountryId] = useState(null)
     const contextBar = useContextBar()
 
     const sectorResponse = AuthApi.useSectors({})
@@ -52,7 +52,14 @@ export const AddIndustry = ({
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
     const [selectedSector, setSelectedSector] = useState<number[] | null>(null)
     const [selectedStatus, setSelectedStatus] = useState<number[] | null>(null)
+    // useCountryStatesList
 
+    const { data, isLoading } = CommonApi.Countries.useCountriesList()
+
+    const { data: states, isLoading: statesLoading } =
+        CommonApi.Countries.useCountryStatesList(countryId, {
+            skip: !countryId,
+        })
     const onEmailChange = (e: any) => {
         _debounce(() => {
             // Regex for email, only valid mail should be sent
@@ -268,6 +275,31 @@ export const AddIndustry = ({
                                     placeholder={'Your phone number...'}
                                     validationIcons
                                     required
+                                />
+                                <Select
+                                    name="country"
+                                    label={'Country'}
+                                    options={data?.map((country: any) => ({
+                                        label: country.name,
+                                        value: country.id,
+                                    }))}
+                                    loading={isLoading}
+                                    onChange={(e: any) => {
+                                        setCountryId(e)
+                                    }}
+                                    onlyValue
+                                />
+                                <Select
+                                    name="states"
+                                    label={'States'}
+                                    options={states?.map((state: any) => ({
+                                        label: state.name,
+                                        value: state.id,
+                                    }))}
+                                    multi
+                                    loading={statesLoading}
+                                    disabled={!countryId}
+                                    onlyValue
                                 />
 
                                 <TextInput

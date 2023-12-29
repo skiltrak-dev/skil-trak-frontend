@@ -3,7 +3,7 @@ import { ReactElement, useEffect, useState } from 'react'
 
 // Icons
 import { FaEye, FaPencilAlt } from 'react-icons/fa'
-
+import { MdSnooze } from "react-icons/md";
 // components
 import {
     Card,
@@ -27,8 +27,9 @@ import { MdBlock, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { getUserCredentials, setLink } from '@utils'
 import { RiInboxArchiveFill, RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
+import { UnSnoozeIndustryModal } from '@partials/common'
 
- interface IndustrySubAdmin extends Industry {
+interface IndustrySubAdmin extends Industry {
     subAdmin: SubAdmin[]
     callLog: any
 }
@@ -91,6 +92,14 @@ export const SnoozedIndustrySubAdmin = () => {
     const isFavorite = (subAdmin: SubAdmin[] | undefined) => {
         return subAdmin?.find((subadmin: any) => subadmin?.user?.id === id)
     }
+    const UnSnoozeModal = (industry: IndustrySubAdmin) => {
+        setModal(
+            <UnSnoozeIndustryModal
+                onCancel={onCancelClicked}
+                industry={industry}
+            />
+        )
+    }
 
     const tableActionOptions = (industry: IndustrySubAdmin) => {
         const subAdmin = isFavorite(industry?.subAdmin)
@@ -113,6 +122,15 @@ export const SnoozedIndustrySubAdmin = () => {
                     )
                 },
                 Icon: FaPencilAlt,
+            },
+            {
+                text: `Unsnooze`,
+                // onClick: (industry: Industry) => onSnoozedClicked(industry),
+                onClick: (industry: any) => {
+                    UnSnoozeModal(industry)
+                },
+                Icon: MdSnooze,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
             },
             {
                 text: `${subAdmin ? 'Un Favourite' : 'Add Favourite'}`,
@@ -202,6 +220,39 @@ export const SnoozedIndustrySubAdmin = () => {
                 return (
                     <Typography variant={'muted'} color={'gray'}>
                         {contactPersonNumber} {contactPerson}
+                    </Typography>
+                )
+            },
+        },
+        {
+            header: () => 'Snoozed By',
+            accessorKey: 'snoozedBy',
+            cell: ({ row }: any) => {
+                return (
+                    <Typography variant={'muted'} color={'gray'}>
+                        {row?.original?.snoozedBy?.name}
+                    </Typography>
+                )
+            },
+        },
+        {
+            header: () => 'Snoozed At',
+            accessorKey: 'snoozedAt',
+            cell: ({ row }: any) => {
+                return (
+                    <Typography variant={'muted'} color={'gray'}>
+                        {row?.original?.snoozedAt.slice(0, 10)}
+                    </Typography>
+                )
+            },
+        },
+        {
+            header: () => 'Snoozed Date',
+            accessorKey: 'snoozedDate',
+            cell: ({ row }: any) => {
+                return (
+                    <Typography variant={'muted'} color={'gray'}>
+                        {row?.original?.snoozedDate.slice(0, 10)}
                     </Typography>
                 )
             },

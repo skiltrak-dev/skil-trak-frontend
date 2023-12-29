@@ -11,7 +11,7 @@ export const ColorPreset = {
     coordinator: '',
     standard: '',
 }
-export const Sidebar = () => {
+export const Sidebar = ({ setDraggableData }: { setDraggableData: any }) => {
     return (
         <div className="min-w-[250px] h-screen overflow-hidden overflow-y-auto custom-scrollbar bg-white py-2">
             <div className="h-[81%] w-full custom-scrollbar overflow-auto px-4">
@@ -21,6 +21,7 @@ export const Sidebar = () => {
                         <div>
                             {value?.map((item: any, index: number) => (
                                 <DraggableInput
+                                    setDraggableData={setDraggableData}
                                     key={index}
                                     text={item?.text}
                                     id={item?.id}
