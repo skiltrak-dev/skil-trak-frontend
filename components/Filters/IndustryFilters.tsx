@@ -40,6 +40,16 @@ export const IndustryFilters = ({
         label: sector.name,
         value: sector.id,
     }))
+    const isPartnerOptions = [
+        { 
+            label: 'Is Partner', 
+            value: true 
+        },
+        // {
+        //     label: 'Not Partner',
+        //     value: false,
+        // },
+    ]
 
     return (
         <>
@@ -91,6 +101,15 @@ export const IndustryFilters = ({
                         onFilterChange({ ...filter, phone: e.target.value })
                     }}
                 />
+                <Select
+                    label={'Is Partner'}
+                    name={'isPartner'}
+                    options={isPartnerOptions}
+                    onChange={(e: any) =>
+                        onFilterChange({ ...filter, isPartner: e?.value })
+                    }
+                />
+
                 <Select
                     label={'Status'}
                     name={'status'}

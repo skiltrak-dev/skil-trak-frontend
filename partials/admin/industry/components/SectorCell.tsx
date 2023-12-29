@@ -36,7 +36,7 @@ export const SectorCell = ({ industry }: { industry: Industry }) => {
                 </ActionButton>
 
                 <div className="flex gap-x-1">
-                    {industry?.courses.map((c: Course) => (
+                    {industry?.courses?.map((c: Course) => (
                         <CourseDot key={c?.id} course={c} />
                     ))}
                 </div>

@@ -4,11 +4,12 @@ import { QueryType, queryToUrl } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaHandshake } from 'react-icons/fa'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
+import { MdEmail, MdPhoneIphone, MdSnooze } from 'react-icons/md'
 
 export const IndustryCell = ({ industry }: { industry: Industry }) => {
     const router = useRouter()
     const query = queryToUrl(router.query as QueryType)
+    
     return (
         <Link
             legacyBehavior
@@ -37,7 +38,13 @@ export const IndustryCell = ({ industry }: { industry: Industry }) => {
                     ) : null}
                 </div>
                 <div>
-                    <p className="font-semibold">{industry?.user?.name}</p>
+                    <div className="flex items-center gap-x-2">
+                        <p className="font-semibold">{industry?.user?.name}</p>
+                        {industry?.snoozedDate !== null ? (
+                            <MdSnooze size={18} className="text-red-500" />
+                        ) : null}
+                    </div>
+                    {/* snoozedDate */}
                     <div className="font-medium text-xs text-gray-500">
                         <p className="flex items-center gap-x-1">
                             <span>
@@ -57,3 +64,4 @@ export const IndustryCell = ({ industry }: { industry: Industry }) => {
         </Link>
     )
 }
+

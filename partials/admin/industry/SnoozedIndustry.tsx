@@ -1,3 +1,5 @@
+import { ReactElement, useEffect, useRef, useState } from 'react'
+import { ColumnDef } from '@tanstack/react-table'
 import {
     ActionButton,
     Button,
@@ -12,23 +14,20 @@ import {
     UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
-import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { AdminApi, commonApi } from '@queries'
 import { Industry, UserStatus } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useRef, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { BranchCell, IndustryCell, SectorCell } from './components'
+import { IndustryCell, SectorCell } from './components'
 import { BlockModal, MultiBlockModal } from './modals'
 
 // hooks
 import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import { ellipsisText } from '@utils'
 
-export const ApprovedIndustry = () => {
+export const SnoozedIndustry = () => {
     const selectInputRef = useRef()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -43,12 +42,20 @@ export const ApprovedIndustry = () => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
-
-    const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
-        search: `status:${UserStatus.Approved}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    // useSnoozedIndustry
+    // const snoozedIndustryList = AdminApi.Industries.useSnoozedIndustry({
+    //     // search: `status:${UserStatus.Approved}`,
+    //     skip: itemPerPage * page - itemPerPage,
+    //     limit: itemPerPage,
+    // })
+    // console.log('snoozedIndustryList', snoozedIndustryList)
+    const { isLoading, data, isError } = AdminApi.Industries.useSnoozedIndustry(
+        {
+            // search: `status:${UserStatus.Approved}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        }
+    )
 
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
@@ -106,86 +113,46 @@ export const ApprovedIndustry = () => {
     const columns: ColumnDef<Industry>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
+            cell: (info:any) => {
+            console.log("info::::", info?.row?.original)
                 return <IndustryCell industry={info.row.original} />
             },
             header: () => <span>Industry</span>,
-        },
-        {
-            accessorKey: 'branches',
-            cell: (info) => {
-                return (
-                    <div className="flex justify-start">
-                        {info?.row?.original?.branches.length > 0 ? (
-                            <BranchCell industry={info.row.original} />
-                        ) : info.row.original.headQuarter !== null ? (
-                            <div className="flex flex-col gap-y-1 items-center">
-                                <p className="text-xs font-semibold text-blue-400">
-                                    Head Quarter
-                                </p>
-                                <p className="text-xs font-semibold text-gray-400">
-                                    {info.row.original.headQuarter.user.name}
-                                </p>
-                            </div>
-                        ) : (
-                            'N/A'
-                        )}
-                    </div>
-                )
-            },
-            header: () => <span>Branches</span>,
         },
         {
             accessorKey: 'abn',
             header: () => <span>ABN</span>,
         },
         {
-            accessorKey: 'students',
-            header: () => <span>Students</span>,
-        },
-        {
             accessorKey: 'contactPerson',
             header: () => <span>Contact Person</span>,
-            cell: (info) => {
+            cell: (info:any) => {
                 return (
                     <div>
-                        <p>{info.row.original.contactPerson}</p>
+                        <p>{info.row.original.contactPerson || 'N/A'}</p>
                         <p className="text-xs text-gray-500">
-                            {info.row.original.contactPersonNumber}
+                            {info.row.original?.contactPersonNumber}
                         </p>
                     </div>
                 )
             },
         },
-        {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell industry={info.row.original} />
-            },
-        },
-        {
-            accessorKey: 'suburb',
-            header: () => <span>Suburb</span>,
-        },
+        // {
+        //     accessorKey: 'sectors',
+        //     header: () => <span>Sectors</span>,
+        //     cell: (info) => {
+        //         return <SectorCell industry={info?.row?.original} />
+        //     },
+        // },
         {
             accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
-            cell: (info) => (
-                <div className="group relative">
+            cell: (info:any) => (
+                <div>
                     <Typography variant={'label'}>
-                        <span className="cursor-pointer">
-                            {ellipsisText(
-                                `${info.row.original?.addressLine1}, 
-                        ${info.row.original?.suburb}`,
-                                15
-                            )}
-                        </span>
-                    </Typography>
-                    <div className="hidden group-hover:block w-60 absolute top-full left-0 p-2 z-20 shadow rounded-md bg-white">
                         {info.row.original?.addressLine1},{' '}
                         {info.row.original?.suburb}
-                    </div>
+                    </Typography>
                 </div>
             ),
         },
@@ -196,7 +163,7 @@ export const ApprovedIndustry = () => {
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
-            cell: (info) => (
+            cell: (info: any) => (
                 <UserCreatedAt createdAt={info.row.original?.createdAt} />
             ),
         },
@@ -333,9 +300,9 @@ export const ApprovedIndustry = () => {
                     ) : (
                         !isError && (
                             <EmptyData
-                                title={'No Approved Industry!'}
+                                title={'No Snoozed Industry!'}
                                 description={
-                                    'You have not approved any Industry request yet'
+                                    'You have not Snoozed any Industry request yet'
                                 }
                                 height={'50vh'}
                             />

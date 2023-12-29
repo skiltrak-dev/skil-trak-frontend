@@ -71,7 +71,48 @@ export const commonApi = emptySplitApi.injectEndpoints({
             query: () => `admin/documents/list`,
             providesTags: ['Documents'],
         }),
-
+        getCountries: build.query<any, any>({
+            query: () => `country`,
+            providesTags: ['Country'],
+        }),
+        getCountriesList: build.query<any, void>({
+            query: () => `country/list/name`,
+            providesTags: ['Country'],
+        }),
+        getStates: build.query<any, any>({
+            query: () => `country/states`,
+            providesTags: ['States'],
+        }),
+        countryAdd: build.mutation<any, any>({
+            query: (body: any) => ({
+                url: `country`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ['Country'],
+        }),
+        stateAdd: build.mutation<any, any>({
+            query: (body: any) => ({
+                url: `country/states`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ['Country'],
+        }),
+        deleteState: build.mutation<any, any>({
+            query: (id: any) => ({
+                url: `country/state/remove/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Country'],
+        }),
+        deleteCountry: build.mutation<any, any>({
+            query: (id: any) => ({
+                url: `country/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Country'],
+        }),
         getSpecificUserDocuments: build.query<any, number>({
             query: (id) => ({
                 url: `admin/documents/for-student/list`,
@@ -310,6 +351,14 @@ const {
     // ---- DOCUMENTS ---- //
     useGetCommonDocumentsQuery,
     useGetSpecificUserDocumentsQuery,
+    // ---- COUNTRIES ---- //
+    useGetCountriesQuery,
+    useGetCountriesListQuery,
+    useGetStatesQuery,
+    useCountryAddMutation,
+    useStateAddMutation,
+    useDeleteStateMutation,
+    useDeleteCountryMutation,
 
     // ---- USER ---- //
     useChangeUserStatusMutation,
@@ -476,6 +525,15 @@ export const CommonApi = {
     Documents: {
         useList: useGetCommonDocumentsQuery,
         useGetSpecificUserDocuments: useGetSpecificUserDocumentsQuery,
+    },
+    Countries: {
+        useCountries: useGetCountriesQuery,
+        useStatesList: useGetStatesQuery,
+        useAddCountry: useCountryAddMutation,
+        useAddState: useStateAddMutation,
+        useDeleteState: useDeleteStateMutation,
+        useDelateCountry: useDeleteCountryMutation,
+        useCountriesList: useGetCountriesListQuery,
     },
     RecentActivities: {
         useRecentActivities: useGetRecentActivitiesQuery,

@@ -232,6 +232,7 @@ export const {
 
     // --- INDUSTRIES --- //
     useSubadminIndustryStatisticsCountQuery,
+    useGetSnoozedIndustryQuery,
     useGetSubadminIndustriesCountQuery,
     useGetSubAdminIndustriesQuery,
     useGetFavouriteIndustriesQuery,

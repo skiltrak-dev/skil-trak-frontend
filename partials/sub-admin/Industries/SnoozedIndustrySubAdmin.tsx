@@ -16,7 +16,10 @@ import {
     Typography,
 } from '@components'
 
-import { useGetSubAdminIndustriesQuery } from '@queries'
+import {
+    useGetSubAdminIndustriesQuery,
+    useGetSnoozedIndustryQuery,
+} from '@queries'
 import { Industry, SubAdmin, UserStatus } from '@types'
 import { IndustryCellInfo } from './components'
 import { AddToFavoriteModal, ArchiveModal, BlockModal } from './modals'
@@ -24,14 +27,13 @@ import { MdBlock, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { getUserCredentials, setLink } from '@utils'
 import { RiInboxArchiveFill, RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
-import { BranchCell } from './components/BranchCell'
 
-export interface IndustrySubAdmin extends Industry {
+ interface IndustrySubAdmin extends Industry {
     subAdmin: SubAdmin[]
     callLog: any
 }
 
-export const AllIndustries = () => {
+export const SnoozedIndustrySubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -45,16 +47,21 @@ export const AllIndustries = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError } = useGetSubAdminIndustriesQuery(
-        {
-            search: `status:${UserStatus.Approved}`,
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        },
-        {
-            refetchOnMountOrArgChange: true,
-        }
-    )
+    // const { isLoading, data, isError } = useGetSubAdminIndustriesQuery(
+    //     {
+    //         search: `status:${UserStatus.Approved}`,
+    //         skip: itemPerPage * page - itemPerPage,
+    //         limit: itemPerPage,
+    //     },
+    //     {
+    //         refetchOnMountOrArgChange: true,
+    //     }
+    // )
+    const { isLoading, data, isError } = useGetSnoozedIndustryQuery({
+        // search: `status:${UserStatus.Approved}`,
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
 
     const id = getUserCredentials()?.id
 
@@ -146,30 +153,6 @@ export const AllIndustries = () => {
                     call
                 />
             ),
-        },
-        {
-            accessorKey: 'branches',
-            cell: (info: any) => {
-                return (
-                    <div className="flex justify-start">
-                        {info?.row?.original?.branches.length > 0 ? (
-                            <BranchCell industry={info.row.original} />
-                        ) : info.row.original.headQuarter !== null ? (
-                            <div className="flex flex-col gap-y-1 items-center">
-                                <p className="text-xs font-semibold text-blue-400">
-                                    Head Quarter
-                                </p>
-                                <p className="text-xs font-semibold text-gray-400">
-                                    {info.row.original.headQuarter.user.name}
-                                </p>
-                            </div>
-                        ) : (
-                            'N/A'
-                        )}
-                    </div>
-                )
-            },
-            header: () => <span>Branches</span>,
         },
         {
             accessorKey: 'abn',
@@ -278,9 +261,9 @@ export const AllIndustries = () => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No Approved Industry!'}
+                            title={'No Snoozed Industry!'}
                             description={
-                                'You have not approved any Industry request yet'
+                                'You have not Snoozed any Industry request yet'
                             }
                             height={'50vh'}
                         />
