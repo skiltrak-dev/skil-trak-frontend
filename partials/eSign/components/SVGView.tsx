@@ -1,4 +1,6 @@
+import { AuthorizedUserComponent, Checkbox } from '@components'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
+import { UserRoles } from '@constants'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
@@ -141,8 +143,23 @@ __html: svgContent,
                                             <foreignObject
                                                 x={x}
                                                 y={y}
-                                                width={width}
-                                                height={height}
+                                                width={
+                                                    s?.type ===
+                                                    FieldsTypeEnum.Date
+                                                        ? String(
+                                                              Number(width) + 10
+                                                          )
+                                                        : width
+                                                }
+                                                height={
+                                                    s?.type ===
+                                                    FieldsTypeEnum.Date
+                                                        ? String(
+                                                              Number(height) +
+                                                                  10
+                                                          )
+                                                        : height
+                                                }
                                             >
                                                 {s?.type ===
                                                 FieldsTypeEnum.Signature ? (
@@ -318,6 +335,52 @@ __html: svgContent,
                                                                         )
                                                                     )}
                                                         </select>
+                                                    ) : s?.type ===
+                                                          FieldsTypeEnum.Date &&
+                                                      s?.responses &&
+                                                      s?.responses?.length >
+                                                          0 ? (
+                                                        <AuthorizedUserComponent
+                                                            roles={[
+                                                                UserRoles.SUBADMIN,
+                                                            ]}
+                                                        >
+                                                            <div className="bg-white flex flex-col ">
+                                                                <label
+                                                                    htmlFor=""
+                                                                    className="text-[8px]"
+                                                                >
+                                                                    {
+                                                                        s?.placeholder
+                                                                    }
+                                                                </label>
+                                                                <input
+                                                                    type="date"
+                                                                    name=""
+                                                                    id=""
+                                                                    value={
+                                                                        s?.fieldValue
+                                                                    }
+                                                                    className="w-full h-5 border rounded-md border-gray-500 text-sm p-1 outline-none"
+                                                                    placeholder={
+                                                                        s?.label
+                                                                    }
+                                                                    onChange={(
+                                                                        e: any
+                                                                    ) => {
+                                                                        onAddCustomFieldsData(
+                                                                            {
+                                                                                ...s,
+                                                                                fieldValue:
+                                                                                    e
+                                                                                        ?.target
+                                                                                        ?.value,
+                                                                            }
+                                                                        )
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                        </AuthorizedUserComponent>
                                                     ) : (
                                                         ''
                                                     )

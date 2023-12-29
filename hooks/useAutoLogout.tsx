@@ -76,9 +76,9 @@ export const AutoLogoutProvider = ({
         }
     }, [
         router,
-        AuthUtils.getUserCredentials(),
-        getExpAndCurrTime(),
         refreshTokenResult,
+        // getExpAndCurrTime(),
+        AuthUtils.getUserCredentials(),
     ])
 
     // useEffect(() => {

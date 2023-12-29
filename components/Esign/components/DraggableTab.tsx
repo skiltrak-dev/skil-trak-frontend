@@ -2,6 +2,7 @@ import { useDraggable } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
 import { RubberBand } from './RubberBand'
 import { useState } from 'react'
+import { TextInput } from '@components/inputs'
 
 export const DraggableTab = ({
     item,
@@ -27,6 +28,12 @@ export const DraggableTab = ({
               }
             : {}),
     }
+
+    console.log({ item })
+
+    const Icon = item.data.Icon
+
+    console.log({ Icon })
 
     return (
         <g

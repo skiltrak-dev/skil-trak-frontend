@@ -1,6 +1,7 @@
 'use client'
 import {
     AdminNavbar,
+    Button,
     DisplayNotifications,
     EmptyData,
     LoadingAnimation,
@@ -11,22 +12,31 @@ import { Contextbar, Sidebar } from '@components/Esign'
 import DynamicSvgLoader from '@components/Esign/components/SvgLoader'
 import { DndContext, DragOverlay } from '@dnd-kit/core'
 import { restrictToWindowEdges } from '@dnd-kit/modifiers'
-import { useNavbar } from '@hooks'
+import { useNavbar, useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 import { useRouter } from 'next/router'
-import { Fragment, useEffect, useState } from 'react'
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { useEffect, useState } from 'react'
 import { uuid } from 'uuidv4'
 
 export default function ESign() {
     const [mounted, setMounted] = useState(false)
     const [currentPage, setCurrentPage] = useState<number>(0)
     const [activeItem, setActiveItem] = useState(true)
+    const [contextBar, setContextBar] = useState<any>()
+    const [lastId, setLastId] = useState<any>('')
+    const [items, setItems] = useState<any>([])
+    const [newAddedItems, setNewAddedItems] = useState<any>([])
+    const [lastSelectedItem, setLastSelectedItem] = useState<any>()
+    const [draggableData, setDraggableData] = useState<any>()
 
     const navBar = useNavbar()
 
     const router = useRouter()
 
+    const { notification } = useNotification()
+
+    const [saveEsignTemplate, saveEsignTemplateResult] =
+        AdminApi.ESign.useSaveTemplate()
     const template = AdminApi.ESign.useEsignTemplate(
         { id: Number(router.query?.id), pageNumber: currentPage },
         {
@@ -64,12 +74,6 @@ export default function ESign() {
             setMounted(true)
         }
     }, [])
-
-    const [contextBar, setContextBar] = useState<any>()
-
-    const [lastId, setLastId] = useState<any>('')
-    const [items, setItems] = useState<any>([])
-    const [lastSelectedItem, setLastSelectedItem] = useState<any>()
 
     useEffect(() => {
         if (tabs?.data && tabs?.data?.length > 0 && tabs?.isSuccess) {
@@ -111,9 +115,11 @@ export default function ESign() {
 
         const item = eventData.active.data.current
         if (!item.moving && !item.resizing) {
-            const existingItem = items.find((x: any) => x.id === item.id)
+            const existingItem = items.find((x: any) => x.id === contextBar?.id)
             if (existingItem) {
-                const updatedList = items.filter((x: any) => x.id !== item.id)
+                const updatedList = items.filter(
+                    (x: any) => x.id !== contextBar?.id
+                )
                 existingItem.moving = true
                 updatedList.push(existingItem)
 
@@ -201,6 +207,8 @@ export default function ESign() {
     const handleDragEnd = (data: any) => {
         setActiveItem(false)
 
+        console.log({ data })
+
         // const newLocX = Math.abs(
         //     data?.delta?.x * (842.04 / data?.over?.rect?.width) -
         //         data?.over?.rect?.left
@@ -263,6 +271,7 @@ export default function ESign() {
 
             setLastId(newId)
             setItems((prevState: any) => [...prevState, tab])
+            setNewAddedItems((prevState: any) => [...prevState, tab.id])
         }
     }
 
@@ -343,6 +352,83 @@ export default function ESign() {
         }
     }
 
+    const onSaveClick = () => {
+        const notRoles = items.filter((item: any) => !item?.data?.role)
+        if (notRoles && notRoles?.length > 0) {
+            notRoles?.forEach((item: any) => {
+                notification.error({
+                    title: 'Add Role',
+                    description: `${item?.data?.type} Field role should not be empty`,
+                    dissmissTimer: 5500,
+                })
+            })
+        } else {
+            const updatedItems = items.map((item: any) => ({
+                label: item?.data?.dataLabel,
+                position: item?.location?.x + ',' + item?.location?.y,
+                isCustom: item?.data?.isCustom,
+                number: item?.page + 1,
+                size: item?.size?.width + ',' + item?.size?.height,
+                colour: item?.data?.color,
+                placeholder: item?.data?.placeholder,
+                option: item?.data?.option,
+                type: item?.data?.type,
+                columnName: item?.data?.column,
+                role: item?.data?.role,
+                required: item?.data?.isRequired,
+                ...(item?.saved ? { id: item?.id } : {}),
+            }))
+
+            // return null
+
+            saveEsignTemplate({ tabs: updatedItems, id: router?.query?.id })
+                .unwrap()
+                .then((res: any) => {
+                    if (res) {
+                        notification.success({
+                            title: `Tabs Saved`,
+                            description: `Templates Tabs Saved Successfully`,
+                            dissmissTimer: 5500,
+                        })
+                    }
+                })
+                .catch((error: any) => {
+                    if (error) {
+                        const errorTitle = error?.data?.error
+                        if (errorTitle && Array.isArray(error?.data?.message)) {
+                            error?.data?.message?.forEach((err: any) => {
+                                const tab = err?.split(' ')
+                                const itemIndex = tab?.[0]?.split('.')
+                                const tabField = updatedItems[itemIndex?.[1]]
+                                notification.error({
+                                    title: `${itemIndex?.[2]} Error`,
+                                    description: `${tabField?.columnName} ${
+                                        tabField?.type
+                                    } ${itemIndex?.[2]} ${tab
+                                        ?.slice(1)
+                                        ?.join(' ')}`,
+                                    dissmissTimer: 5500,
+                                })
+                            })
+                        } else {
+                            notification.error({
+                                title: errorTitle || 'Some thing is not right',
+                                description:
+                                    error?.data?.message ||
+                                    'Please check your network connection',
+                                autoDismiss: true,
+                            })
+                        }
+                    }
+                })
+        }
+    }
+
+    const onCancelTabs = () => {
+        setItems(items.filter((i: any) => !newAddedItems.includes(i?.id)))
+        setNewAddedItems([])
+    }
+
     return (
         <div className="h-screen overflow-hidden">
             <DisplayNotifications />
@@ -356,11 +442,53 @@ export default function ESign() {
                 // collisionDetection={pointerWithin}
             >
                 <div className="bg-gray-200">
+                    <div className="z-20 fixed w-full left-0 bottom-0 p-4 bg-white flex justify-end gap-x-2">
+                        <Button
+                            variant="primary"
+                            text={'Cancel'}
+                            outline
+                            loading={saveEsignTemplateResult.isLoading}
+                            disabled={
+                                saveEsignTemplateResult.isLoading ||
+                                !newAddedItems?.length
+                            }
+                            onClick={onCancelTabs}
+                        />
+                        <Button
+                            variant="info"
+                            text={'Save'}
+                            loading={saveEsignTemplateResult.isLoading}
+                            disabled={
+                                saveEsignTemplateResult.isLoading ||
+                                !newAddedItems?.length
+                            }
+                            onClick={onSaveClick}
+                        />
+                    </div>
                     <div className="flex">
-                        <Sidebar />
+                        <Sidebar setDraggableData={setDraggableData} />
                         <div className="w-full h-screen overflow-y-scroll pb-24">
                             <DragOverlay>
-                                {activeItem ? <div>Test Drag</div> : null}
+                                {draggableData ? (
+                                    <div>
+                                        <button className="flex items-center gap-2 p-2 hover:bg-gray-100 w-full rounded-md">
+                                            <span
+                                                className="text-xs p-2 rounded-md border"
+                                                style={{
+                                                    backgroundColor: `${draggableData?.color}26`,
+                                                    borderColor:
+                                                        draggableData?.color,
+                                                    color: draggableData?.color,
+                                                }}
+                                            >
+                                                <draggableData.Icon />
+                                            </span>
+                                            <p className="text-sm">
+                                                {draggableData?.text}
+                                            </p>
+                                        </button>
+                                    </div>
+                                ) : null}
                             </DragOverlay>
 
                             {pagesCount.isError && (

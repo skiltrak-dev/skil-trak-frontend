@@ -306,65 +306,72 @@ export const InitiateSignStudent = ({
                                         }}
                                     />
                                 </div>
-                                <div>
-                                    <div className="flex justify-between items-center">
-                                        <Typography variant="label" semibold>
-                                            Industry
-                                        </Typography>
-                                        {student?.data?.industries?.length >
-                                            0 && (
+                                {selectedIndustry && (
+                                    <div>
+                                        <div className="flex justify-between items-center">
                                             <Typography
-                                                variant="small"
-                                                color={'text-info'}
-                                                light
+                                                variant="label"
+                                                semibold
                                             >
-                                                <span
-                                                    className="cursor-pointer"
-                                                    onClick={() => {
-                                                        setIsSelectAnotherIndustry(
-                                                            !isSelectAnotherIndustry
-                                                        )
-                                                    }}
-                                                >
-                                                    {isSelectAnotherIndustry
-                                                        ? 'Cancel'
-                                                        : 'Choose Another'}
-                                                </span>
+                                                Industry
                                             </Typography>
+                                            {student?.data?.industries?.length >
+                                                0 && (
+                                                <Typography
+                                                    variant="small"
+                                                    color={'text-info'}
+                                                    light
+                                                >
+                                                    <span
+                                                        className="cursor-pointer"
+                                                        onClick={() => {
+                                                            setIsSelectAnotherIndustry(
+                                                                !isSelectAnotherIndustry
+                                                            )
+                                                        }}
+                                                    >
+                                                        {isSelectAnotherIndustry
+                                                            ? 'Cancel'
+                                                            : 'Choose Another'}
+                                                    </span>
+                                                </Typography>
+                                            )}
+                                        </div>
+                                        {isSelectAnotherIndustry ? (
+                                            <Select
+                                                name={'industry'}
+                                                // value={commentType}
+                                                options={industryOptions}
+                                                value={industryOptions?.find(
+                                                    (industry: OptionType) =>
+                                                        industry?.value ===
+                                                        selectedIndustry?.id
+                                                )}
+                                                onChange={(e: OptionType) => {
+                                                    const ind =
+                                                        industryOptions?.find(
+                                                            (
+                                                                industry: OptionType
+                                                            ) =>
+                                                                industry?.value ===
+                                                                e?.value
+                                                        )
+
+                                                    setSelectedIndustry(
+                                                        ind?.item
+                                                    )
+                                                    setIsSelectAnotherIndustry(
+                                                        false
+                                                    )
+                                                }}
+                                            />
+                                        ) : (
+                                            <UserCellInfo
+                                                profile={selectedIndustry}
+                                            />
                                         )}
                                     </div>
-                                    {isSelectAnotherIndustry ? (
-                                        <Select
-                                            name={'industry'}
-                                            // value={commentType}
-                                            options={industryOptions}
-                                            value={industryOptions?.find(
-                                                (industry: OptionType) =>
-                                                    industry?.value ===
-                                                    selectedIndustry?.id
-                                            )}
-                                            onChange={(e: OptionType) => {
-                                                const ind =
-                                                    industryOptions?.find(
-                                                        (
-                                                            industry: OptionType
-                                                        ) =>
-                                                            industry?.value ===
-                                                            e?.value
-                                                    )
-
-                                                setSelectedIndustry(ind?.item)
-                                                setIsSelectAnotherIndustry(
-                                                    false
-                                                )
-                                            }}
-                                        />
-                                    ) : (
-                                        <UserCellInfo
-                                            profile={selectedIndustry}
-                                        />
-                                    )}
-                                </div>
+                                )}
                                 <div className="pr-4">
                                     <div className="flex justify-between items-center">
                                         <Typography variant="label" semibold>

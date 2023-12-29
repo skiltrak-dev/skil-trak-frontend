@@ -159,6 +159,31 @@ export const Contextbar = ({
                                 </p>
                             )} */}
                         </div>
+                        <div className="mt-3">
+                            <Typography
+                                variant="small"
+                                semibold
+                                color={'text-gray-600'}
+                            >
+                                Placeholder
+                            </Typography>{' '}
+                            <input
+                                type="text"
+                                onChange={(e: any) => {
+                                    onSetContextBar(
+                                        { content, e },
+                                        'placeholder'
+                                    )
+                                }}
+                                disabled={content?.data?.preDefined}
+                                value={content?.data?.placeholder || ''}
+                                className={`order p-0 w-full border h-8 shadow rounded-md px-1 ${
+                                    content?.data?.preDefined
+                                        ? 'bg-gray-200 cursor-not-allowed'
+                                        : ''
+                                }`}
+                            />
+                        </div>
 
                         {content?.data?.type === FieldsTypeEnum.Dropdown && (
                             <div className="mt-3">

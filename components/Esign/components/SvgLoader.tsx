@@ -57,10 +57,6 @@ const DynamicSvgLoader = ({
     const [timerId, setTimerId] = useState<any>(null)
     const [loadSvg, setLoadSvg] = useState(false)
 
-    const { notification } = useNotification()
-
-    const [saveEsignTemplate, saveEsignTemplateResult] =
-        AdminApi.ESign.useSaveTemplate()
     const template = AdminApi.ESign.useEsignTemplate(
         { id: Number(router.query?.id), pageNumber: pageNumber - 1 },
         {
@@ -119,78 +115,6 @@ const DynamicSvgLoader = ({
         if (dataViewName !== 'tab') onItemSelected(null, false)
     }
 
-    const onSaveClick = () => {
-        const notRoles = items.filter((item: any) => !item?.data?.role)
-        if (notRoles && notRoles?.length > 0) {
-            notRoles?.forEach((item: any) => {
-                notification.error({
-                    title: 'Add Role',
-                    description: `${item?.data?.type} Field role should not be empty`,
-                    dissmissTimer: 5500,
-                })
-            })
-        } else {
-            const updatedItems = items.map((item: any) => ({
-                label: item?.data?.dataLabel,
-                position: item?.location?.x + ',' + item?.location?.y,
-                isCustom: item?.data?.isCustom,
-                number: item?.page + 1,
-                size: item?.size?.width + ',' + item?.size?.height,
-                colour: item?.data?.color,
-                placeholder: item?.data?.placeholder,
-                option: item?.data?.option,
-                type: item?.data?.type,
-                columnName: item?.data?.column,
-                role: item?.data?.role,
-                required: item?.data?.isRequired,
-                ...(item?.saved ? { id: item?.id } : {}),
-            }))
-
-            // return null
-
-            saveEsignTemplate({ tabs: updatedItems, id: router?.query?.id })
-                .unwrap()
-                .then((res: any) => {
-                    if (res) {
-                        notification.success({
-                            title: `Tabs Saved`,
-                            description: `Templates Tabs Saved Successfully`,
-                            dissmissTimer: 5500,
-                        })
-                    }
-                })
-                .catch((error: any) => {
-                    if (error) {
-                        const errorTitle = error?.data?.error
-                        if (errorTitle && Array.isArray(error?.data?.message)) {
-                            error?.data?.message?.forEach((err: any) => {
-                                const tab = err?.split(' ')
-                                const itemIndex = tab?.[0]?.split('.')
-                                const tabField = updatedItems[itemIndex?.[1]]
-                                notification.error({
-                                    title: `${itemIndex?.[2]} Error`,
-                                    description: `${tabField?.columnName} ${
-                                        tabField?.type
-                                    } ${itemIndex?.[2]} ${tab
-                                        ?.slice(1)
-                                        ?.join(' ')}`,
-                                    dissmissTimer: 5500,
-                                })
-                            })
-                        } else {
-                            notification.error({
-                                title: errorTitle || 'Some thing is not right',
-                                description:
-                                    error?.data?.message ||
-                                    'Please check your network connection',
-                                autoDismiss: true,
-                            })
-                        }
-                    }
-                })
-        }
-    }
-
     const id = `drop-target-${pageNumber}`
     const { setNodeRef } = useDroppable({
         id: pageNumber - 1,
@@ -240,15 +164,7 @@ const DynamicSvgLoader = ({
                                     }}
                                 />
                             )}
-                            <div className="z-20 fixed w-full left-0 bottom-0 p-4 bg-white flex justify-end">
-                                <Button
-                                    variant="info"
-                                    text={'Save'}
-                                    loading={saveEsignTemplateResult.isLoading}
-                                    disabled={saveEsignTemplateResult.isLoading}
-                                    onClick={onSaveClick}
-                                />
-                            </div>
+
                             <div ref={dimensionRef} className="relative">
                                 {dimensionRef.current && (
                                     <CursorCoordinates
