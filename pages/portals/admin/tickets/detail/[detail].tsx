@@ -11,6 +11,7 @@ import {
     Portal,
     ShowErrorNotifications,
     TechnicalError,
+    Typography,
     draftToHtmlText,
 } from '@components'
 import { useContextBar, useNavbar, useNotification } from '@hooks'
@@ -24,10 +25,15 @@ import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import { CloseTicketModal, TicketReplies } from '@partials/admin/Tickets'
 import { TicketStatus } from '../index'
+import { UserRoles } from '@constants'
+import { ellipsisText, getUserCredentials } from '@utils'
+import { FaLongArrowAltLeft } from 'react-icons/fa'
+import moment from 'moment'
 
 const Tickets: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const { setTitle } = useNavbar()
+    const role = getUserCredentials()?.role
     const router = useRouter()
     const { notification } = useNotification()
 
@@ -55,20 +61,20 @@ const Tickets: NextPageWithLayout = () => {
         ticketDetail?.data?.status === TicketStatus.OPEN ||
         ticketDetail?.data?.status === TicketStatus.REOPENED
 
-        useEffect(() => {
-            contextBar.setContent(
-                <TicketDetailHeaderCard
-                    ticket={ticketDetail?.data}
-                    isOpened={isOpened}
-                />
-            )
-            contextBar.show(false)
-            contextBar.setTitle('Ticket Info')
-            return () => {
-                contextBar.setContent(null)
-                contextBar.hide()
-            }
-        }, [ticketDetail?.data])
+    useEffect(() => {
+        contextBar.setContent(
+            <TicketDetailHeaderCard
+                ticket={ticketDetail?.data}
+                isOpened={isOpened}
+            />
+        )
+        contextBar.show(false)
+        contextBar.setTitle('Ticket Info')
+        return () => {
+            contextBar.setContent(null)
+            contextBar.hide()
+        }
+    }, [ticketDetail?.data])
 
     return (
         <>
@@ -86,6 +92,103 @@ const Tickets: NextPageWithLayout = () => {
                                     isOpened={isOpened}
                                 />
                             </div> */}
+                            <div className="flex items-center gap-x-4">
+                                <div className="flex items-center gap-x-2 ">
+                                    <FaLongArrowAltLeft
+                                        className="text-xl cursor-pointer"
+                                        onClick={() => {
+                                            if (role === UserRoles.ADMIN) {
+                                                router.push(
+                                                    '/portals/admin/tickets?tab=my-open-tickets'
+                                                )
+                                            } else if (
+                                                role === UserRoles.SUBADMIN
+                                            ) {
+                                                router.push(
+                                                    '/portals/sub-admin/tickets?tab=all-tickets'
+                                                )
+                                            }
+                                        }}
+                                    />
+                                    <Typography variant={'subtitle'}>
+                                        <span className="font-bold cursor-pointer">
+                                            [#
+                                            {String(
+                                                ticketDetail?.data?.id
+                                            )?.padStart(5, '0')}
+                                            ]{' '}
+                                            {ellipsisText(
+                                                ticketDetail?.data?.subject,
+                                                28
+                                            )}
+                                        </span>
+                                    </Typography>
+                                </div>
+                                <div className="flex items-center gap-x-2">
+                                    <div className="flex items-center  gap-2">
+                                        <div
+                                            className={`rounded-full text-xs ${
+                                                ticketDetail?.data?.status ===
+                                                TicketStatus.OPEN
+                                                    ? 'bg-success'
+                                                    : ticketDetail?.data
+                                                          ?.status ===
+                                                      TicketStatus.CLOSED
+                                                    ? 'bg-red-700'
+                                                    : 'bg-error'
+                                            } uppercase text-[11px] text-white px-1.5 whitespace-pre`}
+                                        >
+                                            {ticketDetail?.data?.status}
+                                        </div>
+                                        {/* <BsDot /> */}
+                                        <div className="whitespace-nowrap">
+                                            <Typography
+                                                variant={'xs'}
+                                                color={'text-[#6B7280]'}
+                                            >
+                                                Ticket was{' '}
+                                                {ticketDetail?.data?.status ===
+                                                    TicketStatus.OPEN ||
+                                                ticketDetail?.data?.status ===
+                                                    TicketStatus.REOPENED
+                                                    ? 'opened'
+                                                    : 'closed'}{' '}
+                                                by
+                                            </Typography>
+                                        </div>
+                                        {/* <div className="flex items-center gap-2"> */}
+                                        <div className="rounded-full bg-gray-200 uppercase text-black px-2 whitespace-pre text-xs">
+                                            {ticketDetail?.data?.status ===
+                                            TicketStatus.OPEN
+                                                ? ticketDetail?.data?.createdBy
+                                                      ?.role === UserRoles.ADMIN
+                                                    ? 'Admin'
+                                                    : ticketDetail?.data
+                                                          ?.createdBy?.name
+                                                : ticketDetail?.data?.closedBy
+                                                      ?.role === UserRoles.ADMIN
+                                                ? 'Admin'
+                                                : ticketDetail?.data?.closedBy
+                                                      ?.name}
+                                        </div>
+                                    </div>
+                                    <Typography
+                                        variant={'xs'}
+                                        color={'text-[#6B7280]'}
+                                    >
+                                        On{' '}
+                                        {moment(
+                                            ticketDetail?.data?.status ===
+                                                TicketStatus.OPEN
+                                                ? ticketDetail?.data?.createdAt
+                                                : ticketDetail?.data?.closedAt
+                                        ).format(
+                                            'dddd, DD MMMM, YYYY [at] hh:mm a'
+                                        )}
+                                    </Typography>
+                                    {/* </div> */}
+                                </div>
+                            </div>
 
                             <TicketReplies ticket={ticketDetail?.data} />
                         </div>

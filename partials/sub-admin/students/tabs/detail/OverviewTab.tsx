@@ -12,16 +12,20 @@ import { RecentAppointment } from '@partials/common'
 
 type StudentsProfileOverviewProps = {
     student: StudentSubAdmin
+    onHandleScroll?: any
 }
 
-export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
+export const OverViewTab = ({
+    student,
+    onHandleScroll,
+}: StudentsProfileOverviewProps) => {
     const workplace = useGetSubAdminStudentWorkplaceQuery(student?.id, {
         skip: !student?.id,
     })
     return (
         <div className="w-full mt-6">
             {/* pinned Notes */}
-            <PinnedNotes id={student?.user?.id} />
+            <PinnedNotes id={student?.user?.id} onHandleScroll={onHandleScroll} />
 
             {/* Progress */}
             {/* {student?.workplace?.length > 0 && ( */}
