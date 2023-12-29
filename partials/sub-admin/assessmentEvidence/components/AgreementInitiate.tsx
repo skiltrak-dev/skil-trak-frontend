@@ -43,10 +43,10 @@ export const AgreementInitiate = ({
                             onInitiateSigning()
                         }}
                     />
-                    <Typography variant="small">Or</Typography>
+                    {/* <Typography variant="small">Or</Typography>
                     <Typography variant="small" color={'text-info'}>
                         Upload
-                    </Typography>
+                    </Typography> */}
                 </div>
             </div>
         </>

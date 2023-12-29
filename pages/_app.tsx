@@ -1,6 +1,5 @@
 import {
     AlertProvider,
-    AutoLogoutProvider,
     ContextBarProvider,
     DownloadAssessmentProvider,
     JoyRideProvider,
@@ -12,10 +11,10 @@ import {
 import { Theme, applyTheme, getCurrentTheme } from '@theme'
 import type { AppProps } from 'next/app'
 import { useEffect } from 'react'
+import 'react-loading-skeleton/dist/skeleton.css'
 import { Provider } from 'react-redux'
 import { ErrorBoundaryContext } from 'react-use-error-boundary'
 import '../styles/globals.css'
-import 'react-loading-skeleton/dist/skeleton.css'
 
 import { NextPageWithLayout } from '@types'
 import { store } from '../redux/store'
@@ -43,35 +42,35 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
 
     return (
         <Provider store={store}>
-            <AutoLogoutProvider>
-                <ErrorBoundaryContext>
-                    <JoyRideProvider>
-                        <DownloadAssessmentProvider>
-                            <AlertProvider>
-                                <NotificationProvider>
-                                    <NavbarProvider>
-                                        <ContextBarProvider>
-                                            <SocketListenerProvider>
-                                                <Socket>
-                                                    <NetworkProvider>
-                                                        <HeadWrapper>
-                                                            {getLayout(
-                                                                <Component
-                                                                    {...pageProps}
-                                                                />
-                                                            )}
-                                                        </HeadWrapper>
-                                                    </NetworkProvider>
-                                                </Socket>
-                                            </SocketListenerProvider>
-                                        </ContextBarProvider>
-                                    </NavbarProvider>
-                                </NotificationProvider>
-                            </AlertProvider>
-                        </DownloadAssessmentProvider>
-                    </JoyRideProvider>
-                </ErrorBoundaryContext>
-            </AutoLogoutProvider>
+            {/* <AutoLogoutProvider> */}
+            <ErrorBoundaryContext>
+                <JoyRideProvider>
+                    <DownloadAssessmentProvider>
+                        <AlertProvider>
+                            <NotificationProvider>
+                                <NavbarProvider>
+                                    <ContextBarProvider>
+                                        <SocketListenerProvider>
+                                            <Socket>
+                                                <NetworkProvider>
+                                                    <HeadWrapper>
+                                                        {getLayout(
+                                                            <Component
+                                                                {...pageProps}
+                                                            />
+                                                        )}
+                                                    </HeadWrapper>
+                                                </NetworkProvider>
+                                            </Socket>
+                                        </SocketListenerProvider>
+                                    </ContextBarProvider>
+                                </NavbarProvider>
+                            </NotificationProvider>
+                        </AlertProvider>
+                    </DownloadAssessmentProvider>
+                </JoyRideProvider>
+            </ErrorBoundaryContext>
+            {/* </AutoLogoutProvider> */}
         </Provider>
     )
 }

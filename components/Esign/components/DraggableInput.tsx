@@ -11,20 +11,29 @@ interface IDraggableInput {
     data: InputData
     Icon: any
     text: string
+    setDraggableData: (data: InputData) => void
 }
 
-export const DraggableInput = ({ id, data, Icon, text }: IDraggableInput) => {
+export const DraggableInput = ({
+    id,
+    data,
+    Icon,
+    text,
+    setDraggableData,
+}: IDraggableInput) => {
     const dimRef = useRef<any>()
     const [clientRect, setClientRect] = useState<any>()
-    const { attributes, listeners, setNodeRef, transform } = useDraggable({
-        id,
-        data: {
-            ...data,
-            clientX: clientRect?.x ?? 0,
-            clientY: clientRect?.y ?? 0,
-        },
-        // data,
-    })
+    const { attributes, listeners, setNodeRef, transform, isDragging } =
+        useDraggable({
+            id,
+            data: {
+                ...data,
+                clientX: clientRect?.x ?? 0,
+                clientY: clientRect?.y ?? 0,
+                Icon,
+            },
+            // data,
+        })
 
     const style = {
         transform: CSS.Translate.toString(transform),
@@ -34,6 +43,12 @@ export const DraggableInput = ({ id, data, Icon, text }: IDraggableInput) => {
             setClientRect(dimRef.current.getBoundingClientRect())
         }
     }, [])
+
+    useEffect(() => {
+        if (isDragging) {
+            setDraggableData({ ...data, Icon, id, text })
+        }
+    }, [isDragging])
 
     return (
         <div ref={dimRef}>
