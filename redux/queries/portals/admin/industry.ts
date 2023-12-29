@@ -67,6 +67,13 @@ export const industryEndpoints = (
         }),
         providesTags: ['Industries'],
     }),
+    snoozedIndustries: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}snoozed-industries`,
+            params,
+        }),
+        providesTags: ['Industries'],
+    }),
 
     industryStatusChange: builder.mutation<
         Industry,

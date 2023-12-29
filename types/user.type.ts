@@ -45,6 +45,7 @@ export interface UserCount {
     rejected: number | string
     blocked: number | string
     archived: number | string
+    snoozed: any
 }
 export enum IndustryStatus {
     DEFAULT = 'default',

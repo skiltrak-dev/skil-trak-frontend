@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { AiFillStar } from 'react-icons/ai'
 import { FaHandshake } from 'react-icons/fa'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
+import { MdEmail, MdPhoneIphone, MdSnooze } from 'react-icons/md'
 import { IndustrySubAdmin } from '../AllIndustries'
 import moment from 'moment'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
@@ -61,9 +61,18 @@ export const IndustryCellInfo = ({
                 <div>
                     <div className="flex items-center gap-x-1">
                         <div className="flex items-center gap-x-2">
-                            <p className="font-semibold">
-                                {industry?.user?.name}
-                            </p>
+                            <div className="flex items-center gap-x-2">
+                                <p className="font-semibold">
+                                    {industry?.user?.name}
+                                </p>
+                                {industry?.snoozedDate !== null && (
+                                    <MdSnooze
+                                        size={18}
+                                        className="text-red-500"
+                                    />
+                                )}
+                            </div>
+
                             {call &&
                                 isDateExist &&
                                 (callLog.isAnswered ? (

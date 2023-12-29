@@ -12,10 +12,15 @@ import classNames from 'classnames'
 import { BsPinAngleFill, BsPinFill } from 'react-icons/bs'
 import { FaTrash } from 'react-icons/fa'
 import { PuffLoader } from 'react-spinners'
-
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
     const { notification } = useNotification()
-
+    const router = useRouter()
+    const userRole = getUserCredentials()?.role
+    // /portals/admin/student/${router?.query?.id}?tab=notes
     const [changeStatus, changeStatusResult] = CommonApi.Notes.useStatusChange()
     const [deleteNote, deleteNoteResult] = CommonApi.Notes.useRemove()
 
@@ -53,7 +58,14 @@ export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
         changeStatusResult?.isLoading || deleteNoteResult?.isLoading
 
     return (
-        <div
+        <Link
+            href={`${
+                userRole === UserRoles.ADMIN
+                    ? `/portals/admin/student/${router?.query?.id}?tab=notes`
+                    : userRole === UserRoles.SUBADMIN
+                    ? `/portals/sub-admin/students/${router?.query?.id}?tab=notes`
+                    : '#'
+            }`}
             className={`${
                 pinnedNote ? 'bg-red-400' : 'bg-[#FEF6E6]'
             }  p-4 rounded-xl shadow-lg relative ${
@@ -164,6 +176,6 @@ export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
                     </div>
                 </div>
             )}
-        </div>
+        </Link>
     )
 }

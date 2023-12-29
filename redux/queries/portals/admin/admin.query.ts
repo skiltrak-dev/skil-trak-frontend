@@ -222,6 +222,7 @@ const {
     // ------ INDUSTRY ------ //
     useIndustryStatisticsCountQuery,
     useIndustriesQuery,
+    useSnoozedIndustriesQuery,
     useIndustryCountQuery,
     useIndustryDetailQuery,
     useIndustrySectorsQuery,
@@ -427,6 +428,7 @@ export const AdminApi = {
         useStatisticsCount: useIndustryStatisticsCountQuery,
         useIndustrySectors: useIndustrySectorsQuery,
         useListQuery: useIndustriesQuery,
+        useSnoozedIndustry: useSnoozedIndustriesQuery,
         useAssignCourses: useIndustryAssignCoursesMutation,
         useUnassignCourses: useIndustryUnassignCourseMutation,
         useCount: useIndustryCountQuery,

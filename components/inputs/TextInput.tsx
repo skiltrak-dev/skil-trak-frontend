@@ -96,7 +96,6 @@ export const TextInput = ({
             },
         },
     })
-
     // const { ref: preferableLocationRef, ...rest } = formContext.register(name)
 
     const formRef = formContext && formContext.register(name)

@@ -22,6 +22,13 @@ export const subAdminIndustriesEndpoints = (
         }),
         providesTags: ['SubAdminIndustries'],
     }),
+    getSnoozedIndustry: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/snoozed-industries/list`,
+            params,
+        }),
+        providesTags: ['SubAdminIndustries'],
+    }),
     getFavouriteIndustries: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}/industries/favorite/list`,
