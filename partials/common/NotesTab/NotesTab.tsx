@@ -6,7 +6,13 @@ import { CreateNote, EmptyData, LoadingAnimation, Note } from '@components'
 // query
 import { CommonApi } from '@queries'
 
-export const NotesTab = ({ user }: { user: any }) => {
+export const NotesTab = ({
+    user,
+    onHandleScroll,
+}: {
+    user: any
+    onHandleScroll?: any
+}) => {
     const [editValues, setEditValues] = useState(null)
 
     const notes = CommonApi.Notes.useList(user?.id, { skip: !user })
@@ -22,7 +28,7 @@ export const NotesTab = ({ user }: { user: any }) => {
                     </div>
                 ) : notes.data && notes.data?.length > 0 ? (
                     notes?.data?.map((note: any) => (
-                        <Note key={note.id} note={note} />
+                        <Note key={note.id} note={note} onHandleScroll={onHandleScroll}  />
                     ))
                 ) : (
                     <EmptyData

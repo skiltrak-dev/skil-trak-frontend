@@ -83,6 +83,10 @@ export const commonApi = emptySplitApi.injectEndpoints({
             query: () => `country/states`,
             providesTags: ['States'],
         }),
+        getCountryStates: build.query<any, any>({
+            query: (id) => `country/states/list/${id}`,
+            providesTags: ['States'],
+        }),
         countryAdd: build.mutation<any, any>({
             query: (body: any) => ({
                 url: `country`,
@@ -355,6 +359,7 @@ const {
     useGetCountriesQuery,
     useGetCountriesListQuery,
     useGetStatesQuery,
+    useGetCountryStatesQuery,
     useCountryAddMutation,
     useStateAddMutation,
     useDeleteStateMutation,
@@ -529,6 +534,7 @@ export const CommonApi = {
     Countries: {
         useCountries: useGetCountriesQuery,
         useStatesList: useGetStatesQuery,
+        useCountryStatesList: useGetCountryStatesQuery,
         useAddCountry: useCountryAddMutation,
         useAddState: useStateAddMutation,
         useDeleteState: useDeleteStateMutation,

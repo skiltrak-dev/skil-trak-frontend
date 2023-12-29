@@ -19,11 +19,23 @@ export const DetailTabs = ({
     id: number | string | string[] | undefined
     student: StudentSubAdmin
 }) => {
+    const onHandleScroll = (id: number) => {
+        const detailItem = document.getElementById(`pinned-notes-${id}`)
+        console.log('detailItem', detailItem)
+        if (detailItem) {
+            detailItem.scrollIntoView({ behavior: 'smooth' })
+        }
+    }
     const tabs: TabProps[] = [
         {
             label: 'Overview',
             href: { pathname: String(id), query: { tab: 'overview' } },
-            element: <OverViewTab student={student} />,
+            element: (
+                <OverViewTab
+                    student={student}
+                    onHandleScroll={onHandleScroll}
+                />
+            ),
         },
         {
             label: 'Submissions',
@@ -82,7 +94,12 @@ export const DetailTabs = ({
         {
             label: 'Notes',
             href: { pathname: String(id), query: { tab: 'notes' } },
-            element: <NotesTab user={student?.user} />,
+            element: (
+                <NotesTab
+                    user={student?.user}
+                    onHandleScroll={onHandleScroll}
+                />
+            ),
         },
         {
             label: 'All Communications',

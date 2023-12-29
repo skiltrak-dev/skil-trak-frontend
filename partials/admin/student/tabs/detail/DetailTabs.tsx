@@ -9,6 +9,7 @@ export const DetailTabs = ({
     id: number | string | string[] | undefined
     student: any
 }) => {
+   
     const tabs: TabProps[] = [
         {
             label: 'Required Documents',

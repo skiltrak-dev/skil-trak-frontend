@@ -16,8 +16,8 @@ export const PinnedNotes = ({
     })
 
     return (
-        <SwiperContainer className="mt-4 relative">
-            <div className="swiper-container">
+        <SwiperContainer className="mt-4 relative w-full">
+            <div className="swiper-container w-full">
                 {pinnedNotes.data && (
                     <Swiper
                         slidesPerView={3}
