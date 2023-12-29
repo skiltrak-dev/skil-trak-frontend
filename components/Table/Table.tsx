@@ -242,54 +242,68 @@ export const Table = <Type,>({
                     ))}
                 </thead>
                 <tbody>
-                    {table.getRowModel().rows.map((row, idx: number) => (
-                        <React.Fragment key={row.id}>
-                            <tr className="table-row">
-                                {row
-                                    .getVisibleCells()
-                                    .map((cell, idx: number) => (
-                                        <td
-                                            key={cell.id}
-                                            {...(idx === 0 && enableRowSelection
-                                                ? {
-                                                      className: '',
-                                                      style: {
-                                                          width: '40px',
-                                                          minWidth: '40px',
-                                                          maxWidth: '40px',
-                                                          wordBreak:
-                                                              'break-all',
-                                                      },
-                                                  }
-                                                : {})}
-                                        >
-                                            <div
+                    {table.getRowModel().rows.map((row: any, idx: number) => {
+                        return (
+                            <React.Fragment key={row.id}>
+                                <tr className={`table-row`}>
+                                    {row
+                                        .getVisibleCells()
+                                        .map((cell: any, idx: number) => (
+                                            <td
+                                                className={`${
+                                                    row?.original?.user
+                                                        ?.status === 'blocked'
+                                                        ? '!bg-error-light'
+                                                        : row?.original?.user
+                                                              ?.status ===
+                                                          'pending'
+                                                        ? '!bg-primary-light'
+                                                        : '!bg-[#f5f5f5]'
+                                                }`}
+                                                key={cell.id}
                                                 {...(idx === 0 &&
                                                 enableRowSelection
                                                     ? {
-                                                          //   className: row.getIsSelected()
-                                                          //      ? 'visible'
-                                                          //      : 'invisible group-hover:visible',
-                                                          className:
-                                                              row.getIsSelected()
-                                                                  ? 'visible'
-                                                                  : 'row-unchecked',
+                                                          //   className: '',
+                                                          style: {
+                                                              width: '40px',
+                                                              minWidth: '40px',
+                                                              maxWidth: '40px',
+                                                              wordBreak:
+                                                                  'break-all',
+                                                          },
                                                       }
                                                     : {})}
                                             >
-                                                {flexRender(
-                                                    cell.column.columnDef.cell,
-                                                    cell.getContext()
-                                                )}
-                                            </div>
-                                        </td>
-                                    ))}
-                            </tr>
-                            <tr aria-hidden="true">
-                                <td></td>
-                            </tr>
-                        </React.Fragment>
-                    ))}
+                                                <div
+                                                    {...(idx === 0 &&
+                                                    enableRowSelection
+                                                        ? {
+                                                              //   className: row.getIsSelected()
+                                                              //      ? 'visible'
+                                                              //      : 'invisible group-hover:visible',
+                                                              className:
+                                                                  row.getIsSelected()
+                                                                      ? 'visible'
+                                                                      : 'row-unchecked',
+                                                          }
+                                                        : {})}
+                                                >
+                                                    {flexRender(
+                                                        cell.column.columnDef
+                                                            .cell,
+                                                        cell.getContext()
+                                                    )}
+                                                </div>
+                                            </td>
+                                        ))}
+                                </tr>
+                                <tr aria-hidden="true">
+                                    <td></td>
+                                </tr>
+                            </React.Fragment>
+                        )
+                    })}
                 </tbody>
                 <tfoot>
                     {table.getFooterGroups().map((footerGroup) => (

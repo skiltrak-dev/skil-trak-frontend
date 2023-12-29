@@ -7,7 +7,7 @@ import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
-import { AuthApi } from '@queries'
+import { AuthApi, CommonApi } from '@queries'
 import {
     CourseSelectOption,
     ellipsisText,
@@ -42,7 +42,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
     const [lastEnteredAbn, setLastEnteredAbn] = useState('')
-
+    
     const onEmailChange = (e: any) => {
         _debounce(() => {
             // Regex for email, only valid mail should be sent
@@ -54,13 +54,29 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         }, 300)()
     }
 
+    // const onAbnChange = (e: any) => {
+    //     _debounce(() => {
+    //         // Regex for email, only valid mail should be sent
+    //         const abn = e.target.value
+    //         if (abn) {
+    //             checkAbnExist({ abn })
+    //             setLastEnteredAbn(abn)
+    //         }
+    //     }, 300)()
+    // }
+
+    // ...
+
     const onAbnChange = (e: any) => {
         _debounce(() => {
-            // Regex for email, only valid mail should be sent
             const abn = e.target.value
-            if (abn) {
-                checkAbnExist({ abn })
+            const suburbValue = formMethods.getValues('suburb')
+            
+            if (abn && suburbValue) {
+                checkAbnExist({ abn, suburb: suburbValue })
                 setLastEnteredAbn(abn)
+            } else {
+                console.log('Please enter both ABN and suburb.')
             }
         }, 300)()
     }
@@ -174,11 +190,12 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         }
     }, [emailCheckResult])
 
+    // Use Effect For ABN
     useEffect(() => {
         if (checkAbnExistResult.isError) {
             notification.error({
-                title: 'Abn Exist',
-                description: `'${lastEnteredAbn}' is already being used.`,
+                title: 'Abn in same suburb Exist',
+                description: `'${lastEnteredAbn}' in same suburb is already exists.`,
             })
         }
     }, [checkAbnExistResult])
@@ -475,6 +492,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 onChange={() => {
                                     setOnSuburbClicked(false)
                                 }}
+                                // onChange={onSuburbChange}
                                 onPlaceSuggetions={{
                                     placesSuggetions: onSuburbClicked,
                                     setIsPlaceSelected: setOnSuburbClicked,

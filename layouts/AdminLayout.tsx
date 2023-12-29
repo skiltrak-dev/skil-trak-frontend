@@ -34,6 +34,7 @@ import { HiOutlineDocumentText } from 'react-icons/hi2'
 import { useRouter } from 'next/router'
 import { FaFileSignature } from 'react-icons/fa'
 import { BiLogoBlogger } from 'react-icons/bi'
+import { FaMapMarkedAlt } from "react-icons/fa";
 
 type Route = {
     type?: 'title' | 'divider'
@@ -98,6 +99,11 @@ const routes: Route[] = [
         text: 'Sectors',
         path: getRoutePath('/sectors?tab=sectors&page=1&pageSize=50'),
         Icon: FaClipboardList,
+    },
+    {
+        text: 'Countries & States',
+        path: getRoutePath('/countries?tab=countries&page=1&pageSize=50'),
+        Icon: FaMapMarkedAlt,
     },
     {
         text: 'Appointments',

@@ -27,6 +27,7 @@ import {
     FilteredIndustry,
     PendingIndustries,
     RejectedIndustries,
+    SnoozedIndustrySubAdmin,
 } from '@partials/sub-admin/Industries'
 import { checkFilteredDataLength, getFilterQuery } from '@utils'
 //query
@@ -109,6 +110,15 @@ const Industries: NextPageWithLayout = (props: Props) => {
             element: <AllIndustries />,
             badge: {
                 text: count.data?.approved,
+                loading: count.isLoading,
+            },
+        },
+        {
+            label: 'Snoozed',
+            href: { pathname: 'industries', query: { tab: 'snoozed' } },
+            element: <SnoozedIndustrySubAdmin />,
+            badge: {
+                text: count.data?.snoozed,
                 loading: count.isLoading,
             },
         },

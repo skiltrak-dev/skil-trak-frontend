@@ -10,4 +10,5 @@ export interface AdminIndustryFormFilter {
     sectorId: number
     state: string
     suburb: string
+    isPartner: boolean
 }

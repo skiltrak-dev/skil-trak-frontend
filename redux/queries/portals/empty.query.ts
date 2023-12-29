@@ -100,6 +100,8 @@ const commonTagTypes = [
     'E-Sign',
     'Avatar',
     'Course',
+    'Country',
+    'States',
     'Profile',
     'Messages',
     'Industry',

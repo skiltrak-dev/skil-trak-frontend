@@ -20,6 +20,7 @@ import {
     FilteredIndustry,
     PendingIndustry,
     RejectedIndustry,
+    SnoozedIndustry,
 } from '@partials/admin/industry'
 import { AdminApi } from '@queries'
 import { QueryType, checkFilteredDataLength, getFilterQuery } from '@utils'
@@ -36,9 +37,10 @@ const filterKeys = [
     'industryId',
     'suburb',
     'state',
+    'isPartner'
 ]
 
-const removeFilterKeysToUrl = ['']
+const removeFilterKeysToUrl: any = []
 
 const IndustryList: NextPageWithLayout = () => {
     const router = useRouter()
@@ -93,6 +95,18 @@ const IndustryList: NextPageWithLayout = () => {
                 loading: isLoading,
             },
             element: <ApprovedIndustry />,
+        },
+        {
+            label: 'Snoozed',
+            href: {
+                pathname: 'industry',
+                query: { tab: "snoozed", page: 1, pageSize: 50 },
+            },
+            badge: {
+                text: data?.snoozed,
+                loading: isLoading,
+            },
+            element: <SnoozedIndustry />,
         },
         {
             label: 'Rejected',
