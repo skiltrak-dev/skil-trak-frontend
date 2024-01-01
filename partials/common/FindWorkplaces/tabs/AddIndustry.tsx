@@ -296,7 +296,6 @@ export const AddIndustry = ({
                                         label: state.name,
                                         value: state.id,
                                     }))}
-                                    multi
                                     loading={statesLoading}
                                     disabled={!countryId}
                                     onlyValue

@@ -137,7 +137,8 @@ export interface Industry extends BaseResponse {
     studentCapacity: number | null
     courses: Course[]
     branches: Industry[]
-
+    createdBy: any
+    channel: string
     addressLine1: string
     addressLine2: string
     suburb: string
