@@ -250,6 +250,23 @@ export const eSignEndpoints = (
         invalidatesTags: ['E-Sign'],
     }),
 
+    addEmailCustomFieldData: builder.mutation<
+        any,
+        {
+            documentId: number
+            tabsResponse: any
+            id?: number
+        }
+    >({
+        query: ({ documentId, id, ...body }) => ({
+            url: `${PREFIX}/document/${documentId}/tab/response/from-email`,
+            method: 'POST',
+            params: { id },
+            body,
+        }),
+        invalidatesTags: ['E-Sign'],
+    }),
+
     getDocumentForUsers: builder.query<any, number>({
         query: (docId) => `${PREFIX}/document/${docId}/get`,
         providesTags: ['E-Sign'],

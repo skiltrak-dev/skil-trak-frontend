@@ -73,8 +73,6 @@ export const AddEsignForm = ({
         mode: 'all',
     })
 
-    console.log({ methods: methods.getValues() })
-
     useEffect(() => {
         if (data) {
             methods.setValue('name', data?.name)
@@ -167,8 +165,6 @@ export const AddEsignForm = ({
             )
         }
     }, [rto, selectedCourse])
-
-    console.log({ selectedFolder })
 
     return (
         <Card>
