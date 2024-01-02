@@ -66,7 +66,6 @@ export const FutureIndustrySignUpForm = ({
     const courses = sectorResponse?.data?.flatMap((obj: any) => obj?.courses)
 
     const onSectorChanged = (sectors: any) => {
-        console.log('sector', sectors)
         setSelectedSector(sectors)
         setCourseLoading(true)
         const filteredCourses = sectors?.map((selectedSector: any) => {
@@ -94,7 +93,7 @@ export const FutureIndustrySignUpForm = ({
         setCourseOptions(newCourseOptions)
         setCourseLoading(false)
     }
-    
+
     useEffect(() => {
         if (sectorResponse.data?.length) {
             const options = sectorResponse.data?.map((sector: any) => ({
@@ -232,7 +231,6 @@ export const FutureIndustrySignUpForm = ({
     //     }
     // }, [selectedSector])
     useEffect(() => {
-        console.log({ selectedSector })
         if (
             selectedSector &&
             sectorResponse?.data &&
@@ -243,7 +241,6 @@ export const FutureIndustrySignUpForm = ({
     }, [selectedSector, sectorResponse])
 
     const onHandleSubmit = (values: any) => {
-        console.log('values', values)
         if (!onSuburbClicked) {
             notification.error({
                 title: 'You must select on Suburb Dropdown',

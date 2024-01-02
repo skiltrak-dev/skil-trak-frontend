@@ -82,7 +82,6 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                 checkAbnExist({ abn, suburb: suburbValue })
                 setLastEnteredAbn(abn)
             } else {
-                console.log('Please enter both ABN and suburb.')
             }
         }, 300)()
     }

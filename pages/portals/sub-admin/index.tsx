@@ -755,7 +755,6 @@ const SubAdminDashboard: NextPageWithLayout = () => {
     //     You need to enable Book/Receive Appointments from Setting to
     //     recive Book/Receive Appointments
     // </Modal>
-    console.log('modal:::', pendingIndustries?.data?.data?.length)
 
     return (
         <>

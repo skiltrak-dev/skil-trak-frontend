@@ -3,11 +3,13 @@ import {
     EmptyData,
     LoadingAnimation,
     PageTitle,
+    ShowErrorNotifications,
     TechnicalError,
     Typography,
 } from '@components'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import { PageHeading } from '@components/headings'
+import { useNotification } from '@hooks'
 import { SiteLayout } from '@layouts'
 import {
     EsignSignatureModal,
@@ -15,6 +17,7 @@ import {
     SVGView,
 } from '@partials'
 import { CommonApi } from '@queries'
+import jwt from 'jwt-decode'
 import { useRouter } from 'next/router'
 import React, {
     ReactNode,
@@ -24,6 +27,7 @@ import React, {
     useState,
 } from 'react'
 import { FaSignature } from 'react-icons/fa'
+import { PuffLoader } from 'react-spinners'
 
 const ESign = () => {
     const router = useRouter()
@@ -31,6 +35,8 @@ const ESign = () => {
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [customFieldsData, setCustomFieldsData] = useState<any>([])
     const scrollTargetRef = useRef<any>([])
+
+    const { notification } = useNotification()
 
     const documentsTotalPages = CommonApi.ESign.useGetDocumentTotalPages(
         Number(router.query?.id),
@@ -53,6 +59,8 @@ const ESign = () => {
             skip: !router.query?.id,
         }
     )
+    const [addCustomFieldsData, addCustomFieldsDataResult] =
+        CommonApi.ESign.addEmailCustomFieldData()
 
     useEffect(() => {
         if (tabs.isSuccess && tabs?.data && tabs?.data?.length > 0) {
@@ -127,9 +135,51 @@ const ESign = () => {
             targetElement.scrollIntoView({ behavior: 'smooth' })
         }
     }
+
+    const onSaveCustomFieldsValue = async () => {
+        console.log(jwt(String(router?.query?.token)))
+        const decodeData: { id: number } = await jwt(
+            String(router?.query?.token)
+        )
+        const customValues = customFieldsData?.filter(
+            (data: any) => data?.isCustom && !data?.fieldValue
+        )
+        if (!sign?.responses?.length) {
+            notification.warning({
+                title: 'Sign',
+                description: 'Please sign before finish signing',
+            })
+        } else if (customValues && customValues?.length > 0) {
+            notification.warning({
+                title: 'Please fill all required fields',
+                description: 'Please fill all required fields',
+            })
+        } else {
+            addCustomFieldsData({
+                documentId: Number(router.query?.id),
+                tabsResponse: customFieldsData
+                    ?.filter((data: any) => data?.isCustom)
+                    ?.map((tab: any) => ({
+                        tab: tab?.id,
+                        data: tab?.fieldValue,
+                    })),
+                id: Number(decodeData?.id),
+            }).then((res: any) => {
+                if (res?.data) {
+                    notification.success({
+                        title: 'Document Sign',
+                        description:
+                            'Document signed has been Finished successfully',
+                    })
+                    router.push('/')
+                }
+            })
+        }
+    }
     return (
         <SiteLayout title={'E Sign'}>
             {modal}
+            <ShowErrorNotifications result={addCustomFieldsDataResult} />
             <div className="max-w-7xl mx-auto py-10">
                 <PageHeading title="E-Sign" subtitle="E Sign" />
 
@@ -205,6 +255,25 @@ const ESign = () => {
                                     </Card>
                                 </div>
                             ))}
+                        </div>
+                        <div className="flex justify-center bg-white px-5 py-2 shadow-md w-full rounded my-2">
+                            <button
+                                className="bg-primary text-white hover:bg-primary-dark border-transparent ring-primary-light text-[11px] 2xl:text-xs font-medium uppercase transition-all duration-300 border px-4 py-2 shadow focus:outline-none focus:ring-4 rounded-md w-full md:w-96 h-12 md:h-[60px]"
+                                onClick={() => {
+                                    onSaveCustomFieldsValue()
+                                    // router.back()
+                                }}
+                            >
+                                {addCustomFieldsDataResult.isLoading ? (
+                                    <div className="flex items-center justify-center">
+                                        <PuffLoader size={24} color={'white'} />
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center justify-center gap-x-2 text-xl">
+                                        Finish Signing
+                                    </div>
+                                )}
+                            </button>
                         </div>
                     </div>
                 ) : (
