@@ -119,7 +119,7 @@ export const States = () => {
                             <p className="font-semibold">
                                 {info?.row?.original?.name}{' '}
                                 {isDateWithinLast7Days(
-                                    info.row.original?.createdAt as Date
+                                    info?.row?.original?.createdAt as Date
                                 ) && <Badge text={'New'} variant={'info'} />}
                             </p>
                         </div>
@@ -187,7 +187,7 @@ export const States = () => {
         ),
         common: (items: Course[]) => (
             <div className="flex gap-x-2">
-                <ActionButton variant="success">Accept</ActionButton>
+                {/* <ActionButton variant="success">Accept</ActionButton> */}
                 <ActionButton Icon={FaTrash} variant="error">
                     Delete
                 </ActionButton>
@@ -208,13 +208,13 @@ export const States = () => {
                     />
 
                     {/* {filterAction} */}
-                    {data && data?.data.length ? (
+                    {/* {data && data?.data.length ? (
                         <Button
                             text="Export"
                             variant="action"
                             Icon={FaFileExport}
                         />
-                    ) : null}
+                    ) : null} */}
                 </PageHeading>
 
                 {/* <Filter<CourseFilterType>

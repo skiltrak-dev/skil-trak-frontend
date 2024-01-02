@@ -10,7 +10,6 @@ const SignUpFutureIndustryPage: NextPageWithLayout = () => {
     const [register, registerResult] =
         AdminApi.Admin.useRegisterByFutureIndustry()
     const onSubmit = (values: any) => {
-        console.log('onSubmit', values)
         register({
             ...values,
             role: 'industry',
