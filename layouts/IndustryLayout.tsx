@@ -17,8 +17,9 @@ import { UserLayout } from './UserLayout'
 import { useAlert, useJoyRide } from '@hooks'
 import { UserStatus } from '@types'
 import { AuthUtils, EsignDocumentStatus } from '@utils'
-import { CommonApi } from '@queries'
+import { CommonApi, useIndustryProfileQuery } from '@queries'
 import { ViewUsersForEsignModal } from '@partials'
+import { ProfileModal } from '@partials/industry'
 
 const getRoutePath = `/portals/industry`
 
@@ -149,6 +150,60 @@ export const IndustryLayout = ({
             setAlerts([])
         }
     }, [])
+
+    // ===============================
+    // PROFILE COMPLETION START
+    // ===============================
+    const profile = useIndustryProfileQuery(undefined, {
+        refetchOnMountOrArgChange: true,
+    })
+    const values = { ...profile?.data, ...profile?.data?.user }
+    const keys = [
+        'name',
+        'email',
+        'abn',
+        'phoneNumber',
+        'contactPerson',
+        'contactPersonNumber',
+        'suburb',
+        'state',
+        'zipCode',
+        'addressLine1',
+    ]
+
+    let totalValues = keys?.length
+    let filledValues = 0
+    keys.forEach((key) => {
+        const keyValue = values[key as keyof typeof values]
+        if (
+            keyValue &&
+            keyValue != 'NA' &&
+            keyValue != 'N/A' &&
+            !Array.isArray(keyValue)
+        ) {
+            filledValues++
+        } else if (Array.isArray(keyValue) && keyValue?.length > 0) {
+            filledValues++
+        }
+    })
+
+    const profileCompletion = Math.floor((filledValues / totalValues) * 100)
+
+    useEffect(() => {
+        if (profile.isSuccess) {
+            if (profileCompletion && profileCompletion < 100) {
+                setModal(
+                    <ProfileModal
+                        profileCompletion={profileCompletion}
+                        keys={keys}
+                    />
+                )
+            }
+        }
+    }, [profileCompletion, profile, router])
+    // ===============================
+    // PROFILE COMPLETION END
+    // ===============================
 
     useEffect(() => {
         setMounted(true)
