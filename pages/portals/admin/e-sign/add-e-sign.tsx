@@ -3,7 +3,7 @@ import { PageHeading } from '@components/headings'
 import { useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { AddEsignForm } from '@partials'
-import { AdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
@@ -14,12 +14,12 @@ const AddESign = () => {
 
     const { notification } = useNotification()
 
-    const [saveEsign, saveEsignResult] = AdminApi.ESign.useSaveEsign()
+    const [saveEsign, saveEsignResult] = CommonApi.ESign.useSaveEsign()
 
     useEffect(() => {
         if (saveEsignResult.isSuccess) {
             notification.success({
-                title: 'Teplate Created',
+                title: 'Template Created',
                 description: 'Template Created Successfully',
             })
             if (isSaveAndNext) {

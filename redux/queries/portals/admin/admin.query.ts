@@ -16,7 +16,6 @@ import { subAdminEndpoints } from './sub-admin'
 import { subscriberEndpoints } from './subscribers'
 import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
-import { eSignEndpoints } from './e-sign'
 
 const PREFIX = 'admin'
 
@@ -143,7 +142,6 @@ export const adminApi = emptySplitApi.injectEndpoints({
         ...rtoEndpoints(build),
         ...studentEndpoints(build),
         ...jobEndpoints(build),
-        ...eSignEndpoints(build),
         ...sectorEndpoints(build),
         ...courseEndpoints(build),
         ...folderEndpoints(build),
@@ -332,17 +330,6 @@ const {
     useGetDocumentsQuery,
 
     // ---- ESIGN ---- //
-
-    useGetEsignListQuery,
-    useSaveEsignMutation,
-    useGetEsignRtosQuery,
-    useGetEsignTemplateQuery,
-    useSaveEsignTemplateMutation,
-    useChangeEsignStatusMutation,
-    useGetEsignTemplateTabsQuery,
-    useGetTemplatePagesCountQuery,
-    useGetEsignTemplateDetailQuery,
-    useUpdateEsignTemplateDetailMutation,
 } = adminApi
 
 export const AdminApi = {
@@ -510,17 +497,5 @@ export const AdminApi = {
     Documents: {
         addDocuments: useAddDocumentsMutation,
         useGetDocuments: useGetDocumentsQuery,
-    },
-    ESign: {
-        useGetEsign: useGetEsignListQuery,
-        useSaveEsign: useSaveEsignMutation,
-        useGetEsignRtos: useGetEsignRtosQuery,
-        useEsignTemplate: useGetEsignTemplateQuery,
-        useSaveTemplate: useSaveEsignTemplateMutation,
-        useChangeStatus: useChangeEsignStatusMutation,
-        useTamplatePagesCount: useGetTemplatePagesCountQuery,
-        useGetEsignTemplateTabs: useGetEsignTemplateTabsQuery,
-        useEsignTemplateDetail: useGetEsignTemplateDetailQuery,
-        useUpdateEsignDetail: useUpdateEsignTemplateDetailMutation,
     },
 }

@@ -57,6 +57,7 @@ export const Checkbox = ({
                         )}
                         {...(value ? { value } : {})}
                         defaultChecked={defaultChecked}
+                        checked={defaultChecked}
                     />
                 ) : (
                     <div className="w-[22px] h-[22px] flex items-center justify-center">

@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, FocusEvent, useEffect, useState } from 'react'
 import { FileDrop } from 'react-file-drop'
 
 // Icons
@@ -15,6 +15,7 @@ import { Typography } from '@components'
 import { InputProps } from '@components/inputs/InputPropType'
 import {
     checkFileSize,
+    getMethodsForInput,
     getMimeTypes,
     SupportedDocumentFormats,
     SupportedImageFormats,
@@ -77,7 +78,6 @@ export const FileUpload = ({
 }: FileUploadProps) => {
     const formContext = useFormContext()
 
-
     const [values, setValues] = useState<File[] | null>(null)
     const [file, setFile] = useState<File | null>(null)
     const [fileList, setFileList] = useState<File[] | null>(null)
@@ -90,12 +90,22 @@ export const FileUpload = ({
         setFile(null)
         setFileObject(null)
         setInvalidSelection(false)
+        formContext.setValue(name, null)
+        if (required) {
+            formContext.setError(name, {
+                type: 'manual',
+                message: 'File is required!',
+            })
+        }
     }
 
     useEffect(() => {
         if (formContext && values) {
-            formContext.setValue(name, values)
-            
+            formContext.setValue(name, [...values])
+            formContext.setError(name, {
+                type: 'manual',
+                message: '',
+            })
         }
     }, [values])
 
@@ -105,6 +115,8 @@ export const FileUpload = ({
 
         // Getting file Data
         const fileData: any = isDragging ? event : event.target.files
+
+        // formContext.setValue(name, [...fileData])
 
         // for multiple files upload
         if (multiple) {
@@ -208,25 +220,28 @@ export const FileUpload = ({
                     id={`file_id_${name}`}
                     // name={name}
                     className="hidden"
-                    // {...getMethodsForInput(
-                    // 	name,
-                    // 	formContext,
-                    // 	rules,
-                    // 	(e: any) => {
-                    // 		onChange && onChange(e);
-                    // 		handleChange(e, false);
-                    // 	},
-                    // 	onBlur
-                    // )}
+                    {...getMethodsForInput(
+                        name,
+                        formContext,
+                        rules,
+                        (e: any) => {
+                            ;[...e.target.files]?.forEach((e: any) => {
+                                setValues([e])
+                            })
+                            // setValues(e.target.files)
+                            handleChange(e, false)
+                        },
+                        onBlur
+                    )}
                     {...(formContext ? formContext.register(name) : { name })}
-                    onChange={(e: any) => {
-                        ;[...e.target.files]?.forEach((e: any) => {
-                            setValues([e])
-                        })
-                        // setValues(e.target.files)
-                        handleChange(e, false)
-                        // onChange && onChange(e);
-                    }}
+                    // onChange={(e: any) => {
+                    //     ;[...e.target.files]?.forEach((e: any) => {
+                    //         setValues([e])
+                    //     })
+                    //     // setValues(e.target.files)
+                    //     handleChange(e, false)
+                    //     // onChange && onChange(e);
+                    // }}
                     {...(acceptTypes
                         ? { accept: getMimeTypes(acceptTypes) }
                         : {})}

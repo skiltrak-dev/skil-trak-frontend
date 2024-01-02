@@ -7,11 +7,13 @@ import {
 } from '@components'
 import { useAlert, useJoyRide } from '@hooks'
 import { UserStatus } from '@types'
-import { AuthUtils } from '@utils'
+import { AuthUtils, EsignDocumentStatus } from '@utils'
 import { useRouter } from 'next/router'
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
+import { CommonApi } from '@queries'
+import { ViewUsersForEsignModal } from '@partials'
 interface RtoLayoutProps {
     pageTitle?: PageTitleProps
     children: ReactNode
@@ -40,6 +42,11 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
     const joyride = useJoyRide()
     const router = useRouter()
     const { alert, setAlerts } = useAlert()
+    const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const pendingDocuments = CommonApi.ESign.usePendingDocumentsList({
+        status: EsignDocumentStatus.PENDING,
+    })
 
     const status = AuthUtils.getUserCredentials()?.status
 
@@ -61,6 +68,30 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
         setMounted(true)
     }, [])
 
+    useEffect(() => {
+        if (pendingDocuments.isSuccess) {
+            const route = `/portals/student/assessments/e-sign/${pendingDocuments?.data?.[0]?.id}`
+
+            if (
+                pendingDocuments?.data &&
+                pendingDocuments?.data?.length > 0 &&
+                router?.pathname !== `/portals/rto/tasks/e-sign/[id]`
+            ) {
+                setModal(
+                    <ViewUsersForEsignModal
+                        documents={pendingDocuments?.data}
+                        onClick={() => router.push(route)}
+                        route="/portals/rto/tasks/e-sign"
+                    />
+                )
+            } else if (router?.pathname === `/portals/rto/tasks/e-sign/[id]`) {
+                setModal(null)
+            }
+        } else {
+            setModal(null)
+        }
+    }, [pendingDocuments, router])
+
     return (
         <RedirectUnApprovedUsers
             getRoutePath={getRoutePath}
@@ -68,6 +99,7 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
         >
             <UserLayout>
                 <>
+                    {modal}
                     <div className="px-8">
                         <div className="mb-4">
                             <RtoNavbar />

@@ -121,18 +121,28 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                 )
             } else if (pendingDocuments.isSuccess) {
                 const route = `/portals/student/assessments/e-sign/${pendingDocuments?.data?.[0]?.id}`
+                console.log(
+                    'router.asPath',
+                    router?.pathname !==
+                        `/portals/student/assessments/e-sign/[id]`
+                )
                 if (
                     pendingDocuments?.data &&
                     pendingDocuments?.data?.length > 0 &&
-                    route !== router.asPath
+                    router?.pathname !==
+                        `/portals/student/assessments/e-sign/[id]`
                 ) {
                     setModal(
                         <ViewUsersForEsignModal
-                            document={pendingDocuments?.data?.[0]}
+                            documents={pendingDocuments?.data}
                             onClick={() => router.push(route)}
+                            route="/portals/student/assessments/e-sign"
                         />
                     )
-                } else if (route === router.asPath) {
+                } else if (
+                    router?.pathname ===
+                    `/portals/student/assessments/e-sign/[id]`
+                ) {
                     setModal(null)
                 }
             } else {

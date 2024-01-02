@@ -25,6 +25,7 @@ import { Socket } from '@components'
 import 'swiper/css/bundle'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
+import 'react-datepicker/dist/react-datepicker.css'
 
 type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout

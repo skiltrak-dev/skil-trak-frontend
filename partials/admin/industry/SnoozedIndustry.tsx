@@ -49,7 +49,6 @@ export const SnoozedIndustry = () => {
     //     skip: itemPerPage * page - itemPerPage,
     //     limit: itemPerPage,
     // })
-    // console.log('snoozedIndustryList', snoozedIndustryList)
     const { isLoading, data, isError } = AdminApi.Industries.useSnoozedIndustry(
         {
             // search: `status:${UserStatus.Approved}`,
@@ -151,9 +150,7 @@ export const SnoozedIndustry = () => {
     const columns: ColumnDef<Industry>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info: any) => {
-                return <IndustryCell industry={info.row.original} />
-            },
+            cell: (info: any) => <IndustryCell industry={info.row.original} />,
             header: () => <span>Industry</span>,
         },
         {

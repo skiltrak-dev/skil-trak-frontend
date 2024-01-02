@@ -17,23 +17,18 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { RtoCellInfo } from '@partials/admin/rto/components'
-import { AdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { Rto, Student, UserStatus } from '@types'
-import { checkListLength, isBrowser, setLink } from '@utils'
+import { checkListLength } from '@utils'
 import { useRouter } from 'next/router'
-import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 
 // hooks
-import { EditTimer } from '@components/StudentTimer/EditTimer'
-import { DocumentsView, useActionModal } from '@hooks'
-import {
-    BlockModal,
-    BlockMultiStudentsModal,
-    ChangeStatusModal,
-} from '../student/modals'
-import { ArchiveModal } from './modal'
+import { DocumentsView } from '@hooks'
 import Link from 'next/link'
+import { BlockModal, BlockMultiStudentsModal } from '../student/modals'
+import { ArchiveModal } from './modal'
 
 export const ApprovedEsigns = () => {
     const router = useRouter()
@@ -49,7 +44,7 @@ export const ApprovedEsigns = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const getEsign = AdminApi.ESign.useGetEsign(
+    const getEsign = CommonApi.ESign.useGetEsign(
         {
             search: `status:${UserStatus.Approved}`,
             skip: itemPerPage * page - itemPerPage,

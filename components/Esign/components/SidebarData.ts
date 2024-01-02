@@ -270,10 +270,10 @@ export const SideBarFieldsData = {
             role: UserRoles.SUBADMIN,
         },
         {
-            text: 'Subadmin Sign Date',
+            text: 'Coordinator Sign Date',
             id: 'input-subadmin-sign-date',
             color: ColorPreset.coordinator,
-            placeholder: 'Subadmin Sign Date',
+            placeholder: 'Coordinator Sign Date',
             preDefined: true,
             type: FieldsTypeEnum.Date,
             Icon: CiCalendarDate,

@@ -16,7 +16,9 @@ import { UserLayout } from './UserLayout'
 // utils
 import { useAlert, useJoyRide } from '@hooks'
 import { UserStatus } from '@types'
-import { AuthUtils } from '@utils'
+import { AuthUtils, EsignDocumentStatus } from '@utils'
+import { CommonApi } from '@queries'
+import { ViewUsersForEsignModal } from '@partials'
 
 const getRoutePath = `/portals/industry`
 
@@ -62,6 +64,10 @@ export const IndustryLayout = ({
     const [mounted, setMounted] = useState(false)
     const [modal, setModal] = useState<ReactElement | null>(null)
 
+    const pendingDocuments = CommonApi.ESign.usePendingDocumentsList({
+        status: EsignDocumentStatus.PENDING,
+    })
+
     useEffect(() => {
         if (
             token &&
@@ -71,6 +77,32 @@ export const IndustryLayout = ({
             router.push(getRoutePath)
         }
     }, [router])
+
+    useEffect(() => {
+        if (pendingDocuments.isSuccess) {
+            const route = `/portals/student/assessments/e-sign/${pendingDocuments?.data?.[0]?.id}`
+
+            if (
+                pendingDocuments?.data &&
+                pendingDocuments?.data?.length > 0 &&
+                router?.pathname !== `/portals/industry/students/e-sign/[id]`
+            ) {
+                setModal(
+                    <ViewUsersForEsignModal
+                        documents={pendingDocuments?.data}
+                        onClick={() => router.push(route)}
+                        route="/portals/industry/students/e-sign"
+                    />
+                )
+            } else if (
+                router?.pathname === `/portals/industry/students/e-sign/[id]`
+            ) {
+                setModal(null)
+            }
+        } else {
+            setModal(null)
+        }
+    }, [pendingDocuments, router])
 
     useEffect(() => {
         const displayAlerts = () => {
