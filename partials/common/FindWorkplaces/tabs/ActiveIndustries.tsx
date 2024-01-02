@@ -175,7 +175,7 @@ export const ActiveIndustries = ({
                         'signup-data',
                         JSON.stringify(industry)
                     )
-                    router.push(`/auth/signup/industry?step=account-info`)
+                    router.push(`/portals/admin/future-industries/signup-future-industry`)
                 },
                 Icon: FiLogIn,
             },

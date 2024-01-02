@@ -59,18 +59,15 @@ export const IndustryCellInfo = ({
                     ) : null}
                 </div>
                 <div>
+                    {industry?.snoozedDate !== null && (
+                        <MdSnooze size={14} className="text-red-500" />
+                    )}
                     <div className="flex items-center gap-x-1">
                         <div className="flex items-center gap-x-2">
-                            <div className="flex items-center gap-x-2">
+                            <div className="flex items-center gap-x-1">
                                 <p className="font-semibold">
                                     {industry?.user?.name}
                                 </p>
-                                {industry?.snoozedDate !== null && (
-                                    <MdSnooze
-                                        size={18}
-                                        className="text-red-500"
-                                    />
-                                )}
                             </div>
 
                             {call &&

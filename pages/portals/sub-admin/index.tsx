@@ -1,4 +1,4 @@
-import { Course, NextPageWithLayout } from '@types'
+import { Course, NextPageWithLayout, UserStatus } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 
 // layouts
@@ -9,6 +9,7 @@ import {
     ContextBarLoading,
     HelpQuestionSet,
     LottieAnimation,
+    Modal,
     NoData,
 } from '@components'
 // icons
@@ -23,7 +24,11 @@ import { FigureCard } from '@components/sections/subAdmin/components/Cards/Figur
 
 import { AuthUtils } from '@utils'
 
-import { SubAdminApi, useGetSubAdminIndustryStudentsQuery } from '@queries'
+import {
+    SubAdminApi,
+    useGetSubAdminIndustryStudentsQuery,
+    useGetSubAdminIndustriesQuery,
+} from '@queries'
 import { CallBackProps } from 'react-joyride'
 import { useRouter } from 'next/router'
 import { ImportantDocuments } from '@partials/common'
@@ -56,18 +61,22 @@ const getSectors = (courses: any) => {
 }
 
 const SubAdminDashboard: NextPageWithLayout = () => {
-    const studentList = useGetSubAdminIndustryStudentsQuery({
-        industry: 198,
-        skip: 0,
-        limit: 50,
-    })
+    // const studentList = useGetSubAdminIndustryStudentsQuery({
+    //     industry: 198,
+    //     skip: 0,
+    //     limit: 50,
+    // })
+
     const contextBar = useContextBar()
     const [credentials, setCredentials] = useState<any>(null)
-
+    const [modal, setModal] = useState<any | null>(null)
     const { data, isSuccess, isLoading } = SubAdminApi.SubAdmin.useProfile()
     const statistics = SubAdminApi.Count.statistics()
     const sectorsWithCourses = getSectors(data?.courses)
 
+    const pendingIndustries: any = useGetSubAdminIndustriesQuery({
+        search: `status:${UserStatus.Pending}`,
+    })
     const router = useRouter()
     // const joyride = useJoyRide()
     const WorkplaceQuestions = [
@@ -712,182 +721,225 @@ const SubAdminDashboard: NextPageWithLayout = () => {
         }
     }, [credentials])
 
-    return (
-        <div className="flex flex-col gap-y-6 pb-8">
-            <div className="flex flex-col gap-y-4">
-                <div className="flex gap-x-4">
-                    <FigureCard
-                        imageUrl="/images/icons/rto.png"
-                        count={statistics?.data?.rto}
-                        title={'RTOs'}
-                        link={'sub-admin/users/rtos'}
-                    />
-                    <FigureCard
-                        imageUrl="/images/icons/students.png"
-                        count={statistics?.data?.student}
-                        title={'Students'}
-                        link={'sub-admin/students?tab=all'}
-                    />
-                    <FigureCard
-                        imageUrl="/images/icons/industry.png"
-                        count={statistics?.data?.industry}
-                        title={'Industries'}
-                        link={'sub-admin/users/industries?tab=all'}
-                    />
-                </div>
-                <div className="flex gap-x-4">
-                    <FigureCard
-                        imageUrl="/images/icons/workplace.png"
-                        count={statistics?.data?.workplaceRequest}
-                        title={'Workplace Requests'}
-                        link={
-                            'sub-admin/tasks/workplace?tab=all&subTab=case-officer-not-assigned'
-                        }
-                    />
-                    <FigureCard
-                        imageUrl="/images/icons/pending-student.png"
-                        count={statistics?.data?.assessmentEvidence}
-                        title={'Assessment Submissions'}
-                        link={'sub-admin/tasks/assessment-evidence?tab=pending'}
-                    />
-                    <FigureCard
-                        imageUrl="/images/icons/appointments.png"
-                        count={statistics?.data?.appointment}
-                        title={'Appointments'}
-                        link={'sub-admin/tasks/appointments'}
-                    />
-                </div>
-            </div>
+    const onCancel = () => {
+        setModal(null)
+    }
+    const onViewPendingReq = () => {
+        router.push('/portals/sub-admin/users/industries?tab=pending')
+    }
 
-            {/* Question Section */}
-            <section className="bg-[#D6F4FF] w-full p-4 rounded-2xl relative overflow-hidden">
-                <div className="absolute right-0 -bottom-3">
-                    {/* <Image
+    useEffect(() => {
+        // Check if there are pending industry requests
+        if (pendingIndustries?.data?.data?.length > 0) {
+            // If there are pending requests, display the modal
+            setModal(
+                <Modal
+                    onConfirmClick={onViewPendingReq}
+                    title={'Pending Industry Requests'}
+                    subtitle={'Pending Industry Requests'}
+                    onCancelClick={onCancel}
+                    confirmText={'View Pending Requests'}
+                >
+                    There are pending industry requests in your account.
+                </Modal>
+            )
+        }
+    }, [pendingIndustries?.data?.data])
+
+    // <Modal
+    //     onConfirmClick={onCancel}
+    //     title={'Pending Industry Requests'}
+    //     subtitle={'There are pending industry requests in your account'}
+    //     onCancelClick={onCancel}
+    // >
+    //     You need to enable Book/Receive Appointments from Setting to
+    //     recive Book/Receive Appointments
+    // </Modal>
+    console.log('modal:::', pendingIndustries?.data?.data?.length)
+
+    return (
+        <>
+            {modal && modal}
+            <div className="flex flex-col gap-y-6 pb-8">
+                <div className="flex flex-col gap-y-4">
+                    <div className="flex gap-x-4">
+                        <FigureCard
+                            imageUrl="/images/icons/rto.png"
+                            count={statistics?.data?.rto}
+                            title={'RTOs'}
+                            link={'sub-admin/users/rtos'}
+                        />
+                        <FigureCard
+                            imageUrl="/images/icons/students.png"
+                            count={statistics?.data?.student}
+                            title={'Students'}
+                            link={'sub-admin/students?tab=all'}
+                        />
+                        <FigureCard
+                            imageUrl="/images/icons/industry.png"
+                            count={statistics?.data?.industry}
+                            title={'Industries'}
+                            link={'sub-admin/users/industries?tab=all'}
+                        />
+                    </div>
+                    <div className="flex gap-x-4">
+                        <FigureCard
+                            imageUrl="/images/icons/workplace.png"
+                            count={statistics?.data?.workplaceRequest}
+                            title={'Workplace Requests'}
+                            link={
+                                'sub-admin/tasks/workplace?tab=all&subTab=case-officer-not-assigned'
+                            }
+                        />
+                        <FigureCard
+                            imageUrl="/images/icons/pending-student.png"
+                            count={statistics?.data?.assessmentEvidence}
+                            title={'Assessment Submissions'}
+                            link={
+                                'sub-admin/tasks/assessment-evidence?tab=pending'
+                            }
+                        />
+                        <FigureCard
+                            imageUrl="/images/icons/appointments.png"
+                            count={statistics?.data?.appointment}
+                            title={'Appointments'}
+                            link={'sub-admin/tasks/appointments'}
+                        />
+                    </div>
+                </div>
+
+                {/* Question Section */}
+                <section className="bg-[#D6F4FF] w-full p-4 rounded-2xl relative overflow-hidden">
+                    <div className="absolute right-0 -bottom-3">
+                        {/* <Image
                         src={'/images/students/help.png'}
                         width={180}
                         height={145}
                     /> */}
-                    <LottieAnimation
-                        animation={Animations.Common.Help}
-                        width={200}
-                        height={200}
-                    />
-                </div>
-                <div>
-                    <h3 className="text-2xl text-orange-500">
-                        Welcome Back,{' '}
-                        <span className="font-semibold text-black">
-                            {credentials?.name}
-                        </span>
-                    </h3>
-                    <h4 className="font-semibold text-gray-400">
-                        What you want to do here?
-                    </h4>
-                </div>
-
-                <div className="mt-2 flex gap-x-6">
-                    <div>
-                        <HelpQuestionSet
-                            title="Students"
-                            questions={WorkplaceQuestions}
-                            smallHeading
+                        <LottieAnimation
+                            animation={Animations.Common.Help}
+                            width={200}
+                            height={200}
                         />
                     </div>
-
                     <div>
-                        <HelpQuestionSet
-                            title="Assessments"
-                            questions={AssessmentQuestions}
-                            smallHeading
-                        />
+                        <h3 className="text-2xl text-orange-500">
+                            Welcome Back,{' '}
+                            <span className="font-semibold text-black">
+                                {credentials?.name}
+                            </span>
+                        </h3>
+                        <h4 className="font-semibold text-gray-400">
+                            What you want to do here?
+                        </h4>
+                    </div>
 
-                        <div className="mt-2">
+                    <div className="mt-2 flex gap-x-6">
+                        <div>
                             <HelpQuestionSet
-                                title="Notifications"
-                                questions={NotificationQuestions}
+                                title="Students"
+                                questions={WorkplaceQuestions}
                                 smallHeading
                             />
                         </div>
-                    </div>
-                </div>
-            </section>
 
-            <ImportantDocuments
-                coureseRequirementsLink={
-                    '/portals/sub-admin/course-requirements'
-                }
-            />
+                        <div>
+                            <HelpQuestionSet
+                                title="Assessments"
+                                questions={AssessmentQuestions}
+                                smallHeading
+                            />
 
-            {/* Sector Card */}
-            <Card>
-                {/* Card Header */}
-                <div className="flex justify-between items-center">
-                    {/* Icon Title */}
-                    <div className="flex items-center gap-x-2">
-                        <div className="w-8 h-8 bg-indigo-100 text-indigo-600 rounded-full flex justify-center items-center">
-                            <FaSchool size={16} />
+                            <div className="mt-2">
+                                <HelpQuestionSet
+                                    title="Notifications"
+                                    questions={NotificationQuestions}
+                                    smallHeading
+                                />
+                            </div>
                         </div>
-                        <p className="text-sm font-semibold">
-                            My Sector &amp; Courses
-                        </p>
                     </div>
+                </section>
 
-                    {/* Action */}
-                    {/* <Link legacyBehavior href="#">
+                <ImportantDocuments
+                    coureseRequirementsLink={
+                        '/portals/sub-admin/course-requirements'
+                    }
+                />
+
+                {/* Sector Card */}
+                <Card>
+                    {/* Card Header */}
+                    <div className="flex justify-between items-center">
+                        {/* Icon Title */}
+                        <div className="flex items-center gap-x-2">
+                            <div className="w-8 h-8 bg-indigo-100 text-indigo-600 rounded-full flex justify-center items-center">
+                                <FaSchool size={16} />
+                            </div>
+                            <p className="text-sm font-semibold">
+                                My Sector &amp; Courses
+                            </p>
+                        </div>
+
+                        {/* Action */}
+                        {/* <Link legacyBehavior href="#">
                         <a className="inline-block uppercase text-xs font-medium bg-indigo-100 text-indigo-600 px-4 py-2 rounded">
                             See Details
                         </a>
                     </Link> */}
-                </div>
+                    </div>
 
-                <div className="mt-4">
-                    {isLoading ? (
-                        <ContextBarLoading />
-                    ) : data?.courses.length ? (
-                        Object.keys(sectorsWithCourses).map((sector: any) => {
-                            return (
-                                <div className="mt-4" key={sector?.id}>
-                                    <div>
-                                        {/* <p className="text-xs font-medium text-gray-400">
+                    <div className="mt-4">
+                        {isLoading ? (
+                            <ContextBarLoading />
+                        ) : data?.courses.length ? (
+                            Object.keys(sectorsWithCourses).map(
+                                (sector: any) => {
+                                    return (
+                                        <div className="mt-4" key={sector?.id}>
+                                            <div>
+                                                {/* <p className="text-xs font-medium text-gray-400">
                                             Sector
                                         </p> */}
-                                        <p className="text-sm font-semibold">
-                                            {sector}
-                                        </p>
-                                    </div>
-
-                                    {(sectorsWithCourses as any)[sector].map(
-                                        (c: Course, i: number) => (
-                                            <div
-                                                className="flex flex-col gap-y-4 ml-4"
-                                                key={i}
-                                            >
-                                                <div className="border-l-4 border-green-600 px-2">
-                                                    <div>
-                                                        <p className="text-xs font-medium text-gray-400">
-                                                            {c.code}
-                                                        </p>
-                                                        <p className="text-sm">
-                                                            {c.title}
-                                                        </p>
-                                                    </div>
-
-                                                    {/* <Badge text="Active" /> */}
-                                                </div>
+                                                <p className="text-sm font-semibold">
+                                                    {sector}
+                                                </p>
                                             </div>
-                                        )
-                                    )}
-                                </div>
+
+                                            {(sectorsWithCourses as any)[
+                                                sector
+                                            ].map((c: Course, i: number) => (
+                                                <div
+                                                    className="flex flex-col gap-y-4 ml-4"
+                                                    key={i}
+                                                >
+                                                    <div className="border-l-4 border-green-600 px-2">
+                                                        <div>
+                                                            <p className="text-xs font-medium text-gray-400">
+                                                                {c.code}
+                                                            </p>
+                                                            <p className="text-sm">
+                                                                {c.title}
+                                                            </p>
+                                                        </div>
+
+                                                        {/* <Badge text="Active" /> */}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )
+                                }
                             )
-                        })
-                    ) : (
-                        <div className="w-full">
-                            <NoData text={'No Courses Assigned'} />
-                        </div>
-                    )}
-                </div>
-            </Card>
-        </div>
+                        ) : (
+                            <div className="w-full">
+                                <NoData text={'No Courses Assigned'} />
+                            </div>
+                        )}
+                    </div>
+                </Card>
+            </div>
+        </>
     )
 }
 
