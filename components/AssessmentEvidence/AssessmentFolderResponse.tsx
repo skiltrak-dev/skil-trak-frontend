@@ -18,7 +18,11 @@ import { TextInput } from '@components/inputs'
 // query
 import { Result } from '@constants'
 import { DocumentsView, useNotification } from '@hooks'
-import { useAddCommentOnAssessmentMutation, SubAdminApi } from '@queries'
+import {
+    useAddCommentOnAssessmentMutation,
+    SubAdminApi,
+    CommonApi,
+} from '@queries'
 import { AddCommentEnum, OptionType } from '@types'
 import moment from 'moment'
 import { AgreementInitiate, ViewInitiatedSign } from '@partials/sub-admin'
@@ -63,7 +67,7 @@ export const AssessmentResponse = ({
 
     // query
     const [addComment, addCommentResult] = useAddCommentOnAssessmentMutation()
-    const eSignDocument = SubAdminApi.eSign.useStudentEsignDocument(
+    const eSignDocument = CommonApi.ESign.useStudentEsignDocument(
         {
             std: studentData?.user?.id,
             folder: folder?.id,
@@ -73,7 +77,7 @@ export const AssessmentResponse = ({
             refetchOnMountOrArgChange: true,
         }
     )
-    const getTemplate = SubAdminApi.eSign.useESignTemplateDetail(
+    const getTemplate = CommonApi.ESign.useESignTemplateDetail(
         { folder: Number(folder?.id), userId: studentData?.rto?.user?.id },
         {
             skip: !folder,

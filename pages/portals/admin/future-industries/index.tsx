@@ -23,7 +23,7 @@ import { MdAddBusiness } from 'react-icons/md'
 
 type Props = {}
 const filterKeys = ['businessName', 'address', 'sector', 'email', 'phone']
-const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
+const FutureIndustryListing: NextPageWithLayout = (props: Props) => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -195,8 +195,8 @@ const SearchWorkplaces: NextPageWithLayout = (props: Props) => {
         </div>
     )
 }
-SearchWorkplaces.getLayout = (page: ReactElement) => {
+FutureIndustryListing.getLayout = (page: ReactElement) => {
     return <AdminLayout>{page}</AdminLayout>
 }
 
-export default SearchWorkplaces
+export default FutureIndustryListing

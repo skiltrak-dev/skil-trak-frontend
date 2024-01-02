@@ -21,7 +21,6 @@ export const DetailTabs = ({
 }) => {
     const onHandleScroll = (id: number) => {
         const detailItem = document.getElementById(`pinned-notes-${id}`)
-        console.log('detailItem', detailItem)
         if (detailItem) {
             detailItem.scrollIntoView({ behavior: 'smooth' })
         }

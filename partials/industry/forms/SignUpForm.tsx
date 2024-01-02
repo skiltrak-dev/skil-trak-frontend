@@ -42,7 +42,13 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
     const [lastEnteredAbn, setLastEnteredAbn] = useState('')
-    
+
+    const [countryId, setCountryId] = useState(null)
+    const { data, isLoading } = CommonApi.Countries.useCountriesList()
+    const { data: states, isLoading: statesLoading } =
+        CommonApi.Countries.useCountryStatesList(countryId, {
+            skip: !countryId,
+        })
     const onEmailChange = (e: any) => {
         _debounce(() => {
             // Regex for email, only valid mail should be sent
@@ -71,7 +77,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         _debounce(() => {
             const abn = e.target.value
             const suburbValue = formMethods.getValues('suburb')
-            
+
             if (abn && suburbValue) {
                 checkAbnExist({ abn, suburb: suburbValue })
                 setLastEnteredAbn(abn)
@@ -140,6 +146,9 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         // Sector Information
         sectors: yup.array().min(1, 'Must select at least 1 sector').required(),
         courses: yup.array().min(1, 'Must select at least 1 course').required(),
+        // country and state
+        country: yup.number().required('Must provide country'),
+        region: yup.number().required('Must provide state'),
 
         // Contact Person Information
         contactPerson: yup
@@ -472,6 +481,34 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                     </div>
 
                     <div className="w-full lg:w-4/6">
+                        <div className="grid grid-cols-2 gap-x-8">
+                            <Select
+                                name="country"
+                                label={'Country'}
+                                options={data?.map((country: any) => ({
+                                    label: country.name,
+                                    value: country.id,
+                                }))}
+                                loading={isLoading}
+                                onChange={(e: any) => {
+                                    setCountryId(e)
+                                }}
+                                onlyValue
+                                validationIcons
+                            />
+                            <Select
+                                name="region"
+                                label={'State'}
+                                options={states?.map((state: any) => ({
+                                    label: state.name,
+                                    value: state.id,
+                                }))}
+                                loading={statesLoading}
+                                disabled={!countryId}
+                                onlyValue
+                                validationIcons
+                            />
+                        </div>
                         <div className="grid grid-cols-1 gap-x-8">
                             <TextInput
                                 label={'Address Line 1'}

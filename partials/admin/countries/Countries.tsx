@@ -46,7 +46,6 @@ export const Countries = () => {
     }, [router])
 
     // const {data} = CommonApi.Countries.useCountries()
-    // console.log("data::::", data)
 
     const { isLoading, data, isError } = CommonApi.Countries.useCountries({
         search: `${JSON.stringify(filter)
@@ -106,7 +105,7 @@ export const Countries = () => {
                     </div>
                 )
             },
-            header: () => <span>Name</span>,
+            header: () => <span>Countries</span>,
         },
         {
             accessorKey: 'states',

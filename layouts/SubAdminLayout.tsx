@@ -5,9 +5,13 @@ import {
     SubAdminNavbar,
 } from '@components'
 import { useJoyRide } from '@hooks'
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
+import { CommonApi } from '@queries'
+import { EsignDocumentStatus } from '@utils'
+import { useRouter } from 'next/router'
+import { ViewUsersForEsignModal } from '@partials'
 
 interface SubAdminLayoutProps {
     pageTitle?: PageTitleProps
@@ -20,13 +24,46 @@ export const SubAdminLayout = ({
     const [mounted, setMounted] = useState(false)
     const joyride = useJoyRide()
 
+    const router = useRouter()
+
+    const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const pendingDocuments = CommonApi.ESign.usePendingDocumentsList({
+        status: EsignDocumentStatus.PENDING,
+    })
+
     useEffect(() => {
         setMounted(true)
     }, [])
+
+    useEffect(() => {
+        if (pendingDocuments.isSuccess) {
+            const route = `/portals/student/assessments/e-sign/${pendingDocuments?.data?.[0]?.id}`
+
+            if (
+                pendingDocuments?.data &&
+                pendingDocuments?.data?.length > 0 &&
+                router?.pathname !== `/portals/sub-admin/e-sign/[id]`
+            ) {
+                setModal(
+                    <ViewUsersForEsignModal
+                        documents={pendingDocuments?.data}
+                        onClick={() => router.push(route)}
+                        route="/portals/sub-admin/e-sign"
+                    />
+                )
+            } else if (router?.pathname === `/portals/sub-admin/e-sign/[id]`) {
+                setModal(null)
+            }
+        } else {
+            setModal(null)
+        }
+    }, [pendingDocuments, router])
     // const MemoNavbar = React.memo(SubAdminNavbar)
     return (
         <UserLayout>
             <>
+                {modal}
                 <div className="px-8">
                     <div className="mb-6">
                         <SubAdminNavbar />

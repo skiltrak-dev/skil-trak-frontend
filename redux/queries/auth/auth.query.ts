@@ -29,6 +29,7 @@ export const authApi = createApi({
                 body,
             }),
         }),
+        
 
         registerRto: builder.mutation<any, any>({
             query: (body) => ({

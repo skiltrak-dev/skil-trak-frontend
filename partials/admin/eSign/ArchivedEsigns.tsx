@@ -17,7 +17,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { RtoCellInfo } from '@partials/admin/rto/components'
-import { AdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { Rto, Student, UserStatus } from '@types'
 import { checkListLength, isBrowser, setLink } from '@utils'
 import { useRouter } from 'next/router'
@@ -27,7 +27,7 @@ import { MdBlock } from 'react-icons/md'
 // hooks
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { DocumentsView, useActionModal } from '@hooks'
-import { ApproveModal, ArchiveModal } from './modal'
+import { ApproveModal, ArchiveModal, DeleteModal } from './modal'
 import Link from 'next/link'
 
 export const ArchivedEsigns = () => {
@@ -44,7 +44,7 @@ export const ArchivedEsigns = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const getEsign = AdminApi.ESign.useGetEsign(
+    const getEsign = CommonApi.ESign.useGetEsign(
         {
             search: `status:${UserStatus.Archived}`,
             skip: itemPerPage * page - itemPerPage,
@@ -59,6 +59,10 @@ export const ArchivedEsigns = () => {
 
     const onApproveClicked = (eSign: any) => {
         setModal(<ApproveModal eSign={eSign} onCancel={onModalCancelClicked} />)
+    }
+
+    const onDeleteClicked = (eSign: any) => {
+        setModal(<DeleteModal eSign={eSign} onCancel={onModalCancelClicked} />)
     }
 
     const tableActionOptions: TableActionOption[] = [
@@ -84,7 +88,13 @@ export const ArchivedEsigns = () => {
             text: 'Approve',
             onClick: (eSign: any) => onApproveClicked(eSign),
             Icon: MdBlock,
-            color: 'text-red-400 hover:bg-red-100 hover:border-red-200',
+            color: 'text-success hover:bg-success-light hover:border-red-200',
+        },
+        {
+            text: 'Delete',
+            onClick: (eSign: any) => onDeleteClicked(eSign),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
     ]
 

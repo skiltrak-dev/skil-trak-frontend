@@ -13,7 +13,6 @@ export const DeleteStateModal = ({
     state: any
     onCancel: Function
 }) => {
-    console.log("state:::", state)
     const { alert } = useAlert()
     const { notification } = useNotification()
     const [remove, removeResult] = CommonApi.Countries.useDeleteState()

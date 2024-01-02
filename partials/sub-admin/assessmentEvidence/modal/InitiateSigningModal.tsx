@@ -6,7 +6,7 @@ import {
     ShowErrorNotifications,
     Typography,
 } from '@components'
-import { SubAdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { Folder, Rto } from '@types'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -33,7 +33,7 @@ export const InitiateSigningModal = ({
     const [selectedDocument, setSelectedDocument] = useState<any>(null)
     const [userIds, setUserIds] = useState<any>({})
 
-    const getTemplate = SubAdminApi.eSign.useESignTemplateDetail(
+    const getTemplate = CommonApi.ESign.useESignTemplateDetail(
         { folder: Number(folder?.id), userId: rto?.user?.id },
         {
             skip: !folder,

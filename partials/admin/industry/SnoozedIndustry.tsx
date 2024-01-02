@@ -22,7 +22,7 @@ import { useRouter } from 'next/router'
 import { MdBlock } from 'react-icons/md'
 import { IndustryCell, SectorCell } from './components'
 import { BlockModal, MultiBlockModal } from './modals'
-import { MdSnooze } from "react-icons/md";
+import { MdSnooze } from 'react-icons/md'
 // hooks
 import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
@@ -49,7 +49,6 @@ export const SnoozedIndustry = () => {
     //     skip: itemPerPage * page - itemPerPage,
     //     limit: itemPerPage,
     // })
-    // console.log('snoozedIndustryList', snoozedIndustryList)
     const { isLoading, data, isError } = AdminApi.Industries.useSnoozedIndustry(
         {
             // search: `status:${UserStatus.Approved}`,
@@ -106,7 +105,6 @@ export const SnoozedIndustry = () => {
     }
 
     const tableActionOptions = (industry: any) => {
-        console.log('industry:::', industry)
         return [
             {
                 text: 'View',
@@ -152,10 +150,7 @@ export const SnoozedIndustry = () => {
     const columns: ColumnDef<Industry>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info: any) => {
-                console.log('info::::', info?.row?.original)
-                return <IndustryCell industry={info.row.original} />
-            },
+            cell: (info: any) => <IndustryCell industry={info.row.original} />,
             header: () => <span>Industry</span>,
         },
         {
@@ -198,6 +193,15 @@ export const SnoozedIndustry = () => {
         {
             accessorKey: 'channel',
             header: () => <span>Created By</span>,
+            cell: (info) => (
+                <div>
+                    {info.row.original?.createdBy !== null ? (
+                        <p>{info?.row?.original?.createdBy?.name}</p>
+                    ) : (
+                        <p>{info?.row?.original?.channel}</p>
+                    )}
+                </div>
+            ),
         },
         {
             header: () => 'Snoozed By',
