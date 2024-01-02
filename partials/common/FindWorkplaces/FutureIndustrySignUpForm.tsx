@@ -232,7 +232,6 @@ export const FutureIndustrySignUpForm = ({
     //     }
     // }, [selectedSector])
     useEffect(() => {
-        console.log({ selectedSector })
         if (
             selectedSector &&
             sectorResponse?.data &&
@@ -243,7 +242,6 @@ export const FutureIndustrySignUpForm = ({
     }, [selectedSector, sectorResponse])
 
     const onHandleSubmit = (values: any) => {
-        console.log('values', values)
         if (!onSuburbClicked) {
             notification.error({
                 title: 'You must select on Suburb Dropdown',
