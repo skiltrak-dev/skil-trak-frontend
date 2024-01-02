@@ -1,12 +1,17 @@
-import { AuthorizedUserComponent, Checkbox } from '@components'
+import { AuthorizedUserComponent, ShowErrorNotifications } from '@components'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import { UserRoles } from '@constants'
+import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { FaSignature } from 'react-icons/fa'
 import Skeleton from 'react-loading-skeleton'
 import { Waypoint } from 'react-waypoint'
+import DatePicker from 'react-datepicker'
+import debounce from 'lodash/debounce'
+import { LoadingSpinner } from '@components/inputs/components'
+import { TabsView } from './TabsView'
 
 export const SVGView = ({
     sign,
@@ -25,6 +30,8 @@ export const SVGView = ({
 }) => {
     const router = useRouter()
     const [viewport, setViewport] = useState<string | null>('')
+
+    const { notification } = useNotification()
 
     const [loadSvg, setLoadSvg] = useState(false)
 
@@ -129,290 +136,16 @@ __html: svgContent,
                                     )}`}
                                 />
 
-                                {customFieldsData &&
-                                    customFieldsData?.length > 0 &&
-                                    customFieldsData?.map((s: any) => {
-                                        const [x, y] = s
-                                            ? s?.position?.split(',')
-                                            : []
-                                        const [width, height] = s
-                                            ? s?.size?.split(',')
-                                            : []
-
-                                        return s?.number === index + 1 ? (
-                                            <foreignObject
-                                                x={x}
-                                                y={y}
-                                                width={
-                                                    s?.type ===
-                                                    FieldsTypeEnum.Date
-                                                        ? String(
-                                                              Number(width) + 10
-                                                          )
-                                                        : width
-                                                }
-                                                height={
-                                                    s?.type ===
-                                                    FieldsTypeEnum.Date
-                                                        ? String(
-                                                              Number(height) +
-                                                                  10
-                                                          )
-                                                        : height
-                                                }
-                                            >
-                                                {s?.type ===
-                                                FieldsTypeEnum.Signature ? (
-                                                    sign?.responses &&
-                                                    sign?.responses?.length >
-                                                        0 &&
-                                                    !latestResponse?.reSignRequested ? (
-                                                        ''
-                                                    ) : (
-                                                        <div
-                                                            onClick={() =>
-                                                                onSignatureClicked()
-                                                            }
-                                                            className="z-10 w-full h-full bg-red-600 flex justify-center items-center gap-x-2 text-white"
-                                                        >
-                                                            <FaSignature className="text-xs" />
-                                                            <button className="text-[8px]">
-                                                                Sign Here
-                                                            </button>
-                                                        </div>
-                                                    )
-                                                ) : null}
-                                                {!s?.responses?.length ? (
-                                                    s?.type ===
-                                                        FieldsTypeEnum.Text &&
-                                                    s?.isCustom ? (
-                                                        <input
-                                                            type="text"
-                                                            name=""
-                                                            id=""
-                                                            value={
-                                                                s?.fieldValue
-                                                            }
-                                                            className="w-full h-full border rounded-md border-gray-500 text-sm p-1 outline-none"
-                                                            placeholder={
-                                                                s?.label
-                                                            }
-                                                            onChange={(
-                                                                e: any
-                                                            ) => {
-                                                                onAddCustomFieldsData(
-                                                                    {
-                                                                        ...s,
-                                                                        fieldValue:
-                                                                            e
-                                                                                ?.target
-                                                                                ?.value,
-                                                                    }
-                                                                )
-                                                            }}
-                                                        />
-                                                    ) : s?.type ===
-                                                      FieldsTypeEnum.Checkbox ? (
-                                                        <div className="flex items-center gap-x-2">
-                                                            <input
-                                                                type={
-                                                                    FieldsTypeEnum.Checkbox
-                                                                }
-                                                                name={
-                                                                    s?.columnName
-                                                                }
-                                                                id=""
-                                                                defaultChecked={
-                                                                    s?.fieldValue
-                                                                }
-                                                                checked={
-                                                                    s?.fieldValue
-                                                                }
-                                                                value={
-                                                                    s?.fieldValue
-                                                                }
-                                                                className="noDefault border !w-full !h-full rounded-md border-gray-500 text-sm p-1 outline-none"
-                                                                placeholder={
-                                                                    s?.label
-                                                                }
-                                                                onChange={(
-                                                                    e: any
-                                                                ) => {
-                                                                    onAddCustomFieldsData(
-                                                                        {
-                                                                            ...s,
-                                                                            fieldValue:
-                                                                                e
-                                                                                    ?.target
-                                                                                    ?.checked,
-                                                                        }
-                                                                    )
-                                                                }}
-                                                            />
-                                                            {/* <label className="text-xs capitalize">
-                                {s?.label}
-                            </label> */}
-                                                        </div>
-                                                    ) : s?.type ===
-                                                      FieldsTypeEnum.Radio ? (
-                                                        <div className="flex items-center gap-x-2">
-                                                            <input
-                                                                type={
-                                                                    FieldsTypeEnum.Radio
-                                                                }
-                                                                name={
-                                                                    s?.columnName
-                                                                }
-                                                                id=""
-                                                                value={
-                                                                    s?.fieldValue
-                                                                }
-                                                                className="border rounded-md border-gray-500 text-sm p-1 outline-none"
-                                                                placeholder={
-                                                                    s?.label
-                                                                }
-                                                                onChange={(
-                                                                    e: any
-                                                                ) => {
-                                                                    onAddCustomFieldsData(
-                                                                        {
-                                                                            ...s,
-                                                                            fieldValue:
-                                                                                e
-                                                                                    ?.target
-                                                                                    ?.checked,
-                                                                        }
-                                                                    )
-                                                                }}
-                                                            />
-                                                            {/* <label className="text-xs capitalize">
-                                {s?.label}
-                            </label> */}
-                                                        </div>
-                                                    ) : s?.type ===
-                                                      FieldsTypeEnum.Dropdown ? (
-                                                        <select
-                                                            value={
-                                                                s?.fieldValue
-                                                            }
-                                                            onChange={(
-                                                                e: any
-                                                            ) => {
-                                                                onAddCustomFieldsData(
-                                                                    {
-                                                                        ...s,
-                                                                        fieldValue:
-                                                                            e
-                                                                                ?.target
-                                                                                ?.value,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            className="w-full h-4 border border-gray-600 rounded text-xs"
-                                                        >
-                                                            <option>
-                                                                Select
-                                                            </option>
-                                                            {s?.option &&
-                                                                s?.option
-                                                                    ?.split(',')
-                                                                    ?.map(
-                                                                        (
-                                                                            data: string
-                                                                        ) => (
-                                                                            <option
-                                                                                key={
-                                                                                    data
-                                                                                }
-                                                                                value={
-                                                                                    data
-                                                                                }
-                                                                            >
-                                                                                {
-                                                                                    data
-                                                                                }
-                                                                            </option>
-                                                                        )
-                                                                    )}
-                                                        </select>
-                                                    ) : s?.type ===
-                                                          FieldsTypeEnum.Date &&
-                                                      s?.responses &&
-                                                      s?.responses?.length >
-                                                          0 ? (
-                                                        <AuthorizedUserComponent
-                                                            roles={[
-                                                                UserRoles.SUBADMIN,
-                                                            ]}
-                                                        >
-                                                            <div className="bg-white flex flex-col ">
-                                                                <label
-                                                                    htmlFor=""
-                                                                    className="text-[8px]"
-                                                                >
-                                                                    {
-                                                                        s?.placeholder
-                                                                    }
-                                                                </label>
-                                                                <input
-                                                                    type="date"
-                                                                    name=""
-                                                                    id=""
-                                                                    value={
-                                                                        s?.fieldValue
-                                                                    }
-                                                                    className="w-full h-5 border rounded-md border-gray-500 text-sm p-1 outline-none"
-                                                                    placeholder={
-                                                                        s?.label
-                                                                    }
-                                                                    onChange={(
-                                                                        e: any
-                                                                    ) => {
-                                                                        onAddCustomFieldsData(
-                                                                            {
-                                                                                ...s,
-                                                                                fieldValue:
-                                                                                    e
-                                                                                        ?.target
-                                                                                        ?.value,
-                                                                            }
-                                                                        )
-                                                                    }}
-                                                                />
-                                                            </div>
-                                                        </AuthorizedUserComponent>
-                                                    ) : (
-                                                        ''
-                                                    )
-                                                ) : null}
-                                                {/* {sign?.responses &&
-                sign?.responses?.length >
-                    0 &&
-                !latestResponse?.reSignRequested ? (
-                    // <img
-                    //     src={
-                    //         sign?.responses?.[0]
-                    //             ?.signature
-                    //     }
-                    //     className="w-full h-full"
-                    // />
-                    ''
-                ) : (
-                    <div
-                        onClick={() =>
-                            onSignatureClicked()
-                        }
-                        className="w-full h-full bg-red-600 flex justify-center items-center gap-x-2 text-white"
-                    >
-                        <FaSignature className="text-xs" />
-                        <button className="text-[8px]">
-                            Sign Here
-                        </button>
-                    </div>
-                )} */}
-                                            </foreignObject>
-                                        ) : null
-                                    })}
+                                <TabsView
+                                    sign={sign}
+                                    index={index}
+                                    latestResponse={latestResponse}
+                                    customFieldsData={customFieldsData}
+                                    onSignatureClicked={onSignatureClicked}
+                                    onAddCustomFieldsData={
+                                        onAddCustomFieldsData
+                                    }
+                                />
                             </g>
                         </svg>
                     ) : (

@@ -14,7 +14,7 @@ import {
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { ApprovedEsigns, ArchivedEsigns, FilteredEsigns } from '@partials'
-import { AdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { NextPageWithLayout, StudentsFilterType, eSignFilterType } from '@types'
 import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
@@ -34,7 +34,7 @@ const ESign: NextPageWithLayout = () => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
-    const filteredEsign = AdminApi.ESign.useGetEsign(
+    const filteredEsign = CommonApi.ESign.useGetEsign(
         {
             search: `${JSON.stringify(filter)
                 .replaceAll('{', '')

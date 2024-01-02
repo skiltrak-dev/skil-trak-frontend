@@ -12,6 +12,7 @@ import { IoIosDocument } from 'react-icons/io'
 import { MdEmail } from 'react-icons/md'
 import { DocumentSignature } from '../components'
 import ReactSignatureCanvas from 'react-signature-canvas'
+import { Router, useRouter } from 'next/router'
 
 const UserCellInfo = ({ profile }: { profile: any }) => (
     <div>
@@ -48,23 +49,100 @@ const UserCellInfo = ({ profile }: { profile: any }) => (
 )
 
 export const ViewUsersForEsignModal = ({
-    document,
+    documents,
     onClick,
+    route,
 }: {
-    document: any
+    documents: any
     onClick: () => void
+    route: string
 }) => {
     const [isSigning, setIsSigning] = useState<boolean>(false)
 
+    const router = useRouter()
+
     return (
         <GlobalModal>
-            <div className="p-8">
+            <div className="p-8 h-[85vh] overflow-auto custom-scrollbar">
                 <div>
                     <Typography color="text-[#6B7280]" variant="label" medium>
                         Following documents are pending to be signed
                     </Typography>
 
-                    <div className="flex justify-between items-center py-4 mt-4">
+                    <p className="text-sm font-bold">
+                        {documents?.length} Pending Documents Esigns
+                    </p>
+
+                    <div className='mt-3.5'>
+                        {documents?.map((document: any) => (
+                            <div className="pb-2">
+                                <div className="grid grid-cols-2 gap-1.5">
+                                    <div>
+                                        <p className="text-xs text-gray-400">
+                                            Template
+                                        </p>
+                                        <p className="text-sm text-gray-700 font-semibold">
+                                            {' '}
+                                            {document?.template?.name}{' '}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p className="text-xs text-gray-400">
+                                            Course
+                                        </p>
+                                        <p className="text-sm text-gray-700 font-semibold">
+                                            {document?.template?.course?.title}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p className="text-xs text-gray-400">
+                                            Folder
+                                        </p>
+                                        <p className="text-sm text-gray-700 font-semibold">
+                                            {document?.template?.folder?.name}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-3 ">
+                                    {document?.signers?.map((signer: any) => (
+                                        <div className="flex items-center gap-x-1">
+                                            {signer?.user?.name && (
+                                                <InitialAvatar
+                                                    name={signer?.user?.name}
+                                                    imageUrl={
+                                                        signer?.user?.avatar
+                                                    }
+                                                />
+                                            )}
+                                            <div>
+                                                <h3 className="text-sm font-bold ">
+                                                    {signer?.user?.name}
+                                                </h3>
+                                                <p className="text-xs text-gray-400">
+                                                    {signer?.user?.email}
+                                                </p>
+                                                <p className="text-xs text-gray-400">
+                                                    {signer?.user?.role}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="flex items-center justify-end mt-1">
+                                    <Button
+                                        text={'Sign Document'}
+                                        onClick={() => {
+                                            router.push(
+                                                `${route}/${document?.id}`
+                                            )
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* <div className="flex justify-between items-center py-4 mt-4">
                         <div className="flex items-center gap-x-2">
                             <FaFileSignature />
                             <Typography semibold>Agreement</Typography>
@@ -91,7 +169,7 @@ export const ViewUsersForEsignModal = ({
                                 onClick()
                             }}
                         />
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </GlobalModal>

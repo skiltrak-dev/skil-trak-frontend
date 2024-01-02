@@ -29,12 +29,6 @@ export const DraggableTab = ({
             : {}),
     }
 
-    console.log({ item })
-
-    const Icon = item.data.Icon
-
-    console.log({ Icon })
-
     return (
         <g
             data-view-name="tab"

@@ -8,7 +8,7 @@ import {
 } from '@components'
 import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
-import { SubAdminApi, AdminApi } from '@queries'
+import { CommonApi, AdminApi } from '@queries'
 import { Industry, OptionType, SubAdmin } from '@types'
 import { AuthUtils } from '@utils'
 import axios from 'axios'
@@ -75,7 +75,7 @@ export const InitiateSignStudent = ({
 
     const { notification } = useNotification()
 
-    const student = SubAdminApi.eSign.useGetESignStudent(
+    const student = CommonApi.ESign.useGetESignStudent(
         { student: Number(router.query?.id), courseId },
         {
             skip: !router.query.id,
@@ -84,7 +84,7 @@ export const InitiateSignStudent = ({
     )
     const subadmins = AdminApi.Workplace.subadminForAssignWorkplace()
     const [initiateSign, initiateSignResult] =
-        SubAdminApi.eSign.useInitiateESign()
+        CommonApi.ESign.useInitiateESign()
 
     useEffect(() => {
         if (initiateSignResult?.isSuccess) {
@@ -265,7 +265,7 @@ export const InitiateSignStudent = ({
                                     Document Name
                                 </Typography>
                                 <Typography variant="label" color={'text-dark'}>
-                                    Agreement
+                                    {template?.name}
                                 </Typography>
                             </div>
                             <div>
@@ -276,7 +276,7 @@ export const InitiateSignStudent = ({
                                     Course
                                 </Typography>
                                 <Typography variant="label" color={'text-dark'}>
-                                    Work Effectively as a Cook
+                                    {template?.course?.title}
                                 </Typography>
                             </div>
                         </div>

@@ -3,6 +3,7 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
+    ShowErrorNotifications,
     TechnicalError,
     Typography,
 } from '@components'
@@ -80,7 +81,6 @@ export const ViewDocumentAndSign = () => {
                         },
                         tab?.responses[0]
                     )
-
                     return {
                         ...tab,
                         fieldValue: response ? response?.data : '',
@@ -128,15 +128,15 @@ export const ViewDocumentAndSign = () => {
     }, [])
 
     const onSaveCustomFieldsValue = () => {
-        console.log({
-            customFieldsData: customFieldsData?.filter(
-                (data: any) => data?.isCustom && !data?.fieldValue
-            ),
-        })
         const customValues = customFieldsData?.filter(
             (data: any) => data?.isCustom && !data?.fieldValue
         )
-        if (customValues && customValues?.length > 0) {
+        if (!sign?.responses?.length) {
+            notification.warning({
+                title: 'Sign',
+                description: 'Please sign before finish signing',
+            })
+        } else if (customValues && customValues?.length > 0) {
             notification.warning({
                 title: 'Please fill all required fields',
                 description: 'Please fill all required fields',
@@ -144,10 +144,12 @@ export const ViewDocumentAndSign = () => {
         } else {
             addCustomFieldsData({
                 documentId: Number(router.query?.id),
-                tabsResponse: customFieldsData?.map((tab: any) => ({
-                    tab: tab?.id,
-                    data: tab?.fieldValue,
-                })),
+                tabsResponse: customFieldsData
+                    ?.filter((data: any) => data?.isCustom)
+                    ?.map((tab: any) => ({
+                        tab: tab?.id,
+                        data: tab?.fieldValue,
+                    })),
             }).then((res: any) => {
                 if (res?.data) {
                     router.back()
@@ -158,6 +160,7 @@ export const ViewDocumentAndSign = () => {
 
     return (
         <div>
+            <ShowErrorNotifications result={addCustomFieldsDataResult} />
             {modal}
             <button
                 onClick={() => {
@@ -168,11 +171,6 @@ export const ViewDocumentAndSign = () => {
             >
                 Re fetch
             </button>
-            {/* {[...Array(10)].map((_, i) => (
-                <div key={i}>
-                    <Skeleton className="w-full h-[700px] rounded-lg" />
-                </div>
-            ))} */}
 
             {documentsTotalPages.isError && <TechnicalError />}
             {documentsTotalPages.isLoading || documentsTotalPages.isFetching ? (

@@ -1,4 +1,4 @@
-import { SubAdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { useNotification } from '@hooks'
 import { ActionModal, ShowErrorNotifications } from '@components'
 
@@ -14,7 +14,7 @@ export const CancelInitiateSign = ({
     onCancel: Function
 }) => {
     const { notification } = useNotification()
-    const [cancel, cancelResult] = SubAdminApi.eSign.useCancelESign()
+    const [cancel, cancelResult] = CommonApi.ESign.useCancelESign()
 
     const onConfirmUClicked = async (eSign: any) => {
         await cancel({

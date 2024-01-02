@@ -5,6 +5,7 @@ import {
     DisplayNotifications,
     EmptyData,
     LoadingAnimation,
+    ShowErrorNotifications,
     TechnicalError,
     Typography,
 } from '@components'
@@ -13,7 +14,7 @@ import DynamicSvgLoader from '@components/Esign/components/SvgLoader'
 import { DndContext, DragOverlay } from '@dnd-kit/core'
 import { restrictToWindowEdges } from '@dnd-kit/modifiers'
 import { useNavbar, useNotification } from '@hooks'
-import { AdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { uuid } from 'uuidv4'
@@ -28,6 +29,7 @@ export default function ESign() {
     const [newAddedItems, setNewAddedItems] = useState<any>([])
     const [lastSelectedItem, setLastSelectedItem] = useState<any>()
     const [draggableData, setDraggableData] = useState<any>()
+    const [tabDropCoordinates, setTabDropCoordinates] = useState<any>(null)
 
     const navBar = useNavbar()
 
@@ -36,26 +38,25 @@ export default function ESign() {
     const { notification } = useNotification()
 
     const [saveEsignTemplate, saveEsignTemplateResult] =
-        AdminApi.ESign.useSaveTemplate()
-    const template = AdminApi.ESign.useEsignTemplate(
+        CommonApi.ESign.useSaveTemplate()
+    const template = CommonApi.ESign.useEsignTemplate(
         { id: Number(router.query?.id), pageNumber: currentPage },
         {
             skip: !router.query?.id,
             // refetchOnMountOrArgChange: true,
         }
     )
-    const pagesCount = AdminApi.ESign.useTamplatePagesCount(
+    const pagesCount = CommonApi.ESign.useTamplatePagesCount(
         Number(router.query?.id),
         {
             skip: !router.query?.id,
             // refetchOnMountOrArgChange: true,
         }
     )
-    const [tabDropCoordinates, setTabDropCoordinates] = useState<any>(null)
 
-    // const [template, settemplate] = useState<any>('')
+    const [removeTabs, removeTabsResult] = CommonApi.ESign.useRemoveTabs()
 
-    const tabs = AdminApi.ESign.useGetEsignTemplateTabs(
+    const tabs = CommonApi.ESign.useGetEsignTemplateTabs(
         Number(router.query?.id),
         {
             skip:
@@ -189,6 +190,7 @@ export default function ESign() {
         if (selected) {
             setLastSelectedItem(item)
         } else {
+            setContextBar(null)
             setLastSelectedItem(null)
         }
 
@@ -207,8 +209,6 @@ export default function ESign() {
     const handleDragEnd = (data: any) => {
         setActiveItem(false)
 
-        console.log({ data })
-
         // const newLocX = Math.abs(
         //     data?.delta?.x * (842.04 / data?.over?.rect?.width) -
         //         data?.over?.rect?.left
@@ -226,7 +226,6 @@ export default function ESign() {
 
         if (data) {
             // const delta_x = (() => {
-            //     console.log('::: WAS GREATER', data)
             //     if (data.delta.x <= data.over.rect.left) {
             //         return 0
             //     } else if (data.delta.x > data.over.rect.left) {
@@ -241,7 +240,6 @@ export default function ESign() {
             //         const percent =
             //             (data.delta.y - data.over.rect.height) /
             //             data.over.rect.height
-            //         console.log('::: PERCENT', percent)
             //         return percent * 842
             //     }
             //     return data.delta.y
@@ -256,6 +254,9 @@ export default function ESign() {
                 data: {
                     ...data.active.data.current,
                     dataLabel: data.active.id,
+                    ...(data.active.data.current?.isCustom
+                        ? { isRequired: false }
+                        : {}),
                 },
                 parent: {
                     width: data?.over?.rect.width,
@@ -276,6 +277,10 @@ export default function ESign() {
     }
 
     const onItemRemove = (item: any) => {
+        if (contextBar?.saved) {
+            removeTabs(contextBar?.id)
+        }
+
         setContextBar(null)
         const existingItem = items.find((x: any) => x.id === contextBar?.id)
         if (existingItem) {
@@ -427,11 +432,13 @@ export default function ESign() {
     const onCancelTabs = () => {
         setItems(items.filter((i: any) => !newAddedItems.includes(i?.id)))
         setNewAddedItems([])
+        setContextBar(null)
     }
 
     return (
         <div className="h-screen overflow-hidden">
             <DisplayNotifications />
+            <ShowErrorNotifications result={removeTabsResult} />
 
             <div className="border-b bg-white">
                 <AdminNavbar />

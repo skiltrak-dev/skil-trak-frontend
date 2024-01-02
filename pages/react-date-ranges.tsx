@@ -1,17 +1,14 @@
-import { ActionButton, TextInput, Typography } from '@components'
-import { CommonApi } from '@queries'
+import { TextInput, Typography } from '@components'
+import { useJsApiLoader } from '@react-google-maps/api'
 import { addDays } from 'date-fns'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { DateRange } from 'react-date-range'
 import 'react-date-range/dist/styles.css' // main style file
 import 'react-date-range/dist/theme/default.css' // theme css file
 import { AiTwotoneGift } from 'react-icons/ai'
 import { FaTimes } from 'react-icons/fa'
-import OutsideClickHandler from 'react-outside-click-handler'
-import { useJsApiLoader } from '@react-google-maps/api'
-import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
-import { ViewUsersForEsignModal } from '@partials'
 import Skeleton from 'react-loading-skeleton'
+import OutsideClickHandler from 'react-outside-click-handler'
 
 const ReactDateRanges = () => {
     const { isLoaded } = useJsApiLoader({

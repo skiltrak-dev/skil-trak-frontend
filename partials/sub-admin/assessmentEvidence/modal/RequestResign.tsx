@@ -1,4 +1,4 @@
-import { SubAdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { useNotification } from '@hooks'
 import { ActionModal, ShowErrorNotifications } from '@components'
 
@@ -15,7 +15,7 @@ export const RequestResign = ({
 }) => {
     const { notification } = useNotification()
     const [requestResign, requestResignResult] =
-        SubAdminApi.eSign.requestResignForESign()
+        CommonApi.ESign.requestResignForESign()
 
     const onConfirmUClicked = async (eSign: any) => {
         await requestResign({

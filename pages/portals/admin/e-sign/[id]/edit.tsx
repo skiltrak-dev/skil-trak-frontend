@@ -10,7 +10,7 @@ import { PageHeading } from '@components/headings'
 import { useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { AddEsignForm } from '@partials'
-import { AdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
@@ -22,9 +22,9 @@ const EditESign = () => {
     const { notification } = useNotification()
 
     const [updateEsign, updateEsignResult] =
-        AdminApi.ESign.useUpdateEsignDetail()
+        CommonApi.ESign.useUpdateEsignDetail()
 
-    const detail = AdminApi.ESign.useEsignTemplateDetail(
+    const detail = CommonApi.ESign.useEsignTemplateDetail(
         Number(router.query.id),
         {
             skip: !router.query?.id,
@@ -34,7 +34,7 @@ const EditESign = () => {
     useEffect(() => {
         if (updateEsignResult.isSuccess) {
             notification.success({
-                title: 'Teplate Updated',
+                title: 'Template Updated',
                 description: 'Template Updated Successfully',
             })
             if (isSaveAndNext) {
@@ -54,7 +54,13 @@ const EditESign = () => {
         const formData = new FormData()
         Object.entries({
             ...data,
-            ...(values?.file?.[0] ? { file: values?.file?.[0] } : {}),
+            ...(values?.file?.[0]
+                ? {
+                      file: Array.isArray(values?.file)
+                          ? values?.file?.[0]
+                          : values?.file,
+                  }
+                : {}),
         }).forEach(([key, value]: any) => {
             formData.append(key, value)
         })

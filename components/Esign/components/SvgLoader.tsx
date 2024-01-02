@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { DraggableTab } from './DraggableTab'
 
+import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 import {
     DndContext,
     KeyboardSensor,
@@ -11,14 +12,11 @@ import {
     useSensor,
     useSensors,
 } from '@dnd-kit/core'
-import { AdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
-import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
-import { Button } from '@components/buttons'
-import { CursorCoordinates } from './CursorCoordinates'
-import { useNotification } from '@hooks'
-import { Waypoint } from 'react-waypoint'
 import Skeleton from 'react-loading-skeleton'
+import { Waypoint } from 'react-waypoint'
+import { CursorCoordinates } from './CursorCoordinates'
 
 const DynamicSvgLoader = ({
     items,
@@ -57,7 +55,7 @@ const DynamicSvgLoader = ({
     const [timerId, setTimerId] = useState<any>(null)
     const [loadSvg, setLoadSvg] = useState(false)
 
-    const template = AdminApi.ESign.useEsignTemplate(
+    const template = CommonApi.ESign.useEsignTemplate(
         { id: Number(router.query?.id), pageNumber: pageNumber - 1 },
         {
             skip: !router.query?.id || !loadSvg,

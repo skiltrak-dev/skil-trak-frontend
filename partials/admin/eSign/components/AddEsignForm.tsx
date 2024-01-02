@@ -1,5 +1,4 @@
 import {
-    Button,
     Card,
     Checkbox,
     Select,
@@ -10,9 +9,9 @@ import {
 import { UserRoles } from '@constants'
 import { FileUpload } from '@hoc'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { AdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { Course, Folder, OptionType, Rto } from '@types'
-import React, { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
@@ -28,24 +27,53 @@ export const AddEsignForm = ({
     onSubmit: (val: any) => void
 }) => {
     const [selectedRto, setSelectedRto] = useState<number | null>(null)
+    const [rtoOptions, setRtoOptions] = useState<any>([])
     const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
+    const [coursesOptions, setCoursesOptions] = useState<any>([])
     const [selectedFolder, setselectedFolder] = useState<number | null>(null)
+    const [folderOptions, setFolderOptions] = useState<any>([])
     const [fileUrl, setFileUrl] = useState<string | null>(null)
 
-    const getRtos = AdminApi.ESign.useGetEsignRtos()
+    const getRtos = CommonApi.ESign.useGetEsignRtos()
 
     const validationSchema = Yup.object({
-        name: Yup.string().required('Name is required!'),
+        name: Yup.string()
+            .max(40, 'Name must not exceed 40 characters')
+            .required('Name is required!'),
         user: Yup.number().required('Rto is required'),
         course: Yup.number().required('Course is required'),
         folder: Yup.number().required('Folder is required'),
         recipients: Yup.array().min(1, 'Must select at least 1 Recipient'),
+        deadline: Yup.number()
+            .positive('Deadline Must be positive')
+            .max(180, 'Deadline must not exceed 180')
+            .required('Deadline is required')
+            .nullable(true),
+        file: Yup.mixed()
+            .test(
+                'fileSize',
+                // 'File size is too large',
+                (value: any) => {
+                    return edit
+                        ? fileUrl
+                            ? true
+                            : value && [...value]?.length > 0
+                            ? true
+                            : false
+                        : value && [...value]?.length > 0
+                        ? true
+                        : false
+                }
+            )
+            .required('File is required!'),
     })
 
     const methods = useForm({
         resolver: yupResolver(validationSchema),
         mode: 'all',
     })
+
+    console.log({ methods: methods.getValues() })
 
     useEffect(() => {
         if (data) {
@@ -54,7 +82,7 @@ export const AddEsignForm = ({
             methods.setValue('user', data?.user?.id)
             methods.setValue('course', data?.course?.id)
             methods.setValue('folder', data?.folder?.id)
-            // methods.setValue('file', data?.file)
+            methods.setValue('file', data?.file)
             setSelectedRto(data?.user?.id)
             setSelectedCourse(data?.course?.id)
             setselectedFolder(data?.folder?.id)
@@ -100,25 +128,47 @@ export const AddEsignForm = ({
         )
     }
 
-    const rtoOptions = getRtos.data?.map((rto: Rto) => ({
-        label: rto?.user?.name,
-        value: rto?.user?.id,
-    }))
+    useEffect(() => {
+        if (getRtos?.data) {
+            setRtoOptions(
+                getRtos.data?.map((rto: Rto) => ({
+                    label: rto?.user?.name,
+                    value: rto?.user?.id,
+                }))
+            )
+        }
+    }, [getRtos])
 
     const rto = getRtos?.data?.find((rto: Rto) => rto?.user?.id === selectedRto)
+    useEffect(() => {
+        if (rto?.courses) {
+            setCoursesOptions(
+                rto?.courses?.map((course: Course) => ({
+                    label: course?.title,
+                    value: course?.id,
+                    item: course,
+                }))
+            )
+        }
+    }, [rto])
 
-    const coursesOptions = rto?.courses?.map((course: Course) => ({
-        label: course?.title,
-        value: course?.id,
-        item: course,
-    }))
+    useEffect(() => {
+        if (rto?.courses) {
+            setFolderOptions(
+                rto?.courses
+                    ?.find(
+                        (course: Course) =>
+                            course?.id === Number(selectedCourse)
+                    )
+                    ?.assessmentEvidence?.map((folder: Folder) => ({
+                        label: folder?.name,
+                        value: folder?.id,
+                    }))
+            )
+        }
+    }, [rto, selectedCourse])
 
-    const folderOptions = rto?.courses
-        ?.find((course: Course) => course?.id === Number(selectedCourse))
-        ?.assessmentEvidence?.map((folder: Folder) => ({
-            label: folder?.name,
-            value: folder?.id,
-        }))
+    console.log({ selectedFolder })
 
     return (
         <Card>
@@ -161,6 +211,10 @@ export const AddEsignForm = ({
                                         options={rtoOptions}
                                         onChange={(e: number) => {
                                             setSelectedRto(e)
+                                            // setCoursesOptions([])
+                                            // setFolderOptions([])
+                                            methods.setValue('course', '')
+                                            methods.setValue('folder', '')
                                         }}
                                         value={rtoOptions?.find(
                                             (rto: OptionType) =>
@@ -182,12 +236,13 @@ export const AddEsignForm = ({
                                         value={coursesOptions?.find(
                                             (course: OptionType) =>
                                                 course?.value ===
-                                                Number(
-                                                    methods.getValues('course')
-                                                )
+                                                Number(selectedCourse)
                                         )}
                                         onChange={(e: number) => {
                                             setSelectedCourse(e)
+                                            setselectedFolder(null)
+                                            // setFolderOptions([])
+                                            methods.setValue('folder', '')
                                         }}
                                         onlyValue
                                         disabled={!coursesOptions}
@@ -202,9 +257,7 @@ export const AddEsignForm = ({
                                         value={folderOptions?.find(
                                             (folder: OptionType) =>
                                                 folder?.value ===
-                                                Number(
-                                                    methods.getValues('folder')
-                                                )
+                                                Number(selectedFolder)
                                         )}
                                         onlyValue
                                         disabled={!folderOptions}
@@ -219,6 +272,7 @@ export const AddEsignForm = ({
                                     />
                                 </div>
                                 <FileUpload
+                                    required
                                     name={'file'}
                                     component={onFileUpload}
                                     label={'Select Document'}
