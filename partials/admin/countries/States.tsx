@@ -68,7 +68,6 @@ export const States = () => {
     //     contextBar.setContent(<CourseView course={course} />)
     //     contextBar.show()
     // }
-    
 
     const onDeleteClicked = (state: any) => {
         setModal(
@@ -107,7 +106,7 @@ export const States = () => {
     const columns = [
         {
             accessorKey: 'name',
-            cell: (info:any) => {
+            cell: (info: any) => {
                 return (
                     <div
                         className="relative group"
@@ -136,13 +135,13 @@ export const States = () => {
                     </div>
                 )
             },
-            header: () => <span>Name</span>,
+            header: () => <span>States</span>,
         },
 
         {
             accessorKey: 'country',
-            header: () => <span>Sector</span>,
-            cell: (info:any) => {
+            header: () => <span>Country</span>,
+            cell: (info: any) => {
                 return (
                     <div>
                         <p className="text-xs font-medium text-gray-500">
@@ -159,7 +158,7 @@ export const States = () => {
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info:any) => {
+            cell: (info: any) => {
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
@@ -267,9 +266,7 @@ export const States = () => {
                         !isError && (
                             <EmptyData
                                 title={'No State!'}
-                                description={
-                                    'You have not added any state yet'
-                                }
+                                description={'You have not added any state yet'}
                                 height={'50vh'}
                             />
                         )

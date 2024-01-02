@@ -106,7 +106,7 @@ export const Countries = () => {
                     </div>
                 )
             },
-            header: () => <span>Name</span>,
+            header: () => <span>Countries</span>,
         },
         {
             accessorKey: 'states',

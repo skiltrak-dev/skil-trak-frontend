@@ -140,7 +140,7 @@ export const ApprovedIndustry = () => {
             header: () => <span>ABN</span>,
         },
         {
-            accessorKey: 'students',
+            accessorKey: 'studentCount',
             header: () => <span>Students</span>,
         },
         {
