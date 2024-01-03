@@ -17,7 +17,7 @@ import { FaSchool } from 'react-icons/fa'
 // animations
 import { Animations } from '@animations'
 // hooks
-import { useContextBar, useJoyRide } from '@hooks'
+import { DocumentsView, useContextBar, useJoyRide } from '@hooks'
 import { ViewProfileCB } from '@partials/sub-admin/contextBar'
 
 import { FigureCard } from '@components/sections/subAdmin/components/Cards/FigureCard'
@@ -73,6 +73,9 @@ const SubAdminDashboard: NextPageWithLayout = () => {
     const { data, isSuccess, isLoading } = SubAdminApi.SubAdmin.useProfile()
     const statistics = SubAdminApi.Count.statistics()
     const sectorsWithCourses = getSectors(data?.courses)
+
+    const { viewedPendingIndustriesModal, setViewedPendingIndustriesModal } =
+        DocumentsView()
 
     const pendingIndustries: any = useGetSubAdminIndustriesQuery({
         search: `status:${UserStatus.Pending}`,
@@ -728,9 +731,14 @@ const SubAdminDashboard: NextPageWithLayout = () => {
         router.push('/portals/sub-admin/users/industries?tab=pending')
     }
 
+    console.log({ viewedPendingIndustriesModal })
+
     useEffect(() => {
         // Check if there are pending industry requests
-        if (pendingIndustries?.data?.data?.length > 0) {
+        if (
+            pendingIndustries?.data?.data?.length > 0 &&
+            viewedPendingIndustriesModal === 0
+        ) {
             // If there are pending requests, display the modal
             setModal(
                 <Modal
@@ -743,6 +751,9 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     There are pending industry requests in your account.
                 </Modal>
             )
+            setViewedPendingIndustriesModal((view: number) => view + 1)
+        } else {
+            setModal(null)
         }
     }, [pendingIndustries?.data?.data])
 

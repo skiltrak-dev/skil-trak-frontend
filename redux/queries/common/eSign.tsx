@@ -166,7 +166,7 @@ export const eSignEndpoints = (
     }),
     usersPendingDocumentsList: builder.query<
         any,
-        { status?: EsignDocumentStatus }
+        { status?: EsignDocumentStatus[] }
     >({
         query: (params) => ({
             url: `${PREFIX}/documents/pending/retrieve-for-user`,
@@ -324,5 +324,11 @@ export const eSignEndpoints = (
             method: 'DELETE',
         }),
         invalidatesTags: ['RemoveTemplate-E-Sign'],
+    }),
+
+    checkIfUserSigned: builder.query<any, { documentId: number; id: number }>({
+        query: ({ documentId, id }) =>
+            `${PREFIX}/document/${documentId}/validate/signer/${id}`,
+        providesTags: ['Email Sign'],
     }),
 })

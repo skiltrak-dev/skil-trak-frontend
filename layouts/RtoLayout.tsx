@@ -45,7 +45,7 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const pendingDocuments = CommonApi.ESign.usePendingDocumentsList({
-        status: EsignDocumentStatus.PENDING,
+        status: [EsignDocumentStatus.PENDING, EsignDocumentStatus.ReSign],
     })
 
     const status = AuthUtils.getUserCredentials()?.status

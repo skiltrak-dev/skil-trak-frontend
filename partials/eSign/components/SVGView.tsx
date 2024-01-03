@@ -1,4 +1,8 @@
-import { AuthorizedUserComponent, ShowErrorNotifications } from '@components'
+import {
+    AuthorizedUserComponent,
+    ShowErrorNotifications,
+    TechnicalError,
+} from '@components'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
@@ -104,6 +108,7 @@ export const SVGView = ({
                 // topOffset="50%"
             >
                 <div>
+                    {document.isError && <TechnicalError />}
                     {document?.data ? (
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -149,12 +154,21 @@ __html: svgContent,
                             </g>
                         </svg>
                     ) : (
-                        <Skeleton
-                            className="w-full rounded-lg"
-                            style={{
-                                height: `${documentData?.size?.height}px`,
-                            }}
-                        />
+                        !document.isError && (
+                            <div className="relative w-full">
+                                <Skeleton
+                                    className="w-full rounded-lg"
+                                    style={{
+                                        height: `${documentData?.size?.height}px`,
+                                    }}
+                                />
+                                <div className="absolute top-5 left-0 z-10 flex justify-center w-full">
+                                    <p className="text-7xl font-bold text-center text-gray-300">
+                                        Loading...
+                                    </p>
+                                </div>
+                            </div>
+                        )
                     )}
                 </div>
             </Waypoint>
