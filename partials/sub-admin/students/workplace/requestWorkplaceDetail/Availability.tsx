@@ -45,6 +45,7 @@ export const Availability = ({
             ...personalInfoData,
             generalAvailabilities: daysAvailability,
         })
+        setActive((active: number) => active + 1)
     }
 
     return (
