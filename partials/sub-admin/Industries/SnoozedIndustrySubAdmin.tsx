@@ -3,7 +3,7 @@ import { ReactElement, useEffect, useState } from 'react'
 
 // Icons
 import { FaEye, FaPencilAlt } from 'react-icons/fa'
-import { MdSnooze } from "react-icons/md";
+import { MdSnooze } from 'react-icons/md'
 // components
 import {
     Card,
@@ -230,7 +230,7 @@ export const SnoozedIndustrySubAdmin = () => {
             cell: ({ row }: any) => {
                 return (
                     <Typography variant={'muted'} color={'gray'}>
-                        {row?.original?.snoozedBy?.name}
+                        {row?.original?.snoozedBy?.name || 'N/A'}
                     </Typography>
                 )
             },
@@ -241,7 +241,7 @@ export const SnoozedIndustrySubAdmin = () => {
             cell: ({ row }: any) => {
                 return (
                     <Typography variant={'muted'} color={'gray'}>
-                        {row?.original?.snoozedAt.slice(0, 10)}
+                        {row?.original?.snoozedAt?.slice(0, 10) || 'N/A'}
                     </Typography>
                 )
             },
@@ -252,7 +252,7 @@ export const SnoozedIndustrySubAdmin = () => {
             cell: ({ row }: any) => {
                 return (
                     <Typography variant={'muted'} color={'gray'}>
-                        {row?.original?.snoozedDate.slice(0, 10)}
+                        {row?.original?.snoozedDate?.slice(0, 10) || 'N/A'}
                     </Typography>
                 )
             },
