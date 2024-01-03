@@ -190,19 +190,19 @@ export const SnoozedIndustry = () => {
                 </div>
             ),
         },
-        {
-            accessorKey: 'channel',
-            header: () => <span>Created By</span>,
-            cell: (info) => (
-                <div>
-                    {info.row.original?.createdBy !== null ? (
-                        <p>{info?.row?.original?.createdBy?.name}</p>
-                    ) : (
-                        <p>{info?.row?.original?.channel}</p>
-                    )}
-                </div>
-            ),
-        },
+        // {
+        //     accessorKey: 'channel',
+        //     header: () => <span>Created By</span>,
+        //     cell: (info) => (
+        //         <div>
+        //             {info.row.original?.createdBy !== null ? (
+        //                 <p>{info?.row?.original?.createdBy?.name}</p>
+        //             ) : (
+        //                 <p>{info?.row?.original?.channel}</p>
+        //             )}
+        //         </div>
+        //     ),
+        // },
         {
             header: () => 'Snoozed By',
             accessorKey: 'snoozedBy',
@@ -220,7 +220,7 @@ export const SnoozedIndustry = () => {
             cell: ({ row }: any) => {
                 return (
                     <Typography variant={'muted'} color={'gray'}>
-                        {row?.original?.snoozedAt?.slice(0, 10)}
+                        {row?.original?.snoozedAt?.slice(0, 10) || 'N/A'}
                     </Typography>
                 )
             },
@@ -231,7 +231,7 @@ export const SnoozedIndustry = () => {
             cell: ({ row }: any) => {
                 return (
                     <Typography variant={'muted'} color={'gray'}>
-                        {row?.original?.snoozedDate?.slice(0, 10)}
+                        {row?.original?.snoozedDate?.slice(0, 10) || 'N/A'}
                     </Typography>
                 )
             },
