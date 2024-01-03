@@ -25,7 +25,6 @@ export const IndustryCell = ({ industry }: { industry: Industry }) => {
             >
                 <div className="flex items-center gap-x-2">
                     <div className="shadow-inner-image rounded-full relative">
-                        
                         {industry?.user?.name && (
                             <InitialAvatar
                                 name={industry?.user?.name}
@@ -39,7 +38,8 @@ export const IndustryCell = ({ industry }: { industry: Industry }) => {
                         ) : null}
                     </div>
                     <div>
-                    {industry?.snoozedDate !== null ? (
+                        {industry?.snoozedDate &&
+                        industry?.snoozedDate !== null ? (
                             <MdSnooze size={14} className="text-red-500" />
                         ) : null}
                         <div className="flex items-center gap-x-2">
