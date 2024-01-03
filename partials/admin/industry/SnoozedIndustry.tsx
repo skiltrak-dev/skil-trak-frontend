@@ -220,7 +220,7 @@ export const SnoozedIndustry = () => {
             cell: ({ row }: any) => {
                 return (
                     <Typography variant={'muted'} color={'gray'}>
-                        {row?.original?.snoozedAt?.slice(0, 10)}
+                        {row?.original?.snoozedAt?.slice(0, 10) || 'N/A'}
                     </Typography>
                 )
             },
@@ -231,7 +231,7 @@ export const SnoozedIndustry = () => {
             cell: ({ row }: any) => {
                 return (
                     <Typography variant={'muted'} color={'gray'}>
-                        {row?.original?.snoozedDate?.slice(0, 10)}
+                        {row?.original?.snoozedDate?.slice(0, 10) || 'N/A'}
                     </Typography>
                 )
             },
