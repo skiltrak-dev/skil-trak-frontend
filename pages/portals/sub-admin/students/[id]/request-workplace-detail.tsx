@@ -43,20 +43,33 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         refetchOnMountOrArgChange: true,
     })
 
+    // useEffect(() => {
+    //     if (
+    //         workplace?.data &&
+    //         workplace.isSuccess &&
+    //         workplace?.data?.length > 0
+    //     ) {
+    //         if (workplace?.data[0]?.currentStatus === 'placementStarted')
+    //             setActive(4)
+    //         else setActive(3)
+    //     }
+    //     // else if (!workplace?.data?.length) {
+    //     //     setActive(1)
+    //     // }
+    // }, [workplace])
     useEffect(() => {
         if (
-            workplace?.data &&
+            workplace.data &&
             workplace.isSuccess &&
-            workplace?.data?.length > 0
+            workplace.data.length > 0
         ) {
-            if (workplace?.data[0]?.currentStatus === 'placementStarted')
+            if (workplace.data[0].currentStatus === 'placementStarted') {
                 setActive(4)
-            else setActive(3)
+            } else {
+                setActive(3)
+            }
         }
-        // else if (!workplace?.data?.length) {
-        //     setActive(1)
-        // }
-    }, [workplace])
+    }, [workplace.data])
 
     const StepIndicatorOptions = [
         {
@@ -81,6 +94,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         },
     ]
 
+    console.log('active', active)
     return (
         <>
             <PageTitle
