@@ -204,16 +204,6 @@ export const AssessmentResponse = ({
         (file: any) => file
     )
 
-    const [initiateSigning, initiateSigningResult] =
-        SubAdminApi.AssessmentEvidence.useInitiateSigning()
-
-    const docuSignStatus = SubAdminApi.AssessmentEvidence.useDocuSignStatus(
-        studentData?.user?.id,
-        {
-            skip: !studentData?.user?.id,
-        }
-    )
-
     return (
         <>
             <ShowErrorNotifications result={addCommentResult} />

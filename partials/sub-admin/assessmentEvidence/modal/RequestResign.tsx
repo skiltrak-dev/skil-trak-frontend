@@ -28,7 +28,7 @@ export const RequestResign = ({
         if (requestResignResult.isSuccess) {
             notification.error({
                 title: `Document Resigned Requested`,
-                description: `Document "${eSign?.template?.name}" requested for resigned.`,
+                description: `Document requested for resigned.`,
             })
             onCancel()
         }

@@ -3,4 +3,5 @@ export enum EsignDocumentStatus {
     PENDING = 'pending',
     REJECTED = 'rejected',
     CANCELLED = 'cancelled',
+    ReSign = 're-sign',
 }

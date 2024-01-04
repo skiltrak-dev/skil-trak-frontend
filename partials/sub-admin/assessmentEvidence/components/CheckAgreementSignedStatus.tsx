@@ -9,8 +9,8 @@ export const CheckAgreementSignedStatus = ({
     document,
     documentSigned,
 }: {
-    documentSigned: EsignDocumentStatus
     document: any
+    documentSigned: EsignDocumentStatus
 }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
 

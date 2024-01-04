@@ -3,9 +3,11 @@ import Lottie from 'react-lottie'
 import { string } from 'yup'
 
 export const TechnicalError = ({
+    title,
     height,
     description = true,
 }: {
+    title?: string
     height?: string
     description?: boolean
 }) => {
@@ -25,7 +27,7 @@ export const TechnicalError = ({
                 <Lottie options={animationOptions} height={250} width={250} />
             </div>
             <h3 className="text-2xl font-bold text-gray-500 mb-2">
-                Some thing is not right
+                {title || 'Some thing is not right'}
             </h3>
             {description && (
                 <>

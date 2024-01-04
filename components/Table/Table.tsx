@@ -5,7 +5,7 @@ import {
     getPaginationRowModel,
     useReactTable,
 } from '@tanstack/react-table'
-import { Paginate } from '@types'
+import { Paginate, UserStatus } from '@types'
 import React, {
     HTMLProps,
     ReactElement,
@@ -252,11 +252,12 @@ export const Table = <Type,>({
                                             <td
                                                 className={`${
                                                     row?.original?.user
-                                                        ?.status === 'blocked'
+                                                        ?.status ===
+                                                    UserStatus.Blocked
                                                         ? '!bg-error-light'
                                                         : row?.original?.user
                                                               ?.status ===
-                                                          'pending'
+                                                          UserStatus.Pending
                                                         ? '!bg-primary-light'
                                                         : '!bg-[#f5f5f5]'
                                                 }`}
