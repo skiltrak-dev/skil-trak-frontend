@@ -223,31 +223,6 @@ export const TabsView = ({
                             ) : (
                                 ''
                             )}
-                            {/* {sign?.responses &&
-                sign?.responses?.length >
-                    0 &&
-                !latestResponse?.reSignRequested ? (
-                    // <img
-                    //     src={
-                    //         sign?.responses?.[0]
-                    //             ?.signature
-                    //     }
-                    //     className="w-full h-full"
-                    // />
-                    ''
-                ) : (
-                    <div
-                        onClick={() =>
-                            onSignatureClicked()
-                        }
-                        className="w-full h-full bg-red-600 flex justify-center items-center gap-x-2 text-white"
-                    >
-                        <FaSignature className="text-xs" />
-                        <button className="text-[8px]">
-                            Sign Here
-                        </button>
-                    </div>
-                )} */}
                         </foreignObject>
                     ) : null
                 })}

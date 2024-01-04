@@ -34,14 +34,34 @@ const ESign = () => {
 
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [customFieldsData, setCustomFieldsData] = useState<any>([])
+    const [decodeData, setDecodeData] = useState<any>(null)
     const scrollTargetRef = useRef<any>([])
 
     const { notification } = useNotification()
 
-    const documentsTotalPages = CommonApi.ESign.useGetDocumentTotalPages(
+    useEffect(() => {
+        const jwtDecode = async () => {
+            if (router?.query?.token) {
+                const data = await jwt(String(router?.query?.token))
+                setDecodeData(data)
+            }
+        }
+        jwtDecode()
+    }, [router])
+
+    const checkIfUserSigned = CommonApi.ESign.checkIfUserSigned(
+        {
+            documentId: Number(router.query?.id),
+            id: Number(decodeData?.id),
+        },
+        {
+            skip: !router.query?.id || !decodeData?.id,
+        }
+    )
+    const documentsTotalPages: any = CommonApi.ESign.useGetDocumentTotalPages(
         Number(router.query?.id),
         {
-            skip: !router.query?.id,
+            skip: !router.query?.id || !checkIfUserSigned.isSuccess,
         }
     )
     const tabs = CommonApi.ESign.useGetTabs(
@@ -53,12 +73,7 @@ const ESign = () => {
             skip: !router.query?.id || !router.query?.token,
         }
     )
-    const getDocument = CommonApi.ESign.useGetDocument(
-        Number(router.query?.id),
-        {
-            skip: !router.query?.id,
-        }
-    )
+
     const [addCustomFieldsData, addCustomFieldsDataResult] =
         CommonApi.ESign.addEmailCustomFieldData()
 
@@ -137,10 +152,6 @@ const ESign = () => {
     }
 
     const onSaveCustomFieldsValue = async () => {
-        console.log(jwt(String(router?.query?.token)))
-        const decodeData: { id: number } = await jwt(
-            String(router?.query?.token)
-        )
         const customValues = customFieldsData?.filter(
             (data: any) => data?.isCustom && !data?.fieldValue
         )
@@ -176,14 +187,24 @@ const ESign = () => {
             })
         }
     }
+
+    console.log(
+        'documentsTotalPages?.error?.data?.message',
+        documentsTotalPages?.error
+    )
     return (
         <SiteLayout title={'E Sign'}>
             {modal}
+            <ShowErrorNotifications result={checkIfUserSigned} />
             <ShowErrorNotifications result={addCustomFieldsDataResult} />
             <div className="max-w-7xl mx-auto py-10">
                 <PageHeading title="E-Sign" subtitle="E Sign" />
 
-                {documentsTotalPages.isError && <TechnicalError />}
+                {(documentsTotalPages.isError || checkIfUserSigned.isError) && (
+                    <TechnicalError
+                        title={documentsTotalPages?.error?.data?.message as any}
+                    />
+                )}
                 {documentsTotalPages.isLoading ||
                 documentsTotalPages.isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
@@ -277,7 +298,8 @@ const ESign = () => {
                         </div>
                     </div>
                 ) : (
-                    !getDocument.isError && (
+                    (documentsTotalPages.isSuccess ||
+                        checkIfUserSigned.isSuccess) && (
                         <EmptyData
                             title={'No E-Sign Found!'}
                             description={'You have not any Esign Document yet'}

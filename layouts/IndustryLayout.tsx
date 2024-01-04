@@ -66,7 +66,7 @@ export const IndustryLayout = ({
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const pendingDocuments = CommonApi.ESign.usePendingDocumentsList({
-        status: EsignDocumentStatus.PENDING,
+        status: [EsignDocumentStatus.PENDING, EsignDocumentStatus.ReSign],
     })
 
     useEffect(() => {

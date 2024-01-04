@@ -24,11 +24,9 @@ export const ViewInitiatedSign = ({
     rto: Rto
     folder: Folder
 }) => {
-    const updatedDocument = [...Array(3)]?.map((_, i) => document)
     const [modal, setModal] = useState<any>(null)
 
     const [selectedDocument, setSelectedDocument] = useState<any>(null)
-    const [selected, setSelected] = useState<any>(null)
 
     const { onFileClicked, documentsViewModal } = DocumentsView()
 
