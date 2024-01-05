@@ -63,6 +63,7 @@ export const AddCustomIndustryForm = ({
         }, 300)()
     }
 
+    
     const validationSchema = yup.object({
         // Profile Information
         name: yup

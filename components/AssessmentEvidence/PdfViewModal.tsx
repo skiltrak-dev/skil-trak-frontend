@@ -31,7 +31,6 @@ export const PdfViewModal = ({
     const previousPage = () => {
         setCurrentPage(currentPage - 1)
     }
-
     return (
         <div className="bg-[#00000050] w-full h-screen flex items-start justify-center fixed top-0 left-0 z-40 overflow-scroll py-16">
             <div className="bg-white rounded-2xl flex flex-col justify-between shadow-md min-w-[450px] overflow-hidden">

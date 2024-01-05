@@ -13,7 +13,7 @@ import { ReactElement, useState } from 'react'
 import { useNotification } from '@hooks'
 import { ellipsisText } from '@utils'
 import Image from 'next/image'
-
+import jsPDF from 'jspdf'
 export const ImportantDocuments = ({
     sidebar,
     coureseRequirementsLink,
@@ -22,7 +22,8 @@ export const ImportantDocuments = ({
     sidebar?: boolean
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
-
+    const [imageUrl, setImageUrl] = useState<string | undefined>(undefined)
+    const [contentUrl, setContentUrl] = useState<any>(null)
     const { notification } = useNotification()
 
     const documents = CommonApi.Documents.useList()
@@ -51,10 +52,47 @@ export const ImportantDocuments = ({
             (document: any) => document?.docType === docType
         )
     }
+    const plainText = contentUrl?.replace(/<[^>]+>/g, '')
 
+    // pdf
+    const downloadPdf = () => {
+        const text = plainText
+
+        // Create a new jsPDF instance
+        const pdf = new jsPDF()
+
+        const maxWidth = 180
+        const lineHeight = 8
+        // Add text to the PDF
+        const splitText = pdf.splitTextToSize(text, maxWidth)
+        // pdf.text(splitText, 10, 10)
+
+        let yPos = 10 // Initial y position
+
+        // Add the split text to the PDF with custom line height
+        splitText.forEach((line: any) => {
+            pdf.text(line, 10, yPos) // Add the line at the specified position
+
+            yPos += lineHeight // Increment yPos for next line
+        })
+
+        // Generate a Blob containing the PDF data
+        const blob = pdf.output('blob')
+
+        // Create a download link
+        const link = document.createElement('a')
+        link.href = URL.createObjectURL(blob)
+        link.download = 'important-documents.pdf'
+
+        // Simulate a click on the link to trigger the download
+        link.click()
+    }
+    
     const onDocumentView = (docType: string) => {
         const document = getDocument(docType)
         const extension = document?.file?.split('.').reverse()[0]
+        setImageUrl(document?.file)
+        setContentUrl(document?.content)
 
         if (document) {
             setModal(
@@ -70,13 +108,21 @@ export const ImportantDocuments = ({
                             extension.toLowerCase()
                         ) ? (
                             <div className="min-w-[650px] max-w-[70vw] max-h-[500px] overflow-auto">
+                                <a
+                                    className="bg-orange-500 px-4 py-2 inline-block cursor-pointer rounded-md text-white"
+                                    href={imageUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Download
+                                </a>
                                 <Image
                                     width={0}
                                     height={0}
                                     sizes="100vw 100vh"
                                     src={document?.file}
                                     alt=""
-                                    className="w-[inherit] h-full object-contain"
+                                    className="w-[inherit] h-full object-contain mt-3"
                                     blurDataURL={'/images/blur_image.png'}
                                     placeholder="blur"
                                 />
@@ -98,6 +144,12 @@ export const ImportantDocuments = ({
                         ) : null
                     ) : (
                         <div className="px-5 min-w-full md:min-w-[600px] max-w-4xl min-h-[40vh] max-h-[calc(100vh-250px)] overflow-auto custom-scrollbar">
+                            <div
+                                className="cursor-pointer bg-orange-500 inline-block px-4 py-2 rounded-md mb-2 text-white "
+                                onClick={downloadPdf}
+                            >
+                                Download
+                            </div>
                             <div
                                 dangerouslySetInnerHTML={{
                                     __html: document?.content,
