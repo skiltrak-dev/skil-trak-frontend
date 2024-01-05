@@ -37,9 +37,9 @@ const Page = () => {
                     />
                     <div className="bg-black w-full h-full absolute top-0 left-0 opacity-60 z-0"></div>
                     <div className="text-white absolute top-2/4 w-11/12 md:w-3/5 left-2/4 transform -translate-x-2/4 -translate-y-2/4">
-                        <h3 className="font-bold text-2xl md:text-4xl text-center">
+                        <h1 className="font-bold text-2xl md:text-4xl text-center">
                             SKILTRAK IS HERE WHEN YOU NEED IT MOST!
-                        </h3>
+                        </h1>
                         <p className="text-md md:text-2xl text-center mt-4">
                             We have knowledgeable and friendly professionals
                             available to schedule an appointment or answer any

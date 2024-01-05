@@ -28,13 +28,16 @@ const Jobs: NextPageWithLayout = () => {
     const { data, isLoading, isError } = commonApi.useGetAllAdvertisedJobsQuery(
         { skip: itemPerPage * page - itemPerPage, limit: itemPerPage }
     )
-    
+
     return (
         <>
             {/* <Navbar2 /> */}
             <div className="md:px-[140px] md:py-[72px] px-4 py-8">
                 <div className="max-w-7xl mx-auto">
                     {/* {isError && <TechnicalError />} */}
+                    <h1 className="font-bold text-2xl md:text-4xl mb-4">
+                        Jobs
+                    </h1>
                     {isLoading ? (
                         <LoadingAnimation />
                     ) : data?.data?.length > 0 ? (
