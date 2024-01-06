@@ -17,21 +17,17 @@ import { FaSchool } from 'react-icons/fa'
 // animations
 import { Animations } from '@animations'
 // hooks
-import { DocumentsView, useContextBar, useJoyRide } from '@hooks'
+import { ContextBarProvider, useContextBar } from '@hooks'
 import { ViewProfileCB } from '@partials/sub-admin/contextBar'
 
 import { FigureCard } from '@components/sections/subAdmin/components/Cards/FigureCard'
 
 import { AuthUtils } from '@utils'
 
-import {
-    SubAdminApi,
-    useGetSubAdminIndustryStudentsQuery,
-    useGetSubAdminIndustriesQuery,
-} from '@queries'
-import { CallBackProps } from 'react-joyride'
-import { useRouter } from 'next/router'
 import { ImportantDocuments } from '@partials/common'
+import { SubAdminApi, useGetSubAdminIndustriesQuery } from '@queries'
+import { useRouter } from 'next/router'
+import { CallBackProps } from 'react-joyride'
 
 const NotificationQuestions = [
     {
@@ -75,7 +71,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
     const sectorsWithCourses = getSectors(data?.courses)
 
     const { viewedPendingIndustriesModal, setViewedPendingIndustriesModal } =
-        DocumentsView()
+        useContextBar()
 
     const pendingIndustries: any = useGetSubAdminIndustriesQuery({
         search: `status:${UserStatus.Pending}`,
@@ -731,8 +727,6 @@ const SubAdminDashboard: NextPageWithLayout = () => {
         router.push('/portals/sub-admin/users/industries?tab=pending')
     }
 
-    console.log({ viewedPendingIndustriesModal })
-
     useEffect(() => {
         // Check if there are pending industry requests
         if (
@@ -742,16 +736,16 @@ const SubAdminDashboard: NextPageWithLayout = () => {
             // If there are pending requests, display the modal
             setModal(
                 <Modal
+                    onCancelClick={onCancel}
                     onConfirmClick={onViewPendingReq}
                     title={'Pending Industry Requests'}
-                    subtitle={'Pending Industry Requests'}
-                    onCancelClick={onCancel}
                     confirmText={'View Pending Requests'}
+                    subtitle={'Pending Industry Requests'}
                 >
                     There are pending industry requests in your account.
                 </Modal>
             )
-            setViewedPendingIndustriesModal((view: number) => view + 1)
+            setViewedPendingIndustriesModal((view: number) => Number(view + 1))
         } else {
             setModal(null)
         }

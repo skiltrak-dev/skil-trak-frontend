@@ -12,11 +12,15 @@ import {
 } from '@components'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout, UserStatus } from '@types'
+import { NextPageWithLayout, Student, UserStatus } from '@types'
 
 // query
 import { useNotification } from '@hooks'
-import { AddCustomIndustryForm, FindWorkplaceForm } from '@partials/common'
+import {
+    AddCustomIndustryForm,
+    FindWorkplace,
+    FindWorkplaceForm,
+} from '@partials/common'
 import {
     ExistinIndustryCard,
     IndustrySelection,
@@ -191,9 +195,12 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                         </div>
                         <div className="w-[75%]">
                             {active === 1 && (
-                                <FindWorkplaceForm
-                                    onSubmit={onSubmit}
+                                <FindWorkplace
                                     result={result}
+                                    onSubmit={onSubmit}
+                                    setActive={setActive}
+                                    setWorkplaceData={setWorkplaceData}
+                                    student={data as Student}
                                 />
                             )}
 

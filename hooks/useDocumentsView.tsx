@@ -4,8 +4,6 @@ import React, { ReactElement, useState } from 'react'
 
 export const DocumentsView = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const [viewedPendingIndustriesModal, setViewedPendingIndustriesModal] =
-        useState<number>(0)
 
     const onModalCancel = () => {
         setModal(null)
@@ -84,7 +82,5 @@ export const DocumentsView = () => {
     return {
         onFileClicked,
         documentsViewModal: modal,
-        viewedPendingIndustriesModal,
-        setViewedPendingIndustriesModal,
     }
 }

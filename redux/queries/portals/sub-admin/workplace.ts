@@ -239,4 +239,11 @@ export const workplaceEndpoints = (
             `students/workplace-requests/other/find-industry/${workplaceId}`,
         providesTags: ['SubAdminWorkplace'],
     }),
+    findSuggestedIndustries: builder.query<any, any>({
+        query: (params) => ({
+            url: `shared/industries/search`,
+            params,
+        }),
+        providesTags: ['SubAdminWorkplace'],
+    }),
 })
