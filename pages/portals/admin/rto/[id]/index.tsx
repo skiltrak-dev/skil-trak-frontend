@@ -31,6 +31,17 @@ const RtoDetail: NextPageWithLayout = () => {
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
+    const [selectedNoteId, setSelectedNoteId] = useState<number | null>(null)
+    const onHandleScroll = (id: number) => {
+        setSelectedNoteId(id)
+        console.log({ id })
+        // const detailItem = document.getElementById(`pinned-notes-${id}`)
+        // console.log({ detailItem })
+        // if (detailItem) {
+        //     detailItem.scrollIntoView({ behavior: 'smooth' })
+        // }
+    }
+
     const {
         modal,
         onAcceptClicked,
@@ -318,7 +329,12 @@ const RtoDetail: NextPageWithLayout = () => {
                         />
                     </div>
 
-                    <PinnedNotes id={rto?.data?.user?.id} />
+                    <PinnedNotes
+                        id={rto?.data?.user?.id}
+                        onHandleScroll={onHandleScroll}
+                        link={`/portals/admin/rto/${router?.query?.id}?tab=notes`}
+                    />
+
                     <DetailTabs id={router.query?.id} rto={rto} />
                 </div>
             ) : (
