@@ -1,5 +1,4 @@
 import {
-    FileViewModal,
     ImportantDocument,
     Modal,
     PdfViewModal,
@@ -8,12 +7,11 @@ import {
 import classNames from 'classnames'
 
 // query
-import { CommonApi } from '@queries'
-import { ReactElement, useState } from 'react'
 import { useNotification } from '@hooks'
-import { ellipsisText } from '@utils'
-import Image from 'next/image'
+import { CommonApi } from '@queries'
 import jsPDF from 'jspdf'
+import Image from 'next/image'
+import { ReactElement, useState } from 'react'
 export const ImportantDocuments = ({
     sidebar,
     coureseRequirementsLink,
@@ -87,7 +85,7 @@ export const ImportantDocuments = ({
         // Simulate a click on the link to trigger the download
         link.click()
     }
-    
+
     const onDocumentView = (docType: string) => {
         const document = getDocument(docType)
         const extension = document?.file?.split('.').reverse()[0]

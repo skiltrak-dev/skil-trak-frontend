@@ -36,16 +36,16 @@ export const RtoAvatar = ({
         const file = e.target.files[0]
         const filesType = ['image/png', 'image/jpg', 'image/jpeg']
 
-        // if (file && filesType.includes(file?.type)) {
-        const formData = new FormData()
-        formData.append('profile', file)
-        changeProfileImage({ user, body: formData })
-        // } else {
-        //     notification.error({
-        //         title: 'Please select a valid image',
-        //         description: 'only jpg, png and jpeg formats are accepted',
-        //     })
-        // }
+        if (file && filesType.includes(file?.type)) {
+            const formData = new FormData()
+            formData.append('profile', file)
+            changeProfileImage({ user, body: formData })
+        } else {
+            notification.error({
+                title: 'Please select a valid image',
+                description: 'only jpg, png and jpeg formats are accepted',
+            })
+        }
     }
     return (
         <>

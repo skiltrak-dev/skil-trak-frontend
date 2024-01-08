@@ -124,7 +124,12 @@ export const ApprovedEsigns = () => {
             cell: (info) => {
                 return (
                     <RtoCellInfo
-                        rto={{ user: info?.row?.original?.user } as Rto}
+                        rto={
+                            {
+                                id: info?.row?.original?.user?.rto?.id,
+                                user: info?.row?.original?.user,
+                            } as Rto
+                        }
                         short
                     />
                 )
@@ -153,13 +158,13 @@ export const ApprovedEsigns = () => {
             accessorKey: 'file',
             header: () => <span>File</span>,
             cell: (info) => (
-                <Link
+                <a
                     href={info.row.original?.file}
-                    target="_black"
-                    rel="no-opener"
+                    target="_blank"
+                    className="text-sm font-semibold text-info"
                 >
                     <Badge text="Download" variant="info" />
-                </Link>
+                </a>
             ),
         },
         {

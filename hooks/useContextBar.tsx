@@ -1,4 +1,11 @@
-import React, { ReactElement, ReactNode, useContext, useState } from 'react'
+import React, {
+    Dispatch,
+    ReactElement,
+    ReactNode,
+    useContext,
+    useState,
+    SetStateAction,
+} from 'react'
 
 // utils
 
@@ -13,6 +20,8 @@ interface ContextBarContextType {
     off: boolean
     title: string
     setTitle: Function
+    viewedPendingIndustriesModal: number
+    setViewedPendingIndustriesModal: Dispatch<SetStateAction<number>>
 }
 
 export const ContextBarContext =
@@ -28,6 +37,8 @@ export const ContextBarProvider = ({
     const [fixed, setFixed] = useState(false)
     const [content, setContent] = useState(null)
     const [title, setTitle] = useState('')
+    const [viewedPendingIndustriesModal, setViewedPendingIndustriesModal] =
+        useState<number>(Number())
 
     const value = {
         content,
@@ -45,6 +56,8 @@ export const ContextBarProvider = ({
         off,
         setTitle,
         title,
+        viewedPendingIndustriesModal,
+        setViewedPendingIndustriesModal,
     }
 
     return (

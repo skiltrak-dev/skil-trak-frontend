@@ -71,7 +71,6 @@ export const SubAdminStudentProfile = ({
                     : `Marked ${student?.studentId} As High Priority`,
             })
         }
-
     }, [makeAsHighPriorityResult])
 
     // useEffect
@@ -347,12 +346,14 @@ export const SubAdminStudentProfile = ({
                 id={student?.user?.id}
                 currentStatus={student?.studentStatus}
             />
-            <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+            <AuthorizedUserComponent
+                roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
+            >
                 <div className="mt-2">
                     <Button
                         text={
                             student?.isHighPriority
-                                ? 'Remove Mark As High Priority'
+                                ? 'Remove From High Priority'
                                 : 'Mark As High Priority'
                         }
                         variant={student?.isHighPriority ? 'success' : 'error'}
@@ -364,23 +365,7 @@ export const SubAdminStudentProfile = ({
                     />
                 </div>
             </AuthorizedUserComponent>
-            <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
-                <div className="mt-2">
-                    <Button
-                        text={
-                            student?.isHighPriority
-                                ? 'Remove Mark As High Priority'
-                                : 'Mark As High Priority'
-                        }
-                        variant={student?.isHighPriority ? 'success' : 'error'}
-                        onClick={() => {
-                            makeAsHighPriority(student?.id)
-                        }}
-                        loading={makeAsHighPriorityResult?.isLoading}
-                        disabled={makeAsHighPriorityResult?.isLoading}
-                    />
-                </div>
-            </AuthorizedUserComponent>
+
             {/* Sector & Courses */}
             {/* <div className="mt-4">
         <Typography variant={'small'} color={'text-gray-500'}>
