@@ -1,12 +1,11 @@
-import { Note } from '@components'
-import { NotesCard } from '@components/sections/subAdmin'
 import { CommonApi } from '@queries'
 import { useCallback, useRef } from 'react'
 import { Navigation, Pagination, FreeMode } from 'swiper'
-import { Swiper, SwiperSlide } from 'swiper/react'
 import { SwiperContainer } from './style'
 import { PinedNotesStyles } from '@components/sections/subAdmin/components/PinnedNotes/style'
 import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { NotesCard } from '@components/sections/subAdmin'
 
 export const PinnedNotes = ({
     id = -1,

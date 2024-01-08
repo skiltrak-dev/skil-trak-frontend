@@ -76,6 +76,8 @@ const RtoDetail: NextPageWithLayout = () => {
 
     const [showDropDown, setShowDropDown] = useState(false)
 
+    const onSetSelectedNoteId = (val: number) => {}
+
     const statusBaseActions = () => {
         switch (rto.data?.user?.status) {
             case UserStatus.Pending:

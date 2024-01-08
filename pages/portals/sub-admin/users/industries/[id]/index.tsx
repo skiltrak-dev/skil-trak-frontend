@@ -10,23 +10,22 @@ import { useActionModal, useAlert, useContextBar, useNavbar } from '@hooks'
 //components
 import {
     Alert,
-    BackButton,
     Button,
-    CalendarEvent,
-    EmptyData,
-    LoadingAnimation,
     PageTitle,
+    EmptyData,
+    BackButton,
     TechnicalError,
+    LoadingAnimation,
 } from '@components'
 import { IndustryProfile } from '@components/IndustryProfile'
 
 // icons
 // import { FaEdit } from 'react-icons/fa'
 // queries
+import { SnoozeIndustryModal } from '@partials/common'
 import { DetailTabs } from '@partials/sub-admin/Industries/tabs'
 import { useGetSubAdminIndustriesProfileQuery } from '@queries'
 import { getLink } from '@utils'
-import { SnoozeIndustryModal } from '@partials/common'
 
 type Props = {}
 
