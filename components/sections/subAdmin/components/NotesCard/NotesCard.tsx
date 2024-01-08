@@ -18,16 +18,19 @@ type NotesCardProps = {
     note: any
     pinnedNote?: any
     setEditValues?: any
+    onHandleScroll?: any
+    link?: any
 }
 export const NotesCard = ({
     note,
     pinnedNote,
     setEditValues,
+    onHandleScroll,
+    link,
 }: NotesCardProps) => {
     const { notification } = useNotification()
     const router = useRouter()
     const userRole = getUserCredentials()?.role
-    // /portals/admin/student/${router?.query?.id}?tab=notes
     const [changeStatus, changeStatusResult] = CommonApi.Notes.useStatusChange()
     const [deleteNote, deleteNoteResult] = CommonApi.Notes.useRemove()
 
@@ -85,21 +88,9 @@ export const NotesCard = ({
                 router.push(
                     `${
                         userRole === UserRoles.ADMIN
-                            ? route.includes('student')
-                                ? `/portals/admin/student/${router?.query?.id}?tab=notes`
-                                : route.includes('industry')
-                                ? `/portals/admin/industry/${router?.query?.id}?tab=notes`
-                                : route.includes('rto')
-                                ? `/portals/admin/rto/${router?.query?.id}?tab=notes`
-                                : ''
+                            ? `${link}`
                             : userRole === UserRoles.SUBADMIN
-                            ? route.includes('student')
-                                ? `/portals/sub-admin/students/${router?.query?.id}?tab=notes`
-                                : route.includes('industries')
-                                ? `/portals/sub-admin/users/industries/${router?.query?.id}?tab=notes`
-                                : route.includes('rtos')
-                                ? `/portals/sub-admin/users/rtos/${router?.query?.id}?tab=notes`
-                                : ''
+                            ? `${link}`
                             : '#'
                     }`
                 )

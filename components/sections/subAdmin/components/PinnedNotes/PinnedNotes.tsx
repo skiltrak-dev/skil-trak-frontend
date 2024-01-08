@@ -19,7 +19,15 @@ import { CommonApi } from '@queries'
 
 import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa'
 
-export const PinnedNotes = ({ id }: { id: any }) => {
+export const PinnedNotes = ({
+    id,
+    onHandleScroll,
+    link,
+}: {
+    id: any
+    onHandleScroll?: any
+    link: any
+}) => {
     const swiperRef = useRef<any>(null)
 
     const handlePrev = useCallback(() => {
@@ -63,7 +71,12 @@ export const PinnedNotes = ({ id }: { id: any }) => {
                     >
                         {notes?.data?.map((note: any) => (
                             <SwiperSlide key={note.id} className="h-full mb-4">
-                                <NotesCard note={note} pinnedNote />
+                                <NotesCard
+                                    note={note}
+                                    pinnedNote
+                                    onHandleScroll={onHandleScroll}
+                                    link={link}
+                                />
                             </SwiperSlide>
                         ))}
                     </Swiper>
