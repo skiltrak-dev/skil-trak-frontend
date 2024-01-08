@@ -62,7 +62,7 @@ const Blogs: NextPageWithLayout = () => {
                                                 alt="blog-card"
                                                 fill
                                                 sizes="100vw"
-                                                className="object-cover"
+                                                className="object-contain"
                                             />
                                         </div>
                                         <div className="md:px-8 px-2">

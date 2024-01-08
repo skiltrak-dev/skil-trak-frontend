@@ -78,7 +78,7 @@ export const ApprovedIndustry = () => {
             text: 'View',
             onClick: (industry: any) => {
                 router.push(
-                    `/portals/admin/industry/${industry.id}?tab=students`
+                    `/portals/admin/industry/${industry?.id}?tab=students`
                 )
             },
             Icon: FaEye,
@@ -86,7 +86,7 @@ export const ApprovedIndustry = () => {
         {
             text: 'Edit',
             onClick: (row: any) => {
-                router.push(`/portals/admin/industry/edit-industry/${row.id}`)
+                router.push(`/portals/admin/industry/edit-industry/${row?.id}`)
             },
             Icon: FaEdit,
         },
@@ -107,7 +107,7 @@ export const ApprovedIndustry = () => {
         {
             accessorKey: 'user.name',
             cell: (info) => {
-                return <IndustryCell industry={info.row.original} />
+                return <IndustryCell industry={info?.row?.original} />
             },
             header: () => <span>Industry</span>,
         },
@@ -118,13 +118,16 @@ export const ApprovedIndustry = () => {
                     <div className="flex justify-start">
                         {info?.row?.original?.branches?.length > 0 ? (
                             <BranchCell industry={info.row.original} />
-                        ) : info.row.original.headQuarter !== null ? (
+                        ) : info?.row?.original?.headQuarter !== null ? (
                             <div className="flex flex-col gap-y-1 items-center">
                                 <p className="text-xs font-semibold text-blue-400">
                                     Head Quarter
                                 </p>
                                 <p className="text-xs font-semibold text-gray-400">
-                                    {info.row.original.headQuarter.user.name}
+                                    {
+                                        info?.row?.original?.headQuarter?.user
+                                            ?.name
+                                    }
                                 </p>
                             </div>
                         ) : (
@@ -149,9 +152,9 @@ export const ApprovedIndustry = () => {
             cell: (info) => {
                 return (
                     <div>
-                        <p>{info.row.original.contactPerson}</p>
+                        <p>{info?.row?.original?.contactPerson}</p>
                         <p className="text-xs text-gray-500">
-                            {info.row.original.contactPersonNumber}
+                            {info?.row?.original?.contactPersonNumber}
                         </p>
                     </div>
                 )
@@ -161,7 +164,7 @@ export const ApprovedIndustry = () => {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
             cell: (info) => {
-                return <SectorCell industry={info.row.original} />
+                return <SectorCell industry={info?.row?.original} />
             },
         },
         {
@@ -176,15 +179,15 @@ export const ApprovedIndustry = () => {
                     <Typography variant={'label'}>
                         <span className="cursor-pointer">
                             {ellipsisText(
-                                `${info.row.original?.addressLine1}, 
-                        ${info.row.original?.suburb}`,
+                                `${info?.row?.original?.addressLine1}, 
+                        ${info?.row?.original?.suburb}`,
                                 15
                             )}
                         </span>
                     </Typography>
                     <div className="hidden group-hover:block w-60 absolute top-full left-0 p-2 z-20 shadow rounded-md bg-white">
-                        {info.row.original?.addressLine1},{' '}
-                        {info.row.original?.suburb}
+                        {info?.row?.original?.addressLine1},{' '}
+                        {info?.row?.original?.suburb}
                     </div>
                 </div>
             ),
