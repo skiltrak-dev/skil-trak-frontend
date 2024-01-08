@@ -53,6 +53,8 @@ export const Note = ({
         }
     }, [removeResult])
 
+    console.log({ note })
+
     return (
         <div
             id={`pinned-notes-${note?.id}`}

@@ -173,7 +173,7 @@ export const workplaceEndpoints = (
         { industry: number; id: number }
     >({
         query: ({ industry, id }) => ({
-            url: `${PREFIX}apply-industry-request/${industry}/${id}`,
+            url: `${PREFIX}apply-industry-request/${id}/${industry}`,
             method: 'PATCH',
         }),
         invalidatesTags: ['SubAdminWorkplace'],
@@ -237,6 +237,13 @@ export const workplaceEndpoints = (
     viewMoreIndustries: builder.query<any, number>({
         query: (workplaceId) =>
             `students/workplace-requests/other/find-industry/${workplaceId}`,
+        providesTags: ['SubAdminWorkplace'],
+    }),
+    findSuggestedIndustries: builder.query<any, any>({
+        query: (params) => ({
+            url: `shared/industries/search`,
+            params,
+        }),
         providesTags: ['SubAdminWorkplace'],
     }),
 })

@@ -94,7 +94,6 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         },
     ]
 
-    console.log('active', active)
     return (
         <>
             <PageTitle

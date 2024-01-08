@@ -166,6 +166,7 @@ export const {
     useGetStudentCallLogQuery,
     useStudentAnsweredCallMutation,
     useDownloadStudentCSVMutation,
+    useFindSuggestedIndustriesQuery,
 
     // -- COUNT -- //
     useSubadminStatisticsQuery,
@@ -302,6 +303,7 @@ export const SubAdminApi = {
         placementStartedStudents: useGetPlacementStartedStudentsQuery,
         useUpdateCourseStartEndDate: useUpdateCourseStartEndDateMutation,
         useNonContactableStudents: useGetSubAdminNonContactableStudentsQuery,
+        useFindSuggestedIndustries: useFindSuggestedIndustriesQuery,
     },
     Industry: {
         useAddToPartner: useAddToPartnerMutation,

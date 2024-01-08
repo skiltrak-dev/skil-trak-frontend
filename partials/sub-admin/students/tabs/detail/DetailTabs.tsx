@@ -12,6 +12,7 @@ import { RequiredDocs } from './RequiredDocs'
 import { Schedule } from './Schedule'
 import { WorkplaceTab } from './WorkplaceTab'
 import { StudentTickets } from './StudentTickets'
+import { useState } from 'react'
 export const DetailTabs = ({
     id,
     student,
@@ -19,11 +20,17 @@ export const DetailTabs = ({
     id: number | string | string[] | undefined
     student: StudentSubAdmin
 }) => {
+    const [selectedNoteId, setSelectedNoteId] = useState<number | null>(null)
+
+    console.log({ selectedNoteId })
     const onHandleScroll = (id: number) => {
-        const detailItem = document.getElementById(`pinned-notes-${id}`)
-        if (detailItem) {
-            detailItem.scrollIntoView({ behavior: 'smooth' })
-        }
+        setSelectedNoteId(id)
+        console.log({ id })
+        // const detailItem = document.getElementById(`pinned-notes-${id}`)
+        // console.log({ detailItem })
+        // if (detailItem) {
+        //     detailItem.scrollIntoView({ behavior: 'smooth' })
+        // }
     }
     const tabs: TabProps[] = [
         {
@@ -97,6 +104,7 @@ export const DetailTabs = ({
                 <NotesTab
                     user={student?.user}
                     onHandleScroll={onHandleScroll}
+                    selectedNoteId={Number(selectedNoteId)}
                 />
             ),
         },

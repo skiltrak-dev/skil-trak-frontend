@@ -31,6 +31,7 @@ export const IndustryCard = ({
     applied,
     courseId,
 }: any) => {
+    console.log({ industry })
     const [modal, setModal] = useState<any | null>(null)
     const [applyForWorkplace, applyForWorkplaceResult] =
         useSubAdminApplyStudentWorkplaceMutation()

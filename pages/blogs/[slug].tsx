@@ -31,7 +31,7 @@ const BlogDetail: NextPageWithLayout = () => {
                                 alt="blog-card"
                                 fill
                                 sizes="100vw"
-                                className="object-cover w-full"
+                                className="object-contain w-full"
                             />
                         </div>
                         <div className="flex items-center justify-between my-3">

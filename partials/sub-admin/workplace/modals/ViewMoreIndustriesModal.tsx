@@ -1,19 +1,9 @@
-import {
-    InitialAvatar,
-    LoadingAnimation,
-    NoData,
-    Typography,
-} from '@components'
+import { LoadingAnimation, NoData, Typography } from '@components'
 import { SubAdminApi } from '@queries'
-import React from 'react'
-import { MdCancel } from 'react-icons/md'
-import { IndustryCard } from '../components/Industries/components'
-import Link from 'next/link'
-import { getUserCredentials } from '@utils'
-import { UserRoles } from '@constants'
-import { BsDot } from 'react-icons/bs'
-import { ViewMoreIndustryCard } from '../components'
 import { Industry } from '@types'
+import { getUserCredentials } from '@utils'
+import { MdCancel } from 'react-icons/md'
+import { ViewMoreIndustryCard } from '../components'
 
 export const ViewMoreIndustriesModal = ({
     workplaceId,
@@ -32,6 +22,8 @@ export const ViewMoreIndustriesModal = ({
             skip: !workplaceId,
         }
     )
+
+    console.log({ viewMoreIndustries })
 
     const role = getUserCredentials()?.role
     return (
