@@ -20,28 +20,11 @@ export const DetailTabs = ({
     id: number | string | string[] | undefined
     student: StudentSubAdmin
 }) => {
-    const [selectedNoteId, setSelectedNoteId] = useState<number | null>(null)
-
-    console.log({ selectedNoteId })
-    const onHandleScroll = (id: number) => {
-        setSelectedNoteId(id)
-        console.log({ id })
-        // const detailItem = document.getElementById(`pinned-notes-${id}`)
-        // console.log({ detailItem })
-        // if (detailItem) {
-        //     detailItem.scrollIntoView({ behavior: 'smooth' })
-        // }
-    }
     const tabs: TabProps[] = [
         {
             label: 'Overview',
             href: { pathname: String(id), query: { tab: 'overview' } },
-            element: (
-                <OverViewTab
-                    student={student}
-                    onHandleScroll={onHandleScroll}
-                />
-            ),
+            element: <OverViewTab student={student} />,
         },
         {
             label: 'Submissions',
@@ -100,13 +83,7 @@ export const DetailTabs = ({
         {
             label: 'Notes',
             href: { pathname: String(id), query: { tab: 'notes' } },
-            element: (
-                <NotesTab
-                    user={student?.user}
-                    onHandleScroll={onHandleScroll}
-                    selectedNoteId={Number(selectedNoteId)}
-                />
-            ),
+            element: <NotesTab user={student?.user} />,
         },
         {
             label: 'All Communications',
