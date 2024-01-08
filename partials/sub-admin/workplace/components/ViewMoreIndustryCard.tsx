@@ -21,6 +21,7 @@ export const ViewMoreIndustryCard = ({
     }
     onCancel: () => void
 }) => {
+    console.log({ industry })
     const { notification } = useNotification()
 
     const [addExistingIndustry, addExistingIndustryResult] =

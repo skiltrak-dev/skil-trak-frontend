@@ -173,7 +173,7 @@ export const workplaceEndpoints = (
         { industry: number; id: number }
     >({
         query: ({ industry, id }) => ({
-            url: `${PREFIX}apply-industry-request/${industry}/${id}`,
+            url: `${PREFIX}apply-industry-request/${id}/${industry}`,
             method: 'PATCH',
         }),
         invalidatesTags: ['SubAdminWorkplace'],
