@@ -11,13 +11,7 @@ import { BsPinAngleFill, BsPinFill } from 'react-icons/bs'
 import { FaTrash } from 'react-icons/fa'
 import { PuffLoader } from 'react-spinners'
 
-export const Note = ({
-    note,
-    onHandleScroll,
-}: {
-    note: NoteType
-    onHandleScroll?: any
-}) => {
+export const Note = ({ note }: { note: NoteType }) => {
     const { notification } = useNotification()
 
     const pinClasses = classNames({

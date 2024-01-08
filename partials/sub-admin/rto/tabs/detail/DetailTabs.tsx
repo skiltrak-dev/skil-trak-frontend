@@ -14,11 +14,17 @@ import { RtoProfileOverview } from './RtoProfileOverview'
 import { RTOReports } from '@partials/common/Reports'
 import { RtoStudentsAssessmentGallery } from '@partials/common/RtoStudentsAssessmentGallery'
 import { RtoAddDocuments } from '@partials/rto/components'
+import { useState } from 'react'
 export const DetailTabs = ({ rto }: { rto: Rto }) => {
+    const [selectedNoteId, setSelectedNoteId] = useState<number>(0)
     const rtoStatsCount = SubAdminApi.Rto.useRtoStatsCount(
         Number(rto?.user?.id),
         { skip: !rto?.user?.id }
     )
+
+    const onSetSelectedNoteId = (val: number) => {
+        setSelectedNoteId(val)
+    }
 
     const tabs: TabProps[] = [
         {

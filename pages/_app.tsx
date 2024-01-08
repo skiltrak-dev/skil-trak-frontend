@@ -5,6 +5,7 @@ import {
     JoyRideProvider,
     NavbarProvider,
     NetworkProvider,
+    NoteScrollProvider,
     NotificationProvider,
     SocketListenerProvider,
 } from '@hooks'
@@ -46,29 +47,31 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
             {/* <AutoLogoutProvider> */}
             <ErrorBoundaryContext>
                 <JoyRideProvider>
-                    <DownloadAssessmentProvider>
-                        <AlertProvider>
-                            <NotificationProvider>
-                                <NavbarProvider>
-                                    <ContextBarProvider>
-                                        <SocketListenerProvider>
-                                            <Socket>
-                                                <NetworkProvider>
-                                                    <HeadWrapper>
-                                                        {getLayout(
-                                                            <Component
-                                                                {...pageProps}
-                                                            />
-                                                        )}
-                                                    </HeadWrapper>
-                                                </NetworkProvider>
-                                            </Socket>
-                                        </SocketListenerProvider>
-                                    </ContextBarProvider>
-                                </NavbarProvider>
-                            </NotificationProvider>
-                        </AlertProvider>
-                    </DownloadAssessmentProvider>
+                    <NoteScrollProvider>
+                        <DownloadAssessmentProvider>
+                            <AlertProvider>
+                                <NotificationProvider>
+                                    <NavbarProvider>
+                                        <ContextBarProvider>
+                                            <SocketListenerProvider>
+                                                <Socket>
+                                                    <NetworkProvider>
+                                                        <HeadWrapper>
+                                                            {getLayout(
+                                                                <Component
+                                                                    {...pageProps}
+                                                                />
+                                                            )}
+                                                        </HeadWrapper>
+                                                    </NetworkProvider>
+                                                </Socket>
+                                            </SocketListenerProvider>
+                                        </ContextBarProvider>
+                                    </NavbarProvider>
+                                </NotificationProvider>
+                            </AlertProvider>
+                        </DownloadAssessmentProvider>
+                    </NoteScrollProvider>
                 </JoyRideProvider>
             </ErrorBoundaryContext>
             {/* </AutoLogoutProvider> */}

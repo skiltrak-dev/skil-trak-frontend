@@ -6,27 +6,23 @@ import { ActionButton, LoadingAnimation } from '@components'
 import { CommonApi } from '@queries'
 
 // hooks
-import { useNotification } from '@hooks'
-import { ellipsisText } from '@utils'
+import { UserRoles } from '@constants'
+import { useNoteScroll, useNotification } from '@hooks'
+import { ellipsisText, getUserCredentials } from '@utils'
 import classNames from 'classnames'
+import { useRouter } from 'next/router'
 import { BsPinAngleFill, BsPinFill } from 'react-icons/bs'
 import { FaTrash } from 'react-icons/fa'
 import { PuffLoader } from 'react-spinners'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { UserRoles } from '@constants'
-import { getUserCredentials } from '@utils'
 type NotesCardProps = {
     note: any
     pinnedNote?: any
     setEditValues?: any
-    onHandleScroll?: any
 }
 export const NotesCard = ({
     note,
     pinnedNote,
     setEditValues,
-    onHandleScroll,
 }: NotesCardProps) => {
     const { notification } = useNotification()
     const router = useRouter()
@@ -34,6 +30,8 @@ export const NotesCard = ({
     // /portals/admin/student/${router?.query?.id}?tab=notes
     const [changeStatus, changeStatusResult] = CommonApi.Notes.useStatusChange()
     const [deleteNote, deleteNoteResult] = CommonApi.Notes.useRemove()
+
+    const { onSetSelectedNoteId } = useNoteScroll()
 
     useEffect(() => {
         if (changeStatusResult?.isSuccess) {
@@ -68,6 +66,8 @@ export const NotesCard = ({
     const isLoading =
         changeStatusResult?.isLoading || deleteNoteResult?.isLoading
 
+    console.log('rrrrr', router?.asPath?.split('/').includes('rtos'))
+
     return (
         // <Link
         //     legacyBehavior
@@ -81,16 +81,31 @@ export const NotesCard = ({
         // >
         <div
             onClick={() => {
+                const route = router?.asPath?.split('/')
                 router.push(
                     `${
                         userRole === UserRoles.ADMIN
-                            ? `/portals/admin/student/${router?.query?.id}?tab=notes`
+                            ? route.includes('student')
+                                ? `/portals/admin/student/${router?.query?.id}?tab=notes`
+                                : route.includes('industry')
+                                ? `/portals/admin/industry/${router?.query?.id}?tab=notes`
+                                : route.includes('rto')
+                                ? `/portals/admin/rto/${router?.query?.id}?tab=notes`
+                                : ''
                             : userRole === UserRoles.SUBADMIN
-                            ? `/portals/sub-admin/students/${router?.query?.id}?tab=notes`
+                            ? route.includes('student')
+                                ? `/portals/sub-admin/students/${router?.query?.id}?tab=notes`
+                                : route.includes('industries')
+                                ? `/portals/sub-admin/users/industries/${router?.query?.id}?tab=notes`
+                                : route.includes('rtos')
+                                ? `/portals/sub-admin/users/rtos/${router?.query?.id}?tab=notes`
+                                : ''
                             : '#'
                     }`
                 )
-                onHandleScroll(note?.id)
+                if (onSetSelectedNoteId) {
+                    onSetSelectedNoteId(note?.id)
+                }
             }}
             // id={`pinned-notes-${note?.id}`}
             className={`cursor-pointer ${

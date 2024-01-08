@@ -6,17 +6,12 @@ import { CreateNote, EmptyData, LoadingAnimation, Note } from '@components'
 // query
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
+import { useNoteScroll } from '@hooks'
 
-export const NotesTab = ({
-    user,
-    onHandleScroll,
-    selectedNoteId,
-}: {
-    user: any
-    onHandleScroll?: any
-    selectedNoteId?: number
-}) => {
+export const NotesTab = ({ user }: { user: any }) => {
     const [editValues, setEditValues] = useState(null)
+
+    const { selectedNoteId, onSetSelectedNoteId } = useNoteScroll()
 
     const ref = useRef<any>()
 
@@ -30,10 +25,10 @@ export const NotesTab = ({
                 `pinned-notes-${selectedNoteId}`
             )
             if (detailItem) {
-                console.log({ detailItem, data: notes?.data })
                 setTimeout(() => {
                     detailItem.scrollIntoView({ behavior: 'smooth' })
                 }, 500)
+                // onSetSelectedNoteId(0)
             }
         }
     }, [selectedNoteId, router, notes])
@@ -52,11 +47,7 @@ export const NotesTab = ({
                     </div>
                 ) : notes.data && notes.data?.length > 0 ? (
                     notes?.data?.map((note: any) => (
-                        <Note
-                            key={note.id}
-                            note={note}
-                            onHandleScroll={onHandleScroll}
-                        />
+                        <Note key={note.id} note={note} />
                     ))
                 ) : (
                     <EmptyData
