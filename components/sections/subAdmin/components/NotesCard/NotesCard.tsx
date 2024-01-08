@@ -31,7 +31,6 @@ export const NotesCard = ({
     const { notification } = useNotification()
     const router = useRouter()
     const userRole = getUserCredentials()?.role
-    // /portals/admin/student/${router?.query?.id}?tab=notes
     const [changeStatus, changeStatusResult] = CommonApi.Notes.useStatusChange()
     const [deleteNote, deleteNoteResult] = CommonApi.Notes.useRemove()
 
