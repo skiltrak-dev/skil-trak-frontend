@@ -1,16 +1,3 @@
-import { AdminLayout, SubAdminLayout } from '@layouts'
-import {
-    ActiveIndustries,
-    AddIndustry,
-    DoNotDisturbIndustries,
-    FindWorkplaces,
-    IsContactedIndustries,
-    IsPartneredIndustries,
-    SearchLocation,
-} from '@partials/common'
-import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
-import { ReactElement, useCallback, useEffect, useState } from 'react'
-import GoogleMapReact from 'google-map-react'
 import {
     Button,
     Filter,
@@ -21,10 +8,14 @@ import {
     TabProps,
     TechnicalError,
 } from '@components'
-import { AdminApi, commonApi } from '@queries'
-import { checkFilteredDataLength } from '@utils'
-import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
 import { useContextBar } from '@hooks'
+import { SubAdminLayout } from '@layouts'
+import { ActiveIndustries, AddIndustry } from '@partials/common'
+import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
+import { commonApi } from '@queries'
+import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
+import { checkFilteredDataLength } from '@utils'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { FaIndustry } from 'react-icons/fa'
 type Props = {}
 const filterKeys = ['businessName', 'address', 'sector', 'email', 'phone']

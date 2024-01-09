@@ -74,4 +74,13 @@ export const findWorkplaceEndpoints = (
         }),
         invalidatesTags: ['Industries'],
     }),
+
+    importIndustriesList: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `${PREFIX}/bulk/create`,
+            body,
+            method: 'POST',
+        }),
+        invalidatesTags: ['Industries'],
+    }),
 })

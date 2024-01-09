@@ -4,24 +4,38 @@ import { NextPageWithLayout } from '@types'
 import { FutureIndustrySignUpForm } from '@partials/common'
 import { AdminApi } from '@queries'
 import { useRouter } from 'next/router'
+import { ShowErrorNotifications } from '@components'
+import { useNotification } from '@hooks'
 
 const SignUpFutureIndustryPage: NextPageWithLayout = () => {
     const router = useRouter()
+
+    const { notification } = useNotification()
+
     const [register, registerResult] =
         AdminApi.Admin.useRegisterByFutureIndustry()
+
     const onSubmit = (values: any) => {
         register({
             ...values,
             role: 'industry',
             sectors: values.sectors.map((s: any) => s.value),
             courses: values.courses.map((c: any) => c.value),
+        }).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: 'Industry Signed Up',
+                    description: 'Industry Signed Up Successfully',
+                })
+                router.push(
+                    '/portals/admin/future-industries?tab=all&page=1&pageSize=50'
+                )
+            }
         })
-        router.push(
-            '/portals/admin/future-industries?tab=all&page=1&pageSize=50'
-        )
     }
     return (
         <>
+            <ShowErrorNotifications result={registerResult} />
             <FutureIndustrySignUpForm
                 onSubmit={onSubmit}
                 result={registerResult}

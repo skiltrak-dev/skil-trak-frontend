@@ -45,6 +45,7 @@ export const isFileTypeSelectable = (fileType: string, types: string[]) => {
 export type FileUploadProps = InputProps & {
     acceptTypes?: (typeof AcceptMimeTypes)[number][]
     fileAsObject?: boolean
+    result?: any
 }
 
 export const BinaryFileUpload = ({
@@ -65,6 +66,7 @@ export const BinaryFileUpload = ({
     required,
     disabled,
     loading,
+    result,
     fileAsObject = true,
 }: FileUploadProps) => {
     const formContext = useFormContext()
@@ -81,6 +83,12 @@ export const BinaryFileUpload = ({
         setFileObject(null)
         setInvalidSelection(false)
     }
+
+    useEffect(() => {
+        if (result.isSuccess) {
+            handleRemove()
+        }
+    }, [result])
 
     useEffect(() => {
         if (formContext && values) {

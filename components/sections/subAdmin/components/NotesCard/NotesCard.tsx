@@ -69,8 +69,6 @@ export const NotesCard = ({
     const isLoading =
         changeStatusResult?.isLoading || deleteNoteResult?.isLoading
 
-    console.log('rrrrr', router?.asPath?.split('/').includes('rtos'))
-
     return (
         // <Link
         //     legacyBehavior
