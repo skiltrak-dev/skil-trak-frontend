@@ -13,6 +13,7 @@ import { useContextBar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { ActiveIndustries, AddIndustry } from '@partials/common'
 import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
+import { ImportIndustriesList } from '@partials/common/FindWorkplaces/contextBar'
 import { CommonApi } from '@queries'
 import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
 import { checkFilteredDataLength } from '@utils'
@@ -89,6 +90,12 @@ const FutureIndustryListing: NextPageWithLayout = (props: Props) => {
         contextBar.setTitle('Add Future Industry')
     }
 
+    const onUploadIndustries = () => {
+        contextBar.setContent(<ImportIndustriesList />)
+        contextBar.show(false)
+        contextBar.setTitle('Upload Industries')
+    }
+
     return (
         <div>
             <SetDetaultQueryFilteres<FindWorkplaceFilter>
@@ -97,6 +104,14 @@ const FutureIndustryListing: NextPageWithLayout = (props: Props) => {
             />
             <div className="flex justify-end gap-x-2 mt-4 mr-6">
                 {filterAction}
+                <Button
+                    text={'Upload Industries'}
+                    variant="dark"
+                    Icon={MdAddBusiness}
+                    onClick={() => {
+                        onUploadIndustries()
+                    }}
+                />
                 <Button
                     text={'Add Industry'}
                     variant="dark"

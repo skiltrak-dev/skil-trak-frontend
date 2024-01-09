@@ -48,6 +48,15 @@ export const Industries = ({
                 workplaceId={workplace?.id}
                 title={'View More Industries'}
                 subtitle={'View More Industries'}
+                suggestedIndustriesIds={suggestedIndustries
+                    ?.filter(
+                        (industry: any) =>
+                            industry?.industryResponse !==
+                                WorkplaceCurrentStatus.Rejected &&
+                            industry?.industryResponse !==
+                                WorkplaceCurrentStatus.NoResponse
+                    )
+                    ?.map((ind: any) => ind?.industry?.id)}
             />
         )
     }
@@ -150,13 +159,13 @@ export const Industries = ({
                                 </Typography>
                                 <div className="flex items-center flex-wrap gap-2">
                                     {suggestedIndustries
-                                        ?.filter(
-                                            (industry: any) =>
-                                                industry?.industryResponse !==
-                                                    WorkplaceCurrentStatus.Rejected &&
-                                                industry?.industryResponse !==
-                                                    WorkplaceCurrentStatus.NoResponse
-                                        )
+                                        // ?.filter(
+                                        //     (industry: any) =>
+                                        //         industry?.industryResponse !==
+                                        //             WorkplaceCurrentStatus.Rejected &&
+                                        //         industry?.industryResponse !==
+                                        //             WorkplaceCurrentStatus.NoResponse
+                                        // )
                                         ?.reverse()
                                         ?.map((industry: any, i: number) => (
                                             <SmallIndustryCard
@@ -168,21 +177,18 @@ export const Industries = ({
                             </>
                         ) : (
                             suggestedIndustries
-                                ?.filter(
-                                    (industry: any) =>
-                                        industry?.industryResponse !==
-                                            WorkplaceCurrentStatus.Rejected &&
-                                        industry?.industryResponse !==
-                                            WorkplaceCurrentStatus.NoResponse
-                                )
+                                // ?.filter(
+                                //     (industry: any) =>
+                                //         industry?.industryResponse !==
+                                //             WorkplaceCurrentStatus.Rejected &&
+                                //         industry?.industryResponse !==
+                                //             WorkplaceCurrentStatus.NoResponse
+                                // )
                                 ?.reverse()
                                 ?.map((industry: any, i: number) => (
                                     <IndustryCard
                                         key={industry.id}
-                                        industry={{
-                                            ...industry,
-                                            distance: Math.random() * 30,
-                                        }}
+                                        industry={industry}
                                         appliedIndustry={appliedIndustry}
                                         workplace={workplace}
                                     />

@@ -188,10 +188,6 @@ const ESign = () => {
         }
     }
 
-    console.log(
-        'documentsTotalPages?.error?.data?.message',
-        documentsTotalPages?.error
-    )
     return (
         <SiteLayout title={'E Sign'}>
             {modal}

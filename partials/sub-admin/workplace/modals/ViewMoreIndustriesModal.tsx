@@ -10,20 +10,21 @@ export const ViewMoreIndustriesModal = ({
     title,
     subtitle,
     onCancel,
+    suggestedIndustriesIds,
 }: {
     title: string
     subtitle: string
     workplaceId: number
     onCancel: () => void
+    suggestedIndustriesIds: number[]
 }) => {
+    console.log({ suggestedIndustriesIds })
     const viewMoreIndustries = SubAdminApi.Workplace.useViewMoreIndustries(
         Number(workplaceId),
         {
             skip: !workplaceId,
         }
     )
-
-    console.log({ viewMoreIndustries })
 
     const role = getUserCredentials()?.role
     return (
@@ -59,6 +60,11 @@ export const ViewMoreIndustriesModal = ({
                                 Industries Present in Student Profile
                             </Typography>
                             {viewMoreIndustries?.data
+                                ?.filter((ind: any) =>
+                                    suggestedIndustriesIds.includes(
+                                        ind?.industry?.id
+                                    )
+                                )
                                 ?.filter(
                                     (industry: any) => !industry?.suggession
                                 )
