@@ -9,6 +9,8 @@ import { useGetSubAdminStudentWorkplaceQuery } from '@queries'
 
 //
 import { RecentAppointment } from '@partials/common'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 type StudentsProfileOverviewProps = {
     student: StudentSubAdmin
@@ -18,10 +20,25 @@ export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
     const workplace = useGetSubAdminStudentWorkplaceQuery(student?.id, {
         skip: !student?.id,
     })
+    const [selectedNoteId, setSelectedNoteId] = useState<number | null>(null)
+    const onHandleScroll = (id: number) => {
+        setSelectedNoteId(id)
+        console.log({ id })
+        // const detailItem = document.getElementById(`pinned-notes-${id}`)
+        // console.log({ detailItem })
+        // if (detailItem) {
+        //     detailItem.scrollIntoView({ behavior: 'smooth' })
+        // }
+    }
+    const router = useRouter()
     return (
         <div className="w-full mt-6">
             {/* pinned Notes */}
-            <PinnedNotes id={student?.user?.id} />
+            <PinnedNotes
+                id={student?.user?.id}
+                onHandleScroll={onHandleScroll}
+                link={`/portals/sub-admin/students/${router?.query?.id}?tab=notes`}
+            />
 
             {/* Progress */}
             {/* {student?.workplace?.length > 0 && ( */}

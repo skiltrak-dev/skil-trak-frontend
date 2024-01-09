@@ -41,6 +41,18 @@ import moment from 'moment'
 const Detail: NextPageWithLayout = () => {
     const [newModal, setNewModal] = useState<ReactNode | null>(null)
 
+    const [selectedNoteId, setSelectedNoteId] = useState<number | null>(null)
+
+    console.log({ selectedNoteId })
+    const onHandleScroll = (id: number) => {
+        setSelectedNoteId(id)
+        console.log({ id })
+        // const detailItem = document.getElementById(`pinned-notes-${id}`)
+        // console.log({ detailItem })
+        // if (detailItem) {
+        //     detailItem.scrollIntoView({ behavior: 'smooth' })
+        // }
+    }
     const router = useRouter()
     const navBar = useNavbar()
     const contextBar = useContextBar()
@@ -342,7 +354,11 @@ const Detail: NextPageWithLayout = () => {
                         />
                     </div>
 
-                    <PinnedNotes id={industry?.data?.user?.id} />
+                    <PinnedNotes
+                        id={industry?.data?.user?.id}
+                        onHandleScroll={onHandleScroll}
+                        link={`/portals/admin/industry/${router.query.id}?tab=notes`}
+                    />
                     <DetailTabs id={router.query.id} industry={industry} />
                 </div>
             ) : (

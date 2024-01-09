@@ -26,6 +26,16 @@ import { IndustryHistory } from './IndustryHistory'
 import { RequiredDocs } from './RequiredDocs'
 export const DetailTabs = ({ industry }: { industry: Industry }) => {
     const router = useRouter()
+    const [selectedNoteId, setSelectedNoteId] = useState<number | null>(null)
+    const onHandleScroll = (id: number) => {
+        setSelectedNoteId(id)
+        console.log({ id })
+        // const detailItem = document.getElementById(`pinned-notes-${id}`)
+        // console.log({ detailItem })
+        // if (detailItem) {
+        //     detailItem.scrollIntoView({ behavior: 'smooth' })
+        // }
+    }
 
     const [itemPerPage, setItemPerPage] = useState<number>(50)
     const [page, setPage] = useState<number>(1)
@@ -72,7 +82,12 @@ export const DetailTabs = ({ industry }: { industry: Industry }) => {
                 query: { tab: 'overview' },
             },
             badge: { text: '05', color: 'text-blue-500' },
-            element: <IndustryProfileOverview industryProfile={industry} />,
+            element: (
+                <IndustryProfileOverview
+                    industryProfile={industry}
+                    onHandleScroll={onHandleScroll}
+                />
+            ),
         },
         {
             label: 'Supervisors',
