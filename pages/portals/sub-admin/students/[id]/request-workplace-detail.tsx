@@ -21,6 +21,7 @@ import {
     useGetSubAdminStudentWorkplaceQuery,
 } from '@queries'
 import { useRouter } from 'next/router'
+import { WorkplaceCurrentStatus } from '@utils'
 
 type Props = {}
 
@@ -57,6 +58,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     //     //     setActive(1)
     //     // }
     // }, [workplace])
+
     useEffect(() => {
         if (
             workplace.data &&
@@ -65,7 +67,15 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         ) {
             if (workplace.data[0].currentStatus === 'placementStarted') {
                 setActive(4)
-            } else {
+            } else if (
+                workplace?.data?.filter(
+                    (w: any) =>
+                        w?.currentStatus !== WorkplaceCurrentStatus.Completed &&
+                        w?.currentStatus !==
+                            WorkplaceCurrentStatus.Terminated &&
+                        w?.currentStatus !== WorkplaceCurrentStatus.Rejected
+                )?.length > 0
+            ) {
                 setActive(3)
             }
         }

@@ -31,7 +31,6 @@ export const NotesCard = ({
     const { notification } = useNotification()
     const router = useRouter()
     const userRole = getUserCredentials()?.role
-    // /portals/admin/student/${router?.query?.id}?tab=notes
     const [changeStatus, changeStatusResult] = CommonApi.Notes.useStatusChange()
     const [deleteNote, deleteNoteResult] = CommonApi.Notes.useRemove()
 
@@ -69,8 +68,6 @@ export const NotesCard = ({
 
     const isLoading =
         changeStatusResult?.isLoading || deleteNoteResult?.isLoading
-
-    console.log('rrrrr', router?.asPath?.split('/').includes('rtos'))
 
     return (
         // <Link

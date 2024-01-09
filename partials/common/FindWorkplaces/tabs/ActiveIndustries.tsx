@@ -39,6 +39,7 @@ import {
 } from '../modal'
 import { useContextBar } from '@hooks'
 import { AddIndustry } from './AddIndustry'
+import { ImportIndustriesList } from '../contextBar'
 
 export const ActiveIndustries = ({
     onSetIndustryData,
@@ -175,7 +176,9 @@ export const ActiveIndustries = ({
                         'signup-data',
                         JSON.stringify(industry)
                     )
-                    router.push(`/portals/admin/future-industries/signup-future-industry`)
+                    router.push(
+                        `/portals/admin/future-industries/signup-future-industry`
+                    )
                 },
                 Icon: FiLogIn,
             },
