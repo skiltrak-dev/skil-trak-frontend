@@ -9,11 +9,9 @@ import { NotesCard } from '@components/sections/subAdmin'
 
 export const PinnedNotes = ({
     id = -1,
-    onHandleScroll,
     link,
 }: {
     id: number | string | string[] | undefined
-    onHandleScroll?: any
     link?: any
 }) => {
     const pinnedNotes = CommonApi.Notes.usePinned(id, {
@@ -81,7 +79,6 @@ export const PinnedNotes = ({
                                         <NotesCard
                                             note={note}
                                             pinnedNote
-                                            onHandleScroll={onHandleScroll}
                                             link={link}
                                         />
                                     </SwiperSlide>

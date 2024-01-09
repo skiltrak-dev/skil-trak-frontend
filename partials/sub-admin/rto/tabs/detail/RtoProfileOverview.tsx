@@ -30,17 +30,6 @@ export const RtoProfileOverview = ({ userId, rtoId, rtoDetail }: Props) => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(5)
 
-    const [selectedNoteId, setSelectedNoteId] = useState<number | null>(null)
-    const onHandleScroll = (id: number) => {
-        setSelectedNoteId(id)
-        console.log({ id })
-        // const detailItem = document.getElementById(`pinned-notes-${id}`)
-        // console.log({ detailItem })
-        // if (detailItem) {
-        //     detailItem.scrollIntoView({ behavior: 'smooth' })
-        // }
-    }
-
     // pending students
     const { data, isError, isLoading }: any = useGetSubAdminRtosStudentsQuery({
         id: rtoId,
@@ -98,13 +87,8 @@ export const RtoProfileOverview = ({ userId, rtoId, rtoDetail }: Props) => {
                     ))}
                 </div>
 
-                {/* <PinnedNotesRtoProfile
-                    id={userId}
-                    onHandleScroll={onHandleScroll}
-                /> */}
                 <PinnedNotes
                     id={userId}
-                    onHandleScroll={onHandleScroll}
                     link={`/portals/sub-admin/users/rtos/${rtoId}?tab=notes`}
                 />
 

@@ -245,7 +245,7 @@ const ESign = () => {
                                         (scrollTargetRef.current[i] = el)
                                     }
                                 >
-                                    <Card key={i}>
+                                    <Card>
                                         <div className="flex justify-center">
                                             <Typography
                                                 variant="label"
@@ -256,8 +256,6 @@ const ESign = () => {
                                         </div>
                                         <SVGView
                                             index={i}
-                                            // doc={doc}
-                                            sign={sign}
                                             customFieldsData={customFieldsData}
                                             onSignatureClicked={
                                                 onSignatureClicked

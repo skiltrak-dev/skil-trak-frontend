@@ -10,9 +10,8 @@ import {
 import { OverViewTab } from './OverviewTab'
 import { RequiredDocs } from './RequiredDocs'
 import { Schedule } from './Schedule'
-import { WorkplaceTab } from './WorkplaceTab'
 import { StudentTickets } from './StudentTickets'
-import { useState } from 'react'
+import { WorkplaceTab } from './WorkplaceTab'
 export const DetailTabs = ({
     id,
     student,

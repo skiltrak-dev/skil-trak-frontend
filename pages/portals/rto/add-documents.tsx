@@ -7,7 +7,7 @@ import { NextPageWithLayout } from '@types'
 
 // hooks
 import { useContextBar, useNavbar } from '@hooks'
-import { RtoAddDocuments } from '@partials/rto/components/RtoAddDocuments/RtoAddDocuments'
+import { RtoAddDocuments } from '@partials/rto/components'
 
 const AddDocuments: NextPageWithLayout = () => {
     const contextBar = useContextBar()
