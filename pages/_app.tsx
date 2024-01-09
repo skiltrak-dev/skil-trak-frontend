@@ -16,6 +16,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { Provider } from 'react-redux'
 import { ErrorBoundaryContext } from 'react-use-error-boundary'
 import '../styles/globals.css'
+import { SessionProvider } from 'next-auth/react'
 
 import { NextPageWithLayout } from '@types'
 import { store } from '../redux/store'
@@ -43,39 +44,41 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
     // console.clear()
 
     return (
-        <Provider store={store}>
-            {/* <AutoLogoutProvider> */}
-            <ErrorBoundaryContext>
-                <JoyRideProvider>
-                    <NoteScrollProvider>
-                        <DownloadAssessmentProvider>
-                            <AlertProvider>
-                                <NotificationProvider>
-                                    <NavbarProvider>
-                                        <ContextBarProvider>
-                                            <SocketListenerProvider>
-                                                <Socket>
-                                                    <NetworkProvider>
-                                                        <HeadWrapper>
-                                                            {getLayout(
-                                                                <Component
-                                                                    {...pageProps}
-                                                                />
-                                                            )}
-                                                        </HeadWrapper>
-                                                    </NetworkProvider>
-                                                </Socket>
-                                            </SocketListenerProvider>
-                                        </ContextBarProvider>
-                                    </NavbarProvider>
-                                </NotificationProvider>
-                            </AlertProvider>
-                        </DownloadAssessmentProvider>
-                    </NoteScrollProvider>
-                </JoyRideProvider>
-            </ErrorBoundaryContext>
-            {/* </AutoLogoutProvider> */}
-        </Provider>
+        <SessionProvider session={pageProps?.session}>
+            <Provider store={store}>
+                {/* <AutoLogoutProvider> */}
+                <ErrorBoundaryContext>
+                    <JoyRideProvider>
+                        <NoteScrollProvider>
+                            <DownloadAssessmentProvider>
+                                <AlertProvider>
+                                    <NotificationProvider>
+                                        <NavbarProvider>
+                                            <ContextBarProvider>
+                                                <SocketListenerProvider>
+                                                    <Socket>
+                                                        <NetworkProvider>
+                                                            <HeadWrapper>
+                                                                {getLayout(
+                                                                    <Component
+                                                                        {...pageProps}
+                                                                    />
+                                                                )}
+                                                            </HeadWrapper>
+                                                        </NetworkProvider>
+                                                    </Socket>
+                                                </SocketListenerProvider>
+                                            </ContextBarProvider>
+                                        </NavbarProvider>
+                                    </NotificationProvider>
+                                </AlertProvider>
+                            </DownloadAssessmentProvider>
+                        </NoteScrollProvider>
+                    </JoyRideProvider>
+                </ErrorBoundaryContext>
+                {/* </AutoLogoutProvider> */}
+            </Provider>
+        </SessionProvider>
     )
 }
 

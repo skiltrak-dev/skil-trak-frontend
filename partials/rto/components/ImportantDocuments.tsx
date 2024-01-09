@@ -45,8 +45,6 @@ export const ImportantDocuments = ({
         'flex flex-col gap-y-2': sidebar,
     })
 
-    const [selected, setSelected] = useState<any>(null)
-
     const onModalCancel = () => {
         setModal(null)
     }
@@ -73,7 +71,7 @@ export const ImportantDocuments = ({
                     onCancelClick={onCancel}
                     onConfirmClick={onCancel}
                 >
-                    {document?.fileType === 'file' ? (
+                    {document?.fileType === 'file' || document?.file ? (
                         ['jpg', 'jpeg', 'png'].includes(
                             extension.toLowerCase()
                         ) ? (

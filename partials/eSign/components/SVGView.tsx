@@ -1,31 +1,18 @@
-import {
-    AuthorizedUserComponent,
-    ShowErrorNotifications,
-    TechnicalError,
-} from '@components'
-import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
-import { UserRoles } from '@constants'
-import { useNotification } from '@hooks'
+import { Button, TechnicalError } from '@components'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
-import React, { useCallback, useEffect, useState } from 'react'
-import { FaSignature } from 'react-icons/fa'
+import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { Waypoint } from 'react-waypoint'
-import DatePicker from 'react-datepicker'
-import debounce from 'lodash/debounce'
-import { LoadingSpinner } from '@components/inputs/components'
 import { TabsView } from './TabsView'
 
 export const SVGView = ({
-    sign,
     index,
     documentData,
     customFieldsData,
     onSignatureClicked,
     onAddCustomFieldsData,
 }: {
-    sign: any
     index: number
     documentData: any
     customFieldsData: any
@@ -34,8 +21,6 @@ export const SVGView = ({
 }) => {
     const router = useRouter()
     const [viewport, setViewport] = useState<string | null>('')
-
-    const { notification } = useNotification()
 
     const [loadSvg, setLoadSvg] = useState(false)
 
@@ -57,18 +42,6 @@ export const SVGView = ({
 
         setViewport(svgViewport)
     }, [doc])
-
-    const latestResponse = sign?.responses?.reduce(
-        (accumulator: any, current: any) => {
-            // Convert timestamps to Date objects for comparison
-            const accumulatorDate = new Date(accumulator.updatedAt)
-            const currentDate = new Date(current.updatedAt)
-
-            // Return the item with the later updatedAt timestamp
-            return currentDate > accumulatorDate ? current : accumulator
-        },
-        sign?.responses[0]
-    )
 
     const [timerId, setTimerId] = useState<any>(null)
 
@@ -96,6 +69,15 @@ export const SVGView = ({
 
     return (
         <>
+            {document.isError && (
+                <Button
+                    text={'Refetch'}
+                    variant={'action'}
+                    onClick={() => {
+                        document?.refetch()
+                    }}
+                />
+            )}
             <Waypoint
                 onEnter={handleEnter}
                 onLeave={() => {
@@ -142,9 +124,7 @@ __html: svgContent,
                                 />
 
                                 <TabsView
-                                    sign={sign}
                                     index={index}
-                                    latestResponse={latestResponse}
                                     customFieldsData={customFieldsData}
                                     onSignatureClicked={onSignatureClicked}
                                     onAddCustomFieldsData={

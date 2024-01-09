@@ -4,19 +4,14 @@ import { useRouter } from 'next/router'
 
 type Props = {
     industryProfile: any
-    onHandleScroll?: any
 }
 
-export const IndustryProfileOverview = ({
-    industryProfile,
-    onHandleScroll,
-}: Props) => {
+export const IndustryProfileOverview = ({ industryProfile }: Props) => {
     const router = useRouter()
     return (
         <div>
             <PinnedNotes
                 id={industryProfile?.user?.id}
-                onHandleScroll={onHandleScroll}
                 link={`/portals/sub-admin/users/industries/${router?.query?.id}?tab=notes`}
             />
             <div className="flex items-center gap-x-4 justify-between mt-6">

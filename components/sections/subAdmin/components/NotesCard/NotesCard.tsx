@@ -17,17 +17,9 @@ import { PuffLoader } from 'react-spinners'
 type NotesCardProps = {
     note: any
     pinnedNote?: any
-    setEditValues?: any
-    onHandleScroll?: any
     link?: any
 }
-export const NotesCard = ({
-    note,
-    pinnedNote,
-    setEditValues,
-    onHandleScroll,
-    link,
-}: NotesCardProps) => {
+export const NotesCard = ({ note, pinnedNote, link }: NotesCardProps) => {
     const { notification } = useNotification()
     const router = useRouter()
     const userRole = getUserCredentials()?.role

@@ -103,7 +103,7 @@ export const ViewDocumentAndSign = () => {
 
     const onCancelClicked = () => setModal(null)
 
-    const onSignatureClicked = () => {
+    const onSignatureClicked = (sign: any) => {
         setModal(
             <EsignSignatureModal
                 tab={sign}
@@ -131,7 +131,11 @@ export const ViewDocumentAndSign = () => {
         const customValues = customFieldsData?.filter(
             (data: any) => data?.isCustom && !data?.fieldValue
         )
-        if (!sign?.responses?.length) {
+
+        if (
+            customFieldsData?.filter((s: any) => !s?.responses?.length)
+                ?.length > 0
+        ) {
             notification.warning({
                 title: 'Sign',
                 description: 'Please sign before finish signing',
@@ -222,7 +226,6 @@ export const ViewDocumentAndSign = () => {
                                     </div>
                                     <SVGView
                                         index={i}
-                                        sign={sign}
                                         customFieldsData={customFieldsData}
                                         onSignatureClicked={onSignatureClicked}
                                         onAddCustomFieldsData={
