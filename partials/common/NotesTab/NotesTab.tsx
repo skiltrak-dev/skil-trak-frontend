@@ -28,7 +28,7 @@ export const NotesTab = ({ user }: { user: any }) => {
                 setTimeout(() => {
                     detailItem.scrollIntoView({ behavior: 'smooth' })
                 }, 500)
-                // onSetSelectedNoteId(0)
+                onSetSelectedNoteId(0)
             }
         }
     }, [selectedNoteId, router, notes])

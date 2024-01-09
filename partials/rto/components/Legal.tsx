@@ -1,10 +1,17 @@
 // hooks
-import { useEffect } from 'react'
-import { useEditor } from './hooks'
-import { legalData } from './componnets'
+import { useEffect, useState } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
-import { EditorModal, RequirementModal } from './modal'
-import { ActionButton, Button, Card, Table, Typography } from '@components'
+import { useEditor } from '@partials/admin/documents/hooks'
+import { UploadDoc, legalData } from '@partials/admin/documents/componnets'
+import {
+    ActionButton,
+    Button,
+    Card,
+    InitialAvatar,
+    Table,
+    Typography,
+} from '@components'
+import { EditorModal, RequirementModal } from '@partials/admin/documents/modal'
 
 export const Legal = ({
     loading,
@@ -17,6 +24,7 @@ export const Legal = ({
     rtoDoc?: any
     onAddDocument: (val: any) => void
 }) => {
+    const [type, setType] = useState<any>({})
     const { modal, setModal, onCancelClicked } = useEditor()
 
     useEffect(() => {
@@ -40,7 +48,9 @@ export const Legal = ({
 
     const data = legalData?.map((d) => {
         const findData = legal?.find((f: any) => f?.for === d?.role)
-        return findData ? { ...d, content: findData?.content } : d
+        return findData
+            ? { ...d, content: findData?.content, file: findData?.file }
+            : d
     })
 
     const onViewContentClicked = (document: any) => {
@@ -60,8 +70,8 @@ export const Legal = ({
         {
             accessorKey: 'rto',
             header: () => <span>Content</span>,
-            cell: ({ row }) =>
-                row.original?.content ? (
+            cell: ({ row }) => {
+                return row.original?.content ? (
                     <ActionButton
                         variant="link"
                         simple
@@ -72,20 +82,36 @@ export const Legal = ({
                         View
                     </ActionButton>
                 ) : (
-                    'N/A'
-                ),
+                    <div className="flex">
+                        <InitialAvatar
+                            name={row.original?.docType}
+                            imageUrl={row.original?.file}
+                            large
+                        />
+                    </div>
+                )
+            },
         },
         {
             accessorKey: 'industry',
             header: () => <span>Actions</span>,
             cell: ({ row }) => {
                 return (
-                    <Button
-                        text={row.original?.content ? 'Update' : 'Add'}
-                        outline
-                        onClick={() => {
-                            onAddContentClicked(row.original)
+                    <UploadDoc
+                        text={row.original?.docType + row.original?.name}
+                        item={row.original}
+                        onAddDocument={(val: any) => {
+                            onAddDocument(val)
+                            setType({
+                                docType: row.original?.docType,
+                                role: row.original?.role,
+                            })
                         }}
+                        loading={
+                            loading &&
+                            type?.docType === row.original?.docType &&
+                            type?.role === row.original?.role
+                        }
                     />
                 )
             },

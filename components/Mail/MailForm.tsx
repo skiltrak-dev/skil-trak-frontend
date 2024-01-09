@@ -100,6 +100,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
             methods.reset()
             methods.setValue('attachment', null)
             setSendEmailDraft(true)
+            setAttachmentFiles([])
             notification.success({
                 title: 'Email Sent',
                 description: 'Email Sent Successfully',

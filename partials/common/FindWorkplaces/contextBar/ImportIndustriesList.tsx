@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { read, utils } from 'xlsx'
 import { useNotification } from '@hooks'
 import { BinaryFileUpload } from '@components/inputs/BinaryFileUpload'
-import { Button, ShowErrorNotifications } from '@components'
+import { Button, ShowErrorNotifications, Typography } from '@components'
 import { CommonApi } from '@queries'
 
 export const ImportIndustriesList = () => {
@@ -57,6 +57,63 @@ export const ImportIndustriesList = () => {
                     loading={importListResult.isLoading}
                     disabled={importListResult.isLoading}
                 />
+            </div>
+
+            <div className="mt-5">
+                {importListResult?.data?.errorMails &&
+                importListResult?.data?.errorMails?.length > 0 ? (
+                    <div className="flex flex-col gap-y-1">
+                        <div>
+                            <Typography
+                                variant={'label'}
+                                semibold
+                                color={'text-gray-800'}
+                            >
+                                Emails Already Being Used
+                            </Typography>
+                            {importListResult?.data?.errorMails
+                                ?.filter(
+                                    (ind: { source: string }) =>
+                                        ind?.source === 'listing'
+                                )
+                                ?.map((ind: { email: string }) => (
+                                    <div className="bg-gray-100 rounded-md px-3 py-1">
+                                        <Typography
+                                            variant={'small'}
+                                            color={'text-red-500'}
+                                        >
+                                            {ind?.email}
+                                        </Typography>
+                                    </div>
+                                ))}
+                        </div>
+
+                        <div>
+                            <Typography
+                                variant={'label'}
+                                semibold
+                                color={'text-gray-800'}
+                            >
+                                Emails Already Being Used
+                            </Typography>
+                            {importListResult?.data?.errorMails
+                                ?.filter(
+                                    (ind: { source: string }) =>
+                                        ind?.source === 'listing'
+                                )
+                                ?.map((ind: { email: string }) => (
+                                    <div className="bg-gray-100 rounded-md px-3 py-1">
+                                        <Typography
+                                            variant={'small'}
+                                            color={'text-red-500'}
+                                        >
+                                            {ind?.email}
+                                        </Typography>
+                                    </div>
+                                ))}
+                        </div>
+                    </div>
+                ) : null}
             </div>
         </div>
     )

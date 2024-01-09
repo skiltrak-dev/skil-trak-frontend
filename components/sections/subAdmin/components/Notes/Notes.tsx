@@ -23,11 +23,7 @@ export const Notes = ({ id }: any) => {
                     </div>
                 ) : notes.data && notes.data?.length > 0 ? (
                     notes?.data?.map((note: any) => (
-                        <NotesCard
-                            key={note.id}
-                            note={note}
-                            setEditValues={setEditValues}
-                        />
+                        <NotesCard key={note.id} note={note} />
                     ))
                 ) : (
                     <EmptyData

@@ -502,7 +502,7 @@ export default function ESign() {
                                 <TechnicalError height="bg-white" />
                             )}
 
-                            {pagesCount.isLoading || pagesCount.isFetching ? (
+                            {pagesCount.isLoading ? (
                                 <LoadingAnimation height="h-[70vh]" />
                             ) : mounted && pagesCount?.data ? (
                                 <div className="p-5">

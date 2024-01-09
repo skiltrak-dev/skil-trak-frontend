@@ -11,15 +11,11 @@ import { FaSignature } from 'react-icons/fa'
 export const TabsView = ({
     customFieldsData,
     index,
-    sign,
-    latestResponse,
     onAddCustomFieldsData,
     onSignatureClicked,
 }: {
     index: number
     customFieldsData: any
-    sign: any
-    latestResponse: any
     onAddCustomFieldsData: any
     onSignatureClicked: any
 }) => {
@@ -57,6 +53,22 @@ export const TabsView = ({
                     const [x, y] = s ? s?.position?.split(',') : []
                     const [width, height] = s ? s?.size?.split(',') : []
 
+                    const latestResponse = s?.responses?.reduce(
+                        (accumulator: any, current: any) => {
+                            // Convert timestamps to Date objects for comparison
+                            const accumulatorDate = new Date(
+                                accumulator.updatedAt
+                            )
+                            const currentDate = new Date(current.updatedAt)
+
+                            // Return the item with the later updatedAt timestamp
+                            return currentDate > accumulatorDate
+                                ? current
+                                : accumulator
+                        },
+                        s?.responses[0]
+                    )
+
                     return s?.number === index + 1 ? (
                         <foreignObject
                             x={x}
@@ -73,13 +85,13 @@ export const TabsView = ({
                             }
                         >
                             {s?.type === FieldsTypeEnum.Signature ? (
-                                sign?.responses &&
-                                sign?.responses?.length > 0 &&
+                                s?.responses &&
+                                s?.responses?.length > 0 &&
                                 !latestResponse?.reSignRequested ? (
                                     ''
                                 ) : (
                                     <div
-                                        onClick={() => onSignatureClicked()}
+                                        onClick={() => onSignatureClicked(s)}
                                         className="z-10 w-full h-full bg-red-600 flex justify-center items-center gap-x-2 text-white"
                                     >
                                         <FaSignature className="text-xs" />

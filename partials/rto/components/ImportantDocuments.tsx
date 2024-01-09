@@ -34,6 +34,8 @@ export const ImportantDocuments = ({
         skip: !rto?.id,
     })
 
+    console.log({ documents })
+
     const titleClasses = classNames({
         'mb-2': true,
         'text-xs font-medium text-gray-600': sidebar,
@@ -44,8 +46,6 @@ export const ImportantDocuments = ({
         'grid grid-cols-2 gap-4 md:flex md:gap-x-4': !sidebar,
         'flex flex-col gap-y-2': sidebar,
     })
-
-    const [selected, setSelected] = useState<any>(null)
 
     const onModalCancel = () => {
         setModal(null)
@@ -73,7 +73,7 @@ export const ImportantDocuments = ({
                     onCancelClick={onCancel}
                     onConfirmClick={onCancel}
                 >
-                    {document?.fileType === 'file' ? (
+                    {document?.fileType === 'file' || document?.file ? (
                         ['jpg', 'jpeg', 'png'].includes(
                             extension.toLowerCase()
                         ) ? (

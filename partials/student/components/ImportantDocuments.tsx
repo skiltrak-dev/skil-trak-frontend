@@ -72,7 +72,7 @@ export const ImportantDocuments = ({
                     onCancelClick={onCancel}
                     onConfirmClick={onCancel}
                 >
-                    {document?.fileType === 'file' ? (
+                    {document?.fileType === 'file' || document?.file ? (
                         ['jpg', 'jpeg', 'png'].includes(
                             extension.toLowerCase()
                         ) ? (

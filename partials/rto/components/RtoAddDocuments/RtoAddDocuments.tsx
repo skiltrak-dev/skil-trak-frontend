@@ -1,22 +1,18 @@
-// query
 import { RtoApi } from '@queries'
-
-// hooks
 import { ShowErrorNotifications } from '@components'
 import { UserRoles } from '@constants'
-import {
-    InductionProcess,
-    Legal,
-    PlacementInfo,
-    Workflow,
-} from '@partials/admin/documents'
+import { InductionProcess, Workflow } from '@partials/admin/documents'
 import { DocumentType } from '@partials/admin/documents/componnets'
 import { Rto } from '@types'
+import { Legal } from '../Legal'
+import { PlacementInfo } from '../PlacementInfo'
+import { getUserCredentials } from '@utils'
 
 export const RtoAddDocuments = ({ rto }: { rto?: Rto }) => {
     const getDocuments = RtoApi.RtoDocument.useGetRtoDocuments(
         Number(rto?.user?.id)
     )
+
     const [addDocument, addDocumentResult] =
         RtoApi.RtoDocument.useAddRtoDocuments()
 
@@ -33,7 +29,8 @@ export const RtoAddDocuments = ({ rto }: { rto?: Rto }) => {
     }
 
     const onAddDocument = (values: any) => {
-        values.append('userId', rto?.user?.id)
+        const role = getUserCredentials()?.role
+        role !== UserRoles.RTO && values.append('userId', rto?.user?.id)
 
         addDocument(values)
     }
