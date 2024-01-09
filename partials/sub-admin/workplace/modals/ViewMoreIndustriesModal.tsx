@@ -18,7 +18,6 @@ export const ViewMoreIndustriesModal = ({
     onCancel: () => void
     suggestedIndustriesIds: number[]
 }) => {
-    console.log({ suggestedIndustriesIds })
     const viewMoreIndustries = SubAdminApi.Workplace.useViewMoreIndustries(
         Number(workplaceId),
         {

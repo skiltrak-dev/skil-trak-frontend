@@ -34,8 +34,6 @@ export const ImportantDocuments = ({
         skip: !rto?.id,
     })
 
-    console.log({ documents })
-
     const titleClasses = classNames({
         'mb-2': true,
         'text-xs font-medium text-gray-600': sidebar,
