@@ -105,9 +105,6 @@ export const PdfViewModal = ({
                                         </p>
                                     </div>
                                 }
-                                onError={(err: any) => {
-                                    console.log('Error', err)
-                                }}
                             >
                                 <Page pageNumber={currentPage} />
                             </Document>
