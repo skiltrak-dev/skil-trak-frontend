@@ -10,7 +10,10 @@ export const AddWorkplace = ({ id }: { id: number }) => {
         {
             text: 'Provide Workplace Detail',
             onClick: () => {
-                router.push(`${id}/provide-workplace-detail`)
+                router.push({
+                    pathname: `/portals/sub-admin/students/${id}/provide-workplace-detail`,
+                    query: { tab: 'abn' },
+                })
             },
         },
         {

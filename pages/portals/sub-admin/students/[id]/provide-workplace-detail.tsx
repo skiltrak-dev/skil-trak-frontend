@@ -34,6 +34,7 @@ import {
     useSubAdminCancelStudentWorkplaceRequestMutation,
 } from '@queries'
 import { UserRoles } from '@constants'
+import { WorkplaceCurrentStatus } from '@utils'
 
 type Props = {}
 
@@ -79,7 +80,19 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
             workplace?.data &&
             workplace?.data?.length > 0
         ) {
-            setActive(3)
+            if (workplace.data[0].currentStatus === 'placementStarted') {
+                setActive(4)
+            } else if (
+                workplace?.data?.filter(
+                    (w: any) =>
+                        w?.currentStatus !== WorkplaceCurrentStatus.Completed &&
+                        w?.currentStatus !==
+                            WorkplaceCurrentStatus.Terminated &&
+                        w?.currentStatus !== WorkplaceCurrentStatus.Rejected
+                )?.length > 0
+            ) {
+                setActive(3)
+            }
             setWorkplaceData(workplace?.data)
         }
     }, [workplace])
