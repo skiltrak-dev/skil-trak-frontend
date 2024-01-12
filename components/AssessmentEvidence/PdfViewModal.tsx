@@ -2,7 +2,7 @@
 import { MdCancel } from 'react-icons/md'
 
 // components
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Document, Page } from 'react-pdf'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
@@ -23,6 +23,11 @@ export const PdfViewModal = ({
 }: PdfViewModalProps) => {
     const [totalPages, setTotalPages] = useState(0)
     const [currentPage, setCurrentPage] = useState(1)
+    const [mounted, setMounted] = useState<boolean>(false)
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
 
     const nextPage = () => {
         setCurrentPage(currentPage + 1)
@@ -31,6 +36,7 @@ export const PdfViewModal = ({
     const previousPage = () => {
         setCurrentPage(currentPage - 1)
     }
+
     return (
         <div className="bg-[#00000050] w-full h-screen flex items-start justify-center fixed top-0 left-0 z-40 overflow-scroll py-16">
             <div className="bg-white rounded-2xl flex flex-col justify-between shadow-md min-w-[450px] overflow-hidden">
@@ -86,7 +92,7 @@ export const PdfViewModal = ({
                                 </button>
                             </div>
                         </div>
-                        {extension === 'pdf' ? (
+                        {mounted && extension === 'pdf' ? (
                             <Document
                                 file={url}
                                 onLoadSuccess={({ numPages }) => {
@@ -99,6 +105,9 @@ export const PdfViewModal = ({
                                         </p>
                                     </div>
                                 }
+                                onError={(err: any) => {
+                                    console.log('Error', err)
+                                }}
                             >
                                 <Page pageNumber={currentPage} />
                             </Document>
