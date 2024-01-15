@@ -85,7 +85,7 @@ export const BinaryFileUpload = ({
     }
 
     useEffect(() => {
-        if (result.isSuccess) {
+        if (result && result?.isSuccess) {
             handleRemove()
         }
     }, [result])
