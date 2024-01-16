@@ -71,7 +71,7 @@ export const DraggableTab = ({
                 stroke={item.data?.color}
                 fillOpacity={'0'}
             />
-            <text className="text-[13px]" x="6" y="18" fill={item.data?.color}>
+            <text className="text-[10px]" x="6" y="18" fill={item.data?.color}>
                 {item.data?.placeholder || 'Text'}
             </text>
 

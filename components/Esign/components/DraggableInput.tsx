@@ -70,7 +70,7 @@ export const DraggableInput = ({
                 >
                     <Icon />
                 </span>
-                <p className="text-sm">{text}</p>
+                <p className="text-[13px]">{text}</p>
             </button>
         </div>
     )
