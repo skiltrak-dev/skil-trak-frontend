@@ -31,7 +31,12 @@ export const ImportIndustriesList = () => {
     }
 
     const onSubmit = () => {
-        importList(industries).then((res: any) => {
+        importList(
+            industries?.map((ind: any) => ({
+                ...ind,
+                email: ind?.email.replace(/\r\n\r\n/g, ''),
+            }))
+        ).then((res: any) => {
             if (res?.data) {
                 notification.success({
                     title: 'Success',
@@ -40,6 +45,11 @@ export const ImportIndustriesList = () => {
             }
         })
     }
+
+    const duplicatedIndustries = (source: string) =>
+        importListResult?.data?.errorMails?.filter(
+            (ind: { source: string }) => ind?.source === source
+        )
     return (
         <div>
             <ShowErrorNotifications result={importListResult} />
@@ -63,55 +73,56 @@ export const ImportIndustriesList = () => {
                 {importListResult?.data?.errorMails &&
                 importListResult?.data?.errorMails?.length > 0 ? (
                     <div className="flex flex-col gap-y-1">
-                        <div>
-                            <Typography
-                                variant={'label'}
-                                semibold
-                                color={'text-gray-800'}
-                            >
-                                Emails Already Being Used
-                            </Typography>
-                            {importListResult?.data?.errorMails
-                                ?.filter(
-                                    (ind: { source: string }) =>
-                                        ind?.source === 'listing'
-                                )
-                                ?.map((ind: { email: string }) => (
-                                    <div className="bg-gray-100 rounded-md px-3 py-1">
-                                        <Typography
-                                            variant={'small'}
-                                            color={'text-red-500'}
-                                        >
-                                            {ind?.email}
-                                        </Typography>
-                                    </div>
-                                ))}
-                        </div>
+                        {duplicatedIndustries('listing') &&
+                            duplicatedIndustries('listing')?.length > 0 && (
+                                <div>
+                                    <Typography
+                                        variant={'label'}
+                                        semibold
+                                        color={'text-gray-800'}
+                                    >
+                                        Emails Already Being Used in Industries
+                                        Listing
+                                    </Typography>
+                                    {duplicatedIndustries('listing')?.map(
+                                        (ind: { email: string }) => (
+                                            <div className="bg-gray-100 rounded-md px-3 py-1">
+                                                <Typography
+                                                    variant={'small'}
+                                                    color={'text-red-500'}
+                                                >
+                                                    {ind?.email}
+                                                </Typography>
+                                            </div>
+                                        )
+                                    )}
+                                </div>
+                            )}
 
-                        <div>
-                            <Typography
-                                variant={'label'}
-                                semibold
-                                color={'text-gray-800'}
-                            >
-                                Emails Already Being Used
-                            </Typography>
-                            {importListResult?.data?.errorMails
-                                ?.filter(
-                                    (ind: { source: string }) =>
-                                        ind?.source === 'listing'
-                                )
-                                ?.map((ind: { email: string }) => (
-                                    <div className="bg-gray-100 rounded-md px-3 py-1">
-                                        <Typography
-                                            variant={'small'}
-                                            color={'text-red-500'}
-                                        >
-                                            {ind?.email}
-                                        </Typography>
-                                    </div>
-                                ))}
-                        </div>
+                        {duplicatedIndustries('signed-up') &&
+                            duplicatedIndustries('signed-up')?.length > 0 && (
+                                <div>
+                                    <Typography
+                                        variant={'label'}
+                                        semibold
+                                        color={'text-gray-800'}
+                                    >
+                                        Emails Already Being Used in Industries
+                                    </Typography>
+                                    {duplicatedIndustries('signed-up')?.map(
+                                        (ind: { email: string }) => (
+                                            <div className="bg-gray-100 rounded-md px-3 py-1">
+                                                <Typography
+                                                    variant={'small'}
+                                                    color={'text-red-500'}
+                                                >
+                                                    {ind?.email}
+                                                </Typography>
+                                            </div>
+                                        )
+                                    )}
+                                </div>
+                            )}
                     </div>
                 ) : null}
             </div>
