@@ -133,8 +133,9 @@ export const ViewDocumentAndSign = () => {
         )
 
         if (
-            customFieldsData?.filter((s: any) => !s?.responses?.length)
-                ?.length > 0
+            customFieldsData
+                ?.filter((s: any) => s?.type === FieldsTypeEnum.Signature)
+                ?.filter((s: any) => !s?.responses?.length)?.length > 0
         ) {
             notification.warning({
                 title: 'Sign',

@@ -14,7 +14,7 @@ export const SectorCell = ({ rto }: { rto: Rto }) => {
 
     return (
         <div className="w-fit">
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-start">
                 <ActionButton
                     variant="link"
                     onClick={() => onViewSectorClicked(rto)}
@@ -22,7 +22,7 @@ export const SectorCell = ({ rto }: { rto: Rto }) => {
                 >
                     <span className="whitespace-pre">View / Edit</span>
                 </ActionButton>
-                <div className="flex gap-x-1">
+                <div className="flex justify-center w-full items-center gap-x-1">
                     {rto.courses.map((c: Course) => (
                         <div className="relative group" key={c.id}>
                             <div className="w-[9px] h-[9px] rounded-full bg-gray-400 cursor-pointer"></div>

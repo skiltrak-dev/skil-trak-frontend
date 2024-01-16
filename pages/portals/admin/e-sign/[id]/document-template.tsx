@@ -455,20 +455,14 @@ export default function ESign() {
                             text={'Cancel'}
                             outline
                             loading={saveEsignTemplateResult.isLoading}
-                            disabled={
-                                saveEsignTemplateResult.isLoading ||
-                                !newAddedItems?.length
-                            }
+                            disabled={saveEsignTemplateResult.isLoading}
                             onClick={onCancelTabs}
                         />
                         <Button
                             variant="info"
                             text={'Save'}
                             loading={saveEsignTemplateResult.isLoading}
-                            disabled={
-                                saveEsignTemplateResult.isLoading ||
-                                !newAddedItems?.length
-                            }
+                            disabled={saveEsignTemplateResult.isLoading}
                             onClick={onSaveClick}
                         />
                     </div>
