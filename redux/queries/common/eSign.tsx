@@ -23,6 +23,10 @@ export const eSignEndpoints = (
         query: (id) => `${PREFIX}/template/${id}/pages/get-count`,
         providesTags: ['E-Sign'],
     }),
+    getCoordinatorsByCourse: builder.query<any, number>({
+        query: (id) => `subadmin/courses/${id}`,
+        providesTags: ['E-Sign'],
+    }),
     saveEsignTemplate: builder.mutation<any, any>({
         query: ({ id, ...body }) => ({
             url: `${PREFIX}/template/tabs/${id}`,

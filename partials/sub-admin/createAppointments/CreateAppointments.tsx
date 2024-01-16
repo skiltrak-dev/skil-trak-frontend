@@ -98,7 +98,7 @@ export const CreateAppointments = () => {
             const user = getUserCredentials()
             setSelectedUser({
                 ...selectedUser,
-                selectedAppointmentWithUser: user.id,
+                selectedAppointmentWithUser: user?.id,
             })
         }
     }, [selectedPerson.selectedAppointmentWith])
@@ -331,7 +331,15 @@ export const CreateAppointments = () => {
                 </Card>
 
                 <Card>
-                    <Courses setSelectedCourse={setSelectedCourse} />
+                    <Courses
+                        setSelectedCourse={setSelectedCourse}
+                        rto={
+                            selectedPerson.selectedAppointmentFor ===
+                            AppointmentUserEnum.RTO
+                                ? selectedUser.selectedAppointmentForUser
+                                : null
+                        }
+                    />
                 </Card>
 
                 <SearchUser
