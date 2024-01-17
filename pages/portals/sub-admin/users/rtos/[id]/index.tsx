@@ -51,7 +51,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                 </>
             )
             show(false)
-        }
+        } 
         return () => {
             setContent(null)
             hide()
