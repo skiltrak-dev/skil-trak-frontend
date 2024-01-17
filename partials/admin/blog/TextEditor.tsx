@@ -1,9 +1,12 @@
 import {
     Button,
+    Card,
     Checkbox,
     Select,
     ShowErrorNotifications,
+    TextArea,
     TextInput,
+    Typography,
     UploadFile,
 } from '@components'
 import { FileUpload } from '@hoc'
@@ -36,6 +39,9 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
     const [isPublish, setIsPublish] = useState<boolean>(true)
     const [isFeatured, setIsFeatured] = useState(false)
     const [blogPost, setBlogPost] = useState<any>('')
+    const [faqList, setFaqList] = useState<
+        Array<{ question: string; answer: string }>
+    >([{ question: '', answer: '' }])
     const blogPostEnum = {
         Save: 'save',
         SaveAndPublish: 'saveAndPublish',
@@ -127,17 +133,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
             })
             return
         }
-        // const formData = new FormData()
-        // formData.append('featuredImage', data.featuredImage?.[0])
-        // formData.append('title', data.title)
-        // formData.append('content', content)
-        // formData.append('isPublished', publish.toString())
-        // formData.append('isFeatured', data.isFeatured.toString())
-        // formData.append('tags', tagIds)
-        // formData.append('category', data?.category)
-        // formData.append('author', data?.author)
 
-        // createBlog(formData)
         validationSchema
             .validate(data)
             .then(() => {
@@ -151,12 +147,14 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                 formData.append('tags', tagIds)
                 formData.append('category', data?.category)
                 formData.append('author', data?.author)
+                formData.append('blogQuestions', JSON.stringify(data?.faq))
 
+                //POST Api Req
                 createBlog(formData)
             })
             .catch((validationError) => {
                 notification.error({
-                    title: 'Validation Error ',
+                    title: 'Validation Error',
                     description: 'Category is required',
                 })
             })
@@ -184,6 +182,21 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
         }
     }, [createBlogResult.isSuccess])
 
+    // dynamic fields
+    const handleAddFAQ = () => {
+        setFaqList((prevFaqList: any) => [
+            ...prevFaqList,
+            { question: '', answer: '' },
+        ])
+    }
+
+    const handleRemoveFAQ = (index: number) => {
+        setFaqList((prevFaqList) => {
+            const updatedList = [...prevFaqList]
+            updatedList.splice(index, 1)
+            return updatedList
+        })
+    }
     return (
         <div>
             <ShowErrorNotifications result={createBlogResult} />
@@ -219,10 +232,71 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                             label={'Featured'}
                         />
                     </div>
+
+                    <div className="py-4 border-t">
+                        <Typography variant="subtitle">
+                            Add FAQ's here
+                        </Typography>
+                        <Card>
+                            {faqList.map((faq: any, index: any) => (
+                                <div
+                                    key={index}
+                                    className="flex items-start gap-x-4"
+                                >
+                                    <div className="flex flex-col w-3/4">
+                                        <TextInput
+                                            name={`faq[${index}].question`}
+                                            label={`FAQ ${index + 1} Question`}
+                                            placeholder="Enter Question"
+                                            value={faq.question}
+                                            onChange={(e: any) => {
+                                                const updatedFaqList = [
+                                                    ...faqList,
+                                                ]
+                                                updatedFaqList[index].question =
+                                                    e.target.value
+                                                setFaqList(updatedFaqList)
+                                            }}
+                                        />
+                                        <TextArea
+                                            name={`faq[${index}].answer`}
+                                            label={`FAQ ${index + 1} Answer`}
+                                            placeholder="Enter Answer"
+                                            value={faq.answer}
+                                            onChange={(e: any) => {
+                                                const updatedFaqList = [
+                                                    ...faqList,
+                                                ]
+                                                updatedFaqList[index].answer =
+                                                    e.target.value
+                                                setFaqList(updatedFaqList)
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="mt-7">
+                                        <Button
+                                            text="Remove"
+                                            onClick={() =>
+                                                handleRemoveFAQ(index)
+                                            }
+                                            variant="error"
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                            <div className="mb-4">
+                                <Button
+                                    variant="success"
+                                    text="Add FAQ"
+                                    onClick={handleAddFAQ}
+                                />
+                            </div>
+                        </Card>
+                    </div>
+
                     <div className="flex items-center gap-x-4">
                         <Button
                             text="Save & Publish"
-                            // submit
                             loading={
                                 createBlogResult?.isLoading &&
                                 blogPost === blogPostEnum.SaveAndPublish

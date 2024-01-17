@@ -580,3 +580,14 @@ img {
 .blog-content p{
     word-break: keep-all;
 }
+
+/* Blog pagination */
+/* Paginate.module.css */
+
+.pageNumber {
+    @apply inline-block px-3 py-1 m-0 cursor-pointer rounded-md bg-gray-300 text-gray-700 mr-4;
+}
+
+.pageNumber.selected {
+    @apply bg-indigo-800 text-white;
+}

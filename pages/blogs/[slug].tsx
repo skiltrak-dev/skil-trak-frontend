@@ -1,21 +1,31 @@
 import { SiteLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 import { adminApi } from '@queries'
 import { useRouter } from 'next/router'
 import { LoadingAnimation, NoData, TechnicalError } from '@components'
 import Image from 'next/image'
 import moment from 'moment'
 import { HeroSectionBlog } from '@partials/common/Blogs'
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from '@radix-ui/react-accordion'
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
+
+// Accordion Shadcn
 
 const BlogDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const blogId = router.query.slug as string
+    const [activeKey, setActiveKey] = useState(null)
     const { data, isLoading, isFetching, isError } =
         adminApi.useGetBlogDetailQuery(blogId, {
             skip: !blogId,
         })
-        
+
     return (
         <div className="">
             <HeroSectionBlog />
@@ -42,7 +52,6 @@ const BlogDetail: NextPageWithLayout = () => {
                                 {moment(data?.createdAt).format('Do MMM YYYY')}
                             </p>
                         </div>
-
                         <h1 className="font-bold text-xl md:text-[40px] md:leading-10 uppercase my-2 md:my-10">
                             {data?.title}
                         </h1>
@@ -52,6 +61,45 @@ const BlogDetail: NextPageWithLayout = () => {
                                 __html: data?.content,
                             }}
                         />
+                        {/* FAQ's */}
+                        <div className="md:mt-20 mt-8">
+                            <h3 className="font-semibold text-xl md:text-3xl md:leading-10 uppercase my-2 md:my-4">
+                                FAQ's
+                            </h3>
+                            <Accordion
+                                type="single"
+                                collapsible
+                                className="w-full flex flex-col gap-y-1 "
+                            >
+                                {data?.blogQuestions.map((faq: any) => {
+                                    return (
+                                        <AccordionItem
+                                            className="shadow-md px-5 py-4 w-full "
+                                            value={faq?.id}
+                                            onClick={() =>
+                                                setActiveKey((prevActiveKey) =>
+                                                    prevActiveKey === faq.id
+                                                        ? null
+                                                        : faq.id
+                                                )
+                                            }
+                                        >
+                                            <AccordionTrigger className="mb-2 font-medium text-sm flex items-center justify-between w-full">
+                                                {faq?.question}
+                                                {activeKey === faq?.id ? (
+                                                    <FaChevronUp />
+                                                ) : (
+                                                    <FaChevronDown />
+                                                )}
+                                            </AccordionTrigger>
+                                            <AccordionContent className="text-sm text-gray-500">
+                                                {faq?.answer}
+                                            </AccordionContent>
+                                        </AccordionItem>
+                                    )
+                                })}
+                            </Accordion>
+                        </div>
                     </div>
                 ) : (
                     !isError && <NoData text="No Data Found" />
