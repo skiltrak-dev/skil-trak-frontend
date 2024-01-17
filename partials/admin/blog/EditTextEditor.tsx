@@ -9,7 +9,16 @@ import {
     useForm,
     useFormContext,
 } from 'react-hook-form'
-import { Button, Checkbox, Select, TextInput, UploadFile } from '@components'
+import {
+    Button,
+    Card,
+    Checkbox,
+    Select,
+    TextArea,
+    TextInput,
+    Typography,
+    UploadFile,
+} from '@components'
 import { FileUpload } from '@hoc'
 import { adminApi } from '@queries'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -44,6 +53,7 @@ TextEditorProps) {
     const { notification } = useNotification()
     const [selectedCategories, setSelectedCategories] = useState<any>([])
     const [blogPost, setBlogPost] = useState<any>('')
+
     const blogPostEnum = {
         Save: 'save',
         SaveAndPublish: 'saveAndPublish',
@@ -51,6 +61,14 @@ TextEditorProps) {
 
     const [updateBlog, updateBlogResult] = adminApi.useUpdateBlogMutation()
     const { data, isLoading } = adminApi.useGetCategoriesQuery()
+
+    const initialFaqList = blogData?.blogQuestions.map(
+        (question: any, index: any) => ({
+            question: question.question,
+            answer: question.answer,
+        })
+    )
+    const [faqList, setFaqList] = useState(initialFaqList)
     // const handleSave = () => {
     //     // const editorContent = quillRef.current.getEditor().getContents()
     //     const html = quillRef.current.getEditor().root.innerHTML
@@ -95,8 +113,20 @@ TextEditorProps) {
             isFeatured: blogData?.isFeatured || false,
             category: [],
             content: '',
+            blogQuestions: blogData?.blogQuestions || [
+                { question: '', answer: '' },
+            ],
         },
     })
+    // FAQ's
+    useEffect(() => {
+        const initialFaqList = blogData?.blogQuestions.map((question: any) => ({
+            question: question.question,
+            answer: question.answer,
+        })) || [{ question: '', answer: '' }]
+
+        setFaqList(initialFaqList)
+    }, [blogData])
 
     const modules = {
         toolbar: [
@@ -186,6 +216,22 @@ TextEditorProps) {
     //     }
     // }, [updateBlogResult?.isSuccess])
 
+    // dynamic fields
+    const handleAddFAQ = () => {
+        setFaqList((prevFaqList: any) => [
+            ...prevFaqList,
+            { question: '', answer: '' },
+        ])
+    }
+
+    const handleRemoveFAQ = (index: number) => {
+        setFaqList((prevFaqList: any) => {
+            const updatedList = [...prevFaqList]
+            updatedList.splice(index, 1)
+            return updatedList
+        })
+    }
+
     const onSubmit: any = (data: any, publish: boolean) => {
         const content = quillRef.current.getEditor().root.innerHTML
         if (!data.featuredImage || !data.featuredImage[0]) {
@@ -221,6 +267,9 @@ TextEditorProps) {
             isPublished: publish.toString(),
             isFeatured: isFeatured.toString(),
             category: data?.category,
+            // blogQuestions: JSON.stringify(data?.blogQuestions),
+            blogQuestions: JSON.stringify(faqList),
+            // formData.append('blogQuestions', JSON.stringify(data?.faq))
         }
 
         if (tagIds) {
@@ -258,7 +307,14 @@ TextEditorProps) {
                     )
                 }
             })
-            .catch((err: any) => {})
+            .catch((err: any) => {
+                console.log('error', err)
+                notification.error({
+                    title: 'Blog Update Failed',
+                    description: 'There was an error updating the blog.',
+                })
+            })
+            console.log('error', faqList)
     }
 
     return (
@@ -302,6 +358,116 @@ TextEditorProps) {
                             value={isFeatured}
                             defaultChecked={isFeatured}
                         />
+                    </div>
+                    {/* FAQ's */}
+
+                    <div className="py-4 border-t">
+                        <Typography variant="subtitle">
+                            Add FAQ's here
+                        </Typography>
+                        <Card>
+                            {/* {faqList.map((faq: any, index: any) => (
+                                <div
+                                    key={index}
+                                    className="flex items-start gap-x-4"
+                                >
+                                    <div className="flex flex-col w-3/4">
+                                        <TextInput
+                                            name={`faq[${index}].question`}
+                                            label={`FAQ ${index + 1} Question`}
+                                            placeholder="Enter Question"
+                                            value={faq.question}
+                                            onChange={(e: any) => {
+                                                const updatedFaqList = [
+                                                    ...faqList,
+                                                ]
+                                                updatedFaqList[index].question =
+                                                    e.target.value
+                                                setFaqList(updatedFaqList)
+                                            }}
+                                        />
+                                        <TextArea
+                                            name={`faq[${index}].answer`}
+                                            label={`FAQ ${index + 1} Answer`}
+                                            placeholder="Enter Answer"
+                                            value={faq.answer}
+                                            onChange={(e: any) => {
+                                                const updatedFaqList = [
+                                                    ...faqList,
+                                                ]
+                                                updatedFaqList[index].answer =
+                                                    e.target.value
+                                                setFaqList(updatedFaqList)
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="mt-7">
+                                        <Button
+                                            text="Remove"
+                                            onClick={() =>
+                                                handleRemoveFAQ(index)
+                                            }
+                                            variant="error"
+                                        />
+                                    </div>
+                                </div>
+                            ))} */}
+
+                            {faqList.map((faq: any, index: any) => (
+                                <div
+                                    key={index}
+                                    className="flex items-start gap-x-4"
+                                >
+                                    <div className="flex flex-col w-3/4">
+                                        <TextInput
+                                            name={`blogQuestions[${index}].question`}
+                                            label={`FAQ ${index + 1} Question`}
+                                            placeholder="Enter Question"
+                                            value={faq.question}
+                                            onChange={(e: any) => {
+                                                const updatedFaqList = [
+                                                    ...faqList,
+                                                ]
+                                                updatedFaqList[index].question =
+                                                    e.target.value
+                                                setFaqList(updatedFaqList)
+                                            }}
+                                        />
+                                        <TextArea
+                                            name={`blogQuestions[${index}].answer`}
+                                            label={`FAQ ${index + 1} Answer`}
+                                            placeholder="Enter Answer"
+                                            value={faq.answer}
+                                            onChange={(e: any) => {
+                                                const updatedFaqList = [
+                                                    ...faqList,
+                                                ]
+                                                updatedFaqList[index].answer =
+                                                    e.target.value
+                                                setFaqList(updatedFaqList)
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="mt-7">
+                                        <Button
+                                            text="Remove"
+                                            onClick={() =>
+                                                handleRemoveFAQ(index)
+                                            }
+                                            variant="error"
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+
+                            <div className="mb-4">
+                                <Button
+                                    variant="success"
+                                    text="Add FAQ"
+                                    onClick={handleAddFAQ}
+                                />
+                            </div>
+                        </Card>
                     </div>
                     <div className="flex items-center gap-x-4 mt-5">
                         <Button
