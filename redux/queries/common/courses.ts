@@ -8,6 +8,16 @@ export const coursesEndpoints = (
         query: () => `filter/courses/all`,
         providesTags: ['Course'],
     }),
+    getAllCoursesByRto: builder.query<any, number>({
+        query: (rto) => {
+            const params = rto ? { id: rto } : {}
+            return {
+                url: `appointments/rto/courses`,
+                params,
+            }
+        },
+        providesTags: ['Course'],
+    }),
     getCoursesList: builder.query<any, void>({
         query: () => `shared/courses/list`,
         providesTags: ['Course'],

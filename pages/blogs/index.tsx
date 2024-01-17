@@ -18,12 +18,14 @@ import {
     Typography,
 } from '@components'
 import Link from 'next/link'
+import { PaginatedItems } from '@partials/common'
 
 const Blogs: NextPageWithLayout = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [currentItems, setCurrentItems] = useState([])
-    const router = useRouter()
     const [page, setPage] = useState(1)
+
+    const router = useRouter()
 
     const { data, isLoading, isError, isFetching } = adminApi.useGetBlogsQuery({
         isPublished: `${true}`,
@@ -165,7 +167,12 @@ const Blogs: NextPageWithLayout = () => {
                         {/* <span className="text-gray-600 text-sm">
                             Total Blogs({data?.data?.length})
                         </span> */}
-                        <Paginate
+                        {/* <Paginate
+                            data={data?.data}
+                            itemsPerPage={6}
+                            setCurrentItems={setCurrentItems}
+                        /> */}
+                        <PaginatedItems
                             data={data?.data}
                             itemsPerPage={6}
                             setCurrentItems={setCurrentItems}

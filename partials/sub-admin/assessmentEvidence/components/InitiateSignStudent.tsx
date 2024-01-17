@@ -1,19 +1,19 @@
 import {
-    InitialAvatar,
-    Select,
-    Typography,
     Button,
-    ShowErrorNotifications,
+    InitialAvatar,
     NoData,
+    Select,
+    ShowErrorNotifications,
+    Typography,
 } from '@components'
 import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
-import { CommonApi, AdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { Industry, OptionType, SubAdmin } from '@types'
 import { AuthUtils } from '@utils'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { MdEmail } from 'react-icons/md'
 import { PuffLoader } from 'react-spinners'
 
@@ -82,7 +82,12 @@ export const InitiateSignStudent = ({
             refetchOnMountOrArgChange: true,
         }
     )
-    const subadmins = AdminApi.Workplace.subadminForAssignWorkplace()
+    const subadmins = CommonApi.ESign.getCoordinatorsByCourse(
+        Number(courseId),
+        {
+            refetchOnMountOrArgChange: true,
+        }
+    )
     const [initiateSign, initiateSignResult] =
         CommonApi.ESign.useInitiateESign()
 
