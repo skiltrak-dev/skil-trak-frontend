@@ -39,6 +39,7 @@ export const TicketReplies = ({ ticket }: { ticket: any }) => {
                                     key={response?.id}
                                     message={response}
                                     ticketDetail={ticket}
+                                    replyId={response?.id}
                                 />
                                 {response?.action !== null &&
                                     response?.action?.action ===

@@ -16,7 +16,7 @@ import { InputErrorMessage } from '@components/inputs/components'
 import { adminApi } from '@queries'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import * as yup from 'yup'
@@ -53,6 +53,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
     //     // const editorContent = quillRef.current.getEditor().getContents()
     //     const html = quillRef.current.getEditor().root.innerHTML
     // }
+
     const handleChecked = () => {
         setIsFeatured(!isFeatured)
     }
@@ -82,9 +83,14 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
             .min(1, 'Must select at least 1 category')
             .required(),
     })
+
     const formMethods = useForm({
         mode: 'all',
         resolver: yupResolver(validationSchema),
+    })
+    const { append, remove, fields } = useFieldArray({
+        control: formMethods.control,
+        name: 'faq', // Make sure this matches the name in your form
     })
     const modules = {
         toolbar: [
@@ -183,20 +189,27 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
     }, [createBlogResult.isSuccess])
 
     // dynamic fields
-    const handleAddFAQ = () => {
-        setFaqList((prevFaqList: any) => [
-            ...prevFaqList,
-            { question: '', answer: '' },
-        ])
+    const handleRemoveFAQ = (index: number) => {
+        remove(index)
     }
 
-    const handleRemoveFAQ = (index: number) => {
-        setFaqList((prevFaqList) => {
-            const updatedList = [...prevFaqList]
-            updatedList.splice(index, 1)
-            return updatedList
-        })
+    const handleAddFAQ = () => {
+        append({ question: '', answer: '' })
     }
+    // const handleAddFAQ = () => {
+    //     setFaqList((prevFaqList: any) => [
+    //         ...prevFaqList,
+    //         { question: '', answer: '' },
+    //     ])
+    // }
+
+    // const handleRemoveFAQ = (index: number) => {
+    //     setFaqList((prevFaqList) => {
+    //         const updatedList = [...prevFaqList]
+    //         updatedList.splice(index, 1)
+    //         return updatedList
+    //     })
+    // }
     return (
         <div>
             <ShowErrorNotifications result={createBlogResult} />
@@ -238,7 +251,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                             Add FAQ's here
                         </Typography>
                         <Card>
-                            {faqList.map((faq: any, index: any) => (
+                            {/* {faqList.map((faq: any, index: any) => (
                                 <div
                                     key={index}
                                     className="flex items-start gap-x-4"
@@ -279,6 +292,41 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                                             onClick={() =>
                                                 handleRemoveFAQ(index)
                                             }
+                                            variant="error"
+                                        />
+                                    </div>
+                                </div>
+                            ))} */}
+                            {fields.map((faq: any, index: number) => (
+                                <div
+                                    key={faq.id}
+                                    className="flex items-start gap-x-4"
+                                >
+                                    <div className="flex flex-col w-3/4">
+                                        <TextInput
+                                            // {...formMethods.register(
+                                            //     `faq.${index}.question`
+                                            // )}
+                                            name={`faq.${index}.question`}
+                                            label={`FAQ ${index + 1} Question`}
+                                            placeholder="Enter Question"
+                                            defaultValue={faq.question}
+                                        />
+                                        <TextArea
+                                            // {...formMethods.register(
+                                            //     `faq.${index}.answer`
+                                            // )}
+                                            name={`faq.${index}.answer`}
+                                            label={`FAQ ${index + 1} Answer`}
+                                            placeholder="Enter Answer"
+                                        />
+                                    </div>
+                                    <div className="mt-7">
+                                        <Button
+                                            text="Remove"
+                                            onClick={()=>{
+                                                handleRemoveFAQ(index)
+                                            }}
                                             variant="error"
                                         />
                                     </div>
