@@ -369,6 +369,7 @@ const {
     useChangeUserStatusMutation,
     // ---- COURSE ---- //
     useGetCoursesListQuery,
+    useGetAllCoursesByRtoQuery,
     useGetSubadminCoursesListQuery,
 
     // ---- AGREEMENT ---- //
@@ -439,6 +440,7 @@ const {
     useGetEsignTemplateDetailQuery,
     useGetESignTemplateDetailQuery,
     useCancelEsignDocumentMutation,
+    useGetCoordinatorsByCourseQuery,
     usePreviewAsSignerTemplateQuery,
     useRequestResignForESignMutation,
     useViewStudentEsignDocumentQuery,
@@ -493,6 +495,7 @@ export const CommonApi = {
     },
     Courses: {
         useCoursesList: useGetCoursesListQuery,
+        getCoursesByRto: useGetAllCoursesByRtoQuery,
         subadminCoursesList: useGetSubadminCoursesListQuery,
     },
 
@@ -643,6 +646,7 @@ export const CommonApi = {
         useEsignTemplateDetail: useGetEsignTemplateDetailQuery,
         useESignTemplateDetail: useGetESignTemplateDetailQuery,
         requestResignForESign: useRequestResignForESignMutation,
+        getCoordinatorsByCourse: useGetCoordinatorsByCourseQuery,
         useStudentEsignDocument: useViewStudentEsignDocumentQuery,
         useUpdateEsignDetail: useUpdateEsignTemplateDetailMutation,
         usePendingDocumentsList: useUsersPendingDocumentsListQuery,

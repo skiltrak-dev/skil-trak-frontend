@@ -8,12 +8,15 @@ import { CourseSelectOption, formatOptionLabel } from '@utils'
 
 export const Courses = ({
     setSelectedCourse,
+    rto,
 }: {
+    rto?: number | null
     setSelectedCourse: (value: number) => void
 }) => {
-    const { data, isSuccess } = CommonApi.Filter.useCourses()
-    const courseOptions = isSuccess
-        ? data?.map((course: Course) => ({
+    console.log({ rto })
+    const courses = CommonApi.Courses.getCoursesByRto(Number(rto))
+    const courseOptions = courses?.isSuccess
+        ? courses?.data?.map((course: Course) => ({
               item: course,
               value: course?.id,
               label: course?.title,
@@ -26,6 +29,8 @@ export const Courses = ({
                 required
                 options={courseOptions}
                 label={'Select Course'}
+                loading={courses?.isLoading || courses?.isFetching}
+                disabled={courses?.isLoading || courses?.isFetching}
                 onlyValue
                 onChange={(e: OptionType) => {
                     setSelectedCourse(Number(e))
