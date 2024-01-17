@@ -64,6 +64,14 @@ export const ticketEndpoints = (
         }),
         invalidatesTags: ['Tickets'],
     }),
+    updateReply: builder.mutation<any, { id: number; message: any }>({
+        query: ({ id, message }) => ({
+            url: `${PREFIX}/reply/update/${id}`,
+            method: 'PATCH',
+            body: { message },
+        }),
+        invalidatesTags: ['Tickets'],
+    }),
     getTicketReplies: builder.query<any, number>({
         query: (id) => `${PREFIX}/replies/get/${id}`,
         providesTags: ['Tickets'],

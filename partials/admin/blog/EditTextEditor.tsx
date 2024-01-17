@@ -6,6 +6,7 @@ import * as Quill from 'quill'
 import {
     Controller,
     FormProvider,
+    useFieldArray,
     useForm,
     useFormContext,
 } from 'react-hook-form'
@@ -62,13 +63,13 @@ TextEditorProps) {
     const [updateBlog, updateBlogResult] = adminApi.useUpdateBlogMutation()
     const { data, isLoading } = adminApi.useGetCategoriesQuery()
 
-    const initialFaqList = blogData?.blogQuestions.map(
-        (question: any, index: any) => ({
-            question: question.question,
-            answer: question.answer,
-        })
-    )
-    const [faqList, setFaqList] = useState(initialFaqList)
+    // const initialFaqList = blogData?.blogQuestions.map(
+    //     (question: any, index: any) => ({
+    //         question: question.question,
+    //         answer: question.answer,
+    //     })
+    // )
+    // const [faqList, setFaqList] = useState(initialFaqList)
     // const handleSave = () => {
     //     // const editorContent = quillRef.current.getEditor().getContents()
     //     const html = quillRef.current.getEditor().root.innerHTML
@@ -103,7 +104,7 @@ TextEditorProps) {
             .required(),
         // content: yup.string().required('Content is required'),
     })
-    const formMethods = useForm({
+    const formMethods: any = useForm({
         mode: 'all',
         resolver: yupResolver(validationSchema),
         defaultValues: {
@@ -118,16 +119,28 @@ TextEditorProps) {
             ],
         },
     })
+
+    const { fields, append, remove } = useFieldArray({
+        control: formMethods.control,
+        name: 'blogQuestions',
+    })
     // FAQ's
-    useEffect(() => {
-        const initialFaqList = blogData?.blogQuestions.map((question: any) => ({
-            question: question.question,
-            answer: question.answer,
-        })) || [{ question: '', answer: '' }]
+    // useEffect(() => {
+    //     const initialFaqList = blogData?.blogQuestions.map((question: any) => ({
+    //         question: question.question,
+    //         answer: question.answer,
+    //     })) || [{ question: '', answer: '' }]
 
-        setFaqList(initialFaqList)
-    }, [blogData])
+    //     setFaqList(initialFaqList)
+    // }, [blogData])
 
+    const handleAddFAQ = () => {
+        append({ question: '', answer: '' })
+    }
+
+    const handleRemoveFAQ = (index: number) => {
+        remove(index)
+    }
     const modules = {
         toolbar: [
             [{ font: [] }],
@@ -174,12 +187,16 @@ TextEditorProps) {
             />
         )
     }
+
+    // Quill Editor
     useEffect(() => {
         if (blogData && !coverUrl) {
             quillRef.current.getEditor().root.innerHTML = blogData.content || ''
             setCoverUrl(blogData?.featuredImage)
         }
     }, [blogData])
+
+    // category
     useEffect(() => {
         const category = formMethods.getValues('category')
         // if (!category){
@@ -195,42 +212,48 @@ TextEditorProps) {
         }
     }, [blogData])
 
+    // FAQ's
+    useEffect(() => {
+        if (blogData?.blogQuestions) {
+            blogData.blogQuestions.forEach((faq: any, index: any) => {
+                formMethods.setValue(
+                    `blogQuestions[${index}].question`,
+                    faq.question
+                )
+                formMethods.setValue(
+                    `blogQuestions[${index}].answer`,
+                    faq.answer
+                )
+            })
+        }
+    }, [formMethods.setValue, blogData])
+
     const options = data?.map((item: any) => ({
         label: item?.title,
         value: item?.id,
     }))
 
-    // useEffect(() => {
-    //     if (updateBlogResult?.isSuccess) {
-    //         notification.success({
-    //             title: 'Blog updated',
-    //             description: 'Blog Updated Successfully',
-    //         })
-    //         if (blogPost === blogPostEnum.Save) {
-    //             router.push('/portals/admin/blogs?tab=draft&page=1&pageSize=50')
-    //         } else if (blogPost === blogPostEnum.SaveAndPublish) {
-    //             router.push(
-    //                 '/portals/admin/blogs?tab=published&page=1&pageSize=50'
-    //             )
-    //         }
-    //     }
-    // }, [updateBlogResult?.isSuccess])
-
     // dynamic fields
-    const handleAddFAQ = () => {
-        setFaqList((prevFaqList: any) => [
-            ...prevFaqList,
-            { question: '', answer: '' },
-        ])
-    }
+    // const handleAddFAQ = () => {
+    //     setFaqList((prevFaqList: any) => [
+    //         ...prevFaqList,
+    //         { question: '', answer: '' },
+    //     ])
+    // }
 
-    const handleRemoveFAQ = (index: number) => {
-        setFaqList((prevFaqList: any) => {
-            const updatedList = [...prevFaqList]
-            updatedList.splice(index, 1)
-            return updatedList
-        })
-    }
+    // const handleRemoveFAQ = (index: number) => {
+    //     setFaqList((prevFaqList: any) => {
+    //         const updatedList = [...prevFaqList]
+    //         updatedList.splice(index, 1)
+    //         return updatedList
+    //     })
+    // }
+
+    const initialFaqList = fields?.map((question: any) => ({
+        question: question.question,
+        answer: question.answer,
+    })) || [{ question: '', answer: '' }]
+    console.log('JSON.stringify(fields)', initialFaqList)
 
     const onSubmit: any = (data: any, publish: boolean) => {
         const content = quillRef.current.getEditor().root.innerHTML
@@ -268,7 +291,7 @@ TextEditorProps) {
             isFeatured: isFeatured.toString(),
             category: data?.category,
             // blogQuestions: JSON.stringify(data?.blogQuestions),
-            blogQuestions: JSON.stringify(faqList),
+            blogQuestions: JSON.stringify(initialFaqList),
             // formData.append('blogQuestions', JSON.stringify(data?.faq))
         }
 
@@ -308,20 +331,18 @@ TextEditorProps) {
                 }
             })
             .catch((err: any) => {
-                console.log('error', err)
                 notification.error({
                     title: 'Blog Update Failed',
                     description: 'There was an error updating the blog.',
                 })
             })
-            console.log('error', faqList)
     }
 
     return (
         <div>
             <FormProvider {...formMethods}>
                 <form
-                    onSubmit={formMethods.handleSubmit((data) =>
+                    onSubmit={formMethods.handleSubmit((data: any) =>
                         onSubmit(data, isPublish)
                     )}
                 >
@@ -373,53 +394,6 @@ TextEditorProps) {
                                 >
                                     <div className="flex flex-col w-3/4">
                                         <TextInput
-                                            name={`faq[${index}].question`}
-                                            label={`FAQ ${index + 1} Question`}
-                                            placeholder="Enter Question"
-                                            value={faq.question}
-                                            onChange={(e: any) => {
-                                                const updatedFaqList = [
-                                                    ...faqList,
-                                                ]
-                                                updatedFaqList[index].question =
-                                                    e.target.value
-                                                setFaqList(updatedFaqList)
-                                            }}
-                                        />
-                                        <TextArea
-                                            name={`faq[${index}].answer`}
-                                            label={`FAQ ${index + 1} Answer`}
-                                            placeholder="Enter Answer"
-                                            value={faq.answer}
-                                            onChange={(e: any) => {
-                                                const updatedFaqList = [
-                                                    ...faqList,
-                                                ]
-                                                updatedFaqList[index].answer =
-                                                    e.target.value
-                                                setFaqList(updatedFaqList)
-                                            }}
-                                        />
-                                    </div>
-                                    <div className="mt-7">
-                                        <Button
-                                            text="Remove"
-                                            onClick={() =>
-                                                handleRemoveFAQ(index)
-                                            }
-                                            variant="error"
-                                        />
-                                    </div>
-                                </div>
-                            ))} */}
-
-                            {faqList.map((faq: any, index: any) => (
-                                <div
-                                    key={index}
-                                    className="flex items-start gap-x-4"
-                                >
-                                    <div className="flex flex-col w-3/4">
-                                        <TextInput
                                             name={`blogQuestions[${index}].question`}
                                             label={`FAQ ${index + 1} Question`}
                                             placeholder="Enter Question"
@@ -446,6 +420,36 @@ TextEditorProps) {
                                                     e.target.value
                                                 setFaqList(updatedFaqList)
                                             }}
+                                        />
+                                    </div>
+                                    <div className="mt-7">
+                                        <Button
+                                            text="Remove"
+                                            onClick={() =>
+                                                handleRemoveFAQ(index)
+                                            }
+                                            variant="error"
+                                        />
+                                    </div>
+                                </div>
+                            ))} */}
+                            {fields.map((faq: any, index: any) => (
+                                <div
+                                    key={faq.id}
+                                    className="flex items-start gap-x-4"
+                                >
+                                    <div className="flex flex-col w-3/4">
+                                        <TextInput
+                                            name={`blogQuestions[${index}].question`}
+                                            label={`FAQ ${index + 1} Question`}
+                                            placeholder="Enter Question"
+                                            defaultValue={faq.question}
+                                        />
+                                        <TextArea
+                                            name={`blogQuestions[${index}].answer`}
+                                            label={`FAQ ${index + 1} Answer`}
+                                            placeholder="Enter Answer"
+                                            // defaultValue={faq.answer}
                                         />
                                     </div>
                                     <div className="mt-7">

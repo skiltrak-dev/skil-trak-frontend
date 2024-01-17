@@ -1,5 +1,14 @@
-import { Typography } from '@components'
-import React from 'react'
+import {
+    ActionButton,
+    Button,
+    InputContentEditor,
+    Modal,
+    Typography,
+    draftToHtmlText,
+    htmlToDraftText,
+    inputEditorErrorMessage,
+} from '@components'
+import React, { useEffect, useState } from 'react'
 import { TicketUser } from './TicketUser'
 import moment from 'moment'
 import { ellipsisText, getUserCredentials } from '@utils'
@@ -8,7 +17,12 @@ import { TiArrowForward } from 'react-icons/ti'
 import { UserRoles } from '@constants'
 import { FaLongArrowAltLeft } from 'react-icons/fa'
 import { useRouter } from 'next/router'
-
+import { Controller, FormProvider, useForm } from 'react-hook-form'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { FaEdit } from 'react-icons/fa'
+import { CommonApi } from '@queries'
+import { useNotification } from '@hooks'
 export const StatusEnum = {
     FORWARDED: 'forwarded',
     REPLY: 'reply',
@@ -17,18 +31,105 @@ export const StatusEnum = {
 export const TicketMessageCard = ({
     message,
     ticketDetail,
+    replyId,
 }: {
     message: any
     ticketDetail?: any
+    replyId?: any
 }) => {
+    const [modal, setModal] = useState<any | null>(null)
+    const [replyContent, setReplyContent] = useState<any>(null)
+    const { notification } = useNotification()
     const id = getUserCredentials()?.id
     const forwarded = message?.action
     const router = useRouter()
     const role = getUserCredentials()?.role
-   
+    // update api call
+    const [updateReply, updateReplyResult] = CommonApi.Tickets.useUpdateReply()
+    const plainText: any = message.message.replace(/<[^>]+>/g, '')
+
+    const validationSchema = yup.object({
+        message: yup
+            .mixed()
+            .test('Message', 'Must Provide Message', (value) =>
+                inputEditorErrorMessage(value)
+            ),
+    })
+    const methods = useForm({
+        mode: 'all',
+        resolver: yupResolver(validationSchema),
+    })
+    const onSubmit = async (values: any) => {
+        const message = draftToHtmlText(values?.message)
+
+        try {
+            if (message) {
+                await updateReply({
+                    id: replyId,
+                    message,
+                })
+            }
+        } catch (error) {
+            notification.error({
+                title: 'Update Failed',
+                description: 'There was an error updating the reply.',
+            })
+        }
+        setModal(null)
+    }
+
+    const handleEdit = () => {
+        setReplyContent(message?.message)
+        setModal(
+            <Modal
+                onCancelClick={onCancel}
+                onConfirmClick={methods.handleSubmit(onSubmit)}
+                title={'Edit'}
+                confirmText={'Update'}
+                subtitle={'Edit your reply'}
+            >
+                <FormProvider {...methods}>
+                    <form className="mt-2 w-full">
+                        <Controller
+                            name="message"
+                            control={methods.control}
+                            defaultValue={
+                                htmlToDraftText(message?.message) || ''
+                            }
+                            render={({ field }) => (
+                                <InputContentEditor
+                                    name={field?.name}
+                                    label={'Message'}
+                                    height={'h-44'}
+                                    // {...field}
+                                />
+                            )}
+                        />
+                    </form>
+                </FormProvider>
+            </Modal>
+        )
+
+        // You can perform any additional actions if needed
+    }
+
+    const onCancel = () => {
+        setModal(null)
+    }
+
+    useEffect(() => {
+        if (updateReplyResult.isSuccess) {
+            notification.success({
+                title: 'Reply Updated',
+                description: 'Reply Updated Successfully',
+            })
+            methods.reset()
+        }
+    }, [updateReplyResult])
+
     return (
         <>
-            
+            {modal && modal}
             <div
                 className={`${
                     id === message?.author?.id ? 'bg-gray-200' : 'bg-white'
@@ -45,7 +146,7 @@ export const TicketMessageCard = ({
                 )}
                 <div className="flex justify-between items-center ">
                     <TicketUser ticket={message.author} forwarded={forwarded} />
-                    <div>
+                    <div className="flex items-center gap-x-2">
                         <Typography variant={'small'} color={'text-gray-500'}>
                             {moment(message?.createdAt).format(
                                 'dddd DD MMMM, YYYY - hh:mm a'
@@ -55,6 +156,21 @@ export const TicketMessageCard = ({
                         (ticketDetail.createdBy.id === id && (
                             <ForwardTicket ticketDetail={ticketDetail} />
                         ))} */}
+                        <div>
+                            {id === message?.author?.id && (
+                                // <Button
+                                //     text={'Edit'}
+                                //     variant={'info'}
+                                //     onClick={handleEdit}
+                                // />
+                                <ActionButton
+                                    onClick={handleEdit}
+                                    variant={'info'}
+                                >
+                                    <FaEdit />
+                                </ActionButton>
+                            )}
+                        </div>
                     </div>
                 </div>
                 <div

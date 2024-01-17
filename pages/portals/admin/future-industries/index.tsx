@@ -34,6 +34,8 @@ const FutureIndustryListing: NextPageWithLayout = (props: Props) => {
     )
     const [industryData, setIndustryData] = useState<any>(null)
 
+   
+
     const router = useRouter()
 
     const filteredIndustries = CommonApi.FindWorkplace.useGetAllFindWorkplaces({

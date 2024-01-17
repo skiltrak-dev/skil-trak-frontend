@@ -384,6 +384,7 @@ const {
     // ---- TICKETS ---- //
     useGetTicketQuery,
     useAddReplyMutation,
+    useUpdateReplyMutation,
     useGetAllTicketQuery,
     useGetTicketCountQuery,
     useCloseTicketMutation,
@@ -589,6 +590,7 @@ export const CommonApi = {
     Tickets: {
         useGetTicket: useGetTicketQuery,
         useAddReply: useAddReplyMutation,
+        useUpdateReply: useUpdateReplyMutation,
         useGetAllTicket: useGetAllTicketQuery,
         useGetDetail: useGetTicketDetailQuery,
         useCloseTicket: useCloseTicketMutation,

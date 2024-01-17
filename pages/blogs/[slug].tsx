@@ -71,33 +71,38 @@ const BlogDetail: NextPageWithLayout = () => {
                                 collapsible
                                 className="w-full flex flex-col gap-y-1 "
                             >
-                                {data?.blogQuestions.map((faq: any) => {
-                                    return (
-                                        <AccordionItem
-                                            className="shadow-md px-5 py-4 w-full "
-                                            value={faq?.id}
-                                            onClick={() =>
-                                                setActiveKey((prevActiveKey) =>
-                                                    prevActiveKey === faq.id
-                                                        ? null
-                                                        : faq.id
-                                                )
-                                            }
-                                        >
-                                            <AccordionTrigger className="mb-2 font-medium text-sm flex items-center justify-between w-full">
-                                                {faq?.question}
-                                                {activeKey === faq?.id ? (
-                                                    <FaChevronUp />
-                                                ) : (
-                                                    <FaChevronDown />
-                                                )}
-                                            </AccordionTrigger>
-                                            <AccordionContent className="text-sm text-gray-500">
-                                                {faq?.answer}
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                    )
-                                })}
+                                {data?.blogQuestions?.map(
+                                    (faq: any, index: any) => {
+                                        return (
+                                            <AccordionItem
+                                                key={index}
+                                                className="shadow-md px-5 py-4 w-full "
+                                                value={faq?.id}
+                                                onClick={() =>
+                                                    setActiveKey(
+                                                        (prevActiveKey) =>
+                                                            prevActiveKey ===
+                                                            faq.id
+                                                                ? null
+                                                                : faq.id
+                                                    )
+                                                }
+                                            >
+                                                <AccordionTrigger className="mb-2 font-medium text-sm flex items-center justify-between w-full">
+                                                    {faq?.question}
+                                                    {activeKey === faq?.id ? (
+                                                        <FaChevronUp />
+                                                    ) : (
+                                                        <FaChevronDown />
+                                                    )}
+                                                </AccordionTrigger>
+                                                <AccordionContent className="text-sm text-gray-500">
+                                                    {faq?.answer}
+                                                </AccordionContent>
+                                            </AccordionItem>
+                                        )
+                                    }
+                                )}
                             </Accordion>
                         </div>
                     </div>
