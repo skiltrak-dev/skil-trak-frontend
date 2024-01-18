@@ -28,9 +28,14 @@ export const SubAdminLayout = ({
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const pendingDocuments = CommonApi.ESign.usePendingDocumentsList({
-        status: [EsignDocumentStatus.PENDING, EsignDocumentStatus.ReSign],
-    })
+    const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
+        {
+            status: [EsignDocumentStatus.PENDING, EsignDocumentStatus.ReSign],
+        },
+        {
+            refetchOnMountOrArgChange: true,
+        }
+    )
 
     useEffect(() => {
         setMounted(true)

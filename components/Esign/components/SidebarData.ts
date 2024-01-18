@@ -2,7 +2,12 @@ import { UserRoles } from '@constants'
 import { MdDashboardCustomize, MdEmail } from 'react-icons/md'
 import { AiOutlineUser } from 'react-icons/ai'
 import { MdOutlinePhone } from 'react-icons/md'
-import { FaIndustry, FaSignature, FaUniversity } from 'react-icons/fa'
+import {
+    FaDiscourse,
+    FaIndustry,
+    FaSignature,
+    FaUniversity,
+} from 'react-icons/fa'
 import { CiCalendarDate } from 'react-icons/ci'
 import { IoCheckbox } from 'react-icons/io5'
 import { IoRadioButtonOnOutline } from 'react-icons/io5'
@@ -32,6 +37,8 @@ export enum FieldsTypeEnum {
     Radio = 'radio',
     Phone = 'phone',
     Dropdown = 'dropdown',
+    CourseName = 'course',
+    CourseCode = 'courseCode',
 }
 export const SideBarFieldsData = {
     Student: {
@@ -116,6 +123,7 @@ export const SideBarFieldsData = {
                 column: 'emergencyPersonPhone',
                 role: UserRoles.STUDENT,
             },
+
             {
                 text: 'Student Signature',
                 id: 'input-student-signature',
@@ -399,6 +407,34 @@ export const SideBarFieldsData = {
                 Icon: CiCalendarDate,
                 column: 'date',
                 role: UserRoles.SUBADMIN,
+            },
+        ],
+    },
+    Course: {
+        key: 'course',
+        Icon: FaDiscourse,
+        value: [
+            {
+                text: 'Course Name',
+                id: 'input-course-name',
+                color: ColorPreset.student,
+                placeholder: 'Course Name',
+                preDefined: true,
+                type: FieldsTypeEnum.CourseName,
+                Icon: FaSignature,
+                column: 'course',
+                role: UserRoles.STUDENT,
+            },
+            {
+                text: 'Course Code',
+                id: 'input-course-code',
+                color: ColorPreset.student,
+                placeholder: 'Course Code',
+                preDefined: true,
+                type: FieldsTypeEnum.CourseCode,
+                Icon: FaSignature,
+                column: 'course',
+                role: UserRoles.STUDENT,
             },
         ],
     },
