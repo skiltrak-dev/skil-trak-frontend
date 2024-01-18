@@ -46,6 +46,10 @@ export const IndustryProfile = ({ data }: Props) => {
     const [addToPartner, addToPartnerResult] =
         SubAdminApi.Industry.useAddToPartner()
     const [callLog, callLogResult] = SubAdminApi.Industry.useIndustryCallLog()
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: !UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+    })
 
     useEffect(() => {
         if (addToPartnerResult.isSuccess) {
@@ -155,7 +159,8 @@ export const IndustryProfile = ({ data }: Props) => {
                                 variant={'info'}
                                 onClick={() =>
                                     router.push(
-                                        role === 'admin'
+                                        role === UserRoles.ADMIN ||
+                                            subadmin?.data?.isAdmin
                                             ? `/portals/admin/industry/edit-industry/${router.query.id}`
                                             : `/portals/sub-admin/users/industries/${router.query.id}/edit-profile`
                                     )

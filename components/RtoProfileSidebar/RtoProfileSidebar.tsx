@@ -5,8 +5,10 @@ import {
     Typography,
 } from '@components'
 import { NoData } from '@components/ActionAnimations'
+import { UserRoles } from '@constants'
 import { useActionModal } from '@hooks'
 import { CourseList } from '@partials/common'
+import { SubAdminApi } from '@queries'
 import { Course, GetSectorsType } from '@types'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
@@ -22,6 +24,11 @@ type Props = {}
 export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
     const pathname = useRouter()
     const profileId = pathname.query.profileId
+
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: !UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+    })
     // const {data} = useGetSubAdminRTODetailQuery(String(profileId), {
     //   skip: !profileId,
     // })
@@ -62,7 +69,8 @@ export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
                                         variant={'info'}
                                         onClick={() =>
                                             pathname.push(
-                                                role === 'admin'
+                                                role === UserRoles.ADMIN ||
+                                                    subadmin?.data?.isAdmin
                                                     ? `/portals/admin/rto/${rto?.data?.id}/edit-profile`
                                                     : `/portals/sub-admin/users/rtos/${rto?.data?.id}/edit-profile`
                                             )
