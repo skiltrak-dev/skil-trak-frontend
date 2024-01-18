@@ -404,13 +404,13 @@ export default function ESign() {
             setTabsError(notRoles)
         }
         if (notRoles && notRoles?.length > 0) {
-            notRoles?.forEach((item: any) => {
-                notification.error({
-                    title: 'Add Role',
-                    description: `${item?.data?.type} Field role should not be empty`,
-                    dissmissTimer: 5500,
-                })
-            })
+            // notRoles?.forEach((item: any) => {
+            //     notification.error({
+            //         title: 'Add Role',
+            //         description: `${item?.data?.type} Field role should not be empty`,
+            //         dissmissTimer: 5500,
+            //     })
+            // })
         } else {
             const updatedItems = items.map((item: any) => ({
                 label: item?.data?.dataLabel,
