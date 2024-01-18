@@ -2,6 +2,7 @@
 import {
     AdminNavbar,
     Button,
+    DisplayAlerts,
     DisplayNotifications,
     EmptyData,
     LoadingAnimation,
@@ -11,9 +12,11 @@ import {
 } from '@components'
 import { Contextbar, Sidebar } from '@components/Esign'
 import DynamicSvgLoader from '@components/Esign/components/SvgLoader'
+import { NotificationMessage } from '@components/NotificationMessage'
 import { DndContext, DragOverlay } from '@dnd-kit/core'
 import { restrictToWindowEdges } from '@dnd-kit/modifiers'
-import { useNavbar, useNotification } from '@hooks'
+import { useAlert, useNavbar, useNotification } from '@hooks'
+import { ShowNotificationModal } from '@partials'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -21,21 +24,35 @@ import { uuid } from 'uuidv4'
 
 export default function ESign() {
     const [mounted, setMounted] = useState(false)
+    const [modal, setModal] = useState<any>(null)
     const [currentPage, setCurrentPage] = useState<number>(0)
     const [activeItem, setActiveItem] = useState(true)
     const [contextBar, setContextBar] = useState<any>()
+    const [copiedSelectedTab, setCopiedSelectedTab] = useState<any>()
     const [lastId, setLastId] = useState<any>('')
     const [items, setItems] = useState<any>([])
     const [newAddedItems, setNewAddedItems] = useState<any>([])
     const [lastSelectedItem, setLastSelectedItem] = useState<any>()
     const [draggableData, setDraggableData] = useState<any>()
     const [tabDropCoordinates, setTabDropCoordinates] = useState<any>(null)
+    const [isTabSelected, setIsTabSelected] = useState<boolean>(false)
+    const [tabsError, setTabsError] = useState<any>(null)
+    const [pastedTabsCount, setPastedTabsCount] = useState<number>(1)
 
     const navBar = useNavbar()
 
     const router = useRouter()
 
     const { notification } = useNotification()
+    const { alert } = useAlert()
+
+    useEffect(() => {
+        if (contextBar) {
+            setIsTabSelected(true)
+        } else {
+            setIsTabSelected(false)
+        }
+    }, [contextBar])
 
     const [saveEsignTemplate, saveEsignTemplateResult] =
         CommonApi.ESign.useSaveTemplate()
@@ -71,6 +88,7 @@ export default function ESign() {
 
     useEffect(() => {
         navBar.setTitle('E-Sign')
+
         if (!mounted) {
             setMounted(true)
         }
@@ -173,7 +191,11 @@ export default function ESign() {
     // 	setContextBar(item);
     // };
 
-    const onItemSelected = (item: any, selected: boolean) => {
+    const onItemSelected = (
+        item: any,
+        selected: boolean,
+        isMouseDown?: boolean
+    ) => {
         setContextBar(item)
         // Deselect Previous Item
         if (lastSelectedItem) {
@@ -200,6 +222,8 @@ export default function ESign() {
             // Select Item
             if (existingItem) {
                 const updatedList = items.filter((x: any) => x.id !== item.id)
+                let abc = false
+
                 existingItem.selected = selected
                 updatedList.push(existingItem)
             }
@@ -249,13 +273,17 @@ export default function ESign() {
             const tab = {
                 id: newId,
                 page: data?.over?.id,
-                location: { x: newLocX, y: newLocY, page: data?.over?.id },
+                location: {
+                    x: newLocX - 60 < 0 ? 1 : newLocX - 60,
+                    y: newLocY - 12 < 0 ? 0 : newLocY - 12,
+                    page: data?.over?.id,
+                },
                 size: { width: 120, height: 24 },
                 data: {
                     ...data.active.data.current,
                     dataLabel: data.active.id,
                     ...(data.active.data.current?.isCustom
-                        ? { isRequired: false }
+                        ? { isRequired: true }
                         : {}),
                 },
                 parent: {
@@ -270,9 +298,18 @@ export default function ESign() {
                 resizing: false,
             }
 
-            setLastId(newId)
-            setItems((prevState: any) => [...prevState, tab])
-            setNewAddedItems((prevState: any) => [...prevState, tab.id])
+            if (tab?.page || tab?.page === 0) {
+                setLastId(newId)
+                setItems((prevState: any) => [
+                    ...prevState?.map((item: any) => ({
+                        ...item,
+                        selected: false,
+                    })),
+                    tab,
+                ])
+                setContextBar(null)
+                setNewAddedItems((prevState: any) => [...prevState, tab.id])
+            }
         }
     }
 
@@ -360,6 +397,13 @@ export default function ESign() {
     const onSaveClick = () => {
         const notRoles = items.filter((item: any) => !item?.data?.role)
         if (notRoles && notRoles?.length > 0) {
+            const detailItem = document.getElementById(`${notRoles?.[0]?.id}`)
+            if (detailItem) {
+                detailItem.scrollIntoView({ behavior: 'smooth' })
+            }
+            setTabsError(notRoles)
+        }
+        if (notRoles && notRoles?.length > 0) {
             notRoles?.forEach((item: any) => {
                 notification.error({
                     title: 'Add Role',
@@ -395,6 +439,11 @@ export default function ESign() {
                             description: `Templates Tabs Saved Successfully`,
                             dissmissTimer: 5500,
                         })
+                        setModal(
+                            <ShowNotificationModal
+                                onCancel={() => setModal(null)}
+                            />
+                        )
                     }
                 })
                 .catch((error: any) => {
@@ -437,6 +486,7 @@ export default function ESign() {
 
     return (
         <div className="h-screen overflow-hidden">
+            {modal}
             <DisplayNotifications />
             <ShowErrorNotifications result={removeTabsResult} />
 
@@ -452,23 +502,27 @@ export default function ESign() {
                     <div className="z-20 fixed w-full left-0 bottom-0 p-4 bg-white flex justify-end gap-x-2">
                         <Button
                             variant="primary"
-                            text={'Cancel'}
+                            text={'Remove Newly Added Tabs'}
                             outline
-                            loading={saveEsignTemplateResult.isLoading}
                             disabled={saveEsignTemplateResult.isLoading}
                             onClick={onCancelTabs}
                         />
                         <Button
                             variant="info"
-                            text={'Save'}
+                            text={'Save Template Tabs'}
                             loading={saveEsignTemplateResult.isLoading}
                             disabled={saveEsignTemplateResult.isLoading}
                             onClick={onSaveClick}
                         />
                     </div>
                     <div className="flex">
-                        <Sidebar setDraggableData={setDraggableData} />
+                        <Sidebar
+                            setDraggableData={setDraggableData}
+                            recipients={pagesCount?.data?.recipients}
+                        />
                         <div className="w-full h-screen overflow-y-scroll pb-24">
+                            <DisplayAlerts />
+
                             <DragOverlay>
                                 {draggableData ? (
                                     <div>
@@ -500,41 +554,18 @@ export default function ESign() {
                                 <LoadingAnimation height="h-[70vh]" />
                             ) : mounted && pagesCount?.data ? (
                                 <div className="p-5">
-                                    {/* <div className="px-4 flex justify-end gap-x-5">
-                                        <button
-                                            className={`flex items-center gap-x-1 text-xs font-semibold text-gray-500 hover:text-black disabled:text-gray-300 disabled:cursor-not-allowed`}
-                                            onClick={() => {
-                                                setCurrentPage((currentPage) =>
-                                                    currentPage > 0
-                                                        ? currentPage - 1
-                                                        : 1
-                                                )
-                                            }}
-                                            disabled={currentPage <= 0}
-                                        >
-                                            <FaChevronLeft />
-                                            Previous
-                                        </button>
-                                        <button
-                                            onClick={() => {
-                                                setCurrentPage((currentPage) =>
-                                                    currentPage <
-                                                    template?.data?.totalPages
-                                                        ? currentPage + 1
-                                                        : template?.data
-                                                              ?.totalPages
-                                                )
-                                            }}
-                                            className={`flex items-center gap-x-1 text-xs font-semibold text-gray-500 hover:text-black disabled:text-gray-300 disabled:cursor-not-allowed`}
-                                            disabled={
-                                                currentPage + 1 ===
-                                                template?.data?.totalPages
-                                            }
-                                        >
-                                            Next
-                                            <FaChevronRight />
-                                        </button>
-                                    </div> */}
+                                    <div className="flex gap-x-2 items-center w-full rounded-md bg-white p-3 mb-3">
+                                        <div>
+                                            <Typography variant={'label'}>
+                                                Drag and Drop the fields
+                                            </Typography>
+                                            <Typography variant={'small'}>
+                                                Drag and Drop the fields From
+                                                Left Sidebar to create a
+                                                template
+                                            </Typography>
+                                        </div>
+                                    </div>
 
                                     {pagesCount?.data?.size?.map(
                                         (item: any, i: number) => (
@@ -542,7 +573,121 @@ export default function ESign() {
                                                 id={`document-template-${i}`}
                                                 key={i}
                                             >
-                                                <div className="bg-white w-full rounded-lg overflow-hidden">
+                                                <div
+                                                    onKeyDown={(e: any) => {
+                                                        if (
+                                                            (e.ctrlKey ||
+                                                                e.metaKey) &&
+                                                            e.key === 'c'
+                                                        ) {
+                                                            e.preventDefault()
+
+                                                            // Copy the SVG <rect> markup to the clipboard
+                                                            const svgRect =
+                                                                contextBar
+
+                                                            navigator.clipboard
+                                                                .writeText(
+                                                                    svgRect
+                                                                )
+                                                                .then(() => {
+                                                                    setCopiedSelectedTab(
+                                                                        svgRect
+                                                                    )
+                                                                    setPastedTabsCount(
+                                                                        1
+                                                                    )
+                                                                })
+                                                        }
+                                                        const newId = uuid()
+                                                        const updatedCopiedText =
+                                                            {
+                                                                ...copiedSelectedTab,
+                                                                id: newId,
+                                                                selected: true,
+                                                                location: {
+                                                                    ...copiedSelectedTab?.location,
+                                                                    x:
+                                                                        copiedSelectedTab
+                                                                            ?.location
+                                                                            ?.x +
+                                                                        pastedTabsCount *
+                                                                            10,
+                                                                    y:
+                                                                        copiedSelectedTab
+                                                                            ?.location
+                                                                            ?.y +
+                                                                        pastedTabsCount *
+                                                                            10,
+                                                                },
+                                                                parent: {
+                                                                    ...copiedSelectedTab?.parent,
+                                                                    left:
+                                                                        copiedSelectedTab
+                                                                            ?.over
+                                                                            ?.rect
+                                                                            .left +
+                                                                        pastedTabsCount *
+                                                                            10,
+                                                                    top:
+                                                                        copiedSelectedTab
+                                                                            ?.over
+                                                                            ?.rect
+                                                                            .top +
+                                                                        pastedTabsCount *
+                                                                            10,
+                                                                },
+                                                            }
+                                                        if (
+                                                            (e.ctrlKey ||
+                                                                e.metaKey) &&
+                                                            e.key === 'v'
+                                                        ) {
+                                                            e.preventDefault()
+
+                                                            // Apply the copied data if available
+                                                            if (
+                                                                updatedCopiedText
+                                                            ) {
+                                                                // You may need to adjust the logic based on your data structure
+                                                                // For example, you might want to update specific properties of the current item
+                                                                // or create a new item with the copied data
+
+                                                                setItems([
+                                                                    ...items?.map(
+                                                                        (
+                                                                            item: any
+                                                                        ) => ({
+                                                                            ...item,
+                                                                            selected:
+                                                                                false,
+                                                                        })
+                                                                    ),
+                                                                    updatedCopiedText,
+                                                                ])
+                                                                setNewAddedItems(
+                                                                    (
+                                                                        prevState: any
+                                                                    ) => [
+                                                                        ...prevState,
+                                                                        updatedCopiedText?.id,
+                                                                    ]
+                                                                )
+                                                                setContextBar(
+                                                                    updatedCopiedText
+                                                                )
+                                                                setPastedTabsCount(
+                                                                    pastedTabsCount +
+                                                                        1
+                                                                )
+
+                                                                // Update the state or perform any necessary actions with the updated item
+                                                                // For demonstration purposes, let's log the updated item
+                                                            }
+                                                        }
+                                                    }}
+                                                    className="bg-white w-full rounded-lg overflow-hidden"
+                                                >
                                                     <div className="flex justify-center">
                                                         <Typography variant="label">
                                                             {i + 1}
@@ -578,6 +723,7 @@ export default function ESign() {
                                                         onItemRemove={
                                                             onItemRemove
                                                         }
+                                                        tabsError={tabsError}
                                                     />
                                                 </div>
                                                 <div className="my-8" />
@@ -607,6 +753,7 @@ export default function ESign() {
                             }}
                             items={items}
                             totalPages={pagesCount?.data?.pageCount}
+                            isTabSelected={isTabSelected}
                         />
                     </div>
                 </div>

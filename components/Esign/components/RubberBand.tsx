@@ -5,9 +5,15 @@ interface RubberBandProps {
     item: any
     onResize: Function
     onResized: Function
+    checkBox: boolean
 }
 
-export const RubberBand = ({ item, onResize, onResized }: RubberBandProps) => {
+export const RubberBand = ({
+    item,
+    onResize,
+    onResized,
+    checkBox,
+}: RubberBandProps) => {
     const { width: w, height: h } = item.size
 
     const circleStyle = {
@@ -65,15 +71,15 @@ export const RubberBand = ({ item, onResize, onResized }: RubberBandProps) => {
     return (
         <g>
             <rect
-                width={w}
-                height={h}
+                width={checkBox ? '12' : w}
+                height={checkBox ? '12' : h}
                 style={{ stroke: 'blue', fillOpacity: '0' }}
             />
             {/* Bottom Right */}
 
             <circle
-                cx={w}
-                cy={h}
+                cx={checkBox ? '12' : w}
+                cy={checkBox ? '12' : h}
                 r={circleRadius}
                 style={circleStyle}
                 cursor={'nwse-resize'}

@@ -20,7 +20,7 @@ import { CursorCoordinates } from './CursorCoordinates'
 
 const DynamicSvgLoader = ({
     items,
-    // path,
+    tabsError,
     size,
     page,
     onItemSelected,
@@ -32,6 +32,7 @@ const DynamicSvgLoader = ({
     pageNumber,
     setTabDropCoordinates,
 }: {
+    tabsError: any
     size: any
     pageNumber: number
     setTabDropCoordinates: (coordinates: { x: number; y: number }) => void
@@ -229,6 +230,9 @@ const DynamicSvgLoader = ({
                                                                 }
                                                                 onRemove={
                                                                     onItemRemove
+                                                                }
+                                                                tabsError={
+                                                                    tabsError
                                                                 }
                                                             ></DraggableTab>
                                                         )
