@@ -401,7 +401,6 @@ export default function ESign() {
         // })
     }
 
-    const [coords, setCoords] = useState({ x: 0, y: 0 })
     // useEffect(() => {
     // 	const handleWindowMouseMove = (event: any) => {
     // 		const tempCoords = {
