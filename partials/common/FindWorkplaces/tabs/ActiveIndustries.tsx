@@ -40,6 +40,7 @@ import {
 import { useContextBar } from '@hooks'
 import { AddIndustry } from './AddIndustry'
 import { ImportIndustriesList } from '../contextBar'
+import { ellipsisText } from '@utils'
 
 export const ActiveIndustries = ({
     onSetIndustryData,
@@ -246,9 +247,19 @@ export const ActiveIndustries = ({
                                     isDuplicated ? 'bg-gray-300' : ''
                                 } px-1.5 rounded-md`}
                             >
-                                <Typography variant={'label'}>
-                                    {info?.row?.original?.email}
-                                </Typography>
+                                <div className="group relative">
+                                    <Typography variant={'label'}>
+                                        <span className="cursor-pointer">
+                                            {ellipsisText(
+                                                `${info?.row?.original?.email}`,
+                                                20
+                                            )}
+                                        </span>
+                                    </Typography>
+                                    <div className="hidden group-hover:block w-auto absolute top-0 left-0 p-2 z-20 shadow rounded-md bg-white">
+                                        {info?.row?.original?.email}
+                                    </div>
+                                </div>
                                 {isDuplicated ? (
                                     <Tooltip>Duplicated Found</Tooltip>
                                 ) : null}
@@ -265,6 +276,29 @@ export const ActiveIndustries = ({
         {
             accessorKey: 'address',
             header: () => <span>Address</span>,
+            cell: (info) => (
+                <div className="group relative">
+                    <Typography variant={'label'}>
+                        <span className="cursor-pointer">
+                            {ellipsisText(
+                                `${info?.row?.original?.address}`,
+                                15
+                            )}
+                        </span>
+                    </Typography>
+                    <div className="hidden group-hover:block w-60 absolute top-0 left-0 p-2 z-20 shadow rounded-md bg-white">
+                        {info?.row?.original?.address}
+                    </div>
+                </div>
+            ),
+        },
+        {
+            accessorKey: 'country.name',
+            header: () => <span>Region</span>,
+        },
+        {
+            accessorKey: 'region.name',
+            header: () => <span>State</span>,
         },
         {
             accessorKey: 'status',

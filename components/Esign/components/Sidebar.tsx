@@ -24,7 +24,6 @@ export const Sidebar = ({
     recipients: string[]
 }) => {
     const [isOpened, setIsOpened] = useState<string>('')
-    const users = ['rto', 'industry']
     return (
         <div className="min-w-[250px] h-screen overflow-hidden overflow-y-auto custom-scrollbar bg-white py-2">
             <div className="h-[78%] w-full custom-scrollbar overflow-auto px-4">

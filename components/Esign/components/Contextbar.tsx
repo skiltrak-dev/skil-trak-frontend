@@ -249,7 +249,7 @@ export const Contextbar = ({
                                 }}
                                 disabled={content?.data?.preDefined}
                                 value={content?.data?.placeholder || ''}
-                                className={`order p-0 w-full border h-8 shadow rounded-md px-1 ${
+                                className={`order p-0 w-full border h-8 text-sm shadow rounded-md px-1 ${
                                     content?.data?.preDefined
                                         ? 'bg-gray-200 cursor-not-allowed'
                                         : ''
@@ -332,7 +332,7 @@ export const Contextbar = ({
                                 Please Select the authorizrd user for the tab
                             </Typography>
                             <select
-                                className={`border w-full shadow-md rounded-md px-1 ${
+                                className={`border border-gray-300 text-sm font-semibold h-8 outline-none w-full shadow-md rounded-md px-1 ${
                                     content?.data?.preDefined
                                         ? 'bg-gray-200 cursor-not-allowed'
                                         : ''
@@ -346,10 +346,10 @@ export const Contextbar = ({
                             >
                                 <option value="">Select</option>
                                 {Object.entries({
-                                    ADMIN: 'admin',
-                                    RTO: 'rto',
-                                    STUDENT: 'student',
-                                    INDUSTRY: 'industry',
+                                    Admin: 'admin',
+                                    Rto: 'rto',
+                                    Student: 'student',
+                                    Industry: 'industry',
                                     Coordinator: 'subadmin',
                                 }).map(([key, value]) => (
                                     <option

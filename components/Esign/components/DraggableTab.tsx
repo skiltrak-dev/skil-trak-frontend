@@ -62,9 +62,6 @@ export const DraggableTab = ({
             onMouseDown={(e: any) => {
                 onItemSelected(item, !item.selected, true)
             }}
-            onMouseUp={(e: any) => {
-                onItemSelected(item, item.selected, false)
-            }}
             {...listeners}
             onKeyDown={(e: any) => {
                 var key = e.which || e.keyCode || e.charCode
@@ -171,7 +168,7 @@ export const DraggableTab = ({
                                 fontSize: '10px',
                                 color: item.data?.color,
                             }}
-                            className='flex items-center gap-x-1'
+                            className="flex items-center gap-x-1"
                         >
                             {item.data.Icon && <item.data.Icon />}
                             {item.data?.placeholder || 'Text'}
