@@ -357,12 +357,12 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                                 'group max-w-max transition-all text-xs flex justify-start items-center py-2.5 text-muted hover:text-muted-dark rounded-lg cursor-pointer'
                             }
                             onClick={() => {
-                                role === 'admin'
+                                role === UserRoles.ADMIN
                                     ? router.push(
                                           `/${getLink('student')}` ||
                                               'portals/admin/student?tab=active&page=1&pageSize=50'
                                       )
-                                    : role === 'subadmin'
+                                    : role === UserRoles.SUBADMIN
                                     ? router.push(
                                           `/${getLink('subadmin-student')}` ||
                                               '/portals/sub-admin/students?tab=all'
@@ -374,9 +374,9 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                                     //           }
                                     //       />
                                     //   )
-                                    role === 'rto'
+                                    role === UserRoles.RTO
                                     ? router.push(
-                                          'portals/rto/students?tab=active'
+                                          '/portals/rto/students?tab=active'
                                       )
                                     : '#'
                             }}

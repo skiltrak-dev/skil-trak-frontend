@@ -1,7 +1,7 @@
 import { useDraggable } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
 import { RubberBand } from './RubberBand'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { TextInput } from '@components/inputs'
 import { FieldsTypeEnum } from './SidebarData'
 
@@ -45,6 +45,7 @@ export const DraggableTab = ({
             : {}),
     }
     console.log({ item })
+
     return (
         <g
             id={item?.id}
@@ -142,9 +143,11 @@ export const DraggableTab = ({
                                 ? 'red'
                                 : item.data?.color
                         }
+                        stroke={item.data?.color}
                         fillOpacity="0.4"
+                        strokeWidth={'0.5'}
                     />
-                    <rect
+                    {/* <rect
                         x="0.5"
                         y="0.5"
                         width={item.size?.width}
@@ -152,15 +155,45 @@ export const DraggableTab = ({
                         // stroke="#A9650E"
                         stroke={item.data?.color}
                         fillOpacity={'0'}
-                    />
-                    <text
+                    /> */}
+
+                    <foreignObject
+                        x="2"
+                        y="5"
+                        width={item.size?.width}
+                        height={item.size?.height}
+                    >
+                        <div
+                            style={{
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap',
+                                fontSize: '10px',
+                                color: item.data?.color,
+                            }}
+                            className='flex items-center gap-x-1'
+                        >
+                            {item.data.Icon && <item.data.Icon />}
+                            {item.data?.placeholder || 'Text'}
+                        </div>
+                    </foreignObject>
+                    {/* <text
                         className="text-[10px]"
                         x="6"
-                        y="18"
-                        fill={item.data?.color}
+                        y="16"
+                        style={{
+                            whiteSpace: 'nowrap', // Prevent line breaks
+                            textOverflow: 'ellipsis', // Display an ellipsis (...) if the text overflows
+                            overflow: 'hidden', // Hide the overflow
+                            maxWidth: '10', // Set your desired maximum width
+                            fontSize: '10px', // Set your desired font size
+                            fill: item.data?.color,
+                        }}
+                        // textLength="12" // Set the desired width
+                        // lengthAdjust="spacingAndGlyphs"
                     >
                         {item.data?.placeholder || 'Text'}
-                    </text>
+                    </text> */}
                 </>
             )}
 

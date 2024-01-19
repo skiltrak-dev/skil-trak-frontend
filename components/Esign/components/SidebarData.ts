@@ -1,5 +1,10 @@
 import { UserRoles } from '@constants'
-import { MdDashboardCustomize, MdEmail } from 'react-icons/md'
+import {
+    MdContactEmergency,
+    MdDashboardCustomize,
+    MdEmail,
+    MdOutlineContactEmergency,
+} from 'react-icons/md'
 import { AiOutlineUser } from 'react-icons/ai'
 import { MdOutlinePhone } from 'react-icons/md'
 import {
@@ -9,15 +14,17 @@ import {
     FaUniversity,
 } from 'react-icons/fa'
 import { CiCalendarDate } from 'react-icons/ci'
-import { IoCheckbox } from 'react-icons/io5'
+import { IoCheckbox, IoLocation } from 'react-icons/io5'
 import { IoRadioButtonOnOutline } from 'react-icons/io5'
 import { MdArrowDropDownCircle } from 'react-icons/md'
 import { CiText } from 'react-icons/ci'
 import { GoNumber } from 'react-icons/go'
 import { MdDriveFileRenameOutline } from 'react-icons/md'
-import { IoMdCodeWorking } from 'react-icons/io'
+import { IoIosCode, IoMdCodeWorking } from 'react-icons/io'
 import { PiStudentFill } from 'react-icons/pi'
 import { RiAdminFill } from 'react-icons/ri'
+import { LuClipboardList } from 'react-icons/lu'
+import { SiCoursera } from 'react-icons/si'
 
 const ColorPreset = {
     student: '#f59e0b',
@@ -97,7 +104,7 @@ export const SideBarFieldsData = {
                 placeholder: 'Student Address',
                 preDefined: true,
                 type: FieldsTypeEnum.Text,
-                Icon: FaSignature,
+                Icon: IoLocation,
                 column: 'addressLine1',
                 role: UserRoles.STUDENT,
             },
@@ -108,7 +115,7 @@ export const SideBarFieldsData = {
                 placeholder: 'Emergency Contact Name',
                 preDefined: true,
                 type: FieldsTypeEnum.Text,
-                Icon: FaSignature,
+                Icon: MdOutlineContactEmergency,
                 column: 'emergencyPerson',
                 role: UserRoles.STUDENT,
             },
@@ -119,11 +126,10 @@ export const SideBarFieldsData = {
                 placeholder: 'Emergency Contact Number',
                 preDefined: true,
                 type: FieldsTypeEnum.Text,
-                Icon: FaSignature,
+                Icon: MdContactEmergency,
                 column: 'emergencyPersonPhone',
                 role: UserRoles.STUDENT,
             },
-
             {
                 text: 'Student Signature',
                 id: 'input-student-signature',
@@ -203,7 +209,7 @@ export const SideBarFieldsData = {
                 placeholder: 'RTO Address',
                 preDefined: true,
                 type: FieldsTypeEnum.Text,
-                Icon: FaSignature,
+                Icon: IoLocation,
                 column: 'addressLine1',
                 role: UserRoles.RTO,
             },
@@ -287,7 +293,7 @@ export const SideBarFieldsData = {
                 placeholder: 'Industry Address',
                 preDefined: true,
                 type: FieldsTypeEnum.Text,
-                Icon: FaSignature,
+                Icon: IoLocation,
                 column: 'addressLine1',
                 role: UserRoles.INDUSTRY,
             },
@@ -382,7 +388,7 @@ export const SideBarFieldsData = {
                 placeholder: 'Coordinator Address',
                 preDefined: true,
                 type: FieldsTypeEnum.Text,
-                Icon: FaSignature,
+                Icon: IoLocation,
                 column: 'addressLine1',
                 role: UserRoles.SUBADMIN,
             },
@@ -412,27 +418,27 @@ export const SideBarFieldsData = {
     },
     Course: {
         key: 'course',
-        Icon: FaDiscourse,
+        Icon: LuClipboardList,
         value: [
             {
-                text: 'Course Name',
+                text: 'Course name',
                 id: 'input-course-name',
                 color: ColorPreset.student,
-                placeholder: 'Course Name',
+                placeholder: 'Course name',
                 preDefined: true,
                 type: FieldsTypeEnum.CourseName,
-                Icon: FaSignature,
+                Icon: LuClipboardList,
                 column: 'course',
                 role: UserRoles.STUDENT,
             },
             {
-                text: 'Course Code',
+                text: 'Course code',
                 id: 'input-course-code',
                 color: ColorPreset.student,
-                placeholder: 'Course Code',
+                placeholder: 'Course code',
                 preDefined: true,
                 type: FieldsTypeEnum.CourseCode,
-                Icon: FaSignature,
+                Icon: SiCoursera,
                 column: 'course',
                 role: UserRoles.STUDENT,
             },
