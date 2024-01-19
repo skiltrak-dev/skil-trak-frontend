@@ -40,6 +40,8 @@ export default function ESign() {
     const [tabsError, setTabsError] = useState<any>(null)
     const [pastedTabsCount, setPastedTabsCount] = useState<number>(1)
 
+    console.log({ lastSelectedItem })
+
     const navBar = useNavbar()
 
     const router = useRouter()
@@ -192,11 +194,7 @@ export default function ESign() {
     // 	setContextBar(item);
     // };
 
-    const onItemSelected = (
-        item: any,
-        selected: boolean,
-        isMouseDown?: boolean
-    ) => {
+    const onItemSelected = (item: any, selected: boolean) => {
         setContextBar(item)
         // Deselect Previous Item
         if (lastSelectedItem) {
@@ -270,6 +268,8 @@ export default function ESign() {
             //     return data.delta.y
             // })()
 
+            console.log({ data })
+
             const isCheckBox =
                 data.active.data.current?.type === FieldsTypeEnum.Checkbox
 
@@ -277,6 +277,7 @@ export default function ESign() {
             const tab = {
                 id: newId,
                 page: data?.over?.id,
+                selected: true,
                 location: {
                     x: isCheckBox
                         ? newLocX - 3
@@ -323,8 +324,27 @@ export default function ESign() {
                     })),
                     tab,
                 ])
-                setContextBar(null)
+                setContextBar(tab)
+                setLastSelectedItem(tab)
                 setNewAddedItems((prevState: any) => [...prevState, tab.id])
+                if (data.active.data.current?.isCustom) {
+                    if (
+                        data.active.data.current?.type ===
+                        FieldsTypeEnum.Dropdown
+                    ) {
+                        notification.warning({
+                            title: 'Add Role and Values for Dropdown',
+                            description: 'Add Role and Values for Dropdown',
+                            dissmissTimer: 5555,
+                        })
+                    } else {
+                        notification.warning({
+                            title: `Add Role for ${data.active.data.current?.type.toUpperCase()} fields`,
+                            description: `Add Role for ${data.active.data.current?.type.toUpperCase()} fields`,
+                            dissmissTimer: 5555,
+                        })
+                    }
+                }
             }
         }
     }
@@ -336,6 +356,7 @@ export default function ESign() {
 
         setContextBar(null)
         const existingItem = items.find((x: any) => x.id === contextBar?.id)
+        console.log({ existingItem })
         if (existingItem) {
             const updatedList = items.filter(
                 (x: any) => x.id !== contextBar?.id
@@ -500,6 +521,68 @@ export default function ESign() {
         setContextBar(null)
     }
 
+    const onCopyTab = (e: any) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
+            e.preventDefault()
+
+            // Copy the SVG <rect> markup to the clipboard
+            const svgRect = contextBar
+
+            navigator.clipboard.writeText(svgRect).then(() => {
+                setCopiedSelectedTab(svgRect)
+                setPastedTabsCount(1)
+            })
+        }
+    }
+
+    const onPasteTab = (e: any) => {
+        const newId = uuid()
+        const updatedCopiedText = {
+            ...copiedSelectedTab,
+            saved: false,
+            id: newId,
+            selected: true,
+            location: {
+                ...copiedSelectedTab?.location,
+                x: copiedSelectedTab?.location?.x + pastedTabsCount * 10,
+                y: copiedSelectedTab?.location?.y + pastedTabsCount * 10,
+            },
+            parent: {
+                ...copiedSelectedTab?.parent,
+                left: copiedSelectedTab?.over?.rect.left + pastedTabsCount * 10,
+                top: copiedSelectedTab?.over?.rect.top + pastedTabsCount * 10,
+            },
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'v') {
+            e.preventDefault()
+
+            // Apply the copied data if available
+            if (updatedCopiedText) {
+                // You may need to adjust the logic based on your data structure
+                // For example, you might want to update specific properties of the current item
+                // or create a new item with the copied data
+
+                setItems([
+                    ...items?.map((item: any) => ({
+                        ...item,
+                        selected: false,
+                    })),
+                    updatedCopiedText,
+                ])
+                setNewAddedItems((prevState: any) => [
+                    ...prevState,
+                    updatedCopiedText?.id,
+                ])
+                setLastSelectedItem(updatedCopiedText)
+                setContextBar(updatedCopiedText)
+                setPastedTabsCount(pastedTabsCount + 1)
+
+                // Update the state or perform any necessary actions with the updated item
+                // For demonstration purposes, let's log the updated item
+            }
+        }
+    }
+
     return (
         <div className="h-screen overflow-hidden">
             {modal}
@@ -591,116 +674,8 @@ export default function ESign() {
                                             >
                                                 <div
                                                     onKeyDown={(e: any) => {
-                                                        if (
-                                                            (e.ctrlKey ||
-                                                                e.metaKey) &&
-                                                            e.key === 'c'
-                                                        ) {
-                                                            e.preventDefault()
-
-                                                            // Copy the SVG <rect> markup to the clipboard
-                                                            const svgRect =
-                                                                contextBar
-
-                                                            navigator.clipboard
-                                                                .writeText(
-                                                                    svgRect
-                                                                )
-                                                                .then(() => {
-                                                                    setCopiedSelectedTab(
-                                                                        svgRect
-                                                                    )
-                                                                    setPastedTabsCount(
-                                                                        1
-                                                                    )
-                                                                })
-                                                        }
-                                                        const newId = uuid()
-                                                        const updatedCopiedText =
-                                                            {
-                                                                ...copiedSelectedTab,
-                                                                id: newId,
-                                                                selected: true,
-                                                                location: {
-                                                                    ...copiedSelectedTab?.location,
-                                                                    x:
-                                                                        copiedSelectedTab
-                                                                            ?.location
-                                                                            ?.x +
-                                                                        pastedTabsCount *
-                                                                            10,
-                                                                    y:
-                                                                        copiedSelectedTab
-                                                                            ?.location
-                                                                            ?.y +
-                                                                        pastedTabsCount *
-                                                                            10,
-                                                                },
-                                                                parent: {
-                                                                    ...copiedSelectedTab?.parent,
-                                                                    left:
-                                                                        copiedSelectedTab
-                                                                            ?.over
-                                                                            ?.rect
-                                                                            .left +
-                                                                        pastedTabsCount *
-                                                                            10,
-                                                                    top:
-                                                                        copiedSelectedTab
-                                                                            ?.over
-                                                                            ?.rect
-                                                                            .top +
-                                                                        pastedTabsCount *
-                                                                            10,
-                                                                },
-                                                            }
-                                                        if (
-                                                            (e.ctrlKey ||
-                                                                e.metaKey) &&
-                                                            e.key === 'v'
-                                                        ) {
-                                                            e.preventDefault()
-
-                                                            // Apply the copied data if available
-                                                            if (
-                                                                updatedCopiedText
-                                                            ) {
-                                                                // You may need to adjust the logic based on your data structure
-                                                                // For example, you might want to update specific properties of the current item
-                                                                // or create a new item with the copied data
-
-                                                                setItems([
-                                                                    ...items?.map(
-                                                                        (
-                                                                            item: any
-                                                                        ) => ({
-                                                                            ...item,
-                                                                            selected:
-                                                                                false,
-                                                                        })
-                                                                    ),
-                                                                    updatedCopiedText,
-                                                                ])
-                                                                setNewAddedItems(
-                                                                    (
-                                                                        prevState: any
-                                                                    ) => [
-                                                                        ...prevState,
-                                                                        updatedCopiedText?.id,
-                                                                    ]
-                                                                )
-                                                                setContextBar(
-                                                                    updatedCopiedText
-                                                                )
-                                                                setPastedTabsCount(
-                                                                    pastedTabsCount +
-                                                                        1
-                                                                )
-
-                                                                // Update the state or perform any necessary actions with the updated item
-                                                                // For demonstration purposes, let's log the updated item
-                                                            }
-                                                        }
+                                                        onCopyTab(e)
+                                                        onPasteTab(e)
                                                     }}
                                                     className="bg-white w-full rounded-lg overflow-hidden"
                                                 >

@@ -16,8 +16,7 @@ export const ShowNotificationModal = ({ onCancel }: { onCancel: any }) => {
                     <div className="flex flex-col items-center gap-y-2">
                         <p className="text-lg font-semibold">Template Saved</p>
                         <p className="text-gray-500 max-w-[400px] text-center">
-                            Template Tabs Saved, You want to go back or stay
-                            here
+                            You have Successfully created the template
                         </p>
                     </div>
 
