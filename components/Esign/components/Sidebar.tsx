@@ -2,7 +2,12 @@
 
 import { BiRename } from 'react-icons/bi'
 import { DraggableInput } from './DraggableInput'
-import { SideBarFieldsData } from './SidebarData'
+import { FieldsTypeEnum, SideBarFieldsData } from './SidebarData'
+import { SidebarOptions } from './SidebarOptions'
+import { Typography } from '@components/Typography'
+import { MdKeyboardArrowDown } from 'react-icons/md'
+import { useState } from 'react'
+import { BackButton } from '@components/buttons'
 
 export const ColorPreset = {
     student: '#f59e0b',
@@ -11,36 +16,101 @@ export const ColorPreset = {
     coordinator: '',
     standard: '',
 }
-export const Sidebar = ({ setDraggableData }: { setDraggableData: any }) => {
+export const Sidebar = ({
+    setDraggableData,
+    recipients,
+}: {
+    setDraggableData: any
+    recipients: string[]
+}) => {
+    const [isOpened, setIsOpened] = useState<string>('')
+    const users = ['rto', 'industry']
     return (
         <div className="min-w-[250px] h-screen overflow-hidden overflow-y-auto custom-scrollbar bg-white py-2">
             <div className="h-[78%] w-full custom-scrollbar overflow-auto px-4">
-                {Object.entries(SideBarFieldsData)?.map(([key, value]: any) => (
-                    <div key={key} className="min-w-[100px] overflow-hidden">
-                        <div className="text-sm font-medium">{key}</div>
-                        <div>
-                            {value?.map((item: any, index: number) => (
-                                <DraggableInput
-                                    setDraggableData={setDraggableData}
-                                    key={index}
-                                    text={item?.text}
-                                    id={item?.id}
-                                    data={{
-                                        color: item?.color,
-                                        placeholder: item?.placeholder,
-                                        preDefined: item?.preDefined,
-                                        type: item?.type,
-                                        column: item?.column,
-                                        role: item?.role,
-                                        isCustom: item?.isCustom,
-                                        // dataLabel: 'studentName',
-                                    }}
-                                    Icon={item?.Icon || BiRename}
+                <BackButton
+                    text="Back To Esign"
+                    link={
+                        'portals/admin/e-sign?tab=approved&page=1&pageSize=50'
+                    }
+                />
+
+                <div className="my-3">
+                    <Typography variant="small" semibold>
+                        Open the user fields to view the draggable fields
+                    </Typography>
+                </div>
+
+                {Object.entries(SideBarFieldsData)?.map(([key, value]: any) => {
+                    const updatedValue =
+                        recipients && recipients?.length > 0
+                            ? recipients?.includes(value?.key)
+                                ? value?.value
+                                : value?.value?.filter(
+                                      (v: any) =>
+                                          v?.type !==
+                                              FieldsTypeEnum?.Signature &&
+                                          v?.type !== FieldsTypeEnum?.Date
+                                  )
+                            : value?.value
+
+                    return (
+                        <div
+                            key={key}
+                            className="min-w-[100px] overflow-hidden py-2"
+                        >
+                            <div
+                                className="text-sm font-medium flex justify-between items-center cursor-pointer"
+                                onClick={() => {
+                                    setIsOpened(isOpened === key ? '' : key)
+                                }}
+                            >
+                                <div className="flex items-center gap-x-1.5">
+                                    <value.Icon className="text-lg" />
+                                    <Typography variant="label" bold>
+                                        <span className="cursor-pointer">
+                                            {key}
+                                        </span>
+                                    </Typography>
+                                </div>
+                                <MdKeyboardArrowDown
+                                    className={`${
+                                        isOpened === key ? '-rotate-180' : ''
+                                    } transition-all duration-300`}
                                 />
-                            ))}
+                            </div>
+                            <div
+                                className={`${
+                                    isOpened === key
+                                        ? 'max-h-[1000px]'
+                                        : 'max-h-0'
+                                } transition-all duration-700 overflow-hidden`}
+                            >
+                                {updatedValue?.map(
+                                    (item: any, index: number) => (
+                                        <DraggableInput
+                                            setDraggableData={setDraggableData}
+                                            key={index}
+                                            text={item?.text}
+                                            id={item?.id}
+                                            data={{
+                                                color: item?.color,
+                                                placeholder: item?.placeholder,
+                                                preDefined: item?.preDefined,
+                                                type: item?.type,
+                                                column: item?.column,
+                                                role: item?.role,
+                                                isCustom: item?.isCustom,
+                                                // dataLabel: 'studentName',
+                                            }}
+                                            Icon={item?.Icon || BiRename}
+                                        />
+                                    )
+                                )}
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    )
+                })}
                 {/* <div className="min-w-[100px] overflow-hidden">
                     <div className="text-sm font-medium">Student Fields</div>
                     <div>

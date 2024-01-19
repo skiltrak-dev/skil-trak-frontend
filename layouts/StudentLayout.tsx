@@ -47,9 +47,14 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
 
     const { alert, setAlerts } = useAlert()
     const userData = getUserCredentials()
-    const pendingDocuments = CommonApi.ESign.usePendingDocumentsList({
-        status: [EsignDocumentStatus.PENDING, EsignDocumentStatus.ReSign],
-    })
+    const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
+        {
+            status: [EsignDocumentStatus.PENDING, EsignDocumentStatus.ReSign],
+        },
+        {
+            refetchOnMountOrArgChange: true,
+        }
+    )
     const joyride = useJoyRide()
 
     useEffect(() => {
