@@ -124,15 +124,15 @@ TextEditorProps) {
         control: formMethods.control,
         name: 'blogQuestions',
     })
-    // FAQ's
-    // useEffect(() => {
-    //     const initialFaqList = blogData?.blogQuestions.map((question: any) => ({
-    //         question: question.question,
-    //         answer: question.answer,
-    //     })) || [{ question: '', answer: '' }]
 
-    //     setFaqList(initialFaqList)
-    // }, [blogData])
+    useEffect(() => {
+        formMethods.reset({
+            ...formMethods.defaultValues,
+            blogQuestions: blogData?.blogQuestions || [
+                { question: '', answer: '' },
+            ],
+        })
+    }, [blogData])
 
     const handleAddFAQ = () => {
         append({ question: '', answer: '' })
@@ -226,38 +226,26 @@ TextEditorProps) {
                 )
             })
         }
-    }, [formMethods.setValue, blogData])
+    }, [blogData])
 
     const options = data?.map((item: any) => ({
         label: item?.title,
         value: item?.id,
     }))
 
-    // dynamic fields
-    // const handleAddFAQ = () => {
-    //     setFaqList((prevFaqList: any) => [
-    //         ...prevFaqList,
-    //         { question: '', answer: '' },
-    //     ])
-    // }
-
-    // const handleRemoveFAQ = (index: number) => {
-    //     setFaqList((prevFaqList: any) => {
-    //         const updatedList = [...prevFaqList]
-    //         updatedList.splice(index, 1)
-    //         return updatedList
-    //     })
-    // }
-
     const initialFaqList = fields?.map((question: any) => ({
-        question: question.question,
-        answer: question.answer,
-    })) || [{ question: '', answer: '' }]
-    console.log('JSON.stringify(fields)', initialFaqList)
-
+        question: question.question || '',
+        answer: question.answer || '',
+    }))
+    console.log('blogData?.featuredImage', blogData?.featuredImage)
     const onSubmit: any = (data: any, publish: boolean) => {
         const content = quillRef.current.getEditor().root.innerHTML
-        if (!data.featuredImage || !data.featuredImage[0]) {
+        console.log('data::::', data?.featuredImage)
+        if (
+            !data.featuredImage ||
+            (typeof data.featuredImage === 'string' &&
+                data.featuredImage.trim() === '')
+        ) {
             formMethods.setError('featuredImage', {
                 type: 'emptyImage',
                 message: 'Image must not be empty',
@@ -281,18 +269,37 @@ TextEditorProps) {
             })
             return
         }
+        // FAQ's validation
+
+        let isAnyFaqInvalid = false
+
+        data?.faq &&
+            data?.faq?.forEach((faq: any) => {
+                if (faq.question === '' || faq.answer === '') {
+                    isAnyFaqInvalid = true
+                }
+            })
+
+        if (isAnyFaqInvalid) {
+            formMethods.setError('blogQuestions', {
+                type: 'FAQs',
+                message: 'FAQs Fields Should not be Empty',
+            })
+
+            return
+        }
 
         const values = {
-            featuredImage: data.featuredImage?.[0],
+            featuredImage: Array.isArray(data?.featuredImage)
+                ? data?.featuredImage?.[0]
+                : blogData?.featuredImage,
             title: data.title,
             author: data.author,
             content: content,
             isPublished: publish.toString(),
             isFeatured: isFeatured.toString(),
             category: data?.category,
-            // blogQuestions: JSON.stringify(data?.blogQuestions),
-            blogQuestions: JSON.stringify(initialFaqList),
-            // formData.append('blogQuestions', JSON.stringify(data?.faq))
+            blogQuestions: JSON.stringify(data?.blogQuestions),
         }
 
         if (tagIds) {
@@ -440,16 +447,24 @@ TextEditorProps) {
                                 >
                                     <div className="flex flex-col w-3/4">
                                         <TextInput
-                                            name={`blogQuestions[${index}].question`}
+                                            name={`blogQuestions.${index}.question`}
                                             label={`FAQ ${index + 1} Question`}
                                             placeholder="Enter Question"
                                             defaultValue={faq.question}
+                                            required
+                                        />
+                                        <InputErrorMessage
+                                            name={'blogQuestions'}
                                         />
                                         <TextArea
-                                            name={`blogQuestions[${index}].answer`}
+                                            name={`blogQuestions.${index}.answer`}
                                             label={`FAQ ${index + 1} Answer`}
                                             placeholder="Enter Answer"
                                             // defaultValue={faq.answer}
+                                            required
+                                        />
+                                        <InputErrorMessage
+                                            name={'blogQuestions'}
                                         />
                                     </div>
                                     <div className="mt-7">

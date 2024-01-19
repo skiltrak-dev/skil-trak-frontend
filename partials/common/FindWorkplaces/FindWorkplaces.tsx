@@ -6,10 +6,8 @@ export const FindWorkplaces = ({ item, onClick }: any) => {
 
     const photoUrl = item?.photos && item?.photos[0]?.getUrl()
     return (
-        // <a href={urlString} target="_/">
         <>
             <div className="rounded-md hover:shadow-lg bg-white -hover:translate-y-3 border border-solid flex gap-x-1 mb-2">
-                {/* https://picsum.photos/200/300 */}
                 <div>
                     <Image
                         className="h-32 w-60"
@@ -97,6 +95,5 @@ export const FindWorkplaces = ({ item, onClick }: any) => {
                 </div>
             </div>
         </>
-        // </a>
     )
 }

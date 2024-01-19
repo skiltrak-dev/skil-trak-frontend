@@ -90,7 +90,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
     })
     const { append, remove, fields } = useFieldArray({
         control: formMethods.control,
-        name: 'faq', // Make sure this matches the name in your form
+        name: 'blogQuestions',
     })
     const modules = {
         toolbar: [
@@ -108,6 +108,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
     }
 
     const onSubmit: any = (data: any, publish: boolean) => {
+        console.log('data', data?.faq)
         const content = quillRef.current.getEditor().root.innerHTML
         if (!data.featuredImage || !data.featuredImage[0]) {
             formMethods.setError('featuredImage', {
@@ -139,6 +140,34 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
             })
             return
         }
+        // FAQ's validation
+        // if (data?.faq && data?.faq?.length > 0) {
+        let isAnyFaqInvalid = false
+
+        data?.faq &&
+            data?.faq?.forEach((faq: any) => {
+                if (faq?.question === '' || faq?.answer === '') {
+                    isAnyFaqInvalid = true
+                }
+            })
+
+        if (isAnyFaqInvalid) {
+            formMethods.setError('blogQuestions', {
+                type: 'FAQs',
+                message: 'FAQs Fields Should not be Empty',
+            })
+
+            return
+        }
+        // }
+
+        // if (data?.faq.length > 0) {
+        //     formMethods.setError('answer', {
+        //         type: 'answer',
+        //         message: 'Answer Should Not be Empty',
+        //     })
+        //     return
+        // }
 
         validationSchema
             .validate(data)
@@ -153,7 +182,10 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                 formData.append('tags', tagIds)
                 formData.append('category', data?.category)
                 formData.append('author', data?.author)
-                formData.append('blogQuestions', JSON.stringify(data?.faq))
+                formData.append(
+                    'blogQuestions',
+                    JSON.stringify(data?.faq) || ''
+                )
 
                 //POST Api Req
                 createBlog(formData)
@@ -311,6 +343,10 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                                             label={`FAQ ${index + 1} Question`}
                                             placeholder="Enter Question"
                                             defaultValue={faq.question}
+                                            required
+                                        />
+                                        <InputErrorMessage
+                                            name={'blogQuestions'}
                                         />
                                         <TextArea
                                             // {...formMethods.register(
@@ -319,12 +355,16 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                                             name={`faq.${index}.answer`}
                                             label={`FAQ ${index + 1} Answer`}
                                             placeholder="Enter Answer"
+                                            required
+                                        />
+                                        <InputErrorMessage
+                                            name={'blogQuestions'}
                                         />
                                     </div>
                                     <div className="mt-7">
                                         <Button
                                             text="Remove"
-                                            onClick={()=>{
+                                            onClick={() => {
                                                 handleRemoveFAQ(index)
                                             }}
                                             variant="error"

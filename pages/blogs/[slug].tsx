@@ -7,6 +7,7 @@ import { LoadingAnimation, NoData, TechnicalError } from '@components'
 import Image from 'next/image'
 import moment from 'moment'
 import { HeroSectionBlog } from '@partials/common/Blogs'
+// Accordion Shadcn
 import {
     Accordion,
     AccordionContent,
@@ -15,7 +16,6 @@ import {
 } from '@radix-ui/react-accordion'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 
-// Accordion Shadcn
 
 const BlogDetail: NextPageWithLayout = () => {
     const router = useRouter()
@@ -25,6 +25,8 @@ const BlogDetail: NextPageWithLayout = () => {
         adminApi.useGetBlogDetailQuery(blogId, {
             skip: !blogId,
         })
+
+    console.log("data?.featuredImage", data?.featuredImage)
 
     return (
         <div className="">
@@ -62,49 +64,55 @@ const BlogDetail: NextPageWithLayout = () => {
                             }}
                         />
                         {/* FAQ's */}
-                        <div className="md:mt-20 mt-8">
-                            <h3 className="font-semibold text-xl md:text-3xl md:leading-10 uppercase my-2 md:my-4">
-                                FAQ's
-                            </h3>
-                            <Accordion
-                                type="single"
-                                collapsible
-                                className="w-full flex flex-col gap-y-1 "
-                            >
-                                {data?.blogQuestions?.map(
-                                    (faq: any, index: any) => {
-                                        return (
-                                            <AccordionItem
-                                                key={index}
-                                                className="shadow-md px-5 py-4 w-full "
-                                                value={faq?.id}
-                                                onClick={() =>
-                                                    setActiveKey(
-                                                        (prevActiveKey) =>
-                                                            prevActiveKey ===
-                                                            faq.id
-                                                                ? null
-                                                                : faq.id
-                                                    )
-                                                }
-                                            >
-                                                <AccordionTrigger className="mb-2 font-medium text-sm flex items-center justify-between w-full">
-                                                    {faq?.question}
-                                                    {activeKey === faq?.id ? (
-                                                        <FaChevronUp />
-                                                    ) : (
-                                                        <FaChevronDown />
-                                                    )}
-                                                </AccordionTrigger>
-                                                <AccordionContent className="text-sm text-gray-500">
-                                                    {faq?.answer}
-                                                </AccordionContent>
-                                            </AccordionItem>
-                                        )
-                                    }
-                                )}
-                            </Accordion>
-                        </div>
+                        {data?.blogQuestions &&
+                            data?.blogQuestions?.length > 0 && (
+                                <div className="md:mt-20 mt-8">
+                                    <h2 className="font-semibold text-xl md:text-3xl md:leading-10 uppercase my-2 md:my-4">
+                                        FAQ's
+                                    </h2>
+                                    <Accordion
+                                        type="single"
+                                        collapsible
+                                        className="w-full flex flex-col gap-y-1 "
+                                    >
+                                        {data?.blogQuestions?.map(
+                                            (faq: any, index: any) => {
+                                                return (
+                                                    <AccordionItem
+                                                        key={index}
+                                                        className="shadow-md px-5 py-4 w-full "
+                                                        value={faq?.id}
+                                                        onClick={() =>
+                                                            setActiveKey(
+                                                                (
+                                                                    prevActiveKey
+                                                                ) =>
+                                                                    prevActiveKey ===
+                                                                    faq.id
+                                                                        ? null
+                                                                        : faq.id
+                                                            )
+                                                        }
+                                                    >
+                                                        <AccordionTrigger className="mb-2 font-medium text-sm flex items-center justify-between w-full">
+                                                            {faq?.question}
+                                                            {activeKey ===
+                                                            faq?.id ? (
+                                                                <FaChevronUp />
+                                                            ) : (
+                                                                <FaChevronDown />
+                                                            )}
+                                                        </AccordionTrigger>
+                                                        <AccordionContent className="text-sm text-gray-500">
+                                                            {faq?.answer}
+                                                        </AccordionContent>
+                                                    </AccordionItem>
+                                                )
+                                            }
+                                        )}
+                                    </Accordion>
+                                </div>
+                            )}
                     </div>
                 ) : (
                     !isError && <NoData text="No Data Found" />
@@ -115,7 +123,7 @@ const BlogDetail: NextPageWithLayout = () => {
 }
 
 BlogDetail.getLayout = (page: ReactElement) => {
-    return <SiteLayout>{page}</SiteLayout>
+    return <SiteLayout title={'Blog'}>{page}</SiteLayout>
 }
 
 export default BlogDetail

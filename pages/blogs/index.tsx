@@ -185,7 +185,7 @@ const Blogs: NextPageWithLayout = () => {
 }
 
 Blogs.getLayout = (page: ReactElement) => {
-    return <SiteLayout>{page}</SiteLayout>
+    return <SiteLayout title={'Blogs'}>{page}</SiteLayout>
 }
 // export const getStaticProps = async () => {
 //     const res = await fetch(

@@ -56,7 +56,7 @@ export const DraftBlogs = () => {
         {
             text: 'Edit',
             onClick: (blog: any) => {
-                router.push(`/portals/admin/blogs/${blog?.id}`)
+                router.push(`/portals/admin/blogs/${blog?.slug}`)
             },
             Icon: FaEdit,
         },
