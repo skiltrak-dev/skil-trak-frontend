@@ -24,7 +24,7 @@ const Page = () => {
     }, [])
 
     return (
-        <SiteLayout title={'Features'}>
+        <SiteLayout title={'About Us'}>
             <div>
                 <div className="relative">
                     <Image

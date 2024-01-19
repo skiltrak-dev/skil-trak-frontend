@@ -18,7 +18,7 @@ export const SiteLayout = ({ children, title }: any) => {
 
     return (
         <div>
-            <title>Home | SkilTrak</title>
+            <title> Home | SkilTrak</title>
             <Navbar2 />
             <DisplayNotifications />
             <main>{children}</main>
