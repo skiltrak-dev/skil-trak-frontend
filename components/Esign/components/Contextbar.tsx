@@ -34,8 +34,6 @@ export const Contextbar = ({
         (item: any) => item?.id === content?.id
     )
 
-    console.log({ currentTabContent })
-
     useEffect(() => {
         if (content) {
             setCurrentTabId(content?.id)
@@ -58,16 +56,12 @@ export const Contextbar = ({
         }
     }, [inputs])
 
-    console.log({ inputs, currentTabId })
-
-    console.log({ content: content })
     useEffect(() => {
         if (
             isTabSelected &&
             currentTabId === content?.id &&
             content?.data?.option
         ) {
-            console.log('Hello')
             const inputsData = content?.data?.option?.split(',')
             if (inputsData && inputsData?.length > 0) {
                 setInputs(inputsData)

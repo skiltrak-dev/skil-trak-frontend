@@ -44,7 +44,6 @@ export const DraggableTab = ({
               }
             : {}),
     }
-    console.log({ item })
 
     return (
         <g

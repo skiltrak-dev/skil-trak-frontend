@@ -237,10 +237,8 @@ TextEditorProps) {
         question: question.question || '',
         answer: question.answer || '',
     }))
-    console.log('blogData?.featuredImage', blogData?.featuredImage)
     const onSubmit: any = (data: any, publish: boolean) => {
         const content = quillRef.current.getEditor().root.innerHTML
-        console.log('data::::', data?.featuredImage)
         if (
             !data.featuredImage ||
             (typeof data.featuredImage === 'string' &&

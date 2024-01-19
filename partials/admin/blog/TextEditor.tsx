@@ -108,7 +108,6 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
     }
 
     const onSubmit: any = (data: any, publish: boolean) => {
-        console.log('data', data?.faq)
         const content = quillRef.current.getEditor().root.innerHTML
         if (!data.featuredImage || !data.featuredImage[0]) {
             formMethods.setError('featuredImage', {

@@ -40,8 +40,6 @@ export default function ESign() {
     const [tabsError, setTabsError] = useState<any>(null)
     const [pastedTabsCount, setPastedTabsCount] = useState<number>(1)
 
-    console.log({ lastSelectedItem })
-
     const navBar = useNavbar()
 
     const router = useRouter()
@@ -268,8 +266,6 @@ export default function ESign() {
             //     return data.delta.y
             // })()
 
-            console.log({ data })
-
             const isCheckBox =
                 data.active.data.current?.type === FieldsTypeEnum.Checkbox
 
@@ -310,8 +306,6 @@ export default function ESign() {
                 moving: false,
                 resizing: false,
             }
-
-            console.log({ data })
 
             // return null
 
@@ -356,7 +350,6 @@ export default function ESign() {
 
         setContextBar(null)
         const existingItem = items.find((x: any) => x.id === contextBar?.id)
-        console.log({ existingItem })
         if (existingItem) {
             const updatedList = items.filter(
                 (x: any) => x.id !== contextBar?.id

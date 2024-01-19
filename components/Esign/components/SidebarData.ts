@@ -312,7 +312,7 @@ export const SideBarFieldsData = {
                 text: 'Supervisor Number',
                 id: 'input-industry-supervisor-number',
                 color: ColorPreset.industry,
-                placeholder: 'Industry Address',
+                placeholder: 'Supervisor Number',
                 preDefined: true,
                 type: FieldsTypeEnum.Text,
                 Icon: FaSignature,

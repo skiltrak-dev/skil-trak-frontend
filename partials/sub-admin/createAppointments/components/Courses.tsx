@@ -13,7 +13,6 @@ export const Courses = ({
     rto?: number | null
     setSelectedCourse: (value: number) => void
 }) => {
-    console.log({ rto })
     const courses = CommonApi.Courses.getCoursesByRto(Number(rto))
     const courseOptions = courses?.isSuccess
         ? courses?.data?.map((course: Course) => ({
