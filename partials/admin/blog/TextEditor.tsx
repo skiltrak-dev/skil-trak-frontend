@@ -141,24 +141,25 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
             return
         }
         // FAQ's validation
-        if (data?.faq && data?.faq?.length > 0) {
-            let isAnyFaqInvalid = false
+        // if (data?.faq && data?.faq?.length > 0) {
+        let isAnyFaqInvalid = false
 
-            data?.faq.forEach((faq: any) => {
-                if (faq.question === '' || faq.answer === '') {
+        data?.faq &&
+            data?.faq?.forEach((faq: any) => {
+                if (faq?.question === '' || faq?.answer === '') {
                     isAnyFaqInvalid = true
                 }
             })
 
-            if (isAnyFaqInvalid) {
-                formMethods.setError('blogQuestions', {
-                    type: 'FAQs',
-                    message: 'FAQs Fields Should not be Empty',
-                })
+        if (isAnyFaqInvalid) {
+            formMethods.setError('blogQuestions', {
+                type: 'FAQs',
+                message: 'FAQs Fields Should not be Empty',
+            })
 
-                return
-            }
+            return
         }
+        // }
 
         // if (data?.faq.length > 0) {
         //     formMethods.setError('answer', {
