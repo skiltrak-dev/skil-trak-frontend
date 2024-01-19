@@ -11,6 +11,7 @@ import {
     Typography,
 } from '@components'
 import { Contextbar, Sidebar } from '@components/Esign'
+import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import DynamicSvgLoader from '@components/Esign/components/SvgLoader'
 import { NotificationMessage } from '@components/NotificationMessage'
 import { DndContext, DragOverlay } from '@dnd-kit/core'
@@ -269,13 +270,24 @@ export default function ESign() {
             //     return data.delta.y
             // })()
 
+            const isCheckBox =
+                data.active.data.current?.type === FieldsTypeEnum.Checkbox
+
             const newId = uuid()
             const tab = {
                 id: newId,
                 page: data?.over?.id,
                 location: {
-                    x: newLocX - 60 < 0 ? 1 : newLocX - 60,
-                    y: newLocY - 12 < 0 ? 0 : newLocY - 12,
+                    x: isCheckBox
+                        ? newLocX - 3
+                        : newLocX - 60 < 0
+                        ? 1
+                        : newLocX - 60,
+                    y: isCheckBox
+                        ? newLocY - 3
+                        : newLocY - 12 < 0
+                        ? 0
+                        : newLocY - 12,
                     page: data?.over?.id,
                 },
                 size: { width: 120, height: 24 },
@@ -297,6 +309,10 @@ export default function ESign() {
                 moving: false,
                 resizing: false,
             }
+
+            console.log({ data })
+
+            // return null
 
             if (tab?.page || tab?.page === 0) {
                 setLastId(newId)
