@@ -11,6 +11,7 @@ import { FileUpload } from '@hoc'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { CommonApi } from '@queries'
 import { Course, Folder, OptionType, Rto } from '@types'
+import { CourseSelectOption, formatOptionLabel } from '@utils'
 import { ReactNode, useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
@@ -242,6 +243,10 @@ export const AddEsignForm = ({
                                         }}
                                         onlyValue
                                         disabled={!coursesOptions}
+                                        components={{
+                                            Option: CourseSelectOption,
+                                        }}
+                                        formatOptionLabel={formatOptionLabel}
                                     />
                                     <Select
                                         name={'folder'}

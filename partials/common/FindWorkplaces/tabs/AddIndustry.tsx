@@ -52,6 +52,10 @@ export const AddIndustry = ({
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
     const [selectedSector, setSelectedSector] = useState<number[] | null>(null)
     const [selectedStatus, setSelectedStatus] = useState<number[] | null>(null)
+    const [selectedCountry, setSelectedCountry] = useState<number[] | null>(
+        null
+    )
+    const [selectedStates, setSelectedStates] = useState<number[] | null>(null)
     // useCountryStatesList
 
     const { data, isLoading } = CommonApi.Countries.useCountriesList()
@@ -101,6 +105,8 @@ export const AddIndustry = ({
                 'website',
                 'status',
                 'note',
+                'region',
+                'country',
             ]
 
             let obj: any = {}
@@ -110,6 +116,10 @@ export const AddIndustry = ({
                         ? industryData[key as keyof typeof industryData]?.map(
                               (sector: Sector) => sector?.id
                           )
+                        : key === 'country'
+                        ? industryData[key as keyof typeof industryData]?.id
+                        : key === 'region'
+                        ? industryData[key as keyof typeof industryData]?.id
                         : industryData[key as keyof typeof industryData]
             })
 
@@ -119,6 +129,9 @@ export const AddIndustry = ({
             setSelectedSector(
                 industryData?.sector?.map((sector: Sector) => sector?.id)
             )
+            setSelectedCountry(industryData?.country?.id)
+            setCountryId(industryData?.country?.id)
+            setSelectedStates(industryData?.region?.id)
             setSelectedStatus(industryData?.status)
         }
     }, [industryData])
@@ -283,6 +296,15 @@ export const AddIndustry = ({
                                         label: country.name,
                                         value: country.id,
                                     }))}
+                                    value={data
+                                        ?.map((country: any) => ({
+                                            label: country.name,
+                                            value: country.id,
+                                        }))
+                                        ?.find(
+                                            (country: any) =>
+                                                country?.value === countryId
+                                        )}
                                     loading={isLoading}
                                     onChange={(e: any) => {
                                         setCountryId(e)
@@ -290,12 +312,24 @@ export const AddIndustry = ({
                                     onlyValue
                                 />
                                 <Select
-                                    name="states"
+                                    name="region"
                                     label={'States'}
                                     options={states?.map((state: any) => ({
                                         label: state.name,
                                         value: state.id,
                                     }))}
+                                    value={states
+                                        ?.map((state: any) => ({
+                                            label: state.name,
+                                            value: state.id,
+                                        }))
+                                        ?.find(
+                                            (state: any) =>
+                                                state.value === selectedStates
+                                        )}
+                                    onChange={(e: any) => {
+                                        setSelectedStates(e)
+                                    }}
                                     loading={statesLoading}
                                     disabled={!countryId}
                                     onlyValue

@@ -49,6 +49,10 @@ export const SubAdminStudentProfile = ({
     const [callLog, callLogResult] = SubAdminApi.Student.useStudentCallLog()
     const [makeAsHighPriority, makeAsHighPriorityResult] =
         CommonApi.StudentAssessmentFiles.useMakeAsHighPriority()
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: !UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+    })
 
     const role = getUserCredentials()?.role
 
@@ -105,17 +109,18 @@ export const SubAdminStudentProfile = ({
                         rounded
                         Icon={AiFillEdit}
                         variant={'info'}
-                        onClick={() =>
+                        onClick={() => {
                             router.push(
-                                role === 'admin'
+                                role === UserRoles.ADMIN ||
+                                    subadmin?.data?.isAdmin
                                     ? `/portals/admin/student/edit-student/${student?.id}`
-                                    : role === 'subadmin'
+                                    : role === UserRoles.SUBADMIN
                                     ? `/portals/sub-admin/students/${student?.id}/edit-student`
-                                    : role === 'rto'
+                                    : role === UserRoles.RTO
                                     ? `/portals/rto/students/${student?.id}/edit-student`
                                     : ''
                             )
-                        }
+                        }}
                         title="Edit Profile"
                     />
 

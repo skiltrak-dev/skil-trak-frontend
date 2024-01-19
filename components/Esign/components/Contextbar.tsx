@@ -1,27 +1,99 @@
 'use client'
 
 import { Typography } from '@components/Typography'
-import { UserRoles } from '@constants'
-import { FieldsTypeEnum } from './SidebarData'
 import { Checkbox } from '@components/inputs'
+import { UserRoles } from '@constants'
+import { useEffect, useState } from 'react'
+import { FiPlus } from 'react-icons/fi'
+import { MdDelete } from 'react-icons/md'
+import { FieldsTypeEnum } from './SidebarData'
 
 export const Contextbar = ({
     items,
     content,
     totalPages,
+    isTabSelected,
+    onHandleScroll,
     setCurrentPage,
     onSetContextBar,
     onSetCoordinates,
-    onHandleScroll,
 }: {
-    onHandleScroll: any
     items: any
     content: any
     totalPages: number
+    onHandleScroll: any
+    isTabSelected: boolean
     setCurrentPage: (pageNumber: number) => void
     onSetContextBar: (e: any, key: string) => void
     onSetCoordinates: (content: any, cordinate: any, key: string) => void
 }) => {
+    const [inputs, setInputs] = useState([''])
+    const [currentTabId, setCurrentTabId] = useState('')
+
+    const currentTabContent = items?.find(
+        (item: any) => item?.id === content?.id
+    )
+
+    console.log({ currentTabContent })
+
+    useEffect(() => {
+        if (content) {
+            setCurrentTabId(content?.id)
+        }
+    }, [content])
+
+    useEffect(() => {
+        if (inputs && inputs?.length > 0) {
+            onSetContextBar(
+                {
+                    content,
+                    e: {
+                        target: {
+                            value: inputs.join(','),
+                        },
+                    },
+                },
+                'option'
+            )
+        }
+    }, [inputs])
+
+    console.log({ inputs, currentTabId })
+
+    console.log({ content: content })
+    useEffect(() => {
+        if (
+            isTabSelected &&
+            currentTabId === content?.id &&
+            content?.data?.option
+        ) {
+            console.log('Hello')
+            const inputsData = content?.data?.option?.split(',')
+            if (inputsData && inputsData?.length > 0) {
+                setInputs(inputsData)
+            }
+        } else {
+            setInputs([''])
+        }
+    }, [isTabSelected, currentTabId])
+
+    const handleAddInput = () => {
+        setInputs([...inputs, ''])
+    }
+
+    const handleChange = (event: any, index: any) => {
+        let { name, value } = event.target
+        let onChangeValue: any = [...inputs]
+        onChangeValue[index] = value
+        setInputs(onChangeValue)
+    }
+
+    const handleDeleteInput = (index: number) => {
+        const newArray = [...inputs]
+        newArray.splice(index, 1)
+        setInputs(newArray)
+    }
+
     const isExist = (key: string) =>
         items?.find(
             (item: any) =>
@@ -195,26 +267,60 @@ export const Contextbar = ({
                                     DropDown Values
                                 </Typography>
 
-                                <textarea
-                                    placeholder="Seprate Values with Comma(,)"
-                                    rows={4}
-                                    onChange={(e: any) => {
-                                        onSetContextBar(
-                                            { content, e },
-                                            'option'
-                                        )
-                                    }}
-                                    disabled={content?.data?.preDefined}
-                                    value={content?.data?.option || ''}
-                                    className={`order p-0 w-full border shadow-md rounded-md px-1.5 ${
-                                        content?.data?.preDefined
-                                            ? 'bg-gray-200 cursor-not-allowed'
-                                            : ''
-                                    }`}
-                                />
-                                <p className="text-[10px]">
-                                    Seprate Values with Comma(,)
-                                </p>
+                                <div className="mb-3 flex flex-col gap-y-2">
+                                    {inputs.map((item, index) => (
+                                        <div
+                                            key={index}
+                                            className={`order p-0 w-full border h-7 shadow rounded-md input_container flex items-center gap-x-1 overflow-hidden pr-1 ${
+                                                content?.data?.preDefined
+                                                    ? 'bg-gray-200 cursor-not-allowed'
+                                                    : ''
+                                            }`}
+                                        >
+                                            {/* {index === inputs.length - 1 && (
+                                               
+                                            )} */}
+
+                                            <div
+                                                onClick={() => {
+                                                    if (inputs.length > 1) {
+                                                        handleDeleteInput(index)
+                                                    }
+                                                }}
+                                                className={` flex items-center justify-center w-7 h-full ${
+                                                    inputs.length > 1
+                                                        ? 'cursor-pointer bg-gray-200'
+                                                        : 'cursor-not-allowed bg-gray-100'
+                                                } `}
+                                            >
+                                                <MdDelete
+                                                    className={`${
+                                                        inputs.length > 1
+                                                            ? 'text-gray-500'
+                                                            : 'text-gray-300'
+                                                    } `}
+                                                />
+                                            </div>
+
+                                            <input
+                                                name="firstName"
+                                                type="text"
+                                                value={item}
+                                                placeholder="Add Dropdown Option"
+                                                onChange={(event) =>
+                                                    handleChange(event, index)
+                                                }
+                                                className="w-full outline-none px-2 placeholder:text-xs text-[11px]"
+                                            />
+                                        </div>
+                                    ))}
+                                    <div
+                                        className="bg-[#F7910F90] rounded-sm w-full h-7 flex items-center justify-center cursor-pointer"
+                                        onClick={() => handleAddInput()}
+                                    >
+                                        <FiPlus className="text-gray-600" />
+                                    </div>
+                                </div>
                             </div>
                         )}
                         <div className="mt-3">
@@ -223,7 +329,7 @@ export const Contextbar = ({
                                 semibold
                                 color={'text-gray-600'}
                             >
-                                Role{' '}
+                                Please Select the authorizrd user for the tab
                             </Typography>
                             <select
                                 className={`border w-full shadow-md rounded-md px-1 ${
@@ -239,10 +345,16 @@ export const Contextbar = ({
                                 }}
                             >
                                 <option value="">Select</option>
-                                {Object.values(UserRoles).map((key: string) => (
+                                {Object.entries({
+                                    ADMIN: 'admin',
+                                    RTO: 'rto',
+                                    STUDENT: 'student',
+                                    INDUSTRY: 'industry',
+                                    Coordinator: 'subadmin',
+                                }).map(([key, value]) => (
                                     <option
                                         key={key}
-                                        value={key}
+                                        value={value}
                                         className="capitalize"
                                     >
                                         {key}
@@ -327,87 +439,6 @@ export const Contextbar = ({
                     <option value={FieldsTypeEnum.Date}>Date</option>
                 </select>
             </div> */}
-
-            {content?.data?.isCustom && (
-                <>
-                    <div className="mt-3">
-                        <p className="text-sm font-medium">Name</p>
-                        <input
-                            type="text"
-                            onChange={(e: any) => {
-                                onSetContextBar({ content, e }, 'column')
-                            }}
-                            disabled={content?.data?.preDefined}
-                            value={content?.data?.column || ''}
-                            className={`order p-0 w-full border ${
-                                content?.data?.preDefined
-                                    ? 'bg-gray-200 cursor-not-allowed'
-                                    : ''
-                            }`}
-                        />
-                        {/* {content?.data?.type !== FieldsTypeEnum.Checkbox &&
-                            content?.data?.type !== FieldsTypeEnum.Radio &&
-                            isExist('name') &&
-                            content?.data?.name && (
-                                <p className="text-xs text-error">
-                                    {content?.data?.name} Name Already exist
-                                </p>
-                            )} */}
-                    </div>
-
-                    {content?.data?.type === FieldsTypeEnum.Dropdown && (
-                        <div className="mt-3">
-                            <p className="text-sm font-medium">
-                                DropDown Values
-                            </p>
-                            <textarea
-                                placeholder="Seprate Values with Comma(,)"
-                                rows={4}
-                                onChange={(e: any) => {
-                                    onSetContextBar({ content, e }, 'option')
-                                }}
-                                disabled={content?.data?.preDefined}
-                                value={content?.data?.option || ''}
-                                className={`order p-0 w-full border ${
-                                    content?.data?.preDefined
-                                        ? 'bg-gray-200 cursor-not-allowed'
-                                        : ''
-                                }`}
-                            />
-                            <p className="text-[10px]">
-                                Seprate Values with Comma(,)
-                            </p>
-                        </div>
-                    )}
-                    <div className="mt-3">
-                        <p className="text-sm font-medium">Role</p>
-                        <select
-                            className={`border w-full rounded ${
-                                content?.data?.preDefined
-                                    ? 'bg-gray-200 cursor-not-allowed'
-                                    : ''
-                            }`}
-                            name=""
-                            id=""
-                            value={content?.data?.role || ''}
-                            onChange={(e: any) => {
-                                onSetContextBar({ content, e }, 'role')
-                            }}
-                        >
-                            <option value="">Select</option>
-                            {Object.values(UserRoles).map((key: string) => (
-                                <option
-                                    key={key}
-                                    value={key}
-                                    className="capitalize"
-                                >
-                                    {key}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </>
-            )}
         </div>
     )
 }

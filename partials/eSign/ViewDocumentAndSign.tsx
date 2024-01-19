@@ -1,5 +1,4 @@
 import {
-    Button,
     Card,
     EmptyData,
     LoadingAnimation,
@@ -7,23 +6,15 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import React, {
-    ReactNode,
-    useCallback,
-    useEffect,
-    useRef,
-    useState,
-} from 'react'
-import { FaSignature } from 'react-icons/fa'
-import { EsignSignatureModal } from './modal'
+import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
+import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
-import { SVGView } from './components'
-import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
-import { isBrowser } from '@utils'
-import Skeleton from 'react-loading-skeleton'
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
+import { FaSignature } from 'react-icons/fa'
 import { PuffLoader } from 'react-spinners'
-import { useNotification } from '@hooks'
+import { SVGView } from './components'
+import { EsignSignatureModal } from './modal'
 
 export const ViewDocumentAndSign = () => {
     const router = useRouter()

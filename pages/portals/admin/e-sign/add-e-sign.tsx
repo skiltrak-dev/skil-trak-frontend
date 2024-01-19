@@ -58,20 +58,23 @@ const AddESign = () => {
     const Actions = (methods: any) => (
         <div className="mt-4 flex gap-x-4 items-center justify-end">
             <Button
+                onClick={() => {
+                    router.push(
+                        `/portals/admin/e-sign?tab=approved&page=1&pageSize=50`
+                    )
+                }}
+                outline
+                loading={saveEsignResult.isLoading && Boolean(!isSaveAndNext)}
+                disabled={saveEsignResult.isLoading && Boolean(!isSaveAndNext)}
+            >
+                Cancel
+            </Button>
+            <Button
                 submit
                 loading={saveEsignResult.isLoading && Boolean(isSaveAndNext)}
                 disabled={saveEsignResult.isLoading && Boolean(isSaveAndNext)}
             >
                 Save & Next
-            </Button>
-            <Button
-                onClick={() => {
-                    onHandleSave(methods.getValues())
-                }}
-                loading={saveEsignResult.isLoading && Boolean(!isSaveAndNext)}
-                disabled={saveEsignResult.isLoading && Boolean(!isSaveAndNext)}
-            >
-                Save
             </Button>
         </div>
     )
