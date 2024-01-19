@@ -31,8 +31,10 @@ export const ViewInitiatedSign = ({
     const { onFileClicked, documentsViewModal } = DocumentsView()
 
     useEffect(() => {
-        if (document?.length > 0) {
+        if (document && document?.length > 0) {
             setSelectedDocument(document?.[0])
+        } else {
+            setSelectedDocument(null)
         }
     }, [document])
 
@@ -132,7 +134,7 @@ export const ViewInitiatedSign = ({
                         onClick={() => onCancelInitiateSignClicked()}
                     />
                 </div>
-            )}
+            )}{' '}
         </>
     )
 }

@@ -80,17 +80,13 @@ const EditESign = () => {
             <Button
                 onClick={() => {
                     router.push(
-                        `/portals/admin/e-sign/${router.query?.id}/document-template`
+                        `/portals/admin/e-sign?tab=approved&page=1&pageSize=50`
                     )
                 }}
                 outline
-                variant={'info'}
-                loading={updateEsignResult.isLoading && Boolean(!isSaveAndNext)}
-                disabled={
-                    updateEsignResult.isLoading && Boolean(!isSaveAndNext)
-                }
+                disabled={updateEsignResult.isLoading}
             >
-                Next
+                Cancel
             </Button>
             <Button
                 submit
