@@ -40,7 +40,7 @@ const Page = ({ location }: any) => {
     }, [])
 
     return (
-        <SiteLayout title={'Features'}>
+        <SiteLayout title={'Contact Us'}>
             {/* <div>
                 <div className="relative">
                     <Image
@@ -67,7 +67,7 @@ const Page = ({ location }: any) => {
             </div> */}
             <div className="h-96 jumbo-bg w-full">
                 <div className="h-full max-w-3xl mx-auto flex flex-col gap-y-1 justify-center items-center">
-                    <div className='text-center'>
+                    <div className="text-center">
                         <Typography variant={'h1'} color="text-white">
                             GET IN TOUCH WITH SKILTRAK
                         </Typography>
