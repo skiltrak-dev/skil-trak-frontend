@@ -7,7 +7,7 @@ import { NextPageWithLayout } from '@types'
 import { Button, TabNavigation, TabProps } from '@components'
 import { useRouter } from 'next/router'
 import { adminApi } from '@queries'
-import { DraftBlogs, PublishedBlogs } from '@partials/admin/blog'
+import { BlogCategories, DraftBlogs, PublishedBlogs } from '@partials/admin/blog'
 
 const BlogsList: NextPageWithLayout = () => {
     // const { data, isLoading } = adminApi.useGetBlogsQuery({
@@ -46,16 +46,32 @@ const BlogsList: NextPageWithLayout = () => {
             // },
             element: <DraftBlogs />,
         },
+        {
+            label: 'Categories',
+            href: {
+                pathname: 'blogs',
+                query: { tab: 'categories', page: 1, pageSize: 50 },
+            },
+            // badge: {
+            //     text: "Draft",
+            //     loading: isLoading,
+            // },
+            element: <BlogCategories />,
+        },
+
+        // BlogCategories
     ]
 
     return (
         <div className="p-6">
+            <div className='flex justify-end'>
             <Button
                 onClick={() => {
                     router.push('/portals/admin/blogs/add-blog')
                 }}
                 text={'Add Blog'}
             />
+            </div>
 
             {/* <div
                 className="break-all block mr-6"

@@ -61,7 +61,7 @@ TextEditorProps) {
     }
 
     const [updateBlog, updateBlogResult] = adminApi.useUpdateBlogMutation()
-    const { data, isLoading } = adminApi.useGetCategoriesQuery()
+    const { data, isLoading } = adminApi.useGetCategoriesQuery(undefined)
 
     // const initialFaqList = blogData?.blogQuestions.map(
     //     (question: any, index: any) => ({
@@ -103,6 +103,10 @@ TextEditorProps) {
             .min(1, 'Must select at least 1 category')
             .required(),
         // content: yup.string().required('Content is required'),
+        // blogQuestions: yup.object().shape({
+        //     question: yup.string().required('FAQ question should not be empty'),
+        //     answer: yup.string().required('FAQ answer should not be empty'),
+        // }).required(),
     })
     const formMethods: any = useForm({
         mode: 'all',
@@ -228,7 +232,7 @@ TextEditorProps) {
         }
     }, [blogData])
 
-    const options = data?.map((item: any) => ({
+    const options = data?.data?.map((item: any) => ({
         label: item?.title,
         value: item?.id,
     }))
@@ -237,10 +241,8 @@ TextEditorProps) {
         question: question.question || '',
         answer: question.answer || '',
     }))
-    console.log('blogData?.featuredImage', blogData?.featuredImage)
     const onSubmit: any = (data: any, publish: boolean) => {
         const content = quillRef.current.getEditor().root.innerHTML
-        console.log('data::::', data?.featuredImage)
         if (
             !data.featuredImage ||
             (typeof data.featuredImage === 'string' &&
@@ -270,22 +272,53 @@ TextEditorProps) {
             return
         }
         // FAQ's validation
+        // let isAnyFaqInvalid = false
+
+        // fields.forEach((faq: any, index: number) => {
+        //     const faqSchema = yup.object().shape({
+        //         question: yup
+        //             .string()
+        //             .required('FAQ question should not be empty'),
+        //         answer: yup.string().required('FAQ answer should not be empty'),
+        //     })
+
+        //     try {
+        //         faqSchema.validateSync(faq, { abortEarly: false })
+        //     } catch (error:any) {
+        //         error.inner.forEach((err: any) => {
+        //             formMethods.setError(`blogQuestions.${index}.${err.path}`, {
+        //                 type: 'FAQs',
+        //                 message: err.message,
+        //             })
+        //         })
+        //         isAnyFaqInvalid = true
+        //     }
+        // })
+
+        // if (isAnyFaqInvalid) {
+        //     return
+        // }
 
         let isAnyFaqInvalid = false
 
-        data?.faq &&
-            data?.faq?.forEach((faq: any) => {
-                if (faq.question === '' || faq.answer === '') {
+        data?.blogQuestions &&
+            data?.blogQuestions?.forEach((faq: any, index: number) => {
+                if (faq?.question === '' || faq?.answer === '') {
+                    formMethods.setError(`faq.${index}.question`, {
+                        type: 'FAQs',
+                        message: 'FAQ question should not be empty',
+                    })
+
+                    formMethods.setError(`faq.${index}.answer`, {
+                        type: 'FAQs',
+                        message: 'FAQ answer should not be empty',
+                    })
+
                     isAnyFaqInvalid = true
                 }
             })
 
         if (isAnyFaqInvalid) {
-            formMethods.setError('blogQuestions', {
-                type: 'FAQs',
-                message: 'FAQs Fields Should not be Empty',
-            })
-
             return
         }
 
