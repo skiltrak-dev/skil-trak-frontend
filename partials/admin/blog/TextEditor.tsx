@@ -248,20 +248,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
     const handleAddFAQ = () => {
         append({ question: '', answer: '' })
     }
-    // const handleAddFAQ = () => {
-    //     setFaqList((prevFaqList: any) => [
-    //         ...prevFaqList,
-    //         { question: '', answer: '' },
-    //     ])
-    // }
-
-    // const handleRemoveFAQ = (index: number) => {
-    //     setFaqList((prevFaqList) => {
-    //         const updatedList = [...prevFaqList]
-    //         updatedList.splice(index, 1)
-    //         return updatedList
-    //     })
-    // }
+   
     return (
         <div>
             <ShowErrorNotifications result={createBlogResult} />
