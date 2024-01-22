@@ -41,7 +41,11 @@ export const BlogCategory = ({ addCategories, addCategoriesResult }: any) => {
                         multi
                     /> */}
 
-                    <TextInput name="title" label="Category title" />
+                    <TextInput
+                        name="title"
+                        label="Category title"
+                        placeholder="Enter Category Name..."
+                    />
                     <Button
                         loading={addCategoriesResult?.isLoading}
                         disabled={addCategoriesResult?.isLoading}
