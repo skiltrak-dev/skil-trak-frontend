@@ -4,7 +4,7 @@ import {
     PageTitleProps,
     SubAdminNavbar,
 } from '@components'
-import { useJoyRide } from '@hooks'
+import { useContextBar, useJoyRide } from '@hooks'
 import React, { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
@@ -27,6 +27,7 @@ export const SubAdminLayout = ({
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const { viewAgreementModal, setViewAgreementModal } = useContextBar()
 
     const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
         {
@@ -47,6 +48,7 @@ export const SubAdminLayout = ({
 
             if (
                 pendingDocuments?.data &&
+                viewAgreementModal === 0 &&
                 pendingDocuments?.data?.length > 0 &&
                 router?.pathname !== `/portals/sub-admin/e-sign/[id]`
             ) {
@@ -55,6 +57,12 @@ export const SubAdminLayout = ({
                         documents={pendingDocuments?.data}
                         onClick={() => router.push(route)}
                         route="/portals/sub-admin/e-sign"
+                        onCancel={() => {
+                            setViewAgreementModal((view: number) =>
+                                Number(view + 1)
+                            )
+                            setModal(null)
+                        }}
                     />
                 )
             } else if (router?.pathname === `/portals/sub-admin/e-sign/[id]`) {
@@ -63,7 +71,7 @@ export const SubAdminLayout = ({
         } else {
             setModal(null)
         }
-    }, [pendingDocuments, router])
+    }, [pendingDocuments, router, viewAgreementModal])
     // const MemoNavbar = React.memo(SubAdminNavbar)
     return (
         <UserLayout>
