@@ -138,14 +138,14 @@ export const TicketMessageCard = ({
                 {forwarded?.action === StatusEnum.FORWARDED && (
                     <div className="flex justify-end">
                         <span className="text-gray-400 font-medium text-xs">
-                            Forwarded by: {forwarded.actionBy?.name}
+                            Forwarded by: {forwarded?.actionBy?.name}
                         </span>
 
                         <TiArrowForward className="text-gray-500" />
                     </div>
                 )}
                 <div className="flex justify-between items-center ">
-                    <TicketUser ticket={message.author} forwarded={forwarded} />
+                    <TicketUser ticket={message?.author} forwarded={forwarded} />
                     <div className="flex items-center gap-x-2">
                         <Typography variant={'small'} color={'text-gray-500'}>
                             {moment(message?.createdAt).format(
