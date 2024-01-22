@@ -14,7 +14,7 @@ import {
 import { UserLayout } from './UserLayout'
 
 // utils
-import { useAlert, useJoyRide } from '@hooks'
+import { useAlert, useContextBar, useJoyRide } from '@hooks'
 import { UserStatus } from '@types'
 import { AuthUtils, EsignDocumentStatus } from '@utils'
 import { CommonApi, useIndustryProfileQuery } from '@queries'
@@ -65,6 +65,8 @@ export const IndustryLayout = ({
     const [mounted, setMounted] = useState(false)
     const [modal, setModal] = useState<ReactElement | null>(null)
 
+    const { viewAgreementModal, setViewAgreementModal } = useContextBar()
+
     const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
         {
             status: [EsignDocumentStatus.PENDING, EsignDocumentStatus.ReSign],
@@ -90,6 +92,7 @@ export const IndustryLayout = ({
 
             if (
                 pendingDocuments?.data &&
+                viewAgreementModal === 0 &&
                 pendingDocuments?.data?.length > 0 &&
                 router?.pathname !== `/portals/industry/students/e-sign/[id]`
             ) {
@@ -98,6 +101,12 @@ export const IndustryLayout = ({
                         documents={pendingDocuments?.data}
                         onClick={() => router.push(route)}
                         route="/portals/industry/students/e-sign"
+                        onCancel={() => {
+                            setViewAgreementModal((view: number) =>
+                                Number(view + 1)
+                            )
+                            setModal(null)
+                        }}
                     />
                 )
             } else if (

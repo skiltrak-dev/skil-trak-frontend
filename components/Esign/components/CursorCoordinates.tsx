@@ -6,7 +6,11 @@ export const CursorCoordinates = ({
     viewport,
 }: {
     viewport: any
-    setTabDropCoordinates: (coordinates: { x: number; y: number }) => void
+    setTabDropCoordinates: (coordinates: {
+        x: number
+        y: number
+        viewPortData: string[]
+    }) => void
     element: any
 }) => {
     const [viewPortData, setViewPortData] = useState<string[]>([])
@@ -50,6 +54,7 @@ export const CursorCoordinates = ({
                     setTabDropCoordinates({
                         x: tabX,
                         y: tabY,
+                        viewPortData,
                     })
                 }
             }
