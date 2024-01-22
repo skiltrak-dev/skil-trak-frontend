@@ -121,6 +121,13 @@ export const adminApi = emptySplitApi.injectEndpoints({
             }),
             invalidatesTags: ['Blog'],
         }),
+        removeFaq: build.mutation({
+            query: (id) => ({
+                url: `blogs/question/${id}/remove`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Blog'],
+        }),
         bulkRemoveBlog: build.mutation({
             query: (ids) => ({
                 url: `blogs/remove/multiple`,
@@ -190,6 +197,7 @@ const {
     useGetFeaturedBlogsQuery,
     useGetBlogDetailQuery,
     useRemoveBlogMutation,
+    useRemoveFaqMutation,
     useBulkRemoveBlogMutation,
     useBulkDeleteBlogCategoriesMutation,
     useUpdateBlogMutation,

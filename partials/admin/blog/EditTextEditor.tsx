@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { ReactElement, useEffect, useRef, useState } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import * as yup from 'yup'
@@ -27,6 +27,7 @@ import { useNotification } from '@hooks'
 import { useRouter } from 'next/router'
 
 import { InputErrorMessage } from '@components/inputs/components'
+import { FaqDeleteModal } from './components'
 
 const imageSizeErrorMessage = (file: File) => {
     if (file && file.size && file.size > 2 * 1024 * 1024) {
@@ -54,6 +55,8 @@ TextEditorProps) {
     const { notification } = useNotification()
     const [selectedCategories, setSelectedCategories] = useState<any>([])
     const [blogPost, setBlogPost] = useState<any>('')
+    const [removeFaq, removeFaqResult] = adminApi.useRemoveFaqMutation()
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const blogPostEnum = {
         Save: 'save',
@@ -74,6 +77,9 @@ TextEditorProps) {
     //     // const editorContent = quillRef.current.getEditor().getContents()
     //     const html = quillRef.current.getEditor().root.innerHTML
     // }
+    const onModalCancelClicked = () => {
+        setModal(null)
+    }
     const preFilledCategoriesOption = blogData?.category?.map(
         (category: any) => category?.id
     )
@@ -129,21 +135,33 @@ TextEditorProps) {
         name: 'blogQuestions',
     })
 
-    useEffect(() => {
-        formMethods.reset({
-            ...formMethods.defaultValues,
-            blogQuestions: blogData?.blogQuestions || [
-                { question: '', answer: '' },
-            ],
-        })
-    }, [blogData])
+    // useEffect(() => {
+    //     formMethods.reset({
+    //         ...formMethods.defaultValues,
+    //         blogQuestions: blogData?.blogQuestions || [
+    //             { question: '', answer: '' },
+    //         ],
+    //     })
+    // }, [blogData])
 
     const handleAddFAQ = () => {
         append({ question: '', answer: '' })
     }
 
     const handleRemoveFAQ = (index: number) => {
-        remove(index)
+        const isExist = blogData?.blogQuestions[index]
+        if (isExist) {
+            // remove(index)
+            // removeFaq(isExist?.id)
+            setModal(
+                <FaqDeleteModal
+                    onCancel={onModalCancelClicked}
+                    faq={isExist}
+                    removeField={remove}
+                    index={index}
+                />
+            )
+        }
     }
     const modules = {
         toolbar: [
@@ -379,184 +397,151 @@ TextEditorProps) {
     }
 
     return (
-        <div>
-            <FormProvider {...formMethods}>
-                <form
-                    onSubmit={formMethods.handleSubmit((data: any) =>
-                        onSubmit(data, isPublish)
-                    )}
-                >
-                    <FileUpload
-                        required
-                        label={'Featured Image'}
-                        name={'featuredImage'}
-                        component={onFileUpload}
-                        acceptTypes={['jpg', 'jpeg', 'png', 'webp']}
-                    />
-                    <Select
-                        label="Categories"
-                        name="category"
-                        options={options}
-                        value={options?.filter((cate: any) =>
-                            selectedCategories.includes(cate?.value)
+        <>
+            {modal && modal}
+            <div>
+                <FormProvider {...formMethods}>
+                    <form
+                        onSubmit={formMethods.handleSubmit((data: any) =>
+                            onSubmit(data, isPublish)
                         )}
-                        onChange={(e: any) => {
-                            setSelectedCategories(e)
-                        }}
-                        // loading={isLoading}
-                        multi
-                        onlyValue
-                    />
-                    <TextInput name="author" label="Author" />
-                    <TextInput name="title" label="Title" />
-                    <ReactQuill theme="snow" ref={quillRef} modules={modules} />
-                    <InputErrorMessage name={'content'} />
-                    <div className="mt-4">
-                        <Checkbox
-                            onChange={handleChecked}
-                            name={'isFeatured'}
-                            label={'Featured'}
-                            value={isFeatured}
-                            defaultChecked={isFeatured}
+                    >
+                        <FileUpload
+                            required
+                            label={'Featured Image'}
+                            name={'featuredImage'}
+                            component={onFileUpload}
+                            acceptTypes={['jpg', 'jpeg', 'png', 'webp']}
                         />
-                    </div>
-                    {/* FAQ's */}
-
-                    <div className="py-4 border-t">
-                        <Typography variant="subtitle">
-                            Add FAQ's here
-                        </Typography>
-                        <Card>
-                            {/* {faqList.map((faq: any, index: any) => (
-                                <div
-                                    key={index}
-                                    className="flex items-start gap-x-4"
-                                >
-                                    <div className="flex flex-col w-3/4">
-                                        <TextInput
-                                            name={`blogQuestions[${index}].question`}
-                                            label={`FAQ ${index + 1} Question`}
-                                            placeholder="Enter Question"
-                                            value={faq.question}
-                                            onChange={(e: any) => {
-                                                const updatedFaqList = [
-                                                    ...faqList,
-                                                ]
-                                                updatedFaqList[index].question =
-                                                    e.target.value
-                                                setFaqList(updatedFaqList)
-                                            }}
-                                        />
-                                        <TextArea
-                                            name={`blogQuestions[${index}].answer`}
-                                            label={`FAQ ${index + 1} Answer`}
-                                            placeholder="Enter Answer"
-                                            value={faq.answer}
-                                            onChange={(e: any) => {
-                                                const updatedFaqList = [
-                                                    ...faqList,
-                                                ]
-                                                updatedFaqList[index].answer =
-                                                    e.target.value
-                                                setFaqList(updatedFaqList)
-                                            }}
-                                        />
-                                    </div>
-                                    <div className="mt-7">
-                                        <Button
-                                            text="Remove"
-                                            onClick={() =>
-                                                handleRemoveFAQ(index)
-                                            }
-                                            variant="error"
-                                        />
-                                    </div>
-                                </div>
-                            ))} */}
-                            {fields.map((faq: any, index: any) => (
-                                <div
-                                    key={faq.id}
-                                    className="flex items-start gap-x-4"
-                                >
-                                    <div className="flex flex-col w-3/4">
-                                        <TextInput
-                                            name={`blogQuestions.${index}.question`}
-                                            label={`FAQ ${index + 1} Question`}
-                                            placeholder="Enter Question"
-                                            defaultValue={faq.question}
-                                            required
-                                        />
-                                        <InputErrorMessage
-                                            name={'blogQuestions'}
-                                        />
-                                        <TextArea
-                                            name={`blogQuestions.${index}.answer`}
-                                            label={`FAQ ${index + 1} Answer`}
-                                            placeholder="Enter Answer"
-                                            // defaultValue={faq.answer}
-                                            required
-                                        />
-                                        <InputErrorMessage
-                                            name={'blogQuestions'}
-                                        />
-                                    </div>
-                                    <div className="mt-7">
-                                        <Button
-                                            text="Remove"
-                                            onClick={() =>
-                                                handleRemoveFAQ(index)
-                                            }
-                                            variant="error"
-                                        />
-                                    </div>
-                                </div>
-                            ))}
-
-                            <div className="mb-4">
-                                <Button
-                                    variant="success"
-                                    text="Add FAQ"
-                                    onClick={handleAddFAQ}
-                                />
-                            </div>
-                        </Card>
-                    </div>
-                    <div className="flex items-center gap-x-4 mt-5">
-                        <Button
-                            text="Update & Publish"
-                            loading={
-                                updateBlogResult?.isLoading &&
-                                blogPost === blogPostEnum.SaveAndPublish
-                            }
-                            disabled={
-                                updateBlogResult?.isLoading &&
-                                blogPost === blogPostEnum.SaveAndPublish
-                            }
-                            onClick={() => {
-                                setIsPublish(true)
-                                setBlogPost(blogPostEnum.SaveAndPublish)
-                                onSubmit(formMethods.getValues(), true)
+                        <Select
+                            label="Categories"
+                            name="category"
+                            options={options}
+                            value={options?.filter((cate: any) =>
+                                selectedCategories.includes(cate?.value)
+                            )}
+                            onChange={(e: any) => {
+                                setSelectedCategories(e)
                             }}
+                            // loading={isLoading}
+                            multi
+                            onlyValue
                         />
-                        <Button
-                            text="Save"
-                            onClick={() => {
-                                setIsPublish(false)
-                                setBlogPost(blogPostEnum.Save)
-                                onSubmit(formMethods.getValues(), false)
-                            }}
-                            loading={
-                                updateBlogResult?.isLoading &&
-                                blogPost === blogPostEnum.Save
-                            }
-                            disabled={
-                                updateBlogResult?.isLoading &&
-                                blogPost === blogPostEnum.Save
-                            }
+                        <TextInput name="author" label="Author" />
+                        <TextInput name="title" label="Title" />
+                        <ReactQuill
+                            theme="snow"
+                            ref={quillRef}
+                            modules={modules}
                         />
-                    </div>
-                </form>
-            </FormProvider>
-        </div>
+                        <InputErrorMessage name={'content'} />
+                        <div className="mt-4">
+                            <Checkbox
+                                onChange={handleChecked}
+                                name={'isFeatured'}
+                                label={'Featured'}
+                                value={isFeatured}
+                                defaultChecked={isFeatured}
+                            />
+                        </div>
+                        {/* FAQ's */}
+
+                        <div className="py-4 border-t">
+                            <Typography variant="subtitle">
+                                Add FAQ's here
+                            </Typography>
+                            <Card>
+                                {fields.map((faq: any, index: any) => {
+                                    console.log('faq', faq)
+                                    return (
+                                        <div
+                                            key={faq.id}
+                                            className="flex items-start gap-x-4"
+                                        >
+                                            <div className="flex flex-col w-3/4">
+                                                <TextInput
+                                                    name={`blogQuestions.${index}.question`}
+                                                    label={`FAQ ${
+                                                        index + 1
+                                                    } Question`}
+                                                    placeholder="Enter Question"
+                                                    defaultValue={faq.question}
+                                                    required
+                                                />
+                                                <InputErrorMessage
+                                                    name={'blogQuestions'}
+                                                />
+                                                <TextArea
+                                                    name={`blogQuestions.${index}.answer`}
+                                                    label={`FAQ ${
+                                                        index + 1
+                                                    } Answer`}
+                                                    placeholder="Enter Answer"
+                                                    // defaultValue={faq.answer}
+                                                    required
+                                                />
+                                                <InputErrorMessage
+                                                    name={'blogQuestions'}
+                                                />
+                                            </div>
+                                            <div className="mt-7">
+                                                <Button
+                                                    text="Remove"
+                                                    onClick={() =>
+                                                        handleRemoveFAQ(index)
+                                                    }
+                                                    variant="error"
+                                                />
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+                                <div className="mb-4">
+                                    <Button
+                                        variant="success"
+                                        text="Add FAQ"
+                                        onClick={handleAddFAQ}
+                                    />
+                                </div>
+                            </Card>
+                        </div>
+                        <div className="flex items-center gap-x-4 mt-5">
+                            <Button
+                                text="Update & Publish"
+                                loading={
+                                    updateBlogResult?.isLoading &&
+                                    blogPost === blogPostEnum.SaveAndPublish
+                                }
+                                disabled={
+                                    updateBlogResult?.isLoading &&
+                                    blogPost === blogPostEnum.SaveAndPublish
+                                }
+                                onClick={() => {
+                                    setIsPublish(true)
+                                    setBlogPost(blogPostEnum.SaveAndPublish)
+                                    onSubmit(formMethods.getValues(), true)
+                                }}
+                            />
+                            <Button
+                                text="Save"
+                                onClick={() => {
+                                    setIsPublish(false)
+                                    setBlogPost(blogPostEnum.Save)
+                                    onSubmit(formMethods.getValues(), false)
+                                }}
+                                loading={
+                                    updateBlogResult?.isLoading &&
+                                    blogPost === blogPostEnum.Save
+                                }
+                                disabled={
+                                    updateBlogResult?.isLoading &&
+                                    blogPost === blogPostEnum.Save
+                                }
+                            />
+                        </div>
+                    </form>
+                </FormProvider>
+            </div>
+        </>
     )
 }
