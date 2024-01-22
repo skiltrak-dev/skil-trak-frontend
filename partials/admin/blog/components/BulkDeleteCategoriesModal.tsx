@@ -4,22 +4,23 @@ import { adminApi } from '@queries'
 import React, { useEffect } from 'react'
 import { FaTrash } from 'react-icons/fa'
 
-export const BulkDeleteModal = ({
+export const BulkDeleteCategoriesModal = ({
     onCancel,
-    blogsIds,
+    categoriesIds,
 }: {
     onCancel: Function
-    blogsIds: number[]
+    categoriesIds: number[]
 }) => {
     const { notification } = useNotification()
 
-    const [bulkRemove, bulkRemoveResult] = adminApi.useBulkRemoveBlogMutation()
+    const [bulkRemove, bulkRemoveResult] =
+        adminApi.useBulkDeleteBlogCategoriesMutation()
 
     useEffect(() => {
         if (bulkRemoveResult.isSuccess) {
             notification.success({
-                title: 'Blogs Removed',
-                description: 'Blogs Removed Successfully',
+                title: 'Categories Removed',
+                description: 'Categories Removed Successfully',
             })
             onCancel()
         }
@@ -35,11 +36,11 @@ export const BulkDeleteModal = ({
                 Icon={FaTrash}
                 variant="error"
                 title="Are you sure!"
-                description={`You are about to delete ${blogsIds?.length} Blogs. Do you wish to continue?`}
+                description={`You are about to delete ${categoriesIds?.length} Categories. Do you wish to continue?`}
                 onConfirm={onConfirmUClicked}
                 onCancel={onCancel}
                 input
-                actionObject={blogsIds}
+                actionObject={categoriesIds}
                 loading={bulkRemoveResult.isLoading}
             />
         </>

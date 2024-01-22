@@ -219,6 +219,9 @@ const DynamicSvgLoader = ({
                                                             <DraggableTab
                                                                 item={item}
                                                                 key={i}
+                                                                viewport={
+                                                                    viewport
+                                                                }
                                                                 onResize={
                                                                     onItemResize
                                                                 }

@@ -1,29 +1,39 @@
-import { Button, GlobalModal, InitialAvatar, Typography } from '@components'
+import {
+    Button,
+    GlobalModal,
+    InitialAvatar,
+    Modal,
+    Typography,
+} from '@components'
 import { useRouter } from 'next/router'
 
 export const ViewUsersForEsignModal = ({
     documents,
     onClick,
     route,
+    onCancel,
 }: {
     documents: any
     onClick: () => void
     route: string
+    onCancel?: any
 }) => {
     const router = useRouter()
 
     return (
-        <GlobalModal>
-            <div className="p-8 max-h-[85vh] overflow-auto custom-scrollbar">
+        <Modal
+            showActions={false}
+            {...(onCancel
+                ? {
+                      onCancelClick: onCancel,
+                  }
+                : {})}
+            onCancelClick={onCancel}
+            title="Following documents are pending to be signed"
+            subtitle={`${documents?.length} Pending Documents Esigns`}
+        >
+            <div className="px-2 max-h-[85vh] overflow-auto custom-scrollbar">
                 <div>
-                    <Typography color="text-[#6B7280]" variant="label" medium>
-                        Following documents are pending to be signed
-                    </Typography>
-
-                    <p className="text-sm font-bold">
-                        {documents?.length} Pending Documents Esigns
-                    </p>
-
                     <div className="mt-3.5">
                         {documents?.map((document: any) => (
                             <div className="pb-2">
@@ -79,7 +89,7 @@ export const ViewUsersForEsignModal = ({
                                         </div>
                                     ))}
                                 </div>
-                                <div className="flex items-center justify-end mt-1">
+                                <div className="flex items-center justify-end gap-x-3 py-4 mt-1">
                                     <Button
                                         text={'Sign Document'}
                                         onClick={() => {
@@ -91,9 +101,20 @@ export const ViewUsersForEsignModal = ({
                                 </div>
                             </div>
                         ))}
+                        <div className="flex justify-end">
+                            {onCancel && (
+                                <Button
+                                    text={'Sign Later'}
+                                    onClick={() => {
+                                        onCancel()
+                                    }}
+                                    outline
+                                />
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
-        </GlobalModal>
+        </Modal>
     )
 }

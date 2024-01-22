@@ -73,6 +73,15 @@ export const adminApi = emptySplitApi.injectEndpoints({
             },
             invalidatesTags: ['BlogCategories'],
         }),
+        deleteBlogCategory: build.mutation<any, any>({
+            query: (id) => {
+                return {
+                    url: `blogs/category/${id}`,
+                    method: 'DELETE',
+                }
+            },
+            invalidatesTags: ['BlogCategories'],
+        }),
         getBlogs: build.query<any, any>({
             query: (params) => ({
                 url: `blogs`,
@@ -93,11 +102,11 @@ export const adminApi = emptySplitApi.injectEndpoints({
             }),
             providesTags: ['Tags'],
         }),
-        getCategories: build.query<any, void>({
+        getCategories: build.query<any, any>({
             query: () => ({
                 url: `blogs/category`,
             }),
-            providesTags: ['Blog'],
+            providesTags: ['Blog', 'BlogCategories'],
         }),
         getBlogDetail: build.query<any, any>({
             query: (id) => ({
@@ -115,6 +124,15 @@ export const adminApi = emptySplitApi.injectEndpoints({
         bulkRemoveBlog: build.mutation({
             query: (ids) => ({
                 url: `blogs/remove/multiple`,
+                method: 'DELETE',
+                body: { ids: ids },
+                // ids: [1,2,3]
+            }),
+            invalidatesTags: ['Blog'],
+        }),
+        bulkDeleteBlogCategories: build.mutation({
+            query: (ids) => ({
+                url: `blogs/categories/remove`,
                 method: 'DELETE',
                 body: { ids: ids },
                 // ids: [1,2,3]
@@ -173,10 +191,12 @@ const {
     useGetBlogDetailQuery,
     useRemoveBlogMutation,
     useBulkRemoveBlogMutation,
+    useBulkDeleteBlogCategoriesMutation,
     useUpdateBlogMutation,
     useAddBlogTagsMutation,
     useGetTagsQuery,
     useAddBlogCategoriesMutation,
+    useDeleteBlogCategoryMutation,
     useGetCategoriesQuery,
 
     // ------ RTO ------ //

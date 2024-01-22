@@ -40,8 +40,6 @@ export default function ESign() {
     const [tabsError, setTabsError] = useState<any>(null)
     const [pastedTabsCount, setPastedTabsCount] = useState<number>(1)
 
-    console.log({ lastSelectedItem })
-
     const navBar = useNavbar()
 
     const router = useRouter()
@@ -133,6 +131,8 @@ export default function ESign() {
     }, [tabs])
 
     const onItemMove = (eventData: any) => {
+        const [a, b, width, height] = tabDropCoordinates?.viewPortData
+
         setActiveItem(true)
 
         const item = eventData.active.data.current
@@ -143,7 +143,25 @@ export default function ESign() {
                     (x: any) => x.id !== contextBar?.id
                 )
                 existingItem.moving = true
-                updatedList.push(existingItem)
+                console.log({ eventData, tabDropCoordinates, existingItem })
+                updatedList.push({
+                    ...existingItem,
+                    location: {
+                        ...existingItem?.location,
+                        x:
+                            existingItem?.location?.x < 0
+                                ? 1
+                                : existingItem?.location?.x > Number(width)
+                                ? Number(width) - existingItem?.size?.width
+                                : existingItem?.location?.x,
+                        y:
+                            existingItem?.location?.y < 0
+                                ? 1
+                                : existingItem?.location?.y > Number(height)
+                                ? Number(height) - existingItem?.size?.height
+                                : existingItem?.location?.y,
+                    },
+                })
 
                 setItems(updatedList)
             }
@@ -154,13 +172,32 @@ export default function ESign() {
         const item = eventData.active.data.current
         const delta = eventData.delta
 
+        const [a, b, width, height] = tabDropCoordinates?.viewPortData
+
         const existingItem = items.find((x: any) => x.id === item.id)
         if (existingItem && !existingItem.resizing) {
             const updatedList = items.filter((x: any) => x.id !== item.id)
             existingItem.location.x = existingItem.location.x + delta.x
             existingItem.location.y = existingItem.location.y + delta.y
             existingItem.moving = false
-            updatedList.push(existingItem)
+            updatedList.push({
+                ...existingItem,
+                location: {
+                    ...existingItem?.location,
+                    x:
+                        existingItem?.location?.x < 0
+                            ? 1
+                            : existingItem?.location?.x > Number(width)
+                            ? Number(width) - existingItem?.size?.width
+                            : existingItem?.location?.x,
+                    y:
+                        existingItem?.location?.y < 0
+                            ? 1
+                            : existingItem?.location?.y > Number(height)
+                            ? Number(height) - existingItem?.size?.height
+                            : existingItem?.location?.y,
+                },
+            })
 
             setItems(updatedList)
         }
@@ -229,6 +266,8 @@ export default function ESign() {
         }
     }
 
+    console.log({ items })
+
     const handleDragEnd = (data: any) => {
         setActiveItem(false)
 
@@ -242,6 +281,8 @@ export default function ESign() {
 
         const newLocX = tabDropCoordinates?.x
         const newLocY = tabDropCoordinates?.y
+
+        console.log({ data, newLocX, newLocY, tabDropCoordinates })
 
         // const newLocY = Math.abs(
         //     data.delta.y - data.active.data.current.clientY / 2
@@ -268,27 +309,47 @@ export default function ESign() {
             //     return data.delta.y
             // })()
 
-            console.log({ data })
-
             const isCheckBox =
                 data.active.data.current?.type === FieldsTypeEnum.Checkbox
 
+            const [a, b, width, height] = tabDropCoordinates?.viewPortData
+
             const newId = uuid()
+
+            console.log(
+                'newLocX > tabDropCoordinates?.viewPortData?.x',
+                newLocX,
+                tabDropCoordinates,
+                width,
+                height
+            )
+
+            const yValue = isCheckBox
+                ? newLocY - 3
+                : newLocY - 12 < 0
+                ? 0
+                : newLocY - 12
+
+            const xValue = isCheckBox
+                ? newLocX - 3
+                : newLocX - 60 < 0
+                ? 1
+                : newLocX - 60
             const tab = {
                 id: newId,
                 page: data?.over?.id,
                 selected: true,
                 location: {
-                    x: isCheckBox
-                        ? newLocX - 3
-                        : newLocX - 60 < 0
-                        ? 1
-                        : newLocX - 60,
-                    y: isCheckBox
-                        ? newLocY - 3
-                        : newLocY - 12 < 0
-                        ? 0
-                        : newLocY - 12,
+                    x: width
+                        ? newLocX > Number(width)
+                            ? Number(width) - 50
+                            : xValue
+                        : xValue,
+                    y: height
+                        ? newLocY > Number(height)
+                            ? Number(height) - 25
+                            : yValue
+                        : yValue,
                     page: data?.over?.id,
                 },
                 size: { width: 120, height: 24 },
@@ -310,8 +371,6 @@ export default function ESign() {
                 moving: false,
                 resizing: false,
             }
-
-            console.log({ data })
 
             // return null
 
@@ -356,7 +415,6 @@ export default function ESign() {
 
         setContextBar(null)
         const existingItem = items.find((x: any) => x.id === contextBar?.id)
-        console.log({ existingItem })
         if (existingItem) {
             const updatedList = items.filter(
                 (x: any) => x.id !== contextBar?.id
@@ -408,7 +466,6 @@ export default function ESign() {
         // })
     }
 
-    const [coords, setCoords] = useState({ x: 0, y: 0 })
     // useEffect(() => {
     // 	const handleWindowMouseMove = (event: any) => {
     // 		const tempCoords = {

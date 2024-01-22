@@ -48,7 +48,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
     }
 
     const [createBlog, createBlogResult] = adminApi.useCreateBlogMutation()
-    const { data, isLoading } = adminApi.useGetCategoriesQuery()
+    const { data, isLoading } = adminApi.useGetCategoriesQuery(undefined)
     // const handleSave = () => {
     //     // const editorContent = quillRef.current.getEditor().getContents()
     //     const html = quillRef.current.getEditor().root.innerHTML
@@ -108,7 +108,6 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
     }
 
     const onSubmit: any = (data: any, publish: boolean) => {
-        console.log('data', data?.faq)
         const content = quillRef.current.getEditor().root.innerHTML
         if (!data.featuredImage || !data.featuredImage[0]) {
             formMethods.setError('featuredImage', {
@@ -145,20 +144,41 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
         let isAnyFaqInvalid = false
 
         data?.faq &&
-            data?.faq?.forEach((faq: any) => {
+            data?.faq?.forEach((faq: any, index: number) => {
                 if (faq?.question === '' || faq?.answer === '') {
+                    formMethods.setError(`faq.${index}.question`, {
+                        type: 'FAQs',
+                        message: 'FAQ question should not be empty',
+                    })
+
+                    formMethods.setError(`faq.${index}.answer`, {
+                        type: 'FAQs',
+                        message: 'FAQ answer should not be empty',
+                    })
+
                     isAnyFaqInvalid = true
                 }
             })
 
         if (isAnyFaqInvalid) {
-            formMethods.setError('blogQuestions', {
-                type: 'FAQs',
-                message: 'FAQs Fields Should not be Empty',
-            })
-
             return
         }
+
+        // data?.faq &&
+        //     data?.faq?.forEach((faq: any) => {
+        //         if (faq?.question === '' || faq?.answer === '') {
+        //             isAnyFaqInvalid = true
+        //         }
+        //     })
+
+        // if (isAnyFaqInvalid) {
+        //     formMethods.setError('blogQuestions', {
+        //         type: 'FAQs',
+        //         message: 'FAQs Fields Should not be Empty',
+        //     })
+
+        //     return
+        // }
         // }
 
         // if (data?.faq.length > 0) {
@@ -198,7 +218,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
             })
     }
 
-    const options = data?.map((item: any) => ({
+    const options = data?.data?.map((item: any) => ({
         label: item?.title,
         value: item?.id,
     }))

@@ -16,9 +16,10 @@ export const SiteLayout = ({ children, title }: any) => {
         tawkMessengerRef.current.minimize()
     }
 
+
     return (
         <div>
-            <title> Home | SkilTrak</title>
+            <title>{`${title || "Home"} | SkilTrak`}</title>
             <Navbar2 />
             <DisplayNotifications />
             <main>{children}</main>

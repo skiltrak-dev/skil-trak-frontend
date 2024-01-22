@@ -5,7 +5,7 @@ import {
     RedirectUnApprovedUsers,
     RtoNavbar,
 } from '@components'
-import { useAlert, useJoyRide } from '@hooks'
+import { useAlert, useContextBar, useJoyRide } from '@hooks'
 import { UserStatus } from '@types'
 import { AuthUtils, EsignDocumentStatus } from '@utils'
 import { useRouter } from 'next/router'
@@ -44,6 +44,8 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
     const { alert, setAlerts } = useAlert()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
+    const { viewAgreementModal, setViewAgreementModal } = useContextBar()
+
     const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
         {
             status: [EsignDocumentStatus.PENDING, EsignDocumentStatus.ReSign],
@@ -79,6 +81,7 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
 
             if (
                 pendingDocuments?.data &&
+                viewAgreementModal === 0 &&
                 pendingDocuments?.data?.length > 0 &&
                 router?.pathname !== `/portals/rto/tasks/e-sign/[id]`
             ) {
@@ -87,6 +90,12 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
                         documents={pendingDocuments?.data}
                         onClick={() => router.push(route)}
                         route="/portals/rto/tasks/e-sign"
+                        onCancel={() => {
+                            setViewAgreementModal((view: number) =>
+                                Number(view + 1)
+                            )
+                            setModal(null)
+                        }}
                     />
                 )
             } else if (router?.pathname === `/portals/rto/tasks/e-sign/[id]`) {

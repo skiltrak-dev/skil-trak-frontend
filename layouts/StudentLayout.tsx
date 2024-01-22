@@ -6,7 +6,7 @@ import {
     StudentNavbar,
     StudentTimer,
 } from '@components'
-import { useAlert, useJoyRide } from '@hooks'
+import { useAlert, useContextBar, useJoyRide } from '@hooks'
 import { ProfileModal } from '@partials/student/Profile/modal/ProfileModal'
 import { StudentContextBar } from '@partials/student/components'
 import { CommonApi, useGetStudentProfileDetailQuery } from '@queries'
