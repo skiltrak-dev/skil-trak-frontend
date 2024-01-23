@@ -78,8 +78,8 @@ export const DraggableTab = ({
                     <rect
                         x="0"
                         y="0"
-                        width="12"
-                        height="12"
+                        width="11"
+                        height="11"
                         fill={
                             !item?.data?.role && isTabError
                                 ? 'red'
@@ -89,7 +89,7 @@ export const DraggableTab = ({
                         strokeWidth="1"
                         // onClick={handleCheckboxChange}
                     />
-                    <text x="2" y="9" className="text-[10px]" fill={'white'}>
+                    <text x="2" y="9" className="text-[9px]" fill={'white'}>
                         ✔
                     </text>
                 </>

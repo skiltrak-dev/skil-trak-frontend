@@ -81,7 +81,7 @@ export const CursorCoordinates = ({
                 left: `${cursorCoords.x + 10}px`,
             }}
         >
-            [{coords.x.toFixed(2)}, {coords.y.toFixed(2)}]
+            {/* [{coords.x.toFixed(2)}, {coords.y.toFixed(2)}] */}
         </div>
     )
 }

@@ -143,7 +143,7 @@ export const ImportStudentForm = ({
                             name="list"
                             onChange={onFileChange}
                             fileAsObject={false}
-                            // acceptTypes={['csv', 'xlsx', 'numbers']}
+                            // acceptTypes={['.xlsx, .csv']}
                         />
                     </div>
                 </div>
