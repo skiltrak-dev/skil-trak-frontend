@@ -82,6 +82,9 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
             .array()
             .min(1, 'Must select at least 1 category')
             .required(),
+        shortDescription: yup
+            .string()
+            .required('Short description is required'),
     })
 
     const formMethods = useForm({
@@ -202,6 +205,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                 formData.append('tags', tagIds)
                 formData.append('category', data?.category)
                 formData.append('author', data?.author)
+                formData.append('shortDescription', data?.shortDescription)
                 formData.append(
                     'blogQuestions',
                     JSON.stringify(data?.faq) || ''
@@ -248,7 +252,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
     const handleAddFAQ = () => {
         append({ question: '', answer: '' })
     }
-   
+
     return (
         <div>
             <ShowErrorNotifications result={createBlogResult} />
@@ -275,6 +279,12 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                     />
                     <TextInput name="author" label="Author" />
                     <TextInput name="title" label="Title" />
+                    <TextArea
+                        label={'Short Description'}
+                        name={'shortDescription'}
+                        placeholder='Write a short description of 380 words'
+                        validationIcons
+                    />
                     <ReactQuill theme="snow" ref={quillRef} modules={modules} />
                     <InputErrorMessage name={'content'} />
                     <div className="mt-4">
