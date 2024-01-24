@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CommonApi } from '@queries'
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { useSocketListener } from '@hooks'
@@ -10,7 +10,6 @@ import { ActionCard } from '@partials/sub-admin/Tickets'
 
 export const TicketReplies = ({ ticket }: { ticket: any }) => {
     const { eventListener } = useSocketListener()
-
     const replies = CommonApi.Tickets.useGetTicketReplies(ticket?.id, {
         skip: !ticket?.id,
     })
@@ -34,30 +33,35 @@ export const TicketReplies = ({ ticket }: { ticket: any }) => {
             ) : replies?.data && replies.isSuccess ? (
                 <>
                     <div className="flex flex-col gap-y-4 mt-4 ">
-                        {replies?.data?.map((response: any) => (
-                            <>
-                                <TicketMessageCard
-                                    key={response?.id}
-                                    message={response}
-                                    ticketDetail={ticket}
-                                />
-                                {response?.action !== null &&
-                                    response?.action?.action ===
-                                        StatusEnum.FORWARDED && (
-                                        <>
-                                            <ActionCard
-                                                action={response?.action}
-                                            />
-                                        </>
-                                    )}
-                            </>
-                        ))}
-                        <TicketMessageCard
+                        {replies?.data?.map((response: any) => {
+                            console.log("replies", response)
+                            return (
+                                <>
+                                    <TicketMessageCard
+                                        key={response?.id}
+                                        message={response}
+                                        ticketDetail={ticket}
+                                        replyId={response?.id}
+                                    />
+                                    {response?.action !== null &&
+                                        response?.action?.action ===
+                                            StatusEnum.FORWARDED && (
+                                            <>
+                                                <ActionCard
+                                                    action={response?.action}
+                                                />
+                                            </>
+                                        )}
+                                </>
+                            )
+                        })}
+                        {/* <TicketMessageCard
                             message={{
                                 ...ticket,
                                 author: ticket?.createdBy,
                             }}
-                        />
+                            replyId={updateReplyId}
+                        /> */}
                     </div>
                 </>
             ) : (

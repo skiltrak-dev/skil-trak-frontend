@@ -194,11 +194,11 @@ export const IndustryNavbar = () => {
                                     } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
                                 >
                                     <span>
-                                        <MdNotifications />
-                                    </span>
-                                    <span className="text-sm font-semibold">
-                                        Notifications
-                                    </span>
+                                <MdEmail  />
+                            </span>
+                            <span className="text-xs 2xl:text-sm font-semibold">
+                                Mails
+                            </span>
                                 </a>
                             </Link>
                         </li>

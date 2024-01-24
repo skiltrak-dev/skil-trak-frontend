@@ -66,7 +66,7 @@ export const ticketEndpoints = (
     }),
     updateReply: builder.mutation<any, { id: number; message: any }>({
         query: ({ id, message }) => ({
-            url: `${PREFIX}/reply/update/${id}`,
+            url: `shared/reply/update/${id}`,
             method: 'PATCH',
             body: { message },
         }),
