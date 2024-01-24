@@ -36,7 +36,7 @@ export const ImportIndustriesList = () => {
                 ...ind,
                 email: ind?.email.replace(/\r\n\r\n/g, ''),
                 region: ind?.states,
-                sector: ind?.sector?.split(','),
+                sector: ind?.sector ? String(ind?.sector)?.split(',') : null,
             }))
         ).then((res: any) => {
             if (res?.data) {
@@ -60,7 +60,7 @@ export const ImportIndustriesList = () => {
                 onChange={onFileChange}
                 fileAsObject={false}
                 result={importListResult}
-                // acceptTypes={['csv', 'xlsx']}
+                // acceptTypes={['.xlsx, .csv']}
             />
             <div className="flex items-center justify-end mt-2">
                 <Button

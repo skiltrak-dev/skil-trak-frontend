@@ -85,6 +85,10 @@ export const ActiveAssessmentDetail = ({
     const workplace = useGetSubAdminStudentWorkplaceQuery(Number(studentId), {
         skip: !studentId,
     })
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: !UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+    })
 
     const latestWorkplace = workplace?.data?.reduce(
         (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
@@ -418,7 +422,7 @@ export const ActiveAssessmentDetail = ({
                         courseName={selectedCourse?.title}
                     />
                     {/* <Actions result={results} /> */}
-                    {role === UserRoles.ADMIN &&
+                    {(role === UserRoles.ADMIN || subadmin?.data?.isAdmin) &&
                         results?.totalSubmission >= 3 &&
                         results?.result !== Result.Pending &&
                         !results?.isManualSubmission && (
