@@ -15,12 +15,15 @@ import { FaSignature } from 'react-icons/fa'
 import { PuffLoader } from 'react-spinners'
 import { SVGView } from './components'
 import { EsignSignatureModal } from './modal'
+import { ellipsisText } from '@utils'
 
 export const ViewDocumentAndSign = () => {
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [customFieldsData, setCustomFieldsData] = useState<any>([])
+    const [selectedFillDataField, setSelectedFillDataField] =
+        useState<any>(null)
 
     const { notification } = useNotification()
 
@@ -154,6 +157,10 @@ export const ViewDocumentAndSign = () => {
         }
     }
 
+    const customFieldsAndSign = customFieldsData?.filter(
+        (s: any) => s?.type === FieldsTypeEnum.Signature || s?.isCustom
+    )
+
     return (
         <div>
             <ShowErrorNotifications result={addCustomFieldsDataResult} />
@@ -173,61 +180,141 @@ export const ViewDocumentAndSign = () => {
                 <LoadingAnimation />
             ) : documentsTotalPages.isSuccess && documentsTotalPages?.data ? (
                 <>
-                    <div className="flex flex-col gap-y-3 relative">
-                        <div className="flex justify-end items-center gap-x-2">
-                            <input
-                                type={'checkbox'}
-                                onChange={(e: any) => {
-                                    onSelectAll(e)
-                                }}
-                                id={'selectAll'}
-                            />
-                            <label htmlFor="selectAll">Select All</label>
+                    <div className="grid grid-cols-6 gap-x-2.5">
+                        <div className="col-span-5 flex flex-col gap-y-3 relative w-full">
+                            {/* <div className="flex justify-end items-center gap-x-2">
+                                <input
+                                    type={'checkbox'}
+                                    onChange={(e: any) => {
+                                        onSelectAll(e)
+                                    }}
+                                    id={'selectAll'}
+                                />
+                                <label htmlFor="selectAll">Select All</label>
+                            </div> */}
+
+                            {[
+                                ...Array(
+                                    Number(documentsTotalPages?.data?.pageCount)
+                                ),
+                            ]?.map((_, i: number) => (
+                                <div
+                                    ref={(el) =>
+                                        (scrollTargetRef.current[i] = el)
+                                    }
+                                >
+                                    <Card key={i}>
+                                        <div className="flex justify-center">
+                                            <Typography
+                                                variant="label"
+                                                semibold
+                                            >
+                                                {i + 1}
+                                            </Typography>
+                                        </div>
+                                        <SVGView
+                                            index={i}
+                                            customFieldsData={customFieldsData}
+                                            selectedFillDataField={
+                                                selectedFillDataField
+                                            }
+                                            onSignatureClicked={
+                                                onSignatureClicked
+                                            }
+                                            onAddCustomFieldsData={
+                                                onAddCustomFieldsData
+                                            }
+                                            documentData={
+                                                documentsTotalPages?.data
+                                            }
+                                        />
+                                    </Card>
+                                </div>
+                            ))}
                         </div>
 
-                        {sign && (
-                            <div
-                                onClick={() => {
-                                    scrollToPage(Number(sign?.number - 1))
-                                }}
-                                className="ml-auto z-10 px-7 py-2 h-full bg-red-600 flex justify-center items-center gap-x-2 text-white"
-                            >
-                                <FaSignature className="text-2xl" />
-                                <button className="text-lg">
-                                    {sign?.responses &&
-                                    sign?.responses?.length > 0
-                                        ? 'View Sign'
-                                        : 'Sign Here'}
-                                </button>
-                            </div>
-                        )}
-
-                        {[
-                            ...Array(
-                                Number(documentsTotalPages?.data?.pageCount)
-                            ),
-                        ]?.map((_, i: number) => (
-                            <div
-                                ref={(el) => (scrollTargetRef.current[i] = el)}
-                            >
-                                <Card key={i}>
-                                    <div className="flex justify-center">
-                                        <Typography variant="label" semibold>
-                                            {i + 1}
-                                        </Typography>
-                                    </div>
-                                    <SVGView
-                                        index={i}
-                                        customFieldsData={customFieldsData}
-                                        onSignatureClicked={onSignatureClicked}
-                                        onAddCustomFieldsData={
-                                            onAddCustomFieldsData
+                        <Card noPadding>
+                            <div className="px-2 flex flex-col gap-y-2 h-[85vh] overflow-y-auto custom-scrollbar sticky top-0">
+                                <div>
+                                    <Typography variant="small" semibold>
+                                        Click here to fill the data in form
+                                    </Typography>
+                                </div>
+                                {customFieldsAndSign?.map(
+                                    (fields: any, i: number) => {
+                                        if (
+                                            fields?.type ===
+                                            FieldsTypeEnum.Signature
+                                        ) {
+                                            return (
+                                                <div
+                                                    onClick={() => {
+                                                        scrollToPage(
+                                                            Number(
+                                                                fields?.number -
+                                                                    1
+                                                            )
+                                                        )
+                                                    }}
+                                                    className="w-full ml-auto z-10 px-7 py-2 h-9 bg-red-600 rounded-md flex justify-center items-center gap-x-2 text-white"
+                                                >
+                                                    <FaSignature className="text-2xl" />
+                                                    <button className="text-lg whitespace-pre">
+                                                        {sign?.responses &&
+                                                        sign?.responses
+                                                            ?.length > 0
+                                                            ? 'View Sign'
+                                                            : 'Sign Here'}
+                                                    </button>
+                                                </div>
+                                            )
                                         }
-                                        documentData={documentsTotalPages?.data}
-                                    />
-                                </Card>
+                                        return (
+                                            <div>
+                                                <div
+                                                    onClick={() => {
+                                                        setSelectedFillDataField(
+                                                            fields?.id
+                                                        )
+                                                        scrollToPage(
+                                                            Number(
+                                                                fields?.number -
+                                                                    1
+                                                            )
+                                                        )
+                                                    }}
+                                                    className={`h-9 w-full ml-auto z-10 px-7 py-2 ${
+                                                        i % 2 === 0
+                                                            ? 'bg-primary'
+                                                            : 'bg-success'
+                                                    } relative group z-20 text-white rounded-md flex justify-center items-center gap-x-2  cursor-pointer`}
+                                                >
+                                                    <Typography
+                                                        variant="label"
+                                                        medium
+                                                        color={'text-white'}
+                                                    >
+                                                        <span className="cursor-pointer">
+                                                            {fields?.fieldValue
+                                                                ? ellipsisText(
+                                                                      fields?.fieldValue,
+                                                                      10
+                                                                  )
+                                                                : `Fill ${fields?.placeholder}`}
+                                                        </span>
+                                                    </Typography>
+                                                    {fields?.fieldValue && (
+                                                        <div className="hidden group-hover:block w-[90%] h-96 mx-auto absolute top-5 left-0 p-2 z-[1111] text-black shadow rounded-md bg-white">
+                                                            {fields?.fieldValue}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                )}
                             </div>
-                        ))}
+                        </Card>
                     </div>
                     <div className="flex justify-center bg-white px-5 py-2 shadow-md w-full rounded my-2">
                         <button

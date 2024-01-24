@@ -12,12 +12,14 @@ export const SVGView = ({
     customFieldsData,
     onSignatureClicked,
     onAddCustomFieldsData,
+    selectedFillDataField,
 }: {
     index: number
     documentData: any
     customFieldsData: any
     onSignatureClicked: any
     onAddCustomFieldsData: any
+    selectedFillDataField?: any
 }) => {
     const router = useRouter()
     const [viewport, setViewport] = useState<string | null>('')
@@ -129,6 +131,9 @@ __html: svgContent,
                                     onSignatureClicked={onSignatureClicked}
                                     onAddCustomFieldsData={
                                         onAddCustomFieldsData
+                                    }
+                                    selectedFillDataField={
+                                        selectedFillDataField
                                     }
                                 />
                             </g>

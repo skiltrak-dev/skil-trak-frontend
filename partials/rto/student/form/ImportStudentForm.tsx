@@ -131,6 +131,7 @@ export const ImportStudentForm = ({
                         name="list"
                         onChange={onFileChange}
                         fileAsObject={false}
+                        // acceptTypes={['.xlsx, .csv']}
                     />
 
                     <div className="flex">

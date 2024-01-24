@@ -13,11 +13,13 @@ export const TabsView = ({
     index,
     onAddCustomFieldsData,
     onSignatureClicked,
+    selectedFillDataField,
 }: {
     index: number
     customFieldsData: any
     onAddCustomFieldsData: any
     onSignatureClicked: any
+    selectedFillDataField?: any
 }) => {
     const { notification } = useNotification()
 
@@ -109,7 +111,11 @@ export const TabsView = ({
                                         name=""
                                         id=""
                                         value={s?.fieldValue}
-                                        className="w-full h-full border rounded-md border-gray-500 text-sm p-1 outline-none"
+                                        className={`w-full h-full border-2 rounded-md ${
+                                            selectedFillDataField === s?.id
+                                                ? 'border-primary'
+                                                : 'border-gray-500'
+                                        }  text-sm p-1 outline-none`}
                                         placeholder={s?.label}
                                         onChange={(e: any) => {
                                             onAddCustomFieldsData({

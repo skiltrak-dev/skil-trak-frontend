@@ -734,9 +734,9 @@ export default function ESign() {
                                                         onCopyTab(e)
                                                         onPasteTab(e)
                                                     }}
-                                                    className="bg-white w-full rounded-lg overflow-hidden"
+                                                    className="relative bg-white w-full rounded-lg overflow-hidden"
                                                 >
-                                                    <div className="flex justify-center">
+                                                    <div className="w-6 h-6 flex justify-center absolute top-0 left-1/2 -translate-x-1/2 bg-white p-0.5 shadow-2xl rounded-full">
                                                         <Typography variant="label">
                                                             {i + 1}
                                                         </Typography>
