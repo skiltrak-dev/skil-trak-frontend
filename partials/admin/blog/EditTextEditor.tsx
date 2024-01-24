@@ -108,6 +108,9 @@ TextEditorProps) {
             .array()
             .min(1, 'Must select at least 1 category')
             .required(),
+        shortDescription: yup
+            .string()
+            .required('Short description is required'),
         // content: yup.string().required('Content is required'),
         // blogQuestions: yup.object().shape({
         //     question: yup.string().required('FAQ question should not be empty'),
@@ -120,6 +123,7 @@ TextEditorProps) {
         defaultValues: {
             featuredImage: blogData?.featuredImage || null,
             title: blogData?.title || '',
+            shortDescription: blogData?.shortDescription || '',
             author: blogData?.author || '',
             isFeatured: blogData?.isFeatured || false,
             category: [],
@@ -350,6 +354,7 @@ TextEditorProps) {
             isPublished: publish.toString(),
             isFeatured: isFeatured.toString(),
             category: data?.category,
+            shortDescription: data?.shortDescription,
             blogQuestions: JSON.stringify(data?.blogQuestions),
         }
 
@@ -429,6 +434,11 @@ TextEditorProps) {
                         />
                         <TextInput name="author" label="Author" />
                         <TextInput name="title" label="Title" />
+                        <TextArea
+                            label={'Short Description'}
+                            name={'shortDescription'}
+                            validationIcons
+                        />
                         <ReactQuill
                             theme="snow"
                             ref={quillRef}

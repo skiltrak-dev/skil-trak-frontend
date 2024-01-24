@@ -11,6 +11,7 @@ export const MostRecentBlog = ({
     id,
     author,
     slug,
+    shortDescription,
 }: any) => {
     const router = useRouter()
     return (
@@ -34,13 +35,19 @@ export const MostRecentBlog = ({
                     </p>
                 </div>
 
-                <h1 className="font-bold uppercase mb-1.5">{title}</h1>
+                <h1 className="font-bold uppercase mb-1.5">
+                    {title.length > 26 ? title.substr(0, 26) + '....' : title}
+                </h1>
                 <div
                     className="blog-content block mr-6 text-gray-400 text-xs"
-                    dangerouslySetInnerHTML={{
-                        __html: content.substr(0, 10) + '...',
-                    }}
-                />
+                    // dangerouslySetInnerHTML={{
+                    //     __html: content.substr(0, 10) + '...',
+                    // }}
+                >
+                    {(shortDescription &&
+                        shortDescription?.substr(0, 80) + '...') ||
+                        'N/A'}
+                </div>
             </Link>
         </div>
     )

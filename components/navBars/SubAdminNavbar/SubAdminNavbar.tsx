@@ -9,7 +9,7 @@ import {
     FaUserGraduate,
 } from 'react-icons/fa'
 import { HiDocumentReport, HiUsers } from 'react-icons/hi'
-import { MdNotifications, MdSpaceDashboard } from 'react-icons/md'
+import { MdEmail, MdNotifications, MdSpaceDashboard } from 'react-icons/md'
 
 const PREFIX = '/portals/sub-admin'
 const Routes = {
@@ -126,10 +126,10 @@ export const SubAdminNavbar = () => {
                             } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
                         >
                             <span>
-                                <MdNotifications />
+                                <MdEmail  />
                             </span>
                             <span className="text-xs 2xl:text-sm font-semibold">
-                                Notifications
+                                Mails
                             </span>
                         </a>
                     </Link>

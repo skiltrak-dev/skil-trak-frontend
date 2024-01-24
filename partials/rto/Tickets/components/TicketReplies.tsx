@@ -37,14 +37,15 @@ export const TicketReplies = ({ ticket }: { ticket: any }) => {
                             <TicketMessageCard
                                 key={response?.id}
                                 message={response}
+                                replyId={response?.id}
                             />
                         ))}
-                        <TicketMessageCard
+                        {/* <TicketMessageCard
                             message={{
                                 ...ticket,
                                 author: ticket?.createdBy,
                             }}
-                        />
+                        /> */}
                     </div>
                 </>
             ) : (

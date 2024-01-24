@@ -2,7 +2,7 @@ import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { useSocketListener } from '@hooks'
 import { StatusEnum, TicketMessageCard } from '@partials/common/Tickets'
 import { CommonApi } from '@queries'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { ActionCard } from './ActionCard'
 
@@ -25,6 +25,7 @@ export const TicketReplies = ({ ticket }: { ticket: any }) => {
     useEffect(() => {
         seenReply(ticket?.id)
     }, [])
+
     return (
         <>
             {replies.isError && <TechnicalError />}
@@ -35,6 +36,7 @@ export const TicketReplies = ({ ticket }: { ticket: any }) => {
                     <div className="flex flex-col gap-y-2 mt-4 ">
                         {replies?.data?.map((response: any) => (
                             <>
+                                {/* {setUpdateReply(response.id)} */}
                                 <TicketMessageCard
                                     key={response?.id}
                                     message={response}
@@ -52,13 +54,15 @@ export const TicketReplies = ({ ticket }: { ticket: any }) => {
                                     )}
                             </>
                         ))}
-                        <TicketMessageCard
+                        {/* <TicketMessageCard
                             message={{
                                 ...ticket,
                                 author: ticket?.createdBy,
                             }}
                             ticketDetail={ticket}
-                        />
+                            setUpdateReplyId={setUpdateReplyId}
+                            replyId={updateReplyId}
+                        /> */}
                     </div>
                 </>
             ) : (

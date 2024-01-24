@@ -1,6 +1,5 @@
 import {
     ActionButton,
-    Button,
     InputContentEditor,
     Modal,
     Typography,
@@ -8,21 +7,18 @@ import {
     htmlToDraftText,
     inputEditorErrorMessage,
 } from '@components'
-import React, { useEffect, useState } from 'react'
-import { TicketUser } from './TicketUser'
-import moment from 'moment'
-import { ellipsisText, getUserCredentials } from '@utils'
-import { ForwardTicket } from '@partials/sub-admin/Tickets'
-import { TiArrowForward } from 'react-icons/ti'
-import { UserRoles } from '@constants'
-import { FaLongArrowAltLeft } from 'react-icons/fa'
-import { useRouter } from 'next/router'
-import { Controller, FormProvider, useForm } from 'react-hook-form'
-import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { FaEdit } from 'react-icons/fa'
-import { CommonApi } from '@queries'
 import { useNotification } from '@hooks'
+import { CommonApi } from '@queries'
+import { getUserCredentials } from '@utils'
+import moment from 'moment'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { Controller, FormProvider, useForm } from 'react-hook-form'
+import { FaEdit } from 'react-icons/fa'
+import { TiArrowForward } from 'react-icons/ti'
+import * as yup from 'yup'
+import { TicketUser } from './TicketUser'
 export const StatusEnum = {
     FORWARDED: 'forwarded',
     REPLY: 'reply',
@@ -88,25 +84,28 @@ export const TicketMessageCard = ({
                 confirmText={'Update'}
                 subtitle={'Edit your reply'}
             >
-                <FormProvider {...methods}>
-                    <form className="mt-2 w-full">
-                        <Controller
-                            name="message"
-                            control={methods.control}
-                            defaultValue={
-                                htmlToDraftText(message?.message) || ''
-                            }
-                            render={({ field }) => (
-                                <InputContentEditor
-                                    name={field?.name}
-                                    label={'Message'}
-                                    height={'h-44'}
-                                    // {...field}
-                                />
-                            )}
-                        />
-                    </form>
-                </FormProvider>
+                <>
+                    <FormProvider {...methods}>
+                        <form className="mt-2 w-full">
+                            <Controller
+                                name="message"
+                                control={methods.control}
+                                defaultValue={
+                                    htmlToDraftText(message?.message) || ''
+                                }
+                                render={({ field }) => (
+                                    <InputContentEditor
+                                        name={field?.name}
+                                        label={'Message'}
+                                        height={'h-44'}
+                                        // {...field}
+                                    />
+                                )}
+                            />
+                        </form>
+                    </FormProvider>
+                    {console.log('reply id admin', replyId)}
+                </>
             </Modal>
         )
 
@@ -125,7 +124,7 @@ export const TicketMessageCard = ({
             })
             methods.reset()
         }
-    }, [updateReplyResult])
+    }, [updateReplyResult, replyId])
 
     return (
         <>
@@ -145,7 +144,10 @@ export const TicketMessageCard = ({
                     </div>
                 )}
                 <div className="flex justify-between items-center ">
-                    <TicketUser ticket={message?.author} forwarded={forwarded} />
+                    <TicketUser
+                        ticket={message?.author}
+                        forwarded={forwarded}
+                    />
                     <div className="flex items-center gap-x-2">
                         <Typography variant={'small'} color={'text-gray-500'}>
                             {moment(message?.createdAt).format(

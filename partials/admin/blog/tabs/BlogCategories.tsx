@@ -67,6 +67,7 @@ export const BlogCategories = () => {
                 title={'Add Category'}
                 confirmText={'Close'}
                 subtitle={'Add New Category'}
+                showActions={false}
             >
                 <BlogCategory
                     addCategories={addCategories}

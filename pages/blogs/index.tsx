@@ -21,6 +21,7 @@ import Link from 'next/link'
 import { PaginatedItems } from '@partials/common'
 
 const Blogs: NextPageWithLayout = () => {
+    
     const [itemPerPage, setItemPerPage] = useState(50)
     const [currentItems, setCurrentItems] = useState([])
     const [page, setPage] = useState(1)
@@ -41,7 +42,6 @@ const Blogs: NextPageWithLayout = () => {
     const filterPublishedBlogs = currentItems.filter(
         (item: any) => item.isPublished === true && !item.isFeatured
     )
-
 
     return (
         <>
@@ -85,15 +85,21 @@ const Blogs: NextPageWithLayout = () => {
                                                     {data?.data[0]?.title}
                                                 </h1>
                                                 <div
-                                                    className="blog-content block mr-6 text-gray-400 text-sm"
-                                                    dangerouslySetInnerHTML={{
-                                                        __html:
-                                                            data?.data[0]?.content.substr(
-                                                                0,
-                                                                380
-                                                            ) + '...',
-                                                    }}
-                                                />
+                                                    className="blog-content block mr-6 text-gray-400 text-sm leading-6"
+                                                    // dangerouslySetInnerHTML={{
+                                                    //     __html:
+                                                    //         data?.data[0]?.content.substr(
+                                                    //             0,
+                                                    //             380
+                                                    //         ) + '...',
+                                                    // }}
+                                                >
+                                                    {data?.data[0]?.shortDescription && data?.data[0]?.shortDescription.substr(
+                                                        0,
+                                                        1800
+                                                    ) || "N/A"}
+                                                    ...
+                                                </div>
                                             </div>
                                         </div>
                                     </Link>
@@ -124,6 +130,9 @@ const Blogs: NextPageWithLayout = () => {
                                                         id={blog?.id}
                                                         author={blog?.author}
                                                         slug={blog?.slug}
+                                                        shortDescription={
+                                                            blog?.shortDescription
+                                                        }
                                                     />
                                                 </div>
                                             ))}
@@ -151,6 +160,9 @@ const Blogs: NextPageWithLayout = () => {
                                             id={blog.id}
                                             slug={blog?.slug}
                                             author={blog?.author}
+                                            shortDescription={
+                                                blog?.shortDescription
+                                            }
                                         />
                                     </div>
                                 ))}
@@ -163,7 +175,7 @@ const Blogs: NextPageWithLayout = () => {
             </div>
             <div className="py-4 px-10">
                 {data?.data && data.data.length > 0 && (
-                    <div className="flex items-center justify-end gap-x-4">
+                    <div className="flex items-center justify-center gap-x-4 h-12 ">
                         {/* <span className="text-gray-600 text-sm">
                             Total Blogs({data?.data?.length})
                         </span> */}
@@ -174,7 +186,7 @@ const Blogs: NextPageWithLayout = () => {
                         /> */}
                         <PaginatedItems
                             data={data?.data}
-                            itemsPerPage={6}
+                            itemsPerPage={3}
                             setCurrentItems={setCurrentItems}
                         />
                     </div>
