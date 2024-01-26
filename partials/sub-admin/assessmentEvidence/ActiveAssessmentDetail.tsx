@@ -56,7 +56,7 @@ export const ActiveAssessmentDetail = ({
 }) => {
     const router = useRouter()
 
-    const { course } = router.query
+    const { course, folder } = router.query
 
     const [selectedCourse, setSelectedCourse] = useState<any | null>(null)
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
@@ -146,7 +146,9 @@ export const ActiveAssessmentDetail = ({
                       )
                     : //   for subadmin portal assessment submission page
                     course
-                    ? studentCourses?.data?.find((c: any) => c?.id == course)
+                    ? studentCourses?.data?.find(
+                          (c: any) => c?.id == Number(course)
+                      )
                     : studentCourses?.data && studentCourses?.data[0]
             )
         }
@@ -158,6 +160,10 @@ export const ActiveAssessmentDetail = ({
                 selectedFolder
                     ? getFolders?.data?.find(
                           (folder: any) => folder?.id === selectedFolder?.id
+                      )
+                    : folder
+                    ? getFolders?.data?.find(
+                          (f: any) => f?.id === Number(folder)
                       )
                     : getFolders?.data[0]
             )

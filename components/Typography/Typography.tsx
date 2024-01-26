@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from 'react'
+import { ReactNode } from 'react'
 
 const TypographyOptions = {
     h1: { className: `text-4xl font-bold`, element: 'h1' },

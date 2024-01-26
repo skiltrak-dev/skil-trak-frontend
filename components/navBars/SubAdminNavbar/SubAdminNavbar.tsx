@@ -22,7 +22,7 @@ const Routes = {
     Settings: '/portals/sub-admin/setting',
     Report: '/portals/sub-admin/report',
     History: '/portals/sub-admin/history',
-    ESign: '/portals/sub-admin/e-sign',
+    ESign: '/portals/sub-admin/e-sign?tab=all',
 }
 export const SubAdminNavbar = () => {
     const router = useRouter()
@@ -185,7 +185,7 @@ export const SubAdminNavbar = () => {
                             <HiDocumentReport />
                         </span>
                         <span className="text-xs 2xl:text-sm font-semibold">
-                            Reports
+                            My Reports
                         </span>
                     </a>
                 </Link>

@@ -462,7 +462,6 @@ TextEditorProps) {
                             </Typography>
                             <Card>
                                 {fields.map((faq: any, index: any) => {
-                                    console.log('faq', faq)
                                     return (
                                         <div
                                             key={faq.id}
