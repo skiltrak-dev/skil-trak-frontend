@@ -148,7 +148,8 @@ export const StudentSignUpForm = ({
             .required('Must provide Emergency Person Phone'),
 
         rto: yup.number().required('Must provide RTO'),
-        dob: yup.date().nullable(true).required('Must provide Date of Birth'),
+        // dob: yup.date().nullable(true).required('Must provide Date of Birth'),
+        dob: yup.string().required('Must Select DOB Range'),
 
         phone: yup
             .string()
@@ -233,7 +234,24 @@ export const StudentSignUpForm = ({
             onSubmit(values)
         }
     }
-
+    const ageOptions = [
+        {
+            label: '16-25',
+            value: '16-25',
+        },
+        {
+            label: '27-36',
+            value: '27-36',
+        },
+        {
+            label: '37-46',
+            value: '37-46',
+        },
+        {
+            label: '47-56',
+            value: '47-56',
+        },
+    ]
     return (
         <FormProvider {...formMethods}>
             <form
@@ -296,7 +314,7 @@ export const StudentSignUpForm = ({
                                 validationIcons
                                 required
                             />
-                            <TextInput
+                            {/* <TextInput
                                 label={'Date of Birth'}
                                 name={'dob'}
                                 type="date"
@@ -304,6 +322,16 @@ export const StudentSignUpForm = ({
                                 placeholder={'Date of Birth...'}
                                 validationIcons
                                 required
+                            /> */}
+                            <Select
+                                label={'Select Age Range'}
+                                name={'dob'}
+                                options={ageOptions}
+                                placeholder={'Select Age Range...'}
+                                // loading={rtoResponse.isLoading}
+                                // onChange={}
+                                validationIcons
+                                onlyValue
                             />
                             <TextInput
                                 label={'Emergency Person'}
