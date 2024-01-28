@@ -11,7 +11,7 @@ import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
-import { FaSignature } from 'react-icons/fa'
+import { FaHamburger, FaSignature } from 'react-icons/fa'
 import { PuffLoader } from 'react-spinners'
 import { SVGView } from './components'
 import { EsignSignatureModal, FinishSignModal } from './modal'
@@ -19,6 +19,8 @@ import { ellipsisText } from '@utils'
 
 export const ViewDocumentAndSign = () => {
     const router = useRouter()
+
+    const [showSignersField, setShowSignersField] = useState<boolean>(false)
 
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [customFieldsData, setCustomFieldsData] = useState<any>([])
@@ -169,8 +171,143 @@ export const ViewDocumentAndSign = () => {
                 <LoadingAnimation />
             ) : documentsTotalPages.isSuccess && documentsTotalPages?.data ? (
                 <>
-                    <div className="grid grid-cols-6 gap-x-2.5">
-                        <div className="col-span-5 flex flex-col gap-y-3 relative w-full">
+                    <div className="grid grid-cols-1 lg:grid-cols-6 gap-x-2.5 relative">
+                        <div className="block lg:hidden">
+                            <div className=" flex justify-end items-center ">
+                                {/* <FaHamburger size={20} /> */}
+                                <div
+                                    onClick={() =>
+                                        setShowSignersField(!showSignersField)
+                                    }
+                                >
+                                    <Typography variant="small" semibold>
+                                        Show Fields
+                                    </Typography>
+                                </div>
+                                {showSignersField && (
+                                    <div className="absolute top-5 z-20 w-3/4">
+                                        <Card noPadding>
+                                            <div className="p-2 flex flex-col gap-y-2 h-[85vh] overflow-y-auto custom-scrollbar sticky top-0">
+                                                <div>
+                                                    <Typography
+                                                        variant="small"
+                                                        semibold
+                                                    >
+                                                        Click here to fill the
+                                                        data in form
+                                                    </Typography>
+                                                </div>
+                                                {customFieldsAndSign?.map(
+                                                    (
+                                                        fields: any,
+                                                        i: number
+                                                    ) => {
+                                                        if (
+                                                            fields?.type ===
+                                                            FieldsTypeEnum.Signature
+                                                        ) {
+                                                            return (
+                                                                <div
+                                                                    onClick={() => {
+                                                                        scrollToPage(
+                                                                            Number(
+                                                                                fields?.number -
+                                                                                    1
+                                                                            )
+                                                                        )
+                                                                        setShowSignersField(
+                                                                            false
+                                                                        )
+                                                                    }}
+                                                                    className="w-full ml-auto z-10 px-7 py-2 h-9 bg-red-600 rounded-md flex justify-center items-center gap-x-2 text-white"
+                                                                >
+                                                                    <FaSignature className="text-2xl" />
+                                                                    <button className="text-lg whitespace-pre">
+                                                                        {fields?.responses &&
+                                                                        fields
+                                                                            ?.responses
+                                                                            ?.length >
+                                                                            0
+                                                                            ? 'View Sign'
+                                                                            : 'Go to Sign Section'}
+                                                                    </button>
+                                                                </div>
+                                                            )
+                                                        }
+                                                        return (
+                                                            <div>
+                                                                <div
+                                                                    onClick={() => {
+                                                                        setSelectedFillDataField(
+                                                                            fields?.id
+                                                                        )
+                                                                        scrollToPage(
+                                                                            Number(
+                                                                                fields?.number -
+                                                                                    1
+                                                                            )
+                                                                        )
+                                                                    }}
+                                                                    className={`h-9 w-full ml-auto px-1 py-2 ${
+                                                                        i %
+                                                                            2 ===
+                                                                        0
+                                                                            ? 'bg-primary'
+                                                                            : 'bg-success'
+                                                                    } relative group text-white rounded-md flex justify-center items-center gap-x-2  cursor-pointer`}
+                                                                >
+                                                                    <Typography
+                                                                        variant="label"
+                                                                        medium
+                                                                        color={
+                                                                            'text-white'
+                                                                        }
+                                                                    >
+                                                                        <span className="flex items-center gap-x-0.5">
+                                                                            <span className="cursor-pointer">
+                                                                                {fields?.fieldValue
+                                                                                    ? ellipsisText(
+                                                                                          fields?.fieldValue,
+                                                                                          10
+                                                                                      )
+                                                                                    : `Fill ${fields?.placeholder}`}
+                                                                            </span>
+                                                                            <span className="text-[10px]">
+                                                                                (
+                                                                                {
+                                                                                    fields?.number
+                                                                                }
+
+                                                                                )
+                                                                            </span>
+                                                                        </span>
+                                                                    </Typography>
+                                                                    {fields?.fieldValue && (
+                                                                        <div className="w-full flex justify-center">
+                                                                            <div className="hidden group-hover:block w-[90%] break-all absolute top-full left-[5%] p-2 z-[1111] text-black shadow rounded-md bg-white">
+                                                                                <Typography
+                                                                                    variant="small"
+                                                                                    semibold
+                                                                                >
+                                                                                    {
+                                                                                        fields?.fieldValue
+                                                                                    }
+                                                                                </Typography>
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    }
+                                                )}
+                                            </div>
+                                        </Card>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        <div className="lg:col-span-5 flex flex-col gap-y-3 relative w-full">
                             {/* <div className="flex justify-end items-center gap-x-2">
                                 <input
                                     type={'checkbox'}
@@ -222,104 +359,108 @@ export const ViewDocumentAndSign = () => {
                             ))}
                         </div>
 
-                        <Card noPadding>
-                            <div className="p-2 flex flex-col gap-y-2 h-[85vh] overflow-y-auto custom-scrollbar sticky top-0">
-                                <div>
-                                    <Typography variant="small" semibold>
-                                        Click here to fill the data in form
-                                    </Typography>
-                                </div>
-                                {customFieldsAndSign?.map(
-                                    (fields: any, i: number) => {
-                                        if (
-                                            fields?.type ===
-                                            FieldsTypeEnum.Signature
-                                        ) {
-                                            return (
-                                                <div
-                                                    onClick={() => {
-                                                        scrollToPage(
-                                                            Number(
-                                                                fields?.number -
-                                                                    1
+                        <div className="hidden lg:block">
+                            <Card noPadding>
+                                <div className="p-2 flex flex-col gap-y-2 h-[85vh] overflow-y-auto custom-scrollbar sticky top-0">
+                                    <div>
+                                        <Typography variant="small" semibold>
+                                            Click here to fill the data in form
+                                        </Typography>
+                                    </div>
+                                    {customFieldsAndSign?.map(
+                                        (fields: any, i: number) => {
+                                            if (
+                                                fields?.type ===
+                                                FieldsTypeEnum.Signature
+                                            ) {
+                                                return (
+                                                    <div
+                                                        onClick={() => {
+                                                            scrollToPage(
+                                                                Number(
+                                                                    fields?.number -
+                                                                        1
+                                                                )
                                                             )
-                                                        )
-                                                    }}
-                                                    className="w-full ml-auto z-10 px-7 py-2 h-9 bg-red-600 rounded-md flex justify-center items-center gap-x-2 text-white"
-                                                >
-                                                    <FaSignature className="text-2xl" />
-                                                    <button className="text-lg whitespace-pre">
-                                                        {sign?.responses &&
-                                                        sign?.responses
-                                                            ?.length > 0
-                                                            ? 'View Sign'
-                                                            : 'Sign Here'}
-                                                    </button>
+                                                        }}
+                                                        className="w-full ml-auto z-10 px-7 py-2 h-9 bg-red-600 rounded-md flex justify-center items-center gap-x-2 text-white"
+                                                    >
+                                                        <FaSignature className="text-2xl" />
+                                                        <button className="text-lg whitespace-pre">
+                                                            {fields?.responses &&
+                                                            fields?.responses
+                                                                ?.length > 0
+                                                                ? 'View Sign'
+                                                                : 'Go to Sign Section'}
+                                                        </button>
+                                                    </div>
+                                                )
+                                            }
+                                            return (
+                                                <div>
+                                                    <div
+                                                        onClick={() => {
+                                                            setSelectedFillDataField(
+                                                                fields?.id
+                                                            )
+                                                            scrollToPage(
+                                                                Number(
+                                                                    fields?.number -
+                                                                        1
+                                                                )
+                                                            )
+                                                        }}
+                                                        className={`h-9 w-full ml-auto px-1 py-2 ${
+                                                            i % 2 === 0
+                                                                ? 'bg-primary'
+                                                                : 'bg-success'
+                                                        } relative group text-white rounded-md flex justify-center items-center gap-x-2  cursor-pointer`}
+                                                    >
+                                                        <Typography
+                                                            variant="label"
+                                                            medium
+                                                            color={'text-white'}
+                                                        >
+                                                            <span className="flex items-center gap-x-0.5">
+                                                                <span className="cursor-pointer">
+                                                                    {fields?.fieldValue
+                                                                        ? ellipsisText(
+                                                                              fields?.fieldValue,
+                                                                              10
+                                                                          )
+                                                                        : `Fill ${fields?.placeholder}`}
+                                                                </span>
+                                                                <span className="text-[10px]">
+                                                                    (
+                                                                    {
+                                                                        fields?.number
+                                                                    }
+                                                                    )
+                                                                </span>
+                                                            </span>
+                                                        </Typography>
+                                                        {fields?.fieldValue && (
+                                                            <div className="w-full flex justify-center">
+                                                                <div className="hidden group-hover:block w-[90%] break-all absolute top-full left-[5%] p-2 z-[1111] text-black shadow rounded-md bg-white">
+                                                                    <Typography
+                                                                        variant="small"
+                                                                        semibold
+                                                                    >
+                                                                        {
+                                                                            fields?.fieldValue
+                                                                        }
+                                                                    </Typography>
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             )
                                         }
-                                        return (
-                                            <div>
-                                                <div
-                                                    onClick={() => {
-                                                        setSelectedFillDataField(
-                                                            fields?.id
-                                                        )
-                                                        scrollToPage(
-                                                            Number(
-                                                                fields?.number -
-                                                                    1
-                                                            )
-                                                        )
-                                                    }}
-                                                    className={`h-9 w-full ml-auto px-1 py-2 ${
-                                                        i % 2 === 0
-                                                            ? 'bg-primary'
-                                                            : 'bg-success'
-                                                    } relative group text-white rounded-md flex justify-center items-center gap-x-2  cursor-pointer`}
-                                                >
-                                                    <Typography
-                                                        variant="label"
-                                                        medium
-                                                        color={'text-white'}
-                                                    >
-                                                        <span className="flex items-center gap-x-0.5">
-                                                            <span className="cursor-pointer">
-                                                                {fields?.fieldValue
-                                                                    ? ellipsisText(
-                                                                          fields?.fieldValue,
-                                                                          10
-                                                                      )
-                                                                    : `Fill ${fields?.placeholder}`}
-                                                            </span>
-                                                            <span className="text-[10px]">
-                                                                (
-                                                                {fields?.number}
-                                                                )
-                                                            </span>
-                                                        </span>
-                                                    </Typography>
-                                                    {fields?.fieldValue && (
-                                                        <div className="w-full flex justify-center">
-                                                            <div className="hidden group-hover:block w-[90%] break-all absolute top-full left-[5%] p-2 z-[1111] text-black shadow rounded-md bg-white">
-                                                                <Typography
-                                                                    variant="small"
-                                                                    semibold
-                                                                >
-                                                                    {
-                                                                        fields?.fieldValue
-                                                                    }
-                                                                </Typography>
-                                                            </div>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        )
-                                    }
-                                )}
-                            </div>
-                        </Card>
+                                    )}
+                                </div>
+                            </Card>
+                        </div>
                     </div>
                     <div className="flex justify-center bg-white px-5 py-2 shadow-md w-full rounded my-2">
                         <button

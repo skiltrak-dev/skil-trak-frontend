@@ -69,7 +69,7 @@ export const EsignSignatureModal = ({
     return (
         <GlobalModal>
             <ShowErrorNotifications result={signDocumentResult} />
-            <div className="p-8">
+            <div className="p-3 md:p-8">
                 <div>
                     <div className="flex justify-end">
                         <MdCancel

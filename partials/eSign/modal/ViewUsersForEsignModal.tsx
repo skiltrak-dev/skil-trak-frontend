@@ -101,7 +101,6 @@ export const ViewUsersForEsignModal = ({
                       onCancelClick: onCancel,
                   }
                 : {})}
-            onCancelClick={onCancel}
             title="Following documents are pending to be signed"
             subtitle={`${documents?.length} Pending Documents Esigns`}
         >
