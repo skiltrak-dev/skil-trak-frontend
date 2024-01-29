@@ -126,13 +126,11 @@ export const ViewProfileCB = () => {
                                 <FaBirthdayCake />
                             </span>
                             <p className="text-sm font-medium">
-                                {data?.dob
-                                    ? moment(data?.dob).format('LL')
-                                    : 'Not Provided'}
+                                {data?.age || 'Not Provided'}
                             </p>
                         </div>
                         <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                            Date Of Birth
+                            Date Range
                         </div>
                     </div>
 

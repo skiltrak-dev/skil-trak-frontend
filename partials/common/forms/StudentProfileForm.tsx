@@ -175,7 +175,8 @@ export const StudentProfileForm = ({
             .email('Invalid Email')
             .required('Must provide email'),
 
-        dob: yup.date().required('Must provide Date of Birth'),
+        // dob: yup.date().required('Must provide Date of Birth'),
+        age: yup.string().required('Must Select age Range'),
 
         phone: yup.string().required('Must provide phone number'),
         rto: yup.number().required('RTO is required'),
@@ -202,6 +203,25 @@ export const StudentProfileForm = ({
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
+
+    const ageOptions = [
+        {
+            label: '16-25',
+            value: '16-25',
+        },
+        {
+            label: '27-36',
+            value: '27-36',
+        },
+        {
+            label: '37-46',
+            value: '37-46',
+        },
+        {
+            label: '47-56',
+            value: '47-56',
+        },
+    ]
     useEffect(() => {
         if (profile?.data && profile.isSuccess) {
             const {
@@ -333,7 +353,7 @@ export const StudentProfileForm = ({
                                         required
                                         disabled={student}
                                     />
-                                    <TextInput
+                                    {/* <TextInput
                                         label={'Date of Birth'}
                                         name={'dob'}
                                         type="date"
@@ -341,6 +361,16 @@ export const StudentProfileForm = ({
                                         placeholder={'Date of Birth...'}
                                         validationIcons
                                         required
+                                    /> */}
+                                    <Select
+                                        label={'Select Age Range'}
+                                        name={'age'}
+                                        options={ageOptions}
+                                        placeholder={'Select Age Range...'}
+                                        // loading={rtoResponse.isLoading}
+                                        // onChange={}
+                                        validationIcons
+                                        onlyValue
                                     />
                                     <RadioGroup
                                         name={'gender'}
