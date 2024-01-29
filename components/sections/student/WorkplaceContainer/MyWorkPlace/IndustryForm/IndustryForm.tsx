@@ -8,7 +8,7 @@ import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
-import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
+import { isEmailValid, onlyAlphabets, onlyNumbersAcceptedInYup, SignUpUtils } from '@utils'
 
 import {
     Button,
@@ -98,7 +98,7 @@ export const IndustryForm = ({
             .required('Must confirm entered password'),
 
         // Business Information
-        abn: yup.string().required('Must provide ABN'),
+        abn: onlyNumbersAcceptedInYup(yup),
         phoneNumber: yup.string().required('Must provide phone number'),
 
         // Sector Information

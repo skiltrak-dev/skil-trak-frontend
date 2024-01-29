@@ -68,13 +68,13 @@ export const ReleasedEsignDocuments = () => {
             },
             Icon: FaEye,
         },
-        {
-            text: 'Edit',
-            onClick: (eSign: any) => {
-                // router.push(`/portals/admin/rto/${rto.id}/edit-profile`)
-            },
-            Icon: FaEdit,
-        },
+        // {
+        //     text: 'Edit',
+        //     onClick: (eSign: any) => {
+        //         // router.push(`/portals/admin/rto/${rto.id}/edit-profile`)
+        //     },
+        //     Icon: FaEdit,
+        // },
         {
             text: 'Cancel',
             onClick: (eSign: any) => {
@@ -89,39 +89,51 @@ export const ReleasedEsignDocuments = () => {
             accessorKey: 'template.name',
             header: () => <span>Document</span>,
             cell: (info) => (
-                <Typography variant="small" semibold>
-                    {info.row.original?.template?.name}
-                </Typography>
-            ),
-        },
-
-        {
-            accessorKey: 'template.course.title',
-            header: () => <span>Course</span>,
-            cell: (info) => (
-                <Typography variant="small" semibold>
-                    {info.row.original?.template?.course?.title}
-                </Typography>
-            ),
-        },
-        {
-            accessorKey: 'template.folder.name',
-            header: () => <span>Folder</span>,
-            cell: (info) => (
-                <Link
-                    href={`/portals/sub-admin/students/223?tab=submissions&course=${info.row.original?.template?.course?.id}&folder=${info.row.original?.template?.folder?.id}`}
-                >
+                <div className="flex flex-col gap-y-1.5">
                     <Typography variant="small" semibold>
-                        {info.row.original?.template?.folder?.name}
+                        {info.row.original?.template?.name}
                     </Typography>
-                </Link>
+
+                    <div>
+                        <Typography
+                            variant="xs"
+                            color={'text-gray-500'}
+                            semibold
+                        >
+                            Course
+                        </Typography>
+                        <Typography variant="small" semibold>
+                            {info.row.original?.template?.course?.title}
+                        </Typography>
+                    </div>
+                    <div>
+                        <Typography
+                            variant="xs"
+                            color={'text-gray-500'}
+                            semibold
+                        >
+                            Folder
+                        </Typography>
+                        <Link
+                            href={`/portals/sub-admin/students/223?tab=submissions&course=${info.row.original?.template?.course?.id}&folder=${info.row.original?.template?.folder?.id}`}
+                        >
+                            <Typography
+                                variant="small"
+                                color="text-info"
+                                semibold
+                            >
+                                {info.row.original?.template?.folder?.name}
+                            </Typography>
+                        </Link>
+                    </div>
+                </div>
             ),
         },
         {
             accessorKey: 'user.name',
             cell: (info) => {
                 return (
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-3 w-fit">
+                    <div className="flex items-center gap-x-4 gap-y-3 w-fit">
                         {info.row?.original?.signers?.map((signer: any) => {
                             switch (signer?.user?.role) {
                                 case UserRoles.STUDENT:
@@ -197,31 +209,38 @@ export const ReleasedEsignDocuments = () => {
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: ({ row }: any) => (
-                <div className="flex items-center gap-x-2">
-                    <Button
-                        text={
-                            row.original?.status === 'signed'
-                                ? 'View Document'
-                                : 'Sign Document'
-                        }
-                        onClick={() => {
-                            router.push(
-                                `/portals/sub-admin/e-sign/${row?.original?.id}`
-                            )
-                        }}
-                    />
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={row.original}
-                            lastIndex={checkListLength<any>(
-                                allDocuments?.data?.data as any
-                            )?.includes(row?.index)}
-                        />
+            cell: ({ row }: any) => {
+                const signersRoles = row?.original?.signers?.map(
+                    (signer: any) => signer?.user?.role
+                )
+                return (
+                    <div className="flex items-center gap-x-2">
+                        {signersRoles.includes(UserRoles.SUBADMIN) && (
+                            <Button
+                                text={
+                                    row.original?.status === 'signed'
+                                        ? 'View Document'
+                                        : 'Sign Document'
+                                }
+                                onClick={() => {
+                                    router.push(
+                                        `/portals/sub-admin/e-sign/${row?.original?.id}`
+                                    )
+                                }}
+                            />
+                        )}
+                        <div className="flex gap-x-1 items-center">
+                            <TableAction
+                                options={tableActionOptions}
+                                rowItem={row.original}
+                                lastIndex={checkListLength<any>(
+                                    allDocuments?.data?.data as any
+                                )?.includes(row?.index)}
+                            />
+                        </div>
                     </div>
-                </div>
-            ),
+                )
+            },
         },
     ]
 

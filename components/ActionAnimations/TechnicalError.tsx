@@ -39,7 +39,7 @@ export const TechnicalError = ({
                     <p className="text-center mt-3 text-gray-400">
                         Please spare some time and email on following address:
                     </p>
-                    <p className="text-blue-500">devs@skiltrak.com.au</p>
+                    <p className="text-blue-500">tech@skiltrak.com.au</p>
                 </>
             )}
         </div>
