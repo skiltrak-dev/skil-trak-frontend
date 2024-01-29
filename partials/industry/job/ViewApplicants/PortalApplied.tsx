@@ -18,6 +18,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { useRouter } from 'next/router'
 import React, { ReactElement, ReactNode, useState } from 'react'
 import { AiFillDelete } from 'react-icons/ai'
+import { IoMdEye } from 'react-icons/io'
 import { MdEdit } from 'react-icons/md'
 
 export const PortalApplied = () => {
@@ -58,18 +59,18 @@ export const PortalApplied = () => {
     const TableActionOption = [
         {
             text: 'View',
-            Icon: MdEdit,
+            Icon: IoMdEye,
             onClick: (job: any) => {
                 router.push(`/portals/industry/jobs/${job.id}`)
             },
         },
-        {
-            text: 'Edit',
-            Icon: MdEdit,
-            onClick: (job: any) => {
-                router.push(`/portals/industry/jobs/form/${job.id}`)
-            },
-        },
+        // {
+        //     text: 'Edit',
+        //     Icon: MdEdit,
+        //     onClick: (job: any) => {
+        //         router.push(`/portals/industry/jobs/form/${job.id}`)
+        //     },
+        // },
         {
             text: 'Delete',
             Icon: AiFillDelete,
@@ -132,7 +133,7 @@ export const PortalApplied = () => {
                             })
                         }}
                     >
-                        View
+                        View File
                     </ActionButton>
                 )
             },
@@ -151,7 +152,7 @@ export const PortalApplied = () => {
                             )
                         }
                     >
-                        View File
+                        View
                     </ActionButton>
                 )
             },

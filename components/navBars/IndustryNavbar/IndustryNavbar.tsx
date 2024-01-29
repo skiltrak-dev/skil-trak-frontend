@@ -203,7 +203,7 @@ export const IndustryNavbar = () => {
                             </Link>
                         </li>
                     </ul>
-                    <div>
+                    {/* <div>
                         <Link legacyBehavior href="#">
                             <a
                                 className={`${
@@ -220,7 +220,7 @@ export const IndustryNavbar = () => {
                                 </span>
                             </a>
                         </Link>
-                    </div>
+                    </div> */}
                 </div>
             </Desktop>
             <Mobile>

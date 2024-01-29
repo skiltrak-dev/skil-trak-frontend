@@ -132,7 +132,7 @@ export const WebsiteApplied = () => {
                             })
                         }}
                     >
-                        View
+                        View File
                     </ActionButton>
                 )
             },
@@ -151,7 +151,7 @@ export const WebsiteApplied = () => {
                             )
                         }
                     >
-                        View File
+                        View
                     </ActionButton>
                 )
             },

@@ -65,14 +65,14 @@ export const JobDetailData = ({ data }:any) => {
                     </Typography>
                 </div>
 
-                <div className="flex flex-col gap-y-1">
+                {/* <div className="flex flex-col gap-y-1">
                     <Typography variant={'muted'} color={'gray'}>
                         Address 2
                     </Typography>
                     <Typography color={'black'}>
                         {data?.addressLine2}
                     </Typography>
-                </div>
+                </div> */}
             </div>
 
             {/* Job Description */}
