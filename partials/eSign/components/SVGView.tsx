@@ -148,7 +148,7 @@ __html: svgContent,
                                     }}
                                 />
                                 <div className="absolute top-5 left-0 z-10 flex justify-center w-full">
-                                    <p className="text-7xl font-bold text-center text-gray-300">
+                                    <p className="text-2xl md:text-4xl lg:text-7xl font-bold text-center text-gray-300">
                                         Loading...
                                     </p>
                                 </div>

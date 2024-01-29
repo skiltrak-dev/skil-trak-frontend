@@ -37,6 +37,11 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
             providesTags: ['SubAdmin'],
         }),
 
+        subadminCourses: build.query<any, void>({
+            query: () => `subadmin/courses/list`,
+            providesTags: ['SubAdmin'],
+        }),
+
         subadminStatistics: build.query<any, void>({
             query: () => `subadmin/dashboard/count`,
             providesTags: ['Statistics'],
@@ -79,6 +84,7 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
 export const {
     // ------ SELF ------ //
     useProfileQuery,
+    useSubadminCoursesQuery,
     useUpdateSubAdminProfileMutation,
     useChangeSubAdminUserStatusMutation,
 
@@ -268,6 +274,7 @@ export const SubAdminApi = {
     },
     SubAdmin: {
         useProfile: useProfileQuery,
+        useSubadminCourses: useSubadminCoursesQuery,
         useUpdateProfile: useUpdateSubAdminProfileMutation,
         changeSubAdminUserStatus: useChangeSubAdminUserStatusMutation,
     },

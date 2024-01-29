@@ -66,7 +66,7 @@ export const WorkplaceRequest = ({
         },
         { skip: !workplace || !appliedIndustry || !course }
     )
-    
+
     const { setContent, show } = useContextBar()
 
     useEffect(() => {
@@ -366,6 +366,7 @@ export const WorkplaceRequest = ({
                                     </ActionButton>
                                 </div>
                             )}
+
                             {/* {!appliedIndustry?.cancelled &&
                             appliedIndustry?.industryResponse !== 'rejected' &&
                             !appliedIndustry?.isCompleted &&

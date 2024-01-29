@@ -1,4 +1,4 @@
-import { useContextBar, useNavbar } from '@hooks'
+import { useContextBar, useNavbar, useNotification } from '@hooks'
 import { AdminLayout, RtoLayout } from '@layouts'
 import { Course, NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
@@ -8,6 +8,7 @@ import { StudentProfileForm } from '@partials/common'
 import {
     AdminApi,
     SubAdminApi,
+    useGetSubAdminStudentDetailQuery,
     useUpdateStudentProfileMutation,
 } from '@queries'
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
@@ -17,9 +18,11 @@ const EditStudent: NextPageWithLayout = () => {
 
     const navBar = useNavbar()
     const contextBar = useContextBar()
+    const { notification } = useNotification()
 
-    const student = AdminApi.Students.useProfile(Number(router.query.id), {
+    const student = useGetSubAdminStudentDetailQuery(Number(router.query.id), {
         skip: !router.query.id,
+        refetchOnMountOrArgChange: true,
     })
     const courses = SubAdminApi.Student.useCourses(Number(router.query.id), {
         skip: !router.query.id,
@@ -29,15 +32,38 @@ const EditStudent: NextPageWithLayout = () => {
         useUpdateStudentProfileMutation()
 
     const onSubmit = (values: any) => {
+        const { name, email, ...rest } = values
+
+        const dob = new Date(values?.dob)
+        dob.setDate(dob.getDate() + 1)
         updateProfile({
-            id: student?.data?.user?.id,
+            id: student?.data?.id,
             body: {
-                ...values,
+                ...rest,
+                ...(rest?.courses
+                    ? {
+                          courses: rest?.courses?.map((course: any) => ({
+                              id: course?.value,
+                          })),
+                      }
+                    : {}),
+                dob,
                 isInternational:
                     values?.isInternational === 'international' ? true : false,
-                courses:
-                    values?.courses?.map((course: any) => course?.value) || [],
+                user: {
+                    id: student?.data?.user?.id,
+                    name,
+                    email,
+                },
             },
+        })?.then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: 'Profile Updated',
+                    description: 'Student Profile Updated',
+                })
+                router.back()
+            }
         })
     }
 

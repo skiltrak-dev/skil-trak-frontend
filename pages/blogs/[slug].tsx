@@ -16,7 +16,6 @@ import {
 } from '@radix-ui/react-accordion'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 
-
 const BlogDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const blogId = router.query.slug as string
@@ -25,8 +24,6 @@ const BlogDetail: NextPageWithLayout = () => {
         adminApi.useGetBlogDetailQuery(blogId, {
             skip: !blogId,
         })
-
-    console.log("data?.featuredImage", data?.featuredImage)
 
     return (
         <div className="">

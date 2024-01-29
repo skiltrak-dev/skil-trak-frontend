@@ -172,7 +172,7 @@ export const RtoNavbar = () => {
                     <span>
                         <HiDocumentReport />
                     </span>
-                    <span className="text-sm font-semibold">Reports</span>
+                    <span className="text-sm font-semibold">My Reports</span>
                 </a>
             </Link>
         </div>
