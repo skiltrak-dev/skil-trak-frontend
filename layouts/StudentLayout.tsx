@@ -86,6 +86,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
         'phone',
         'rto',
         'studentId',
+        'age',
         'emergencyPerson',
         'emergencyPersonPhone',
         'suburb',
