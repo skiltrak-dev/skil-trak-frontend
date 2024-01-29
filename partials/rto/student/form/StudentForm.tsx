@@ -12,6 +12,7 @@ import {
     formatOptionLabel,
     isEmailValid,
     onlyAlphabets,
+    onlyNumbersAcceptedInYup,
 } from '@utils'
 
 import { Button, Checkbox, Select, TextInput } from '@components'
@@ -130,7 +131,7 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
 
         // Business Information
         businessName: yup.string().required('Must provide business name'),
-        abn: yup.string().required('Must provide ABN'),
+        abn: onlyNumbersAcceptedInYup(yup),
         phoneNumber: yup.string().required('Must provide phone number'),
 
         // Sector Information

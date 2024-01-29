@@ -10,11 +10,11 @@ import { useNotification } from '@hooks'
 import { AuthApi, CommonApi } from '@queries'
 import {
     CourseSelectOption,
-    ellipsisText,
+    SignUpUtils,
     formatOptionLabel,
     isEmailValid,
     onlyAlphabets,
-    SignUpUtils,
+    onlyNumbersAcceptedInYup,
 } from '@utils'
 
 import { Button, Checkbox, Select, TextInput, Typography } from '@components'
@@ -139,7 +139,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
             .required('Must confirm entered password'),
 
         // Business Information
-        abn: yup.string().required('Must provide ABN'),
+        abn: onlyNumbersAcceptedInYup(yup),
         phoneNumber: yup.string().required('Must provide phone number'),
 
         // Sector Information

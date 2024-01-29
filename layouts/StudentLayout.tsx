@@ -8,7 +8,10 @@ import {
 } from '@components'
 import { useAlert, useContextBar, useJoyRide } from '@hooks'
 import { ProfileModal } from '@partials/student/Profile/modal/ProfileModal'
-import { StudentContextBar } from '@partials/student/components'
+import {
+    StudentContextBar,
+    studentProfileKeys,
+} from '@partials/student/components'
 import { CommonApi, useGetStudentProfileDetailQuery } from '@queries'
 import { UserStatus } from '@types'
 import { EsignDocumentStatus, getUserCredentials } from '@utils'
@@ -79,27 +82,12 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     })
 
     const values = { ...profile?.data, ...profile?.data?.user }
-    const keys = [
-        'name',
-        'email',
-        'familyName',
-        'phone',
-        'rto',
-        'studentId',
-        'age',
-        'emergencyPerson',
-        'emergencyPersonPhone',
-        'suburb',
-        'state',
-        'zipCode',
-        'addressLine1',
-        'courses',
-    ]
+
     // const keys = Object.keys(values)
 
-    let totalValues = keys?.length
+    let totalValues = studentProfileKeys?.length
     let filledValues = 0
-    keys.forEach((key) => {
+    studentProfileKeys.forEach((key) => {
         const keyValue = values[key as keyof typeof values]
         if (
             keyValue &&
@@ -121,7 +109,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                 setModal(
                     <ProfileModal
                         profileCompletion={profileCompletion}
-                        keys={keys}
+                        keys={studentProfileKeys}
                     />
                 )
             } else if (pendingDocuments.isSuccess) {

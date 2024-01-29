@@ -25,7 +25,7 @@ import { UserRoles } from '@constants'
 import { AuthApi } from '@queries'
 import { Course } from '@types'
 import { useRouter } from 'next/router'
-import { CourseSelectOption, formatOptionLabel } from '@utils'
+import { CourseSelectOption, formatOptionLabel, onlyNumbersAcceptedInYup } from '@utils'
 
 export const IndustryProfileFrom = ({
     result,
@@ -165,7 +165,7 @@ export const IndustryProfileFrom = ({
             .required('Must provide email'),
 
         // Business Information
-        abn: yup.string().required('Must provide ABN'),
+        abn: onlyNumbersAcceptedInYup(yup),
         phoneNumber: yup.string().required('Must provide phone number'),
 
         // Contact Person Information

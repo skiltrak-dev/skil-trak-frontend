@@ -36,7 +36,11 @@ export const ImportIndustriesList = () => {
                 ...ind,
                 email: ind?.email ? ind?.email?.replace(/\r\n\r\n/g, '') : '',
                 region: ind?.states,
-                sector: ind?.sector ? String(ind?.sector)?.split(',') : null,
+                sector: ind?.sector
+                    ? String(ind?.sector)
+                          ?.split(',')
+                          ?.map((s: any) => Number(s))
+                    : null,
             }))
         ).then((res: any) => {
             if (res?.data) {

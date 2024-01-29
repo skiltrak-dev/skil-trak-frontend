@@ -5,7 +5,7 @@ import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import debounce from 'lodash/debounce'
-import React, { useCallback } from 'react'
+import React, { forwardRef, useCallback } from 'react'
 import { FaSignature } from 'react-icons/fa'
 
 export const TabsView = ({
@@ -51,7 +51,7 @@ export const TabsView = ({
 
             {customFieldsData &&
                 customFieldsData?.length > 0 &&
-                customFieldsData?.map((s: any) => {
+                customFieldsData?.map((s: any, i: any) => {
                     const [x, y] = s ? s?.position?.split(',') : []
                     const [width, height] = s ? s?.size?.split(',') : []
 
@@ -76,12 +76,16 @@ export const TabsView = ({
                             x={x}
                             y={y}
                             width={
-                                s?.type === FieldsTypeEnum.Date
+                                s?.type === FieldsTypeEnum.Checkbox
+                                    ? 13
+                                    : s?.type === FieldsTypeEnum.Date
                                     ? String(Number(width) + 10)
                                     : width
                             }
                             height={
-                                s?.type === FieldsTypeEnum.Date
+                                s?.type === FieldsTypeEnum.Checkbox
+                                    ? 13
+                                    : s?.type === FieldsTypeEnum.Date
                                     ? String(Number(height) + 10)
                                     : height
                             }
@@ -109,14 +113,14 @@ export const TabsView = ({
                                     <input
                                         type="text"
                                         name=""
-                                        id=""
+                                        // id={`tabs-view-${i}`}
                                         value={s?.fieldValue}
-                                        className={`w-full h-full border-2 rounded-md ${
+                                        className={`w-full h-full border-2 rounded-md placeholder:text-xs ${
                                             selectedFillDataField === s?.id
                                                 ? 'border-primary'
                                                 : 'border-gray-500'
-                                        }  text-sm p-1 outline-none`}
-                                        placeholder={s?.label}
+                                        } text-sm p-1 outline-none`}
+                                        placeholder={s?.placeholder}
                                         onChange={(e: any) => {
                                             onAddCustomFieldsData({
                                                 ...s,
@@ -125,19 +129,28 @@ export const TabsView = ({
                                         }}
                                     />
                                 ) : s?.type === FieldsTypeEnum.Checkbox ? (
-                                    <div className="flex items-center gap-x-2">
+                                    <div className="flex items-center gap-x-2 w-full h-full">
                                         <input
                                             type={FieldsTypeEnum.Checkbox}
                                             name={s?.columnName}
-                                            id=""
-                                            defaultChecked={s?.fieldValue}
+                                            // id={`tabs-view-${i}`}
+                                            // defaultChecked={s?.fieldValue}
                                             checked={s?.fieldValue}
+                                            style={{
+                                                appearance: 'none',
+                                                WebkitAppearance: 'none',
+                                                MozAppearance: 'none',
+                                                width: '20px',
+                                                height: '20px',
+                                                position: 'relative',
+                                                outline: 'none',
+                                            }}
                                             value={s?.fieldValue}
-                                            className={`noDefault border !w-full !h-full rounded-md ${
+                                            className={`noDefault z-10  ${
                                                 selectedFillDataField === s?.id
-                                                    ? 'border-primary'
-                                                    : 'border-gray-500'
-                                            } text-sm p-1 outline-none`}
+                                                    ? 'border-primary border-2'
+                                                    : 'border-gray-500 border'
+                                            } !w-full !h-full rounded-sm text-sm p-1 outline-none`}
                                             placeholder={s?.label}
                                             onChange={(e: any) => {
                                                 onAddCustomFieldsData({
@@ -147,16 +160,18 @@ export const TabsView = ({
                                                 })
                                             }}
                                         />
-                                        {/* <label className="text-xs capitalize">
-                                {s?.label}
-                            </label> */}
+                                        {s?.fieldValue && (
+                                            <span className="z-0 w-full h-full bg-info-dark flex justify-center items-center rounded-sm text-white absolute top-1/2 left-1/2 text-[8px] font-semibold -translate-x-1/2 -translate-y-1/2">
+                                                &#10003;
+                                            </span>
+                                        )}
                                     </div>
                                 ) : s?.type === FieldsTypeEnum.Radio ? (
                                     <div className="flex items-center gap-x-2">
                                         <input
                                             type={FieldsTypeEnum.Radio}
                                             name={s?.columnName}
-                                            id=""
+                                            // id={`tabs-view-${i}`}
                                             value={s?.fieldValue}
                                             className="border rounded-md border-gray-500 text-sm p-1 outline-none"
                                             placeholder={s?.label}
@@ -181,6 +196,7 @@ export const TabsView = ({
                                                 fieldValue: e?.target?.value,
                                             })
                                         }}
+                                        // id={`tabs-view-${i}`}
                                         className="w-full h-4 border border-gray-600 rounded text-xs"
                                     >
                                         <option>Select</option>
@@ -217,7 +233,7 @@ export const TabsView = ({
                                         <input
                                             type="date"
                                             name=""
-                                            id=""
+                                            // id={`tabs-view-${i}`}
                                             value={s?.fieldValue?.slice(0, 10)}
                                             className="w-full h-5 border rounded-md border-gray-500 text-sm p-1 outline-none"
                                             placeholder={s?.label}

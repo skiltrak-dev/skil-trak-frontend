@@ -12,6 +12,7 @@ import {
     formatOptionLabel,
     isEmailValid,
     onlyAlphabets,
+    onlyNumbersAcceptedInYup,
     SignUpUtils,
 } from '@utils'
 
@@ -103,7 +104,7 @@ export const RtoSignUpForm = ({
 
         // Business Information
         businessName: yup.string().required('Must provide business name'),
-        abn: yup.string().required('Must provide ABN'),
+        abn: onlyNumbersAcceptedInYup(yup),
         phoneNumber: yup.string().required('Must provide phone number'),
 
         // Sector Information

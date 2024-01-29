@@ -13,6 +13,7 @@ import {
     formatOptionLabel,
     isEmailValid,
     onlyAlphabets,
+    onlyNumbersAcceptedInYup,
     SignUpUtils,
 } from '@utils'
 
@@ -63,7 +64,6 @@ export const AddCustomIndustryForm = ({
         }, 300)()
     }
 
-    
     const validationSchema = yup.object({
         // Profile Information
         name: yup
@@ -77,7 +77,7 @@ export const AddCustomIndustryForm = ({
             .required('Must provide email'),
 
         // Business Information
-        abn: yup.string().required('Must provide ABN'),
+        abn: onlyNumbersAcceptedInYup(yup),
         phoneNumber: yup.string().required('Must provide phone number'),
 
         // Contact Person Information
