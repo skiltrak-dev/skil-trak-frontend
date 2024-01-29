@@ -51,11 +51,15 @@ export const SubadminESign = () => {
 
     const documents = CommonApi.ESign.useSubadminEsignList(
         {
-            search: `${JSON.stringify(filter)
+            search: `${JSON.stringify({
+                ...filter,
+                role: 'all',
+                searching: true,
+            })
                 .replaceAll('{', '')
                 .replaceAll('}', '')
                 .replaceAll('"', '')
-                .trim()},searching:${true}`,
+                .trim()}`,
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         },
@@ -139,6 +143,7 @@ export const SubadminESign = () => {
                     <PageTitle title={'E-Sign'} />
                     <div className="flex justify-end mb-2">{filterAction}</div>
                 </div>
+
                 <div>
                     <Filter<SubadminESignFilterType>
                         component={SubadminEsignFilter}
@@ -147,6 +152,44 @@ export const SubadminESign = () => {
                         setFilter={setFilter}
                         filterKeys={filterKeys}
                     />
+                </div>
+
+                <div className="grid grid-cols-4 gap-3 py-4">
+                    <FigureCard
+                        imageUrl="/images/documents/allDocuments.png"
+                        count={count?.data?.all}
+                        title={'All Documents'}
+                        loading={false}
+                        link="/portals/sub-admin/e-sign?tab=all"
+                    />
+                    <FigureCard
+                        imageUrl="/images/documents/documents.png"
+                        count={count?.data?.pending}
+                        title={'Pending Documents'}
+                        loading={false}
+                        link="/portals/sub-admin/e-sign?tab=all&page=1&pageSize=50&status=pending"
+                    />
+                    <FigureCard
+                        imageUrl="/images/documents/documents.png"
+                        count={count?.data?.pending}
+                        title={'UnSigned Documents'}
+                        loading={false}
+                        // link="admin/rto?tab=approved&page=1&pageSize=50"
+                    />
+                    <FigureCard
+                        imageUrl="/images/documents/allDocuments.png"
+                        count={count?.data?.signed}
+                        title={'Signed Documents'}
+                        loading={false}
+                        link="/portals/sub-admin/e-sign?tab=all&page=1&pageSize=50&status=signed"
+                    />
+                    {/* <FigureCard
+                    imageUrl="/images/icons/rto.png"
+                    count={10}
+                    title={'RTOs'}
+                    loading={false}
+                    // link="admin/rto?tab=approved&page=1&pageSize=50"
+                /> */}
                 </div>
             </div>
 
@@ -170,43 +213,6 @@ export const SubadminESign = () => {
                     {({ header, element }: any) => {
                         return (
                             <div>
-                                <div className="grid grid-cols-4 gap-3 py-4">
-                                    <FigureCard
-                                        imageUrl="/images/documents/allDocuments.png"
-                                        count={count?.data?.all}
-                                        title={'All Documents'}
-                                        loading={false}
-                                        // link="admin/rto?tab=approved&page=1&pageSize=50"
-                                    />
-                                    <FigureCard
-                                        imageUrl="/images/documents/documents.png"
-                                        count={count?.data?.pending}
-                                        title={'Pending Documents'}
-                                        loading={false}
-                                        // link="admin/rto?tab=approved&page=1&pageSize=50"
-                                    />
-                                    <FigureCard
-                                        imageUrl="/images/documents/documents.png"
-                                        count={count?.data?.pending}
-                                        title={'UnSigned Documents'}
-                                        loading={false}
-                                        // link="admin/rto?tab=approved&page=1&pageSize=50"
-                                    />
-                                    <FigureCard
-                                        imageUrl="/images/documents/allDocuments.png"
-                                        count={count?.data?.signed}
-                                        title={'Signed Documents'}
-                                        loading={false}
-                                        // link="admin/rto?tab=approved&page=1&pageSize=50"
-                                    />
-                                    {/* <FigureCard
-                    imageUrl="/images/icons/rto.png"
-                    count={10}
-                    title={'RTOs'}
-                    loading={false}
-                    // link="admin/rto?tab=approved&page=1&pageSize=50"
-                /> */}
-                                </div>
                                 <div>{header}</div>
                                 <div className="p-4">{element}</div>
                             </div>

@@ -60,13 +60,13 @@ export const AllEsignDocuments = () => {
             },
             Icon: FaEye,
         },
-        {
-            text: 'Edit',
-            onClick: (eSign: any) => {
-                // router.push(`/portals/admin/rto/${rto.id}/edit-profile`)
-            },
-            Icon: FaEdit,
-        },
+        // {
+        //     text: 'Edit',
+        //     onClick: (eSign: any) => {
+        //         // router.push(`/portals/admin/rto/${rto.id}/edit-profile`)
+        //     },
+        //     Icon: FaEdit,
+        // },
         {
             text: 'Cancel',
             onClick: (eSign: any) => {
@@ -81,39 +81,47 @@ export const AllEsignDocuments = () => {
             accessorKey: 'template.name',
             header: () => <span>Document</span>,
             cell: (info) => (
-                <Typography variant="small" semibold>
-                    {info.row.original?.template?.name}
-                </Typography>
-            ),
-        },
-
-        {
-            accessorKey: 'template.course.title',
-            header: () => <span>Course</span>,
-            cell: (info) => (
-                <Typography variant="small" semibold>
-                    {info.row.original?.template?.course?.title}
-                </Typography>
-            ),
-        },
-        {
-            accessorKey: 'template.folder.name',
-            header: () => <span>Folder</span>,
-            cell: (info) => (
-                <Link
-                    href={`/portals/sub-admin/students/223?tab=submissions&course=${info.row.original?.template?.course?.id}&folder=${info.row.original?.template?.folder?.id}`}
-                >
+                <div className="flex flex-col gap-y-0.5">
                     <Typography variant="small" semibold>
-                        {info.row.original?.template?.folder?.name}
+                        {info.row.original?.template?.name}
                     </Typography>
-                </Link>
+
+                    <div>
+                        <Typography
+                            variant="badge"
+                            color={'text-gray-500'}
+                            semibold
+                        >
+                            Course
+                        </Typography>
+                        <Typography variant="xs" semibold>
+                            {info.row.original?.template?.course?.title}
+                        </Typography>
+                    </div>
+                    <div>
+                        <Typography
+                            variant="badge"
+                            color={'text-gray-500'}
+                            semibold
+                        >
+                            Folder
+                        </Typography>
+                        <Link
+                            href={`/portals/sub-admin/students/223?tab=submissions&course=${info.row.original?.template?.course?.id}&folder=${info.row.original?.template?.folder?.id}`}
+                        >
+                            <Typography variant="xs" color="text-info" semibold>
+                                {info.row.original?.template?.folder?.name}
+                            </Typography>
+                        </Link>
+                    </div>
+                </div>
             ),
         },
         {
             accessorKey: 'user.name',
             cell: (info) => {
                 return (
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-3 w-fit">
+                    <div className="flex items-center gap-x-4 gap-y-3">
                         {info.row?.original?.signers?.map((signer: any) => {
                             switch (signer?.user?.role) {
                                 case UserRoles.STUDENT:
@@ -186,7 +194,6 @@ export const AllEsignDocuments = () => {
             header: () => <span>Status</span>,
             cell: (info) => <Badge text={info.row.original?.status} />,
         },
-
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
@@ -230,7 +237,7 @@ export const AllEsignDocuments = () => {
             {modal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
-                    title={'All documents released by me'}
+                    title={'All documents'}
                     subtitle={'List of All Esign Documents'}
                 />
 

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import _debounce from 'lodash/debounce'
-import { CourseSelectOption, formatOptionLabel, isEmailValid } from '@utils'
+import { CourseSelectOption, formatOptionLabel, isEmailValid, onlyNumbersAcceptedInYup } from '@utils'
 
 import { AuthApi, SubAdminApi } from '@queries'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -89,7 +89,7 @@ export const AddSecondWorkplaceForm = ({
             .required('Must provide email'),
 
         // Business Information
-        abn: yup.string().required('Must provide ABN'),
+        abn: onlyNumbersAcceptedInYup(yup),
         phoneNumber: yup.string().required('Must provide phone number'),
 
         // Sector Information

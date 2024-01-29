@@ -25,6 +25,7 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 import { CancelInitiateSign } from '@partials/sub-admin/assessmentEvidence/modal'
 import { IndustryCellInfo } from '@partials/sub-admin/Industries'
 import { ListingEnum } from '../enums'
+import Link from 'next/link'
 
 export const IndustriesEsignDocuments = () => {
     const router = useRouter()
@@ -65,13 +66,13 @@ export const IndustriesEsignDocuments = () => {
             },
             Icon: FaEye,
         },
-        {
-            text: 'Edit',
-            onClick: (eSign: any) => {
-                // router.push(`/portals/admin/rto/${rto.id}/edit-profile`)
-            },
-            Icon: FaEdit,
-        },
+        // {
+        //     text: 'Edit',
+        //     onClick: (eSign: any) => {
+        //         // router.push(`/portals/admin/rto/${rto.id}/edit-profile`)
+        //     },
+        //     Icon: FaEdit,
+        // },
         {
             text: 'Cancel',
             onClick: (eSign: any) => {
@@ -86,9 +87,44 @@ export const IndustriesEsignDocuments = () => {
             accessorKey: 'template.name',
             header: () => <span>Document</span>,
             cell: (info) => (
-                <Typography variant="small" semibold>
-                    {info.row.original?.template?.name}
-                </Typography>
+                <div className="flex flex-col gap-y-1.5">
+                    <Typography variant="small" semibold>
+                        {info.row.original?.template?.name}
+                    </Typography>
+
+                    <div>
+                        <Typography
+                            variant="xs"
+                            color={'text-gray-500'}
+                            semibold
+                        >
+                            Course
+                        </Typography>
+                        <Typography variant="small" semibold>
+                            {info.row.original?.template?.course?.title}
+                        </Typography>
+                    </div>
+                    <div>
+                        <Typography
+                            variant="xs"
+                            color={'text-gray-500'}
+                            semibold
+                        >
+                            Folder
+                        </Typography>
+                        <Link
+                            href={`/portals/sub-admin/students/223?tab=submissions&course=${info.row.original?.template?.course?.id}&folder=${info.row.original?.template?.folder?.id}`}
+                        >
+                            <Typography
+                                variant="small"
+                                color="text-info"
+                                semibold
+                            >
+                                {info.row.original?.template?.folder?.name}
+                            </Typography>
+                        </Link>
+                    </div>
+                </div>
             ),
         },
         {
@@ -107,24 +143,6 @@ export const IndustriesEsignDocuments = () => {
                 )
             },
             header: () => <span>Industry</span>,
-        },
-        {
-            accessorKey: 'template.course.title',
-            header: () => <span>Course</span>,
-            cell: (info) => (
-                <Typography variant="small" semibold>
-                    {info.row.original?.template?.course?.title}
-                </Typography>
-            ),
-        },
-        {
-            accessorKey: 'template.folder.name',
-            header: () => <span>Folder</span>,
-            cell: (info) => (
-                <Typography variant="small" semibold>
-                    {info.row.original?.template?.folder?.name}
-                </Typography>
-            ),
         },
         {
             accessorKey: 'status',
@@ -148,31 +166,38 @@ export const IndustriesEsignDocuments = () => {
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: ({ row }: any) => (
-                <div className="flex items-center gap-x-2">
-                    <Button
-                        text={
-                            row.original?.status === 'signed'
-                                ? 'View Document'
-                                : 'Sign Document'
-                        }
-                        onClick={() => {
-                            router.push(
-                                `/portals/sub-admin/e-sign/${row?.original?.id}`
-                            )
-                        }}
-                    />
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={row.original}
-                            lastIndex={checkListLength<any>(
-                                industriesDocuments?.data?.data as any
-                            )?.includes(row?.index)}
-                        />
+            cell: ({ row }: any) => {
+                const signersRoles = row?.original?.signers?.map(
+                    (signer: any) => signer?.user?.role
+                )
+                return (
+                    <div className="flex items-center gap-x-2">
+                        {signersRoles.includes(UserRoles.SUBADMIN) && (
+                            <Button
+                                text={
+                                    row.original?.status === 'signed'
+                                        ? 'View Document'
+                                        : 'Sign Document'
+                                }
+                                onClick={() => {
+                                    router.push(
+                                        `/portals/sub-admin/e-sign/${row?.original?.id}`
+                                    )
+                                }}
+                            />
+                        )}
+                        <div className="flex gap-x-1 items-center">
+                            <TableAction
+                                options={tableActionOptions}
+                                rowItem={row.original}
+                                lastIndex={checkListLength<any>(
+                                    industriesDocuments?.data?.data as any
+                                )?.includes(row?.index)}
+                            />
+                        </div>
                     </div>
-                </div>
-            ),
+                )
+            },
         },
     ]
 

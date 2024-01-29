@@ -11,6 +11,23 @@ import { getThemeColors } from '@theme'
 // Colors
 const colors = getThemeColors()
 
+export const studentProfileKeys = [
+    'name',
+    'email',
+    'familyName',
+    'phone',
+    'rto',
+    'studentId',
+    'age',
+    'emergencyPerson',
+    'emergencyPersonPhone',
+    'suburb',
+    'state',
+    'zipCode',
+    'addressLine1',
+    'courses',
+]
+
 export const ProfileCompletetionStatus = ({ profile }: any) => {
     // const values = {
     //     name: profile?.user?.name,
@@ -30,27 +47,12 @@ export const ProfileCompletetionStatus = ({ profile }: any) => {
     // }
 
     const values = { ...profile, ...profile?.user }
-    const keys = [
-        'name',
-        'email',
-        'familyName',
-        'phone',
-        'rto',
-        'studentId',
-        'dob',
-        'emergencyPerson',
-        'emergencyPersonPhone',
-        'suburb',
-        'state',
-        'zipCode',
-        'addressLine1',
-        'courses',
-    ]
+
     // const keys = Object.keys(values)
 
-    let totalValues = keys?.length
+    let totalValues = studentProfileKeys?.length
     let filledValues = 0
-    keys.forEach((key) => {
+    studentProfileKeys.forEach((key) => {
         const keyValue = values[key as keyof typeof values]
         if (keyValue && keyValue != 'NA' && !Array.isArray(keyValue)) {
             filledValues++

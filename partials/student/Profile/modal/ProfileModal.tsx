@@ -133,7 +133,7 @@ export const ProfileModal = ({
                     {missingFields && missingFields?.length > 0 && (
                         <div className="bg-error p-3 rounded-lg w-full mt-2">
                             <Typography variant={'subtitle'} color="text-white">
-                                You Must Complete your profile to 100% to access
+                                You must complete your profile to 100% to access
                                 your data
                             </Typography>
                             <Typography variant={'label'} color="text-white">

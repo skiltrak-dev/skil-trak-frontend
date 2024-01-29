@@ -7,7 +7,12 @@ import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
-import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
+import {
+    isEmailValid,
+    onlyAlphabets,
+    onlyNumbersAcceptedInYup,
+    SignUpUtils,
+} from '@utils'
 
 import { Button, Checkbox, Select, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -92,7 +97,7 @@ export const IndustriesForm = ({ onSubmit }: { onSubmit: any }) => {
 
         // Business Information
         // businessName: yup.string().required('Must provide business name'),
-        abn: yup.string().required('Must provide ABN'),
+        abn: onlyNumbersAcceptedInYup(yup),
         phoneNumber: yup.string().required('Must provide phone number'),
 
         // Sector Information
