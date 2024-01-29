@@ -20,13 +20,13 @@ export const JobsPrimaryActions = [
         animation: Animations.Industry.Jobs.Advertise,
         id: 'advertise-a-job',
     },
-    {
-        link: 'jobs/browse-candidates',
-        title: 'Browse For Candidates',
-        description: 'Some helping text',
-        animation: Animations.Industry.Jobs.BrowseCandidate,
-        id: 'browse-for-candidates',
-    },
+    // {
+    //     link: 'jobs/browse-candidates',
+    //     title: 'Browse For Candidates',
+    //     description: 'Some helping text',
+    //     animation: Animations.Industry.Jobs.BrowseCandidate,
+    //     id: 'browse-for-candidates',
+    // },
 ]
 export const JobsContainer = () => {
     const { setContent } = useContextBar()

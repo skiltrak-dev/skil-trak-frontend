@@ -19,7 +19,7 @@ import { Rto, UserStatus } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 import { CgUnblock } from 'react-icons/cg'
 import { RtoCellInfo, SectorCell } from './components'
-import { DeleteModal, UnblockModal } from './modals'
+import { BulkUnBlockModal, DeleteModal, UnblockModal } from './modals'
 
 export const BlockedRto = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -50,6 +50,15 @@ export const BlockedRto = () => {
     const onDeleteClicked = (rto: Rto) => {
         setModal(
             <DeleteModal rto={rto} onCancel={() => onModalCancelClicked()} />
+        )
+    }
+
+    const onBulkUnBlockClicked = (rto: any) => {
+        setModal(
+            <BulkUnBlockModal
+                rto={rto}
+                onCancel={() => onModalCancelClicked()}
+            />
         )
     }
 
@@ -153,7 +162,7 @@ export const BlockedRto = () => {
                 <ActionButton
                     onClick={() => {
                         const arrayOfIds = ids.map((id: any) => id?.user.id)
-                        bulkAction({ ids: arrayOfIds, status: 'approved' })
+                        onBulkUnBlockClicked(arrayOfIds)
                     }}
                     Icon={CgUnblock}
                     variant="warning"

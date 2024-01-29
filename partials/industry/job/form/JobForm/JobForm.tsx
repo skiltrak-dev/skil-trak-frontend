@@ -33,22 +33,32 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
     const [defaultValue, setDefaultValue] = useState<any | null | undefined>(
         null
     )
-
+    const [selectedSector, setSelectedSector] = useState<number[] | null>(null)
+    const [sectorOptions, setSectorOptions] = useState<any>([])
+    const [selectedJobType, setSelectedJobType] = useState<any>(null)
     const sectorResponse = AuthApi.useSectors({})
 
-    const sectorOptions =
-        sectorResponse.data && sectorResponse.data?.length > 0
-            ? sectorResponse.data?.map((sector: any) => ({
-                  label: sector.name,
-                  value: sector.id,
-              }))
-            : []
+
+    useEffect(() => {
+        if (sectorResponse.data?.length) {
+            const options = sectorResponse.data?.map((sector: any) => ({
+                label: sector.name,
+                value: sector.id,
+            }))
+            setSectorOptions(options)
+        }
+    }, [sectorResponse?.data])
+
     useEffect(() => {
         if (initialValues) {
-            setDefaultValue(
+            setSelectedJobType(
                 jobType?.find(
                     (type) => type.value === initialValues.employmentType
                 )
+            )
+
+            setSelectedSector(
+                initialValues?.sectors?.map((sector: any) => sector?.id)
             )
         }
     }, [initialValues])
@@ -99,6 +109,7 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
         mode: 'all',
     })
 
+
     return (
         <FormProvider {...methods}>
             <form
@@ -123,19 +134,30 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                         <Select
                             label={'Employment Type'}
                             name={'employmentType'}
-                            {...(defaultValue
-                                ? {
-                                      defaultValue: defaultValue,
-                                  }
-                                : {})}
                             options={jobType}
+                            value={jobType?.find(
+                                (job: any) =>
+                                    job?.value === selectedJobType
+                            )}
                             onlyValue
+                            onChange={(e: any) => {
+                                setSelectedJobType(e)
+                            }}
+                          
+                           
                         />
                         <Select
+                            // defaultValue={initialValues?.sectors || {}}
                             label={'Sector'}
                             name={'sectors'}
                             options={sectorOptions}
                             placeholder={'Select Sectors...'}
+                            value={sectorOptions?.filter((sector: any) =>
+                                selectedSector?.includes(sector?.value)
+                            )}
+                            onChange={(e: any) => {
+                                setSelectedSector(e)
+                            }}
                             multi
                             loading={sectorResponse.isLoading}
                             validationIcons

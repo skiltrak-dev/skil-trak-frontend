@@ -229,14 +229,7 @@ TextEditorProps) {
             />
         )
     }
-    //  words counter
-    useEffect(() => {
-        const shortDescription = formMethods.getValues('shortDescription')
-        const wordCount = shortDescription
-            .split(/\s+/)
-            .filter((word: any) => word !== '').length
-        setShortDescriptionWordCount(wordCount)
-    }, [formMethods.watch('shortDescription')])
+
     // Quill Editor
     useEffect(() => {
         if (blogData && !coverUrl) {
@@ -398,6 +391,14 @@ TextEditorProps) {
                 })
             })
     }
+    const handleShortDescriptionChange = () => {
+        const shortDescription = formMethods.getValues('shortDescription')
+        const wordCount = shortDescription
+            .split(/\s+/)
+            .filter((word: any) => word !== '').length
+
+        setShortDescriptionWordCount(wordCount)
+    }
 
     return (
         <>
@@ -437,6 +438,7 @@ TextEditorProps) {
                             name={'shortDescription'}
                             validationIcons
                             required
+                            onChange={handleShortDescriptionChange}
                         />
                         <div
                             className={`${
