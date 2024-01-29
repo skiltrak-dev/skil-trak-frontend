@@ -433,6 +433,7 @@ const {
     useSaveEsignTemplateMutation,
     useChangeEsignStatusMutation,
     useGetEsignTemplateTabsQuery,
+    useGetSubadminEsignListQuery,
     useGetESignStudentDetailQuery,
     useRemoveTemplateTabsMutation,
     useGetTemplatePagesCountQuery,
@@ -451,6 +452,7 @@ const {
     useUpdateEsignTemplateDetailMutation,
     useGetUserTemplateDocumentForSignQuery,
     useGetUserSignatureTabForTemplateQuery,
+    useGetSubadminEsignDocumentsCountQuery,
 } = commonApi
 
 export const CommonApi = {
@@ -641,12 +643,14 @@ export const CommonApi = {
         useChangeStatus: useChangeEsignStatusMutation,
         useGetESignStudent: useGetESignStudentDetailQuery,
         addCustomFieldData: useAddCustomFieldDataMutation,
+        useSubadminEsignList: useGetSubadminEsignListQuery,
         cancelEsignDocument: useCancelEsignDocumentMutation,
         useSignDocumentByUser: useSignDocumentByUserMutation,
         useTamplatePagesCount: useGetTemplatePagesCountQuery,
         useGetEsignTemplateTabs: useGetEsignTemplateTabsQuery,
         useEsignTemplateDetail: useGetEsignTemplateDetailQuery,
         useESignTemplateDetail: useGetESignTemplateDetailQuery,
+        useEsignCounts: useGetSubadminEsignDocumentsCountQuery,
         requestResignForESign: useRequestResignForESignMutation,
         getCoordinatorsByCourse: useGetCoordinatorsByCourseQuery,
         useStudentEsignDocument: useViewStudentEsignDocumentQuery,

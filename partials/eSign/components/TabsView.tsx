@@ -133,7 +133,11 @@ export const TabsView = ({
                                             defaultChecked={s?.fieldValue}
                                             checked={s?.fieldValue}
                                             value={s?.fieldValue}
-                                            className="noDefault border !w-full !h-full rounded-md border-gray-500 text-sm p-1 outline-none"
+                                            className={`noDefault border !w-full !h-full rounded-md ${
+                                                selectedFillDataField === s?.id
+                                                    ? 'border-primary'
+                                                    : 'border-gray-500'
+                                            } text-sm p-1 outline-none`}
                                             placeholder={s?.label}
                                             onChange={(e: any) => {
                                                 onAddCustomFieldsData({

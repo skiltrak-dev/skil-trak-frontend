@@ -54,7 +54,7 @@ export const DetailTabs = ({ rto }: { rto: Rto }) => {
             element: <AppointmentTab userId={rto?.user?.id} />,
         },
         {
-            label: 'Reports',
+            label: 'RTO Reports',
             href: { pathname: String(rto?.id), query: { tab: 'reports' } },
             element: (
                 <RTOReports

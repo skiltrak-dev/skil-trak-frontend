@@ -16,7 +16,6 @@ import {
 } from '@radix-ui/react-accordion'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 
-
 const BlogDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const blogId = router.query.slug as string
@@ -26,8 +25,6 @@ const BlogDetail: NextPageWithLayout = () => {
             skip: !blogId,
         })
 
-    console.log("data?.featuredImage", data?.featuredImage)
-
     return (
         <div className="">
             <HeroSectionBlog />
@@ -36,7 +33,7 @@ const BlogDetail: NextPageWithLayout = () => {
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data ? (
-                    <div className="rounded-xl shadow-md md:px-8 px-4 py-8 md:py-4">
+                    <div className="rounded-xl md:px-8 px-4 py-8 md:py-4">
                         <div className="md:h-[600px] h-[250px] w-full relative overflow-hidden rounded-xl">
                             <Image
                                 src={data?.featuredImage}

@@ -1,3 +1,4 @@
+import { UserRoles } from '@constants'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 import { PaginationWithSearch, UserStatus } from '@types'
@@ -11,6 +12,20 @@ export const eSignEndpoints = (
         query: () => `rtos/list/for-esign`,
         providesTags: ['E-Sign'],
     }),
+
+    getSubadminEsignList: builder.query<any, PaginationWithSearch>({
+        query: (params) => ({
+            url: `${PREFIX}/documents/list-all`,
+            params,
+        }),
+        providesTags: ['E-Sign'],
+    }),
+
+    getSubadminEsignDocumentsCount: builder.query<any, void>({
+        query: () => `${PREFIX}/documents/count`,
+        providesTags: ['E-Sign'],
+    }),
+
     saveEsign: builder.mutation<any, any>({
         query: (body) => ({
             url: `${PREFIX}/template/create`,

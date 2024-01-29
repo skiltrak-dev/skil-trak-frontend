@@ -143,7 +143,6 @@ export default function ESign() {
                     (x: any) => x.id !== contextBar?.id
                 )
                 existingItem.moving = true
-                console.log({ eventData, tabDropCoordinates, existingItem })
                 updatedList.push({
                     ...existingItem,
                     location: {
@@ -266,8 +265,6 @@ export default function ESign() {
         }
     }
 
-    console.log({ items })
-
     const handleDragEnd = (data: any) => {
         setActiveItem(false)
 
@@ -281,8 +278,6 @@ export default function ESign() {
 
         const newLocX = tabDropCoordinates?.x
         const newLocY = tabDropCoordinates?.y
-
-        console.log({ data, newLocX, newLocY, tabDropCoordinates })
 
         // const newLocY = Math.abs(
         //     data.delta.y - data.active.data.current.clientY / 2
@@ -315,14 +310,6 @@ export default function ESign() {
             const [a, b, width, height] = tabDropCoordinates?.viewPortData
 
             const newId = uuid()
-
-            console.log(
-                'newLocX > tabDropCoordinates?.viewPortData?.x',
-                newLocX,
-                tabDropCoordinates,
-                width,
-                height
-            )
 
             const yValue = isCheckBox
                 ? newLocY - 3

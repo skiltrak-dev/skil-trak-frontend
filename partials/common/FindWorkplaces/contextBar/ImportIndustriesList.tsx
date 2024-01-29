@@ -34,7 +34,7 @@ export const ImportIndustriesList = () => {
         importList(
             industries?.map((ind: any) => ({
                 ...ind,
-                email: ind?.email.replace(/\r\n\r\n/g, ''),
+                email: ind?.email ? ind?.email?.replace(/\r\n\r\n/g, '') : '',
                 region: ind?.states,
                 sector: ind?.sector ? String(ind?.sector)?.split(',') : null,
             }))

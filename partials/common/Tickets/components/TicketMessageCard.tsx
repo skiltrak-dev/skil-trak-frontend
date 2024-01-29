@@ -42,7 +42,7 @@ export const TicketMessageCard = ({
     const role = getUserCredentials()?.role
     // update api call
     const [updateReply, updateReplyResult] = CommonApi.Tickets.useUpdateReply()
-    const plainText: any = message.message.replace(/<[^>]+>/g, '')
+    // const plainText: any = message?.message?.replace(/<[^>]+>/g, '')
 
     const validationSchema = yup.object({
         message: yup
