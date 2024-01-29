@@ -30,6 +30,10 @@ const nextConfig = {
             'skiltrak-dev.s3.ap-southeast-2.amazonaws.com',
         ],
     },
+    // experimental: {
+    //     // reactStrictMode: true,
+    //     instrumentationHook: true,
+    // },
 }
 
 module.exports = nextConfig

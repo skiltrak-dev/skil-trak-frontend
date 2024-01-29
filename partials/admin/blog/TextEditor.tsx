@@ -49,6 +49,8 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
 
     const [createBlog, createBlogResult] = adminApi.useCreateBlogMutation()
     const { data, isLoading } = adminApi.useGetCategoriesQuery(undefined)
+    const [shortDescriptionWordCount, setShortDescriptionWordCount] =
+        useState(0)
     // const handleSave = () => {
     //     // const editorContent = quillRef.current.getEditor().getContents()
     //     const html = quillRef.current.getEditor().root.innerHTML
@@ -110,6 +112,15 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
         ],
     }
 
+    // short description words counter
+    useEffect(() => {
+        const shortDescription = formMethods.getValues('shortDescription')
+        const wordCount = shortDescription
+            .split(/\s+/)
+            .filter((word: any) => word !== '').length
+        setShortDescriptionWordCount(wordCount)
+    }, [formMethods.watch('shortDescription')])
+
     const onSubmit: any = (data: any, publish: boolean) => {
         const content = quillRef.current.getEditor().root.innerHTML
         if (!data.featuredImage || !data.featuredImage[0]) {
@@ -119,7 +130,16 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
             })
             return
         }
-
+        if (
+            shortDescriptionWordCount < 385 ||
+            shortDescriptionWordCount > 385
+        ) {
+            formMethods.setError('shortDescription', {
+                type: 'shortDescription',
+                message: 'Must provide 385 words',
+            })
+            return
+        }
         if (imageSizeErrorMessage(data.featuredImage[0]) !== true) {
             formMethods.setError('featuredImage', {
                 type: 'imageSizeError',
@@ -142,6 +162,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
             })
             return
         }
+
         // FAQ's validation
         // if (data?.faq && data?.faq?.length > 0) {
         let isAnyFaqInvalid = false
@@ -282,9 +303,19 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                     <TextArea
                         label={'Short Description'}
                         name={'shortDescription'}
-                        placeholder='Write a short description of 380 words'
+                        placeholder="Write a short description of 380 words"
                         validationIcons
+                        required
                     />
+                    <div
+                        className={`${
+                            shortDescriptionWordCount > 385
+                                ? 'text-red-500'
+                                : ' text-slate-500'
+                        } text-sm mb-5`}
+                    >
+                        {`${shortDescriptionWordCount} / 385 words`}
+                    </div>
                     <ReactQuill theme="snow" ref={quillRef} modules={modules} />
                     <InputErrorMessage name={'content'} />
                     <div className="mt-4">
@@ -374,6 +405,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                                             placeholder="Enter Answer"
                                             required
                                         />
+
                                         <InputErrorMessage
                                             name={'blogQuestions'}
                                         />

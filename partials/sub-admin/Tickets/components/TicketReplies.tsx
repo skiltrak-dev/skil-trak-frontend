@@ -13,6 +13,8 @@ export const TicketReplies = ({ ticket }: { ticket: any }) => {
     const replies = CommonApi.Tickets.useGetTicketReplies(ticket?.id, {
         skip: !ticket?.id,
     })
+    const targetDate = new Date('2024-01-25')
+    const createdAtDate = new Date(ticket?.createdAt)
 
     const [seenReply, seenReplyResult] = CommonApi.Tickets.useSeenTicketReply()
 
@@ -54,15 +56,16 @@ export const TicketReplies = ({ ticket }: { ticket: any }) => {
                                     )}
                             </>
                         ))}
-                        {/* <TicketMessageCard
-                            message={{
-                                ...ticket,
-                                author: ticket?.createdBy,
-                            }}
-                            ticketDetail={ticket}
-                            setUpdateReplyId={setUpdateReplyId}
-                            replyId={updateReplyId}
-                        /> */}
+                        {createdAtDate < targetDate && (
+                            <TicketMessageCard
+                                message={{
+                                    ...ticket,
+                                    author: ticket?.createdBy,
+                                }}
+                                ticketDetail={ticket}
+                                // replyId={ticket?.id}
+                            />
+                        )}
                     </div>
                 </>
             ) : (

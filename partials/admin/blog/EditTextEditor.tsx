@@ -58,6 +58,9 @@ TextEditorProps) {
     const [removeFaq, removeFaqResult] = adminApi.useRemoveFaqMutation()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
+    const [shortDescriptionWordCount, setShortDescriptionWordCount] =
+        useState(0)
+
     const blogPostEnum = {
         Save: 'save',
         SaveAndPublish: 'saveAndPublish',
@@ -108,9 +111,22 @@ TextEditorProps) {
             .array()
             .min(1, 'Must select at least 1 category')
             .required(),
-        shortDescription: yup
-            .string()
-            .required('Short description is required'),
+        // shortDescription: yup
+        //     .string()
+        //     .required('Short description is required')
+        //     .test(
+        //         'max-words',
+        //         'Short description must be at most 385 words',
+        //         (value) => {
+        //             if (!value) {
+        //                 return true // Allow empty string (required validation will handle it)
+        //             }
+        //             const wordCount = value
+        //                 .split(/\s+/)
+        //                 .filter((word) => word !== '').length
+        //             return wordCount <= 385
+        //         }
+        //     ),
         // content: yup.string().required('Content is required'),
         // blogQuestions: yup.object().shape({
         //     question: yup.string().required('FAQ question should not be empty'),
@@ -213,7 +229,14 @@ TextEditorProps) {
             />
         )
     }
-
+    //  words counter
+    useEffect(() => {
+        const shortDescription = formMethods.getValues('shortDescription')
+        const wordCount = shortDescription
+            .split(/\s+/)
+            .filter((word: any) => word !== '').length
+        setShortDescriptionWordCount(wordCount)
+    }, [formMethods.watch('shortDescription')])
     // Quill Editor
     useEffect(() => {
         if (blogData && !coverUrl) {
@@ -285,6 +308,16 @@ TextEditorProps) {
             })
             return
         }
+        if (
+            shortDescriptionWordCount < 385 ||
+            shortDescriptionWordCount > 385
+        ) {
+            formMethods.setError('shortDescription', {
+                type: 'shortDescription',
+                message: 'Must provide 385 words',
+            })
+            return
+        }
 
         if (content === '<p><br></p>' || content.trim() === '<p><br></p>') {
             formMethods.setError('content', {
@@ -293,33 +326,6 @@ TextEditorProps) {
             })
             return
         }
-        // FAQ's validation
-        // let isAnyFaqInvalid = false
-
-        // fields.forEach((faq: any, index: number) => {
-        //     const faqSchema = yup.object().shape({
-        //         question: yup
-        //             .string()
-        //             .required('FAQ question should not be empty'),
-        //         answer: yup.string().required('FAQ answer should not be empty'),
-        //     })
-
-        //     try {
-        //         faqSchema.validateSync(faq, { abortEarly: false })
-        //     } catch (error:any) {
-        //         error.inner.forEach((err: any) => {
-        //             formMethods.setError(`blogQuestions.${index}.${err.path}`, {
-        //                 type: 'FAQs',
-        //                 message: err.message,
-        //             })
-        //         })
-        //         isAnyFaqInvalid = true
-        //     }
-        // })
-
-        // if (isAnyFaqInvalid) {
-        //     return
-        // }
 
         let isAnyFaqInvalid = false
 
@@ -367,14 +373,6 @@ TextEditorProps) {
         Object.entries(values).forEach(([key, value]: any) => {
             formData.append(key, value)
         })
-
-        // formData.append('featuredImage', data.featuredImage?.[0])
-        // formData.append('title', data.title)
-        // formData.append('content', content)
-        // formData.append('isPublished', publish.toString())
-        // formData.append('isFeatured', isFeatured.toString())
-        // formData.append('tags', tagIds)
-        // formData.append('category', data?.category)
 
         updateBlog({ id: blogData?.id, body: formData })
             .then((res: any) => {
@@ -438,7 +436,17 @@ TextEditorProps) {
                             label={'Short Description'}
                             name={'shortDescription'}
                             validationIcons
+                            required
                         />
+                        <div
+                            className={`${
+                                shortDescriptionWordCount > 385
+                                    ? 'text-red-500'
+                                    : ' text-slate-500'
+                            } text-sm mb-5`}
+                        >
+                            {`${shortDescriptionWordCount} / 385 words`}
+                        </div>
                         <ReactQuill
                             theme="snow"
                             ref={quillRef}
@@ -462,7 +470,6 @@ TextEditorProps) {
                             </Typography>
                             <Card>
                                 {fields.map((faq: any, index: any) => {
-                                    console.log('faq', faq)
                                     return (
                                         <div
                                             key={faq.id}

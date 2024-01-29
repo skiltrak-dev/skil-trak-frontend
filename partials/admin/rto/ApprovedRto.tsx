@@ -59,7 +59,8 @@ export const ApprovedRto = () => {
             <ArchiveModal item={rto} onCancel={() => onModalCancelClicked()} />
         )
     }
-    const onBlockClicked = (rto: Rto) => {
+    const onBlockClicked = (rto: any) => {
+        console.log("block", rto)
         setModal(
             <BlockModal rto={rto} onCancel={() => onModalCancelClicked()} />
         )
@@ -174,6 +175,7 @@ export const ApprovedRto = () => {
             <ActionButton
                 onClick={() => {
                     const arrayOfIds = items.map((id: any) => id?.user.id)
+                    // onBlockClicked(items)
                     bulkAction({ ids: arrayOfIds, status: 'blocked' })
                 }}
                 Icon={MdBlock}
