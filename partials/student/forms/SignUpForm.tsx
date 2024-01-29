@@ -149,7 +149,7 @@ export const StudentSignUpForm = ({
 
         rto: yup.number().required('Must provide RTO'),
         // dob: yup.date().nullable(true).required('Must provide Date of Birth'),
-        dob: yup.string().required('Must Select DOB Range'),
+        age: yup.string().required('Must Select age Range'),
 
         phone: yup
             .string()
@@ -324,12 +324,13 @@ export const StudentSignUpForm = ({
                                 required
                             /> */}
                             <Select
+                                {...(storedData
+                                    ? { defaultValue: storedData?.age }
+                                    : {})}
                                 label={'Select Age Range'}
-                                name={'dob'}
+                                name={'age'}
                                 options={ageOptions}
                                 placeholder={'Select Age Range...'}
-                                // loading={rtoResponse.isLoading}
-                                // onChange={}
                                 validationIcons
                                 onlyValue
                             />

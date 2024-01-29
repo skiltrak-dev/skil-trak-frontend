@@ -242,13 +242,11 @@ export const SubAdminStudentProfile = ({
                             <FaBirthdayCake size={12} />
                         </span>
                         <p className="text-xs font-medium">
-                            {student?.dob
-                                ? moment(student?.dob).format('DD MMM, YYYY')
-                                : 'Not Provided'}
+                            {student?.age || 'Not Provided'}
                         </p>
                     </div>
                     <div className="text-gray-400 text-[11px] -mt-0.5 text-right">
-                        Date Of Birth
+                        Age Range
                     </div>
                 </div>
 
