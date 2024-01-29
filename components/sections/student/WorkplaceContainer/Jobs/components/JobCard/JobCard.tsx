@@ -10,6 +10,7 @@ import { IoMdBriefcase } from 'react-icons/io'
 import { MdContactPhone } from 'react-icons/md'
 import { RiTimeFill } from 'react-icons/ri'
 import { ApplyNowButton } from '../ApplyNowButton'
+import { InitialAvatar } from '@components/InitialAvatar'
 
 // query
 
@@ -18,7 +19,12 @@ type Props = {
     job: any
 }
 
+export enum jobType {
+    FULLTIME = 'fullTime',
+    PARTTIME = 'partTime',
+}
 export const JobCard = ({ savedJobs, job }: Props) => {
+    console.log('savedJobs', savedJobs)
     return (
         <>
             <div className="my-3 bg-white border rounded-2xl shadow-sm">
@@ -39,9 +45,12 @@ export const JobCard = ({ savedJobs, job }: Props) => {
                                 </a>
                             </Link>
 
-                            <div className="flex items-center gap-x-1">
-                                <div className="h-4 w-4">
-                                    <Image
+                            <div className="flex items-center gap-x-2 mb-2">
+                                <InitialAvatar
+                                    imageUrl={job?.industry?.user?.avatar}
+                                    name={job?.industry?.user?.name || 'NA'}
+                                />
+                                {/* <Image
                                         className="rounded-full"
                                         src={
                                             job?.avatar ||
@@ -50,20 +59,18 @@ export const JobCard = ({ savedJobs, job }: Props) => {
                                         alt="industry"
                                         width={100}
                                         height={100}
-                                    />
-                                </div>
+                                    /> */}
                                 <Typography
                                     variant="muted"
                                     color="text-gray-400"
                                 >
-                                    {job?.companyName}
+                                    {job?.industry?.user?.name}
                                 </Typography>
                             </div>
                         </div>
                         <ApplyNowButton
                             onClick={() => {
                                 // saveJob(id)
-
                             }}
                             id={job?.id}
                             job={job}
@@ -75,29 +82,33 @@ export const JobCard = ({ savedJobs, job }: Props) => {
                     <div className="flex item-center gap-x-2 pt-2">
                         <div className="flex item-center gap-x-2">
                             <HiUserGroup className="text-[#7E9CAF]" />
-                            <Typography variant="muted" color="text-black">
-                                {job?.positions}
-                            </Typography>
                             <Typography variant="small" color="text-gray-400">
-                                Positions
+                                Vacancies :
+                            </Typography>
+                            <Typography variant="muted" color="text-black">
+                                {job?.vacancies}
                             </Typography>
                         </div>
                         <div className="flex items-center gap-x-2">
                             <IoMdBriefcase className="text-[#7E9CAF]" />
-                            <Typography variant="muted" color="text-black">
-                                {job?.employmentType}
-                            </Typography>
                             <Typography variant="small" color="text-gray-400">
-                                Job
+                                Job Type :
+                            </Typography>
+                            <Typography variant="muted" color="text-black">
+                                {job?.employmentType === jobType.FULLTIME
+                                    ? 'Full Time'
+                                    : job?.employmentType === jobType.PARTTIME
+                                    ? 'Part Time'
+                                    : 'Freelance'}
                             </Typography>
                         </div>
                         <div className="flex gap-x-2 items-center">
                             <MdContactPhone className="text-[#7E9CAF]" />
+                            <Typography variant="small" color="text-gray-400">
+                                Contact to :
+                            </Typography>
                             <Typography variant="muted" color="text-black">
                                 {job?.contactPerson}
-                            </Typography>
-                            <Typography variant="small" color="text-gray-400">
-                                to Contact
                             </Typography>
                         </div>
                     </div>
@@ -119,13 +130,13 @@ export const JobCard = ({ savedJobs, job }: Props) => {
                             <div className="flex gap-x-2 items-center">
                                 <FaLocationArrow className="text-[#D1D5DB]" />
                                 <Typography variant="muted" color="text-black">
-                                    {job?.address}
+                                    {job?.addressLine1}
                                 </Typography>
                             </div>
                             <div className="flex gap-x-2 items-center">
                                 <FaPhoneAlt className="text-[#D1D5DB]" />
                                 <Typography variant="muted" color="text-black">
-                                    {job?.phoneNumber}
+                                    {job?.phone}
                                 </Typography>
                             </div>
                         </div>
@@ -134,7 +145,9 @@ export const JobCard = ({ savedJobs, job }: Props) => {
                             <Typography variant="small" color="text-black">
                                 {job?.expiry || 0}{' '}
                                 <span className="text-gray-400 text-xs ">
-                                    Days Ago
+                                    {job?.expiry === 1
+                                        ? 'Day Left'
+                                        : 'Days Left'}
                                 </span>
                             </Typography>
                         </div>

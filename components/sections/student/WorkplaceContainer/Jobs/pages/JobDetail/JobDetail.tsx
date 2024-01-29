@@ -11,7 +11,7 @@ import { MdContactPhone } from 'react-icons/md'
 import { FaLocationArrow } from 'react-icons/fa'
 import { FaPhoneAlt } from 'react-icons/fa'
 import { RiTimeFill } from 'react-icons/ri'
-import { Typography, EmptyData } from '@components'
+import { Typography, EmptyData, InitialAvatar } from '@components'
 import { useRouter } from 'next/router'
 
 import { useGetStudentJobDetailQuery } from '@queries'
@@ -37,7 +37,7 @@ export const JobDetail = (props: Props) => {
                     <div className="border-b p-4 w-full">
                         <div className="flex justify-between w-full">
                             <div className="flex gap-x-6 items-center w-full">
-                                <div className="w-28 h-full relative">
+                                {/* <div className="w-28 h-full relative">
                                     <Image
                                         className="w-full h-full"
                                         src={
@@ -48,31 +48,47 @@ export const JobDetail = (props: Props) => {
                                         height="0"
                                         alt=""
                                     />
-                                </div>
+                                </div> */}
                                 <div className="w-full">
                                     <div className="flex justify-between">
-                                        <div>
-                                            <Typography
-                                                variant="subtitle"
-                                                color="text-black"
-                                            >
-                                                {data?.title}
-                                            </Typography>
-                                            <Typography
-                                                variant="muted"
-                                                color="text-gray-400"
-                                            >
-                                                {data?.industry?.businessName}
-                                            </Typography>
+                                        <div className="flex items-center gap-x-3">
+                                            <InitialAvatar
+                                                imageUrl={
+                                                    data?.industry?.user?.avatar
+                                                }
+                                                name={
+                                                    data?.industry?.user
+                                                        ?.name || 'NA'
+                                                }
+                                            />
+                                            <div>
+                                                <Typography
+                                                    variant="subtitle"
+                                                    color="text-black"
+                                                >
+                                                    {data?.title}
+                                                </Typography>
+                                                <Typography
+                                                    variant="muted"
+                                                    color="text-gray-400"
+                                                >
+                                                    {
+                                                        data?.industry
+                                                            ?.businessName
+                                                    }
+                                                </Typography>
+                                            </div>
                                         </div>
                                         <div className="">
                                             <ApplyNowButton
-                                                job={data}
-                                                onClick={() => {}}
+                                                onClick={() => {
+                                                    // saveJob(id)
+                                                }}
                                                 id={data?.id}
-                                                savedJob={data?.savedJobs
+                                                job={data}
+                                                savedJob={data?.students?.savedJobs
                                                     ?.map(({ id }: any) => id)
-                                                    .includes(5)}
+                                                    .includes(data?.id)}
                                             />
                                         </div>
                                     </div>
@@ -84,7 +100,7 @@ export const JobDetail = (props: Props) => {
                                                     variant="muted"
                                                     color="text-black"
                                                 >
-                                                    {`${data?.addressLine1}, ${data?.addressLine2}`}
+                                                    {`${data?.addressLine1}`}
                                                 </Typography>
                                             </div>
                                             <div className="flex gap-x-2 items-center">

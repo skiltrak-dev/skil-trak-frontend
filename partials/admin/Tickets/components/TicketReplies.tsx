@@ -36,7 +36,6 @@ export const TicketReplies = ({ ticket }: { ticket: any }) => {
                 <>
                     <div className="flex flex-col gap-y-4 mt-4 ">
                         {replies?.data?.map((response: any) => {
-                            console.log('replies', response)
                             return (
                                 <>
                                     <TicketMessageCard

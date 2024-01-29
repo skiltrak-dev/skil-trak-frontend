@@ -39,6 +39,7 @@ import { DeleteModal } from './modals'
 import { Rto } from '@types'
 import { JobCell } from './components'
 import { useJoyRide } from '@hooks'
+import { IoMdEye } from 'react-icons/io'
 
 const Colors = getThemeColors()
 
@@ -76,7 +77,7 @@ export const AdvertisedJobsContainer = () => {
     const TableActionOption = [
         {
             text: 'View',
-            Icon: MdEdit,
+            Icon: IoMdEye,
             onClick: (job: any) => {
                 router.push(`/portals/industry/jobs/${job.id}`)
             },

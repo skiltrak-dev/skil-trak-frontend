@@ -12,14 +12,17 @@ type Props = {}
 export const FavoriteJobs = (props: Props) => {
     const { data, isSuccess, isLoading, isError } =
         StudentApi.Student.studentFavoriteJobs()
+    const filteredJobs = data?.data?.filter(
+        (job: any) => job?.status !== 'expired'
+    )
 
     return (
         <div>
             {isError && <TechnicalError />}
             {isLoading ? (
                 <LoadingAnimation />
-            ) : data?.data && data?.data?.length > 0 && isSuccess ? (
-                data?.data?.map((job: StudentJobType, index: number) => (
+            ) : filteredJobs && filteredJobs?.length > 0 && isSuccess ? (
+                filteredJobs?.map((job: StudentJobType, index: number) => (
                     <JobCard key={index} job={job} savedJobs={job?.savedJobs} />
                 ))
             ) : (

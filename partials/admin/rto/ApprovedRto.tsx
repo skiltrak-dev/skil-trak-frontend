@@ -21,7 +21,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { RtoCellInfo, SectorCell } from './components'
 import { ViewSubAdminsCB } from './contextBar'
-import { ArchiveModal, BlockModal } from './modals'
+import { ArchiveModal, BlockModal, BulkBlockModal } from './modals'
 import { checkListLength } from '@utils'
 
 export const ApprovedRto = () => {
@@ -59,10 +59,14 @@ export const ApprovedRto = () => {
             <ArchiveModal item={rto} onCancel={() => onModalCancelClicked()} />
         )
     }
-    const onBlockClicked = (rto: any) => {
-        console.log("block", rto)
+    const onBlockClicked = (rto: Rto) => {
         setModal(
             <BlockModal rto={rto} onCancel={() => onModalCancelClicked()} />
+        )
+    }
+    const onBulkBlockClicked = (rto: any) => {
+        setModal(
+            <BulkBlockModal rto={rto} onCancel={() => onModalCancelClicked()} />
         )
     }
 
@@ -176,7 +180,8 @@ export const ApprovedRto = () => {
                 onClick={() => {
                     const arrayOfIds = items.map((id: any) => id?.user.id)
                     // onBlockClicked(items)
-                    bulkAction({ ids: arrayOfIds, status: 'blocked' })
+                    onBulkBlockClicked(arrayOfIds)
+                    // bulkAction({ ids: arrayOfIds, status: 'blocked' })
                 }}
                 Icon={MdBlock}
                 variant="error"

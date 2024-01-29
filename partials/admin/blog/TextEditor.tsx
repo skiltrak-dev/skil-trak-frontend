@@ -112,15 +112,6 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
         ],
     }
 
-    // short description words counter
-    useEffect(() => {
-        const shortDescription = formMethods.getValues('shortDescription')
-        const wordCount = shortDescription
-            .split(/\s+/)
-            .filter((word: any) => word !== '').length
-        setShortDescriptionWordCount(wordCount)
-    }, [formMethods.watch('shortDescription')])
-
     const onSubmit: any = (data: any, publish: boolean) => {
         const content = quillRef.current.getEditor().root.innerHTML
         if (!data.featuredImage || !data.featuredImage[0]) {
@@ -188,31 +179,6 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
             return
         }
 
-        // data?.faq &&
-        //     data?.faq?.forEach((faq: any) => {
-        //         if (faq?.question === '' || faq?.answer === '') {
-        //             isAnyFaqInvalid = true
-        //         }
-        //     })
-
-        // if (isAnyFaqInvalid) {
-        //     formMethods.setError('blogQuestions', {
-        //         type: 'FAQs',
-        //         message: 'FAQs Fields Should not be Empty',
-        //     })
-
-        //     return
-        // }
-        // }
-
-        // if (data?.faq.length > 0) {
-        //     formMethods.setError('answer', {
-        //         type: 'answer',
-        //         message: 'Answer Should Not be Empty',
-        //     })
-        //     return
-        // }
-
         validationSchema
             .validate(data)
             .then(() => {
@@ -274,6 +240,15 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
         append({ question: '', answer: '' })
     }
 
+    const handleShortDescriptionChange = () => {
+        const shortDescription = formMethods.getValues('shortDescription')
+        const wordCount = shortDescription
+            .split(/\s+/)
+            .filter((word: any) => word !== '').length
+
+        setShortDescriptionWordCount(wordCount)
+    }
+
     return (
         <div>
             <ShowErrorNotifications result={createBlogResult} />
@@ -306,6 +281,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                         placeholder="Write a short description of 380 words"
                         validationIcons
                         required
+                        onChange={handleShortDescriptionChange}
                     />
                     <div
                         className={`${

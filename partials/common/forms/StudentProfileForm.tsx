@@ -176,7 +176,7 @@ export const StudentProfileForm = ({
             .required('Must provide email'),
 
         // dob: yup.date().required('Must provide Date of Birth'),
-        age: yup.string().required('Must Select age Range'),
+        age: yup.string().required('Must Select age'),
 
         phone: yup.string().required('Must provide phone number'),
         rto: yup.number().required('RTO is required'),
@@ -363,10 +363,10 @@ export const StudentProfileForm = ({
                                         required
                                     /> */}
                                     <Select
-                                        label={'Select Age Range'}
+                                        label={'Select Age'}
                                         name={'age'}
                                         options={ageOptions}
-                                        placeholder={'Select Age Range...'}
+                                        placeholder={'Select Age...'}
                                         // loading={rtoResponse.isLoading}
                                         // onChange={}
                                         validationIcons

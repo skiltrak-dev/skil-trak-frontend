@@ -25,6 +25,7 @@ export interface StudentJobType {
     savedJobs: any
     avatar: any
     industry: Industry
+    students: any
 }
 
 export interface StudentJobsType {
