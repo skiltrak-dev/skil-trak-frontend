@@ -149,7 +149,7 @@ export const StudentSignUpForm = ({
 
         rto: yup.number().required('Must provide RTO'),
         // dob: yup.date().nullable(true).required('Must provide Date of Birth'),
-        age: yup.string().required('Must Select age'),
+        age: yup.string().nullable().required('Must Select age'),
 
         phone: yup
             .string()

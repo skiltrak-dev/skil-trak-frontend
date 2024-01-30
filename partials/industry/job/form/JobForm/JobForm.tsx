@@ -129,6 +129,7 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                             name={'title'}
                             placeholder={'Your Job Title...'}
                             validationIcons
+                            required
                         />
 
                         <Select
@@ -143,6 +144,7 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                             onChange={(e: any) => {
                                 setSelectedJobType(e)
                             }}
+                            required
                           
                            
                         />
@@ -162,6 +164,7 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                             loading={sectorResponse.isLoading}
                             validationIcons
                             onlyValue
+                            required
                         />
 
                         <TextInput
@@ -191,6 +194,7 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                             name={'description'}
                             placeholder={'Job Description'}
                             validationIcons
+                            required
                         />
                     </div>
                 </div>
@@ -208,6 +212,7 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                             name={'phone'}
                             placeholder={'Phone...'}
                             validationIcons
+                            required
                         />
                         <TextInput
                             label={'Email'}
@@ -215,6 +220,7 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                             type={'email'}
                             placeholder={'Email...'}
                             validationIcons
+                            required
                         />
 
                         <TextInput
@@ -237,11 +243,12 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                     <div className="grid grid-cols-2 gap-x-8 gap-y-2">
                         <div className="col-span-2">
                             <TextInput
-                                label={'Address 1'}
+                                label={'Address'}
                                 name={'addressLine1'}
-                                placeholder={'Address Line 1...'}
+                                placeholder={'Address Line...'}
                                 validationIcons
                                 placesSuggetions
+                                required
                             />
                         </div>
 
@@ -251,18 +258,21 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                             placeholder={'Suburb...'}
                             validationIcons
                             placesSuggetions
+                            required
                         />
                         <TextInput
                             label={'Zip Code'}
                             name={'zipCode'}
                             placeholder={'Zip Code...'}
                             validationIcons
+                            required
                         />
                         <TextInput
                             label={'State'}
                             name={'state'}
                             placeholder={'State...'}
                             validationIcons
+                            required
                         />
                     </div>
                 </div>
@@ -280,6 +290,7 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                             name={'contactPerson'}
                             placeholder={'Contact Person...'}
                             validationIcons
+                            required
                         />
                     </div>
                 </div>
@@ -287,7 +298,7 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                 <Button
                     submit
                     text={`${edit ? 'Update' : 'Save'} Job`}
-                    variant={edit ? 'secondary' : 'primary'}
+                    variant={'primary'}
                 />
             </form>
         </FormProvider>

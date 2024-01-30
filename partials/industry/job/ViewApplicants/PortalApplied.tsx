@@ -61,7 +61,7 @@ export const PortalApplied = () => {
             text: 'View',
             Icon: IoMdEye,
             onClick: (job: any) => {
-                router.push(`/portals/industry/jobs/${job.id}`)
+                router.push(`/portals/industry/jobs/${router?.query?.id}`)
             },
         },
         // {
@@ -71,11 +71,11 @@ export const PortalApplied = () => {
         //         router.push(`/portals/industry/jobs/form/${job.id}`)
         //     },
         // },
-        {
-            text: 'Delete',
-            Icon: AiFillDelete,
-            onClick: (job: any) => {},
-        },
+        // {
+        //     text: 'Delete',
+        //     Icon: AiFillDelete,
+        //     onClick: (job: any) => {},
+        // },
     ]
 
     const Columns: ColumnDef<any>[] = [
