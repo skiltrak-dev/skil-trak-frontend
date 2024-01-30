@@ -48,7 +48,7 @@ export const AddIndividualStudentForm = () => {
         batch: yup.string().required('Must provide your Batch'),
         phone: yup.string().required('Must provide your phone number'),
         // gender: yup.string().required('Must provide gender'),
-
+        age: yup.string().nullable().required('Must Select age'),
         email: yup
             .string()
             .email('Invalid Email')
@@ -89,7 +89,7 @@ export const AddIndividualStudentForm = () => {
                 ...values,
                 courses: values?.courses?.map((course: any) => course.value),
                 role: UserRoles.STUDENT,
-                dob: 'N/A',
+                age: 'N/A',
                 familyName: 'N/A',
                 emergencyPerson: 'N/A',
                 emergencyPersonPhone: 'N/A',
@@ -102,7 +102,24 @@ export const AddIndividualStudentForm = () => {
             },
         })
     }
-
+    const ageOptions = [
+        {
+            label: '16-25',
+            value: '16-25',
+        },
+        {
+            label: '27-36',
+            value: '27-36',
+        },
+        {
+            label: '37-46',
+            value: '37-46',
+        },
+        {
+            label: '47-56',
+            value: '47-56',
+        },
+    ]
     return (
         <>
             <ShowErrorNotifications result={addStudentResult} />
@@ -154,6 +171,17 @@ export const AddIndividualStudentForm = () => {
                                 placeholder={'Email...'}
                                 validationIcons
                                 required
+                            />
+
+                            <Select
+                                label={'Select Age'}
+                                name={'age'}
+                                options={ageOptions}
+                                placeholder={'Select Age...'}
+                                // loading={rtoResponse.isLoading}
+                                // onChange={}
+                                validationIcons
+                                onlyValue
                             />
 
                             <TextInput

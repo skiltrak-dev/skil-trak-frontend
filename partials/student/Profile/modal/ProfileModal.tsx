@@ -40,6 +40,7 @@ export const ProfileModal = ({
     profileCompletion: number
     keys: string[]
 }) => {
+    console.log('keys', keys)
     const { notification } = useNotification()
     const profile = useGetStudentProfileDetailQuery(undefined, {
         refetchOnMountOrArgChange: true,

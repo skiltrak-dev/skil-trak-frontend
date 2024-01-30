@@ -11,6 +11,7 @@ import { useContextBar, useJoyRide } from 'hooks'
 
 import { Animations } from '@animations'
 import { AdForRPL } from '@components/sections'
+import Link from 'next/link'
 
 export const JobsPrimaryActions = [
     {
@@ -64,9 +65,9 @@ export const JobsContainer = () => {
                         <Typography variant={'title'}>
                             Total Students
                         </Typography>
-                        <Typography variant={'small'} color={'textLink'}>
+                        <Link href={"/portals/industry/students/current-students?tab=pending"}>
                             View All
-                        </Typography>
+                        </Link>
                     </div>
 
                     {/*  */}

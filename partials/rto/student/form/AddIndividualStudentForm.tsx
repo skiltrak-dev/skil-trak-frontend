@@ -55,7 +55,7 @@ export const AddIndividualStudentForm = () => {
         studentId: yup.string().required('Must provide your student Id'),
         batch: yup.string().required('Must provide your Batch'),
         phone: yup.string().required('Must provide your phone number'),
-
+        age: yup.string().nullable().required('Must Select age'),
         email: yup
             .string()
             .email('Invalid Email')
@@ -80,7 +80,7 @@ export const AddIndividualStudentForm = () => {
             ...values,
             courses: values.courses.map((course: any) => course.value),
             role: UserRoles.STUDENT,
-            dob: 'N/A',
+            age: 'N/A',
             familyName: 'N/A',
             emergencyPerson: 'N/A',
             emergencyPersonPhone: 'N/A',
@@ -92,7 +92,34 @@ export const AddIndividualStudentForm = () => {
             password: 'N/A',
         })
     }
-
+    const ageOptions = [
+        {
+            label: '16-25',
+            value: '16-25',
+        },
+        {
+            label: '27-36',
+            value: '27-36',
+        },
+        {
+            label: '37-46',
+            value: '37-46',
+        },
+        {
+            label: '47-56',
+            value: '47-56',
+        },
+    ]
+    // <Select
+    //                             label={'Select Age'}
+    //                             name={'age'}
+    //                             options={ageOptions}
+    //                             placeholder={'Select Age...'}
+    //                             // loading={rtoResponse.isLoading}
+    //                             // onChange={}
+    //                             validationIcons
+    //                             onlyValue
+    //                         />
     return (
         <>
             <ShowErrorNotifications result={addStudentResult} />
@@ -138,6 +165,17 @@ export const AddIndividualStudentForm = () => {
                                 placeholder={'Student Id...'}
                                 validationIcons
                                 required
+                            />
+
+                            <Select
+                                label={'Select Age'}
+                                name={'age'}
+                                options={ageOptions}
+                                placeholder={'Select Age...'}
+                                // loading={rtoResponse.isLoading}
+                                // onChange={}
+                                validationIcons
+                                onlyValue
                             />
 
                             <TextInput

@@ -3,7 +3,7 @@ import React from 'react'
 // components
 import { Typography } from 'components'
 
-export const JobDetailData = ({ data }:any) => {
+export const JobDetailData = ({ data }: any) => {
     const employmentType = () => {
         switch (data?.employmentType) {
             case 'fullTime':
@@ -65,14 +65,12 @@ export const JobDetailData = ({ data }:any) => {
                     </Typography>
                 </div>
 
-                {/* <div className="flex flex-col gap-y-1">
+                <div className="flex flex-col gap-y-1">
                     <Typography variant={'muted'} color={'gray'}>
-                        Address 2
+                        Suburb
                     </Typography>
-                    <Typography color={'black'}>
-                        {data?.addressLine2}
-                    </Typography>
-                </div> */}
+                    <Typography color={'black'}>{data?.suburb}</Typography>
+                </div>
             </div>
 
             {/* Job Description */}

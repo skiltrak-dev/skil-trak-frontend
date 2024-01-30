@@ -100,7 +100,7 @@ export const JobDetail = (props: Props) => {
                                                     variant="muted"
                                                     color="text-black"
                                                 >
-                                                    {`${data?.addressLine1}`}
+                                                    {`${data?.addressLine1} ${data?.suburb}`}
                                                 </Typography>
                                             </div>
                                             <div className="flex gap-x-2 items-center">
@@ -198,6 +198,12 @@ export const JobDetail = (props: Props) => {
                         </div>
                     </div>
                     <div className="p-4">
+                        <Typography
+                            variant={'subtitle'}
+                            color={'text-gray-600'}
+                        >
+                            Job Description
+                        </Typography>
                         <Typography variant={'label'} color={'text-gray-400'}>
                             {data?.description}
                         </Typography>
