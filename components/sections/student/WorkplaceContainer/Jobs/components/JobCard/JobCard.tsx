@@ -11,6 +11,7 @@ import { MdContactPhone } from 'react-icons/md'
 import { RiTimeFill } from 'react-icons/ri'
 import { ApplyNowButton } from '../ApplyNowButton'
 import { InitialAvatar } from '@components/InitialAvatar'
+import moment from 'moment'
 
 // query
 
@@ -130,7 +131,7 @@ export const JobCard = ({ savedJobs, job }: Props) => {
                             <div className="flex gap-x-2 items-center">
                                 <FaLocationArrow className="text-[#D1D5DB]" />
                                 <Typography variant="muted" color="text-black">
-                                    {job?.addressLine1}
+                                    {`${job?.addressLine1} ${job?.suburb}`}
                                 </Typography>
                             </div>
                             <div className="flex gap-x-2 items-center">
@@ -143,12 +144,10 @@ export const JobCard = ({ savedJobs, job }: Props) => {
                         <div className="flex gap-x-2 items-center">
                             <RiTimeFill className="text-[#D1D5DB]" />
                             <Typography variant="small" color="text-black">
-                                {job?.expiry || 0}{' '}
-                                <span className="text-gray-400 text-xs ">
-                                    {job?.expiry === 1
-                                        ? 'Day Left'
-                                        : 'Days Left'}
-                                </span>
+                                {moment(
+                                    job?.createdAt,
+                                    'YYYYMMDDhhmmss'
+                                ).fromNow()}
                             </Typography>
                         </div>
                     </div>
