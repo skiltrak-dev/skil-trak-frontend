@@ -40,11 +40,11 @@ const urls = [
     `/workplace/jobs`,
     `/notifications/e-mails`,
     `/notifications/all-notifications`,
+    `/assessments/e-sign`,
+    `/assessments/e-sign/[id]`,
 ]
 
 const redirectUrls = urls?.map((url: string) => `${getRoutePath}${url}`)
-
-console.log({ redirectUrls })
 
 export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     const [mounted, setMounted] = useState(false)

@@ -28,7 +28,6 @@ export const EsignAction = ({
     const coordinator = rowData?.signers?.find(
         (s: any) => s?.user?.role === UserRoles.SUBADMIN
     )
-    console.log({ tableActionOptions })
     const id = getUserCredentials()?.id
     return (
         <div className="flex items-center gap-x-2">
