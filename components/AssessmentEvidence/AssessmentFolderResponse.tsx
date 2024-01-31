@@ -291,7 +291,8 @@ export const AssessmentResponse = ({
                                 </Typography>
                             </div>
                         ) : getAssessmentResponse.isSuccess &&
-                          eSignDocument?.data ? (
+                          eSignDocument?.data &&
+                          eSignDocument?.data?.length > 0 ? (
                             <ViewInitiatedSign
                                 document={eSignDocument?.data}
                                 courseId={courseId}

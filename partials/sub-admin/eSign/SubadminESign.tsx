@@ -53,7 +53,6 @@ export const SubadminESign = () => {
         {
             search: `${JSON.stringify({
                 ...filter,
-                role: 'all',
                 searching: true,
             })
                 .replaceAll('{', '')

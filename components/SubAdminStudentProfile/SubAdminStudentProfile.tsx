@@ -118,7 +118,7 @@ export const SubAdminStudentProfile = ({
                                     ? `/portals/sub-admin/students/${student?.id}/edit-student`
                                     : role === UserRoles.RTO
                                     ? `/portals/rto/students/${student?.id}/edit-student`
-                                    : ''
+                                    : '#'
                             )
                         }}
                         title="Edit Profile"

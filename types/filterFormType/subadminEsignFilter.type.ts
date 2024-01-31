@@ -1,10 +1,11 @@
+import { EsignDocumentStatus } from '@utils'
 import { UserStatus } from 'types/user.type'
 
 export interface SubadminESignFilterType {
     templateName: string
-    status: UserStatus
+    status: EsignDocumentStatus
     courseId: number
-    folderId: number
+    folderId: number | null
     studentName: string
     rtoName: string
     industryName: string
