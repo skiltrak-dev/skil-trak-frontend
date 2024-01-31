@@ -24,28 +24,30 @@ import { ProfileModal } from '@partials/industry'
 const getRoutePath = `/portals/industry`
 
 // Redirect Urls When not approved
-const redirectUrls = [
-    `${getRoutePath}/required-documents`,
-    `${getRoutePath}/tasks/add-a-schedule`,
-    `${getRoutePath}/tasks/add-a-schedule/schedule`,
-    `${getRoutePath}/tasks/available-shifts`,
-    `${getRoutePath}/students/current-students`,
-    `${getRoutePath}/students/future-candidates`,
-    `${getRoutePath}/students/request-a-volunteer`,
-    `${getRoutePath}/students/appointments`,
-    `${getRoutePath}/students/appointments/book-appointments`,
-    `${getRoutePath}/jobs/advertised-jobs`,
-    `${getRoutePath}/jobs/form`,
-    `${getRoutePath}/jobs/[id]`,
-    `${getRoutePath}/jobs/browse-candidates`,
-    `${getRoutePath}/general-information/unit-requirements`,
-    `${getRoutePath}/general-information/placement-workflow`,
-    `${getRoutePath}/general-information/industry-consultation`,
-    `${getRoutePath}/general-information/consultation`,
-    `${getRoutePath}/general-information/mou`,
-    `${getRoutePath}/e-mails`,
-    `${getRoutePath}/tasks/apply-for-rpl`,
+const urls = [
+    `/required-documents`,
+    `/tasks/add-a-schedule`,
+    `/tasks/add-a-schedule/schedule`,
+    `/tasks/available-shifts`,
+    `/students/current-students`,
+    `/students/future-candidates`,
+    `/students/request-a-volunteer`,
+    `/students/appointments`,
+    `/students/appointments/book-appointments`,
+    `/jobs/advertised-jobs`,
+    `/jobs/form`,
+    `/jobs/[id]`,
+    `/jobs/browse-candidates`,
+    `/general-information/unit-requirements`,
+    `/general-information/placement-workflow`,
+    `/general-information/industry-consultation`,
+    `/general-information/consultation`,
+    `/general-information/mou`,
+    `/e-mails`,
+    `/tasks/apply-for-rpl`,
 ]
+
+const redirectUrls = urls?.map((url: string) => `${getRoutePath}${url}`)
 
 interface IndustryLayoutProps {
     pageTitle?: PageTitleProps
