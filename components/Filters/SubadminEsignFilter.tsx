@@ -111,7 +111,7 @@ export const SubadminEsignFilter = ({
                     onChange={(e: OptionType) => {
                         onFilterChange({
                             ...filter,
-                            status: e?.value as UserStatus,
+                            status: e?.value as EsignDocumentStatus,
                         })
                     }}
                 />
@@ -128,7 +128,7 @@ export const SubadminEsignFilter = ({
                         onFilterChange({
                             ...filter,
                             courseId: e?.value,
-                            folderId: -1,
+                            folderId: null,
                         })
                     }}
                     loading={getCourses.isLoading}
@@ -143,10 +143,12 @@ export const SubadminEsignFilter = ({
                     name={'folderId'}
                     options={folderOptions}
                     placeholder={'Select Folder...'}
-                    value={folderOptions?.find(
-                        (folder: OptionType) =>
-                            folder?.value === Number(filter?.folderId)
-                    )}
+                    value={
+                        folderOptions?.find(
+                            (folder: OptionType) =>
+                                folder?.value === Number(filter?.folderId)
+                        ) || null
+                    }
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, folderId: e?.value })
                     }}

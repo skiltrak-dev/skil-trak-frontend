@@ -1,33 +1,22 @@
 import {
-    ActionButton,
     Badge,
-    Button,
     Card,
     EmptyData,
     LoadingAnimation,
     Table,
-    TableAction,
-    TableActionOption,
-    TechnicalError,
-    Typography,
+    TechnicalError
 } from '@components'
 import { PageHeading } from '@components/headings'
-import { UserRoles } from '@constants'
 import { useContextBar } from '@hooks'
-import { StudentCellInfo } from '@partials/sub-admin/students'
+import { CancelInitiateSign } from '@partials/sub-admin/assessmentEvidence/modal'
 import { CommonApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import React, { ReactElement, useState } from 'react'
-import { ViewSignersCB } from '../contextBar'
-import { checkListLength } from '@utils'
+import { EsignDocumentStatus } from '@utils'
 import { useRouter } from 'next/router'
+import { ReactElement, useState } from 'react'
 import { FaEdit, FaEye } from 'react-icons/fa'
-import { CancelInitiateSign } from '@partials/sub-admin/assessmentEvidence/modal'
-import { ListingEnum } from '../enums'
-import Link from 'next/link'
-import { RTOCellInfo } from '@partials/sub-admin/rto/components'
-import { IndustryCellInfo } from '@partials/sub-admin/Industries'
-import { CoordinatorCellInfo } from '../components'
+import { EsignAction, ListingDocumentsTab, SignersView } from '../components'
+import { ViewSignersCB } from '../contextBar'
 
 export const ReleasedEsignDocuments = () => {
     const router = useRouter()
@@ -37,7 +26,7 @@ export const ReleasedEsignDocuments = () => {
 
     const allDocuments = CommonApi.ESign.useSubadminEsignList(
         {
-            search: `role:${ListingEnum.RELEASED}`,
+            search: `initiatedBy:${true}`,
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         },
@@ -60,7 +49,7 @@ export const ReleasedEsignDocuments = () => {
         setModal(<CancelInitiateSign onCancel={onModalCancel} eSign={eSign} />)
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions = (rowData: any) => [
         {
             text: 'View',
             onClick: (eSign: any) => {
@@ -76,11 +65,18 @@ export const ReleasedEsignDocuments = () => {
         //     Icon: FaEdit,
         // },
         {
-            text: 'Cancel',
-            onClick: (eSign: any) => {
-                onCancelInitiateSignClicked(eSign)
-            },
-            Icon: FaEdit,
+            ...([
+                EsignDocumentStatus.ReSign,
+                EsignDocumentStatus.PENDING,
+            ].includes(rowData?.status)
+                ? {
+                      text: 'Cancel',
+                      onClick: (eSign: any) => {
+                          onCancelInitiateSignClicked(eSign)
+                      },
+                      Icon: FaEdit,
+                  }
+                : {}),
         },
     ]
 
@@ -89,116 +85,18 @@ export const ReleasedEsignDocuments = () => {
             accessorKey: 'template.name',
             header: () => <span>Document</span>,
             cell: (info) => (
-                <div className="flex flex-col gap-y-1.5">
-                    <Typography variant="small" semibold>
-                        {info.row.original?.template?.name}
-                    </Typography>
-
-                    <div>
-                        <Typography
-                            variant="xs"
-                            color={'text-gray-500'}
-                            semibold
-                        >
-                            Course
-                        </Typography>
-                        <Typography variant="small" semibold>
-                            {info.row.original?.template?.course?.title}
-                        </Typography>
-                    </div>
-                    <div>
-                        <Typography
-                            variant="xs"
-                            color={'text-gray-500'}
-                            semibold
-                        >
-                            Folder
-                        </Typography>
-                        <Link
-                            href={`/portals/sub-admin/students/223?tab=submissions&course=${info.row.original?.template?.course?.id}&folder=${info.row.original?.template?.folder?.id}`}
-                        >
-                            <Typography
-                                variant="small"
-                                color="text-info"
-                                semibold
-                            >
-                                {info.row.original?.template?.folder?.name}
-                            </Typography>
-                        </Link>
-                    </div>
-                </div>
+                <ListingDocumentsTab
+                    template={info.row.original?.template?.name}
+                    course={info.row.original?.template?.course}
+                    folder={info.row.original?.template?.folder}
+                />
             ),
         },
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return (
-                    <div className="flex items-center gap-x-4 gap-y-3 w-fit">
-                        {info.row?.original?.signers?.map((signer: any) => {
-                            switch (signer?.user?.role) {
-                                case UserRoles.STUDENT:
-                                    return (
-                                        <div>
-                                            <Typography
-                                                variant="xs"
-                                                bold
-                                                uppercase
-                                            >
-                                                {signer?.user?.role}
-                                            </Typography>
-                                            <StudentCellInfo student={signer} />
-                                        </div>
-                                    )
-                                case UserRoles.RTO:
-                                    return (
-                                        <div>
-                                            <Typography
-                                                variant="xs"
-                                                bold
-                                                uppercase
-                                            >
-                                                {signer?.user?.role}
-                                            </Typography>
-                                            <RTOCellInfo rto={signer} />
-                                        </div>
-                                    )
-                                case UserRoles.INDUSTRY:
-                                    return (
-                                        <div>
-                                            <Typography
-                                                variant="xs"
-                                                bold
-                                                uppercase
-                                            >
-                                                {signer?.user?.role}
-                                            </Typography>
-                                            <IndustryCellInfo
-                                                industry={signer}
-                                            />
-                                        </div>
-                                    )
-                                case UserRoles.SUBADMIN:
-                                    return (
-                                        <div>
-                                            <Typography
-                                                variant="xs"
-                                                bold
-                                                uppercase
-                                            >
-                                                {signer?.user?.role}
-                                            </Typography>
-                                            <CoordinatorCellInfo
-                                                subAdmin={signer}
-                                            />
-                                        </div>
-                                    )
-                                default:
-                                    return
-                            }
-                        })}
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <SignersView signers={info.row.original?.signers} />
+            ),
             header: () => <span>Signers</span>,
         },
         {
@@ -210,35 +108,14 @@ export const ReleasedEsignDocuments = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: ({ row }: any) => {
-                const signersRoles = row?.original?.signers?.map(
-                    (signer: any) => signer?.user?.role
-                )
+                const actionsData = tableActionOptions(row?.original)
                 return (
-                    <div className="flex items-center gap-x-2">
-                        {signersRoles.includes(UserRoles.SUBADMIN) && (
-                            <Button
-                                text={
-                                    row.original?.status === 'signed'
-                                        ? 'View Document'
-                                        : 'Sign Document'
-                                }
-                                onClick={() => {
-                                    router.push(
-                                        `/portals/sub-admin/e-sign/${row?.original?.id}`
-                                    )
-                                }}
-                            />
-                        )}
-                        <div className="flex gap-x-1 items-center">
-                            <TableAction
-                                options={tableActionOptions}
-                                rowItem={row.original}
-                                lastIndex={checkListLength<any>(
-                                    allDocuments?.data?.data as any
-                                )?.includes(row?.index)}
-                            />
-                        </div>
-                    </div>
+                    <EsignAction
+                        index={row?.index}
+                        rowData={row?.original}
+                        data={allDocuments?.data?.data}
+                        tableActionOptions={actionsData}
+                    />
                 )
             },
         },

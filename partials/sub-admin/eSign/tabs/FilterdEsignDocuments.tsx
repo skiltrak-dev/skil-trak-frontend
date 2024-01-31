@@ -4,22 +4,21 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
+    SessionExpireModal,
     Table,
     TableAction,
     TableActionOption,
     Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
-import { UserRoles } from '@constants'
-import { IndustryCellInfo } from '@partials/sub-admin/Industries'
-import { RTOCellInfo } from '@partials/sub-admin/rto/components'
-import { StudentCellInfo } from '@partials/sub-admin/students'
 import { ColumnDef } from '@tanstack/react-table'
 import { EsignDocumentStatus, checkListLength } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaEdit, FaEye } from 'react-icons/fa'
-import { CoordinatorCellInfo } from '../components'
+import { EsignAction, ListingDocumentsTab, SignersView } from '../components'
+import { CancelInitiateSign } from '@partials/sub-admin/assessmentEvidence/modal'
+import { ReactElement, useState } from 'react'
 
 export const FilterdEsignDocuments = ({
     setPage,
@@ -33,8 +32,15 @@ export const FilterdEsignDocuments = ({
     setItemPerPage: any
 }) => {
     const router = useRouter()
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const tableActionOptions: TableActionOption[] = [
+    const onModalCancel = () => setModal(null)
+
+    const onCancelInitiateSignClicked = (eSign: any) => {
+        setModal(<CancelInitiateSign onCancel={onModalCancel} eSign={eSign} />)
+    }
+
+    const tableActionOptions = (rowData: any) => [
         {
             text: 'View',
             onClick: (eSign: any) => {
@@ -44,15 +50,24 @@ export const FilterdEsignDocuments = ({
         },
         // {
         //     text: 'Edit',
-        //     onClick: (rto: any) => {
+        //     onClick: (eSign: any) => {
         //         // router.push(`/portals/admin/rto/${rto.id}/edit-profile`)
         //     },
         //     Icon: FaEdit,
         // },
         {
-            text: 'Cancel',
-            onClick: (rto: any) => {},
-            Icon: FaEdit,
+            ...([
+                EsignDocumentStatus.ReSign,
+                EsignDocumentStatus.PENDING,
+            ].includes(rowData?.status)
+                ? {
+                      text: 'Cancel',
+                      onClick: (eSign: any) => {
+                          onCancelInitiateSignClicked(eSign)
+                      },
+                      Icon: FaEdit,
+                  }
+                : null),
         },
     ]
 
@@ -61,116 +76,18 @@ export const FilterdEsignDocuments = ({
             accessorKey: 'template.name',
             header: () => <span>Document</span>,
             cell: (info) => (
-                <div className="flex flex-col gap-y-1.5 w-44">
-                    <Typography variant="small" semibold>
-                        {info.row.original?.template?.name}
-                    </Typography>
-
-                    <div>
-                        <Typography
-                            variant="xs"
-                            color={'text-gray-500'}
-                            semibold
-                        >
-                            Course
-                        </Typography>
-                        <Typography variant="small" semibold>
-                            {info.row.original?.template?.course?.title}
-                        </Typography>
-                    </div>
-                    <div>
-                        <Typography
-                            variant="xs"
-                            color={'text-gray-500'}
-                            semibold
-                        >
-                            Folder
-                        </Typography>
-                        <Link
-                            href={`/portals/sub-admin/students/223?tab=submissions&course=${info.row.original?.template?.course?.id}&folder=${info.row.original?.template?.folder?.id}`}
-                        >
-                            <Typography
-                                variant="small"
-                                color="text-info"
-                                semibold
-                            >
-                                {info.row.original?.template?.folder?.name}
-                            </Typography>
-                        </Link>
-                    </div>
-                </div>
+                <ListingDocumentsTab
+                    template={info.row.original?.template?.name}
+                    course={info.row.original?.template?.course}
+                    folder={info.row.original?.template?.folder}
+                />
             ),
         },
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return (
-                    <div className="flex items-center gap-x-4 gap-y-3 w-auto">
-                        {info.row?.original?.signers?.map((signer: any) => {
-                            switch (signer?.user?.role) {
-                                case UserRoles.STUDENT:
-                                    return (
-                                        <div>
-                                            <Typography
-                                                variant="xs"
-                                                bold
-                                                uppercase
-                                            >
-                                                {signer?.user?.role}
-                                            </Typography>
-                                            <StudentCellInfo student={signer} />
-                                        </div>
-                                    )
-                                case UserRoles.RTO:
-                                    return (
-                                        <div>
-                                            <Typography
-                                                variant="xs"
-                                                bold
-                                                uppercase
-                                            >
-                                                {signer?.user?.role}
-                                            </Typography>
-                                            <RTOCellInfo rto={signer} />
-                                        </div>
-                                    )
-                                case UserRoles.INDUSTRY:
-                                    return (
-                                        <div>
-                                            <Typography
-                                                variant="xs"
-                                                bold
-                                                uppercase
-                                            >
-                                                {signer?.user?.role}
-                                            </Typography>
-                                            <IndustryCellInfo
-                                                industry={signer}
-                                            />
-                                        </div>
-                                    )
-                                case UserRoles.SUBADMIN:
-                                    return (
-                                        <div>
-                                            <Typography
-                                                variant="xs"
-                                                bold
-                                                uppercase
-                                            >
-                                                {signer?.user?.role}
-                                            </Typography>
-                                            <CoordinatorCellInfo
-                                                subAdmin={signer}
-                                            />
-                                        </div>
-                                    )
-                                default:
-                                    return
-                            }
-                        })}
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <SignersView signers={info.row.original?.signers} />
+            ),
             header: () => <span>Signers</span>,
         },
         {
@@ -182,38 +99,23 @@ export const FilterdEsignDocuments = ({
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: ({ row }: any) => (
-                <div className="flex items-center gap-x-2">
-                    {row.original?.status !== EsignDocumentStatus.CANCELLED && (
-                        <Button
-                            text={
-                                row.original?.status === 'signed'
-                                    ? 'View Document'
-                                    : 'Sign Document'
-                            }
-                            onClick={() => {
-                                router.push(
-                                    `/portals/sub-admin/e-sign/${row?.original?.id}`
-                                )
-                            }}
-                        />
-                    )}
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={row.original}
-                            lastIndex={checkListLength<any>(
-                                eSign?.data?.data as any
-                            )?.includes(row?.index)}
-                        />
-                    </div>
-                </div>
-            ),
+            cell: ({ row }: any) => {
+                const actionsData = tableActionOptions(row?.original)
+                return (
+                    <EsignAction
+                        index={row?.index}
+                        rowData={row?.original}
+                        data={eSign?.data?.data}
+                        tableActionOptions={actionsData}
+                    />
+                )
+            },
         },
     ]
 
     return (
         <div className="flex flex-col gap-y-4 p-4">
+            {modal}
             <PageHeading
                 title={'Filtered Esign Documents'}
                 subtitle={'List of Filtered ESign Documents'}

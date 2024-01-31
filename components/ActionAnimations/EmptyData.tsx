@@ -30,7 +30,7 @@ export const EmptyData = ({
     // const Icon = icon || GiCardboardBox;
     return (
         <div
-            className="flex justify-center items-center"
+            className="flex justify-center items-center py-12"
             style={{ height: height || '70vh' }}
         >
             <div className="flex flex-col justify-center items-center p-16 rounded-lg">
@@ -63,7 +63,11 @@ export const EmptyData = ({
                 </p>
                 {actionLink && (
                     <div className="text-sm mt-4">
-                        <Link legacyBehavior href={actionLink} className="text-blue-500">
+                        <Link
+                            legacyBehavior
+                            href={actionLink}
+                            className="text-blue-500"
+                        >
                             Click Here
                         </Link>
                         {`to ${actionText || 'add now'}`}

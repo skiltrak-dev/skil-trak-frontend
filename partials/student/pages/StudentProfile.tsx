@@ -8,7 +8,6 @@ import { UserStatus } from '@types'
 import {
     ActionButton,
     AuthorizedUserComponent,
-    BackButton,
     Button,
     EmptyData,
     LoadingAnimation,
@@ -35,6 +34,7 @@ import {
     useNotification,
 } from '@hooks'
 
+import { UserRoles } from '@constants'
 import { AddWorkplace, DetailTabs } from '@partials/sub-admin/students'
 import { useActionModals } from '@partials/sub-admin/students/hooks/useActionModals'
 import { getLink, getUserCredentials } from '@utils'
@@ -45,8 +45,6 @@ import {
     FaFileImport,
     FaUserGraduate,
 } from 'react-icons/fa'
-import { UserRoles } from '@constants'
-import { AddNoteNotificationModal } from '@partials/sub-admin/students/modals'
 import { IoIosArrowRoundBack } from 'react-icons/io'
 
 export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
@@ -258,7 +256,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                             onClick={() => {
                                 router.push({
                                     pathname:
-                                        role === 'admin'
+                                        role === UserRoles.ADMIN
                                             ? '/portals/admin/appointment-type/create-appointment'
                                             : `/portals/sub-admin/tasks/appointments/create-appointment`,
                                     query: { student: data?.user?.id },

@@ -22,20 +22,22 @@ interface RtoLayoutProps {
 const getRoutePath = `/portals/rto`
 
 // Redirect Urls When not approved
-const redirectUrls = [
-    `${getRoutePath}/create`,
-    `${getRoutePath}/students`,
-    `${getRoutePath}/coordinators`,
-    `${getRoutePath}/students/[id]`,
-    `${getRoutePath}/industries/mous`,
-    `${getRoutePath}/coordinators/[id]`,
-    `${getRoutePath}/tasks/appointments`,
-    `${getRoutePath}/industries/workplaces`,
-    `${getRoutePath}/admins/contact-person`,
-    `${getRoutePath}/tasks/assessment-tools`,
-    `${getRoutePath}/industries/mous/[mouDetail]`,
-    `${getRoutePath}/tasks/appointments/create-appointments`,
+
+const urls = [
+    `/create`,
+    `/students`,
+    `/coordinators`,
+    `/students/[id]`,
+    `/industries/mous`,
+    `/coordinators/[id]`,
+    `/tasks/appointments`,
+    `/industries/workplaces`,
+    `/admins/contact-person`,
+    `/tasks/assessment-tools`,
+    `/industries/mous/[mouDetail]`,
+    `/tasks/appointments/create-appointments`,
 ]
+const redirectUrls = urls?.map((url: string) => `${getRoutePath}${url}`)
 
 export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
     const [mounted, setMounted] = useState(false)

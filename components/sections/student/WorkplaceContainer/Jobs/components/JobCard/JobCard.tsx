@@ -25,7 +25,6 @@ export enum jobType {
     PARTTIME = 'partTime',
 }
 export const JobCard = ({ savedJobs, job }: Props) => {
-    console.log('savedJobs', savedJobs)
     return (
         <>
             <div className="my-3 bg-white border rounded-2xl shadow-sm">

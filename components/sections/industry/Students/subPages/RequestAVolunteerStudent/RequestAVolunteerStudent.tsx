@@ -67,7 +67,7 @@ export const RequestAVolunteerStudent = () => {
                     <DocumentView title={'Request A Volunteer Student'}>
                         <Typography variant={'title'}>Section 1</Typography>
                         <div className="flex flex-col gap-y-3 my-2.5">
-                            <Typography>
+                            {/* <Typography>
                                 Lorem ipsum dolor sit amet. Quo dolore repellat
                                 qui culpa voluptates est dolor perspiciatis qui
                                 voluptatem placeat. Eos fugiat internos aut
@@ -87,7 +87,7 @@ export const RequestAVolunteerStudent = () => {
                                 doloremque! Est earum voluptas nam vero sequi
                                 sed maiores esse et quidem dicta sed eveniet
                                 animi.
-                            </Typography>
+                            </Typography> */}
 
                             <div className="w-full mt-6 flex gap-x-2">
                                 {/* TODO 500 error */}
