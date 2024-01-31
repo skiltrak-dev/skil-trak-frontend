@@ -104,7 +104,6 @@ export const TicketMessageCard = ({
                             />
                         </form>
                     </FormProvider>
-                    {console.log('reply id admin', replyId)}
                 </>
             </Modal>
         )

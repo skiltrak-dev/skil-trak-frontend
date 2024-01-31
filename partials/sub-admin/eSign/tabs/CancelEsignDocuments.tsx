@@ -4,25 +4,17 @@ import {
     EmptyData,
     LoadingAnimation,
     Table,
-    TableActionOption,
     TechnicalError,
-    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
-import { UserRoles } from '@constants'
 import { useContextBar } from '@hooks'
-import { IndustryCellInfo } from '@partials/sub-admin/Industries'
 import { CancelInitiateSign } from '@partials/sub-admin/assessmentEvidence/modal'
-import { RTOCellInfo } from '@partials/sub-admin/rto/components'
-import { StudentCellInfo } from '@partials/sub-admin/students'
 import { CommonApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { EsignDocumentStatus } from '@utils'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
-import { FaEdit } from 'react-icons/fa'
-import { CoordinatorCellInfo } from '../components'
+import { ListingDocumentsTab, SignersView } from '../components'
 
 export const CancelEsignDocuments = () => {
     const router = useRouter()
@@ -49,138 +41,23 @@ export const CancelEsignDocuments = () => {
         setModal(<CancelInitiateSign onCancel={onModalCancel} eSign={eSign} />)
     }
 
-    const tableActionOptions: TableActionOption[] = [
-        {
-            text: 'Edit',
-            onClick: (eSign: any) => {
-                // router.push(`/portals/admin/rto/${rto.id}/edit-profile`)
-            },
-            Icon: FaEdit,
-        },
-        {
-            text: 'Cancel',
-            onClick: (eSign: any) => {
-                onCancelInitiateSignClicked(eSign)
-            },
-            Icon: FaEdit,
-        },
-    ]
-
     const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'template.name',
             header: () => <span>Document</span>,
             cell: (info) => (
-                <div className="flex flex-col gap-y-1.5">
-                    <Typography variant="small" semibold>
-                        {info.row.original?.template?.name}
-                    </Typography>
-
-                    <div>
-                        <Typography
-                            variant="xs"
-                            color={'text-gray-500'}
-                            semibold
-                        >
-                            Course
-                        </Typography>
-                        <Typography variant="small" semibold>
-                            {info.row.original?.template?.course?.title}
-                        </Typography>
-                    </div>
-                    <div>
-                        <Typography
-                            variant="xs"
-                            color={'text-gray-500'}
-                            semibold
-                        >
-                            Folder
-                        </Typography>
-                        <Link
-                            href={`/portals/sub-admin/students/223?tab=submissions&course=${info.row.original?.template?.course?.id}&folder=${info.row.original?.template?.folder?.id}`}
-                        >
-                            <Typography
-                                variant="small"
-                                color="text-info"
-                                semibold
-                            >
-                                {info.row.original?.template?.folder?.name}
-                            </Typography>
-                        </Link>
-                    </div>
-                </div>
+                <ListingDocumentsTab
+                    template={info.row.original?.template?.name}
+                    course={info.row.original?.template?.course}
+                    folder={info.row.original?.template?.folder}
+                />
             ),
         },
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return (
-                    <div className="flex items-center gap-x-4 gap-y-3 w-fit">
-                        {info.row?.original?.signers?.map((signer: any) => {
-                            switch (signer?.user?.role) {
-                                case UserRoles.STUDENT:
-                                    return (
-                                        <div>
-                                            <Typography
-                                                variant="xs"
-                                                bold
-                                                uppercase
-                                            >
-                                                {signer?.user?.role}
-                                            </Typography>
-                                            <StudentCellInfo student={signer} />
-                                        </div>
-                                    )
-                                case UserRoles.RTO:
-                                    return (
-                                        <div>
-                                            <Typography
-                                                variant="xs"
-                                                bold
-                                                uppercase
-                                            >
-                                                {signer?.user?.role}
-                                            </Typography>
-                                            <RTOCellInfo rto={signer} />
-                                        </div>
-                                    )
-                                case UserRoles.INDUSTRY:
-                                    return (
-                                        <div>
-                                            <Typography
-                                                variant="xs"
-                                                bold
-                                                uppercase
-                                            >
-                                                {signer?.user?.role}
-                                            </Typography>
-                                            <IndustryCellInfo
-                                                industry={signer}
-                                            />
-                                        </div>
-                                    )
-                                case UserRoles.SUBADMIN:
-                                    return (
-                                        <div>
-                                            <Typography
-                                                variant="xs"
-                                                bold
-                                                uppercase
-                                            >
-                                                {signer?.user?.role}
-                                            </Typography>
-                                            <CoordinatorCellInfo
-                                                subAdmin={signer}
-                                            />
-                                        </div>
-                                    )
-                                default:
-                                    return
-                            }
-                        })}
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <SignersView signers={info.row.original?.signers} />
+            ),
             header: () => <span>Signers</span>,
         },
         {

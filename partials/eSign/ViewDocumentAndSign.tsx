@@ -160,8 +160,6 @@ export const ViewDocumentAndSign = () => {
         (s: any) => s?.type === FieldsTypeEnum.Signature || s?.isCustom
     )
 
-    console.log({ customFieldsAndSign })
-
     const TabsView = () => {
         return (
             <Card noPadding>

@@ -19,12 +19,13 @@ import { CommonApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import React, { ReactElement, useState } from 'react'
 import { ViewSignersCB } from '../contextBar'
-import { checkListLength } from '@utils'
+import { EsignDocumentStatus, checkListLength } from '@utils'
 import { useRouter } from 'next/router'
 import { FaEdit, FaEye } from 'react-icons/fa'
 import { CancelInitiateSign } from '@partials/sub-admin/assessmentEvidence/modal'
 import { ListingEnum } from '../enums'
 import Link from 'next/link'
+import { EsignAction, ListingDocumentsTab } from '../components'
 
 export const StudentsEsignDocuments = () => {
     const router = useRouter()
@@ -57,7 +58,7 @@ export const StudentsEsignDocuments = () => {
         setModal(<CancelInitiateSign onCancel={onModalCancel} eSign={eSign} />)
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions = (rowData: any) => [
         {
             text: 'View',
             onClick: (eSign: any) => {
@@ -73,11 +74,18 @@ export const StudentsEsignDocuments = () => {
         //     Icon: FaEdit,
         // },
         {
-            text: 'Cancel',
-            onClick: (eSign: any) => {
-                onCancelInitiateSignClicked(eSign)
-            },
-            Icon: FaEdit,
+            ...([
+                EsignDocumentStatus.ReSign,
+                EsignDocumentStatus.PENDING,
+            ].includes(rowData?.status)
+                ? {
+                      text: 'Cancel',
+                      onClick: (eSign: any) => {
+                          onCancelInitiateSignClicked(eSign)
+                      },
+                      Icon: FaEdit,
+                  }
+                : {}),
         },
     ]
 
@@ -86,44 +94,11 @@ export const StudentsEsignDocuments = () => {
             accessorKey: 'template.name',
             header: () => <span>Document</span>,
             cell: (info) => (
-                <div className="flex flex-col gap-y-1.5">
-                    <Typography variant="small" semibold>
-                        {info.row.original?.template?.name}
-                    </Typography>
-
-                    <div>
-                        <Typography
-                            variant="xs"
-                            color={'text-gray-500'}
-                            semibold
-                        >
-                            Course
-                        </Typography>
-                        <Typography variant="small" semibold>
-                            {info.row.original?.template?.course?.title}
-                        </Typography>
-                    </div>
-                    <div>
-                        <Typography
-                            variant="xs"
-                            color={'text-gray-500'}
-                            semibold
-                        >
-                            Folder
-                        </Typography>
-                        <Link
-                            href={`/portals/sub-admin/students/223?tab=submissions&course=${info.row.original?.template?.course?.id}&folder=${info.row.original?.template?.folder?.id}`}
-                        >
-                            <Typography
-                                variant="small"
-                                color="text-info"
-                                semibold
-                            >
-                                {info.row.original?.template?.folder?.name}
-                            </Typography>
-                        </Link>
-                    </div>
-                </div>
+                <ListingDocumentsTab
+                    template={info.row.original?.template?.name}
+                    course={info.row.original?.template?.course}
+                    folder={info.row.original?.template?.folder}
+                />
             ),
         },
         {
@@ -166,35 +141,14 @@ export const StudentsEsignDocuments = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: ({ row }: any) => {
-                const signersRoles = row?.original?.signers?.map(
-                    (signer: any) => signer?.user?.role
-                )
+                const actionsData = tableActionOptions(row?.original)
                 return (
-                    <div className="flex items-center gap-x-2">
-                        {signersRoles.includes(UserRoles.SUBADMIN) && (
-                            <Button
-                                text={
-                                    row.original?.status === 'signed'
-                                        ? 'View Document'
-                                        : 'Sign Document'
-                                }
-                                onClick={() => {
-                                    router.push(
-                                        `/portals/sub-admin/e-sign/${row?.original?.id}`
-                                    )
-                                }}
-                            />
-                        )}
-                        <div className="flex gap-x-1 items-center">
-                            <TableAction
-                                options={tableActionOptions}
-                                rowItem={row.original}
-                                lastIndex={checkListLength<any>(
-                                    studentDocuments?.data?.data as any
-                                )?.includes(row?.index)}
-                            />
-                        </div>
-                    </div>
+                    <EsignAction
+                        index={row?.index}
+                        rowData={row?.original}
+                        data={studentDocuments?.data?.data}
+                        tableActionOptions={actionsData}
+                    />
                 )
             },
         },

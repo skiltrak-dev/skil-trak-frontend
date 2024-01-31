@@ -27,20 +27,24 @@ interface StudentLayoutProps {
 }
 
 const getRoutePath = `/portals/student`
-const redirectUrls = [
-    `${getRoutePath}/workplace/my-workplace`,
-    `${getRoutePath}/workplace/my-workplace/have-workplace`,
-    `${getRoutePath}/workplace/my-workplace/dont-have-workplace`,
-    `${getRoutePath}/workplace/appointments`,
-    `${getRoutePath}/workplace/book-appointment`,
-    `${getRoutePath}/assessments/assessment-evidence`,
-    `${getRoutePath}/assessments/assessment-tools`,
-    `${getRoutePath}/assessments/schedule`,
-    `${getRoutePath}/assessments/schedule/add-schedule`,
-    `${getRoutePath}/workplace/jobs`,
-    `${getRoutePath}/notifications/e-mails`,
-    `${getRoutePath}/notifications/all-notifications`,
+const urls = [
+    `/workplace/my-workplace`,
+    `/workplace/my-workplace/have-workplace`,
+    `/workplace/my-workplace/dont-have-workplace`,
+    `/workplace/appointments`,
+    `/workplace/book-appointment`,
+    `/assessments/assessment-evidence`,
+    `/assessments/assessment-tools`,
+    `/assessments/schedule`,
+    `/assessments/schedule/add-schedule`,
+    `/workplace/jobs`,
+    `/notifications/e-mails`,
+    `/notifications/all-notifications`,
+    `/assessments/e-sign`,
+    `/assessments/e-sign/[id]`,
 ]
+
+const redirectUrls = urls?.map((url: string) => `${getRoutePath}${url}`)
 
 export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     const [mounted, setMounted] = useState(false)
@@ -129,11 +133,12 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                     )
                 } else if (
                     router?.pathname ===
-                    `/portals/student/assessments/e-sign/[id]`
+                        `/portals/student/assessments/e-sign/[id]` ||
+                    (profileCompletion && profileCompletion === 100)
                 ) {
                     setModal(null)
                 }
-            } else {
+            } else if (profileCompletion && profileCompletion === 100) {
                 setModal(null)
             }
         }
