@@ -15,13 +15,21 @@ import {
 import { RightSidebarData } from './components/RightSidebarData/RightSidebarData'
 
 // Context
-import { useRequestAVolunteerMutation } from '@queries'
+import { useRequestAVolunteerMutation, useIndustryProfileQuery } from '@queries'
 import { useContextBar, useNotification } from 'hooks'
 import { useRouter } from 'next/router'
 
 export const RequestAVolunteerStudent = () => {
     const { setContent, show, hide } = useContextBar()
     const router = useRouter()
+
+    const { data, isSuccess, isLoading } = useIndustryProfileQuery()
+
+    const getCourses = data.courses.map((course: any) => ({
+        label: `${course?.title} ${course?.code}`,
+        value: course?.id,
+    }))
+    console.log('getCourses', getCourses)
 
     // query
     const [requestAVolunteer, requestAVolunteerResult] =

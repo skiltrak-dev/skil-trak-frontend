@@ -46,10 +46,12 @@ export const JobCard = ({ savedJobs, job }: Props) => {
                             </Link>
 
                             <div className="flex items-center gap-x-2 mb-2">
-                                <InitialAvatar
-                                    imageUrl={job?.industry?.user?.avatar}
-                                    name={job?.industry?.user?.name || 'NA'}
-                                />
+                                {job?.industry?.user?.name && (
+                                    <InitialAvatar
+                                        imageUrl={job?.industry?.user?.avatar}
+                                        name={job?.industry?.user?.name}
+                                    />
+                                )}
                                 {/* <Image
                                         className="rounded-full"
                                         src={

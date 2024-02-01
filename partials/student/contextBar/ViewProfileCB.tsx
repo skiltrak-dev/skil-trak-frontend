@@ -130,7 +130,7 @@ export const ViewProfileCB = () => {
                             </p>
                         </div>
                         <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                            Date Range
+                            Age Range
                         </div>
                     </div>
 
