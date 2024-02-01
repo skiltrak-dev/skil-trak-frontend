@@ -85,7 +85,7 @@ const RTOs: NextPageWithLayout = () => {
             text: 'View',
             onClick: (rto: any) => {
                 router.push(
-                    `/portals/sub-admin/users/rtos/${rto.original.id}?tab=overview`
+                    `/portals/sub-admin/users/rtos/${rto?.id}?tab=overview`
                 )
                 setLink('subadmin-rtos', router)
             },

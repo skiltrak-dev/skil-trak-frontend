@@ -110,16 +110,7 @@ export const AddIndividualStudentForm = () => {
             value: '47-56',
         },
     ]
-    // <Select
-    //                             label={'Select Age'}
-    //                             name={'age'}
-    //                             options={ageOptions}
-    //                             placeholder={'Select Age...'}
-    //                             // loading={rtoResponse.isLoading}
-    //                             // onChange={}
-    //                             validationIcons
-    //                             onlyValue
-    //                         />
+    
     return (
         <>
             <ShowErrorNotifications result={addStudentResult} />

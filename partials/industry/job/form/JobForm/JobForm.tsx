@@ -38,7 +38,6 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
     const [selectedJobType, setSelectedJobType] = useState<any>(null)
     const sectorResponse = AuthApi.useSectors({})
 
-
     useEffect(() => {
         if (sectorResponse.data?.length) {
             const options = sectorResponse.data?.map((sector: any) => ({
@@ -108,7 +107,11 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
         defaultValues: initialValues,
         mode: 'all',
     })
+    const sectorIds = sectorOptions?.filter((sector: any) =>
+        selectedSector?.includes(sector?.value)
+    )
 
+    
 
     return (
         <FormProvider {...methods}>
@@ -137,16 +140,13 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                             name={'employmentType'}
                             options={jobType}
                             value={jobType?.find(
-                                (job: any) =>
-                                    job?.value === selectedJobType
+                                (job: any) => job === selectedJobType
                             )}
                             onlyValue
                             onChange={(e: any) => {
                                 setSelectedJobType(e)
                             }}
                             required
-                          
-                           
                         />
                         <Select
                             // defaultValue={initialValues?.sectors || {}}
@@ -158,7 +158,9 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                                 selectedSector?.includes(sector?.value)
                             )}
                             onChange={(e: any) => {
-                                setSelectedSector(e)
+                                setSelectedSector(
+                                    e || sectorIds.map((ids: any) => ids.value)
+                                )
                             }}
                             multi
                             loading={sectorResponse.isLoading}
