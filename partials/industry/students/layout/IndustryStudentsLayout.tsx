@@ -40,7 +40,7 @@ export const IndustryStudentsLayout = ({
                         </Link>
                     </li>
 
-                    <li>
+                    {/* <li>
                         <Link
                             legacyBehavior
                             href="/portals/industry/students/future-candidates"
@@ -57,7 +57,7 @@ export const IndustryStudentsLayout = ({
                                 </span>
                             </a>
                         </Link>
-                    </li>
+                    </li> */}
 
                     <li>
                         <Link

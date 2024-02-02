@@ -17,31 +17,31 @@ import { useContextBar } from 'hooks'
 import { AdForRPL } from '@components/sections'
 
 export const GeneralInfoPrimaryActions = [
-    {
-        link: 'general-information/unit-requirements',
-        title: 'Unit Requirements',
-        description: 'Some helping text',
-        // image: null, //"./images/dashboardbtn3.png",
-        animation: Animations.Industry.GeneralInfo.UnitRequirements,
-    },
-    {
-        link: 'general-information/placement-workflow',
-        title: 'Placement Workflow',
-        description: 'Some helping text',
-        // image: null, //"./images/dashboardbtn4.png",
-        animation: Animations.Industry.GeneralInfo.Placement,
-    },
+    // {
+    //     link: 'general-information/unit-requirements',
+    //     title: 'Unit Requirements',
+    //     description: ' ',
+    //     // image: null, //"./images/dashboardbtn3.png",
+    //     animation: Animations.Industry.GeneralInfo.UnitRequirements,
+    // },
+    // {
+    //     link: 'general-information/placement-workflow',
+    //     title: 'Placement Workflow',
+    //     description: ' ',
+    //     // image: null, //"./images/dashboardbtn4.png",
+    //     animation: Animations.Industry.GeneralInfo.Placement,
+    // },
     {
         link: 'general-information/industry-consultation',
         title: 'Industry Consultation',
-        description: 'Some helping text',
+        description: ' ',
         // image: null, //"./images/dashboardbtn4.png",
         animation: Animations.Industry.GeneralInfo.IndustryConsultation,
     },
     {
         link: 'general-information/mou',
         title: 'MoU',
-        description: 'Some helping text',
+        description: ' ',
         // image: null, //"./images/dashboardbtn4.png",
         animation: Animations.Industry.GeneralInfo.Signature,
     },

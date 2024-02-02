@@ -1,5 +1,5 @@
-import { Button, Typography } from '@components'
-import React, { ReactElement, useState } from 'react'
+import { Button } from '@components'
+import { ReactElement, useState } from 'react'
 import { InitiateSigningModal } from '../modal'
 
 export const AgreementInitiate = ({

@@ -24,7 +24,6 @@ const Appointments: NextPageWithLayout = () => {
     return (
         <div>
             <div className="flex items-center justify-between">
-                <Typography>Rto Appointments</Typography>
                 <div id="create-appointment">
                     <Button
                         text={'Create Appointment'}

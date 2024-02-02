@@ -1,6 +1,7 @@
 import { InitialAvatar } from '@components/InitialAvatar'
 import { Typography } from '@components/Typography'
 import { Card } from '@components/cards'
+import { ellipsisText } from '@utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { HiCurrencyDollar } from 'react-icons/hi2'
@@ -24,24 +25,17 @@ export const RecentJobCard = ({
                     <div className="flex flex-col gap-y-1 px-4 pt-4 h-[108px]">
                         <div title="title">
                             <Typography variant="title">
-                                {title?.length <= 40
-                                    ? title
-                                    : title?.substr(0, 40) + '...'}
+                                {ellipsisText(title, 40)}
                             </Typography>
                         </div>
                         <div className="flex items-center flex-row gap-x-2">
                             <div>
-                                {/* <Image
-                                    className="rounded-full"
-                                    src={avatar}
-                                    alt="avatar"
-                                    width={40}
-                                    height={40}
-                                /> */}
-                                <InitialAvatar
-                                    name={industry?.user?.name || 'N/A'}
-                                    imageUrl="#"
-                                />
+                                {industry?.user?.name && (
+                                    <InitialAvatar
+                                        name={industry?.user?.name}
+                                        imageUrl="#"
+                                    />
+                                )}
                             </div>
                             <div>
                                 <Typography variant="small">
@@ -58,9 +52,7 @@ export const RecentJobCard = ({
                             </div>
                             <div title={suburb}>
                                 <Typography variant="small">
-                                    {suburb?.length <= 14
-                                        ? suburb
-                                        : suburb?.substr(0, 14) + '...'}
+                                    {ellipsisText(industry?.suburb, 14)}
                                 </Typography>
                             </div>
                         </div>
@@ -100,25 +92,23 @@ export const RecentJobCard = ({
                                     variant="small"
                                     color="text-gray-400"
                                 >
-                                    {description?.length <= 100
-                                        ? description
-                                        : description?.substr(0, 100) + '...'}
+                                    {ellipsisText(description, 100)}
                                 </Typography>
                             </div>
 
-                            <div className='whitespace-nowrap flex flex-wrap gap-2'>
-                            {sectors?.map((sector: any, index: any) => (
-                                <span
-                                    title={sector?.name}
-                                    key={index}
-                                    className="py-0.5 px-2 text-xs rounded-full border text-center text-blue-400 border-blue-400"
-                                >
-                                    {sector?.name?.length <= 8
-                                        ? sector?.name
-                                        : sector?.name.substr(0, 8) + '...' ||
-                                          'N/A'}
-                                </span>
-                            ))}
+                            <div className="whitespace-nowrap flex flex-wrap gap-2">
+                                {sectors?.map((sector: any, index: any) => (
+                                    <span
+                                        title={sector?.name}
+                                        key={index}
+                                        className="py-0.5 px-2 text-xs rounded-full border text-center text-blue-400 border-blue-400"
+                                    >
+                                        {sector?.name?.length <= 8
+                                            ? sector?.name
+                                            : sector?.name.substr(0, 8) +
+                                                  '...' || 'N/A'}
+                                    </span>
+                                ))}
                             </div>
                         </div>
 

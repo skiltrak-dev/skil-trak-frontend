@@ -38,22 +38,26 @@ export const WebsiteApplied = () => {
         )
     }
     // query
-    const { data, isLoading, isError } = IndustryApi.Job.useAppliedUser(
-        {
-            id: Number(router.query?.id),
-            search: `${JSON.stringify({ ...filter, type: 'appliedFromWebsite' })
-                .replaceAll('{', '')
-                .replaceAll('}', '')
-                .replaceAll('"', '')
-                .trim()}`,
-            sort: '-title',
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        },
-        {
-            skip: !router.query?.id,
-        }
-    )
+    const { data, isLoading, isError, isSuccess } =
+        IndustryApi.Job.useAppliedUser(
+            {
+                id: Number(router.query?.id),
+                search: `${JSON.stringify({
+                    ...filter,
+                    type: 'appliedFromWebsite',
+                })
+                    .replaceAll('{', '')
+                    .replaceAll('}', '')
+                    .replaceAll('"', '')
+                    .trim()}`,
+                sort: '-title',
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            {
+                skip: !router.query?.id,
+            }
+        )
 
     const TableActionOption = [
         {
@@ -178,7 +182,7 @@ export const WebsiteApplied = () => {
                 {isError && <TechnicalError />}
                 {isLoading ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : data?.data && data?.data.length ? (
+                ) : data?.data && data?.data.length && isSuccess ? (
                     <Table
                         columns={Columns}
                         data={data.data}
@@ -213,10 +217,12 @@ export const WebsiteApplied = () => {
                         }}
                     </Table>
                 ) : (
-                    !isError && (
+                    !isSuccess && (
                         <EmptyData
-                            title={'No Advertsed Job!'}
-                            description={'You have not advertsed any Job yet'}
+                            title={'No Application!'}
+                            description={
+                                'None of the students have applied yet'
+                            }
                             height={'50vh'}
                         />
                     )

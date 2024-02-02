@@ -89,7 +89,7 @@ const SubAdminTasks: NextPageWithLayout = () => {
         },
         {
             title: 'Assessment Submissions',
-            description: 'Some helping text',
+            description: ' ',
             link: 'tasks/assessment-evidence?tab=pending',
             animation: Animations.Student.Appointments.AssessmentEvidence,
             id: 'assessment-evidence',

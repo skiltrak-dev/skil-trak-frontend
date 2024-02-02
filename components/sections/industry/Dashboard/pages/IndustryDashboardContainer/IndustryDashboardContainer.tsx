@@ -31,13 +31,13 @@ export const PrimaryActions = [
     {
         link: 'required-documents',
         title: 'Documentation Required',
-        description: 'Some helping text',
+        description: ' ',
         animation: Animations.Industry.Dashboard.RequiredDocuments,
     },
     {
         link: '/under-construction',
         title: 'Request a Volunteer',
-        description: 'Some helping text',
+        description: ' ',
         animation: Animations.Industry.Dashboard.RequestVolunteer,
     },
 ]
@@ -881,7 +881,7 @@ export const IndustryDashboardContainer = () => {
     const onCancel = () => {
         setModal(null)
     }
-    
+
     // useEffect(() => {
     //     if (documents && documents.length === 4) {
     //         setModal(

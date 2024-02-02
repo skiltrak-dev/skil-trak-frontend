@@ -216,8 +216,10 @@ export const PortalApplied = () => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No Advertsed Job!'}
-                            description={'You have not advertsed any Job yet'}
+                            title={'No Application!'}
+                            description={
+                                'None of the students have applied yet'
+                            }
                             height={'50vh'}
                         />
                     )
