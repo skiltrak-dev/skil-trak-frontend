@@ -56,4 +56,8 @@ export const industriesEndpoints = (
         query: (id) => `jobs/view-related/${id}`,
         providesTags: ['Industry'],
     }),
+    getAdvertisedJobCount: builder.query<any, number>({
+        query: (id) => `jobs/${id}/increment-views`,
+        providesTags: ['Industry'],
+    }),
 })

@@ -11,6 +11,7 @@ import {
     TableAction,
     TableActionOption,
     TechnicalError,
+    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -143,20 +144,31 @@ export const Jobs = () => {
                 )
             },
         },
+        // {
+        //     header: () => <span>Contact Person</span>,
+        //     accessorKey: 'contactPerson',
+        //     cell: (info) => {
+        //         return (
+        //             <div className="flex items-center gap-x-2">
+        //                 {info.row.original.contactPerson && (
+        //                     <InitialAvatar
+        //                         name={info.row.original.contactPerson}
+        //                         small
+        //                     />
+        //                 )}
+        //                 <p>{info.row.original.contactPerson}</p>
+        //             </div>
+        //         )
+        //     },
+        // },
         {
-            header: () => <span>Contact Person</span>,
-            accessorKey: 'contactPerson',
+            header: () => <span>Views</span>,
+            accessorKey: 'views',
             cell: (info) => {
                 return (
-                    <div className="flex items-center gap-x-2">
-                        {info.row.original.contactPerson && (
-                            <InitialAvatar
-                                name={info.row.original.contactPerson}
-                                small
-                            />
-                        )}
-                        <p>{info.row.original.contactPerson}</p>
-                    </div>
+                    <Typography variant="small" semibold>
+                        {info.row.original?.views}
+                    </Typography>
                 )
             },
         },

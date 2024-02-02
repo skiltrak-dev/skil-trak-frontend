@@ -4,6 +4,8 @@ import React, { ReactElement, ReactNode, useState } from 'react'
 import { EsignDocumentStatus, getUserCredentials } from 'utils'
 import { InitiateSigningModal, RequestResign } from '../modal'
 import { UserRoles } from '@constants'
+import { TiUser } from 'react-icons/ti'
+import { MdEmail } from 'react-icons/md'
 
 export const CheckAgreementSignedStatus = ({
     document,
@@ -92,14 +94,38 @@ export const CheckAgreementSignedStatus = ({
                                             : 'grid-cols-3'
                                     } border-t-2 border-[#D9D9D9] py-2`}
                                 >
-                                    <Typography
-                                        variant="small"
-                                        color={'text-muted-dark'}
-                                        medium
-                                        capitalize
-                                    >
-                                        {signer?.user?.role}
-                                    </Typography>
+                                    <div>
+                                        <Typography
+                                            variant="xs"
+                                            color={'text-black'}
+                                            semibold
+                                            uppercase
+                                        >
+                                            {signer?.user?.role}
+                                        </Typography>
+                                        <div className="flex items-center">
+                                            <TiUser className="text-sm" />
+                                            <Typography
+                                                variant="xs"
+                                                color={'text-gray-700'}
+                                                medium
+                                                capitalize
+                                            >
+                                                {signer?.user?.name}
+                                            </Typography>
+                                        </div>
+                                        <div className="flex items-center">
+                                            <MdEmail className="text-sm min-w-4" />
+                                            <Typography
+                                                variant="xs"
+                                                color={'text-gray-700'}
+                                                medium
+                                                capitalize
+                                            >
+                                                {signer?.user?.email}
+                                            </Typography>
+                                        </div>
+                                    </div>
                                     <Typography
                                         variant="small"
                                         color={

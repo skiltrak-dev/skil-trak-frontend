@@ -2,8 +2,8 @@ import { AdminApi } from '@queries'
 import { useNotification } from '@hooks'
 import { Modal, ShowErrorNotifications, TextArea } from '@components'
 
-import { useChangeStatus } from '../hooks'
 import { useEffect, useState } from 'react'
+import { useChangeStatus } from '../hooks'
 
 export const ApproveVolunteerModal = ({
     onCancel,

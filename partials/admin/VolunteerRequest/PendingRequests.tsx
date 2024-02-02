@@ -32,8 +32,8 @@ import {
     CancelVolunteerModal,
     RejectVolunteerModal,
 } from './modals'
-import { VolunteerRequestEnum } from './enum'
 import { FaCheckCircle } from 'react-icons/fa'
+import { VolunteerRequestEnum } from './enum'
 
 export const PendingRequests = () => {
     const navBar = useNavbar()
@@ -93,13 +93,13 @@ export const PendingRequests = () => {
             },
             Icon: FaCheckCircle,
         },
-        {
-            text: 'Cancel',
-            onClick: (volunteer: any) => {
-                onCancelRequest(volunteer)
-            },
-            Icon: IoMdCloseCircle,
-        },
+        // {
+        //     text: 'Cancel',
+        //     onClick: (volunteer: any) => {
+        //         onCancelRequest(volunteer)
+        //     },
+        //     Icon: IoMdCloseCircle,
+        // },
         {
             text: 'Reject',
             onClick: (volunteer: any) => {

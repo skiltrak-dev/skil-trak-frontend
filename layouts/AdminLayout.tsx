@@ -117,7 +117,7 @@ const routes: Route[] = [
     },
     {
         text: 'Volunteer Request',
-        path: getRoutePath('/volunteer-requests'),
+        path: getRoutePath('/volunteer-requests?tab=pending'),
         Icon: MdVolunteerActivism,
     },
     {
