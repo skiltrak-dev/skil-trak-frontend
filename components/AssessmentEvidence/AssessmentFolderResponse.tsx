@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
 // components
 import {
@@ -65,6 +65,9 @@ export const AssessmentResponse = ({
 
     const { notification } = useNotification()
 
+    // const folderData = useMemo(() => folder, [folder])
+    // const studentMemoizedData = useMemo(() => studentData, [studentData])
+
     // query
     const [addComment, addCommentResult] = useAddCommentOnAssessmentMutation()
     const eSignDocument = CommonApi.ESign.useStudentEsignDocument(
@@ -78,7 +81,10 @@ export const AssessmentResponse = ({
         }
     )
     const getTemplate = CommonApi.ESign.useESignTemplateDetail(
-        { folder: Number(folder?.id), userId: studentData?.rto?.user?.id },
+        {
+            folder: Number(folder?.id),
+            userId: studentData?.rto?.user?.id,
+        },
         {
             skip: !folder,
             refetchOnMountOrArgChange: true,
@@ -305,7 +311,9 @@ export const AssessmentResponse = ({
                                 }}
                             />
                         ) : getAssessmentResponse.isSuccess &&
-                          getTemplate?.data ? (
+                          getTemplate.isSuccess &&
+                          getTemplate?.data &&
+                          getTemplate?.data?.length > 0 ? (
                             <AgreementInitiate
                                 courseId={courseId}
                                 folder={folder}

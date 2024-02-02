@@ -20,15 +20,15 @@ import { AuthUtils } from '@utils'
 export const TaskPrimaryActions = [
     {
         link: 'required-documents',
-        title: 'Documentation Required',
-        description: 'Some helping text',
+        title: 'Documents required for placement',
+        description: '',
         animation: Animations.Industry.Dashboard.RequiredDocuments,
         id: 'required-documents',
     },
     {
         link: 'tasks/add-a-schedule',
         title: 'Add Schedule',
-        description: 'Some helping text',
+        description: '',
         // image: null, //"./images/Schedule.png",
         animation: Animations.Industry.MyTasks.Scheduling,
         id: 'add-schedule',
@@ -36,27 +36,27 @@ export const TaskPrimaryActions = [
     {
         link: 'tasks/available-shifts',
         title: 'Available Shifts',
-        description: 'Some helping text',
+        description: '',
         // image: null, //"./images/dashboardbtn.png",
         animation: Animations.Industry.MyTasks.AvailableShift,
         id: 'available-shifts',
     },
-    {
-        link: 'tasks/branches',
-        title: 'Branches',
-        description: 'branches',
-        // image: null, //"./images/dashboardbtn.png",
-        animation: Animations.Industry.MyTasks.AvailableShift,
-        id: 'branches',
-    },
-    {
-        link: 'tasks/head-quarters',
-        title: 'Head Quarters',
-        description: 'Head Quarters',
-        // image: null, //"./images/dashboardbtn.png",
-        animation: Animations.Industry.MyTasks.AvailableShift,
-        id: 'head-quarters',
-    },
+    // {
+    //     link: 'tasks/branches',
+    //     title: 'Branches',
+    //     description: 'branches',
+    //     // image: null, //"./images/dashboardbtn.png",
+    //     animation: Animations.Industry.MyTasks.AvailableShift,
+    //     id: 'branches',
+    // },
+    // {
+    //     link: 'tasks/head-quarters',
+    //     title: 'Head Quarters',
+    //     description: 'Head Quarters',
+    //     // image: null, //"./images/dashboardbtn.png",
+    //     animation: Animations.Industry.MyTasks.AvailableShift,
+    //     id: 'head-quarters',
+    // },
 ]
 
 export const TasksContainer = () => {

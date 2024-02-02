@@ -33,4 +33,14 @@ export const volunteerEndpoints = (
         }),
         invalidatesTags: ['Volunteer'],
     }),
+    cancelVolunteerRequest: builder.mutation<any, { id: number; note: string }>(
+        {
+            query: ({ id, ...body }) => ({
+                url: `${PREFIX}volunteer-request/${id}/update`,
+                method: 'PATCH',
+                body,
+            }),
+            invalidatesTags: ['Volunteer'],
+        }
+    ),
 })

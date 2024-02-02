@@ -5,10 +5,21 @@ const PREFIX = 'industries'
 export const volunteerEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    requestAVolunteer: builder.mutation<any, void>({
+    VolunteerRequestsList: builder.query<any, any>({
         query: (params) => ({
-            url: `${PREFIX}/volunteer/request`,
+            url: `${PREFIX}/volunteer-request/list`,
+            params,
+        }),
+        providesTags: ['RequestAVolunteer'],
+    }),
+    requestAVolunteer: builder.mutation<
+        any,
+        { course: number; requirement: string }
+    >({
+        query: ({ course, ...body }) => ({
+            url: `${PREFIX}/volunteer-request/course/${course}/add`,
             method: 'POST',
+            body,
         }),
         invalidatesTags: ['RequestAVolunteer'],
     }),

@@ -3,11 +3,15 @@ import { IndustryLayout } from '@layouts'
 import { IndustryStudentsLayout } from '@partials/industry'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 const FutureCandidates: NextPageWithLayout = () => {
     const router = useRouter()
     const { query } = router
+
+    useEffect(() => {
+        router.back()
+    }, [])
 
     return (
         <div>

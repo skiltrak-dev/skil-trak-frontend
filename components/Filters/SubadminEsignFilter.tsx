@@ -30,7 +30,7 @@ export const SubadminEsignFilter = ({
 
     const folderOptions = getCourses?.data
         ?.find((course: any) => course?.id === Number(filter?.courseId))
-        ?.folders?.map((f: any) => ({
+        ?.assessmentEvidence?.map((f: any) => ({
             label: f?.name,
             value: f?.id,
         }))
