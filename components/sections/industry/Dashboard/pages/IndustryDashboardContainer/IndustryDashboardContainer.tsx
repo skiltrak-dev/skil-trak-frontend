@@ -61,11 +61,19 @@ export const IndustryDashboardContainer = () => {
     const contextBar = useContextBar()
     const [credentials, setCredentials] = useState<any>(null)
     const sectorsWithCourses = getSectors([])
-    const [modal, setModal] = useState<any | null>(null)
     const studentCount = IndustryApi.Students.useStudentCount()
+    
+    // const [modal, setModal] = useState<any | null>(null)
+    // const { data, isSuccess, isLoading } = CommonApi.Industries.getFolders()
+    // const folders = data
+    //     ?.map((sector: any) =>
+    //         sector?.sector?.courses?.map((course: any) =>
+    //             course.folders?.map((folder: any) => folder)
+    //         )
+    //     )
+    //     ?.flat()
+    // const arrayLengths = folders?.map((folderArray: any) => folderArray.length)
 
-    // important documents
-    const documents = CommonApi.Documents.useList()
     // Questions
     const WorkplaceQuestions = [
         {
@@ -878,33 +886,35 @@ export const IndustryDashboardContainer = () => {
         }
     }, [credentials])
 
-    const onCancel = () => {
-        setModal(null)
-    }
+    // const onCancel = () => {
+    //     setModal(null)
+    // }
 
     // useEffect(() => {
-    //     if (documents && documents.length === 4) {
-    //         setModal(
-    //             <Modal
-    //                 onCancelClick={onCancel}
-    //                 onConfirmClick={() => {
-    //                     console.log('ssss')
-    //                 }}
-    //                 title={'Required docs'}
-    //                 confirmText={'View Pending Requests'}
-    //                 subtitle={'Pending Industry Requests'}
-    //                 showAction={false}
-    //             >
-    //                 Documents required
-    //             </Modal>
-    //         )
-    //     } else {
-    //         setModal(null)
-    //     }
-    // }, [documents])
+    //     arrayLengths?.forEach((length: any, index: any) => {
+    //         if (!length[index] > 0) {
+    //             setModal(
+    //                 <Modal
+    //                     onCancelClick={onCancel}
+    //                     onConfirmClick={() => {
+    //                         console.log('ssss')
+    //                     }}
+    //                     title={'Required docs'}
+    //                     confirmText={'Required docs'}
+    //                     subtitle={'Required docs'}
+    //                     showActions={false}
+    //                 >
+    //                     Documents required
+    //                 </Modal>
+    //             )
+    //         } else {
+    //             setModal(null)
+    //         }
+    //     })
+    // }, [data])
     return (
         <>
-            {modal && modal}
+            {/* {modal && modal} */}
             <div className="flex flex-col gap-y-6">
                 <div className="flex">
                     <FigureCard
