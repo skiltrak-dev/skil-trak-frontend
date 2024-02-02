@@ -26,7 +26,7 @@ const JobDetail: NextPageWithLayout = () => {
     const jobDetail = CommonApi.Industries.getAdvertisedJobDetail(id, {
         skip: !id,
     })
-    const incrementJobCount = CommonApi.Industries.jobsCount(id, {
+    const incrementJobCount = CommonApi.Industries.jobsCount(Number(id), {
         skip: !id,
     })
     const { data, isLoading, isError } =
