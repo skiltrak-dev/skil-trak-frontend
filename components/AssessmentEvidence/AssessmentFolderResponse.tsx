@@ -65,9 +65,6 @@ export const AssessmentResponse = ({
 
     const { notification } = useNotification()
 
-    // const folderData = useMemo(() => folder, [folder])
-    // const studentMemoizedData = useMemo(() => studentData, [studentData])
-
     // query
     const [addComment, addCommentResult] = useAddCommentOnAssessmentMutation()
     const eSignDocument = CommonApi.ESign.useStudentEsignDocument(

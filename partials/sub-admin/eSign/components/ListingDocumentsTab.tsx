@@ -30,13 +30,13 @@ export const ListingDocumentsTab = ({
                 <Typography variant="badge" color={'text-gray-500'} semibold>
                     Folder
                 </Typography>
-                <Link
+                {/* <Link
                     href={`/portals/sub-admin/students/223?tab=submissions&course=${course?.id}&folder=${folder?.id}`}
-                >
-                    <Typography variant="xs" color="text-info" semibold>
-                        {folder?.name}
-                    </Typography>
-                </Link>
+                > */}
+                <Typography variant="xs" color="text-black" semibold>
+                    {folder?.name}
+                </Typography>
+                {/* </Link> */}
             </div>
         </div>
     )

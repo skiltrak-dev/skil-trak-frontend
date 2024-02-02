@@ -1,7 +1,8 @@
 import { Button, InitialAvatar, Modal, Table } from '@components'
-import { UserRoles } from '@constants'
+import { ListingDocumentsTab } from '@partials/sub-admin/eSign/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { useRouter } from 'next/router'
+import { SignersView } from '../components'
 
 export const ViewUsersForEsignModal = ({
     documents,
@@ -27,46 +28,31 @@ export const ViewUsersForEsignModal = ({
         return []
     }
 
-    const Abc = ({ signer }: any) => (
-        <div className="flex items-center gap-x-1">
-            {signer?.user?.name && (
-                <InitialAvatar
-                    name={signer?.user?.name}
-                    imageUrl={signer?.user?.avatar}
-                />
-            )}
-            <div>
-                <h3 className="text-sm font-bold ">{signer?.user?.name}</h3>
-                <p className="text-xs text-gray-400">{signer?.user?.email}</p>
-                <p className="text-xs text-gray-400">{signer?.user?.role}</p>
-            </div>
-        </div>
-    )
-
     const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'template.name',
-            header: () => <span>Template</span>,
-            cell: (info) => info.getValue(),
+            header: () => <span>Document</span>,
+            cell: (info) => (
+                <ListingDocumentsTab
+                    template={info.row.original?.template?.name}
+                    course={info.row.original?.template?.course}
+                    folder={info.row.original?.template?.folder}
+                />
+            ),
         },
-        {
-            accessorKey: 'template.course.title',
-            header: () => <span>Course</span>,
-            cell: (info) => info.getValue(),
-        },
-        {
-            accessorKey: 'template.folder.name',
-            header: () => <span>Folder</span>,
-            cell: (info) => info.getValue(),
-        },
+
         {
             accessorKey: `signers`, // Use a unique identifier, e.g., document id
             header: () => <span>Signers</span>,
             cell: (info: any) => {
                 const documentSigners = info.row?.original?.signers || []
-                return documentSigners.map((signer: any) => (
-                    <Abc signer={signer} />
-                ))
+                return (
+                    <div className="flex items-center gap-x-1">
+                        {documentSigners.map((signer: any) => (
+                            <SignersView signer={signer} />
+                        ))}
+                    </div>
+                )
             },
         },
         {
