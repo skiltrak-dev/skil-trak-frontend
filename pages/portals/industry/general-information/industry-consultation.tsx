@@ -54,7 +54,7 @@ const IndustryConsultation: NextPageWithLayout = () => {
 
                 <div className="flex items-center gap-x-4 mt-4">
                     <Button
-                        variant={'primary'}
+                        variant={'success'}
                         text={'Yes'}
                         onClick={() =>
                             router.push(
@@ -64,7 +64,7 @@ const IndustryConsultation: NextPageWithLayout = () => {
                     />
 
                     <Button variant={'primary'} text={'Confirm Upon Request'} />
-                    <Button text={'No'} />
+                    <Button text={'No'}  variant={'error'}/>
                 </div>
             </Card>
         </div>

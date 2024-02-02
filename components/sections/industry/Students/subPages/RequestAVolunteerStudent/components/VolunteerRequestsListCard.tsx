@@ -1,0 +1,50 @@
+import { Badge } from '@components/Badge'
+import { Typography } from '@components/Typography'
+import { ellipsisText } from '@utils'
+import moment from 'moment'
+import React from 'react'
+
+export const VolunteerRequestsListCard = ({
+    volunteer,
+}: {
+    volunteer: any
+}) => {
+    console.log({ volunteer })
+    return (
+        <div className="bg-gray-100 p-2 rounded-md grid grid-cols-5 items-center">
+            <div className="">
+                <Typography variant={'small'} color={'text-gray-500'}>
+                    {volunteer?.course?.code}{' '}
+                </Typography>
+                <Typography variant="label" color={'text-gray-800'}>
+                    {volunteer?.course?.title}{' '}
+                </Typography>
+            </div>
+
+            <div className="col-span-2">
+                <div className="group relative">
+                    <Typography variant={'label'}>
+                        <span className="cursor-pointer">
+                            {ellipsisText(volunteer?.note, 100) || '----'}
+                        </span>
+                    </Typography>
+                    <div className="hidden group-hover:block text-[13px] max-h-[240px] overflow-auto custom-scrollbar w-full absolute top-full left-0 p-2 z-20 shadow rounded-md bg-white">
+                        {volunteer?.note}
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <Badge
+                    variant={volunteer.isClosed ? 'error' : 'primary'}
+                    text={volunteer.isClosed ? 'Closed' : 'Active'}
+                />
+            </div>
+            <div>
+                <Typography variant="small" medium color={'text-gray-800'}>
+                    {moment(volunteer?.createdAt).format('Do MMMM, YYYY')}
+                </Typography>
+            </div>
+        </div>
+    )
+}

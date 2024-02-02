@@ -26,7 +26,7 @@ export const RightSidebarData = () => {
                     bgColor={'white'}
                     bgHoverColor={'secondary'}
                     title={'Documentation Required'}
-                    desc={'Some helping text'}
+                    desc={' '}
                     img={'./images/dashboardbtn.png'}
                 />
 
@@ -34,7 +34,7 @@ export const RightSidebarData = () => {
                     bgColor={'white'}
                     bgHoverColor={'secondary'}
                     title={'Documentation Required'}
-                    desc={'Some helping text'}
+                    desc={' '}
                     img={'./images/dashboardbtn2.png'}
                 /> */}
             </div>

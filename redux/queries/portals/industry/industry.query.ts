@@ -201,6 +201,7 @@ export const {
 
     // ---- VOLUNTEER ---- //
     useRequestAVolunteerMutation,
+    useVolunteerRequestsListQuery,
 
     // ---- SUPERVISORS ---- //
     useGetSupervisorQuery,
@@ -330,6 +331,7 @@ export const IndustryApi = {
     },
     Volunteer: {
         useRequestAVolunteerMutation,
+        requestsList: useVolunteerRequestsListQuery,
     },
     Supervisor: {
         useGetSupervisor: useGetSupervisorQuery,

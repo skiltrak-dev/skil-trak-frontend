@@ -43,6 +43,7 @@ export const ViewProfileCB = () => {
         return sectors
     }
     const sectorsWithCourses = getSectors(data?.courses)
+
     return (
         <>
             {passwordModal && passwordModal}

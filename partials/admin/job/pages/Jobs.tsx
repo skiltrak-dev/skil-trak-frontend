@@ -45,7 +45,7 @@ export const Jobs = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    const filterJobs = data?.data?.filter((job) => job?.status === 'pending')
+    // const filterJobs = data?.data?.filter((job) => job?.status === 'pending')
     const onModalCancelClicked = () => {
         setModal(null)
     }
@@ -80,11 +80,15 @@ export const Jobs = () => {
             cell: (info) => {
                 return (
                     <div className="flex items-center gap-x-1">
-                        <InitialAvatar
-                            name={info.row.original?.industry?.user?.name}
-                            imageUrl={info.row.original.industry.user.avatar}
-                            small
-                        />
+                        {info.row.original?.industry?.user?.name && (
+                            <InitialAvatar
+                                name={info.row.original?.industry?.user?.name}
+                                imageUrl={
+                                    info.row.original.industry.user.avatar
+                                }
+                                small
+                            />
+                        )}
                         <div>
                             <p className="font-semibold">
                                 {info.row.original.title}
@@ -145,10 +149,12 @@ export const Jobs = () => {
             cell: (info) => {
                 return (
                     <div className="flex items-center gap-x-2">
-                        <InitialAvatar
-                            name={info.row.original.contactPerson}
-                            small
-                        />
+                        {info.row.original.contactPerson && (
+                            <InitialAvatar
+                                name={info.row.original.contactPerson}
+                                small
+                            />
+                        )}
                         <p>{info.row.original.contactPerson}</p>
                     </div>
                 )
@@ -226,7 +232,7 @@ export const Jobs = () => {
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading title={'Jobs'} subtitle={'List of All Jobs'}>
                     {/* {filterAction} */}
-                    {filterJobs && filterJobs?.length ? (
+                    {data?.data && data?.data?.length ? (
                         <Button
                             text="Export"
                             variant="action"
@@ -246,10 +252,10 @@ export const Jobs = () => {
                     {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : filterJobs && filterJobs.length ? (
+                    ) : data?.data && data?.data?.length ? (
                         <Table
                             columns={columns}
-                            data={filterJobs}
+                            data={data?.data}
                             quickActions={quickActionsElements}
                             enableRowSelection
                         >

@@ -1,23 +1,22 @@
 import {
+    Card,
     InitialAvatar,
     LoadingAnimation,
     NoData,
     Typography,
 } from '@components'
 import { RelatedJobCard } from '@components/site/jobs/RelatedJobCard'
-import { NextPage } from 'next'
 import { HiCurrencyDollar } from 'react-icons/hi2'
 import { MdLocationOn } from 'react-icons/md'
 //Queries
-import { Footer3 } from '@components/site/Footer3'
-import { Navbar2 } from '@components/site/navbar'
+import { ApplyJobModal } from '@components/site/jobs'
+import { useContextBar } from '@hooks'
+import { SiteLayout } from '@layouts'
 import { CommonApi } from '@queries'
+import { NextPageWithLayout } from '@types'
+import { ellipsisText } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useState } from 'react'
-import { useContextBar } from '@hooks'
-import { ApplyJobModal } from '@components/site/jobs'
-import { SiteLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
 
 const JobDetail: NextPageWithLayout = () => {
     const [modal, setModal] = useState<ReactNode | null>(null)
@@ -42,6 +41,8 @@ const JobDetail: NextPageWithLayout = () => {
             <ApplyJobModal id={openJobId} onCancel={() => onCancelModal()} />
         )
     }
+
+    const otherJobs = data?.data.filter((job: any) => job.id !== openJobId)
     return (
         <>
             {modal}
@@ -54,7 +55,7 @@ const JobDetail: NextPageWithLayout = () => {
                                     {jobDetail?.isLoading ? (
                                         <LoadingAnimation />
                                     ) : jobDetail?.data?.job ? (
-                                        <>
+                                        <Card>
                                             <div className="flex items-center justify-between">
                                                 <div>
                                                     <div className="flex items-center gap-x-2">
@@ -74,17 +75,11 @@ const JobDetail: NextPageWithLayout = () => {
                                                                         }
                                                                         className="py-0.5 px-2 text-xs rounded-full border text-center text-blue-400 border-blue-400"
                                                                     >
-                                                                        {sector
-                                                                            ?.name
-                                                                            .length <=
-                                                                        12
-                                                                            ? sector?.name
-                                                                            : sector.name.substr(
-                                                                                  0,
-                                                                                  12
-                                                                              ) +
-                                                                                  '...' ||
-                                                                              'N/A'}
+                                                                        {ellipsisText(
+                                                                            sector.name,
+                                                                            12
+                                                                        ) ||
+                                                                            'N/A'}
                                                                     </span>
                                                                 )
                                                             )}
@@ -98,27 +93,29 @@ const JobDetail: NextPageWithLayout = () => {
                                                     </div>
                                                     <div className="flex items-center flex-row gap-x-2">
                                                         <div>
-                                                            {/* <Image
-                                                        className="rounded-full"
-                                                        src={
-                                                            '/images/site/partners/p14.png'
-                                                        }
-                                                        alt="avatar"
-                                                        width={40}
-                                                        height={40}
-                                                    /> */}
-                                                            <InitialAvatar
-                                                                name={
-                                                                    jobDetail
-                                                                        ?.data
-                                                                        ?.job
-                                                                        ?.industry
-                                                                        ?.user
-                                                                        ?.name ||
-                                                                    'N/A'
-                                                                }
-                                                                imageUrl="#"
-                                                            />
+                                                            {jobDetail?.data
+                                                                ?.job?.industry
+                                                                ?.user
+                                                                ?.name && (
+                                                                <InitialAvatar
+                                                                    name={
+                                                                        jobDetail
+                                                                            ?.data
+                                                                            ?.job
+                                                                            ?.industry
+                                                                            ?.user
+                                                                            ?.name
+                                                                    }
+                                                                    imageUrl={
+                                                                        jobDetail
+                                                                            ?.data
+                                                                            ?.job
+                                                                            ?.industry
+                                                                            ?.user
+                                                                            ?.avatar
+                                                                    }
+                                                                />
+                                                            )}
                                                         </div>
                                                         <div>
                                                             <Typography variant="small">
@@ -211,7 +208,7 @@ const JobDetail: NextPageWithLayout = () => {
                                                         ?.description || 'N/A'}
                                                 </Typography>
                                             </div>
-                                        </>
+                                        </Card>
                                     ) : (
                                         <>
                                             Job Detail:
@@ -224,38 +221,37 @@ const JobDetail: NextPageWithLayout = () => {
                                 </div>
                             </div>
                         </div>
-                        {/* Other Jobs From This Industry Right Sidebar */}
                         <div className="md:w-1/3">
-                            Other Jobs From This Industry
-                            <div className="flex flex-col gap-y-2">
-                                {isLoading ? (
-                                    <LoadingAnimation size={60} />
-                                ) : data?.data?.length > 0 ? (
-                                    data?.data
-                                        .filter(
-                                            (job: any) => job.id !== openJobId
-                                        )
-                                        .slice(0, 3)
-                                        .map((job: any, index: any) => (
-                                            <div
-                                                key={index}
-                                                onClick={() =>
-                                                    router.push(
-                                                        `/jobs/${job.id}`
-                                                    )
-                                                }
-                                                className="cursor-pointer"
-                                            >
-                                                <RelatedJobCard
-                                                    key={job?.id}
-                                                    {...job}
-                                                />
-                                            </div>
-                                        ))
-                                ) : (
-                                    <NoData text="No jobs found from this industry" />
-                                )}
-                            </div>
+                            <Card>
+                                {/* Other Jobs From This Industry Right Sidebar */}
+                                Other Jobs From This Industry
+                                <div className="flex flex-col gap-y-2">
+                                    {isLoading ? (
+                                        <LoadingAnimation size={60} />
+                                    ) : otherJobs && otherJobs?.length > 0 ? (
+                                        otherJobs
+                                            .slice(0, 3)
+                                            .map((job: any, index: any) => (
+                                                <div
+                                                    key={index}
+                                                    onClick={() =>
+                                                        router.push(
+                                                            `/jobs/${job.id}`
+                                                        )
+                                                    }
+                                                    className="cursor-pointer"
+                                                >
+                                                    <RelatedJobCard
+                                                        key={job?.id}
+                                                        {...job}
+                                                    />
+                                                </div>
+                                            ))
+                                    ) : (
+                                        <NoData text="No jobs found from this industry" />
+                                    )}
+                                </div>
+                            </Card>
                         </div>
                     </div>
                     <div

@@ -41,7 +41,7 @@ export const coursesEndpoints = (
         }),
         invalidatesTags: ['Course'],
     }),
-    getIndustryCourses: builder.query<any, number>({
+    getIndustryCourses: builder.query<any, number | null>({
         query: (id) => {
             const params = id ? { id } : {}
             return {

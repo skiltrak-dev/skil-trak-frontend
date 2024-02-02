@@ -20,7 +20,7 @@ export const StudentsPrimaryActions = [
     {
         link: 'students/current-students',
         title: 'Current Students',
-        description: 'Some helping text',
+        description: ' ',
         // image: null, //"./images/dashboardbtn3.png",
         animation: Animations.Industry.Students.CurrentStudents,
         id: 'current-students',
@@ -28,7 +28,7 @@ export const StudentsPrimaryActions = [
     {
         link: 'students/future-candidates',
         title: 'Future Candidates',
-        description: 'Some helping text',
+        description: ' ',
         // image: null, //"./images/dashboardbtn4.png",
         animation: Animations.Industry.Students.FutureCandidates,
         id: 'future-candidates',
@@ -36,7 +36,7 @@ export const StudentsPrimaryActions = [
     {
         link: 'students/request-a-volunteer',
         title: 'Request a Volunteer',
-        description: 'Some helping text',
+        description: ' ',
         // image: null, //"./images/dashboardbtn4.png",
         animation: Animations.Industry.Jobs.BrowseCandidate,
         id: 'request-a-volunteer',
@@ -44,7 +44,7 @@ export const StudentsPrimaryActions = [
     {
         link: 'students/appointments',
         title: 'Appointments',
-        description: 'Some helping text',
+        description: ' ',
         // image: null, //"./images/dashboardbtn4.png",
         animation: Animations.Industry.Students.Appointment,
         id: 'appointments',
@@ -59,16 +59,16 @@ export const StudentsContainer = () => {
         setContent(null)
     }, [setContent])
 
-     // ADD STUDENT JOY RIDE - START
-     const joyride = useJoyRide()
-     useEffect(() => {
-         if (joyride.state.tourActive) {
-             setTimeout(() => {
-                 joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
-             }, 1200)
-         }
-     }, [])
-     // ADD STUDENT JOY RIDE - END
+    // ADD STUDENT JOY RIDE - START
+    const joyride = useJoyRide()
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
+            }, 1200)
+        }
+    }, [])
+    // ADD STUDENT JOY RIDE - END
 
     return (
         <div>

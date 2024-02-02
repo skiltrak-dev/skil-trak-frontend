@@ -349,6 +349,7 @@ const {
     // --- VOLUNTEER --- //
     useGetVolunteerRequestsQuery,
     useRequestVolunteerCountQuery,
+    useCancelVolunteerRequestMutation,
 
     // ----- SMS ----- //
     useSendSMSMutation,
@@ -516,8 +517,9 @@ export const AdminApi = {
     },
     Volunteer: {
         useList: useGetVolunteerRequestsQuery,
-        useVolunteerCount: useRequestVolunteerCountQuery,
         useVolunteerRead: useVolunteerIsReadMutation,
+        useVolunteerCount: useRequestVolunteerCountQuery,
+        cancelVolunteerRequest: useCancelVolunteerRequestMutation,
     },
     SMS: {
         sendSMS: useSendSMSMutation,

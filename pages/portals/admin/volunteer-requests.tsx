@@ -1,4 +1,3 @@
-import { ColumnDef } from '@tanstack/react-table'
 import { ReactElement, useEffect, useState } from 'react'
 
 import { AdminLayout } from '@layouts'
@@ -8,28 +7,22 @@ import { AppointmentTypeFilterType, NextPageWithLayout } from '@types'
 import { AdminApi } from '@queries'
 
 // components
-import { PageHeading } from '@components/headings'
 
 import {
     AppointmentTypeFilters,
-    Button,
-    Card,
-    EmptyData,
     Filter,
-    InitialAvatar,
-    LoadingAnimation,
-    Table,
-    TechnicalError,
+    TabNavigation,
+    TabProps
 } from '@components'
 import { useNavbar } from '@hooks'
-import { FaFileExport } from 'react-icons/fa'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
-import moment from 'moment'
+import { ActiveRequests, ClosedRequests } from '@partials'
 
 type Props = {}
 
 const VolunteerRequests: NextPageWithLayout = (props: Props) => {
     const navBar = useNavbar()
+
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -51,84 +44,29 @@ const VolunteerRequests: NextPageWithLayout = (props: Props) => {
         navBar.setTitle('Volunteer Request')
     }, [])
 
-    const columns: ColumnDef<any>[] = [
+    const tabs: TabProps[] = [
         {
-            header: () => <span>Name</span>,
-            accessorKey: 'jobDescription',
-            cell: (info) => {
-                const {
-                    phoneNumber,
-                    user: { name, email, avatar },
-                } = info?.row?.original?.industry || {}
-                return (
-                    <a className="flex items-center gap-x-2">
-                        <InitialAvatar name={name} imageUrl={avatar} />
-                        <div>
-                            <p className="font-semibold">{name}</p>
-                            <div className="font-medium text-xs text-gray-500">
-                                <p className="flex items-center gap-x-1">
-                                    <span>
-                                        <MdEmail />
-                                    </span>
-                                    {email}
-                                </p>
-                                <p className="flex items-center gap-x-1">
-                                    <span>
-                                        <MdPhoneIphone />
-                                    </span>
-                                    {phoneNumber}
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                )
+            label: 'Active',
+            href: {
+                pathname: 'volunteer-requests',
+                query: { tab: 'active', page: 1, pageSize: 50 },
             },
+            element: <ActiveRequests />,
         },
         {
-            header: () => <span>ABN</span>,
-            accessorKey: 'industry.abn',
-            cell: (info) => info.getValue(),
-        },
-        {
-            header: () => <span>Address</span>,
-            accessorKey: 'industry.addressLine1',
-            cell: (info) =>
-                `${info?.row?.original?.industry?.addressLine1 || 'N/A'}, ${
-                    info?.row?.original?.industry?.addressLine2 || ''
-                }`,
-        },
-        {
-            header: () => <span>Enrolled Students</span>,
-            accessorKey: 'industry.enrolledStudents',
-            cell: (info) => info?.getValue(),
-        },
-        {
-            header: () => <span>Created At</span>,
-            accessorKey: 'industry.addressLine1',
-            cell: (info) =>
-                ` ${moment(info?.row?.original?.industry?.createdAt).format(
-                    'Do MMMM, YYYY'
-                )}`,
+            label: 'Closed',
+            href: {
+                pathname: 'volunteer-requests',
+                query: { tab: 'closed', page: 1, pageSize: 50 },
+            },
+            element: <ClosedRequests />,
         },
     ]
 
     return (
-        <div className="p-6">
+        <div className="">
+            {modal}
             <div className="flex flex-col gap-y-4 mb-32">
-                <PageHeading
-                    title={'Volunteer Request'}
-                    subtitle={'List of Volunteer Request'}
-                >
-                    {/* {filterAction} */}
-                    {data && data?.data.length ? (
-                        <Button
-                            text="Export"
-                            variant="action"
-                            Icon={FaFileExport}
-                        />
-                    ) : null}
-                </PageHeading>
-
                 <Filter<AppointmentTypeFilterType>
                     component={AppointmentTypeFilters}
                     initialValues={filter}
@@ -136,50 +74,16 @@ const VolunteerRequests: NextPageWithLayout = (props: Props) => {
                     setFilter={setFilter}
                 />
 
-                <Card noPadding>
-                    {isError && <TechnicalError />}
-                    {isLoading ? (
-                        <LoadingAnimation height="h-[60vh]" />
-                    ) : data && data?.data.length ? (
-                        <Table columns={columns} data={data.data}>
-                            {({
-                                table,
-                                pagination,
-                                pageSize,
-                                quickActions,
-                            }: any) => {
-                                return (
-                                    <div>
-                                        <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage
-                                            )}
-                                            <div className="flex gap-x-2">
-                                                {quickActions}
-                                                {pagination(
-                                                    data?.pagination,
-                                                    setPage
-                                                )}
-                                            </div>
-                                        </div>
-                                        <div className="px-6">{table}</div>
-                                    </div>
-                                )
-                            }}
-                        </Table>
-                    ) : (
-                        !isError && (
-                            <EmptyData
-                                title={'No Volunteer Request Found'}
-                                description={
-                                    'There is no any Volunteer Request request yet'
-                                }
-                                height={'50vh'}
-                            />
+                <TabNavigation tabs={tabs}>
+                    {({ header, element }: any) => {
+                        return (
+                            <div>
+                                <div>{header}</div>
+                                <div className="p-4">{element}</div>
+                            </div>
                         )
-                    )}
-                </Card>
+                    }}
+                </TabNavigation>
             </div>
         </div>
     )

@@ -2,10 +2,16 @@ import { MediaQueries } from '@constants'
 import { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 
-import { IndustryApi } from '@queries'
+import { IndustryApi, CommonApi } from '@queries'
 
 // Components
-import { Card, HelpQuestionSet, LottieAnimation, Typography } from '@components'
+import {
+    Card,
+    HelpQuestionSet,
+    LottieAnimation,
+    Typography,
+    Modal,
+} from '@components'
 
 // Context
 import { Animations } from '@animations'
@@ -25,13 +31,13 @@ export const PrimaryActions = [
     {
         link: 'required-documents',
         title: 'Documentation Required',
-        description: 'Some helping text',
+        description: ' ',
         animation: Animations.Industry.Dashboard.RequiredDocuments,
     },
     {
         link: '/under-construction',
         title: 'Request a Volunteer',
-        description: 'Some helping text',
+        description: ' ',
         animation: Animations.Industry.Dashboard.RequestVolunteer,
     },
 ]
@@ -55,9 +61,11 @@ export const IndustryDashboardContainer = () => {
     const contextBar = useContextBar()
     const [credentials, setCredentials] = useState<any>(null)
     const sectorsWithCourses = getSectors([])
-
+    const [modal, setModal] = useState<any | null>(null)
     const studentCount = IndustryApi.Students.useStudentCount()
 
+    // important documents
+    const documents = CommonApi.Documents.useList()
     // Questions
     const WorkplaceQuestions = [
         {
@@ -870,87 +878,114 @@ export const IndustryDashboardContainer = () => {
         }
     }, [credentials])
 
+    const onCancel = () => {
+        setModal(null)
+    }
+
+    // useEffect(() => {
+    //     if (documents && documents.length === 4) {
+    //         setModal(
+    //             <Modal
+    //                 onCancelClick={onCancel}
+    //                 onConfirmClick={() => {
+    //                     console.log('ssss')
+    //                 }}
+    //                 title={'Required docs'}
+    //                 confirmText={'View Pending Requests'}
+    //                 subtitle={'Pending Industry Requests'}
+    //                 showAction={false}
+    //             >
+    //                 Documents required
+    //             </Modal>
+    //         )
+    //     } else {
+    //         setModal(null)
+    //     }
+    // }, [documents])
     return (
-        <div className="flex flex-col gap-y-6">
-            <div className="flex">
-                <FigureCard
-                    imageUrl="/images/icons/students.png"
-                    count={studentCount?.data?.count}
-                    title={'Current Students'}
-                />
-            </div>
-            <section className="bg-[#D6F4FF] w-full p-4 rounded-2xl relative overflow-hidden">
-                <div className="absolute md:block hidden right-0 -bottom-3">
-                    <LottieAnimation
-                        animation={Animations.Common.Help}
-                        width={200}
-                        height={200}
+        <>
+            {modal && modal}
+            <div className="flex flex-col gap-y-6">
+                <div className="flex">
+                    <FigureCard
+                        imageUrl="/images/icons/students.png"
+                        count={studentCount?.data?.count}
+                        title={'Current Students'}
                     />
                 </div>
-                <div>
-                    <h3 className="text-2xl text-orange-500">
-                        Welcome Back,{' '}
-                        <span className="font-semibold text-black">
-                            {credentials?.name}
-                        </span>
-                    </h3>
-                    <h4 className="font-semibold text-gray-400">
-                        What you want to do here?
-                    </h4>
-                </div>
-
-                <div className="mt-2 flex flex-col gap-y-4 md:flex-row md:gap-x-6">
-                    <div>
-                        <HelpQuestionSet
-                            title="Tasks"
-                            questions={WorkplaceQuestions}
-                            smallHeading
+                <section className="bg-[#D6F4FF] w-full p-4 rounded-2xl relative overflow-hidden">
+                    <div className="absolute md:block hidden right-0 -bottom-3">
+                        <LottieAnimation
+                            animation={Animations.Common.Help}
+                            width={200}
+                            height={200}
                         />
                     </div>
-
                     <div>
-                        <HelpQuestionSet
-                            title="Students"
-                            questions={AssessmentQuestions}
-                            smallHeading
-                        />
+                        <h3 className="text-2xl text-orange-500">
+                            Welcome Back,{' '}
+                            <span className="font-semibold text-black">
+                                {credentials?.name}
+                            </span>
+                        </h3>
+                        <h4 className="font-semibold text-gray-400">
+                            What you want to do here?
+                        </h4>
+                    </div>
 
-                        <div className="mt-2">
+                    <div className="mt-2 flex flex-col gap-y-4 md:flex-row md:gap-x-6">
+                        <div>
                             <HelpQuestionSet
-                                title="Jobs"
-                                questions={NotificationQuestions}
+                                title="Tasks"
+                                questions={WorkplaceQuestions}
                                 smallHeading
                             />
                         </div>
+
+                        <div>
+                            <HelpQuestionSet
+                                title="Students"
+                                questions={AssessmentQuestions}
+                                smallHeading
+                            />
+
+                            <div className="mt-2">
+                                <HelpQuestionSet
+                                    title="Jobs"
+                                    questions={NotificationQuestions}
+                                    smallHeading
+                                />
+                            </div>
+                        </div>
                     </div>
+                </section>
+
+                {/* <ImportantDocuments /> */}
+                <Desktop>
+                    <ImportantDocuments
+                        coureseRequirementsLink={
+                            '/portals/industry/course-requirements'
+                        }
+                    />
+                </Desktop>
+
+                {/* Others */}
+                <div className="w-full">
+                    <Typography variant={'title'}>Others</Typography>
+
+                    {/*  */}
+                    <Card>
+                        <AdForRPL />
+                    </Card>
                 </div>
-            </section>
-
-            {/* <ImportantDocuments /> */}
-            <Desktop>
-                <ImportantDocuments
-                    coureseRequirementsLink={
-                        '/portals/industry/course-requirements'
-                    }
-                />
-            </Desktop>
-
-            {/* Others */}
-            <div className="w-full">
-                <Typography variant={'title'}>Others</Typography>
-
-                {/*  */}
-                <Card>
-                    <AdForRPL />
-                </Card>
+                <Mobile>
+                    <ImportantDocuments
+                        coureseRequirementsLink={
+                            '/portals/industry/course-requirements'
+                        }
+                    />
+                </Mobile>
             </div>
-            <Mobile>
-                <ImportantDocuments
-                    coureseRequirementsLink={
-                        '/portals/industry/course-requirements'
-                    }
-                />
-            </Mobile>
-        </div>
+        </>
     )
 }

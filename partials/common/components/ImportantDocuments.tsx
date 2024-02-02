@@ -11,7 +11,7 @@ import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import jsPDF from 'jspdf'
 import Image from 'next/image'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useState, useEffect } from 'react'
 export const ImportantDocuments = ({
     sidebar,
     coureseRequirementsLink,
@@ -164,6 +164,8 @@ export const ImportantDocuments = ({
             })
         }
     }
+
+    
     return (
         <div>
             {modal}

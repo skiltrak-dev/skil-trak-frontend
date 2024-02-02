@@ -17,14 +17,14 @@ export const JobsPrimaryActions = [
     {
         link: 'jobs/advertised-jobs',
         title: 'Advertise A Job',
-        description: 'Some helping text',
+        description: ' ',
         animation: Animations.Industry.Jobs.Advertise,
         id: 'advertise-a-job',
     },
     // {
     //     link: 'jobs/browse-candidates',
     //     title: 'Browse For Candidates',
-    //     description: 'Some helping text',
+    //     description: ' ',
     //     animation: Animations.Industry.Jobs.BrowseCandidate,
     //     id: 'browse-for-candidates',
     // },
@@ -65,7 +65,11 @@ export const JobsContainer = () => {
                         <Typography variant={'title'}>
                             Total Students
                         </Typography>
-                        <Link href={"/portals/industry/students/current-students?tab=pending"}>
+                        <Link
+                            href={
+                                '/portals/industry/students/current-students?tab=pending'
+                            }
+                        >
                             View All
                         </Link>
                     </div>
