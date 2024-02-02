@@ -23,9 +23,10 @@ const JobDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const { id } = router.query
 
-    const contextBar = useContextBar()
-
     const jobDetail = CommonApi.Industries.getAdvertisedJobDetail(id, {
+        skip: !id,
+    })
+    const incrementJobCount = CommonApi.Industries.jobsCount(id, {
         skip: !id,
     })
     const { data, isLoading, isError } =

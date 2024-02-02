@@ -284,6 +284,7 @@ const {
     useUnSnoozeIndustryMutation,
     useAllGetIndustriesListQuery,
     useGetAllAdvertisedJobsQuery,
+    useGetAdvertisedJobCountQuery,
     useGetAdvertisedJobDetailQuery,
     useApplyForJobFromHomePageMutation,
     useGetBulkEmailSubadminIndustriesQuery,
@@ -495,6 +496,7 @@ export const CommonApi = {
         useRtosList: useGetRtosListQuery,
     },
     Industries: {
+        jobsCount: useGetAdvertisedJobCountQuery,
         useSnoozeIndustry: useSnoozeIndustryMutation,
         useUnSnoozeIndustry: useUnSnoozeIndustryMutation,
         useIndustriesList: useAllGetIndustriesListQuery,

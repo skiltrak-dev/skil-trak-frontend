@@ -11,6 +11,7 @@ export interface Job extends BaseResponse {
     addressLine1: string
     addressLine2: string
     zipCode: string
+    views: number
     suburb: string
     state: string
     contactPerson: string
