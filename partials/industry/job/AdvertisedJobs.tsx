@@ -98,7 +98,7 @@ export const AdvertisedJobsContainer = () => {
 
     const Columns: ColumnDef<Rto>[] = [
         {
-            header: () => 'Job Title',
+            header: () => 'Job Detail',
             accessorKey: 'title',
             cell: ({ row }: any) => {
                 return <JobCell job={row.original} />

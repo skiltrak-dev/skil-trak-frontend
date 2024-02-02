@@ -46,7 +46,7 @@ export const MostRecentBlog = ({
                 >
                     {(shortDescription &&
                         shortDescription?.substr(0, 80) + '...') ||
-                        'N/A'}
+                        ' '}
                 </div>
             </Link>
         </div>

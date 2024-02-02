@@ -19,7 +19,7 @@ export const SiteLayout = ({ children, title }: any) => {
 
     return (
         <div>
-            <title>{`${title || "Home"} | SkilTrak`}</title>
+            <title>{`${title || "Home"}`}</title>
             <Navbar2 />
             <DisplayNotifications />
             <main>{children}</main>

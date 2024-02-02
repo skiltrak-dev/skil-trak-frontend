@@ -46,7 +46,7 @@ export const BlogCard = ({
                     >
                         {(shortDescription &&
                             shortDescription?.substr(0, 460) + '...') ||
-                            'N/A'}
+                            ' '}
                     </div>
                 </div>
             </Link>
