@@ -12,10 +12,15 @@ import {
     AppointmentTypeFilters,
     Filter,
     TabNavigation,
-    TabProps
+    TabProps,
 } from '@components'
 import { useNavbar } from '@hooks'
-import { ActiveRequests, ClosedRequests } from '@partials'
+import {
+    ApprovedRequests,
+    CancelledVolunteerRequests,
+    PendingRequests,
+    RejectedVolunteerRequests,
+} from '@partials'
 
 type Props = {}
 
@@ -46,20 +51,36 @@ const VolunteerRequests: NextPageWithLayout = (props: Props) => {
 
     const tabs: TabProps[] = [
         {
-            label: 'Active',
+            label: 'Pending',
             href: {
                 pathname: 'volunteer-requests',
-                query: { tab: 'active', page: 1, pageSize: 50 },
+                query: { tab: 'pending', page: 1, pageSize: 50 },
             },
-            element: <ActiveRequests />,
+            element: <PendingRequests />,
         },
         {
-            label: 'Closed',
+            label: 'Approved',
             href: {
                 pathname: 'volunteer-requests',
-                query: { tab: 'closed', page: 1, pageSize: 50 },
+                query: { tab: 'approved', page: 1, pageSize: 50 },
             },
-            element: <ClosedRequests />,
+            element: <ApprovedRequests />,
+        },
+        {
+            label: 'Cancelled',
+            href: {
+                pathname: 'volunteer-requests',
+                query: { tab: 'cancelled', page: 1, pageSize: 50 },
+            },
+            element: <CancelledVolunteerRequests />,
+        },
+        {
+            label: 'Rejected',
+            href: {
+                pathname: 'volunteer-requests',
+                query: { tab: 'rejected', page: 1, pageSize: 50 },
+            },
+            element: <RejectedVolunteerRequests />,
         },
     ]
 
