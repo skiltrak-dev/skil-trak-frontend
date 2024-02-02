@@ -1,24 +1,22 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { AuthUtils } from '@utils'
 import { emptySplitApi } from '../empty.query'
 import { appointmentsEndpoints } from './appointment'
 
 import { availableShiftsEndpoints } from './availableShifts'
+import { branchesEndpoints } from './branches'
 import { coursesEndpoints } from './courses'
 import { employeeEndpoints } from './employee'
 import { employeeTaskEndpoints } from './employeeTask'
 import { foldersEndpoints } from './folders'
+import { headQuarterEndpoints } from './head-quarter'
 import { jobEndpoints } from './job'
 import { messageEndpoints } from './message'
 import { mouEndpoints } from './mou'
 import { notificationsEndpoints } from './notifications'
 import { rplEndpoints } from './rpl'
 import { studentsEndpoints } from './students'
+import { supervisorsEndpoints } from './supervisors'
 import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
-import { supervisorsEndpoints } from './supervisors'
-import { branchesEndpoints } from './branches'
-import { headQuarterEndpoints } from './head-quarter'
 
 export const industryApi = emptySplitApi.injectEndpoints({
     // export const industryApi = createApi({
@@ -202,6 +200,7 @@ export const {
     // ---- VOLUNTEER ---- //
     useRequestAVolunteerMutation,
     useVolunteerRequestsListQuery,
+    useCancelVolunteerRequestMutation,
 
     // ---- SUPERVISORS ---- //
     useGetSupervisorQuery,
@@ -332,6 +331,7 @@ export const IndustryApi = {
     Volunteer: {
         useRequestAVolunteerMutation,
         requestsList: useVolunteerRequestsListQuery,
+        cancelVolunteerRequest: useCancelVolunteerRequestMutation,
     },
     Supervisor: {
         useGetSupervisor: useGetSupervisorQuery,
