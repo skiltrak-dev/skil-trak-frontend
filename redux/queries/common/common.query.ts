@@ -124,6 +124,12 @@ export const commonApi = emptySplitApi.injectEndpoints({
             }),
             providesTags: ['Documents'],
         }),
+        getCoursesFolders: build.query<any, void>({
+            query: () => ({
+                url: `shared/industry/courses/folder`,
+            }),
+            providesTags: ['Documents'],
+        }),
 
         getRecentActivities: build.query<
             any,
@@ -281,6 +287,7 @@ const {
     useGetAdvertisedJobDetailQuery,
     useApplyForJobFromHomePageMutation,
     useGetBulkEmailSubadminIndustriesQuery,
+    useGetCoursesFoldersQuery,
 
     useGetAllRtosQuery,
     useGetFilterSubAdminRtosQuery,
@@ -495,6 +502,7 @@ export const CommonApi = {
         getAllAdvertisedJobs: useGetAllAdvertisedJobsQuery,
         getAdvertisedJobDetail: useGetAdvertisedJobDetailQuery,
         bulkEmailSubadminIndustries: useGetBulkEmailSubadminIndustriesQuery,
+        getFolders: useGetCoursesFoldersQuery,
     },
     Courses: {
         useCoursesList: useGetCoursesListQuery,

@@ -25,7 +25,6 @@ export const RequestAVolunteerStudent = () => {
         label: `${course?.title} ${course?.code}`,
         value: course?.id,
     }))
-    console.log('getCourses', getCourses)
 
     // query
     const [requestAVolunteer, requestAVolunteerResult] =

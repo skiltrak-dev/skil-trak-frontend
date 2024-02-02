@@ -60,6 +60,11 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                 initialValues?.sectors?.map((sector: any) => sector?.id)
             )
         }
+
+        methods.setValue(
+            'sectors',
+            initialValues?.sectors?.map((sector: any) => sector?.id)
+        )
     }, [initialValues])
 
     const validationSchema = yup.object({
@@ -107,11 +112,6 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
         defaultValues: initialValues,
         mode: 'all',
     })
-    const sectorIds = sectorOptions?.filter((sector: any) =>
-        selectedSector?.includes(sector?.value)
-    )
-
-    
 
     return (
         <FormProvider {...methods}>
@@ -158,9 +158,7 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                                 selectedSector?.includes(sector?.value)
                             )}
                             onChange={(e: any) => {
-                                setSelectedSector(
-                                    e || sectorIds.map((ids: any) => ids.value)
-                                )
+                                setSelectedSector(e)
                             }}
                             multi
                             loading={sectorResponse.isLoading}
