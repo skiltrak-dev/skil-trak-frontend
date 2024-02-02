@@ -134,7 +134,7 @@ export const IndustryNavbar = () => {
                                 </a>
                             </Link>
                         </li>
-                        <li>
+                        {/* <li>
                             <Link
                                 legacyBehavior
                                 href="/portals/industry/general-information"
@@ -155,7 +155,7 @@ export const IndustryNavbar = () => {
                                     </span>
                                 </a>
                             </Link>
-                        </li>
+                        </li> */}
                         {/* Mails */}
                         {/* <li>
                             <Link
@@ -194,11 +194,11 @@ export const IndustryNavbar = () => {
                                     } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
                                 >
                                     <span>
-                                <MdEmail  />
-                            </span>
-                            <span className="text-xs 2xl:text-sm font-semibold">
-                                Mails
-                            </span>
+                                        <MdEmail />
+                                    </span>
+                                    <span className="text-xs 2xl:text-sm font-semibold">
+                                        Messages
+                                    </span>
                                 </a>
                             </Link>
                         </li>

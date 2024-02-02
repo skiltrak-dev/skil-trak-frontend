@@ -1,8 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { ReactElement, useEffect, useState } from 'react'
 
-import { AdminLayout } from '@layouts'
-import { AppointmentTypeFilterType, NextPageWithLayout } from '@types'
+import { AppointmentTypeFilterType } from '@types'
 
 // query
 import { AdminApi } from '@queries'
@@ -12,27 +11,24 @@ import { PageHeading } from '@components/headings'
 
 import {
     AppointmentTypeFilters,
-    Button,
     Card,
     EmptyData,
     Filter,
     InitialAvatar,
     LoadingAnimation,
     Table,
-    TableAction,
     TableActionOption,
     TechnicalError,
     Typography,
 } from '@components'
 import { useNavbar } from '@hooks'
-import { FaFileExport } from 'react-icons/fa'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
+import { CancelVolunteerModal } from '@partials/industry'
 import moment from 'moment'
 import { IoMdCloseCircle } from 'react-icons/io'
-import { checkListLength } from '@utils'
-import { CancelVolunteerModal } from '@partials/industry'
+import { MdEmail, MdPhoneIphone } from 'react-icons/md'
+import { VolunteerRequestEnum } from './enum'
 
-export const ClosedRequests = () => {
+export const ApprovedRequests = () => {
     const navBar = useNavbar()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -44,7 +40,7 @@ export const ClosedRequests = () => {
         {} as AppointmentTypeFilterType
     )
     const { isLoading, data, isError } = AdminApi.Volunteer.useList({
-        search: `status:closed`,
+        search: `status:${VolunteerRequestEnum.APPROVED}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -152,8 +148,8 @@ export const ClosedRequests = () => {
             {modal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
-                    title={'Closed Volunteer Request'}
-                    subtitle={'List of Closed Volunteer Request'}
+                    title={'Approved Volunteer Request'}
+                    subtitle={'List of Approved Volunteer Request'}
                 />
 
                 <Filter<AppointmentTypeFilterType>

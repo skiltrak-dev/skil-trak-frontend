@@ -1,3 +1,4 @@
+import { VolunteerRequestEnum } from '@partials';
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
@@ -19,6 +20,14 @@ export const volunteerEndpoints = (
         query: ({ course, ...body }) => ({
             url: `${PREFIX}/volunteer-request/course/${course}/add`,
             method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['RequestAVolunteer'],
+    }),
+    cancelVolunteerRequest: builder.mutation<any, { id: number; status: VolunteerRequestEnum }>({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}/volunteer-request/${id}/status-update`,
+            method: 'PATCH',
             body,
         }),
         invalidatesTags: ['RequestAVolunteer'],

@@ -20,17 +20,16 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
-import { useGetRtoStudentsQuery, RtoApi } from '@queries'
+import { RtoApi, useGetRtoStudentsQuery } from '@queries'
 import { Student, UserStatus } from '@types'
-import { AuthUtils, studentsListWorkplace } from '@utils'
+import { getUserCredentials, studentsListWorkplace } from '@utils'
+import { saveAs } from 'file-saver'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { SectorCell, StudentCellInfo } from './components'
 import { IndustryCell } from './components/IndustryCell'
 import { ArchiveModal, BlockModal } from './modals'
-import { saveAs } from 'file-saver'
-import { getUserCredentials } from '@utils'
 export const ApprovedStudent = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)

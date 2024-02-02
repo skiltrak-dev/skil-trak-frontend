@@ -1,8 +1,16 @@
-import { Modal, ShowErrorNotifications, TextArea } from '@components'
+import {
+    ActionModal,
+    Modal,
+    ShowErrorNotifications,
+    TextArea,
+} from '@components'
 import { useNotification } from '@hooks'
-import { AdminApi } from '@queries'
+import { VolunteerRequestEnum } from '@partials/admin'
+import { IndustryApi } from '@queries'
 
 import { useEffect, useState } from 'react'
+import { FaTrash } from 'react-icons/fa'
+import { MdCancel } from 'react-icons/md'
 
 export const CancelVolunteerModal = ({
     onCancel,
@@ -15,46 +23,40 @@ export const CancelVolunteerModal = ({
 
     const { notification } = useNotification()
     const [cancelRequest, cancelRequestResult] =
-        AdminApi.Volunteer.cancelVolunteerRequest()
+        IndustryApi.Volunteer.cancelVolunteerRequest()
 
     const onConfirmUClicked = async (volunteer: any) => {
         await cancelRequest({
             id: volunteer?.id,
-            note,
+            status: VolunteerRequestEnum.CANCELLED,
         })
     }
 
     useEffect(() => {
         if (cancelRequestResult.isSuccess) {
             notification.error({
-                title: `Volunter Request Closed`,
-                description: `Volunteer Request has neen closed successfully.`,
+                title: `Volunter Request Cancelled`,
+                description: `Volunteer Request has been cancelled successfully.`,
             })
             onCancel()
         }
     }, [cancelRequestResult])
 
     return (
-        <Modal
-            title="Close the Volunteer Request"
-            subtitle="You are about to close volunteer request. Do you wish to continue?"
-            onCancelClick={onCancel}
-            onConfirmClick={() => {
-                onConfirmUClicked(volunteer)
-            }}
-        >
+        <>
             <ShowErrorNotifications result={cancelRequestResult} />
-
-            <TextArea
-                name={'note'}
-                label={'Add Note Here'}
-                required
-                placeholder={'Add Note Here'}
-                rows={6}
-                onChange={(e: any) => {
-                    setNote(e.target?.value)
-                }}
+            <ActionModal
+                Icon={MdCancel}
+                variant="error"
+                title="Cancel the Volunteer Request!"
+                description={`You are about to cancel volunteer request. Do you wish to continue?`}
+                onConfirm={onConfirmUClicked}
+                onCancel={onCancel}
+                input
+                inputKey={volunteer.title}
+                actionObject={volunteer}
+                loading={cancelRequestResult.isLoading}
             />
-        </Modal>
+        </>
     )
 }

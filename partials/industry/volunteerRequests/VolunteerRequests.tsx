@@ -30,6 +30,7 @@ import { checkListLength, ellipsisText } from '@utils'
 import moment from 'moment'
 import { IoMdCloseCircle } from 'react-icons/io'
 import { Router, useRouter } from 'next/router'
+import { VolunteerRequestEnum } from '@partials/admin'
 
 export const VolunteerRequests = () => {
     const navBar = useNavbar()
@@ -67,7 +68,7 @@ export const VolunteerRequests = () => {
 
     const tableActionOptions: TableActionOption[] = [
         {
-            text: 'Close',
+            text: 'Cancel',
             onClick: (volunteer: any) => {
                 onCancelRequest(volunteer)
             },
@@ -105,9 +106,11 @@ export const VolunteerRequests = () => {
                             ) || '----'}
                         </span>
                     </Typography>
-                    <div className="hidden group-hover:block text-[13px] max-h-[240px] overflow-auto custom-scrollbar w-full absolute top-full left-0 p-2 z-20 shadow rounded-md bg-white">
-                        {info.row.original?.requirement}
-                    </div>
+                    {info.row.original?.requirement && (
+                        <div className="hidden group-hover:block text-[13px] max-h-[240px] overflow-auto custom-scrollbar w-full absolute top-full left-0 p-2 z-20 shadow rounded-md bg-white">
+                            {info.row.original?.requirement}
+                        </div>
+                    )}
                 </div>
             ),
         },
@@ -122,9 +125,11 @@ export const VolunteerRequests = () => {
                                 '----'}
                         </span>
                     </Typography>
-                    <div className="hidden group-hover:block text-[13px] max-h-[240px] overflow-auto custom-scrollbar w-full absolute top-full left-0 p-2 z-20 shadow rounded-md bg-white">
-                        {info.row.original?.note}
-                    </div>
+                    {info.row.original?.note && (
+                        <div className="hidden group-hover:block text-[13px] max-h-[240px] overflow-auto custom-scrollbar w-full absolute top-full left-0 p-2 z-20 shadow rounded-md bg-white">
+                            {info.row.original?.note}
+                        </div>
+                    )}
                 </div>
             ),
         },
@@ -133,8 +138,16 @@ export const VolunteerRequests = () => {
             accessorKey: 'status',
             cell: (info) => (
                 <Badge
-                    variant={info.row.original?.isClosed ? 'error' : 'primary'}
-                    text={info.row.original?.isClosed ? 'Closed' : 'Active'}
+                    variant={
+                        info.row.original?.status ===
+                        VolunteerRequestEnum.PENDING
+                            ? 'primary'
+                            : info.row.original?.status ===
+                              VolunteerRequestEnum.APPROVED
+                            ? 'success'
+                            : 'error'
+                    }
+                    text={info.row.original?.status}
                 />
             ),
         },
@@ -154,13 +167,17 @@ export const VolunteerRequests = () => {
             header: () => <span>Action</span>,
             cell: ({ row }: any) => (
                 <div className="flex gap-x-1 items-center">
-                    <TableAction
-                        options={tableActionOptions}
-                        rowItem={row.original}
-                        lastIndex={checkListLength<any>(
-                            volunteerRequests?.data?.data as any
-                        )?.includes(row?.index)}
-                    />
+                    {row.original?.status === VolunteerRequestEnum.PENDING ? (
+                        <TableAction
+                            options={tableActionOptions}
+                            rowItem={row.original}
+                            lastIndex={checkListLength<any>(
+                                volunteerRequests?.data?.data as any
+                            )?.includes(row?.index)}
+                        />
+                    ) : (
+                        '---'
+                    )}
                 </div>
             ),
         },
