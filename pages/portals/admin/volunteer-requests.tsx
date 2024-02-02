@@ -66,14 +66,14 @@ const VolunteerRequests: NextPageWithLayout = (props: Props) => {
             },
             element: <ApprovedRequests />,
         },
-        {
-            label: 'Cancelled',
-            href: {
-                pathname: 'volunteer-requests',
-                query: { tab: 'cancelled', page: 1, pageSize: 50 },
-            },
-            element: <CancelledVolunteerRequests />,
-        },
+        // {
+        //     label: 'Cancelled',
+        //     href: {
+        //         pathname: 'volunteer-requests',
+        //         query: { tab: 'cancelled', page: 1, pageSize: 50 },
+        //     },
+        //     element: <CancelledVolunteerRequests />,
+        // },
         {
             label: 'Rejected',
             href: {
