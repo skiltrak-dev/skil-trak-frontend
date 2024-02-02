@@ -1,8 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { ReactElement, useEffect, useState } from 'react'
 
-import { AdminLayout } from '@layouts'
-import { AppointmentTypeFilterType, NextPageWithLayout } from '@types'
+import { AppointmentTypeFilterType } from '@types'
 
 // query
 import { AdminApi } from '@queries'
@@ -12,7 +11,6 @@ import { PageHeading } from '@components/headings'
 
 import {
     AppointmentTypeFilters,
-    Button,
     Card,
     EmptyData,
     Filter,
@@ -25,14 +23,19 @@ import {
     Typography,
 } from '@components'
 import { useNavbar } from '@hooks'
-import { FaFileExport } from 'react-icons/fa'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
+import { checkListLength } from '@utils'
 import moment from 'moment'
 import { IoMdCloseCircle } from 'react-icons/io'
-import { checkListLength } from '@utils'
-import { CancelVolunteerModal } from '@partials/industry'
+import { MdEmail, MdOutlineBlock, MdPhoneIphone } from 'react-icons/md'
+import {
+    ApproveVolunteerModal,
+    CancelVolunteerModal,
+    RejectVolunteerModal,
+} from './modals'
+import { VolunteerRequestEnum } from './enum'
+import { FaCheckCircle } from 'react-icons/fa'
 
-export const ActiveRequests = () => {
+export const PendingRequests = () => {
     const navBar = useNavbar()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -44,11 +47,7 @@ export const ActiveRequests = () => {
         {} as AppointmentTypeFilterType
     )
     const { isLoading, data, isError } = AdminApi.Volunteer.useList({
-        search: `${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
+        search: `status:${VolunteerRequestEnum.PENDING}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -59,6 +58,15 @@ export const ActiveRequests = () => {
 
     const onCancelModal = () => setModal(null)
 
+    const onApproveRequest = (volunteer: any) => {
+        setModal(
+            <ApproveVolunteerModal
+                volunteer={volunteer}
+                onCancel={onCancelModal}
+            />
+        )
+    }
+
     const onCancelRequest = (volunteer: any) => {
         setModal(
             <CancelVolunteerModal
@@ -68,13 +76,37 @@ export const ActiveRequests = () => {
         )
     }
 
+    const onRejectRequest = (volunteer: any) => {
+        setModal(
+            <RejectVolunteerModal
+                volunteer={volunteer}
+                onCancel={onCancelModal}
+            />
+        )
+    }
+
     const tableActionOptions: TableActionOption[] = [
         {
-            text: 'Close',
+            text: 'Approve',
+            onClick: (volunteer: any) => {
+                onApproveRequest(volunteer)
+            },
+            Icon: FaCheckCircle,
+        },
+        {
+            text: 'Cancel',
             onClick: (volunteer: any) => {
                 onCancelRequest(volunteer)
             },
             Icon: IoMdCloseCircle,
+        },
+        {
+            text: 'Reject',
+            onClick: (volunteer: any) => {
+                onRejectRequest(volunteer)
+            },
+            Icon: MdOutlineBlock,
+            color: 'bg-red-100 hover:bg-red-200',
         },
     ]
 
@@ -171,8 +203,8 @@ export const ActiveRequests = () => {
             {modal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
-                    title={'Active Volunteer Request'}
-                    subtitle={'List of Active Volunteer Request'}
+                    title={'Pending Volunteer Request'}
+                    subtitle={'List of Pending Volunteer Request'}
                 />
 
                 <Filter<AppointmentTypeFilterType>
