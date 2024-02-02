@@ -58,12 +58,7 @@ export const ViewDocumentAndSign = () => {
     }
 
     useEffect(() => {
-        if (
-            tabs?.data &&
-            tabs.isSuccess &&
-            tabs?.data?.length > 0 &&
-            !customFieldsData?.length
-        ) {
+        if (tabs?.data && tabs.isSuccess && tabs?.data?.length > 0) {
             setCustomFieldsData(
                 tabs?.data?.map((tab: any) => {
                     const response = tab?.responses?.reduce(
