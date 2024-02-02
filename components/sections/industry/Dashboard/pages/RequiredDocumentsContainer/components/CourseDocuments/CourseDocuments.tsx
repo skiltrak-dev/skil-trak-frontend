@@ -44,6 +44,8 @@ export const CourseDocuments = ({
         )
     }
 
+    console.log('CourseDocuments', data)
+
     const getCustomRelatedData = () => {
         return data?.filter(
             ({ folder_isCustom, folder_courseId }: any) =>
