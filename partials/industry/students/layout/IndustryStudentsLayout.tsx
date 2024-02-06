@@ -62,25 +62,6 @@ export const IndustryStudentsLayout = ({
                     <li>
                         <Link
                             legacyBehavior
-                            href="/portals/industry/students/request-a-volunteer"
-                        >
-                            <a
-                                className={`text-slate-700 ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
-                                id="students"
-                            >
-                                <span>
-                                    <FaClipboardList />
-                                </span>
-                                <span className="text-sm font-semibold">
-                                    Request a Volunteer
-                                </span>
-                            </a>
-                        </Link>
-                    </li>
-
-                    <li>
-                        <Link
-                            legacyBehavior
                             href="/portals/industry/students/appointments"
                         >
                             <a
@@ -91,24 +72,6 @@ export const IndustryStudentsLayout = ({
                                 </span>
                                 <span className="text-sm font-semibold">
                                     Appointments
-                                </span>
-                            </a>
-                        </Link>
-                    </li>
-
-                    <li>
-                        <Link
-                            legacyBehavior
-                            href="/portals/industry/students/e-sign"
-                        >
-                            <a
-                                className={`text-slate-700 ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
-                            >
-                                <span>
-                                    <FaFileSignature />
-                                </span>
-                                <span className="text-sm font-semibold">
-                                    E Sign
                                 </span>
                             </a>
                         </Link>

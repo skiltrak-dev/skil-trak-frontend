@@ -1,25 +1,20 @@
 import {
     ActionButton,
-    Button,
     Card,
     EmptyData,
     LoadingAnimation,
     Table,
     TableAction,
-    TechnicalError,
+    TechnicalError
 } from '@components'
 import { DocumentsView } from '@hooks'
-import { IndustryLayout } from '@layouts'
 import { StudentCellInfo } from '@partials/industry/currentStudents/components'
-import { JobCell } from '@partials/industry/job/components'
 import { RequirementModal } from '@partials/industry/job/modals/RequirementModal'
-import { IndustryApi, useGetIndustryJobsQuery } from '@queries'
+import { IndustryApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { useRouter } from 'next/router'
-import React, { ReactElement, ReactNode, useState } from 'react'
-import { AiFillDelete } from 'react-icons/ai'
+import { ReactNode, useState } from 'react'
 import { IoMdEye } from 'react-icons/io'
-import { MdEdit } from 'react-icons/md'
 
 export const PortalApplied = () => {
     const router = useRouter()

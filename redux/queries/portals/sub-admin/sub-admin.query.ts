@@ -12,6 +12,7 @@ import { setUnavailabilityEndpoints } from './setUnavailability'
 import { subAdminSettingEndpoints } from './setting'
 import { studentsEndpoints } from './students'
 import { workplaceEndpoints } from './workplace'
+import { subadminVolunteerEndpoints } from './volunteer'
 export const subAdminApi = emptySplitApi.injectEndpoints({
     // export const subAdminApi = createApi({
     //     reducerPath: 'subAdminApi',
@@ -74,6 +75,7 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
         ...subAdminRtoEndpoints(build),
         ...subAdminSettingEndpoints(build),
         ...setUnavailabilityEndpoints(build),
+        ...subadminVolunteerEndpoints(build),
         ...subAdminAppointmentspoints(build),
         ...assessmentEvidenceEndpoints(build),
         ...subAdminIndustriesEndpoints(build),
@@ -266,6 +268,9 @@ export const {
     useGetStudentWithNoWorkplaceReportQuery,
     useGetSubAdminReportDownloadLinkQuery,
     useGetStudentProvidedWorkplaceReportQuery,
+
+    // ---- VOLUNTEER ---- //
+    useGetSubadminVolunteerRequestsQuery,
 } = subAdminApi
 
 export const SubAdminApi = {
@@ -400,5 +405,8 @@ export const SubAdminApi = {
         useDownloadLink: useGetSubAdminReportDownloadLinkQuery,
         useStudentProvidedWorkplaceReport:
             useGetStudentProvidedWorkplaceReportQuery,
+    },
+    Volunteer: {
+        useVolunteerRequests: useGetSubadminVolunteerRequestsQuery,
     },
 }

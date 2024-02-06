@@ -1,14 +1,8 @@
-import { ReactElement, useEffect, useState } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
+import { ReactElement, useEffect, useState } from 'react'
 
 import { AdminLayout } from '@layouts'
-import {
-    AppointmentType,
-    AppointmentTypeFilterType,
-    Job,
-    NextPageWithLayout,
-    Rpl,
-} from '@types'
+import { AppointmentTypeFilterType, NextPageWithLayout, Rpl } from '@types'
 
 // query
 import { AdminApi } from '@queries'
@@ -16,7 +10,6 @@ import { AdminApi } from '@queries'
 // components
 import { PageHeading } from '@components/headings'
 
-import { useNavbar } from '@hooks'
 import {
     ActionButton,
     AppointmentTypeFilters,
@@ -31,10 +24,11 @@ import {
     TableActionOption,
     TechnicalError,
 } from '@components'
-import { FaEnvelope, FaFileExport, FaPhone, FaTrash } from 'react-icons/fa'
+import { DocumentsView, useNavbar } from '@hooks'
+import { DeleteRplModal, ViewAcademicDocumentsModal } from '@partials/admin/Rpl'
 import Link from 'next/link'
+import { FaFileExport, FaTrash } from 'react-icons/fa'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { DeleteRplModal } from '@partials/admin/Rpl'
 
 type Props = {}
 
@@ -48,6 +42,8 @@ const RPLList: NextPageWithLayout = (props: Props) => {
     const [filter, setFilter] = useState<AppointmentTypeFilterType>(
         {} as AppointmentTypeFilterType
     )
+    const { documentsViewModal, onFileClicked } = DocumentsView()
+
     const { isLoading, data, isError } = AdminApi.Rpl.useRplList({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
@@ -64,6 +60,16 @@ const RPLList: NextPageWithLayout = (props: Props) => {
     const onDeleteClicked = (rpl: any) => {
         setModal(<DeleteRplModal rpl={rpl} onCancel={onModalCancelClicked} />)
     }
+
+    const onViewAcademicDocuments = (financialEvidence: any) => {
+        setModal(
+            <ViewAcademicDocumentsModal
+                onCancel={onModalCancelClicked}
+                financialEvidence={financialEvidence}
+            />
+        )
+    }
+
     useEffect(() => {
         navBar.setTitle('RPL LIST')
     }, [])
@@ -113,22 +119,98 @@ const RPLList: NextPageWithLayout = (props: Props) => {
                 )
             },
         },
-        // {
-        //   header: () => <span>Description</span>,
-        //   accessorKey: '',
-        //   cell: (info) => {
-        //     return (
-        //       <ActionButton variant="link" simple>
-        //         View
-        //       </ActionButton>
-        //     )
-        //   },
-        // },
         {
             header: () => <span>Job Description</span>,
             accessorKey: 'jobDescription',
             cell: (info) => {
                 return <div>{info.row.original?.jobDescription}</div>
+            },
+        },
+        {
+            header: () => <span>Resume</span>,
+            accessorKey: 'resume',
+            cell: (info) => {
+                const fileType = info.row.original?.resume
+                    ?.split('.')
+                    ?.reverse()[0]
+                return (
+                    <ActionButton
+                        variant="info"
+                        onClick={() => {
+                            onFileClicked({
+                                file: info.row.original?.resume,
+                                extension: fileType,
+                            })
+                        }}
+                    >
+                        View
+                    </ActionButton>
+                )
+            },
+        },
+        {
+            header: () => <span>Identity</span>,
+            accessorKey: 'identity',
+            cell: (info) => {
+                const fileType = info.row.original?.identity
+                    ?.split('.')
+                    ?.reverse()[0]
+                return (
+                    <ActionButton
+                        variant="info"
+                        onClick={() => {
+                            onFileClicked({
+                                file: info.row.original?.identity,
+                                extension: fileType,
+                            })
+                        }}
+                    >
+                        View
+                    </ActionButton>
+                )
+            },
+        },
+        {
+            header: () => <span>Financial Evidence</span>,
+            accessorKey: 'financialEvidence',
+            cell: (info) => {
+                const extension = info.row.original?.financialEvidence?.[0]
+                    ?.split('.')
+                    ?.reverse()[0]
+                return (
+                    <ActionButton
+                        variant="info"
+                        onClick={() => {
+                            onFileClicked({
+                                file: info.row.original?.financialEvidence?.[0],
+                                extension,
+                            })
+                        }}
+                    >
+                        View
+                    </ActionButton>
+                )
+            },
+        },
+        {
+            header: () => <span>Academic Documents</span>,
+            accessorKey: 'academicDocuments',
+            cell: (info) => {
+                const extension = info.row.original?.financialEvidence?.[0]
+                    ?.split('.')
+                    ?.reverse()[0]
+                return (
+                    <ActionButton
+                        variant="info"
+                        onClick={() => {
+                            onViewAcademicDocuments(
+                                info.row.original?.academicDocuments
+                            )
+                        }}
+                    >
+                        View
+                    </ActionButton>
+                )
             },
         },
         {
@@ -169,6 +251,7 @@ const RPLList: NextPageWithLayout = (props: Props) => {
     return (
         <div className="p-6">
             {modal && modal}
+            {documentsViewModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'RPL List'}

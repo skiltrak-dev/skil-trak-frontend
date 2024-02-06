@@ -30,10 +30,10 @@ export const ESignatures = (props: Props) => {
     return (
         <>
             {/* <AssessmentCourseCard /> */}
-            <div className="flex gap-x-2">
-                <div className="w-[33%]">
+            <div className="flex flex-col gap-y-3 lg:flex-row gap-x-2">
+                <div className="w-full lg:w-[33%]">
                     <Card noPadding>
-                        <div className="min-h-[370px]">
+                        <div className="lg:min-h-[370px]">
                             {pendingDocuments.isError && (
                                 <NoData
                                     text={'There is some technical issue!'}
@@ -61,7 +61,7 @@ export const ESignatures = (props: Props) => {
                         </div>
                     </Card>
                 </div>
-                <div className="w-[67%]">
+                <div className="w-full lg:w-[67%]">
                     <Card noPadding>
                         {selectedFolder ? (
                             <WorkplaceAgreementDetail
