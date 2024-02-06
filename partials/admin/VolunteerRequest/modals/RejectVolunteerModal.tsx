@@ -32,7 +32,7 @@ export const RejectVolunteerModal = ({
         if (changeStatusResult.isSuccess) {
             notification.error({
                 title: `Volunter Request Rejected`,
-                description: `Volunteer Request has neen rejected successfully.`,
+                description: `Volunteer Request has been rejected successfully.`,
             })
             onCancel()
         }

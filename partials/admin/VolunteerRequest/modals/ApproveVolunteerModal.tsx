@@ -32,7 +32,7 @@ export const ApproveVolunteerModal = ({
         if (changeStatusResult.isSuccess) {
             notification.success({
                 title: `Volunter Request Approved`,
-                description: `Volunteer Request has neen approved successfully.`,
+                description: `Volunteer Request has been approved successfully.`,
             })
             onCancel()
         }
