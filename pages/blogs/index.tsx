@@ -97,7 +97,7 @@ const Blogs: NextPageWithLayout = () => {
                                                     {data?.data[0]?.shortDescription && data?.data[0]?.shortDescription.substr(
                                                         0,
                                                         1800
-                                                    ) || "N/A"}
+                                                    ) || " "}
                                                     ...
                                                 </div>
                                             </div>
@@ -186,7 +186,7 @@ const Blogs: NextPageWithLayout = () => {
                         /> */}
                         <PaginatedItems
                             data={data?.data}
-                            itemsPerPage={3}
+                            itemsPerPage={9}
                             setCurrentItems={setCurrentItems}
                         />
                     </div>

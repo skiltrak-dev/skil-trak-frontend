@@ -33,7 +33,7 @@ const BlogDetail: NextPageWithLayout = () => {
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data ? (
-                    <div className="rounded-xl md:px-8 px-4 py-8 md:py-4">
+                    <div className="rounded-xl md:px-8 px-4 py-8 md:py-4 bg-white">
                         <div className="md:h-[600px] h-[250px] w-full relative overflow-hidden rounded-xl">
                             <Image
                                 src={data?.featuredImage}
@@ -92,13 +92,15 @@ const BlogDetail: NextPageWithLayout = () => {
                                                         }
                                                     >
                                                         <AccordionTrigger className="mb-2 font-medium text-sm flex items-center justify-between w-full">
-                                                            {faq?.question}
-                                                            {activeKey ===
-                                                            faq?.id ? (
-                                                                <FaChevronUp />
-                                                            ) : (
-                                                                <FaChevronDown />
-                                                            )}
+                                                            <h3>
+                                                                {faq?.question}
+                                                                {activeKey ===
+                                                                faq?.id ? (
+                                                                    <FaChevronUp />
+                                                                ) : (
+                                                                    <FaChevronDown />
+                                                                )}
+                                                            </h3>
                                                         </AccordionTrigger>
                                                         <AccordionContent className="text-sm text-gray-500">
                                                             {faq?.answer}

@@ -7,7 +7,7 @@ import { ApplyNowButton } from '../../components'
 // React icons
 import { HiUserGroup } from 'react-icons/hi'
 import { IoMdBriefcase } from 'react-icons/io'
-import { MdContactPhone } from 'react-icons/md'
+import { MdContactPhone, MdEmail } from 'react-icons/md'
 import { FaLocationArrow } from 'react-icons/fa'
 import { FaPhoneAlt } from 'react-icons/fa'
 import { RiTimeFill } from 'react-icons/ri'
@@ -110,10 +110,17 @@ export const JobDetail = (props: Props) => {
                                                     variant="muted"
                                                     color="text-black"
                                                 >
-                                                    {
-                                                        data?.industry
-                                                            ?.phoneNumber
-                                                    }
+                                                    {data?.phone}
+                                                </Typography>
+                                            </div>
+                                            <div className="flex gap-x-2 items-center">
+                                                <MdEmail className="text-[#D1D5DB]" />
+
+                                                <Typography
+                                                    variant="muted"
+                                                    color="text-black"
+                                                >
+                                                    {data?.email}
                                                 </Typography>
                                             </div>
                                         </div>

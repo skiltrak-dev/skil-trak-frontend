@@ -58,7 +58,7 @@ export const JobDetailData = ({ data }: any) => {
                 {/* Address */}
                 <div className="flex flex-col gap-y-1">
                     <Typography variant={'muted'} color={'gray'}>
-                        Address 1
+                        Address 
                     </Typography>
                     <Typography color={'black'}>
                         {data?.addressLine1}
