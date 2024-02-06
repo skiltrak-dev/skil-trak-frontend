@@ -1,29 +1,19 @@
-import React, { ReactElement, useEffect, useRef, useState } from 'react'
+import { ReactElement, useEffect } from 'react'
 
+import {
+    EmptyData,
+    LoadingAnimation,
+    TechnicalError
+} from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { Jobs } from '@partials/admin/job'
 import { NextPageWithLayout } from '@types'
-import {
-    Button,
-    EmptyData,
-    InputContentEditor,
-    LoadingAnimation,
-    TechnicalError,
-    draftToHtmlText,
-} from '@components'
-import {
-    Controller,
-    FormProvider,
-    useForm,
-    useFormContext,
-} from 'react-hook-form'
 // import ReactQuill from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
-import dynamic from 'next/dynamic'
 import { BlogContextBar } from '@partials/admin/blog'
-import { useRouter } from 'next/router'
 import { adminApi } from '@queries'
+import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
+import 'react-quill/dist/quill.snow.css'
 // import { TextEditor } from '@partials'
 //  TODO ID REPLACED WITH SLUG
 const EditBlog: NextPageWithLayout = () => {

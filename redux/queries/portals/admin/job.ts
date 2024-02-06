@@ -14,6 +14,14 @@ export const jobEndpoints = (
         providesTags: ['Jobs'],
     }),
 
+    jobApplicants: builder.query<PaginatedResponse<Job>, any>({
+        query: ({ id, ...params }) => ({
+            url: `${PREFIX}job/${id}/applicants-all`,
+            params,
+        }),
+        providesTags: ['Jobs'],
+    }),
+
     jobStatusChange: builder.mutation<Job, number>({
         query: (id) => ({
             url: `${PREFIX}jobs/approve/${id}`,

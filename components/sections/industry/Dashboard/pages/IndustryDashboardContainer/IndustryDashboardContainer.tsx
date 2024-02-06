@@ -2,15 +2,14 @@ import { MediaQueries } from '@constants'
 import { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 
-import { IndustryApi, CommonApi } from '@queries'
+import { IndustryApi } from '@queries'
 
 // Components
 import {
     Card,
     HelpQuestionSet,
     LottieAnimation,
-    Typography,
-    Modal,
+    Typography
 } from '@components'
 
 // Context
@@ -18,14 +17,13 @@ import { Animations } from '@animations'
 import { Desktop, Mobile } from '@components/Responsive'
 import { AdForRPL } from '@components/sections/industry'
 // import { ImportantDocuments } from '@partials/industry'
-import { ViewProfileCB } from '@partials/industry/contextBar'
+import { FigureCard } from '@components/sections/subAdmin'
+import { ImportantDocuments } from '@partials/common'
+import { Course, GetSectorsType } from '@types'
 import { AuthUtils } from '@utils'
 import { useContextBar } from 'hooks'
 import { useRouter } from 'next/router'
 import { CallBackProps } from 'react-joyride'
-import { FigureCard } from '@components/sections/subAdmin'
-import { Course, GetSectorsType } from '@types'
-import { ImportantDocuments } from '@partials/common'
 
 export const PrimaryActions = [
     {
@@ -62,7 +60,7 @@ export const IndustryDashboardContainer = () => {
     const [credentials, setCredentials] = useState<any>(null)
     const sectorsWithCourses = getSectors([])
     const studentCount = IndustryApi.Students.useStudentCount()
-    
+
     // const [modal, setModal] = useState<any | null>(null)
     // const { data, isSuccess, isLoading } = CommonApi.Industries.getFolders()
     // const folders = data
@@ -866,17 +864,6 @@ export const IndustryDashboardContainer = () => {
         undefined,
         handleMediaQueryChange
     )
-    useEffect(() => {
-        if (!isMobile) {
-            contextBar.setContent(<ViewProfileCB />)
-            contextBar.show(false)
-        }
-
-        return () => {
-            contextBar.setContent(null)
-            contextBar.hide()
-        }
-    }, [isMobile])
 
     useEffect(() => {
         if (!credentials) {

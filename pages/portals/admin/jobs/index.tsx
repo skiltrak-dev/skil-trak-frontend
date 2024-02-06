@@ -13,7 +13,7 @@ const JobsList: NextPageWithLayout = () => {
     }, [])
 
     return (
-        <div className="p-6">
+        <div className="">
             <Jobs />
         </div>
     )

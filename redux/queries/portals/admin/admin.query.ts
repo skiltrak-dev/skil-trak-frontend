@@ -344,6 +344,7 @@ const {
 
     // ------ JOBS ------ //
     useJobsQuery,
+    useJobApplicantsQuery,
     useJobStatusChangeMutation,
 
     // --- VOLUNTEER --- //
@@ -513,6 +514,7 @@ export const AdminApi = {
 
     Jobs: {
         useList: useJobsQuery,
+        useJobApplicants: useJobApplicantsQuery,
         useStatusChange: useJobStatusChangeMutation,
     },
     Volunteer: {

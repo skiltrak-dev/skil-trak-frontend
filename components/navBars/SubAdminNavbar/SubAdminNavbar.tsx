@@ -23,12 +23,13 @@ const Routes = {
     Report: '/portals/sub-admin/report',
     History: '/portals/sub-admin/history',
     ESign: '/portals/sub-admin/e-sign?tab=all',
+    VolunteerRequest: '/portals/sub-admin/volunteer-requests?tab=pending',
 }
 export const SubAdminNavbar = () => {
     const router = useRouter()
 
     const defaultClasses =
-        'transition-all duration-300 px-4 py-2 flex gap-x-2 items-center rounded-md'
+        'transition-all duration-300 px-2.5 py-2 flex gap-x-2 items-center rounded-md'
 
     const isActive = (pathname: string) => {
         return isActiveRoute(pathname, router, PREFIX, true)
@@ -47,9 +48,9 @@ export const SubAdminNavbar = () => {
                             } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
                         >
                             <span>
-                                <MdSpaceDashboard />
+                                <MdSpaceDashboard className="text-sm" />
                             </span>
-                            <span className="text-xs 2xl:text-sm font-semibold">
+                            <span className="text-xs 2xl:text-[13] font-semibold">
                                 Dashboard
                             </span>
                         </a>
@@ -67,9 +68,9 @@ export const SubAdminNavbar = () => {
                             id="student"
                         >
                             <span>
-                                <FaUserGraduate />
+                                <FaUserGraduate className="text-sm" />
                             </span>
-                            <span className="text-xs 2xl:text-sm font-semibold">
+                            <span className="text-xs 2xl:text-[13px] font-semibold">
                                 Students
                             </span>
                         </a>
@@ -87,9 +88,9 @@ export const SubAdminNavbar = () => {
                             id="users"
                         >
                             <span>
-                                <HiUsers />
+                                <HiUsers className="text-sm" />
                             </span>
-                            <span className="text-xs 2xl:text-sm font-semibold">
+                            <span className="text-xs 2xl:text-[13px] font-semibold">
                                 Users
                             </span>
                         </a>
@@ -107,9 +108,9 @@ export const SubAdminNavbar = () => {
                             id="tasks"
                         >
                             <span>
-                                <FaClipboardList />
+                                <FaClipboardList className="text-sm" />
                             </span>
-                            <span className="text-xs 2xl:text-sm font-semibold">
+                            <span className="text-xs 2xl:text-[13px] font-semibold">
                                 Tasks
                             </span>
                         </a>
@@ -126,9 +127,9 @@ export const SubAdminNavbar = () => {
                             } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
                         >
                             <span>
-                                <MdEmail  />
+                                <MdEmail className="text-sm" />
                             </span>
-                            <span className="text-xs 2xl:text-sm font-semibold">
+                            <span className="text-xs 2xl:text-[13px] font-semibold">
                                 Mails
                             </span>
                         </a>
@@ -145,9 +146,9 @@ export const SubAdminNavbar = () => {
                             } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
                         >
                             <span>
-                                <FaHistory />
+                                <FaHistory className="text-sm" />
                             </span>
-                            <span className="text-xs 2xl:text-sm font-semibold">
+                            <span className="text-xs 2xl:text-[13px] font-semibold">
                                 History
                             </span>
                         </a>
@@ -163,10 +164,29 @@ export const SubAdminNavbar = () => {
                             } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
                         >
                             <span>
-                                <FaFileSignature />
+                                <FaFileSignature className="text-sm" />
                             </span>
-                            <span className="text-xs 2xl:text-sm font-semibold">
+                            <span className="text-xs 2xl:text-[13px] font-semibold">
                                 E-Sign
+                            </span>
+                        </a>
+                    </Link>
+                </li>
+                <li>
+                    <Link legacyBehavior href={Routes.VolunteerRequest}>
+                        <a
+                            className={`${
+                                isActive(Routes.VolunteerRequest)
+                                    ? 'bg-orange-100 text-orange-700'
+                                    : 'text-slate-700'
+                            } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
+                            id="tasks"
+                        >
+                            <span>
+                                <FaClipboardList className="text-sm" />
+                            </span>
+                            <span className="text-xs 2xl:text-[13px] font-semibold">
+                                Volunteer Requests
                             </span>
                         </a>
                     </Link>
@@ -182,9 +202,9 @@ export const SubAdminNavbar = () => {
                         } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
                     >
                         <span>
-                            <HiDocumentReport />
+                            <HiDocumentReport className="text-sm" />
                         </span>
-                        <span className="text-xs 2xl:text-sm font-semibold">
+                        <span className="text-xs 2xl:text-[13px] font-semibold">
                             My Reports
                         </span>
                     </a>
@@ -198,9 +218,9 @@ export const SubAdminNavbar = () => {
                         } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
                     >
                         <span>
-                            <MdNotifications />
+                            <MdNotifications className="text-sm" />
                         </span>
-                        <span className="text-xs 2xl:text-sm font-semibold">
+                        <span className="text-xs 2xl:text-[13px] font-semibold">
                             Settings
                         </span>
                     </a>
