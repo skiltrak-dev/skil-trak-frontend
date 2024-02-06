@@ -218,12 +218,9 @@ export const Approved = () => {
                 const currentStatus = info.row.original?.currentStatus
                 return (
                     <div className="flex gap-x-1 items-center">
-                        {appliedIndustry &&
-                        !appliedIndustry?.industryResponse &&
-                        WorkplaceCurrentStatus.Cancelled !== currentStatus &&
-                        WorkplaceCurrentStatus.Terminated !== currentStatus &&
-                        WorkplaceCurrentStatus.NoResponse !== currentStatus &&
-                        WorkplaceCurrentStatus.Rejected !== currentStatus ? (
+                        {[
+                            WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
+                        ]?.includes(currentStatus) ? (
                             <>
                                 <ActionButton
                                     variant="success"
@@ -247,6 +244,7 @@ export const Approved = () => {
                                 </ActionButton>
                             </>
                         ) : null}
+
                         <TableAction
                             options={tableActionOptions}
                             rowItem={info.row.original}
@@ -261,8 +259,8 @@ export const Approved = () => {
         <>
             <div className="flex flex-col gap-y-4">
                 <PageHeading
-                    title={'Approved Students'}
-                    subtitle={'List of Approved Students'}
+                    title={'All Students'}
+                    subtitle={'List of All Students'}
                 />
                 <Card noPadding>
                     {industryWorkplace.isError && <TechnicalError />}

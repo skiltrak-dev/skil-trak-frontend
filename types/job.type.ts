@@ -22,4 +22,5 @@ export interface Job extends BaseResponse {
     expiry: number
     status: any
     industry: Industry
+    applicationCount: number
 }

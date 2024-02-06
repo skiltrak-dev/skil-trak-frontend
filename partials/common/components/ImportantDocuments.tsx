@@ -120,7 +120,7 @@ export const ImportantDocuments = ({
                                     sizes="100vw 100vh"
                                     src={document?.file}
                                     alt=""
-                                    className="w-[inherit] h-full object-contain mt-3"
+                                    className="w-fit max-h-[480px] mx-auto object-contain mt-3"
                                     blurDataURL={'/images/blur_image.png'}
                                     placeholder="blur"
                                 />
@@ -165,7 +165,6 @@ export const ImportantDocuments = ({
         }
     }
 
-    
     return (
         <div>
             {modal}

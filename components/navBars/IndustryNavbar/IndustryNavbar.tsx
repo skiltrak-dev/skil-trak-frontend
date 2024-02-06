@@ -1,25 +1,24 @@
-import Link from 'next/link'
 import classNames from 'classnames'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 
+import { Desktop, Mobile } from '@components/Responsive'
+import { FaClipboardList, FaFileSignature } from 'react-icons/fa'
+import { HiInformationCircle, HiUsers } from 'react-icons/hi'
 import {
     MdEmail,
     MdNotifications,
     MdSpaceDashboard,
     MdWork,
 } from 'react-icons/md'
-import { FaClipboardList, FaSignature } from 'react-icons/fa'
-import { HiInformationCircle, HiUsers } from 'react-icons/hi'
-import { Desktop, Mobile } from '@components/Responsive'
 
 // utils
-import { getUserCredentials } from '@utils'
 
 export const IndustryNavbar = () => {
     const router = useRouter()
 
     const defaultClasses = classNames({
-        'transition-all duration-300 px-4 py-2 flex flex-col md:flex-row gap-x-2 items-center rounded-md':
+        'transition-all duration-300 px-3 py-2 flex flex-col md:flex-row gap-x-2 items-center rounded-md':
             true,
     })
 
@@ -40,7 +39,7 @@ export const IndustryNavbar = () => {
                                     <span>
                                         <MdSpaceDashboard />
                                     </span>
-                                    <span className="text-sm font-semibold">
+                                    <span className="text-[13px] font-semibold">
                                         Dashboard
                                     </span>
                                 </a>
@@ -61,7 +60,7 @@ export const IndustryNavbar = () => {
                                     <span>
                                         <HiUsers />
                                     </span>
-                                    <span className="text-sm font-semibold">
+                                    <span className="text-[13px] font-semibold">
                                         Tasks
                                     </span>
                                 </a>
@@ -85,7 +84,7 @@ export const IndustryNavbar = () => {
                                     <span>
                                         <FaClipboardList />
                                     </span>
-                                    <span className="text-sm font-semibold">
+                                    <span className="text-[13px] font-semibold">
                                         Students
                                     </span>
                                 </a>
@@ -108,7 +107,7 @@ export const IndustryNavbar = () => {
                                     <span>
                                         <MdWork />
                                     </span>
-                                    <span className="text-sm font-semibold">
+                                    <span className="text-[13px] font-semibold">
                                         Supervisors
                                     </span>
                                 </a>
@@ -128,7 +127,7 @@ export const IndustryNavbar = () => {
                                     <span>
                                         <MdWork />
                                     </span>
-                                    <span className="text-sm font-semibold">
+                                    <span className="text-[13px] font-semibold">
                                         Jobs
                                     </span>
                                 </a>
@@ -150,35 +149,49 @@ export const IndustryNavbar = () => {
                                     <span>
                                         <HiInformationCircle />
                                     </span>
-                                    <span className="text-sm font-semibold">
+                                    <span className="text-[13px] font-semibold">
                                         General Info
                                     </span>
                                 </a>
                             </Link>
                         </li> */}
                         {/* Mails */}
-                        {/* <li>
+                        <li>
                             <Link
                                 legacyBehavior
-                                href="/portals/industry/e-mails"
+                                href="/portals/industry/students/e-sign"
                             >
                                 <a
-                                    className={`${
-                                        router.pathname ==
-                                        '/portals/industry/e-mails'
-                                            ? 'bg-green-100 text-green-700'
-                                            : 'text-slate-700'
-                                    } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
+                                    className={`text-slate-700 ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
                                 >
                                     <span>
-                                        <MdEmail />
+                                        <FaFileSignature />
                                     </span>
-                                    <span className="text-sm font-semibold">
-                                        E-mails
+                                    <span className="text-[13px] font-semibold">
+                                        E Sign
                                     </span>
                                 </a>
                             </Link>
-                        </li> */}
+                        </li>
+
+                        <li>
+                            <Link
+                                legacyBehavior
+                                href="/portals/industry/students/request-a-volunteer"
+                            >
+                                <a
+                                    className={`text-slate-700 ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
+                                    id="students"
+                                >
+                                    <span>
+                                        <FaClipboardList />
+                                    </span>
+                                    <span className="text-[13px] font-semibold">
+                                        Request a Volunteer
+                                    </span>
+                                </a>
+                            </Link>
+                        </li>
 
                         <li>
                             <Link
@@ -196,7 +209,7 @@ export const IndustryNavbar = () => {
                                     <span>
                                         <MdEmail />
                                     </span>
-                                    <span className="text-xs 2xl:text-sm font-semibold">
+                                    <span className="text-xs 2xl:text-[13px] font-semibold">
                                         Messages
                                     </span>
                                 </a>

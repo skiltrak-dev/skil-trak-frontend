@@ -30,7 +30,7 @@ export const EmptyData = ({
     // const Icon = icon || GiCardboardBox;
     return (
         <div
-            className="flex justify-center items-center py-12"
+            className="flex justify-center items-center my-10"
             style={{ height: height || '70vh' }}
         >
             <div className="flex flex-col justify-center items-center p-16 rounded-lg">

@@ -1,89 +1,35 @@
 import {
-    Button,
-    Card,
-    Table,
-    EmptyData,
-    Typography,
-    TableAction,
     ActionButton,
-    TechnicalError,
-    StudentSubAdmin,
+    BackButton,
+    Card,
+    EmptyData,
     LoadingAnimation,
-    TableActionOption,
+    Table,
     TableChildrenProps,
-    StudentExpiryDaysLeft,
-    CaseOfficerAssignedStudent,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
-import { NextPageWithLayout, Student, UserStatus } from '@types'
-import {
-    checkListLength,
-    isBrowser,
-    setLink,
-    studentsListWorkplace,
-} from '@utils'
+import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
-import { MdBlock, MdPriorityHigh } from 'react-icons/md'
-import { RiLockPasswordFill } from 'react-icons/ri'
+import { ReactElement, useEffect, useState } from 'react'
 
 // hooks
-import { EditTimer } from '@components/StudentTimer/EditTimer'
-import { useActionModal } from '@hooks'
-import moment from 'moment'
-import { SectorCell, StudentCellInfo } from '@partials/admin/student/components'
-import { IndustryCell } from '@partials/admin/industry/components'
-import {
-    BlockModal,
-    BlockMultiStudentsModal,
-    ChangeStatusModal,
-    HighPriorityModal,
-} from '@partials/admin/student/modals'
-import { ArchiveModal } from '@partials/sub-admin'
-import { RtoCellInfo } from '@partials/admin/rto/components'
+import { DocumentsView } from '@hooks'
 import { AdminLayout } from '@layouts'
+import { StudentCellInfo } from '@partials/admin/student/components'
+import { RequirementModal } from '@partials/industry/job/modals/RequirementModal'
+import { IoMdEye } from 'react-icons/io'
 
 const JobsAppliedStudents: NextPageWithLayout = () => {
     const router = useRouter()
-    const [modal, setModal] = useState<ReactElement | null>(null)
-    const [refetchStudents, setRefetchStudents] = useState(false)
-    const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const listingRef = useRef<any>(null)
+    const [itemPerPage, setItemPerPage] = useState(50)
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const savedScrollPosition =
-        isBrowser() && localStorage.getItem('lastScroll')
-    useEffect(() => {
-        if (listingRef.current && savedScrollPosition) {
-            listingRef.current.scrollTop = parseInt(savedScrollPosition, 10)
-        }
-    }, [savedScrollPosition, listingRef])
-
-    // Function to handle scrolling
-    const handleScroll = () => {
-        if (listingRef.current) {
-            isBrowser() &&
-                localStorage.setItem('lastScroll', listingRef.current.scrollTop)
-        }
-    }
-
-    // Attach the scroll event listener when the component mounts
-    // useEffect(() => {
-    //     if (listingRef.current) {
-    //         listingRef.current.addEventListener('scroll', handleScroll)
-    //     }
-
-    //     // Remove the event listener when the component unmounts
-    //     return () => {
-    //         if (listingRef.current) {
-    //             listingRef.current.removeEventListener('scroll', handleScroll)
-    //         }
-    //     }
-    // }, [listingRef])
+    const { onFileClicked, documentsViewModal } = DocumentsView()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -91,347 +37,136 @@ const JobsAppliedStudents: NextPageWithLayout = () => {
     }, [router])
 
     // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, isFetching, data, isError, refetch } =
-        AdminApi.Students.useListQuery(
+        AdminApi.Jobs.useJobApplicants(
             {
-                search: `status:${UserStatus.Approved}`,
+                id: Number(router.query?.id),
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
-            { refetchOnMountOrArgChange: true }
+            { skip: !router.query?.id, refetchOnMountOrArgChange: true }
         )
-
-    useEffect(() => {
-        if (refetchStudents) {
-            refetch()
-        }
-    }, [refetchStudents, data])
-
-    const onModalCancelClicked = useCallback(() => {
-        setModal(null)
-    }, [])
-    const onBlockClicked = (student: Student) => {
-        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
-    }
-
-    const onBlockMultiStudents = (student: Student[]) => {
-        setModal(
-            <BlockMultiStudentsModal
-                onCancel={onModalCancelClicked}
-                student={student}
-            />
-        )
-    }
-
-    const onArchiveClicked = (student: Student) => {
-        setModal(
-            <ArchiveModal item={student} onCancel={onModalCancelClicked} />
-        )
-    }
-    const onMarkAsHighPriorityClicked = (studetnt: Student) => {
-        setModal(
-            <HighPriorityModal
-                item={studetnt}
-                onCancel={onModalCancelClicked}
-                // setRefetchStudents={setRefetchStudents}
-            />
-        )
-    }
-
-    const onChangeStatus = (student: Student) => {
-        setModal(
-            <ChangeStatusModal
-                student={student}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const onDateClick = (student: Student) => {
-        setModal(
-            <EditTimer
-                studentId={student?.user?.id}
-                date={student?.expiryDate}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const numberOfWeeks = 20
-    const endDate = new Date() // Starting from the current date
-
-    const dateObjects = []
-
-    for (let i = numberOfWeeks - 1; i >= 0; i--) {
-        const currentDate = new Date(endDate)
-        currentDate.setDate(currentDate.getDate() - i * 7) // Decrement by a week
-
-        const lastWeekDate = new Date(currentDate)
-        lastWeekDate.setDate(lastWeekDate.getDate() + 6) // End of the week
-
-        const dateObject = {
-            startDate: currentDate.toISOString().slice(0, 10), // Format as YYYY-MM-DD
-            endDate: lastWeekDate.toISOString().slice(0, 10),
-        }
-
-        dateObjects.push(dateObject)
-    }
 
     const tableActionOptions = (student: any) => {
         return [
             {
                 text: 'View',
-                onClick: (student: any) => {
-                    router.push(
-                        `/portals/admin/student/${student?.id}?tab=overview`
-                    )
-                    setLink('student', router)
+                Icon: IoMdEye,
+                onClick: (job: any) => {
+                    router.push(`/portals/industry/jobs/${router?.query?.id}`)
                 },
-                Icon: FaEye,
-            },
-            {
-                text: 'Edit',
-                onClick: (student: Student) => {
-                    router.push(
-                        `/portals/admin/student/edit-student/${student?.id}`
-                    )
-                },
-                Icon: FaEdit,
-            },
-            {
-                text: 'Change Status',
-                onClick: (student: Student) => onChangeStatus(student),
-                Icon: FaEdit,
-            },
-            {
-                text: 'Change Expiry',
-                onClick: (student: Student) => onDateClick(student),
-                Icon: FaEdit,
-            },
-            {
-                text: 'View Password',
-                onClick: (student: Student) => onViewPassword(student),
-                Icon: RiLockPasswordFill,
-            },
-            {
-                text: 'Block',
-                onClick: (student: Student) => onBlockClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: student?.isHighPriority
-                    ? 'Remove Mark High Priority'
-                    : 'Mark High Priority',
-                onClick: (student: Student) =>
-                    onMarkAsHighPriorityClicked(student),
-                Icon: MdPriorityHigh,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: 'Archive',
-                onClick: (student: Student) => onArchiveClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-400 hover:bg-red-100 hover:border-red-200',
             },
         ]
     }
 
-    const columns: ColumnDef<StudentSubAdmin>[] = [
-        {
-            accessorKey: 'user.name',
-            cell: (info) => {
-                return <StudentCellInfo student={info?.row?.original} call />
-            },
-            header: () => <span>Student</span>,
-        },
-        {
-            accessorKey: 'rto',
-            header: () => <span>RTO</span>,
-            cell: (info) => {
-                return <RtoCellInfo rto={info?.row?.original?.rto} short />
-            },
-        },
-        {
-            accessorKey: 'industry',
-            header: () => <span>Industry</span>,
-            cell: (info: any) => {
-                const industry = info.row.original?.industries
+    const onViewRequirementClick = (cover_latter: any) => {
+        setModal(
+            <RequirementModal
+                coverLatter={cover_latter}
+                onCancel={() => setModal(null)}
+            />
+        )
+    }
 
-                const appliedIndustry = studentsListWorkplace(
-                    info.row.original?.workplace
-                )
-
-                return industry && industry?.length > 0 ? (
-                    <IndustryCell industry={industry[0]} />
-                ) : info.row.original?.workplace &&
-                  info.row.original?.workplace?.length > 0 &&
-                  appliedIndustry ? (
-                    <IndustryCell industry={appliedIndustry} />
-                ) : (
-                    <Typography center>N/A</Typography>
+    const columns: ColumnDef<any>[] = [
+        {
+            header: () => 'Student',
+            accessorKey: 'title',
+            cell: ({ row }: any) => {
+                return (
+                    <StudentCellInfo
+                        student={
+                            row.original?.applier
+                                ? row.original?.applier
+                                : {
+                                      user: {
+                                          name: row.original?.name,
+                                          email: row.original?.email,
+                                      },
+                                  }
+                        }
+                    />
                 )
             },
         },
         {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: (info) => <SectorCell student={info.row.original} />,
+            header: () => 'Resume',
+            accessorKey: 'employmentType',
+            cell: ({ row }: any) => {
+                const user = row.original
+                let fileName = user ? user?.resume?.split('\\') : ''
+                if (fileName?.length === 1) {
+                    fileName = user?.resume?.split('/')
+
+                    if (fileName.length > 1) {
+                        fileName = fileName[fileName?.length - 1]
+                    }
+                }
+
+                const extension = fileName
+                    ?.replaceAll('{"', '')
+                    .replaceAll('"}', '')
+                    ?.split('.')
+                    .reverse()[0]
+                return (
+                    <ActionButton
+                        variant="info"
+                        onClick={() => {
+                            onFileClicked({
+                                ...row.original,
+                                file: row.original?.resume
+                                    .replaceAll('{"', '')
+                                    .replaceAll('"}', ''),
+                                extension,
+                                type: 'all',
+                            })
+                        }}
+                    >
+                        View File
+                    </ActionButton>
+                )
+            },
         },
         {
-            accessorKey: 'expiry',
-            header: () => <span>Expiry Date</span>,
-            cell: (info) => (
-                <StudentExpiryDaysLeft
-                    expiryDate={info.row.original?.expiryDate}
-                />
-            ),
-        },
-        {
-            accessorKey: 'progress',
-            header: () => <span>Progress</span>,
-            cell: ({ row }) => (
-                <CaseOfficerAssignedStudent student={row.original} />
-            ),
-        },
-        {
-            accessorKey: 'createdAt',
-            header: () => <span>Created At</span>,
+            header: () => 'Cover Letter',
+            accessorKey: 'cover',
             cell: (info) => {
                 return (
-                    <>
-                        <Typography variant={'small'} color={'text-gray-600'}>
-                            <span className="font-semibold whitespace-pre">
-                                {moment(info?.row?.original?.createdAt).format(
-                                    'Do MMM YYYY'
-                                )}
-                            </span>
-                        </Typography>
-                        <Typography variant={'small'} color={'text-gray-600'}>
-                            <span className="font-semibold whitespace-pre">
-                                {moment(info?.row?.original?.createdAt).format(
-                                    'hh:mm:ss a'
-                                )}
-                            </span>
-                        </Typography>
-                    </>
-                )
-            },
-        },
-        {
-            accessorKey: 'action',
-            header: () => <span>Action</span>,
-            cell: (info) => {
-                const length = checkListLength<StudentSubAdmin>(
-                    data?.data as StudentSubAdmin[]
-                )
-                const tableActionOption = tableActionOptions(
-                    info?.row?.original
-                )
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOption}
-                            rowItem={info?.row?.original}
-                            lastIndex={length.includes(info?.row?.index)}
-                        />
-                    </div>
+                    <ActionButton
+                        variant="link"
+                        simple
+                        onClick={() =>
+                            onViewRequirementClick(
+                                info.row.original?.cover_latter
+                            )
+                        }
+                    >
+                        View
+                    </ActionButton>
                 )
             },
         },
     ]
 
-    const quickActionsElements = {
-        id: 'id',
-        individual: (student: Student) => {
-            return (
-                <div className="flex gap-x-2">
-                    <ActionButton
-                        onClick={() => {
-                            router.push(
-                                `/portals/admin/student/${student?.id}?tab=overview`
-                            )
-                        }}
-                    >
-                        View
-                    </ActionButton>
-                    <ActionButton
-                        Icon={FaEdit}
-                        onClick={() => {
-                            router.push(
-                                `/portals/admin/student/edit-student/${student?.id}`
-                            )
-                        }}
-                    >
-                        Edit
-                    </ActionButton>
-                    <ActionButton
-                        Icon={MdBlock}
-                        variant="error"
-                        onClick={() => {
-                            onBlockClicked(student)
-                        }}
-                    >
-                        Block
-                    </ActionButton>
-                </div>
-            )
-        },
-        common: (student: Student[]) => (
-            <ActionButton
-                onClick={() => {
-                    onBlockMultiStudents(student)
-                }}
-                Icon={MdBlock}
-                variant="error"
-            >
-                Block
-            </ActionButton>
-        ),
-    }
-
     return (
         <>
-            {modal && modal}
-            {passwordModal && passwordModal}
-            <div className="flex flex-col gap-y-4">
-                <div className="flex">
+            {modal}
+            {documentsViewModal}
+            <div className="flex flex-col gap-y-4 p-4">
+                <div className="flex flex-col">
+                    <BackButton />
                     <PageHeading
-                        title={'Approved Students'}
-                        subtitle={'List of Approved Students'}
+                        title={'Applied Students'}
+                        subtitle={'List of Applied Students'}
                     />
-                    {data && data?.data.length ? (
-                        <div className="">
-                            <a
-                                href={`${process.env.NEXT_PUBLIC_END_POINT}/admin/students/list/download
-                        `}
-                                target="_blank"
-                                rel="noreferrer"
-                                className=""
-                            >
-                                {' '}
-                                <Button
-                                    text={'Export'}
-                                    variant={'action'}
-                                    Icon={FaFileExport}
-                                />
-                            </a>
-                        </div>
-                    ) : null}
                 </div>
                 <Card noPadding>
                     {isError && <TechnicalError />}
                     {isLoading || isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
-                        <Table
-                            columns={columns}
-                            data={data.data}
-                            quickActions={quickActionsElements}
-                            enableRowSelection
-                        >
+                        <Table columns={columns} data={data.data}>
                             {({
                                 table,
                                 pagination,
@@ -440,11 +175,7 @@ const JobsAppliedStudents: NextPageWithLayout = () => {
                             }: TableChildrenProps) => {
                                 return (
                                     <div>
-                                        <div
-                                            ref={listingRef}
-                                            onScroll={handleScroll}
-                                            className="p-6 mb-2 flex justify-between"
-                                        >
+                                        <div className="p-6 mb-2 flex justify-between">
                                             {pageSize
                                                 ? pageSize(
                                                       itemPerPage,

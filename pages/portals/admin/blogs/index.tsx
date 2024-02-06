@@ -1,13 +1,15 @@
 import { ReactElement, useEffect } from 'react'
 
+import { Button, TabNavigation, TabProps } from '@components'
 import { useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { Jobs } from '@partials/admin/job'
+import {
+    BlogCategories,
+    DraftBlogs,
+    PublishedBlogs,
+} from '@partials/admin/blog'
 import { NextPageWithLayout } from '@types'
-import { Button, TabNavigation, TabProps } from '@components'
 import { useRouter } from 'next/router'
-import { adminApi } from '@queries'
-import { BlogCategories, DraftBlogs, PublishedBlogs } from '@partials/admin/blog'
 
 const BlogsList: NextPageWithLayout = () => {
     // const { data, isLoading } = adminApi.useGetBlogsQuery({
@@ -64,13 +66,13 @@ const BlogsList: NextPageWithLayout = () => {
 
     return (
         <div className="p-6">
-            <div className='flex justify-end'>
-            <Button
-                onClick={() => {
-                    router.push('/portals/admin/blogs/add-blog')
-                }}
-                text={'Add Blog'}
-            />
+            <div className="flex justify-end">
+                <Button
+                    onClick={() => {
+                        router.push('/portals/admin/blogs/add-blog')
+                    }}
+                    text={'Add Blog'}
+                />
             </div>
 
             {/* <div
