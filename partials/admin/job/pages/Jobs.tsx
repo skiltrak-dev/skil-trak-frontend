@@ -25,6 +25,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import { DeleteModal, RequirementModal } from '../modals'
 import { IndustryCell } from '@partials/admin/industry/components'
 import moment from 'moment'
+import { AiFillEye } from 'react-icons/ai'
 
 export const Jobs = () => {
     const router = useRouter()
@@ -65,7 +66,15 @@ export const Jobs = () => {
         contextBar.hide()
     }, [])
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions = (job: any): TableActionOption[] => [
+        {
+            text: 'View',
+            Icon: AiFillEye,
+            onClick: () => {
+                router.push(`/portals/admin/jobs/${job?.id}`)
+            },
+            color: 'text-green-500 hover:bg-green-100 hover:border-red-200',
+        },
         {
             text: 'Delete',
             onClick: (item: any) => onDeleteClicked(item),
@@ -207,10 +216,11 @@ export const Jobs = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info) => {
+                const actionOptions = tableActionOptions(info.row.original)
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
-                            options={tableActionOptions}
+                            options={actionOptions}
                             rowItem={info.row.original}
                         />
                     </div>
