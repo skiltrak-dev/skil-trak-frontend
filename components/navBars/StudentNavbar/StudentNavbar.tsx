@@ -6,6 +6,17 @@ import { useRouter } from 'next/router'
 
 import { FaBriefcase } from 'react-icons/fa'
 import { MdAssessment, MdNotifications, MdSpaceDashboard } from 'react-icons/md'
+import { NavLinkItem } from '../NavLinkItem'
+
+const PREFIX = '/portals/student'
+
+const Routes = {
+    Dashboard: `${PREFIX}`,
+    Workplace: `${PREFIX}/workplace`,
+    Jobs: `${PREFIX}/workplace/jobs?tab=jobs`,
+    Assessments: `${PREFIX}/assessments`,
+    Notifications: `${PREFIX}/notifications`,
+}
 
 export const StudentNavbar = () => {
     const router = useRouter()
@@ -17,116 +28,54 @@ export const StudentNavbar = () => {
             true,
     })
 
+    const studentPortalData = [
+        {
+            link: Routes.Dashboard,
+            text: 'Dashboard',
+            Icon: MdSpaceDashboard,
+            activeClasses: 'bg-indigo-100 text-indigo-700',
+            inActiveClasses: 'text-slate-700',
+        },
+        {
+            link: `${Routes.Workplace}`,
+            text: 'Workplace',
+            Icon: FaBriefcase,
+            activeClasses: 'bg-green-100 text-green-700',
+            inActiveClasses: 'text-slate-700',
+            id: 'workplace',
+        },
+        {
+            link: `${Routes.Workplace}/jobs?tab=jobs`,
+            text: 'Jobs',
+            Icon: FaBriefcase,
+            activeClasses: 'bg-green-100 text-green-700',
+            inActiveClasses: 'text-slate-700',
+            id: 'workplace',
+        },
+        {
+            link: `${Routes.Assessments}`,
+            text: 'Assessments',
+            Icon: MdAssessment,
+            activeClasses: 'bg-orange-100 text-orange-700',
+            inActiveClasses: 'text-slate-700',
+            id: 'assessments',
+        },
+        {
+            link: `${Routes.Notifications}`,
+            text: 'Notifications',
+            Icon: MdNotifications,
+            activeClasses: 'bg-blue-100 text-blue-700',
+            inActiveClasses: 'text-slate-700',
+        },
+    ]
+
     return (
         <>
             <Desktop>
                 <ul className="flex gap-x-2 py-4">
-                    <li>
-                        <Link legacyBehavior href="/portals/student">
-                            <a
-                                className={`${
-                                    router.pathname == '/student'
-                                        ? 'bg-indigo-100 text-indigo-700'
-                                        : 'text-slate-700'
-                                } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
-                            >
-                                <span>
-                                    <MdSpaceDashboard />
-                                </span>
-                                <span className="text-sm font-semibold">
-                                    Dashboard
-                                </span>
-                            </a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link legacyBehavior href="/portals/student/workplace">
-                            <a
-                                className={`${
-                                    router.pathname ==
-                                    '/portals/student/workplace'
-                                        ? 'bg-green-100 text-green-700'
-                                        : 'text-slate-700'
-                                } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
-                                id="workplace"
-                            >
-                                <span>
-                                    <FaBriefcase />
-                                </span>
-                                <span className="text-sm font-semibold">
-                                    Workplace
-                                </span>
-                            </a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            legacyBehavior
-                            href="/portals/student/workplace/jobs?tab=jobs"
-                        >
-                            <a
-                                className={`${
-                                    router.pathname ==
-                                    '/portals/student/workplace/jobs'
-                                        ? 'bg-green-100 text-green-700'
-                                        : 'text-slate-700'
-                                } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
-                                id="workplace"
-                            >
-                                <span>
-                                    <FaBriefcase />
-                                </span>
-                                <span className="text-sm font-semibold">
-                                    Jobs
-                                </span>
-                            </a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            legacyBehavior
-                            href="/portals/student/assessments"
-                        >
-                            <a
-                                className={`${
-                                    router.pathname ==
-                                    '/portals/student/assessments'
-                                        ? 'bg-orange-100 text-orange-700'
-                                        : 'text-slate-700'
-                                } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
-                                id="assessments"
-                            >
-                                <span>
-                                    <MdAssessment />
-                                </span>
-                                <span className="text-sm font-semibold">
-                                    Assessments
-                                </span>
-                            </a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            legacyBehavior
-                            href="/portals/student/notifications"
-                        >
-                            <a
-                                className={`${
-                                    router.pathname ==
-                                    '/portals/student/notifications'
-                                        ? 'bg-blue-100 text-blue-700'
-                                        : 'text-slate-700'
-                                } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
-                            >
-                                <span>
-                                    <MdNotifications />
-                                </span>
-                                <span className="text-sm font-semibold">
-                                    Notifications
-                                </span>
-                            </a>
-                        </Link>
-                    </li>{' '}
+                    {studentPortalData.map((nav, i) => (
+                        <NavLinkItem key={i} nav={nav} PREFIX={PREFIX} />
+                    ))}
                 </ul>
             </Desktop>
 
