@@ -8,6 +8,7 @@ import {
     TableAction,
     TableActionOption,
     TechnicalError,
+    TruncatedTextWithTooltip,
     Typography,
     UserCreatedAt,
 } from '@components'
@@ -175,21 +176,10 @@ export const ApprovedIndustry = () => {
             accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
             cell: (info) => (
-                <div className="group relative">
-                    <Typography variant={'label'}>
-                        <span className="cursor-pointer">
-                            {ellipsisText(
-                                `${info?.row?.original?.addressLine1}, 
-                        ${info?.row?.original?.suburb}`,
-                                15
-                            )}
-                        </span>
-                    </Typography>
-                    <div className="hidden group-hover:block w-60 absolute top-full left-0 p-2 z-20 shadow rounded-md bg-white">
-                        {info?.row?.original?.addressLine1},{' '}
-                        {info?.row?.original?.suburb}
-                    </div>
-                </div>
+                <TruncatedTextWithTooltip
+                    text={`${info?.row?.original?.addressLine1},${' '} 
+            ${info?.row?.original?.suburb}`}
+                />
             ),
         },
         {

@@ -23,7 +23,7 @@ export const Card = ({
         'h-full': fullHeight,
         'w-fit': layout === 'wrap',
         'w-[450px]': layout === 'min',
-        'bg-white rounded-2xl': true,
+        'bg-white rounded-xl': true,
         'shadow-xl': !shadowType || shadowType === 'soft',
         shadow: shadowType === 'hard',
         'p-0': noPadding,

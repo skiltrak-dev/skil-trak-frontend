@@ -1,4 +1,5 @@
 import { Badge } from '@components/Badge'
+import { TruncatedTextWithTooltip } from '@components/TruncatedTextWithTooltip'
 import { Typography } from '@components/Typography'
 import { ellipsisText } from '@utils'
 import moment from 'moment'
@@ -21,16 +22,10 @@ export const VolunteerRequestsListCard = ({
             </div>
 
             <div className="col-span-2">
-                <div className="group relative">
-                    <Typography variant={'label'}>
-                        <span className="cursor-pointer">
-                            {ellipsisText(volunteer?.note, 100) || '----'}
-                        </span>
-                    </Typography>
-                    <div className="hidden group-hover:block text-[13px] max-h-[240px] overflow-auto custom-scrollbar w-full absolute top-full left-0 p-2 z-20 shadow rounded-md bg-white">
-                        {volunteer?.note}
-                    </div>
-                </div>
+                <TruncatedTextWithTooltip
+                    text={volunteer?.note}
+                    maxLength={100}
+                />
             </div>
 
             <div>

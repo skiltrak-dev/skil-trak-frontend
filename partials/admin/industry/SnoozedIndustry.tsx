@@ -10,6 +10,7 @@ import {
     TableAction,
     TableActionOption,
     TechnicalError,
+    TruncatedTextWithTooltip,
     Typography,
     UserCreatedAt,
 } from '@components'
@@ -182,27 +183,12 @@ export const SnoozedIndustry = () => {
             accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
             cell: (info: any) => (
-                <div>
-                    <Typography variant={'label'}>
-                        {info.row.original?.addressLine1},{' '}
-                        {info.row.original?.suburb}
-                    </Typography>
-                </div>
+                <TruncatedTextWithTooltip
+                    text={`${info?.row?.original?.addressLine1},${' '} 
+        ${info?.row?.original?.suburb}`}
+                />
             ),
         },
-        // {
-        //     accessorKey: 'channel',
-        //     header: () => <span>Created By</span>,
-        //     cell: (info) => (
-        //         <div>
-        //             {info.row.original?.createdBy !== null ? (
-        //                 <p>{info?.row?.original?.createdBy?.name}</p>
-        //             ) : (
-        //                 <p>{info?.row?.original?.channel}</p>
-        //             )}
-        //         </div>
-        //     ),
-        // },
         {
             header: () => 'Snoozed By',
             accessorKey: 'snoozedBy',

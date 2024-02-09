@@ -60,4 +60,43 @@ export const industriesEndpoints = (
         query: (id) => `jobs/${id}/increment-views`,
         providesTags: ['Industry'],
     }),
+
+    // Industry Custom Address
+    industryBranchesAddressList: builder.query<any, any>({
+        query: ({ id, ...params }) => ({
+            url: `locations/industry/${id}/list`,
+            params,
+        }),
+        providesTags: ['IndustryBranchesAddress'],
+    }),
+
+    addIndustryBranchesAddress: builder.mutation<any, any>({
+        query: (body) => {
+            return {
+                url: `locations/add`,
+                method: 'POST',
+                body,
+            }
+        },
+        invalidatesTags: ['IndustryBranchesAddress'],
+    }),
+
+    updateIndustryBranchAddress: builder.mutation<any, any>({
+        query: ({ id, ...body }) => {
+            return {
+                url: `locations/update/${id}`,
+                method: 'PATCH',
+                body,
+            }
+        },
+        invalidatesTags: ['IndustryBranchesAddress'],
+    }),
+
+    removeIndustryBranchAddress: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `locations/remove/${id}`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['IndustryBranchesAddress'],
+    }),
 })

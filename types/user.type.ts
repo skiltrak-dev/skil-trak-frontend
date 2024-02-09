@@ -149,6 +149,15 @@ export interface Industry extends BaseResponse {
     headQuarter: Industry
 }
 
+export interface IndustryBranchesAddressType extends BaseResponse {
+    address: string
+    contactPerson: string
+    contactPersonPhone: string
+    contactPersonEmail: string
+    suburb: string
+    studentCapacity: number
+}
+
 export interface ContactPerson extends BaseResponse {
     id: number
     name: string

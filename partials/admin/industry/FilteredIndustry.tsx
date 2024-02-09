@@ -6,6 +6,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TruncatedTextWithTooltip,
     Typography,
     UserCreatedAt,
 } from '@components'
@@ -29,6 +30,7 @@ import {
 } from './modals'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { CgUnblock } from 'react-icons/cg'
+import { ellipsisText } from '@utils'
 
 interface StatusTableActionOption extends TableActionOption {
     status: string[]
@@ -227,12 +229,10 @@ export const FilteredIndustry = ({
             accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
             cell: (info) => (
-                <div>
-                    <Typography variant={'label'}>
-                        {info.row.original?.addressLine1},{' '}
-                        {info.row.original?.suburb}
-                    </Typography>
-                </div>
+                <TruncatedTextWithTooltip
+                    text={`${info?.row?.original?.addressLine1},${' '} 
+                ${info?.row?.original?.suburb}`}
+                />
             ),
         },
         {
