@@ -10,20 +10,19 @@ import { FigureCard } from '@components/sections/subAdmin'
 import {
     AllCommunicationTab,
     AppointmentTab,
-    BranchesIndustries,
+    IndustryBranchesAddress,
     MailsTab,
     NotesTab,
-    SnoozeIndustry,
-    Supervisor,
+    Supervisor
 } from '@partials/common'
-import { Industry } from '@types'
-import { IndustryProfileOverview } from './IndustryProfileOverview'
-import { Students } from './Students'
 import { SubAdminApi, useGetSubAdminIndustryStudentsQuery } from '@queries'
-import { useEffect, useState } from 'react'
+import { Industry } from '@types'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 import { IndustryHistory } from './IndustryHistory'
+import { IndustryProfileOverview } from './IndustryProfileOverview'
 import { RequiredDocs } from './RequiredDocs'
+import { Students } from './Students'
 export const DetailTabs = ({ industry }: { industry: Industry }) => {
     const router = useRouter()
 
@@ -32,7 +31,7 @@ export const DetailTabs = ({ industry }: { industry: Industry }) => {
 
     const studentList = useGetSubAdminIndustryStudentsQuery(
         {
-            industry: Number(router.query.id),
+            industry: Number(router.query?.id),
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         },
@@ -83,6 +82,11 @@ export const DetailTabs = ({ industry }: { industry: Industry }) => {
             label: 'Required Docs',
             href: { query: { tab: 'requireddocs', id: industry?.id } },
             element: <RequiredDocs industry={industry} />,
+        },
+        {
+            label: 'Branches',
+            href: { query: { tab: 'branches', id: industry?.id } },
+            element: <IndustryBranchesAddress industry={industry} />,
         },
         {
             label: 'History',
@@ -145,26 +149,20 @@ export const DetailTabs = ({ industry }: { industry: Industry }) => {
         },
     ]
 
-    const branches = {
-        label: 'Branches',
-        href: { query: { tab: 'branches', id: Number(industry?.id) } },
-        element: (
-            <BranchesIndustries
-                industry={industry}
-                industries={industry?.branches}
-            />
-        ),
-    }
+    // const branches = {
+    //     label: 'Branches',
+    //     href: { query: { tab: 'branches', id: Number(industry?.id) } },
+    //     element: (
+    //         <BranchesIndustries
+    //             industry={industry}
+    //             industries={industry?.branches}
+    //         />
+    //     ),
+    // }
 
     return (
         <div>
-            <TabNavigation
-                tabs={[
-                    ...(industry?.branches?.length > 0
-                        ? [...tabs, branches]
-                        : tabs),
-                ]}
-            >
+            <TabNavigation tabs={tabs}>
                 {({ header, element }: any) => {
                     return (
                         <div>

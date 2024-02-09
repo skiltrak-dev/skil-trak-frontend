@@ -9,6 +9,7 @@ import {
     TableAction,
     TechnicalError,
     Tooltip,
+    TruncatedTextWithTooltip,
     Typography,
     UserCreatedAt,
 } from '@components'
@@ -247,19 +248,11 @@ export const ActiveIndustries = ({
                                     isDuplicated ? 'bg-gray-300' : ''
                                 } px-1.5 rounded-md`}
                             >
-                                <div className="group relative">
-                                    <Typography variant={'label'}>
-                                        <span className="cursor-pointer">
-                                            {ellipsisText(
-                                                `${info?.row?.original?.email}`,
-                                                20
-                                            )}
-                                        </span>
-                                    </Typography>
-                                    <div className="hidden group-hover:block w-auto absolute top-0 left-0 p-2 z-20 shadow rounded-md bg-white">
-                                        {info?.row?.original?.email}
-                                    </div>
-                                </div>
+                                <TruncatedTextWithTooltip
+                                    text={info.row.original?.email}
+                                    maxLength={20}
+                                />
+
                                 {isDuplicated ? (
                                     <Tooltip>Duplicated Found</Tooltip>
                                 ) : null}
@@ -277,19 +270,7 @@ export const ActiveIndustries = ({
             accessorKey: 'address',
             header: () => <span>Address</span>,
             cell: (info) => (
-                <div className="group relative">
-                    <Typography variant={'label'}>
-                        <span className="cursor-pointer">
-                            {ellipsisText(
-                                `${info?.row?.original?.address}`,
-                                15
-                            )}
-                        </span>
-                    </Typography>
-                    <div className="hidden group-hover:block w-60 absolute top-0 left-0 p-2 z-20 shadow rounded-md bg-white">
-                        {info?.row?.original?.address}
-                    </div>
-                </div>
+                <TruncatedTextWithTooltip text={info.row.original?.address} />
             ),
         },
         {

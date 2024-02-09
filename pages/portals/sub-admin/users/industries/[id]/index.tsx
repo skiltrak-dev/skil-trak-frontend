@@ -6,16 +6,16 @@ import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
 // hooks
-import { useActionModal, useAlert, useContextBar, useNavbar } from '@hooks'
+import { useActionModal, useContextBar, useNavbar } from '@hooks'
 //components
 import {
     Alert,
-    Button,
-    PageTitle,
-    EmptyData,
     BackButton,
-    TechnicalError,
+    Button,
+    EmptyData,
     LoadingAnimation,
+    PageTitle,
+    TechnicalError,
 } from '@components'
 import { IndustryProfile } from '@components/IndustryProfile'
 
@@ -31,9 +31,9 @@ type Props = {}
 
 const IndustriesProfile: NextPageWithLayout = (props: Props) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [isMouseMove, setIsMouseMove] = useState<any>(null)
 
-    const { setContent, show, hide } = useContextBar()
-    const { alert } = useAlert()
+    const contextBar = useContextBar()
 
     const pathname = useRouter()
     const { id } = pathname.query
@@ -53,16 +53,31 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
     }, [data])
 
     useEffect(() => {
-        if (isSuccess && data) {
-            setContent(<IndustryProfile data={data} />)
-            show(false)
+        window.addEventListener('mousemove', () => setIsMouseMove(true))
+        return () => {
+            window.removeEventListener('mousemove', () => setIsMouseMove(false))
+        }
+    }, [])
+
+    useEffect(() => {
+        if (!contextBar.content) {
+            setIsMouseMove(false)
+        }
+    }, [contextBar])
+
+    useEffect(() => {
+        if (isSuccess) {
+            if (data) {
+                contextBar.setContent(<IndustryProfile data={data} />)
+                contextBar.show(false)
+            }
         }
 
         return () => {
-            setContent(null)
-            hide()
+            contextBar.setContent(null)
+            contextBar.hide()
         }
-    }, [data, isSuccess, setContent])
+    }, [data, isSuccess, isMouseMove])
 
     const onCancelModal = () => setModal(null)
 
