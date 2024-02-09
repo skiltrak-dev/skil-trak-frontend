@@ -2,21 +2,16 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
-    ShowErrorNotifications,
     TechnicalError,
-    Typography,
+    Typography
 } from '@components'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
-import { FaHamburger, FaSignature } from 'react-icons/fa'
-import { PuffLoader } from 'react-spinners'
-import { SVGView } from './components'
+import { SVGView, ScrollTabsView } from './components'
 import { EsignSignatureModal, FinishSignModal } from './modal'
-import { ellipsisText } from '@utils'
-import { IoIosCheckmarkCircle } from 'react-icons/io'
 
 export const ViewDocumentAndSign = () => {
     const router = useRouter()
@@ -155,92 +150,6 @@ export const ViewDocumentAndSign = () => {
         (s: any) => s?.type === FieldsTypeEnum.Signature || s?.isCustom
     )
 
-    const TabsView = () => {
-        return (
-            <Card noPadding>
-                <div className="p-2 flex flex-col gap-y-2 h-[85vh] overflow-y-auto custom-scrollbar">
-                    <div>
-                        <Typography variant="small" semibold>
-                            Click here to fill the data in form
-                        </Typography>
-                    </div>
-                    {customFieldsAndSign?.map((fields: any, i: number) => {
-                        if (fields?.type === FieldsTypeEnum.Signature) {
-                            return (
-                                <div
-                                    onClick={() => {
-                                        scrollToPage(Number(fields?.number - 1))
-                                        // scrollToPage(Number(i))
-                                    }}
-                                    className="w-full ml-auto z-10 px-7 py-2 h-9 bg-red-600 rounded-md flex justify-center items-center gap-x-2 text-white"
-                                >
-                                    <FaSignature className="text-2xl" />
-                                    <button className="text-sm whitespace-pre">
-                                        {fields?.responses &&
-                                        fields?.responses?.length > 0
-                                            ? 'View Sign'
-                                            : 'Go to Sign Section'}
-                                    </button>
-                                </div>
-                            )
-                        }
-                        return (
-                            <div>
-                                <div
-                                    onClick={() => {
-                                        setSelectedFillDataField(fields?.id)
-                                        scrollToPage(Number(fields?.number - 1))
-                                        // scrollToPage(Number(i))
-                                    }}
-                                    className={`h-9 w-full ml-auto px-1 py-2 ${
-                                        fields?.fieldValue
-                                            ? 'bg-success'
-                                            : 'bg-primary'
-                                    } relative group text-white rounded-md flex justify-center items-center gap-x-2  cursor-pointer`}
-                                >
-                                    <Typography
-                                        variant="label"
-                                        medium
-                                        color={'text-white'}
-                                    >
-                                        <span className="w-full flex items-center gap-x-0.5">
-                                            <span className="cursor-pointer">
-                                                {ellipsisText(
-                                                    fields?.placeholder,
-                                                    10
-                                                )}
-                                            </span>
-                                            <span className="text-[10px]">
-                                                ({fields?.number})
-                                            </span>
-                                            {fields?.fieldValue && (
-                                                <span>
-                                                    <IoIosCheckmarkCircle className="text-white text-lg" />
-                                                </span>
-                                            )}
-                                        </span>
-                                    </Typography>
-                                    {fields?.fieldValue && (
-                                        <div className="w-full flex justify-center absolute top-full left-0">
-                                            <div className="hidden group-hover:block w-[90%] break-all  p-2 z-[1111] text-black shadow rounded-md bg-white">
-                                                <Typography
-                                                    variant="small"
-                                                    semibold
-                                                >
-                                                    {fields?.fieldValue}
-                                                </Typography>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        )
-                    })}
-                </div>
-            </Card>
-        )
-    }
-
     const [isChecked, setIsChecked] = useState(false)
 
     const handleCheckboxChange = () => {
@@ -279,7 +188,15 @@ export const ViewDocumentAndSign = () => {
                                 </div>
                                 {showSignersField && (
                                     <div className="absolute top-5 z-20 w-3/4">
-                                        <TabsView />
+                                        <ScrollTabsView
+                                            customFieldsAndSign={
+                                                customFieldsAndSign
+                                            }
+                                            scrollToPage={scrollToPage}
+                                            setSelectedFillDataField={
+                                                setSelectedFillDataField
+                                            }
+                                        />
                                     </div>
                                 )}
                             </div>
@@ -337,7 +254,13 @@ export const ViewDocumentAndSign = () => {
                         </div>
 
                         <div className="hidden lg:block sticky top-0 h-[85vh]">
-                            <TabsView />
+                            <ScrollTabsView
+                                customFieldsAndSign={customFieldsAndSign}
+                                scrollToPage={scrollToPage}
+                                setSelectedFillDataField={
+                                    setSelectedFillDataField
+                                }
+                            />
                         </div>
                     </div>
                     <div className="flex justify-center bg-white px-5 py-2 shadow-md w-full rounded my-2">
@@ -345,8 +268,6 @@ export const ViewDocumentAndSign = () => {
                             className="bg-primary text-white hover:bg-primary-dark border-transparent ring-primary-light text-[11px] 2xl:text-xs font-medium uppercase transition-all duration-300 border px-4 py-2 shadow focus:outline-none focus:ring-4 rounded-md w-full md:w-96 h-12 md:h-[60px]"
                             onClick={() => {
                                 onFinishSignModal()
-                                // onSaveCustomFieldsValue()
-                                // router.back()
                             }}
                         >
                             <div className="flex items-center justify-center gap-x-2 text-xl">

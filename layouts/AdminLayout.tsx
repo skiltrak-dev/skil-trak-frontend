@@ -122,7 +122,7 @@ const routes: Route[] = [
     },
     {
         text: 'Jobs',
-        path: getRoutePath('/jobs'),
+        path: getRoutePath('/jobs?tab=active'),
         Icon: IoMdBriefcase,
     },
     {

@@ -2,7 +2,6 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
-    PageTitle,
     ShowErrorNotifications,
     TechnicalError,
     Typography,
@@ -13,20 +12,14 @@ import { useNotification } from '@hooks'
 import { SiteLayout } from '@layouts'
 import {
     EsignSignatureModal,
-    EsignSignatureModalForUser,
+    FinishEmailSignModal,
     SVGView,
+    ScrollTabsView,
 } from '@partials'
 import { CommonApi } from '@queries'
 import jwt from 'jwt-decode'
 import { useRouter } from 'next/router'
-import React, {
-    ReactNode,
-    useCallback,
-    useEffect,
-    useRef,
-    useState,
-} from 'react'
-import { FaSignature } from 'react-icons/fa'
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import { PuffLoader } from 'react-spinners'
 
 const ESign = () => {
@@ -35,6 +28,10 @@ const ESign = () => {
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [customFieldsData, setCustomFieldsData] = useState<any>([])
     const [decodeData, setDecodeData] = useState<any>(null)
+    const [selectedFillDataField, setSelectedFillDataField] =
+        useState<any>(null)
+    const [showSignersField, setShowSignersField] = useState<boolean>(false)
+
     const scrollTargetRef = useRef<any>([])
 
     const { notification } = useNotification()
@@ -80,36 +77,38 @@ const ESign = () => {
     useEffect(() => {
         if (tabs.isSuccess && tabs?.data && tabs?.data?.length > 0) {
             setCustomFieldsData(
-                tabs?.data?.map((tab: any) => {
-                    const response = tab?.responses?.reduce(
-                        (accumulator: any, current: any) => {
-                            // Convert timestamps to Date objects for comparison
-                            const accumulatorDate = new Date(
-                                accumulator.updatedAt
-                            )
-                            const currentDate = new Date(current.updatedAt)
+                tabs?.data
+                    ?.filter((t: any) => !t?.responses?.length)
+                    ?.map((tab: any) => {
+                        const response = tab?.responses?.reduce(
+                            (accumulator: any, current: any) => {
+                                // Convert timestamps to Date objects for comparison
+                                const accumulatorDate = new Date(
+                                    accumulator.updatedAt
+                                )
+                                const currentDate = new Date(current.updatedAt)
 
-                            // Return the item with the later updatedAt timestamp
-                            return currentDate > accumulatorDate
-                                ? current
-                                : accumulator
-                        },
-                        tab?.responses[0]
-                    )
+                                // Return the item with the later updatedAt timestamp
+                                return currentDate > accumulatorDate
+                                    ? current
+                                    : accumulator
+                            },
+                            tab?.responses[0]
+                        )
 
-                    return {
-                        ...tab,
-                        fieldValue: response ? response?.data : '',
-                    }
-                })
+                        return {
+                            ...tab,
+                            fieldValue: response ? response?.data : '',
+                        }
+                    })
             )
         }
     }, [tabs])
 
     const onAddCustomFieldsData = (e: any) => {
-        const updatedData = customFieldsData
-            ?.filter((data: any) => data?.type !== FieldsTypeEnum.Signature)
-            ?.map((data: any) => (data?.id === e?.id ? e : data))
+        const updatedData = customFieldsData?.map((data: any) =>
+            data?.id === e?.id ? e : data
+        )
         setCustomFieldsData(updatedData)
     }
 
@@ -151,11 +150,20 @@ const ESign = () => {
         }
     }
 
+    const customFieldsAndSign = customFieldsData?.filter(
+        (s: any) => s?.type === FieldsTypeEnum.Signature || s?.isCustom
+    )
+
     const onSaveCustomFieldsValue = async () => {
         const customValues = customFieldsData?.filter(
-            (data: any) => data?.isCustom && !data?.fieldValue
+            (data: any) => data?.isCustom && !data?.fieldValue && data?.required
         )
-        if (!sign?.responses?.length) {
+
+        if (
+            customFieldsData
+                ?.filter((s: any) => s?.type === FieldsTypeEnum.Signature)
+                ?.filter((s: any) => !s?.responses?.length)?.length > 0
+        ) {
             notification.warning({
                 title: 'Sign',
                 description: 'Please sign before finish signing',
@@ -166,25 +174,13 @@ const ESign = () => {
                 description: 'Please fill all required fields',
             })
         } else {
-            addCustomFieldsData({
-                documentId: Number(router.query?.id),
-                tabsResponse: customFieldsData
-                    ?.filter((data: any) => data?.isCustom)
-                    ?.map((tab: any) => ({
-                        tab: tab?.id,
-                        data: tab?.fieldValue,
-                    })),
-                id: Number(decodeData?.id),
-            }).then((res: any) => {
-                if (res?.data) {
-                    notification.success({
-                        title: 'Document Sign',
-                        description:
-                            'Document signed has been Finished successfully',
-                    })
-                    router.push('/')
-                }
-            })
+            setModal(
+                <FinishEmailSignModal
+                    onCancel={onCancelClicked}
+                    customFieldsData={customFieldsData}
+                    decodeDataId={decodeData?.id}
+                />
+            )
         }
     }
 
@@ -201,23 +197,12 @@ const ESign = () => {
                         title={documentsTotalPages?.error?.data?.message as any}
                     />
                 )}
-                {documentsTotalPages.isLoading ||
-                documentsTotalPages.isFetching ? (
+                {documentsTotalPages.isLoading ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : documentsTotalPages.data ? (
-                    <div>
-                        <div className="flex justify-end items-center gap-x-2">
-                            <input
-                                type={'checkbox'}
-                                onChange={(e: any) => {
-                                    onSelectAll(e)
-                                }}
-                                id={'selectAll'}
-                            />
-                            <label htmlFor="selectAll">Select All</label>
-                        </div>
-
-                        {sign && (
+                    <>
+                        <div className="grid grid-cols-1 lg:grid-cols-6 gap-x-2.5 relative">
+                            {/* {sign && (
                             <div
                                 onClick={() => {
                                     scrollToPage(Number(sign?.number - 1))
@@ -232,44 +217,101 @@ const ESign = () => {
                                         : 'Sign Here'}
                                 </button>
                             </div>
-                        )}
-                        <div className="flex flex-col gap-y-3">
-                            {[
-                                ...Array(
-                                    Number(documentsTotalPages?.data?.pageCount)
-                                ),
-                            ]?.map((doc: any, i: number) => (
-                                <div
-                                    key={i}
-                                    ref={(el) =>
-                                        (scrollTargetRef.current[i] = el)
-                                    }
-                                >
-                                    <Card>
-                                        <div className="flex justify-center">
-                                            <Typography
-                                                variant="label"
-                                                semibold
-                                            >
-                                                {i + 1}
-                                            </Typography>
+                        )} */}
+                            <div className="block lg:hidden">
+                                <div className=" flex justify-end items-center ">
+                                    <div
+                                        onClick={() =>
+                                            setShowSignersField(
+                                                !showSignersField
+                                            )
+                                        }
+                                    >
+                                        <Typography variant="small" semibold>
+                                            Show Fields
+                                        </Typography>
+                                    </div>
+                                    {showSignersField && (
+                                        <div className="absolute top-5 z-20 w-3/4">
+                                            <ScrollTabsView
+                                                customFieldsAndSign={
+                                                    customFieldsAndSign
+                                                }
+                                                scrollToPage={scrollToPage}
+                                                setSelectedFillDataField={
+                                                    setSelectedFillDataField
+                                                }
+                                            />
                                         </div>
-                                        <SVGView
-                                            index={i}
-                                            customFieldsData={customFieldsData}
-                                            onSignatureClicked={
-                                                onSignatureClicked
-                                            }
-                                            onAddCustomFieldsData={
-                                                onAddCustomFieldsData
-                                            }
-                                            documentData={
-                                                documentsTotalPages?.data
-                                            }
-                                        />
-                                    </Card>
+                                    )}
                                 </div>
-                            ))}
+                            </div>
+                            <div className="lg:col-span-5 flex flex-col gap-y-3">
+                                {/* <div className="flex justify-end items-center gap-x-2">
+                                    <input
+                                        type={'checkbox'}
+                                        onChange={(e: any) => {
+                                            onSelectAll(e)
+                                        }}
+                                        id={'selectAll'}
+                                    />
+                                    <label htmlFor="selectAll">
+                                        Select All
+                                    </label>
+                                </div> */}
+                                {[
+                                    ...Array(
+                                        Number(
+                                            documentsTotalPages?.data?.pageCount
+                                        )
+                                    ),
+                                ]?.map((doc: any, i: number) => (
+                                    <div
+                                        key={i}
+                                        ref={(el) =>
+                                            (scrollTargetRef.current[i] = el)
+                                        }
+                                    >
+                                        <Card>
+                                            <div className="flex justify-center">
+                                                <Typography
+                                                    variant="label"
+                                                    semibold
+                                                >
+                                                    {i + 1}
+                                                </Typography>
+                                            </div>
+                                            <SVGView
+                                                index={i}
+                                                customFieldsData={
+                                                    customFieldsData
+                                                }
+                                                selectedFillDataField={
+                                                    selectedFillDataField
+                                                }
+                                                onSignatureClicked={
+                                                    onSignatureClicked
+                                                }
+                                                onAddCustomFieldsData={
+                                                    onAddCustomFieldsData
+                                                }
+                                                documentData={
+                                                    documentsTotalPages?.data
+                                                }
+                                            />
+                                        </Card>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="hidden lg:block sticky top-0 h-[85vh]">
+                                <ScrollTabsView
+                                    customFieldsAndSign={customFieldsAndSign}
+                                    scrollToPage={scrollToPage}
+                                    setSelectedFillDataField={
+                                        setSelectedFillDataField
+                                    }
+                                />
+                            </div>
                         </div>
                         <div className="flex justify-center bg-white px-5 py-2 shadow-md w-full rounded my-2">
                             <button
@@ -290,7 +332,7 @@ const ESign = () => {
                                 )}
                             </button>
                         </div>
-                    </div>
+                    </>
                 ) : (
                     (documentsTotalPages.isSuccess ||
                         checkIfUserSigned.isSuccess) && (

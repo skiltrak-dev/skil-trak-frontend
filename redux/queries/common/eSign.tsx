@@ -350,4 +350,8 @@ export const eSignEndpoints = (
             `${PREFIX}/document/${documentId}/validate/signer/${id}`,
         providesTags: ['Email Sign'],
     }),
+    pendingDocumentsCount: builder.query<any, void>({
+        query: () => `${PREFIX}/signings-pending/count`,
+        providesTags: ['Email Sign'],
+    }),
 })

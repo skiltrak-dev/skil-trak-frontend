@@ -9,7 +9,6 @@ export const VolunteerRequestsListCard = ({
 }: {
     volunteer: any
 }) => {
-    console.log({ volunteer })
     return (
         <div className="bg-gray-100 p-2 rounded-md grid grid-cols-5 items-center">
             <div className="">
