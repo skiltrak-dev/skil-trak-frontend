@@ -1,4 +1,4 @@
-import { ShowErrorNotifications } from '@components'
+import { ActionAlert, Card, ShowErrorNotifications } from '@components'
 import { PageHeading } from '@components/headings'
 import { useNotification } from '@hooks'
 import {
@@ -19,15 +19,7 @@ const SubmitVolunteerRequests: NextPageWithLayout = () => {
         useRequestAVolunteerMutation()
 
     const onVolunteer = (values: any) => {
-        requestAVolunteer(values)?.then((res: any) => {
-            if (res?.data) {
-                notification.success({
-                    title: 'Volunteer Request Created',
-                    description: 'Your request has been created successfully',
-                })
-                router.back()
-            }
-        })
+        requestAVolunteer(values)
     }
 
     return (
@@ -38,10 +30,20 @@ const SubmitVolunteerRequests: NextPageWithLayout = () => {
                     title={'Create Volunteer Request'}
                     subtitle={`You are creating volunteer request`}
                 />
-                <CreateVolunteerRequest
-                    result={requestAVolunteerResult}
-                    onSubmit={onVolunteer}
-                />
+                {requestAVolunteerResult.isSuccess ? (
+                    <Card>
+                        <ActionAlert
+                            title="Volunteer Request Created"
+                            description="Your request has been created successfully"
+                            variant="primary"
+                        />
+                    </Card>
+                ) : (
+                    <CreateVolunteerRequest
+                        result={requestAVolunteerResult}
+                        onSubmit={onVolunteer}
+                    />
+                )}
             </div>
         </>
     )

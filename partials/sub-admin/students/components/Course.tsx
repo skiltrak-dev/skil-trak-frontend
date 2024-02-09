@@ -148,12 +148,30 @@ export const Course = ({
                                 onClick={() => {
                                     if (isEdit) {
                                         updateCourseStartEndDate({
-                                            ...duration,
+                                            startTime: moment(
+                                                new Date(duration?.startTime)
+                                            )
+                                                .add(1, 'day')
+                                                .format('YYYY-MM-DD') as any,
+                                            endTime: moment(
+                                                new Date(duration?.endTime)
+                                            )
+                                                .add(1, 'day')
+                                                .format('YYYY-MM-DD') as any,
                                             id: course?.timing[0]?.id,
                                         })
                                     } else {
                                         addCourseStartEndDate({
-                                            ...duration,
+                                            startTime: moment(
+                                                new Date(duration?.startTime)
+                                            )
+                                                .add(1, 'day')
+                                                .format('YYYY-MM-DD') as any,
+                                            endTime: moment(
+                                                new Date(duration?.endTime)
+                                            )
+                                                .add(1, 'day')
+                                                .format('YYYY-MM-DD') as any,
                                             courseId: course?.id,
                                             studentId,
                                         })

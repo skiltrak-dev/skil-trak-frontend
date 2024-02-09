@@ -1,5 +1,6 @@
 export * from './FinishSignModal'
 export * from './EsignSignatureModal'
+export * from './FinishEmailSignModal'
 export * from './ShowNotificationModal'
 export * from './ViewUsersForEsignModal'
 export * from './EsignSignatureModalForUser'

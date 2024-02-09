@@ -66,7 +66,9 @@ export const SubadminESign = () => {
             refetchOnMountOrArgChange: true,
         }
     )
-    const count = CommonApi.ESign.useEsignCounts()
+    const count = CommonApi.ESign.useEsignCounts(undefined, {
+        refetchOnMountOrArgChange: true,
+    })
 
     useEffect(() => {
         navBar.setTitle('RTO')
