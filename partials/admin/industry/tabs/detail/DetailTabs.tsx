@@ -3,6 +3,7 @@ import {
     AllCommunicationTab,
     AppointmentTab,
     BranchesIndustries,
+    IndustryBranchesAddress,
     MailsTab,
     NotesTab,
     Supervisor,
@@ -21,7 +22,6 @@ export const DetailTabs = ({
     id?: number | string | string[] | undefined
     industry: any
 }) => {
-    
     const [tabs, setTabs] = useState<TabProps[]>([
         {
             label: 'Sectors',
@@ -102,9 +102,15 @@ export const DetailTabs = ({
         ),
     }
 
+    const BranchesAddresses = {
+        label: 'Branches',
+        href: { query: { tab: 'branches', id } },
+        element: <IndustryBranchesAddress industry={industry?.data} />,
+    }
+
     return (
         <div>
-            <TabNavigation tabs={[...tabs, Branches]}>
+            <TabNavigation tabs={[...tabs, BranchesAddresses]}>
                 {({ header, element }: any) => {
                     return (
                         <div>

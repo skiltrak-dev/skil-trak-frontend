@@ -7,15 +7,8 @@ import {
     IndustryProfile,
     LoadingAnimation,
     TechnicalError,
-    TextInput,
 } from '@components'
-import {
-    useActionModal,
-    useAlert,
-    useContextBar,
-    useNavbar,
-    useNotification,
-} from '@hooks'
+import { useActionModal, useAlert, useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { Industry, NextPageWithLayout, UserStatus } from '@types'
 import { useRouter } from 'next/router'
@@ -23,23 +16,20 @@ import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import { FaArchive, FaBan, FaEdit } from 'react-icons/fa'
 
 import { DetailTabs } from '@partials/admin/industry/tabs'
-import { AdminApi, CommonApi } from '@queries'
+import { AdminApi } from '@queries'
 
 import { FigureCard } from '@components/sections/subAdmin'
 import { PinnedNotes } from '@partials'
 import { useActionModals } from '@partials/admin/industry/hooks/useActionModals'
-import { getUserCredentials } from '@utils'
 import { AcceptModal } from '@partials/admin/industry/modals'
-import {
-    SnoozeIndustry,
-    SnoozeIndustryModal,
-    UnSnoozeIndustryModal,
-} from '@partials/common'
-import { MdSnooze } from 'react-icons/md'
+import { SnoozeIndustryModal, UnSnoozeIndustryModal } from '@partials/common'
+import { getUserCredentials } from '@utils'
 import moment from 'moment'
+import { MdSnooze } from 'react-icons/md'
 
 const Detail: NextPageWithLayout = () => {
     const [newModal, setNewModal] = useState<ReactNode | null>(null)
+    const [isMouseMove, setIsMouseMove] = useState<any>(null)
 
     const router = useRouter()
     const navBar = useNavbar()
@@ -50,6 +40,19 @@ const Detail: NextPageWithLayout = () => {
     useEffect(() => {
         navBar.setTitle('Industry Detail')
     }, [])
+
+    useEffect(() => {
+        window.addEventListener('mousemove', () => setIsMouseMove(true))
+        return () => {
+            window.removeEventListener('mousemove', () => setIsMouseMove(false))
+        }
+    }, [])
+
+    useEffect(() => {
+        if (!contextBar.content) {
+            setIsMouseMove(false)
+        }
+    }, [contextBar])
 
     const {
         modal,
@@ -133,7 +136,7 @@ const Detail: NextPageWithLayout = () => {
             contextBar.setContent(null)
             contextBar.hide()
         }
-    }, [industry])
+    }, [industry, isMouseMove])
 
     const role = getUserCredentials()?.role
 

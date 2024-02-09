@@ -8,6 +8,7 @@ import {
     TableAction,
     TableActionOption,
     TechnicalError,
+    TruncatedTextWithTooltip,
     Typography,
     UserCreatedAt,
 } from '@components'
@@ -121,12 +122,10 @@ export const ArchivedIndustry = () => {
             accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
             cell: (info) => (
-                <div>
-                    <Typography variant={'label'}>
-                        {info.row.original?.addressLine1},{' '}
-                        {info.row.original?.suburb}
-                    </Typography>
-                </div>
+                <TruncatedTextWithTooltip
+                    text={`${info?.row?.original?.addressLine1},${' '} 
+            ${info?.row?.original?.suburb}`}
+                />
             ),
         },
         {

@@ -22,6 +22,7 @@ import {
     TableAction,
     TableActionOption,
     TechnicalError,
+    TruncatedTextWithTooltip,
     Typography,
 } from '@components'
 import { useNavbar } from '@hooks'
@@ -97,40 +98,20 @@ export const VolunteerRequests = () => {
             header: () => <span>Requirements</span>,
             accessorKey: 'requirement',
             cell: (info) => (
-                <div className="group relative">
-                    <Typography variant={'label'}>
-                        <span className="cursor-pointer">
-                            {ellipsisText(
-                                info.row.original?.requirement,
-                                100
-                            ) || '----'}
-                        </span>
-                    </Typography>
-                    {info.row.original?.requirement && (
-                        <div className="hidden group-hover:block text-[13px] max-h-[240px] overflow-auto custom-scrollbar w-full absolute top-full left-0 p-2 z-20 shadow rounded-md bg-white">
-                            {info.row.original?.requirement}
-                        </div>
-                    )}
-                </div>
+                <TruncatedTextWithTooltip
+                    maxLength={100}
+                    text={info.row.original?.requirement || '----'}
+                />
             ),
         },
         {
             header: () => <span>Response</span>,
             accessorKey: 'industry.abn',
             cell: (info) => (
-                <div className="group relative">
-                    <Typography variant={'label'}>
-                        <span className="cursor-pointer">
-                            {ellipsisText(info.row.original?.note, 100) ||
-                                '----'}
-                        </span>
-                    </Typography>
-                    {info.row.original?.note && (
-                        <div className="hidden group-hover:block text-[13px] max-h-[240px] overflow-auto custom-scrollbar w-full absolute top-full left-0 p-2 z-20 shadow rounded-md bg-white">
-                            {info.row.original?.note}
-                        </div>
-                    )}
-                </div>
+                <TruncatedTextWithTooltip
+                    maxLength={100}
+                    text={info.row.original?.note || '----'}
+                />
             ),
         },
         {
