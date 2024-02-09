@@ -6,6 +6,7 @@ import { FaEye } from 'react-icons/fa'
 
 // components
 import {
+    ActionButton,
     Card,
     EmptyData,
     InitialAvatar,
@@ -59,14 +60,6 @@ export const Students = ({
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onAssignStudentClicked = (student: Student) => {
-        setModal(
-            <AssignStudentModal
-                student={student}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
 
     const tableActionOptions: TableActionOption[] = [
         {
@@ -77,12 +70,6 @@ export const Students = ({
                 )
             },
             Icon: FaEye,
-        },
-        {
-            text: 'Assign to me',
-            onClick: (student: Student) => onAssignStudentClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
     ]
 
@@ -142,6 +129,19 @@ export const Students = ({
             header: () => 'Action',
             accessorKey: 'Action',
             cell: ({ row }: any) => {
+                return (
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/sub-admin/students/${row.original?.id}?tab=overview`
+                            )
+                        }}
+                        variant="warning"
+                        Icon={FaEye}
+                    >
+                        View
+                    </ActionButton>
+                )
                 return (
                     <TableAction
                         options={tableActionOptions}
