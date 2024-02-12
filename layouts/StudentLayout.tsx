@@ -153,7 +153,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
             <UserLayout>
                 <>
                     <StudentContextBar />
-                    <div className="px-4 mb-32 md:px-16">
+                    <div className="px-4 mb-32 md:px-8">
                         <div className="mb-6">
                             <div className="flex justify-between">
                                 <StudentNavbar />

@@ -8,7 +8,7 @@ import {
     TableAction,
     TableActionOption,
     TechnicalError,
-    TruncatedTextWithTooltip,
+    TruncatedTextWithTooltip
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -55,7 +55,7 @@ export const IndustryBranchesAddress = ({
         )
     }
 
-    const onAddBranches = () => {
+    const onAddLocations = () => {
         contextBar.show(false)
         contextBar.setTitle('Add Secondary Address')
         contextBar.setContent(
@@ -141,7 +141,12 @@ export const IndustryBranchesAddress = ({
         },
         {
             accessorKey: 'studentCapacity',
-            header: () => <span>Student Capacity</span>,
+            header: () => <span>Capacity</span>,
+            cell: (info) => info.getValue(),
+        },
+        {
+            accessorKey: 'enrolledStudents',
+            header: () => <span>Enrolled</span>,
             cell: (info) => info.getValue(),
         },
         {
@@ -165,14 +170,14 @@ export const IndustryBranchesAddress = ({
             {modal && modal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
-                    title={'Industry Branches'}
-                    subtitle={'List of Industry Branches'}
+                    title={'Industry Locations'}
+                    subtitle={'List of Industry Locations'}
                 >
                     <Button
-                        text="Add Branches"
+                        text="Add Location"
                         variant="info"
                         Icon={FaFileExport}
-                        onClick={onAddBranches}
+                        onClick={onAddLocations}
                     />
                 </PageHeading>
 

@@ -1,19 +1,19 @@
-import { ThemeColors } from "@utils";
+import { ThemeColors } from '@utils'
 
 export interface ColorSet {
-	DEFAULT: string;
-	dark: string;
-	light: string;
+    DEFAULT: string
+    dark: string
+    light: string
 }
 
 export interface ThemeColors {
-	primary: ColorSet;
-	secondary: ColorSet;
-	success: ColorSet;
-	info: ColorSet;
-	error: ColorSet;
-	link: ColorSet;
-	base: ColorSet;
-	muted: ColorSet;
+    primary: ColorSet
+    primaryNew: ColorSet
+    secondary: ColorSet
+    success: ColorSet
+    info: ColorSet
+    error: ColorSet
+    link: ColorSet
+    base: ColorSet
+    muted: ColorSet
 }
-

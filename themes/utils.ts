@@ -1,4 +1,4 @@
-import { ThemeColors } from "./type"
+import { ThemeColors } from './type'
 
 export const createTheme = (theme: ThemeColors) => {
     return {
@@ -6,6 +6,10 @@ export const createTheme = (theme: ThemeColors) => {
         '--theme-primary-default': theme.primary.DEFAULT,
         '--theme-primary-dark': theme.primary.dark,
         '--theme-primary-light': theme.primary.light,
+
+        '--theme-primaryNew-default': theme.primaryNew.DEFAULT,
+        '--theme-primaryNew-dark': theme.primaryNew.dark,
+        '--theme-primaryNew-light': theme.primaryNew.light,
 
         // Secondary
         '--theme-secondary-default': theme.secondary.DEFAULT,

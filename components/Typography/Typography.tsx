@@ -12,6 +12,7 @@ const TypographyOptions = {
     muted: { className: `text-xs font-medium`, element: 'p' },
     small: { className: `text-xs font-normal`, element: 'p' },
     xs: { className: `text-[11px] font-normal`, element: 'p' },
+    xxs: { className: `text-[10px] font-normal`, element: 'p' },
     tableCell: { className: `text-xs font-medium`, element: 'p' },
     badge: { className: `text-[9px] font-semibold`, element: 'span' },
 }
@@ -28,6 +29,7 @@ const VariantOptions = [
     'muted',
     'small',
     'xs',
+    'xxs',
     'tableCell',
     'badge',
 ] as const
