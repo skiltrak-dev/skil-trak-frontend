@@ -59,10 +59,6 @@ const ESign: NextPageWithLayout = () => {
                 pathname: 'e-sign',
                 query: { tab: 'approved', page: 1, pageSize: 50 },
             },
-            // badge: {
-            //     text: data?.pending,
-            //     loading: isLoading,
-            // },
             element: <ApprovedEsigns />,
         },
         {
@@ -71,10 +67,6 @@ const ESign: NextPageWithLayout = () => {
                 pathname: 'e-sign',
                 query: { tab: 'archived', page: 1, pageSize: 50 },
             },
-            // badge: {
-            //     text: data?.pending,
-            //     loading: isLoading,
-            // },
             element: <ArchivedEsigns />,
         },
     ]

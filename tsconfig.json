@@ -97,7 +97,8 @@
       "**/*.tsx",
       "pages/portals/admin/subscribers",
       "pages/portals/admin/rto/[id]/student-list.tss",
-      "pages/portals/admin/e-sign/[id]"
+      "pages/portals/admin/e-sign/[id]",
+      "./jest-setup.ts"
    ],
    "exclude": [
       "node_modules"
