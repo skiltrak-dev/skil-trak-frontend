@@ -135,7 +135,6 @@ export const ApprovedEsigns = () => {
                 )
             },
         },
-
         {
             accessorKey: 'Course',
             header: () => <span>Course</span>,

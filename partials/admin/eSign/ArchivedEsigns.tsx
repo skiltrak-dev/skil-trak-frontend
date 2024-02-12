@@ -132,9 +132,14 @@ export const ArchivedEsigns = () => {
             accessorKey: 'Course',
             header: () => <span>Course</span>,
             cell: (info) => (
-                <Typography variant="label" color="text-info">
-                    {info.row.original?.course?.title}
-                </Typography>
+                <div>
+                    <Typography variant="xs" color="text-info">
+                        {info.row.original?.course?.code}
+                    </Typography>
+                    <Typography variant="label" color="text-info">
+                        {info.row.original?.course?.title}
+                    </Typography>
+                </div>
             ),
         },
         {
