@@ -13,11 +13,11 @@ import {
     ActionAlertType,
     LoadingAnimation,
     ShowErrorNotifications,
-} from 'components'
+} from '@components'
 // import { RightSidebarData } from './components'
 
 // hooks
-import { useContextBar, useNotification } from 'hooks'
+import { useContextBar, useNotification } from '@hooks'
 
 // query
 import {

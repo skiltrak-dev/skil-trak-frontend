@@ -12,7 +12,7 @@ import { CourseDetails } from './components'
 import { useGetSectors, useContextBar } from '@hooks'
 
 // components
-import { Card, Typography } from 'components'
+import { Card, Typography } from '@components'
 
 export const Sectors = ({ data }: any) => {
     const { isVisible, title, show, setContent } = useContextBar()

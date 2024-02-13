@@ -104,15 +104,9 @@ export const AppliedIndustry = ({
                                         {appliedIndustry?.industry?.user?.name}
                                     </p>
                                     <p className="text-sm text-gray-500">
-                                        {
-                                            appliedIndustry?.industry
-                                                ?.addressLine1
-                                        }
-                                        ,{' '}
-                                        {
-                                            appliedIndustry?.industry
-                                                ?.addressLine2
-                                        }
+                                        {appliedIndustry?.location
+                                            ? `${appliedIndustry?.location?.suburb}, ${appliedIndustry?.location?.address}`
+                                            : `${appliedIndustry?.industry?.suburb}, ${appliedIndustry?.industry?.state}, ${appliedIndustry?.industry?.addressLine1}`}
                                     </p>
                                 </div>
                             </div>

@@ -8,11 +8,8 @@ import {
 import { IndustryApi, useIndustryStudentCountQuery } from '@queries'
 
 // components
-import { Typography } from 'components/Typography'
+import { Typography } from '@components/Typography'
 import { getThemeColors } from '@theme'
-
-// Colors
-// import { Colors } from "utills/colors/Colors";
 
 const colors = getThemeColors()
 

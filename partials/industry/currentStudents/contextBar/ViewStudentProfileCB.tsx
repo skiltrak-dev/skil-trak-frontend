@@ -3,7 +3,7 @@ import moment from 'moment'
 import { FaAddressCard, FaUserCircle } from 'react-icons/fa'
 import { IoLocation } from 'react-icons/io5'
 import { MdBatchPrediction, MdPhone, MdVerified } from 'react-icons/md'
-import { getGender } from 'utils/functions/getGender'
+import { getGender } from '@utils'
 
 // hooks
 import { Student } from '@types'

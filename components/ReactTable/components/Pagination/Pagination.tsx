@@ -4,7 +4,7 @@ import React from 'react'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 
 // components
-import { Typography } from 'components/Typography'
+import { Typography } from '@components/Typography'
 
 interface Props {
     pageCount: number

@@ -6,7 +6,7 @@ import { BsCheckCircleFill, BsArrowUpCircle } from 'react-icons/bs'
 import { MdCancel } from 'react-icons/md'
 
 // hooks
-import { useContextBar } from 'hooks'
+import { useContextBar } from '@hooks'
 
 // components
 import {

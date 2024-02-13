@@ -78,7 +78,7 @@ export const SubAdminLayout = ({
             <>
                 {modal}
                 <div className="px-8">
-                    <div className="mb-6">
+                    <div className="mb-2">
                         <SubAdminNavbar />
                         <DisplayAlerts />
                     </div>

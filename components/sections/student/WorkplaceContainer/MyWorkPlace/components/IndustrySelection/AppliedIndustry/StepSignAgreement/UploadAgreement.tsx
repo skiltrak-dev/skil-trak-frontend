@@ -5,7 +5,7 @@ import { HiExclamationTriangle } from 'react-icons/hi2'
 import { TfiReload } from 'react-icons/tfi'
 
 // components
-import { Typography } from 'components'
+import { Typography } from '@components'
 import { Button } from '@components/buttons'
 import { MdCloudUpload } from 'react-icons/md'
 

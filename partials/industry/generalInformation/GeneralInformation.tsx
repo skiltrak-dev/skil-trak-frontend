@@ -13,7 +13,7 @@ import {
 } from '@components'
 
 // Context
-import { useContextBar } from 'hooks'
+import { useContextBar } from '@hooks'
 import { AdForRPL } from '@components/sections'
 
 export const GeneralInfoPrimaryActions = [

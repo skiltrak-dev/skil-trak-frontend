@@ -13,7 +13,7 @@ import { RightSidebarData } from './components/RightSidebarData/RightSidebarData
 
 // Context
 import { useIndustryProfileQuery, useRequestAVolunteerMutation } from '@queries'
-import { useContextBar } from 'hooks'
+import { useContextBar } from '@hooks'
 import { CreateVolunteerRequest, VolunteerRequestsList } from './components'
 
 export const RequestAVolunteerStudent = () => {

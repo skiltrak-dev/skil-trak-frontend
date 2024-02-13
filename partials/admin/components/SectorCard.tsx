@@ -1,6 +1,6 @@
 import { CourseList } from '@partials/common'
 import { Course } from '@types'
-import { Typography } from 'components'
+import { Typography } from '@components'
 
 export const SectorCard = ({ sector, index }: any) => {
     return (

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { useNotification } from 'hooks'
+import { useNotification } from '@hooks'
 
 export const ShowErrorNotifications = ({
     result,

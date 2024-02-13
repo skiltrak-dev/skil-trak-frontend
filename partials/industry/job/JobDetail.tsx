@@ -20,7 +20,7 @@ import { JobDetailData } from './components'
 
 // Context
 // import { JobDataContext, AlertsContext } from "context";
-// import { useNotification } from "hooks";
+// import { useNotification } from "@hooks";
 
 // redux
 import { useGetJobDetailQuery, useRemoveJobMutation } from '@queries'

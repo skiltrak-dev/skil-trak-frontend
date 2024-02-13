@@ -7,7 +7,7 @@ import {
     // OtherDocumentLinks,
     DisplayPrimaryActions,
     Typography,
-} from 'components'
+} from '@components'
 import { JobsPrimaryActions } from '../Jobs'
 
 export const JobsCB = () => {

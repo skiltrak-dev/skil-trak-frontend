@@ -1,25 +1,21 @@
 import {
-    AutoCompleteTextInput,
+    Button,
     RadioGroup,
     Select,
     SelectOption,
     TextInput,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button } from 'components/buttons/Button'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 // components
-import { usePlacesWidget } from 'react-google-autocomplete'
 
-import { InputErrorMessage, RequiredStar } from '@components/inputs/components'
-import { Course } from '@types'
-import { Card, Typography } from 'components'
+import { Card, Typography } from '@components'
 import { useNotification } from '@hooks'
+import { Course } from '@types'
 import { getUserCredentials } from '@utils'
-import { UserRoles } from '@constants'
 
 type PersonalInfoProps = {
     onSubmit: any

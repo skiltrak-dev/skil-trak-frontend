@@ -44,8 +44,9 @@ export const ApplyForWorkplace = ({
                         {industry?.industry?.user?.name}
                     </p>
                     <p className="font-medium text-xs text-gray-500">
-                        {industry?.industry?.addressLine1},{' '}
-                        {industry?.industry?.addressLine2}
+                        {industry?.location
+                            ? `${industry?.location?.suburb}, ${industry?.location?.address}`
+                            : `${industry?.industry?.suburb}, ${industry?.industry?.state}, ${industry?.industry?.addressLine1}`}
                     </p>
                 </div>
             </div>

@@ -62,7 +62,11 @@ export const Badge = ({
     return (
         <div className={classes} {...(onClick ? { onClick } : {})}>
             {loading ? (
-                <PulseLoader size={5} color={(LoaderColor as any)[variant]} />
+                <PulseLoader
+                    size={5}
+                    data-testid="puff-loader"
+                    color={(LoaderColor as any)[variant]}
+                />
             ) : (
                 text
             )}

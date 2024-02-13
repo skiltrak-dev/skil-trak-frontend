@@ -31,8 +31,8 @@ export const ImportIndustriesList = () => {
     }
 
     const onSubmit = () => {
-        importList(
-            industries?.map((ind: any) => ({
+        importList({
+            industries: industries?.map((ind: any) => ({
                 ...ind,
                 email: ind?.email ? ind?.email?.replace(/\r\n\r\n/g, '') : '',
                 region: ind?.states,
@@ -41,8 +41,8 @@ export const ImportIndustriesList = () => {
                           ?.split(',')
                           ?.map((s: any) => Number(s))
                     : null,
-            }))
-        ).then((res: any) => {
+            })),
+        }).then((res: any) => {
             if (res?.data) {
                 notification.success({
                     title: 'Success',

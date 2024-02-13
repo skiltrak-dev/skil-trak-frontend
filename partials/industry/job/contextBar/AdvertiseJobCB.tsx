@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router'
-import { Button } from 'components'
+import { Button } from '@components'
 
 export const AdvertiseJobCB = () => {
     const router = useRouter()
-
 
     return (
         <>

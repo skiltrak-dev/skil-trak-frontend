@@ -11,13 +11,13 @@ import {
     // Pagination,
     TechnicalError,
     EmptyData,
-} from 'components'
+} from '@components'
 import { Schedule } from './components'
 import { SidebarCB } from './contextBar'
 import { AddTaskForm } from './form'
 
 // Context
-import { useContextBar } from 'hooks'
+import { useContextBar } from '@hooks'
 
 import { useGetEmployeeQuery } from '@queries'
 

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { Button, BackButton, Card, Typography, RedirectUser } from '@components'
 
 // Context
-import { useContextBar, useJoyRide } from 'hooks'
+import { useContextBar, useJoyRide } from '@hooks'
 import Image from 'next/image'
 import studentImage from '../../../public/images/portal-icons/students.png'
 
@@ -53,11 +53,12 @@ export const AddScheduleContainer = () => {
                     {continueWith.map(({ image, text }, index) => (
                         <Fragment key={index}>
                             <div
-                                id='add-employee-schedule'
-                                className={`border p-2 flex flex-col items-center cursor-pointer rounded-lg ${selectedSchedule === text
+                                id="add-employee-schedule"
+                                className={`border p-2 flex flex-col items-center cursor-pointer rounded-lg ${
+                                    selectedSchedule === text
                                         ? 'border-primary'
                                         : 'border-secondary-dark'
-                                    }`}
+                                }`}
                                 onClick={() => setSelectedSchedule(text)}
                             >
                                 <img

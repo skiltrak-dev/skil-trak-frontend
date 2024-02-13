@@ -50,6 +50,11 @@ export const DetailTabs = ({
             element: <Students industry={industry?.data} />,
         },
         {
+            label: 'Locations',
+            href: { query: { tab: 'branches', id } },
+            element: <IndustryBranchesAddress industry={industry?.data} />,
+        },
+        {
             label: 'Appointments',
             href: { pathname: String(id), query: { tab: 'appointments' } },
             element: <AppointmentTab userId={industry?.data?.user?.id} />,
@@ -102,15 +107,9 @@ export const DetailTabs = ({
         ),
     }
 
-    const BranchesAddresses = {
-        label: 'Branches',
-        href: { query: { tab: 'branches', id } },
-        element: <IndustryBranchesAddress industry={industry?.data} />,
-    }
-
     return (
         <div>
-            <TabNavigation tabs={[...tabs, BranchesAddresses]}>
+            <TabNavigation tabs={tabs}>
                 {({ header, element }: any) => {
                     return (
                         <div>

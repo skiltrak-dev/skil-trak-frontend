@@ -79,6 +79,8 @@ export interface Rto extends BaseResponse {
 export interface Student extends BaseResponse {
     id: number
     studentId: string
+    age: string
+    isInternational: boolean
     familyName: string
     phone: string
     dob: Date
@@ -156,6 +158,7 @@ export interface IndustryBranchesAddressType extends BaseResponse {
     contactPersonEmail: string
     suburb: string
     studentCapacity: number
+    enrolledStudents: number
 }
 
 export interface ContactPerson extends BaseResponse {

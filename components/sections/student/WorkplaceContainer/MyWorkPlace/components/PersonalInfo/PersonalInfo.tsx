@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import * as yup from 'yup'
 import { Formik, Form } from 'formik'
-import { Button } from 'components/buttons/Button'
+import { Button } from '@components/buttons/Button'
 import { Select, TextInput, RadioButton, RadioGroup } from '@components'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import moment from 'moment'
 
 // components
-import { Card, Typography } from 'components'
+import { Card, Typography } from '@components'
 
 import { useGetStudentCoursesQuery, useGetCourseDocumentsQuery } from '@queries'
 import { SignUpUtils } from '@utils'

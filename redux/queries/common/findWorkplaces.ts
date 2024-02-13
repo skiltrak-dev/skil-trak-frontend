@@ -1,7 +1,6 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { Industry, PaginatedResponse, PaginationWithSearch } from '@types'
-import { any } from 'cypress/types/bluebird'
+import { Industry, PaginationWithSearch } from '@types'
 
 const PREFIX = 'futureindustries'
 

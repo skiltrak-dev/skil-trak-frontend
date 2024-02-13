@@ -1,7 +1,7 @@
 import React from 'react'
 
 // hooks
-import { useContextBar } from 'hooks'
+import { useContextBar } from '@hooks'
 
 // components
 import { ContextBarLoading, EmptyData, NoData, Typography } from '@components'
