@@ -10,7 +10,7 @@ import {
     StudentDetail,
     StudentExpireTime,
     StudentStatus,
-} from '../components'
+} from '../ContextBarComponents'
 
 export const ProfileViewCB = ({ profile }: { profile: Student }) => {
     return (

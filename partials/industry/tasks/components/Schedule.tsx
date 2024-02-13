@@ -80,9 +80,14 @@ export const Schedule = ({
                                 small
                             />
                             <div>
-                                <Typography
-                                    variant={'small'}
-                                >{`${employee.firstName} ${employee.lastName}`}</Typography>
+                                <div className="">
+                                    <Typography
+                                        variant={'small'}
+                                    >{`${employee.firstName} ${employee.lastName}`}</Typography>
+                                    <Typography
+                                        variant={'small'}
+                                    >{`${employee.email}`}</Typography>
+                                </div>
                                 <Typography variant={'small'}>
                                     {employee.status}
                                 </Typography>

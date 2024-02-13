@@ -19,6 +19,7 @@ import { Navbar2 } from '@components/site/navbar'
 import { SiteLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { NextPage } from 'next'
+import { PaginatedItems } from '@partials/common'
 
 const Jobs: NextPageWithLayout = () => {
     const [itemPerPage, setItemPerPage] = useState(10)
@@ -59,7 +60,7 @@ const Jobs: NextPageWithLayout = () => {
                                 <span className="text-gray-600 text-sm">
                                     results({data?.data?.length})
                                 </span>
-                                <Paginate
+                                <PaginatedItems
                                     data={data?.data}
                                     itemsPerPage={12}
                                     setCurrentItems={setCurrentItems}
