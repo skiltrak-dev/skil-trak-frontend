@@ -46,6 +46,7 @@ export const ContactStatus = ({
                             onChange={() => {
                                 onContactableChange()
                             }}
+                            defaultChecked={nonContactable}
                             loading={notContactableResult.isLoading}
                             disabled={notContactableResult.isLoading}
                         />

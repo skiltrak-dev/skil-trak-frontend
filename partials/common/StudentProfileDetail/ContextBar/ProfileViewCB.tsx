@@ -49,7 +49,10 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
             <EmergencyContact profile={profile} />
 
             {/* Student Status */}
-            <StudentStatus />
+            <StudentStatus
+                studentUserId={profile?.user?.id}
+                studentStatus={profile?.studentStatus}
+            />
 
             {/* Profile Priority */}
             <ProfilePriority
