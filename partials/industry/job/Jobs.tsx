@@ -7,7 +7,7 @@ import {
     CircularProgresbar,
 } from '@components'
 
-import { useContextBar, useJoyRide } from 'hooks'
+import { useContextBar, useJoyRide } from '@hooks'
 
 import { Animations } from '@animations'
 import { AdForRPL } from '@components/sections'

@@ -18,9 +18,9 @@ import { DocsCheckbox } from '../DocsCheckbox'
 
 import { AiFillDelete } from 'react-icons/ai'
 import { MdCheck, MdEdit, MdOutlineClose } from 'react-icons/md'
-// import { DeleteActionPopup } from 'components'
+// import { DeleteActionPopup } from '@components'
 import { Industry } from '@types'
-import { useNotification } from 'hooks'
+import { useNotification } from '@hooks'
 import { DeleteModal } from '../../modal'
 
 export const CustomDocInput = ({

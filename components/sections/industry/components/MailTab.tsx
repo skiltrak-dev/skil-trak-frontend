@@ -5,7 +5,7 @@
 import { useGetIndustryMessagesQuery } from '@queries'
 
 // hooks
-import { useContextBar } from 'hooks'
+import { useContextBar } from '@hooks'
 export const MailTab = () => {
     const { isVisible } = useContextBar()
     // const [messagesList, setMessagesList] = useState([])

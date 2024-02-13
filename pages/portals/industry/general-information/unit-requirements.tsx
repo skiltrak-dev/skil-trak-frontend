@@ -13,7 +13,7 @@ import {
 } from '@components'
 
 // Context
-import { useContextBar } from 'hooks'
+import { useContextBar } from '@hooks'
 
 const UnitRequirements: NextPageWithLayout = () => {
     const router = useRouter()
@@ -23,7 +23,10 @@ const UnitRequirements: NextPageWithLayout = () => {
 
     return (
         <div>
-            <BackButton link={'/portals/industry/general-information'}  text={'Back To Dashboard'} />
+            <BackButton
+                link={'/portals/industry/general-information'}
+                text={'Back To Dashboard'}
+            />
 
             {/* Data */}
             <DocumentView

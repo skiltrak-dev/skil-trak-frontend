@@ -8,6 +8,12 @@ const colors: ThemeColors = {
         light: '#FCD6A5',
     },
 
+    primaryNew: {
+        DEFAULT: '#24556D',
+        dark: '#24556D',
+        light: '#24556D',
+    },
+
     secondary: {
         DEFAULT: '#F5F5F5',
         dark: '#E6E6E6',

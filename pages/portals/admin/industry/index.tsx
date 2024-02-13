@@ -37,7 +37,7 @@ const filterKeys = [
     'industryId',
     'suburb',
     'state',
-    'isPartner'
+    'isPartner',
 ]
 
 const removeFilterKeysToUrl: any = []
@@ -71,6 +71,11 @@ const IndustryList: NextPageWithLayout = () => {
         contextBar.hide()
     }, [])
 
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
+    }, [router])
+
     const tabs: TabProps[] = [
         {
             label: 'Pending',
@@ -100,7 +105,7 @@ const IndustryList: NextPageWithLayout = () => {
             label: 'Snoozed',
             href: {
                 pathname: 'industry',
-                query: { tab: "snoozed", page: 1, pageSize: 50 },
+                query: { tab: 'snoozed', page: 1, pageSize: 50 },
             },
             badge: {
                 text: data?.snoozed,
@@ -160,7 +165,10 @@ const IndustryList: NextPageWithLayout = () => {
                     component={IndustryFilters}
                     initialValues={filter}
                     setFilterAction={setFilterAction}
-                    setFilter={setFilter}
+                    setFilter={(e: any) => {
+                        setPage(Number(1))
+                        setFilter(e)
+                    }}
                     filterKeys={filterKeys}
                     removeFilterKeysToUrl={removeFilterKeysToUrl}
                 />

@@ -81,7 +81,11 @@ export const Button = ({
         >
             {loading ? (
                 <div className="flex items-center justify-center">
-                    <PuffLoader size={24} color={currentLoadingColor} />
+                    <PuffLoader
+                        size={24}
+                        color={currentLoadingColor}
+                        data-testid="puff-loader"
+                    />
                 </div>
             ) : (
                 <div className="flex items-center justify-center gap-x-2">

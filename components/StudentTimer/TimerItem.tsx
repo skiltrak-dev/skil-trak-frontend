@@ -13,7 +13,9 @@ export const TimerItem = ({
             <TimeDigit className="text-xl font-bold leading-4">
                 {formattedValue}
             </TimeDigit>
-            <span className="text-[10px] leading-4 uppercase">{title}</span>
+            <span className="text-[10px] font-medium leading-4 uppercase">
+                {title}
+            </span>
         </div>
     )
 }

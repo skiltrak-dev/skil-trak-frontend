@@ -11,7 +11,7 @@ import { IoMdArrowDropupCircle } from 'react-icons/io'
 // components
 import { Typography, EmptyData } from '@components'
 import { Pagination, PageSize } from './components'
-// import { TableCheckbox } from 'components/tableCheckbox'
+// import { TableCheckbox } from '@components/tableCheckbox'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 import { Card, TechnicalError } from '@components'
 

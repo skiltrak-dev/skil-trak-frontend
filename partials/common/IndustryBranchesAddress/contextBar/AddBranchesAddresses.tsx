@@ -22,8 +22,8 @@ export const AddBranchesAddresses = ({
         })?.then((res: any) => {
             if (res?.data) {
                 notification.success({
-                    title: 'Address Added',
-                    description: 'Address Added Successfully',
+                    title: 'Location Added',
+                    description: 'Location Added Successfully',
                 })
                 contextBar.hide()
                 contextBar.setContent(null)

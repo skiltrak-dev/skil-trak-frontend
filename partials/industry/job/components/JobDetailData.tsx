@@ -1,7 +1,7 @@
 import React from 'react'
 
 // components
-import { Typography } from 'components'
+import { Typography } from '@components'
 
 export const JobDetailData = ({ data }: any) => {
     const employmentType = () => {
@@ -58,7 +58,7 @@ export const JobDetailData = ({ data }: any) => {
                 {/* Address */}
                 <div className="flex flex-col gap-y-1">
                     <Typography variant={'muted'} color={'gray'}>
-                        Address 
+                        Address
                     </Typography>
                     <Typography color={'black'}>
                         {data?.addressLine1}

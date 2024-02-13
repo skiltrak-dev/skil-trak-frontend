@@ -38,7 +38,7 @@ import {
 // query
 import { yupResolver } from '@hookform/resolvers/yup'
 import { CommonApi } from '@queries'
-import { useNotification } from 'hooks'
+import { useNotification } from '@hooks'
 import ClickAwayListener from 'react-click-away-listener'
 import { useRouter } from 'next/router'
 import { OptionType } from '@types'

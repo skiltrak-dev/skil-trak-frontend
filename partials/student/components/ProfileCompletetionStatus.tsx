@@ -5,7 +5,7 @@ import {
 } from 'react-circular-progressbar'
 
 // components
-import { Typography } from 'components/Typography'
+import { Typography } from '@components/Typography'
 import { getThemeColors } from '@theme'
 
 // Colors

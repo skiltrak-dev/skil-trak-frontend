@@ -1,13 +1,12 @@
-import { Footer } from 'components/Footer'
+import { Footer } from '@components/Footer'
 import Image from 'next/image'
 import Link from 'next/link'
 import { SideBarItem } from '../SideBarItem'
 
 import { PortalTypeBadge } from '@components/Badge'
+import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { UserActions } from './components'
-import { getUserCredentials } from '@utils'
-import { IoMdArrowDroprightCircle } from 'react-icons/io'
 
 export const SideBar = ({ routes, portalType }: any) => {
     const router = useRouter()

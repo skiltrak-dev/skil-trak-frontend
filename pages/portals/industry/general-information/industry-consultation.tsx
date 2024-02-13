@@ -8,13 +8,16 @@ import { NextPageWithLayout } from '@types'
 import { Button, BackButton, Card, DocumentView, Typography } from '@components'
 
 // Context
-import { useContextBar } from 'hooks'
+import { useContextBar } from '@hooks'
 
 const IndustryConsultation: NextPageWithLayout = () => {
     const router = useRouter()
     return (
         <div className="flex flex-col gap-y-2">
-            <BackButton link={'/portals/industry/general-information'} text={'Back To Dashboard'} />
+            <BackButton
+                link={'/portals/industry/general-information'}
+                text={'Back To Dashboard'}
+            />
 
             {/* Data */}
             <DocumentView
@@ -64,7 +67,7 @@ const IndustryConsultation: NextPageWithLayout = () => {
                     />
 
                     <Button variant={'primary'} text={'Confirm Upon Request'} />
-                    <Button text={'No'}  variant={'error'}/>
+                    <Button text={'No'} variant={'error'} />
                 </div>
             </Card>
         </div>

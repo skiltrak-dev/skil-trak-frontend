@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { AiFillEye } from 'react-icons/ai'
 
 // components
-import { BackButton, Button, ReactTable, Typography } from 'components'
+import { BackButton, Button, ReactTable, Typography } from '@components'
 import { RightSidebarData } from '../../components'
 
 // query

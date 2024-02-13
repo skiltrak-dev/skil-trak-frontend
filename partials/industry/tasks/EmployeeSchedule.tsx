@@ -32,7 +32,7 @@ import {
 } from '@queries'
 
 // Context
-import { useNotification, useContextBar } from 'hooks'
+import { useNotification, useContextBar } from '@hooks'
 
 // Colors
 import { ThemeColors } from '@utils'

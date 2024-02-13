@@ -1,14 +1,13 @@
 import { Badge, Button, Card, Select, TextInput, Typography } from '@components'
-import moment from 'moment'
-import React, { useCallback } from 'react'
-import OutsideClickHandler from 'react-outside-click-handler'
 import { CalendarStyles } from '@components/Calendar/style'
-import Calendar from 'react-calendar'
-import { FilterType } from 'pages/portals/sub-admin/history'
-import { debounce } from 'lodash'
-import { BiFilterAlt } from 'react-icons/bi'
 import { AdminApi } from '@queries'
+import { debounce } from 'lodash'
+import moment from 'moment'
 import { useRouter } from 'next/router'
+import { FilterType } from '@pages/portals/sub-admin/history'
+import { useCallback } from 'react'
+import Calendar from 'react-calendar'
+import OutsideClickHandler from 'react-outside-click-handler'
 
 export const HistoryFilters = ({
     filterType,
@@ -46,7 +45,7 @@ export const HistoryFilters = ({
         label: subAdmin?.user?.name,
         value: subAdmin?.user?.id,
     }))
-    
+
     return (
         <div className="flex items-start gap-x-2">
             <TextInput

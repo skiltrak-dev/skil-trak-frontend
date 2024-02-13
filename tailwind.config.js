@@ -7,6 +7,12 @@ const colors = {
         light: 'var(--theme-primary-light)',
     },
 
+    primaryNew: {
+        DEFAULT: 'var(--theme-primaryNew-default)',
+        dark: 'var(--theme-primaryNew-dark)',
+        light: 'var(--theme-primaryNew-light)',
+    },
+
     layout: {
         DEFAULT: 'var(--theme-layout-default)',
         dark: 'var(--theme-layout-dark)',
@@ -90,18 +96,18 @@ module.exports = {
                 'inner-image': 'inset 0 1px 4px rgba(0, 0, 0, 0.3)',
             },
             keyframes: {
-                "accordion-down": {
-                    from: { height: "0" },
-                    to: { height: "var(--radix-accordion-content-height)" },
+                'accordion-down': {
+                    from: { height: '0' },
+                    to: { height: 'var(--radix-accordion-content-height)' },
                 },
-                "accordion-up": {
-                    from: { height: "var(--radix-accordion-content-height)" },
-                    to: { height: "0" },
+                'accordion-up': {
+                    from: { height: 'var(--radix-accordion-content-height)' },
+                    to: { height: '0' },
                 },
             },
             animation: {
-                "accordion-down": "accordion-down 0.2s ease-out",
-                "accordion-up": "accordion-up 0.2s ease-out",
+                'accordion-down': 'accordion-down 0.2s ease-out',
+                'accordion-up': 'accordion-up 0.2s ease-out',
             },
         },
     },

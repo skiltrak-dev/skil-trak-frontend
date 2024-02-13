@@ -10,7 +10,7 @@ import {
 } from '@components'
 
 // Context
-import { useContextBar, useJoyRide } from 'hooks'
+import { useContextBar, useJoyRide } from '@hooks'
 
 // Colors
 import { Animations } from '@animations'

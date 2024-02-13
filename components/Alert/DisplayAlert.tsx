@@ -1,4 +1,4 @@
-import { AlertPropType, useAlert } from 'hooks'
+import { AlertPropType, useAlert } from '@hooks'
 
 interface AlertTypeProp {
     id: any

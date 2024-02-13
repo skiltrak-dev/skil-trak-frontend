@@ -5,7 +5,7 @@ import { ShowErrorNotifications } from '@components'
 import { FileUpload } from '@hoc'
 
 // components
-import { Typography } from 'components'
+import { Typography } from '@components'
 import { Button } from '@components/buttons'
 import { MdCloudUpload } from 'react-icons/md'
 import { UploadAgreement } from './UploadAgreement'

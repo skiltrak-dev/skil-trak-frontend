@@ -1,4 +1,4 @@
-import { TextInput, Typography } from '@components'
+import { Badge, TextInput, Typography } from '@components'
 import { useJsApiLoader } from '@react-google-maps/api'
 import { addDays } from 'date-fns'
 import { useState } from 'react'
@@ -39,6 +39,7 @@ const ReactDateRanges = () => {
 
     return (
         <>
+            <Badge loading text="Saad" />
             {[...Array(10)].map((_, i) => (
                 <div key={i}>
                     <Skeleton

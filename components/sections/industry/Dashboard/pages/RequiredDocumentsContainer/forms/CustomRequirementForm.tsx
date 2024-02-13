@@ -17,8 +17,8 @@ import {
     Select,
     ShowErrorNotifications,
     //   ShowErrorNotifications,
-} from 'components'
-import { PopupTypes } from 'components'
+} from '@components'
+import { PopupTypes } from '@components'
 import { Industry } from '@types'
 
 const DocumentTypeOptions = [

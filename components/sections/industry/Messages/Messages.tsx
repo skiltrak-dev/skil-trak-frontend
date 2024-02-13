@@ -8,11 +8,11 @@ import {
     // ComposeEmail,
     TechnicalError,
     // PrimaryActionLink,
-} from 'components'
+} from '@components'
 
 // hooks
-// import { useMessage } from 'hooks'
-import { useContextBar } from 'hooks'
+// import { useMessage } from "@hooks"
+import { useContextBar } from '@hooks'
 
 // functions
 import { AuthUtils } from '@utils'

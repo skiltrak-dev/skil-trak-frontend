@@ -233,7 +233,7 @@ export const IndustryLayout = ({
             <UserLayout>
                 <>
                     {modal && modal}
-                    <div className="md:px-16 px-2 mb-24">
+                    <div className="md:px-8 px-2 mb-24">
                         <div className="mb-6">
                             <IndustryNavbar />
                             <DisplayAlerts />
