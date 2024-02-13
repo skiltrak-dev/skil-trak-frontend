@@ -7,7 +7,7 @@ import { HiExclamationTriangle } from 'react-icons/hi2'
 import { TfiReload } from 'react-icons/tfi'
 
 // components
-import { Typography } from 'components'
+import { Typography } from '@components'
 import { useNotification } from '@hooks'
 import { ellipsisText } from '@utils'
 

@@ -26,7 +26,7 @@ import {
 import { JobsFilter } from './components'
 
 // hooks
-// import { useContextBar } from "hooks";
+// import { useContextBar } from "@hooks";
 
 // redux
 import { useGetIndustryJobsQuery, useRemoveJobMutation } from '@queries'

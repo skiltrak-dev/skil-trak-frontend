@@ -7,7 +7,7 @@ import {
     // OtherDocumentLinks,
     // PrimaryActionLink,
     Typography,
-} from 'components'
+} from '@components'
 
 export const RightSidebarData = () => {
     const router = useRouter()

@@ -8,7 +8,6 @@ export const Avatar = ({
     avatar: string | null | undefined
     name: string
 }) => {
-    console.log({ avatar })
     return (
         <div className="w-[70px] h-[70px] rounded-full overflow-hidden shadow-[0_1px_2px_0px_rgba(0,0,0,0.25)]">
             <Image

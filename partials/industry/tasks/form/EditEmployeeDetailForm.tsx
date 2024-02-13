@@ -10,7 +10,7 @@ import { Button, TextInput } from '@components'
 import { useAddEmployeeMutation, useUpdateEmployeeMutation } from '@queries'
 
 //hooks
-import { useNotification } from 'hooks'
+import { useNotification } from '@hooks'
 
 // utils
 import { trimString } from '@utils'

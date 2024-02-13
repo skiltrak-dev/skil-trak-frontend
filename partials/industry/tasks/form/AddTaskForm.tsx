@@ -15,7 +15,7 @@ import {
     TextInput,
     Select,
     ShowErrorNotifications,
-} from 'components'
+} from '@components'
 
 // redux
 import { useGetEmployeeQuery, useAddEmployeeTaskMutation } from '@queries'

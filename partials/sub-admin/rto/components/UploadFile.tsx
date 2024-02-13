@@ -5,7 +5,7 @@ import { HiExclamationTriangle } from 'react-icons/hi2'
 import { TfiReload } from 'react-icons/tfi'
 
 // components
-import { Typography } from 'components'
+import { Typography } from '@components'
 import { Button } from '@components/buttons'
 import { MdCloudUpload } from 'react-icons/md'
 import { BiUpArrowCircle } from 'react-icons/bi'
@@ -19,7 +19,6 @@ export const UploadFile = ({
     handleRemove,
     invalidSelection,
 }: any) => {
-
     return (
         <div>
             <Typography variant={'small'} color={'text-gray-500'}>

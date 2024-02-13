@@ -16,7 +16,7 @@ import {
 } from '@components'
 
 // Context
-import { useContextBar } from 'hooks'
+import { useContextBar } from '@hooks'
 
 export const ConsultationContainer = () => {
     const router = useRouter()

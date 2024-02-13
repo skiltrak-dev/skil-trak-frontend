@@ -6,7 +6,7 @@ import { IoFilterSharp } from 'react-icons/io5'
 import { MdCancel } from 'react-icons/md'
 
 // components
-import { Card, Typography, Button } from 'components'
+import { Card, Typography, Button } from '@components'
 
 // redux
 // import { useGetMOUQuery } from "redux/query";

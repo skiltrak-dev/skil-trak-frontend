@@ -11,10 +11,10 @@ import {
     LoadingAnimation,
     TechnicalError,
     Typography,
-} from 'components'
+} from '@components'
 
 // hooks
-import { useNotification } from 'hooks'
+import { useNotification } from '@hooks'
 
 // query
 import { useGetIndustryNotificationsQuery } from '@queries'

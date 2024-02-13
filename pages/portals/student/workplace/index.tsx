@@ -10,7 +10,7 @@ import {
     useGetStudentPastAppointmentsQuery,
 } from '@queries'
 import { NextPageWithLayout } from '@types'
-import { useJoyRide } from 'hooks'
+import { useJoyRide } from '@hooks'
 
 const PrimaryLinks = [
     {

@@ -2,7 +2,7 @@ import React from 'react'
 import { useRouter } from 'next/router'
 
 // componemts
-import { Button, Typography } from 'components'
+import { Button, Typography } from '@components'
 
 export const RightSidebarData = () => {
     const router = useRouter()

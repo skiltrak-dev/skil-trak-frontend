@@ -12,7 +12,7 @@ import {
 import { CommonApi, useSendIndustryMessageMutation } from '@queries'
 
 // hooks
-// import { useMessage } from 'hooks'
+// import { useMessage } from "@hooks"
 
 export const MailsTab = ({ user }: { user: any }) => {
     const messages = CommonApi.Messages.useMessages(

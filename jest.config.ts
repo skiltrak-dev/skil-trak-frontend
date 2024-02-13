@@ -17,6 +17,14 @@ const config: Config = {
     //     '^@utils/(.*)$': '<rootDir>/utils/$1',
     // },
     // moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+    // transform: {
+    //     '^.+\\.js$': 'babel-jest',
+    //     '^.+\\.jsx$': 'babel-jest',
+    //     // Add other transformations as needed
+    // },
+    // transformIgnorePatterns: [
+    //     '/node_modules/(?!swiper)', // Adjust the pattern based on your dependencies
+    // ],
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

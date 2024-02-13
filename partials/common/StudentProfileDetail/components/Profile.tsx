@@ -7,19 +7,7 @@ import { IoMdEyeOff } from 'react-icons/io'
 import { EmergencyContact, StudentDetail } from './StudentDetail'
 import { StudentExpireTime } from './StudentExpireTime'
 import { StudentStatus } from './StudentStatus'
-
-const profileLinks = [
-    {
-        text: 'Edit Profile',
-        link: '',
-        Icon: RiEditFill,
-    },
-    {
-        text: 'View Password',
-        link: '',
-        Icon: IoMdEyeOff,
-    },
-]
+import { ProfileLinks } from './ProfileLinks'
 
 export const Profile = ({ profile }: { profile: Student }) => {
     return (
@@ -31,26 +19,7 @@ export const Profile = ({ profile }: { profile: Student }) => {
                         name={profile?.user?.name}
                     />
                 </div>
-                <div className="flex flex-col items-end gap-y-2.5">
-                    {profileLinks.map(
-                        ({ text, link, Icon }: any, index: number) => (
-                            <div
-                                className="flex items-center gap-x-2"
-                                key={index}
-                            >
-                                <Typography variant="xxs">{text}</Typography>
-                                <div
-                                    onClick={() => {
-                                        // link
-                                    }}
-                                    className="w-5 h-5 rounded-full bg-primaryNew flex justify-center items-center"
-                                >
-                                    <Icon className="text-white" size={12} />
-                                </div>
-                            </div>
-                        )
-                    )}
-                </div>
+                <ProfileLinks />
             </div>
 
             {/* User */}

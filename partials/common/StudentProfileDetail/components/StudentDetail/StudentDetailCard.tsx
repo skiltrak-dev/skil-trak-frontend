@@ -1,5 +1,5 @@
-import { Typography } from '@components'
 import React from 'react'
+import { Typography } from '@components'
 
 export const StudentDetailCard = ({
     title,

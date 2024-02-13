@@ -2,7 +2,7 @@ import {
     DisplayPrimaryActions,
     // OtherDocumentLinks,
     Typography,
-} from 'components'
+} from '@components'
 import { AdForRPL } from '@components/sections/industry'
 import { PrimaryActions as DashboardPrimaryActions } from '../IndustryDashboardContainer'
 

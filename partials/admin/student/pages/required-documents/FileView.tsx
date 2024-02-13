@@ -15,7 +15,7 @@ import {
 } from '@components'
 
 // hooks
-import { useContextBar } from 'hooks'
+import { useContextBar } from '@hooks'
 import { AdminApi } from '@queries'
 import { ellipsisText } from '@utils'
 

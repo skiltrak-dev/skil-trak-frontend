@@ -5,12 +5,7 @@ import { useMediaQuery } from 'react-responsive'
 import { IndustryApi } from '@queries'
 
 // Components
-import {
-    Card,
-    HelpQuestionSet,
-    LottieAnimation,
-    Typography
-} from '@components'
+import { Card, HelpQuestionSet, LottieAnimation, Typography } from '@components'
 
 // Context
 import { Animations } from '@animations'
@@ -21,7 +16,7 @@ import { FigureCard } from '@components/sections/subAdmin'
 import { ImportantDocuments } from '@partials/common'
 import { Course, GetSectorsType } from '@types'
 import { AuthUtils } from '@utils'
-import { useContextBar } from 'hooks'
+import { useContextBar } from '@hooks'
 import { useRouter } from 'next/router'
 import { CallBackProps } from 'react-joyride'
 

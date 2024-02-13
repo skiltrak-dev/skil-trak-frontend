@@ -1,24 +1,21 @@
-import { useState } from 'react'
 import moment from 'moment'
+import { useState } from 'react'
 
 // Icons
-import { TiArrowBack } from 'react-icons/ti'
-import { RiShareForwardFill } from 'react-icons/ri'
 import { BiCheckDouble, BiDotsVerticalRounded } from 'react-icons/bi'
 
 // components
-import { Typography } from 'components/Typography'
+import { Typography } from '@components/Typography'
 
 // functions
 import { AuthUtils } from '@utils'
-// import { useMessage } from 'hooks'
+// import { useMessage } from "@hooks"
 import { MdAvTimer } from 'react-icons/md'
 
 // functions
-import { ellipsisText, userStatus } from '@utils'
-import Image from 'next/image'
-import { Attachments } from './Attachments'
 import { InitialAvatar } from '@components/InitialAvatar'
+import { ellipsisText, userStatus } from '@utils'
+import { Attachments } from './Attachments'
 
 export const Mail = ({ message, sender, index }: any) => {
     const [showOptions, setShowOptions] = useState(false)

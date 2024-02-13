@@ -1,13 +1,11 @@
-import {
-    ShowErrorNotifications, TextInput
-} from '@components'
+import { ShowErrorNotifications, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button } from 'components/buttons/Button'
+import { Button } from '@components/buttons/Button'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 // components
-import { Card } from 'components'
+import { Card } from '@components'
 
 type FindWorkplaceProps = {
     onSubmit: any
@@ -41,10 +39,10 @@ export const FindWorkplaceForm = ({ onSubmit, result }: FindWorkplaceProps) => {
                         </p>
 
                         <p className="text-xs text-orange-300 my-4">
-                            <em>Note:</em> Your required industry may or may not exists in our
-                            system. The information will be shown to you if we
-                            have specific industry, otherwise you will have to
-                            add your own
+                            <em>Note:</em> Your required industry may or may not
+                            exists in our system. The information will be shown
+                            to you if we have specific industry, otherwise you
+                            will have to add your own
                         </p>
                         <TextInput
                             name="abn"

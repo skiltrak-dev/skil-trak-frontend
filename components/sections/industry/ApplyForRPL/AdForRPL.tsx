@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 // components
-import { Typography, Button, Card } from 'components'
+import { Typography, Button, Card } from '@components'
 import { getUserCredentials } from '@utils'
 import { useJoyRide } from '@hooks'
 
@@ -62,7 +62,7 @@ export const AdForRPL = ({ short }: any) => {
                 )}
 
                 {/*  */}
-                <div id='apply-for-rpl' className={`${short && 'mt-2'}`}>
+                <div id="apply-for-rpl" className={`${short && 'mt-2'}`}>
                     <Button
                         variant={'primary'}
                         onClick={() =>

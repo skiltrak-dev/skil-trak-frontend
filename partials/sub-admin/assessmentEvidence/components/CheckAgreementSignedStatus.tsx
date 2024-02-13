@@ -1,11 +1,11 @@
-import { AuthorizedUserComponent, Button, Typography } from '@components'
-import moment from 'moment'
-import React, { ReactElement, ReactNode, useState } from 'react'
-import { EsignDocumentStatus, getUserCredentials } from 'utils'
-import { InitiateSigningModal, RequestResign } from '../modal'
+import { AuthorizedUserComponent, Typography } from '@components'
 import { UserRoles } from '@constants'
-import { TiUser } from 'react-icons/ti'
+import { EsignDocumentStatus, getUserCredentials } from '@utils'
+import moment from 'moment'
+import { ReactNode, useState } from 'react'
 import { MdEmail } from 'react-icons/md'
+import { TiUser } from 'react-icons/ti'
+import { RequestResign } from '../modal'
 
 export const CheckAgreementSignedStatus = ({
     document,

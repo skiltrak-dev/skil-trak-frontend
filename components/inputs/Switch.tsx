@@ -3,7 +3,7 @@ import { InputProps } from './InputPropType'
 
 // components
 import { getMethodsForInput } from '@utils'
-import { Typography } from 'components'
+import { Typography } from '@components'
 import { useFormContext } from 'react-hook-form'
 import { ClipLoader } from 'react-spinners'
 
