@@ -1,15 +1,18 @@
+import { Typography } from '@components'
 import { Student } from '@types'
-import React from 'react'
-import { Avatar } from './Avatar'
-import { StudentTimer, Typography } from '@components'
-import { RiEditFill } from 'react-icons/ri'
-import { IoMdEyeOff } from 'react-icons/io'
-import { EmergencyContact, StudentDetail } from './StudentDetail'
-import { StudentExpireTime } from './StudentExpireTime'
-import { StudentStatus } from './StudentStatus'
-import { ProfileLinks } from './ProfileLinks'
+import {
+    Avatar,
+    ContactStatus,
+    EmergencyContact,
+    ProfileLinks,
+    ProfilePriority,
+    RtoDetail,
+    StudentDetail,
+    StudentExpireTime,
+    StudentStatus,
+} from '../components'
 
-export const Profile = ({ profile }: { profile: Student }) => {
+export const ProfileViewCB = ({ profile }: { profile: Student }) => {
     return (
         <div>
             <div className="flex justify-between items-center">
@@ -47,6 +50,21 @@ export const Profile = ({ profile }: { profile: Student }) => {
 
             {/* Student Status */}
             <StudentStatus />
+
+            {/* Profile Priority */}
+            <ProfilePriority
+                studentId={profile?.id}
+                isHighPriority={profile?.isHighPriority}
+            />
+
+            {/* Contact Status */}
+            <ContactStatus
+                studentId={profile?.id}
+                nonContactable={profile?.nonContactable}
+            />
+
+            {/* RTO */}
+            <RtoDetail rto={profile?.rto} />
         </div>
     )
 }

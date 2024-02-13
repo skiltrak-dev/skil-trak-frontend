@@ -9,6 +9,7 @@ import { ClipLoader } from 'react-spinners'
 
 export type SwitchProps = InputProps & {
     defaultChecked?: boolean
+    customStyleClass?: string
 }
 
 export const Switch = ({
@@ -29,6 +30,7 @@ export const Switch = ({
     loading,
     required,
     disabled,
+    customStyleClass,
 }: SwitchProps) => {
     const formContext = useFormContext()
     const [checked, setChecked] = useState<boolean | null | undefined>(false)
@@ -46,11 +48,12 @@ export const Switch = ({
             )}
 
             <div className="relative">
-                <label className="switch">
+                <label className={customStyleClass || 'switch'}>
                     <input
                         {...(id ? { id } : {})}
                         name={name}
                         type={'checkbox'}
+                        className="noDefault"
                         // aria-label={label}
                         disabled={disabled}
                         {...getMethodsForInput(

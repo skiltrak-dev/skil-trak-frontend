@@ -288,6 +288,13 @@ export const FutureIndustrySignUpForm = ({
                                     placeholder={'ABN...'}
                                     validationIcons
                                     required
+                                    onBlur={() => {
+                                        const abn = formMethods.getValues('abn')
+                                        formMethods.setValue(
+                                            'abn',
+                                            abn?.replace(/\s/g, '')
+                                        )
+                                    }}
                                 />
 
                                 <TextInput

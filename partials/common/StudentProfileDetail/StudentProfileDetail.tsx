@@ -8,7 +8,7 @@ import { useContextBar } from '@hooks'
 import { useGetSubAdminStudentDetailQuery } from '@queries'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { Profile } from './components'
+import { ProfileViewCB } from './ContextBar'
 
 export const StudentProfileDetail = () => {
     const contextBar = useContextBar()
@@ -23,7 +23,7 @@ export const StudentProfileDetail = () => {
     useEffect(() => {
         if (profile?.isSuccess && profile?.data) {
             contextBar.show(false)
-            contextBar.setContent(<Profile profile={profile?.data} />)
+            contextBar.setContent(<ProfileViewCB profile={profile?.data} />)
         }
     }, [profile])
 
