@@ -8,7 +8,7 @@ export const StudentDetailCard = ({
 }: {
     title: string
     detail: string
-    children: ReactNode
+    children?: ReactNode
 }) => {
     return (
         <div className="w-full px-2.5 py-1.5 border border-[#6B728050] rounded-md flex justify-between items-center">

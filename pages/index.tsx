@@ -13,7 +13,7 @@ import { Navbar2 } from '@components/site/navbar'
 import { OurPackages } from '@components/site/ourPackages'
 import { StudentPlacementManagement } from '@components/site/studentPlacementManagement'
 import { RecentJobCard } from '@components/site/jobs/RecentJobCard'
-import { RecentJobsFromOurParnter } from '@components/site/jobs/RecentJobsFromOurParnter'
+import { RecentJobsFromOurPartner } from '@components/site/jobs/RecentJobsFromOurPartner'
 import { OurTechnicalPartners } from '@components/site/OurTechnicalPartners'
 
 const Home3: NextPage = ({ data }: any) => {
@@ -34,7 +34,7 @@ const Home3: NextPage = ({ data }: any) => {
             {/* We Operate in the Following States */}
             <WeOperate />
             {/* Recent Jobs From Our Partners */}
-            <RecentJobsFromOurParnter />
+            <RecentJobsFromOurPartner />
             {/* Get Started With Us */}
             <GetStartedWithUs contactUsRef={contactUsRef} />
             {/* Lets Talk */}
