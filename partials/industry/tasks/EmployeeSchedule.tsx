@@ -108,6 +108,14 @@ export const EmployeeSchedule = () => {
             },
         },
         {
+            header: () => 'Email',
+            accessorKey: 'email',
+            sort: true,
+            cell: ({ row }: any) => {
+                return `${row?.original?.email}`
+            },
+        },
+        {
             header: () => 'Type',
             accessorKey: 'type',
             disableFilters: true,

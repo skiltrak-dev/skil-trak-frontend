@@ -20,9 +20,11 @@ import { AddTaskForm } from './form'
 import { useContextBar } from '@hooks'
 
 import { useGetEmployeeQuery } from '@queries'
+import { useRouter } from 'next/router'
 
 export const CreateTask = () => {
     const [resultsPerPage] = useState(5)
+    const router = useRouter()
     const [currentPage, setCurrentPage] = useState(1)
 
     // Employee
@@ -73,17 +75,17 @@ export const CreateTask = () => {
             )
     }, [employeesData, EmployeeData.isSuccess])
 
-    useEffect(() => {
-        setContent(
-            <>
-                {isSchedule ? (
-                    <AddTaskForm setIsSchedule={setIsSchedule} />
-                ) : (
-                    <SidebarCB />
-                )}
-            </>
-        )
-    }, [setContent, isSchedule])
+    // useEffect(() => {
+    //     setContent(
+    //         <>
+    //             {isSchedule ? (
+    //                 <AddTaskForm setIsSchedule={setIsSchedule} />
+    //             ) : (
+    //                 <SidebarCB />
+    //             )}
+    //         </>
+    //     )
+    // }, [setContent, isSchedule])
 
     return (
         <DndProvider backend={HTML5Backend}>
@@ -115,8 +117,9 @@ export const CreateTask = () => {
                                 <Button
                                     variant={'dark'}
                                     onClick={() => {
-                                        setIsSchedule(true)
-                                        show(false)
+                                        // setIsSchedule(true)
+                                        // show(false)
+                                        router.push('/portals/industry/tasks/add-a-schedule/schedule/add-schedule-form')
                                     }}
                                     text={'+ Add Shift'}
                                 />

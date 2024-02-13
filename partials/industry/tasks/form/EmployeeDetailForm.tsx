@@ -81,6 +81,8 @@ export const EmployeeDetailForm = ({ onVolunteer, employeeDetail }: any) => {
         })
         onVolunteer(values)
         await addEmployee({ employee, isInvite: values.isInvite })
+
+        methods.reset()
     }
     const onUpdate = async (values: any) => {
         const trimValues = trimString(values.employee[0])
@@ -144,7 +146,7 @@ export const EmployeeDetailForm = ({ onVolunteer, employeeDetail }: any) => {
                             ))}
                         </div>
                         {/* {!employeeData && ( */}
-                        <div className="flex flex-col">
+                        <div className="inline-block mb-2 ml-2">
                             <Button
                                 onClick={() =>
                                     append({
@@ -154,16 +156,16 @@ export const EmployeeDetailForm = ({ onVolunteer, employeeDetail }: any) => {
                                         email: '',
                                     })
                                 }
-                                variant={'secondary'}
+                                variant={'info'}
                                 disabled={false}
                             >
-                                + Add Another Entry
+                                + Add More
                             </Button>
                         </div>
                         {/* )} */}
                     </div>
 
-                    <div className="my-6">
+                    <div className="mt-2">
                         <Checkbox name={'isInvite'} label={'Send an invite'} />
                     </div>
 
