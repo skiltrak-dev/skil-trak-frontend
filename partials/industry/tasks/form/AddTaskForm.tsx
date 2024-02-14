@@ -23,6 +23,7 @@ import { useGetEmployeeQuery, useAddEmployeeTaskMutation } from '@queries'
 import { getDate } from '@utils'
 import { useNotification } from '@hooks'
 import { useRouter } from 'next/router'
+import moment from 'moment'
 
 const DaysOptions = [
     { value: 'monday', label: 'Monday' },
@@ -44,55 +45,6 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
     // Add Task
     const [addEmployee, addEmployeeData] = useAddEmployeeTaskMutation()
 
-    useEffect(() => {
-        if (addEmployeeData.isSuccess) {
-            notification.success({
-                title: 'Schedule Added',
-                description: 'Schedule Added Successfully',
-            })
-            router.push(
-                '/portals/industry/tasks/add-a-schedule/schedule?tab=create-task'
-            )
-            // setIsSchedule(false)
-        }
-    }, [addEmployeeData])
-
-    const onSelectEmployee = (employee: any) => {
-        const selectedEmployeeTasks = EmployeeData?.data?.data
-            ?.find((selected: any) => selected.id === employee)
-            ?.tasks?.map((task: any) => task.day)
-        const filteredData = DaysOptions.filter(
-            (days) => !selectedEmployeeTasks?.includes(days.value)
-        )
-        setFilteredDays(filteredData)
-
-        const selectedEmployeeEmail = EmployeeData?.data?.data?.find(
-            (selected: any) => selected.id === employee
-        )?.email
-        if (selectedEmployeeEmail) {
-            setEmail(selectedEmployeeEmail)
-        }
-    }
-
-    // const validationSchema = yup.object({
-    //     selectEmployee: yup
-    //         .number()
-    //         .nullable(true)
-    //         .required('Employee is a required field'),
-    //     day: yup.string().required('Day is a required field'),
-    //     title: yup.string().required('Title is a required field'),
-    //     location: yup.string().required('Location is a required field'),
-    //     dated: yup.string().required('Dated is a required field'),
-    //     totalHours: yup.string().required('Total Hours is a required field'),
-    //     note: yup.string().required('Note is a required field'),
-    //     startTime: yup.string().required('Start Time is a required field'),
-    //     endTime: yup.string().required('End Time is a required field'),
-    //     email: yup
-    //         .string()
-    //         .email('Invalid Email')
-    //         .required('Email is required!'),
-    // })
-
     const validationSchema = yup.object().shape({
         selectEmployee: yup
             .number()
@@ -107,15 +59,38 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
                     .number()
                     .positive()
                     .required('Monday Total Hours is a required field')
-                    .min(1),
-
+                    .min(1)
+                    .max(24),
                 startTime: yup
                     .string()
+                    .matches(
+                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
+                        'Invalid Start Time format'
+                    )
                     .required('Monday Start Time is a required field'),
-
                 endTime: yup
                     .string()
-                    .required('Monday End Time is a required field'),
+                    .matches(
+                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
+                        'Invalid End Time format'
+                    )
+                    .required('Monday End Time is a required field')
+                    .test(
+                        'isLaterThanStartTime',
+                        'End Time must be later than Start Time',
+                        (value, context) => {
+                            const startTime = context.parent.startTime
+                            return (
+                                moment(value, 'HH:mm').isAfter(
+                                    moment(startTime, 'HH:mm')
+                                ) ||
+                                (moment(value, 'HH:mm').isSame(
+                                    moment(startTime, 'HH:mm')
+                                ) &&
+                                    context.parent.totalHours > 0) // Allow same time for total hours > 0
+                            )
+                        }
+                    ),
                 priority: yup
                     .string()
                     .required('Monday Priority is a required field'),
@@ -135,13 +110,38 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
                     .number()
                     .positive()
                     .required('Tuesday Total Hours is a required field')
-                    .min(1),
+                    .min(1)
+                    .max(24),
                 startTime: yup
                     .string()
+                    .matches(
+                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
+                        'Invalid Start Time format'
+                    )
                     .required('Tuesday Start Time is a required field'),
                 endTime: yup
                     .string()
-                    .required('Tuesday End Time is a required field'),
+                    .matches(
+                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
+                        'Invalid End Time format'
+                    )
+                    .required('Tuesday End Time is a required field')
+                    .test(
+                        'isLaterThanStartTime',
+                        'End Time must be later than Start Time',
+                        (value, context) => {
+                            const startTime = context.parent.startTime
+                            return (
+                                moment(value, 'HH:mm').isAfter(
+                                    moment(startTime, 'HH:mm')
+                                ) ||
+                                (moment(value, 'HH:mm').isSame(
+                                    moment(startTime, 'HH:mm')
+                                ) &&
+                                    context.parent.totalHours > 0) // Allow same time for total hours > 0
+                            )
+                        }
+                    ),
                 priority: yup
                     .string()
                     .required('Tuesday Priority is a required field'),
@@ -161,13 +161,38 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
                     .number()
                     .positive()
                     .required('Wednesday Total Hours is a required field')
-                    .min(1),
+                    .min(1)
+                    .max(24),
                 startTime: yup
                     .string()
+                    .matches(
+                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
+                        'Invalid Start Time format'
+                    )
                     .required('Wednesday Start Time is a required field'),
                 endTime: yup
                     .string()
-                    .required('Wednesday End Time is a required field'),
+                    .matches(
+                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
+                        'Invalid End Time format'
+                    )
+                    .required('Wednesday End Time is a required field')
+                    .test(
+                        'isLaterThanStartTime',
+                        'End Time must be later than Start Time',
+                        (value, context) => {
+                            const startTime = context.parent.startTime
+                            return (
+                                moment(value, 'HH:mm').isAfter(
+                                    moment(startTime, 'HH:mm')
+                                ) ||
+                                (moment(value, 'HH:mm').isSame(
+                                    moment(startTime, 'HH:mm')
+                                ) &&
+                                    context.parent.totalHours > 0) // Allow same time for total hours > 0
+                            )
+                        }
+                    ),
                 priority: yup
                     .string()
                     .required('Wednesday Priority is a required field'),
@@ -189,13 +214,38 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
                     .number()
                     .positive()
                     .required('Thursday Total Hours is a required field')
-                    .min(1),
+                    .min(1)
+                    .max(24),
                 startTime: yup
                     .string()
+                    .matches(
+                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
+                        'Invalid Start Time format'
+                    )
                     .required('Thursday Start Time is a required field'),
                 endTime: yup
                     .string()
-                    .required('Thursday End Time is a required field'),
+                    .matches(
+                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
+                        'Invalid End Time format'
+                    )
+                    .required('Thursday End Time is a required field')
+                    .test(
+                        'isLaterThanStartTime',
+                        'End Time must be later than Start Time',
+                        (value, context) => {
+                            const startTime = context.parent.startTime
+                            return (
+                                moment(value, 'HH:mm').isAfter(
+                                    moment(startTime, 'HH:mm')
+                                ) ||
+                                (moment(value, 'HH:mm').isSame(
+                                    moment(startTime, 'HH:mm')
+                                ) &&
+                                    context.parent.totalHours > 0) // Allow same time for total hours > 0
+                            )
+                        }
+                    ),
                 priority: yup
                     .string()
                     .required('Thursday Priority is a required field'),
@@ -217,13 +267,38 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
                     .number()
                     .positive()
                     .required('Friday Total Hours is a required field')
-                    .min(1),
+                    .min(1)
+                    .max(24),
                 startTime: yup
                     .string()
+                    .matches(
+                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
+                        'Invalid Start Time format'
+                    )
                     .required('Friday Start Time is a required field'),
                 endTime: yup
                     .string()
-                    .required('Friday End Time is a required field'),
+                    .matches(
+                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
+                        'Invalid End Time format'
+                    )
+                    .required('Friday End Time is a required field')
+                    .test(
+                        'isLaterThanStartTime',
+                        'End Time must be later than Start Time',
+                        (value, context) => {
+                            const startTime = context.parent.startTime
+                            return (
+                                moment(value, 'HH:mm').isAfter(
+                                    moment(startTime, 'HH:mm')
+                                ) ||
+                                (moment(value, 'HH:mm').isSame(
+                                    moment(startTime, 'HH:mm')
+                                ) &&
+                                    context.parent.totalHours > 0) // Allow same time for total hours > 0
+                            )
+                        }
+                    ),
                 priority: yup
                     .string()
                     .required('Friday Priority is a required field'),
@@ -242,22 +317,42 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
             .email('Invalid Email')
             .required('Email is required'),
     })
-
     const methods = useForm({
         resolver: yupResolver(validationSchema),
         mode: 'all',
     })
 
-    // const onSubmit = async (values: any) => {
-    //     const employee = values.selectEmployee
-    //     delete values.selectEmployee
-    //     await addEmployee({
-    //         employee,
-    //         sendInvite: true,
-    //         tasks: [values],
-    //     })
-    //     // publishTask(values);
-    // }
+    useEffect(() => {
+        if (addEmployeeData.isSuccess) {
+            notification.success({
+                title: 'Schedule Added',
+                description: 'Schedule Added Successfully',
+            })
+            router.push(
+                '/portals/industry/tasks/add-a-schedule/schedule?tab=create-task'
+            )
+            methods.reset()
+            // setIsSchedule(false)
+        }
+    }, [addEmployeeData])
+
+    const onSelectEmployee = (employee: any) => {
+        const selectedEmployeeTasks = EmployeeData?.data?.data
+            ?.find((selected: any) => selected.id === employee)
+            ?.tasks?.map((task: any) => task.day)
+        const filteredData = DaysOptions.filter(
+            (days) => !selectedEmployeeTasks?.includes(days.value)
+        )
+        setFilteredDays(filteredData)
+
+        const selectedEmployeeEmail = EmployeeData?.data?.data?.find(
+            (selected: any) => selected.id === employee
+        )?.email
+        if (selectedEmployeeEmail) {
+            setEmail(selectedEmployeeEmail)
+        }
+    }
+
 
     const onSubmit = async (values: any) => {
         const employee = values.selectEmployee
@@ -289,6 +384,8 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
             tasks: tasks,
         })
     }
+
+    // dynamic
 
     return (
         <Card>
