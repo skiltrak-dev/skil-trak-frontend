@@ -11,6 +11,8 @@ import {
     // Pagination,
     TechnicalError,
     EmptyData,
+    PageSize,
+    Pagination,
 } from '@components'
 import { Schedule } from './components'
 import { SidebarCB } from './contextBar'
@@ -23,15 +25,19 @@ import { useGetEmployeeQuery } from '@queries'
 import { useRouter } from 'next/router'
 
 export const CreateTask = () => {
-    const [resultsPerPage] = useState(5)
     const router = useRouter()
-    const [currentPage, setCurrentPage] = useState(1)
-
+    const [page, setPage] = useState(1)
+    const [itemPerPage, setItemPerPage] = useState(30)
     // Employee
     const EmployeeData = useGetEmployeeQuery({
-        skip: resultsPerPage * (currentPage - 1),
-        limit: resultsPerPage,
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
     })
+
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 30))
+    }, [router])
 
     const { setContent, show } = useContextBar()
 
@@ -75,17 +81,9 @@ export const CreateTask = () => {
             )
     }, [employeesData, EmployeeData.isSuccess])
 
-    // useEffect(() => {
-    //     setContent(
-    //         <>
-    //             {isSchedule ? (
-    //                 <AddTaskForm setIsSchedule={setIsSchedule} />
-    //             ) : (
-    //                 <SidebarCB />
-    //             )}
-    //         </>
-    //     )
-    // }, [setContent, isSchedule])
+    useEffect(() => {
+        setContent(<SidebarCB />)
+    }, [setContent])
 
     return (
         <DndProvider backend={HTML5Backend}>
@@ -95,20 +93,21 @@ export const CreateTask = () => {
                     <LoadingAnimation />
                 ) : EmployeeData.data && EmployeeData.data.data.length > 0 ? (
                     <>
+                        <div className="">
+                            <div className="flex items-center gap-x-2 mb-4">
+                                <PageSize
+                                    itemPerPage={itemPerPage}
+                                    setItemPerPage={setItemPerPage}
+                                    records={EmployeeData?.data?.data?.length}
+                                />
+                                <Pagination
+                                    pagination={EmployeeData?.data?.pagination}
+                                    setPage={setPage}
+                                />
+                            </div>
+                        </div>
                         <div className="flex justify-between items-center">
                             <Typography variant={'small'}>Schedule</Typography>
-                            {/* <Pagination
-            data={EmployeeData.isSuccess ? EmployeeData.data.data : []}
-            itemsPerPage={5}
-            setCurrentItems={setEmployeesData}
-          /> */}
-                            {/* {EmployeeData?.data?.pagination?.totalPage > 1 && (
-                <Pagination
-                  pageCount={EmployeeData?.data?.pagination?.totalPage}
-                  setCurrentPage={setCurrentPage}
-                  currentPage={currentPage}
-                />
-              )} */}
                         </div>
                         <div className="flex justify-between items-center">
                             <p></p>
@@ -119,7 +118,9 @@ export const CreateTask = () => {
                                     onClick={() => {
                                         // setIsSchedule(true)
                                         // show(false)
-                                        router.push('/portals/industry/tasks/add-a-schedule/schedule/add-schedule-form')
+                                        router.push(
+                                            '/portals/industry/tasks/add-a-schedule/schedule/add-schedule-form'
+                                        )
                                     }}
                                     text={'+ Add Shift'}
                                 />
