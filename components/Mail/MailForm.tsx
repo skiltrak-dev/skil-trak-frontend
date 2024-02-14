@@ -56,7 +56,6 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
     const [attachmentFiles, setAttachmentFiles] = useState<any>([])
     const [mailContent, setMailContent] = useState<any>([])
 
-    const [actionData, actionDataResult] = action()
     const [sendMessage, sendMessageResult] = CommonApi.Messages.useSendMessage()
     const [emailDraft, emailDraftResult] = CommonApi.Draft.useEmailDraft()
     const getEmailDraft = CommonApi.Draft.useGetEmailDraft(receiverId, {
