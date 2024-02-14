@@ -38,25 +38,29 @@ export const ProfilePriority = ({
                 <Typography variant="small" medium>
                     Profile priority
                 </Typography>
-                <div className="flex justify-between items-center mt-2">
-                    <Typography variant="small" normal>
-                        NORMAL
-                    </Typography>
-                    <div className="-mb-2">
-                        <Switch
-                            name="priority"
-                            customStyleClass={'profileSwitch'}
-                            onChange={() => {
-                                onMakePriority()
-                            }}
-                            defaultChecked={isHighPriority}
-                            loading={makeAsHighPriorityResult.isLoading}
-                            disabled={makeAsHighPriorityResult.isLoading}
-                        />
+                <div className="grid grid-cols-5 items-center  mt-2">
+                    <div className="col-span-2">
+                        <Typography variant="small" normal>
+                            NORMAL
+                        </Typography>
                     </div>
-                    <Typography variant="small" normal>
-                        HIGH PRIORITY
-                    </Typography>
+                    <div className="col-span-3 grid grid-cols-2">
+                        <div className="-mb-2">
+                            <Switch
+                                name="priority"
+                                customStyleClass={'profileSwitch'}
+                                onChange={() => {
+                                    onMakePriority()
+                                }}
+                                defaultChecked={isHighPriority}
+                                loading={makeAsHighPriorityResult.isLoading}
+                                disabled={makeAsHighPriorityResult.isLoading}
+                            />
+                        </div>
+                        <Typography variant="small" normal>
+                            HIGH PRIORITY
+                        </Typography>
+                    </div>
                 </div>
             </div>
         </>

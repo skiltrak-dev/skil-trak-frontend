@@ -41,6 +41,21 @@ export const Mail = ({ message, sender, index }: any) => {
         }
     }
 
+    function reduceFontSize(htmlString: string, newSize: string) {
+        const parser = new DOMParser()
+        const doc = parser.parseFromString(htmlString, 'text/html')
+
+        // Select and modify the font size for all <p> elements
+        const paragraphs = doc.querySelectorAll('p')
+        paragraphs.forEach((paragraph) => {
+            paragraph.style.fontSize = newSize
+        })
+
+        // Serialize the modified HTML back to a string
+        const modifiedHtml = new XMLSerializer().serializeToString(doc)
+        return modifiedHtml
+    }
+
     const myMessages =
         AuthUtils.getUserCredentials()?.id === message?.sender?.id
 
@@ -51,7 +66,7 @@ export const Mail = ({ message, sender, index }: any) => {
                 myMessages ? 'flex-row-reverse' : ''
             } group`}
         >
-            {(message?.sender?.name || message?.receiver?.name) && (
+            {/* {(message?.sender?.name || message?.receiver?.name) && (
                 <InitialAvatar
                     name={
                         myMessages
@@ -64,7 +79,7 @@ export const Mail = ({ message, sender, index }: any) => {
                             : message?.receiver?.avatar
                     }
                 />
-            )}
+            )} */}
             <div
                 className={`flex items-center gap-x-2 ${
                     myMessages ? 'flex-row-reverse' : ''

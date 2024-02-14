@@ -9,6 +9,13 @@ import { useGetSubAdminStudentDetailQuery } from '@queries'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { ProfileViewCB } from './ContextBar'
+import {
+    AllCommunication,
+    Appointments,
+    Mails,
+    Schedule,
+    Tickets,
+} from './components'
 
 export const StudentProfileDetail = () => {
     const contextBar = useContextBar()
@@ -35,7 +42,22 @@ export const StudentProfileDetail = () => {
             {profile.isLoading ? (
                 <LoadingAnimation />
             ) : profile?.data && profile?.isSuccess ? (
-                <p>Profile</p>
+                <div>
+                    <div className="h-[500px] overflow-hidden grid grid-cols-2 gap-x-3">
+                        <Appointments user={profile?.data?.user} />
+                        <Tickets studentId={profile?.data?.id} />
+                    </div>
+                    <div className="mt-5">
+                        <Schedule
+                            user={profile?.data?.user}
+                            studentId={profile?.data?.id}
+                        />
+                    </div>
+                    <div className="h-[640px] overflow-hidden grid grid-cols-2 gap-x-3">
+                        <Mails user={profile?.data?.user} />
+                        <AllCommunication user={profile?.data?.user} />
+                    </div>
+                </div>
             ) : (
                 profile?.isSuccess && (
                     <EmptyData

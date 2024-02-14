@@ -56,7 +56,7 @@ export const StudentExpireTime = ({
                         </div>
                     </div>
                     <div className="flex justify-between gap-x-2 w-full">
-                        <div className="p-1 flex items-center justify-between gap-x-1 bg-[#e6f3ff] w-full rounded-md">
+                        <div className="py-1.5 px-2 flex items-center justify-between gap-x-1 bg-[#e6f3ff] w-full rounded-md">
                             <div className="flex flex-col gap-y-0.5">
                                 <Typography
                                     variant={'xxs'}
@@ -90,7 +90,7 @@ export const StudentExpireTime = ({
                             </AuthorizedUserComponent>
                         </div>
                         {oldExpiry && (
-                            <div className="flex flex-col gap-y-0.5 w-full rounded-md bg-slate-300 p-1">
+                            <div className="flex flex-col gap-y-0.5 w-full rounded-md bg-slate-300 py-1.5 px-2">
                                 <Typography
                                     variant={'xxs'}
                                     color={'text-gray-500'}
