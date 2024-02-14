@@ -30,7 +30,7 @@ const PrimaryLinks = [
     {
         title: 'Jobs',
         description: 'Find a job here',
-        link: 'workplace/jobs?tab=jobs',
+        link: 'jobs?tab=jobs',
         animation: Animations.Student.Workplace.Jobs,
         id: 'jobs',
     },

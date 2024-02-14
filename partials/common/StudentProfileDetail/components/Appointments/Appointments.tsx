@@ -19,7 +19,7 @@ export const Appointments = ({ user }: { user: User }) => {
                 query: { tab: 'upcoming' },
             },
 
-            element: <UpcomingAppointments />,
+            element: <UpcomingAppointments userId={user?.id} />,
         },
         {
             label: 'Past',
@@ -28,7 +28,7 @@ export const Appointments = ({ user }: { user: User }) => {
                 pathname: `/portals/sub-admin/students/${router?.query?.id}/detail`,
                 query: { tab: 'past' },
             },
-            element: <PastAppointments />,
+            element: <PastAppointments userId={user?.id} />,
         },
         {
             label: 'Cancelled',
@@ -54,7 +54,7 @@ export const Appointments = ({ user }: { user: User }) => {
                             <div className="border-b border-secondary-dark py-1">
                                 {header}
                             </div>
-                            <div className="p-4">{element}</div>
+                            <div className="p-4 h-full">{element}</div>
                         </div>
                     )
                 }}
