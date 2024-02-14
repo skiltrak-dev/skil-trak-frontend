@@ -58,6 +58,8 @@ interface TypographyProps {
     medium?: boolean
     light?: boolean
     normal?: boolean
+
+    underline?: boolean
 }
 
 export const Typography = ({
@@ -84,6 +86,8 @@ export const Typography = ({
     light,
     normal,
     semibold,
+
+    underline,
 }: TypographyProps) => {
     let classes = `${color}`
 
@@ -111,6 +115,10 @@ export const Typography = ({
         classes = `${classes} !font-normal`
     } else if (light) {
         classes = `${classes} !font-light`
+    }
+
+    if (underline) {
+        classes = `${classes} underline`
     }
 
     const Component = `${

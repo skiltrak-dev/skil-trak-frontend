@@ -13,7 +13,7 @@ const PREFIX = '/portals/student'
 const Routes = {
     Dashboard: `${PREFIX}`,
     Workplace: `${PREFIX}/workplace`,
-    Jobs: `${PREFIX}/workplace/jobs?tab=jobs`,
+    Jobs: `${PREFIX}/jobs`,
     Assessments: `${PREFIX}/assessments`,
     Notifications: `${PREFIX}/notifications`,
 }
@@ -45,7 +45,7 @@ export const StudentNavbar = () => {
             id: 'workplace',
         },
         {
-            link: `${Routes.Workplace}/jobs?tab=jobs`,
+            link: `${Routes.Jobs}`,
             text: 'Jobs',
             Icon: FaBriefcase,
             activeClasses: 'bg-green-100 text-green-700',

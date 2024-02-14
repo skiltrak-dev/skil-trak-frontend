@@ -33,7 +33,7 @@ export const JobCard = ({ savedJobs, job }: Props) => {
                         <div>
                             <Link
                                 legacyBehavior
-                                href={`/portals/student/workplace/jobs/${job?.id}`}
+                                href={`/portals/student/jobs/${job?.id}`}
                             >
                                 <a>
                                     <Typography

@@ -35,25 +35,29 @@ export const ContactStatus = ({
                 <Typography variant="small" medium>
                     Contact Status
                 </Typography>
-                <div className="flex justify-between items-center mt-2">
-                    <Typography variant="small" normal>
-                        Not-Contactable
-                    </Typography>
-                    <div className="-mb-2">
-                        <Switch
-                            name="priority"
-                            customStyleClass={'profileSwitch'}
-                            onChange={() => {
-                                onContactableChange()
-                            }}
-                            defaultChecked={nonContactable}
-                            loading={notContactableResult.isLoading}
-                            disabled={notContactableResult.isLoading}
-                        />
+                <div className="grid grid-cols-5 items-center mt-2">
+                    <div className="col-span-2">
+                        <Typography variant="small" normal>
+                            Not-Contactable
+                        </Typography>
                     </div>
-                    <Typography variant="small" normal>
-                        Contactable
-                    </Typography>
+                    <div className="col-span-3 grid grid-cols-2">
+                        <div className="-mb-2">
+                            <Switch
+                                name="priority"
+                                customStyleClass={'profileSwitch'}
+                                onChange={() => {
+                                    onContactableChange()
+                                }}
+                                defaultChecked={nonContactable}
+                                loading={notContactableResult.isLoading}
+                                disabled={notContactableResult.isLoading}
+                            />
+                        </div>
+                        <Typography variant="small" normal>
+                            Contactable
+                        </Typography>
+                    </div>
                 </div>
             </div>
         </>

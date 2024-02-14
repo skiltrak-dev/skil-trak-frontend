@@ -10,7 +10,7 @@ const colors: ThemeColors = {
 
     primaryNew: {
         DEFAULT: '#24556D',
-        dark: '#24556D',
+        dark: '#21516A',
         light: '#24556D',
     },
 
