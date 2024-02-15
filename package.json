@@ -124,6 +124,7 @@
         "react-table": "^7.8.0",
         "react-tabs": "^5.1.0",
         "react-time-ago": "^7.2.1",
+        "react-tooltip": "^5.26.2",
         "react-use-error-boundary": "^3.0.0",
         "react-waypoint": "^10.3.0",
         "socket.io-client": "^4.5.4",

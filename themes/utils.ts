@@ -36,6 +36,11 @@ export const createTheme = (theme: ThemeColors) => {
         '--theme-link-dark': theme.link.dark,
         '--theme-link-light': theme.link.light,
 
+        // BASE
+        '--theme-base-default': theme.base.DEFAULT,
+        '--theme-base-dark': theme.base.dark,
+        '--theme-base-light': theme.base.light,
+
         // Text
         '--theme-text-base': theme.base.DEFAULT,
         '--theme-text-dark': theme.base.dark,

@@ -55,6 +55,12 @@ const colors = {
         dark: 'var(--theme-text-dark)',
     },
 
+    base: {
+        DEFAULT: 'var(--theme-base-default)',
+        light: 'var(--theme-base-light)',
+        dark: 'var(--theme-base-dark)',
+    },
+
     muted: {
         DEFAULT: 'var(--theme-text-muted)',
         dark: 'var(--theme-text-muted-dark)',

@@ -1,8 +1,8 @@
-import { GlobalModal, MailForm, Typography } from '@components'
+import { CreateNote, GlobalModal, MailForm, Typography } from '@components'
 import React from 'react'
 import { MdCancel } from 'react-icons/md'
 
-export const ComposeMailModal = ({
+export const AddNoteModal = ({
     userId,
     onCancel,
 }: {
@@ -13,7 +13,7 @@ export const ComposeMailModal = ({
         <GlobalModal>
             <div className="p-4 flex justify-between items-center">
                 <Typography variant="label" semibold>
-                    Email
+                    Notes
                 </Typography>
                 <MdCancel
                     onClick={onCancel}
@@ -21,7 +21,7 @@ export const ComposeMailModal = ({
                 />
             </div>
             <div className="max-h-[80vh] overflow-auto custom-scrollbar">
-                <MailForm receiverId={Number(userId)} />
+                <CreateNote receiverId={Number(userId)} onCancel={onCancel} />
             </div>
         </GlobalModal>
     )

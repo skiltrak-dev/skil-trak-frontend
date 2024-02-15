@@ -1,0 +1,50 @@
+import { Button, Card, LoadingAnimation, Typography } from '@components'
+import { CommonApi } from '@queries'
+import { ReactElement, useState } from 'react'
+import { AddNoteModal } from '../../modals'
+import { NoteCard } from './Card'
+
+export const Notes = ({ userId }: { userId: number }) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const notes = CommonApi.Notes.useList(userId, { skip: !userId })
+
+    const onCancel = () => setModal(null)
+
+    const onAddNote = () => {
+        setModal(<AddNoteModal userId={userId} onCancel={onCancel} />)
+    }
+
+    return (
+        <>
+            {modal}
+            <Card noPadding fullHeight>
+                <div className="px-4 py-3.5 flex justify-between items-center border-b border-secondary-dark">
+                    <Typography variant="label" semibold>
+                        Notes
+                    </Typography>
+                    <Button onClick={onAddNote}>Add Note</Button>
+                </div>
+
+                <div className="px-4">
+                    <div className="h-[385px] custom-scrollbar overflow-auto">
+                        <div className="flex flex-col gap-y-3">
+                            {notes.isLoading ? (
+                                <div className="flex flex-col items-center justify-center h-60">
+                                    <LoadingAnimation size={60} />
+                                    <Typography variant="label">
+                                        Notes Loading...
+                                    </Typography>
+                                </div>
+                            ) : (
+                                notes?.data?.map((note: any) => (
+                                    <NoteCard key={note?.id} note={note} />
+                                ))
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </>
+    )
+}
