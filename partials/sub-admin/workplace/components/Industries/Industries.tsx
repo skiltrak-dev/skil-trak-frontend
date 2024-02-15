@@ -87,11 +87,7 @@ export const Industries = ({
                             View More Industry
                         </span>
                     </Typography>
-                    <Typography
-                        variant={'small'}
-                        color={'text-info'}
-                        // color={appliedIndustry ? 'text-gray-300' : 'text-info'}
-                    >
+                    <Typography variant={'small'} color={'text-info'}>
                         <span
                             className="font-semibold cursor-pointer"
                             onClick={() => {

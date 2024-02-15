@@ -48,7 +48,7 @@ export const Mails = ({ user }: { user: User }) => {
                     </Button>
                 </div>
                 <div
-                    className={`w-full bg-gray-50 rounded-lg p-4 h-[550px] overflow-auto custom-scrollbar`}
+                    className={`w-full bg-gray-50 rounded-lg p-4 h-[570px] overflow-auto custom-scrollbar`}
                 >
                     {messages.isError && <TechnicalError />}
                     <div className={`flex flex-col gap-y-2.5 h-full `}>
