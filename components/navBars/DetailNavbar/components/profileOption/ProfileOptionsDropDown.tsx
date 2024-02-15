@@ -17,6 +17,7 @@ import {
 } from '@queries'
 import { ReactElement, useEffect, useState } from 'react'
 import { SwitchToAdminModal } from '../SwitchToAdminModal'
+import { signOut } from 'next-auth/react'
 
 export const ProfileOptionsDropDown = ({
     expanded,
@@ -70,7 +71,7 @@ export const ProfileOptionsDropDown = ({
 
     return (
         <>
-        {modal && modal}
+            {modal && modal}
             <div
                 className={`absolute top-14 overflow-scroll right-0 z-40 bg-white w-48 transition-all rounded-lg remove-scrollbar ${
                     !expanded ? 'max-h-0' : 'max-h-96 shadow-md border'
@@ -122,7 +123,11 @@ export const ProfileOptionsDropDown = ({
                             if (AuthUtils.getToken()) {
                                 await logoutActivity({})
                             }
-                            AuthUtils.logout(router)
+                            await signOut({
+                                redirect: true,
+                                callbackUrl: '/test-login',
+                            })
+                            // AuthUtils.logout(router)
                             contextBar.setContent(null)
                             contextBar.setTitle(null)
                             contextBar.hide()
