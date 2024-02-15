@@ -13,8 +13,10 @@ import {
     AllCommunication,
     Appointments,
     Mails,
+    Notes,
     Schedule,
     Tickets,
+    Workplace,
 } from './components'
 
 export const StudentProfileDetail = () => {
@@ -43,6 +45,14 @@ export const StudentProfileDetail = () => {
                 <LoadingAnimation />
             ) : profile?.data && profile?.isSuccess ? (
                 <div>
+                    <div className="h-[500px] overflow-hidden grid grid-cols-5 gap-x-3">
+                        <div className="col-span-3 h-full">
+                            <Workplace studentId={profile?.data?.id} />
+                        </div>
+                        <div className="col-span-2 h-full">
+                            <Notes userId={profile?.data?.user?.id} />
+                        </div>
+                    </div>
                     <div className="h-[500px] overflow-hidden grid grid-cols-2 gap-x-3">
                         <Appointments user={profile?.data?.user} />
                         <Tickets studentId={profile?.data?.id} />

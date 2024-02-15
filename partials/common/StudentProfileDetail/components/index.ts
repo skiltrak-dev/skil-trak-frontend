@@ -1,5 +1,7 @@
 export * from './Mails'
+export * from './Notes'
 export * from './Tickets'
 export * from './Schedule'
+export * from './Workplace'
 export * from './Appointments'
 export * from './AllCommunication'
