@@ -54,8 +54,6 @@ export const Workplace = ({ studentId }: { studentId: number }) => {
         }
     }, [studentWorkplace])
 
-    console.log({ selectedWorkplace, studentWorkplace })
-
     return (
         <>
             {modal}
