@@ -14,6 +14,14 @@ export const employeeEndpoints = (
         },
         providesTags: ['Employee'],
     }),
+    getEmployeeDetail: builder.query<any, any>({
+        query: (id) => {
+            return {
+                url: `industries/employee/${id}/tasks`,
+            }
+        },
+        providesTags: ['Employee'],
+    }),
     addEmployee: builder.mutation({
         query: (body) => ({
             url: `industries/employee/add`,

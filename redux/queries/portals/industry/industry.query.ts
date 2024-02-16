@@ -108,6 +108,7 @@ export const {
 
     // --- EMPLOYEE --- //
     useGetEmployeeQuery,
+    useGetEmployeeDetailQuery,
     useAddEmployeeMutation,
     useRemoveEmployeeMutation,
     useUpdateEmployeeMutation,
@@ -239,6 +240,7 @@ export const IndustryApi = {
     },
     Employee: {
         useGetEmployeeQuery,
+        useGetEmployeeDetailQuery,
         useAddEmployeeMutation,
         useRemoveEmployeeMutation,
         useUpdateEmployeeMutation,
