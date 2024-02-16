@@ -30,7 +30,12 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
                 }
                 // else if (subadmin.isLoading || subadmin.isFetching) {
                 if (isAdmin) {
-                    if (!router.pathname.split('/').includes(UserRoles.ADMIN)) {
+                    if (
+                        !router.pathname
+                            ?.split('/')
+                            ?.slice(0, 3)
+                            .includes(UserRoles.ADMIN)
+                    ) {
                         setAuthorized(true)
                         router.push('/portals/admin')
                     } else {
@@ -41,7 +46,7 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
                     if (
                         !router.pathname
                             .split('/')
-                            ?.slice(0, 2)
+                            ?.slice(0, 3)
                             .includes('sub-admin')
                     ) {
                         setAuthorized(true)
