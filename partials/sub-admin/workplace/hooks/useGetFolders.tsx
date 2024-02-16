@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
-export const GetFolders = (workplaceFolders: any) => {
+export const GetFolders = (recivedFolders: any) => {
     const [folders, setFolders] = useState<any | null>(null)
 
     useEffect(() => {
         const getFolders = () => {
             const uploadedFolders = {}
-            workplaceFolders?.data?.uploaded?.forEach((folder: any) => {
+            recivedFolders?.data?.uploaded?.forEach((folder: any) => {
                 if ((uploadedFolders as any)[folder.name]) {
                     ;(uploadedFolders as any)[folder.name].push(folder)
                 } else {
@@ -14,7 +14,7 @@ export const GetFolders = (workplaceFolders: any) => {
                     ;(uploadedFolders as any)[folder.name].push(folder)
                 }
             })
-            const allFolders = workplaceFolders?.data?.folders?.map(
+            const allFolders = recivedFolders?.data?.folders?.map(
                 (folder: any) => ({
                     ...folder,
                     uploaded: (uploadedFolders as any)[folder?.folder?.name],
@@ -23,6 +23,6 @@ export const GetFolders = (workplaceFolders: any) => {
             setFolders(allFolders)
         }
         getFolders()
-    }, [workplaceFolders])
+    }, [recivedFolders])
     return folders
 }

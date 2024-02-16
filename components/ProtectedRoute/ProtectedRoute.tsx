@@ -38,7 +38,12 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
                     }
                     // }
                 } else if (!isAdmin) {
-                    if (!router.pathname.split('/').includes('sub-admin')) {
+                    if (
+                        !router.pathname
+                            .split('/')
+                            ?.slice(0, 2)
+                            .includes('sub-admin')
+                    ) {
                         setAuthorized(true)
                         router.push('/portals/sub-admin')
                     } else {

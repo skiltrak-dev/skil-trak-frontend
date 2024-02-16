@@ -2,6 +2,8 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import { StudentDetailCard } from '../StudentDetailCard'
 
+// jest.mock('swiper')
+
 describe('Student Profile', () => {
     it('Detail Card', () => {
         const title = 'name'

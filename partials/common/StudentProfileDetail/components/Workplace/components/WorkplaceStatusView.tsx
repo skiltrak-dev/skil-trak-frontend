@@ -23,7 +23,7 @@ export const WorkplaceStatusView = ({
                         <>
                             <div
                                 className={`h-2 rounded-sm ${
-                                    findStatusIndex > index
+                                    findStatusIndex >= index
                                         ? 'bg-[#128C7E]'
                                         : 'bg-[#ADADAD40]'
                                 } w-full my-anchor-element-${index}`}

@@ -27,7 +27,7 @@ export const Notes = ({ userId }: { userId: number }) => {
                 </div>
 
                 <div className="px-4">
-                    <div className="h-[385px] custom-scrollbar overflow-auto">
+                    <div className="h-[425px] custom-scrollbar overflow-auto">
                         <div className="flex flex-col gap-y-3">
                             {notes.isLoading ? (
                                 <div className="flex flex-col items-center justify-center h-60">

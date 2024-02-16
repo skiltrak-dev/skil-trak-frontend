@@ -60,7 +60,6 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
             .nullable(true)
             .required('Employee is a required field'),
         // Validation for each day
-
         email: yup
             .string()
             .email('Invalid Email')
@@ -109,42 +108,6 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
         control: methods.control,
         name: 'tasks',
     })
-    })
-    const methods = useForm({
-        resolver: yupResolver(validationSchema),
-        mode: 'all',
-    })
-
-    useEffect(() => {
-        if (addEmployeeData.isSuccess) {
-            notification.success({
-                title: 'Schedule Added',
-                description: 'Schedule Added Successfully',
-            })
-            router.push(
-                '/portals/industry/tasks/add-a-schedule/schedule?tab=create-task'
-            )
-            methods.reset()
-            // setIsSchedule(false)
-        }
-    }, [addEmployeeData])
-
-    const onSelectEmployee = (employee: any) => {
-        const selectedEmployeeTasks = EmployeeData?.data?.data
-            ?.find((selected: any) => selected.id === employee)
-            ?.tasks?.map((task: any) => task.day)
-        const filteredData = DaysOptions.filter(
-            (days) => !selectedEmployeeTasks?.includes(days.value)
-        )
-        setFilteredDays(filteredData)
-
-        const selectedEmployeeEmail = EmployeeData?.data?.data?.find(
-            (selected: any) => selected.id === employee
-        )?.email
-        if (selectedEmployeeEmail) {
-            setEmail(selectedEmployeeEmail)
-        }
-    }
 
     const onSubmit = async (values: any) => {
         const employee = values.selectEmployee
@@ -224,7 +187,6 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
     }
 
     const isAddShiftDisabled = () => addedDays.length === filteredDays.length
-
 
     return (
         <Card>
