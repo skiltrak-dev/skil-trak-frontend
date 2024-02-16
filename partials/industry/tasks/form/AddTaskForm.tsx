@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 
 // Icons
 import { ImCancelCircle } from 'react-icons/im'
@@ -19,11 +19,16 @@ import {
 } from 'components'
 
 // redux
-import { useGetEmployeeQuery, useAddEmployeeTaskMutation } from '@queries'
-import { getDate } from '@utils'
+import {
+    useGetEmployeeQuery,
+    useAddEmployeeTaskMutation,
+    useGetEmployeeDetailQuery,
+} from '@queries'
+import { employeeScheduleValidation, getDate } from '@utils'
 import { useNotification } from '@hooks'
 import { useRouter } from 'next/router'
 import moment from 'moment'
+import { InputErrorMessage } from '@components/inputs/components'
 
 const DaysOptions = [
     { value: 'monday', label: 'Monday' },
@@ -34,14 +39,18 @@ const DaysOptions = [
 ]
 
 export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
+    const [employeeId, setEmployeeId] = useState('')
     const [filteredDays, setFilteredDays] = useState(DaysOptions)
+    const [addedDays, setAddedDays] = useState<string[]>([])
     const [email, setEmail] = useState('')
     const router = useRouter()
     // hooks
     const { notification } = useNotification()
     // Employee
     const EmployeeData = useGetEmployeeQuery(null)
-
+    // const { data } = useGetEmployeeDetailQuery(employeeId, {
+    //     skip: !employeeId,
+    // })
     // Add Task
     const [addEmployee, addEmployeeData] = useAddEmployeeTaskMutation()
 
@@ -51,271 +60,55 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
             .nullable(true)
             .required('Employee is a required field'),
         // Validation for each day
-        monday: yup
-            .object()
-            .nullable(true)
-            .shape({
-                totalHours: yup
-                    .number()
-                    .positive()
-                    .required('Monday Total Hours is a required field')
-                    .min(1)
-                    .max(24),
-                startTime: yup
-                    .string()
-                    .matches(
-                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
-                        'Invalid Start Time format'
-                    )
-                    .required('Monday Start Time is a required field'),
-                endTime: yup
-                    .string()
-                    .matches(
-                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
-                        'Invalid End Time format'
-                    )
-                    .required('Monday End Time is a required field')
-                    .test(
-                        'isLaterThanStartTime',
-                        'End Time must be later than Start Time',
-                        (value, context) => {
-                            const startTime = context.parent.startTime
-                            return (
-                                moment(value, 'HH:mm').isAfter(
-                                    moment(startTime, 'HH:mm')
-                                ) ||
-                                (moment(value, 'HH:mm').isSame(
-                                    moment(startTime, 'HH:mm')
-                                ) &&
-                                    context.parent.totalHours > 0) // Allow same time for total hours > 0
-                            )
-                        }
-                    ),
-                priority: yup
-                    .string()
-                    .required('Monday Priority is a required field'),
-                title: yup
-                    .string()
-                    .required('Monday Title is a required field'),
-                location: yup
-                    .string()
-                    .required('Monday Location is a required field'),
-                note: yup.string().required('Monday Note is a required field'),
-            }),
-        tuesday: yup
-            .object()
-            .nullable(true)
-            .shape({
-                totalHours: yup
-                    .number()
-                    .positive()
-                    .required('Tuesday Total Hours is a required field')
-                    .min(1)
-                    .max(24),
-                startTime: yup
-                    .string()
-                    .matches(
-                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
-                        'Invalid Start Time format'
-                    )
-                    .required('Tuesday Start Time is a required field'),
-                endTime: yup
-                    .string()
-                    .matches(
-                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
-                        'Invalid End Time format'
-                    )
-                    .required('Tuesday End Time is a required field')
-                    .test(
-                        'isLaterThanStartTime',
-                        'End Time must be later than Start Time',
-                        (value, context) => {
-                            const startTime = context.parent.startTime
-                            return (
-                                moment(value, 'HH:mm').isAfter(
-                                    moment(startTime, 'HH:mm')
-                                ) ||
-                                (moment(value, 'HH:mm').isSame(
-                                    moment(startTime, 'HH:mm')
-                                ) &&
-                                    context.parent.totalHours > 0) // Allow same time for total hours > 0
-                            )
-                        }
-                    ),
-                priority: yup
-                    .string()
-                    .required('Tuesday Priority is a required field'),
-                title: yup
-                    .string()
-                    .required('Tuesday Title is a required field'),
-                location: yup
-                    .string()
-                    .required('Tuesday Location is a required field'),
-                note: yup.string().required('Tuesday Note is a required field'),
-            }),
-        wednesday: yup
-            .object()
-            .nullable(true)
-            .shape({
-                totalHours: yup
-                    .number()
-                    .positive()
-                    .required('Wednesday Total Hours is a required field')
-                    .min(1)
-                    .max(24),
-                startTime: yup
-                    .string()
-                    .matches(
-                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
-                        'Invalid Start Time format'
-                    )
-                    .required('Wednesday Start Time is a required field'),
-                endTime: yup
-                    .string()
-                    .matches(
-                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
-                        'Invalid End Time format'
-                    )
-                    .required('Wednesday End Time is a required field')
-                    .test(
-                        'isLaterThanStartTime',
-                        'End Time must be later than Start Time',
-                        (value, context) => {
-                            const startTime = context.parent.startTime
-                            return (
-                                moment(value, 'HH:mm').isAfter(
-                                    moment(startTime, 'HH:mm')
-                                ) ||
-                                (moment(value, 'HH:mm').isSame(
-                                    moment(startTime, 'HH:mm')
-                                ) &&
-                                    context.parent.totalHours > 0) // Allow same time for total hours > 0
-                            )
-                        }
-                    ),
-                priority: yup
-                    .string()
-                    .required('Wednesday Priority is a required field'),
-                title: yup
-                    .string()
-                    .required('Wednesday Title is a required field'),
-                location: yup
-                    .string()
-                    .required('Wednesday Location is a required field'),
-                note: yup
-                    .string()
-                    .required('Wednesday Note is a required field'),
-            }),
-        thursday: yup
-            .object()
-            .nullable(true)
-            .shape({
-                totalHours: yup
-                    .number()
-                    .positive()
-                    .required('Thursday Total Hours is a required field')
-                    .min(1)
-                    .max(24),
-                startTime: yup
-                    .string()
-                    .matches(
-                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
-                        'Invalid Start Time format'
-                    )
-                    .required('Thursday Start Time is a required field'),
-                endTime: yup
-                    .string()
-                    .matches(
-                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
-                        'Invalid End Time format'
-                    )
-                    .required('Thursday End Time is a required field')
-                    .test(
-                        'isLaterThanStartTime',
-                        'End Time must be later than Start Time',
-                        (value, context) => {
-                            const startTime = context.parent.startTime
-                            return (
-                                moment(value, 'HH:mm').isAfter(
-                                    moment(startTime, 'HH:mm')
-                                ) ||
-                                (moment(value, 'HH:mm').isSame(
-                                    moment(startTime, 'HH:mm')
-                                ) &&
-                                    context.parent.totalHours > 0) // Allow same time for total hours > 0
-                            )
-                        }
-                    ),
-                priority: yup
-                    .string()
-                    .required('Thursday Priority is a required field'),
-                title: yup
-                    .string()
-                    .required('Thursday Title is a required field'),
-                location: yup
-                    .string()
-                    .required('Thursday Location is a required field'),
-                note: yup
-                    .string()
-                    .required('Thursday Note is a required field'),
-            }),
-        friday: yup
-            .object()
-            .nullable(true)
-            .shape({
-                totalHours: yup
-                    .number()
-                    .positive()
-                    .required('Friday Total Hours is a required field')
-                    .min(1)
-                    .max(24),
-                startTime: yup
-                    .string()
-                    .matches(
-                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
-                        'Invalid Start Time format'
-                    )
-                    .required('Friday Start Time is a required field'),
-                endTime: yup
-                    .string()
-                    .matches(
-                        /^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$/,
-                        'Invalid End Time format'
-                    )
-                    .required('Friday End Time is a required field')
-                    .test(
-                        'isLaterThanStartTime',
-                        'End Time must be later than Start Time',
-                        (value, context) => {
-                            const startTime = context.parent.startTime
-                            return (
-                                moment(value, 'HH:mm').isAfter(
-                                    moment(startTime, 'HH:mm')
-                                ) ||
-                                (moment(value, 'HH:mm').isSame(
-                                    moment(startTime, 'HH:mm')
-                                ) &&
-                                    context.parent.totalHours > 0) // Allow same time for total hours > 0
-                            )
-                        }
-                    ),
-                priority: yup
-                    .string()
-                    .required('Friday Priority is a required field'),
-                title: yup
-                    .string()
-                    .required('Friday Title is a required field'),
-                location: yup
-                    .string()
-                    .required('Friday Location is a required field'),
-                note: yup.string().required('Friday Note is a required field'),
-            }),
-        // Other fields outside of days
 
         email: yup
             .string()
             .email('Invalid Email')
             .required('Email is required'),
+    })
+
+    // Import yup and other necessary libraries
+
+    const methods = useForm({
+        resolver: yupResolver(validationSchema),
+        mode: 'all',
+    })
+
+    useEffect(() => {
+        if (addEmployeeData.isSuccess) {
+            notification.success({
+                title: 'Schedule Added',
+                description: 'Schedule Added Successfully',
+            })
+            router.push(
+                '/portals/industry/tasks/add-a-schedule/schedule?tab=create-task'
+            )
+            // setIsSchedule(false)
+        }
+    }, [addEmployeeData])
+
+    const onSelectEmployee = (employee: any) => {
+        // setEmployeeId(employee)
+        const selectedEmployeeTasks = EmployeeData?.data?.data
+            ?.find((selected: any) => selected.id === employee)
+            ?.tasks?.map((task: any) => task.day)
+        const filteredData = DaysOptions.filter(
+            (days) => !selectedEmployeeTasks?.includes(days.value)
+        )
+        setFilteredDays(filteredData)
+
+        const selectedEmployeeEmail = EmployeeData?.data?.data?.find(
+            (selected: any) => selected.id === employee
+        )?.email
+        if (selectedEmployeeEmail) {
+            setEmail(selectedEmployeeEmail)
+            methods.setValue('email', selectedEmployeeEmail)
+        }
+    }
+    const { fields, append, remove } = useFieldArray({
+        control: methods.control,
+        name: 'tasks',
+    })
     })
     const methods = useForm({
         resolver: yupResolver(validationSchema),
@@ -353,49 +146,91 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
         }
     }
 
-
     const onSubmit = async (values: any) => {
         const employee = values.selectEmployee
         delete values.selectEmployee
 
-        const tasks = DaysOptions.map((day) => {
-            const days = [
-                'monday',
-                'tuesday',
-                'wednesday',
-                'thursday',
-                'friday',
-                'saturday',
-                'sunday',
-            ]
-            const updatedValues = { ...values }
-            days?.forEach((day) => {
-                delete updatedValues[day as any]
-            })
+        const tasks = values.tasks.map((task: any) => {
+            // Destructure day-specific data
+            const {
+                day,
+                endTime,
+                note,
+                title,
+                startTime,
+                totalHours,
+                location,
+            } = task
             return {
-                ...updatedValues,
-                ...values[day?.value],
-                day: day.value,
+                day,
+                startTime,
+                endTime,
+                totalHours,
+                note,
+                title,
+                location,
+                // repeatShift,
             }
         })
+        const validationFlag = { isAnyFieldInvalid: false }
+
+        employeeScheduleValidation(tasks, methods, validationFlag)
+        if (validationFlag?.isAnyFieldInvalid) {
+            return
+        }
+
         await addEmployee({
             employee,
             sendInvite: true,
             tasks: tasks,
         })
     }
+    const handleRemoveFAQ = (index: number) => {
+        remove(index)
+    }
+    const generateInitialValues = () => {
+        const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+        const initialValues = days.reduce((acc: any, day: any, index: any) => {
+            console.log('index', index)
+            acc[day] = {
+                totalHours: '',
+                startTime: '',
+                endTime: '',
+                priority: '',
+                title: '',
+                location: '',
+                note: '',
+                repeatShift: false,
+            }
+            return acc
+        }, {})
+        return initialValues
+    }
 
-    // dynamic
+    const handleAddShift = () => {
+        // Check if all days from Monday to Friday are already added
+        if (addedDays.length === 5) {
+            return // If all days are added, do nothing
+        }
+        // If not, find the next available day and add it
+        const nextDay = DaysOptions.find(
+            (day) => !addedDays.includes(day.value)
+        )
+        if (nextDay) {
+            append(generateInitialValues())
+            // Update the added days
+            setAddedDays([...addedDays, nextDay.value])
+        }
+    }
+
+    const isAddShiftDisabled = () => addedDays.length === filteredDays.length
+
 
     return (
         <Card>
             <ShowErrorNotifications result={addEmployeeData} />
             <div className="flex justify-between items-center">
                 <Typography variant={'subtitle'}>Add Shift</Typography>
-                {/* <ImCancelCircle
-                    className="cursor-pointer text-xl"
-                    // onClick={() => setIsSchedule(false)}
-                /> */}
             </div>
 
             {/* Form */}
@@ -430,79 +265,134 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
                     </div>
 
                     <Typography variant={'small'} color={'gray'}>
-                        Shift Date {'&'} Time
+                        Shift Time
                     </Typography>
 
-                    <div className="grid grid-cols-2 mb-6">
-                        {filteredDays.map((day) => (
+                    <div className="">
+                        {fields?.map((field: any, index: any) => (
                             <div
-                                key={day.value}
+                                key={field.id}
                                 className="border-r border-b p-4"
                             >
-                                <TextInput
-                                    label={day.label}
-                                    name={`${day.value}`}
-                                    type={'text'}
-                                    value={day.value}
+                                <Select
+                                    required
+                                    label={'Select Day'}
+                                    name={`tasks[${index}].day`}
+                                    options={filteredDays}
+                                    onlyValue
+                                />
+                                <InputErrorMessage
+                                    name={`tasks[${index}].day`}
                                 />
                                 <TextInput
                                     label={'Total Hours'}
-                                    name={`${day.value}.totalHours`}
+                                    // name={`${filteredDays[index]?.value}.totalHours`}
+                                    name={`tasks[${index}].totalHours`}
                                     type={'number'}
                                     placeholder={'Total Hours...'}
                                 />
+                                <InputErrorMessage
+                                    name={`tasks[${index}].totalHours`}
+                                />
+
                                 <div className="grid grid-cols-2 gap-2">
-                                    <TextInput
-                                        label={'Start Time'}
-                                        name={`${day.value}.startTime`}
-                                        type={'time'}
-                                        // min={getDate()}
-                                        placeholder={'Start Time...'}
-                                    />
-                                    <TextInput
-                                        label={'End Time'}
-                                        name={`${day.value}.endTime`}
-                                        placeholder={'End Time...'}
-                                        type={'time'}
-                                        // min={getDate()}
-                                    />
+                                    <div>
+                                        <TextInput
+                                            label={'Start Time'}
+                                            // name={`${filteredDays[index]?.value}.startTime`}
+                                            name={`tasks[${index}].startTime`}
+                                            type={'time'}
+                                            // min={getDate()}
+                                            placeholder={'Start Time...'}
+                                        />
+                                        <InputErrorMessage
+                                            name={`tasks[${index}].startTime`}
+                                        />
+                                    </div>
+                                    <div>
+                                        <TextInput
+                                            label={'End Time'}
+                                            name={`tasks[${index}].endTime`}
+                                            placeholder={'End Time...'}
+                                            type={'time'}
+                                            // min={getDate()}
+                                        />
+                                        <InputErrorMessage
+                                            name={`tasks[${index}].endTime`}
+                                        />
+                                    </div>
                                 </div>
                                 <Select
                                     label={'Priority'}
-                                    name={`${day.value}.priority`}
+                                    name={`tasks[${index}].priority`}
                                     options={[
                                         { value: 'low', label: 'Low ' },
                                         { value: 'high', label: 'High' },
-                                        { value: 'medium', label: 'Medium ' },
+                                        {
+                                            value: 'medium',
+                                            label: 'Medium ',
+                                        },
                                     ]}
                                     onlyValue
                                 />
-
+                                <InputErrorMessage
+                                    name={`tasks[${index}].priority`}
+                                />
                                 <TextInput
                                     required
                                     label={'Title'}
-                                    name={`${day.value}.title`}
+                                    name={`tasks[${index}].title`}
                                     placeholder={'Some Text Here...'}
+                                />
+                                <InputErrorMessage
+                                    name={`tasks[${index}].title`}
                                 />
                                 <TextInput
                                     required
                                     label={'Location'}
-                                    name={`${day.value}.location`}
+                                    name={`tasks[${index}].location`}
                                     placeholder={'Location...'}
                                 />
-
+                                <InputErrorMessage
+                                    name={`tasks[${index}].location`}
+                                />
                                 <TextArea
                                     required
                                     label={'Notes'}
-                                    name={`${day.value}.note`}
+                                    name={`tasks[${index}].note`}
                                 />
+                                <InputErrorMessage
+                                    name={`tasks[${index}].note`}
+                                />
+                                {/* <Checkbox
+                                    name={`${filteredDays[index]?.value}.repeatShift`}
+                                    label={'Repeat Shift'}
+                                /> */}
+
+                                <div className="flex justify-end">
+                                    <Button
+                                        text="Remove"
+                                        onClick={() => {
+                                            handleRemoveFAQ(index)
+                                        }}
+                                        variant="error"
+                                    />
+                                </div>
                             </div>
                         ))}
                     </div>
-
-                    <Typography variant={'small'} color={'gray'}>
+                    <div className="w-full my-3">
+                        <Button
+                            variant={'success'}
+                            onClick={handleAddShift}
+                            disabled={isAddShiftDisabled()}
+                        >
+                            Click here to add shift(s)
+                        </Button>
+                    </div>
+                    {/* <Typography variant={'small'} color={'gray'}>
                         Shift Details
-                    </Typography>
+                    </Typography> */}
 
                     <div className="flex flex-col gap-y-2 my-2">
                         <TextInput
@@ -512,10 +402,6 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
                             placeholder={'Email...'}
                             value={email || ''}
                         />
-                    </div>
-
-                    <div className="mb-6">
-                        <Checkbox name={'repeatShift'} label={'Repeat Shift'} />
                     </div>
 
                     <div className="flex items-center gap-x-2">
