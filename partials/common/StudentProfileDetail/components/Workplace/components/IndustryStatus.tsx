@@ -75,11 +75,6 @@ export const IndustryStatus = ({
                         }}
                         className="w-full relative cursor-pointer px-4 py-2.5 flex justify-evenly gap-x-2 rounded-md border border-[#128C7E] overflow-hidden"
                     >
-                        {/* {changeCurrentStatusResult.isLoading && (
-                        <div className="absolute top-0 left-0 w-full h-full bg-[#ffffff70] flex justify-center items-center">
-                            <PuffLoader size={20} />
-                        </div>
-                    )} */}
                         <Typography
                             variant="small"
                             color="text-[#128C7E]"
@@ -91,17 +86,11 @@ export const IndustryStatus = ({
                                     ?.primaryText
                             }
                         </Typography>
-                        {/* <Typography
-                        variant={'label'}
-                        color={
-                            requestTypeActions[selectedRequestType as any]
-                                ?.color
-                        }
-                    ></Typography> */}
+
                         <IoIosArrowDown />
                     </div>
                     <div
-                        className={`w-auto  bg-white shadow-md rounded-md absolute top-full left-0 overflow-auto custom-scrollbar transition-all duration-500 ${
+                        className={`w-auto  bg-white shadow-md rounded-md z-10 absolute top-full left-0 overflow-auto custom-scrollbar transition-all duration-500 ${
                             isOpened ? 'max-h-72' : 'max-h-0'
                         }`}
                     >

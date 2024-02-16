@@ -24,6 +24,8 @@ interface ContextBarContextType {
     setViewedPendingIndustriesModal: Dispatch<SetStateAction<number>>
     viewAgreementModal: number
     setViewAgreementModal: Dispatch<SetStateAction<number>>
+    setViewContext: any
+    viewContext: string | null
 }
 
 export const ContextBarContext =
@@ -38,6 +40,7 @@ export const ContextBarProvider = ({
     const [isVisible, setVisible] = useState(false)
     const [fixed, setFixed] = useState(false)
     const [content, setContent] = useState(null)
+    const [viewContext, setViewContext] = useState<string | null>(null)
     const [title, setTitle] = useState('')
     const [viewedPendingIndustriesModal, setViewedPendingIndustriesModal] =
         useState<number>(Number())
@@ -65,6 +68,8 @@ export const ContextBarProvider = ({
         setViewedPendingIndustriesModal,
         viewAgreementModal,
         setViewAgreementModal,
+        setViewContext,
+        viewContext,
     }
 
     return (

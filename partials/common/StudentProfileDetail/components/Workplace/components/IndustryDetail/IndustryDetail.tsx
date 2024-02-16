@@ -102,7 +102,7 @@ export const IndustryDetail = ({
                         </Typography>
                     </div>
                 </div>
-                <div className="h-[90%] flex flex-col gap-y-2 border border-[#6B7280] rounded-md p-2.5 mt-2.5">
+                <div className="h-[200px] overflow-auto custom-scrollbar flex flex-col gap-y-2 border border-[#6B7280] rounded-md p-2.5 mt-2.5">
                     {appliedIndustry && (
                         <IndustryCard
                             industry={appliedIndustry}
@@ -115,6 +115,7 @@ export const IndustryDetail = ({
                     {suggestedIndustries?.map(
                         (industry: any, index: number) => (
                             <IndustryCard
+                                key={industry?.id}
                                 industry={industry}
                                 workplace={workplace}
                                 courseId={course?.id}

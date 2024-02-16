@@ -25,6 +25,9 @@ const config: Config = {
     // transformIgnorePatterns: [
     //     '/node_modules/(?!swiper)', // Adjust the pattern based on your dependencies
     // ],
+    // moduleNameMapper: {
+    //     'swiper/swiper.min.css': '<rootDir>/__mocks__/swiperMock.js',
+    // },
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

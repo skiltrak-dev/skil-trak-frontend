@@ -80,7 +80,7 @@ export const IndustryCard = ({
         <>
             {modal}
             <ShowErrorNotifications result={applyForWorkplaceResult} />
-            <div className="bg-secondary rounded-lg py-1 px-2">
+            <div className="bg-[#F7F1E3] rounded-lg py-1 px-3">
                 <div className="flex flex-col lg:flex-row justify-between lg:items-center">
                     <Link
                         href={
@@ -180,7 +180,7 @@ export const IndustryCard = ({
                                     center
                                 >
                                     <span
-                                        className="cursor-pointer"
+                                        className="cursor-pointer whitespace-pre"
                                         onClick={() => {
                                             if (!appliedIndustry) {
                                                 applyForWorkplace({
