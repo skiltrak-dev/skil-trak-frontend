@@ -133,9 +133,9 @@ export const IndustryCard = ({
                                 />
                             </div>
                         )}
-                        {industry.applied &&
-                            industry.industryResponse !== 'noResponse' &&
-                            industry.industryResponse !== 'rejected' && (
+                        {industry?.applied &&
+                            industry?.industryResponse !== 'noResponse' &&
+                            industry?.industryResponse !== 'rejected' && (
                                 <Typography
                                     variant={'xs'}
                                     color={'text-red-800'}
@@ -144,7 +144,7 @@ export const IndustryCard = ({
                                     APPLIED
                                 </Typography>
                             )}
-                        {industry.industryResponse === 'noResponse' && (
+                        {industry?.industryResponse === 'noResponse' && (
                             <Typography
                                 variant={'xs'}
                                 color={'text-red-500'}
@@ -153,7 +153,7 @@ export const IndustryCard = ({
                                 No Response
                             </Typography>
                         )}
-                        {industry.industryResponse === 'rejected' && (
+                        {industry?.industryResponse === 'rejected' && (
                             <Typography
                                 variant={'xs'}
                                 color={'text-red-500'}
@@ -162,8 +162,8 @@ export const IndustryCard = ({
                                 Rejected
                             </Typography>
                         )}
-                        {industry.applied &&
-                            industry.industryResponse === 'approved' && (
+                        {industry?.applied &&
+                            industry?.industryResponse === 'approved' && (
                                 <Typography variant={'xs'}>
                                     <span className="bg-success px-2 py-0.5 text-white rounded-full">
                                         Approved
@@ -171,9 +171,9 @@ export const IndustryCard = ({
                                 </Typography>
                             )}
                         {!appliedIndustry &&
-                            !industry.applied &&
-                            industry.industryResponse !== 'noResponse' &&
-                            industry.industryResponse !== 'rejected' && (
+                            !industry?.applied &&
+                            industry?.industryResponse !== 'noResponse' &&
+                            industry?.industryResponse !== 'rejected' && (
                                 <Typography
                                     variant={'xs'}
                                     color={'text-red-800'}

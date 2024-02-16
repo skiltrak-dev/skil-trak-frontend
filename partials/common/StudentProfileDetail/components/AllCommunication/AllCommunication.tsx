@@ -21,9 +21,9 @@ export const AllCommunication = ({ user }: { user: User }) => {
                     All Communications
                 </Typography>
             </div>
-            {/* <div className="p-4 h- overflow-auto custom-scrollbar">
+            <div className="p-4 h-[570px] overflow-auto custom-scrollbar">
                 <AllCommunicationTab user={user} />
-            </div> */}
+            </div>
         </Card>
     )
 }

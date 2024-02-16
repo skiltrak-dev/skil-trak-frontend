@@ -116,6 +116,7 @@ export const InputContentEditor = ({
                                 padding: '0px 10px 10px',
                                 height: '200px',
                             }}
+                            spellCheck
                             toolbar={{
                                 options: [
                                     'inline',

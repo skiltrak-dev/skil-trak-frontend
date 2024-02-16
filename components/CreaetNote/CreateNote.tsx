@@ -53,6 +53,7 @@ export const CreateNote = ({
     sender,
     editValues,
     setEditValues,
+    onCancel,
 }: any) => {
     const { notification } = useNotification()
     const [noteContent, setNoteContent] = useState<any>(null)
@@ -88,7 +89,9 @@ export const CreateNote = ({
     useEffect(() => {
         if (createNoteResult.isSuccess) {
             setEditing(false)
-            setEditValues(null)
+            if (setEditValues) {
+                setEditValues(null)
+            }
             notification.success({
                 title: 'Note Attached',
                 description: 'Note attached successfully',
@@ -96,6 +99,9 @@ export const CreateNote = ({
             setNoteContent(null)
             methods.reset()
             getNoteDraft.refetch()
+            if (onCancel) {
+                onCancel()
+            }
         }
     }, [createNoteResult.isSuccess])
 
