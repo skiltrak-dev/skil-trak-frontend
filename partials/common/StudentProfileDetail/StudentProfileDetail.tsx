@@ -7,11 +7,12 @@ import {
 import { useContextBar } from '@hooks'
 import { useGetSubAdminStudentDetailQuery } from '@queries'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { ProfileViewCB } from './ContextBar'
 import {
     AllCommunication,
     Appointments,
+    AssessmentSubmissions,
     Mails,
     Notes,
     Schedule,
@@ -24,17 +25,30 @@ export const StudentProfileDetail = () => {
 
     const router = useRouter()
 
+    const [isMouseMove, setIsMouseMove] = useState<any>(null)
+
     const profile = useGetSubAdminStudentDetailQuery(Number(router.query?.id), {
         skip: !router.query?.id,
         refetchOnMountOrArgChange: true,
     })
 
     useEffect(() => {
-        if (profile?.isSuccess && profile?.data) {
+        if (profile?.isSuccess && profile?.data && !contextBar.content) {
+            console.log('contextBar.content', contextBar.content)
             contextBar.show(false)
             contextBar.setContent(<ProfileViewCB profile={profile?.data} />)
         }
-    }, [profile])
+    }, [profile, isMouseMove, contextBar])
+
+    useEffect(() => {
+        window.addEventListener('mousemove', () => setIsMouseMove(true))
+
+        return () => {
+            window.removeEventListener('mousemove', () => setIsMouseMove(false))
+            contextBar.hide()
+            contextBar.setContent(null)
+        }
+    }, [])
 
     return (
         <div>
@@ -44,7 +58,7 @@ export const StudentProfileDetail = () => {
             {profile.isLoading ? (
                 <LoadingAnimation />
             ) : profile?.data && profile?.isSuccess ? (
-                <div>
+                <div className="flex flex-col gap-y-5">
                     <div className="h-[500px] overflow-hidden grid grid-cols-5 gap-x-3">
                         <div className="col-span-3 h-full">
                             <Workplace studentId={profile?.data?.id} />
@@ -53,11 +67,14 @@ export const StudentProfileDetail = () => {
                             <Notes userId={profile?.data?.user?.id} />
                         </div>
                     </div>
+                    <div>
+                        <AssessmentSubmissions student={profile?.data} />
+                    </div>
                     <div className="h-[500px] overflow-hidden grid grid-cols-2 gap-x-3">
                         <Appointments user={profile?.data?.user} />
                         <Tickets studentId={profile?.data?.id} />
                     </div>
-                    <div className="mt-5">
+                    <div className="">
                         <Schedule
                             user={profile?.data?.user}
                             studentId={profile?.data?.id}

@@ -44,7 +44,7 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
             <div
                 id={`pinned-notes-${note?.id}`}
                 className={`relative w-full ${
-                    note?.isPinned ? 'bg-red-400' : 'bg-[#FEF6E6] '
+                    note?.isPinned ? 'bg-[#FFDCDC]' : 'bg-[#FEF6E6] '
                 } p-4 rounded-xl shadow-lg `}
             >
                 <div className={`${isDeleting ? 'blur' : ''}`}>
@@ -55,12 +55,23 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
                         <div className="flex items-center gap-x-1">
                             <div
                                 onClick={togglePin}
-                                className="bg-base-light w-6 h-6 flex justify-center items-center rounded-[5px]"
+                                className={`${
+                                    note?.isPinned
+                                        ? 'bg-base-light'
+                                        : 'bg-gray-100'
+                                }  w-6 h-6 flex justify-center items-center rounded-[5px]`}
                             >
                                 {statusChangeResult.isLoading ? (
                                     <PuffLoader size={20} color="white" />
                                 ) : (
-                                    <TiPin size={16} className="text-white" />
+                                    <TiPin
+                                        size={16}
+                                        className={
+                                            note?.isPinned
+                                                ? 'text-white'
+                                                : 'text-primaryNew'
+                                        }
+                                    />
                                 )}
                             </div>
                             <div

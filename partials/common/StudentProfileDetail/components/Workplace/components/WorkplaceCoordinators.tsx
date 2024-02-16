@@ -1,4 +1,5 @@
-import { Select, Typography } from '@components'
+import { Select, ShowErrorNotifications, Typography } from '@components'
+import { useNotification } from '@hooks'
 import { AdminApi, useAssignToSubAdminMutation } from '@queries'
 
 export const WorkplaceCoordinators = ({
@@ -11,6 +12,8 @@ export const WorkplaceCoordinators = ({
     const subadmins = AdminApi.Workplace.subadminForAssignWorkplace()
     const [assignToMe, assignToMeResult] = useAssignToSubAdminMutation()
 
+    const { notification } = useNotification()
+
     const subAdminOptions = subadmins?.data?.map((subAdmin: any) => ({
         label: subAdmin?.user?.name,
         value: subAdmin?.user?.id,
@@ -18,10 +21,11 @@ export const WorkplaceCoordinators = ({
 
     return (
         <div className="h-full">
+            <ShowErrorNotifications result={assignToMeResult} />
             <Typography variant="small" capitalize semibold>
                 coordinator
             </Typography>
-            <div className="h-[90%] border border-[#6B7280] rounded-md p-2.5 mt-2.5 flex flex-col justify-center items-center gap-y-1.5">
+            <div className="h-[200px] border border-[#6B7280] rounded-md p-2.5 mt-2.5 flex flex-col justify-center items-center gap-y-1.5">
                 <div className="bg-primaryNew p-3 rounded-lg w-full">
                     <Typography variant="xxs" normal color="text-white">
                         Assigned Coordinator
@@ -54,8 +58,17 @@ export const WorkplaceCoordinators = ({
                                     industry: appliedIndustryId,
                                     id: workplace?.id,
                                     subAdmin: Number(e?.value),
+                                }).then((res: any) => {
+                                    if (res?.data) {
+                                        notification.success({
+                                            title: 'Coordiantor Changed',
+                                            description:
+                                                'Coordinator Changed Successfully',
+                                        })
+                                    }
                                 })
                             }}
+                            menuPlacement={'top'}
                         />
                     </div>
                 </div>

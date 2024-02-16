@@ -12,6 +12,7 @@ export interface Course extends BaseResponse {
     requirements: string
     sector: Sector
     folders: Folder[]
+    results: any
 }
 
 export interface Sector extends BaseResponse {

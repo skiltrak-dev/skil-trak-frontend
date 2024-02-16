@@ -14,6 +14,7 @@ import {
 } from '@queries'
 import { GetFolders } from '@partials/sub-admin/workplace/hooks'
 import { IndustryDetail } from './components/IndustryDetail'
+import moment from 'moment'
 
 export const Workplace = ({ studentId }: { studentId: number }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -88,7 +89,7 @@ export const Workplace = ({ studentId }: { studentId: number }) => {
                     <div className="flex flex-col items-center justify-center h-60">
                         <LoadingAnimation size={60} />
                         <Typography variant="label">
-                            Notes Loading...
+                            Workplace Loading...
                         </Typography>
                     </div>
                 ) : (
@@ -119,7 +120,7 @@ export const Workplace = ({ studentId }: { studentId: number }) => {
                         </div>
 
                         {/*  */}
-                        <div className="p-4 grid grid-cols-10 gap-x-3 h-60 overflow-hidden">
+                        <div className="p-4 grid grid-cols-10 gap-x-3 h-64 border-b border-secondary-dark">
                             <div className="col-span-3 h-full">
                                 <WorkplaceCoordinators
                                     appliedIndustryId={appliedIndustry?.id}
@@ -133,6 +134,15 @@ export const Workplace = ({ studentId }: { studentId: number }) => {
                                     course={course}
                                 />
                             </div>
+                        </div>
+
+                        <div className="flex justify-end items-center p-4">
+                            <Typography variant="small" medium>
+                                Recieved On:{' '}
+                                {moment(selectedWorkplace?.createdAt).format(
+                                    'Do MMM, YYYY'
+                                )}
+                            </Typography>
                         </div>
                     </div>
                 )}
