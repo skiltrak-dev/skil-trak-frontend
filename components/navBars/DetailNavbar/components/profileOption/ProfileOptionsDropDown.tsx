@@ -123,11 +123,11 @@ export const ProfileOptionsDropDown = ({
                             if (AuthUtils.getToken()) {
                                 await logoutActivity({})
                             }
-                            await signOut({
-                                redirect: true,
-                                callbackUrl: '/test-login',
-                            })
-                            // AuthUtils.logout(router)
+                            // await signOut({
+                            //     redirect: true,
+                            //     callbackUrl: '/test-login',
+                            // })
+                            AuthUtils.logout(router)
                             contextBar.setContent(null)
                             contextBar.setTitle(null)
                             contextBar.hide()

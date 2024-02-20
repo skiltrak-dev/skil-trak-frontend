@@ -34,7 +34,6 @@ export const StudentProfileDetail = () => {
 
     useEffect(() => {
         if (profile?.isSuccess && profile?.data && !contextBar.content) {
-            console.log('contextBar.content', contextBar.content)
             contextBar.show(false)
             contextBar.setContent(<ProfileViewCB profile={profile?.data} />)
         }

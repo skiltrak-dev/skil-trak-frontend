@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
 // components
 import {
@@ -18,14 +18,13 @@ import { TextInput } from '@components/inputs'
 // query
 import { Result } from '@constants'
 import { DocumentsView, useNotification } from '@hooks'
+import { AgreementInitiate, ViewInitiatedSign } from '@partials/sub-admin'
 import {
-    useAddCommentOnAssessmentMutation,
-    SubAdminApi,
     CommonApi,
+    useAddCommentOnAssessmentMutation
 } from '@queries'
 import { AddCommentEnum, OptionType } from '@types'
 import moment from 'moment'
-import { AgreementInitiate, ViewInitiatedSign } from '@partials/sub-admin'
 
 export const AssessmentResponse = ({
     folder,
@@ -202,7 +201,6 @@ export const AssessmentResponse = ({
     }, [addCommentResult])
 
     // query
-
     const filteredFiles = getAssessmentResponse?.data?.files?.filter(
         (file: any) => file
     )
