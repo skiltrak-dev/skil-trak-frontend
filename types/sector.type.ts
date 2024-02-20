@@ -13,6 +13,7 @@ export interface Course extends BaseResponse {
     sector: Sector
     folders: Folder[]
     results: any
+    timing: any
 }
 
 export interface Sector extends BaseResponse {

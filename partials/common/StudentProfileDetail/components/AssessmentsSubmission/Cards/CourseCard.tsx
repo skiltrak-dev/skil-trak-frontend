@@ -1,6 +1,6 @@
-import { Typography } from '@components'
+import { ActionButton, Typography } from '@components'
 import React from 'react'
-import { CourseSubmisstionBadge } from '../components'
+import { CourseDate, CourseSubmisstionBadge, CourseTime } from '../components'
 import { Result } from '@constants'
 import { Course } from '@types'
 import { getCourseResult } from '@utils'
@@ -22,31 +22,37 @@ export const CourseCard = ({
                 active
                     ? 'bg-primaryNew'
                     : 'bg-white border border-secondary-dark'
-            }  rounded-md p-4 cursor-pointer`}
+            }  rounded-md  cursor-pointer grid grid-cols-7`}
         >
-            <div className="flex flex-col gap-y-1">
-                <Typography
-                    variant="small"
-                    medium
-                    color={active ? 'text-white' : '#77757F'}
-                >
-                    Course
-                </Typography>
-                <Typography
-                    variant="small"
-                    normal
-                    color={active ? 'text-white' : '#77757F'}
-                >
-                    {course?.code} - {course?.title}
-                </Typography>
+            <div className="col-span-4 p-4 border-r">
+                <div className="flex flex-col gap-y-1">
+                    <Typography
+                        variant="small"
+                        medium
+                        color={active ? 'text-white' : '#77757F'}
+                    >
+                        Course
+                    </Typography>
+                    <Typography
+                        variant="small"
+                        normal
+                        color={active ? 'text-white' : '#77757F'}
+                    >
+                        {course?.code} - {course?.title}
+                    </Typography>
+                </div>
+
+                <div className="mt-3">
+                    <CourseSubmisstionBadge
+                        result={result}
+                        resultLength={course?.results?.length}
+                    />
+                </div>
             </div>
 
-            <div className="mt-3">
-                <CourseSubmisstionBadge
-                    result={result}
-                    resultLength={course?.results?.length}
-                    title={'Saad'}
-                />
+            {/*  */}
+            <div className="col-span-3 flex justify-center items-center">
+                <CourseDate course={course} active={active as boolean} />
             </div>
         </div>
     )

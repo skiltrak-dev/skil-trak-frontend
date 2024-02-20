@@ -40,7 +40,7 @@ export const StepPackageSelection = () => {
         <div className="w-full mt-6">
             <div>
                 <p className="font-semibold text-lg">
-                    What kind of package dou you want to use?
+                    What kind of package do you want to use?
                 </p>
                 <p className="font-medium text-sm text-gray-400">
                     Each package varies in providing functionalities &amp;

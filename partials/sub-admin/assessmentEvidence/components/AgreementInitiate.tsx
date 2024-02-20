@@ -36,17 +36,13 @@ export const AgreementInitiate = ({
         <>
             {modal}
             <div className="p-3 flex justify-center items-center h-full">
-                <div className="w-60 border border-dashed h-48 flex flex-col gap-y-2 justify-center items-center">
+                <div className="w-60 border border-dashed h-24 flex flex-col gap-y-2 justify-center items-center">
                     <Button
                         text="Initiate Signing"
                         onClick={() => {
                             onInitiateSigning()
                         }}
                     />
-                    {/* <Typography variant="small">Or</Typography>
-                    <Typography variant="small" color={'text-info'}>
-                        Upload
-                    </Typography> */}
                 </div>
             </div>
         </>

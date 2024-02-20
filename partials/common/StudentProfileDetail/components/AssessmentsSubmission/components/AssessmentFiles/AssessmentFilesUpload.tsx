@@ -8,22 +8,14 @@ import { SubAdminApi } from '@queries'
 import { useNotification } from '@hooks'
 import { ShowErrorNotifications } from '@components'
 
-export const FolderFilesUpload = ({
+export const AssessmentFilesUpload = ({
     results,
-    AgreementFile,
     selectedFolder,
     studentId,
-    studentProfile,
-    appliedIndustry,
-    latestWorkplace,
 }: {
-    appliedIndustry: any
-    studentProfile: any
     results: any
     studentId: number
     selectedFolder: any
-    AgreementFile: string
-    latestWorkplace: any
 }) => {
     const { notification } = useNotification()
 
@@ -63,12 +55,7 @@ export const FolderFilesUpload = ({
         }
 
         filteredDocs.forEach((doc: any) => {
-            formData.append(
-                selectedFolder?.id === AgreementFile
-                    ? 'file'
-                    : `${selectedFolder?.name}`,
-                doc
-            )
+            formData.append(`${selectedFolder?.name}`, doc)
         })
 
         if (filteredDocs?.length)
@@ -87,39 +74,27 @@ export const FolderFilesUpload = ({
                 <div className="flex items-center gap-x-2 mb-1">
                     <div>
                         {selectedFolder &&
-                            results !== Result.NotSubmitted &&
-                            (selectedFolder?.id === AgreementFile ? (
-                                <SignAgreement
-                                    studentId={Number(studentProfile?.data?.id)}
-                                    appliedIndustryId={appliedIndustry?.id}
-                                    student={studentProfile?.data}
-                                    courses={latestWorkplace?.courses}
-                                />
-                            ) : selectedFolder ? (
-                                <FileUpload
-                                    onChange={onUploadDocs}
-                                    name={'folder?.name'}
-                                    component={AddFileButton}
-                                    multiple
-                                    limit={
-                                        selectedFolder?.id === AgreementFile
-                                            ? 10
-                                            : Number(selectedFolder?.capacity) -
-                                              Number(
-                                                  selectedFolder
-                                                      ?.studentResponse
-                                                      ?.length > 0
-                                                      ? selectedFolder
-                                                            ?.studentResponse[0]
-                                                            ?.files?.length
-                                                      : 0
-                                              )
-                                    }
-                                    acceptTypes={getDocType(
-                                        selectedFolder?.type
-                                    )}
-                                />
-                            ) : null)}
+                        results !== Result.NotSubmitted &&
+                        selectedFolder ? (
+                            <FileUpload
+                                onChange={onUploadDocs}
+                                name={'folder?.name'}
+                                component={AddFileButton}
+                                multiple
+                                limit={
+                                    Number(selectedFolder?.capacity) -
+                                    Number(
+                                        selectedFolder?.studentResponse
+                                            ?.length > 0
+                                            ? selectedFolder?.studentResponse[0]
+                                                  ?.files?.length
+                                            : 0
+                                    )
+                                }
+                                acceptTypes={getDocType(selectedFolder?.type)}
+                                showError={false}
+                            />
+                        ) : null}
                     </div>
                 </div>
             )}

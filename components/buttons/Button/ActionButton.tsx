@@ -27,6 +27,7 @@ interface ButtonProps {
     rounded?: boolean
     submit?: boolean
     title?: string
+    small?: boolean
 }
 
 export const ActionButton = ({
@@ -41,12 +42,14 @@ export const ActionButton = ({
     rounded,
     submit,
     title,
+    small,
 }: ButtonProps) => {
     const classes = classNames({
         'text-xs font-medium uppercase transition-all duration-300 focus:outline-none shadow':
             true,
-        'rounded-full px-2 py-2': rounded,
-        'rounded px-4 py-2': !rounded,
+        'rounded-full px-2 py-2': rounded && !small,
+        'rounded px-4 py-2': !rounded && !small,
+        'rounded px-1.5 py-1.5': small,
         'bg-red-100 text-red-500 hover:bg-red-200 hover:shadow-red-100':
             variant === 'error',
         'bg-green-100 text-green-500 hover:bg-green-200 hover:shadow-green-100':
@@ -85,22 +88,9 @@ export const ActionButton = ({
             disabled={disabled}
             type={submit ? 'submit' : 'button'}
             className={`${simple ? simpleClasses : classes} relative group`}
-            // onClick={() => {
-            //     onClick && onClick()
-            // }}
             {...(!submit ? { onClick: (e) => onClick && onClick(e) } : {})}
         >
             <div className="flex items-center justify-center gap-x-2">
-                {/* {mini ? (
-                    Icon && <Icon />
-                ) : loading ? (
-                    <PulseLoader size={8} />
-                ) : (
-                    <>
-                        {Icon && <Icon />}
-                        {children}
-                    </>
-                )} */}
                 {loading ? (
                     <PulseLoader size={6} />
                 ) : mini ? (

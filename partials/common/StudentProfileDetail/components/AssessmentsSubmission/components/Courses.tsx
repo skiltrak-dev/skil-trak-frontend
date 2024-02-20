@@ -1,12 +1,17 @@
 import { useStudentAssessmentCoursesQuery } from '@queries'
-import { Course, Sector, Student } from '@types'
-import React, { useEffect, useMemo, useState } from 'react'
+import { AssessmentEvidenceDetailType, Course, Sector, Student } from '@types'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { CourseCard, SectorCard } from '../Cards'
 import { Typography } from '@components'
+import { AssessmentsFolders } from './AssessmentsFolders'
+import { AssessmentFiles } from './AssessmentFiles'
 
 export const Courses = ({ student }: { student: Student }) => {
     const [selectedSector, setSelectedSector] = useState<number | null>(null)
-    const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
+    const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
+    const [selectedFolder, setSelectedFolder] =
+        useState<AssessmentEvidenceDetailType | null>(null)
+
     const studentCourses = useStudentAssessmentCoursesQuery(
         Number(student?.id),
         {
@@ -42,7 +47,9 @@ export const Courses = ({ student }: { student: Student }) => {
 
     useEffect(() => {
         if (sectors && sectors?.length > 0) {
-            setSelectedSector(sectors?.[0]?.id)
+            setSelectedSector(
+                selectedSector ? selectedSector : sectors?.[0]?.id
+            )
         }
     }, [sectors])
 
@@ -56,11 +63,23 @@ export const Courses = ({ student }: { student: Student }) => {
 
     useEffect(() => {
         if (courses && courses?.length > 0) {
-            setSelectedCourse(courses[0]?.id)
+            const course = courses?.find(
+                (c: any) => c?.id === Number(selectedCourse?.id)
+            )
+            setSelectedCourse(selectedSector && course ? course : courses?.[0])
         }
-    }, [courses])
+    }, [courses, selectedSector])
 
-    console.log({ courses })
+    console.log({
+        selectedCourse,
+        selectedSector,
+        ccc: courses?.[0]?.sector?.id,
+    })
+
+    const onSelectFolder = useCallback((data: AssessmentEvidenceDetailType) => {
+        setSelectedFolder(data)
+    }, [])
+
     return (
         <div>
             <div className="border-b border-secondary-dark px-4 py-2.5">
@@ -86,11 +105,30 @@ export const Courses = ({ student }: { student: Student }) => {
                 <div className="mt-2.5 grid grid-cols-2 gap-2.5">
                     {courses?.map((course: Course) => (
                         <CourseCard
-                            onClick={() => setSelectedCourse(course.id)}
+                            onClick={() => setSelectedCourse(course)}
                             course={course}
-                            active={selectedCourse === course?.id}
+                            active={selectedCourse?.id === course?.id}
                         />
                     ))}
+                </div>
+            </div>
+
+            <div className=" border-b border-secondary-dark h-[450px] overflow-hidden">
+                <div className=" grid grid-cols-3 h-[inherit]">
+                    <div className="py-4 border-r h-[inherit]">
+                        <AssessmentsFolders
+                            courseId={selectedCourse?.id}
+                            selectedFolder={selectedFolder}
+                            onSelectFolder={onSelectFolder}
+                        />
+                    </div>
+                    <div className="col-span-2 h-[inherit]">
+                        <AssessmentFiles
+                            selectedFolder={selectedFolder}
+                            course={selectedCourse}
+                            student={student}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
