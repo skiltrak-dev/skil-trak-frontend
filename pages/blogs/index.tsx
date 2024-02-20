@@ -1,6 +1,6 @@
 import { SiteLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { adminApi } from '@queries'
 import {
     BlogCard,
@@ -19,15 +19,16 @@ import {
 } from '@components'
 import Link from 'next/link'
 import { PaginatedItems } from '@partials/common'
+import { isBrowser } from '@utils'
+import { useWindowWidth } from '@hooks'
 
 const Blogs: NextPageWithLayout = () => {
     
     const [itemPerPage, setItemPerPage] = useState(50)
     const [currentItems, setCurrentItems] = useState([])
     const [page, setPage] = useState(1)
-
     const router = useRouter()
-
+    
     const { data, isLoading, isError, isFetching } = adminApi.useGetBlogsQuery({
         isPublished: `${true}`,
         skip: itemPerPage * page - itemPerPage,
@@ -42,6 +43,13 @@ const Blogs: NextPageWithLayout = () => {
     const filterPublishedBlogs = currentItems.filter(
         (item: any) => item.isPublished === true && !item.isFeatured
     )
+     
+    // Mobile screen
+    function isMobile(width:any) {
+        return width <= 768;
+    }
+    const width = useWindowWidth();
+    const mobile = isMobile(width);
 
     return (
         <>
@@ -94,10 +102,15 @@ const Blogs: NextPageWithLayout = () => {
                                                     //         ) + '...',
                                                     // }}
                                                 >
-                                                    {data?.data[0]?.shortDescription && data?.data[0]?.shortDescription.substr(
-                                                        0,
-                                                        1800
-                                                    ) || " "}
+                                                    {(data?.data[0]
+                                                        ?.shortDescription &&
+                                                        data?.data[0]?.shortDescription.substr(
+                                                            0,
+                                                            mobile
+                                                                ? 500
+                                                                : 1800
+                                                        )) ||
+                                                        ' '}
                                                     ...
                                                 </div>
                                             </div>
