@@ -154,7 +154,6 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
     const generateInitialValues = () => {
         const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
         const initialValues = days.reduce((acc: any, day: any, index: any) => {
-            console.log('index', index)
             acc[day] = {
                 totalHours: '',
                 startTime: '',

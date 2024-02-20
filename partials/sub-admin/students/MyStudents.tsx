@@ -64,10 +64,15 @@ export const MyStudents = () => {
     }, [router])
 
     const { isLoading, isFetching, data, isError, refetch } =
-        useGetSubAdminMyStudentsQuery({
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+        useGetSubAdminMyStudentsQuery(
+            {
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: true,
+            }
+        )
 
     useEffect(() => {
         if (refetchStudents) {

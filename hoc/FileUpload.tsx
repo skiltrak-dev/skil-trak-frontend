@@ -51,6 +51,7 @@ export type FileUploadProps = InputProps & {
     multiple?: boolean
     limit?: number
     maximumFileSize?: any
+    showError?: boolean
 }
 
 export const FileUpload = ({
@@ -75,6 +76,7 @@ export const FileUpload = ({
     component,
     multiple,
     maximumFileSize,
+    showError = true,
 }: FileUploadProps) => {
     const formContext = useFormContext()
 
@@ -279,7 +281,7 @@ export const FileUpload = ({
             </FileDrop>
 
             <HelpText text={helpText} />
-            <InputErrorMessage name={name} />
+            {showError ? <InputErrorMessage name={name} /> : null}
         </div>
     )
 }

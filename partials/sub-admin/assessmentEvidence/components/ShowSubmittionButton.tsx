@@ -19,10 +19,6 @@ export const ShowSubmittionButton = ({
 }) => {
     return (
         <div>
-            {/* <SubmitSubmissionForAssessment
-                                student={studentProfile?.data}
-                                selectedCourseId={selectedCourse?.id}
-                            /> */}
             {!getFolders.isLoading &&
             !getFolders.isFetching &&
             getFolders.isSuccess &&

@@ -113,7 +113,7 @@ export const TimeSlots = ({
             <div className="flex flex-col md:flex-row justify-center gap-y-4 gap-x-3 lg:gap-x-16 mt-1 max-w-4xl mx-auto">
                 <div className="w-full">
                     <SidebarCalendar
-                        enabledDays={daysAvailability || [1, 2, 3, 4, 5]}
+                        enabledDays={daysAvailability || [0, 1, 2, 3, 4, 5, 6]}
                         // enabledDays={[1, 2, 3, 4, 5]}
                         setSelectedDate={setSelectedDate}
                     />

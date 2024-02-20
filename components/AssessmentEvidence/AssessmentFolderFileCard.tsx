@@ -47,7 +47,7 @@ export const AssessmentFolderFileCard = ({
         .reverse()[0]
 
     return (
-        <div className="relative w-24 file-view-group">
+        <div className="relative file-view-group">
             <div className=" absolute top-0 z-20 flex justify-between w-full items-center gap-x-1 px-0.5">
                 {file?.uploadedBy && (
                     <div className="file-view-icon transition-all duration-500 bg-white rounded-full shadow-md border border-gray-600 cursor-pointer relative">
@@ -122,9 +122,9 @@ export const AssessmentFolderFileCard = ({
                                 <Image
                                     src={file.file}
                                     alt={filename || fileName}
-                                    sizes="100vw"
+                                    sizes="100vw 100vh"
                                     fill
-                                    className="bg-cover"
+                                    className="object-cover"
                                     blurDataURL={'/images/blur_image.png'}
                                     placeholder="blur"
                                 />
@@ -148,10 +148,9 @@ export const AssessmentFolderFileCard = ({
                                       )}.${extension}`}
                             </Typography> */}
 
-                            <Typography variant="small" center>
-                                {/* TODO check index type */}
+                            {/* <Typography variant="small" center>
                                 {index + 1}
-                            </Typography>
+                            </Typography> */}
                         </div>
                     </div>
                 )}

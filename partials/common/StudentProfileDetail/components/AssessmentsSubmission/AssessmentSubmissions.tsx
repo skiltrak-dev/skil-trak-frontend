@@ -1,9 +1,8 @@
-import { ReactElement, useState } from 'react'
 import { Button, Card, Typography } from '@components'
-import OutsideClickHandler from 'react-outside-click-handler'
-import { IoIosArrowDown } from 'react-icons/io'
 import { Student } from '@types'
-import { CourseCard, SectorCard } from './Cards'
+import { ReactElement, useState } from 'react'
+import { IoIosArrowDown } from 'react-icons/io'
+import OutsideClickHandler from 'react-outside-click-handler'
 import { Courses } from './components'
 
 export const AssessmentSubmissions = ({ student }: { student: Student }) => {
@@ -66,7 +65,7 @@ export const AssessmentSubmissions = ({ student }: { student: Student }) => {
                     </div>
                 </div>
 
-                <div className="">
+                <div className="border-b border-secondary-dark">
                     <Courses student={student} />
                 </div>
             </Card>

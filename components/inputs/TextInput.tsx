@@ -43,6 +43,7 @@ export type TextInputProps = InputProps & {
     onFocus?: any
     color?: string
     defaultValue?: string
+    showError?: boolean
 }
 
 export const TextInput = ({
@@ -73,6 +74,7 @@ export const TextInput = ({
     onPlaceSuggetions,
     defaultValue,
     onFocus,
+    showError = true,
 }: TextInputProps) => {
     const [passwordType, setPasswordType] = useState<string | null>(
         type || null
@@ -174,7 +176,7 @@ export const TextInput = ({
                 </div>
 
                 <HelpText text={helpText} />
-                <InputErrorMessage name={name} />
+                {showError ? <InputErrorMessage name={name} /> : null}
             </div>
         </div>
     )

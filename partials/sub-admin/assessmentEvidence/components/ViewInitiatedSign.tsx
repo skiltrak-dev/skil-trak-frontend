@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { CheckAgreementSignedStatus } from './CheckAgreementSignedStatus'
-import { AssessmentFolderFileCard, Button } from '@components'
-import { CancelInitiateSign, InitiateSigningModal } from '../modal'
-import { Folder, Rto } from '@types'
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
-import { EsignDocumentStatus } from '@utils'
+import { Button } from '@components'
 import { DocumentsView } from '@hooks'
+import { Folder, Rto } from '@types'
+import { EsignDocumentStatus } from '@utils'
+import { useEffect, useState } from 'react'
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { CancelInitiateSign, InitiateSigningModal } from '../modal'
+import { CheckAgreementSignedStatus } from './CheckAgreementSignedStatus'
 
 export const ViewInitiatedSign = ({
     document,
@@ -17,8 +17,8 @@ export const ViewInitiatedSign = ({
     fileDeleteAction,
 }: {
     onEsignRefetch: () => void
-    filteredFiles: any
-    fileDeleteAction: any
+    filteredFiles?: any
+    fileDeleteAction?: any
     document: any
     courseId: number
     rto: Rto
