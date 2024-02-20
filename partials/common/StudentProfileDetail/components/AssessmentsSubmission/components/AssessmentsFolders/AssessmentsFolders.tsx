@@ -1,47 +1,19 @@
 import { LoadingAnimation, Typography } from '@components'
-import React, { useEffect } from 'react'
+import { AssessmentEvidenceDetailType } from '@types'
+import { useEffect } from 'react'
 import { FolderCard } from '../../Cards'
-import { useGetAssessmentEvidenceDetailQuery } from '@queries'
-import { useRouter } from 'next/router'
-import { AssessmentEvidenceDetailType, Folder } from '@types'
 
 export const AssessmentsFolders = ({
+    getFolders,
     courseId,
     selectedFolder,
     onSelectFolder,
 }: {
+    getFolders: any
     courseId: number | null | undefined
     selectedFolder: AssessmentEvidenceDetailType | null
     onSelectFolder: (folder: AssessmentEvidenceDetailType) => void
 }) => {
-    const router = useRouter()
-    const getFolders = useGetAssessmentEvidenceDetailQuery(
-        {
-            courseId: Number(courseId),
-            studentId: Number(router.query?.id),
-        },
-        {
-            skip: !courseId || !router.query?.id,
-        }
-    )
-
-    useEffect(() => {
-        if (
-            getFolders?.data &&
-            getFolders?.isSuccess &&
-            getFolders?.data?.length > 0
-        ) {
-            const folder = getFolders?.data?.find(
-                (folder: any) => folder?.id === Number(selectedFolder?.id)
-            )
-            onSelectFolder(
-                (selectedFolder && folder
-                    ? folder
-                    : getFolders?.data?.[0]) as AssessmentEvidenceDetailType
-            )
-        }
-    }, [getFolders])
-
     return (
         <div className="px-4 h-[inherit]">
             <Typography variant="small" medium>

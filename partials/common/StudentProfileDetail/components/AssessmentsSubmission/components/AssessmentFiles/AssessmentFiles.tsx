@@ -1,26 +1,36 @@
 import { AssessmentFolderFileCard, NoData, Typography } from '@components'
-import { FolderFilesUpload, ShowSubmittionButton } from '@partials/sub-admin'
+import { Result } from '@constants'
+import { DocumentsView } from '@hooks'
 import {
     SubAdminApi,
     useGetAssessmentResponseQuery,
     useGetSubAdminStudentDetailQuery,
 } from '@queries'
-import { AssessmentEvidenceDetailType, Course, Student } from '@types'
+import {
+    AddCommentEnum,
+    AssessmentEvidenceDetailType,
+    Course,
+    Student,
+} from '@types'
 import { getCourseResult } from '@utils'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
-import { AssessmentFilesUpload } from './AssessmentFilesUpload'
-import { DocumentsView } from '@hooks'
-import { PulseLoader } from 'react-spinners'
-import { AiFillDelete } from 'react-icons/ai'
+import { useState } from 'react'
 import { RiDeleteBinLine } from 'react-icons/ri'
+import { PulseLoader } from 'react-spinners'
+import { SubmitAssessmentSubmission } from '../SubmitAssessmentSubmission'
+import { AddComment } from './AddComment'
+import { AssessmentFilesUpload } from './AssessmentFilesUpload'
 import { InitiateSign } from './InitiateSign'
 
 export const AssessmentFiles = ({
     course,
     selectedFolder,
     student,
+    isFilesUploaded,
+    isResubmittedFiles,
 }: {
+    isFilesUploaded: boolean
+    isResubmittedFiles: boolean
     student: Student
     course: Course | null
     selectedFolder: AssessmentEvidenceDetailType | null
@@ -30,12 +40,7 @@ export const AssessmentFiles = ({
 
     const router = useRouter()
 
-    const profile = useGetSubAdminStudentDetailQuery(Number(router.query?.id), {
-        skip: !router.query?.id,
-        refetchOnMountOrArgChange: true,
-    })
-
-    const results = getCourseResult(course?.results)
+    const result = getCourseResult(course?.results)
 
     const getAssessmentResponse = useGetAssessmentResponseQuery(
         {
@@ -70,7 +75,6 @@ export const AssessmentFiles = ({
             </div>
         )
     }
-
     return (
         <div className="h-[inherit]">
             {documentsViewModal}
@@ -86,15 +90,13 @@ export const AssessmentFiles = ({
                     </Typography>
                 </div>
                 <AssessmentFilesUpload
-                    results={results}
+                    results={result}
                     studentId={Number(router.query?.id)}
                     selectedFolder={selectedFolder}
                 />
             </div>
 
-            {/*  */}
-
-            <div className="h-[65%] overflow-auto custom-scrollbar px-5 py-3">
+            <div className="h-[70%] overflow-auto custom-scrollbar px-5 py-3">
                 {filteredFiles && filteredFiles?.length > 0 ? (
                     <div className=" grid grid-cols-6 gap-1.5">
                         {filteredFiles?.map((file: any, i: number) => (
@@ -124,14 +126,65 @@ export const AssessmentFiles = ({
                     />
                 ) : null}
             </div>
-            {/* <ShowSubmittionButton
-                results={results}
-                getFolders={getFolders}
-                selectedCourse={course}
-                studentProfile={student}
-                isFilesUploaded={isFilesUploaded}
-                isResubmittedFiles={isResubmittedFiles}
-            /> */}
+            {getAssessmentResponse.isSuccess
+                ? course?.results?.length > 0
+                    ? result?.totalSubmission < 3
+                        ? (result?.result === Result.ReOpened ||
+                              result?.result === Result.ReOpened ||
+                              result?.result === Result.NotCompetent) && (
+                              <div className="flex justify-center items-center">
+                                  <SubmitAssessmentSubmission
+                                      results={course?.results}
+                                      selectedCourseId={Number(course?.id)}
+                                      student={student}
+                                      isFilesUploaded={isFilesUploaded}
+                                      isResubmittedFiles={isResubmittedFiles}
+                                  />
+                              </div>
+                          )
+                        : !getAssessmentResponse.isLoading &&
+                          !getAssessmentResponse.isFetching &&
+                          getAssessmentResponse.isSuccess &&
+                          result?.isManualSubmission && (
+                              <div className="flex justify-center items-center">
+                                  <SubmitAssessmentSubmission
+                                      results={course?.results}
+                                      selectedCourseId={Number(course?.id)}
+                                      student={student}
+                                      isFilesUploaded={isFilesUploaded}
+                                      isResubmittedFiles={isResubmittedFiles}
+                                  />
+                              </div>
+                          )
+                    : !getAssessmentResponse.isLoading &&
+                      !getAssessmentResponse.isFetching &&
+                      getAssessmentResponse.isSuccess &&
+                      course && (
+                          <div className="flex justify-center items-center">
+                              <SubmitAssessmentSubmission
+                                  results={course?.results}
+                                  selectedCourseId={Number(course?.id)}
+                                  student={student}
+                                  isFilesUploaded={isFilesUploaded}
+                                  isResubmittedFiles={isResubmittedFiles}
+                              />
+                          </div>
+                      )
+                : null}
+            {getAssessmentResponse?.isSuccess &&
+            getAssessmentResponse?.data &&
+            result?.result === Result.Pending ? (
+                <AddComment
+                    resultId={result?.id}
+                    studentId={student?.id}
+                    comment={getAssessmentResponse?.data?.comment}
+                    assessmentResponseId={getAssessmentResponse?.data?.id}
+                    assessmentFolder={
+                        getAssessmentResponse?.data?.assessmentFolder
+                    }
+                    folderStatus={getAssessmentResponse?.data?.status}
+                />
+            ) : null}
         </div>
     )
 }

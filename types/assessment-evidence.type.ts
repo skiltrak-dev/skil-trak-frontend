@@ -2,6 +2,7 @@ import { Result } from '@constants'
 import { BaseResponse } from './base.type'
 import { Course } from './sector.type'
 import { Industry, Student, User, UserStatus } from './user.type'
+import { AddCommentEnum } from './form'
 
 export interface AssessmentEvidenceFolder extends BaseResponse {
     id: number
@@ -78,7 +79,8 @@ export interface AssessmentEvidenceResponse extends BaseResponse {
     id: number
     skiltrakId: number
     comment: string
-    status: string
+    studentResponse: StudentResponseType[]
+    status: AddCommentEnum
     assessmentFolder: AssessmentEvidenceFolder
     files: FileType[]
 }
