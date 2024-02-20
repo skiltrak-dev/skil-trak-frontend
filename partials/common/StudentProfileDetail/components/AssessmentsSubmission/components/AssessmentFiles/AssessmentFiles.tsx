@@ -124,14 +124,14 @@ export const AssessmentFiles = ({
                     />
                 ) : null}
             </div>
-            <ShowSubmittionButton
+            {/* <ShowSubmittionButton
                 results={results}
                 getFolders={getFolders}
                 selectedCourse={course}
                 studentProfile={student}
                 isFilesUploaded={isFilesUploaded}
                 isResubmittedFiles={isResubmittedFiles}
-            />
+            /> */}
         </div>
     )
 }
