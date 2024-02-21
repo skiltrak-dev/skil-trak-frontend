@@ -36,7 +36,7 @@ export const Appointments = ({ user }: { user: User }) => {
                 pathname: `/portals/sub-admin/students/${router?.query?.id}/detail`,
                 query: { tab: 'cancelled' },
             },
-            element: <CancelledAppointments />,
+            element: <CancelledAppointments userId={user?.id} />,
         },
     ]
     return (

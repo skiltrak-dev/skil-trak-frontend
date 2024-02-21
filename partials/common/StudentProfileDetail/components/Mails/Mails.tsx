@@ -56,7 +56,7 @@ export const Mails = ({ user }: { user: User }) => {
                             <div className="flex justify-center items-center h-full">
                                 <LoadingAnimation />
                             </div>
-                        ) : !messages.isError && messages?.data?.length > 0 ? (
+                        ) : messages?.data && messages?.data?.length > 0 ? (
                             messages?.data?.map(
                                 (message: any, i: number) =>
                                     message && (
@@ -72,7 +72,7 @@ export const Mails = ({ user }: { user: User }) => {
                                     )
                             )
                         ) : (
-                            !messages.isError && (
+                            messages.isSuccess && (
                                 <EmptyData
                                     imageUrl="/images/icons/common/mails.png"
                                     title={'No Mails'}
