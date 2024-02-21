@@ -148,9 +148,9 @@ export const AssessmentFolderFileCard = ({
                                       )}.${extension}`}
                             </Typography> */}
 
-                            {/* <Typography variant="small" center>
+                            <Typography variant="small" center>
                                 {index + 1}
-                            </Typography> */}
+                            </Typography>
                         </div>
                     </div>
                 )}
