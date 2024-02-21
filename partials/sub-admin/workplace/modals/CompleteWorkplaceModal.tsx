@@ -29,6 +29,7 @@ export const CompleteWorkplaceModal = ({
                 title: 'Workplace Placement Completed',
                 description: 'Workplace Placement Completed Successfully',
             })
+            onCancel()
         }
     }, [completePlacementResult])
     return (

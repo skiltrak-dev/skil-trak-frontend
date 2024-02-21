@@ -119,33 +119,6 @@ export const ArchivedAssessmentDetail = ({
         }
     }, [uploadDocsResult])
 
-    const allCommentsAdded = getFolders?.data?.every(
-        (f: any) => f?.studentResponse[0]?.comment
-    )
-
-    const onManuallyReopen = (event: any) => {
-        manullyReopenSubmission(results?.id)
-    }
-
-    const role = getUserCredentials()?.role
-
-    const AddFileButton = ({ name }: { name: string }) => {
-        return <UploadFile name={name} loading={uploadDocsResult.isLoading} />
-    }
-
-    const onUploadDocs = (docs: any) => {
-        const formData = new FormData()
-        docs.forEach((doc: any) => {
-            formData.append(`${selectedFolder?.name}`, doc)
-        })
-
-        uploadDocs({
-            studentId,
-            body: formData,
-            folderId: selectedFolder?.id,
-        })
-    }
-
     const onDownloadFiles = () => {
         downloadFiles({
             studentId: Number(studentId),

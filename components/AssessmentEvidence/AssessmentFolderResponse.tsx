@@ -252,7 +252,7 @@ export const AssessmentResponse = ({
                         filteredFiles &&
                         filteredFiles?.length > 0 ? (
                             // <div className="p-2 grid grid-cols-6 gap-x-2  overflow-hidden">
-                            <div className="p-2 grid grid-cols-6 gap-2 items-end  overflow-hidden">
+                            <div className="p-2 grid grid-cols-6 gap-2 items-end overflow-hidden">
                                 {filteredFiles?.map((file: any, i: number) => (
                                     <AssessmentFolderFileCard
                                         key={file?.id}
