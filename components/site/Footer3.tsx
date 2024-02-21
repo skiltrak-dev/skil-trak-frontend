@@ -89,7 +89,7 @@ export const Footer3 = () => {
                             <Link href="/">
                                 <Typography
                                     variant="body"
-                                    color="text-[#AEAEAE]"
+                                    color="text-[#aeaeae]"
                                 >
                                     Home
                                 </Typography>
@@ -97,7 +97,7 @@ export const Footer3 = () => {
                             <Link href="/features">
                                 <Typography
                                     variant="body"
-                                    color="text-[#AEAEAE]"
+                                    color="text-[#aeaeae]"
                                 >
                                     Features
                                 </Typography>
@@ -105,7 +105,7 @@ export const Footer3 = () => {
                             <Link href="/contact-us">
                                 <Typography
                                     variant="body"
-                                    color="text-[#AEAEAE]"
+                                    color="text-[#aeaeae]"
                                 >
                                     Contact Us
                                 </Typography>
@@ -113,7 +113,7 @@ export const Footer3 = () => {
                             <Link href="/about-us">
                                 <Typography
                                     variant="body"
-                                    color="text-[#AEAEAE]"
+                                    color="text-[#aeaeae]"
                                 >
                                     Abouts
                                 </Typography>
@@ -144,7 +144,10 @@ export const Footer3 = () => {
                         </Typography>
                     </div>
                     <div>
-                        <Link href="/terms-and-conditions" className="text-[#AEAEAE] text-xs">
+                        <Link
+                            href="/terms-and-conditions"
+                            className="text-[#AEAEAE] text-xs"
+                        >
                             Terms & Conditions
                         </Link>
                     </div>

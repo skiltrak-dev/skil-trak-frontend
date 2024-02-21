@@ -1,11 +1,14 @@
 import React, { ReactElement, useState } from 'react'
 import { IndustryCard } from './components'
-import { Typography } from '@components'
+import { NoData, Typography } from '@components'
 import { Course } from '@types'
 import { WorkplaceCurrentStatus } from '@utils'
 import { ViewMoreIndustriesModal } from '@partials/sub-admin/workplace/modals'
 import { useContextBar, useNotification } from '@hooks'
 import { AddIndustryCB } from '@partials/sub-admin/workplace/contextBar'
+import { Actions } from './Actions'
+import { StudentProvidedActions } from './StudentProvidedActions'
+import { StudentProvidedABNActions } from './StudentProvidedABNActions'
 
 export const IndustryDetail = ({
     workplace,
@@ -103,13 +106,41 @@ export const IndustryDetail = ({
                     </div>
                 </div>
                 <div className="h-[200px] overflow-auto custom-scrollbar flex flex-col gap-y-2 border border-[#6B7280] rounded-md p-2.5 mt-2.5">
+                    {!workplace?.industries?.length ? (
+                        <NoData text="No Industries were found!" />
+                    ) : (
+                        ''
+                    )}
                     {appliedIndustry && (
-                        <IndustryCard
-                            industry={appliedIndustry}
-                            workplace={workplace}
-                            applied
-                            courseId={course?.id}
-                        />
+                        <>
+                            <IndustryCard
+                                industry={appliedIndustry}
+                                workplace={workplace}
+                                applied
+                                courseId={course?.id}
+                            />
+                            {/*  */}
+                            {workplace.studentProvidedWorkplace ? (
+                                <StudentProvidedActions
+                                    workplace={workplace}
+                                    student={workplace?.student}
+                                    appliedIndustry={appliedIndustry}
+                                />
+                            ) : workplace?.byExistingAbn ? (
+                                <StudentProvidedABNActions
+                                    workplace={workplace}
+                                    student={workplace?.student}
+                                    appliedIndustry={appliedIndustry}
+                                />
+                            ) : (
+                                <Actions
+                                    appliedIndustry={appliedIndustry}
+                                    currentStatus={workplace?.currentStatus}
+                                    student={workplace?.student}
+                                    courses={workplace?.courses}
+                                />
+                            )}
+                        </>
                     )}
 
                     {suggestedIndustries?.map(

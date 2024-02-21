@@ -1,5 +1,6 @@
 import {
     useGetAssessmentEvidenceDetailQuery,
+    useGetAssessmentResponseQuery,
     useStudentAssessmentCoursesQuery,
 } from '@queries'
 import { AssessmentEvidenceDetailType, Course, Sector, Student } from '@types'
@@ -7,13 +8,21 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { CourseCard, SectorCard } from '../Cards'
 import { Button, Typography } from '@components'
 import { AssessmentsFolders } from './AssessmentsFolders'
-import { AssessmentFiles } from './AssessmentFiles'
+import { AssessmentFiles, InitiateSign } from './AssessmentFiles'
 import { FinalResult } from './FinalResult'
 import { SubmitFinalResult } from './SubmitFinalResult'
 import { getCourseResult } from '@utils'
 import { Result } from '@constants'
+import { SubmitAssessmentSubmission } from './SubmitAssessmentSubmission'
+import { AddComment } from './AssessmentFiles/AddComment'
 
-export const Courses = ({ student }: { student: Student }) => {
+export const Courses = ({
+    student,
+    onSetSelectedCourse,
+}: {
+    onSetSelectedCourse: (id: number | undefined) => void
+    student: Student
+}) => {
     const [selectedSector, setSelectedSector] = useState<number | null>(null)
     const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
     const [selectedFolder, setSelectedFolder] =
@@ -35,6 +44,15 @@ export const Courses = ({ student }: { student: Student }) => {
         },
         {
             skip: !selectedCourse || !student?.id,
+        }
+    )
+    const getAssessmentResponse = useGetAssessmentResponseQuery(
+        {
+            selectedFolder: Number(selectedFolder?.id),
+            student: Number(student?.user?.id),
+        },
+        {
+            skip: !selectedFolder || !student,
         }
     )
 
@@ -105,6 +123,12 @@ export const Courses = ({ student }: { student: Student }) => {
         }
     }, [courses, selectedSector])
 
+    useEffect(() => {
+        if (onSetSelectedCourse) {
+            onSetSelectedCourse(selectedCourse?.id)
+        }
+    }, [selectedCourse])
+
     const onSelectFolder = useCallback((data: AssessmentEvidenceDetailType) => {
         setSelectedFolder(data)
     }, [])
@@ -141,6 +165,8 @@ export const Courses = ({ student }: { student: Student }) => {
     const allCommentsAdded = getFolders?.data?.every(
         (f: any) => f?.studentResponse[0]?.comment
     )
+
+    console.log({ selectedCourse })
 
     return (
         <div>
@@ -186,13 +212,106 @@ export const Courses = ({ student }: { student: Student }) => {
                         />
                     </div>
                     <div className="col-span-2 h-[inherit]">
-                        <AssessmentFiles
-                            selectedFolder={selectedFolder}
-                            course={selectedCourse}
-                            student={student}
-                            isFilesUploaded={isFilesUploaded}
-                            isResubmittedFiles={isResubmittedFiles}
-                        />
+                        <div className="h-[88%]">
+                            <AssessmentFiles
+                                selectedFolder={selectedFolder}
+                                course={selectedCourse}
+                                getAssessmentResponse={getAssessmentResponse}
+                            >
+                                {getAssessmentResponse?.isSuccess ? (
+                                    <InitiateSign
+                                        student={student}
+                                        folder={selectedFolder}
+                                        courseId={selectedCourse?.id}
+                                    />
+                                ) : null}
+                            </AssessmentFiles>
+                        </div>
+                        {getAssessmentResponse.isSuccess
+                            ? selectedCourse?.results?.length > 0
+                                ? result?.totalSubmission < 3
+                                    ? (result?.result === Result.ReOpened ||
+                                          result?.result === Result.ReOpened ||
+                                          result?.result ===
+                                              Result.NotCompetent) && (
+                                          <div className="flex justify-center items-center">
+                                              <SubmitAssessmentSubmission
+                                                  results={
+                                                      selectedCourse?.results
+                                                  }
+                                                  selectedCourseId={Number(
+                                                      selectedCourse?.id
+                                                  )}
+                                                  student={student}
+                                                  isFilesUploaded={
+                                                      isFilesUploaded
+                                                  }
+                                                  isResubmittedFiles={
+                                                      isResubmittedFiles
+                                                  }
+                                              />
+                                          </div>
+                                      )
+                                    : !getAssessmentResponse.isLoading &&
+                                      !getAssessmentResponse.isFetching &&
+                                      getAssessmentResponse.isSuccess &&
+                                      result?.isManualSubmission && (
+                                          <div className="flex justify-center items-center">
+                                              <SubmitAssessmentSubmission
+                                                  results={
+                                                      selectedCourse?.results
+                                                  }
+                                                  selectedCourseId={Number(
+                                                      selectedCourse?.id
+                                                  )}
+                                                  student={student}
+                                                  isFilesUploaded={
+                                                      isFilesUploaded
+                                                  }
+                                                  isResubmittedFiles={
+                                                      isResubmittedFiles
+                                                  }
+                                              />
+                                          </div>
+                                      )
+                                : !getAssessmentResponse.isLoading &&
+                                  !getAssessmentResponse.isFetching &&
+                                  getAssessmentResponse.isSuccess &&
+                                  selectedCourse && (
+                                      <div className="flex justify-center items-center">
+                                          <SubmitAssessmentSubmission
+                                              results={selectedCourse?.results}
+                                              selectedCourseId={Number(
+                                                  selectedCourse?.id
+                                              )}
+                                              student={student}
+                                              isFilesUploaded={isFilesUploaded}
+                                              isResubmittedFiles={
+                                                  isResubmittedFiles
+                                              }
+                                          />
+                                      </div>
+                                  )
+                            : null}
+                        {getAssessmentResponse?.isSuccess &&
+                        getAssessmentResponse?.data &&
+                        result?.result === Result.Pending ? (
+                            <AddComment
+                                resultId={result?.id}
+                                studentId={student?.id}
+                                comment={getAssessmentResponse?.data?.comment}
+                                assessmentResponseId={
+                                    getAssessmentResponse?.data?.id
+                                }
+                                assessmentFolder={
+                                    getAssessmentResponse?.data
+                                        ?.assessmentFolder
+                                }
+                                folderStatus={
+                                    getAssessmentResponse?.data?.status
+                                }
+                            />
+                        ) : null}
                     </div>
                 </div>
             </div>
@@ -227,7 +346,7 @@ export const Courses = ({ student }: { student: Student }) => {
 
                 {selectedCourse &&
                     selectedCourse?.results &&
-                    selectedCourse?.results > 0 && (
+                    selectedCourse?.results?.length > 0 && (
                         <div className="p-4">
                             <FinalResult
                                 folders={getFolders}

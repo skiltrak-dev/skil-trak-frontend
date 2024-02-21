@@ -63,32 +63,6 @@ const SubAdminAsAdminActivities: NextPageWithLayout = () => {
             }
         )
 
-    // const count = CommonApi.RecentActivities.useRecentActivitiesCount(
-    //     {
-    //         ...(filterType === FilterType.Today
-    //             ? { currentDate: 1 }
-    //             : filterType === FilterType.Range
-    //             ? {
-    //                   startDate: moment(customRangeDate?.startDate)
-    //                       .add(1, 'days')
-    //                       ?.toISOString(),
-    //                   endDate: moment(customRangeDate?.endDate)
-    //                       .add(1, 'days')
-    //                       ?.toISOString(),
-    //               }
-    //             : filterType === FilterType['7Days']
-    //             ? { last7days: undefined }
-    //             : ''),
-    //         user: subadmin,
-    //     },
-    //     {
-    //         skip:
-    //             filterType === FilterType.Range &&
-    //             (!customRangeDate?.startDate || !customRangeDate?.endDate),
-    //         refetchOnMountOrArgChange: true,
-    //     }
-    // )
-
     const dates = getCommonDates(data?.data)
     return (
         <div className="px-10 py-5">
@@ -106,54 +80,6 @@ const SubAdminAsAdminActivities: NextPageWithLayout = () => {
                 />
             </div>
 
-            {/* {count.isError && (
-                <NoData
-                    text={'There is some technical issue in history count'}
-                />
-            )} */}
-            {/* {count.isLoading ? (
-                <LoadingAnimation size={60} />
-            ) : (
-                count.isSuccess && (
-                    <div
-                        className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-3 gap-4`}
-                    >
-                        <FigureCard
-                            count={count?.data?.callsMadeToStudent}
-                            title={'Calls Made to Students'}
-                            imageUrl={'/images/history/call-made.png'}
-                            onClick={() => {
-                                setTarget('call made to  student')
-                            }}
-                        />
-                        <FigureCard
-                            count={count?.data?.callsMadeToIndustry}
-                            title={'Calls Made to Industry'}
-                            imageUrl={'/images/history/industry-call.png'}
-                            onClick={() => {
-                                setTarget('call made to  industry')
-                            }}
-                        />
-                        <FigureCard
-                            count={count?.data?.notes}
-                            title={'Notes Added'}
-                            imageUrl={'/images/history/notes-added.png'}
-                            onClick={() => {
-                                setTarget('Note Added for')
-                            }}
-                        />
-                        <FigureCard
-                            count={count?.data?.studentProfileViewed}
-                            title={'Student Profile Viewed'}
-                            imageUrl={'/images/history/student-profile.png'}
-                            onClick={() => {
-                                setTarget(' Profile Viewed')
-                            }}
-                        />
-                    </div>
-                )
-            )} */}
-
             {isError && <TechnicalError />}
             {isLoading || isFetching ? (
                 <LoadingAnimation />
@@ -163,7 +89,6 @@ const SubAdminAsAdminActivities: NextPageWithLayout = () => {
                         <HistoryDates
                             history={data?.data}
                             date={date}
-                            // subadmin={subadmin}
                             customRangeDate={customRangeDate}
                             filterType={filterType}
                         />

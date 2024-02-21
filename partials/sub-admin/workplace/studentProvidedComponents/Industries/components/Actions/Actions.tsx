@@ -67,7 +67,7 @@ export const Actions = ({
     const onModalCancelClicked = () => {
         setModal(null)
     }
-   
+
     const onForwardClicked = (industry: any) => {
         setModal(
             <StudentProvidedForwardModal

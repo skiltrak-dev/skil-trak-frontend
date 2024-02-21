@@ -1,16 +1,18 @@
 import {
     Button,
     ContentEditor,
+    InputContentEditor,
     Select,
     TextArea,
     TextInput,
     Typography,
+    htmlToDraftText,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AdminApi } from '@queries'
 import { Course, Sector } from '@types'
 import { isBrowser } from '@utils'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -37,13 +39,22 @@ export const CourseForm = ({
         title: yup.string().required('Title is required'),
         code: yup.string().required('Code is Required'),
         hours: yup.number().required('Hours are required'),
+        sector: yup.number().required('Sector are required'),
     })
 
     const methods = useForm({
         resolver: yupResolver(validationSchema),
-        defaultValues: initialValues,
+        defaultValues: {
+            ...initialValues,
+            requirements: htmlToDraftText(
+                initialValues?.requirements as string
+            ),
+            sector: initialValues?.sector?.id,
+        },
         mode: 'all',
     })
+
+    console.log({ initialValues })
 
     return (
         <FormProvider {...methods}>
@@ -87,6 +98,7 @@ export const CourseForm = ({
                                         value: sector.id,
                                     }))}
                                     loading={isLoading}
+                                    onlyValue
                                 />
                             </div>
                         )}
@@ -125,10 +137,14 @@ export const CourseForm = ({
                     </div>
 
                     <div>
-                        <ContentEditor
+                        {/* <ContentEditor
                             label="Requirement"
                             content={requirementFile}
                             setContent={setRequirementFile}
+                        /> */}
+                        <InputContentEditor
+                            label="Requirement"
+                            name="requirements"
                         />
                     </div>
 
