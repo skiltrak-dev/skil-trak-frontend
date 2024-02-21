@@ -47,7 +47,7 @@ export const AssessmentFolderFileCard = ({
         .reverse()[0]
 
     return (
-        <div className="relative file-view-group">
+        <div className="relative w-full file-view-group">
             <div className=" absolute top-0 z-20 flex justify-between w-full items-center gap-x-1 px-0.5">
                 {file?.uploadedBy && (
                     <div className="file-view-icon transition-all duration-500 bg-white rounded-full shadow-md border border-gray-600 cursor-pointer relative">

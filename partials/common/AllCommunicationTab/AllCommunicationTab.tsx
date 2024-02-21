@@ -43,7 +43,7 @@ export const AllCommunicationTab = ({ user }: { user: any }) => {
                         <LoadingAnimation />
                     </div>
                 ) : allCommunications?.data &&
-                  allCommunications?.data.length ? (
+                  allCommunications?.data.length > 0 ? (
                     getCommonDates(allCommunications?.data)?.map(
                         (date: any) => {
                             return (
@@ -307,7 +307,7 @@ export const AllCommunicationTab = ({ user }: { user: any }) => {
                         }
                     )
                 ) : (
-                    !allCommunications.isError && (
+                    allCommunications.isSuccess && (
                         <EmptyData
                             imageUrl={'/images/icons/common/notes.png'}
                             title="No All Communication Attached"

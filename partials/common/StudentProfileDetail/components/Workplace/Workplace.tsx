@@ -1,4 +1,11 @@
-import { Button, Card, LoadingAnimation, Typography } from '@components'
+import {
+    Button,
+    Card,
+    EmptyData,
+    LoadingAnimation,
+    TechnicalError,
+    Typography,
+} from '@components'
 import React, { ReactElement, useEffect, useState } from 'react'
 import {
     IndustryStatus,
@@ -85,6 +92,11 @@ export const Workplace = ({ studentId }: { studentId: number }) => {
                     )}
 
                 {/*  */}
+                {studentWorkplace.isError ? (
+                    <TechnicalError description={false} />
+                ) : (
+                    ''
+                )}
                 {studentWorkplace?.isLoading ? (
                     <div className="flex flex-col items-center justify-center h-60">
                         <LoadingAnimation size={60} />
@@ -92,7 +104,8 @@ export const Workplace = ({ studentId }: { studentId: number }) => {
                             Workplace Loading...
                         </Typography>
                     </div>
-                ) : (
+                ) : studentWorkplace?.data &&
+                  studentWorkplace?.data?.length > 0 ? (
                     <div>
                         <div className="py-2.5 px-4 border-b border-secondary-dark flex justify-between gap-x-4">
                             <IndustryStatus
@@ -145,6 +158,15 @@ export const Workplace = ({ studentId }: { studentId: number }) => {
                             </Typography>
                         </div>
                     </div>
+                ) : (
+                    studentWorkplace?.isSuccess && (
+                        <EmptyData
+                            imageUrl={'/images/workplace/icon.png'}
+                            title="No Workplace Found"
+                            description="Add a workplace to view workplace here"
+                            height="40vh"
+                        />
+                    )
                 )}
             </Card>
         </>

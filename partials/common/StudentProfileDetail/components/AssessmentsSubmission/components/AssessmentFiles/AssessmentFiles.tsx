@@ -97,8 +97,11 @@ export const AssessmentFiles = ({
             </div>
 
             <div className="h-[70%] overflow-auto custom-scrollbar px-5 py-3">
+                {getAssessmentResponse.isError && (
+                    <NoData text="There is some technical issue!" />
+                )}
                 {filteredFiles && filteredFiles?.length > 0 ? (
-                    <div className=" grid grid-cols-6 gap-1.5">
+                    <div className="grid grid-cols-6 gap-1.5">
                         {filteredFiles?.map((file: any, i: number) => (
                             <AssessmentFolderFileCard
                                 key={file?.id}
