@@ -1,4 +1,11 @@
-import { Button, Card, LoadingAnimation, Typography } from '@components'
+import {
+    Button,
+    Card,
+    EmptyData,
+    LoadingAnimation,
+    TechnicalError,
+    Typography,
+} from '@components'
 import { CommonApi } from '@queries'
 import { TicketCard } from './Card'
 
@@ -25,6 +32,13 @@ export const Tickets = ({ studentId }: { studentId: number }) => {
                 </div>
 
                 <div className="h-[385px] custom-scrollbar overflow-auto">
+                    {tickets.isError ? (
+                        <TechnicalError
+                            description={false}
+                            height={'50vh'}
+                            imageUrl={'/images/icons/common/ticketError.png'}
+                        />
+                    ) : null}
                     <div className="flex flex-col gap-y-3">
                         {tickets.isLoading ? (
                             <div className="flex flex-col items-center justify-center h-60">
@@ -33,10 +47,20 @@ export const Tickets = ({ studentId }: { studentId: number }) => {
                                     Tickets Loading...
                                 </Typography>
                             </div>
-                        ) : (
+                        ) : tickets?.data?.data &&
+                          tickets?.data?.data?.length > 0 ? (
                             tickets?.data?.data?.map((ticket: any) => (
                                 <TicketCard key={ticket?.id} ticket={ticket} />
                             ))
+                        ) : (
+                            tickets?.isSuccess && (
+                                <EmptyData
+                                    imageUrl={'/images/ticketIcon.png'}
+                                    title="No Tickets Found"
+                                    description="No Tickets were Found"
+                                    height="40vh"
+                                />
+                            )
                         )}
                     </div>
                 </div>

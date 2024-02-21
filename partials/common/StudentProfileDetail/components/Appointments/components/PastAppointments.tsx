@@ -2,7 +2,7 @@ import { CommonApi } from '@queries'
 import { Appointment } from '@types'
 import React from 'react'
 import { AppointmentCard } from '../Card'
-import { LoadingAnimation, Typography } from '@components'
+import { EmptyData, LoadingAnimation, Typography } from '@components'
 
 export const PastAppointments = ({ userId }: { userId: number }) => {
     const pastAppointments = CommonApi.Appointments.useBookedAppointments({
@@ -19,7 +19,8 @@ export const PastAppointments = ({ userId }: { userId: number }) => {
                             Appointments Loading...
                         </Typography>
                     </div>
-                ) : (
+                ) : pastAppointments?.data &&
+                  pastAppointments?.data?.length > 0 ? (
                     pastAppointments?.data?.data?.map(
                         (appointment: Appointment) => (
                             <AppointmentCard
@@ -28,6 +29,17 @@ export const PastAppointments = ({ userId }: { userId: number }) => {
                                 appointment={appointment}
                             />
                         )
+                    )
+                ) : (
+                    pastAppointments.isSuccess && (
+                        <EmptyData
+                            imageUrl={
+                                '/images/icons/placement-progress/appointment.png'
+                            }
+                            title="No Past Appointment Found"
+                            description="No Past Appointment Found"
+                            height="40vh"
+                        />
                     )
                 )}
             </div>

@@ -2,11 +2,6 @@ import { useCallback, useRef } from 'react'
 import { FreeMode, Pagination } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
-// Import Swiper styles
-import 'swiper/css'
-import 'swiper/css/free-mode'
-import 'swiper/css/pagination'
-
 // components
 import { LoadingAnimation } from '@components/LoadingAnimation'
 

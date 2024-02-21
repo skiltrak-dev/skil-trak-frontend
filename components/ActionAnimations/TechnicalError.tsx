@@ -1,15 +1,17 @@
 import { Animations } from '@animations'
+import Image from 'next/image'
 import Lottie from 'react-lottie'
-import { string } from 'yup'
 
 export const TechnicalError = ({
     title,
     height,
     description = true,
+    imageUrl,
 }: {
     title?: string
     height?: string
     description?: boolean
+    imageUrl?: string
 }) => {
     const animationOptions = {
         loop: true,
@@ -22,9 +24,21 @@ export const TechnicalError = ({
             className="flex flex-col items-center justify-center w-3/5 mx-auto py-8 rounded-lg my-8"
             style={{ height: height || '70vh' }}
         >
-            {/* <IoWarning className="text-4xl text-error mb-2" /> */}
             <div>
-                <Lottie options={animationOptions} height={250} width={250} />
+                {imageUrl ? (
+                    <Image
+                        src={imageUrl}
+                        width={80}
+                        height={80}
+                        alt={'No Data'}
+                    />
+                ) : (
+                    <Lottie
+                        options={animationOptions}
+                        height={250}
+                        width={250}
+                    />
+                )}
             </div>
             <h3 className="text-2xl font-bold text-gray-500 mb-2">
                 {title || 'Some thing is not right'}

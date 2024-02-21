@@ -1,17 +1,9 @@
-import React from 'react'
 import Image from 'next/image'
+import { A11y, Autoplay } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay, A11y } from 'swiper'
-import { css } from '@emotion/react'
 
-// Import Swiper styles
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
-import 'swiper/css/scrollbar'
-
-import { SlideContent } from './SlideContent'
 import { FeatureSlider } from './FeatureSlider'
+import { SlideContent } from './SlideContent'
 
 export const HomeSlider = () => {
     return (

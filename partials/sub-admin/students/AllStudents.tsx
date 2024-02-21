@@ -214,6 +214,15 @@ export const AllStudents = () => {
                 Icon: FaEye,
             },
             {
+                text: 'New Profile',
+                onClick: (student: Student) => {
+                    router.push(
+                        `/portals/sub-admin/students/${student.id}/detail`
+                    )
+                },
+                Icon: FaEye,
+            },
+            {
                 text: student?.subadmin ? 'Un Assign' : 'Assign to me',
                 onClick: (student: Student) => onAssignStudentClicked(student),
                 Icon: MdBlock,

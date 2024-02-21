@@ -1,4 +1,11 @@
-import { Button, Card, LoadingAnimation, Typography } from '@components'
+import {
+    Button,
+    Card,
+    EmptyData,
+    LoadingAnimation,
+    TechnicalError,
+    Typography,
+} from '@components'
 import { CommonApi } from '@queries'
 import { ReactElement, useState } from 'react'
 import { AddNoteModal } from '../../modals'
@@ -27,6 +34,13 @@ export const Notes = ({ userId }: { userId: number }) => {
                 </div>
 
                 <div className="px-4">
+                    {notes.isError ? (
+                        <TechnicalError
+                            height="50vh"
+                            description={false}
+                            imageUrl={'/images/icons/common/notesError.png'}
+                        />
+                    ) : null}
                     <div className="h-[425px] custom-scrollbar overflow-auto">
                         <div className="flex flex-col gap-y-3">
                             {notes.isLoading ? (
@@ -36,10 +50,21 @@ export const Notes = ({ userId }: { userId: number }) => {
                                         Notes Loading...
                                     </Typography>
                                 </div>
-                            ) : (
+                            ) : notes?.data && notes?.data?.length > 0 ? (
                                 notes?.data?.map((note: any) => (
                                     <NoteCard key={note?.id} note={note} />
                                 ))
+                            ) : (
+                                notes.isSuccess && (
+                                    <EmptyData
+                                        imageUrl={
+                                            '/images/icons/common/notes.png'
+                                        }
+                                        title="No Notes Attached"
+                                        description="Attach a note to view notes here"
+                                        height="40vh"
+                                    />
+                                )
                             )}
                         </div>
                     </div>
