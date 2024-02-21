@@ -1,15 +1,25 @@
 import { Button, Card, Typography } from '@components'
-import { Student } from '@types'
-import { ReactElement, useState } from 'react'
+import { Course, Student } from '@types'
+import { ReactElement, useCallback, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
 import OutsideClickHandler from 'react-outside-click-handler'
-import { Courses } from './components'
+import {
+    ArchivedAssessments,
+    Courses,
+    DownloadAssessmentFiles,
+} from './components'
+import { AssessmentType } from './enums'
 
 export const AssessmentSubmissions = ({ student }: { student: Student }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [isOpened, setIsOpened] = useState<boolean>(false)
     const [selectedAssessment, setSelectedAssessment] =
-        useState<string>('Active')
+        useState<AssessmentType>(AssessmentType.Active)
+    const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
+
+    const onSetSelectedCourse = useCallback((id: number | undefined) => {
+        setSelectedCourse(Number(id))
+    }, [])
 
     return (
         <>
@@ -26,7 +36,12 @@ export const AssessmentSubmissions = ({ student }: { student: Student }) => {
                             }}
                         >
                             <div className="w-40 relative">
-                                <div className="w-full relative cursor-pointer px-4 py-[8.5px] flex justify-evenly gap-x-2 rounded-md border border-[#128C7E] overflow-hidden">
+                                <div
+                                    onClick={() => {
+                                        setIsOpened(!isOpened)
+                                    }}
+                                    className="w-full relative cursor-pointer px-4 py-[8.5px] flex justify-evenly gap-x-2 rounded-md border border-[#128C7E] overflow-hidden"
+                                >
                                     <Typography
                                         variant="small"
                                         color="text-[#128C7E]"
@@ -39,14 +54,22 @@ export const AssessmentSubmissions = ({ student }: { student: Student }) => {
                                     <IoIosArrowDown />
                                 </div>
                                 <div
-                                    className={`w-auto  bg-white shadow-md rounded-md z-10 absolute top-full left-0 overflow-auto custom-scrollbar transition-all duration-500 ${
+                                    className={`w-full  bg-white shadow-md rounded-md z-10 absolute top-full left-0 overflow-auto custom-scrollbar transition-all duration-500 ${
                                         isOpened ? 'max-h-72' : 'max-h-0'
                                     }`}
                                 >
-                                    {['Active', 'Archived'].map(
+                                    {Object.values(AssessmentType).map(
                                         (type, index) => (
                                             <div
-                                                className={`px-2 border-b border-gray-100 py-2 w-full cursor-pointer hover:bg-gray-100 `}
+                                                onClick={() => {
+                                                    setSelectedAssessment(type)
+                                                    setIsOpened(!isOpened)
+                                                }}
+                                                className={`px-2 border-b border-gray-100 py-2 w-full cursor-pointer ${
+                                                    selectedAssessment === type
+                                                        ? 'bg-gray-200'
+                                                        : 'bg-white'
+                                                } hover:bg-gray-100 `}
                                                 key={index}
                                             >
                                                 <Typography
@@ -61,12 +84,26 @@ export const AssessmentSubmissions = ({ student }: { student: Student }) => {
                                 </div>
                             </div>
                         </OutsideClickHandler>
-                        <Button>Download All Files</Button>
+                        <DownloadAssessmentFiles
+                            studentId={student?.id}
+                            studentProfile={student}
+                            selectedCourse={selectedCourse}
+                        />
                     </div>
                 </div>
 
                 <div className="border-b border-secondary-dark">
-                    <Courses student={student} />
+                    {selectedAssessment === AssessmentType.Active ? (
+                        <Courses
+                            student={student}
+                            onSetSelectedCourse={onSetSelectedCourse}
+                        />
+                    ) : selectedAssessment === AssessmentType.Archived ? (
+                        <ArchivedAssessments
+                            student={student}
+                            onSetSelectedCourse={onSetSelectedCourse}
+                        />
+                    ) : null}
                 </div>
             </Card>
         </>

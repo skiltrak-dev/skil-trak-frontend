@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from 'react'
 
-import { BackButton, Card, Popup } from '@components'
+import { BackButton, Card, Popup, draftToHtmlText } from '@components'
 import { PageHeading } from '@components/headings'
 import { useAlert, useNavbar, useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
@@ -23,10 +23,10 @@ const CourseAddPage: NextPageWithLayout = () => {
     }, [])
 
     const onSubmit = async (values: any) => {
+        const requirements = draftToHtmlText(values?.requirements)
         const body = {
             ...values,
-            sector: values.sector.value,
-            ...(requirementFile ? { requirements: requirementFile } : {}),
+            requirements,
         }
         await add(body)
     }

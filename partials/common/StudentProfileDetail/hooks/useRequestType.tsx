@@ -1,5 +1,6 @@
 import React, { ReactElement, useState } from 'react'
 import {
+    ApproveRequestModal,
     CompleteWorkplaceModal,
     ForwardModal,
     InterviewModal,
@@ -9,6 +10,8 @@ import {
 } from '@partials/sub-admin/workplace/modals'
 import { WorkplaceCurrentStatus } from '@utils'
 import { useNotification } from '@hooks'
+import { isClearedFunctionType } from '@partials/sub-admin/workplace/studentProvidedComponents/RequestTypeAbn'
+import { UserStatus } from '@types'
 
 export const useRequestType = ({
     appliedIndustry,
@@ -90,6 +93,15 @@ export const useRequestType = ({
     const industryResponse = workplace?.industries?.find(
         (wp: any) => wp?.industryResponseDate
     )
+
+    const onApproveModal = () => {
+        setModal(
+            <ApproveRequestModal
+                appliedIndustryId={appliedIndustry?.id}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
 
     const requestTypeActions = [
         {
@@ -222,7 +234,12 @@ export const useRequestType = ({
             secondaryText: 'Placement Started',
             color: 'text-success-dark',
             onClick: (isCleared: (bool: boolean) => void) => {
-                if (workplace?.currentStatus === 'awaitingAgreementSigned') {
+                if (
+                    workplace?.currentStatus ===
+                        WorkplaceCurrentStatus.AwaitingAgreementSigned ||
+                    workplace?.currentStatus ===
+                        WorkplaceCurrentStatus.AgreementSigned
+                ) {
                     onPlacementStartedClicked(Number(appliedIndustry?.id))
                     isCleared(true)
                 } else {
@@ -282,5 +299,292 @@ export const useRequestType = ({
             date: industryResponse?.industryResponseDate,
         },
     ]
-    return { requestTypeActions, modal }
+
+    const studentProvidedRequestTypeActions = [
+        {
+            primaryText: 'Request Sent',
+            secondaryText: 'No Case Officer',
+            color: 'text-primary-dark',
+            onClick: () => {},
+            status: 'applied',
+            date: appliedIndustry?.appliedDate,
+        },
+        {
+            primaryText: 'Assigned',
+            secondaryText: 'Case Officer',
+            color: 'text-primary',
+            onClick: () => {},
+            status: 'caseOfficerAssigned',
+            date: appliedIndustry?.caseOfficerAssignedDate,
+        },
+        {
+            primaryText: 'Interview',
+            secondaryText: 'with Case Officer',
+            color: 'text-primary-light',
+            onClick: (isCleared: any) => {
+                isCleared(true)
+                // interView(appliedIndustry?.id)
+                onInterviewClicked()
+            },
+            status: 'interview',
+            date: appliedIndustry?.interviewDate,
+        },
+        {
+            primaryText: 'Agreement & Eligibility ',
+            secondaryText: 'Checklist Pending',
+            color: 'text-info',
+            onClick: (isCleared: any) => {
+                isCleared(false)
+                if (workplace?.currentStatus === 'awaitingWorkplaceResponse') {
+                    notification.info({
+                        title: 'Approve or reject the Request',
+                        description:
+                            'Before uploading agreement you must have to Approve the workplace request',
+                    })
+                    isCleared(false)
+                } else {
+                    isCleared(false)
+                    notification.error({
+                        title: 'Forward the request to Industry',
+                        description:
+                            'You Must have to Forward the request to Industry before uploading agreement',
+                    })
+                }
+            },
+            status: 'awaitingAgreementSigned',
+            date: appliedIndustry?.awaitingAgreementSignedDate,
+        },
+        {
+            primaryText: 'Agreement & Eligibility ',
+            secondaryText: 'Checklist Signed',
+            color: 'text-success',
+            onClick: (isCleared: any) => {
+                if (workplace?.currentStatus === 'awaitingAgreementSigned') {
+                    notification.info({
+                        title: 'Agreement Sign',
+                        description:
+                            'Now You can upload the agreement file on th workplace which is provided by student or you can request to student to upload the agreement file',
+                    })
+                    isCleared(false)
+                } else {
+                    isCleared(false)
+                    notification.error({
+                        title: 'Approve or reject',
+                        description:
+                            'You must have to Approve the workplace request',
+                    })
+                }
+            },
+            status: 'AgreementSigned',
+            date: appliedIndustry?.AgreementSignedDate,
+        },
+        {
+            primaryText: 'Placement Started',
+            secondaryText: 'Placement Started',
+            color: 'text-success-dark',
+            onClick: (isCleared: any) => {
+                if (workplace?.currentStatus === 'AgreementSigned') {
+                    onPlacementStartedClicked(Number(appliedIndustry?.id))
+                    isCleared(true)
+                } else {
+                    notification.error({
+                        title: 'First Approve the workplace',
+                        description:
+                            'Placement cannot start without approving the workplace',
+                    })
+                    isCleared(false)
+                }
+            },
+            status: 'placementStarted',
+            date: appliedIndustry?.placementStartedDate,
+        },
+        {
+            primaryText: 'Completed',
+            secondaryText: 'Completed',
+            color: 'text-error',
+            onClick: () => {
+                onCompleteClicked()
+            },
+            status: 'completed',
+            date: appliedIndustry?.isCompletedDate,
+        },
+        {
+            primaryText: 'Cancelled',
+            secondaryText: 'Cancelled',
+            color: 'text-error',
+            onClick: () => {},
+            status: 'cancelled',
+            date: appliedIndustry?.cancelledDate,
+        },
+        {
+            primaryText: 'Rejected',
+            secondaryText: 'Rejected',
+            color: 'text-error',
+            onClick: () => {},
+            status: 'rejected',
+        },
+        {
+            primaryText: 'Terminated',
+            secondaryText: 'Terminated',
+            color: 'text-error',
+            onClick: () => {
+                onTerminateClicked()
+            },
+            status: 'terminated',
+            date: appliedIndustry?.terminatedDate,
+        },
+    ]
+
+    const abnRequestTypeActions = [
+        {
+            primaryText: 'Request Sent',
+            secondaryText: 'No Case Officer',
+            color: 'text-primary-dark',
+            onClick: () => {},
+            status: 'applied',
+            date: appliedIndustry?.appliedDate,
+        },
+        {
+            primaryText: 'Assigned',
+            secondaryText: 'Case Officer',
+            color: 'text-primary',
+            onClick: () => {},
+            status: 'caseOfficerAssigned',
+            date: appliedIndustry?.caseOfficerAssignedDate,
+        },
+        {
+            primaryText: 'Waiting',
+            secondaryText: 'for Workplace Response',
+            color: 'text-info-light',
+            onClick: (isCleared: isClearedFunctionType) => {
+                if (
+                    workplace?.assignedTo &&
+                    workplace?.industryStatus === UserStatus.Approved
+                ) {
+                    onForwardClicked(appliedIndustry)
+                    isCleared(true)
+                } else {
+                    notification.warning({
+                        title: 'Industry Not Approved',
+                        description: 'Approve the Industry before Forward',
+                    })
+                }
+            },
+            status: 'awaitingWorkplaceResponse',
+            date: appliedIndustry?.awaitingWorkplaceResponseDate,
+        },
+        {
+            primaryText: 'Agreement & Eligibility ',
+            secondaryText: 'Checklist Pending',
+            color: 'text-info',
+            onClick: (isCleared: isClearedFunctionType) => {
+                isCleared(false)
+                if (
+                    workplace?.currentStatus ===
+                    WorkplaceCurrentStatus.AwaitingWorkplaceResponse
+                ) {
+                    onApproveModal()
+                    isCleared(false)
+                } else {
+                    isCleared(false)
+                    notification.error({
+                        title: 'Forward the request to Industry',
+                        description:
+                            'You Must have to Forward the request to Industry before uploading agreement',
+                    })
+                }
+            },
+            status: 'awaitingAgreementSigned',
+            date: appliedIndustry?.awaitingAgreementSignedDate,
+        },
+        {
+            primaryText: 'Agreement & Eligibility ',
+            secondaryText: 'Checklist Signed',
+            color: 'text-success',
+            onClick: (isCleared: isClearedFunctionType) => {
+                if (workplace?.currentStatus === 'awaitingAgreementSigned') {
+                    notification.info({
+                        title: 'Upload Agrement',
+                        description:
+                            'Upload Agrement on clicking sign agreement button',
+                    })
+                    isCleared(false)
+                } else {
+                    isCleared(false)
+                    notification.info({
+                        title: 'Upload Agrement',
+                        description:
+                            'Upload Agrement on clicking sign agreement button',
+                    })
+                }
+            },
+            status: 'AgreementSigned',
+            date: appliedIndustry?.AgreementSignedDate,
+        },
+        {
+            primaryText: 'Placement Started',
+            secondaryText: 'Placement Started',
+            color: 'text-success-dark',
+            onClick: (isCleared: isClearedFunctionType) => {
+                if (
+                    workplace?.currentStatus === 'awaitingWorkplaceResponse' ||
+                    workplace?.currentStatus === 'AgreementSigned' ||
+                    workplace?.currentStatus === 'awaitingAgreementSigned'
+                ) {
+                    onPlacementStartedClicked(Number(appliedIndustry?.id))
+                    isCleared(true)
+                } else {
+                    notification.error({
+                        title: 'Forward the request to Industry',
+                        description:
+                            'You Must have to Forward the request to Industry before start placement',
+                    })
+                    isCleared(false)
+                }
+            },
+            status: 'placementStarted',
+            date: appliedIndustry?.placementStartedDate,
+        },
+        {
+            primaryText: 'Completed',
+            secondaryText: 'Completed',
+            color: 'text-error',
+            onClick: () => {
+                onCompleteClicked()
+            },
+            status: 'completed',
+            date: appliedIndustry?.isCompletedDate,
+        },
+        {
+            primaryText: 'Cancelled',
+            secondaryText: 'Cancelled',
+            color: 'text-error',
+            onClick: () => {},
+            status: 'cancelled',
+            date: appliedIndustry?.cancelledDate,
+        },
+        {
+            primaryText: 'Rejected',
+            secondaryText: 'Rejected',
+            color: 'text-error',
+            onClick: () => {},
+            status: 'rejected',
+        },
+        {
+            primaryText: 'Terminated',
+            secondaryText: 'Terminated',
+            color: 'text-error',
+            onClick: () => {
+                onTerminateClicked()
+            },
+            status: 'terminated',
+            date: appliedIndustry?.terminatedDate,
+        },
+    ]
+    return {
+        modal,
+        requestTypeActions,
+        abnRequestTypeActions,
+        studentProvidedRequestTypeActions,
+    }
 }

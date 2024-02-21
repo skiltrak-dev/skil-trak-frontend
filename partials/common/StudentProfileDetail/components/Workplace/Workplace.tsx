@@ -1,27 +1,29 @@
 import {
-    Button,
     Card,
     EmptyData,
-    LoadingAnimation,
-    TechnicalError,
     Typography,
+    TechnicalError,
+    LoadingAnimation,
+    AuthorizedUserComponent,
 } from '@components'
-import React, { ReactElement, useEffect, useState } from 'react'
+import { UserRoles } from '@constants'
+import { GetFolders } from '@partials/sub-admin/workplace/hooks'
 import {
+    useGetWorkplaceFoldersQuery,
+    useGetSubAdminStudentWorkplaceDetailQuery,
+} from '@queries'
+import moment from 'moment'
+import { ReactElement, useEffect, useState } from 'react'
+import {
+    WorkplaceTab,
     IndustryStatus,
     ViewAvailability,
-    WorkplaceCoordinators,
     WorkplaceHistory,
+    AddWorkplaceAction,
     WorkplaceStatusView,
-    WorkplaceTab,
+    WorkplaceCoordinators,
 } from './components'
-import {
-    useGetSubAdminStudentWorkplaceDetailQuery,
-    useGetWorkplaceFoldersQuery,
-} from '@queries'
-import { GetFolders } from '@partials/sub-admin/workplace/hooks'
 import { IndustryDetail } from './components/IndustryDetail'
-import moment from 'moment'
 
 export const Workplace = ({ studentId }: { studentId: number }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -70,7 +72,9 @@ export const Workplace = ({ studentId }: { studentId: number }) => {
                     <Typography variant="label" semibold>
                         Workplace
                     </Typography>
-                    <Button>Add Workplace</Button>
+                    <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                        <AddWorkplaceAction id={studentId} />
+                    </AuthorizedUserComponent>
                 </div>
 
                 {studentWorkplace?.data &&

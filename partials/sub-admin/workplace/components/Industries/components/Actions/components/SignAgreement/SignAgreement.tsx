@@ -42,7 +42,7 @@ export const SignAgreement = ({
         )
     }
 
-    const course = courses[0]
+    const course = courses?.[0]
 
     return (
         <>
