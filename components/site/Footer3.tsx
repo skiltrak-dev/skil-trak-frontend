@@ -89,7 +89,7 @@ export const Footer3 = () => {
                             <Link href="/">
                                 <Typography
                                     variant="body"
-                                    color="text-[#aeaeae]"
+                                    color="text-gray-300"
                                 >
                                     Home
                                 </Typography>
@@ -97,7 +97,7 @@ export const Footer3 = () => {
                             <Link href="/features">
                                 <Typography
                                     variant="body"
-                                    color="text-[#aeaeae]"
+                                    color="text-gray-300"
                                 >
                                     Features
                                 </Typography>
@@ -105,7 +105,7 @@ export const Footer3 = () => {
                             <Link href="/contact-us">
                                 <Typography
                                     variant="body"
-                                    color="text-[#aeaeae]"
+                                    color="text-gray-300"
                                 >
                                     Contact Us
                                 </Typography>
@@ -113,7 +113,7 @@ export const Footer3 = () => {
                             <Link href="/about-us">
                                 <Typography
                                     variant="body"
-                                    color="text-[#aeaeae]"
+                                    color="text-gray-300"
                                 >
                                     Abouts
                                 </Typography>

@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { A11y, Autoplay } from 'swiper'
+import { A11y, Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import { FeatureSlider } from './FeatureSlider'

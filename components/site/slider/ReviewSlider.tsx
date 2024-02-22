@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { Autoplay, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper'
 
 import { ReviewSlide } from './ReviewSlide'
 
@@ -16,8 +16,7 @@ export const ReviewSlider = () => {
             .then((res) => {
                 setReviewList(res.data)
             })
-            .catch((err) => {
-            })
+            .catch((err) => {})
     }, [])
 
     return reviewList.length > 0 ? (
@@ -45,7 +44,7 @@ export const ReviewSlider = () => {
                 },
             }}
         >
-            {reviewList.map((slide:any, i:any) => (
+            {reviewList.map((slide: any, i: any) => (
                 <SwiperSlide key={i}>
                     <ReviewSlide content={slide} />
                 </SwiperSlide>
@@ -55,4 +54,3 @@ export const ReviewSlider = () => {
         <ReviewContentLoader />
     )
 }
-

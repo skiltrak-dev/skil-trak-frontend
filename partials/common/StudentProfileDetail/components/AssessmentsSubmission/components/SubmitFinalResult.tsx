@@ -6,10 +6,10 @@ import * as Yup from 'yup'
 // components
 import {
     Button,
-    Checkbox,
     Select,
-    ShowErrorNotifications,
+    Checkbox,
     TextArea,
+    ShowErrorNotifications,
 } from '@components'
 
 // query
@@ -64,33 +64,18 @@ export const SubmitFinalResult = ({
         methods.setValue('finalComment', finalComment())
     }, [])
 
-    const role = getUserCredentials()?.role
-
-    useEffect(() => {
-        if (submitAssessmentEvidenceResult.isSuccess) {
-            pathname.push(
-                role === UserRoles.ADMIN
-                    ? {
-                          pathname: `/portals/admin/student/${studentId}`,
-                          query: { tab: 'submissions' },
-                      }
-                    : role === UserRoles.SUBADMIN
-                    ? {
-                          pathname: `/portals/sub-admin/students/${studentId}`,
-                          query: { tab: 'submissions' },
-                      }
-                    : '#'
-            )
-            setEditAssessment(false)
-            notification.success({
-                title: 'Result Added',
-                description: 'Result Added Successfully',
-            })
-        }
-    }, [submitAssessmentEvidenceResult])
-
     const onSubmit = (values: AssessmentFinalCommentFormType) => {
-        submitAssessmentEvidence({ id: result?.id, body: values })
+        submitAssessmentEvidence({ id: result?.id, body: values }).then(
+            (res: any) => {
+                if (res?.data) {
+                    setEditAssessment(false)
+                    notification.success({
+                        title: 'Result Added',
+                        description: 'Result Added Successfully',
+                    })
+                }
+            }
+        )
     }
 
     const ResultOptions = [

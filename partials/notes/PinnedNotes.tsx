@@ -3,7 +3,7 @@ import { PinedNotesStyles } from '@components/sections/subAdmin/components/Pinne
 import { CommonApi } from '@queries'
 import { useCallback, useRef } from 'react'
 import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa'
-import { FreeMode, Pagination } from 'swiper'
+import { FreeMode, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 export const PinnedNotes = ({

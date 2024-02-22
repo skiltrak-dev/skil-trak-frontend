@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react'
-import { FreeMode, Pagination } from 'swiper'
+import { FreeMode, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 // components

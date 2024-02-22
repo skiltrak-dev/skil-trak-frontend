@@ -12,6 +12,7 @@ import { WorkplaceCurrentStatus } from '@utils'
 import { useNotification } from '@hooks'
 import { isClearedFunctionType } from '@partials/sub-admin/workplace/studentProvidedComponents/RequestTypeAbn'
 import { UserStatus } from '@types'
+import { CancelWorlplaceModal } from '../components'
 
 export const useRequestType = ({
     appliedIndustry,
@@ -99,6 +100,15 @@ export const useRequestType = ({
             <ApproveRequestModal
                 appliedIndustryId={appliedIndustry?.id}
                 onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
+    const onCancelClicked = () => {
+        setModal(
+            <CancelWorlplaceModal
+                onCancel={onModalCancelClicked}
+                workplaceId={workplace?.id}
             />
         )
     }
@@ -268,7 +278,9 @@ export const useRequestType = ({
             primaryText: 'Cancelled',
             secondaryText: 'Cancelled',
             color: 'text-error',
-            onClick: () => {},
+            onClick: () => {
+                onCancelClicked()
+            },
             status: WorkplaceCurrentStatus.Cancelled,
             date: appliedIndustry?.cancelledDate,
         },
@@ -412,7 +424,9 @@ export const useRequestType = ({
             primaryText: 'Cancelled',
             secondaryText: 'Cancelled',
             color: 'text-error',
-            onClick: () => {},
+            onClick: () => {
+                onCancelClicked()
+            },
             status: 'cancelled',
             date: appliedIndustry?.cancelledDate,
         },
@@ -559,7 +573,9 @@ export const useRequestType = ({
             primaryText: 'Cancelled',
             secondaryText: 'Cancelled',
             color: 'text-error',
-            onClick: () => {},
+            onClick: () => {
+                onCancelClicked()
+            },
             status: 'cancelled',
             date: appliedIndustry?.cancelledDate,
         },
