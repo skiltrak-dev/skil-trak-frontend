@@ -1,7 +1,7 @@
 import { Appointment } from '@types'
 import { useRef, useState } from 'react'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
-import { Navigation } from 'swiper'
+import { Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { UpcomingAppointmentCard } from './UpcomingAppointmentCard'
 import { HeroSliderContainer } from './style'

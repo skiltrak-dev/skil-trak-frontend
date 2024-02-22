@@ -5,6 +5,7 @@ import {
     TechnicalError,
     LoadingAnimation,
     AuthorizedUserComponent,
+    ActionButton,
 } from '@components'
 import { UserRoles } from '@constants'
 import { GetFolders } from '@partials/sub-admin/workplace/hooks'
@@ -24,11 +25,19 @@ import {
     WorkplaceCoordinators,
 } from './components'
 import { IndustryDetail } from './components/IndustryDetail'
+import { AddSecondWPCB } from '@partials/sub-admin/students/contextBar'
+import { useContextBar } from '@hooks'
 
-export const Workplace = ({ studentId }: { studentId: number }) => {
-    const [modal, setModal] = useState<ReactElement | null>(null)
-    const [active, setActive] = useState<number>(0)
+export const Workplace = ({
+    studentId,
+    studentUserId,
+}: {
+    studentUserId: number
+    studentId: number
+}) => {
     const [selectedWorkplace, setSelectedWorkplace] = useState<any>(null)
+
+    const contextBar = useContextBar()
 
     const studentWorkplace = useGetSubAdminStudentWorkplaceDetailQuery(
         studentId,
@@ -45,7 +54,7 @@ export const Workplace = ({ studentId }: { studentId: number }) => {
 
     const workplaceFolders = useGetWorkplaceFoldersQuery(
         {
-            workplaceId: Number(studentWorkplace?.data?.id),
+            workplaceId: Number(selectedWorkplace?.id),
             appliedIndustryId: appliedIndustry?.industry?.id,
             courseId: course?.id,
         },
@@ -64,17 +73,38 @@ export const Workplace = ({ studentId }: { studentId: number }) => {
         }
     }, [studentWorkplace])
 
+    console.log({ selectedWorkplace })
+
     return (
         <>
-            {modal}
             <Card noPadding fullHeight>
                 <div className="px-4 py-3.5 flex justify-between items-center border-b border-secondary-dark">
                     <Typography variant="label" semibold>
                         Workplace
                     </Typography>
-                    <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
-                        <AddWorkplaceAction id={studentId} />
-                    </AuthorizedUserComponent>
+                    {studentWorkplace?.data &&
+                    studentWorkplace?.data?.length === 1 ? (
+                        <div className="whitespace-pre">
+                            <ActionButton
+                                variant={'link'}
+                                onClick={() => {
+                                    contextBar.setContent(
+                                        <AddSecondWPCB
+                                            studentId={studentId}
+                                            studentUserId={studentUserId}
+                                        />
+                                    )
+                                    contextBar.show(false)
+                                }}
+                            >
+                                Add Second
+                            </ActionButton>
+                        </div>
+                    ) : studentWorkplace?.data?.length === 0 ? (
+                        <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                            <AddWorkplaceAction id={studentId} />
+                        </AuthorizedUserComponent>
+                    ) : null}
                 </div>
 
                 {studentWorkplace?.data &&
@@ -85,9 +115,12 @@ export const Workplace = ({ studentId }: { studentId: number }) => {
                                     <WorkplaceTab
                                         index={i}
                                         key={workplace.id}
-                                        active={active === i}
+                                        active={
+                                            selectedWorkplace?.id ===
+                                            workplace?.id
+                                        }
                                         onClick={() => {
-                                            setActive(i)
+                                            setSelectedWorkplace(workplace)
                                         }}
                                     />
                                 )

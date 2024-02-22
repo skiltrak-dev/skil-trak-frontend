@@ -22,13 +22,30 @@ export const IndustryStatus = ({
 
     const { notification } = useNotification()
 
-    const { modal, requestTypeActions } = useRequestType({
+    const {
+        modal,
+        requestTypeActions,
+        abnRequestTypeActions,
+        studentProvidedRequestTypeActions,
+    } = useRequestType({
         folders,
         workplace,
         appliedIndustry,
     })
 
-    const findStatusIndex = requestTypeActions.findIndex(
+    const requestsTypes = () => {
+        if (workplace?.studentProvidedWorkplace) {
+            return studentProvidedRequestTypeActions
+        } else if (workplace?.byExistingAbn) {
+            return abnRequestTypeActions
+        } else {
+            return requestTypeActions
+        }
+    }
+
+    const types = requestsTypes()
+
+    const findStatusIndex = types?.findIndex(
         (r) => r.status === workplace?.currentStatus
     )
 
@@ -37,6 +54,13 @@ export const IndustryStatus = ({
             setSelectedRequestType(findStatusIndex)
         }
     }, [findStatusIndex])
+
+    console.log({
+        types: types[selectedRequestType as any],
+        selectedRequestType,
+        findStatusIndex,
+        currentStatus: workplace?.currentStatus,
+    })
 
     return (
         <div className="flex flex-col gap-y-1.5">
@@ -54,8 +78,8 @@ export const IndustryStatus = ({
                         onClick={() => {
                             if (workplace?.assignedTo) {
                                 if (
-                                    !appliedIndustry?.terminated ||
-                                    !appliedIndustry?.isCompleted ||
+                                    !appliedIndustry?.terminated &&
+                                    !appliedIndustry?.isCompleted &&
                                     !appliedIndustry?.cancelled
                                 ) {
                                     setIsOpened(!isOpened)
@@ -82,8 +106,12 @@ export const IndustryStatus = ({
                             uppercase
                         >
                             {
-                                requestTypeActions[selectedRequestType as any]
-                                    ?.primaryText
+                                types[
+                                    selectedRequestType &&
+                                    selectedRequestType > 0
+                                        ? selectedRequestType
+                                        : (0 as any)
+                                ]?.primaryText
                             }
                         </Typography>
 
@@ -94,7 +122,7 @@ export const IndustryStatus = ({
                             isOpened ? 'max-h-72' : 'max-h-0'
                         }`}
                     >
-                        {requestTypeActions.map((status, index) => (
+                        {types.map((status, index) => (
                             <div
                                 className={`px-2 border-b border-gray-100 py-2 w-full cursor-pointer hover:bg-gray-100 ${
                                     workplace?.currentStatus === status?.status
@@ -128,13 +156,13 @@ export const IndustryStatus = ({
                     </div>
                 </div>
             </OutsideClickHandler>
-            {requestTypeActions[selectedRequestType as any]?.date && (
+            {types[selectedRequestType as any]?.date && (
                 <Typography>
                     <span className="text-[10px] font-semibold">
                         Status Updated :{' '}
-                        {moment(
-                            requestTypeActions[selectedRequestType as any]?.date
-                        ).format('Do MMM YYYY')}
+                        {moment(types[selectedRequestType as any]?.date).format(
+                            'Do MMM YYYY'
+                        )}
                     </span>
                 </Typography>
             )}

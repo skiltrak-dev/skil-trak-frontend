@@ -60,6 +60,7 @@ export interface StudentResponseType extends BaseResponse {
     comment: string
     status: string
     files: FileType[]
+    reSubmitted: boolean
 }
 
 export interface AssessmentEvidenceDetailType extends BaseResponse {

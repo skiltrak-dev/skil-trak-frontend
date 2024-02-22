@@ -4,5 +4,4 @@ export const HeroSliderContainer = styled.div`
     .swiper {
         position: static !important;
     }
-    
 `

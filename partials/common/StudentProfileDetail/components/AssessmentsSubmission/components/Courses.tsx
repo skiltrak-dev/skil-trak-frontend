@@ -212,7 +212,7 @@ export const Courses = ({
                         />
                     </div>
                     <div className="col-span-2 h-[inherit]">
-                        <div className="h-[88%]">
+                        <div className="h-[84%]">
                             <AssessmentFiles
                                 selectedFolder={selectedFolder}
                                 course={selectedCourse}
@@ -319,7 +319,7 @@ export const Courses = ({
             {/*  */}
             <div>
                 {result?.isAssessed && (
-                    <div className="flex my-3 p-4">
+                    <div className="flex px-4 pt-2">
                         <Button
                             text={editAssessment ? 'Cancel' : 'Change Result'}
                             onClick={() => {
@@ -347,7 +347,7 @@ export const Courses = ({
                 {selectedCourse &&
                     selectedCourse?.results &&
                     selectedCourse?.results?.length > 0 && (
-                        <div className="p-4">
+                        <div className="px-4 pb-3">
                             <FinalResult
                                 folders={getFolders}
                                 results={selectedCourse?.results}
