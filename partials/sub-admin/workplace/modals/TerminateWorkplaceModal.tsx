@@ -28,6 +28,7 @@ export const TerminateWorkplaceModal = ({
                 title: `Workplace Placement Terminated`,
                 description: `Workplace Placement Terminated Successfully`,
             })
+            onCancel()
         }
     }, [terminatePlacementResult])
     return (

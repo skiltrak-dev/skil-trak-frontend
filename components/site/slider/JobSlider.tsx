@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay } from 'swiper'
+import { Autoplay } from 'swiper/modules'
 
 import { JobSlide } from './JobSlide'
 import { JobContentLoader } from './JobContentLoader'
@@ -15,8 +15,7 @@ export const JobSlider = () => {
             .then((res) => {
                 setJobList(res.data)
             })
-            .catch((err) => {
-            })
+            .catch((err) => {})
     }, [])
 
     return (
