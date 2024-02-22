@@ -34,7 +34,7 @@ export const ReviewSlider = () => {
             pagination={{
                 clickable: true,
                 el: '.review-pagination',
-                renderBullet: (index, className) => {
+                renderBullet: (index: any, className: any) => {
                     return `
           <div
                 style="background-image: url('${reviewList[index].image_url}'); background-size: cover; background-position: center center;"
