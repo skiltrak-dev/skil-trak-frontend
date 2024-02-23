@@ -42,11 +42,11 @@ export const AssignSectorForm = ({
 
         const getAssignedCourses = Object.values(sectorsWithCourses)
             ?.flat()
-            ?.map((c: any) => c?.code)
+            ?.map((c: any) => `${c?.code}${c?.id}`)
 
         setSelectableCourses(
             currentSelectableCourses?.filter(
-                (f) => !getAssignedCourses?.includes(f?.code)
+                (f) => !getAssignedCourses?.includes(`${f?.code}${f?.id}`)
             )
         )
     }
