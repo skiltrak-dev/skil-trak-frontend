@@ -3,6 +3,7 @@ import {
     LoadingAnimation,
     PageTitle,
     TechnicalError,
+    Typography,
 } from '@components'
 import { useAlert, useContextBar } from '@hooks'
 import { useGetSubAdminStudentDetailQuery } from '@queries'
@@ -20,6 +21,8 @@ import {
     Workplace,
 } from './components'
 import { UserStatus } from '@types'
+import { FaTimes } from 'react-icons/fa'
+import { IoIosArrowRoundBack } from 'react-icons/io'
 
 export const StudentProfileDetail = () => {
     const contextBar = useContextBar()
@@ -27,6 +30,7 @@ export const StudentProfileDetail = () => {
     const router = useRouter()
 
     const [isMouseMove, setIsMouseMove] = useState<any>(null)
+    const [quickSearch, setQuickSearch] = useState<boolean>(false)
 
     const { alert: alertMessage, setAlerts, alerts } = useAlert()
 
@@ -99,9 +103,86 @@ export const StudentProfileDetail = () => {
         }
     }, [profile])
 
+    const ProfileIds = {
+        Workplace: 'workplace',
+        Notes: 'notes',
+        Assessments: 'assessments',
+        Appointments: 'appointments',
+        Schedule: 'schedule',
+        Mails: 'mails',
+    }
+
+    const onHandleScroll = (id: string) => {
+        const detailItem = document.getElementById(`student-profile-${id}`)
+        if (detailItem) {
+            detailItem.scrollIntoView({ behavior: 'smooth' })
+        }
+    }
+
     return (
         <div>
-            <PageTitle title="Student Profile" />
+            <div className="flex justify-between items-center gap-x-3">
+                <PageTitle title="Student Profile" />
+                {quickSearch ? (
+                    <div className="-mr-9 pl-7 shadow px-3 w-full bg-white rounded-[10px] py-2 flex items-center justify-between">
+                        <div
+                            onClick={() => {
+                                setQuickSearch(false)
+                            }}
+                            className=""
+                        >
+                            <FaTimes />
+                        </div>
+                        <div className="w-[1px] h-6 bg-secondary-dark" />
+                        {[
+                            { item: 'Workplace', id: ProfileIds.Workplace },
+                            { item: 'Notes', id: ProfileIds.Notes },
+                            {
+                                item: 'Assessment Evidence',
+                                id: ProfileIds.Assessments,
+                            },
+                            {
+                                item: 'Appointments',
+                                id: ProfileIds.Appointments,
+                            },
+                            { item: 'Tickets', id: ProfileIds.Appointments },
+                            { item: 'Schedule', id: ProfileIds.Schedule },
+                            { item: 'Mails', id: ProfileIds.Mails },
+                            {
+                                item: 'All communications',
+                                id: ProfileIds.Mails,
+                            },
+                        ]?.map((item, index) => (
+                            <div
+                                className="cursor-pointer"
+                                onClick={() => {
+                                    onHandleScroll(item?.id)
+                                }}
+                            >
+                                <Typography medium>
+                                    <span className="text-[9px] block">
+                                        {item?.item}
+                                    </span>
+                                </Typography>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div
+                        onClick={() => {
+                            setQuickSearch(true)
+                        }}
+                        className="-mr-9 flex items-center gap-x-4 bg-white rounded-[10px] py-2 px-5 shadow-md cursor-pointer"
+                    >
+                        <IoIosArrowRoundBack />
+                        <Typography variant="label" color="block">
+                            <span className="block cursor-pointer">
+                                Quick Search
+                            </span>
+                        </Typography>
+                    </div>
+                )}
+            </div>
 
             {profile.isError && <TechnicalError />}
             {profile.isLoading ? (
@@ -109,30 +190,45 @@ export const StudentProfileDetail = () => {
             ) : profile?.data && profile?.isSuccess ? (
                 <div className="flex flex-col gap-y-5">
                     <div className="h-[500px] overflow-hidden grid grid-cols-5 gap-x-3">
-                        <div className="col-span-3 h-full">
+                        <div
+                            className="col-span-3 h-full"
+                            id={`student-profile-${ProfileIds.Workplace}`}
+                        >
                             <Workplace
                                 studentId={profile?.data?.id}
                                 studentUserId={profile?.data?.user?.id}
                             />
                         </div>
-                        <div className="col-span-2 h-full">
+                        <div
+                            className="col-span-2 h-full"
+                            id={`student-profile-${ProfileIds.Notes}`}
+                        >
                             <Notes userId={profile?.data?.user?.id} />
                         </div>
                     </div>
-                    <div>
+                    <div id={`student-profile-${ProfileIds.Assessments}`}>
                         <AssessmentSubmissions student={profile?.data} />
                     </div>
-                    <div className="h-[500px] overflow-hidden grid grid-cols-2 gap-x-3">
+                    <div
+                        className="h-[500px] overflow-hidden grid grid-cols-2 gap-x-3"
+                        id={`student-profile-${ProfileIds.Appointments}`}
+                    >
                         <Appointments user={profile?.data?.user} />
                         <Tickets studentId={profile?.data?.id} />
                     </div>
-                    <div className="">
+                    <div
+                        className=""
+                        id={`student-profile-${ProfileIds.Schedule}`}
+                    >
                         <Schedule
                             user={profile?.data?.user}
                             studentId={profile?.data?.id}
                         />
                     </div>
-                    <div className="h-[640px] overflow-hidden grid grid-cols-2 gap-x-3">
+                    <div
+                        className="h-[640px] overflow-hidden grid grid-cols-2 gap-x-3"
+                        id={`student-profile-${ProfileIds.Mails}`}
+                    >
                         <Mails user={profile?.data?.user} />
                         <AllCommunication user={profile?.data?.user} />
                     </div>

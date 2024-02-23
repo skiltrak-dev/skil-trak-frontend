@@ -29,13 +29,13 @@ const config: Config = {
     //     'swiper/react': 'swiper/react/swiper-react.js',
     //     'swiper/css': 'swiper/swiper.min.css',
     // },
-    transform: {
-        '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nrwl/react/plugins/jest',
-        '^.+\\.[tj]sx?$': ['babel-jest', { presets: ['@nrwl/react/babel'] }],
-    },
-    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+    // transform: {
+    //     '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nrwl/react/plugins/jest',
+    //     '^.+\\.[tj]sx?$': ['babel-jest', { presets: ['@nrwl/react/babel'] }],
+    // },
+    // moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
     // coverageDirectory: '../../coverage/libs/components',
-    transformIgnorePatterns: ['node_modules/(?!swiper|ssr-window|dom7)'],
+    // transformIgnorePatterns: ['node_modules/(?!swiper|ssr-window|dom7)'],
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

@@ -31,6 +31,8 @@ export const AssignSectorForm = ({
     const [selectedCourses, setSelectedCourses] = useState<any>([])
     const [selectedHours, setSelectedHours] = useState<any>([])
 
+    console.log({ sectorsWithCourses })
+
     const onSectorSelect = (options: any) => {
         const currentSelectedSectors = options.map(
             (opt: OptionType) => opt.value
@@ -48,11 +50,11 @@ export const AssignSectorForm = ({
 
         const getAssignedCourses = Object.values(sectorsWithCourses)
             ?.flat()
-            ?.map((c: any) => c?.code)
+            ?.map((c: any) => `${c?.code}${c?.id}`)
 
         setSelectableCourses(
             currentSelectableCourses?.filter(
-                (f) => !getAssignedCourses?.includes(f?.code)
+                (f) => !getAssignedCourses?.includes(`${f?.code}${f?.id}`)
             )
         )
     }
@@ -65,7 +67,6 @@ export const AssignSectorForm = ({
         mode: 'all',
     })
 
-
     useEffect(() => {
         if (result.isSuccess) {
             methods.reset()
@@ -77,7 +78,6 @@ export const AssignSectorForm = ({
             (f) => f?.courses?.length !== sectorsWithCourses[f.name]?.length
         )
     }
-
 
     const onHandleSubmit = (values: any) => {
         onSubmit({ ...values, courses: selectedCourses })

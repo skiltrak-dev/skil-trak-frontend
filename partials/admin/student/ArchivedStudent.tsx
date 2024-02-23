@@ -365,7 +365,10 @@ export const ArchivedStudent = () => {
                                                     : null}
                                             </div>
                                         </div>
-                                        <div className="px-6 overflow-x-auto remove-scrollbar">
+                                        <div
+                                            className="px-6 overflow-x-auto remove-scrollbar"
+                                            id={'studentScrollId'}
+                                        >
                                             {table}
                                         </div>
                                         {data?.data?.length > 10 && (

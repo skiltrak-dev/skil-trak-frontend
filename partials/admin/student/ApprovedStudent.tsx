@@ -326,7 +326,9 @@ export const ApprovedStudent = () => {
                 const length = checkListLength<StudentSubAdmin>(
                     data?.data as StudentSubAdmin[]
                 )
-                const tableActionOption = tableActionOptions(info?.row?.original)
+                const tableActionOption = tableActionOptions(
+                    info?.row?.original
+                )
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
@@ -460,7 +462,10 @@ export const ApprovedStudent = () => {
                                             </div>
                                         </div>
                                         <div className="overflow-x-auto remove-scrollbar">
-                                            <div className="px-6 w-full">
+                                            <div
+                                                className="px-6 w-full"
+                                                id={'studentScrollId'}
+                                            >
                                                 {table}
                                             </div>
                                         </div>

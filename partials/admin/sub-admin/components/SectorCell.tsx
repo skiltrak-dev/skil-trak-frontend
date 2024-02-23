@@ -2,7 +2,6 @@ import { ActionButton } from '@components'
 import { useContextBar } from '@hooks'
 import { Course, SubAdmin } from '@types'
 import { ViewSectorsCB } from '../contextBar'
-import { useEffect } from 'react'
 
 export const SectorCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
     const contextBar = useContextBar()
