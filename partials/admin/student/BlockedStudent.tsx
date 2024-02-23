@@ -312,7 +312,10 @@ export const BlockedStudent = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="px-6 overflow-auto remove-scrollbar">
+                                        <div
+                                            className="px-6 overflow-auto remove-scrollbar"
+                                            id={'studentScrollId'}
+                                        >
                                             {table}
                                         </div>
                                     </div>

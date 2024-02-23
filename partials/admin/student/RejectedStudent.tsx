@@ -267,7 +267,12 @@ export const RejectedStudent = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="px-6">{table}</div>
+                                        <div
+                                            className="px-6"
+                                            id={'studentScrollId'}
+                                        >
+                                            {table}
+                                        </div>
                                     </div>
                                 )
                             }}

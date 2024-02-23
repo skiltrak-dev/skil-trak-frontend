@@ -394,7 +394,10 @@ export const FilteredStudents = ({
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="px-6 overflow-auto remove-scrollbar">
+                                        <div
+                                            className="px-6 overflow-auto remove-scrollbar"
+                                            id={'studentScrollId'}
+                                        >
                                             {table}
                                         </div>
                                         {student.data?.data?.length > 10 && (
