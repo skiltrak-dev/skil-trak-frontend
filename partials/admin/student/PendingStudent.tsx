@@ -259,7 +259,12 @@ export const PendingStudent = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="px-6">{table}</div>
+                                        <div
+                                            className="px-6"
+                                            id={'studentScrollId'}
+                                        >
+                                            {table}
+                                        </div>
                                         {data?.data?.length > 10 && (
                                             <div className="p-6 mb-2 flex justify-between">
                                                 {pageSize(
