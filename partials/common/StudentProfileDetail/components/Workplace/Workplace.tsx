@@ -69,7 +69,13 @@ export const Workplace = ({
             studentWorkplace?.isSuccess &&
             studentWorkplace?.data?.length > 0
         ) {
-            setSelectedWorkplace(studentWorkplace?.data?.[0])
+            setSelectedWorkplace(
+                selectedWorkplace
+                    ? studentWorkplace?.data?.find(
+                          (w: any) => w?.id === selectedWorkplace?.id
+                      )
+                    : studentWorkplace?.data?.[0]
+            )
         }
     }, [studentWorkplace])
 
