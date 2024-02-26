@@ -27,7 +27,7 @@ export const TabNavigation = ({
 
     return children({
         header: (
-            <div className="max-w-7xl custom-scrollbar overflow-auto">
+            <div className="max-w- custom-scrollbar overflow-auto">
                 <div className="flex border-b ">
                     {tabs.map((tab) => (
                         <Tab

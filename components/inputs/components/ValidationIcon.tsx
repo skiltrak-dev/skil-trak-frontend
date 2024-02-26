@@ -10,8 +10,6 @@ export const ValidationIcon = ({
 }) => {
     const formContext = useFormContext()
 
-    console.log('SaadKhan', formContext.formState.errors)
-
     const canShowError = () => {
         if (error) return true
         if (formContext && formContext.formState.touchedFields[name]) {
