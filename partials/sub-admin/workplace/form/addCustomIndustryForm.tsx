@@ -13,6 +13,7 @@ import {
     isEmailValid,
     onlyAlphabets,
     onlyNumbersAcceptedInYup,
+    removeEmptySpaces,
     SignUpUtils,
 } from '@utils'
 
@@ -225,6 +226,11 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
         }
     }
 
+    const onBlur = (e: any) => {
+        const abn = e.target?.value
+        removeEmptySpaces(formMethods, abn)
+    }
+
     return (
         <>
             <ShowErrorNotifications result={addCustomIndustryResult} />
@@ -245,6 +251,7 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
                         placeholder={'ABN...'}
                         validationIcons
                         required
+                        onBlur={onBlur}
                     />
 
                     <TextInput

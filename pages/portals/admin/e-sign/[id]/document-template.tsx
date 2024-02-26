@@ -312,13 +312,17 @@ export default function ESign() {
             const newId = uuid()
 
             const yValue = isCheckBox
-                ? newLocY - 3
+                ? newLocY > 0
+                    ? newLocY - 3
+                    : 0
                 : newLocY - 12 < 0
                 ? 0
                 : newLocY - 12
 
             const xValue = isCheckBox
-                ? newLocX - 3
+                ? newLocX > 0
+                    ? newLocX - 3
+                    : 0
                 : newLocX - 60 < 0
                 ? 1
                 : newLocX - 60
@@ -588,8 +592,8 @@ export default function ESign() {
             selected: true,
             location: {
                 ...copiedSelectedTab?.location,
-                x: copiedSelectedTab?.location?.x + pastedTabsCount * 10,
-                y: copiedSelectedTab?.location?.y + pastedTabsCount * 10,
+                // x: copiedSelectedTab?.location?.x + pastedTabsCount * 10,
+                y: copiedSelectedTab?.location?.y + pastedTabsCount * 12,
             },
             parent: {
                 ...copiedSelectedTab?.parent,

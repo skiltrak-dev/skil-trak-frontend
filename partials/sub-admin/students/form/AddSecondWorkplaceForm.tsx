@@ -3,11 +3,17 @@ import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import _debounce from 'lodash/debounce'
-import { CourseSelectOption, formatOptionLabel, isEmailValid, onlyNumbersAcceptedInYup } from '@utils'
+import {
+    CourseSelectOption,
+    formatOptionLabel,
+    isEmailValid,
+    onlyNumbersAcceptedInYup,
+    removeEmptySpaces,
+} from '@utils'
 
 import { AuthApi, SubAdminApi } from '@queries'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useNotification } from '@hooks'
+import { useContextBar, useNotification } from '@hooks'
 import { UserRoles } from '@constants'
 
 export const AddSecondWorkplaceForm = ({
@@ -21,6 +27,8 @@ export const AddSecondWorkplaceForm = ({
     const [sectorOptions, setSectorOptions] = useState([])
     const [courseOptions, setCourseOptions] = useState([])
     const [courseLoading, setCourseLoading] = useState(false)
+
+    const contextBar = useContextBar()
 
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
@@ -48,6 +56,9 @@ export const AddSecondWorkplaceForm = ({
                 title: 'Workplace Industry Added',
                 description: 'Workplace Indiustry Added Successfully',
             })
+            contextBar.hide()
+            contextBar.setTitle('')
+            contextBar.setContent(null)
         }
     }, [addWorkplaceIndustryResult])
 
@@ -112,6 +123,11 @@ export const AddSecondWorkplaceForm = ({
         resolver: yupResolver(validationSchema),
     })
 
+    const onBlur = (e: any) => {
+        const abn = e.target?.value
+        removeEmptySpaces(formMethods, abn)
+    }
+
     const onHandleSubmit = (values: any) => {
         if (!onSuburbClicked) {
             notification.error({
@@ -128,6 +144,7 @@ export const AddSecondWorkplaceForm = ({
             })
         }
     }
+
     return (
         <div>
             <ShowErrorNotifications result={addWorkplaceIndustryResult} />
@@ -148,6 +165,7 @@ export const AddSecondWorkplaceForm = ({
                         placeholder={'ABN...'}
                         validationIcons
                         required
+                        onBlur={onBlur}
                     />
 
                     <TextInput
@@ -232,13 +250,13 @@ export const AddSecondWorkplaceForm = ({
                         placeholder={'Suburb...'}
                         validationIcons
                         placesSuggetions
-                        onChange={() => {
-                            setOnSuburbClicked(false)
-                        }}
-                        onPlaceSuggetions={{
-                            placesSuggetions: onSuburbClicked,
-                            setIsPlaceSelected: setOnSuburbClicked,
-                        }}
+                        // onChange={() => {
+                        //     setOnSuburbClicked(false)
+                        // }}
+                        // onPlaceSuggetions={{
+                        //     placesSuggetions: onSuburbClicked,
+                        //     setIsPlaceSelected: setOnSuburbClicked,
+                        // }}
                     />
 
                     <TextInput

@@ -15,6 +15,7 @@ import {
     isEmailValid,
     onlyAlphabets,
     onlyNumbersAcceptedInYup,
+    removeEmptySpaces,
 } from '@utils'
 
 import { Button, Checkbox, Select, TextInput, Typography } from '@components'
@@ -44,7 +45,8 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const [lastEnteredAbn, setLastEnteredAbn] = useState('')
 
     const [countryId, setCountryId] = useState(null)
-    const { data, isLoading } = CommonApi.Countries.useCountriesList()
+    const country = CommonApi.Countries.useCountriesList()
+
     const { data: states, isLoading: statesLoading } =
         CommonApi.Countries.useCountryStatesList(countryId, {
             skip: !countryId,
@@ -77,6 +79,8 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         _debounce(() => {
             const abn = e.target.value
             const suburbValue = formMethods.getValues('suburb')
+
+            removeEmptySpaces(formMethods, abn)
 
             if (abn && suburbValue) {
                 checkAbnExist({ abn, suburb: suburbValue })
@@ -484,11 +488,13 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                             <Select
                                 name="country"
                                 label={'Country'}
-                                options={data?.map((country: any) => ({
-                                    label: country.name,
-                                    value: country.id,
-                                }))}
-                                loading={isLoading}
+                                options={
+                                    country?.data?.map((country: any) => ({
+                                        label: country.name,
+                                        value: country.id,
+                                    })) || []
+                                }
+                                loading={country.isLoading}
                                 onChange={(e: any) => {
                                     setCountryId(e)
                                 }}

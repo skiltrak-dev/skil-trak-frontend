@@ -13,6 +13,7 @@ import {
     isEmailValid,
     onlyAlphabets,
     onlyNumbersAcceptedInYup,
+    removeEmptySpaces,
 } from '@utils'
 
 import { Button, Checkbox, Select, TextInput } from '@components'
@@ -197,6 +198,11 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
         defaultValues: storedData || initialValues,
     })
 
+    const onBlur = (e: any) => {
+        const abn = e.target?.value
+        removeEmptySpaces(formMethods, abn)
+    }
+
     const onHandleSubmit = (values: any) => {
         if (!onSuburbClicked) {
             notification.error({
@@ -269,6 +275,7 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
                             placeholder={'Your ABN...'}
                             validationIcons
                             required
+                            onBlur={onBlur}
                         />
 
                         <TextInput

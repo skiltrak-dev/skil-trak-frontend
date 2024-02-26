@@ -94,6 +94,13 @@ export const PlacementStartedStudents = () => {
             Icon: FaEye,
         },
         {
+            text: 'New Profile',
+            onClick: (student: Student) => {
+                router.push(`/portals/sub-admin/students/${student.id}/detail`)
+            },
+            Icon: FaEye,
+        },
+        {
             text: 'View Password',
             onClick: (student: Student) => onViewPassword(student),
             Icon: RiLockPasswordFill,

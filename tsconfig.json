@@ -23,6 +23,9 @@
          // "@/*": [
          //    "./*"
          // ],
+         "nodemodules": [
+            "./node_modules"
+         ],
          "@components": [
             "./components"
          ],

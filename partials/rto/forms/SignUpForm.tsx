@@ -13,6 +13,7 @@ import {
     isEmailValid,
     onlyAlphabets,
     onlyNumbersAcceptedInYup,
+    removeEmptySpaces,
     SignUpUtils,
 } from '@utils'
 
@@ -207,6 +208,11 @@ export const RtoSignUpForm = ({
         }
     }, [courseValues])
 
+    const onBlur = (e: any) => {
+        const abn = e.target?.value
+        removeEmptySpaces(formMethods, abn)
+    }
+
     const onHandleSubmit = (values: any) => {
         if (!onSuburbClicked) {
             notification.error({
@@ -255,6 +261,7 @@ export const RtoSignUpForm = ({
                                 placeholder={'ABN...'}
                                 validationIcons
                                 required
+                                onBlur={onBlur}
                             />
 
                             <TextInput
