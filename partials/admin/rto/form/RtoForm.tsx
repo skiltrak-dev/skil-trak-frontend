@@ -14,6 +14,7 @@ import {
     isEmailValid,
     onlyAlphabets,
     onlyNumbersAcceptedInYup,
+    removeEmptySpaces,
     SignUpUtils,
 } from '@utils'
 
@@ -204,6 +205,11 @@ export const RtoForm = ({ onSubmit }: { onSubmit: any }) => {
         defaultValues: storedData || initialValues,
     })
 
+    const onBlur = (e: any) => {
+        const abn = e.target?.value
+        removeEmptySpaces(formMethods, abn)
+    }
+
     const onHandleSubmit = (values: any) => {
         if (!onSuburbClicked) {
             notification.error({
@@ -276,6 +282,7 @@ export const RtoForm = ({ onSubmit }: { onSubmit: any }) => {
                             placeholder={'Your ABN...'}
                             validationIcons
                             required
+                            onBlur={onBlur}
                         />
 
                         <TextInput

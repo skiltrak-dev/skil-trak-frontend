@@ -14,6 +14,7 @@ import {
     isEmailValid,
     onlyAlphabets,
     onlyNumbersAcceptedInYup,
+    removeEmptySpaces,
     SignUpUtils,
 } from '@utils'
 
@@ -123,6 +124,11 @@ export const AddCustomIndustryForm = ({
         resolver: yupResolver(validationSchema),
     })
 
+    const onBlur = (e: any) => {
+        const abn = e.target?.value
+        removeEmptySpaces(formMethods, abn)
+    }
+
     const onHandleSubmit = (values: any) => {
         if (!onSuburbClicked) {
             notification.error({
@@ -170,6 +176,7 @@ export const AddCustomIndustryForm = ({
                                     placeholder={'ABN...'}
                                     validationIcons
                                     required
+                                    onBlur={onBlur}
                                 />
 
                                 <TextInput

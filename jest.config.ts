@@ -17,6 +17,13 @@ const config: Config = {
         '^@utils/(.*)$': '<rootDir>/utils/$1',
     },
     // moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+    transformIgnorePatterns: ['/node_modules/(?!(swiper@11.x))'],
+    transform: {
+        '^.+\\.(js|jsx)?$': 'babel-jest',
+        '^.+\\.tsx?$': 'ts-jest',
+        // '^.+\\.ts$': 'jest-transformer-swiper', // Add this line
+    },
+
     // transform: {
     //     '^.+\\.js$': 'babel-jest',
     //     '^.+\\.jsx$': 'babel-jest',

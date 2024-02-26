@@ -14,6 +14,7 @@ import {
     isEmailValid,
     onlyAlphabets,
     onlyNumbersAcceptedInYup,
+    removeEmptySpaces,
     SignUpUtils,
 } from '@utils'
 
@@ -199,6 +200,11 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
         defaultValues: storedData || initialValues,
     })
 
+    const onBlur = (e: any) => {
+        const abn = e.target?.value
+        removeEmptySpaces(formMethods, abn)
+    }
+
     return (
         <FormProvider {...formMethods}>
             <form
@@ -260,6 +266,7 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
                             placeholder={'Your ABN...'}
                             validationIcons
                             required
+                            onBlur={onBlur}
                         />
 
                         <TextInput

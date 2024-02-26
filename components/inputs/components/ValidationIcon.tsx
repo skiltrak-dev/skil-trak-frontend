@@ -1,33 +1,35 @@
-import { useFormContext } from "react-hook-form";
-import { MdCheckCircle, MdError } from "react-icons/md";
+import { useFormContext } from 'react-hook-form'
+import { MdCheckCircle, MdError } from 'react-icons/md'
 
 export const ValidationIcon = ({
-	name,
-	error,
+    name,
+    error,
 }: {
-	name: string;
-	error?: boolean;
+    name: string
+    error?: boolean
 }) => {
-	const formContext = useFormContext();
+    const formContext = useFormContext()
 
-	const canShowError = () => {
-		if (error) return true;
-		if (formContext && formContext.formState.touchedFields[name]) {
-			if (formContext.formState.errors[name]) return true;
-			return false;
-		}
-		return null;
-	};
+    console.log('SaadKhan', formContext.formState.errors)
 
-	return (
-		<>
-			{canShowError() === true && (
-				<MdError className="absolute -right-2 -bottom-2 text-2xl text-error z-10 bg-white p-px rounded-full" />
-			)}
+    const canShowError = () => {
+        if (error) return true
+        if (formContext && formContext.formState.touchedFields[name]) {
+            if (formContext.formState.errors[name]) return true
+            return false
+        }
+        return null
+    }
 
-			{canShowError() === false && (
-				<MdCheckCircle className="absolute -right-2 -bottom-2 text-2xl text-success z-10 bg-white p-px rounded-full" />
-			)}
-		</>
-	);
-};
+    return (
+        <>
+            {canShowError() === true && (
+                <MdError className="absolute -right-2 -bottom-2 text-2xl text-error z-10 bg-white p-px rounded-full" />
+            )}
+
+            {canShowError() === false && (
+                <MdCheckCircle className="absolute -right-2 -bottom-2 text-2xl text-success z-10 bg-white p-px rounded-full" />
+            )}
+        </>
+    )
+}

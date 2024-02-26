@@ -14,6 +14,7 @@ import {
     isEmailValid,
     onlyAlphabets,
     onlyNumbersAcceptedInYup,
+    removeEmptySpaces,
     SignUpUtils,
 } from '@utils'
 
@@ -241,6 +242,11 @@ export const FutureIndustrySignUpForm = ({
         }
     }, [selectedSector, sectorResponse])
 
+    const onBlur = (e: any) => {
+        const abn = e.target?.value
+        removeEmptySpaces(formMethods, abn)
+    }
+
     const onHandleSubmit = (values: any) => {
         if (!onSuburbClicked) {
             notification.error({
@@ -288,13 +294,7 @@ export const FutureIndustrySignUpForm = ({
                                     placeholder={'ABN...'}
                                     validationIcons
                                     required
-                                    onBlur={() => {
-                                        const abn = formMethods.getValues('abn')
-                                        formMethods.setValue(
-                                            'abn',
-                                            abn?.replace(/\s/g, '')
-                                        )
-                                    }}
+                                    onBlur={onBlur}
                                 />
 
                                 <TextInput

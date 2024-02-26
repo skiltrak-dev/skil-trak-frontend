@@ -100,6 +100,13 @@ export const NonContactableStudents = () => {
             Icon: FaEye,
         },
         {
+            text: 'New Profile',
+            onClick: (student: Student) => {
+                router.push(`/portals/sub-admin/students/${student.id}/detail`)
+            },
+            Icon: FaEye,
+        },
+        {
             text: 'Add to Contactable',
             onClick: (student: Student) => onNonContactableStudents(student),
             Icon: MdBlock,

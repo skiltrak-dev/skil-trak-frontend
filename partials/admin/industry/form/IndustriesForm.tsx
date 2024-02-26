@@ -11,6 +11,7 @@ import {
     isEmailValid,
     onlyAlphabets,
     onlyNumbersAcceptedInYup,
+    removeEmptySpaces,
     SignUpUtils,
 } from '@utils'
 
@@ -163,6 +164,11 @@ export const IndustriesForm = ({ onSubmit }: { onSubmit: any }) => {
         resolver: yupResolver(validationSchema),
     })
 
+    const onBlur = (e: any) => {
+        const abn = e.target?.value
+        removeEmptySpaces(formMethods, abn)
+    }
+
     return (
         <FormProvider {...formMethods}>
             <form
@@ -224,6 +230,7 @@ export const IndustriesForm = ({ onSubmit }: { onSubmit: any }) => {
                             placeholder={'Your ABN...'}
                             validationIcons
                             required
+                            onBlur={onBlur}
                         />
 
                         <TextInput

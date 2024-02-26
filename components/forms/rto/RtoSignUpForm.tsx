@@ -13,6 +13,7 @@ import {
     isEmailValid,
     onlyAlphabets,
     onlyNumbersAcceptedInYup,
+    removeEmptySpaces,
     SignUpUtils,
 } from '@utils'
 
@@ -179,6 +180,11 @@ export const RtoSignUpForm = ({
         }
     }
 
+    const onBlur = (e: any) => {
+        const abn = e.target?.value
+        removeEmptySpaces(formMethods, abn)
+    }
+
     return (
         <FormProvider {...formMethods}>
             <form
@@ -216,6 +222,7 @@ export const RtoSignUpForm = ({
                                 placeholder={'ABN...'}
                                 validationIcons
                                 required
+                                onBlur={onBlur}
                             />
 
                             <TextInput
