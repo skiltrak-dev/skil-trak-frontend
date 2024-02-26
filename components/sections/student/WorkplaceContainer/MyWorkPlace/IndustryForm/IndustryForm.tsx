@@ -8,7 +8,13 @@ import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
-import { isEmailValid, onlyAlphabets, onlyNumbersAcceptedInYup, SignUpUtils } from '@utils'
+import {
+    isEmailValid,
+    onlyAlphabets,
+    onlyNumbersAcceptedInYup,
+    removeEmptySpaces,
+    SignUpUtils,
+} from '@utils'
 
 import {
     Button,
@@ -168,6 +174,11 @@ export const IndustryForm = ({
             role: 'industry',
         })
     }
+
+    const onBlur = (e: any) => {
+        const abn = e.target?.value
+        removeEmptySpaces(formMethods, abn)
+    }
     return (
         <Card>
             <div className="">
@@ -193,6 +204,7 @@ export const IndustryForm = ({
                                     placeholder={'ABN...'}
                                     validationIcons
                                     required
+                                    onBlur={onBlur}
                                 />
 
                                 <TextInput

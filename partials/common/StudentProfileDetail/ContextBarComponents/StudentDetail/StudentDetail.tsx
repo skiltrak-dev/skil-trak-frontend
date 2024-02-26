@@ -1,13 +1,34 @@
 import { Typography } from '@components'
-import React from 'react'
+import React, { ReactElement, useState } from 'react'
 import { StudentDetailCard } from './StudentDetailCard'
 import { Student } from '@types'
 import moment from 'moment'
 import { getGender } from '@utils'
+import { CallLogsModal } from '@partials/sub-admin/students/modals'
+import { SubAdminApi } from '@queries'
+import { useNotification } from '@hooks'
 
 export const StudentDetail = ({ profile }: { profile: Student }) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const { notification } = useNotification()
+
+    const [callLog, callLogResult] = SubAdminApi.Student.useStudentCallLog()
+
+    const onViewCallLogs = (e: any) => {
+        e.stopPropagation()
+        setModal(
+            <CallLogsModal
+                studentId={profile?.id}
+                onCancel={() => {
+                    setModal(null)
+                }}
+            />
+        )
+    }
     return (
         <div className="mt-5">
+            {modal}
             <Typography variant="small" medium>
                 Student Details
             </Typography>
@@ -27,7 +48,35 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
                     <StudentDetailCard
                         title="Phone Number"
                         detail={profile?.phone}
-                    />
+                        onClick={() => {
+                            navigator.clipboard.writeText(profile?.phone)
+                            callLog({
+                                student: profile?.id,
+                            }).then((res: any) => {
+                                if (res?.data) {
+                                    notification.success({
+                                        title: 'Called Student',
+                                        description: `Called Student with Id: ${profile.studentId}`,
+                                    })
+                                }
+                            })
+                            notification.success({
+                                title: 'Cpoied',
+                                description: 'Phone Number Copied',
+                            })
+                        }}
+                    >
+                        <div onClick={onViewCallLogs}>
+                            <Typography
+                                variant="badge"
+                                color="text-primaryNew"
+                                bold
+                                underline
+                            >
+                                Call Log
+                            </Typography>
+                        </div>
+                    </StudentDetailCard>
                 </div>
                 <div>
                     <StudentDetailCard

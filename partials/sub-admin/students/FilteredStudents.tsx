@@ -1,7 +1,6 @@
 import {
     ActionButton,
     Card,
-    CaseOfficerAssignedStudent,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
@@ -15,12 +14,11 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { useActionModal } from '@hooks'
-import { SectorCell } from '@partials/admin/student/components'
+import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import { Industry, Student, UserStatus } from '@types'
+import { Student, UserStatus } from '@types'
 import {
     WorkplaceCurrentStatus,
-    calculateRemainingDays,
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
     setLink,
@@ -41,9 +39,6 @@ import {
     BlockModal,
     ChangeStudentStatusModal,
 } from './modals'
-import moment from 'moment'
-import { AiOutlineWarning } from 'react-icons/ai'
-import { ProgressCell } from '@partials/admin/student/components'
 
 export const FilteredStudents = ({
     filter,
@@ -123,6 +118,15 @@ export const FilteredStudents = ({
                         `/portals/sub-admin/students/${student.id}?tab=overview`
                     )
                     setLink('subadmin-student', router)
+                },
+                Icon: FaEye,
+            },
+            {
+                text: 'New Profile',
+                onClick: (student: Student) => {
+                    router.push(
+                        `/portals/sub-admin/students/${student.id}/detail`
+                    )
                 },
                 Icon: FaEye,
             },

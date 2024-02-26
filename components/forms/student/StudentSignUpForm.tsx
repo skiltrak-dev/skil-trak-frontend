@@ -88,7 +88,6 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
         // Business Information
         businessName: yup.string().required('Must provide business name'),
-        abn: yup.string().required('Must provide ABN'),
         phoneNumber: yup.string().required('Must provide phone number'),
 
         // Sector Information

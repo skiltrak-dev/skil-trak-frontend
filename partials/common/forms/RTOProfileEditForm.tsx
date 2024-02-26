@@ -2,7 +2,12 @@ import { useEffect, useState } from 'react'
 
 import * as yup from 'yup'
 
-import { CourseSelectOption, formatOptionLabel, onlyAlphabets } from '@utils'
+import {
+    CourseSelectOption,
+    formatOptionLabel,
+    onlyAlphabets,
+    removeEmptySpaces,
+} from '@utils'
 
 import {
     Button,
@@ -210,6 +215,11 @@ export const RTOProfileEditForm = ({
         }
     }, [profile, sectorResponse])
 
+    const onBlur = (e: any) => {
+        const abn = e.target?.value
+        removeEmptySpaces(formMethods, abn)
+    }
+
     const onHandleSubmit = (values: any) => {
         if (!onSuburbClicked) {
             notification.error({
@@ -254,6 +264,7 @@ export const RTOProfileEditForm = ({
                                             placeholder={'RTO ABN...'}
                                             validationIcons
                                             required
+                                            onBlur={onBlur}
                                         />
                                         <TextInput
                                             label={'Code'}

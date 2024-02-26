@@ -25,7 +25,12 @@ import { UserRoles } from '@constants'
 import { AuthApi } from '@queries'
 import { Course } from '@types'
 import { useRouter } from 'next/router'
-import { CourseSelectOption, formatOptionLabel, onlyNumbersAcceptedInYup } from '@utils'
+import {
+    CourseSelectOption,
+    formatOptionLabel,
+    onlyNumbersAcceptedInYup,
+    removeEmptySpaces,
+} from '@utils'
 
 export const IndustryProfileFrom = ({
     result,
@@ -235,6 +240,11 @@ export const IndustryProfileFrom = ({
         }
     }, [courseValues])
 
+    const onBlur = (e: any) => {
+        const abn = e.target?.value
+        removeEmptySpaces(formMethods, abn)
+    }
+
     const onHandleSubmit = (values: any) => {
         if (!onSuburbClicked) {
             notification.error({
@@ -302,6 +312,7 @@ export const IndustryProfileFrom = ({
                                         placeholder={'ABN...'}
                                         validationIcons
                                         required
+                                        onBlur={onBlur}
                                     />
 
                                     <TextInput
