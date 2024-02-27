@@ -37,9 +37,6 @@ export const Courses = ({
     const navigationPrevRef = useRef(null)
     const navigationNextRef = useRef(null)
 
-    const courseNavigationPrevRef = useRef(null)
-    const courseNavigationNextRef = useRef(null)
-
     const studentCourses = useStudentAssessmentCoursesQuery(
         Number(student?.id),
         {
@@ -181,144 +178,141 @@ export const Courses = ({
 
     return (
         <div>
-            <div className="grid grid-cols-3">
-                <div className="border-r border-secondary-dark px-4 py-2.5">
-                    <Typography variant="small" medium>
-                        Sectors
-                    </Typography>
-                    <div className="mt-2.5 px-2 gap-2.5">
-                        <SliderStyleContainer className="relative">
-                            <div className="swiper-container w-full relative">
-                                <Swiper
-                                    slidesPerView={1}
-                                    spaceBetween={10}
-                                    slidesPerGroup={1}
-                                    pagination={{
-                                        clickable: true,
-                                    }}
-                                    navigation={{
-                                        prevEl: navigationPrevRef.current,
-                                        nextEl: navigationNextRef.current,
-                                    }}
-                                    onSwiper={(swiper: any) => {
-                                        setTimeout(() => {
-                                            swiper.params.navigation.prevEl =
-                                                navigationPrevRef.current
-                                            swiper.params.navigation.nextEl =
-                                                navigationNextRef.current
+            <div className="border-b border-secondary-dark px-4 py-2.5">
+                <Typography variant="small" medium>
+                    Sectors
+                </Typography>
+                <div className="mt-2.5 px-2 gap-2.5">
+                    <SliderStyleContainer className="relative">
+                        <div className="swiper-container w-full relative">
+                            <Swiper
+                                slidesPerView={sectors?.length > 1 ? 2 : 1}
+                                spaceBetween={10}
+                                slidesPerGroup={1}
+                                pagination={{
+                                    clickable: true,
+                                }}
+                                navigation={{
+                                    prevEl: navigationPrevRef.current,
+                                    nextEl: navigationNextRef.current,
+                                }}
+                                onSwiper={(swiper: any) => {
+                                    setTimeout(() => {
+                                        swiper.params.navigation.prevEl =
+                                            navigationPrevRef.current
+                                        swiper.params.navigation.nextEl =
+                                            navigationNextRef.current
 
-                                            // Re-init navigation
-                                            swiper.navigation.destroy()
-                                            swiper.navigation.init()
-                                            swiper.navigation.update()
-                                        })
-                                    }}
-                                    modules={[Navigation]}
-                                    className="mySwiper static"
+                                        // Re-init navigation
+                                        swiper.navigation.destroy()
+                                        swiper.navigation.init()
+                                        swiper.navigation.update()
+                                    })
+                                }}
+                                modules={[Navigation]}
+                                className="mySwiper static"
+                            >
+                                {sectors?.map((sector: Sector) => (
+                                    <SwiperSlide key={sector?.id}>
+                                        <SectorCard
+                                            onClick={() =>
+                                                setSelectedSector(sector.id)
+                                            }
+                                            sector={sector}
+                                            active={
+                                                selectedSector === sector?.id
+                                            }
+                                        />
+                                    </SwiperSlide>
+                                ))}
+                                <div
+                                    ref={navigationPrevRef}
+                                    className={`${iconClasses} left-0 lg:-left-3`}
                                 >
-                                    {sectors?.map((sector: Sector) => (
-                                        <SwiperSlide key={sector?.id}>
-                                            <SectorCard
-                                                onClick={() =>
-                                                    setSelectedSector(sector.id)
-                                                }
-                                                sector={sector}
-                                                active={
-                                                    selectedSector ===
-                                                    sector?.id
-                                                }
-                                            />
-                                        </SwiperSlide>
-                                    ))}
-                                    <div
-                                        ref={navigationPrevRef}
-                                        className={`${iconClasses} left-0 lg:-left-3`}
-                                    >
-                                        <MdKeyboardArrowLeft className="text-2xl text-white" />
-                                    </div>
-                                    <div
-                                        ref={navigationNextRef}
-                                        className={`${iconClasses} right-0 lg:-right-3`}
-                                    >
-                                        <MdKeyboardArrowRight className="text-2xl text-white" />
-                                    </div>
-                                </Swiper>
-                            </div>
-                        </SliderStyleContainer>
-                    </div>
-                </div>
-                <div className="col-span-2 px-4 py-2.5">
-                    <Typography variant="small" medium>
-                        Courses
-                    </Typography>
-                    <div className="mt-2.5 ">
-                        <SliderStyleContainer className="relative">
-                            <div className="swiper-container w-full relative">
-                                <Swiper
-                                    slidesPerView={1}
-                                    spaceBetween={10}
-                                    slidesPerGroup={1}
-                                    pagination={{
-                                        clickable: true,
-                                    }}
-                                    navigation={{
-                                        prevEl: courseNavigationPrevRef.current,
-                                        nextEl: courseNavigationNextRef.current,
-                                    }}
-                                    onSwiper={(swiper: any) => {
-                                        setTimeout(() => {
-                                            swiper.params.navigation.prevEl =
-                                                courseNavigationPrevRef.current
-                                            swiper.params.navigation.nextEl =
-                                                courseNavigationNextRef.current
-
-                                            // Re-init navigation
-                                            swiper.navigation.destroy()
-                                            swiper.navigation.init()
-                                            swiper.navigation.update()
-                                        })
-                                    }}
-                                    modules={[Navigation]}
-                                    className="mySwiper static"
+                                    <MdKeyboardArrowLeft className="text-2xl text-white" />
+                                </div>
+                                <div
+                                    ref={navigationNextRef}
+                                    className={`${iconClasses} right-0 lg:-right-3`}
                                 >
-                                    {courses?.map((course: Course) => (
-                                        <SwiperSlide key={course?.id}>
-                                            <CourseCard
-                                                onClick={() =>
-                                                    setSelectedCourse(course)
-                                                }
-                                                course={course}
-                                                active={
-                                                    selectedCourse?.id ===
-                                                    course?.id
-                                                }
-                                            />
-                                        </SwiperSlide>
-                                    ))}
-                                    <div
-                                        ref={courseNavigationPrevRef}
-                                        className={`${iconClasses} left-0 lg:-left-3`}
-                                    >
-                                        <MdKeyboardArrowLeft className="text-2xl text-white" />
-                                    </div>
-                                    <div
-                                        ref={courseNavigationNextRef}
-                                        className={`${iconClasses} right-0 lg:-right-3`}
-                                    >
-                                        <MdKeyboardArrowRight className="text-2xl text-white" />
-                                    </div>
-                                </Swiper>
-                            </div>
-                        </SliderStyleContainer>
-                    </div>
+                                    <MdKeyboardArrowRight className="text-2xl text-white" />
+                                </div>
+                            </Swiper>
+                        </div>
+                    </SliderStyleContainer>
                 </div>
             </div>
 
             {/*  */}
+            <div className="px-4 py-4 border-b border-secondary-dark">
+                <Typography variant="small" medium>
+                    Courses
+                </Typography>
+                <div className="mt-2.5 ">
+                    <SliderStyleContainer className="relative">
+                        <div className="swiper-container w-full relative">
+                            <Swiper
+                                slidesPerView={1}
+                                spaceBetween={10}
+                                slidesPerGroup={1}
+                                pagination={{
+                                    clickable: true,
+                                }}
+                                navigation={{
+                                    prevEl: navigationPrevRef.current,
+                                    nextEl: navigationNextRef.current,
+                                }}
+                                onSwiper={(swiper: any) => {
+                                    setTimeout(() => {
+                                        swiper.params.navigation.prevEl =
+                                            navigationPrevRef.current
+                                        swiper.params.navigation.nextEl =
+                                            navigationNextRef.current
 
-            <div className="border-y border-secondary-dark h-[450px] overflow-hidden">
-                <div className="grid grid-cols-3 h-[inherit]">
-                    <div className="py-4 border-r h-[inherit]">
+                                        // Re-init navigation
+                                        swiper.navigation.destroy()
+                                        swiper.navigation.init()
+                                        swiper.navigation.update()
+                                    })
+                                }}
+                                modules={[Navigation]}
+                                className="mySwiper static"
+                            >
+                                {courses?.map((course: Course) => (
+                                    <SwiperSlide key={course?.id}>
+                                        <CourseCard
+                                            onClick={() =>
+                                                setSelectedCourse(course)
+                                            }
+                                            course={course}
+                                            active={
+                                                selectedCourse?.id ===
+                                                course?.id
+                                            }
+                                        />
+                                    </SwiperSlide>
+                                ))}
+                                <div
+                                    ref={navigationPrevRef}
+                                    className={`${iconClasses} left-0 lg:-left-3`}
+                                >
+                                    <MdKeyboardArrowLeft className="text-2xl text-white" />
+                                </div>
+                                <div
+                                    ref={navigationNextRef}
+                                    className={`${iconClasses} right-0 lg:-right-3`}
+                                >
+                                    <MdKeyboardArrowRight className="text-2xl text-white" />
+                                </div>
+                            </Swiper>
+                        </div>
+                    </SliderStyleContainer>
+                </div>
+            </div>
+
+            <div className="border-b border-secondary-dark h-[450px] overflow-hidden">
+                <div className="grid  h-[inherit]">
+                    <div className="col-span py-4 border-r h-[inherit]">
                         <AssessmentsFolders
                             student={student}
                             getFolders={getFolders}
@@ -327,7 +321,7 @@ export const Courses = ({
                             onSelectFolder={onSelectFolder}
                         />
                     </div>
-                    <div className="col-span-2 h-[inherit]">
+                    {/* <div className="col-span-4 h-[inherit]">
                         <div className="h-[84%]">
                             <AssessmentFiles
                                 selectedFolder={selectedFolder}
@@ -428,7 +422,7 @@ export const Courses = ({
                                 }
                             />
                         ) : null}
-                    </div>
+                    </div> */}
                 </div>
             </div>
 

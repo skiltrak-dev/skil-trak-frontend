@@ -43,12 +43,12 @@ export const AddCourseDateForm = ({
                     className="mt-2 w-full"
                     onSubmit={methods.handleSubmit(onSubmit)}
                 >
-                    <div className="flex flex-col justify-center gap-y-1">
-                        <div className="grid grid-cols-3 items-center gap-x-2">
+                    <div className="flex justify-center items-end gap-1">
+                        <div className="flex flex-col gap-x-1 items-">
                             <label
                                 className={`text-xs ${
                                     active ? 'text-white' : 'text-[#979797]'
-                                } `}
+                                } whitespace-pre`}
                             >
                                 Start Date
                             </label>
@@ -61,7 +61,7 @@ export const AddCourseDateForm = ({
                                 <ShowCourseError name="startTime" />
                             </div>
                         </div>
-                        <div className="grid grid-cols-3 gap-x-2 items-center">
+                        <div className="flex flex-col gap-x-1 items-">
                             <label
                                 className={`text-xs  ${
                                     active ? 'text-white' : 'text-[#979797]'

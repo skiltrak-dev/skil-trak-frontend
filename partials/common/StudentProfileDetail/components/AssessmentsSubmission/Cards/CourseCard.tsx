@@ -22,9 +22,14 @@ export const CourseCard = ({
                 active
                     ? 'bg-primaryNew'
                     : 'bg-white border border-secondary-dark'
-            }  rounded-md  cursor-pointer grid grid-cols-7`}
+            }  rounded-md h-[71px] cursor-pointer grid grid-cols-2 relative overflow-hidden`}
         >
-            <div className="col-span-4 p-4 border-r">
+            <div className="w-20 h-5 bg-primary flex justify-center items-center absolute top-0 right-0">
+                <Typography variant="badge" color="text-white">
+                    {result?.result}
+                </Typography>
+            </div>
+            <div className="p-4 border-r">
                 <div className="flex flex-col gap-y-1">
                     <Typography
                         variant="small"
@@ -42,16 +47,16 @@ export const CourseCard = ({
                     </Typography>
                 </div>
 
-                <div className="mt-3">
+                {/* <div className="mt-3">
                     <CourseSubmisstionBadge
                         result={result}
                         resultLength={course?.results?.length}
                     />
-                </div>
+                </div> */}
             </div>
 
             {/*  */}
-            <div className="col-span-3 flex justify-center items-center">
+            <div className="flex justify-center items-center">
                 <CourseDate course={course} active={active as boolean} />
             </div>
         </div>
