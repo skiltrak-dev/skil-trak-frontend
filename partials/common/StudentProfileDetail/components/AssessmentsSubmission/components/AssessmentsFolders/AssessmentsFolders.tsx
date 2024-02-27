@@ -1,19 +1,32 @@
 import { LoadingAnimation, NoData, Typography } from '@components'
-import { AssessmentEvidenceDetailType } from '@types'
+import { AssessmentEvidenceDetailType, Course, Student } from '@types'
 import { useEffect } from 'react'
 import { FolderCard } from '../../Cards'
+import { AssessmentFiles, InitiateSign } from '../AssessmentFiles'
+import { useGetAssessmentResponseQuery } from '@queries'
 
 export const AssessmentsFolders = ({
     getFolders,
-    courseId,
+    student,
+    course,
     selectedFolder,
     onSelectFolder,
 }: {
+    student: Student
     getFolders: any
-    courseId: number | null | undefined
+    course: Course | null
     selectedFolder: AssessmentEvidenceDetailType | null
     onSelectFolder: (folder: AssessmentEvidenceDetailType) => void
 }) => {
+    const getAssessmentResponse = useGetAssessmentResponseQuery(
+        {
+            selectedFolder: Number(selectedFolder?.id),
+            student: Number(student?.user?.id),
+        },
+        {
+            skip: !selectedFolder || !student,
+        }
+    )
     return (
         <div className="px-4 h-[inherit]">
             <Typography variant="small" medium>

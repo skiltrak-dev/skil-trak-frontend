@@ -1,5 +1,6 @@
 import { ActionButton, Typography } from '@components'
 import moment from 'moment'
+import { HiPencilSquare } from 'react-icons/hi2'
 
 export const CourseTime = ({
     timing,
@@ -11,8 +12,8 @@ export const CourseTime = ({
     onEdit: () => void
 }) => {
     return (
-        <div className="flex flex-col gap-y-2 py-1">
-            <div className="flex justify-center items-center gap-x-2">
+        <div className="flex items-center gap-x-5 gap-y-2 py-1">
+            <div className="flex flex-col justify-center gap-x-2">
                 <label
                     className={`text-xs ${
                         active ? 'text-white' : 'text-[#979797]'
@@ -28,7 +29,7 @@ export const CourseTime = ({
                     {moment(timing?.startDate).format('Do MMM YYYY')}
                 </Typography>
             </div>
-            <div className="flex justify-center gap-x-2 items-center">
+            <div className="flex flex-col justify-center gap-x-2">
                 <label
                     className={`text-xs  ${
                         active ? 'text-white' : 'text-[#979797]'
@@ -63,15 +64,22 @@ export const CourseTime = ({
                     End Date
                 </Typography>
             </div> */}
-            <ActionButton
+            <div>
+                <HiPencilSquare
+                    className={`${active ? 'text-white' : 'text-primaryNew'}`}
+                    onClick={() => {
+                        onEdit()
+                    }}
+                />
+            </div>
+            {/* <ActionButton
                 onClick={() => {
                     onEdit()
                 }}
+                Icon={HiPencilSquare}
                 variant={'light'}
                 title={'Edit Course Time'}
-            >
-                Edit
-            </ActionButton>
+            ></ActionButton> */}
         </div>
     )
 }

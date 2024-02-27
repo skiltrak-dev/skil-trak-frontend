@@ -6,10 +6,14 @@ import {
 } from '@queries'
 import { AssessmentEvidenceDetailType, Course, Sector, Student } from '@types'
 import { getCourseResult } from '@utils'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
+import { Navigation } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { CourseCard, SectorCard } from '../../Cards'
+import { SliderStyleContainer } from '../../styles'
 import { AssessmentFiles } from '../AssessmentFiles'
 import { AssessmentsFolders } from '../AssessmentsFolders'
-import { CourseCard, SectorCard } from '../../Cards'
 import { FinalResult } from '../FinalResult'
 
 export const ArchivedAssessments = ({
@@ -23,6 +27,12 @@ export const ArchivedAssessments = ({
     const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
     const [selectedFolder, setSelectedFolder] =
         useState<AssessmentEvidenceDetailType | null>(null)
+
+    const navigationPrevRef = useRef(null)
+    const navigationNextRef = useRef(null)
+
+    const courseNavigationPrevRef = useRef(null)
+    const courseNavigationNextRef = useRef(null)
 
     const studentCourses = useStudentAssessmentCoursesQuery(
         Number(student?.id),
@@ -147,60 +157,151 @@ export const ArchivedAssessments = ({
         (f: any) => f?.studentResponse?.[0]?.reSubmitted
     )?.length
 
-    const isResubmittedFiles =
-        !getFolders.isLoading &&
-        !getFolders.isFetching &&
-        getFolders.isSuccess &&
-        rejectedFolderes === resubmitFiles &&
-        Number(files) > 0
-
-    const result = getCourseResult(selectedCourse?.results)
-
-    const allCommentsAdded = getFolders?.data?.every(
-        (f: any) => f?.studentResponse[0]?.comment
-    )
-
-    console.log({ selectedCourse })
+    const iconClasses =
+        'border border-secondary absolute top-1/2 -mt-2 z-10 cursor-pointer bg-primaryNew text-white shadow-md rounded-full hover:scale-150 transition-all hover:opacity-100 w-5 h-5 flex justify-center items-center'
 
     return (
         <div>
-            <div className="border-b border-secondary-dark px-4 py-2.5">
-                <Typography variant="small" medium>
-                    Sectors
-                </Typography>
-                <div className="mt-2.5 grid grid-cols-2 gap-2.5">
-                    {sectors?.map((sector: Sector) => (
-                        <SectorCard
-                            onClick={() => setSelectedSector(sector.id)}
-                            sector={sector}
-                            active={selectedSector === sector?.id}
-                        />
-                    ))}
+            <div className="grid grid-cols-3">
+                <div className="border-r border-secondary-dark px-4 py-2.5">
+                    <Typography variant="small" medium>
+                        Sectors
+                    </Typography>
+                    <div className="mt-2.5 px-2 gap-2.5">
+                        <SliderStyleContainer className="relative">
+                            <div className="swiper-container w-full relative">
+                                <Swiper
+                                    slidesPerView={1}
+                                    spaceBetween={10}
+                                    slidesPerGroup={1}
+                                    pagination={{
+                                        clickable: true,
+                                    }}
+                                    navigation={{
+                                        prevEl: navigationPrevRef.current,
+                                        nextEl: navigationNextRef.current,
+                                    }}
+                                    onSwiper={(swiper: any) => {
+                                        setTimeout(() => {
+                                            swiper.params.navigation.prevEl =
+                                                navigationPrevRef.current
+                                            swiper.params.navigation.nextEl =
+                                                navigationNextRef.current
+
+                                            // Re-init navigation
+                                            swiper.navigation.destroy()
+                                            swiper.navigation.init()
+                                            swiper.navigation.update()
+                                        })
+                                    }}
+                                    modules={[Navigation]}
+                                    className="mySwiper static"
+                                >
+                                    {sectors?.map((sector: Sector) => (
+                                        <SwiperSlide key={sector?.id}>
+                                            <SectorCard
+                                                onClick={() =>
+                                                    setSelectedSector(sector.id)
+                                                }
+                                                sector={sector}
+                                                active={
+                                                    selectedSector ===
+                                                    sector?.id
+                                                }
+                                            />
+                                        </SwiperSlide>
+                                    ))}
+                                    <div
+                                        ref={navigationPrevRef}
+                                        className={`${iconClasses} left-0 lg:-left-3`}
+                                    >
+                                        <MdKeyboardArrowLeft className="text-2xl text-white" />
+                                    </div>
+                                    <div
+                                        ref={navigationNextRef}
+                                        className={`${iconClasses} right-0 lg:-right-3`}
+                                    >
+                                        <MdKeyboardArrowRight className="text-2xl text-white" />
+                                    </div>
+                                </Swiper>
+                            </div>
+                        </SliderStyleContainer>
+                    </div>
+                </div>
+                <div className="col-span-2 px-4 py-2.5">
+                    <Typography variant="small" medium>
+                        Courses
+                    </Typography>
+                    <div className="mt-2.5 ">
+                        <SliderStyleContainer className="relative">
+                            <div className="swiper-container w-full relative">
+                                <Swiper
+                                    slidesPerView={1}
+                                    spaceBetween={10}
+                                    slidesPerGroup={1}
+                                    pagination={{
+                                        clickable: true,
+                                    }}
+                                    navigation={{
+                                        prevEl: courseNavigationPrevRef.current,
+                                        nextEl: courseNavigationNextRef.current,
+                                    }}
+                                    onSwiper={(swiper: any) => {
+                                        setTimeout(() => {
+                                            swiper.params.navigation.prevEl =
+                                                courseNavigationPrevRef.current
+                                            swiper.params.navigation.nextEl =
+                                                courseNavigationNextRef.current
+
+                                            // Re-init navigation
+                                            swiper.navigation.destroy()
+                                            swiper.navigation.init()
+                                            swiper.navigation.update()
+                                        })
+                                    }}
+                                    modules={[Navigation]}
+                                    className="mySwiper static"
+                                >
+                                    {courses?.map((course: Course) => (
+                                        <SwiperSlide key={course?.id}>
+                                            <CourseCard
+                                                onClick={() =>
+                                                    setSelectedCourse(course)
+                                                }
+                                                course={course}
+                                                active={
+                                                    selectedCourse?.id ===
+                                                    course?.id
+                                                }
+                                            />
+                                        </SwiperSlide>
+                                    ))}
+                                    <div
+                                        ref={courseNavigationPrevRef}
+                                        className={`${iconClasses} left-0 lg:-left-3`}
+                                    >
+                                        <MdKeyboardArrowLeft className="text-2xl text-white" />
+                                    </div>
+                                    <div
+                                        ref={courseNavigationNextRef}
+                                        className={`${iconClasses} right-0 lg:-right-3`}
+                                    >
+                                        <MdKeyboardArrowRight className="text-2xl text-white" />
+                                    </div>
+                                </Swiper>
+                            </div>
+                        </SliderStyleContainer>
+                    </div>
                 </div>
             </div>
 
-            {/*  */}
-            <div className="px-4 py-4 border-b border-secondary-dark">
-                <Typography variant="small" medium>
-                    Courses
-                </Typography>
-                <div className="mt-2.5 grid grid-cols-2 gap-2.5">
-                    {courses?.map((course: Course) => (
-                        <CourseCard
-                            onClick={() => setSelectedCourse(course)}
-                            course={course}
-                            active={selectedCourse?.id === course?.id}
-                        />
-                    ))}
-                </div>
-            </div>
-
-            <div className="border-b border-secondary-dark h-[450px] overflow-hidden">
+            <div className="border-y border-secondary-dark h-[450px] overflow-hidden">
                 <div className=" grid grid-cols-3 h-[inherit]">
                     <div className="py-4 border-r h-[inherit]">
                         <AssessmentsFolders
                             getFolders={getFolders}
-                            courseId={selectedCourse?.id}
+                            course={selectedCourse}
+                            student={student}
                             selectedFolder={selectedFolder}
                             onSelectFolder={onSelectFolder}
                         />

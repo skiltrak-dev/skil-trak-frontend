@@ -33,7 +33,7 @@ export const Notes = ({ userId }: { userId: number }) => {
                     <Button onClick={onAddNote}>Add Note</Button>
                 </div>
 
-                <div className="px-4">
+                <div className="px-4  py-3 box-border">
                     {notes.isError ? (
                         <TechnicalError
                             height="50vh"
@@ -41,7 +41,7 @@ export const Notes = ({ userId }: { userId: number }) => {
                             imageUrl={'/images/icons/common/notesError.png'}
                         />
                     ) : null}
-                    <div className="h-[425px] custom-scrollbar overflow-auto">
+                    <div className="h-[410px] custom-scrollbar overflow-auto">
                         <div className="flex flex-col gap-y-3">
                             {notes.isLoading ? (
                                 <div className="flex flex-col items-center justify-center h-60">

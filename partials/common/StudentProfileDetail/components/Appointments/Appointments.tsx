@@ -8,9 +8,13 @@ import {
 } from './components'
 import { User } from '@types'
 import { useRouter } from 'next/router'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 export const Appointments = ({ user }: { user: User }) => {
     const router = useRouter()
+    const role = getUserCredentials()?.role
+
     const tabs: TabProps[] = [
         {
             label: 'Upcoming',
@@ -40,12 +44,29 @@ export const Appointments = ({ user }: { user: User }) => {
         },
     ]
     return (
-        <Card noPadding>
+        <Card noPadding fullHeight>
             <div className="px-4 py-3.5 flex justify-between items-center border-b border-secondary-dark">
                 <Typography variant="label" semibold>
                     Appointments
                 </Typography>
-                <Button>Book Appointment</Button>
+                <Button
+                    onClick={() => {
+                        role === UserRoles.ADMIN
+                            ? router.push({
+                                  pathname:
+                                      '/portals/admin/appointment-type/create-appointment',
+                                  query: { student: user?.id },
+                              })
+                            : role === UserRoles.SUBADMIN
+                            ? router.push({
+                                  pathname: `/portals/sub-admin/tasks/appointments/create-appointment`,
+                                  query: { student: user?.id },
+                              })
+                            : ''
+                    }}
+                >
+                    Book Appointment
+                </Button>
             </div>
             <Tabs tabs={tabs} defaultTabSelected={0}>
                 {({ header, element }: any) => {

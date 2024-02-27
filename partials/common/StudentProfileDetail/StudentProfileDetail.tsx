@@ -26,6 +26,19 @@ import { IoIosArrowRoundBack } from 'react-icons/io'
 
 export const StudentProfileDetail = () => {
     const contextBar = useContextBar()
+    const [selectedId, setSelectedId] = useState<string>('')
+
+    useEffect(() => {
+        let timer: any = null
+        if (selectedId) {
+            timer = setTimeout(() => {
+                setSelectedId('')
+            }, 2000)
+        }
+        return () => {
+            clearTimeout(timer)
+        }
+    }, [selectedId])
 
     const router = useRouter()
 
@@ -103,21 +116,27 @@ export const StudentProfileDetail = () => {
         }
     }, [profile])
 
-    const ProfileIds = {
-        Workplace: 'workplace',
-        Notes: 'notes',
-        Assessments: 'assessments',
-        Appointments: 'appointments',
-        Schedule: 'schedule',
-        Mails: 'mails',
+    enum ProfileIds {
+        Workplace = 'workplace',
+        Notes = 'notes',
+        'Assessment Evidence' = 'assessments',
+        Mails = 'mails',
+        'All Communications' = 'allCommunication',
+        Appointments = 'appointments',
+        Tickets = 'tickets',
+        Schedule = 'schedule',
     }
 
     const onHandleScroll = (id: string) => {
+        console.log({ id })
         const detailItem = document.getElementById(`student-profile-${id}`)
         if (detailItem) {
             detailItem.scrollIntoView({ behavior: 'smooth' })
         }
     }
+
+    const activeBorder = (key: ProfileIds) =>
+        selectedId === key ? 'border-2 border-primary rounded-xl' : ''
 
     return (
         <div>
@@ -134,38 +153,24 @@ export const StudentProfileDetail = () => {
                             <FaTimes />
                         </div>
                         <div className="w-[1px] h-6 bg-secondary-dark" />
-                        {[
-                            { item: 'Workplace', id: ProfileIds.Workplace },
-                            { item: 'Notes', id: ProfileIds.Notes },
-                            {
-                                item: 'Assessment Evidence',
-                                id: ProfileIds.Assessments,
-                            },
-                            {
-                                item: 'Appointments',
-                                id: ProfileIds.Appointments,
-                            },
-                            { item: 'Tickets', id: ProfileIds.Appointments },
-                            { item: 'Schedule', id: ProfileIds.Schedule },
-                            { item: 'Mails', id: ProfileIds.Mails },
-                            {
-                                item: 'All communications',
-                                id: ProfileIds.Mails,
-                            },
-                        ]?.map((item, index) => (
-                            <div
-                                className="cursor-pointer"
-                                onClick={() => {
-                                    onHandleScroll(item?.id)
-                                }}
-                            >
-                                <Typography medium>
-                                    <span className="text-[9px] block">
-                                        {item?.item}
-                                    </span>
-                                </Typography>
-                            </div>
-                        ))}
+                        {Object.entries(ProfileIds)?.map(
+                            ([key, value], index) => (
+                                <div
+                                    className="cursor-pointer"
+                                    onClick={() => {
+                                        onHandleScroll(value)
+                                        setQuickSearch(false)
+                                        setSelectedId(value)
+                                    }}
+                                >
+                                    <Typography medium>
+                                        <span className="text-[9px] block">
+                                            {key}
+                                        </span>
+                                    </Typography>
+                                </div>
+                            )
+                        )}
                     </div>
                 ) : (
                     <div
@@ -191,7 +196,9 @@ export const StudentProfileDetail = () => {
                 <div className="flex flex-col gap-y-5">
                     <div className="h-[500px] overflow-hidden grid grid-cols-5 gap-x-3">
                         <div
-                            className="col-span-3 h-full"
+                            className={`col-span-3 h-full ${activeBorder(
+                                ProfileIds.Workplace
+                            )}`}
                             id={`student-profile-${ProfileIds.Workplace}`}
                         >
                             <Workplace
@@ -200,37 +207,67 @@ export const StudentProfileDetail = () => {
                             />
                         </div>
                         <div
-                            className="col-span-2 h-full"
+                            className={`col-span-2 h-full ${activeBorder(
+                                ProfileIds.Notes
+                            )}`}
                             id={`student-profile-${ProfileIds.Notes}`}
                         >
                             <Notes userId={profile?.data?.user?.id} />
                         </div>
                     </div>
-                    <div id={`student-profile-${ProfileIds.Assessments}`}>
+                    <div
+                        className={`${activeBorder(
+                            ProfileIds['Assessment Evidence']
+                        )}`}
+                        id={`student-profile-${ProfileIds['Assessment Evidence']}`}
+                    >
                         <AssessmentSubmissions student={profile?.data} />
                     </div>
-                    <div
-                        className="h-[500px] overflow-hidden grid grid-cols-2 gap-x-3"
-                        id={`student-profile-${ProfileIds.Appointments}`}
-                    >
-                        <Appointments user={profile?.data?.user} />
-                        <Tickets studentId={profile?.data?.id} />
+                    <div className="h-[640px] overflow-hidden grid grid-cols-2 gap-x-3">
+                        <div
+                            id={`student-profile-${ProfileIds.Mails}`}
+                            className={`${activeBorder(ProfileIds.Mails)}`}
+                        >
+                            <Mails user={profile?.data?.user} />
+                        </div>
+                        <div
+                            className={`${activeBorder(
+                                ProfileIds['All Communications']
+                            )}`}
+                            id={`student-profile-${ProfileIds['All Communications']}`}
+                        >
+                            <AllCommunication user={profile?.data?.user} />
+                        </div>
                     </div>
                     <div
-                        className=""
+                        className={`h-[500px] overflow-hidden grid grid-cols-2 gap-x-3 `}
+                    >
+                        <div
+                            id={`student-profile-${ProfileIds.Appointments}`}
+                            className={`${
+                                selectedId === ProfileIds.Appointments
+                                    ? 'border-2 border-primary'
+                                    : ''
+                            }`}
+                        >
+                            <Appointments user={profile?.data?.user} />
+                        </div>
+                        <div
+                            id={`student-profile-${ProfileIds.Tickets}`}
+                            className={`${activeBorder(ProfileIds.Tickets)}`}
+                        >
+                            <Tickets studentId={profile?.data?.id} />
+                        </div>
+                    </div>
+
+                    <div
+                        className={`${activeBorder(ProfileIds.Schedule)}`}
                         id={`student-profile-${ProfileIds.Schedule}`}
                     >
                         <Schedule
                             user={profile?.data?.user}
                             studentId={profile?.data?.id}
                         />
-                    </div>
-                    <div
-                        className="h-[640px] overflow-hidden grid grid-cols-2 gap-x-3"
-                        id={`student-profile-${ProfileIds.Mails}`}
-                    >
-                        <Mails user={profile?.data?.user} />
-                        <AllCommunication user={profile?.data?.user} />
                     </div>
                 </div>
             ) : (

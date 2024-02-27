@@ -15,7 +15,7 @@ export const UpcomingAppointments = ({ userId }: { userId: number }) => {
         status: 'future',
     })
     return (
-        <div className="h-[350px] custom-scrollbar overflow-auto">
+        <div className="h-[inherit] custom-scrollbar overflow-auto">
             {futureAppointments.isError ? (
                 <TechnicalError
                     description={false}
