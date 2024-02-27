@@ -18,7 +18,7 @@ export const SectorCard = ({
                 active
                     ? 'bg-primaryNew'
                     : 'bg-white border border-secondary-dark'
-            }  rounded-md p-4 cursor-pointer`}
+            } h-[71px] rounded-md p-4 cursor-pointer`}
         >
             <Typography
                 variant="small"
