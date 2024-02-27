@@ -66,6 +66,15 @@ export const Approved = () => {
             },
             Icon: FaEye,
         },
+        {
+            text: 'New Profile',
+            onClick: (workplace: any) => {
+                router.push(
+                    `/portals/industry/students/current-students/${workplace?.id}/detail`
+                )
+            },
+            Icon: FaEye,
+        },
     ]
 
     const onApproveClicked = (industry: any) => {

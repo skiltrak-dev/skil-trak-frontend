@@ -3,10 +3,10 @@ import {
     EmptyData,
     LoadingAnimation,
     TechnicalError,
-    Typography
+    Typography,
 } from '@components'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
-import { useNotification } from '@hooks'
+import { useAlert, useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
@@ -15,6 +15,8 @@ import { EsignSignatureModal, FinishSignModal } from './modal'
 
 export const ViewDocumentAndSign = () => {
     const router = useRouter()
+
+    const { alert } = useAlert()
 
     const [showSignersField, setShowSignersField] = useState<boolean>(false)
 
@@ -42,6 +44,16 @@ export const ViewDocumentAndSign = () => {
             refetchOnMountOrArgChange: true,
         }
     )
+
+    useEffect(() => {
+        if (tabs?.data && tabs?.data?.length > 0) {
+            alert.warning({
+                title: 'Make a Sign first',
+                description: 'Make a Sign before to fill your fields data',
+            })
+        }
+    }, [tabs])
+
     const scrollTargetRef = useRef<any>([])
 
     const scrollToPage = (pageIndex: number) => {

@@ -1,3 +1,4 @@
+import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
 import { FileMimeTypes } from '@components/inputs'
 import { PdfViewer } from '@components/PdfViewer'
 import { getDocType } from '@components/sections/student/AssessmentsContainer'
@@ -70,9 +71,13 @@ export const AssessmentFolderFileCard = ({
                         </div>
                     </div>
                 )}
-                {deleteAction && !file?.agreement && (
-                    <div className="ml-auto">{deleteAction(file?.id)}</div>
-                )}
+                <AuthorizedUserComponent
+                    roles={[UserRoles.ADMIN, UserRoles.RTO, UserRoles.SUBADMIN]}
+                >
+                    {deleteAction && !file?.agreement && (
+                        <div className="ml-auto">{deleteAction(file?.id)}</div>
+                    )}
+                </AuthorizedUserComponent>
             </div>
             <div
                 className={` basis-1/6 border rounded py-2 ${

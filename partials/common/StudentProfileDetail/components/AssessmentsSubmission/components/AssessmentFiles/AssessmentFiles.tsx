@@ -1,4 +1,9 @@
-import { AssessmentFolderFileCard, NoData, Typography } from '@components'
+import {
+    AssessmentFolderFileCard,
+    AuthorizedUserComponent,
+    NoData,
+    Typography,
+} from '@components'
 import { DocumentsView } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { AssessmentEvidenceDetailType, Course } from '@types'
@@ -12,6 +17,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 import { SliderStyleContainer } from '../../styles'
+import { UserRoles } from '@constants'
 
 export const AssessmentFiles = ({
     course,
@@ -86,13 +92,17 @@ export const AssessmentFiles = ({
                         {selectedFolder?.capacity || 10}
                     </Typography>
                 </div>
-                {uploadAssessment ? (
-                    <AssessmentFilesUpload
-                        results={result}
-                        studentId={Number(router.query?.id)}
-                        selectedFolder={selectedFolder}
-                    />
-                ) : null}
+                <AuthorizedUserComponent
+                    roles={[UserRoles.ADMIN, UserRoles.RTO, UserRoles.SUBADMIN]}
+                >
+                    {uploadAssessment ? (
+                        <AssessmentFilesUpload
+                            results={result}
+                            studentId={Number(router.query?.id)}
+                            selectedFolder={selectedFolder}
+                        />
+                    ) : null}
+                </AuthorizedUserComponent>
             </div>
 
             <div className="h-[inherit] overflow-auto custom-scrollbar px-5 py-3">

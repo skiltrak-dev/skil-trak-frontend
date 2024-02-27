@@ -1,4 +1,5 @@
-import { Typography } from '@components'
+import { AuthorizedUserComponent, Typography } from '@components'
+import { UserRoles } from '@constants'
 import { Rto } from '@types'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -11,13 +12,17 @@ export const RtoDetail = ({ rto }: { rto: Rto }) => {
                 <Typography variant="small" medium>
                     RTO
                 </Typography>
-                <Link
-                    href={`/portals/sub-admin/users/rtos/${rto?.id}?tab=overview`}
+                <AuthorizedUserComponent
+                    roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                 >
-                    <Typography variant="xs" color="text-info" medium>
-                        All Details
-                    </Typography>
-                </Link>
+                    <Link
+                        href={`/portals/sub-admin/users/rtos/${rto?.id}?tab=overview`}
+                    >
+                        <Typography variant="xs" color="text-info" medium>
+                            All Details
+                        </Typography>
+                    </Link>
+                </AuthorizedUserComponent>
             </div>
 
             {/*  */}

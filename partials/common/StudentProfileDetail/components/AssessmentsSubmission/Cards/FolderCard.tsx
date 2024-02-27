@@ -12,7 +12,11 @@ export const FolderCard = ({
     onClick: () => void
     folder: AssessmentEvidenceDetailType
 }) => {
-    const response: StudentResponseType = folder?.studentResponse[0]
+    console.log({ folder })
+    const response: StudentResponseType | null =
+        folder?.studentResponse && folder?.studentResponse?.length > 0
+            ? folder?.studentResponse?.[0]
+            : null
 
     const getStatusBadge = () => {
         switch (response?.status) {
@@ -94,14 +98,14 @@ export const FolderCard = ({
                     )
                 ) : null}
             </div>
-            {response && (
+            {response ? (
                 <div>
                     <p className={commentClasses}>
                         {response?.reSubmitted && 'Previous Comment:'}{' '}
                         {response?.comment}
                     </p>
                 </div>
-            )}
+            ) : null}
         </div>
     )
 }
