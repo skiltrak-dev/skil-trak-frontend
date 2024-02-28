@@ -68,7 +68,7 @@ export const StudentAvailability = ({ availability }: any) => {
 
     return (
         <div>
-            <Typography variant={'xs'} color={'text-gray-400'}>
+            <Typography variant={'label'} color={'text-gray-400'}>
                 Student Availability
             </Typography>
 
@@ -78,11 +78,12 @@ export const StudentAvailability = ({ availability }: any) => {
                         {shifts.map((shift) => (
                             <Typography
                                 key={shift}
-                                variant={'xs'}
+                                variant={'label'}
                                 capitalize
                                 center
+                                bold
                             >
-                                <span className="font-bold">{shift}</span>
+                                {shift}
                             </Typography>
                         ))}
                     </div>
@@ -95,7 +96,7 @@ export const StudentAvailability = ({ availability }: any) => {
                             >
                                 <Typography
                                     capitalize
-                                    variant={'xs'}
+                                    variant={'small'}
                                     color={'text-gray-400'}
                                 >
                                     {time?.name}

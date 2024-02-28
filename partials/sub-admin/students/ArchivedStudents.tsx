@@ -287,11 +287,13 @@ export const ArchivedStudents = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div
-                                        id="students-list"
-                                        className="px-6 overflow-auto custom-scrollbar"
-                                    >
-                                        {table}
+                                    <div className="overflow-x-auto remove-scrollbar">
+                                        <div
+                                            className="px-6 w-full"
+                                            id={'studentScrollId'}
+                                        >
+                                            {table}
+                                        </div>
                                     </div>
                                     {data?.data?.length > 10 && (
                                         <div className="p-6 mb-2 flex justify-between">
