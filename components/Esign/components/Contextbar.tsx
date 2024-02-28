@@ -375,7 +375,9 @@ export const Contextbar = ({
                                         'isRequired'
                                     )
                                 }}
-                                defaultChecked={content?.data?.isRequired}
+                                defaultChecked={
+                                    content?.data?.isRequired || false
+                                }
                                 value={content?.data?.isRequired}
                                 id="isRequired"
                                 label={'IsRequired'}

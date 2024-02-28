@@ -1,11 +1,8 @@
 import { LoadingAnimation, NoData, Typography } from '@components'
+import { FolderCard } from '@partials/common/StudentProfileDetail/components/AssessmentsSubmission/Cards'
 import { AssessmentEvidenceDetailType, Course, Student } from '@types'
-import { useEffect } from 'react'
-import { FolderCard } from '../../Cards'
-import { AssessmentFiles, InitiateSign } from '../AssessmentFiles'
-import { useGetAssessmentResponseQuery } from '@queries'
 
-export const AssessmentsFolders = ({
+export const IndustryDocsFolders = ({
     getFolders,
     student,
     course,
@@ -21,7 +18,7 @@ export const AssessmentsFolders = ({
     return (
         <div className="px-4 h-[inherit]">
             <Typography variant="small" medium>
-                Assessment Submission  - Submission #0
+                Student Submissions
             </Typography>
 
             <div className="mt-4 h-[inherit]">
@@ -37,16 +34,16 @@ export const AssessmentsFolders = ({
                     </div>
                 ) : getFolders?.data && getFolders?.data?.length > 0 ? (
                     <div className="flex flex-col gap-y-2.5 h-[80%] overflow-auto custom-scrollbar pb-2">
-                        {getFolders?.data?.map(
-                            (folder: AssessmentEvidenceDetailType) => (
-                                <FolderCard
-                                    folder={folder}
-                                    key={folder?.id}
-                                    active={selectedFolder?.id === folder?.id}
-                                    onClick={() => onSelectFolder(folder)}
-                                />
-                            )
-                        )}
+                        {getFolders?.data?.map((folder: any) => (
+                            <FolderCard
+                                folder={folder?.folder}
+                                key={folder?.id}
+                                active={
+                                    selectedFolder?.id === folder?.folder?.id
+                                }
+                                onClick={() => onSelectFolder(folder?.folder)}
+                            />
+                        ))}
                     </div>
                 ) : (
                     getFolders.isSuccess && (

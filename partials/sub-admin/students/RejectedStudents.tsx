@@ -253,11 +253,13 @@ export const RejectedStudents = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div
-                                        id="students-list"
-                                        className="px-6 overflow-auto"
-                                    >
-                                        {table}
+                                    <div className="overflow-x-auto remove-scrollbar">
+                                        <div
+                                            className="px-6 w-full"
+                                            id={'studentScrollId'}
+                                        >
+                                            {table}
+                                        </div>
                                     </div>
                                 </div>
                             )

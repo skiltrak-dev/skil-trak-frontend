@@ -347,7 +347,7 @@ export default function ESign() {
                 data: {
                     ...data.active.data.current,
                     dataLabel: data.active.id,
-                    ...(data.active.data.current?.isCustom
+                    ...(data.active.data.current?.isCustom && !isCheckBox
                         ? { isRequired: true }
                         : {}),
                 },
@@ -364,6 +364,8 @@ export default function ESign() {
             }
 
             // return null
+
+            console.log({ tab })
 
             if (tab?.page || tab?.page === 0) {
                 setLastId(newId)
