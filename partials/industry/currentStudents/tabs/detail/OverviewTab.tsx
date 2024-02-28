@@ -1,20 +1,10 @@
-// import { ProgressStep } from '@components'
-// import { PinnedNotes } from '@components/sections/subAdmin'
-
-// import { Courses } from '../../components/Courses'
-// import { MyRto } from '../../components/MyRto'
-// import { MyWorkplace } from '../../components/MyWorkplace'
-
-import { CommonApi } from '@queries'
-
-//
-import { CourseList, RecentAppointment } from '@partials/common'
+import { Typography } from '@components'
 import { SectorCard } from '@partials/admin/components'
-import { NoData, Typography } from '@components'
-import { AssessmentsEvidence } from './AssessmentsEvidence'
-import { RequiredDocs } from './RequiredDocs'
+import { RecentAppointment } from '@partials/common'
 import { SmallDetail } from '../../components/SmallDetail'
 import { ViewStudentProfileCB } from '../../contextBar'
+import { AssessmentsEvidence } from './AssessmentsEvidence'
+import { RequiredDocs } from './RequiredDocs'
 
 type StudentsProfileOverviewProps = {
     student: any

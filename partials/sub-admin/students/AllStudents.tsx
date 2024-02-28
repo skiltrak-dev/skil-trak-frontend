@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { ReactElement, useRef } from 'react'
+import { ReactElement } from 'react'
 
 // Icons
 import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
@@ -20,7 +20,7 @@ import {
 import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { useActionModal, useJoyRide, useScrollIntoView } from '@hooks'
+import { useActionModal, useJoyRide } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
@@ -37,18 +37,15 @@ import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import {
-    calculateRemainingDays,
     getStudentWorkplaceAppliedIndustry,
     setLink,
     studentsListWorkplace,
 } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
+import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
 import { IndustryCellInfo } from '../Industries'
 import { RTOCellInfo } from '../rto/components'
 import { InterviewModal } from '../workplace/modals'
-import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
-import moment from 'moment'
-import { AiOutlineWarning } from 'react-icons/ai'
 
 export const AllStudents = () => {
     const router = useRouter()
@@ -389,11 +386,13 @@ export const AllStudents = () => {
                                         </div>
                                     </div>
 
-                                    <div
-                                        id="students-list"
-                                        className="px-6 overflow-auto remove-scrollbar"
-                                    >
-                                        {table}
+                                    <div className="overflow-x-auto remove-scrollbar">
+                                        <div
+                                            className="px-6 w-full"
+                                            id={'studentScrollId'}
+                                        >
+                                            {table}
+                                        </div>
                                     </div>
                                     {data?.data?.length > 10 && (
                                         <div className="p-6 mb-2 flex justify-between">

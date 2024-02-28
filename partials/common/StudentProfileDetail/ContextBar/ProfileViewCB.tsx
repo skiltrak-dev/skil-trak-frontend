@@ -22,7 +22,7 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                         name={profile?.user?.name}
                     />
                 </div>
-                <ProfileLinks />
+                <ProfileLinks profile={profile} />
             </div>
 
             {/* User */}

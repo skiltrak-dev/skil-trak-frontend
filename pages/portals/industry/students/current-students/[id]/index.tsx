@@ -1,19 +1,14 @@
-import { ReactElement, useEffect } from 'react'
+import { ReactElement } from 'react'
 
-import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
 // query
+import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
+import { useContextBar } from '@hooks'
+import { DetailTabs, IndustryStudentsLayout } from '@partials/industry'
+import { Actions } from '@partials/industry/currentStudents/components/Actions'
 import { IndustryApi } from '@queries'
 import { useRouter } from 'next/router'
-import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
-import {
-    DetailTabs,
-    IndustryStudentsLayout,
-    ViewStudentProfileCB,
-} from '@partials/industry'
-import { Actions } from '@partials/industry/currentStudents/components/Actions'
-import { useContextBar } from '@hooks'
 
 const StudentDetail: NextPageWithLayout = () => {
     const router = useRouter()
@@ -23,19 +18,6 @@ const StudentDetail: NextPageWithLayout = () => {
         Number(router.query.id),
         { skip: !router.query.id }
     )
-
-    // useEffect(() => {
-    //     if (detail.isSuccess && detail.data?.student) {
-    //         contextBar.show(false)
-    //         contextBar.setContent(
-    //             <ViewStudentProfileCB student={detail?.data?.student} />
-    //         )
-    //     }
-    //     return () => {
-    //         contextBar.hide()
-    //         contextBar.setContent(null)
-    //     }
-    // }, [detail])
 
     return (
         <>

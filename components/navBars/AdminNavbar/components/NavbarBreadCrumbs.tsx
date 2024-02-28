@@ -19,7 +19,7 @@ export const NavbarBreadCrumbs = ({
                     legacyBehavior
                     href={`/${links.slice(0, index + 1).join('/')}`}
                 >
-                    <span className="whitespace-pre">
+                    <span className="whitespace-pre block cursor-pointer">
                         {link.toUpperCase().replace('-', ' ')}
                     </span>
                 </Link>{' '}

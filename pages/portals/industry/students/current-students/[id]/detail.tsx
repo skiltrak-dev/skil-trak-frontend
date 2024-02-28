@@ -7,19 +7,15 @@ import { useContextBar } from '@hooks'
 import { IndustryStudentsLayout } from '@partials/industry'
 import { IndustryApi } from '@queries'
 import { useRouter } from 'next/router'
+import { IndustryCurrentStudents } from '@partials/industry/NewCurrentStudent'
 
 const StudentDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const contextBar = useContextBar()
 
-    const detail = IndustryApi.Workplace.useWorkplaceDetail(
-        Number(router.query.id),
-        { skip: !router.query.id }
-    )
-
     return (
         <>
-            <p>Saad</p>
+            <IndustryCurrentStudents />
         </>
     )
 }
