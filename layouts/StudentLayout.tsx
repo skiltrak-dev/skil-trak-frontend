@@ -45,7 +45,12 @@ const urls = [
 ]
 
 const redirectUrls = urls?.map((url: string) => `${getRoutePath}${url}`)
-
+enum TalentPoolLinks {
+    TALENTPOOL = '/portals/student/talent-pool',
+    REGISTERNOW = '/portals/student/talent-pool/register-now',
+    PROFILE = '/portals/student/talent-pool/profile',
+    INDUSTRYREQUEST = '/portals/student/talent-pool/industry-request',
+}
 export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     const [mounted, setMounted] = useState(false)
     const router = useRouter()
@@ -143,7 +148,6 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
             }
         }
     }, [profileCompletion, profile, pendingDocuments, router])
-
     return (
         <RedirectUnApprovedUsers
             getRoutePath={getRoutePath}
@@ -152,7 +156,14 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
             {modal}
             <UserLayout>
                 <>
-                    <StudentContextBar />
+                    {router?.pathname !== TalentPoolLinks.TALENTPOOL &&
+                        router?.pathname !== TalentPoolLinks.REGISTERNOW &&
+                        router?.pathname !== TalentPoolLinks.PROFILE &&
+                        router?.pathname !== TalentPoolLinks.INDUSTRYREQUEST &&
+                        (!router?.query.id || router?.pathname !== `${TalentPoolLinks.INDUSTRYREQUEST}/[id]`) && 
+                            (
+                            <StudentContextBar />
+                        )}
                     <div className="px-4 mb-32 md:px-8">
                         <div className="mb-6">
                             <div className="flex justify-between">

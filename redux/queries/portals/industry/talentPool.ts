@@ -1,0 +1,45 @@
+import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
+import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+
+const PREFIX = 'industries'
+export const talentPoolEndpoints = (
+    builder: EndpointBuilder<BaseQueryFn, string, string>
+) => ({
+    getMatchingProfilesList: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/talentpool/profiles`,
+            params,
+        }),
+        providesTags: ['MatchingProfiles'],
+    }),
+    getMatchingProfileDetail: builder.query<any, any>({
+        query: (id) => ({
+            url: `talentpool/profile/${id}/detail`,
+        }),
+        providesTags: ['MatchingProfiles'],
+    }),
+    getTalentPoolRequiredDocs: builder.query<any, void>({
+        query: () => ({
+            url: `talentpool/list-documents`,
+        }),
+        providesTags: ['MatchingProfiles'],
+    }),
+    // connection-request/add
+
+    sentConnectionRequest: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `talentpool/connection-request/add`,
+            method: 'POST',
+            body,
+            // talentPoolProfile: id of profile
+        }),
+        invalidatesTags: ['MatchingProfiles'],
+    }),
+    // getIndustryAppointments: builder.query<any, any>({
+    //     query: (params) => ({
+    //         url: 'my-appointments/view',
+    //         params,
+    //     }),
+    //     providesTags: ['IndustryAppointment'],
+    // }),
+})

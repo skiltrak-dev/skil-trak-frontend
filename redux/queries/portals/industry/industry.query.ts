@@ -1,3 +1,4 @@
+import { talentPoolEndpoints } from './talentPool';
 import { emptySplitApi } from '../empty.query'
 import { appointmentsEndpoints } from './appointment'
 
@@ -80,6 +81,7 @@ export const industryApi = emptySplitApi.injectEndpoints({
         ...appointmentsEndpoints(build),
         ...notificationsEndpoints(build),
         ...availableShiftsEndpoints(build),
+        ...talentPoolEndpoints(build),
     }),
     // overrideExisting: true,
 })
@@ -214,6 +216,11 @@ export const {
 
     // ----- HEADQUARTER ----- //
     useGetIndustryHeadQuarterQuery,
+    // ----- TALENT POOL ---- //
+    useGetMatchingProfilesListQuery,
+    useGetMatchingProfileDetailQuery,
+    useGetTalentPoolRequiredDocsQuery,
+    useSentConnectionRequestMutation, 
 } = industryApi
 
 export const IndustryApi = {
@@ -346,5 +353,11 @@ export const IndustryApi = {
     },
     HeadQuarter: {
         useHeadQuarterList: useGetIndustryHeadQuarterQuery,
+    },
+    TalentPool: {
+        useMatchingProfilesList: useGetMatchingProfilesListQuery,
+        useMatchingProfileDetail: useGetMatchingProfileDetailQuery,
+        useRequiredDocsList: useGetTalentPoolRequiredDocsQuery,
+        useSentRequestConnection: useSentConnectionRequestMutation,
     },
 }

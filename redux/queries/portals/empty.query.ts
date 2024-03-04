@@ -72,6 +72,7 @@ const industryTagTypes = [
     'EmployeeTask',
     'Notifications',
     'AvailableShifts',
+    'MatchingProfiles',
     'RequestAVolunteer',
     'IndustryWorkplace',
     'IndustryAppointment',
@@ -88,6 +89,7 @@ const studentTagTypes = [
     'StudentAppointments',
     'StudentAssessmentEvidence',
     'StudentAssessmentEvidence',
+    'TalentPoolRequiredDocs'
 ]
 
 const commonTagTypes = [
