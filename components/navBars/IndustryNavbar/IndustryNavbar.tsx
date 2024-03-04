@@ -12,6 +12,7 @@ import {
     MdWork,
 } from 'react-icons/md'
 import { NavLinkItem } from '../NavLinkItem'
+import { LiaCertificateSolid } from 'react-icons/lia'
 
 const PREFIX = '/portals/industry'
 
@@ -24,6 +25,7 @@ const Routes = {
     ESign: `${PREFIX}/students/e-sign`,
     RequestAVolunteer: `${PREFIX}/students/request-a-volunteer`,
     Notifications: `${PREFIX}/notifications`,
+    TalentPool: `${PREFIX}/talent-pool`,
 }
 
 export const IndustryNavbar = () => {
@@ -73,6 +75,13 @@ export const IndustryNavbar = () => {
             activeClasses: 'bg-green-100 text-green-700',
             inActiveClasses: 'text-slate-700',
             id: 'jobs',
+        },
+        {
+            link: Routes.TalentPool,
+            text: 'Talent Pool',
+            Icon: LiaCertificateSolid,
+            activeClasses: 'bg-blue-100 text-blue-700',
+            inActiveClasses: 'text-slate-700',
         },
         {
             link: Routes.ESign,
