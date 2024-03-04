@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { render, screen } from '@testing-library/react'
+import { render, waitFor, screen } from '@testing-library/react'
 import { EmergencyContact } from '../EmergencyContact'
 import { StudentDetailCard } from '../StudentDetailCard'
 
@@ -13,7 +13,10 @@ import { StudentDetailCard } from '../StudentDetailCard'
 // }))
 
 describe('MyComponent', () => {
-    it('Saad', () => {
-        render(<StudentDetailCard detail="Saad" title="Saad" />)
+    it('Saad', async () => {
+        await waitFor(() => {
+            render(<StudentDetailCard detail="Saad" title="Saad" />)
+            // Your assertions or queries here
+        })
     })
 })

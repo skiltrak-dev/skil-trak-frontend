@@ -11,7 +11,12 @@ import {
     StudentsFilterType,
     UserStatus,
 } from '@types'
-import { AuthUtils, CourseSelectOption, WorkplaceCurrentStatus, formatOptionLabel } from '@utils'
+import {
+    AuthUtils,
+    CourseSelectOption,
+    WorkplaceCurrentStatus,
+    formatOptionLabel,
+} from '@utils'
 import { SetQueryFilters } from './SetQueryFilters'
 import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
@@ -156,7 +161,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                         (status) => status.value === filter?.status
                     )}
                     options={StatusOptions}
-                    placeholder={'Select Sectors...'}
+                    placeholder={'Select Status...'}
                     onChange={(e: OptionType) => {
                         onFilterChange({
                             ...filter,

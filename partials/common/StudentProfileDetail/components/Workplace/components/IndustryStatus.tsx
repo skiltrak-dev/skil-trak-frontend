@@ -1,6 +1,7 @@
 import { Typography } from '@components'
 import { useNotification } from '@hooks'
 import { useRequestType } from '@partials/common/StudentProfileDetail/hooks'
+import { WorkplaceCurrentStatus } from '@utils'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
@@ -97,11 +98,21 @@ export const IndustryStatus = ({
                                 })
                             }
                         }}
-                        className="w-full relative cursor-pointer px-4 py-2.5 flex justify-evenly gap-x-2 rounded-md border border-[#128C7E] overflow-hidden"
+                        className={`${
+                            workplace?.currentStatus ===
+                            WorkplaceCurrentStatus.PlacementStarted
+                                ? 'bg-success-dark'
+                                : 'bg-white'
+                        } w-full relative cursor-pointer px-4 py-2.5 flex justify-evenly gap-x-2 rounded-md border border-[#128C7E] overflow-hidden`}
                     >
                         <Typography
                             variant="small"
-                            color="text-[#128C7E]"
+                            color={
+                                workplace?.currentStatus ===
+                                WorkplaceCurrentStatus.PlacementStarted
+                                    ? 'text-white'
+                                    : 'text-[#128C7E]'
+                            }
                             semibold
                             uppercase
                         >
@@ -115,7 +126,14 @@ export const IndustryStatus = ({
                             }
                         </Typography>
 
-                        <IoIosArrowDown />
+                        <IoIosArrowDown
+                            className={
+                                workplace?.currentStatus ===
+                                WorkplaceCurrentStatus.PlacementStarted
+                                    ? 'text-white'
+                                    : 'text-[#128C7E]'
+                            }
+                        />
                     </div>
                     <div
                         className={`w-auto  bg-white shadow-md rounded-md z-10 absolute top-full left-0 overflow-auto custom-scrollbar transition-all duration-500 ${

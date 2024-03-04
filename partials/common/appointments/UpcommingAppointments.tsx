@@ -34,17 +34,19 @@ export const UpcomingAppointments = ({ userId }: { userId?: number }) => {
                 </Typography>
             </div>
             {futureAppointments.isError && (
-                <NoData text={'Some Network issue, Try Reload'} />
+                <NoData text={'Some Technical issue, Try Reload'} />
             )}
             {futureAppointments.isLoading ? (
                 <LoadingAnimation size={90} />
-            ) : futureAppointments?.data && futureAppointments?.data?.length ? (
+            ) : futureAppointments?.data &&
+              futureAppointments?.data?.length &&
+              futureAppointments?.isSuccess ? (
                 <FutureAppointments
                     appointments={futureAppointments?.data}
                     onAppointmentClicked={onAppointmentClicked}
                 />
             ) : (
-                !futureAppointments.isError && (
+                futureAppointments.isSuccess && (
                     <EmptyData
                         imageUrl="/images/icons/appointment.png"
                         title={'No Upcomming Appointments'}

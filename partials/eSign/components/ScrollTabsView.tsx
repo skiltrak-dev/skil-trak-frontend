@@ -8,14 +8,16 @@ export const ScrollTabsView = ({
     scrollToPage,
     customFieldsAndSign,
     setSelectedFillDataField,
+    onClick,
 }: {
     scrollToPage: any
     customFieldsAndSign: any
     setSelectedFillDataField: any
+    onClick: any
 }) => {
     return (
-        <Card noPadding>
-            <div className="p-2 flex flex-col gap-y-2 h-[85vh] overflow-y-auto custom-scrollbar">
+        <Card noPadding fullHeight>
+            <div className="p-2 flex flex-col gap-y-2 h-full overflow-y-auto custom-scrollbar">
                 <div>
                     <Typography variant="small" semibold>
                         Click here to fill the data in form
@@ -26,6 +28,7 @@ export const ScrollTabsView = ({
                         return (
                             <div
                                 onClick={() => {
+                                    onClick()
                                     scrollToPage(Number(fields?.number - 1))
                                     // scrollToPage(Number(i))
                                 }}
@@ -45,6 +48,7 @@ export const ScrollTabsView = ({
                         <div>
                             <div
                                 onClick={() => {
+                                    onClick()
                                     setSelectedFillDataField(fields?.id)
                                     scrollToPage(Number(fields?.number - 1))
                                     // scrollToPage(Number(i))
