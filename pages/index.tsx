@@ -2,19 +2,24 @@ import { NextPage } from 'next'
 import { useRef } from 'react'
 // Components
 // site components
-import { ContactUs } from '@components/site/ContactUs'
-import { Footer3 } from '@components/site/Footer3'
+import { Footer4 } from '@components/site'
 import { GetStartedWithUs } from '@components/site/GetStartedWithUs'
 import { JumboSection } from '@components/site/JumboSection'
-import { OurPartners } from '@components/site/OurPartners'
-import { WeOperate } from '@components/site/WeOperate'
+import { OurTechnicalPartners } from '@components/site/OurTechnicalPartners'
+import { RecentJobsFromOurPartner } from '@components/site/jobs/RecentJobsFromOurPartner'
 import { KeyFeatures } from '@components/site/keyFeatures'
 import { Navbar2 } from '@components/site/navbar'
-import { OurPackages } from '@components/site/ourPackages'
 import { StudentPlacementManagement } from '@components/site/studentPlacementManagement'
-import { RecentJobCard } from '@components/site/jobs/RecentJobCard'
-import { RecentJobsFromOurPartner } from '@components/site/jobs/RecentJobsFromOurPartner'
-import { OurTechnicalPartners } from '@components/site/OurTechnicalPartners'
+import {
+    ContactUs,
+    GetStarted,
+    LatestUpdates,
+    OperateStates,
+    OurPackages,
+    OurPartners,
+    RecentJobs,
+    TechnicalPartners,
+} from '@partials/frontPages'
 
 const Home3: NextPage = ({ data }: any) => {
     const contactUsRef = useRef(null)
@@ -26,23 +31,29 @@ const Home3: NextPage = ({ data }: any) => {
             <KeyFeatures />
             {/* Student Placement Management System */}
             <StudentPlacementManagement />
-
-            {/* Our packages */}
-            <OurPackages />
+            <div className="relative">
+                {/* Our packages */}
+                <OurPackages />
+            </div>
             {/* Our Partners */}
             <OurPartners />
             {/* We Operate in the Following States */}
-            <WeOperate />
-            {/* Recent Jobs From Our Partners */}
-            <RecentJobsFromOurPartner />
-            {/* Get Started With Us */}
-            <GetStartedWithUs contactUsRef={contactUsRef} />
-            {/* Lets Talk */}
-            <ContactUs contactUsRef={contactUsRef} />
-            {/* Our Technical Partners */}
-            <OurTechnicalPartners />
+
+            <OperateStates />
+
+            <GetStarted contactUsRef={contactUsRef} />
+
+            <RecentJobs />
+
+            <ContactUs />
+
+            {/*  */}
+            <TechnicalPartners />
+
+            <LatestUpdates />
+
             {/*  Footer */}
-            <Footer3 />
+            <Footer4 />
         </div>
     )
 }

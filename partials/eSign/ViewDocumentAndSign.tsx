@@ -1,4 +1,5 @@
 import {
+    ActionButton,
     Card,
     EmptyData,
     LoadingAnimation,
@@ -12,13 +13,16 @@ import { useRouter } from 'next/router'
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import { SVGView, ScrollTabsView } from './components'
 import { EsignSignatureModal, FinishSignModal } from './modal'
+import { IoIosArrowDropright, IoMdArrowDropleftCircle } from 'react-icons/io'
+import { FaRegTimesCircle } from 'react-icons/fa'
+import { GiHamburgerMenu } from 'react-icons/gi'
 
 export const ViewDocumentAndSign = () => {
     const router = useRouter()
 
     const { alert } = useAlert()
 
-    const [showSignersField, setShowSignersField] = useState<boolean>(false)
+    const [showSignersField, setShowSignersField] = useState<boolean>(true)
 
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [customFieldsData, setCustomFieldsData] = useState<any>([])
@@ -181,6 +185,32 @@ export const ViewDocumentAndSign = () => {
                 Re fetch
             </button>
 
+            {!showSignersField && (
+                <div
+                    onClick={() => {
+                        setShowSignersField(true)
+                    }}
+                    className="fixed top-[35%] right-0"
+                >
+                    <IoMdArrowDropleftCircle size={25} className="opacity-60" />
+                </div>
+            )}
+
+            {documentsTotalPages.isSuccess && (
+                <div className="flex justify-end items-center">
+                    <ActionButton
+                        onClick={() => {
+                            setShowSignersField(!showSignersField)
+                        }}
+                        Icon={GiHamburgerMenu}
+                        simple
+                        variant="info"
+                    >
+                        Show Sign or Text Fields
+                    </ActionButton>
+                </div>
+            )}
+
             {documentsTotalPages.isError && <TechnicalError />}
             {documentsTotalPages.isLoading ? (
                 <LoadingAnimation />
@@ -201,6 +231,7 @@ export const ViewDocumentAndSign = () => {
                                 {showSignersField && (
                                     <div className="absolute top-5 z-20 w-3/4">
                                         <ScrollTabsView
+                                            onClick={() => {}}
                                             customFieldsAndSign={
                                                 customFieldsAndSign
                                             }
@@ -213,7 +244,13 @@ export const ViewDocumentAndSign = () => {
                                 )}
                             </div>
                         </div>
-                        <div className="lg:col-span-5 flex flex-col gap-y-3 relative w-full">
+                        <div
+                            className={`${
+                                showSignersField
+                                    ? 'lg:col-span-5'
+                                    : 'lg:col-span-6'
+                            }  flex flex-col gap-y-3 relative w-full`}
+                        >
                             {/* <div className="flex justify-end items-center gap-x-2">
                                 <input
                                     type={'checkbox'}
@@ -265,15 +302,28 @@ export const ViewDocumentAndSign = () => {
                             ))}
                         </div>
 
-                        <div className="hidden lg:block sticky top-0 h-[85vh]">
-                            <ScrollTabsView
-                                customFieldsAndSign={customFieldsAndSign}
-                                scrollToPage={scrollToPage}
-                                setSelectedFillDataField={
-                                    setSelectedFillDataField
-                                }
-                            />
-                        </div>
+                        {showSignersField && (
+                            <div className="hidden lg:block sticky top-0 bg-white h-[85vh]">
+                                <div className="p-3 flex justify-end">
+                                    <FaRegTimesCircle
+                                        size={23}
+                                        onClick={() => {
+                                            setShowSignersField(
+                                                !showSignersField
+                                            )
+                                        }}
+                                    />
+                                </div>
+                                <ScrollTabsView
+                                    onClick={() => {}}
+                                    scrollToPage={scrollToPage}
+                                    setSelectedFillDataField={
+                                        setSelectedFillDataField
+                                    }
+                                    customFieldsAndSign={customFieldsAndSign}
+                                />
+                            </div>
+                        )}
                     </div>
                     <div className="flex justify-center bg-white px-5 py-2 shadow-md w-full rounded my-2">
                         <button

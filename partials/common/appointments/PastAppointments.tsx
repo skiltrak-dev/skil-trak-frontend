@@ -10,7 +10,7 @@ import {
 
 // queries
 import { CommonApi } from '@queries'
-import { Appointment, PaginatedResponse } from '@types'
+import { Appointment } from '@types'
 import { useState } from 'react'
 
 export const PastAppointments = ({ userId }: { userId?: any }) => {
@@ -48,12 +48,13 @@ export const PastAppointments = ({ userId }: { userId?: any }) => {
             )}
             <div>
                 {pastAppointments.isError && (
-                    <NoData text={'Some Network issue, Try Reload'} />
+                    <NoData text={'Some Technical issue, Try Reload'} />
                 )}
                 {pastAppointments.isLoading ? (
                     <LoadingAnimation size={90} />
                 ) : pastAppointments.data?.data &&
-                  pastAppointments.data?.data?.length ? (
+                  pastAppointments.data?.data?.length &&
+                  pastAppointments?.isSuccess ? (
                     <div className="flex flex-wrap justify-start gap-x-2 gap-y-2">
                         {pastAppointments.data?.data?.map(
                             (pastAppointment: Appointment, index: number) => (
@@ -65,7 +66,7 @@ export const PastAppointments = ({ userId }: { userId?: any }) => {
                         )}
                     </div>
                 ) : (
-                    !pastAppointments.isError && (
+                    pastAppointments.isSuccess && (
                         <EmptyData
                             imageUrl="/images/icons/common/appointment-past.png"
                             title={'No Past appointments'}

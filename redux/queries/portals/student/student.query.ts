@@ -12,6 +12,7 @@ import { profileEndpoints } from './profile'
 import { workplaceEndpoints } from './workplace'
 import { studentsScheduleEndpoints } from './schedule'
 import { documentsEndpoints } from './documents'
+import { talentPoolEndpoints } from './talentPool';
 
 export const studentApi = emptySplitApi.injectEndpoints({
     // ---------- RTO ENDPOINTS ---------- //
@@ -29,6 +30,7 @@ export const studentApi = emptySplitApi.injectEndpoints({
         ...assessmentToolEndpoints(build),
         ...studentsScheduleEndpoints(build),
         ...studentAssessmentEvidenceEndpoints(build),
+        ...talentPoolEndpoints(build),
     }),
     // overrideExisting: true,
 })
@@ -96,6 +98,17 @@ export const {
 
     // ----- DOCUMENTS ----- //
     useGetStudentDocumentsQuery,
+
+    // ----- TALENT POOL ----- //
+    useGetTalentPoolStudentProfileQuery,
+    useApplyForTalentPoolMutation,
+    useGetTalentPoolStudentQuery,
+    useGetAppliedTalentPoolStudentProfileQuery,
+    useGetIndustriesRequestQuery,
+    useUploadTalentPoolRequiredDocsMutation,
+    useIndustryRequestStatusMutation,
+    useGetAcceptedTalentPoolIndustryProfileQuery,
+    useGetTalentPoolRequiredDocsResponseQuery,
 } = studentApi
 
 export const StudentApi = {
@@ -161,4 +174,15 @@ export const StudentApi = {
     Documents: {
         useStudentDocuments: useGetStudentDocumentsQuery,
     },
+    TalentPool: {
+        useTalentPoolStudentProfile: useGetTalentPoolStudentProfileQuery,
+        useAppliedTalentPoolStudentProfile: useGetAppliedTalentPoolStudentProfileQuery,
+        useIndustriesConnectionRequests: useGetIndustriesRequestQuery,
+        useTalentPoolStudent: useGetTalentPoolStudentQuery,
+        useApplyTalentPool: useApplyForTalentPoolMutation,
+        useUploadTalentPoolRequiredDocs: useUploadTalentPoolRequiredDocsMutation,
+        useIndustryRequestStatus: useIndustryRequestStatusMutation,
+        useAcceptedTalentPoolIndustryProfile: useGetAcceptedTalentPoolIndustryProfileQuery,
+        useRequiredDocsResponse: useGetTalentPoolRequiredDocsResponseQuery
+    }
 }

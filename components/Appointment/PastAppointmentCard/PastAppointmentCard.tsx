@@ -1,5 +1,6 @@
 import { Appointment } from '@types'
 import moment from 'moment'
+
 import {
     FaCalendarDay,
     FaClock,

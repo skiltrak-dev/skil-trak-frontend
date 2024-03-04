@@ -3,19 +3,15 @@ import { ReactElement, useState } from 'react'
 
 // layouts
 import {
-    Button,
     EmptyData,
     LoadingAnimation,
-    NoData,
     PageTitle,
-    TechnicalError,
+    TechnicalError
 } from '@components'
-import { FigureCard } from '@components/sections/subAdmin'
-import { UserRoles } from '@constants'
 import { StudentLayout } from '@layouts'
 import { HistoryDates, HistoryFilters } from '@partials/common'
 import { CommonApi } from '@queries'
-import { getCommonDates, getUserCredentials, removeEmptyValues } from '@utils'
+import { getCommonDates, removeEmptyValues } from '@utils'
 import moment from 'moment'
 import { FilterType } from '../sub-admin/history'
 

@@ -17,6 +17,30 @@ html {
 }
 
 
+/* body {
+    font-family: "Arial", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+} */
+
+.animate-float {
+    animation: upDown 5s infinite;
+}
+
+@keyframes upDown {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-25%);
+    }
+}
 
 /* .custom-scrollbar {
     scrollbar-width: thin;

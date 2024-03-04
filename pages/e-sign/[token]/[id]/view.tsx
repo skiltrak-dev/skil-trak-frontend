@@ -234,6 +234,9 @@ const ESign = () => {
                                     {showSignersField && (
                                         <div className="absolute top-5 z-20 w-3/4">
                                             <ScrollTabsView
+                                                onClick={() =>
+                                                    setShowSignersField(false)
+                                                }
                                                 customFieldsAndSign={
                                                     customFieldsAndSign
                                                 }
@@ -305,6 +308,7 @@ const ESign = () => {
                             </div>
                             <div className="hidden lg:block sticky top-0 h-[85vh]">
                                 <ScrollTabsView
+                                    onClick={() => setShowSignersField(false)}
                                     customFieldsAndSign={customFieldsAndSign}
                                     scrollToPage={scrollToPage}
                                     setSelectedFillDataField={

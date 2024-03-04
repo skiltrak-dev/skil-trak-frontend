@@ -1,5 +1,5 @@
 import { BaseResponse } from './base.type'
-import { Course } from './sector.type'
+import { Course, Sector } from './sector.type'
 import { Industry, User } from './user.type'
 
 export interface Job extends BaseResponse {
@@ -23,4 +23,5 @@ export interface Job extends BaseResponse {
     status: any
     industry: Industry
     applicationCount: number
+    sectors: Sector[]
 }
