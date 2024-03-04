@@ -10,7 +10,6 @@ import {
     SocketListenerProvider,
 } from '@hooks'
 import { Theme, applyTheme, getCurrentTheme } from '@theme'
-import { SessionProvider } from 'next-auth/react'
 import type { AppProps } from 'next/app'
 import { useEffect } from 'react'
 import 'react-loading-skeleton/dist/skeleton.css'
