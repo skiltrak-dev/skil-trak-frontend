@@ -1,18 +1,14 @@
-import React from 'react'
 import { ActionButton, ShowErrorNotifications, Typography } from '@components'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import { Note as NoteType } from '@types'
-import classNames from 'classnames'
 import format from 'date-fns/format'
 import { useEffect, useState } from 'react'
-import { AiFillEdit } from 'react-icons/ai'
 
-import { BsPinAngleFill, BsPinFill } from 'react-icons/bs'
 import { FaTrash } from 'react-icons/fa'
-import { PuffLoader } from 'react-spinners'
-import { TiPin } from 'react-icons/ti'
 import { RiDeleteBinLine } from 'react-icons/ri'
+import { TiPin } from 'react-icons/ti'
+import { PuffLoader } from 'react-spinners'
 
 export const NoteCard = ({ note }: { note: NoteType }) => {
     const { notification } = useNotification()
@@ -59,7 +55,7 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
                                     note?.isPinned
                                         ? 'bg-base-light'
                                         : 'bg-gray-100'
-                                }  w-6 h-6 flex justify-center items-center rounded-[5px]`}
+                                }  w-6 h-6 flex justify-center items-center rounded-[5px] cursor-pointer`}
                             >
                                 {statusChangeResult.isLoading ? (
                                     <PuffLoader size={20} color="white" />

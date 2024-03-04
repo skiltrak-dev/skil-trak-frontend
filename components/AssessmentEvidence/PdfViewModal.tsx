@@ -60,6 +60,8 @@ export const PdfViewModal = ({
                                 <div>
                                     <a
                                         href={downloadUrl}
+                                        target="_blank"
+                                        rel={'noreferrer'}
                                         className="text-sm font-semibold text-info"
                                     >
                                         Download

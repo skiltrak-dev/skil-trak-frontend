@@ -58,16 +58,16 @@ export const StudentAvailability = ({ availability }: any) => {
 
     const isAvailable = (availability: boolean) => {
         return availability ? (
-            <BsCheck className="mx-auto text-gray-700" />
+            <BsCheck size={22} className="mx-auto text-gray-700" />
         ) : (
-            <IoClose className="mx-auto text-gray-300" />
+            <IoClose size={22} className="mx-auto text-gray-300" />
         )
     }
 
     const schedule = ['morning', 'afternoon', 'evening', 'night']
 
     return (
-        <div>
+        <div className="w-[700px]">
             <Typography variant={'label'} color={'text-gray-400'}>
                 Student Availability
             </Typography>
@@ -88,7 +88,7 @@ export const StudentAvailability = ({ availability }: any) => {
                         ))}
                     </div>
 
-                    <div className="flex flex-col gap-y-1">
+                    <div className="flex flex-col gap-y-2">
                         {generalAvailability?.map((time: any) => (
                             <div
                                 key={time.name}

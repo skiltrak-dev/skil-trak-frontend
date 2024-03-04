@@ -6,12 +6,14 @@ import {
     LoadingAnimation,
     AuthorizedUserComponent,
     ActionButton,
+    ShowErrorNotifications,
 } from '@components'
 import { UserRoles } from '@constants'
 import { GetFolders } from '@partials/sub-admin/workplace/hooks'
 import {
     useGetWorkplaceFoldersQuery,
     useGetSubAdminStudentWorkplaceDetailQuery,
+    useCancelWorkplaceStatusMutation,
 } from '@queries'
 import moment from 'moment'
 import { ReactElement, useEffect, useState } from 'react'
@@ -27,6 +29,18 @@ import {
 import { IndustryDetail } from './components/IndustryDetail'
 import { AddSecondWPCB } from '@partials/sub-admin/students/contextBar'
 import { useContextBar } from '@hooks'
+import { WorkplaceCurrentStatus } from '@utils'
+
+const WPStatusForCancelButon = [
+    WorkplaceCurrentStatus.Applied,
+    WorkplaceCurrentStatus.CaseOfficerAssigned,
+    WorkplaceCurrentStatus.Interview,
+    WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
+    WorkplaceCurrentStatus.AppointmentBooked,
+    WorkplaceCurrentStatus.AwaitingAgreementSigned,
+    WorkplaceCurrentStatus.NoResponse,
+    WorkplaceCurrentStatus.Rejected,
+]
 
 export const Workplace = ({
     studentId,
@@ -45,6 +59,8 @@ export const Workplace = ({
             skip: !studentId,
         }
     )
+    const [cancelWorkplace, cancelWorkplaceResult] =
+        useCancelWorkplaceStatusMutation()
 
     const appliedIndustry = selectedWorkplace?.industries?.find(
         (i: any) => i.applied
@@ -83,6 +99,7 @@ export const Workplace = ({
 
     return (
         <>
+            <ShowErrorNotifications result={cancelWorkplaceResult} />
             <Card noPadding fullHeight>
                 <div className="px-4 py-3.5 flex justify-between items-center border-b border-secondary-dark">
                     <Typography variant="label" semibold>
@@ -137,9 +154,7 @@ export const Workplace = ({
                 {/*  */}
                 {studentWorkplace.isError ? (
                     <TechnicalError description={false} />
-                ) : (
-                    ''
-                )}
+                ) : null}
                 {studentWorkplace?.isLoading ? (
                     <div className="flex flex-col items-center justify-center h-60">
                         <LoadingAnimation size={60} />
@@ -192,7 +207,29 @@ export const Workplace = ({
                             </div>
                         </div>
 
-                        <div className="flex justify-end items-center p-4">
+                        <div className="flex justify-between items-center p-4">
+                            <div>
+                                {WPStatusForCancelButon.includes(
+                                    selectedWorkplace?.currentStatus
+                                ) && (
+                                    <ActionButton
+                                        variant={'error'}
+                                        onClick={async () => {
+                                            await cancelWorkplace(
+                                                Number(selectedWorkplace?.id)
+                                            )
+                                        }}
+                                        loading={
+                                            cancelWorkplaceResult.isLoading
+                                        }
+                                        disabled={
+                                            cancelWorkplaceResult.isLoading
+                                        }
+                                    >
+                                        Cancel Request
+                                    </ActionButton>
+                                )}
+                            </div>
                             <Typography variant="small" medium>
                                 Recieved On:{' '}
                                 {moment(selectedWorkplace?.createdAt).format(

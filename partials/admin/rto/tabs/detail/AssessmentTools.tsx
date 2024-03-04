@@ -1,8 +1,6 @@
 import { Typography } from '@components'
 import { useContextBar } from '@hooks'
-import {
-    AdminApi
-} from '@queries'
+import { AdminApi } from '@queries'
 import Link from 'next/link'
 import { useState } from 'react'
 import { FaEdit } from 'react-icons/fa'
@@ -31,11 +29,7 @@ export const AssessmentTools = ({ rto }: any) => {
                 {/* <a href={assessment?.file} target="blank" rel="noreferrer"> */}
                 <Link
                     className="cursor-pointer"
-                    href={`${
-                        process.env.NEXT_PUBLIC_END_POINT
-                    }/shared/assessment-tool/download/${Number(
-                        assessment?.id
-                    )}`}
+                    href={assessment?.file}
                     download
                     referrerPolicy="no-referrer"
                     target="_blank"
