@@ -15,8 +15,8 @@ import { useEffect } from 'react'
 import 'react-loading-skeleton/dist/skeleton.css'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
-import 'react-tooltip/dist/react-tooltip.css'
 import { Provider } from 'react-redux'
+import 'react-tooltip/dist/react-tooltip.css'
 import { ErrorBoundaryContext } from 'react-use-error-boundary'
 import '../styles/globals.css'
 
@@ -26,15 +26,15 @@ import { store } from '../redux/store'
 import { HeadWrapper } from '@layouts'
 
 import { Socket } from '@components'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 import 'react-datepicker/dist/react-datepicker.css'
+import 'swiper/css'
 import 'swiper/css/bundle'
+import 'swiper/css/free-mode'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
-import 'swiper/css'
-import 'swiper/css/free-mode'
 import 'swiper/css/scrollbar'
-import 'aos/dist/aos.css'
-import AOS from 'aos'
 
 //test
 import { GoogleAnalyticsScript } from '@scripts'
@@ -58,39 +58,42 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
     // console.clear()
 
     return (
-        <Provider store={store}>
-            {/* <AutoLogoutProvider> */}
-            <ErrorBoundaryContext>
-                <JoyRideProvider>
-                    <NoteScrollProvider>
-                        <DownloadAssessmentProvider>
-                            <AlertProvider>
-                                <NotificationProvider>
-                                    <NavbarProvider>
-                                        <ContextBarProvider>
-                                            <SocketListenerProvider>
-                                                <Socket>
-                                                    <NetworkProvider>
-                                                        <HeadWrapper>
-                                                            {getLayout(
-                                                                <Component
-                                                                    {...pageProps}
-                                                                />
-                                                            )}
-                                                        </HeadWrapper>
-                                                    </NetworkProvider>
-                                                </Socket>
-                                            </SocketListenerProvider>
-                                        </ContextBarProvider>
-                                    </NavbarProvider>
-                                </NotificationProvider>
-                            </AlertProvider>
-                        </DownloadAssessmentProvider>
-                    </NoteScrollProvider>
-                </JoyRideProvider>
-            </ErrorBoundaryContext>
-            {/* </AutoLogoutProvider> */}
-        </Provider>
+        <>
+            <GoogleAnalyticsScript />
+            <Provider store={store}>
+                {/* <AutoLogoutProvider> */}
+                <ErrorBoundaryContext>
+                    <JoyRideProvider>
+                        <NoteScrollProvider>
+                            <DownloadAssessmentProvider>
+                                <AlertProvider>
+                                    <NotificationProvider>
+                                        <NavbarProvider>
+                                            <ContextBarProvider>
+                                                <SocketListenerProvider>
+                                                    <Socket>
+                                                        <NetworkProvider>
+                                                            <HeadWrapper>
+                                                                {getLayout(
+                                                                    <Component
+                                                                        {...pageProps}
+                                                                    />
+                                                                )}
+                                                            </HeadWrapper>
+                                                        </NetworkProvider>
+                                                    </Socket>
+                                                </SocketListenerProvider>
+                                            </ContextBarProvider>
+                                        </NavbarProvider>
+                                    </NotificationProvider>
+                                </AlertProvider>
+                            </DownloadAssessmentProvider>
+                        </NoteScrollProvider>
+                    </JoyRideProvider>
+                </ErrorBoundaryContext>
+                {/* </AutoLogoutProvider> */}
+            </Provider>
+        </>
     )
 }
 
