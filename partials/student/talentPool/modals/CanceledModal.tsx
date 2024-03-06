@@ -3,7 +3,7 @@ import { useAlert, useNotification } from '@hooks'
 import { SubAdmin } from '@types'
 import { useEffect } from 'react'
 import { FaBan } from 'react-icons/fa'
-import { StudentApi} from '@queries'
+import { StudentApi } from '@queries'
 
 export const CancelModal = ({
     industry,
@@ -14,13 +14,13 @@ export const CancelModal = ({
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()
-    const [ onChangeStatus, changeStatusResult ] = StudentApi.TalentPool.useIndustryRequestStatus()
+    const [onChangeStatus, changeStatusResult] =
+        StudentApi.TalentPool.useIndustryRequestStatus()
 
     const onConfirmClicked = async (industry: any) => {
-        const status = 'rejected'; 
-        const id = industry.request_id;
+        const status = 'rejected'
+        const id = industry.request_id
         // await onChangeStatus({ body: status, conId: id })
-        console.log({ body: status, conId: id })
     }
 
     useEffect(() => {

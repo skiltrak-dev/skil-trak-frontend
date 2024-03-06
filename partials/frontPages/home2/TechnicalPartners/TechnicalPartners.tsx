@@ -21,6 +21,10 @@ export const TechnicalPartners = () => {
             image: 'zoom.png',
             width: 100,
         },
+        {
+            image: 'google.png',
+            width: 100,
+        },
     ]
     return (
         <div className="border-y border-secondary-dark">
@@ -54,7 +58,10 @@ export const TechnicalPartners = () => {
                             loop
                         >
                             {images?.map((image, index) => (
-                                <SwiperSlide className="min-w-[120px] !flex !items-center !mr-0">
+                                <SwiperSlide
+                                    key={index}
+                                    className="min-w-[120px] !flex !items-center !mr-0"
+                                >
                                     {/* <div className="py-1.5 px-2.5 flex justify-center items-center min-w-[130px] h-16 shadow-[0px_4px_34px_0px_rgba(177,177,177,0.25)] rounded-[10px]"> */}
                                     {/* <div className="min-w-[200px]"> */}
                                     <Image

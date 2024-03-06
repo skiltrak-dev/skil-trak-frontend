@@ -72,6 +72,11 @@ const maxWidth = {
     'screen-3xl': '1800px',
 }
 
+const boxShadow = {
+    site: '0px 4px 34px 0px rgba(177, 177, 177, 0.25)',
+    'inner-image': 'inset 0 1px 4px rgba(0, 0, 0, 0.3)',
+}
+
 module.exports = {
     content: [
         './pages/**/*.{js,ts,jsx,tsx}',
@@ -83,6 +88,9 @@ module.exports = {
     ],
     theme: {
         extend: {
+            boxShadow: {
+                ...boxShadow,
+            },
             maxWidth: {
                 ...maxWidth,
             },
@@ -97,9 +105,6 @@ module.exports = {
             },
             animation: {
                 float: 'float 3s ease-in-out infinite',
-            },
-            boxShadow: {
-                'inner-image': 'inset 0 1px 4px rgba(0, 0, 0, 0.3)',
             },
             keyframes: {
                 'accordion-down': {

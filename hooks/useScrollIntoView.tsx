@@ -67,7 +67,6 @@ export const useScrollIntoView = (profile: any) => {
 
         // Add scroll event listener
         const divElement = document.getElementById('studentScrollId')
-        console.log({ divElement })
         if (divElement) {
             divElement.addEventListener('scroll', handleScroll)
 

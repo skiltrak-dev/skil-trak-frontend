@@ -3,7 +3,7 @@ import { NavLink2 } from './NavLink2'
 import { Button } from '@components/buttons'
 import { useRouter } from 'next/router'
 
-const links = [
+const navLinks = [
     {
         text: 'Home',
         url: '/',
@@ -11,6 +11,28 @@ const links = [
     {
         text: 'Features',
         url: '/features',
+    },
+    {
+        text: 'Services',
+        url: '/our-services',
+        subMenus: [
+            {
+                text: 'Work Based Training',
+                url: '/our-services/work-based-training',
+            },
+            {
+                text: 'Talent Pool',
+                url: '/our-services/talent-pool',
+            },
+            {
+                text: 'Employment Hub',
+                url: '/our-services/employment-hub',
+            },
+            {
+                text: 'Upskill Traineeship Program',
+                url: '/our-services/upskill-traineeship-program',
+            },
+        ],
     },
     {
         text: 'Blogs',
@@ -36,7 +58,6 @@ const links = [
 
 export function Navbar2() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const [navLinks, setNavlinks] = useState(links)
     const router = useRouter()
 
     const toggleMenu = () => {
@@ -72,7 +93,7 @@ export function Navbar2() {
 
     return (
         // <nav className={`md:active-nav ${show && 'hidden-nav'}`}>
-        <nav className='shadow-sm border-b'>
+        <nav className="shadow-sm border-b">
             <div className="w-full mx-auto md:px-6 lg:px-[140px]">
                 <div className="relative max-w-7xl mx-auto flex items-center justify-between h-20 ">
                     <div className="px-4 md:px-0 flex-1 flex items-center justify-between md:items-end md:justify-start">
@@ -161,11 +182,12 @@ export function Navbar2() {
                         {/* Nav Links */}
                         <div className="hidden md:block md:ml-auto">
                             <div className="flex md:items-center">
-                                {navLinks.map((link, i) => (
+                                {navLinks.map((link, i: number) => (
                                     <NavLink2
                                         key={i}
                                         to={link.url}
                                         text={link.text}
+                                        subMenus={link?.subMenus}
                                         asButton={link.asButton}
                                     />
                                 ))}
@@ -263,13 +285,14 @@ export function Navbar2() {
                 } transition-all overflow-hidden duration-300 ease-in-out md:hidden`}
                 id="mobile-menu"
             >
-                <div className="px-2 pt-2 pb-3 space-y-1 flex flex-col items-center">
-                    {navLinks.map((link, i) => (
+                <div className="px-2 pt-2 pb-3 space-y-1 flex flex-col items-start">
+                    {navLinks.map((link, i: number) => (
                         <NavLink2
                             key={i}
                             to={link.url}
                             text={link.text}
                             asButton={link.asButton}
+                            subMenus={link?.subMenus}
                         />
                     ))}
                 </div>

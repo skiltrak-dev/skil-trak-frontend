@@ -11,7 +11,7 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { AuthApi, IndustryApi } from '@queries'
+import { AuthApi, IndustryApi, commonApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { useRouter } from 'next/router'
 import { isBrowser } from '@utils'
@@ -68,6 +68,13 @@ export const MatchingProfilesList = () => {
                 refetchOnMountOrArgChange: true,
             }
         )
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
+
+    // useEffect(() => {
+    //     if (changeStatusResult.isSuccess) {
+    //         refetch()
+    //     }
+    // }, [changeStatusResult])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -378,7 +385,6 @@ export const MatchingProfilesList = () => {
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
-                
                     <Table
                         columns={columns}
                         data={data.data}
@@ -407,12 +413,13 @@ export const MatchingProfilesList = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="px-6 overflow-x-scroll remove-scrollbar">{table}</div>
+                                    <div className="px-6 overflow-x-scroll remove-scrollbar">
+                                        {table}
+                                    </div>
                                 </div>
                             )
                         }}
                     </Table>
-                    
                 ) : (
                     !isError && (
                         <EmptyData

@@ -42,7 +42,6 @@ export const StudentProfileDetail = () => {
 
     const router = useRouter()
 
-    const [isMouseMove, setIsMouseMove] = useState<any>(null)
     const [quickSearch, setQuickSearch] = useState<boolean>(false)
 
     const { alert: alertMessage, setAlerts, alerts } = useAlert()
@@ -53,21 +52,11 @@ export const StudentProfileDetail = () => {
     })
 
     useEffect(() => {
-        if (profile?.isSuccess && profile?.data && !contextBar.content) {
+        if (profile?.isSuccess && profile?.data) {
             contextBar.show(false)
             contextBar.setContent(<ProfileViewCB profile={profile?.data} />)
         }
-    }, [profile, isMouseMove, contextBar])
-
-    useEffect(() => {
-        window.addEventListener('mousemove', () => setIsMouseMove(true))
-
-        return () => {
-            window.removeEventListener('mousemove', () => setIsMouseMove(false))
-            contextBar.hide()
-            contextBar.setContent(null)
-        }
-    }, [])
+    }, [profile])
 
     useEffect(() => {
         if (profile?.isSuccess && profile?.data) {
@@ -128,7 +117,6 @@ export const StudentProfileDetail = () => {
     }
 
     const onHandleScroll = (id: string) => {
-        console.log({ id })
         const detailItem = document.getElementById(`student-profile-${id}`)
         if (detailItem) {
             detailItem.scrollIntoView({ behavior: 'smooth' })

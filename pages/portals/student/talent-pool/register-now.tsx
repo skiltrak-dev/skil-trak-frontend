@@ -31,15 +31,6 @@ const RegisterNow: NextPageWithLayout = () => {
         sectorId = getSectors[0]?.id
     }
     const onSubmit = (data: any) => {
-        // Student and sector id
-        // console.log('Data:', {
-        //     ...data, // about required
-        //     student: getUserId, // required
-        //     sector: sectorId, // required
-        //     socialLinks: tags.links,
-        //     interest: tags.areaOfInterest,
-        //     skills: tags.skills, // required
-        // })
         applyForTalentPool({
             ...data,
             // student: getUserId,

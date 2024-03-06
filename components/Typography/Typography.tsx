@@ -53,6 +53,7 @@ interface TypographyProps {
 
     color?: string
 
+    extraBold?: boolean
     bold?: boolean
     semibold?: boolean
     medium?: boolean
@@ -86,6 +87,7 @@ export const Typography = ({
     light,
     normal,
     semibold,
+    extraBold,
 
     underline,
 }: TypographyProps) => {
@@ -105,7 +107,9 @@ export const Typography = ({
         classes = `${classes} uppercase`
     }
 
-    if (bold) {
+    if (extraBold) {
+        classes = `${classes} !font-extrabold`
+    } else if (bold) {
         classes = `${classes} !font-bold`
     } else if (semibold) {
         classes = `${classes} !font-semibold`

@@ -74,17 +74,17 @@ export const RegisterNowForm = ({
     const validationSchema = yup.object().shape({
         // about: yup.string().required('About Yourself is Required'),
         about: yup
-        .string()
-        .required('About Yourself is Required')
-        .test(
-            'word-count',
-            'About Yourself must be less than or equal to 100 words',
-            (value) => {
-                if (!value) return true; // If no value, validation passes (since it's required)
-                const wordCount = value.trim().split(/\s+/).length;
-                return wordCount <= 100;
-            }
-        ),
+            .string()
+            .required('About Yourself is Required')
+            .test(
+                'word-count',
+                'About Yourself must be less than or equal to 100 words',
+                (value) => {
+                    if (!value) return true // If no value, validation passes (since it's required)
+                    const wordCount = value.trim().split(/\s+/).length
+                    return wordCount <= 100
+                }
+            ),
         skills: yup
             .array()
             .min(1, 'At least one skill is required')
@@ -111,14 +111,6 @@ export const RegisterNowForm = ({
         }))
     }
 
-    // const onSubmit = (data: any) => {
-    //     console.log('Data:', {
-    //         ...data,
-    //         links: tags.links,
-    //         areaOfInterest: tags.areaOfInterest,
-    //         skills: tags.skills,
-    //     })
-    // }
     const handleCheckboxChange = () => {
         setAgree(!agree)
     }

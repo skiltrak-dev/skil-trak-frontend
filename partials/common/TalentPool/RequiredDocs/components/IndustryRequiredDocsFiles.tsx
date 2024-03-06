@@ -64,7 +64,6 @@ export const IndustryRequiredDocsFiles = ({
             container.scrollLeft += e.deltaY
         }
     }
-    // console.log("getRequiredDocsResponse", filteredFiles)
     const iconClasses =
         'border border-secondary absolute top-1/2 -mt-2 z-10 cursor-pointer bg-primaryNew text-white shadow-md rounded-full hover:scale-150 transition-all hover:opacity-100 w-5 h-5 flex justify-center items-center'
     return (
@@ -160,7 +159,7 @@ export const IndustryRequiredDocsFiles = ({
                     //         </Swiper>
                     //     </div>
                     // </SliderStyleContainer>
-                    <div className='grid grid-cols-3 gap-4'>
+                    <div className="grid grid-cols-3 gap-4">
                         {filteredFiles?.map((file: any, i: number) => (
                             <AssessmentFolderFileCard
                                 file={file}
@@ -170,14 +169,11 @@ export const IndustryRequiredDocsFiles = ({
                                 type={file?.type}
                                 selected={selected?.id === file?.id}
                                 onClick={onFileClicked}
-                                deleteAction={
-                                    deleteUploadedFileAction
-                                }
+                                deleteAction={deleteUploadedFileAction}
                             />
-                    ))}
+                        ))}
                     </div>
-                )
-                 : (
+                ) : (
                     getRequiredDocsResponse.isSuccess && (
                         <NoData text="There is no Files!" />
                     )

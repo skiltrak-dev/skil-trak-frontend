@@ -31,8 +31,6 @@ export const AssignSectorForm = ({
     const [selectedCourses, setSelectedCourses] = useState<any>([])
     const [selectedHours, setSelectedHours] = useState<any>([])
 
-    console.log({ sectorsWithCourses })
-
     const onSectorSelect = (options: any) => {
         const currentSelectedSectors = options.map(
             (opt: OptionType) => opt.value

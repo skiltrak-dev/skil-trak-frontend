@@ -3,7 +3,6 @@ import { useMemo } from 'react'
 
 export const StudentInfoCard = ({ profile, getSectors }: any) => {
     // const getSectors = profile?.courses?.map((course: any) => course?.sector)
-    console.log(profile)
     return (
         <div>
             <div className="bg-[#EFF4FF] border rounded-md p-2.5 mb-5">

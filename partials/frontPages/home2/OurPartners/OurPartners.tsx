@@ -53,7 +53,7 @@ export const OurPartners = () => {
                     className="px-9 w-full border-y md:border-y-0 py-4 md:py-0"
                 >
                     <div className="w-full items-center justify-between gap-y-12 md:gap-y-10 mx-auto">
-                        <Swiper
+                        {/* <Swiper
                             spaceBetween={30}
                             centeredSlides={true}
                             autoplay={{
@@ -103,7 +103,28 @@ export const OurPartners = () => {
                                     <div className="border border-dashed border-primary w-full" />
                                 </SwiperSlide>
                             ))}
-                        </Swiper>
+                        </Swiper> */}
+                        <Marquee className="w-full">
+                            {images?.map((image, index) => (
+                                <div
+                                    key={index}
+                                    className="!flex !items-center !mr-0"
+                                >
+                                    <div className="py-1.5 px-2.5 flex justify-center items-center min-w-[130px] max-w-[131px] h-16 shadow-[0px_4px_34px_0px_rgba(177,177,177,0.25)] rounded-[10px]">
+                                        <Image
+                                            key={index}
+                                            className="w-full h-full object-contain"
+                                            src={`/images/site/partners/${image?.image}`}
+                                            width={0}
+                                            height={0}
+                                            sizes={'100vh 100vw'}
+                                            alt="Partners"
+                                        />
+                                    </div>
+                                    <div className="border border-dashed border-primary w-20" />
+                                </div>
+                            ))}
+                        </Marquee>
                     </div>
                 </div>
             </div>

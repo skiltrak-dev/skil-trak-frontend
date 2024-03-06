@@ -365,8 +365,6 @@ export default function ESign() {
 
             // return null
 
-            console.log({ tab })
-
             if (tab?.page || tab?.page === 0) {
                 setLastId(newId)
                 setItems((prevState: any) => [

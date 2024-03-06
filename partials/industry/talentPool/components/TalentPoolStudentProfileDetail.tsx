@@ -18,10 +18,13 @@ import { getGender, isBrowser } from '@utils'
 import { TalentPoolNotification } from '@partials/common/TalentPool'
 
 type TalentPoolStudentProfileDetailProps = {
-    profile:any,
-    setView:any,
+    profile: any
+    setView: any
 }
-export const TalentPoolStudentProfileDetail = ({ profile, setView}: TalentPoolStudentProfileDetailProps) => {
+export const TalentPoolStudentProfileDetail = ({
+    profile,
+    setView,
+}: TalentPoolStudentProfileDetailProps) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const { notification } = useNotification()
     const [sentConnectionReq, sentConnectionReqResult] =
@@ -37,10 +40,6 @@ export const TalentPoolStudentProfileDetail = ({ profile, setView}: TalentPoolSt
     const onSubmit = (data: any) => {
         const values = data?.requiredDocs?.map((n: any) => n?.label)
 
-        // console.log('submit', {
-        //     talentPoolProfile: profile?.id,
-        //     talentPoolRequiredDocuments: values.map((name: string) => ({ name })),
-        // })
         sentConnectionReq({
             talentPoolProfile: profile?.id,
             talentPoolRequiredDocuments: values.map((name: string) => ({
@@ -88,7 +87,6 @@ export const TalentPoolStudentProfileDetail = ({ profile, setView}: TalentPoolSt
         }
     }, [sentConnectionReqResult])
 
-    
     const connectionStatus =
         profile?.connectionRequests &&
         profile.connectionRequests?.length > 0 &&
@@ -110,8 +108,7 @@ export const TalentPoolStudentProfileDetail = ({ profile, setView}: TalentPoolSt
                         <Typography variant="title" color="text-white">
                             {profile?.student?.user?.name}
                         </Typography>
-                        {connectionStatus ===
-                        'requested' ? (
+                        {connectionStatus === 'requested' ? (
                             <div className="flex items-center gap-x-1.5">
                                 <Button text="Request Pending" />
                             </div>
@@ -176,7 +173,7 @@ export const TalentPoolStudentProfileDetail = ({ profile, setView}: TalentPoolSt
                                     className={`absolute top-0 left-0 backdrop-blur-sm bg-[#cfcdcd]/20 w-full h-4 rounded-lg z-10`}
                                 ></div>
                                 <div
-                                    onClick={()=> setView(true)}
+                                    onClick={() => setView(true)}
                                     className={`cursor-pointer absolute top-0 left-1/2 z-20 bg-[#24556D] px-1 rounded-md flex items-center justify-center`}
                                     style={{ height: '100%' }}
                                 >
@@ -204,7 +201,7 @@ export const TalentPoolStudentProfileDetail = ({ profile, setView}: TalentPoolSt
                                     className={`absolute top-0.5 left-0 backdrop-blur-sm bg-[#cfcdcd]/20 w-full h-4 rounded-lg z-10`}
                                 ></div>
                                 <div
-                                    onClick={()=> setView(true)}
+                                    onClick={() => setView(true)}
                                     className={`cursor-pointer absolute top-0.5 left-1/2 z-20 bg-[#24556D] px-1 rounded-md flex items-center justify-center`}
                                     style={{ height: '100%' }}
                                 >

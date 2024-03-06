@@ -5,7 +5,7 @@ import { Industry, SubAdmin, Subscriber } from '@types'
 import { useEffect } from 'react'
 import { FaBan } from 'react-icons/fa'
 import { HiCheckBadge } from 'react-icons/hi2'
-import { StudentApi} from '@queries'
+import { StudentApi } from '@queries'
 
 export const AcceptModal = ({
     industry,
@@ -14,14 +14,14 @@ export const AcceptModal = ({
     industry: any
     onCancel: Function
 }) => {
-    console.log("industry modal", industry)
     const { alert } = useAlert()
     const { notification } = useNotification()
-    const [ onChangeStatus, changeStatusResult ] = StudentApi.TalentPool.useIndustryRequestStatus()
+    const [onChangeStatus, changeStatusResult] =
+        StudentApi.TalentPool.useIndustryRequestStatus()
 
     const onConfirmUClicked = async (industry: any) => {
-        const status = 'connected'; 
-        const id = industry.request_id;
+        const status = 'connected'
+        const id = industry.request_id
         await onChangeStatus({ status: status, conId: id })
     }
 
