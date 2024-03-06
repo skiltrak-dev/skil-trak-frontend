@@ -199,8 +199,8 @@ export const TalentPoolStudentProfile = ({ data }: any) => {
                 </div>
             </div>
             <div className=" bg-white md:pl-8 md:pr-16 pb-5 px-4 md:pt-5 pt-2.5">
-                <div className="flex justify-between w-full">
-                    <div className="w-1/3">
+                <div className="flex flex-col md:gap-y-0 gap-y-4 md:flex-row md:justify-between w-full">
+                    <div className="md:w-1/3">
                         <Typography variant="label">About</Typography>
                         <Typography variant="small">{data?.about}</Typography>
                     </div>

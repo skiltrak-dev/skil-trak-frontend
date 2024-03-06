@@ -31,9 +31,9 @@ export const RegistrationSuccessful = ({
 }:any) => {
     const router = useRouter()
     return (
-        <div className="py-8 pl-9 pr-16">
-            <div className="flex gap-x-14 w-full">
-                <div className="w-1/3">
+        <div className="py-8 px-4 md:pl-9 md:pr-16 w-full overflow-y-auto max-h-screen">
+            <div className="flex flex-col gap-y-4 md:gap-y-0 md:flex-row md:gap-x-14 w-full ">
+                <div className="md:w-1/3">
                     <FaCircleCheck size={50} className="text-[#BADC58] " />
                     <div className="my-4">
                         <Typography variant={'h4'} color={'text-[#2D3748]'}>

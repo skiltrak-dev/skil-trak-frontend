@@ -196,7 +196,7 @@ const IndustryRequest: NextPageWithLayout = () => {
             header: () => <span>Email</span>,
             cell: (info) => {
                 return (
-                    <div className="">
+                    <div className="whitespace-nowrap">
                         {info.row.original.request_status ===
                         StatusEnum.CONNECTED ? (
                             <Typography variant="small">
@@ -229,7 +229,7 @@ const IndustryRequest: NextPageWithLayout = () => {
             header: () => <span>Phone</span>,
             cell: (info) => {
                 return (
-                    <div className="">
+                    <div className="whitespace-nowrap">
                         {info.row.original.request_status ===
                         StatusEnum.CONNECTED ? (
                             <Typography variant="small">
@@ -384,7 +384,7 @@ const IndustryRequest: NextPageWithLayout = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="px-6">{table}</div>
+                                    <div className="px-6 overflow-x-scroll remove-scrollbar">{table}</div>
                                 </div>
                             )
                         }}

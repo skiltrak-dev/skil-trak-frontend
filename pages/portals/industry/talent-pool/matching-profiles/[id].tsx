@@ -88,11 +88,11 @@ const MatchingProfileDetail: NextPageWithLayout = () => {
                 />
             )}
         <Card noPadding>
-            <div className="flex w-full">
-                <div className="w-1/3">
+            <div className="flex flex-col md:flex-row w-full">
+                <div className="md:w-1/3">
                     <TalentPoolStudentProfileDetail setView={setView} profile={data} />
                 </div>
-                <div className="w-2/3">
+                <div className="md:w-2/3">
                     <div className="flex flex-col gap-y-6 p-5">
                         <div>
                             <Typography variant="label">About</Typography>
