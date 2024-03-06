@@ -75,7 +75,8 @@ const Login: NextPage = () => {
                 setRequested(true)
                 break
             case UserStatus.Archived:
-                setArchived(true)
+                // setArchived(true)
+                nextDestination(role)
                 break
             case UserStatus.Blocked:
                 setBlocked(true)

@@ -44,7 +44,7 @@ export const TermsAndConditionModal = ({
 
     return (
         <>
-            <div className="px-12 pt-7 pb-12">
+            <div className="md:px-12 px-4 md:pt-7 md:pb-12 py-8 overflow-y-auto max-h-screen">
                 <div onClick={onCancelClicked} className="flex justify-end">
                     <MdOutlineClose className="cursor-pointer" size={30} />
                 </div>
@@ -53,7 +53,7 @@ export const TermsAndConditionModal = ({
                         Terms & Condition
                     </Typography>
                 </div>
-                <div className="grid grid-cols-2 gap-x-10 gap-y-7">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-7">
                     {termsAndCondition.map((item) => (
                         <div className="">
                             <p className="text-sm font-medium text-black">

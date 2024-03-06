@@ -148,7 +148,7 @@ export const RegisterNowForm = ({
     const onClickOnTermsAndCondition = () => {
         setModal(
             <GlobalModal>
-                <div className="px-12 pt-7 pb-12">
+                <div className="md:px-12 md:pt-7 md:pb-12 py-8 px-4">
                     <div onClick={onCancelClicked} className="flex justify-end">
                         <MdOutlineClose className="cursor-pointer" size={30} />
                     </div>
