@@ -34,7 +34,9 @@ export const ContactForm = ({
             <FormProvider {...formMethods}>
                 <form onSubmit={formMethods.handleSubmit(onSubmit)}>
                     <div className="flex flex-col w-full">
-                        <div data-aos="fade-left">
+                        <div
+                        //  data-aos="fade-left"
+                        >
                             <TextInput
                                 color="bg-[#F1DBC6] bg-opacity-25"
                                 name="name"
@@ -42,7 +44,9 @@ export const ContactForm = ({
                                 label={'Full Name'}
                             />
                         </div>
-                        <div data-aos="fade-left">
+                        <div
+                        // data-aos="fade-left"
+                        >
                             <TextInput
                                 color="bg-[#F1DBC6] bg-opacity-25"
                                 name="email"
@@ -50,7 +54,9 @@ export const ContactForm = ({
                                 label={'Email Address'}
                             />
                         </div>
-                        <div data-aos="fade-left">
+                        <div
+                        // data-aos="fade-left"
+                        >
                             <TextInput
                                 color="bg-[#F1DBC6] bg-opacity-25"
                                 name="subject"
@@ -59,7 +65,9 @@ export const ContactForm = ({
                             />
                         </div>
 
-                        <div data-aos="fade-left">
+                        <div
+                        // data-aos="fade-left"
+                        >
                             <TextArea
                                 color="bg-[#F1DBC6] bg-opacity-25"
                                 rows={6}
@@ -70,7 +78,7 @@ export const ContactForm = ({
                         </div>
                     </div>
                     <div
-                        data-aos="fade-left"
+                        // data-aos="fade-left"
                         className="w-full md:w-2/3 mx-auto"
                     >
                         <Button
