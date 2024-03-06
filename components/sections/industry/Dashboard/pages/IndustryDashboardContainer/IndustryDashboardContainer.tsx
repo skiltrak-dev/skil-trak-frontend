@@ -879,7 +879,6 @@ export const IndustryDashboardContainer = () => {
     //                 <Modal
     //                     onCancelClick={onCancel}
     //                     onConfirmClick={() => {
-    //                         console.log('ssss')
     //                     }}
     //                     title={'Required docs'}
     //                     confirmText={'Required docs'}

@@ -38,7 +38,6 @@ const RequiredDocsPage: NextPageWithLayout = () => {
         setSelectedFolder(data)
     }, [])
 
-    console.log('data', data)
     return (
         <Card noPadding>
             <div className="flex gap-x-5">

@@ -17,6 +17,7 @@ export type TextAreaProps = InputProps & {
     placeholder?: string
     rows?: number
     color?: string
+    showError?: boolean
 }
 
 export const TextArea = ({
@@ -39,6 +40,7 @@ export const TextArea = ({
     required = false,
     disabled = false,
     validationIcons = false,
+    showError = true,
 
     rows,
 }: TextAreaProps) => {
@@ -86,7 +88,7 @@ export const TextArea = ({
             </div>
 
             <HelpText text={helpText} />
-            <InputErrorMessage name={name} />
+            {showError ? <InputErrorMessage name={name} /> : null}
         </div>
     )
 }

@@ -22,8 +22,6 @@ export const FinalResult = ({
 }) => {
     const [selectedResult, setSelectedResult] = useState(results?.[0])
 
-    console.log({ results })
-
     useEffect(() => {
         if (results && results?.length > 0) {
             setSelectedResult(

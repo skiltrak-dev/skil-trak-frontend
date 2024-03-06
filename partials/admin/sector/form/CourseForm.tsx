@@ -54,8 +54,6 @@ export const CourseForm = ({
         mode: 'all',
     })
 
-    console.log({ initialValues })
-
     return (
         <FormProvider {...methods}>
             <form

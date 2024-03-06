@@ -37,29 +37,7 @@ const data = [
 export const OurPackages = () => {
     const [selectedPackage, setSelectedPackage] = useState(data?.[0]?.title)
 
-    const [packagesDivView, setPackagesDivView] = useState(false)
-
     const isMobile = useMediaQuery({ maxWidth: 768 })
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const findIndex = data?.findIndex(
-                (item) => item?.title === selectedPackage
-            )
-            if (findIndex !== -1 && data?.[findIndex + 1]) {
-                // Update the selected package to the next one
-                setSelectedPackage(data?.[findIndex + 1]?.title)
-            }
-            console.log('Div Scrolling')
-        }
-        if (packagesDivView) {
-            window.addEventListener('scroll', handleScroll)
-
-            return () => {
-                window.removeEventListener('scroll', handleScroll)
-            }
-        }
-    }, [packagesDivView, data])
 
     return (
         <div className="sticky top-0">
@@ -78,92 +56,79 @@ export const OurPackages = () => {
                     </Typography>
                 </div>
 
-                <Waypoint
-                    onEnter={() => {
-                        setPackagesDivView(true)
-                    }}
-                    onLeave={() => {
-                        setPackagesDivView(false)
-                    }}
+                <div
+                    className="max-w-7xl mx-auto mt-5 grid grid-cols-1 md:grid-cols-3 gap-y-8 gap-x-4 sticky top-0 px-4 md:px-0"
+                    id={'helloPackages'}
                 >
-                    <div
-                        className="max-w-7xl mx-auto mt-5 grid grid-cols-1 md:grid-cols-3 gap-y-8 gap-x-4 sticky top-0 px-4 md:px-0"
-                        id={'helloPackages'}
-                    >
-                        <div className="md:hidden" data-aos="fade-right">
-                            <PackageSliderContainer className="relative w-full">
-                                <Swiper
-                                    spaceBetween={10}
-                                    slidesPerGroup={1}
-                                    slidesPerView={1}
-                                    loop={true}
-                                    modules={[Pagination]}
-                                    pagination={{
-                                        clickable: true,
-                                    }}
-                                    onSlideChange={(e: any) => {
-                                        setSelectedPackage(
-                                            data?.[e?.activeIndex]?.title
-                                        )
-                                        console.log({ e: e?.activeIndex })
-                                    }}
-                                    className="mySwiper"
-                                >
-                                    {data?.map((packageData, i) => (
-                                        <SwiperSlide key={i}>
-                                            <div className="h-48">
-                                                <PackageCard
-                                                    key={i}
-                                                    active={
-                                                        selectedPackage ===
-                                                        packageData?.title
-                                                    }
-                                                    packageData={packageData}
-                                                    packageTypes={packageTypes}
-                                                    onClick={() => {
-                                                        setSelectedPackage(
-                                                            packageData?.title
-                                                        )
-                                                    }}
-                                                    data-package={
-                                                        packageData?.title
-                                                    }
-                                                />
-                                            </div>
-                                        </SwiperSlide>
-                                    ))}
-                                </Swiper>
-                            </PackageSliderContainer>
-                        </div>
-                        <div className="hidden md:block" data-aos="fade-up">
-                            <div className=" flex flex-col justify-between gap-y-4 h-full ">
+                    <div className="md:hidden" data-aos="fade-right">
+                        <PackageSliderContainer className="relative w-full">
+                            <Swiper
+                                spaceBetween={10}
+                                slidesPerGroup={1}
+                                slidesPerView={1}
+                                loop={true}
+                                modules={[Pagination]}
+                                pagination={{
+                                    clickable: true,
+                                }}
+                                onSlideChange={(e: any) => {
+                                    setSelectedPackage(
+                                        data?.[e?.activeIndex]?.title
+                                    )
+                                }}
+                                className="mySwiper"
+                            >
                                 {data?.map((packageData, i) => (
-                                    <PackageCard
-                                        key={i}
-                                        active={
-                                            selectedPackage ===
-                                            packageData?.title
-                                        }
-                                        packageData={packageData}
-                                        packageTypes={packageTypes}
-                                        onClick={() => {
-                                            setSelectedPackage(
-                                                packageData?.title
-                                            )
-                                        }}
-                                        data-package={packageData?.title}
-                                    />
+                                    <SwiperSlide key={i}>
+                                        <div className="h-48">
+                                            <PackageCard
+                                                key={i}
+                                                active={
+                                                    selectedPackage ===
+                                                    packageData?.title
+                                                }
+                                                packageData={packageData}
+                                                packageTypes={packageTypes}
+                                                onClick={() => {
+                                                    setSelectedPackage(
+                                                        packageData?.title
+                                                    )
+                                                }}
+                                                data-package={
+                                                    packageData?.title
+                                                }
+                                            />
+                                        </div>
+                                    </SwiperSlide>
                                 ))}
-                            </div>
-                        </div>
-                        <div className="md:col-span-2" data-aos="fade-up">
-                            <PackageDetail
-                                packageTypes={packageTypes}
-                                selectedPackage={selectedPackage}
-                            />
+                            </Swiper>
+                        </PackageSliderContainer>
+                    </div>
+                    <div className="hidden md:block" data-aos="fade-up">
+                        <div className=" flex flex-col justify-between gap-y-4 h-full ">
+                            {data?.map((packageData, i) => (
+                                <PackageCard
+                                    key={i}
+                                    active={
+                                        selectedPackage === packageData?.title
+                                    }
+                                    packageData={packageData}
+                                    packageTypes={packageTypes}
+                                    onClick={() => {
+                                        setSelectedPackage(packageData?.title)
+                                    }}
+                                    data-package={packageData?.title}
+                                />
+                            ))}
                         </div>
                     </div>
-                </Waypoint>
+                    <div className="md:col-span-2" data-aos="fade-up">
+                        <PackageDetail
+                            packageTypes={packageTypes}
+                            selectedPackage={selectedPackage}
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     )

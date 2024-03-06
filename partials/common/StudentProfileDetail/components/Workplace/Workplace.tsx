@@ -95,8 +95,6 @@ export const Workplace = ({
         }
     }, [studentWorkplace])
 
-    console.log({ selectedWorkplace })
-
     return (
         <>
             <ShowErrorNotifications result={cancelWorkplaceResult} />

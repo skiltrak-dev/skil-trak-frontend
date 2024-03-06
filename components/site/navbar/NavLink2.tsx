@@ -1,13 +1,17 @@
-import React from 'react'
 import Link from 'next/link'
 
-import { css, jsx } from '@emotion/react'
+import { css } from '@emotion/react'
 
-import { Button2 } from '../Button2'
 import { Button } from '@components/buttons'
 import { useRouter } from 'next/router'
 
-export const NavLink2 = ({ to, text, asButton = false, external }: any) => {
+export const NavLink2 = ({
+    to,
+    text,
+    asButton = false,
+    external,
+    subMenus,
+}: any) => {
     const router = useRouter()
     const linkCSS = css`
         &:after {
@@ -69,9 +73,32 @@ export const NavLink2 = ({ to, text, asButton = false, external }: any) => {
             )
         } else {
             return (
-                <Link href={to} className={linkClasses}>
-                    {text}
-                </Link>
+                <div className="relative group inline-block text-left">
+                    <Link href={to} className={linkClasses}>
+                        {text}
+                    </Link>
+
+                    {subMenus && subMenus?.length > 0 ? (
+                        <div className="md:hidden group-hover:block md:origin-top-right md:absolute z-20 right-0 md:mt-2 w-full md:w-64 rounded-md md:shadow-lg bg-white md:ring-1 md:ring-black md:ring-opacity-5">
+                            <div
+                                className="py-1"
+                                role="menu"
+                                aria-orientation="vertical"
+                                aria-labelledby="options-menu"
+                            >
+                                {subMenus?.map((subMenu: any, i: number) => (
+                                    <Link
+                                        key={i}
+                                        href={subMenu?.url}
+                                        className="block pl-10 font-semibold md:pl-4 md:px-4 py-1 md:py-2 text-sm md:font-medium text-black hover:bg-gray-100"
+                                    >
+                                        {subMenu?.text}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    ) : null}
+                </div>
             )
         }
     }
