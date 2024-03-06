@@ -69,6 +69,7 @@ export const OperateStates = () => {
                 <div className="w-full flex justify-between gap-x-2 md:gap-x-0 items-center ">
                     {imagesTexts?.map((detail, i) => (
                         <div
+                            key={i}
                             onMouseEnter={() => setActive(i)}
                             className={`${
                                 i === active ? 'min-w-[280px]' : 'min-w-[160px]'

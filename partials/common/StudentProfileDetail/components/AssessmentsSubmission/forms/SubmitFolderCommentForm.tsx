@@ -48,7 +48,6 @@ export const SubmitFolderCommentForm = ({
         },
     ]
 
-    console.log({ folderStatus })
     return (
         <div>
             <FormProvider {...methods}>

@@ -71,9 +71,6 @@ const ESign = () => {
         }
     )
 
-    const [addCustomFieldsData, addCustomFieldsDataResult] =
-        CommonApi.ESign.addEmailCustomFieldData()
-
     useEffect(() => {
         if (tabs.isSuccess && tabs?.data && tabs?.data?.length > 0) {
             setCustomFieldsData(
@@ -188,7 +185,6 @@ const ESign = () => {
         <SiteLayout title={'E Sign'}>
             {modal}
             <ShowErrorNotifications result={checkIfUserSigned} />
-            <ShowErrorNotifications result={addCustomFieldsDataResult} />
             <div className="max-w-7xl mx-auto py-10">
                 <PageHeading title="E-Sign" subtitle="E Sign" />
 
@@ -319,21 +315,27 @@ const ESign = () => {
                         </div>
                         <div className="flex justify-center bg-white px-5 py-2 shadow-md w-full rounded my-2">
                             <button
-                                className="bg-primary text-white hover:bg-primary-dark border-transparent ring-primary-light text-[11px] 2xl:text-xs font-medium uppercase transition-all duration-300 border px-4 py-2 shadow focus:outline-none focus:ring-4 rounded-md w-full md:w-96 h-12 md:h-[60px]"
+                                className={`${
+                                    tabs?.isSuccess &&
+                                    customFieldsData &&
+                                    customFieldsData?.length > 0
+                                        ? 'bg-primary text-white hover:bg-primary-dark'
+                                        : 'bg-secondary-dark text-gray-400'
+                                }   border-transparent ring-primary-light text-[11px] 2xl:text-xs font-medium uppercase transition-all duration-300 border px-4 py-2 shadow focus:outline-none focus:ring-4 rounded-md w-full md:w-96 h-12 md:h-[60px]`}
                                 onClick={() => {
-                                    onSaveCustomFieldsValue()
-                                    // router.back()
+                                    if (
+                                        tabs?.isSuccess &&
+                                        customFieldsData &&
+                                        customFieldsData?.length > 0
+                                    ) {
+                                        onSaveCustomFieldsValue()
+                                        // router.back()
+                                    }
                                 }}
                             >
-                                {addCustomFieldsDataResult.isLoading ? (
-                                    <div className="flex items-center justify-center">
-                                        <PuffLoader size={24} color={'white'} />
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center justify-center gap-x-2 text-xl">
-                                        Finish Signing
-                                    </div>
-                                )}
+                                <div className="flex items-center justify-center gap-x-2 text-xl">
+                                    Finish Signing
+                                </div>
                             </button>
                         </div>
                     </>

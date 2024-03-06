@@ -327,10 +327,23 @@ export const ViewDocumentAndSign = () => {
                     </div>
                     <div className="flex justify-center bg-white px-5 py-2 shadow-md w-full rounded my-2">
                         <button
-                            className="bg-primary text-white hover:bg-primary-dark border-transparent ring-primary-light text-[11px] 2xl:text-xs font-medium uppercase transition-all duration-300 border px-4 py-2 shadow focus:outline-none focus:ring-4 rounded-md w-full md:w-96 h-12 md:h-[60px]"
+                            className={`${
+                                tabs?.isSuccess &&
+                                customFieldsData &&
+                                customFieldsData?.length > 0
+                                    ? 'bg-primary text-white hover:bg-primary-dark'
+                                    : 'bg-secondary-dark text-gray-400'
+                            }   border-transparent ring-primary-light text-[11px] 2xl:text-xs font-medium uppercase transition-all duration-300 border px-4 py-2 shadow focus:outline-none focus:ring-4 rounded-md w-full md:w-96 h-12 md:h-[60px]`}
                             onClick={() => {
-                                onFinishSignModal()
+                                if (
+                                    tabs?.isSuccess &&
+                                    customFieldsData &&
+                                    customFieldsData?.length > 0
+                                ) {
+                                    onFinishSignModal()
+                                }
                             }}
+                            disabled={!tabs.isSuccess}
                         >
                             <div className="flex items-center justify-center gap-x-2 text-xl">
                                 Finish Signing

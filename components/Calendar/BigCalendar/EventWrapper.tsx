@@ -8,8 +8,6 @@ import { ReactElement, useState } from 'react'
 
 // export const EventWrapper = <T extends object>(event: EventWrapperProps<T>) => {
 export const EventWrapper = <T extends object>(event: any) => {
-    console.log({ event })
-
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const roles = [
@@ -19,7 +17,6 @@ export const EventWrapper = <T extends object>(event: any) => {
 
     const rto = roles.includes(UserRoles.RTO)
 
-    console.log({ roles, rto, event: event?.event?.appointment?.appointmentBy })
     const classes = classNames({
         'absolute max-h-full min-h-[20px] hover:min-h-[80px] border-l-2 px-1 py-1 overflow-hidden transition-all cursor-pointer':
             true,

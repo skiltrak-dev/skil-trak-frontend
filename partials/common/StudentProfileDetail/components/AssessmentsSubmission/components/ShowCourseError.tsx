@@ -4,8 +4,6 @@ import { useFormContext } from 'react-hook-form'
 export const ShowCourseError = ({ name }: { name: string }) => {
     const formContext = useFormContext()
 
-    console.log('formContext.formState.errors', formContext.formState.errors)
-
     return (
         <>
             {formContext && formContext.formState.errors?.[name] ? (

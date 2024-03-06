@@ -12,6 +12,10 @@ html {
     font-size: 16px;
 }
 
+.ourServicesBg {
+    background-image: url('/images/site/services/headerBG.png');
+}
+
 .pac-container:after {
     content: none !important;
 }

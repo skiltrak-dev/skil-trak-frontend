@@ -17,8 +17,12 @@ export const Footer4 = () => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
 
     return (
-        <div className="footer-bg w-full" data-aos="fade-up">
-            <div className="max-w-7xl mx-auto px-4 py-8 md:py-0 md:pt-12 md:pb-2">
+        <div className="footer-bg w-full">
+            <div
+                data-aos="fade-up"
+                data-aos-duration="10000"
+                className="max-w-7xl mx-auto px-4 py-8 md:py-0 md:pt-12 md:pb-2"
+            >
                 <div className="flex flex-col gap-y-5 md:gap-y-6">
                     <div className="flex justify-center items-center">
                         <Image

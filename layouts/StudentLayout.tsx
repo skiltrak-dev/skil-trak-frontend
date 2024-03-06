@@ -160,8 +160,9 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                         router?.pathname !== TalentPoolLinks.REGISTERNOW &&
                         router?.pathname !== TalentPoolLinks.PROFILE &&
                         router?.pathname !== TalentPoolLinks.INDUSTRYREQUEST &&
-                        (!router?.query.id || router?.pathname !== `${TalentPoolLinks.INDUSTRYREQUEST}/[id]`) && 
-                            (
+                        (!router?.query.id ||
+                            router?.pathname !==
+                                `${TalentPoolLinks.INDUSTRYREQUEST}/[id]`) && (
                             <StudentContextBar />
                         )}
                     <div className="px-4 mb-32 md:px-8">

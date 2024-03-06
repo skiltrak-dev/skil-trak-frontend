@@ -110,7 +110,8 @@
       "pages/portals/admin/subscribers",
       "pages/portals/admin/rto/[id]/student-list.tss",
       "pages/portals/admin/e-sign/[id]",
-      "./jest-setup.ts"
+      "./jest-setup.ts",
+      "vite.config.ts"
    ],
    "exclude": [
       "node_modules"
