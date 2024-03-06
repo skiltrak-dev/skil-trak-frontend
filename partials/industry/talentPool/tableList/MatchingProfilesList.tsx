@@ -5,24 +5,25 @@ import {
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
+    Select,
     Table,
     TableAction,
     TechnicalError,
     Typography,
 } from '@components'
-import { IndustryApi, commonApi } from '@queries'
+import { AuthApi, IndustryApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { useRouter } from 'next/router'
-import { getUserCredentials, isBrowser } from '@utils'
+import { isBrowser } from '@utils'
 import { FaEye } from 'react-icons/fa'
 import { IoMdEyeOff } from 'react-icons/io'
 import { TalentPoolNotification } from '@partials/common/TalentPool'
 
 export const MatchingProfilesList = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const [changeStatusResult, setChangeStatusResult] = useState<any>({})
+    const [sectorId, setSectorId] = useState<any>({})
+    const getSectors = AuthApi.useSectors({})
     const router = useRouter()
-
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [view, setView] = useState<boolean>(false)
@@ -46,6 +47,11 @@ export const MatchingProfilesList = () => {
         return () => clearTimeout(timeout)
     }, [view])
 
+    const sectorOptions = getSectors.data?.map((sector: any) => ({
+        label: sector.name,
+        value: sector.id,
+    }))
+
     // useEffect(() => {
     //     setPage(Number(router.query?.page || 1))
     //     setItemPerPage(Number(router.query?.pageSize || 50))
@@ -54,7 +60,7 @@ export const MatchingProfilesList = () => {
     const { isLoading, isFetching, data, isError, refetch } =
         IndustryApi.TalentPool.useMatchingProfilesList(
             {
-                // search: `status:${UserStatus.Approved}`,
+                // search: `sectorId: ${sectorId}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
@@ -62,20 +68,11 @@ export const MatchingProfilesList = () => {
                 refetchOnMountOrArgChange: true,
             }
         )
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
-    console.log('table data', data)
-
-    // useEffect(() => {
-    //     if (changeStatusResult.isSuccess) {
-    //         refetch()
-    //     }
-    // }, [changeStatusResult])
 
     const onModalCancelClicked = () => {
         setModal(null)
     }
 
-    const role = getUserCredentials()?.role
     const tableActionOptions = (student: any) => {
         return [
             {
@@ -162,7 +159,7 @@ export const MatchingProfilesList = () => {
             header: () => <span>Email</span>,
             cell: (info) => {
                 return (
-                    <div className="">
+                    <div className="whitespace-nowrap">
                         {info?.row?.original?.connectionRequests &&
                         info?.row?.original?.connectionRequests.length > 0 &&
                         info?.row?.original?.connectionRequests?.[0].status ===
@@ -198,7 +195,7 @@ export const MatchingProfilesList = () => {
             header: () => <span>Phone</span>,
             cell: (info) => {
                 return (
-                    <div className="">
+                    <div className="whitespace-nowrap">
                         {info?.row?.original?.connectionRequests &&
                         info?.row?.original?.connectionRequests.length > 0 &&
                         info?.row?.original?.connectionRequests?.[0]?.status ===
@@ -362,11 +359,26 @@ export const MatchingProfilesList = () => {
                     }
                 />
             )}
+            {/* <div className="flex justify-end">
+                <Select
+                    label={'Search by Sectors'}
+                    name={'sectorId'}
+                    options={sectorOptions}
+                    placeholder={'Select Sectors...'}
+                    onChange={(e: any) => {
+                        setSectorId(e)
+                    }}
+                    loading={getSectors.isLoading}
+                    disabled={getSectors.isLoading}
+                    onlyValue
+                />
+            </div> */}
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
+                
                     <Table
                         columns={columns}
                         data={data.data}
@@ -395,11 +407,12 @@ export const MatchingProfilesList = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="px-6">{table}</div>
+                                    <div className="px-6 overflow-x-scroll remove-scrollbar">{table}</div>
                                 </div>
                             )
                         }}
                     </Table>
+                    
                 ) : (
                     !isError && (
                         <EmptyData

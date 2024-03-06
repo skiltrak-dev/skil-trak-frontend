@@ -56,7 +56,7 @@ const RegisterNow: NextPageWithLayout = () => {
                     Please fill all these fields to Register in Talent Pool
                 </Typography>
             </div>
-            <div className="flex">
+            <div className="flex flex-col md:flex-row">
                 {isError && <>Something is not right on Server try again</>}
                 <div className="md:w-1/3 md:border-r md:border-t pl-6 pr-8 py-4">
                     {isLoading || isFetching ? (

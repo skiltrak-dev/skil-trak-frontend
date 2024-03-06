@@ -37,7 +37,7 @@ const urls = [
     `/assessments/assessment-tools`,
     `/assessments/schedule`,
     `/assessments/schedule/add-schedule`,
-    `/jobs`,
+    // `/jobs`,
     `/notifications/e-mails`,
     `/notifications/all-notifications`,
     `/assessments/e-sign`,

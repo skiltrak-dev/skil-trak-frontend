@@ -10,9 +10,9 @@ export const TalentPoolNotification = ({
     setViewNotification,
 }: TalentPoolNotificationProps) => {
     return (
-        <div className="absolute top-20 flex justify-center w-full z-50">
-            <div className="flex items-center bg-[#24556D] rounded-md justify-between gap-x-16 min-w-[512px] mb-5">
-                <div className="p-2.5  ">
+        <div className="absolute top-20 flex justify-center md:w-full z-50">
+            <div className="flex items-center bg-[#24556D] rounded-md justify-between gap-x-16 md:min-w-[512px] mb-5">
+                <div className="md:p-2.5 px-2  ">
                     <Typography variant={'small'} color={'text-white'}>
                         {text}
                     </Typography>
