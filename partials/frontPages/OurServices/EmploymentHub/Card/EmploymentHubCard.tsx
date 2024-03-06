@@ -1,4 +1,4 @@
-import { Typography } from '@components'
+import { Button, Typography } from '@components'
 import React from 'react'
 
 export const EmploymentHubCard = ({
@@ -14,7 +14,7 @@ export const EmploymentHubCard = ({
 
     return (
         <div
-            className={`pt-7 ${lastIndex ? 'pb-12' : 'pb-24'}  px-14 ${
+            className={`pt-7 ${lastIndex ? 'pb-12' : 'pb-24'} h-56 px-14 ${
                 employment?.bgColor
             } rounded-t-[60px]`}
         >
@@ -46,6 +46,11 @@ export const EmploymentHubCard = ({
                         exclusive access to these opportunities.
                     </Typography>
                 )}
+                {lastIndex ? (
+                    <div className="flex justify-center items-center pt-8">
+                        <Button text={'Get Started Today'} />
+                    </div>
+                ) : null}
             </div>
         </div>
     )
