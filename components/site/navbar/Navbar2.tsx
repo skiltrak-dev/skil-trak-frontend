@@ -294,6 +294,7 @@ export function Navbar2() {
                             text={link.text}
                             asButton={link.asButton}
                             subMenus={link?.subMenus}
+                            onClick={() => setIsMenuOpen(false)}
                         />
                     ))}
                 </div>

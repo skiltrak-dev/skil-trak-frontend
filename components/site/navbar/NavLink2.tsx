@@ -11,6 +11,7 @@ export const NavLink2 = ({
     asButton = false,
     external,
     subMenus,
+    onClick,
 }: any) => {
     const router = useRouter()
     const linkCSS = css`
@@ -73,7 +74,14 @@ export const NavLink2 = ({
             )
         } else {
             return (
-                <div className="relative group inline-block text-left">
+                <div
+                    onClick={() => {
+                        if (onClick) {
+                            onClick()
+                        }
+                    }}
+                    className="relative group inline-block text-left"
+                >
                     <Link href={to} className={linkClasses}>
                         {text}
                     </Link>
