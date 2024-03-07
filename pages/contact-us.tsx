@@ -1,21 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react'
 import { SiteLayout } from '@layouts'
-import Image from 'next/image'
+import { useEffect, useRef, useState } from 'react'
 
-import {
-    FaFacebookF,
-    FaLinkedinIn,
-    FaTwitter,
-    FaInstagram,
-    FaPhoneAlt,
-} from 'react-icons/fa'
 
-import { FcPhoneAndroid, FcAddressBook, FcFeedback } from 'react-icons/fc'
 
-import { Heading } from '../components/site/Heading'
-import { Button } from '../components/site/Button'
-import { TextArea, TextInput, Typography } from '@components'
-import { MdOutlineAlternateEmail } from 'react-icons/md'
+import { Typography } from '@components'
 import { ContactUs } from '@components/site/ContactUs'
 
 const Page = ({ location }: any) => {

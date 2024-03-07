@@ -13,7 +13,13 @@ export const JobsSlider = () => {
 
     const slides =
         jobs?.data?.data && jobs?.data?.data?.length > 0
-            ? [...jobs?.data?.data]
+            ? jobs?.data?.data?.length < 3
+                ? [
+                      ...jobs?.data?.data,
+                      ...jobs?.data?.data,
+                      ...jobs?.data?.data,
+                  ]
+                : [...jobs?.data?.data]
             : []
 
     // const handleSlideChange = (direction) => {

@@ -25,6 +25,7 @@ import {
     BlockedIndustries,
     FavoriteIndustries,
     FilteredIndustry,
+    IsHiringIndustries,
     PendingIndustries,
     RejectedIndustries,
     SnoozedIndustrySubAdmin,
@@ -47,6 +48,7 @@ const filterKeys = [
     'state',
     'abn',
     'courseId',
+    'isHiring',
 ]
 const Industries: NextPageWithLayout = (props: Props) => {
     const { setContent, hide, show } = useContextBar()
@@ -131,6 +133,11 @@ const Industries: NextPageWithLayout = (props: Props) => {
                 loading: count.isLoading,
             },
         },
+        // {
+        //     label: 'Hiring Industries',
+        //     href: { pathname: 'industries', query: { tab: 'hiring' } },
+        //     element: <IsHiringIndustries />,
+        // },
         {
             label: 'Rejected',
             href: {

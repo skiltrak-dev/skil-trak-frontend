@@ -38,6 +38,7 @@ const filterKeys = [
     'suburb',
     'state',
     'isPartner',
+    'isHiring',
 ]
 
 const removeFilterKeysToUrl: any = []

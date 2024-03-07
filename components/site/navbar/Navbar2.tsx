@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { NavLink2 } from './NavLink2'
 import { Button } from '@components/buttons'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 const navLinks = [
     {
@@ -100,16 +101,20 @@ export function Navbar2() {
                     <div className="px-4 md:px-0 flex-1 flex items-center justify-between md:items-end md:justify-start">
                         {/* Logo */}
                         <div className="flex-shrink-0 flex items-center">
-                            <img
-                                className="block lg:hidden h-8 w-auto"
-                                src={'/images/site/logo-light.png'}
-                                alt="Skiltrak Logo"
-                            />
-                            <img
-                                className="hidden lg:block h-12 w-auto"
-                                src={'/images/site/logo-light.png'}
-                                alt="Skiltrak Logo"
-                            />
+                            <Link href={'/'}>
+                                <img
+                                    className="block lg:hidden h-8 w-auto"
+                                    src={'/images/site/logo-light.png'}
+                                    alt="Skiltrak Logo"
+                                />
+                            </Link>
+                            <Link href={'/'}>
+                                <img
+                                    className="hidden lg:block h-12 w-auto"
+                                    src={'/images/site/logo-light.png'}
+                                    alt="Skiltrak Logo"
+                                />
+                            </Link>
                         </div>
                         <div className="absolute inset-y-0 right-0 flex items-center md:hidden">
                             <div className="">

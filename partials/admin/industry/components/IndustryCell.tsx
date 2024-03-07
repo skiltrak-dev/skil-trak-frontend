@@ -3,7 +3,7 @@ import { Industry } from '@types'
 import { QueryType, queryToUrl } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { FaHandshake } from 'react-icons/fa'
+import { FaHandshake, FaHireAHelper } from 'react-icons/fa'
 import { MdEmail, MdPhoneIphone, MdSnooze } from 'react-icons/md'
 
 export const IndustryCell = ({ industry }: { industry: Industry }) => {
@@ -46,6 +46,7 @@ export const IndustryCell = ({ industry }: { industry: Industry }) => {
                             <p className="font-semibold">
                                 {industry?.user?.name}
                             </p>
+                            {industry?.isHiring ? <FaHireAHelper /> : ''}
                         </div>
                         {/* snoozedDate */}
                         <div className="font-medium text-xs text-gray-500">
