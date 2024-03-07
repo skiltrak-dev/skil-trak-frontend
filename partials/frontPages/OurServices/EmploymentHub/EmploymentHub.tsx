@@ -33,8 +33,6 @@ export const EmploymentHub = () => {
     const [isSticky, setIsSticky] = useState(false)
     const [scrollY, setScrollY] = useState(0)
 
-    console.log({ isSticky })
-
     const employmentHubRef = useRef<any>()
 
     useEffect(() => {
@@ -42,8 +40,6 @@ export const EmploymentHub = () => {
             const scrollPosition = window.scrollY
             setScrollY(scrollPosition)
             const employmentHubOffsetTop = employmentHubRef?.current?.offsetTop
-
-            console.log({ employmentHubOffsetTop, scrollPosition })
 
             // Check if the scroll position is below the Employment Hub section
             if (scrollPosition > employmentHubOffsetTop) {
@@ -61,8 +57,6 @@ export const EmploymentHub = () => {
             window.removeEventListener('scroll', handleScroll)
         }
     }, [])
-
-    console.log({ scrollY })
 
     return (
         <div className="relative">

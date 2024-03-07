@@ -8,8 +8,6 @@ export const EmploymentHubCard = ({
     lastIndex: boolean
     employment?: any
 }) => {
-    console.log({ employment: employment?.description })
-
     const description = employment?.description
 
     return (
