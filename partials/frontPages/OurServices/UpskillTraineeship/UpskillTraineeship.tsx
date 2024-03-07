@@ -71,7 +71,7 @@ export const UpskillTraineeship = () => {
                         <UpSkillsInfo />
                     </div>
                     <div className="md:col-span-5 md:order-2 order-1">
-                        <div className="sticky top-0">
+                        <div className="sticky top-20">
                             <ContactUpSkill />
                         </div>
                     </div>

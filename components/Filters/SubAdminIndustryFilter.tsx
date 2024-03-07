@@ -50,7 +50,8 @@ export const SubAdminIndustryFilter = ({
                     label={'Suburb'}
                     placeholder={'Search Industry Suburb ...'}
                     value={filter?.suburb}
-                    onChange={(e: any) => {``
+                    onChange={(e: any) => {
+                        ;``
                         onFilterChange({ ...filter, suburb: e.target.value })
                     }}
                 />
@@ -80,6 +81,19 @@ export const SubAdminIndustryFilter = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, abn: e.target.value })
                     }}
+                />
+                <Select
+                    label={'Is Hiring'}
+                    name={'isHiring'}
+                    options={[
+                        {
+                            label: 'Is Hiring',
+                            value: true,
+                        },
+                    ]}
+                    onChange={(e: any) =>
+                        onFilterChange({ ...filter, isHiring: e?.value })
+                    }
                 />
                 <TextInput
                     label={'Address'}

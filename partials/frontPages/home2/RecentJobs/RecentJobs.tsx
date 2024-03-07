@@ -25,7 +25,7 @@ export const RecentJobs = () => {
                 className="w-full h-full absolute left-0 -z-10"
             /> */}
 
-            <div className="max-w-7xl mx-auto flex flex-col gap-y-6 md:gap-y-10">
+            <div className="max-w-7xl mx-auto flex flex-col gap-y-">
                 <div className="flex flex-col md:flex-row gap-y-1 justify-center md:justify-between items-center">
                     <Typography
                         variant={isMobile ? 'title' : 'h2'}

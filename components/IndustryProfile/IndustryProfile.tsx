@@ -13,7 +13,7 @@ import { UserRoles } from '@constants'
 import { useActionModal, useNotification } from '@hooks'
 import { BranchOrHeadofficeType, CourseList } from '@partials/common'
 import { AddToPartnerModal } from '@partials/sub-admin/Industries/modals/AddToPartnerModal'
-import { SubAdminApi } from '@queries'
+import { SubAdminApi, CommonApi } from '@queries'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { Fragment, ReactNode, useEffect, useState } from 'react'
@@ -31,6 +31,7 @@ import {
     MakeHeadQuarterModal,
     RemoveBranchModal,
 } from '../../partials/common/IndustryBranches/modal'
+import { Switch } from '@components/inputs'
 
 type Props = {
     data: Industry
@@ -50,6 +51,8 @@ export const IndustryProfile = ({ data }: Props) => {
         skip: !UserRoles.SUBADMIN,
         refetchOnMountOrArgChange: true,
     })
+    const [isHiring, isHiringResult] =
+        CommonApi.Industries.useIsIndustryHiring()
 
     useEffect(() => {
         if (addToPartnerResult.isSuccess) {
@@ -146,6 +149,7 @@ export const IndustryProfile = ({ data }: Props) => {
             {modal}
             {passwordModal && passwordModal}
             <ShowErrorNotifications result={callLogResult} />
+            <ShowErrorNotifications result={isHiringResult} />
             <ShowErrorNotifications result={addToPartnerResult} />
 
             <div>
@@ -153,6 +157,34 @@ export const IndustryProfile = ({ data }: Props) => {
                 <div className="flex flex-col">
                     <div className="relative flex flex-col items-center">
                         <div className="flex items-center gap-x-2 absolute top-0 right-0">
+                            <div className="mt-2">
+                                <Switch
+                                    name="hiring"
+                                    onChange={(e: any) => {
+                                        isHiring(data?.user?.id)?.then(
+                                            (res: any) => {
+                                                if (res?.data) {
+                                                    notification.success({
+                                                        title: data?.isHiring
+                                                            ? 'Not Hiring'
+                                                            : 'Hiring',
+                                                        description:
+                                                            data?.isHiring
+                                                                ? 'Not Hiring'
+                                                                : 'Hiring',
+                                                    })
+                                                }
+                                            }
+                                        )
+                                    }}
+                                    value={data?.isHiring}
+                                    defaultChecked={data?.isHiring}
+                                    customStyleClass={'profileSwitch'}
+                                    tooltip={'Hiring Students'}
+                                    loading={isHiringResult.isLoading}
+                                    disabled={isHiringResult.isLoading}
+                                />
+                            </div>
                             <ActionButton
                                 rounded
                                 Icon={AiFillEdit}
@@ -176,27 +208,29 @@ export const IndustryProfile = ({ data }: Props) => {
                                 title="Edit Password"
                             />
                         </div>
-                        {data?.user.avatar ? (
-                            <Image
-                                src={data?.user?.avatar}
-                                width={100}
-                                height={100}
-                                className="rounded-full shadow-inner-image"
-                                alt=""
-                            />
-                        ) : (
-                            <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
-                                <span className="text-4xl text-gray-300">
-                                    <MdAdminPanelSettings />
-                                </span>
-                            </div>
-                        )}
+                        <div className="mt-4">
+                            {data?.user.avatar ? (
+                                <Image
+                                    src={data?.user?.avatar}
+                                    width={100}
+                                    height={100}
+                                    className="rounded-full shadow-inner-image"
+                                    alt=""
+                                />
+                            ) : (
+                                <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
+                                    <span className="text-4xl text-gray-300">
+                                        <MdAdminPanelSettings />
+                                    </span>
+                                </div>
+                            )}
+                        </div>
                         <div
                             className={`${
                                 data?.user?.avatar
                                     ? 'w-[100px] h-[100px]'
                                     : 'w-24 h-24'
-                            } absolute top-0 w-[100px] h-[100px] bg-transparent rounded-full shadow-inner-image`}
+                            } mt-4 absolute top-0 w-[100px] h-[100px] bg-transparent rounded-full shadow-inner-image`}
                         ></div>
                     </div>
 

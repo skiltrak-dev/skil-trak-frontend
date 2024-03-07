@@ -149,6 +149,7 @@ export interface Industry extends BaseResponse {
     user: User
     location: string
     headQuarter: Industry
+    isHiring: boolean
 }
 
 export interface IndustryBranchesAddressType extends BaseResponse {

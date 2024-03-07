@@ -19,6 +19,7 @@ import { AuthUtils } from '@utils'
 import { useContextBar } from '@hooks'
 import { useRouter } from 'next/router'
 import { CallBackProps } from 'react-joyride'
+import { ViewProfileCB } from '@partials/industry/contextBar'
 
 export const PrimaryActions = [
     {
@@ -846,11 +847,11 @@ export const IndustryDashboardContainer = () => {
     ]
     // Questions
 
-    const handleMediaQueryChange = (matches: any) => {
+    const handleMediaQueryChange = (matches?: any) => {
         if (matches) {
             if (contextBar.isVisible) contextBar.hide()
         } else {
-            // contextBar.setContent(<ViewProfileCB />)
+            contextBar.setContent(<ViewProfileCB />)
             if (!contextBar.isVisible) contextBar.show(false)
         }
     }
@@ -859,6 +860,10 @@ export const IndustryDashboardContainer = () => {
         undefined,
         handleMediaQueryChange
     )
+
+    useEffect(() => {
+        handleMediaQueryChange()
+    }, [])
 
     useEffect(() => {
         if (!credentials) {

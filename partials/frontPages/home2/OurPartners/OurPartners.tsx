@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination, Navigation } from 'swiper/modules'
 import { useMediaQuery } from 'react-responsive'
 import { MediaQueries } from '@constants'
+import { OurPartnerStyleContainer } from './styles'
 
 export const OurPartners = () => {
     const isMobile = useMediaQuery({ maxWidth: 768 })
@@ -104,27 +105,29 @@ export const OurPartners = () => {
                                 </SwiperSlide>
                             ))}
                         </Swiper> */}
-                        <Marquee className="w-full">
-                            {images?.map((image, index) => (
-                                <div
-                                    key={index}
-                                    className="!flex !items-center !mr-0"
-                                >
-                                    <div className="py-1.5 px-2.5 flex justify-center items-center min-w-[130px] max-w-[131px] h-16 shadow-[0px_4px_34px_0px_rgba(177,177,177,0.25)] rounded-[10px]">
-                                        <Image
-                                            key={index}
-                                            className="w-full h-full object-contain"
-                                            src={`/images/site/partners/${image?.image}`}
-                                            width={0}
-                                            height={0}
-                                            sizes={'100vh 100vw'}
-                                            alt="Partners"
-                                        />
+                        <OurPartnerStyleContainer>
+                            <Marquee className="w-full py-2" speed={35}>
+                                {images?.map((image, index) => (
+                                    <div
+                                        key={index}
+                                        className="!flex !items-center !mr-0"
+                                    >
+                                        <div className="py-1.5 px-2.5 flex justify-center items-center min-w-[130px] max-w-[131px] h-16 shadow-[0px_4px_34px_0px_rgba(177,177,177,0.25)] rounded-[10px]">
+                                            <Image
+                                                key={index}
+                                                className="w-full h-full object-contain"
+                                                src={`/images/site/partners/${image?.image}`}
+                                                width={0}
+                                                height={0}
+                                                sizes={'100vh 100vw'}
+                                                alt="Partners"
+                                            />
+                                        </div>
+                                        <div className="border border-dashed border-primary w-20" />
                                     </div>
-                                    <div className="border border-dashed border-primary w-20" />
-                                </div>
-                            ))}
-                        </Marquee>
+                                ))}
+                            </Marquee>
+                        </OurPartnerStyleContainer>
                     </div>
                 </div>
             </div>

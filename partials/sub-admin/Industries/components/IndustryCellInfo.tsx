@@ -8,6 +8,7 @@ import { MdEmail, MdPhoneIphone, MdSnooze } from 'react-icons/md'
 import { IndustrySubAdmin } from '../AllIndustries'
 import moment from 'moment'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
+import { FaHireAHelper } from 'react-icons/fa'
 
 export const IndustryCellInfo = ({
     industry,
@@ -69,6 +70,7 @@ export const IndustryCellInfo = ({
                                 <p className="font-semibold">
                                     {industry?.user?.name}
                                 </p>
+                                {industry?.isHiring ? <FaHireAHelper /> : ''}
                             </div>
 
                             {call &&

@@ -41,9 +41,9 @@ export const IndustryFilters = ({
         value: sector.id,
     }))
     const isPartnerOptions = [
-        { 
-            label: 'Is Partner', 
-            value: true 
+        {
+            label: 'Is Partner',
+            value: true,
         },
         // {
         //     label: 'Not Partner',
@@ -107,6 +107,20 @@ export const IndustryFilters = ({
                     options={isPartnerOptions}
                     onChange={(e: any) =>
                         onFilterChange({ ...filter, isPartner: e?.value })
+                    }
+                />
+
+                <Select
+                    label={'Is Hiring'}
+                    name={'isHiring'}
+                    options={[
+                        {
+                            label: 'Is Hiring',
+                            value: true,
+                        },
+                    ]}
+                    onChange={(e: any) =>
+                        onFilterChange({ ...filter, isHiring: e?.value })
                     }
                 />
 

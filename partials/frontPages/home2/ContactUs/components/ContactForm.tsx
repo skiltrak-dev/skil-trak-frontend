@@ -1,6 +1,6 @@
 import { Button, TextArea, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -29,6 +29,13 @@ export const ContactForm = ({
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
+
+    useEffect(() => {
+        if (result?.isSuccess) {
+            formMethods.reset()
+        }
+    }, [result])
+
     return (
         <div>
             <FormProvider {...formMethods}>

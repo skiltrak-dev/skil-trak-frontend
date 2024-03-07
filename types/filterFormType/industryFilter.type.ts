@@ -11,4 +11,5 @@ export interface AdminIndustryFormFilter {
     state: string
     suburb: string
     isPartner: boolean
+    isHiring: boolean
 }

@@ -10,9 +10,16 @@ import {
     MdAdminPanelSettings,
     MdBlock,
 } from 'react-icons/md'
-import { useIndustryProfileQuery } from '@queries'
+import { CommonApi, useIndustryProfileQuery } from '@queries'
 import moment from 'moment'
-import { ActionButton, LoadingAnimation, NoData, Typography } from '@components'
+import {
+    ActionButton,
+    LoadingAnimation,
+    NoData,
+    ShowErrorNotifications,
+    Switch,
+    Typography,
+} from '@components'
 import { Course } from '@types'
 import { BiRename } from 'react-icons/bi'
 import { FcCollaboration } from 'react-icons/fc'
@@ -21,13 +28,14 @@ import { GiBackwardTime } from 'react-icons/gi'
 import { BsUnlockFill } from 'react-icons/bs'
 
 // hooks
-import { useActionModal } from '@hooks'
+import { useActionModal, useNotification } from '@hooks'
 import { useRouter } from 'next/router'
 export const ViewProfileCB = () => {
     const { data, isSuccess, isLoading } = useIndustryProfileQuery()
     const router = useRouter()
 
     const { passwordModal, onUpdatePassword } = useActionModal()
+    const { notification } = useNotification()
 
     const getSectors = (courses: any) => {
         if (!courses) return {}
@@ -44,15 +52,44 @@ export const ViewProfileCB = () => {
     }
     const sectorsWithCourses = getSectors(data?.courses)
 
+    const [isHiring, isHiringResult] =
+        CommonApi.Industries.useIsIndustryHiring()
+
     return (
         <>
             {passwordModal && passwordModal}
+            <ShowErrorNotifications result={isHiringResult} />
             {isLoading ? (
                 <LoadingAnimation />
             ) : (
                 <div>
                     {/* Edit and update button */}
-                    <div className="flex justify-end gap-x-2">
+                    <div className="flex justify-end items-center gap-x-2">
+                        <div className="mt-2">
+                            <Switch
+                                name="hiring"
+                                onChange={(e: any) => {
+                                    isHiring(undefined)?.then((res: any) => {
+                                        if (res?.data) {
+                                            notification.success({
+                                                title: data?.isHiring
+                                                    ? 'Hiring'
+                                                    : 'Not Hiring',
+                                                description: data?.isHiring
+                                                    ? 'Hiring'
+                                                    : 'Not Hiring',
+                                            })
+                                        }
+                                    })
+                                }}
+                                value={data?.isHiring}
+                                defaultChecked={data?.isHiring}
+                                customStyleClass={'profileSwitch'}
+                                tooltip={'Hiring Students'}
+                                loading={isHiringResult.isLoading}
+                                disabled={isHiringResult.isLoading}
+                            />
+                        </div>
                         <ActionButton
                             rounded
                             Icon={AiFillEdit}

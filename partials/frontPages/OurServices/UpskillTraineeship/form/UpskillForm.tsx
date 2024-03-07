@@ -9,10 +9,12 @@ export const UpskillForm = ({
     onSubmit: (values: any) => void
 }) => {
     const validationSchema = Yup.object({
+        name: Yup.string().required('Name is required!'),
         email: Yup.string()
             .email('Invalid Email')
             .required('Email is required!'),
-        password: Yup.string().required('Password is required'),
+        phone: Yup.string().required('Phone is required!'),
+        dob: Yup.string().required('DOB is required!'),
     })
 
     const methods = useForm({

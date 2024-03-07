@@ -33,10 +33,10 @@ export const subscriberEndpoints = (
         invalidatesTags: ['Subscribers'],
     }),
     subscribe: builder.mutation<any, any>({
-        query: (email: string) => ({
+        query: (body) => ({
             url: `subscribers`,
             method: 'POST',
-            body: { email },
+            body,
         }),
         invalidatesTags: ['Subscribers'],
     }),

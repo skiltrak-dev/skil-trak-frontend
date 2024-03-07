@@ -1,29 +1,25 @@
-import React from 'react'
 import { SiteLayout } from '@layouts'
-import Image from 'next/image'
-import { FeatureCard } from '../components/site/FeatureCard'
-import { css } from '@emotion/react'
 
 import {
-    FaUserGraduate,
-    FaVideo,
-    FaFileSignature,
-    FaTicketAlt,
-    FaRegCalendarAlt,
-    FaMobileAlt,
-    FaStream,
-    FaUsers,
-    FaUserFriends,
     FaChartBar,
+    FaFileSignature,
+    FaMobileAlt,
+    FaRegCalendarAlt,
     FaRegCreditCard,
+    FaStream,
+    FaTicketAlt,
+    FaUserFriends,
+    FaUserGraduate,
+    FaUsers,
+    FaVideo,
 } from 'react-icons/fa'
 
-import { IoMdChatbubbles, IoMdTime } from 'react-icons/io'
-import { VscScreenNormal } from 'react-icons/vsc'
-import { MdTimelapse } from 'react-icons/md'
-import { NextPage } from 'next'
 import { Typography } from '@components'
 import { KeyFeatureCard } from '@components/site/keyFeatures'
+import { NextPage } from 'next'
+import { IoMdChatbubbles, IoMdTime } from 'react-icons/io'
+import { MdTimelapse } from 'react-icons/md'
+import { VscScreenNormal } from 'react-icons/vsc'
 
 const features = [
     {
