@@ -21,10 +21,6 @@ export const TechnicalPartners = () => {
             image: 'zoom.png',
             width: 100,
         },
-        {
-            image: 'google.png',
-            width: 100,
-        },
     ]
     return (
         <div className="border-y border-secondary-dark">
@@ -40,7 +36,7 @@ export const TechnicalPartners = () => {
                     </Typography>
                 </div>
                 <div
-                    data-aos="fade-left"
+                    // data-aos="fade-left"
                     className="py-5 md:py-0 px-9 w-full border-y md:border-y-0"
                 >
                     <div className="w-full  items-center justify-between gap-y-12 md:gap-y-10 mx-auto">

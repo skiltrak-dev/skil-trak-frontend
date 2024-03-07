@@ -1,7 +1,7 @@
 import { Button, Typography } from '@components'
 import { MediaQueries } from '@constants'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { EmploymentHubCard } from './Card'
 
@@ -30,6 +30,34 @@ export const EmploymentHub = () => {
         },
     ]
 
+    const [isSticky, setIsSticky] = useState(false)
+    const [scrollY, setScrollY] = useState(0)
+
+    const employmentHubRef = useRef<any>()
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollPosition = window.scrollY
+            setScrollY(scrollPosition)
+            const employmentHubOffsetTop = employmentHubRef?.current?.offsetTop
+
+            // Check if the scroll position is below the Employment Hub section
+            if (scrollPosition > employmentHubOffsetTop) {
+                setIsSticky(true)
+            } else {
+                setIsSticky(false)
+            }
+        }
+
+        // Attach the scroll event listener
+        window.addEventListener('scroll', handleScroll)
+
+        // Clean up the event listener on component unmount
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
+
     return (
         <div className="relative">
             <Image
@@ -49,8 +77,13 @@ export const EmploymentHub = () => {
                 className="w-[438px] h-[494px] absolute top-[700px] -left-40 -z-10"
             />
 
-            <div className="ourServicesBg bg-cover pt-5 md:pt-10 xl:pt-[75px] pb-20 sticky top-0">
-                <div className="max-w-7xl mx-auto ">
+            <div
+                className={`ourServicesBg bg-cover pt-5 md:pt-10 xl:pt-[75px] pb-20 sticky  transition-all duration-1000`}
+                style={{
+                    top: isSticky ? `-${scrollY / 3.5}px` : '80px',
+                }}
+            >
+                <div className="max-w-7xl mx-auto">
                     <div className="max-w-6xl mx-auto flex flex-col gap-y-7 px-8 md:px-6 xl:px-0">
                         <Typography bold center>
                             <span className="text-xl md:text-3xl lg:text-[47px]">
@@ -95,9 +128,15 @@ export const EmploymentHub = () => {
                     {employmentCardsData?.map((employment, index) => (
                         <div
                             key={index}
-                            className={`sticky top-80 ${
+                            className={`sticky top-[360px] ${
                                 index !== 0 ? '-mt-16' : ''
                             } `}
+                            ref={
+                                employmentCardsData?.length - 1 === index
+                                    ? employmentHubRef
+                                    : null
+                            }
+                            // className={` ${index !== 0 ? '-mt-16' : ''} `}
                         >
                             <EmploymentHubCard
                                 employment={employment}
@@ -107,9 +146,6 @@ export const EmploymentHub = () => {
                             />
                         </div>
                     ))}
-                </div>
-                <div className="flex justify-center items-center pt-8">
-                    <Button text={'Get Started Today'} />
                 </div>
             </div>
         </div>
