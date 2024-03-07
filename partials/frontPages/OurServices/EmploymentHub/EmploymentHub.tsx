@@ -128,15 +128,14 @@ export const EmploymentHub = () => {
                     {employmentCardsData?.map((employment, index) => (
                         <div
                             key={index}
-                            className={`sticky top-[360px] ${
-                                index !== 0 ? '-mt-16' : ''
+                            className={`sticky top-20 md:top-[360px] ${
+                                index !== 0 ? '-mt-20 md:-mt-16' : ''
                             } `}
                             ref={
                                 employmentCardsData?.length - 1 === index
                                     ? employmentHubRef
                                     : null
                             }
-                            // className={` ${index !== 0 ? '-mt-16' : ''} `}
                         >
                             <EmploymentHubCard
                                 employment={employment}
