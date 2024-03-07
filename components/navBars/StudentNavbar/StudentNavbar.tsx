@@ -55,13 +55,13 @@ export const StudentNavbar = () => {
             inActiveClasses: 'text-slate-700',
             id: 'workplace',
         },
-        {
-            link: `${Routes.TalentPool}`,
-            text: 'Talent Pool',
-            Icon: LiaCertificateSolid,
-            activeClasses: 'bg-blue-100 text-blue-700',
-            inActiveClasses: 'text-slate-700',
-        },
+        // {
+        //     link: `${Routes.TalentPool}`,
+        //     text: 'Talent Pool',
+        //     Icon: LiaCertificateSolid,
+        //     activeClasses: 'bg-blue-100 text-blue-700',
+        //     inActiveClasses: 'text-slate-700',
+        // },
         {
             link: `${Routes.Assessments}`,
             text: 'Assessments',
@@ -161,7 +161,7 @@ export const StudentNavbar = () => {
                         </Link>
                     </li>
 
-                    <li>
+                    {/* <li>
                         <Link
                             legacyBehavior
                             href="/portals/student/talent-pool"
@@ -183,7 +183,7 @@ export const StudentNavbar = () => {
                                 </span>
                             </a>
                         </Link>
-                    </li>
+                    </li> */}
                 </ul>
             </Mobile>
         </>

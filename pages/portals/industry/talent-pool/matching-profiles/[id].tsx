@@ -8,17 +8,20 @@ import {
 } from '@partials/industry/talentPool'
 import { useRouter } from 'next/router'
 import { IndustryApi, StudentApi } from '@queries'
-import { Card, Typography } from '@components'
+import { Button, Card, Typography } from '@components'
 import {
     IndustryDocsFolders,
     IndustryRequiredDocsFiles,
     TalentPoolNotification,
 } from '@partials/common/TalentPool'
 import { isBrowser } from '@utils'
+import Link from 'next/link'
+import { useNotification } from '@hooks'
 // import { AssessmentSubmissions } from '@partials/common'
 
 const MatchingProfileDetail: NextPageWithLayout = () => {
     const [selectedFolder, setSelectedFolder] = useState<any>(null)
+    const { notification } = useNotification()
     const [view, setView] = useState<boolean>(false)
     const router = useRouter()
     const profileId = router.query.id as string
@@ -26,11 +29,13 @@ const MatchingProfileDetail: NextPageWithLayout = () => {
         IndustryApi.TalentPool.useMatchingProfileDetail(profileId, {
             skip: !profileId,
         })
-        const  getRequiredDocsResponse  =
+    const getRequiredDocsResponse =
         StudentApi.TalentPool.useRequiredDocsResponse(selectedFolder?.id, {
-            skip: !selectedFolder?.id
+            skip: !selectedFolder?.id,
         })
     const [isMouseMove, setIsMouseMove] = useState<any>(null)
+    const [onChangeStatus, changeStatusResult] =
+        StudentApi.TalentPool.useIndustryRequestStatus()
 
     // const profile = useGetSubAdminStudentDetailQuery(Number(data?.student?.id), {
     //     skip: !data?.student?.id,
@@ -47,8 +52,7 @@ const MatchingProfileDetail: NextPageWithLayout = () => {
     //     }
     // }, [])
     const getFolders =
-        data?.connectionRequests?.[0]
-            ?.talentPoolRequiredDocuments
+        data?.connectionRequests?.[0]?.talentPoolRequiredDocuments
 
     useEffect(() => {
         if (data && isSuccess && data?.length > 0) {
@@ -63,8 +67,6 @@ const MatchingProfileDetail: NextPageWithLayout = () => {
         setSelectedFolder(data)
     }, [])
 
-
-
     useEffect(() => {
         if (view && isBrowser()) {
             window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -77,9 +79,27 @@ const MatchingProfileDetail: NextPageWithLayout = () => {
 
         return () => clearTimeout(timeout)
     }, [view])
+
+    useEffect(() => {
+        if (changeStatusResult.isSuccess) {
+            notification.success({
+                title: 'Student Hired',
+                description: 'Student hired Successfully',
+            })
+        } else if (changeStatusResult.isError) {
+            notification.error({
+                title: 'Student Hired Failed',
+                description: 'Student Hired Failed. Please try again',
+            })
+        }
+    }, [changeStatusResult])
+    const connectionStatus =
+        data?.connectionRequests &&
+        data.connectionRequests?.length > 0 &&
+        data?.connectionRequests?.[0]?.status
     return (
         <>
-        {view && (
+            {view && (
                 <TalentPoolNotification
                     setViewNotification={() => setView(false)}
                     text={
@@ -87,73 +107,100 @@ const MatchingProfileDetail: NextPageWithLayout = () => {
                     }
                 />
             )}
-        <Card noPadding>
-            <div className="flex flex-col md:flex-row w-full">
-                <div className="md:w-1/3">
-                    <TalentPoolStudentProfileDetail setView={setView} profile={data} />
-                </div>
-                <div className="md:w-2/3">
-                    <div className="flex flex-col gap-y-6 p-5">
-                        <div>
-                            <Typography variant="label">About</Typography>
-                            <Typography variant="small">
-                                {data?.about}
-                            </Typography>
-                        </div>
-                        <div className="bg-[#E6E6E6] w-full h-[1px]"></div>
-                        <div className="flex w-full">
-                            <div>
-                                <SkillsTag
-                                    tags={data?.skills}
-                                    title={'Skill & Talent'}
-                                />
-                                <div className="bg-[#E6E6E6] w-full h-[1px] my-4"></div>
-                                <SkillsTag
-                                    tags={data?.socialLinks}
-                                    title={'Portfolio/Links'}
-                                />
-                            </div>
-                            <div className="bg-[#E6E6E6] w-[1px] my-auto h-28 mx-9"></div>
-
-                            <div>
-                                <SkillsTag
-                                    tags={data?.interest}
-                                    title={'Area of Interest'}
-                                />
-                                <div className="bg-[#E6E6E6] w-full h-[1px] my-4"></div>
-                            </div>
-                        </div>
-                        {/* <div className="bg-[#E6E6E6] w-full h-[1px]"></div> */}
+            {connectionStatus === 'connected' && (
+                <div className="flex justify-end">
+                    <div className="flex items-center gap-x-2.5">
+                        <Link
+                            className="px-4 py-1.5 bg-[#6971DD] text-white font-medium"
+                            href={'/portals/industry/students/appointments'}
+                        >
+                            Book Appointment
+                        </Link>
+                        <Button
+                            text="Hire Student"
+                            onClick={() => {
+                                onChangeStatus({ status: 'hired', profileId })
+                            }}
+                            loading={changeStatusResult.isLoading}
+                            disabled={changeStatusResult.isLoading}
+                        />
                     </div>
-                    {getFolders && getFolders?.length> 0 && (
-                        <div className="h-[350px] border-t border-secondary-dark overflow-hidden w-full ">
-                        <div className="grid grid-cols-3 h-[inherit] w-full">
-                            <div className="py-4 border-r h-[inherit]">
-                                <IndustryDocsFolders
-                                    requiredDocsFolders={getFolders}
-                                    selectedFolder={selectedFolder}
-                                    onSelectFolder={onSelectFolder}
-                                />
+                </div>
+            )}
+
+            <Card noPadding>
+                <div className="flex flex-col md:flex-row w-full">
+                    <div className="md:w-1/3">
+                        <TalentPoolStudentProfileDetail
+                            setView={setView}
+                            profile={data}
+                        />
+                    </div>
+                    <div className="md:w-2/3">
+                        <div className="flex flex-col gap-y-6 p-5">
+                            <div>
+                                <Typography variant="label">About</Typography>
+                                <Typography variant="small">
+                                    {data?.about}
+                                </Typography>
                             </div>
-                            <div className="col-span-2 h-[inherit]">
-                                <div className="h-[84%]">
-                                    {/* <AssessmentFiles
+                            <div className="bg-[#E6E6E6] w-full h-[1px]"></div>
+                            <div className="flex w-full">
+                                <div>
+                                    <SkillsTag
+                                        tags={data?.skills}
+                                        title={'Skill & Talent'}
+                                    />
+                                    <div className="bg-[#E6E6E6] w-full h-[1px] my-4"></div>
+                                    <SkillsTag
+                                        tags={data?.socialLinks}
+                                        title={'Portfolio/Links'}
+                                    />
+                                </div>
+                                <div className="bg-[#E6E6E6] w-[1px] my-auto h-28 mx-9"></div>
+
+                                <div>
+                                    <SkillsTag
+                                        tags={data?.interest}
+                                        title={'Area of Interest'}
+                                    />
+                                    <div className="bg-[#E6E6E6] w-full h-[1px] my-4"></div>
+                                </div>
+                            </div>
+                            {/* <div className="bg-[#E6E6E6] w-full h-[1px]"></div> */}
+                        </div>
+                        {getFolders && getFolders?.length > 0 && (
+                            <div className="h-[350px] border-t border-secondary-dark overflow-hidden w-full ">
+                                <div className="grid grid-cols-3 h-[inherit] w-full">
+                                    <div className="py-4 border-r h-[inherit]">
+                                        <IndustryDocsFolders
+                                            requiredDocsFolders={getFolders}
+                                            selectedFolder={selectedFolder}
+                                            onSelectFolder={onSelectFolder}
+                                        />
+                                    </div>
+                                    <div className="col-span-2 h-[inherit]">
+                                        <div className="h-[84%]">
+                                            {/* <AssessmentFiles
                                 selectedFolder={selectedFolder}
                                 course={selectedCourse}
                                 getAssessmentResponse={getRequiredDocsResponse}
                             /> */}
-                                    <IndustryRequiredDocsFiles
-                                        getRequiredDocsResponse={getRequiredDocsResponse}
-                                        selectedFolder={selectedFolder}
-                                    />
+                                            <IndustryRequiredDocsFiles
+                                                getRequiredDocsResponse={
+                                                    getRequiredDocsResponse
+                                                }
+                                                selectedFolder={selectedFolder}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        )}
                     </div>
-                    )}
                 </div>
-            </div>
-        </Card></>
+            </Card>
+        </>
     )
 }
 
