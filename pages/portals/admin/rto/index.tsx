@@ -51,7 +51,6 @@ const RtoList: NextPageWithLayout = () => {
         }
     )
     const count = AdminApi.Rtos.useCountQuery()
-    console.log("count", count?.data)
 
     useEffect(() => {
         navBar.setTitle('RTO')

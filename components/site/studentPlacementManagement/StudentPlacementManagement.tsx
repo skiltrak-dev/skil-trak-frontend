@@ -35,7 +35,7 @@ export const StudentPlacementManagement = () => {
         <div className="bg-[#EFF5FF] mt-0 md:mt-16">
             <div className="max-w-7xl mx-auto flex-col flex md:flex-row md:justify-between md:gap-x-12">
                 <div
-                    data-aos="fade-right"
+                    // data-aos="fade-right"
                     className="pl-0 md:pl-36 py-8 md:py-20 mx-auto"
                 >
                     <div className=" relative border big-ellipse-clr rounded-full w-[220px] h-[220px] md:w-[520px] md:h-[520px] p-2 md:p-4">
@@ -133,7 +133,7 @@ export const StudentPlacementManagement = () => {
                     </div>
                 </div>
                 <div
-                    data-aos="fade-left"
+                    // data-aos="fade-left"
                     className="px-4 md:px-0 pb-0 pt-8 md:py-20"
                 >
                     <div className="mb-5">

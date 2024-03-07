@@ -37,7 +37,7 @@ export const PackageCard = ({
                 </Typography>
             </div>
 
-            <Typography variant="label" color={active ? 'text-white' : ''}>
+            {/* <Typography variant="label" color={active ? 'text-white' : ''}>
                 <span className="text-4xl font-semibold">
                     {' '}
                     ${packageData?.price}
@@ -45,7 +45,7 @@ export const PackageCard = ({
                 <span className={active ? 'text-white' : 'text-[#606F7B]'}>
                     / Month
                 </span>
-            </Typography>
+            </Typography> */}
         </div>
     )
 }

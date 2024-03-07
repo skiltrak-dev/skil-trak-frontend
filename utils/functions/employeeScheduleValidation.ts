@@ -5,7 +5,6 @@ export const employeeScheduleValidation = (
 ) => {
     tasks &&
         tasks?.forEach((day: any, index: any) => {
-            console.log('errror')
             if (!day.title || day.title.trim() === '') {
                 methods.setError(`tasks[${index}].title`, {
                     type: 'validation',
@@ -68,6 +67,4 @@ export const employeeScheduleValidation = (
             //     validationFlag = true
             // }
         })
-
-   
 }
