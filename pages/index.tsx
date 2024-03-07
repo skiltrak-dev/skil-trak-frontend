@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import { useRef } from 'react'
+import { ReactElement, useRef } from 'react'
 // Components
 // site components
 import { Footer4 } from '@components/site'
@@ -20,12 +20,14 @@ import {
     RecentJobs,
     TechnicalPartners,
 } from '@partials/frontPages'
+import { DisplayNotifications } from '@components'
+import { NextPageWithLayout } from '@types'
+import { SiteLayout } from '@layouts'
 
-const Home3: NextPage = ({ data }: any) => {
+const Home3: NextPageWithLayout = ({ data }: any) => {
     const contactUsRef = useRef(null)
     return (
         <div>
-            <Navbar2 />
             <JumboSection />
             {/* Key Features */}
             <KeyFeatures />
@@ -51,11 +53,12 @@ const Home3: NextPage = ({ data }: any) => {
             <TechnicalPartners />
 
             <LatestUpdates />
-
-            {/*  Footer */}
-            <Footer4 />
         </div>
     )
+}
+
+Home3.getLayout = (page: ReactElement) => {
+    return <SiteLayout>{page}</SiteLayout>
 }
 
 export async function getStaticProps() {

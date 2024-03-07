@@ -7,6 +7,7 @@ import { CommonApi } from '@queries'
 import { useNotification } from '@hooks'
 import { useMediaQuery } from 'react-responsive'
 import { MediaQueries } from '@constants'
+import Image from 'next/image'
 
 export const ContactUs = () => {
     const { notification } = useNotification()
@@ -14,7 +15,14 @@ export const ContactUs = () => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
 
     const onSubmit = (data: any) => {
-        sendUsQuery(data)
+        sendUsQuery(data).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: 'Message Sent',
+                    description: 'Your message has been sent successfully',
+                })
+            }
+        })
     }
     return (
         <div className="py-0 md:py-10 bg-">
@@ -24,6 +32,16 @@ export const ContactUs = () => {
             <div className="relative">
                 <div className="hidden md:block w-full md:w-3/5 absolute top-[10%] -z-10  h-[80%]">
                     <div className="bg-gradient-to-t from-[#0C1535] to-[#2C3E7F] h-full flex justify-center items-center"></div>
+                </div>
+                <div className={'absolute top-20 left-1/3'}>
+                    <Image
+                        src={'/images/site/subscribeBall.png'}
+                        alt={''}
+                        width={0}
+                        height={0}
+                        sizes={'100vw 100vh'}
+                        className="w-28 h-28 animate-float"
+                    />
                 </div>
                 <div className="max-w-6xl mx-auto">
                     <div className="grid grid-cols-1 md:grid-cols-2">

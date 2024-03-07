@@ -1,10 +1,22 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { Course, Industry, PaginatedResponse, UserStatus } from '@types'
+import { Industry } from '@types'
 
 export const industriesEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
+    isIndustryHiring: builder.mutation<Industry, number | undefined>({
+        query: (id) => {
+            const params = id ? { id } : {}
+            return {
+                url: `industries/toggle/hiring-status`,
+                method: 'PATCH',
+                params,
+            }
+        },
+        invalidatesTags: ['Industries'],
+    }),
+
     getAllIndustries: builder.query<any, void>({
         query: () => `filter/industries/all`,
         providesTags: ['Industry'],

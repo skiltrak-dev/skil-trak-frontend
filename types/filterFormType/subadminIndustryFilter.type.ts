@@ -7,4 +7,5 @@ export interface SubadminIndustryFilter {
     courseId: number
     address: string
     state?: string
+    isHiring: boolean
 }

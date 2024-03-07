@@ -3,7 +3,7 @@ import { InputProps } from './InputPropType'
 
 // components
 import { getMethodsForInput } from '@utils'
-import { Typography } from '@components'
+import { Tooltip, Typography } from '@components'
 import { useFormContext } from 'react-hook-form'
 import { ClipLoader } from 'react-spinners'
 
@@ -47,7 +47,7 @@ export const Switch = ({
                 </Typography>
             )}
 
-            <div className="relative">
+            <div className="relative group">
                 <label className={customStyleClass || 'switch'}>
                     <input
                         {...(id ? { id } : {})}
@@ -84,6 +84,13 @@ export const Switch = ({
                             color={checked ? 'black' : 'white'}
                         />
                     </div>
+                )}
+                {tooltip ? (
+                    <div className="hidden group-hover:block absolute whitespace-nowrap right-0 z-50 bg-gray-700 m text-xs text-white px-3 py-1 rounded">
+                        {tooltip}
+                    </div>
+                ) : (
+                    ''
                 )}
             </div>
         </div>

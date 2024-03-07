@@ -6,11 +6,13 @@ import { PackagesCard } from '@components/site/PackagesCard'
 import { ReviewCard } from '@components/site/ReviewCard'
 import { Navbar2 } from '@components/site/navbar/Navbar2'
 import { Wrapper } from '@components/site/wrapper'
-import { NextPage } from 'next'
+import { SiteLayout } from '@layouts'
+import { NextPageWithLayout } from '@types'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { FaQuoteLeft, FaQuoteRight } from 'react-icons/fa'
-const Home2: NextPage = () => {
+import { ReactElement } from 'react'
+
+const Home2: NextPageWithLayout = () => {
     const router = useRouter()
     return (
         <div>
@@ -23,15 +25,16 @@ const Home2: NextPage = () => {
                             YOUR STUDENT PLACEMENT PARTNER
                         </h2>
                         <div className="text-theme-primary text-center text-3xl mt-6">
-                            <Typography variant='title'>
+                            <Typography variant="title">
                                 Create industry partners. Keep track of students
                                 placement progress.
                             </Typography>
                         </div>
                         <div className="mt-6 text-center text-xl text-theme-primary">
-                            <Typography variant='body'>
-                                A user-friendly placement platform. No hassle, no
-                                documentation missing . Be innovative and efficient.
+                            <Typography variant="body">
+                                A user-friendly placement platform. No hassle,
+                                no documentation missing . Be innovative and
+                                efficient.
                             </Typography>
                         </div>
                     </div>
@@ -60,7 +63,6 @@ const Home2: NextPage = () => {
                     <PackagesCard variant={'bg-[#345a6d]'} />
                 </div>
             </Wrapper>
-
 
             <Wrapper sectionName="introduction">
                 <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
@@ -175,5 +177,9 @@ const Home2: NextPage = () => {
             <Footer2 />
         </div>
     )
+}
+
+Home2.getLayout = (page: ReactElement) => {
+    return <SiteLayout>{page}</SiteLayout>
 }
 export default Home2
