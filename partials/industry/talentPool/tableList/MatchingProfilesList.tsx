@@ -64,9 +64,9 @@ export const MatchingProfilesList = () => {
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
-            {
-                refetchOnMountOrArgChange: true,
-            }
+            // {
+            //     refetchOnMountOrArgChange: true,
+            // }
         )
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 

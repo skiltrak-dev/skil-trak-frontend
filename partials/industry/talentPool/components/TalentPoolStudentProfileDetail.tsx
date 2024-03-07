@@ -112,6 +112,22 @@ export const TalentPoolStudentProfileDetail = ({
                             <div className="flex items-center gap-x-1.5">
                                 <Button text="Request Pending" />
                             </div>
+                        ) : connectionStatus === 'connected' ? (
+                            <div className="flex items-center gap-x-1.5">
+                                <Button
+                                    text="Connected"
+                                    variant="info"
+                                    // onClick={onSentRequest}
+                                />
+                            </div>
+                        ) : connectionStatus === 'rejected' ? (
+                            <div className="flex items-center gap-x-1.5">
+                                <Button
+                                    text="Rejected"
+                                    variant="error"
+                                    // onClick={onSentRequest}
+                                />
+                            </div>
                         ) : (
                             <div className="flex items-center gap-x-1.5">
                                 <Button
@@ -120,12 +136,6 @@ export const TalentPoolStudentProfileDetail = ({
                                 />
                             </div>
                         )}
-                        {/* <div className="flex items-center gap-x-1.5">
-                            <Button
-                                text="Send Request"
-                                onClick={onSentRequest}
-                            />
-                        </div> */}
                     </div>
                 </div>
                 <div className="bg-[#286788]  rounded-md p-2.5 mb-5">
@@ -163,7 +173,7 @@ export const TalentPoolStudentProfileDetail = ({
                             Email
                         </Typography>
                         {connectionStatus === 'connected' ? (
-                            <Typography variant="small">
+                            <Typography variant="small" color="text-white">
                                 {profile?.student?.user?.email}
                             </Typography>
                         ) : (
@@ -191,7 +201,7 @@ export const TalentPoolStudentProfileDetail = ({
                             Phone Number
                         </Typography>
                         {connectionStatus === 'connected' ? (
-                            <Typography variant="small">
+                            <Typography variant="small" color="text-white">
                                 {profile?.student?.phone}
                             </Typography>
                         ) : (
@@ -230,7 +240,7 @@ export const TalentPoolStudentProfileDetail = ({
                                 Gender
                             </Typography>
                             <Typography variant="muted" color="text-white">
-                                {getGender(profile?.student?.gender)}
+                                {getGender(profile?.student?.gender) || 'N/A'}
                             </Typography>
                         </div>
                     </div>

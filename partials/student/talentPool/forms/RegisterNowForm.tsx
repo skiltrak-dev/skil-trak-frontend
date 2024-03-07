@@ -88,7 +88,15 @@ export const RegisterNowForm = ({
         skills: yup
             .array()
             .min(1, 'At least one skill is required')
-            .required('Skills are required'),
+            .required('Skills are required')
+            .test(
+                'only-letters',
+                'Only letters are allowed in skills',
+                (value) => {
+                    if (!value) return true 
+                    return value.every((item) => /^[a-zA-Z]+$/.test(item))
+                }
+            ),
     })
 
     const methods = useForm({
