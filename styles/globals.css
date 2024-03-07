@@ -31,7 +31,7 @@ html {
 } */
 
 .animate-float {
-    animation: upDown 5s infinite;
+    animation: upDown 3s infinite;
 }
 
 @keyframes upDown {
