@@ -23,7 +23,7 @@ export const JobDetailData = ({ data }: any) => {
             </div>
 
             {/* Appointment Details */}
-            <div className="grid grid-cols-2 gap-y-4 py-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 py-4">
                 {/* Job Title */}
                 <div className="flex flex-col gap-y-1">
                     <Typography variant={'muted'} color={'gray'}>

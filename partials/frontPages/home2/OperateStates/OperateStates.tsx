@@ -1,7 +1,7 @@
 import { Typography } from '@components'
 import { MediaQueries } from '@constants'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 
 export const OperateStates = () => {
@@ -9,44 +9,61 @@ export const OperateStates = () => {
 
     const isMobile = useMediaQuery(MediaQueries.Mobile)
 
+    const containerRef = useRef<any>(null)
+
     const courses = {
         YouthWork: 'Youth work',
-        MentalHealth: 'Mental health',
         CommunityService: 'Community Service',
         EducationSupport: 'Education Support',
+        MentalHealth: 'Mental health',
+        EarlyChildhoodEducationAndCare: 'Early childhood education and care',
         Disability: 'Disability',
+        AgeingSupport: 'Ageing support',
+        HealthServicesAssistance: 'Health services assistance',
+        IndividualSupport: 'Individual support ',
     }
 
-    const imagesTexts = [
-        {
-            state: 'Western Australia',
-            courses: [...Object.values(courses)],
-        },
-        {
-            state: 'Northern Territory',
-            courses: [...Object.values(courses)],
-        },
-        {
-            state: 'Queens Land',
-            courses: [...Object.values(courses)],
-        },
-        {
-            state: 'Southern Australia',
-            courses: [...Object.values(courses)],
-        },
-        {
-            state: 'New South Wales',
-            courses: [...Object.values(courses)],
-        },
-        {
-            state: 'Victoria',
-            courses: [...Object.values(courses)],
-        },
-        {
-            state: 'Tasmania',
-            courses: [...Object.values(courses)],
-        },
+    const states = [
+        'Western Australia',
+        'Northern Territory',
+        'Queens Land',
+        'Southern Australia',
+        'New South Wales',
+        'Victoria',
+        'Tasmania',
     ]
+
+    const imagesTexts = states?.map((state: string) => ({
+        state,
+        courses: Object.values(courses),
+    }))
+
+    const handleImageClick = (index: number) => {
+        setActive(index)
+        if (isMobile && containerRef.current) {
+            const container = containerRef.current
+            const scrollPosition = index * 170
+            const duration = 600 // Adjust the duration in milliseconds
+
+            const startTime = performance.now()
+            const startScrollLeft = container.scrollLeft
+
+            const animateScroll = (currentTime: number) => {
+                const elapsedTime = currentTime - startTime
+                const progress = Math.min(elapsedTime / duration, 1)
+
+                container.scrollLeft =
+                    startScrollLeft +
+                    progress * (scrollPosition - startScrollLeft)
+
+                if (progress < 1) {
+                    requestAnimationFrame(animateScroll)
+                }
+            }
+
+            requestAnimationFrame(animateScroll)
+        }
+    }
     return (
         <div className="pt-10 pb-16">
             <div className="pb-8 flex justify-center" data-aos="fade-up">
@@ -65,12 +82,14 @@ export const OperateStates = () => {
             <div
                 data-aos="fade-up"
                 className="max-w-7xl mx-auto overflow-auto md:overflow-hidden box-content px-10"
+                ref={containerRef}
             >
                 <div className="w-full flex justify-between gap-x-2 md:gap-x-0 items-center ">
                     {imagesTexts?.map((detail, i) => (
                         <div
                             key={i}
                             onMouseEnter={() => setActive(i)}
+                            onClick={() => handleImageClick(i)}
                             className={`${
                                 i === active ? 'min-w-[280px]' : 'min-w-[160px]'
                             } transition-all duration-500 h-[434px] overflow-hidden relative rounded-[5px]`}
@@ -91,15 +110,15 @@ export const OperateStates = () => {
                                         <div
                                             className={`${
                                                 i === active
-                                                    ? 'opacity-100 max-h-24'
-                                                    : 'opacity-0 max-h-0'
-                                            } transition-all duration-[1500ms] overflow-hidden`}
+                                                    ? 'opacity-100 max-h-52 duration-[1700ms]'
+                                                    : 'opacity-0 max-h-0 duration-[1200ms]'
+                                            } transition-all  overflow-hidden`}
                                         >
-                                            <div className="delay-1000 transition-all flex items-center justify-center flex-wrap gap-2 w-[80%] mx-auto">
+                                            <div className="delay-1000 transition-all flex items-center justify-center flex-wrap gap-1.5 w-[80%] mx-auto">
                                                 {detail?.courses?.map(
                                                     (course, i) => (
                                                         <p
-                                                            className="text-xs border text-white border-white px-2 py-1 rounded-md bg-[#ffffff30]"
+                                                            className="text-[11px] border text-white border-white px-2 py-1 rounded-md bg-[#ffffff30]"
                                                             key={i}
                                                         >
                                                             {course}

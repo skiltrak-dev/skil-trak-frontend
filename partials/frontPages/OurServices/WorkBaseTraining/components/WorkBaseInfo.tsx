@@ -22,8 +22,8 @@ export const WorkBaseInfo = ({
                 {title}
             </Typography>
             <div className="flex flex-col gap-y-3.5">
-                {children?.map((child: any) => (
-                    <Typography variant="label" color="text-[#56585a]">
+                {children?.map((child: any, i: number) => (
+                    <Typography key={i} variant="label" color="text-[#56585a]">
                         {child}
                     </Typography>
                 ))}

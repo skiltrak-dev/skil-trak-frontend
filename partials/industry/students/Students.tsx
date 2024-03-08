@@ -25,14 +25,14 @@ export const StudentsPrimaryActions = [
         animation: Animations.Industry.Students.CurrentStudents,
         id: 'current-students',
     },
-    {
-        link: 'students/future-candidates',
-        title: 'Future Candidates',
-        description: ' ',
-        // image: null, //"./images/dashboardbtn4.png",
-        animation: Animations.Industry.Students.FutureCandidates,
-        id: 'future-candidates',
-    },
+    // {
+    //     link: 'students/future-candidates',
+    //     title: 'Future Candidates',
+    //     description: ' ',
+    //     // image: null, //"./images/dashboardbtn4.png",
+    //     animation: Animations.Industry.Students.FutureCandidates,
+    //     id: 'future-candidates',
+    // },
     {
         link: 'students/request-a-volunteer',
         title: 'Request a Volunteer',

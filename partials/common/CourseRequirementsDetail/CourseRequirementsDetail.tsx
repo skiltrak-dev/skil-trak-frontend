@@ -1,7 +1,9 @@
-import { NoData } from '@components'
+import { BackButton, NoData } from '@components'
 import { Course } from '@types'
 import React, { useEffect, useState } from 'react'
 import { FaBook } from 'react-icons/fa'
+import { MediaQueries } from '@constants'
+import { useMediaQuery } from 'react-responsive'
 
 const getFirstCourse = (sectorWithCourse: any) => {
     if (!sectorWithCourse) return undefined
@@ -20,10 +22,12 @@ export const CourseRequirementsDetail = ({
     sectorsWithCourses: any
     loading: boolean
 }) => {
+    const isMobile = useMediaQuery(MediaQueries.Mobile)
+
     const [selectedCourse, setSelectedCourse] = useState<Course | undefined>()
     useEffect(() => {
         const firstCourse = getFirstCourse(sectorsWithCourses)
-        if (firstCourse && !selectedCourse) {
+        if (firstCourse && !selectedCourse && !isMobile) {
             setSelectedCourse(firstCourse)
         }
     }, [loading])
@@ -33,7 +37,11 @@ export const CourseRequirementsDetail = ({
     }
     return (
         <div className="flex items-start gap-x-2 min-h-[450px] mb-32">
-            <div className="bg-gray-100 py-2 px-2 rounded-xl shadow-xl w-2/5 sticky top-4">
+            <div
+                className={`${
+                    selectedCourse ? 'md:block hidden' : 'block'
+                } bg-gray-100 py-2 px-2 rounded-xl shadow-xl w-full md:w-2/5 sticky top-4`}
+            >
                 <div className="text-sm font-medium text-gray-500">
                     Select a course
                 </div>
@@ -78,26 +86,39 @@ export const CourseRequirementsDetail = ({
                 )}
             </div>
 
-            <div className="w-3/5 bg-white rounded-xl shadow-xl">
-                <div className="bg-slate-100 rounded-t-xl p-2 text-sm">
+            <div
+                className={`${
+                    selectedCourse ? 'block' : 'hidden md:block'
+                } w-full md:w-3/5`}
+            >
+                <div className="hidden md:block">
+                    <BackButton
+                        onClick={() => {
+                            setSelectedCourse(undefined)
+                        }}
+                    />
+                </div>
+                <div className={` w-full  bg-white rounded-xl shadow-xl`}>
+                    <div className="bg-slate-100 rounded-t-xl p-2 text-sm">
+                        {selectedCourse ? (
+                            <span>
+                                {selectedCourse.code} - {selectedCourse?.title}
+                            </span>
+                        ) : (
+                            'No Course Selected'
+                        )}
+                    </div>
                     {selectedCourse ? (
-                        <span>
-                            {selectedCourse.code} - {selectedCourse?.title}
-                        </span>
+                        <div
+                            className="p-4 break-all"
+                            dangerouslySetInnerHTML={{
+                                __html: selectedCourse.requirements,
+                            }}
+                        ></div>
                     ) : (
-                        'No Course Selected'
+                        <div className="p-4">No Course Selected</div>
                     )}
                 </div>
-                {selectedCourse ? (
-                    <div
-                        className="p-4"
-                        dangerouslySetInnerHTML={{
-                            __html: selectedCourse.requirements,
-                        }}
-                    ></div>
-                ) : (
-                    <div className="p-4">No Course Selected</div>
-                )}
             </div>
         </div>
     )

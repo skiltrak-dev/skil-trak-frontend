@@ -96,9 +96,9 @@ export function Navbar2() {
     return (
         // <nav className={`md:active-nav ${show && 'hidden-nav'}`}>
         <nav className="shadow-sm border-b sticky top-0 z-50 bg-white">
-            <div className="w-full mx-auto md:px-6 lg:px-[140px]">
-                <div className="relative max-w-7xl mx-auto flex items-center justify-between h-20 ">
-                    <div className="px-4 md:px-0 flex-1 flex items-center justify-between md:items-end md:justify-start">
+            <div className="w-full mx-auto max-w-7xl px-4 lg:px-0">
+                <div className="relative max-w-[100%] w-full flex items-center justify-between h-20">
+                    <div className="px-4 md:px-0 flex-1 flex items-center justify-between">
                         {/* Logo */}
                         <div className="flex-shrink-0 flex items-center">
                             <Link href={'/'}>
@@ -116,7 +116,7 @@ export function Navbar2() {
                                 />
                             </Link>
                         </div>
-                        <div className="absolute inset-y-0 right-0 flex items-center md:hidden">
+                        <div className="absolute inset-y-0 right-0 flex items-center gap-x-2 lg:hidden">
                             <div className="">
                                 <button
                                     type="button"
@@ -156,7 +156,6 @@ export function Navbar2() {
                                             d="M4 6h16M4 12h16M4 18h16"
                                         />
                                     </svg>
-
                                     <svg
                                         className="hidden h-6 w-6"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -186,8 +185,8 @@ export function Navbar2() {
                         </div>
 
                         {/* Nav Links */}
-                        <div className="hidden md:block md:ml-auto">
-                            <div className="flex md:items-center">
+                        <div className="hidden lg:block lg:ml-auto">
+                            <div className="flex lg:items-center">
                                 {navLinks.map((link, i: number) => (
                                     <NavLink2
                                         key={i}
@@ -207,7 +206,7 @@ export function Navbar2() {
                 flex
                 items-center
                 pr-2
-                md:static md:inset-auto md:ml-6 md:pr-0
+                lg:static lg:inset-auto lg:ml-6 lg:pr-0
               "
                     >
                         <div className="ml-3 relative hidden">
@@ -286,9 +285,9 @@ export function Navbar2() {
             </div>
 
             <div
-                className={`  ${
+                className={`${
                     isMenuOpen ? 'h-full' : 'h-0'
-                } transition-all overflow-hidden duration-300 ease-in-out md:hidden`}
+                } transition-all overflow-hidden duration-300 ease-in-out lg:hidden`}
                 id="mobile-menu"
             >
                 <div className="px-2 pt-2 pb-3 space-y-1 flex flex-col items-start">

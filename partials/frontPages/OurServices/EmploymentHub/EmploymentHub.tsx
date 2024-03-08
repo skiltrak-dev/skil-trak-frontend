@@ -25,6 +25,13 @@ export const EmploymentHub = () => {
             title: 'Unlocking Opportunities',
             description:
                 'For qualified individuals, our Employment Section presents a wealth of opportunities to secure positions within highly reputable industries. By leveraging our platform, candidates can increase their chances of landing their dream job and advancing their careers in meaningful ways.',
+            bgColor: 'bg-secondary-dark',
+        },
+        {
+            title: 'Get Started Today',
+            description:
+                "Whether you're an industry looking to fill a crucial position or a qualified individual seeking new opportunities, we invite you to explore our Employment Hub and take advantage of all that it has to offer. Join us in building a brighter future where talent meets opportunity.",
+
             bgColor: 'bg-primaryNew',
             dark: true,
         },

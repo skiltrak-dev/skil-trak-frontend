@@ -1,15 +1,10 @@
-import { NextPage } from 'next'
 import { ReactElement, useRef } from 'react'
 // Components
 // site components
-import { Footer4 } from '@components/site'
-import { GetStartedWithUs } from '@components/site/GetStartedWithUs'
 import { JumboSection } from '@components/site/JumboSection'
-import { OurTechnicalPartners } from '@components/site/OurTechnicalPartners'
-import { RecentJobsFromOurPartner } from '@components/site/jobs/RecentJobsFromOurPartner'
 import { KeyFeatures } from '@components/site/keyFeatures'
-import { Navbar2 } from '@components/site/navbar'
 import { StudentPlacementManagement } from '@components/site/studentPlacementManagement'
+import { SiteLayout } from '@layouts'
 import {
     ContactUs,
     GetStarted,
@@ -20,9 +15,7 @@ import {
     RecentJobs,
     TechnicalPartners,
 } from '@partials/frontPages'
-import { DisplayNotifications } from '@components'
 import { NextPageWithLayout } from '@types'
-import { SiteLayout } from '@layouts'
 
 const Home3: NextPageWithLayout = ({ data }: any) => {
     const contactUsRef = useRef(null)

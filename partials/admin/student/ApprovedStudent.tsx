@@ -9,7 +9,6 @@ import {
     TechnicalError,
     StudentSubAdmin,
     LoadingAnimation,
-    TableActionOption,
     TableChildrenProps,
     StudentExpiryDaysLeft,
     CaseOfficerAssignedStudent,

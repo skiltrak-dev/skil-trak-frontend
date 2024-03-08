@@ -56,7 +56,7 @@ export const NavLink2 = ({
                 //     text={text}
                 //     external={external}
                 // />
-                <div className="md:inline-block hidden">
+                <div className="lg:inline-block hidden">
                     <Button
                         text={text}
                         variant="primary"
@@ -87,7 +87,7 @@ export const NavLink2 = ({
                     </Link>
 
                     {subMenus && subMenus?.length > 0 ? (
-                        <div className="md:hidden group-hover:block md:origin-top-right md:absolute z-20 right-0 md:mt-2 w-full md:w-64 rounded-md md:shadow-lg bg-white md:ring-1 md:ring-black md:ring-opacity-5">
+                        <div className="lg:hidden group-hover:block lg:origin-top-right lg:absolute z-20 right-0 lg:mt-2 w-full lg:w-64 rounded-md lg:shadow-lg bg-white lg:ring-1 lg:ring-black lg:ring-opacity-5">
                             <div
                                 className="py-1"
                                 role="menu"
@@ -98,7 +98,7 @@ export const NavLink2 = ({
                                     <Link
                                         key={i}
                                         href={subMenu?.url}
-                                        className="block pl-10 font-semibold md:pl-4 md:px-4 py-1 md:py-2 text-sm md:font-medium text-black hover:bg-gray-100"
+                                        className="block pl-10 font-semibold lg:pl-4 lg:px-4 py-1 lg:py-2 text-sm lg:font-medium text-black hover:bg-gray-100"
                                     >
                                         {subMenu?.text}
                                     </Link>
