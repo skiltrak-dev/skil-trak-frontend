@@ -48,9 +48,15 @@ export const talentPoolEndpoints = (
             method: 'PATCH',
             body: { status },
         }),
-        invalidatesTags: ['StudentProfile'],
+        invalidatesTags: ['StudentProfile', 'MatchingProfiles'],
     }),
     getAcceptedTalentPoolIndustryProfile: builder.query<any, any>({
+        query: (id: any) => ({
+            url: `${PREFIX}/connection-request/${id}/detail`,
+        }),
+        providesTags: ['StudentProfile'],
+    }),
+    getConnectionRequiredDocs: builder.query<any, any>({
         query: (id: any) => ({
             url: `${PREFIX}/connection-request/${id}/detail`,
         }),

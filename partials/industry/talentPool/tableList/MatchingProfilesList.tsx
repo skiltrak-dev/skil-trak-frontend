@@ -1,6 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 import {
     ActionButton,
+    Button,
     Card,
     EmptyData,
     InitialAvatar,
@@ -18,6 +19,7 @@ import { isBrowser } from '@utils'
 import { FaEye } from 'react-icons/fa'
 import { IoMdEyeOff } from 'react-icons/io'
 import { TalentPoolNotification } from '@partials/common/TalentPool'
+import Link from 'next/link'
 
 export const MatchingProfilesList = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -63,7 +65,7 @@ export const MatchingProfilesList = () => {
                 // search: `sectorId: ${sectorId}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
-            },
+            }
             // {
             //     refetchOnMountOrArgChange: true,
             // }
@@ -169,8 +171,9 @@ export const MatchingProfilesList = () => {
                     <div className="whitespace-nowrap">
                         {info?.row?.original?.connectionRequests &&
                         info?.row?.original?.connectionRequests.length > 0 &&
-                        info?.row?.original?.connectionRequests?.[0].status ===
-                            'connected' ? (
+                        info?.row?.original?.connectionRequests?.[0]?.status ===
+                            'connected' || info?.row?.original?.connectionRequests?.[0]?.status ===
+                            'hired' ? (
                             <Typography variant="small">
                                 {info?.row?.original?.student?.user?.email ||
                                     'N/A'}
@@ -206,7 +209,8 @@ export const MatchingProfilesList = () => {
                         {info?.row?.original?.connectionRequests &&
                         info?.row?.original?.connectionRequests.length > 0 &&
                         info?.row?.original?.connectionRequests?.[0]?.status ===
-                            'connected' ? (
+                            'connected' || info?.row?.original?.connectionRequests?.[0]?.status ===
+                            'hired' ? (
                             <Typography variant="small">
                                 {info?.row?.original?.student?.phone}
                             </Typography>
@@ -270,6 +274,11 @@ export const MatchingProfilesList = () => {
                               ?.status === 'requested' ? (
                             <Typography variant="small" color={'text-red-500'}>
                                 Requested
+                            </Typography>
+                        ) : info?.row?.original?.connectionRequests?.[0]
+                              ?.status === 'hired' ? (
+                            <Typography variant="small" color="text-green-500">
+                                Hired
                             </Typography>
                         ) : (
                             <Typography variant="small">
@@ -380,6 +389,16 @@ export const MatchingProfilesList = () => {
                     onlyValue
                 />
             </div> */}
+            <div className="flex justify-end mb-5">
+                <Button
+                    text={'View Hired Students'}
+                    onClick={() =>
+                        router.push(
+                            `/portals/industry/talent-pool/hired-profiles`
+                        )
+                    }
+                />
+            </div>
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading || isFetching ? (

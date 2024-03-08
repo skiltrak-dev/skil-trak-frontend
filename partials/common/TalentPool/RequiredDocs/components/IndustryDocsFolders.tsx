@@ -10,6 +10,9 @@ export const IndustryDocsFolders = ({
     selectedFolder,
     onSelectFolder,
 }: IndustryDocsFoldersProps) => {
+    if (!selectedFolder && requiredDocsFolders && requiredDocsFolders.length > 0) {
+        onSelectFolder(requiredDocsFolders[0]);
+    }
     return (
         <div className="px-4">
             <div className='mb-4 mt-2'>

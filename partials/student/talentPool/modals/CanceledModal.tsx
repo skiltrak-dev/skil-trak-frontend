@@ -1,6 +1,5 @@
 import { ActionModal } from '@components'
 import { useAlert, useNotification } from '@hooks'
-import { SubAdmin } from '@types'
 import { useEffect } from 'react'
 import { FaBan } from 'react-icons/fa'
 import { StudentApi } from '@queries'
@@ -20,21 +19,21 @@ export const CancelModal = ({
     const onConfirmClicked = async (industry: any) => {
         const status = 'rejected'
         const id = industry.request_id
-        // await onChangeStatus({ body: status, conId: id })
+        await onChangeStatus({ body: status, conId: id })
     }
 
     useEffect(() => {
         if (changeStatusResult.isSuccess) {
             alert.error({
-                title: `subAdmin Blocked`,
-                description: `subAdmin "${industry?.name}" has been blocked.`,
+                title: `Industry Reject`,
+                description: `Industry "${industry?.name}" has been rejected.`,
             })
             onCancel()
         }
         if (changeStatusResult.isError) {
             notification.error({
                 title: 'Request Failed',
-                description: `Your request for blocking subAdmin was failed`,
+                description: `Your request for rejecting Industry was failed`,
             })
         }
     }, [changeStatusResult])
@@ -44,7 +43,7 @@ export const CancelModal = ({
             Icon={FaBan}
             variant="error"
             title="Are you sure!"
-            description={`You are about to block <em>"${industry?.name}"</em>. Do you wish to continue?`}
+            description={`You are about to reject <em>"${industry?.name}"</em>. Do you wish to continue?`}
             onConfirm={onConfirmClicked}
             onCancel={onCancel}
             input

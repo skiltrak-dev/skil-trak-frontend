@@ -76,13 +76,13 @@ export const IndustryNavbar = () => {
             inActiveClasses: 'text-slate-700',
             id: 'jobs',
         },
-        // {
-        //     link: Routes.TalentPool,
-        //     text: 'Talent Pool',
-        //     Icon: LiaCertificateSolid,
-        //     activeClasses: 'bg-blue-100 text-blue-700',
-        //     inActiveClasses: 'text-slate-700',
-        // },
+        {
+            link: Routes.TalentPool,
+            text: 'Talent Pool',
+            Icon: LiaCertificateSolid,
+            activeClasses: 'bg-blue-100 text-blue-700',
+            inActiveClasses: 'text-slate-700',
+        },
         {
             link: Routes.ESign,
             text: 'E Sign',

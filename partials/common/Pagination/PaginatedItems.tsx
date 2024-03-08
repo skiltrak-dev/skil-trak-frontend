@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import ReactPaginate from 'react-paginate'
 import { useRouter } from 'next/router'
-
+type PaginatedItemsProps = {
+    url?:string
+    itemsPerPage:any
+    setCurrentItems:any
+    data:any
+}
 export const PaginatedItems = ({
     itemsPerPage,
     setCurrentItems,
     data,
-}: any) => {
+    url,
+}: PaginatedItemsProps) => {
     const [pageCount, setPageCount] = useState(0)
     const router = useRouter()
     // Here we use item offsets; we could also use page offsets
@@ -38,7 +44,7 @@ export const PaginatedItems = ({
 
         // router.push(`/blogs?page=${newPage}`)
         router.push({
-            pathname: '/blogs',
+            pathname: `${url}`,
             query: `page=${newPage}`,
         })
     }
