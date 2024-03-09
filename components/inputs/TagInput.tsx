@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { FaPlus } from 'react-icons/fa6'
 
-export const TagInput = ({ name, onTagEnter }: any) => {
+export const TagInput = ({ name, onTagEnter, type }: any) => {
     const [tagInput, setTagInput] = useState('')
     const methods = useForm()
     const { handleSubmit, control } = methods
@@ -31,7 +31,7 @@ export const TagInput = ({ name, onTagEnter }: any) => {
                 render={({ field }) => (
                     <input
                         {...field}
-                        type="text"
+                        type={type || 'text'}
                         placeholder={`Enter ${name} and press Enter`}
                         value={tagInput}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

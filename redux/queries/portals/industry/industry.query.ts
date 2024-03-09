@@ -220,6 +220,8 @@ export const {
     useGetMatchingProfilesListQuery,
     useGetMatchingProfileDetailQuery,
     useGetTalentPoolRequiredDocsQuery,
+    useGetTalentPoolHiredProfilesQuery,
+    useGetTalentPoolCountBySectorQuery,
     useSentConnectionRequestMutation, 
 } = industryApi
 
@@ -359,5 +361,7 @@ export const IndustryApi = {
         useMatchingProfileDetail: useGetMatchingProfileDetailQuery,
         useRequiredDocsList: useGetTalentPoolRequiredDocsQuery,
         useSentRequestConnection: useSentConnectionRequestMutation,
+        useTalentPoolHiredProfiles: useGetTalentPoolHiredProfilesQuery,
+        useTalentPoolCountBySector: useGetTalentPoolCountBySectorQuery,
     },
 }

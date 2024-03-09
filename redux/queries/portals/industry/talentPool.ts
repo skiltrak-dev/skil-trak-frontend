@@ -24,6 +24,18 @@ export const talentPoolEndpoints = (
         }),
         providesTags: ['MatchingProfiles'],
     }),
+    getTalentPoolHiredProfiles: builder.query<any, any>({
+        query: (id) => ({
+            url: `talentpool/sector/${id}/detail`,
+        }),
+        providesTags: ['MatchingProfiles'],
+    }),
+    getTalentPoolCountBySector: builder.query<any, void>({
+        query: () => ({
+            url: `talentpool/count/by-sector`,
+        }),
+        providesTags: ['MatchingProfiles'],
+    }),
     // connection-request/add
 
     sentConnectionRequest: builder.mutation<any, any>({

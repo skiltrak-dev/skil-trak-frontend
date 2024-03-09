@@ -14,9 +14,10 @@ import { IoMdEyeOff } from 'react-icons/io'
 import { useNotification } from '@hooks'
 //  Queries
 import { IndustryApi } from '@queries'
-import { getGender } from '@utils'
+import { TalentPoolStatusEnum, getGender } from '@utils'
+import { TalentPoolNotification } from '@partials/common/TalentPool'
 
-export const TalentPoolIndustryProfileDetails = ({ profile }: any) => {
+export const TalentPoolIndustryProfileDetails = ({ profile, setView }: any) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const { notification } = useNotification()
     const [sentConnectionReq, sentConnectionReqResult] =
@@ -24,7 +25,6 @@ export const TalentPoolIndustryProfileDetails = ({ profile }: any) => {
     const getSectors = useMemo(() => {
         return profile?.student?.courses?.map((course: any) => course?.sector)
     }, [profile])
-
     const onCancelClicked = () => {
         setModal(null)
     }
@@ -43,7 +43,6 @@ export const TalentPoolIndustryProfileDetails = ({ profile }: any) => {
             })
         }
     }, [sentConnectionReqResult])
-    
 
     return (
         <>
@@ -63,13 +62,41 @@ export const TalentPoolIndustryProfileDetails = ({ profile }: any) => {
                             {profile?.industry?.user?.name}
                         </Typography>
 
-                        <div className="flex items-center gap-x-1.5 whitespace-nowrap">
-                            <Button
-                                text="Request Accepted"
-                                variant="info"
-                                // onClick={onSentRequest}
-                            />
-                        </div>
+                        {profile?.status === TalentPoolStatusEnum.REQUESTED ? (
+                            <div className="flex items-center gap-x-1.5 whitespace-nowrap">
+                                <Button
+                                    text="Pending"
+                                    // variant="info"
+                                    // onClick={onSentRequest}
+                                />
+                            </div>
+                        ) : profile?.status ===
+                          TalentPoolStatusEnum.CONNECTED ? (
+                            <div className="flex items-center gap-x-1.5 whitespace-nowrap">
+                                <Button
+                                    text="Connected"
+                                    variant="info"
+                                    // onClick={onSentRequest}
+                                />
+                            </div>
+                        ) : profile?.status ===
+                          TalentPoolStatusEnum.REJECTED ? (
+                            <div className="flex items-center gap-x-1.5 whitespace-nowrap">
+                                <Button
+                                    text="Rejected"
+                                    variant="error"
+                                    // onClick={onSentRequest}
+                                />
+                            </div>
+                        ) : profile?.status === TalentPoolStatusEnum.HIRED ? (
+                            <div className="flex items-center gap-x-1.5 whitespace-nowrap">
+                                <Button
+                                    text="Hired"
+                                    variant="success"
+                                    // onClick={onSentRequest}
+                                />
+                            </div>
+                        ) : null}
                     </div>
                 </div>
                 <div className="bg-[#286788]  rounded-md p-2.5 mb-5">
@@ -106,20 +133,103 @@ export const TalentPoolIndustryProfileDetails = ({ profile }: any) => {
                         <Typography variant="xs" color="text-white">
                             Email
                         </Typography>
-                       
-                            <Typography variant="small" color="text-white">
+
+                        {profile?.status === TalentPoolStatusEnum.REQUESTED ? (
+                            <div className="relative text-white">
+                                nothing to show here
+                                <div
+                                    className={`absolute top-1 left-0 backdrop-blur-sm bg-[#cfcdcd]/20 w-full h-4 rounded-lg z-10`}
+                                ></div>
+                                <div
+                                    onClick={() => setView(true)}
+                                    className={`cursor-pointer absolute top-0 left-1/2 z-20 bg-[#24556D] px-1 rounded-md flex items-center justify-center`}
+                                    style={{ height: '100%' }}
+                                >
+                                    <IoMdEyeOff
+                                        size={15}
+                                        className="text-white"
+                                    />
+                                </div>
+                            </div>
+                        ) : profile?.status ===
+                          TalentPoolStatusEnum.CONNECTED ? (
+                            <Typography variant="muted" color="text-white">
                                 {profile?.industry?.user?.email}
                             </Typography>
-                           
+                        ) : profile?.status ===
+                          TalentPoolStatusEnum.REJECTED ? (
+                            <div className="relative text-white">
+                                nothing to show here
+                                <div
+                                    className={`absolute top-0 left-0 backdrop-blur-sm bg-[#cfcdcd]/20 w-full h-4 rounded-lg z-10`}
+                                ></div>
+                                <div
+                                    onClick={() => setView(true)}
+                                    className={`cursor-pointer absolute top-0 left-1/2 z-20 bg-[#24556D] px-1 rounded-md flex items-center justify-center`}
+                                    style={{ height: '100%' }}
+                                >
+                                    <IoMdEyeOff
+                                        size={15}
+                                        className="text-white"
+                                    />
+                                </div>
+                            </div>
+                        ) : profile?.status === TalentPoolStatusEnum.HIRED ? (
+                            <Typography variant="muted" color="text-white">
+                                {profile?.industry?.user?.email}
+                            </Typography>
+                        ) : null}
                     </div>
                     {/* Phone Number */}
                     <div className="bg-[#286788]  rounded-md py-1.5 px-2.5">
                         <Typography variant="xs" color="text-white">
                             Phone Number
                         </Typography>
-                        <Typography variant="small" color="text-white">
-                            {profile?.industry?.phoneNumber}
-                        </Typography>
+                        {profile?.status === TalentPoolStatusEnum.REQUESTED ? (
+                            <div className="relative text-white">
+                                nothing to show here
+                                <div
+                                    className={`absolute top-1 left-0 backdrop-blur-sm bg-[#cfcdcd]/20 w-full h-4 rounded-lg z-10`}
+                                ></div>
+                                <div
+                                    onClick={() => setView(true)}
+                                    className={`cursor-pointer absolute top-0 left-1/2 z-20 bg-[#24556D] px-1 rounded-md flex items-center justify-center`}
+                                    style={{ height: '100%' }}
+                                >
+                                    <IoMdEyeOff
+                                        size={15}
+                                        className="text-white"
+                                    />
+                                </div>
+                            </div>
+                        ) : profile?.status ===
+                          TalentPoolStatusEnum.CONNECTED ? (
+                            <Typography variant="muted" color="text-white">
+                                {profile?.industry?.phoneNumber}
+                            </Typography>
+                        ) : profile?.status ===
+                          TalentPoolStatusEnum.REJECTED ? (
+                            <div className="relative text-white">
+                                nothing to show here
+                                <div
+                                    className={`absolute top-0 left-0 backdrop-blur-sm bg-[#cfcdcd]/20 w-full h-4 rounded-lg z-10`}
+                                ></div>
+                                <div
+                                    onClick={() => setView(true)}
+                                    className={`cursor-pointer absolute top-0 left-1/2 z-20 bg-[#24556D] px-1 rounded-md flex items-center justify-center`}
+                                    style={{ height: '100%' }}
+                                >
+                                    <IoMdEyeOff
+                                        size={15}
+                                        className="text-white"
+                                    />
+                                </div>
+                            </div>
+                        ) : profile?.status === TalentPoolStatusEnum.HIRED ? (
+                            <Typography variant="muted" color="text-white">
+                                {profile?.industry?.phoneNumber}
+                            </Typography>
+                        ) : null}
                     </div>
 
                     {/* Suburb */}
@@ -144,30 +254,102 @@ export const TalentPoolIndustryProfileDetails = ({ profile }: any) => {
                         <Typography variant="xs" color="text-white">
                             Contact Person Name
                         </Typography>
-                        <Typography variant="muted" color="text-white">
-                            {profile?.industry?.contactPerson}
-                        </Typography>
+                        {profile?.status === TalentPoolStatusEnum.REQUESTED ? (
+                            <div className="relative text-white">
+                                nothing to show here
+                                <div
+                                    className={`absolute top-1 left-0 backdrop-blur-sm bg-[#cfcdcd]/20 w-full h-4 rounded-lg z-10`}
+                                ></div>
+                                <div
+                                    onClick={() => setView(true)}
+                                    className={`cursor-pointer absolute top-0 left-1/2 z-20 bg-[#24556D] px-1 rounded-md flex items-center justify-center`}
+                                    style={{ height: '100%' }}
+                                >
+                                    <IoMdEyeOff
+                                        size={15}
+                                        className="text-white"
+                                    />
+                                </div>
+                            </div>
+                        ) : profile?.status ===
+                          TalentPoolStatusEnum.CONNECTED ? (
+                            <Typography variant="muted" color="text-white">
+                                {profile?.industry?.contactPerson}
+                            </Typography>
+                        ) : profile?.status ===
+                          TalentPoolStatusEnum.REJECTED ? (
+                            <div className="relative text-white">
+                                nothing to show here
+                                <div
+                                    className={`absolute top-0 left-0 backdrop-blur-sm bg-[#cfcdcd]/20 w-full h-4 rounded-lg z-10`}
+                                ></div>
+                                <div
+                                    onClick={() => setView(true)}
+                                    className={`cursor-pointer absolute top-0 left-1/2 z-20 bg-[#24556D] px-1 rounded-md flex items-center justify-center`}
+                                    style={{ height: '100%' }}
+                                >
+                                    <IoMdEyeOff
+                                        size={15}
+                                        className="text-white"
+                                    />
+                                </div>
+                            </div>
+                        ) : profile?.status === TalentPoolStatusEnum.HIRED ? (
+                            <Typography variant="muted" color="text-white">
+                                {profile?.industry?.contactPerson}
+                            </Typography>
+                        ) : null}
                     </div>
                     <div className="bg-[#286788]  rounded-md py-1.5 px-2.5">
                         <Typography variant="xs" color="text-white">
                             Contact Person Number
                         </Typography>
-                        <Typography variant="muted" color="text-white">
-                            {profile?.industry?.contactPersonNumber}
-                        </Typography>
+                        {profile?.status === TalentPoolStatusEnum.REQUESTED ? (
+                            <div className="relative text-white">
+                                nothing to show here
+                                <div
+                                    className={`absolute top-1 left-0 backdrop-blur-sm bg-[#cfcdcd]/20 w-full h-4 rounded-lg z-10`}
+                                ></div>
+                                <div
+                                    onClick={() => setView(true)}
+                                    className={`cursor-pointer absolute top-0 left-1/2 z-20 bg-[#24556D] px-1 rounded-md flex items-center justify-center`}
+                                    style={{ height: '100%' }}
+                                >
+                                    <IoMdEyeOff
+                                        size={15}
+                                        className="text-white"
+                                    />
+                                </div>
+                            </div>
+                        ) : profile?.status ===
+                          TalentPoolStatusEnum.CONNECTED ? (
+                            <Typography variant="muted" color="text-white">
+                                {profile?.industry?.contactPersonNumber}
+                            </Typography>
+                        ) : profile?.status ===
+                          TalentPoolStatusEnum.REJECTED ? (
+                            <div className="relative text-white">
+                                nothing to show here
+                                <div
+                                    className={`absolute top-0 left-0 backdrop-blur-sm bg-[#cfcdcd]/20 w-full h-4 rounded-lg z-10`}
+                                ></div>
+                                <div
+                                    onClick={() => setView(true)}
+                                    className={`cursor-pointer absolute top-0 left-1/2 z-20 bg-[#24556D] px-1 rounded-md flex items-center justify-center`}
+                                    style={{ height: '100%' }}
+                                >
+                                    <IoMdEyeOff
+                                        size={15}
+                                        className="text-white"
+                                    />
+                                </div>
+                            </div>
+                        ) : profile?.status === TalentPoolStatusEnum.HIRED ? (
+                            <Typography variant="muted" color="text-white">
+                                {profile?.industry?.contactPersonNumber}
+                            </Typography>
+                        ) : null}
                     </div>
-
-                    {/* Expected Graduation Date */}
-                    {/* <div className="bg-[#286788]  rounded-md py-1.5 px-2.5">
-                        <Typography variant="xs" color="text-white">
-                            Expected Graduation Date
-                        </Typography>
-                        <Typography variant="muted" color="text-white">
-                            {profile?.industry?.expiryDate
-                                .toString()
-                                .slice(0, 10)}
-                        </Typography>
-                    </div> */}
                 </div>
             </div>
         </>
