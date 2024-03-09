@@ -119,14 +119,14 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                 className="mt-2 w-full"
                 onSubmit={methods.handleSubmit(onSubmit)}
             >
-                <div className="mb-8">
+                <div className="md:mb-8">
                     <div className="mb-3 pb-2 border-b">
                         <Typography variant={'muted'} color={'gray'}>
                             Job Details
                         </Typography>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
                         <TextInput
                             label={'Job Title'}
                             name={'title'}
@@ -199,14 +199,14 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                     </div>
                 </div>
 
-                <div className="mb-8">
+                <div className="md:mb-8">
                     <div className="mb-3 pb-2 border-b">
                         <Typography variant={'muted'} color={'gray'}>
                             Contact Details
                         </Typography>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
                         <TextInput
                             label={'Phone'}
                             name={'phone'}
@@ -233,15 +233,15 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                     </div>
                 </div>
 
-                <div className="mb-8">
+                <div className="md:mb-8">
                     <div className="mb-3 pb-2 border-b">
                         <Typography variant={'muted'} color={'gray'}>
                             Address Details
                         </Typography>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-x-8 gap-y-2">
-                        <div className="col-span-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
+                        <div className="md:col-span-2">
                             <TextInput
                                 label={'Address'}
                                 name={'addressLine1'}
@@ -277,14 +277,14 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                     </div>
                 </div>
 
-                <div className="mb-8">
+                <div className="md:mb-8">
                     <div className="mb-3 pb-2 border-b">
                         <Typography variant={'muted'} color={'gray'}>
                             Employer Detail
                         </Typography>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-x-8 mt-2 mb-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 mt-2 mb-6">
                         <TextInput
                             label={'Contact Person'}
                             name={'contactPerson'}

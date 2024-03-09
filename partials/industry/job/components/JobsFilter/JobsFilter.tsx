@@ -12,7 +12,7 @@ export const JobsFilter = ({ onFilterChange, filter }: any) => {
     ]
 
     return (
-        <div className="flex items-start gap-x-5 py-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 py-2">
             <TextInput
                 label={'Title'}
                 name={'title'}
@@ -29,14 +29,6 @@ export const JobsFilter = ({ onFilterChange, filter }: any) => {
                 }}
                 options={JobTypeOptions}
             />
-            {/* <SelectFieldOption
-                label={"Status"}
-                name={"status"}
-                onChange={(e) => {
-                  onFilterChange({ ...filter, status: e.value });
-                }}
-                options={StatusOptions}
-              /> */}
         </div>
     )
 }

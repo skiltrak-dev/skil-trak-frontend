@@ -57,10 +57,10 @@ export const OurPackages = () => {
                 </div>
 
                 <div
-                    className="max-w-7xl mx-auto mt-5 grid grid-cols-1 md:grid-cols-3 gap-y-8 gap-x-4 sticky top-0 px-4 md:px-0"
+                    className="max-w-7xl mx-auto mt-5 grid grid-cols-1 lg:grid-cols-3 gap-y-8 gap-x-4 sticky top-0 px-4 xl:px-0"
                     id={'helloPackages'}
                 >
-                    <div className="md:hidden" data-aos="fade-right">
+                    <div className="lg:hidden" data-aos="fade-right">
                         <PackageSliderContainer className="relative w-full">
                             <Swiper
                                 spaceBetween={10}
@@ -104,7 +104,7 @@ export const OurPackages = () => {
                             </Swiper>
                         </PackageSliderContainer>
                     </div>
-                    <div className="hidden md:block" data-aos="fade-up">
+                    <div className="hidden lg:block" data-aos="fade-up">
                         <div className=" flex flex-col justify-between gap-y-4 h-full ">
                             {data?.map((packageData, i) => (
                                 <PackageCard

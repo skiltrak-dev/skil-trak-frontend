@@ -105,7 +105,7 @@ export const ImportantDocuments = ({
                         ['jpg', 'jpeg', 'png'].includes(
                             extension.toLowerCase()
                         ) ? (
-                            <div className="min-w-[650px] max-w-[70vw] max-h-[500px] overflow-auto">
+                            <div className="w-full md:min-w-[650px] max-w-[70vw] max-h-[70vh] md:max-h-[500px] overflow-auto">
                                 <a
                                     className="bg-orange-500 px-4 py-2 inline-block cursor-pointer rounded-md text-white"
                                     href={imageUrl}
@@ -120,7 +120,7 @@ export const ImportantDocuments = ({
                                     sizes="100vw 100vh"
                                     src={document?.file}
                                     alt=""
-                                    className="w-fit max-h-[480px] mx-auto object-contain mt-3"
+                                    className="w-full md:w-fit max-h-[480px] mx-auto object-contain mt-3"
                                     blurDataURL={'/images/blur_image.png'}
                                     placeholder="blur"
                                 />
@@ -141,7 +141,7 @@ export const ImportantDocuments = ({
                             />
                         ) : null
                     ) : (
-                        <div className="px-5 min-w-full md:min-w-[600px] max-w-4xl min-h-[40vh] max-h-[calc(100vh-250px)] overflow-auto custom-scrollbar">
+                        <div className="px-5 min-w-full md:min-w-[600px] max-w-4xl min-h-[40vh] max-h-[70vh] md:max-h-[calc(100vh-250px)] overflow-auto custom-scrollbar">
                             <div
                                 className="cursor-pointer bg-orange-500 inline-block px-4 py-2 rounded-md mb-2 text-white "
                                 onClick={downloadPdf}

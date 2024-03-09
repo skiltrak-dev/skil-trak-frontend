@@ -7,15 +7,16 @@ export const UpSkillsInfo = () => {
             <div className="flex flex-col gap-y-6">
                 <div className="flex flex-col gap-y-3">
                     <Typography variant={'h4'} color={'text-[#25566B]'} bold>
-                        Access to Top Talent{' '}
+                        Upskill Your Career In Australia
                     </Typography>
                     <Typography color={'text-[#56585a]'} variant="label">
-                        Are you a skilled hospitality professional seeking new
-                        opportunities and experiences? Look no further! Our
-                        invitation is extended to the overseas Hospitality
-                        Industry and commercial cookery workers working anywhere
-                        outside Australia like you, eager to elevate your career
-                        in the vibrant Australian hospitality scene.
+                        We are giving you a chance to come to Australia and
+                        upskill your profession in the fields of Hospitality,
+                        Commercial Cookery, Mental Health, Aged Care, Disability
+                        Sector, Community Services, Allied Health and many more.
+                        Whether you're a seasoned professional or just starting,
+                        there's a place for you to thrive and upskill your
+                        talents in our diverse and dynamic industry.
                     </Typography>
                 </div>
 
@@ -32,80 +33,11 @@ export const UpSkillsInfo = () => {
                         industries, we work tirelessly to secure exciting
                         opportunities reshaping your skills and aspirations,
                         giving you peace of mind as you launch into your
-                        Australian adventure
+                        Australian adventure.
                     </Typography>
                 </div>
 
                 {/*  */}
-                <div className="flex flex-col gap-y-5">
-                    <Typography variant="h4" color={'text-[#25566B]'}>
-                        Why Australia?
-                    </Typography>
-
-                    {/*  */}
-                    <div className="flex flex-col gap-y-1">
-                        <Typography
-                            variant="label"
-                            color={'text-[#56585a]'}
-                            extraBold
-                        >
-                            Dynamic Hospitality Hub
-                        </Typography>
-                        <Typography variant="label" color={'text-[#56585a]'}>
-                            From bustling urban cafes to world-class
-                            restaurants, Australia offers a diverse and thriving
-                            hospitality landscape that is constantly evolving.
-                        </Typography>
-                    </div>
-
-                    {/*  */}
-                    <div className="flex flex-col gap-y-1">
-                        <Typography
-                            variant="label"
-                            color={'text-[#56585a]'}
-                            extraBold
-                        >
-                            International Exposure
-                        </Typography>
-                        <Typography variant="label" color={'text-[#56585a]'}>
-                            Join a multicultural workforce and immerse yourself
-                            in a melting pot of cultures, cuisines, and
-                            experiences.
-                        </Typography>
-                    </div>
-
-                    {/*  */}
-                    <div className="flex flex-col gap-y-1">
-                        <Typography
-                            variant="label"
-                            color={'text-[#56585a]'}
-                            extraBold
-                        >
-                            Career Development
-                        </Typography>
-                        <Typography variant="label" color={'text-[#56585a]'}>
-                            Gain invaluable experience, refine your skills, and
-                            broaden your horizons in one of the world's most
-                            sought-after hospitality destinations.
-                        </Typography>
-                    </div>
-
-                    {/*  */}
-                    <div className="flex flex-col gap-y-1">
-                        <Typography
-                            variant="label"
-                            color={'text-[#56585a]'}
-                            extraBold
-                        >
-                            Quality of Life
-                        </Typography>
-                        <Typography variant="label" color={'text-[#56585a]'}>
-                            Gain invaluable experience, refine your skills, and
-                            broaden your horizons in one of the world's most
-                            sought-after hospitality destinations.
-                        </Typography>
-                    </div>
-                </div>
 
                 {/* Looking For */}
                 <div className="flex flex-col gap-y-3">
@@ -114,11 +46,10 @@ export const UpSkillsInfo = () => {
                     </Typography>
                     <Typography color={'text-[#56585a]'} variant="label">
                         If you're between the ages of 24 and 36, with 1 to 5
-                        years of experience in the hospitality industry and any
-                        qualification in the field, we want to hear from you!
-                        Whether you're a talented chef, a skilled barista, or a
-                        passionate front-of-house professional, there's a place
-                        for you in Australia's thriving hospitality industry.
+                        years of experience in the professions mentioned above
+                        and any qualification in the field, we want to hear from
+                        you! The Australian Job Market is waiting for your
+                        contribution. 
                     </Typography>
                 </div>
 

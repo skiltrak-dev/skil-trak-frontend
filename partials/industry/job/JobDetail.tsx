@@ -1,31 +1,19 @@
-import React, { useContext, useEffect, useState, ReactElement } from 'react'
 import { useRouter } from 'next/router'
+import { ReactElement, useState } from 'react'
 
 // Icons
-import { MdEdit } from 'react-icons/md'
 import { AiFillDelete } from 'react-icons/ai'
+import { MdEdit } from 'react-icons/md'
 
 // components
-import {
-    Card,
-    Popup,
-    LoadingAnimation,
-    BackButton,
-    TableAction,
-    //   ActionDropDown,
-    //   DeleteActionPopup,
-} from '@components'
-import { DeleteModal } from './modals'
+import { BackButton, Card, LoadingAnimation, TableAction } from '@components'
 import { JobDetailData } from './components'
-
-// Context
-// import { JobDataContext, AlertsContext } from "context";
-// import { useNotification } from "@hooks";
+import { DeleteModal } from './modals'
 
 // redux
-import { useGetJobDetailQuery, useRemoveJobMutation } from '@queries'
-import { getThemeColors } from '@theme'
 import { EmptyData } from '@components'
+import { useGetJobDetailQuery } from '@queries'
+import { getThemeColors } from '@theme'
 
 const Colors = getThemeColors()
 

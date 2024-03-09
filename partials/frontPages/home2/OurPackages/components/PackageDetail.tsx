@@ -177,7 +177,7 @@ export const PackageDetail = ({
 
             {/*  */}
             <div className="py-2">
-                <div className="px-1.5 grid grid-cols-1 md:grid-cols-3 gap-x-3 gap-y-6 py-4 h-[420px] overflow-auto custom-scrollbar md:h-auto">
+                <div className="px-1.5 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-3 gap-y-6 py-4 h-[420px] overflow-auto custom-scrollbar md:h-auto">
                     {packagesFeatures?.map((features, index) => {
                         const active =
                             features.packageType.includes(selectedPackage)

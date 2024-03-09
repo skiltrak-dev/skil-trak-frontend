@@ -254,7 +254,11 @@ export const AdvertisedJobsContainer = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="px-6">{table}</div>
+                                    <div className="overflow-x-auto remove-scrollbar">
+                                        <div className="px-6 w-full">
+                                            {table}
+                                        </div>
+                                    </div>
                                 </div>
                             )
                         }}

@@ -851,8 +851,10 @@ export const IndustryDashboardContainer = () => {
         if (matches) {
             if (contextBar.isVisible) contextBar.hide()
         } else {
-            contextBar.setContent(<ViewProfileCB />)
-            if (!contextBar.isVisible) contextBar.show(false)
+            if (!isMobile) {
+                contextBar.setContent(<ViewProfileCB />)
+                if (!contextBar.isVisible) contextBar.show(false)
+            }
         }
     }
     const isMobile = useMediaQuery(

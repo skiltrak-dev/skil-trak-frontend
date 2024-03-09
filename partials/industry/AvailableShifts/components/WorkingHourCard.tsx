@@ -26,10 +26,8 @@ export const WorkingHourCard = ({
     const contextBar = useContextBar()
 
     const [modal, setModal] = useState<any | null>(null)
-    const [isAvailable, setIsAvailable] = useState<boolean>(
-        availability?.dayOn
-    )
-    
+    const [isAvailable, setIsAvailable] = useState<boolean>(availability?.dayOn)
+
     const [openingTime, setOpeningTime] = useState<any>(
         availability?.openingTime
     )
@@ -86,7 +84,7 @@ export const WorkingHourCard = ({
     return (
         <>
             {modal && modal}
-            <div className="bg-gray-100 rounded-lg px-6 grid grid-cols-10 gap-x-3 items-center">
+            <div className="bg-gray-100 rounded-lg px-6 grid grid-cols-1 md:grid-cols-10 gap-x-3 gap-y-1.5 py-2.5 items-center">
                 <div className="col-span-2 flex flex-col justify-start items-sart gap-y-2">
                     <div className="flex items-center gap-x-2">
                         <Switch
@@ -109,6 +107,7 @@ export const WorkingHourCard = ({
                             setOpeningTime(e.target.value)
                         }}
                         value={openingTime}
+                        showError={false}
                     />
                     <TextInput
                         label={'Closing'}
@@ -119,6 +118,7 @@ export const WorkingHourCard = ({
                             setClosingTime(e.target.value)
                         }}
                         value={closingTime}
+                        showError={false}
                     />
                 </div>
 

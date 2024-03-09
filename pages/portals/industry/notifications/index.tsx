@@ -9,13 +9,12 @@ import { Animations } from '@animations'
 import {
     Button,
     DisplayPrimaryActions,
-    HelpQuestionSet,
     RtoContextBarData,
     SidebarCalendar,
 } from '@components'
-import { EmailsCard, RecentAppointment } from '@partials/common'
+import { EmailsCard } from '@partials/common'
 // Hooks
-import { useContextBar, useJoyRide } from '@hooks'
+import { useContextBar } from '@hooks'
 
 const Notifications: NextPageWithLayout = () => {
     const { setContent } = useContextBar()
@@ -48,7 +47,7 @@ const Notifications: NextPageWithLayout = () => {
     // WORKPLACE JOY RIDE - END
     return (
         <div className="flex flex-col">
-            <div className="flex gap-x-6">
+            <div className="flex flex-col md:flex-row gap-6">
                 {/* Primary Actions */}
                 <div className="bg-white p-4 rounded-2xl shadow-xl flex-shrink-0">
                     <DisplayPrimaryActions actions={PrimaryLinks} />
