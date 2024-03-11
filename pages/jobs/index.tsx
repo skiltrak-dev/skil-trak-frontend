@@ -64,6 +64,7 @@ const Jobs: NextPageWithLayout = () => {
                                     data={data?.data}
                                     itemsPerPage={12}
                                     setCurrentItems={setCurrentItems}
+                                    url='/jobs'
                                 />
                             </div>
                         )}

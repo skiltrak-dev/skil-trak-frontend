@@ -93,8 +93,32 @@ export const RegisterNowForm = ({
                 'only-letters',
                 'Only letters are allowed in skills',
                 (value) => {
-                    if (!value) return true 
+                    if (!value) return true
                     return value.every((item) => /^[a-zA-Z]+$/.test(item))
+                }
+            ),
+        areaOfInterest: yup
+            .array()
+            .test(
+                'no-special-characters',
+                'Area of Interest should not contain special characters or numbers',
+                (value) => {
+                    if (!value) return true
+                    return value.every((item) => /^[^\W\d_]+$/.test(item))
+                }
+            ),
+        links: yup
+            .array()
+            .test(
+                'link-format',
+                'Links should be in a valid URL format',
+                (value) => {
+                    if (!value) return true
+                    return value.every((item) => {
+                        // Using a regex to validate URL format
+                        const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/
+                        return urlRegex.test(item)
+                    })
                 }
             ),
     })
@@ -234,6 +258,7 @@ export const RegisterNowForm = ({
                             <div className="">
                                 <TagInput
                                     // {...field}
+                                    type="text"
                                     name="skills"
                                     onTagEnter={handleTagEnter}
                                 />
@@ -261,6 +286,7 @@ export const RegisterNowForm = ({
                             </div>
                             <div className="">
                                 <TagInput
+                                    type="text"
                                     name="areaOfInterest"
                                     onTagEnter={handleTagEnter}
                                 />
@@ -287,6 +313,7 @@ export const RegisterNowForm = ({
                             </div>
                             <div className="">
                                 <TagInput
+                                    type="url"
                                     name="links"
                                     onTagEnter={handleTagEnter}
                                 />

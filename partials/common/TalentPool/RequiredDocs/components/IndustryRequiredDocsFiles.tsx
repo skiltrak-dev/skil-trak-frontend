@@ -16,6 +16,8 @@ import { RiDeleteBinLine } from 'react-icons/ri'
 import { PulseLoader } from 'react-spinners'
 import { SubAdminApi } from '@queries'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
+import { RequiredDocsFolderFileCard } from './RequiredDocsFolderFileCard'
+import { IoMdCloudDownload } from 'react-icons/io'
 type IndustryRequiredDocsFilesProps = {
     selectedFolder: any
     getRequiredDocsResponse: any
@@ -41,21 +43,20 @@ export const IndustryRequiredDocsFiles = ({
     const navigationPrevRef = useRef(null)
     const navigationNextRef = useRef(null)
 
-    const deleteUploadedFileAction = (fileId: number) => {
+    const deleteUploadedFileAction = (fileId: any) => {
         return (
-            <div
-                className="bg-white p-1 rounded-md shadow-md cursor-pointer"
-                onClick={() => {
-                    archiveFile(fileId)
-                }}
+            <a
+                href={fileId}
+                target="_blank"
+                className=""
+                // onClick={() => {
+                //     archiveFile(fileId)
+                // }}
             >
-                {archiveFileResult?.isLoading &&
-                archiveFileResult?.originalArgs === fileId ? (
-                    <PulseLoader size={3} />
-                ) : (
-                    <RiDeleteBinLine className="text-red-500 text-sm" />
-                )}
-            </div>
+                <div className="bg-white p-1 rounded-md shadow-md">
+                    <IoMdCloudDownload className="text-indigo-500 text-sm" />
+                </div>
+            </a>
         )
     }
     const handleWheel = (e: any) => {
@@ -161,7 +162,7 @@ export const IndustryRequiredDocsFiles = ({
                     // </SliderStyleContainer>
                     <div className="grid grid-cols-3 gap-4">
                         {filteredFiles?.map((file: any, i: number) => (
-                            <AssessmentFolderFileCard
+                            <RequiredDocsFolderFileCard
                                 file={file}
                                 index={i}
                                 filename={file?.filename}

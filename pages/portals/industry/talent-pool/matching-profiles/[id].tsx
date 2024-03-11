@@ -3,12 +3,19 @@ import { ReactElement, useEffect, useState, useCallback } from 'react'
 import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import {
+    HireModal,
     SkillsTag,
     TalentPoolStudentProfileDetail,
 } from '@partials/industry/talentPool'
 import { useRouter } from 'next/router'
 import { IndustryApi, StudentApi } from '@queries'
-import { Button, Card, Typography } from '@components'
+import {
+    Button,
+    Card,
+    TechnicalError,
+    Typography,
+    LoadingAnimation,
+} from '@components'
 import {
     IndustryDocsFolders,
     IndustryRequiredDocsFiles,
@@ -24,8 +31,9 @@ const MatchingProfileDetail: NextPageWithLayout = () => {
     const { notification } = useNotification()
     const [view, setView] = useState<boolean>(false)
     const router = useRouter()
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const profileId = router.query.id as string
-    const { data, isLoading, isError, isSuccess } =
+    const { data, isLoading, isError, isSuccess, isFetching } =
         IndustryApi.TalentPool.useMatchingProfileDetail(profileId, {
             skip: !profileId,
         })
@@ -79,6 +87,17 @@ const MatchingProfileDetail: NextPageWithLayout = () => {
 
         return () => clearTimeout(timeout)
     }, [view])
+    const onModalCancelClicked = () => {
+        setModal(null)
+    }
+    const onAcceptClicked = (student: any) => {
+        setModal(
+            <HireModal
+                industry={student}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
 
     useEffect(() => {
         if (changeStatusResult.isSuccess) {
@@ -99,6 +118,7 @@ const MatchingProfileDetail: NextPageWithLayout = () => {
         data?.connectionRequests?.[0]?.status
     return (
         <>
+            {modal && modal}
             {view && (
                 <TalentPoolNotification
                     setViewNotification={() => setView(false)}
@@ -107,99 +127,104 @@ const MatchingProfileDetail: NextPageWithLayout = () => {
                     }
                 />
             )}
-            {connectionStatus === 'connected' && (
-                <div className="flex justify-end">
-                    <div className="flex items-center gap-x-2.5">
-                        <Link
-                            className="px-4 py-1.5 bg-[#6971DD] text-white font-medium"
-                            href={'/portals/industry/students/appointments'}
-                        >
-                            Book Appointment
-                        </Link>
-                        <Button
-                            text="Hire Student"
-                            onClick={() => {
-                                onChangeStatus({ status: 'hired', profileId })
-                            }}
-                            loading={changeStatusResult.isLoading}
-                            disabled={changeStatusResult.isLoading}
-                        />
-                    </div>
-                </div>
-            )}
-
-            <Card noPadding>
-                <div className="flex flex-col md:flex-row w-full">
-                    <div className="md:w-1/3">
-                        <TalentPoolStudentProfileDetail
-                            setView={setView}
-                            profile={data}
-                        />
-                    </div>
-                    <div className="md:w-2/3">
-                        <div className="flex flex-col gap-y-6 p-5">
-                            <div>
-                                <Typography variant="label">About</Typography>
-                                <Typography variant="small">
-                                    {data?.about}
-                                </Typography>
-                            </div>
-                            <div className="bg-[#E6E6E6] w-full h-[1px]"></div>
-                            <div className="flex w-full">
-                                <div>
-                                    <SkillsTag
-                                        tags={data?.skills}
-                                        title={'Skill & Talent'}
-                                    />
-                                    <div className="bg-[#E6E6E6] w-full h-[1px] my-4"></div>
-                                    <SkillsTag
-                                        tags={data?.socialLinks}
-                                        title={'Portfolio/Links'}
-                                    />
-                                </div>
-                                <div className="bg-[#E6E6E6] w-[1px] my-auto h-28 mx-9"></div>
-
-                                <div>
-                                    <SkillsTag
-                                        tags={data?.interest}
-                                        title={'Area of Interest'}
-                                    />
-                                    <div className="bg-[#E6E6E6] w-full h-[1px] my-4"></div>
-                                </div>
-                            </div>
-                            {/* <div className="bg-[#E6E6E6] w-full h-[1px]"></div> */}
+            {isError && <TechnicalError />}
+            {connectionStatus === 'connected' &&
+                getRequiredDocsResponse?.data &&
+                getRequiredDocsResponse?.data?.length > 0 && (
+                    <div className="flex justify-end mb-5">
+                        <div className="flex items-center gap-x-2.5">
+                            <Link
+                                className="px-4 py-1.5 bg-[#6971DD] text-white text-sm uppercase font-medium rounded-md"
+                                href={'/portals/industry/students/appointments'}
+                            >
+                                Book Appointment
+                            </Link>
+                            {connectionStatus !== 'hired' && (
+                                <Button
+                                    text="Hire Student"
+                                    onClick={() => onAcceptClicked(data)}
+                                    loading={changeStatusResult.isLoading}
+                                    disabled={changeStatusResult.isLoading}
+                                />
+                            )}
                         </div>
-                        {getFolders && getFolders?.length > 0 && (
-                            <div className="h-[350px] border-t border-secondary-dark overflow-hidden w-full ">
-                                <div className="grid grid-cols-3 h-[inherit] w-full">
-                                    <div className="py-4 border-r h-[inherit]">
-                                        <IndustryDocsFolders
-                                            requiredDocsFolders={getFolders}
-                                            selectedFolder={selectedFolder}
-                                            onSelectFolder={onSelectFolder}
+                    </div>
+                )}
+            {isLoading || isFetching ? (
+                <LoadingAnimation height="h-[60vh]" />
+            ) : data && Object.keys(data).length ? (
+                <Card noPadding>
+                    <div className="flex flex-col md:flex-row w-full">
+                        <div className="md:w-1/3">
+                            <TalentPoolStudentProfileDetail
+                                setView={setView}
+                                profile={data}
+                            />
+                        </div>
+                        <div className="md:w-2/3">
+                            <div className="flex flex-col gap-y-6 p-5">
+                                <div>
+                                    <Typography variant="label">
+                                        About
+                                    </Typography>
+                                    <Typography variant="small">
+                                        {data?.about}
+                                    </Typography>
+                                </div>
+                                <div className="bg-[#E6E6E6] w-full h-[1px]"></div>
+                                <div className="flex w-full">
+                                    <div>
+                                        <SkillsTag
+                                            tags={data?.skills}
+                                            title={'Skill & Talent'}
+                                        />
+                                        <div className="bg-[#E6E6E6] w-full h-[1px] my-4"></div>
+                                        <SkillsTag
+                                            tags={data?.socialLinks}
+                                            title={'Portfolio/Links'}
                                         />
                                     </div>
-                                    <div className="col-span-2 h-[inherit]">
-                                        <div className="h-[84%]">
-                                            {/* <AssessmentFiles
-                                selectedFolder={selectedFolder}
-                                course={selectedCourse}
-                                getAssessmentResponse={getRequiredDocsResponse}
-                            /> */}
-                                            <IndustryRequiredDocsFiles
-                                                getRequiredDocsResponse={
-                                                    getRequiredDocsResponse
-                                                }
+                                    <div className="bg-[#E6E6E6] w-[1px] my-auto h-28 mx-9"></div>
+
+                                    <div>
+                                        <SkillsTag
+                                            tags={data?.interest}
+                                            title={'Area of Interest'}
+                                        />
+                                        <div className="bg-[#E6E6E6] w-full h-[1px] my-4"></div>
+                                    </div>
+                                </div>
+                                {/* <div className="bg-[#E6E6E6] w-full h-[1px]"></div> */}
+                            </div>
+                            {getFolders && getFolders?.length > 0 && (
+                                <div className="h-[350px] border-t border-secondary-dark overflow-hidden w-full ">
+                                    <div className="grid grid-cols-3 h-[inherit] w-full">
+                                        <div className="py-4 border-r h-[inherit]">
+                                            <IndustryDocsFolders
+                                                requiredDocsFolders={getFolders}
                                                 selectedFolder={selectedFolder}
+                                                onSelectFolder={onSelectFolder}
                                             />
+                                        </div>
+                                        <div className="col-span-2 h-[inherit]">
+                                            <div className="h-[84%]">
+                                                <IndustryRequiredDocsFiles
+                                                    getRequiredDocsResponse={
+                                                        getRequiredDocsResponse
+                                                    }
+                                                    selectedFolder={
+                                                        selectedFolder
+                                                    }
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        )}
+                            )}
+                        </div>
                     </div>
-                </div>
-            </Card>
+                </Card>
+            ) : null}
         </>
     )
 }

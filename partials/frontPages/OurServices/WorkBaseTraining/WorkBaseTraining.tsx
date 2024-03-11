@@ -60,10 +60,11 @@ export const WorkBaseTraining = () => {
                                 variant={isMobile ? 'label' : 'body'}
                                 color={'text-[#56585a]'}
                             >
-                                Where we connect students, Registered Training
-                                Organisations (RTOs), and industries, ensuring a
-                                symbiotic relationship that benefits all parties
-                                involved.
+                                Welcome to our Work Based Training (WBT)
+                                program, where we connect students, Registered
+                                Training Organisations (RTOs), and industries,
+                                ensuring a symbiotic relationship that benefits
+                                all parties involved.
                             </Typography>
                         </div>
                     </div>
@@ -72,11 +73,9 @@ export const WorkBaseTraining = () => {
 
             {/*  */}
             <div className="relative max-w-7xl mx-auto  lg:-mt-32 mb-10">
-                <div className="absolute top-0 left-0 -mt-32 lg:-mt-0">
+                <div className="hidden lg:block absolute top-0 left-0 -mt-32 lg:-mt-0">
                     <Image
-                        src={`/images/site/services/webbasetraining/${
-                            isTablet ? 'mobileBorder.svg' : 'border.png'
-                        }`}
+                        src={`/images/site/services/webbasetraining/border.png`}
                         alt={''}
                         width={0}
                         height={0}
@@ -84,7 +83,7 @@ export const WorkBaseTraining = () => {
                         className={'w-full h-full'}
                     />
                 </div>
-                <div className="flex flex-col gap-y-11 lg:gap-y-0 w-full lg:max-w-5xl mx-auto mt-20 lg:mt-0">
+                <div className="flex flex-col gap-y-11 lg:gap-y-0 w-full lg:max-w-5xl mx-auto">
                     <div className="px-5 xl:px-0 lg:pl-14 h-auto lg:h-[450px] flex flex-col justify-center gap-y-3.5 relative">
                         <WorkBaseInfo title="Students">
                             <span>

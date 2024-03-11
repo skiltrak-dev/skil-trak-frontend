@@ -5,7 +5,7 @@ import {
     LoadingAnimation,
     Table,
     TableAction,
-    TechnicalError
+    TechnicalError,
 } from '@components'
 import { DocumentsView } from '@hooks'
 import { StudentCellInfo } from '@partials/industry/currentStudents/components'
@@ -203,7 +203,11 @@ export const PortalApplied = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="px-6">{table}</div>
+                                    <div className="overflow-x-auto remove-scrollbar">
+                                        <div className="px-6 w-full">
+                                            {table}
+                                        </div>
+                                    </div>
                                 </div>
                             )
                         }}

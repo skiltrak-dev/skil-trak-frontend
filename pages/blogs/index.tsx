@@ -193,6 +193,7 @@ const Blogs: NextPageWithLayout = () => {
                             data={data?.data}
                             itemsPerPage={9}
                             setCurrentItems={setCurrentItems}
+                            url="/blogs"
                         />
                     </div>
                 )}

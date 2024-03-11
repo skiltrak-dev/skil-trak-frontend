@@ -1,28 +1,34 @@
-import { Card } from '@components'
+import { Card, EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { StudentLayout } from '@layouts'
 import {
     IndustryDocsFolders,
     IndustryRequiredDocsFiles,
+    TalentPoolNotification,
 } from '@partials/common/TalentPool'
 import { TalentPoolIndustryProfileDetails } from '@partials/student/talentPool'
 import { StudentApi } from '@queries'
 import { NextPageWithLayout } from '@types'
+import { TalentPoolStatusEnum } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useState, useEffect, useCallback } from 'react'
+import { object } from 'yup'
 
 const RequiredDocsPage: NextPageWithLayout = () => {
     const [selectedFolder, setSelectedFolder] = useState<any>(null)
+    const [view, setView] = useState<boolean>(false)
     const router = useRouter()
     const profileId = router.query.id as string
     const getRequiredDocsResponse =
         StudentApi.TalentPool.useRequiredDocsResponse(selectedFolder?.id, {
             skip: !selectedFolder?.id,
         })
-    const { data, isSuccess, isLoading, isError } =
+    const { data, isSuccess, isLoading, isError, isFetching } =
         StudentApi.TalentPool.useAcceptedTalentPoolIndustryProfile(profileId, {
             skip: !profileId,
         })
-
+    // const {data:folders } = StudentApi.TalentPool.useConnectionRequiredDocs(profileId,{
+    //     skip: !profileId,
+    // })
     const getFolders = data?.talentPoolRequiredDocuments
 
     useEffect(() => {
@@ -34,42 +40,81 @@ const RequiredDocsPage: NextPageWithLayout = () => {
         }
     }, [data])
 
+    useEffect(() => {
+        const timeout: any = setTimeout(() => {
+            setView(false)
+        }, 8000)
+
+        return () => clearTimeout(timeout)
+    }, [view])
+
     const onSelectFolder = useCallback((data: any) => {
         setSelectedFolder(data)
     }, [])
 
     return (
-        <Card noPadding>
-            <div className="flex gap-x-5">
-                <TalentPoolIndustryProfileDetails profile={data} />
-                <div className="h-screen overflow-hidden w-full">
-                    <div className="grid grid-cols-3 h-[inherit] w-full">
-                        <div className="py-4 border-r h-[inherit]">
-                            <IndustryDocsFolders
-                                requiredDocsFolders={getFolders}
-                                selectedFolder={selectedFolder}
-                                onSelectFolder={onSelectFolder}
-                            />
-                        </div>
-                        <div className="col-span-2 h-[inherit]">
-                            <div className="h-[84%]">
-                                {/* <AssessmentFiles
-                                selectedFolder={selectedFolder}
-                                course={selectedCourse}
-                                getAssessmentResponse={getRequiredDocsResponse}
-                            /> */}
-                                <IndustryRequiredDocsFiles
-                                    getRequiredDocsResponse={
-                                        getRequiredDocsResponse
-                                    }
-                                    selectedFolder={selectedFolder}
-                                />
+        <>
+            {view && (
+                <TalentPoolNotification
+                    setViewNotification={() => setView(false)}
+                    text={
+                        'You can view profile and details of industry only when you accept the industry request'
+                    }
+                />
+            )}
+            <Card noPadding>
+                {isError && <TechnicalError />}
+                {isLoading || isFetching ? (
+                    <LoadingAnimation height="h-[60vh]" />
+                ) : data && Object.keys(data).length > 0 ? (
+                    <div className="flex gap-x-5">
+                        <TalentPoolIndustryProfileDetails
+                            profile={data}
+                            setView={setView}
+                        />
+                        <div className="h-screen overflow-hidden w-full">
+                            <div className="grid grid-cols-3 h-[inherit] w-full">
+                                <div className="py-4 border-r h-[inherit]">
+                                    <IndustryDocsFolders
+                                        requiredDocsFolders={getFolders}
+                                        selectedFolder={selectedFolder}
+                                        onSelectFolder={onSelectFolder}
+                                    />
+                                </div>
+                                <div className="col-span-2 h-[inherit]">
+                                    <div className="h-[84%]">
+                                        {/* <AssessmentFiles
+                            selectedFolder={selectedFolder}
+                            course={selectedCourse}
+                            getAssessmentResponse={getRequiredDocsResponse}
+                        /> */}
+                                        {data?.status ===
+                                            TalentPoolStatusEnum.REQUESTED ||
+                                        data?.status ===
+                                            TalentPoolStatusEnum.REJECTED ? (
+                                            <div className="flex justify-center mx-10 items-center mt-[20%] border-2 border-dashed border-gray-300 px-8 py-20">
+                                                <span className="text-gray-300 text-sm font-medium">
+                                                    You can upload documents
+                                                    only when you Accept the
+                                                    industry request.
+                                                </span>
+                                            </div>
+                                        ) : (
+                                            <IndustryRequiredDocsFiles
+                                                getRequiredDocsResponse={
+                                                    getRequiredDocsResponse
+                                                }
+                                                selectedFolder={selectedFolder}
+                                            />
+                                        )}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </Card>
+                ) : null}
+            </Card>
+        </>
     )
 }
 

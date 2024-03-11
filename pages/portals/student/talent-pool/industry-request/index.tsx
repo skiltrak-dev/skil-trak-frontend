@@ -31,12 +31,13 @@ import { BsArchiveFill } from 'react-icons/bs'
 import { HiCheckBadge } from 'react-icons/hi2'
 import { IoClose } from 'react-icons/io5'
 import { TalentPoolNotification } from '@partials/common/TalentPool'
-import { isBrowser } from '@utils'
+import { TalentPoolStatusEnum, isBrowser } from '@utils'
 
 enum StatusEnum {
     REJECTED = 'rejected',
     CONNECTED = 'connected',
     REQUESTED = 'requested',
+    HIRED = 'hired',
 }
 
 const IndustryRequest: NextPageWithLayout = () => {
@@ -95,7 +96,7 @@ const IndustryRequest: NextPageWithLayout = () => {
     useEffect(() => {
         const timeout: any = setTimeout(() => {
             setView(false)
-        }, 10000)
+        }, 8000)
 
         return () => clearTimeout(timeout)
     }, [view])
@@ -129,46 +130,56 @@ const IndustryRequest: NextPageWithLayout = () => {
     const tableActionOptions = (industry: any) => {
         let options = []
 
-        if (industry.request_status === StatusEnum.REQUESTED) {
+        if (industry.request_status === TalentPoolStatusEnum.REQUESTED) {
             options.push(
+                {
+                    text: 'Accept',
+                    onClick: () => onAcceptClicked(industry),
+                    Icon: HiCheckBadge,
+                    color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
+                },
                 {
                     text: 'Cancel',
                     onClick: () => onCancelClicked(industry),
                     Icon: BsArchiveFill,
                     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
                 },
-                {
-                    text: 'Accept',
-                    onClick: () => onAcceptClicked(industry),
-                    Icon: HiCheckBadge,
-                    color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
-                }
+                
             )
         } else if (
-            industry.request_status === StatusEnum.CONNECTED ||
-            industry.request_status === StatusEnum.REJECTED
+            industry.request_status === TalentPoolStatusEnum.CONNECTED ||
+            industry.request_status === TalentPoolStatusEnum.REJECTED
         ) {
             // do nothing
         }
-        if (industry.request_status === StatusEnum.REQUESTED) {
-            options.push({
-                text: 'View',
-                onClick: () => {
-                    setView(true)
-                },
-                Icon: FaEye,
-            })
-        } else if (industry.request_status === StatusEnum.CONNECTED) {
-            options.push({
-                text: 'View',
-                onClick: () => {
-                    router.push(
-                        `/portals/student/talent-pool/industry-request/${industry?.request_id}`
-                    )
-                },
-                Icon: FaEye,
-            })
-        }
+        // if (industry.request_status === TalentPoolStatusEnum.REQUESTED) {
+        //     options.push({
+        //         text: 'View',
+        //         onClick: () => {
+        //             setView(true)
+        //         },
+        //         Icon: FaEye,
+        //     })
+        // } else if (industry.request_status === TalentPoolStatusEnum.CONNECTED) {
+        //     options.push({
+        //         text: 'View',
+        //         onClick: () => {
+        //             router.push(
+        //                 `/portals/student/talent-pool/industry-request/${industry?.request_id}`
+        //             )
+        //         },
+        //         Icon: FaEye,
+        //     })
+        // }
+        options.push({
+            text: 'View',
+            onClick: () => {
+                router.push(
+                    `/portals/student/talent-pool/industry-request/${industry?.request_id}`
+                )
+            },
+            Icon: FaEye,
+        })
 
         return options
     }
@@ -197,8 +208,9 @@ const IndustryRequest: NextPageWithLayout = () => {
             cell: (info) => {
                 return (
                     <div className="whitespace-nowrap">
-                        {info.row.original.request_status ===
-                        StatusEnum.CONNECTED ? (
+                        {info?.row?.original?.request_status ===
+                        TalentPoolStatusEnum.CONNECTED || info?.row?.original?.request_status ===
+                        TalentPoolStatusEnum.HIRED ? (
                             <Typography variant="small">
                                 {info?.row?.original?.email || 'N/A'}
                             </Typography>
@@ -231,7 +243,8 @@ const IndustryRequest: NextPageWithLayout = () => {
                 return (
                     <div className="whitespace-nowrap">
                         {info.row.original.request_status ===
-                        StatusEnum.CONNECTED ? (
+                        TalentPoolStatusEnum.CONNECTED || info?.row?.original?.request_status ===
+                        TalentPoolStatusEnum.HIRED ? (
                             <Typography variant="small">
                                 {info?.row?.original?.phonenumber || 'N/A'}
                             </Typography>
@@ -277,7 +290,7 @@ const IndustryRequest: NextPageWithLayout = () => {
                 return (
                     <div className="">
                         {info?.row?.original?.request_status ===
-                        StatusEnum.CONNECTED ? (
+                        TalentPoolStatusEnum.CONNECTED  ? (
                             <Typography
                                 variant="small"
                                 color={'text-green-500'}
@@ -285,18 +298,24 @@ const IndustryRequest: NextPageWithLayout = () => {
                                 Connected
                             </Typography>
                         ) : info?.row?.original?.request_status ===
-                          StatusEnum.REJECTED ? (
+                          TalentPoolStatusEnum.REJECTED ? (
                             <Typography variant="small" color={'text-red-500'}>
                                 Rejected
                             </Typography>
-                        ) : (
+                        ) :  info?.row?.original?.request_status ===
+                        TalentPoolStatusEnum.HIRED ? (
                             <Typography
                                 variant="small"
-                                color={'text-yellow-500'}
+                                color={'text-green-500'}
                             >
-                                Pending
+                                Hired
                             </Typography>
-                        )}
+                        ): (<Typography
+                            variant="small"
+                            color={'text-yellow-500'}
+                        >
+                            Pending
+                        </Typography>)}
                     </div>
                 )
             },

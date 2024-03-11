@@ -109,6 +109,7 @@ export const {
     useIndustryRequestStatusMutation,
     useGetAcceptedTalentPoolIndustryProfileQuery,
     useGetTalentPoolRequiredDocsResponseQuery,
+    useGetConnectionRequiredDocsQuery,
 } = studentApi
 
 export const StudentApi = {
@@ -183,6 +184,7 @@ export const StudentApi = {
         useUploadTalentPoolRequiredDocs: useUploadTalentPoolRequiredDocsMutation,
         useIndustryRequestStatus: useIndustryRequestStatusMutation,
         useAcceptedTalentPoolIndustryProfile: useGetAcceptedTalentPoolIndustryProfileQuery,
-        useRequiredDocsResponse: useGetTalentPoolRequiredDocsResponseQuery
+        useRequiredDocsResponse: useGetTalentPoolRequiredDocsResponseQuery,
+        useConnectionRequiredDocs: useGetConnectionRequiredDocsQuery,
     }
 }

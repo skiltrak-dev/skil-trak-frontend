@@ -91,6 +91,8 @@ export const TalentPoolStudentProfileDetail = ({
         profile?.connectionRequests &&
         profile.connectionRequests?.length > 0 &&
         profile?.connectionRequests?.[0]?.status
+  
+
     return (
         <>
             {modal && modal}
@@ -110,23 +112,27 @@ export const TalentPoolStudentProfileDetail = ({
                         </Typography>
                         {connectionStatus === 'requested' ? (
                             <div className="flex items-center gap-x-1.5">
-                                <Button text="Request Pending" />
+                                <div className="bg-primary text-white rounded-md text-base font-medium px-4 py-2">
+                                    Pending
+                                </div>
                             </div>
                         ) : connectionStatus === 'connected' ? (
                             <div className="flex items-center gap-x-1.5">
-                                <Button
-                                    text="Connected"
-                                    variant="info"
-                                    // onClick={onSentRequest}
-                                />
+                                <div className="bg-indigo-500 text-white rounded-md text-base font-medium px-4 py-2">
+                                    Connected
+                                </div>
                             </div>
                         ) : connectionStatus === 'rejected' ? (
                             <div className="flex items-center gap-x-1.5">
-                                <Button
-                                    text="Rejected"
-                                    variant="error"
-                                    // onClick={onSentRequest}
-                                />
+                                <div className="bg-red-500 text-white rounded-md text-base font-medium px-4 py-2">
+                                    Rejected
+                                </div>
+                            </div>
+                        ) : connectionStatus === 'hired' ? (
+                            <div className="flex items-center gap-x-1.5">
+                                <div className="bg-green-500 text-white rounded-md text-base font-medium px-4 py-2">
+                                    Hired
+                                </div>
                             </div>
                         ) : (
                             <div className="flex items-center gap-x-1.5">
@@ -172,7 +178,8 @@ export const TalentPoolStudentProfileDetail = ({
                         <Typography variant="xs" color="text-white">
                             Email
                         </Typography>
-                        {connectionStatus === 'connected' ? (
+                        {connectionStatus === 'connected' ||
+                        connectionStatus === 'hired' ? (
                             <Typography variant="small" color="text-white">
                                 {profile?.student?.user?.email}
                             </Typography>
@@ -200,7 +207,8 @@ export const TalentPoolStudentProfileDetail = ({
                         <Typography variant="xs" color="text-white">
                             Phone Number
                         </Typography>
-                        {connectionStatus === 'connected' ? (
+                        {connectionStatus === 'connected' ||
+                        connectionStatus === 'hired' ? (
                             <Typography variant="small" color="text-white">
                                 {profile?.student?.phone}
                             </Typography>

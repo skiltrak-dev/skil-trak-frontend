@@ -9,44 +9,6 @@ import { Button } from '@components/buttons'
 
 export const KeyFeatures = () => {
     const router = useRouter()
-    // const features = [
-    //     {
-    //         icon: <MdOutlinePolyline />,
-    //         title: 'Automated Allocation',
-    //         content: `A hassle-free process offered by Skiltrak students accounts are automatically`,
-    //         color: 'bg-[#FFFAEF]',
-    //     },
-    //     {
-    //         icon: <RiComputerFill />,
-    //         title: 'Automated Allocation',
-    //         content: `A hassle-free process offered by Skiltrak students accounts are automatically`,
-    //         color: 'bg-[#F3F8FC]',
-    //     },
-    //     {
-    //         icon: <FaUserClock />,
-    //         title: 'Automated Allocation',
-    //         content: `A hassle-free process offered by Skiltrak students accounts are automatically`,
-    //         color: 'bg-[#E8F8F4]',
-    //     },
-    //     {
-    //         icon: <FaFileSignature />,
-    //         title: 'Automated Allocation',
-    //         content: `A hassle-free process offered by Skiltrak students accounts are automatically`,
-    //         color: 'bg-[#FDF7F6]',
-    //     },
-    //     {
-    //         icon: <AiFillSchedule />,
-    //         title: 'Automated Allocation',
-    //         content: `A hassle-free process offered by Skiltrak students accounts are automatically`,
-    //         color: 'bg-[#FBFBFC]',
-    //     },
-    //     {
-    //         icon: <MdAttachEmail />,
-    //         title: 'Automated Allocation',
-    //         content: `A hassle-free process offered by Skiltrak students accounts are automatically`,
-    //         color: 'bg-[#EFFAFD]',
-    //     },
-    // ]
 
     const features = [
         {
@@ -93,7 +55,7 @@ export const KeyFeatures = () => {
         },
     ]
     return (
-        <div className=" py-6 px-4 md:px-36">
+        <div className="px-4 xl:px-0 py-6 max-w-7xl mx-auto">
             <div
                 className="w-full flex justify-center px-4 mb-4"
                 data-aos="fade-up"
@@ -104,7 +66,7 @@ export const KeyFeatures = () => {
             </div>
             <div
                 data-aos="fade-up"
-                className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-y-2 md:gap-3"
+                className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5"
             >
                 {features.map((feature, index) => (
                     <KeyFeatureCard

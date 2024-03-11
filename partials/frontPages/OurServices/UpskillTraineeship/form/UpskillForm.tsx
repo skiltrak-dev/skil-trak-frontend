@@ -75,7 +75,7 @@ export const UpskillForm = ({
 
                             <TextArea
                                 label={
-                                    'Do you have any qualification in Hospitality or Commercial Cookery?'
+                                    'Do you have any qualifications in the fields we offer?'
                                 }
                                 name={'qualification'}
                                 placeholder={'Write your Answer in here...'}
@@ -85,7 +85,7 @@ export const UpskillForm = ({
                             />
                             <TextArea
                                 label={
-                                    'How much experience do you have in Hospitality or Commercial Cookery industry?'
+                                    'How much experience do you have in your relevant field?'
                                 }
                                 name={'hospitality'}
                                 placeholder={'Write your Answer in here...'}
