@@ -1,4 +1,4 @@
-import { Typography } from 'components/Typography'
+import { Typography } from '@components/Typography'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdKeyboardArrowDown, MdOutlineSwitchAccount } from 'react-icons/md'
 

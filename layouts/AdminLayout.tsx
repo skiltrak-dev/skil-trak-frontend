@@ -35,6 +35,7 @@ import { useRouter } from 'next/router'
 import { FaFileSignature } from 'react-icons/fa'
 import { BiLogoBlogger } from 'react-icons/bi'
 import { FaMapMarkedAlt } from 'react-icons/fa'
+import { PiTextTThin } from 'react-icons/pi'
 
 type Route = {
     type?: 'title' | 'divider'
@@ -149,6 +150,11 @@ const routes: Route[] = [
         text: 'Tickets',
         path: getRoutePath('/tickets?tab=my-open-tickets'),
         Icon: BsFillTicketDetailedFill,
+    },
+    {
+        text: 'Traineeship Program',
+        path: getRoutePath('/traineeship-program'),
+        Icon: PiTextTThin,
     },
     {
         text: 'Sub-Admin As Admin Activities',

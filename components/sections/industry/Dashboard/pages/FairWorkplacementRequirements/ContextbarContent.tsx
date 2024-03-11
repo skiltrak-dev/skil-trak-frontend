@@ -4,7 +4,7 @@ import {
   Typography,
   // OtherDocumentLinks,
   DisplayPrimaryActions,
-} from "components";
+} from "@components";
 import { PrimaryActions as DashboardPrimaryActions } from "../IndustryDashboardContainer";
 import { AdForRPL } from "../../../ApplyForRPL/AdForRPL";
 

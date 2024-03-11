@@ -18,6 +18,7 @@ import { studentAssessmentGalleryEndpoints } from './studentAssessmentGallery'
 import { LogoutType } from '@hooks'
 import { findWorkplaceEndpoints } from './findWorkplaces'
 import { eSignEndpoints } from './eSign'
+import { traineeshipProgramEndpoints } from './traineeshipProgram'
 
 export const commonApi = emptySplitApi.injectEndpoints({
     // ---------- COMMON ENDPOINTS ---------- //
@@ -260,6 +261,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
         ...impersonationEndpoints(build),
         ...allCommunicationEndpoints(build),
         ...changeProfileImageEndpoints(build),
+        ...traineeshipProgramEndpoints(build),
         ...studentAssessmentGalleryEndpoints(build),
     }),
     // overrideExisting: true,
@@ -467,6 +469,10 @@ const {
     useGetUserTemplateDocumentForSignQuery,
     useGetUserSignatureTabForTemplateQuery,
     useGetSubadminEsignDocumentsCountQuery,
+
+    // ---- Traineeship ---- //
+    useGetTraineeshipProgramQuery,
+    useAddTraineeshipProgramMutation,
 } = commonApi
 
 export const CommonApi = {
@@ -683,5 +689,9 @@ export const CommonApi = {
         addEmailCustomFieldData: useAddEmailCustomFieldDataMutation,
         useTemplateDocumentForSign: useGetUserTemplateDocumentForSignQuery,
         useSignatureTabForTemplate: useGetUserSignatureTabForTemplateQuery,
+    },
+    Traineeship: {
+        useGetList: useGetTraineeshipProgramQuery,
+        useAddTraineeship: useAddTraineeshipProgramMutation,
     },
 }

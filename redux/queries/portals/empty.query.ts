@@ -89,7 +89,7 @@ const studentTagTypes = [
     'StudentAppointments',
     'StudentAssessmentEvidence',
     'StudentAssessmentEvidence',
-    'TalentPoolRequiredDocs'
+    'TalentPoolRequiredDocs',
 ]
 
 const commonTagTypes = [
@@ -112,6 +112,7 @@ const commonTagTypes = [
     'Statistics',
     'BulkStatus',
     'MailsRecent',
+    'Traineeship',
     'Appointments',
     'Impersonation',
     'BulkUsersDelete',

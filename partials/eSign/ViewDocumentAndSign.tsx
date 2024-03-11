@@ -11,11 +11,11 @@ import { useAlert, useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
-import { SVGView, ScrollTabsView } from './components'
-import { EsignSignatureModal, FinishSignModal } from './modal'
-import { IoIosArrowDropright, IoMdArrowDropleftCircle } from 'react-icons/io'
 import { FaRegTimesCircle } from 'react-icons/fa'
 import { GiHamburgerMenu } from 'react-icons/gi'
+import { IoMdArrowDropleftCircle } from 'react-icons/io'
+import { SVGView, ScrollTabsView } from './components'
+import { EsignSignatureModal, FinishSignModal } from './modal'
 
 export const ViewDocumentAndSign = () => {
     const router = useRouter()

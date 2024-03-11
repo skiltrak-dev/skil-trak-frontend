@@ -36,7 +36,7 @@ export const SubscribeForm = ({
                             {...methods.register('email')}
                         />
 
-                        <div className="absolute z-20 top-1/2 -translate-y-1/2 right-1">
+                        <div className="absolute z-20 top-1/2 -translate-y-1/2 right-2">
                             <Button
                                 submit
                                 loading={result.isLoading}

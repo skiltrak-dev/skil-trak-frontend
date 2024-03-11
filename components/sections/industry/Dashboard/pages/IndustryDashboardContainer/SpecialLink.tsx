@@ -1,6 +1,6 @@
 
 
-import { Typography } from "components";
+import { Typography } from "@components";
 
 export const SpecialLink = ({
 	icon,
@@ -12,7 +12,7 @@ export const SpecialLink = ({
 		bg: "bg-gray-300",
 		light: false,
 	}
-}:any) => {
+}: any) => {
 	const Icon = icon;
 
 	return (
