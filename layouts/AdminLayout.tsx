@@ -35,6 +35,9 @@ import { useRouter } from 'next/router'
 import { FaFileSignature } from 'react-icons/fa'
 import { BiLogoBlogger } from 'react-icons/bi'
 import { FaMapMarkedAlt } from 'react-icons/fa'
+import { PiTextTThin } from 'react-icons/pi'
+import { LiaCertificateSolid } from "react-icons/lia";
+
 
 type Route = {
     type?: 'title' | 'divider'
@@ -84,6 +87,11 @@ const routes: Route[] = [
     {
         type: 'title',
         text: 'Management',
+    },
+    {
+        text: 'Talent Pool',
+        path: getRoutePath('/talent-pool?tab=all'),
+        Icon: LiaCertificateSolid,
     },
     {
         text: 'Workplace Request',
@@ -149,6 +157,11 @@ const routes: Route[] = [
         text: 'Tickets',
         path: getRoutePath('/tickets?tab=my-open-tickets'),
         Icon: BsFillTicketDetailedFill,
+    },
+    {
+        text: 'Traineeship Program',
+        path: getRoutePath('/traineeship-program'),
+        Icon: PiTextTThin,
     },
     {
         text: 'Sub-Admin As Admin Activities',

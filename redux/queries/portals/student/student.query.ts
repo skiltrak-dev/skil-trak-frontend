@@ -110,6 +110,7 @@ export const {
     useGetAcceptedTalentPoolIndustryProfileQuery,
     useGetTalentPoolRequiredDocsResponseQuery,
     useGetConnectionRequiredDocsQuery,
+    useUpdateTalentPoolProfileMutation,
 } = studentApi
 
 export const StudentApi = {
@@ -186,5 +187,6 @@ export const StudentApi = {
         useAcceptedTalentPoolIndustryProfile: useGetAcceptedTalentPoolIndustryProfileQuery,
         useRequiredDocsResponse: useGetTalentPoolRequiredDocsResponseQuery,
         useConnectionRequiredDocs: useGetConnectionRequiredDocsQuery,
+        useUpdateTalentPoolProfile: useUpdateTalentPoolProfileMutation,
     }
 }

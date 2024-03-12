@@ -1,3 +1,4 @@
+import { talentPoolEndpoints } from './talentPool';
 import { courseEndpoints } from './course'
 import { industryEndpoints } from './industry'
 
@@ -179,6 +180,7 @@ export const adminApi = emptySplitApi.injectEndpoints({
         ...subscriberEndpoints(build),
         ...industryRplEndpoints(build),
         ...appointmentTypeEndpoints(build),
+        ...talentPoolEndpoints(build),
     }),
     // overrideExisting: false,
 })
@@ -359,7 +361,10 @@ const {
     useAddDocumentsMutation,
     useGetDocumentsQuery,
 
-    // ---- ESIGN ---- //
+    // ---- TALENT POOL ---- //
+    useGetTalentPoolListQuery,
+    useDeleteTalentPoolProfileMutation,
+    useGetTalentPoolProfileQuery,
 } = adminApi
 
 export const AdminApi = {
@@ -530,4 +535,9 @@ export const AdminApi = {
         addDocuments: useAddDocumentsMutation,
         useGetDocuments: useGetDocumentsQuery,
     },
+    TalentPool:{
+        useTalentPoolRequests: useGetTalentPoolListQuery,
+        useDeleteTalentPoolProfile: useDeleteTalentPoolProfileMutation,
+        useGetTalentPoolProfile: useGetTalentPoolProfileQuery,
+    }
 }

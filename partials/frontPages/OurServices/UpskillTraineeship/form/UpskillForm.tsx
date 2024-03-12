@@ -2,18 +2,23 @@ import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, TextArea, TextInput } from '@components'
+import { useEffect } from 'react'
 
 export const UpskillForm = ({
     onSubmit,
+    result,
 }: {
+    result: any
     onSubmit: (values: any) => void
 }) => {
     const validationSchema = Yup.object({
-        name: Yup.string().required('Name is required!'),
+        fullName: Yup.string().required('Name is required!'),
         email: Yup.string()
             .email('Invalid Email')
             .required('Email is required!'),
-        phone: Yup.string().required('Phone is required!'),
+        phone: Yup.number()
+            .typeError('Phone must be a valid number')
+            .required('Phone is required!'),
         dob: Yup.string().required('DOB is required!'),
     })
 
@@ -21,6 +26,12 @@ export const UpskillForm = ({
         resolver: yupResolver(validationSchema),
         mode: 'all',
     })
+
+    useEffect(() => {
+        if (result?.isSuccess) {
+            methods.reset()
+        }
+    }, [result])
     return (
         <div>
             <FormProvider {...methods}>
@@ -32,7 +43,7 @@ export const UpskillForm = ({
                         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-x-3">
                             <TextInput
                                 label={'Full Name'}
-                                name={'name'}
+                                name={'fullName'}
                                 placeholder={'Input your full name in here...'}
                                 validationIcons
                                 required
@@ -87,7 +98,7 @@ export const UpskillForm = ({
                                 label={
                                     'How much experience do you have in your relevant field?'
                                 }
-                                name={'hospitality'}
+                                name={'experience'}
                                 placeholder={'Write your Answer in here...'}
                                 validationIcons
                                 required
@@ -97,7 +108,12 @@ export const UpskillForm = ({
                     </div>
 
                     <div className="mt-4 flex items-center justify-between w-3/5 mx-auto">
-                        <Button fullWidth submit>
+                        <Button
+                            fullWidth
+                            submit
+                            loading={result?.isLoading}
+                            disabled={result?.isLoading}
+                        >
                             Submit
                         </Button>
                     </div>

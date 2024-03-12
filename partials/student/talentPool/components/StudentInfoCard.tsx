@@ -127,7 +127,7 @@ export const StudentInfoCard = ({ profile, getSectors }: any) => {
                         Expected Graduation Date
                     </Typography>
                     <Typography variant="muted" color="text-[#374151]">
-                        {profile?.expiryDate.toString().slice(0, 10)}
+                        {profile?.expiryDate?.toString().slice(0, 10)}
                     </Typography>
                 </div>
             </div>

@@ -33,6 +33,14 @@ export const talentPoolEndpoints = (
         }),
         invalidatesTags: ['StudentProfile'],
     }),
+    updateTalentPoolProfile: builder.mutation<any, any>({
+        query: ({id, body}) => ({
+            url: `${PREFIX}/${id}/update`,
+            method: 'PATCH',
+            body
+        }),
+        invalidatesTags: ['StudentProfile'],
+    }),
     uploadTalentPoolRequiredDocs: builder.mutation<any, any>({
         query: ({ body, folderId }) => ({
             url: `${PREFIX}/required-document/response-file/upload/${folderId}`,

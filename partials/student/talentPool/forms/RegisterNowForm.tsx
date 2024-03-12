@@ -18,6 +18,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 // icons
 import { MdOutlineClose } from 'react-icons/md'
 import { useNotification } from '@hooks'
+import { InputErrorMessage } from '@components/inputs/components'
 
 const termsAndCondition = [
     {
@@ -54,25 +55,21 @@ type RegistrationFormProps = {
     setTags: any
     onSubmit: any
     applyForTalentPoolResult?: any
+    data?: any
 }
 export const RegisterNowForm = ({
     tags,
     setTags,
     onSubmit,
     applyForTalentPoolResult,
+    data,
 }: RegistrationFormProps) => {
-    // const [tags, setTags] = useState<any>({
-    //     links: [],
-    //     skills: [],
-    //     areaOfInterest: [],
-    // })
     const [shortDescriptionWordCount, setShortDescriptionWordCount] =
         useState(0)
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [agree, setAgree] = useState(false)
     const { notification } = useNotification()
     const validationSchema = yup.object().shape({
-        // about: yup.string().required('About Yourself is Required'),
         about: yup
             .string()
             .required('About Yourself is Required')
@@ -85,49 +82,20 @@ export const RegisterNowForm = ({
                     return wordCount <= 100
                 }
             ),
-        skills: yup
-            .array()
-            .min(1, 'At least one skill is required')
-            .required('Skills are required')
-            .test(
-                'only-letters',
-                'Only letters are allowed in skills',
-                (value) => {
-                    if (!value) return true
-                    return value.every((item) => /^[a-zA-Z]+$/.test(item))
-                }
-            ),
-        areaOfInterest: yup
-            .array()
-            .test(
-                'no-special-characters',
-                'Area of Interest should not contain special characters or numbers',
-                (value) => {
-                    if (!value) return true
-                    return value.every((item) => /^[^\W\d_]+$/.test(item))
-                }
-            ),
-        links: yup
-            .array()
-            .test(
-                'link-format',
-                'Links should be in a valid URL format',
-                (value) => {
-                    if (!value) return true
-                    return value.every((item) => {
-                        // Using a regex to validate URL format
-                        const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/
-                        return urlRegex.test(item)
-                    })
-                }
-            ),
+        links: yup.string().url('Invalid URL format'),
     })
 
     const methods = useForm({
         resolver: yupResolver(validationSchema),
+        defaultValues: {
+            about: data?.about || '',
+            skills: tags?.skills || [],
+            links: tags?.links || [],
+            areaOfInterest: tags?.areaOfInterest || [],
+        },
         mode: 'all',
     })
-    const { handleSubmit } = methods
+    const { handleSubmit, formState } = methods
 
     const handleTagEnter = (name: string, newTag: string) => {
         setTags((prevTags: any) => ({
@@ -200,19 +168,32 @@ export const RegisterNowForm = ({
     useEffect(() => {
         if (applyForTalentPoolResult.isSuccess) {
             notification.success({
-                title: 'Registration Successful',
+                title: 'Profile Updated Successful',
                 description:
-                    'Your registration for the Talent Pool was successful.',
+                    'Your profile for the Talent Pool is successfully updated.',
             })
             onSubmitForm()
         } else if (applyForTalentPoolResult.isError) {
             notification.error({
-                title: 'Registration Error',
+                title: 'Profile Update Error',
                 description:
-                    'There was an error while processing your registration. Please try again.',
+                    'There was an error while processing your profile update. Please try again.',
             })
         }
     }, [applyForTalentPoolResult])
+
+    const submitForm = () => {
+        const { setError } = methods
+
+        if (tags?.skills?.length === 0) {
+            setError('skills', {
+                type: 'skills',
+                message: 'Must enter your skills',
+            })
+            return
+        }
+        onSubmit(methods.getValues())
+    }
 
     return (
         <>
@@ -262,8 +243,16 @@ export const RegisterNowForm = ({
                                     name="skills"
                                     onTagEnter={handleTagEnter}
                                 />
+                                {/* <InputErrorMessage name='skills' /> */}
                             </div>
                             {/*  Skills */}
+                            {/* {data?.skills.length > 0 && (
+                                <LabelTag
+                                    tagName={'skills'}
+                                    tags={data?.skills}
+                                    handleRemoveTag={handleRemoveTag}
+                                />
+                            )} */}
                             {tags?.skills.length > 0 && (
                                 <LabelTag
                                     tagName={'skills'}
@@ -346,10 +335,12 @@ export const RegisterNowForm = ({
                         </Typography>
                     </div>
                     <Button
-                        text="Submit"
-                        onClick={() => {
-                            onSubmit(methods.getValues())
-                        }}
+                        text={`${
+                            data && Object.keys(data).length > 0
+                                ? 'Update'
+                                : 'Submit'
+                        }`}
+                        onClick={submitForm}
                         disabled={!agree}
                     />
                 </form>
