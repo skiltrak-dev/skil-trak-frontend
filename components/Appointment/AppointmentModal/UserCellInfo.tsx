@@ -22,9 +22,13 @@ export const UserCellInfo = ({ user }: { user: User }) => {
 
     const userProfile = user
         ? user?.role === UserRoles.SUBADMIN
-            ? profile[0]
+            ? profile && profile?.length > 0
+                ? profile[0]
+                : profile
             : profile
         : {}
+
+    console.log({ userProfile, profile })
     return (
         <div className="flex items-center relative">
             <div className="flex items-center gap-x-2">

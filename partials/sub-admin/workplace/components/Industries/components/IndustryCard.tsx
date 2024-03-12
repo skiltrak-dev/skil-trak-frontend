@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react'
 import { BsDot, BsUnlockFill } from 'react-icons/bs'
 
 // query
-import { useSubAdminApplyStudentWorkplaceMutation } from '@queries'
+import { SubAdminApi, useSubAdminApplyStudentWorkplaceMutation } from '@queries'
 import { useContextBar, useNotification } from '@hooks'
 import { PulseLoader } from 'react-spinners'
 import Link from 'next/link'
@@ -34,6 +34,10 @@ export const IndustryCard = ({
     const [modal, setModal] = useState<any | null>(null)
     const [applyForWorkplace, applyForWorkplaceResult] =
         useSubAdminApplyStudentWorkplaceMutation()
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: !UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+    })
 
     const contextBar = useContextBar()
 
@@ -84,7 +88,7 @@ export const IndustryCard = ({
                 <div className="flex flex-col lg:flex-row justify-between lg:items-center">
                     <Link
                         href={
-                            role === UserRoles.ADMIN
+                            role === UserRoles.ADMIN || subadmin?.data?.isAdmin
                                 ? `/portals/admin/industry/${industry?.industry?.id}?tab=sectors`
                                 : role === UserRoles.SUBADMIN
                                 ? `/portals/sub-admin/users/industries/${industry?.industry?.id}?tab=overview`

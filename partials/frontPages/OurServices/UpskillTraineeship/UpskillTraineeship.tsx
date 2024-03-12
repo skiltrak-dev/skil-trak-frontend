@@ -52,13 +52,12 @@ export const UpskillTraineeship = () => {
                                 variant={isMobile ? 'label' : 'body'}
                                 color={'text-[#56585a]'}
                             >
-                                Are you a skilled hospitality professional
-                                seeking new opportunities and experiences? Look
-                                no further! Our invitation is extended to the
-                                overseas Hospitality Industry and commercial
-                                cookery workers working anywhere outside
-                                Australia like you, eager to elevate your career
-                                in the vibrant Australian hospitality scene.
+                                Are you a skilled professional seeking new
+                                opportunities and experiences? Look no further!
+                                Our invitation is extended to overseas workers
+                                working anywhere outside Australia like you and,
+                                eager to elevate your career in the vibrant
+                                Australian Market scene.
                             </Typography>
                         </div>
                     </div>
