@@ -60,11 +60,10 @@ export const WorkBaseTraining = () => {
                                 variant={isMobile ? 'label' : 'body'}
                                 color={'text-[#56585a]'}
                             >
-                                Welcome to our Work Based Training (WBT)
-                                program, where we connect students, Registered
-                                Training Organisations (RTOs), and industries,
-                                ensuring a symbiotic relationship that benefits
-                                all parties involved.
+                                Where we connect students, Registered Training
+                                Organisations (RTOs), and industries, ensuring a
+                                symbiotic relationship that benefits all parties
+                                involved.
                             </Typography>
                         </div>
                     </div>
