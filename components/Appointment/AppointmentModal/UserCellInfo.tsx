@@ -28,7 +28,6 @@ export const UserCellInfo = ({ user }: { user: User }) => {
             : profile
         : {}
 
-    console.log({ userProfile, profile })
     return (
         <div className="flex items-center relative">
             <div className="flex items-center gap-x-2">
