@@ -36,6 +36,8 @@ import { FaFileSignature } from 'react-icons/fa'
 import { BiLogoBlogger } from 'react-icons/bi'
 import { FaMapMarkedAlt } from 'react-icons/fa'
 import { PiTextTThin } from 'react-icons/pi'
+import { LiaCertificateSolid } from "react-icons/lia";
+
 
 type Route = {
     type?: 'title' | 'divider'
@@ -85,6 +87,11 @@ const routes: Route[] = [
     {
         type: 'title',
         text: 'Management',
+    },
+    {
+        text: 'Talent Pool',
+        path: getRoutePath('/talent-pool?tab=all'),
+        Icon: LiaCertificateSolid,
     },
     {
         text: 'Workplace Request',

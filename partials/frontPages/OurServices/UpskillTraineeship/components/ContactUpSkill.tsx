@@ -20,7 +20,6 @@ export const ContactUpSkill = () => {
 
         // Calculate the age using moment
         var age = Number(currentDate.diff(dob, 'years'))
-        console.log({ age })
 
         addTraineeship({ ...values, age })?.then((res: any) => {
             if (res?.data) {

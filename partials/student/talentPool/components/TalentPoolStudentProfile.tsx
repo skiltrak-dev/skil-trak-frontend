@@ -2,8 +2,12 @@ import { Avatar, InitialAvatar, StudentAvatar, Typography } from '@components'
 import { SkillsTag } from './SkillsTag'
 import { useMemo } from 'react'
 import { getGender } from '@utils'
+import Link from 'next/link'
+import { AiFillEdit } from 'react-icons/ai'
+import { useRouter } from 'next/router'
 
 export const TalentPoolStudentProfile = ({ data }: any) => {
+    const router = useRouter()
     const getSectors = useMemo(() => {
         return data?.student?.courses?.map((course: any) => course?.sector)
     }, [data])
@@ -14,12 +18,24 @@ export const TalentPoolStudentProfile = ({ data }: any) => {
                 {/* Col - 1 */}
                 <div className="flex flex-col gap-y-5 mt-6 md:w-1/3">
                     <div className="flex items-center gap-x-5">
-                        <div className="">
+                        <div className="relative">
                             <StudentAvatar
                                 imageUrl=""
                                 name={`${data?.student?.user?.name}`}
                                 gender={`${data?.student?.gender}`}
                             />
+                            {router.pathname !==
+                                '/portals/admin/talent-pool/[id]' && (
+                                <div className="absolute top-0 right-0 bg-primary rounded-full p-2">
+                                    <Link
+                                        href={
+                                            '/portals/student/talent-pool/edit-profile'
+                                        }
+                                    >
+                                        <AiFillEdit className="text-white" />
+                                    </Link>
+                                </div>
+                            )}
                         </div>
                         <div>
                             <Typography variant="title" color="text-white">
@@ -30,7 +46,9 @@ export const TalentPoolStudentProfile = ({ data }: any) => {
                                     Profile Status:
                                 </Typography>
                                 <Typography variant="small" color="text-white">
-                                    Approved
+                                    {data?.status === 'approved'
+                                        ? 'Approved'
+                                        : 'N/A'}
                                 </Typography>
                             </div>
                         </div>
@@ -41,11 +59,11 @@ export const TalentPoolStudentProfile = ({ data }: any) => {
                             Sector
                         </Typography>
                         {getSectors && getSectors.length > 0 ? (
-                            <Typography variant="muted" color={"text-white"}>
+                            <Typography variant="muted" color={'text-white'}>
                                 {getSectors[0]?.name}
                             </Typography>
                         ) : (
-                            <Typography variant="muted" color={"text-white"}>
+                            <Typography variant="muted" color={'text-white'}>
                                 No sectors found
                             </Typography>
                         )}
@@ -177,11 +195,17 @@ export const TalentPoolStudentProfile = ({ data }: any) => {
                             </Typography>
 
                             {getSectors && getSectors.length > 0 ? (
-                                <Typography variant="muted" color={"text-white"}>
+                                <Typography
+                                    variant="muted"
+                                    color={'text-white'}
+                                >
                                     {getSectors[0]?.name}
                                 </Typography>
                             ) : (
-                                <Typography variant="muted" color={"text-white"}>
+                                <Typography
+                                    variant="muted"
+                                    color={'text-white'}
+                                >
                                     No sectors found
                                 </Typography>
                             )}
@@ -192,7 +216,9 @@ export const TalentPoolStudentProfile = ({ data }: any) => {
                                 Expected Graduation Date
                             </Typography>
                             <Typography variant="xs" color="text-white">
-                                {data?.expiryDate?.toString().slice(0, 10) || 'N/A'}
+                                {data?.student?.expiryDate
+                                    ?.toString()
+                                    .slice(0, 10) || 'N/A'}
                             </Typography>
                         </div>
                     </div>

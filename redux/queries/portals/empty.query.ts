@@ -28,6 +28,7 @@ const adminTagTypes = [
     'BlogCategories',
     'AppointmentTypes',
     'AutoAssignWorkplace',
+    'TalentPoolProfiles'
 ]
 
 const subadminTagTypes = [

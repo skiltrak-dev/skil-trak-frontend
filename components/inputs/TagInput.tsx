@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { Controller, useForm, useFormContext } from 'react-hook-form'
 import { FaPlus } from 'react-icons/fa6'
+import { InputErrorMessage } from './components'
 
 export const TagInput = ({ name, onTagEnter, type }: any) => {
     const [tagInput, setTagInput] = useState('')
+    const { setError } = useFormContext();
     const methods = useForm()
     const { handleSubmit, control } = methods
     const handleKeyPress = (e: any) => {
@@ -13,6 +15,24 @@ export const TagInput = ({ name, onTagEnter, type }: any) => {
             e.preventDefault() // Prevent form submission on Enter
         }
     }
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        if (name === 'links' && !/^(ftp|http|https):\/\/[^ "]+$/.test(value)) {
+            setError(name, {
+                type: 'url',
+                message: 'Invalid URL format',
+            });
+        } else if ((name === 'skills' || name === 'areaOfInterest') && !/^[a-zA-Z\s]*$/.test(value)) {
+            setError(name, {
+                type: 'invalid',
+                message: `${name} should not contain special characters or numbers`,
+            });
+        } else {
+            setError(name, {}); // Pass an empty object to clear the error
+        }
+        setTagInput(value);
+    }
+    
 
     // On Click
     const handleAddClick = (e: any) => {
@@ -24,30 +44,34 @@ export const TagInput = ({ name, onTagEnter, type }: any) => {
     }
 
     return (
-        <div className="flex my-2.5">
-            <Controller
-                name={name}
-                control={control}
-                render={({ field }) => (
-                    <input
-                        {...field}
-                        type={type || 'text'}
-                        placeholder={`Enter ${name} and press Enter`}
-                        value={tagInput}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            setTagInput(e.target.value)
-                        }
-                        onKeyDown={handleKeyPress}
-                        className="border p-2.5 text-xs py-1 focus:outline-none w-full rounded-md h-8"
-                    />
-                )}
-            />
-            <button
-                className="bg-[#24556D] px-3 py-1.5 -ml-1 rounded-md"
-                onClick={handleAddClick}
-            >
-                <FaPlus className="text-white" />
-            </button>
-        </div>
+        <>
+            <div className="flex my-2.5">
+                <Controller
+                    name={name}
+                    control={control}
+                    render={({ field }) => (
+                        <input
+                            {...field}
+                            type={type || 'text'}
+                            placeholder={`Enter ${name} and press Enter`}
+                            value={tagInput}
+                            // onChange={(
+                            //     e: React.ChangeEvent<HTMLInputElement>
+                            // ) => setTagInput(e.target.value)}
+                            onChange={handleInputChange}
+                            onKeyDown={handleKeyPress}
+                            className="border p-2.5 text-xs py-1 focus:outline-none w-full rounded-md h-8"
+                        />
+                    )}
+                />
+                <button
+                    className="bg-[#24556D] px-3 py-1.5 -ml-1 rounded-md"
+                    onClick={handleAddClick}
+                >
+                    <FaPlus className="text-white" />
+                </button>
+            </div>
+            <InputErrorMessage name={name} />
+        </>
     )
 }

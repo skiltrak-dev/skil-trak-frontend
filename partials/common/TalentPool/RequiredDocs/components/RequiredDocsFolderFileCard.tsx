@@ -47,7 +47,6 @@ export const RequiredDocsFolderFileCard = ({
         .replaceAll('"}', '')
         ?.split('.')
         .reverse()[0]
-    console.log('file', file)
 
     return (
         <div className="relative w-full file-view-group">
