@@ -24,8 +24,9 @@ export const ContactUpSkill = () => {
         addTraineeship({ ...values, age })?.then((res: any) => {
             if (res?.data) {
                 notification.success({
-                    title: 'Traineeship Added',
-                    description: 'Traineeship Added Successfuly',
+                    title: 'Traineeship Query Sent',
+                    description:
+                        'Your inquiry has been submitted to our administrator',
                 })
             }
         })

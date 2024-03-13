@@ -31,6 +31,7 @@ export type SelectProps = {
     menuPlacement?: MenuPlacement
     components?: any
     formatOptionLabel?: any
+    showError?: boolean
 } & InputProps
 
 export const Select = forwardRef(
@@ -62,6 +63,7 @@ export const Select = forwardRef(
             components,
             menuPlacement,
             formatOptionLabel,
+            showError = true,
         }: SelectProps,
         ref: any
     ) => {
@@ -248,7 +250,7 @@ export const Select = forwardRef(
                     {validationIcons && <ValidationIcon name={name} />}
                 </div>
 
-                <InputErrorMessage name={name} />
+                {showError && <InputErrorMessage name={name} />}
 
                 <HelpText text={helpText} />
             </div>

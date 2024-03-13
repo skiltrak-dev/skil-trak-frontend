@@ -89,9 +89,9 @@ const RequiredDocsPage: NextPageWithLayout = () => {
                             getAssessmentResponse={getRequiredDocsResponse}
                         /> */}
                                         {data?.status ===
-                                            TalentPoolStatusEnum.REQUESTED ||
+                                            TalentPoolStatusEnum.Requested ||
                                         data?.status ===
-                                            TalentPoolStatusEnum.REJECTED ? (
+                                            TalentPoolStatusEnum.Rejected ? (
                                             <div className="flex justify-center mx-10 items-center mt-[20%] border-2 border-dashed border-gray-300 px-8 py-20">
                                                 <span className="text-gray-300 text-sm font-medium">
                                                     You can upload documents

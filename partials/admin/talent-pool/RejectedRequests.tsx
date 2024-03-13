@@ -136,7 +136,7 @@ export const RejectedRequests = () => {
     const tableActionOptions = (industry: any) => {
         let options = []
 
-        if (industry.request_status === TalentPoolStatusEnum.REQUESTED) {
+        if (industry.request_status === TalentPoolStatusEnum.Requested) {
             options.push(
                 {
                     text: 'Accept',
@@ -149,16 +149,15 @@ export const RejectedRequests = () => {
                     onClick: () => onCancelClicked(industry),
                     Icon: BsArchiveFill,
                     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-                },
-                
+                }
             )
         } else if (
-            industry.request_status === TalentPoolStatusEnum.CONNECTED ||
-            industry.request_status === TalentPoolStatusEnum.REJECTED
+            industry.request_status === TalentPoolStatusEnum.Connected ||
+            industry.request_status === TalentPoolStatusEnum.Rejected
         ) {
             // do nothing
         }
-        // if (industry.request_status === TalentPoolStatusEnum.REQUESTED) {
+        // if (industry.request_status === TalentPoolStatusEnum.Requested) {
         //     options.push({
         //         text: 'View',
         //         onClick: () => {
@@ -166,7 +165,7 @@ export const RejectedRequests = () => {
         //         },
         //         Icon: FaEye,
         //     })
-        // } else if (industry.request_status === TalentPoolStatusEnum.CONNECTED) {
+        // } else if (industry.request_status === TalentPoolStatusEnum.Connected) {
         //     options.push({
         //         text: 'View',
         //         onClick: () => {
@@ -215,8 +214,9 @@ export const RejectedRequests = () => {
                 return (
                     <div className="whitespace-nowrap">
                         {info?.row?.original?.request_status ===
-                        TalentPoolStatusEnum.CONNECTED || info?.row?.original?.request_status ===
-                        TalentPoolStatusEnum.HIRED ? (
+                            TalentPoolStatusEnum.Connected ||
+                        info?.row?.original?.request_status ===
+                            TalentPoolStatusEnum.Hired ? (
                             <Typography variant="small">
                                 {info?.row?.original?.email || 'N/A'}
                             </Typography>
@@ -249,8 +249,9 @@ export const RejectedRequests = () => {
                 return (
                     <div className="whitespace-nowrap">
                         {info.row.original.request_status ===
-                        TalentPoolStatusEnum.CONNECTED || info?.row?.original?.request_status ===
-                        TalentPoolStatusEnum.HIRED ? (
+                            TalentPoolStatusEnum.Connected ||
+                        info?.row?.original?.request_status ===
+                            TalentPoolStatusEnum.Hired ? (
                             <Typography variant="small">
                                 {info?.row?.original?.phonenumber || 'N/A'}
                             </Typography>
@@ -296,7 +297,7 @@ export const RejectedRequests = () => {
                 return (
                     <div className="">
                         {info?.row?.original?.request_status ===
-                        TalentPoolStatusEnum.CONNECTED  ? (
+                        TalentPoolStatusEnum.Connected ? (
                             <Typography
                                 variant="small"
                                 color={'text-green-500'}
@@ -304,24 +305,26 @@ export const RejectedRequests = () => {
                                 Connected
                             </Typography>
                         ) : info?.row?.original?.request_status ===
-                          TalentPoolStatusEnum.REJECTED ? (
+                          TalentPoolStatusEnum.Rejected ? (
                             <Typography variant="small" color={'text-red-500'}>
                                 Rejected
                             </Typography>
-                        ) :  info?.row?.original?.request_status ===
-                        TalentPoolStatusEnum.HIRED ? (
+                        ) : info?.row?.original?.request_status ===
+                          TalentPoolStatusEnum.Hired ? (
                             <Typography
                                 variant="small"
                                 color={'text-green-500'}
                             >
                                 Hired
                             </Typography>
-                        ): (<Typography
-                            variant="small"
-                            color={'text-yellow-500'}
-                        >
-                            Pending
-                        </Typography>)}
+                        ) : (
+                            <Typography
+                                variant="small"
+                                color={'text-yellow-500'}
+                            >
+                                Pending
+                            </Typography>
+                        )}
                     </div>
                 )
             },
@@ -341,30 +344,6 @@ export const RejectedRequests = () => {
         },
     ]
 
-    const quickActionsElements = {
-        id: 'id',
-        individual: (id: any) => (
-            <div className="flex gap-x-2">
-                <ActionButton variant="success" onClick={() => {}}>
-                    Accept
-                </ActionButton>
-                <ActionButton variant="error" onClick={() => {}}>
-                    Reject
-                </ActionButton>
-            </div>
-        ),
-        common: (ids: any[]) => (
-            <ActionButton
-                onClick={() => {
-                    const arrayOfIds = ids.map((id: any) => id?.user.id)
-                    // bulkAction({ ids: arrayOfIds, status: 'archived' })
-                }}
-                variant="error"
-            >
-                Archive
-            </ActionButton>
-        ),
-    }
     return (
         <>
             {modal && modal}
@@ -381,12 +360,7 @@ export const RejectedRequests = () => {
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
-                    <Table
-                        columns={columns}
-                        data={data.data}
-                        // quickActions={quickActionsElements}
-                        enableRowSelection
-                    >
+                    <Table columns={columns} data={data.data}>
                         {({
                             table,
                             pagination,
@@ -409,7 +383,9 @@ export const RejectedRequests = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="px-6 overflow-x-scroll remove-scrollbar">{table}</div>
+                                    <div className="px-6 overflow-x-scroll remove-scrollbar">
+                                        {table}
+                                    </div>
                                 </div>
                             )
                         }}
@@ -427,4 +403,3 @@ export const RejectedRequests = () => {
         </>
     )
 }
-

@@ -1,191 +1,203 @@
 import { ReactElement, useEffect, useState } from 'react'
 
-import {
-    Button,
-    Filter,
-    LoadingAnimation,
-    SetDetaultQueryFilteres,
-    SubAdminFilters,
-    TabNavigation,
-    TabProps,
-    TechnicalError,
-} from '@components'
+import { TabNavigation, TabProps, Typography } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import {
-    ActiveSubAdmin,
-    ArchivedSubAdmin,
-    BlockedSubAdmin,
-    FilteredSubAdmins,
-} from '@partials/admin/sub-admin'
-import { AddSubAdminCB } from '@partials/admin/sub-admin/contextBar'
-import { AdminApi } from '@queries'
-import { AdminSubadminFilter, NextPageWithLayout, UserStatus } from '@types'
-import { checkFilteredDataLength, removeSpecialCharactersString } from '@utils'
-import {
+    FilteredTalentPoolRequests,
     HiredStudents,
     RejectedRequests,
-    TalentPoolPendingRequests,
     TalentPoolApprovedRequests,
+    TalentPoolDropdown,
+    TalentPoolPendingRequests,
     TerminatedRequests,
 } from '@partials/admin/talent-pool'
+import { AdminApi, AuthApi } from '@queries'
+import { NextPageWithLayout, OptionType } from '@types'
+import { useRouter } from 'next/router'
+import { TalentPoolProfileStatus, TalentPoolStatusEnum } from '@utils'
 
-const filterKeys = ['name', 'email', 'status', 'courseId']
+const tabs: TabProps[] = [
+    {
+        label: 'Pending',
+        href: {
+            pathname: 'talent-pool',
+            query: { tab: 'pending', page: 1, pageSize: 50 },
+        },
+        element: <TalentPoolPendingRequests />,
+    },
+    {
+        label: 'All Requests',
+        href: {
+            pathname: 'talent-pool',
+            query: { tab: 'all', page: 1, pageSize: 50 },
+        },
+        element: <TalentPoolApprovedRequests />,
+    },
+    {
+        label: 'Rejected',
+        href: {
+            pathname: 'talent-pool',
+            query: { tab: 'rejected', page: 1, pageSize: 50 },
+        },
+        element: <RejectedRequests />,
+    },
+    {
+        label: 'Hired',
+        href: {
+            pathname: 'talent-pool',
+            query: { tab: 'hired', page: 1, pageSize: 50 },
+        },
+        element: <HiredStudents />,
+    },
+    {
+        label: 'Terminated',
+        href: {
+            pathname: 'talent-pool',
+            query: { tab: 'terminated', page: 1, pageSize: 50 },
+        },
+        element: <TerminatedRequests />,
+    },
+]
 
 const TalentPoolList: NextPageWithLayout = () => {
     const navBar = useNavbar()
     const contextBar = useContextBar()
+    const router = useRouter()
 
     const [filterAction, setFilterAction] = useState(null)
+    const [selectedSector, setSelectedSector] = useState<OptionType | null>(
+        null
+    )
+    const [selectedTalentPool, setSelectedTalentPool] =
+        useState<TalentPoolProfileStatus>(TalentPoolProfileStatus.All)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    // const [filter, setFilter] = useState<AdminSubadminFilter>(
-    //     {} as AdminSubadminFilter
-    // )
 
-    // const filteredSubAdmins = AdminApi.SubAdmins.useListQuery({
-    //     search: `${JSON.stringify(filter)
-    //         .replaceAll('{', '')
-    //         .replaceAll('}', '')
-    //         .replaceAll('"', '')
-    //         .trim()}`,
-    //     skip: itemPerPage * page - itemPerPage,
-    //     limit: itemPerPage,
-    // })
-    const { isLoading, data } = AdminApi.SubAdmins.useCountQuery(undefined, {
-        refetchOnFocus: true,
-        refetchOnMountOrArgChange: true,
-    })
-
-    useEffect(() => {
-        navBar.setTitle('Talent Pool')
-    }, [])
-
-    useEffect(() => {
-        navBar.setTitle('Talent Pool')
-    }, [])
-
-    const tabs: TabProps[] = [
-        // {
-        //     label: 'Pending',
-        //     href: {
-        //         pathname: 'talent-pool',
-        //         query: { tab: 'pending', page: 1, pageSize: 50 },
-        //     },
-        //     // badge: {
-        //     //     text: data?.approved,
-        //     //     loading: isLoading,
-        //     // },
-        //     element: <TalentPoolPendingRequests />,
-        // },
-
+    const talentPool = AdminApi.TalentPool.useTalentPoolRequests(
         {
-            label: 'All Requests',
-            href: {
-                pathname: 'talent-pool',
-                query: { tab: 'all', page: 1, pageSize: 50 },
-            },
-            // badge: {
-            //     text: data?.blocked,
-            //     loading: isLoading,
-            // },
-            element: <TalentPoolApprovedRequests />,
+            search: `${JSON.stringify({
+                status:
+                    selectedTalentPool !== TalentPoolProfileStatus.All
+                        ? selectedTalentPool
+                        : null,
+                sectorId: selectedSector?.value,
+            })
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
         },
-        // {
-        //     label: 'Rejected',
-        //     href: {
-        //         pathname: 'talent-pool',
-        //         query: { tab: 'rejected', page: 1, pageSize: 50 },
-        //     },
-        //     // badge: {
-        //     //     text: data?.blocked,
-        //     //     loading: isLoading,
-        //     // },
-        //     element: <RejectedRequests />,
-        // },
-        // {
-        //     label: 'Hired',
-        //     href: {
-        //         pathname: 'talent-pool',
-        //         query: { tab: 'hired', page: 1, pageSize: 50 },
-        //     },
-        //     // badge: {
-        //     //     text: data?.blocked,
-        //     //     loading: isLoading,
-        //     // },
-        //     element: <HiredStudents />,
-        // },
-        // {
-        //     label: 'Terminated',
-        //     href: {
-        //         pathname: 'talent-pool',
-        //         query: { tab: 'terminated', page: 1, pageSize: 50 },
-        //     },
-        //     // badge: {
-        //     //     text: data?.blocked,
-        //     //     loading: isLoading,
-        //     // },
-        //     element: <TerminatedRequests />,
-        // },
-    ]
+        {
+            refetchOnMountOrArgChange: true,
+        }
+    )
 
-    // const filteredDataLength = checkFilteredDataLength(filter)
+    useEffect(() => {
+        setPage(Number(router.query?.page || 1))
+        setItemPerPage(Number(router.query?.pageSize || 50))
+    }, [router])
+
+    const getSectors = AuthApi.useSectors({})
+
+    useEffect(() => {
+        navBar.setTitle('Talent Pool')
+    }, [])
+
+    useEffect(() => {
+        navBar.setTitle('Talent Pool')
+    }, [])
+
+    const sectorOptions = getSectors.data?.map((sector: any) => ({
+        label: `${sector?.code} - ${sector?.name}`,
+        value: sector.id,
+    }))
 
     return (
         <div>
-            {/* <SetDetaultQueryFilteres<AdminSubadminFilter>
-                filterKeys={filterKeys}
-                setFilter={setFilter}
-            />
-            <div className="px-4">
-                <div className="flex justify-end mb-2">{filterAction}</div>
-                <Filter<AdminSubadminFilter>
-                    component={SubAdminFilters}
-                    initialValues={filter}
-                    setFilterAction={setFilterAction}
-                    setFilter={setFilter}
-                    filterKeys={filterKeys}
-                />
-            </div> */}
-
-            {/* {filteredDataLength && filteredSubAdmins.isError && (
-                <TechnicalError />
-            )} */}
-            {/* {filteredDataLength ? (
-                filteredSubAdmins.isLoading ? (
-                    <LoadingAnimation />
-                ) : (
-                    filteredSubAdmins.isSuccess && (
-                        <FilteredSubAdmins
-                            setPage={setPage}
-                            itemPerPage={itemPerPage}
-                            subAdmin={filteredSubAdmins}
-                            setItemPerPage={setItemPerPage}
-                        />
-                    )
-                )
-            ) : null} */}
-            {/* {!filteredDataLength && ( */}
-            <TabNavigation tabs={tabs}>
-                {({ header, element }: any) => {
-                    return (
-                        <div>
-                            <div className="flex items-end justify-between">
-                                <div className="flex-grow">{header}</div>
-                                <div className="px-6">
-                                    {/* <Button
-                                            text={'Add Sub Admin'}
-                                            variant={'primary'}
-                                            onClick={onAddSubAdmin}
-                                        /> */}
-                                </div>
-                            </div>
-                            <div className="p-4">{element}</div>
+            <div className="p-6">
+                <div className="shadow-[0px_4px_16px_0px_rgba(0,0,0,0.05)] rounded-md">
+                    <div className="flex items-center justify-between border-b border-secondary-dark p-3.5">
+                        <Typography variant="subtitle">
+                            Registration Request
+                        </Typography>
+                        <div className="flex items-center gap-x-5">
+                            <TalentPoolDropdown
+                                title="Sector"
+                                selected={
+                                    selectedSector?.label ||
+                                    'Search by sector...'
+                                }
+                                onClear={() => {
+                                    setSelectedSector(null)
+                                }}
+                                dropDown={() => (
+                                    <div>
+                                        {sectorOptions?.map(
+                                            (sector: OptionType) => (
+                                                <div
+                                                    key={Number(sector.value)}
+                                                    onClick={() => {
+                                                        setSelectedSector(
+                                                            sector
+                                                        )
+                                                    }}
+                                                    className="hover:bg-gray-200 py-2 border-b border-secondary-dark px-2 cursor-pointer"
+                                                >
+                                                    <Typography variant="small">
+                                                        {sector?.label}
+                                                    </Typography>
+                                                </div>
+                                            )
+                                        )}
+                                    </div>
+                                )}
+                            />
+                            <TalentPoolDropdown
+                                title="Showing Results"
+                                selected={selectedTalentPool?.toLocaleUpperCase()}
+                                dropDown={() => {
+                                    return (
+                                        <div>
+                                            {Object.entries(
+                                                TalentPoolProfileStatus
+                                            )?.map(([key, value]: any) => (
+                                                <div
+                                                    key={key}
+                                                    onClick={() => {
+                                                        setSelectedTalentPool(
+                                                            value
+                                                        )
+                                                    }}
+                                                    className={`${
+                                                        key ===
+                                                        selectedTalentPool
+                                                            ? 'bg-gray-200'
+                                                            : ''
+                                                    } hover:bg-gray-200 py-2 border-b border-secondary-dark px-2 cursor-pointer`}
+                                                >
+                                                    <Typography variant="small">
+                                                        {key}
+                                                    </Typography>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )
+                                }}
+                            />
                         </div>
-                    )
-                }}
-            </TabNavigation>
-            {/* )} */}
+                    </div>
+
+                    <FilteredTalentPoolRequests
+                        setPage={setPage}
+                        itemPerPage={itemPerPage}
+                        talentPoolData={talentPool}
+                        setItemPerPage={setItemPerPage}
+                    />
+                </div>
+            </div>
         </div>
     )
 }

@@ -8,7 +8,6 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { AdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
@@ -19,30 +18,20 @@ import { TalentPoolNotification } from '@partials/common/TalentPool'
 import { TalentPoolStatusEnum, isBrowser } from '@utils'
 import { ApprovedModal, DeleteProfileModal } from './modals'
 
-export const TalentPoolApprovedRequests = () => {
+export const FilteredTalentPoolRequests = ({
+    talentPoolData,
+    setPage,
+    itemPerPage,
+    setItemPerPage,
+}: {
+    setPage: any
+    itemPerPage: any
+    setItemPerPage: any
+    talentPoolData: any
+}) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [view, setView] = useState<boolean>(false)
     const router = useRouter()
-
-    const [itemPerPage, setItemPerPage] = useState(50)
-    const [page, setPage] = useState(1)
-
-    useEffect(() => {
-        setPage(Number(router.query?.page || 1))
-        setItemPerPage(Number(router.query?.pageSize || 50))
-    }, [router])
-
-    const { isLoading, isFetching, data, isError, refetch } =
-        AdminApi.TalentPool.useTalentPoolRequests(
-            {
-                search: `status:hired`,
-                skip: itemPerPage * page - itemPerPage,
-                limit: itemPerPage,
-            },
-            {
-                refetchOnMountOrArgChange: true,
-            }
-        )
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -218,11 +207,12 @@ export const TalentPoolApprovedRequests = () => {
                 />
             )}
             <div>
-                {isError && <TechnicalError />}
-                {isLoading || isFetching ? (
+                {talentPoolData.isError && <TechnicalError />}
+                {talentPoolData.isLoading || talentPoolData.isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length ? (
-                    <Table columns={columns} data={data.data}>
+                ) : talentPoolData.data &&
+                  talentPoolData?.data?.data?.length ? (
+                    <Table columns={columns} data={talentPoolData?.data?.data}>
                         {({
                             table,
                             pagination,
@@ -235,12 +225,13 @@ export const TalentPoolApprovedRequests = () => {
                                         {pageSize(
                                             itemPerPage,
                                             setItemPerPage,
-                                            data?.data.length
+                                            talentPoolData?.data?.data?.length
                                         )}
                                         <div className="flex gap-x-2">
                                             {quickActions}
                                             {pagination(
-                                                data?.pagination,
+                                                talentPoolData?.data
+                                                    ?.pagination,
                                                 setPage
                                             )}
                                         </div>
@@ -253,7 +244,7 @@ export const TalentPoolApprovedRequests = () => {
                         }}
                     </Table>
                 ) : (
-                    !isError && (
+                    !talentPoolData.isError && (
                         <EmptyData
                             title={'No Active Profiles'}
                             description={'You have no Active Profiles'}

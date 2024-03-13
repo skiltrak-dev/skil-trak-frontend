@@ -17,21 +17,18 @@ import { useState } from 'react'
 import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
 import { StudentCellInfo } from '../student/components'
 
-export const AllTickets = () => {
-    const [itemPerPage, setItemPerPage] = useState(50)
-    const [page, setPage] = useState(1)
-
+export const FilteredTickets = ({
+    setPage,
+    itemPerPage,
+    tickets,
+    setItemPerPage,
+}: {
+    setPage: any
+    itemPerPage: any
+    tickets: any
+    setItemPerPage: any
+}) => {
     const router = useRouter()
-
-    const { isLoading, isFetching, data, isError } =
-        CommonApi.Tickets.useGetAllTicket(
-            {
-                skip: itemPerPage * page - itemPerPage,
-                limit: itemPerPage,
-                search: '',
-            },
-            { refetchOnMountOrArgChange: true }
-        )
 
     const tableActionOptions: TableActionOption[] = [
         {
@@ -134,11 +131,11 @@ export const AllTickets = () => {
     return (
         <div>
             <Card noPadding>
-                {isError && <TechnicalError />}
-                {isLoading || isFetching ? (
+                {tickets.isError && <TechnicalError />}
+                {tickets.isLoading || tickets.isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length ? (
-                    <Table columns={columns} data={data.data}>
+                ) : tickets.data && tickets.data?.data?.length ? (
+                    <Table columns={columns} data={tickets.data?.data}>
                         {({
                             table,
                             pagination,
@@ -151,12 +148,12 @@ export const AllTickets = () => {
                                         {pageSize(
                                             itemPerPage,
                                             setItemPerPage,
-                                            data?.data?.length
+                                            tickets.data?.data?.length
                                         )}
                                         <div className="flex gap-x-2">
                                             {quickActions}
                                             {pagination(
-                                                data?.pagination,
+                                                tickets.data?.pagination,
                                                 setPage
                                             )}
                                         </div>
@@ -171,7 +168,7 @@ export const AllTickets = () => {
                         }}
                     </Table>
                 ) : (
-                    !isError && (
+                    !tickets.isError && (
                         <EmptyData
                             title={'No Tickets!'}
                             description={'You have not Tickets request yet'}

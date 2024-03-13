@@ -1,5 +1,6 @@
 import { Typography } from '@components'
 import { UserRoles } from '@constants'
+import { SubAdminApi } from '@queries'
 import { ellipsisText, getUserCredentials } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
@@ -9,10 +10,15 @@ import React from 'react'
 export const TicketSubject = ({ ticket }: { ticket: any }) => {
     const role = getUserCredentials()?.role
 
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: !UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+    })
+
     return (
         <Link
             href={
-                role === UserRoles.ADMIN
+                role === UserRoles.ADMIN || subadmin?.data?.isAdmin
                     ? `/portals/admin/tickets/detail/${ticket?.id}`
                     : role === UserRoles.SUBADMIN
                     ? `/portals/sub-admin/tickets/detail/${ticket?.id}`

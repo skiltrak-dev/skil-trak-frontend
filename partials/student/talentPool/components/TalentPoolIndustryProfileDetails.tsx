@@ -62,7 +62,7 @@ export const TalentPoolIndustryProfileDetails = ({ profile, setView }: any) => {
                             {profile?.industry?.user?.name}
                         </Typography>
 
-                        {profile?.status === TalentPoolStatusEnum.REQUESTED ? (
+                        {profile?.status === TalentPoolStatusEnum.Requested ? (
                             <div className="flex items-center gap-x-1.5 whitespace-nowrap">
                                 <Button
                                     text="Pending"
@@ -71,7 +71,7 @@ export const TalentPoolIndustryProfileDetails = ({ profile, setView }: any) => {
                                 />
                             </div>
                         ) : profile?.status ===
-                          TalentPoolStatusEnum.CONNECTED ? (
+                          TalentPoolStatusEnum.Connected ? (
                             <div className="flex items-center gap-x-1.5 whitespace-nowrap">
                                 <Button
                                     text="Connected"
@@ -80,7 +80,7 @@ export const TalentPoolIndustryProfileDetails = ({ profile, setView }: any) => {
                                 />
                             </div>
                         ) : profile?.status ===
-                          TalentPoolStatusEnum.REJECTED ? (
+                          TalentPoolStatusEnum.Rejected ? (
                             <div className="flex items-center gap-x-1.5 whitespace-nowrap">
                                 <Button
                                     text="Rejected"
@@ -88,7 +88,7 @@ export const TalentPoolIndustryProfileDetails = ({ profile, setView }: any) => {
                                     // onClick={onSentRequest}
                                 />
                             </div>
-                        ) : profile?.status === TalentPoolStatusEnum.HIRED ? (
+                        ) : profile?.status === TalentPoolStatusEnum.Hired ? (
                             <div className="flex items-center gap-x-1.5 whitespace-nowrap">
                                 <Button
                                     text="Hired"
@@ -134,7 +134,7 @@ export const TalentPoolIndustryProfileDetails = ({ profile, setView }: any) => {
                             Email
                         </Typography>
 
-                        {profile?.status === TalentPoolStatusEnum.REQUESTED ? (
+                        {profile?.status === TalentPoolStatusEnum.Requested ? (
                             <div className="relative text-white">
                                 nothing to show here
                                 <div
@@ -152,12 +152,12 @@ export const TalentPoolIndustryProfileDetails = ({ profile, setView }: any) => {
                                 </div>
                             </div>
                         ) : profile?.status ===
-                          TalentPoolStatusEnum.CONNECTED ? (
+                          TalentPoolStatusEnum.Connected ? (
                             <Typography variant="muted" color="text-white">
                                 {profile?.industry?.user?.email}
                             </Typography>
                         ) : profile?.status ===
-                          TalentPoolStatusEnum.REJECTED ? (
+                          TalentPoolStatusEnum.Rejected ? (
                             <div className="relative text-white">
                                 nothing to show here
                                 <div
@@ -174,7 +174,7 @@ export const TalentPoolIndustryProfileDetails = ({ profile, setView }: any) => {
                                     />
                                 </div>
                             </div>
-                        ) : profile?.status === TalentPoolStatusEnum.HIRED ? (
+                        ) : profile?.status === TalentPoolStatusEnum.Hired ? (
                             <Typography variant="muted" color="text-white">
                                 {profile?.industry?.user?.email}
                             </Typography>
@@ -185,7 +185,7 @@ export const TalentPoolIndustryProfileDetails = ({ profile, setView }: any) => {
                         <Typography variant="xs" color="text-white">
                             Phone Number
                         </Typography>
-                        {profile?.status === TalentPoolStatusEnum.REQUESTED ? (
+                        {profile?.status === TalentPoolStatusEnum.Requested ? (
                             <div className="relative text-white">
                                 nothing to show here
                                 <div
@@ -203,12 +203,12 @@ export const TalentPoolIndustryProfileDetails = ({ profile, setView }: any) => {
                                 </div>
                             </div>
                         ) : profile?.status ===
-                          TalentPoolStatusEnum.CONNECTED ? (
+                          TalentPoolStatusEnum.Connected ? (
                             <Typography variant="muted" color="text-white">
                                 {profile?.industry?.phoneNumber}
                             </Typography>
                         ) : profile?.status ===
-                          TalentPoolStatusEnum.REJECTED ? (
+                          TalentPoolStatusEnum.Rejected ? (
                             <div className="relative text-white">
                                 nothing to show here
                                 <div
@@ -225,7 +225,7 @@ export const TalentPoolIndustryProfileDetails = ({ profile, setView }: any) => {
                                     />
                                 </div>
                             </div>
-                        ) : profile?.status === TalentPoolStatusEnum.HIRED ? (
+                        ) : profile?.status === TalentPoolStatusEnum.Hired ? (
                             <Typography variant="muted" color="text-white">
                                 {profile?.industry?.phoneNumber}
                             </Typography>
@@ -254,7 +254,7 @@ export const TalentPoolIndustryProfileDetails = ({ profile, setView }: any) => {
                         <Typography variant="xs" color="text-white">
                             Contact Person Name
                         </Typography>
-                        {profile?.status === TalentPoolStatusEnum.REQUESTED ? (
+                        {profile?.status === TalentPoolStatusEnum.Requested ? (
                             <div className="relative text-white">
                                 nothing to show here
                                 <div
@@ -272,12 +272,12 @@ export const TalentPoolIndustryProfileDetails = ({ profile, setView }: any) => {
                                 </div>
                             </div>
                         ) : profile?.status ===
-                          TalentPoolStatusEnum.CONNECTED ? (
+                          TalentPoolStatusEnum.Connected ? (
                             <Typography variant="muted" color="text-white">
                                 {profile?.industry?.contactPerson}
                             </Typography>
                         ) : profile?.status ===
-                          TalentPoolStatusEnum.REJECTED ? (
+                          TalentPoolStatusEnum.Rejected ? (
                             <div className="relative text-white">
                                 nothing to show here
                                 <div
@@ -294,7 +294,7 @@ export const TalentPoolIndustryProfileDetails = ({ profile, setView }: any) => {
                                     />
                                 </div>
                             </div>
-                        ) : profile?.status === TalentPoolStatusEnum.HIRED ? (
+                        ) : profile?.status === TalentPoolStatusEnum.Hired ? (
                             <Typography variant="muted" color="text-white">
                                 {profile?.industry?.contactPerson}
                             </Typography>
@@ -304,7 +304,7 @@ export const TalentPoolIndustryProfileDetails = ({ profile, setView }: any) => {
                         <Typography variant="xs" color="text-white">
                             Contact Person Number
                         </Typography>
-                        {profile?.status === TalentPoolStatusEnum.REQUESTED ? (
+                        {profile?.status === TalentPoolStatusEnum.Requested ? (
                             <div className="relative text-white">
                                 nothing to show here
                                 <div
@@ -322,12 +322,12 @@ export const TalentPoolIndustryProfileDetails = ({ profile, setView }: any) => {
                                 </div>
                             </div>
                         ) : profile?.status ===
-                          TalentPoolStatusEnum.CONNECTED ? (
+                          TalentPoolStatusEnum.Connected ? (
                             <Typography variant="muted" color="text-white">
                                 {profile?.industry?.contactPersonNumber}
                             </Typography>
                         ) : profile?.status ===
-                          TalentPoolStatusEnum.REJECTED ? (
+                          TalentPoolStatusEnum.Rejected ? (
                             <div className="relative text-white">
                                 nothing to show here
                                 <div
@@ -344,7 +344,7 @@ export const TalentPoolIndustryProfileDetails = ({ profile, setView }: any) => {
                                     />
                                 </div>
                             </div>
-                        ) : profile?.status === TalentPoolStatusEnum.HIRED ? (
+                        ) : profile?.status === TalentPoolStatusEnum.Hired ? (
                             <Typography variant="muted" color="text-white">
                                 {profile?.industry?.contactPersonNumber}
                             </Typography>

@@ -3,9 +3,17 @@ import { Controller, useForm, useFormContext } from 'react-hook-form'
 import { FaPlus } from 'react-icons/fa6'
 import { InputErrorMessage } from './components'
 
-export const TagInput = ({ name, onTagEnter, type }: any) => {
+export const TagInput = ({
+    name,
+    onTagEnter,
+    type,
+}: {
+    name: string
+    type?: string
+    onTagEnter: (name: string, newTag: string) => void
+}) => {
     const [tagInput, setTagInput] = useState('')
-    const { setError } = useFormContext();
+    const { setError } = useFormContext()
     const methods = useForm()
     const { handleSubmit, control } = methods
     const handleKeyPress = (e: any) => {
@@ -16,23 +24,21 @@ export const TagInput = ({ name, onTagEnter, type }: any) => {
         }
     }
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        if (name === 'links' && !/^(ftp|http|https):\/\/[^ "]+$/.test(value)) {
-            setError(name, {
-                type: 'url',
-                message: 'Invalid URL format',
-            });
-        } else if ((name === 'skills' || name === 'areaOfInterest') && !/^[a-zA-Z\s]*$/.test(value)) {
+        const value = e.target.value
+
+        if (
+            (name === 'skills' || name === 'areaOfInterest') &&
+            !/^[a-zA-Z\s]*$/.test(value)
+        ) {
             setError(name, {
                 type: 'invalid',
                 message: `${name} should not contain special characters or numbers`,
-            });
+            })
         } else {
-            setError(name, {}); // Pass an empty object to clear the error
+            setError(name, {}) // Pass an empty object to clear the error
         }
-        setTagInput(value);
+        setTagInput(value)
     }
-    
 
     // On Click
     const handleAddClick = (e: any) => {
@@ -45,7 +51,7 @@ export const TagInput = ({ name, onTagEnter, type }: any) => {
 
     return (
         <>
-            <div className="flex my-2.5">
+            <div className="flex mt-2.5">
                 <Controller
                     name={name}
                     control={control}

@@ -6,9 +6,10 @@ import { useRouter } from 'next/router'
 
 import { FaBriefcase } from 'react-icons/fa'
 import { MdAssessment, MdNotifications, MdSpaceDashboard } from 'react-icons/md'
-import { LiaCertificateSolid } from "react-icons/lia";
+import { LiaCertificateSolid } from 'react-icons/lia'
 
 import { NavLinkItem } from '../NavLinkItem'
+import { StudentApi } from '@queries'
 
 const PREFIX = '/portals/student'
 
@@ -18,13 +19,13 @@ const Routes = {
     Jobs: `${PREFIX}/jobs`,
     Assessments: `${PREFIX}/assessments`,
     Notifications: `${PREFIX}/notifications`,
-    TalentPool: `${PREFIX}/talent-pool`
+    TalentPool: `${PREFIX}/talent-pool`,
 }
 
 export const StudentNavbar = () => {
     const router = useRouter()
 
-    const status = getUserCredentials()?.status
+    const requestCount = StudentApi.TalentPool.useIndustryRequestCount()
 
     const defaultClasses = classNames({
         'transition-all duration-300 px-4 py-2 flex flex-col md:flex-row gap-x-2 items-center rounded-md':
@@ -61,6 +62,7 @@ export const StudentNavbar = () => {
             Icon: LiaCertificateSolid,
             activeClasses: 'bg-blue-100 text-blue-700',
             inActiveClasses: 'text-slate-700',
+            count: requestCount?.data,
         },
         {
             link: `${Routes.Assessments}`,
@@ -77,7 +79,6 @@ export const StudentNavbar = () => {
             activeClasses: 'bg-blue-100 text-blue-700',
             inActiveClasses: 'text-slate-700',
         },
-        
     ]
 
     return (

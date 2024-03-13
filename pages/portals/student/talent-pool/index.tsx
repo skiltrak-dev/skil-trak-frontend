@@ -45,18 +45,17 @@ const TalentPool: NextPageWithLayout = () => {
     return (
         <>
             <TalentPoolWelcomeCard />
-            <div className="grid grid-cols-1 md:grid-cols-4 px-4 py-8 md:px-10 gap-y-10 md:gap-x-20 md:mt-7">
+            <div className="grid grid-cols-1 md:grid-cols-4 px-4 py-6 md:px-10 gap-y-6 md:gap-x-12">
                 {data.map((item, index) => (
-                    <div key={item?.title}>
-                        <HowItWorks
-                            title={item?.title}
-                            description={item?.description}
-                        />
-                    </div>
+                    <HowItWorks
+                        key={item?.title}
+                        title={item?.title}
+                        description={item?.description}
+                    />
                 ))}
             </div>
-            <div className="bg-[#282F39] px-8 py-3 flex md:flex-row flex-col md:gap-x-80 justify-between gap-y-4 w-full items-center mt-10">
-                <p className="text-white text-sm">
+            <div className="bg-[#282F39] px-8 py-3 flex md:flex-row flex-col md:gap-x-80 justify-between gap-y-4 w-full items-center mt-4">
+                <p className="text-white text-xs">
                     Visit the Talent Pool Registration Page and take the first
                     step toward unlocking a world of possibilities. Your talents
                     deserve to be recognized, and we're here to bridge the gap
