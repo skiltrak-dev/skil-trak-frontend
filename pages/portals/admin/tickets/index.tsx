@@ -1,18 +1,28 @@
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 // Layouts
 import { AdminLayout } from '@layouts'
 // Types
-import { BackButton, Button, TabNavigation, TabProps } from '@components'
+import {
+    BackButton,
+    Button,
+    LoadingAnimation,
+    Select,
+    TabNavigation,
+    TabProps,
+    TechnicalError,
+} from '@components'
 import { PageHeading } from '@components/headings'
 import { useNavbar } from '@hooks'
 import {
     AllTickets,
+    FilteredTickets,
     MyClosedTickets,
     MyOpenTickets,
 } from '@partials/admin/Tickets'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, OptionType, SubAdmin } from '@types'
 import { useRouter } from 'next/router'
 import { BsFillTicketDetailedFill } from 'react-icons/bs'
+import { AdminApi, CommonApi } from '@queries'
 
 enum TicketType {
     MyOpenTickets = 'my-open-tickets',
@@ -30,9 +40,36 @@ const Tickets: NextPageWithLayout = () => {
     const router = useRouter()
     const { setTitle } = useNavbar()
 
+    const [selectedSubadmin, setSelectedSubadmin] = useState<number | null>(
+        null
+    )
+    const [itemPerPage, setItemPerPage] = useState(50)
+    const [page, setPage] = useState(1)
+
     useEffect(() => {
         setTitle('Tickets')
     }, [])
+
+    const subadmins = AdminApi.Workplace.subadminForAssignWorkplace()
+    const filteredTickets = CommonApi.Tickets.useGetAllTicket(
+        {
+            search: `${JSON.stringify({
+                subAdminId: selectedSubadmin,
+            })
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        { skip: !selectedSubadmin, refetchOnMountOrArgChange: true }
+    )
+
+    const subAdminOptions = subadmins?.data?.map((subAdmin: SubAdmin) => ({
+        label: subAdmin?.user?.name,
+        value: subAdmin?.user?.id,
+    }))
 
     const tabs: TabProps[] = [
         {
@@ -64,35 +101,76 @@ const Tickets: NextPageWithLayout = () => {
         },
     ]
 
+    const onAssignSubAdmin = (e: number) => {
+        setSelectedSubadmin(e)
+    }
+
     return (
         <div className="px-4">
             <div className="flex justify-between items-center my-5">
                 <BackButton text={'Go Back'} />
-                <Button
-                    variant={'dark'}
-                    text={'Create a Ticket'}
-                    Icon={BsFillTicketDetailedFill}
-                    onClick={() => {
-                        router.push('/portals/admin/tickets/add-ticket')
-                    }}
-                />
+                <div className="flex items-center gap-x-2">
+                    <Button
+                        variant={'dark'}
+                        Icon={BsFillTicketDetailedFill}
+                        onClick={() => {
+                            router.push('/portals/admin/tickets/add-ticket')
+                        }}
+                    >
+                        <span className="whitespace-pre">Create a Ticket</span>
+                    </Button>
+                    <div className="w-72">
+                        <Select
+                            name={'subAdmin'}
+                            placeholder={'Search By Sub Admin'}
+                            options={subAdminOptions}
+                            loading={subadmins?.isLoading}
+                            disabled={subadmins?.isLoading}
+                            onChange={(e: number) => {
+                                onAssignSubAdmin(e)
+                            }}
+                            onlyValue
+                            showError={false}
+                        />
+                    </div>
+                </div>
             </div>
-            <TabNavigation tabs={tabs}>
-                {({ header, element }: any) => {
-                    return (
-                        <div>
-                            <div>{header}</div>
-                            <div className="mt-4 ml-4">
-                                <PageHeading
-                                    title={'Ticket'}
-                                    subtitle={'You can find all Tickets here'}
-                                ></PageHeading>
-                            </div>
-                            <div className="p-4">{element}</div>
-                        </div>
+            {selectedSubadmin && filteredTickets.isError && <TechnicalError />}
+            {selectedSubadmin ? (
+                filteredTickets.isLoading ? (
+                    <LoadingAnimation />
+                ) : (
+                    filteredTickets.isSuccess && (
+                        <FilteredTickets
+                            setPage={setPage}
+                            itemPerPage={itemPerPage}
+                            tickets={filteredTickets}
+                            setItemPerPage={setItemPerPage}
+                        />
                     )
-                }}
-            </TabNavigation>
+                )
+            ) : null}
+
+            {!selectedSubadmin && (
+                <TabNavigation tabs={tabs}>
+                    {({ header, element }: any) => {
+                        return (
+                            <div>
+                                <div className="w-full">{header}</div>
+                                <div className="mt-4 ml-4">
+                                    <PageHeading
+                                        title={'Ticket'}
+                                        subtitle={
+                                            'You can find all Tickets here'
+                                        }
+                                    ></PageHeading>
+                                </div>
+                                <div className="p-4">{element}</div>
+                            </div>
+                        )
+                    }}
+                </TabNavigation>
+            )}
         </div>
     )
 }

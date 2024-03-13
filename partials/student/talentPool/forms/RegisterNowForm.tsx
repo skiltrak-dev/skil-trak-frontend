@@ -2,7 +2,6 @@ import {
     Button,
     Checkbox,
     GlobalModal,
-    Portal,
     ShowErrorNotifications,
     TagInput,
     TextArea,
@@ -11,14 +10,13 @@ import {
 import { LabelTag, RegistrationSuccessful } from '@partials/student/talentPool'
 import { ReactElement, useEffect, useState } from 'react'
 // react hook form
-import { FormProvider, useForm, Controller } from 'react-hook-form'
-import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { FormProvider, useForm } from 'react-hook-form'
+import * as yup from 'yup'
 
 // icons
-import { MdOutlineClose } from 'react-icons/md'
 import { useNotification } from '@hooks'
-import { InputErrorMessage } from '@components/inputs/components'
+import { MdOutlineClose } from 'react-icons/md'
 
 const termsAndCondition = [
     {
@@ -208,23 +206,26 @@ export const RegisterNowForm = ({
                             background?
                         </Typography>
                     </div>
-                    <TextArea
-                        name={'about'}
-                        placeholder="About yourself"
-                        rows={6}
-                        required
-                        onChange={handleAboutChange}
-                    />
-                    <div
-                        className={`${
-                            shortDescriptionWordCount <= 100
-                                ? 'text-slate-500'
-                                : ' text-red-500'
-                        } text-sm mb-5`}
-                    >
-                        {`${shortDescriptionWordCount} / 100 words`}
+                    <div className="relative">
+                        <TextArea
+                            name={'about'}
+                            placeholder="About yourself"
+                            rows={6}
+                            required
+                            onChange={handleAboutChange}
+                        />
+                        <div
+                            className={`${
+                                shortDescriptionWordCount <= 100
+                                    ? 'text-slate-500'
+                                    : ' text-red-500'
+                            } text-xs mb-5 absolute -bottom-4 right-0`}
+                        >
+                            {`${shortDescriptionWordCount} / 100 words`}
+                        </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-4 gap-y-5">
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-4 mt-2">
                         {/* Col - 1 */}
                         <div>
                             <div className="mb-2">
@@ -238,12 +239,10 @@ export const RegisterNowForm = ({
                             </div>
                             <div className="">
                                 <TagInput
-                                    // {...field}
                                     type="text"
                                     name="skills"
                                     onTagEnter={handleTagEnter}
                                 />
-                                {/* <InputErrorMessage name='skills' /> */}
                             </div>
                             {/*  Skills */}
                             {/* {data?.skills.length > 0 && (
@@ -302,7 +301,6 @@ export const RegisterNowForm = ({
                             </div>
                             <div className="">
                                 <TagInput
-                                    type="url"
                                     name="links"
                                     onTagEnter={handleTagEnter}
                                 />
@@ -318,11 +316,11 @@ export const RegisterNowForm = ({
                     </div>
                     <div
                         onClick={onClickOnTermsAndCondition}
-                        className="mt-12 text-blue-500 text-sm font-medium cursor-pointer"
+                        className="text-blue-500 text-sm font-medium cursor-pointer mt-3"
                     >
                         Terms & Condition
                     </div>
-                    <div className="flex items-center gap-x-1 my-6">
+                    <div className="flex items-center gap-x-1 mt-2">
                         <Checkbox
                             name="agree"
                             required
@@ -334,15 +332,17 @@ export const RegisterNowForm = ({
                             relevant opportunities.
                         </Typography>
                     </div>
-                    <Button
-                        text={`${
-                            data && Object.keys(data).length > 0
-                                ? 'Update'
-                                : 'Submit'
-                        }`}
-                        onClick={submitForm}
-                        disabled={!agree}
-                    />
+                    <div className="mt-7">
+                        <Button
+                            text={`${
+                                data && Object.keys(data).length > 0
+                                    ? 'Update'
+                                    : 'Submit'
+                            }`}
+                            onClick={submitForm}
+                            disabled={!agree}
+                        />
+                    </div>
                 </form>
             </FormProvider>
         </>

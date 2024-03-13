@@ -1,4 +1,5 @@
 import { Typography } from '@components'
+import { getGender } from '@utils'
 import { useMemo } from 'react'
 
 export const StudentInfoCard = ({ profile, getSectors }: any) => {
@@ -65,7 +66,9 @@ export const StudentInfoCard = ({ profile, getSectors }: any) => {
                             Gender
                         </Typography>
                         <Typography variant="muted" color="text-[#374151]">
-                            {profile?.gender || 'N/A'}
+                            {profile?.gender
+                                ? getGender(profile?.gender)
+                                : 'N/A'}
                         </Typography>
                     </div>
                 </div>

@@ -39,7 +39,10 @@ export const TalentPool = () => {
                                 Welcome to SkilTrak Talent Pool
                             </span>
                         </Typography>
-                        <div className="flex flex-col gap-y-2.5">
+                        <div
+                            className="flex flex-col gap-y-2.5"
+                            data-aos="fade-up"
+                        >
                             <Typography
                                 center
                                 // variant={isMobile ? 'label' : 'body'}
@@ -71,8 +74,8 @@ export const TalentPool = () => {
                 </div>
             </div>
 
-            <div className="max-w-[1200px] mx-auto flex flex-col gap-y-4 xl:gap-y-7 -mt-28 relative z-20 px-4 xl:px-0">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-4 gap-x-3">
+            <div className="max-w-[1200px] mx-auto flex flex-col gap-y-4 xl:gap-y-14 -mt-28 relative z-20 px-4 xl:px-0">
+                <div className="flex flex-col gap-y-12 gap-x-3">
                     <StudentsTalentPool />
                     <IndustriesTalentPool />
                 </div>

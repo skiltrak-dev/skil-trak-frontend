@@ -15,10 +15,10 @@ export const TalentPoolWelcomeCard = () => {
                 <div className="flex flex-col items-center md:items-start md:flex-row justify-between gap-x-24">
                     <div className="mt-8">
                         <div className="h-2 w-2 bg-[#6971DD] rounded-full ml-9"></div>
-                        <h2 className="uppercase text-white text-2xl font-bold mb-1">
+                        <h2 className="uppercase text-white text-[22px] font-bold mb-1">
                             Welcome To
                         </h2>
-                        <h1 className="text-white font-bold bg-[#6971DD] px-9 py-2 text-[36px] rounded-lg whitespace-nowrap">
+                        <h1 className="text-white font-bold bg-[#6971DD] px-9 py-2 text-3xl rounded-lg whitespace-nowrap">
                             Talent Pool
                         </h1>
                     </div>
@@ -63,8 +63,8 @@ export const TalentPoolWelcomeCard = () => {
                         </div>
                     </div>
                     <div className="flex flex-col md:flex-row gap-x-5 md:items-center items-end md:justify-between md:gap-x-28 w-full">
-                        <div className='md:w-[80%]'>
-                            <p className="text-white md:pl-28 px-4">
+                        <div className="md:w-[80%]">
+                            <p className="text-white md:pl-28 px-4 text-sm">
                                 The Talent Pool is a curated space that brings
                                 together students like you, possessing unique
                                 skills and talents, with industry professionals
@@ -74,7 +74,7 @@ export const TalentPoolWelcomeCard = () => {
                                 and work.
                             </p>
                         </div>
-                        <div className='flex items-center gap-x-10 mr-5'>
+                        <div className="flex items-center gap-x-10 mr-5">
                             <Image
                                 className="rotate-180"
                                 src={
@@ -85,15 +85,13 @@ export const TalentPoolWelcomeCard = () => {
                                 alt="vector-1"
                             />
                             <div className="">
-                            <Image
-                                className="rotate-180"
-                                src={
-                                    '/images/talent-pool/single-dot.svg'
-                                }
-                                width={8}
-                                height={8}
-                                alt="vector-1"
-                            />
+                                <Image
+                                    className="rotate-180"
+                                    src={'/images/talent-pool/single-dot.svg'}
+                                    width={8}
+                                    height={8}
+                                    alt="vector-1"
+                                />
                             </div>
                         </div>
                     </div>
@@ -103,8 +101,8 @@ export const TalentPoolWelcomeCard = () => {
                 <Image
                     className="rotate-180"
                     src={'/images/talent-pool/vec-1.svg'}
-                    width={54}
-                    height={54}
+                    width={45}
+                    height={45}
                     alt="vector-1"
                 />
             </div>

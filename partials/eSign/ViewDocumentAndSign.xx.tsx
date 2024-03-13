@@ -58,6 +58,7 @@ export const ViewDocumentAndSign = () => {
             alert.warning({
                 title: 'Make a Sign first',
                 description: 'Make a Sign before to fill your fields data',
+                autoDismiss: false,
             })
         }
     }, [tabs])

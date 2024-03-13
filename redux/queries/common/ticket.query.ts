@@ -1,16 +1,13 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { PaginatedResponse } from '@types'
+import { PaginatedResponse, PaginationWithSearch } from '@types'
 import { TicketStatus } from 'pages/portals/admin/tickets'
 
 const PREFIX = 'tickets'
 export const ticketEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    getAllTicket: builder.query<
-        PaginatedResponse<any>,
-        { limit: number; skip: number }
-    >({
+    getAllTicket: builder.query<PaginatedResponse<any>, PaginationWithSearch>({
         query: (params) => ({
             url: `${PREFIX}/list/all`,
             params,
