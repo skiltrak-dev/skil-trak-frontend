@@ -12,7 +12,7 @@ import { profileEndpoints } from './profile'
 import { workplaceEndpoints } from './workplace'
 import { studentsScheduleEndpoints } from './schedule'
 import { documentsEndpoints } from './documents'
-import { talentPoolEndpoints } from './talentPool';
+import { talentPoolEndpoints } from './talentPool'
 
 export const studentApi = emptySplitApi.injectEndpoints({
     // ---------- RTO ENDPOINTS ---------- //
@@ -111,6 +111,8 @@ export const {
     useGetTalentPoolRequiredDocsResponseQuery,
     useGetConnectionRequiredDocsQuery,
     useUpdateTalentPoolProfileMutation,
+    useGetIndustryRequestCountQuery,
+    useReadIndustryRequestMutation,
 } = studentApi
 
 export const StudentApi = {
@@ -178,15 +180,20 @@ export const StudentApi = {
     },
     TalentPool: {
         useTalentPoolStudentProfile: useGetTalentPoolStudentProfileQuery,
-        useAppliedTalentPoolStudentProfile: useGetAppliedTalentPoolStudentProfileQuery,
+        useAppliedTalentPoolStudentProfile:
+            useGetAppliedTalentPoolStudentProfileQuery,
         useIndustriesConnectionRequests: useGetIndustriesRequestQuery,
         useTalentPoolStudent: useGetTalentPoolStudentQuery,
         useApplyTalentPool: useApplyForTalentPoolMutation,
-        useUploadTalentPoolRequiredDocs: useUploadTalentPoolRequiredDocsMutation,
+        useUploadTalentPoolRequiredDocs:
+            useUploadTalentPoolRequiredDocsMutation,
         useIndustryRequestStatus: useIndustryRequestStatusMutation,
-        useAcceptedTalentPoolIndustryProfile: useGetAcceptedTalentPoolIndustryProfileQuery,
+        useAcceptedTalentPoolIndustryProfile:
+            useGetAcceptedTalentPoolIndustryProfileQuery,
         useRequiredDocsResponse: useGetTalentPoolRequiredDocsResponseQuery,
         useConnectionRequiredDocs: useGetConnectionRequiredDocsQuery,
         useUpdateTalentPoolProfile: useUpdateTalentPoolProfileMutation,
-    }
+        useIndustryRequestCount: useGetIndustryRequestCountQuery,
+        useReadIndustryRequest: useReadIndustryRequestMutation,
+    },
 }

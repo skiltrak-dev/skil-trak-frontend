@@ -1,34 +1,30 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 // Layouts
 import { AdminLayout } from '@layouts'
 // Types
 import {
-    BackButton,
-    Button,
     EmptyData,
     LoadingAnimation,
-    Portal,
     ShowErrorNotifications,
     TechnicalError,
     Typography,
-    draftToHtmlText,
+    draftToHtmlText
 } from '@components'
+import { UserRoles } from '@constants'
 import { useContextBar, useNavbar, useNotification } from '@hooks'
+import { TicketReplies } from '@partials/admin/Tickets'
 import { ReplyTicketForm } from '@partials/common/Tickets'
 import {
-    TicketDetailHeaderCard,
-    TicketMessageCard,
+    TicketDetailHeaderCard
 } from '@partials/common/Tickets/components'
-import { NextPageWithLayout } from '@types'
 import { CommonApi } from '@queries'
-import { useRouter } from 'next/router'
-import { CloseTicketModal, TicketReplies } from '@partials/admin/Tickets'
-import { TicketStatus } from '../index'
-import { UserRoles } from '@constants'
+import { NextPageWithLayout } from '@types'
 import { ellipsisText, getUserCredentials } from '@utils'
-import { FaLongArrowAltLeft } from 'react-icons/fa'
 import moment from 'moment'
+import { useRouter } from 'next/router'
+import { FaLongArrowAltLeft } from 'react-icons/fa'
+import { TicketStatus } from '../index'
 
 const Tickets: NextPageWithLayout = () => {
     const contextBar = useContextBar()

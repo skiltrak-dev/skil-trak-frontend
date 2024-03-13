@@ -1,37 +1,25 @@
-import { AdminLayout } from '@layouts'
-import { ColumnDef } from '@tanstack/react-table'
-import { AppointmentTypeFilterType, NextPageWithLayout, Rpl } from '@types'
-import {
-    AcceptModal,
-    CancelModal,
-    TalentPoolStudentProfile,
-} from '@partials/student/talentPool'
-import { ReactElement, useEffect, useState } from 'react'
 import {
     ActionButton,
-    AppointmentTypeFilters,
+    Badge,
     Card,
     EmptyData,
-    Filter,
     InitialAvatar,
     LoadingAnimation,
     Table,
     TableAction,
-    TableActionOption,
     TechnicalError,
     Typography,
 } from '@components'
-import { AdminApi } from '@queries'
-import Link from 'next/link'
-import { FaEye, FaTrash } from 'react-icons/fa'
-import { IoMdEyeOff } from 'react-icons/io'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { useRouter } from 'next/router'
-import { BsArchiveFill } from 'react-icons/bs'
-import { HiCheckBadge } from 'react-icons/hi2'
-import { IoClose } from 'react-icons/io5'
 import { TalentPoolNotification } from '@partials/common/TalentPool'
+import { AdminApi } from '@queries'
+import { ColumnDef } from '@tanstack/react-table'
 import { TalentPoolStatusEnum, isBrowser } from '@utils'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
+import { BsArchiveFill } from 'react-icons/bs'
+import { FaEye } from 'react-icons/fa'
+import { HiCheckBadge } from 'react-icons/hi2'
+import { IoMdEyeOff } from 'react-icons/io'
 import { ApprovedModal, DeleteProfileModal } from './modals'
 
 enum StatusEnum {
@@ -133,8 +121,6 @@ export const HiredStudents = () => {
         ]
     }
 
-    
-
     const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'name',
@@ -160,8 +146,9 @@ export const HiredStudents = () => {
                 return (
                     <div className="whitespace-nowrap">
                         {info?.row?.original?.request_status ===
-                        TalentPoolStatusEnum.CONNECTED || info?.row?.original?.request_status ===
-                        TalentPoolStatusEnum.HIRED ? (
+                            TalentPoolStatusEnum.Connected ||
+                        info?.row?.original?.request_status ===
+                            TalentPoolStatusEnum.Hired ? (
                             <Typography variant="small">
                                 {info?.row?.original?.email || 'N/A'}
                             </Typography>
@@ -194,8 +181,9 @@ export const HiredStudents = () => {
                 return (
                     <div className="whitespace-nowrap">
                         {info.row.original.request_status ===
-                        TalentPoolStatusEnum.CONNECTED || info?.row?.original?.request_status ===
-                        TalentPoolStatusEnum.HIRED ? (
+                            TalentPoolStatusEnum.Connected ||
+                        info?.row?.original?.request_status ===
+                            TalentPoolStatusEnum.Hired ? (
                             <Typography variant="small">
                                 {info?.row?.original?.phonenumber || 'N/A'}
                             </Typography>
@@ -238,37 +226,20 @@ export const HiredStudents = () => {
             accessorKey: 'status',
             header: () => <span>Request Status</span>,
             cell: (info) => {
-                return (
-                    <div className="">
-                        {info?.row?.original?.request_status ===
-                        TalentPoolStatusEnum.CONNECTED  ? (
-                            <Typography
-                                variant="small"
-                                color={'text-green-500'}
-                            >
-                                Connected
-                            </Typography>
-                        ) : info?.row?.original?.request_status ===
-                          TalentPoolStatusEnum.REJECTED ? (
-                            <Typography variant="small" color={'text-red-500'}>
-                                Rejected
-                            </Typography>
-                        ) :  info?.row?.original?.request_status ===
-                        TalentPoolStatusEnum.HIRED ? (
-                            <Typography
-                                variant="small"
-                                color={'text-green-500'}
-                            >
-                                Hired
-                            </Typography>
-                        ): (<Typography
-                            variant="small"
-                            color={'text-yellow-500'}
-                        >
-                            Pending
-                        </Typography>)}
-                    </div>
-                )
+                switch (info?.row?.original?.status) {
+                    case TalentPoolStatusEnum.Connected:
+                        return <Badge text="Connected" variant="primary" />
+                    case TalentPoolStatusEnum.Approved:
+                        return <Badge text="Approved" variant="primary" />
+                    case TalentPoolStatusEnum.Rejected:
+                        return <Badge text="Rejected" variant="error" />
+                    case TalentPoolStatusEnum.Hired:
+                        return <Badge text="Hired" variant="success" />
+                    case TalentPoolStatusEnum.Pending:
+                        return <Badge text="Hired" variant="success" />
+                    default:
+                        return null
+                }
             },
         },
         {
@@ -354,7 +325,9 @@ export const HiredStudents = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="px-6 overflow-x-scroll remove-scrollbar">{table}</div>
+                                    <div className="px-6 overflow-x-scroll remove-scrollbar">
+                                        {table}
+                                    </div>
                                 </div>
                             )
                         }}
@@ -372,4 +345,3 @@ export const HiredStudents = () => {
         </>
     )
 }
-

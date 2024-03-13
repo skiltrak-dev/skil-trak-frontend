@@ -34,10 +34,10 @@ export const talentPoolEndpoints = (
         invalidatesTags: ['StudentProfile'],
     }),
     updateTalentPoolProfile: builder.mutation<any, any>({
-        query: ({id, body}) => ({
+        query: ({ id, body }) => ({
             url: `${PREFIX}/${id}/update`,
             method: 'PATCH',
-            body
+            body,
         }),
         invalidatesTags: ['StudentProfile'],
     }),
@@ -76,8 +76,15 @@ export const talentPoolEndpoints = (
         }),
         providesTags: ['TalentPoolRequiredDocs', 'StudentProfile'],
     }),
-    // getTalentPoolProfiles: builder.query<any, void>({
-    //     query: () => `${PREFIX}/student/profile`,
-    //     providesTags: ['StudentProfile'],
-    // }),
+    getIndustryRequestCount: builder.query<any, void>({
+        query: () => `${PREFIX}/connection-requests/count`,
+        providesTags: ['TalentPoolRequiredDocs', 'StudentProfile'],
+    }),
+    readIndustryRequest: builder.mutation<any, void>({
+        query: () => ({
+            url: `${PREFIX}/connection-request/read`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['TalentPoolRequiredDocs', 'StudentProfile'],
+    }),
 })

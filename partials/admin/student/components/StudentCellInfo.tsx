@@ -7,14 +7,16 @@ import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
-import { MdEmail } from 'react-icons/md'
+import { MdEmail, MdPhone } from 'react-icons/md'
 
 export const StudentCellInfo = ({
     student,
     call,
+    showHignPriority = true,
 }: {
-    student: Student
     call?: boolean
+    student: Student
+    showHignPriority?: boolean
 }) => {
     const router = useRouter()
 
@@ -99,11 +101,13 @@ export const StudentCellInfo = ({
                                     {student?.studentId}
                                 </ErrorBoundary>
                             </p>
-                            {student?.isHighPriority && (
-                                <div className="rounded-md whitespace-nowrap px-1 py-0.5 border border-red-400 text-red-400 text-xs font-medium">
-                                    High Priority
-                                </div>
-                            )}
+                            {showHignPriority
+                                ? student?.isHighPriority && (
+                                      <div className="rounded-md whitespace-nowrap px-1 py-0.5 border border-red-400 text-red-400 text-xs font-medium">
+                                          High Priority
+                                      </div>
+                                  )
+                                : null}
                         </div>
                         {call &&
                             isDateExist &&
@@ -135,6 +139,14 @@ export const StudentCellInfo = ({
                                 <MdEmail />
                             </span>
                             {student?.user?.email}
+                        </p>
+                    </div>
+                    <div className="font-medium text-xs text-gray-500">
+                        <p className="flex items-center gap-x-1">
+                            <span>
+                                <MdPhone />
+                            </span>
+                            {student?.phone}
                         </p>
                     </div>
                 </div>

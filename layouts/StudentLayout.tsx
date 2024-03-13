@@ -166,7 +166,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                             <StudentContextBar />
                         )}
                     <div className="px-4 mb-32 md:px-8">
-                        <div className="mb-6">
+                        <div>
                             <div className="flex justify-between">
                                 <StudentNavbar />
                                 {profile.data?.expiryDate && (
@@ -180,7 +180,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                             <DisplayAlerts />
                         </div>
                         {pageTitle && pageTitle.title && (
-                            <div className="mb-6">
+                            <div className="mb-3">
                                 <PageTitle
                                     title={pageTitle.title}
                                     navigateBack={pageTitle?.navigateBack}
