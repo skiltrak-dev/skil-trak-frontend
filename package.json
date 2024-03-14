@@ -57,6 +57,7 @@
         "draftjs-to-html": "^0.9.1",
         "file-saver": "^2.0.5",
         "formik": "^2.2.9",
+        "framer-motion": "^11.0.12",
         "gapi": "^0.0.3",
         "google-map-react": "^2.2.1",
         "html-to-draftjs": "1.4",

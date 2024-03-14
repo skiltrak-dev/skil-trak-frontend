@@ -133,7 +133,8 @@ const TalentPoolList: NextPageWithLayout = () => {
                                     selectedSector?.label ||
                                     'Search by sector...'
                                 }
-                                onClear={() => {
+                                onClear={(e: any) => {
+                                    e.stopPropagation()
                                     setSelectedSector(null)
                                 }}
                                 dropDown={() => (

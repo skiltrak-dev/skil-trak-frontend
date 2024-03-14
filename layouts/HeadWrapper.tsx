@@ -1,10 +1,12 @@
+import { useHeaderWrapperTitle } from '@hooks'
 import Head from 'next/head'
 
 export const HeadWrapper = ({ children }: any) => {
+    const { title } = useHeaderWrapperTitle()
     return (
         <>
             <Head>
-                <title>SkilTrak</title>
+                <title>{title ? title : 'SkilTrak'}</title>
             </Head>
             {children}
         </>
