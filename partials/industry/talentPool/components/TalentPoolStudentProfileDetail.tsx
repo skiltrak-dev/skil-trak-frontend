@@ -289,21 +289,7 @@ export const TalentPoolStudentProfileDetail = ({
                             {profile?.student?.rto?.user?.name}
                         </Typography>
                     </div>
-                    {/* Field of study */}
-                    <div className="bg-[#286788]  rounded-md py-1.5 px-2.5">
-                        <Typography variant="xs" color="text-white">
-                            Field of Study
-                        </Typography>
-                        {getSectors && getSectors.length > 0 ? (
-                            <Typography variant="muted" color="text-white">
-                                {getSectors[0]?.name}
-                            </Typography>
-                        ) : (
-                            <Typography variant="muted">
-                                No sectors found
-                            </Typography>
-                        )}
-                    </div>
+                    
                     {/* Expected Graduation Date */}
                     <div className="bg-[#286788]  rounded-md py-1.5 px-2.5">
                         <Typography variant="xs" color="text-white">

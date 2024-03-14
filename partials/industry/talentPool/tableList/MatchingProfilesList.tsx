@@ -1,6 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 import {
     ActionButton,
+    Badge,
     Button,
     Card,
     EmptyData,
@@ -15,21 +16,40 @@ import {
 import { AuthApi, IndustryApi, commonApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { useRouter } from 'next/router'
-import { isBrowser } from '@utils'
+import {
+    TalentPoolProfileStatus,
+    TalentPoolStatusEnum,
+    isBrowser,
+} from '@utils'
 import { FaEye } from 'react-icons/fa'
 import { IoMdEyeOff } from 'react-icons/io'
 import { TalentPoolNotification } from '@partials/common/TalentPool'
 import Link from 'next/link'
+import { OptionType } from '@types'
+import { TalentPoolDropdown } from '@partials/admin'
 
 export const MatchingProfilesList = () => {
+    const [selectedTalentPool, setSelectedTalentPool] =
+        useState<TalentPoolProfileStatus>(TalentPoolProfileStatus.All)
+    const [selectedSector, setSelectedSector] = useState<OptionType | null>(
+        null
+    )
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const [sectorId, setSectorId] = useState<any>({})
     const getSectors = AuthApi.useSectors({})
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [view, setView] = useState<boolean>(false)
+    const [readTalentPoolCount, readTalentPoolCountResult] =
+        IndustryApi.TalentPool.useReadTalentPoolProfileCount()
 
+    const sectorOptions = getSectors.data?.map((sector: any) => ({
+        label: `${sector?.code} - ${sector?.name}`,
+        value: sector.id,
+    }))
+    useEffect(() => {
+        readTalentPoolCount()
+    }, [])
     const scrollToTop = () => {
         if (isBrowser()) {
             window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -49,11 +69,6 @@ export const MatchingProfilesList = () => {
         return () => clearTimeout(timeout)
     }, [view])
 
-    const sectorOptions = getSectors.data?.map((sector: any) => ({
-        label: sector.name,
-        value: sector.id,
-    }))
-
     // useEffect(() => {
     //     setPage(Number(router.query?.page || 1))
     //     setItemPerPage(Number(router.query?.pageSize || 50))
@@ -62,21 +77,24 @@ export const MatchingProfilesList = () => {
     const { isLoading, isFetching, data, isError, refetch } =
         IndustryApi.TalentPool.useMatchingProfilesList(
             {
-                // search: `sectorId: ${sectorId}`,
+                search: `${JSON.stringify({
+                    status:
+                        selectedTalentPool !== TalentPoolProfileStatus.All
+                            ? selectedTalentPool
+                            : null,
+                    sectorId: selectedSector?.value,
+                })
+                    .replaceAll('{', '')
+                    .replaceAll('}', '')
+                    .replaceAll('"', '')
+                    .trim()}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: true,
             }
-            // {
-            //     refetchOnMountOrArgChange: true,
-            // }
         )
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
-
-    // useEffect(() => {
-    //     if (changeStatusResult.isSuccess) {
-    //         refetch()
-    //     }
-    // }, [changeStatusResult])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -87,9 +105,7 @@ export const MatchingProfilesList = () => {
             {
                 text: 'View',
                 onClick: (student: any) => {
-                    router.push(
-                        `/portals/industry/talent-pool/matching-profiles/${student?.id}`
-                    )
+                    router.push(`/portals/industry/talent-pool/${student?.id}`)
                 },
                 Icon: FaEye,
             },
@@ -169,10 +185,12 @@ export const MatchingProfilesList = () => {
             cell: (info) => {
                 return (
                     <div className="whitespace-nowrap">
-                        {info?.row?.original?.connectionRequests &&
-                        info?.row?.original?.connectionRequests.length > 0 &&
+                        {(info?.row?.original?.connectionRequests &&
+                            info?.row?.original?.connectionRequests.length >
+                                0 &&
+                            info?.row?.original?.connectionRequests?.[0]
+                                ?.status === 'connected') ||
                         info?.row?.original?.connectionRequests?.[0]?.status ===
-                            'connected' || info?.row?.original?.connectionRequests?.[0]?.status ===
                             'hired' ? (
                             <Typography variant="small">
                                 {info?.row?.original?.student?.user?.email ||
@@ -206,10 +224,12 @@ export const MatchingProfilesList = () => {
             cell: (info) => {
                 return (
                     <div className="whitespace-nowrap">
-                        {info?.row?.original?.connectionRequests &&
-                        info?.row?.original?.connectionRequests.length > 0 &&
+                        {(info?.row?.original?.connectionRequests &&
+                            info?.row?.original?.connectionRequests.length >
+                                0 &&
+                            info?.row?.original?.connectionRequests?.[0]
+                                ?.status === 'connected') ||
                         info?.row?.original?.connectionRequests?.[0]?.status ===
-                            'connected' || info?.row?.original?.connectionRequests?.[0]?.status ===
                             'hired' ? (
                             <Typography variant="small">
                                 {info?.row?.original?.student?.phone}
@@ -250,81 +270,42 @@ export const MatchingProfilesList = () => {
             },
         },
         {
-            accessorKey: 'connectionRequests',
-            header: () => <span>Request Status</span>,
+            accessorKey: 'sector',
+            header: () => <span>Sector</span>,
             cell: (info) => {
                 return (
-                    <div className="">
-                        {info?.row?.original?.connectionRequests &&
-                        info?.row?.original?.connectionRequests?.length > 0 &&
-                        info?.row?.original?.connectionRequests?.[0]?.status ===
-                            'connected' ? (
-                            <Typography
-                                variant="small"
-                                color={'text-green-500'}
-                            >
-                                Connected
-                            </Typography>
-                        ) : info?.row?.original?.connectionRequests?.[0]
-                              ?.status === 'rejected' ? (
-                            <Typography variant="small" color={'text-red-500'}>
-                                Rejected
-                            </Typography>
-                        ) : info?.row?.original?.connectionRequests?.[0]
-                              ?.status === 'requested' ? (
-                            <Typography variant="small" color={'text-red-500'}>
-                                Requested
-                            </Typography>
-                        ) : info?.row?.original?.connectionRequests?.[0]
-                              ?.status === 'hired' ? (
-                            <Typography variant="small" color="text-green-500">
-                                Hired
-                            </Typography>
-                        ) : (
-                            <Typography variant="small">
-                                Not Requested
-                            </Typography>
-                        )}
+                    <div>
+                        <Typography variant="small" medium>
+                            {info.row.original?.sector?.name}
+                        </Typography>
                     </div>
                 )
             },
         },
-        // {
-        //     accessorKey: 'createdBy.role',
-        //     header: () => <span>Created By</span>,
-        //     cell: (info) =>
-        //         info.row.original?.createdBy?.role === UserRoles.RTO ? (
-        //             <>
-        //                 <RtoCellInfo
-        //                     rto={
-        //                         {
-        //                             id: info.row.original?.createdBy?.rto?.id,
-        //                             user: info.row.original?.createdBy as User,
-        //                         } as Rto
-        //                     }
-        //                     short
-        //                 />
-        //                 <Typography variant={'small'} uppercase>
-        //                     <span className="font-semibold">
-        //                         {info.row.original?.createdBy?.role}
-        //                     </span>
-        //                 </Typography>
-        //             </>
-        //         ) : (
-        //             <Typography variant={'small'} uppercase>
-        //                 <span className="font-semibold">
-        //                     {info.row.original?.createdBy?.role}
-        //                 </span>
-        //             </Typography>
-        //         ),
-        //     // cell: (info) => (
-        //     //     <Typography variant={'small'} uppercase>
-        //     //         <span className="font-semibold">
-        //     //             {info.row.original?.createdBy?.role}
-        //     //         </span>
-        //     //     </Typography>
-        //     // ),
-        // },
+        {
+            accessorKey: 'connectionRequests',
+            header: () => <span>Request Status</span>,
+            cell: (info) => {
+                switch (info?.row?.original?.connectionRequests?.[0]?.status) {
+                    case TalentPoolStatusEnum.Requested:
+                        return <Badge text="Requested" variant="info" />
+                    case TalentPoolStatusEnum.Connected:
+                        return <Badge text="Connected" variant="primary" />
+                    case TalentPoolStatusEnum.Approved:
+                        return <Badge text="Approved" variant="primary" />
+                    case TalentPoolStatusEnum.Rejected:
+                        return <Badge text="Rejected" variant="error" />
+                    case TalentPoolStatusEnum.Hired:
+                        return <Badge text="Hired" variant="success" />
+                    case TalentPoolStatusEnum.Pending:
+                        return <Badge text="Pending" variant="success" />
+                    default:
+                        return (
+                            <Badge text="Not Requested" variant="secondary" />
+                        )
+                }
+            },
+        },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
@@ -375,20 +356,7 @@ export const MatchingProfilesList = () => {
                     }
                 />
             )}
-            {/* <div className="flex justify-end">
-                <Select
-                    label={'Search by Sectors'}
-                    name={'sectorId'}
-                    options={sectorOptions}
-                    placeholder={'Select Sectors...'}
-                    onChange={(e: any) => {
-                        setSectorId(e)
-                    }}
-                    loading={getSectors.isLoading}
-                    disabled={getSectors.isLoading}
-                    onlyValue
-                />
-            </div> */}
+
             <div className="flex justify-end mb-5">
                 <Button
                     text={'View Hired Students'}
@@ -399,7 +367,68 @@ export const MatchingProfilesList = () => {
                     }
                 />
             </div>
+
             <Card noPadding>
+            <div className="flex items-center justify-between border-b border-secondary-dark p-3.5">
+                <Typography variant="subtitle">Matching Profiles</Typography>
+                <div className="flex items-center gap-x-5">
+                    <TalentPoolDropdown
+                        title="Sector"
+                        selected={
+                            selectedSector?.label || 'Search by sector...'
+                        }
+                        onClear={() => {
+                            setSelectedSector(null)
+                        }}
+                        dropDown={() => (
+                            <div>
+                                {sectorOptions?.map((sector: OptionType) => (
+                                    <div
+                                        key={Number(sector.value)}
+                                        onClick={() => {
+                                            setSelectedSector(sector)
+                                        }}
+                                        className="hover:bg-gray-200 py-2 border-b border-secondary-dark px-2 cursor-pointer"
+                                    >
+                                        <Typography variant="small">
+                                            {sector?.label}
+                                        </Typography>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    />
+                    <TalentPoolDropdown
+                        title="Showing Results"
+                        selected={selectedTalentPool?.toLocaleUpperCase()}
+                        dropDown={() => {
+                            return (
+                                <div>
+                                    {Object.entries(
+                                        TalentPoolProfileStatus
+                                    )?.map(([key, value]: any) => (
+                                        <div
+                                            key={key}
+                                            onClick={() => {
+                                                setSelectedTalentPool(value)
+                                            }}
+                                            className={`${
+                                                key === selectedTalentPool
+                                                    ? 'bg-gray-200'
+                                                    : ''
+                                            } hover:bg-gray-200 py-2 border-b border-secondary-dark px-2 cursor-pointer`}
+                                        >
+                                            <Typography variant="small">
+                                                {key}
+                                            </Typography>
+                                        </div>
+                                    ))}
+                                </div>
+                            )
+                        }}
+                    />
+                </div>
+            </div>
                 {isError && <TechnicalError />}
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
@@ -442,8 +471,10 @@ export const MatchingProfilesList = () => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No Active Profiles'}
-                            description={'You have no Active Profiles'}
+                            title={'Apologies!'}
+                            description={
+                                "No listings are available for your selected option at the moment. We're actively seeking updates. Thank you for your patience."
+                            }
                             height={'50vh'}
                         />
                     )

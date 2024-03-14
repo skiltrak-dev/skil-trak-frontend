@@ -45,6 +45,12 @@ const VolunteerRequests: NextPageWithLayout = (props: Props) => {
         limit: itemPerPage,
     })
 
+    const [volunteerRead, volunteerReadResult] = AdminApi.Volunteer.useVolunteerRead()
+    
+    useEffect(() => {
+        volunteerRead()
+    }, [])
+    
     useEffect(() => {
         navBar.setTitle('Volunteer Request')
     }, [])

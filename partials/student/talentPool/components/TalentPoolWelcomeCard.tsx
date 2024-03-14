@@ -3,7 +3,7 @@ import Image from 'next/image'
 export const TalentPoolWelcomeCard = () => {
     return (
         <div className="bg-[#24556D] relative w-full">
-            <div className="flex flex-col gap-y-5 md:gap-y-0 md:flex-row">
+            <div className="flex flex-col gap-y-4 md:gap-y-0 md:flex-row">
                 <div className="">
                     <Image
                         src={'/images/talent-pool/vec-1.svg'}
@@ -30,7 +30,7 @@ export const TalentPoolWelcomeCard = () => {
                                 <Image
                                     src={'/images/talent-pool/cross-vec-1.svg'}
                                     width={51}
-                                    height={30}
+                                    height={25}
                                     alt="vector-1"
                                 />
                             </div>
@@ -38,7 +38,7 @@ export const TalentPoolWelcomeCard = () => {
                                 <Image
                                     src={'/images/talent-pool/dots-vec-1.svg'}
                                     width={40}
-                                    height={17}
+                                    height={30}
                                     alt="vector-1"
                                 />
                             </div>

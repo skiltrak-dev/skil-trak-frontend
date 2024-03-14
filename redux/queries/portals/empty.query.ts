@@ -77,6 +77,7 @@ const industryTagTypes = [
     'RequestAVolunteer',
     'IndustryWorkplace',
     'IndustryAppointment',
+    'TalentPoolCount',
 ]
 
 const studentTagTypes = [

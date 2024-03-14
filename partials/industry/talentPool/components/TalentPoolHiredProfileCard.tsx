@@ -83,7 +83,7 @@ export const TalentPoolHiredProfileCard = ({ data }: any) => {
                         text="View Profile"
                         onClick={() =>
                             router.push(
-                                `/portals/industry/talent-pool/matching-profiles/${data?.id}`
+                                `/portals/industry/talent-pool/${data?.id}`
                             )
                         }
                     />

@@ -216,13 +216,16 @@ export const {
 
     // ----- HEADQUARTER ----- //
     useGetIndustryHeadQuarterQuery,
+
     // ----- TALENT POOL ---- //
     useGetMatchingProfilesListQuery,
     useGetMatchingProfileDetailQuery,
     useGetTalentPoolRequiredDocsQuery,
     useGetTalentPoolHiredProfilesQuery,
     useGetTalentPoolCountBySectorQuery,
-    useSentConnectionRequestMutation, 
+    useSentConnectionRequestMutation,
+    useGetTalentPoolProfileCountQuery,
+    useReadTalentPoolProfileCountMutation,
 } = industryApi
 
 export const IndustryApi = {
@@ -363,5 +366,7 @@ export const IndustryApi = {
         useSentRequestConnection: useSentConnectionRequestMutation,
         useTalentPoolHiredProfiles: useGetTalentPoolHiredProfilesQuery,
         useTalentPoolCountBySector: useGetTalentPoolCountBySectorQuery,
+        useTalentPoolProfileCount: useGetTalentPoolProfileCountQuery,
+        useReadTalentPoolProfileCount: useReadTalentPoolProfileCountMutation
     },
 }

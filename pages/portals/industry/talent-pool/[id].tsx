@@ -172,26 +172,26 @@ const MatchingProfileDetail: NextPageWithLayout = () => {
                                     </Typography>
                                 </div>
                                 <div className="bg-[#E6E6E6] w-full h-[1px]"></div>
-                                <div className="flex w-full">
-                                    <div>
+                                <div className="flex gap-x-12 w-full">
+                                    <div className='min-w-96 flex flex-col gap-y-5'>
                                         <SkillsTag
                                             tags={data?.skills}
                                             title={'Skill & Talent'}
                                         />
-                                        <div className="bg-[#E6E6E6] w-full h-[1px] my-4"></div>
+                                        {/* <div className="bg-[#E6E6E6] w-full h-[1px] my-4"></div> */}
                                         <SkillsTag
                                             tags={data?.socialLinks}
                                             title={'Portfolio/Links'}
                                         />
                                     </div>
-                                    <div className="bg-[#E6E6E6] w-[1px] my-auto h-28 mx-9"></div>
+                                    {/* <div className="bg-[#E6E6E6] w-[1px] my-auto h-28 mx-9"></div> */}
 
-                                    <div>
+                                    <div className='min-w-96'>
                                         <SkillsTag
                                             tags={data?.interest}
                                             title={'Area of Interest'}
                                         />
-                                        <div className="bg-[#E6E6E6] w-full h-[1px] my-4"></div>
+                                        {/* <div className="bg-[#E6E6E6] w-full h-[1px] my-4 border border-dashed"></div> */}
                                     </div>
                                 </div>
                                 {/* <div className="bg-[#E6E6E6] w-full h-[1px]"></div> */}
