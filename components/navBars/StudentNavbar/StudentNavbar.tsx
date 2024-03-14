@@ -24,13 +24,18 @@ const Routes = {
 
 export const StudentNavbar = () => {
     const router = useRouter()
-
     const requestCount = StudentApi.TalentPool.useIndustryRequestCount()
+    const talentPoolStudentProfileDetail =
+        StudentApi.TalentPool.useTalentPoolStudentProfile()
+    const status = getUserCredentials()?.status
 
     const defaultClasses = classNames({
         'transition-all duration-300 px-4 py-2 flex flex-col md:flex-row gap-x-2 items-center rounded-md':
             true,
     })
+    const checkProfile =
+        talentPoolStudentProfileDetail?.data != null &&
+        Object.keys(talentPoolStudentProfileDetail?.data)?.length > 0
 
     const studentPortalData = [
         {
@@ -57,7 +62,7 @@ export const StudentNavbar = () => {
             id: 'workplace',
         },
         {
-            link: `${Routes.TalentPool}`,
+            link: checkProfile ? '/portals/student/talent-pool/profile' : Routes.TalentPool,
             text: 'Talent Pool',
             Icon: LiaCertificateSolid,
             activeClasses: 'bg-blue-100 text-blue-700',

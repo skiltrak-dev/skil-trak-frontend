@@ -64,6 +64,12 @@ export const talentPoolEndpoints = (
         }),
         providesTags: ['StudentProfile'],
     }),
+    getTalentPoolConnectionRequestCount: builder.query<any, void>({
+        query: () => ({
+            url: `${PREFIX}/connection-requests/count`,
+        }),
+        providesTags: ['StudentProfile'],
+    }),
     getConnectionRequiredDocs: builder.query<any, any>({
         query: (id: any) => ({
             url: `${PREFIX}/connection-request/${id}/detail`,

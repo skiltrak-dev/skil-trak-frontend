@@ -242,9 +242,11 @@ const IndustryRequest: NextPageWithLayout = () => {
             accessorKey: 'status',
             header: () => <span>Request Status</span>,
             cell: (info) => {
-                switch (info?.row?.original?.status) {
+                switch (info?.row?.original?.request_status) {
+                    case TalentPoolStatusEnum.Requested:
+                        return <Badge text="Requested" variant="primary" />
                     case TalentPoolStatusEnum.Connected:
-                        return <Badge text="Connected" variant="primary" />
+                        return <Badge text="Connected" variant="success" />
                     case TalentPoolStatusEnum.Approved:
                         return <Badge text="Approved" variant="primary" />
                     case TalentPoolStatusEnum.Rejected:
@@ -252,7 +254,7 @@ const IndustryRequest: NextPageWithLayout = () => {
                     case TalentPoolStatusEnum.Hired:
                         return <Badge text="Hired" variant="success" />
                     case TalentPoolStatusEnum.Pending:
-                        return <Badge text="Hired" variant="success" />
+                        return <Badge text="Pending" variant="success" />
                     default:
                         return null
                 }

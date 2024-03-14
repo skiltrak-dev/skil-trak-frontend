@@ -2,6 +2,7 @@ import { ActionModal } from '@components'
 import { useAlert, useNotification } from '@hooks'
 import { useEffect } from 'react'
 import { MdDelete } from 'react-icons/md'
+import { FaFileArchive } from "react-icons/fa";
 
 import { AdminApi } from '@queries'
 
@@ -24,8 +25,8 @@ export const DeleteProfileModal = ({
     useEffect(() => {
         if (changeStatusResult.isSuccess) {
             alert.error({
-                title: `profile Delete`,
-                description: `profile ${profile?.student?.user?.name} has been deleted.`,
+                title: `Profile Archived`,
+                description: `profile ${profile?.student?.user?.name} has been Archived.`,
             })
             onCancel()
         }
@@ -39,10 +40,10 @@ export const DeleteProfileModal = ({
 
     return (
         <ActionModal
-            Icon={MdDelete}
+            Icon={FaFileArchive}
             variant="error"
             title="Are you sure!"
-            description={`You are about to delete <em>"${profile?.student?.user?.name}"</em>. Do you wish to continue?`}
+            description={`You are about to Archive <em>"${profile?.student?.user?.name}"</em>. Do you wish to continue?`}
             onConfirm={onConfirmClicked}
             onCancel={onCancel}
             input

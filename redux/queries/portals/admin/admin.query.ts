@@ -365,6 +365,8 @@ const {
     useGetTalentPoolListQuery,
     useDeleteTalentPoolProfileMutation,
     useGetTalentPoolProfileQuery,
+    useGetTalentPoolProfilesCountQuery,
+    useReadTalentPoolProfilesCountMutation,
 } = adminApi
 
 export const AdminApi = {
@@ -539,5 +541,7 @@ export const AdminApi = {
         useTalentPoolRequests: useGetTalentPoolListQuery,
         useDeleteTalentPoolProfile: useDeleteTalentPoolProfileMutation,
         useGetTalentPoolProfile: useGetTalentPoolProfileQuery,
+        useTalentProfilesCount: useGetTalentPoolProfilesCountQuery,
+        useReadTalentPoolProfilesCount: useReadTalentPoolProfilesCountMutation,
     }
 }

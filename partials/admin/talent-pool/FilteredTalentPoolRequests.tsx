@@ -11,7 +11,7 @@ import {
 import { ColumnDef } from '@tanstack/react-table'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
-import { FaEye } from 'react-icons/fa'
+import { FaEye, FaFileArchive } from 'react-icons/fa'
 import { MdDelete } from 'react-icons/md'
 
 import { TalentPoolNotification } from '@partials/common/TalentPool'
@@ -83,9 +83,9 @@ export const FilteredTalentPoolRequests = ({
                 Icon: FaEye,
             },
             {
-                text: 'Delete',
+                text: 'Archive',
                 onClick: (profile: any) => onCancelClicked(profile),
-                Icon: MdDelete,
+                Icon: FaFileArchive,
                 color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
             },
             // {
@@ -164,7 +164,9 @@ export const FilteredTalentPoolRequests = ({
             accessorKey: 'status',
             header: () => <span>Request Status</span>,
             cell: (info) => {
-                switch (info?.row?.original?.status) {
+                switch (info?.row?.original?.connectionRequests?.[0]?.status) {
+                    case TalentPoolStatusEnum.Requested:
+                        return <Badge text="Requested" variant="info" />
                     case TalentPoolStatusEnum.Connected:
                         return <Badge text="Connected" variant="primary" />
                     case TalentPoolStatusEnum.Approved:
@@ -176,7 +178,7 @@ export const FilteredTalentPoolRequests = ({
                     case TalentPoolStatusEnum.Pending:
                         return <Badge text="Hired" variant="success" />
                     default:
-                        return null
+                        return <Badge text="Pending" variant="accent" />
                 }
             },
         },

@@ -47,6 +47,20 @@ export const talentPoolEndpoints = (
         }),
         invalidatesTags: ['MatchingProfiles'],
     }),
+    // Count
+    getTalentPoolProfileCount: builder.query<any, void>({
+        query: () => ({
+            url: `${PREFIX}/talentpool/count`,
+        }),
+        providesTags: ['TalentPoolCount'],
+    }),
+    readTalentPoolProfileCount: builder.mutation<any, void>({
+        query: () => ({
+            url: `${PREFIX}/talentpool-profile/read`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['TalentPoolCount'],
+    }),
     // getIndustryAppointments: builder.query<any, any>({
     //     query: (params) => ({
     //         url: 'my-appointments/view',

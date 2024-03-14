@@ -2,28 +2,20 @@ import { ReactElement, useEffect, useState } from 'react'
 
 import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
+import { MatchingProfilesList } from '@partials/industry/talentPool'
 // components
-import { TalentPoolWelcomeCard } from '@partials/industry/talentPool'
-import Link from 'next/link'
 
-const TalentPool: NextPageWithLayout = () => {
+const MatchingProfiles: NextPageWithLayout = () => {
+    
     return (
         <div>
-            <TalentPoolWelcomeCard />
-            <div className="bg-[#282F39] py-3 flex justify-center">
-                <Link
-                    href={'/portals/industry/talent-pool/matching-profiles'}
-                    className="py-1.5 px-4 bg-[#F7910F] text-white text-sm font-medium rounded-md"
-                >
-                    Proceed
-                </Link>
-            </div>
+            <MatchingProfilesList />
         </div>
     )
 }
 
-TalentPool.getLayout = (page: ReactElement) => {
+MatchingProfiles.getLayout = (page: ReactElement) => {
     return <IndustryLayout>{page}</IndustryLayout>
 }
 
-export default TalentPool
+export default MatchingProfiles
