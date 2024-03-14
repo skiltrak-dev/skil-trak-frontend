@@ -13,6 +13,7 @@ import {
 } from 'react-icons/md'
 import { NavLinkItem } from '../NavLinkItem'
 import { LiaCertificateSolid } from 'react-icons/lia'
+import { IndustryApi } from '@queries'
 
 const PREFIX = '/portals/industry'
 
@@ -30,7 +31,8 @@ const Routes = {
 
 export const IndustryNavbar = () => {
     const router = useRouter()
-
+    const talentPoolProfileCount =
+    IndustryApi.TalentPool.useTalentPoolProfileCount()
     const defaultClasses = classNames({
         'transition-all duration-300 px-3 py-2 flex flex-col md:flex-row gap-x-2 items-center rounded-md':
             true,
@@ -82,6 +84,7 @@ export const IndustryNavbar = () => {
             Icon: LiaCertificateSolid,
             activeClasses: 'bg-blue-100 text-blue-700',
             inActiveClasses: 'text-slate-700',
+            count: talentPoolProfileCount?.data
         },
         {
             link: Routes.ESign,

@@ -1,11 +1,10 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 // Layouts
 import { StudentLayout } from '@layouts'
 // types
 import { NextPageWithLayout } from '@types'
 import { HowItWorks, TalentPoolWelcomeCard } from '@partials/student/talentPool'
 import Link from 'next/link'
-import { StudentApi } from '@queries'
 
 const data = [
     {
@@ -39,9 +38,7 @@ const data = [
 ]
 
 const TalentPool: NextPageWithLayout = () => {
-    const talentPoolStudentProfileDetail =
-        StudentApi.TalentPool.useTalentPoolStudentProfile()
-
+    
     return (
         <>
             <TalentPoolWelcomeCard />
@@ -61,7 +58,7 @@ const TalentPool: NextPageWithLayout = () => {
                     deserve to be recognized, and we're here to bridge the gap
                     between potential and opportunity.
                 </p>
-                {talentPoolStudentProfileDetail?.data != null &&
+                {/* {talentPoolStudentProfileDetail?.data != null &&
                 Object.keys(talentPoolStudentProfileDetail?.data).length > 0 ? (
                     <Link
                         href={'/portals/student/talent-pool/profile'}
@@ -69,14 +66,14 @@ const TalentPool: NextPageWithLayout = () => {
                     >
                         View Profile
                     </Link>
-                ) : (
+                ) : ( */}
                     <Link
                         href={'/portals/student/talent-pool/register-now'}
                         className="px-4 py-[5px] bg-[#F7910F] rounded-md text-white whitespace-nowrap"
                     >
                         Register now
                     </Link>
-                )}
+                {/* )} */}
             </div>
         </>
     )

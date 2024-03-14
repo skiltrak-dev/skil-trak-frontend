@@ -10,7 +10,7 @@ export const TalentPoolDropdown = ({
     dropDown,
     onClear,
 }: {
-    onClear?: () => void
+    onClear?: (e: any) => void
     title: string
     selected: string
     dropDown: () => ReactNode
@@ -40,8 +40,8 @@ export const TalentPoolDropdown = ({
                         <div className="flex items-center gap-x-1">
                             {onClear ? (
                                 <TiTimes
-                                    onClick={() => {
-                                        onClear()
+                                    onClick={(e: any) => {
+                                        onClear(e)
                                     }}
                                 />
                             ) : null}

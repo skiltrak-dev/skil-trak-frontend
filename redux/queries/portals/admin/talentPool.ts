@@ -19,11 +19,23 @@ export const talentPoolEndpoints = (
         }),
         providesTags: ['TalentPoolProfiles'],
     }),
-   
+    getTalentPoolProfilesCount: builder.query<any, void>({
+        query: () => ({
+            url: `${PREFIX}/talentpool/profiles-count`,
+        }),
+        providesTags: ['TalentPoolProfiles'],
+    }),
+    readTalentPoolProfilesCount: builder.mutation<any, void>({
+        query: () => ({
+            url: `${PREFIX}/talentpool-profiles/read`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['TalentPoolProfiles'],
+    }),
     deleteTalentPoolProfile: builder.mutation<any, any>({
         query: (id) => ({
-            url: `${PREFIX}/talentpoolprofile/${id}/delete`,
-            method: 'DELETE',
+            url: `${PREFIX}/talent-pool/profile/${id}`,
+            method: 'PATCH',
         }),
         invalidatesTags: ['TalentPoolProfiles'],
     }),

@@ -1,14 +1,20 @@
 import { Typography } from '@components/Typography'
-import { MediaQueries } from '@constants'
+import { MediaQueries, UserRoles } from '@constants'
+import { StudentApi, IndustryApi } from '@queries'
 import { isActiveRoute } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 
-export const NavLinkItem = ({ nav, PREFIX }: { PREFIX: string; nav: any }) => {
+export const NavLinkItem = ({
+    nav,
+    PREFIX,
+}: {
+    PREFIX: string
+    nav: any
+}) => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
-
     const router = useRouter()
     const isActive = (pathname: string) => {
         return isActiveRoute(pathname, router, PREFIX, true)
@@ -35,7 +41,7 @@ export const NavLinkItem = ({ nav, PREFIX }: { PREFIX: string; nav: any }) => {
                 </a>
             </Link>
             {nav?.count > 0 && (
-                <div className="absolute -top-1 -right-1 bg-success rounded-full w-4 h-4 flex justify-center items-center">
+                <div className="absolute -top-1 -right-2 bg-success rounded-full w-4 h-4 flex justify-center items-center">
                     <Typography variant="xs" color="text-white" semibold>
                         {nav?.count}
                     </Typography>

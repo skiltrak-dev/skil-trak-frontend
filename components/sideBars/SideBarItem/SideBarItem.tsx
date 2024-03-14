@@ -23,14 +23,15 @@ export const SideBarItem = ({
 }: NavItemProps) => {
     const [rplItemCount, setRplItemCount] = useState('0')
     const [volunteerItemCount, setVolunteerItemCount] = useState('0')
+    const [talentPoolProfilesCount, setTalentPoolProfilesCount] = useState('0')
     const router = useRouter()
     // const [rplCountReset, setRplCountReset] = useState(0)
     // const [volunteerCountReset, setVolunteerCountReset] = useState(0)
     const { data: rplCount } = AdminApi.Rpl.useRplCount()
     const { data: volunteerCount } = AdminApi.Volunteer.useVolunteerCount()
-    const [markAsRead, markAsReadResult] = AdminApi.Rpl.useRplRead()
-    const [volunteerRead, volunteerReadResult] =
-        AdminApi.Volunteer.useVolunteerRead()
+    const { data: talentPoolCount } =
+        AdminApi.TalentPool.useTalentProfilesCount()
+    
     const max = 9
     const classes = classNames({
         // Display
@@ -81,20 +82,17 @@ export const SideBarItem = ({
             setVolunteerItemCount(`${volunteerCount}`)
         }
     }, [volunteerCount])
+    useEffect(() => {
+        if (talentPoolCount > max) {
+            setTalentPoolProfilesCount(`${max}+`)
+        } else {
+            setTalentPoolProfilesCount(`${talentPoolCount}`)
+        }
+    }, [talentPoolCount])
+
     return link ? (
         <Link legacyBehavior href={link}>
-            <div
-                onClick={() => {
-                    if (router.pathname === '/portals/admin/rpl-list') {
-                        markAsRead()
-                    } else if (
-                        router.pathname === '/portals/admin/volunteer-requests'
-                    ) {
-                        volunteerRead()
-                    }
-                }}
-                className={classes}
-            >
+            <div className={classes}>
                 <Icon className={iconClasses} />
                 {children}
                 {children === 'RPL' &&
@@ -105,9 +103,15 @@ export const SideBarItem = ({
                     </span>
                 ) : children === 'Volunteer Request' &&
                   volunteerCount !== 0 &&
-                  rplCount !== undefined ? (
+                  volunteerCount !== undefined ? (
                     <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs">
                         {volunteerItemCount}
+                    </span>
+                ) : children === 'Talent Pool' &&
+                  talentPoolCount !== 0 &&
+                  talentPoolCount !== undefined ? (
+                    <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs">
+                        {talentPoolProfilesCount}
                     </span>
                 ) : null}
             </div>

@@ -25,13 +25,6 @@ export const subadminVolunteerEndpoints = (
     //     query: () => `${PREFIX}volunteer-requests/count`,
     //     providesTags: ['Volunteer'],
     // }),
-    // volunteerIsRead: builder.mutation<any, void>({
-    //     query: () => ({
-    //         url: `${PREFIX}volunteer/read`,
-    //         method: 'PATCH',
-    //     }),
-    //     invalidatesTags: ['Volunteer'],
-    // }),
     changeSubadminVolunteerRequestStatus: builder.mutation<
         any,
         { id: number; note: string; status: VolunteerRequestEnum }

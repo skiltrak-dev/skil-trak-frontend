@@ -53,6 +53,10 @@ const RPLList: NextPageWithLayout = (props: Props) => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    const [markAsRead, markAsReadResult] = AdminApi.Rpl.useRplRead()
+    useEffect(()=>{
+        markAsRead()
+    }, [])
     const onModalCancelClicked = () => {
         setModal(null)
     }

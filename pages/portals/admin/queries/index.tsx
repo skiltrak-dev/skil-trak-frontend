@@ -1,15 +1,11 @@
 import {
-    ActionButton,
-    Button,
     Card,
-    CaseOfficerAssignedStudent,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
-    StudentExpiryDaysLeft,
-    StudentSubAdmin,
+    TabNavigation,
+    TabProps,
     Table,
-    TableAction,
     TableChildrenProps,
     TechnicalError,
     TruncatedTextWithTooltip,
@@ -17,21 +13,19 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaPhone } from 'react-icons/fa'
+import { FaEye, FaPhone } from 'react-icons/fa'
 
-import { RtoCellInfo } from '@partials/admin/rto/components'
 import { CommonApi } from '@queries'
-import { Student } from '@types'
-import { checkListLength, isBrowser, setLink } from '@utils'
+import { isBrowser, setLink } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useRef, useState } from 'react'
-import { MdBlock, MdEmail } from 'react-icons/md'
+import { MdEmail } from 'react-icons/md'
 
 // hooks
 import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary'
 import { useActionModal } from '@hooks'
 import { AdminLayout } from '@layouts'
-import moment from 'moment'
+import { TraineeshipProgramQuery, WorkBasedQuery } from '@partials'
 
 const TraineeshipProgram = () => {
     const router = useRouter()
@@ -159,96 +153,38 @@ const TraineeshipProgram = () => {
         },
     ]
 
+    const tabs: TabProps[] = [
+        {
+            label: 'Traineeship Program',
+            href: {
+                pathname: 'queries',
+                query: { tab: 'traineeship' },
+            },
+
+            element: <TraineeshipProgramQuery />,
+        },
+        // {
+        //     label: 'Work Based Query',
+        //     href: {
+        //         pathname: 'queries',
+        //         query: { tab: 'work-base' },
+        //     },
+        //     element: <WorkBasedQuery />,
+        // },
+    ]
+
     return (
         <>
-            <div className="flex flex-col gap-y-4 px-4">
-                <div className="flex">
-                    <PageHeading
-                        title={'Traineeship Program'}
-                        subtitle={'List of Traineeship Program'}
-                    />
-                </div>
-                <Card noPadding>
-                    {isError && <TechnicalError />}
-                    {isLoading || isFetching ? (
-                        <LoadingAnimation height="h-[60vh]" />
-                    ) : data?.data && data?.data?.length ? (
-                        <Table columns={columns} data={data?.data}>
-                            {({
-                                table,
-                                pagination,
-                                pageSize,
-                                quickActions,
-                            }: TableChildrenProps) => {
-                                return (
-                                    <div>
-                                        <div
-                                            ref={listingRef}
-                                            onScroll={handleScroll}
-                                            className="p-6 mb-2 flex justify-between"
-                                        >
-                                            {pageSize
-                                                ? pageSize(
-                                                      itemPerPage,
-                                                      setItemPerPage,
-                                                      data?.data?.length
-                                                  )
-                                                : null}
-                                            <div className="flex gap-x-2">
-                                                {quickActions}
-                                                {pagination
-                                                    ? pagination(
-                                                          data?.pagination,
-                                                          setPage
-                                                      )
-                                                    : null}
-                                            </div>
-                                        </div>
-                                        <div className="overflow-x-auto remove-scrollbar">
-                                            <div
-                                                className="px-6 w-full"
-                                                id={'studentScrollId'}
-                                            >
-                                                {table}
-                                            </div>
-                                        </div>
-                                        {data?.data?.length > 10 && (
-                                            <div className="p-6 mb-2 flex justify-between">
-                                                {pageSize
-                                                    ? pageSize(
-                                                          itemPerPage,
-                                                          setItemPerPage,
-                                                          data?.data?.length
-                                                      )
-                                                    : null}
-                                                <div className="flex gap-x-2">
-                                                    {quickActions}
-                                                    {pagination
-                                                        ? pagination(
-                                                              data?.pagination,
-                                                              setPage
-                                                          )
-                                                        : null}
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                )
-                            }}
-                        </Table>
-                    ) : (
-                        !isError && (
-                            <EmptyData
-                                title={'No Traineeship Program!'}
-                                description={
-                                    'There is no Traineeship Program yet'
-                                }
-                                height={'50vh'}
-                            />
-                        )
-                    )}
-                </Card>
-            </div>
+            <TabNavigation tabs={tabs}>
+                {({ header, element }: any) => {
+                    return (
+                        <div>
+                            <div>{header}</div>
+                            <div className="p-4">{element}</div>
+                        </div>
+                    )
+                }}
+            </TabNavigation>
         </>
     )
 }

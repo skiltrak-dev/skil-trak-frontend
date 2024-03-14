@@ -62,10 +62,7 @@ const tabs: TabProps[] = [
 
 const TalentPoolList: NextPageWithLayout = () => {
     const navBar = useNavbar()
-    const contextBar = useContextBar()
     const router = useRouter()
-
-    const [filterAction, setFilterAction] = useState(null)
     const [selectedSector, setSelectedSector] = useState<OptionType | null>(
         null
     )
@@ -73,7 +70,9 @@ const TalentPoolList: NextPageWithLayout = () => {
         useState<TalentPoolProfileStatus>(TalentPoolProfileStatus.All)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-
+    const [readTalentPoolCount, readTalentPoolCountResult] =
+        AdminApi.TalentPool.useReadTalentPoolProfilesCount()
+        
     const talentPool = AdminApi.TalentPool.useTalentPoolRequests(
         {
             search: `${JSON.stringify({
@@ -94,6 +93,10 @@ const TalentPoolList: NextPageWithLayout = () => {
             refetchOnMountOrArgChange: true,
         }
     )
+
+    useEffect(() => {
+        readTalentPoolCount()
+    }, [])
 
     useEffect(() => {
         setPage(Number(router.query?.page || 1))
@@ -130,7 +133,8 @@ const TalentPoolList: NextPageWithLayout = () => {
                                     selectedSector?.label ||
                                     'Search by sector...'
                                 }
-                                onClear={() => {
+                                onClear={(e: any) => {
+                                    e.stopPropagation()
                                     setSelectedSector(null)
                                 }}
                                 dropDown={() => (

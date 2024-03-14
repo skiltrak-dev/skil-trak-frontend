@@ -107,23 +107,7 @@ export const StudentInfoCard = ({ profile, getSectors }: any) => {
                         {profile?.rto?.user?.name}
                     </Typography>
                 </div>
-                {/* Field of study */}
-                <div className="bg-[#EFF4FF] border rounded-md py-1.5 px-2.5">
-                    <Typography variant="xs" color="text-[#374151]">
-                        Field of Study
-                    </Typography>
-                    <Typography variant="muted" color="text-[#374151]">
-                        {getSectors && getSectors.length > 0 ? (
-                            <Typography variant="muted">
-                                {getSectors[0]?.name}
-                            </Typography>
-                        ) : (
-                            <Typography variant="muted">
-                                No sectors found
-                            </Typography>
-                        )}
-                    </Typography>
-                </div>
+               
                 {/* Expected Graduation Date */}
                 <div className="bg-[#EFF4FF] border rounded-md py-1.5 px-2.5">
                     <Typography variant="xs" color="text-[#374151]">

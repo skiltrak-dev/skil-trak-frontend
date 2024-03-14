@@ -45,7 +45,7 @@ export const TalentPoolStudentProfile = ({ data }: any) => {
                                 <Typography variant="xs" color="text-white">
                                     Profile Status:
                                 </Typography>
-                                <Typography variant="small" color="text-white">
+                                <Typography variant="xs" color="text-white">
                                     {data?.status === 'approved'
                                         ? 'Approved'
                                         : 'N/A'}
@@ -173,7 +173,7 @@ export const TalentPoolStudentProfile = ({ data }: any) => {
                 {/* col - 3 */}
                 <div className="md:w-1/3">
                     {/* Academic Information */}
-                    <div className="mt-4 mb-2">
+                    <div className="mb-2">
                         <Typography variant="subtitle" color="text-white">
                             Academic Information
                         </Typography>
@@ -188,28 +188,7 @@ export const TalentPoolStudentProfile = ({ data }: any) => {
                                 {data?.student?.rto?.user?.name}
                             </Typography>
                         </div>
-                        {/* Field of study */}
-                        <div className="bg-[#286788]  rounded-md py-1.5 px-2.5">
-                            <Typography variant="small" color="text-white">
-                                Field of Study
-                            </Typography>
 
-                            {getSectors && getSectors.length > 0 ? (
-                                <Typography
-                                    variant="muted"
-                                    color={'text-white'}
-                                >
-                                    {getSectors[0]?.name}
-                                </Typography>
-                            ) : (
-                                <Typography
-                                    variant="muted"
-                                    color={'text-white'}
-                                >
-                                    No sectors found
-                                </Typography>
-                            )}
-                        </div>
                         {/* Expected Graduation Date */}
                         <div className="bg-[#286788]  rounded-md py-1.5 px-2.5">
                             <Typography variant="muted" color="text-white">
@@ -225,25 +204,25 @@ export const TalentPoolStudentProfile = ({ data }: any) => {
                 </div>
             </div>
             <div className=" bg-white md:pl-8 md:pr-16 pb-5 px-4 md:pt-5 pt-2.5">
-                <div className="flex flex-col md:gap-y-0 gap-y-4 md:flex-row md:justify-between w-full">
+                <div className="flex flex-col gap-x-6 md:gap-y-0 gap-y-4 md:flex-row md:justify-between w-full">
                     <div className="md:w-1/3">
                         <Typography variant="label">About</Typography>
                         <Typography variant="small">{data?.about}</Typography>
                     </div>
                     <div className="bg-[#E6E6E6] md:h-[170px] w-[1px] mx-7 my-auto"></div>
-                    <div className="flex flex-col gap-y-4">
+                    <div className="flex flex-col gap-y-4 min-w-96">
                         <SkillsTag
                             title={'Skill & Talent'}
                             tags={data?.skills}
                         />
-                        <div className="bg-[#E6E6E6] md:w-[427px] h-[1px]"></div>
+                        {/* <div className="bg-[#E6E6E6] md:w-[427px] h-[1px]"></div> */}
                         <SkillsTag
                             title={'Portfolio/Links'}
                             tags={data?.socialLinks}
                         />
                     </div>
-                    <div className="bg-[#E6E6E6] md:h-[170px] w-[1px] mx-8 my-auto"></div>
-                    <div>
+                    {/* <div className="bg-[#E6E6E6] md:h-[170px] w-[1px] mx-8 my-auto"></div> */}
+                    <div className='min-w-44'>
                         <SkillsTag
                             title={'Area of Interest'}
                             tags={data?.interest}
