@@ -2,42 +2,42 @@ import { ReactElement, ReactNode, useEffect, useRef } from 'react'
 
 // components
 import {
-    SideBar,
-    ContextBar,
     AdminNavbar,
+    ContextBar,
     DisplayAlerts,
-    ProtectedRoute,
     DisplayNotifications,
+    ProtectedRoute,
+    SideBar,
 } from '@components'
 import { IconType } from 'react-icons'
 
+import { useRouter } from 'next/router'
+import { BiLogoBlogger } from 'react-icons/bi'
+import { BsFillTicketDetailedFill } from 'react-icons/bs'
 import {
     FaClipboardList,
-    FaUsers,
     FaFileInvoiceDollar,
+    FaFileSignature,
+    FaMapMarkedAlt,
     FaUniversity,
     FaUserGraduate,
+    FaUsers,
 } from 'react-icons/fa'
+import { FaCircleQuestion } from 'react-icons/fa6'
+import { HiOutlineDocumentText } from 'react-icons/hi2'
 import { IoMdBriefcase } from 'react-icons/io'
+import { LiaCertificateSolid } from 'react-icons/lia'
 import {
+    MdEmail,
+    MdFindInPage,
+    MdHistory,
     MdHomeWork,
+    MdNotificationsActive,
     MdSpaceDashboard,
     MdSubscriptions,
     MdVolunteerActivism,
-    MdFindInPage,
-    MdHistory,
 } from 'react-icons/md'
 import { RiShieldUserFill, RiVoiceRecognitionLine } from 'react-icons/ri'
-import { MdNotificationsActive, MdEmail } from 'react-icons/md'
-import { BsFillTicketDetailedFill } from 'react-icons/bs'
-import { HiOutlineDocumentText } from 'react-icons/hi2'
-import { useRouter } from 'next/router'
-import { FaFileSignature } from 'react-icons/fa'
-import { BiLogoBlogger } from 'react-icons/bi'
-import { FaMapMarkedAlt } from 'react-icons/fa'
-import { PiTextTThin } from 'react-icons/pi'
-import { LiaCertificateSolid } from "react-icons/lia";
-
 
 type Route = {
     type?: 'title' | 'divider'
@@ -159,9 +159,9 @@ const routes: Route[] = [
         Icon: BsFillTicketDetailedFill,
     },
     {
-        text: 'Traineeship Program',
-        path: getRoutePath('/traineeship-program'),
-        Icon: PiTextTThin,
+        text: 'Queries',
+        path: getRoutePath('/queries?tab=traineeship'),
+        Icon: FaCircleQuestion,
     },
     {
         text: 'Sub-Admin As Admin Activities',

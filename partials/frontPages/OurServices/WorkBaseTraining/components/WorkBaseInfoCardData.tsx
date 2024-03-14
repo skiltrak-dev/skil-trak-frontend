@@ -3,7 +3,7 @@ import { MediaQueries } from '@constants'
 import React, { ReactNode } from 'react'
 import { useMediaQuery } from 'react-responsive'
 
-export const WorkBaseInfo = ({
+export const WorkBaseInfoCardData = ({
     title,
     children,
 }: {
@@ -23,7 +23,12 @@ export const WorkBaseInfo = ({
             </Typography>
             <div className="flex flex-col gap-y-3.5">
                 {children?.map((child: any, i: number) => (
-                    <Typography key={i} variant="label" color="text-[#56585a]">
+                    <Typography
+                        key={i}
+                        variant="small"
+                        medium
+                        color="text-[#56585a]"
+                    >
                         {child}
                     </Typography>
                 ))}

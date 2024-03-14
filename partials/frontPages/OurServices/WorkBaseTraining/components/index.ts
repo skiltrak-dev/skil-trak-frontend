@@ -1,1 +1,5 @@
-export * from './WorkBaseInfo'
+export * from './WorkbaseQuery'
+export * from './WorkBaseInfoRTOs'
+export * from './WorkBaseInfoStudent'
+export * from './WorkBaseInfoCardData'
+export * from './WorkBaseInfoIndustries'

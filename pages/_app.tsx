@@ -2,6 +2,7 @@ import {
     AlertProvider,
     ContextBarProvider,
     DownloadAssessmentProvider,
+    HeaderWrapperProvider,
     JoyRideProvider,
     NavbarProvider,
     NetworkProvider,
@@ -25,16 +26,16 @@ import { store } from '../redux/store'
 
 import { HeadWrapper } from '@layouts'
 
-import { Socket } from '@components'
+import 'swiper/css'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
-import 'react-datepicker/dist/react-datepicker.css'
-import 'swiper/css'
 import 'swiper/css/bundle'
 import 'swiper/css/free-mode'
+import 'swiper/css/scrollbar'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
-import 'swiper/css/scrollbar'
+import { Socket } from '@components'
+import 'react-datepicker/dist/react-datepicker.css'
 
 //test
 import { GoogleAnalyticsScript } from '@scripts'
@@ -49,8 +50,18 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         applyTheme((Theme as any)[getCurrentTheme()].theme)
         AOS.init({
             duration: 1000, // Animation duration in milliseconds
-            once: true, // Whether animation should only happen once while scrolling down
         })
+
+        // Reinitialize AOS every time the user scrolls
+        // window.addEventListener('scroll', () => {
+        //     AOS.refresh()
+        // })
+
+        // return () => {
+        //     window.removeEventListener('scroll', () => {
+        //         AOS.refresh()
+        //     })
+        // }
     }, [])
 
     const getLayout = Component.getLayout ?? ((page) => page)
@@ -70,19 +81,21 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                                     <NotificationProvider>
                                         <NavbarProvider>
                                             <ContextBarProvider>
-                                                <SocketListenerProvider>
-                                                    <Socket>
-                                                        <NetworkProvider>
-                                                            <HeadWrapper>
-                                                                {getLayout(
-                                                                    <Component
-                                                                        {...pageProps}
-                                                                    />
-                                                                )}
-                                                            </HeadWrapper>
-                                                        </NetworkProvider>
-                                                    </Socket>
-                                                </SocketListenerProvider>
+                                                <HeaderWrapperProvider>
+                                                    <SocketListenerProvider>
+                                                        <Socket>
+                                                            <NetworkProvider>
+                                                                <HeadWrapper>
+                                                                    {getLayout(
+                                                                        <Component
+                                                                            {...pageProps}
+                                                                        />
+                                                                    )}
+                                                                </HeadWrapper>
+                                                            </NetworkProvider>
+                                                        </Socket>
+                                                    </SocketListenerProvider>
+                                                </HeaderWrapperProvider>
                                             </ContextBarProvider>
                                         </NavbarProvider>
                                     </NotificationProvider>
