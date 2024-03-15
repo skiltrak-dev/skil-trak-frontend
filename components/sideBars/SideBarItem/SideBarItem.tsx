@@ -35,7 +35,7 @@ export const SideBarItem = ({
     const { data: volunteerCount } = AdminApi.Volunteer.useVolunteerCount()
     const { data: talentPoolCount } =
         AdminApi.TalentPool.useTalentProfilesCount()
-    
+
     const max = 9
     const classes = classNames({
         // Display
@@ -99,26 +99,6 @@ export const SideBarItem = ({
             <div className={classes}>
                 <Icon className={iconClasses} />
                 {children}
-<<<<<<< Updated upstream
-                {children === 'RPL' &&
-                rplCount !== 0 &&
-                rplCount !== undefined ? (
-                    <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs">
-                        {rplItemCount}
-                    </span>
-                ) : children === 'Volunteer Request' &&
-                  volunteerCount !== 0 &&
-                  volunteerCount !== undefined ? (
-                    <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs">
-                        {volunteerItemCount}
-                    </span>
-                ) : children === 'Talent Pool' &&
-                  talentPoolCount !== 0 &&
-                  talentPoolCount !== undefined ? (
-                    <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs">
-                        {talentPoolProfilesCount}
-                    </span>
-=======
                 {count ? (
                     count?.loading ? (
                         <PulseLoader size={15} color={'black'} />
@@ -127,7 +107,6 @@ export const SideBarItem = ({
                             {count?.text}
                         </span>
                     )
->>>>>>> Stashed changes
                 ) : null}
             </div>
         </Link>

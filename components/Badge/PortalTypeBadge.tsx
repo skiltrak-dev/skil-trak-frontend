@@ -21,8 +21,12 @@ export const PortalTypeBadge = ({ type }: PortalTypeBadgeProps) => {
             true,
     })
     return (
-        <span className={`${classes} ${PortalTypes[type].classes}`}>
-            {PortalTypes[type].text}
+        <span
+            className={`${classes} ${
+                PortalTypes[type as keyof typeof PortalTypes].classes
+            }`}
+        >
+            {PortalTypes[type as keyof typeof PortalTypes].text}
         </span>
     )
 }

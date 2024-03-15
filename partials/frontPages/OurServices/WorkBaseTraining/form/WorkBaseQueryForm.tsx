@@ -12,7 +12,6 @@ export const WorkBaseQueryForm = ({
     result: any
     onSubmit: (values: any) => void
 }) => {
-    console.log({ Country: Country.getAllCountries() })
     const validationSchema = Yup.object({
         fullName: Yup.string().required('Name is required!'),
         email: Yup.string()
