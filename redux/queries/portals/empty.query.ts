@@ -28,7 +28,7 @@ const adminTagTypes = [
     'BlogCategories',
     'AppointmentTypes',
     'AutoAssignWorkplace',
-    'TalentPoolProfiles'
+    'TalentPoolProfiles',
 ]
 
 const subadminTagTypes = [
@@ -111,6 +111,7 @@ const commonTagTypes = [
     'Industry',
     'MailCount',
     'Agreement',
+    'WorkBased',
     'Statistics',
     'BulkStatus',
     'MailsRecent',

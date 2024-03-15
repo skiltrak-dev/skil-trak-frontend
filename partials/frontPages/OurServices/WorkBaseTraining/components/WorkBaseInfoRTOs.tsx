@@ -12,8 +12,8 @@ export const WorkBaseInfoRTOs = () => {
                     'url(/images/site/services/webbasetraining/updatedBorderRight.png) 12 round',
             }}
         >
-            <div className="flex items-center h-full gap-x-20 py-6 lg:py-0 px-2 lg:px-16">
-                <div className="w-full lg:w-[calc(100%-490px)]">
+            <div className="flex items-center h-full gap-x-12 xl:gap-x-20 py-6 lg:py-0 px-2 lg:px-12 xl:px-16">
+                <div className="w-full lg:w-[calc(100%-400px)] xl:w-[calc(100%-490px)]">
                     <WorkBaseInfoCardData title="Registered Training Organisations (RTOs)">
                         <span>
                             We understand the challenges faced by RTOs in
@@ -40,7 +40,7 @@ export const WorkBaseInfoRTOs = () => {
                         </span>
                     </WorkBaseInfoCardData>
                 </div>
-                <div className="hidden lg:block w-[490px] relative h-full py-6 pr-10">
+                <div className="hidden lg:block w-[400px] xl:w-[490px] relative h-full py-6 pr-10">
                     <Image
                         src={'/images/site/services/webbasetraining/rto1.png'}
                         alt={''}

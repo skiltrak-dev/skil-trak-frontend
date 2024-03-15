@@ -1,7 +1,8 @@
+import { UserRoles } from '@constants'
 import classNames from 'classnames'
 
 interface PortalTypeBadgeProps {
-    type: 'admin' | 'industry' | 'student' | 'rto' | 'coordinator'
+    type: UserRoles | 'coordinator'
 }
 
 const PortalTypes = {

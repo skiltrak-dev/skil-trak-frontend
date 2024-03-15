@@ -1,8 +1,9 @@
 import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, TextArea, TextInput } from '@components'
+import { Button, Select, TextArea, TextInput } from '@components'
 import { useEffect } from 'react'
+import { Country } from 'country-state-city'
 
 export const WorkBaseQueryForm = ({
     onSubmit,
@@ -11,6 +12,7 @@ export const WorkBaseQueryForm = ({
     result: any
     onSubmit: (values: any) => void
 }) => {
+    console.log({ Country: Country.getAllCountries() })
     const validationSchema = Yup.object({
         fullName: Yup.string().required('Name is required!'),
         email: Yup.string()
@@ -32,6 +34,11 @@ export const WorkBaseQueryForm = ({
             methods.reset()
         }
     }, [result])
+
+    const CountryOptions = Country.getAllCountries()?.map((country) => ({
+        label: country?.name,
+        value: country?.name,
+    }))
     return (
         <div>
             <FormProvider {...methods}>
@@ -75,13 +82,12 @@ export const WorkBaseQueryForm = ({
 
                         {/*  */}
                         <div className="flex flex-col gap-y-3">
-                            <TextInput
-                                label={'Country'}
+                            <Select
+                                onlyValue
                                 name={'country'}
+                                label={'Country'}
+                                options={CountryOptions}
                                 placeholder={'Your Country here...'}
-                                validationIcons
-                                required
-                                showError={false}
                             />
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-x-3">
@@ -94,8 +100,7 @@ export const WorkBaseQueryForm = ({
                             />
                             <TextInput
                                 label={'Institution/College Name'}
-                                name={'email'}
-                                type={'email'}
+                                name={'institute'}
                                 placeholder={
                                     'Your Institution/College Name here...'
                                 }

@@ -1,8 +1,9 @@
-import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, TextArea, TextInput } from '@components'
 import { useEffect } from 'react'
+import { Country } from 'country-state-city'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { FormProvider, useForm } from 'react-hook-form'
+import { Button, Select, TextArea, TextInput } from '@components'
 
 export const UpskillForm = ({
     onSubmit,
@@ -32,6 +33,12 @@ export const UpskillForm = ({
             methods.reset()
         }
     }, [result])
+
+    const CountryOptions = Country.getAllCountries()?.map((country) => ({
+        label: country?.name,
+        value: country?.name,
+    }))
+
     return (
         <div>
             <FormProvider {...methods}>
@@ -75,13 +82,12 @@ export const UpskillForm = ({
 
                         {/*  */}
                         <div className="flex flex-col gap-y-3">
-                            <TextInput
+                            <Select
                                 label={'Country'}
                                 name={'country'}
+                                options={CountryOptions}
                                 placeholder={'Your Country here...'}
-                                validationIcons
-                                required
-                                showError={false}
+                                onlyValue
                             />
 
                             <TextArea

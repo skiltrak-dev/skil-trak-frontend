@@ -1,4 +1,5 @@
 import {
+    Button,
     Card,
     EmptyData,
     InitialAvatar,
@@ -14,39 +15,21 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEye, FaPhone } from 'react-icons/fa'
 
 import { CommonApi } from '@queries'
-import { isBrowser, setLink } from '@utils'
+import { setLink } from '@utils'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useRef, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { MdEmail } from 'react-icons/md'
 
 // hooks
 import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary'
-import { useActionModal } from '@hooks'
-import { AdminLayout } from '@layouts'
+import { ContactWorkBasedModal } from './modals'
 
 export const WorkBasedQuery = () => {
     const router = useRouter()
-    const [modal, setModal] = useState<ReactElement | null>(null)
-    const [refetchStudents, setRefetchStudents] = useState(false)
+
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const listingRef = useRef<any>(null)
-
-    const savedScrollPosition =
-        isBrowser() && localStorage.getItem('lastScroll')
-    useEffect(() => {
-        if (listingRef.current && savedScrollPosition) {
-            listingRef.current.scrollTop = parseInt(savedScrollPosition, 10)
-        }
-    }, [savedScrollPosition, listingRef])
-
-    // Function to handle scrolling
-    const handleScroll = () => {
-        if (listingRef.current) {
-            isBrowser() &&
-                localStorage.setItem('lastScroll', listingRef.current.scrollTop)
-        }
-    }
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -54,10 +37,9 @@ export const WorkBasedQuery = () => {
     }, [router])
 
     // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, isFetching, data, isError, refetch } =
-        CommonApi.Traineeship.useGetList(
+        CommonApi.WorkBased.useWorkBasedList(
             {
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
@@ -65,20 +47,15 @@ export const WorkBasedQuery = () => {
             { refetchOnMountOrArgChange: true }
         )
 
-    const tableActionOptions = (student: any) => {
-        return [
-            {
-                text: 'View',
-                onClick: (student: any) => {
-                    router.push(
-                        `/portals/admin/student/${student?.id}?tab=overview`
-                    )
-                    setLink('student', router)
-                },
-                Icon: FaEye,
-            },
-        ]
-    }
+    const onCancelModal = () => setModal(null)
+
+    const onContactModal = (workBase: any) =>
+        setModal(
+            <ContactWorkBasedModal
+                onCancel={onCancelModal}
+                workBase={workBase}
+            />
+        )
 
     const columns: ColumnDef<any>[] = [
         {
@@ -132,26 +109,33 @@ export const WorkBasedQuery = () => {
             header: () => <span>Age</span>,
         },
         {
-            accessorKey: 'qualification',
-            header: () => <span>Qualification</span>,
+            accessorKey: 'course',
+            header: () => <span>Course</span>,
         },
         {
-            accessorKey: 'experience',
-            header: () => <span>Experience</span>,
-            cell: (info) => {
-                const userDetail = info.row?.original
-                return (
-                    <TruncatedTextWithTooltip
-                        text={info.row?.original?.experience}
-                        maxLength={20}
-                    />
-                )
-            },
+            accessorKey: 'institute',
+            header: () => <span>Institute</span>,
+        },
+        {
+            accessorKey: 'Action',
+            header: () => <span>Action</span>,
+            cell: (info) => (
+                <Button
+                    text={info.row?.original?.isRead ? 'Contacted' : 'Contact'}
+                    onClick={() => {
+                        if (!info.row?.original?.isRead) {
+                            onContactModal(info.row?.original)
+                        }
+                    }}
+                    variant={info.row?.original?.isRead ? 'info' : 'primary'}
+                />
+            ),
         },
     ]
 
     return (
         <>
+            {modal}
             <div className="flex flex-col gap-y-4 px-4">
                 <div className="flex">
                     <PageHeading
@@ -173,11 +157,7 @@ export const WorkBasedQuery = () => {
                             }: TableChildrenProps) => {
                                 return (
                                     <div>
-                                        <div
-                                            ref={listingRef}
-                                            onScroll={handleScroll}
-                                            className="p-6 mb-2 flex justify-between"
-                                        >
+                                        <div className="p-6 mb-2 flex justify-between">
                                             {pageSize
                                                 ? pageSize(
                                                       itemPerPage,
