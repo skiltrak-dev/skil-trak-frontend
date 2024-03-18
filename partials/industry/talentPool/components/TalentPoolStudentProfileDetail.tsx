@@ -113,7 +113,7 @@ export const TalentPoolStudentProfileDetail = ({
                         {connectionStatus === 'requested' ? (
                             <div className="flex items-center gap-x-1.5">
                                 <div className="bg-primary text-white rounded-md text-base font-medium px-4 py-2">
-                                    Pending
+                                    Requested
                                 </div>
                             </div>
                         ) : connectionStatus === 'connected' ? (

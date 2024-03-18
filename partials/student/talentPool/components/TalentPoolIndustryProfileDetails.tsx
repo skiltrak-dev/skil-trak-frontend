@@ -17,14 +17,17 @@ import { IndustryApi } from '@queries'
 import { TalentPoolStatusEnum, getGender } from '@utils'
 import { TalentPoolNotification } from '@partials/common/TalentPool'
 
-export const TalentPoolIndustryProfileDetails = ({ profile, setView }: any) => {
+type TalentPoolIndustryProfileDetailsProps={
+    profile: any
+    setView: any
+    getSectors?: any
+}
+export const TalentPoolIndustryProfileDetails = ({ profile, setView, getSectors }: TalentPoolIndustryProfileDetailsProps) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const { notification } = useNotification()
     const [sentConnectionReq, sentConnectionReqResult] =
         IndustryApi.TalentPool.useSentRequestConnection()
-    const getSectors = useMemo(() => {
-        return profile?.student?.courses?.map((course: any) => course?.sector)
-    }, [profile])
+   
     const onCancelClicked = () => {
         setModal(null)
     }

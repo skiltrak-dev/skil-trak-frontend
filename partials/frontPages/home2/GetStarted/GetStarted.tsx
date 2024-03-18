@@ -44,7 +44,7 @@ export const GetStarted = ({ contactUsRef }: { contactUsRef: any }) => {
                 />
                 <Button
                     onClick={() => {
-                        contactUsRef.current.scrollIntoView({
+                        contactUsRef?.current?.scrollIntoView({
                             behavior: 'smooth',
                         })
                     }}

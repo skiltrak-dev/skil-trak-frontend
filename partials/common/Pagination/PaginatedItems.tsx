@@ -23,7 +23,7 @@ export const PaginatedItems = ({
     useEffect(() => {
         setInitialPage(0)
         setItemOffset(0)
-    }, [data, itemsPerPage])
+    }, [ itemsPerPage])
     const currentPage = parseInt(router.query.page as string) || 1
 
     useEffect(() => {
@@ -34,7 +34,7 @@ export const PaginatedItems = ({
         // searchParams()
         setItemOffset((currentPage - 1) * itemsPerPage)
         setInitialPage(currentPage - 1)
-    }, [itemOffset, itemsPerPage, data, currentPage])
+    }, [itemOffset, itemsPerPage, currentPage])
 
     const onPaginationClick = (event: any) => {
         const newPage = event.selected + 1
