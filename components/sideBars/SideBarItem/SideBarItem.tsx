@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { MouseEventHandler, ReactNode, useEffect, useState } from 'react'
 import { AdminApi, adminApi } from '@queries'
 import { useRouter } from 'next/router'
+import { RouteNavLinkCountType } from '@layouts'
+import { PulseLoader } from 'react-spinners'
 
 interface NavItemProps {
     link?: string
@@ -11,6 +13,7 @@ interface NavItemProps {
     active?: boolean
     color?: boolean
     onClick?: MouseEventHandler
+    count?: RouteNavLinkCountType
 }
 
 export const SideBarItem = ({
@@ -19,6 +22,7 @@ export const SideBarItem = ({
     children,
     active,
     color,
+    count,
     onClick,
 }: NavItemProps) => {
     const [rplItemCount, setRplItemCount] = useState('0')
@@ -31,7 +35,7 @@ export const SideBarItem = ({
     const { data: volunteerCount } = AdminApi.Volunteer.useVolunteerCount()
     const { data: talentPoolCount } =
         AdminApi.TalentPool.useTalentProfilesCount()
-    
+
     const max = 9
     const classes = classNames({
         // Display
@@ -95,24 +99,14 @@ export const SideBarItem = ({
             <div className={classes}>
                 <Icon className={iconClasses} />
                 {children}
-                {children === 'RPL' &&
-                rplCount !== 0 &&
-                rplCount !== undefined ? (
-                    <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs">
-                        {rplItemCount}
-                    </span>
-                ) : children === 'Volunteer Request' &&
-                  volunteerCount !== 0 &&
-                  volunteerCount !== undefined ? (
-                    <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs">
-                        {volunteerItemCount}
-                    </span>
-                ) : children === 'Talent Pool' &&
-                  talentPoolCount !== 0 &&
-                  talentPoolCount !== undefined ? (
-                    <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs">
-                        {talentPoolProfilesCount}
-                    </span>
+                {count ? (
+                    count?.loading ? (
+                        <PulseLoader size={15} color={'black'} />
+                    ) : (
+                        <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs">
+                            {count?.text}
+                        </span>
+                    )
                 ) : null}
             </div>
         </Link>

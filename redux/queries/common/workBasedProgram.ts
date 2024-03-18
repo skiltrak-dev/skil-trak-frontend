@@ -1,0 +1,37 @@
+import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
+import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+
+export const workBasedProgramEndpoints = (
+    builder: EndpointBuilder<BaseQueryFn, string, string>
+) => ({
+    getWorkBasedProgram: builder.query<any, any>({
+        query: (params) => ({
+            url: 'queries/work-based/list',
+            params,
+        }),
+        providesTags: ['WorkBased'],
+    }),
+    getWorkBasedProgramCount: builder.query<any, void>({
+        query: () => 'admin/work-based/queries-count',
+        providesTags: ['WorkBased'],
+    }),
+    getWorkBasedProgramAndTraineeshipCount: builder.query<any, void>({
+        query: () => 'admin/queries/count-both',
+        providesTags: ['WorkBased'],
+    }),
+    addWorkBasedProgram: builder.mutation<any, void>({
+        query: (body) => ({
+            url: `queries/work-based/add`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['WorkBased'],
+    }),
+    contactWorkBasedProgram: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `admin/work-based/query/${id}/read`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['WorkBased'],
+    }),
+})

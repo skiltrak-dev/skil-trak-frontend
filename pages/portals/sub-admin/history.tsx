@@ -26,7 +26,7 @@ export enum FilterType {
 }
 
 const SubAdminHistory: NextPageWithLayout = () => {
-    const [itemPerPage, setItemPerPage] = useState(100)
+    const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [isCustomRange, setIsCustomRange] = useState<boolean>(false)
     const [filterType, setFilterType] = useState<FilterType>(

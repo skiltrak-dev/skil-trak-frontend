@@ -7,8 +7,16 @@ import { PortalTypeBadge } from '@components/Badge'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { UserActions } from './components'
+import { RouteNavLink } from '@layouts'
+import { UserRoles } from '@constants'
 
-export const SideBar = ({ routes, portalType }: any) => {
+export const SideBar = ({
+    routes,
+    portalType,
+}: {
+    routes: RouteNavLink[]
+    portalType: UserRoles
+}) => {
     const router = useRouter()
     const currentPath = router.pathname.replace('/portals/admin', '')
 
@@ -80,6 +88,7 @@ export const SideBar = ({ routes, portalType }: any) => {
                                         Icon={route.Icon}
                                         link={route.path.replace('*', '')}
                                         active={isActiveRoute(route.path)}
+                                        count={route?.count}
                                     >
                                         {route.text}
                                     </SideBarItem>
