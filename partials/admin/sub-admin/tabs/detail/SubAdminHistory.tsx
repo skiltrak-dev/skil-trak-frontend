@@ -2,7 +2,9 @@ import {
     EmptyData,
     LoadingAnimation,
     NoData,
+    PageSize,
     PageTitle,
+    Pagination,
     TechnicalError,
 } from '@components'
 import { FigureCard } from '@components/sections/subAdmin'
@@ -51,6 +53,8 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
                     .replaceAll('"', '')
                     .trim()}`,
                 coordinator: subadmin,
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
             },
             {
                 refetchOnMountOrArgChange: true,
@@ -146,6 +150,15 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
                     </div>
                 )
             )}
+
+            <div className="flex items-center justify-between">
+                <PageSize
+                    itemPerPage={itemPerPage}
+                    setItemPerPage={setItemPerPage}
+                    records={data?.data?.length}
+                />
+                <Pagination pagination={data?.pagination} setPage={setPage} />
+            </div>
 
             {isError && <TechnicalError />}
             {isLoading || isFetching ? (

@@ -1,16 +1,13 @@
-import { Footer4 } from '@components/site'
-import { Navbar2 } from '@components/site/navbar'
+import { SiteLayout } from '@layouts'
 import { WorkBaseTraining } from '@partials/frontPages'
-import React from 'react'
+import { ReactElement } from 'react'
 
 const WorkBasedTraining = () => {
-    return (
-        <div>
-            <Navbar2 />
-            <WorkBaseTraining />
-            <Footer4 />
-        </div>
-    )
+    return <WorkBaseTraining />
+}
+
+WorkBasedTraining.getLayout = (page: ReactElement) => {
+    return <SiteLayout>{page}</SiteLayout>
 }
 
 export default WorkBasedTraining

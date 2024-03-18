@@ -1,37 +1,71 @@
 import Image from 'next/image'
 import { WorkBaseInfoCardData } from './WorkBaseInfoCardData'
+import { motion } from 'framer-motion'
 
 export const WorkBaseInfoStudent = () => {
     return (
         <div
             data-aos="fade-right"
-            className="relative w-[95%] h-auto lg:h-[335px] bg-no-repeat"
+            className="relative w-[95%] h-auto lg:h-[335px]  bg-no-repeat"
             style={{
                 border: '10px solid transparent',
                 borderImage:
                     'url(/images/site/services/webbasetraining/updatedBorder.png) 12 round',
             }}
         >
-            <div className="flex items-center h-full gap-x-20 py-6 lg:py-0 px-2 lg:px-16">
-                <div className="hidden lg:block w-[490px] relative h-full py-6 pl-10">
-                    <Image
-                        src={
-                            '/images/site/services/webbasetraining/student1.png'
-                        }
-                        alt={''}
-                        width={255}
-                        height={184}
-                        className="rounded-[10px]"
-                    />
-                    <Image
-                        src={
-                            '/images/site/services/webbasetraining/student2.png'
-                        }
-                        alt={''}
-                        width={194}
-                        height={139}
-                        className="rounded-[10px] absolute right-0 top-1/2 -translate-y-1/2"
-                    />
+            <div className="flex items-center h-full gap-x-12 xl:gap-x-20 py-6 lg:py-0 px-2 lg:px-12 xl:px-16">
+                <div className="hidden lg:block w-[400px] xl:w-[490px] relative h-full py-6 pl-10">
+                    <motion.div
+                        initial={{
+                            y: -200,
+                            opacity: 0,
+                        }}
+                        animate={{
+                            y: 0,
+                            opacity: 1,
+                        }}
+                        transition={{
+                            stiffness: 130,
+                            duration: 0.9,
+                            type: 'spring',
+                        }}
+                    >
+                        <Image
+                            src={
+                                '/images/site/services/webbasetraining/student1.png'
+                            }
+                            alt={''}
+                            width={255}
+                            height={184}
+                            className="rounded-[10px]"
+                        />
+                    </motion.div>
+                    <motion.div
+                        initial={{
+                            x: 200,
+                            opacity: 0,
+                        }}
+                        animate={{
+                            x: 0,
+                            opacity: 1,
+                        }}
+                        transition={{
+                            stiffness: 130,
+                            duration: 0.9,
+                            type: 'spring',
+                        }}
+                    >
+                        <Image
+                            src={
+                                '/images/site/services/webbasetraining/student2.png'
+                            }
+                            alt={''}
+                            width={194}
+                            height={139}
+                            className="rounded-[10px] absolute right-0 top-1/2 -translate-y-1/2"
+                        />
+                    </motion.div>
+
                     <Image
                         src={
                             '/images/site/services/webbasetraining/student3.png'
@@ -42,7 +76,7 @@ export const WorkBaseInfoStudent = () => {
                         className="rounded-[10px] absolute bottom-6 left-20"
                     />
                 </div>
-                <div className="w-full lg:w-[calc(100%-490px)]">
+                <div className="w-full lg:w-[calc(100%-400px)] xl:w-[calc(100%-490px)]">
                     <WorkBaseInfoCardData title="Students">
                         <span>
                             At the heart of our program are the students,

@@ -9,7 +9,7 @@ import {
     Typography,
 } from '@components'
 import { TicketSubject, TicketUser } from '@partials/common/Tickets/components'
-import { CommonApi, SubAdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import moment from 'moment'
 import { useRouter } from 'next/router'
@@ -82,6 +82,19 @@ export const ClosedTickets = () => {
                 <TicketUser ticket={info?.row?.original?.assignedTo} />
             ),
             header: () => <span>Assigned To</span>,
+        },
+        {
+            accessorKey: 'closedAt',
+            cell: (info) => (
+                <Typography variant="small" semibold>
+                    <span className="whitespace-pre">
+                        {moment(info.row.original?.closedAt).format(
+                            'DD, MMM YYYY'
+                        )}
+                    </span>
+                </Typography>
+            ),
+            header: () => <span>Closed At</span>,
         },
         {
             accessorKey: 'priority',

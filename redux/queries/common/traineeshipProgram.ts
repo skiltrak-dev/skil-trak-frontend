@@ -9,6 +9,11 @@ export const traineeshipProgramEndpoints = (
             url: 'queries',
             params,
         }),
+        providesTags: ['Traineeship'],
+    }),
+    getTraineeshipProgramCount: builder.query<any, void>({
+        query: () => 'admin/queries-count',
+        providesTags: ['Traineeship'],
     }),
     addTraineeshipProgram: builder.mutation<any, void>({
         query: (body) => ({
@@ -17,5 +22,12 @@ export const traineeshipProgramEndpoints = (
             body,
         }),
         invalidatesTags: ['Traineeship'],
+    }),
+    contactTraineeshipProgram: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `admin/query/${id}/read`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Traineeship', 'WorkBased'],
     }),
 })

@@ -12,8 +12,8 @@ export const WorkBaseInfoIndustries = () => {
                     'url(/images/site/services/webbasetraining/updatedBorder.png) 12 round',
             }}
         >
-            <div className="flex items-center h-full gap-x-20 py-6 lg:py-0 px-2 lg:px-16">
-                <div className="hidden lg:block w-[490px]  relative h-full py-6 pl-10">
+            <div className="flex items-center h-full gap-x-6 xl:gap-x-20 py-6 lg:py-0 px-2 lg:px-6 xl:px-16">
+                <div className="hidden lg:block w-[380px] xl:w-[490px] relative h-full py-6 xl:pl-10">
                     <Image
                         src={
                             '/images/site/services/webbasetraining/industry1.png'
@@ -42,7 +42,7 @@ export const WorkBaseInfoIndustries = () => {
                         className="rounded-[10px] absolute bottom-6 left-20"
                     />
                 </div>
-                <div className="w-full lg:w-[calc(100%-490px)]">
+                <div className="w-full lg:w-[calc(100%-380px)] xl:w-[calc(100%-490px)]">
                     <WorkBaseInfoCardData title="Industries">
                         <span>
                             In today's dynamic business landscape, industries

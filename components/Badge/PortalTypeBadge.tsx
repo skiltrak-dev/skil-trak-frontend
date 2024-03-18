@@ -1,7 +1,8 @@
+import { UserRoles } from '@constants'
 import classNames from 'classnames'
 
 interface PortalTypeBadgeProps {
-    type: 'admin' | 'industry' | 'student' | 'rto' | 'coordinator'
+    type: UserRoles | 'coordinator'
 }
 
 const PortalTypes = {
@@ -20,8 +21,12 @@ export const PortalTypeBadge = ({ type }: PortalTypeBadgeProps) => {
             true,
     })
     return (
-        <span className={`${classes} ${PortalTypes[type].classes}`}>
-            {PortalTypes[type].text}
+        <span
+            className={`${classes} ${
+                PortalTypes[type as keyof typeof PortalTypes].classes
+            }`}
+        >
+            {PortalTypes[type as keyof typeof PortalTypes].text}
         </span>
     )
 }

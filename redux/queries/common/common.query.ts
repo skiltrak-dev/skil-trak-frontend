@@ -1,24 +1,25 @@
-import { allCommunicationEndpoints } from './allCommunication'
-import { appointmentsEndpoints } from './appointments'
-import { changeProfileImageEndpoints } from './changeProfileImage'
-import { coursesEndpoints } from './courses'
-import { impersonationEndpoints } from './impersonation'
-import { industriesEndpoints } from './industries'
-import { mailsEndpoints } from './mails'
-import { notesEndpoints } from './notes'
-import { notificationsEndpoints } from './notifications'
 import { rtosEndpoints } from './rtos'
+import { notesEndpoints } from './notes'
+import { mailsEndpoints } from './mails'
+import { coursesEndpoints } from './courses'
+import { industriesEndpoints } from './industries'
+import { appointmentsEndpoints } from './appointments'
+import { impersonationEndpoints } from './impersonation'
+import { notificationsEndpoints } from './notifications'
+import { allCommunicationEndpoints } from './allCommunication'
+import { changeProfileImageEndpoints } from './changeProfileImage'
 
-import { emptySplitApi } from '@queries/portals/empty.query'
 import { UserStatus } from '@types'
-import { agreementsEndpoints } from './agreement'
-import { draftEndpoints } from './draft'
-import { ticketEndpoints } from './ticket.query'
-import { studentAssessmentGalleryEndpoints } from './studentAssessmentGallery'
 import { LogoutType } from '@hooks'
-import { findWorkplaceEndpoints } from './findWorkplaces'
+import { draftEndpoints } from './draft'
 import { eSignEndpoints } from './eSign'
+import { ticketEndpoints } from './ticket.query'
+import { agreementsEndpoints } from './agreement'
+import { findWorkplaceEndpoints } from './findWorkplaces'
+import { emptySplitApi } from '@queries/portals/empty.query'
+import { workBasedProgramEndpoints } from './workBasedProgram'
 import { traineeshipProgramEndpoints } from './traineeshipProgram'
+import { studentAssessmentGalleryEndpoints } from './studentAssessmentGallery'
 
 export const commonApi = emptySplitApi.injectEndpoints({
     // ---------- COMMON ENDPOINTS ---------- //
@@ -259,6 +260,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
         ...notificationsEndpoints(build),
         ...findWorkplaceEndpoints(build),
         ...impersonationEndpoints(build),
+        ...workBasedProgramEndpoints(build),
         ...allCommunicationEndpoints(build),
         ...changeProfileImageEndpoints(build),
         ...traineeshipProgramEndpoints(build),
@@ -473,6 +475,15 @@ const {
     // ---- Traineeship ---- //
     useGetTraineeshipProgramQuery,
     useAddTraineeshipProgramMutation,
+    useGetTraineeshipProgramCountQuery,
+    useContactTraineeshipProgramMutation,
+
+    // ---- WORK BASED ---- //
+    useGetWorkBasedProgramQuery,
+    useAddWorkBasedProgramMutation,
+    useGetWorkBasedProgramCountQuery,
+    useContactWorkBasedProgramMutation,
+    useGetWorkBasedProgramAndTraineeshipCountQuery,
 } = commonApi
 
 export const CommonApi = {
@@ -692,6 +703,16 @@ export const CommonApi = {
     },
     Traineeship: {
         useGetList: useGetTraineeshipProgramQuery,
+        useCount: useGetTraineeshipProgramCountQuery,
         useAddTraineeship: useAddTraineeshipProgramMutation,
+        useContactTraineeship: useContactTraineeshipProgramMutation,
+    },
+    WorkBased: {
+        useCount: useGetWorkBasedProgramCountQuery,
+        useWorkBasedList: useGetWorkBasedProgramQuery,
+        useAddWorkBased: useAddWorkBasedProgramMutation,
+        useContactWorkBase: useContactWorkBasedProgramMutation,
+        useWorkBaseAndTraineeCount:
+            useGetWorkBasedProgramAndTraineeshipCountQuery,
     },
 }

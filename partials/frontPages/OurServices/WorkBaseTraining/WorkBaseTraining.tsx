@@ -88,7 +88,7 @@ export const WorkBaseTraining = () => {
             </div> */}
             {/* Data */}
 
-            <div className="flex flex-col gap-y-9 lg:gap-y-14 pb-8">
+            <div className="flex flex-col gap-y-9 lg:gap-y-14 pb-8 lg:-mt-20">
                 <WorkBaseInfoStudent />
                 <WorkBaseInfoRTOs />
                 <WorkBaseInfoIndustries />
