@@ -20,7 +20,7 @@ export const TalentPoolStudentProfile = ({ data }: any) => {
                     <div className="flex items-center gap-x-5">
                         <div className="relative">
                             <StudentAvatar
-                                imageUrl=""
+                                imageUrl={`${data?.student?.user?.avatar}`}
                                 name={`${data?.student?.user?.name}`}
                                 gender={`${data?.student?.gender}`}
                             />
@@ -45,10 +45,8 @@ export const TalentPoolStudentProfile = ({ data }: any) => {
                                 <Typography variant="xs" color="text-white">
                                     Profile Status:
                                 </Typography>
-                                <Typography variant="xs" color="text-white">
-                                    {data?.status === 'approved'
-                                        ? 'Approved'
-                                        : 'N/A'}
+                                <Typography variant="xs" color="text-white" capitalize>
+                                    {data?.status || 'N/A'}
                                 </Typography>
                             </div>
                         </div>
@@ -113,7 +111,7 @@ export const TalentPoolStudentProfile = ({ data }: any) => {
                                         Student Type
                                     </Typography>
                                     <Typography variant="xs" color="text-white">
-                                        {data?.student?.isInternational
+                                        {!data?.student?.isInternational
                                             ? 'Domestic'
                                             : 'International'}
                                     </Typography>

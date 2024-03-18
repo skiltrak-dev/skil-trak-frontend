@@ -17,6 +17,7 @@ import { AuthApi, IndustryApi, commonApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { useRouter } from 'next/router'
 import {
+    TalentPoolProfileIndustryStatus,
     TalentPoolProfileStatus,
     TalentPoolStatusEnum,
     isBrowser,
@@ -405,7 +406,7 @@ export const MatchingProfilesList = () => {
                             return (
                                 <div>
                                     {Object.entries(
-                                        TalentPoolProfileStatus
+                                        TalentPoolProfileIndustryStatus
                                     )?.map(([key, value]: any) => (
                                         <div
                                             key={key}

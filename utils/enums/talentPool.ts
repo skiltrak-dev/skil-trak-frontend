@@ -16,3 +16,15 @@ export enum TalentPoolProfileStatus {
     TERMINATED = 'terminated',
     ARCHIVED = 'archived',
 }
+
+export enum TalentPoolProfileIndustryStatus {
+    All = 'all',
+    // PENDING = 'pending',
+    // NOT_REQUESTED= 'notrequested',
+    // APPROVED = 'approved',
+    REJECTED = 'rejected',
+    HIRED = 'hired',
+    TERMINATED = 'terminated',
+    // REQUESTED = 'requested'
+    // ARCHIVED = 'archived',
+}

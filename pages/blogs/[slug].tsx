@@ -60,7 +60,6 @@ const BlogDetail: NextPageWithLayout = () => {
                                 __html: data?.content,
                             }}
                         />
-                        {/* FAQ's */}
                         {data?.blogQuestions &&
                             data?.blogQuestions?.length > 0 && (
                                 <div className="md:mt-20 mt-8">
@@ -91,16 +90,22 @@ const BlogDetail: NextPageWithLayout = () => {
                                                             )
                                                         }
                                                     >
-                                                        <AccordionTrigger className="mb-2 font-medium text-sm flex items-center justify-between w-full">
-                                                            <h3>
-                                                                {faq?.question}
-                                                                {activeKey ===
-                                                                faq?.id ? (
-                                                                    <FaChevronUp />
-                                                                ) : (
-                                                                    <FaChevronDown />
-                                                                )}
-                                                            </h3>
+                                                        <AccordionTrigger className="mb-2 font-medium text-sm  w-full">
+                                                            <div className="flex items-center justify-between">
+                                                                <h3>
+                                                                    {
+                                                                        faq?.question
+                                                                    }
+                                                                </h3>
+                                                                <div>
+                                                                    {activeKey ===
+                                                                    faq?.id ? (
+                                                                        <FaChevronUp />
+                                                                    ) : (
+                                                                        <FaChevronDown />
+                                                                    )}
+                                                                </div>
+                                                            </div>
                                                         </AccordionTrigger>
                                                         <AccordionContent className="text-sm text-gray-500">
                                                             {faq?.answer}
@@ -124,5 +129,34 @@ const BlogDetail: NextPageWithLayout = () => {
 BlogDetail.getLayout = (page: ReactElement) => {
     return <SiteLayout title={'Blog'}>{page}</SiteLayout>
 }
+
+// export async function getStaticPaths() {
+//     const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/blogs/site`);
+//     const blogs = await res.json();
+
+//     // Extract slugs from blog data (assuming `slug` property exists)
+//     const paths = blogs.map((blog:any) => ({ params: { slug: blog.slug } }));
+
+//     // Set fallback: 'blocking' to generate pages at build time if slug is not found
+//     return { paths, fallback: 'blocking' }; // Adjust fallback as needed
+//   }
+
+// export async function getStaticProps({ params }: any) {
+//     const { slug } = params;
+
+//     const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/blogs/slug/${slug}`);
+//     const blogData = await res.json();
+
+//     if (!blogData) {
+//         // Handle missing blog case (e.g., return notFound: true, redirect, etc.)
+//         return { notFound: true }; // Or handle it differently based on your needs
+//     }
+
+//     return {
+//         props: {
+//             blogData,
+//         },
+//     };
+// }
 
 export default BlogDetail
