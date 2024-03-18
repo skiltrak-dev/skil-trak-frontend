@@ -3,6 +3,7 @@ import { NavLink2 } from './NavLink2'
 import { Button } from '@components/buttons'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const navLinks = [
     {
@@ -102,7 +103,8 @@ export function Navbar2() {
                         {/* Logo */}
                         <div className="flex-shrink-0 flex items-center">
                             <Link href={'/'}>
-                                <img
+                                <Image
+                                fill
                                     className="block lg:hidden h-8 w-auto"
                                     src={'/images/site/logo-light.png'}
                                     alt="Skiltrak Logo"

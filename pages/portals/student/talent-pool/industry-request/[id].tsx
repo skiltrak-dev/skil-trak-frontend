@@ -10,7 +10,7 @@ import { StudentApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { TalentPoolStatusEnum } from '@utils'
 import { useRouter } from 'next/router'
-import { ReactElement, useState, useEffect, useCallback } from 'react'
+import { ReactElement, useState, useEffect, useCallback, useMemo } from 'react'
 import { object } from 'yup'
 
 const RequiredDocsPage: NextPageWithLayout = () => {
@@ -30,6 +30,10 @@ const RequiredDocsPage: NextPageWithLayout = () => {
     //     skip: !profileId,
     // })
     const getFolders = data?.talentPoolRequiredDocuments
+
+    const getSectors = useMemo(() => {
+        return data?.industry?.courses?.map((course: any) => course?.sector)
+    }, [data])
 
     useEffect(() => {
         if (data && isSuccess && data?.length > 0) {
@@ -71,6 +75,7 @@ const RequiredDocsPage: NextPageWithLayout = () => {
                         <TalentPoolIndustryProfileDetails
                             profile={data}
                             setView={setView}
+                            getSectors={getSectors}
                         />
                         <div className="h-screen overflow-hidden w-full">
                             <div className="grid grid-cols-3 h-[inherit] w-full">
