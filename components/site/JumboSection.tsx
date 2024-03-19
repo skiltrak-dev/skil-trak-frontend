@@ -62,7 +62,7 @@ export const JumboSection = () => {
                                 <div className="relative md:w-80 w-40 h-20 md:h-[180px] rounded-md overflow-hidden mb-2">
                                     <Image
                                         className="bg-cover"
-                                        src="/images/jumbo/student-mock.png"
+                                        src="/images/jumbo/student-mock.webp"
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
@@ -73,7 +73,7 @@ export const JumboSection = () => {
                                 <div className="relative md:w-80 w-40 h-20 md:h-[180px] rounded-md overflow-hidden mb-2">
                                     <Image
                                         className="bg-cover"
-                                        src="/images/jumbo/student-mock.png"
+                                        src="/images/jumbo/student-mock.webp"
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
@@ -86,7 +86,7 @@ export const JumboSection = () => {
                                 <div className="relative md:w-80 w-40 h-20 md:h-[180px] rounded-md overflow-hidden mb-2">
                                     <Image
                                         className="bg-cover"
-                                        src="/images/jumbo/student-mock.png"
+                                        src="/images/jumbo/student-mock.webp"
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
@@ -98,7 +98,7 @@ export const JumboSection = () => {
                                 <div className="relative md:w-80 w-40 h-20 md:h-[180px] rounded-md overflow-hidden mb-2">
                                     <Image
                                         className="bg-cover"
-                                        src="/images/jumbo/student-mock.png"
+                                        src="/images/jumbo/student-mock.webp"
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
@@ -118,7 +118,7 @@ export const JumboSection = () => {
                                 <div className="relative  md:w-80 w-40 h-20 md:h-[180px] rounded-md overflow-hidden mb-2">
                                     <Image
                                         className="bg-cover"
-                                        src="/images/jumbo/student-mock.png"
+                                        src="/images/jumbo/student-mock.webp"
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
@@ -130,7 +130,7 @@ export const JumboSection = () => {
                                 <div className="relative  md:w-80 w-40 h-20 md:h-[180px] rounded-md overflow-hidden mb-2">
                                     <Image
                                         className="bg-cover"
-                                        src="/images/jumbo/student-mock.png"
+                                        src="/images/jumbo/student-mock.webp"
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
@@ -146,7 +146,7 @@ export const JumboSection = () => {
                                 <div className="relative  md:w-80 w-40 h-20 md:h-[180px] rounded-md overflow-hidden mb-2">
                                     <Image
                                         className="bg-cover"
-                                        src="/images/jumbo/student-mock.png"
+                                        src="/images/jumbo/student-mock.webp"
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
@@ -157,7 +157,7 @@ export const JumboSection = () => {
                                 <div className="relative  md:w-80 w-40 h-20 md:h-[180px] rounded-md overflow-hidden mb-2">
                                     <Image
                                         className="bg-cover"
-                                        src="/images/jumbo/student-mock.png"
+                                        src="/images/jumbo/student-mock.webp"
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"

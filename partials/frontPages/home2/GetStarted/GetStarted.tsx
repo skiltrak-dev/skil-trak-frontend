@@ -59,8 +59,7 @@ export const GetStarted = ({ contactUsRef }: { contactUsRef: any }) => {
                         className="w-full h-full"
                         src="/images/site/get-started-image.png"
                         sizes="100vw"
-                        width={0}
-                        height={0}
+                        fill
                         alt="get-started-with-us"
                         placeholder="blur"
                         blurDataURL={'/images/get-started-with-us-blur.png'}
