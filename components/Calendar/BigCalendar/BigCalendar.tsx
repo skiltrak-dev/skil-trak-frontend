@@ -63,8 +63,6 @@ export const BigCalendar = ({
     const [calanderView, setCalanderView] = useState<CalendarView>(defaultView)
     const [rangeDates, setRangeDates] = useState<any>(weekDays)
 
-    console.log({ rangeDates })
-
     const today = new Date()
     const min = new Date(
         today.getFullYear(),
@@ -102,7 +100,6 @@ export const BigCalendar = ({
                     onSelectedDate(rangeDates)
                 }
             }
-            console.log({ rangeDates })
         }
         onRangeChange()
     }, [calanderView, rangeDates])
@@ -136,8 +133,7 @@ export const BigCalendar = ({
                     onCalanderViewType(view)
                     setCalanderView(view)
                 }}
-                onRangeChange={(e: any, view: any) => {
-                    console.log({ view })
+                onRangeChange={(e: any) => {
                     setRangeDates(e)
                 }}
             />

@@ -33,8 +33,6 @@ const Appointments: NextPageWithLayout = (props: Props) => {
         end: null,
     })
 
-    console.log({ selectedDates })
-
     useEffect(() => {
         contextBar.setContent(<CommonCB />)
         contextBar.show(false)
