@@ -38,10 +38,10 @@ export const ContactStatus = ({
                 <div className="grid grid-cols-5 items-center mt-2">
                     <div className="col-span-2">
                         <Typography variant="small" normal>
-                            Not-Contactable
+                            Contactable
                         </Typography>
                     </div>
-                    <div className="col-span-3 grid grid-cols-2">
+                    <div className="col-span-3 flex justify-between items-center">
                         <div className="-mb-2">
                             <Switch
                                 name="priority"
@@ -55,7 +55,10 @@ export const ContactStatus = ({
                             />
                         </div>
                         <Typography variant="small" normal>
-                            Contactable
+                            <span className="whitespace-pre">
+                                {' '}
+                                Not-Contactable
+                            </span>
                         </Typography>
                     </div>
                 </div>

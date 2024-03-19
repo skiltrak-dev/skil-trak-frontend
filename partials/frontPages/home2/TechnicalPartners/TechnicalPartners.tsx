@@ -7,7 +7,7 @@ import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { TechnicalPartnerStyleContainer } from './styles'
 
-export const TechnicalPartners = () => {
+const TechnicalPartners = () => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
 
     const images = [
@@ -153,3 +153,5 @@ export const TechnicalPartners = () => {
         </div>
     )
 }
+
+export default TechnicalPartners

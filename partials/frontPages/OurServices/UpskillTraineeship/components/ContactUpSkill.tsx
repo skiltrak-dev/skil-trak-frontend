@@ -27,6 +27,7 @@ export const ContactUpSkill = () => {
                     title: 'Traineeship Query Sent',
                     description:
                         'Your inquiry has been submitted to our administrator',
+                    dissmissTimer: 5000,
                 })
             }
         })

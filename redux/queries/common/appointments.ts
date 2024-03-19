@@ -39,6 +39,7 @@ export const appointmentsEndpoints = (
             status?: string | undefined
             skip?: number
             limit?: number
+            search?: any
         }
     >({
         query: (params) => ({

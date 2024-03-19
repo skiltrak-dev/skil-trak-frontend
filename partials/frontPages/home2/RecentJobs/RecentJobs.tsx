@@ -7,7 +7,7 @@ import { JobsSlider } from './components'
 import { useMediaQuery } from 'react-responsive'
 import { MediaQueries } from '@constants'
 
-export const RecentJobs = () => {
+const RecentJobs = () => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
 
     return (
@@ -55,3 +55,5 @@ export const RecentJobs = () => {
         </div>
     )
 }
+
+export default RecentJobs

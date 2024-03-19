@@ -7,7 +7,7 @@ import { MediaQueries } from '@constants'
 import { useMediaQuery } from 'react-responsive'
 import { ShowErrorNotifications, Typography } from '@components'
 
-export const LatestUpdates = () => {
+const LatestUpdates = () => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
 
     const { notification } = useNotification()
@@ -95,3 +95,5 @@ export const LatestUpdates = () => {
         </div>
     )
 }
+
+export default LatestUpdates

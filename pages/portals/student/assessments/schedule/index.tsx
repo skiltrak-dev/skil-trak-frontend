@@ -1,9 +1,6 @@
 import { ReactElement, useEffect, useMemo, useState } from 'react'
 
-import { StudentLayout } from '@layouts'
-import { Course, Industry, NextPageWithLayout } from '@types'
 import {
-    BigCalendar,
     Button,
     CalendarEvent,
     Card,
@@ -12,17 +9,19 @@ import {
     Select,
     ShowErrorNotifications,
     TechnicalError,
-    Typography,
+    Typography
 } from '@components'
-import { useRouter } from 'next/router'
+import { StudentLayout } from '@layouts'
+import { ScheduleCalendar } from '@partials/student/Schedule'
 import {
     StudentApi,
     useGetStudentCoursesQuery,
     useGetWorkplaceIndustriesQuery,
 } from '@queries'
-import { ScheduleCalendar } from '@partials/student/Schedule'
+import { Course, Industry, NextPageWithLayout } from '@types'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
 import moment from 'moment'
+import { useRouter } from 'next/router'
 
 type Props = {}
 

@@ -13,7 +13,7 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
 
     const { notification } = useNotification()
 
-    const [callLog, callLogResult] = SubAdminApi.Student.useStudentCallLog()
+    const [callLog] = SubAdminApi.Student.useStudentCallLog()
 
     const onViewCallLogs = (e: any) => {
         e.stopPropagation()

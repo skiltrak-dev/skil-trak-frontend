@@ -8,7 +8,7 @@ import { VscWorkspaceTrusted } from 'react-icons/vsc'
 import { Ellipse } from './Ellipse'
 import { EllipseMob } from './EllipseMob'
 
-export const StudentPlacementManagement = () => {
+const StudentPlacementManagement = () => {
     const studentPlacement = [
         {
             title: 'Trust us with your student placement at Skiltrak',
@@ -162,3 +162,5 @@ export const StudentPlacementManagement = () => {
         </div>
     )
 }
+
+export default StudentPlacementManagement

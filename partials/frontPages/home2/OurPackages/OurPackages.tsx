@@ -34,7 +34,7 @@ const data = [
     },
 ]
 
-export const OurPackages = () => {
+const OurPackages = () => {
     const [selectedPackage, setSelectedPackage] = useState(data?.[0]?.title)
 
     const isMobile = useMediaQuery({ maxWidth: 768 })
@@ -133,3 +133,5 @@ export const OurPackages = () => {
         </div>
     )
 }
+
+export default OurPackages

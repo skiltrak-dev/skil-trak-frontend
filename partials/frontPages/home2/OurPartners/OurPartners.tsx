@@ -8,7 +8,7 @@ import { useMediaQuery } from 'react-responsive'
 import { MediaQueries } from '@constants'
 import { OurPartnerStyleContainer } from './styles'
 
-export const OurPartners = () => {
+const OurPartners = () => {
     const isMobile = useMediaQuery({ maxWidth: 768 })
     const isTablet = useMediaQuery({ minWidth: 769, maxWidth: 1024 })
 
@@ -134,3 +134,5 @@ export const OurPartners = () => {
         </div>
     )
 }
+
+export default OurPartners

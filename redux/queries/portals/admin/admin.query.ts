@@ -1,4 +1,4 @@
-import { talentPoolEndpoints } from './talentPool';
+import { talentPoolEndpoints } from './talentPool'
 import { courseEndpoints } from './course'
 import { industryEndpoints } from './industry'
 
@@ -17,6 +17,7 @@ import { subAdminEndpoints } from './sub-admin'
 import { subscriberEndpoints } from './subscribers'
 import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
+import { blogsEndpoints } from './blogs'
 
 const PREFIX = 'admin'
 
@@ -44,119 +45,7 @@ export const adminApi = emptySplitApi.injectEndpoints({
             query: () => `${PREFIX}/sectors/count`,
             providesTags: ['Statistics'],
         }),
-        createBlog: build.mutation<any, any>({
-            query: (body) => {
-                return {
-                    url: `blogs/create`,
-                    method: 'POST',
-                    body,
-                }
-            },
-            invalidatesTags: ['Blog'],
-        }),
-        addBlogTags: build.mutation<any, any>({
-            query: (body) => {
-                return {
-                    url: `blogs/tag`,
-                    method: 'POST',
-                    body,
-                }
-            },
-            invalidatesTags: ['Blog'],
-        }),
-        addBlogCategories: build.mutation<any, any>({
-            query: (body) => {
-                return {
-                    url: `blogs/category`,
-                    method: 'POST',
-                    body,
-                }
-            },
-            invalidatesTags: ['BlogCategories'],
-        }),
-        deleteBlogCategory: build.mutation<any, any>({
-            query: (id) => {
-                return {
-                    url: `blogs/category/${id}`,
-                    method: 'DELETE',
-                }
-            },
-            invalidatesTags: ['BlogCategories'],
-        }),
-        getBlogs: build.query<any, any>({
-            query: (params) => ({
-                url: `blogs`,
-                params,
-            }),
-            providesTags: ['Blog'],
-        }),
-        getFeaturedBlogs: build.query<any, any>({
-            query: (params) => ({
-                url: `blogs/featured`,
-                params,
-            }),
-            providesTags: ['Blog'],
-        }),
-        getTags: build.query<any, void>({
-            query: () => ({
-                url: `blogs/tag`,
-            }),
-            providesTags: ['Tags'],
-        }),
-        getCategories: build.query<any, any>({
-            query: () => ({
-                url: `blogs/category`,
-            }),
-            providesTags: ['Blog', 'BlogCategories'],
-        }),
-        getBlogDetail: build.query<any, any>({
-            query: (id) => ({
-                url: `blogs/slug/${id}`,
-            }),
-            providesTags: ['Blog'],
-        }),
-        removeBlog: build.mutation({
-            query: (id) => ({
-                url: `blogs/${id}`,
-                method: 'DELETE',
-            }),
-            invalidatesTags: ['Blog'],
-        }),
-        removeFaq: build.mutation({
-            query: (id) => ({
-                url: `blogs/question/${id}/remove`,
-                method: 'DELETE',
-            }),
-            invalidatesTags: ['Blog'],
-        }),
-        bulkRemoveBlog: build.mutation({
-            query: (ids) => ({
-                url: `blogs/remove/multiple`,
-                method: 'DELETE',
-                body: { ids: ids },
-                // ids: [1,2,3]
-            }),
-            invalidatesTags: ['Blog'],
-        }),
-        bulkDeleteBlogCategories: build.mutation({
-            query: (ids) => ({
-                url: `blogs/categories/remove`,
-                method: 'DELETE',
-                body: { ids: ids },
-                // ids: [1,2,3]
-            }),
-            invalidatesTags: ['Blog'],
-        }),
-        updateBlog: build.mutation<any, { id: any; body: any }>({
-            query: ({ id, body }) => {
-                return {
-                    url: `blogs/${id}`,
-                    method: 'PATCH',
-                    body,
-                }
-            },
-            invalidatesTags: ['Blog'],
-        }),
+
         registerByFutureIndustry: build.mutation<any, any>({
             query: (body) => ({
                 url: `industries/create/by-listing`,
@@ -166,8 +55,9 @@ export const adminApi = emptySplitApi.injectEndpoints({
         }),
 
         ...rtoEndpoints(build),
-        ...studentEndpoints(build),
         ...jobEndpoints(build),
+        ...blogsEndpoints(build),
+        ...studentEndpoints(build),
         ...sectorEndpoints(build),
         ...courseEndpoints(build),
         ...folderEndpoints(build),
@@ -208,6 +98,7 @@ const {
     useAddBlogCategoriesMutation,
     useDeleteBlogCategoryMutation,
     useGetCategoriesQuery,
+    useGetBlogsCountQuery,
 
     // ------ RTO ------ //
     useRtoCountQuery,
@@ -537,11 +428,14 @@ export const AdminApi = {
         addDocuments: useAddDocumentsMutation,
         useGetDocuments: useGetDocumentsQuery,
     },
-    TalentPool:{
+    TalentPool: {
         useTalentPoolRequests: useGetTalentPoolListQuery,
         useDeleteTalentPoolProfile: useDeleteTalentPoolProfileMutation,
         useGetTalentPoolProfile: useGetTalentPoolProfileQuery,
         useTalentProfilesCount: useGetTalentPoolProfilesCountQuery,
         useReadTalentPoolProfilesCount: useReadTalentPoolProfilesCountMutation,
-    }
+    },
+    Blogs: {
+        useBlogsCount: useGetBlogsCountQuery,
+    },
 }

@@ -1,33 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import * as yup from 'yup'
 
 // components
 import {
     Button,
     Card,
+    RadioGroup,
+    Select,
+    ShowErrorNotifications,
     TextInput,
     Typography,
-    Select,
-    Avatar,
-    ShowErrorNotifications,
-    RadioGroup,
 } from '@components'
 
 // utils
+import { useNotification } from '@hooks'
+import { AuthApi } from '@queries'
+import { Course } from '@types'
 import {
     CourseSelectOption,
-    StudentOrigin,
+    ageOptions,
     formatOptionLabel,
-    getDate,
-    isBrowser,
     onlyAlphabets,
 } from '@utils'
-import { AuthApi } from '@queries'
-import { Course, Sector } from '@types'
-import { useActionModal, useNotification } from '@hooks'
-import { useRouter } from 'next/router'
 
 export const StudentProfileForm = ({
     profile,
@@ -43,7 +39,6 @@ export const StudentProfileForm = ({
     student?: boolean
 }) => {
     const { notification } = useNotification()
-    const router = useRouter()
 
     const sectorResponse = AuthApi.useSectors({})
     const rtoResponse = AuthApi.useRtos({})
@@ -204,24 +199,6 @@ export const StudentProfileForm = ({
         resolver: yupResolver(validationSchema),
     })
 
-    const ageOptions = [
-        {
-            label: '16-25',
-            value: '16-25',
-        },
-        {
-            label: '27-36',
-            value: '27-36',
-        },
-        {
-            label: '37-46',
-            value: '37-46',
-        },
-        {
-            label: '47-56',
-            value: '47-56',
-        },
-    ]
     useEffect(() => {
         if (profile?.data && profile.isSuccess) {
             const {
@@ -353,22 +330,12 @@ export const StudentProfileForm = ({
                                         required
                                         disabled={student}
                                     />
-                                    {/* <TextInput
-                                        label={'Date of Birth'}
-                                        name={'dob'}
-                                        type="date"
-                                        max={getDate()}
-                                        placeholder={'Date of Birth...'}
-                                        validationIcons
-                                        required
-                                    /> */}
+
                                     <Select
                                         label={'Select Age'}
                                         name={'age'}
                                         options={ageOptions}
                                         placeholder={'Select Age...'}
-                                        // loading={rtoResponse.isLoading}
-                                        // onChange={}
                                         validationIcons
                                         onlyValue
                                     />
