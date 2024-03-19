@@ -130,7 +130,7 @@ const OperateStates = () => {
                                     )}
                             </div>
                             <Image
-                                src={`/images/site/states/state${i + 2}.png`}
+                                src={`/images/site/states/state${i + 2}.webp`}
                                 alt={''}
                                 width={0}
                                 height={0}

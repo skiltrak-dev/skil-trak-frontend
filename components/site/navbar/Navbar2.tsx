@@ -106,14 +106,14 @@ export function Navbar2() {
                                 <Image
                                 fill
                                     className="block lg:hidden h-8 w-auto"
-                                    src={'/images/site/logo-light.png'}
+                                    src={'/images/site/logo-light.webp'}
                                     alt="Skiltrak Logo"
                                 />
                             </Link>
                             <Link href={'/'}>
                                 <img
                                     className="hidden lg:block h-12 w-auto"
-                                    src={'/images/site/logo-light.png'}
+                                    src={'/images/site/logo-light.webp'}
                                     alt="Skiltrak Logo"
                                 />
                             </Link>
