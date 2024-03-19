@@ -128,6 +128,7 @@ const StudentPlacementManagement = () => {
                                     '/images/student-placement-blur.png'
                                 }
                                 placeholder="blur"
+                                priority
                             />
                         </div>
                     </div>

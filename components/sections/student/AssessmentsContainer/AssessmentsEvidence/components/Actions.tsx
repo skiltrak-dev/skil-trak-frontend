@@ -37,6 +37,10 @@ export const Actions = ({
 
     const methods = useForm({
         mode: 'all',
+        defaultValues: {
+            notifyCoordinator: true,
+            notifyRto: true,
+        },
     })
 
     const onSubmitAssessment = (values?: any) => {

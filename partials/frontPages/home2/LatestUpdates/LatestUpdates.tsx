@@ -78,6 +78,7 @@ const LatestUpdates = () => {
                             height={0}
                             sizes={'100vw 100vh'}
                             className="w-28 h-28 animate-float"
+                            priority
                         />
                     </div>
                     <div className={'absolute top-2/3 left-1/3'}>
@@ -88,6 +89,7 @@ const LatestUpdates = () => {
                             height={0}
                             sizes={'100vw 100vh'}
                             className="w-28 h-28 animate-float"
+                            priority
                         />
                     </div>
                 </div>

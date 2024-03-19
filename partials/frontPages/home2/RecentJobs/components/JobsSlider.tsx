@@ -1,11 +1,9 @@
+import { LoadingAnimation, NoData } from '@components'
 import { CommonApi } from '@queries'
 import { useEffect, useRef, useState } from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { JobCard } from '../cards'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
-import { Navigation } from 'swiper/modules'
-import { LoadingAnimation, NoData } from '@components'
 import { Waypoint } from 'react-waypoint'
+import { JobCard } from '../cards'
 
 // import required modules
 

@@ -3,8 +3,6 @@ import { MediaQueries } from '@constants'
 import Image from 'next/image'
 import Marquee from 'react-fast-marquee'
 import { useMediaQuery } from 'react-responsive'
-import { Autoplay } from 'swiper/modules'
-import { Swiper, SwiperSlide } from 'swiper/react'
 import { TechnicalPartnerStyleContainer } from './styles'
 
 const TechnicalPartners = () => {
@@ -58,6 +56,7 @@ const TechnicalPartners = () => {
                                                 height={0}
                                                 sizes={'100vh 100vw'}
                                                 alt="Partners"
+                                                priority
                                             />
                                         </div>
                                         {index % 2 === 0 ? (
@@ -70,6 +69,7 @@ const TechnicalPartners = () => {
                                                     height={0}
                                                     sizes={'100vh 100vw'}
                                                     alt="Partners"
+                                                    priority
                                                 />
                                             </div>
                                         ) : null}
@@ -83,6 +83,7 @@ const TechnicalPartners = () => {
                                                     height={0}
                                                     sizes={'100vh 100vw'}
                                                     alt="Partners"
+                                                    priority
                                                 />
                                             </div>
                                         ) : null}

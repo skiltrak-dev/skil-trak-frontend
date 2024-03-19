@@ -136,6 +136,7 @@ const OperateStates = () => {
                                 height={0}
                                 sizes={'100vw 100vh'}
                                 className={`min-w-full h-full object-cover`}
+                                priority
                             />
                         </div>
                     ))}

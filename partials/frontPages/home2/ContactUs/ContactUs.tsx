@@ -41,6 +41,7 @@ const ContactUs = () => {
                         height={0}
                         sizes={'100vw 100vh'}
                         className="w-28 h-28 animate-float"
+                        priority
                     />
                 </div>
                 <div className="max-w-6xl mx-auto">

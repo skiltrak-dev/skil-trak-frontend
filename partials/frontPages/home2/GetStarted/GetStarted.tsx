@@ -64,6 +64,7 @@ const GetStarted = ({ contactUsRef }: { contactUsRef: any }) => {
                         alt="get-started-with-us"
                         placeholder="blur"
                         blurDataURL={'/images/get-started-with-us-blur.png'}
+                        priority
                     />
                 </div>
             </div>
