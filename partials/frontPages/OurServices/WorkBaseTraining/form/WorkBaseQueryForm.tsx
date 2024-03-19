@@ -1,9 +1,9 @@
+import { Button, Select, TextInput } from '@components'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { ageOptions } from '@utils'
+import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Select, TextArea, TextInput } from '@components'
-import { useEffect } from 'react'
-import { Country } from 'country-state-city'
 
 export const WorkBaseQueryForm = ({
     onSubmit,
@@ -20,7 +20,7 @@ export const WorkBaseQueryForm = ({
         phone: Yup.number()
             .typeError('Phone must be a valid number')
             .required('Phone is required!'),
-        dob: Yup.string().required('DOB is required!'),
+        age: Yup.string().required('DOB is required!'),
     })
 
     const methods = useForm({
@@ -34,10 +34,6 @@ export const WorkBaseQueryForm = ({
         }
     }, [result])
 
-    const CountryOptions = Country.getAllCountries()?.map((country) => ({
-        label: country?.name,
-        value: country?.name,
-    }))
     return (
         <div>
             <FormProvider {...methods}>
@@ -69,24 +65,25 @@ export const WorkBaseQueryForm = ({
                                 validationIcons
                                 required
                             />
-                            <TextInput
-                                label={'Date of birth'}
-                                name={'dob'}
-                                type={'date'}
-                                placeholder={'Your Date of birth here...'}
+                            <Select
+                                label={'Select Age'}
+                                name={'age'}
+                                options={ageOptions}
+                                placeholder={'Select Age...'}
                                 validationIcons
-                                required
+                                onlyValue
                             />
                         </div>
 
                         {/*  */}
                         <div className="flex flex-col gap-y-3">
-                            <Select
-                                onlyValue
-                                name={'country'}
-                                label={'Country'}
-                                options={CountryOptions}
-                                placeholder={'Your Country here...'}
+                            <TextInput
+                                label={'Hours'}
+                                name={'hours'}
+                                placeholder={'Your Hours here...'}
+                                validationIcons
+                                required
+                                type="number"
                             />
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-x-3">
@@ -98,10 +95,10 @@ export const WorkBaseQueryForm = ({
                                 required
                             />
                             <TextInput
-                                label={'Institution/College Name'}
+                                label={'Institution/RTO Name'}
                                 name={'institute'}
                                 placeholder={
-                                    'Your Institution/College Name here...'
+                                    'Your Institution/RTO Name here...'
                                 }
                                 validationIcons
                                 required

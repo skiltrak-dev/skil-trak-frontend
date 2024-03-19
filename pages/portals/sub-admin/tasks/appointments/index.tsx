@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 
 import { SubAdminLayout } from '@layouts'
 import { Appointment, NextPageWithLayout } from '@types'
@@ -25,6 +25,14 @@ const Appointments: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
     const contextBar = useContextBar()
 
+    const [selectedDates, setSelectedDates] = useState<{
+        start: Date | null
+        end: Date | null
+    }>({
+        start: null,
+        end: null,
+    })
+
     useEffect(() => {
         contextBar.setContent(<CommonCB />)
         contextBar.show(false)
@@ -41,10 +49,22 @@ const Appointments: NextPageWithLayout = (props: Props) => {
         }
     }, [])
 
+    const onSelectedDate = useCallback((dates: any) => {
+        setSelectedDates(dates)
+    }, [])
+
     // query
-    const futureAppointments = CommonApi.Appointments.useBookedAppointments({
-        status: undefined,
-    })
+    const futureAppointments = CommonApi.Appointments.useBookedAppointments(
+        {
+            status: undefined,
+            search: `startDate:${moment(selectedDates?.start).format(
+                'YYYY-MM-DD'
+            )},endDate:${moment(selectedDates?.end).format('YYYY-MM-DD')}`,
+        },
+        {
+            skip: !selectedDates?.start || !selectedDates?.end,
+        }
+    )
     const events = futureAppointments?.data?.map((appointment: Appointment) => {
         const startTime = new Date(appointment?.date)
         const endTime = new Date(appointment?.date)
@@ -137,7 +157,11 @@ const Appointments: NextPageWithLayout = (props: Props) => {
                     {mount && (
                         <BigCalendar
                             events={events as CalendarEvent[]}
-                            loading={futureAppointments.isLoading}
+                            loading={
+                                futureAppointments.isLoading ||
+                                futureAppointments.isFetching
+                            }
+                            onSelectedDate={onSelectedDate}
                         />
                     )}
                 </Card>

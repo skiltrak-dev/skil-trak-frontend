@@ -1,7 +1,5 @@
-import { Typography } from '@components/Typography'
-import { Button } from '@components/buttons'
-import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
 export const JumboSection = () => {
     const [scrollPosition, setScrollPosition] = useState(0)
@@ -66,6 +64,7 @@ export const JumboSection = () => {
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
+                                        priority
                                     />
                                 </div>
 
@@ -77,6 +76,7 @@ export const JumboSection = () => {
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
+                                        priority
                                     />
                                 </div>
                             </div>
@@ -90,6 +90,7 @@ export const JumboSection = () => {
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
+                                        priority
                                     />
                                 </div>
 
@@ -102,6 +103,7 @@ export const JumboSection = () => {
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
+                                        priority
                                     />
                                 </div>
 
@@ -122,6 +124,7 @@ export const JumboSection = () => {
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
+                                        priority
                                     />
                                 </div>
 
@@ -134,6 +137,7 @@ export const JumboSection = () => {
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
+                                        priority
                                     />
                                 </div>
 
@@ -150,6 +154,7 @@ export const JumboSection = () => {
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
+                                        priority
                                     />
                                 </div>
 
@@ -161,6 +166,7 @@ export const JumboSection = () => {
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
+                                        priority
                                     />
                                 </div>
                             </div>

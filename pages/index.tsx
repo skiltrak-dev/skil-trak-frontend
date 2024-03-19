@@ -3,20 +3,44 @@ import { ReactElement, useRef } from 'react'
 // Components
 // site components
 import { JumboSection } from '@components/site/JumboSection'
-import { KeyFeatures } from '@components/site/keyFeatures'
-import { StudentPlacementManagement } from '@components/site/studentPlacementManagement'
 import { SiteLayout } from '@layouts'
-import {
-    ContactUs,
-    GetStarted,
-    LatestUpdates,
-    OperateStates,
-    OurPackages,
-    OurPartners,
-    RecentJobs,
-    TechnicalPartners,
-} from '@partials/frontPages'
 import { NextPageWithLayout } from '@types'
+
+import dynamic from 'next/dynamic'
+const LatestUpdates = dynamic(
+    () => import('@partials/frontPages/home2/LatestUpdates/LatestUpdates')
+)
+const RecentJobs = dynamic(
+    () => import('@partials/frontPages/home2/RecentJobs/RecentJobs')
+)
+const TechnicalPartners = dynamic(
+    () =>
+        import('@partials/frontPages/home2/TechnicalPartners/TechnicalPartners')
+)
+const OurPartners = dynamic(
+    () => import('@partials/frontPages/home2/OurPartners/OurPartners')
+)
+const OurPackages = dynamic(
+    () => import('@partials/frontPages/home2/OurPackages/OurPackages')
+)
+const OperateStates = dynamic(
+    () => import('@partials/frontPages/home2/OperateStates/OperateStates')
+)
+const GetStarted = dynamic(
+    () => import('@partials/frontPages/home2/GetStarted/GetStarted')
+)
+const ContactUs = dynamic(
+    () => import('@partials/frontPages/home2/ContactUs/ContactUs')
+)
+const StudentPlacementManagement = dynamic(
+    () =>
+        import(
+            '@components/site/studentPlacementManagement/StudentPlacementManagement'
+        )
+)
+const KeyFeatures = dynamic(
+    () => import('@components/site/keyFeatures/KeyFeatures')
+)
 
 const Home3: NextPageWithLayout = ({ data }: any) => {
     const contactUsRef = useRef(null)

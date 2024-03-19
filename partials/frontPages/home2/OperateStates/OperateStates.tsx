@@ -4,7 +4,7 @@ import Image from 'next/image'
 import React, { useRef, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 
-export const OperateStates = () => {
+const OperateStates = () => {
     const [active, setActive] = useState(0)
 
     const isMobile = useMediaQuery(MediaQueries.Mobile)
@@ -136,6 +136,7 @@ export const OperateStates = () => {
                                 height={0}
                                 sizes={'100vw 100vh'}
                                 className={`min-w-full h-full object-cover`}
+                                priority
                             />
                         </div>
                     ))}
@@ -144,3 +145,5 @@ export const OperateStates = () => {
         </div>
     )
 }
+
+export default OperateStates

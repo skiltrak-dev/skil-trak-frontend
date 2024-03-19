@@ -16,14 +16,17 @@ import {
     AssessmentSubmissions,
     Mails,
     Notes,
-    Schedule,
     Tickets,
     Workplace,
 } from './components'
 import { UserStatus } from '@types'
 import { FaTimes } from 'react-icons/fa'
 import { IoIosArrowRoundBack } from 'react-icons/io'
+import dynamic from 'next/dynamic'
 
+const Schedule = dynamic(() => import('./components/Schedule/Schedule'), {
+    ssr: false,
+})
 export const StudentProfileDetail = () => {
     const contextBar = useContextBar()
     const [selectedId, setSelectedId] = useState<string>('')
@@ -55,6 +58,10 @@ export const StudentProfileDetail = () => {
         if (profile?.isSuccess && profile?.data) {
             contextBar.show(false)
             contextBar.setContent(<ProfileViewCB profile={profile?.data} />)
+        }
+        return () => {
+            contextBar.hide()
+            contextBar.setContent(null)
         }
     }, [profile])
 
@@ -144,6 +151,7 @@ export const StudentProfileDetail = () => {
                         {Object.entries(ProfileIds)?.map(
                             ([key, value], index) => (
                                 <div
+                                    key={index}
                                     className="cursor-pointer"
                                     onClick={() => {
                                         onHandleScroll(value)
@@ -152,7 +160,7 @@ export const StudentProfileDetail = () => {
                                     }}
                                 >
                                     <Typography medium>
-                                        <span className="text-[9px] block">
+                                        <span className="text-[11px]  block">
                                             {key}
                                         </span>
                                     </Typography>

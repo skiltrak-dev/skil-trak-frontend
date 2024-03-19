@@ -3,11 +3,9 @@ import { MediaQueries } from '@constants'
 import Image from 'next/image'
 import Marquee from 'react-fast-marquee'
 import { useMediaQuery } from 'react-responsive'
-import { Autoplay } from 'swiper/modules'
-import { Swiper, SwiperSlide } from 'swiper/react'
 import { TechnicalPartnerStyleContainer } from './styles'
 
-export const TechnicalPartners = () => {
+const TechnicalPartners = () => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
 
     const images = [
@@ -58,6 +56,7 @@ export const TechnicalPartners = () => {
                                                 height={0}
                                                 sizes={'100vh 100vw'}
                                                 alt="Partners"
+                                                priority
                                             />
                                         </div>
                                         {index % 2 === 0 ? (
@@ -70,6 +69,7 @@ export const TechnicalPartners = () => {
                                                     height={0}
                                                     sizes={'100vh 100vw'}
                                                     alt="Partners"
+                                                    priority
                                                 />
                                             </div>
                                         ) : null}
@@ -83,6 +83,7 @@ export const TechnicalPartners = () => {
                                                     height={0}
                                                     sizes={'100vh 100vw'}
                                                     alt="Partners"
+                                                    priority
                                                 />
                                             </div>
                                         ) : null}
@@ -153,3 +154,5 @@ export const TechnicalPartners = () => {
         </div>
     )
 }
+
+export default TechnicalPartners

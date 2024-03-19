@@ -52,7 +52,7 @@ export const CheckAgreementSignedStatus = ({
                                 role === UserRoles.SUBADMIN
                                     ? 'grid-cols-4'
                                     : 'grid-cols-3'
-                            }  py-1`}
+                            } items-center py-1`}
                         >
                             <Typography
                                 variant="small"

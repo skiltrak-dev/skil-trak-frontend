@@ -12,22 +12,17 @@ export const WorkbaseQuery = () => {
 
     const { notification } = useNotification()
     const onSubmit = (values: any) => {
-        var dob = moment(values?.dob)
-
-        // Get the current date using moment
-        var currentDate = moment()
-
-        // Calculate the age using moment
-        var age = Number(currentDate.diff(dob, 'years'))
-        addWorkBase({ ...values, age }).then((res: any) => {
-            if (res?.data) {
-                notification.success({
-                    title: 'Work based Query Sent',
-                    description:
-                        'Your inquiry has been submitted to our administrator',
-                })
+        addWorkBase({ ...values, hours: Number(values?.hours) }).then(
+            (res: any) => {
+                if (res?.data) {
+                    notification.success({
+                        title: 'Work based Query Sent',
+                        description:
+                            'Your inquiry has been submitted to our administrator',
+                    })
+                }
             }
-        })
+        )
     }
 
     return (

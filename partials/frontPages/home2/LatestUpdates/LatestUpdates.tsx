@@ -7,7 +7,7 @@ import { MediaQueries } from '@constants'
 import { useMediaQuery } from 'react-responsive'
 import { ShowErrorNotifications, Typography } from '@components'
 
-export const LatestUpdates = () => {
+const LatestUpdates = () => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
 
     const { notification } = useNotification()
@@ -78,6 +78,7 @@ export const LatestUpdates = () => {
                             height={0}
                             sizes={'100vw 100vh'}
                             className="w-28 h-28 animate-float"
+                            priority
                         />
                     </div>
                     <div className={'absolute top-2/3 left-1/3'}>
@@ -88,6 +89,7 @@ export const LatestUpdates = () => {
                             height={0}
                             sizes={'100vw 100vh'}
                             className="w-28 h-28 animate-float"
+                            priority
                         />
                     </div>
                 </div>
@@ -95,3 +97,5 @@ export const LatestUpdates = () => {
         </div>
     )
 }
+
+export default LatestUpdates

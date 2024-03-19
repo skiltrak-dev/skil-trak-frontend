@@ -14,11 +14,10 @@ import { adminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { checkListLength } from '@utils'
 import moment from 'moment'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
-import { DeleteModal, BulkDeleteModal } from '../components'
+import { BulkDeleteModal, DeleteModal } from '../components'
 export const PublishedBlogs = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -175,7 +174,6 @@ export const PublishedBlogs = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-
     return (
         <>
             {modal}
@@ -199,11 +197,7 @@ export const PublishedBlogs = () => {
                             }: TableChildrenProps) => {
                                 return (
                                     <div>
-                                        <div
-                                            // ref={listingRef}
-                                            // onScroll={handleScroll}
-                                            className="p-6 mb-2 flex justify-between"
-                                        >
+                                        <div className="p-6 mb-2 flex justify-between">
                                             {pageSize
                                                 ? pageSize(
                                                       itemPerPage,
@@ -253,11 +247,11 @@ export const PublishedBlogs = () => {
                     ) : (
                         !isError && (
                             <EmptyData
-                            title={'No Published Blog(s)!'}
-                            description={
-                                'You have no published blog(s) yet.'
-                            }
-                            height={'50vh'}
+                                title={'No Published Blog(s)!'}
+                                description={
+                                    'You have no published blog(s) yet.'
+                                }
+                                height={'50vh'}
                             />
                         )
                     )}

@@ -4,6 +4,7 @@ import { SubAdminApi } from '@queries'
 import { StudentStatusEnum } from '@types'
 import React, { useEffect, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
+import OutsideClickHandler from 'react-outside-click-handler'
 import { PuffLoader } from 'react-spinners'
 
 export const StudentStatus = ({
@@ -66,49 +67,57 @@ export const StudentStatus = ({
                     Student Status
                 </Typography>
 
-                <div className="w-fit mt-2 relative">
-                    <div
-                        onClick={() => {
-                            if (!changeCurrentStatusResult.isLoading) {
-                                setIsOpened(!isOpened)
-                            }
+                <div className="w-fit">
+                    <OutsideClickHandler
+                        onOutsideClick={() => {
+                            setIsOpened(false)
                         }}
-                        className="relative cursor-pointer px-4 py-2.5 w-fit flex justify-evenly gap-x-2 rounded-md border border-[#128C7E] overflow-hidden"
                     >
-                        {changeCurrentStatusResult.isLoading && (
-                            <div className="absolute top-0 left-0 w-full h-full bg-[#ffffff70] flex justify-center items-center">
-                                <PuffLoader size={20} />
-                            </div>
-                        )}
-                        <Typography
-                            variant="small"
-                            color="text-[#128C7E]"
-                            semibold
-                            uppercase
-                        >
-                            {selectedStatus}
-                        </Typography>
-                        <IoIosArrowDown />
-                    </div>
-                    <div
-                        className={`w-auto px-2 bg-white shadow-md rounded-md absolute top-full left-0 overflow-hidden transition-all duration-500 ${
-                            isOpened ? 'max-h-40' : 'max-h-0'
-                        }`}
-                    >
-                        {studentStatusOptions.map((status, index) => (
+                        <div className="w-fit mt-2 relative ">
                             <div
-                                className="border-b border-gray-100 py-1 cursor-pointer"
-                                key={index}
                                 onClick={() => {
-                                    onChangeStudentStatus(status.value)
+                                    if (!changeCurrentStatusResult.isLoading) {
+                                        setIsOpened(!isOpened)
+                                    }
                                 }}
+                                className="relative  cursor-pointer px-4 py-2.5 w-fit flex justify-evenly gap-x-2 rounded-md border border-[#128C7E] overflow-hidden"
                             >
-                                <Typography variant="small" medium>
-                                    {status.label}
+                                {changeCurrentStatusResult.isLoading && (
+                                    <div className="absolute top-0 left-0 w-full h-full bg-[#ffffff70] flex justify-center items-center">
+                                        <PuffLoader size={20} />
+                                    </div>
+                                )}
+                                <Typography
+                                    variant="small"
+                                    color="text-[#128C7E]"
+                                    semibold
+                                    uppercase
+                                >
+                                    {selectedStatus}
                                 </Typography>
+                                <IoIosArrowDown />
                             </div>
-                        ))}
-                    </div>
+                            <div
+                                className={`w-auto px-2 bg-white shadow-md rounded-md absolute top-full left-0 overflow-hidden transition-all duration-500 ${
+                                    isOpened ? 'max-h-40' : 'max-h-0'
+                                }`}
+                            >
+                                {studentStatusOptions.map((status, index) => (
+                                    <div
+                                        className="border-b border-gray-100 py-1 cursor-pointer"
+                                        key={index}
+                                        onClick={() => {
+                                            onChangeStudentStatus(status.value)
+                                        }}
+                                    >
+                                        <Typography variant="small" medium>
+                                            {status.label}
+                                        </Typography>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </OutsideClickHandler>
                 </div>
             </div>
         </>

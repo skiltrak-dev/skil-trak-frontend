@@ -1,8 +1,12 @@
-import { Footer4 } from '@components/site'
-import { Navbar2 } from '@components/site/navbar'
 import { useHeaderWrapperTitle } from '@hooks'
-import { LatestUpdates, OurServices } from '@partials/frontPages'
-import { useEffect } from 'react'
+import { SiteLayout } from '@layouts'
+import { OurServices } from '@partials/frontPages'
+import dynamic from 'next/dynamic'
+import { ReactElement, useEffect } from 'react'
+
+const LatestUpdates = dynamic(
+    () => import('@partials/frontPages/home2/LatestUpdates/LatestUpdates')
+)
 
 const OurservicesPage = () => {
     const { setTitle } = useHeaderWrapperTitle()
@@ -12,12 +16,14 @@ const OurservicesPage = () => {
 
     return (
         <div>
-            <Navbar2 />
             <OurServices />
             <LatestUpdates />
-            <Footer4 />
         </div>
     )
+}
+
+OurservicesPage.getLayout = (page: ReactElement) => {
+    return <SiteLayout>{page}</SiteLayout>
 }
 
 export default OurservicesPage

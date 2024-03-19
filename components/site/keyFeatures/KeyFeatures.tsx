@@ -7,7 +7,7 @@ import { FaFileSignature, FaUserClock } from 'react-icons/fa'
 import { AiFillSchedule } from 'react-icons/ai'
 import { Button } from '@components/buttons'
 
-export const KeyFeatures = () => {
+const KeyFeatures = () => {
     const router = useRouter()
 
     const features = [
@@ -91,3 +91,5 @@ export const KeyFeatures = () => {
         </div>
     )
 }
+
+export default KeyFeatures

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { useMediaQuery } from 'react-responsive'
 
-export const GetStarted = ({ contactUsRef }: { contactUsRef: any }) => {
+const GetStarted = ({ contactUsRef }: { contactUsRef: any }) => {
     const router = useRouter()
     const isMobile = useMediaQuery(MediaQueries.Mobile)
 
@@ -64,9 +64,12 @@ export const GetStarted = ({ contactUsRef }: { contactUsRef: any }) => {
                         alt="get-started-with-us"
                         placeholder="blur"
                         blurDataURL={'/images/get-started-with-us-blur.png'}
+                        priority
                     />
                 </div>
             </div>
         </div>
     )
 }
+
+export default GetStarted
