@@ -31,7 +31,7 @@ const Blogs: NextPageWithLayout = ({ data }: any) => {
 
     useEffect(() => {
         setFetchedData(data)
-    }, [])
+    }, [data])
 
     const filterPublishedBlogs = fetchedData?.filter(
         (item: any) => item?.isPublished === true && !item?.isFeatured
