@@ -20,11 +20,12 @@ export enum TalentPoolProfileStatus {
 export enum TalentPoolProfileIndustryStatus {
     All = 'all',
     // PENDING = 'pending',
-    // NOT_REQUESTED= 'notrequested',
+    NOT_REQUESTED= 'not-requested',
     // APPROVED = 'approved',
     REJECTED = 'rejected',
     HIRED = 'hired',
     TERMINATED = 'terminated',
-    // REQUESTED = 'requested'
+    REQUESTED = 'requested',
+    CONNECTED = 'connected',
     // ARCHIVED = 'archived',
 }

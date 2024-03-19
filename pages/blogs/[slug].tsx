@@ -130,33 +130,34 @@ BlogDetail.getLayout = (page: ReactElement) => {
     return <SiteLayout title={'Blog'}>{page}</SiteLayout>
 }
 
-// export async function getStaticPaths() {
-//     const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/blogs/site`);
-//     const blogs = await res.json();
+export async function getStaticPaths() {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/blogs/site`)
+    const blogs = await res.json()
 
-//     // Extract slugs from blog data (assuming `slug` property exists)
-//     const paths = blogs.map((blog:any) => ({ params: { slug: blog.slug } }));
+    const paths = blogs.map((blog: any) => {
+        return { params: { slug: `${blog.slug}` } }
+    })
 
-//     // Set fallback: 'blocking' to generate pages at build time if slug is not found
-//     return { paths, fallback: 'blocking' }; // Adjust fallback as needed
-//   }
+    return { paths: paths, fallback: 'blocking' } 
+}
 
-// export async function getStaticProps({ params }: any) {
-//     const { slug } = params;
+export async function getStaticProps(context: any) {
+    const { params } = context
 
-//     const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/blogs/slug/${slug}`);
-//     const blogData = await res.json();
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_END_POINT}/blogs/slug/${params?.slug}`
+    )
+    const blogData = await res.json()
 
-//     if (!blogData) {
-//         // Handle missing blog case (e.g., return notFound: true, redirect, etc.)
-//         return { notFound: true }; // Or handle it differently based on your needs
-//     }
+    if (!blogData) {
+        return <NoData text="No Data" />
+    }
 
-//     return {
-//         props: {
-//             blogData,
-//         },
-//     };
-// }
+    return {
+        props: {
+            blogData,
+        },
+    }
+}
 
 export default BlogDetail

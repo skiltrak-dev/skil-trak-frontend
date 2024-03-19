@@ -470,7 +470,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
                 {/* Address Information */}
                 <div className="flex flex-col lg:flex-row gap-x-16 border-t lg:py-4 pt-4 lg:pt-0">
-                    <div className="w-full lg:w-2/6">
+                    <div className="w-full lg:w-2/6 mt-4">
                         <Typography
                             variant={'subtitle'}
                             color={'text-gray-500'}
@@ -483,7 +483,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                         </p>
                     </div>
 
-                    <div className="w-full lg:w-4/6">
+                    <div className="w-full lg:w-4/6 mt-4">
                         <div className="grid grid-cols-2 gap-x-8">
                             <Select
                                 name="country"

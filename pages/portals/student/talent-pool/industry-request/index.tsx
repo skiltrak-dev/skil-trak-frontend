@@ -239,6 +239,19 @@ const IndustryRequest: NextPageWithLayout = () => {
             },
         },
         {
+            accessorKey: 'sector_name',
+            header: () => <span>Sector</span>,
+            cell: (info) => {
+                return (
+                    <div className="">
+                        <Typography variant="small">
+                            {`${info?.row?.original?.sector_name} - ${info?.row?.original?.sector_code}`}
+                        </Typography>
+                    </div>
+                )
+            },
+        },
+        {
             accessorKey: 'status',
             header: () => <span>Request Status</span>,
             cell: (info) => {
@@ -324,8 +337,8 @@ const IndustryRequest: NextPageWithLayout = () => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No Active Profiles'}
-                            description={'You have no Active Profiles'}
+                            title={'No Connection Requests'}
+                            description={'You have no Connection Requests'}
                             height={'50vh'}
                         />
                     )
