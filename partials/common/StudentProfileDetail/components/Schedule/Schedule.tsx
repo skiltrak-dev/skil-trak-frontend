@@ -21,13 +21,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import { AddSchedule } from './components'
 
-export const Schedule = ({
-    user,
-    studentId,
-}: {
-    studentId: number
-    user: User
-}) => {
+const Schedule = ({ user, studentId }: { studentId: number; user: User }) => {
     const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
     const [selectedIndustry, setSelectedIndustry] = useState<number | null>(
         null
@@ -270,3 +264,5 @@ export const Schedule = ({
         </div>
     )
 }
+
+export default Schedule

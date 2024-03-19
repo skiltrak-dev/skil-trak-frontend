@@ -7,15 +7,13 @@ import {
     Table,
     TableChildrenProps,
     TechnicalError,
-    TruncatedTextWithTooltip,
     Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEye, FaPhone } from 'react-icons/fa'
+import { FaPhone } from 'react-icons/fa'
 
 import { CommonApi } from '@queries'
-import { setLink } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdEmail } from 'react-icons/md'
@@ -101,8 +99,8 @@ export const WorkBasedQuery = () => {
             header: () => <span>User</span>,
         },
         {
-            accessorKey: 'country',
-            header: () => <span>Country</span>,
+            accessorKey: 'hours',
+            header: () => <span>Hours</span>,
         },
         {
             accessorKey: 'age',

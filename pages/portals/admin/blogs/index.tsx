@@ -10,11 +10,10 @@ import {
 } from '@partials/admin/blog'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
+import { AdminApi } from '@queries'
 
 const BlogsList: NextPageWithLayout = () => {
-    // const { data, isLoading } = adminApi.useGetBlogsQuery({
-
-    // })
+    const count = AdminApi.Blogs.useBlogsCount()
 
     const router = useRouter()
     const navBar = useNavbar()
@@ -30,10 +29,10 @@ const BlogsList: NextPageWithLayout = () => {
                 pathname: 'blogs',
                 query: { tab: 'published', page: 1, pageSize: 50 },
             },
-            // badge: {
-            //     text: "Published",
-            //     loading: isLoading,
-            // },
+            badge: {
+                text: count?.data?.published,
+                loading: count.isLoading,
+            },
             element: <PublishedBlogs />,
         },
         {
@@ -42,10 +41,10 @@ const BlogsList: NextPageWithLayout = () => {
                 pathname: 'blogs',
                 query: { tab: 'draft', page: 1, pageSize: 50 },
             },
-            // badge: {
-            //     text: "Draft",
-            //     loading: isLoading,
-            // },
+            badge: {
+                text: count?.data?.draft,
+                loading: count.isLoading,
+            },
             element: <DraftBlogs />,
         },
         {
@@ -54,42 +53,37 @@ const BlogsList: NextPageWithLayout = () => {
                 pathname: 'blogs',
                 query: { tab: 'categories', page: 1, pageSize: 50 },
             },
-            // badge: {
-            //     text: "Draft",
-            //     loading: isLoading,
-            // },
+            badge: {
+                text: count?.data?.categories,
+                loading: count.isLoading,
+            },
             element: <BlogCategories />,
         },
-
-        // BlogCategories
     ]
 
     return (
-        <div className="p-6">
-            <div className="flex justify-end">
-                <Button
-                    onClick={() => {
-                        router.push('/portals/admin/blogs/add-blog')
-                    }}
-                    text={'Add Blog'}
-                />
-            </div>
+        <div className="p-3">
+            <div className="flex justify-end"></div>
 
-            {/* <div
-                className="break-all block mr-6"
-                dangerouslySetInnerHTML={{
-                    __html: data[3]?.content,
-                }}
-            /> */}
             <TabNavigation tabs={tabs}>
-                {({ header, element }: any) => {
-                    return (
-                        <div>
-                            <div>{header}</div>
-                            <div className="p-4">{element}</div>
+                {({ header, element }: any) => (
+                    <div>
+                        <div className="flex justify-between items-center">
+                            <div className="w-full">{header}</div>
+                            <div className="flex-shrink-0">
+                                <Button
+                                    onClick={() => {
+                                        router.push(
+                                            '/portals/admin/blogs/add-blog'
+                                        )
+                                    }}
+                                    text={'Add Blog'}
+                                />
+                            </div>
                         </div>
-                    )
-                }}
+                        <div className="px-4">{element}</div>
+                    </div>
+                )}
             </TabNavigation>
         </div>
     )

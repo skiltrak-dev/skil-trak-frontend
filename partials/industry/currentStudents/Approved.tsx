@@ -60,7 +60,7 @@ export const Approved = () => {
             text: 'View',
             onClick: (workplace: any) => {
                 router.push({
-                    pathname: `/portals/industry/students/current-students/${workplace?.id}`,
+                    pathname: `/portals/industry/students/current-students/${workplace?.id}/detail`,
                     query: { tab: 'overview' },
                 })
             },

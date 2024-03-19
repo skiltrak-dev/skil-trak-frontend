@@ -1,13 +1,11 @@
 import { Typography } from '@components'
-import React, { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
+import { useState } from 'react'
+import { useMediaQuery } from 'react-responsive'
+import { Pagination } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import { PackageCard } from './Cards'
 import { PackageDetail } from './components'
-import { Waypoint } from 'react-waypoint'
-import Image from 'next/image'
-import { useMediaQuery } from 'react-responsive'
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Pagination } from 'swiper/modules'
 import { PackageSliderContainer } from './styles'
 
 const packageTypes = {
@@ -34,7 +32,7 @@ const data = [
     },
 ]
 
-export const OurPackages = () => {
+const OurPackages = () => {
     const [selectedPackage, setSelectedPackage] = useState(data?.[0]?.title)
 
     const isMobile = useMediaQuery({ maxWidth: 768 })
@@ -49,6 +47,7 @@ export const OurPackages = () => {
                     height={0}
                     sizes={'100vh 100vw'}
                     className="w-full h-full absolute right-0 -z-10"
+                    priority
                 />
                 <div data-aos="fade-up">
                     <Typography variant={isMobile ? 'title' : 'h2'} center bold>
@@ -133,3 +132,5 @@ export const OurPackages = () => {
         </div>
     )
 }
+
+export default OurPackages

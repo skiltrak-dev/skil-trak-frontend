@@ -49,7 +49,7 @@ const Blogs: NextPageWithLayout = ({ data }: any) => {
     return (
         <>
             <HeroSectionBlog />
-            <div className="container mx-auto mt-24 md:px-0 px-4">
+            <div className="container !mx-auto mt-24 md:px-20 px-4">
                 <div className="flex md:flex-row flex-col gap-y-5 md:gap-x-12 mb-10">
                     <div className="w-full md:w-3/4">
                         <div className="bg-[#FFFCF7] rounded-xl shadow-md px-2 py-1.5 min-h-[720px]">

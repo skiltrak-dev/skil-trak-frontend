@@ -16,27 +16,24 @@ import {
 } from '@radix-ui/react-accordion'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 
-const BlogDetail: NextPageWithLayout = () => {
+const BlogDetail: NextPageWithLayout = ({blogData}: any) => {
     const router = useRouter()
     const blogId = router.query.slug as string
     const [activeKey, setActiveKey] = useState(null)
-    const { data, isLoading, isFetching, isError } =
-        adminApi.useGetBlogDetailQuery(blogId, {
-            skip: !blogId,
-        })
+    // const { data, isLoading, isFetching, isError } =
+    //     adminApi.useGetBlogDetailQuery(blogId, {
+    //         skip: !blogId,
+    //     })
 
     return (
         <div className="">
             <HeroSectionBlog />
             <div className="md:p-10 p-0 mt-8 md:mt-0 mx-auto max-w-7xl">
-                {isError && <TechnicalError />}
-                {isLoading || isFetching ? (
-                    <LoadingAnimation height="h-[60vh]" />
-                ) : data && data ? (
+                
                     <div className="rounded-xl md:px-8 px-4 py-8 md:py-4 bg-white">
                         <div className="md:h-[600px] h-[250px] w-full relative overflow-hidden rounded-xl">
                             <Image
-                                src={data?.featuredImage}
+                                src={blogData?.featuredImage}
                                 alt="blog-card"
                                 fill
                                 sizes="100vw"
@@ -45,23 +42,23 @@ const BlogDetail: NextPageWithLayout = () => {
                         </div>
                         <div className="flex items-center justify-between my-3">
                             <p className="text-slate-400 text-xs font-bold">
-                                Published by : {data?.author}
+                                Published by : {blogData?.author}
                             </p>
                             <p className="text-slate-400 text-xs">
-                                {moment(data?.createdAt).format('Do MMM YYYY')}
+                                {moment(blogData?.createdAt).format('Do MMM YYYY')}
                             </p>
                         </div>
                         <h1 className="font-bold text-xl md:text-[40px] md:leading-10 uppercase my-2 md:my-10">
-                            {data?.title}
+                            {blogData?.title}
                         </h1>
                         <div
                             className="blog-content block text-sm md:text-normal mr-0 md:mr-6 text-gray-600 leading-6"
                             dangerouslySetInnerHTML={{
-                                __html: data?.content,
+                                __html: blogData?.content,
                             }}
                         />
-                        {data?.blogQuestions &&
-                            data?.blogQuestions?.length > 0 && (
+                        {blogData?.blogQuestions &&
+                            blogData?.blogQuestions?.length > 0 && (
                                 <div className="md:mt-20 mt-8">
                                     <h2 className="font-semibold text-xl md:text-3xl md:leading-10 uppercase my-2 md:my-4">
                                         FAQ's
@@ -71,7 +68,7 @@ const BlogDetail: NextPageWithLayout = () => {
                                         collapsible
                                         className="w-full flex flex-col gap-y-1 "
                                     >
-                                        {data?.blogQuestions?.map(
+                                        {blogData?.blogQuestions?.map(
                                             (faq: any, index: any) => {
                                                 return (
                                                     <AccordionItem
@@ -118,9 +115,7 @@ const BlogDetail: NextPageWithLayout = () => {
                                 </div>
                             )}
                     </div>
-                ) : (
-                    !isError && <NoData text="No Data Found" />
-                )}
+                
             </div>
         </div>
     )
@@ -130,33 +125,34 @@ BlogDetail.getLayout = (page: ReactElement) => {
     return <SiteLayout title={'Blog'}>{page}</SiteLayout>
 }
 
-// export async function getStaticPaths() {
-//     const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/blogs/site`);
-//     const blogs = await res.json();
+export async function getStaticPaths() {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/blogs/site`)
+    const blogs = await res.json()
 
-//     // Extract slugs from blog data (assuming `slug` property exists)
-//     const paths = blogs.map((blog:any) => ({ params: { slug: blog.slug } }));
+    const paths = blogs.map((blog: any) => {
+        return { params: { slug: `${blog.slug}` } }
+    })
 
-//     // Set fallback: 'blocking' to generate pages at build time if slug is not found
-//     return { paths, fallback: 'blocking' }; // Adjust fallback as needed
-//   }
+    return { paths: paths, fallback: 'blocking' } 
+}
 
-// export async function getStaticProps({ params }: any) {
-//     const { slug } = params;
+export async function getStaticProps(context: any) {
+    const { params } = context
 
-//     const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/blogs/slug/${slug}`);
-//     const blogData = await res.json();
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_END_POINT}/blogs/slug/${params?.slug}`
+    )
+    const blogData = await res.json()
 
-//     if (!blogData) {
-//         // Handle missing blog case (e.g., return notFound: true, redirect, etc.)
-//         return { notFound: true }; // Or handle it differently based on your needs
-//     }
+    if (!blogData) {
+        return <NoData text="No Data" />
+    }
 
-//     return {
-//         props: {
-//             blogData,
-//         },
-//     };
-// }
+    return {
+        props: {
+            blogData,
+        },
+    }
+}
 
 export default BlogDetail

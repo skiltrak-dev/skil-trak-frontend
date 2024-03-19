@@ -57,6 +57,20 @@ export const IndustryDashboardContainer = () => {
     const sectorsWithCourses = getSectors([])
     const studentCount = IndustryApi.Students.useStudentCount()
 
+    const [isCurrentPage, setIsCurrentPage] = useState(true) // Initial state
+
+    useEffect(() => {
+        // Update isCurrentPage on navigation (replace with your navigation logic)
+        const handleNavigationChange = () => setIsCurrentPage(false)
+
+        // ... (your navigation event listeners or logic)
+
+        return () => {
+            contextBar.setContent(null)
+            contextBar.hide()
+            contextBar.setTitle('')
+        }
+    }, [])
     // const [modal, setModal] = useState<any | null>(null)
     // const { data, isSuccess, isLoading } = CommonApi.Industries.getFolders()
     // const folders = data

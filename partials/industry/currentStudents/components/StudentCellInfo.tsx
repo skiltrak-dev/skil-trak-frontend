@@ -13,11 +13,7 @@ export const StudentCellInfo = ({
     return (
         <Link
             legacyBehavior
-            href={{
-                pathname: `/portals/industry/students/current-students/${id}`,
-                query: { tab: 'overview' },
-            }}
-            // href={`}
+            href={`/portals/industry/students/current-students/${id}/detail`}
         >
             <a className="flex items-center gap-x-2">
                 {student?.user?.name && (

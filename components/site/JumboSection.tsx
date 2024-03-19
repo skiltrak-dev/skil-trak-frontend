@@ -1,7 +1,5 @@
-import { Typography } from '@components/Typography'
-import { Button } from '@components/buttons'
-import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
 export const JumboSection = () => {
     const [scrollPosition, setScrollPosition] = useState(0)
@@ -62,10 +60,11 @@ export const JumboSection = () => {
                                 <div className="relative md:w-80 w-40 h-20 md:h-[180px] rounded-md overflow-hidden mb-2">
                                     <Image
                                         className="bg-cover"
-                                        src="/images/jumbo/student-mock.png"
+                                        src="/images/jumbo/student-mock.webp"
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
+                                        priority
                                     />
                                 </div>
 
@@ -73,10 +72,11 @@ export const JumboSection = () => {
                                 <div className="relative md:w-80 w-40 h-20 md:h-[180px] rounded-md overflow-hidden mb-2">
                                     <Image
                                         className="bg-cover"
-                                        src="/images/jumbo/student-mock.png"
+                                        src="/images/jumbo/student-mock.webp"
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
+                                        priority
                                     />
                                 </div>
                             </div>
@@ -86,10 +86,11 @@ export const JumboSection = () => {
                                 <div className="relative md:w-80 w-40 h-20 md:h-[180px] rounded-md overflow-hidden mb-2">
                                     <Image
                                         className="bg-cover"
-                                        src="/images/jumbo/student-mock.png"
+                                        src="/images/jumbo/student-mock.webp"
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
+                                        priority
                                     />
                                 </div>
 
@@ -98,10 +99,11 @@ export const JumboSection = () => {
                                 <div className="relative md:w-80 w-40 h-20 md:h-[180px] rounded-md overflow-hidden mb-2">
                                     <Image
                                         className="bg-cover"
-                                        src="/images/jumbo/student-mock.png"
+                                        src="/images/jumbo/student-mock.webp"
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
+                                        priority
                                     />
                                 </div>
 
@@ -118,10 +120,11 @@ export const JumboSection = () => {
                                 <div className="relative  md:w-80 w-40 h-20 md:h-[180px] rounded-md overflow-hidden mb-2">
                                     <Image
                                         className="bg-cover"
-                                        src="/images/jumbo/student-mock.png"
+                                        src="/images/jumbo/student-mock.webp"
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
+                                        priority
                                     />
                                 </div>
 
@@ -130,10 +133,11 @@ export const JumboSection = () => {
                                 <div className="relative  md:w-80 w-40 h-20 md:h-[180px] rounded-md overflow-hidden mb-2">
                                     <Image
                                         className="bg-cover"
-                                        src="/images/jumbo/student-mock.png"
+                                        src="/images/jumbo/student-mock.webp"
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
+                                        priority
                                     />
                                 </div>
 
@@ -146,10 +150,11 @@ export const JumboSection = () => {
                                 <div className="relative  md:w-80 w-40 h-20 md:h-[180px] rounded-md overflow-hidden mb-2">
                                     <Image
                                         className="bg-cover"
-                                        src="/images/jumbo/student-mock.png"
+                                        src="/images/jumbo/student-mock.webp"
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
+                                        priority
                                     />
                                 </div>
 
@@ -157,10 +162,11 @@ export const JumboSection = () => {
                                 <div className="relative  md:w-80 w-40 h-20 md:h-[180px] rounded-md overflow-hidden mb-2">
                                     <Image
                                         className="bg-cover"
-                                        src="/images/jumbo/student-mock.png"
+                                        src="/images/jumbo/student-mock.webp"
                                         sizes="100vw"
                                         fill
                                         alt="Hero Image Skiltrak Student Portal"
+                                        priority
                                     />
                                 </div>
                             </div>

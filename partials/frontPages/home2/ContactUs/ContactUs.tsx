@@ -9,7 +9,7 @@ import { useMediaQuery } from 'react-responsive'
 import { MediaQueries } from '@constants'
 import Image from 'next/image'
 
-export const ContactUs = () => {
+const ContactUs = () => {
     const { notification } = useNotification()
     const [sendUsQuery, sendUsQueryResult] = CommonApi.Messages.useContactUs()
     const isMobile = useMediaQuery(MediaQueries.Mobile)
@@ -41,6 +41,7 @@ export const ContactUs = () => {
                         height={0}
                         sizes={'100vw 100vh'}
                         className="w-28 h-28 animate-float"
+                        priority
                     />
                 </div>
                 <div className="max-w-6xl mx-auto">
@@ -144,3 +145,5 @@ export const ContactUs = () => {
         </div>
     )
 }
+
+export default ContactUs
