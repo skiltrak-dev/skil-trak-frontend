@@ -26,7 +26,7 @@ const RtoAppointments: NextPageWithLayout = (props: Props) => {
                 <Typography>Rto Appointments</Typography>
                 <div id="create-appointment">
                     <Button
-                        text={'Create Appointment'}
+                        text={'Book Appointment'}
                         variant={'info'}
                         onClick={() => {
                             router.push(

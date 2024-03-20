@@ -96,32 +96,6 @@ export const AllStudents = () => {
             }
         )
 
-    // useEffect(() => {
-    //     if (scrollTargetRef.current) {
-    //         scrollTargetRef.current.scrollIntoView({ behavior: 'smooth' })
-    //     }
-    // }, [scrollTargetRef.current])
-
-    // useEffect(() => {
-    //     if (
-    //         data?.data &&
-    //         isSuccess &&
-    //         !isLoading &&
-    //         !isFetching &&
-    //         router.query.scrollId
-    //     ) {
-    //         const element = document.getElementById(
-    //             String(router.query.scrollId)
-    //         )
-    //         if (element) {
-    //             // Set the ref to the element you want to scroll to
-    //             element.scrollIntoView({
-    //                 behavior: 'smooth',
-    //             })
-    //         }
-    //     }
-    // }, [data, router])
-
     useEffect(() => {
         if (refetchStudents) {
             refetch()
@@ -204,17 +178,17 @@ export const AllStudents = () => {
                 text: 'View',
                 onClick: (student: Student) => {
                     router.push(
-                        `/portals/sub-admin/students/${student.id}?tab=overview`
+                        `/portals/sub-admin/students/${student?.id}/detail`
                     )
                     setLink('subadmin-student', router)
                 },
                 Icon: FaEye,
             },
             {
-                text: 'New Profile',
+                text: 'Old Profile',
                 onClick: (student: Student) => {
                     router.push(
-                        `/portals/sub-admin/students/${student.id}/detail`
+                        `/portals/sub-admin/students/${student.id}?tab=overview`
                     )
                 },
                 Icon: FaEye,

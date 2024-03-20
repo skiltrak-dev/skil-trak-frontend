@@ -6,25 +6,11 @@ import { ReactElement, useEffect, useState } from 'react'
 
 import { StudentProfile } from '@partials/student/pages'
 import { useGetRtoStudentProfileQuery } from '@queries'
+import { StudentProfileDetail } from '@partials/common'
 
 const Detail: NextPageWithLayout = () => {
-    const router = useRouter()
-    const { id } = router.query
     const navBar = useNavbar()
     const contextBar = useContextBar()
-
-    const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
-    const { data, isLoading, isSuccess, isError } =
-        useGetRtoStudentProfileQuery(Number(id), {
-            skip: !id,
-        })
-    useEffect(() => {
-        if (data && isSuccess) {
-            setAppliedIndustry(
-                data?.workplace[0]?.industries?.find((i: any) => i.applied)
-            )
-        }
-    }, [data])
 
     useEffect(() => {
         navBar.setTitle('Student Detail')
@@ -33,7 +19,8 @@ const Detail: NextPageWithLayout = () => {
 
     return (
         <>
-            <StudentProfile noTitle />
+            <StudentProfileDetail />
+            {/* <StudentProfile noTitle /> */}
             {/* {isError && <TechnicalError />}
           {isLoading ? (
               <LoadingAnimation />

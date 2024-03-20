@@ -35,6 +35,7 @@ export interface Appointment extends BaseResponse {
     appointmentFor: appointmentWithUser
     appointmentBy: appointmentWithUser
     coordinator: User
+    cancelledBy: User
 }
 
 export interface CreateAppointment {

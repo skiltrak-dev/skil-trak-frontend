@@ -76,10 +76,12 @@ export const RescheduleAppointmentModal = ({
         })
     }
 
+    console.log({ appointmentappointment: appointment })
+
     return (
         <>
             <ShowErrorNotifications result={rescheduleAppointmentResult} />
-            <div className="bg-[#00000050] w-full h-screen flex items-center justify-center fixed top-0 left-0 z-40">
+            <div className="bg-[#00000050] w-full h-screen flex items-center justify-center fixed top-0 left-0 z-[1001]">
                 <div className="relative bg-white rounded-2xl flex flex-col items-center gap-y-6 shadow-xl min-w-[450px] px-16 py-4">
                     <FaTimes
                         onClick={onCancel}
@@ -164,11 +166,7 @@ export const RescheduleAppointmentModal = ({
                             disabled={
                                 rescheduleAppointmentResult.isLoading ||
                                 !selectedDate ||
-                                !appointment?.type?.id ||
-                                !appointment?.appointmentFor?.id ||
-                                !appointment?.appointmentBy?.id ||
-                                !selectedTime ||
-                                !slots
+                                !selectedTime
                             }
                         />
                     </div>

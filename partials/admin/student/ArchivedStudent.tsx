@@ -185,6 +185,7 @@ export const ArchivedStudent = () => {
                 return <SectorCell student={info.row.original} />
             },
         },
+
         {
             accessorKey: 'expiry',
             header: () => <span>Expiry Date</span>,
@@ -200,6 +201,40 @@ export const ArchivedStudent = () => {
                     </Typography>
                 </>
             ),
+        },
+        {
+            accessorKey: 'expiry',
+            header: () => <span>Days Expired</span>,
+            cell: (info) => {
+                var marchFirst = new Date(
+                    info?.row?.original?.oldExpiry ||
+                        info?.row?.original?.expiryDate
+                )
+
+                // Get today's date
+                var today = new Date()
+
+                // Calculate the difference in milliseconds between today and March 1st
+                var timeDifference = today.getTime() - marchFirst.getTime()
+
+                // Convert milliseconds to days
+                var daysPassed = Math.ceil(timeDifference / (1000 * 3600 * 24))
+
+                return info.row.original?.studentStatus === 'expired' &&
+                    marchFirst < new Date() ? (
+                    <Typography variant={'small'} color="text-red-400">
+                        <span className="font-medium whitespace-pre">
+                            Expired{' '}
+                            <span className="font-bold text-red-600">
+                                {daysPassed}
+                            </span>{' '}
+                            days ago
+                        </span>
+                    </Typography>
+                ) : (
+                    '---'
+                )
+            },
         },
         {
             accessorKey: 'progress',

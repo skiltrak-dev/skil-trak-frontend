@@ -46,6 +46,7 @@ export interface UserCount {
     blocked: number | string
     archived: number | string
     snoozed: any
+    completed: number
 }
 export enum IndustryStatus {
     DEFAULT = 'default',
@@ -69,6 +70,7 @@ export interface Rto extends BaseResponse {
     addressLine1: string
     addressLine2: string
     zipCode: string
+    allowUpdate: boolean
     user: User
     package: Packages
     courses: Course[]

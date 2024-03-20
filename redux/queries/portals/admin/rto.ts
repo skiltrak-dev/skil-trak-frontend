@@ -38,6 +38,14 @@ export const rtoEndpoints = (
         providesTags: ['RTOS'],
     }),
 
+    allowUpdation: builder.mutation<Rto, number>({
+        query: (id) => ({
+            url: `${PREFIX}/rto/allow-update/${id}`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['RTOS'],
+    }),
+
     rtosApproved: builder.query<Rto[], void>({
         query: () => {
             return {

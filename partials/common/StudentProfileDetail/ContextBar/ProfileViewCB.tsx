@@ -46,6 +46,7 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
 
             {/* Student Detail */}
             <StudentDetail profile={profile} />
+            <RtoDetail rto={profile?.rto} />
             <EmergencyContact profile={profile} />
 
             {/* Student Status */}
@@ -67,7 +68,6 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
             />
 
             {/* RTO */}
-            <RtoDetail rto={profile?.rto} />
         </div>
     )
 }

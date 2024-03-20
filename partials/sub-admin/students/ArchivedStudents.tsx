@@ -103,17 +103,18 @@ export const ArchivedStudents = () => {
         {
             text: 'View',
             onClick: (student: Student) => {
-                router.push(
-                    `/portals/sub-admin/students/${student.id}?tab=overview`
-                )
+                router.push(`/portals/sub-admin/students/${student?.id}/detail`)
+
                 setLink('subadmin-student', router)
             },
             Icon: FaEye,
         },
         {
-            text: 'New Profile',
+            text: 'Old Profile',
             onClick: (student: Student) => {
-                router.push(`/portals/sub-admin/students/${student.id}/detail`)
+                router.push(
+                    `/portals/sub-admin/students/${student.id}?tab=overview`
+                )
             },
             Icon: FaEye,
         },
@@ -220,16 +221,42 @@ export const ArchivedStudents = () => {
                         appliedIndustry={appliedIndustry}
                     />
                 )
-                // return industries?.length > 0 ? (
-                //     <StudentStatusProgressCell step={studentStatus} />
-                // ) : (
-                //     <ProgressCell
-                //         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
-                //     />
-                // )
             },
         },
+        {
+            accessorKey: 'expiry',
+            header: () => <span>Days Expired</span>,
+            cell: (info) => {
+                var marchFirst = new Date(
+                    info?.row?.original?.oldExpiry ||
+                        info?.row?.original?.expiryDate
+                )
 
+                // Get today's date
+                var today = new Date()
+
+                // Calculate the difference in milliseconds between today and March 1st
+                var timeDifference = today.getTime() - marchFirst.getTime()
+
+                // Convert milliseconds to days
+                var daysPassed = Math.ceil(timeDifference / (1000 * 3600 * 24))
+
+                return info.row.original?.studentStatus === 'expired' &&
+                    marchFirst < new Date() ? (
+                    <Typography variant={'small'} color="text-red-400">
+                        <span className="font-medium whitespace-pre">
+                            Expired{' '}
+                            <span className="font-bold text-red-600">
+                                {daysPassed}
+                            </span>{' '}
+                            days ago
+                        </span>
+                    </Typography>
+                ) : (
+                    '---'
+                )
+            },
+        },
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,

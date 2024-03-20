@@ -214,6 +214,20 @@ export const Courses = ({
                                             swiper.navigation.update()
                                         })
                                     }}
+                                    onSlideChange={(e: any) => {
+                                        if (sectors && sectors?.length > 0) {
+                                            setSelectedSector(
+                                                sectors?.[e?.activeIndex]?.id
+                                            )
+                                            if (
+                                                courses &&
+                                                courses?.length > 0
+                                            ) {
+                                                console.log('courses')
+                                                setSelectedCourse(courses?.[0])
+                                            }
+                                        }
+                                    }}
                                     modules={[Navigation]}
                                     className="mySwiper static"
                                 >
@@ -265,6 +279,13 @@ export const Courses = ({
                                     navigation={{
                                         prevEl: courseNavigationPrevRef.current,
                                         nextEl: courseNavigationNextRef.current,
+                                    }}
+                                    onSlideChange={(e: any) => {
+                                        if (courses && courses?.length > 0) {
+                                            setSelectedCourse(
+                                                courses?.[e?.activeIndex]
+                                            )
+                                        }
                                     }}
                                     onSwiper={(swiper: any) => {
                                         setTimeout(() => {

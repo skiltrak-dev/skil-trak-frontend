@@ -6,7 +6,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
-    TechnicalError
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -15,13 +15,19 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 import { useActionModal, useContextBar } from '@hooks'
 import { AdminApi, commonApi } from '@queries'
 import { Rto, UserStatus } from '@types'
-import { checkListLength } from '@utils'
+import { checkListLength, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
-import { MdBlock } from 'react-icons/md'
+import { MdAdminPanelSettings, MdBlock, MdOutlineUpdate } from 'react-icons/md'
 import { RtoCellInfo, SectorCell } from './components'
 import { ViewSubAdminsCB } from './contextBar'
-import { ArchiveModal, BlockModal, BulkBlockModal } from './modals'
+import {
+    AllowUpdationModal,
+    ArchiveModal,
+    BlockModal,
+    BulkBlockModal,
+} from './modals'
+import { UserRoles } from '@constants'
 
 export const ApprovedRto = () => {
     const router = useRouter()
@@ -49,6 +55,7 @@ export const ApprovedRto = () => {
             refetchOnMountOrArgChange: true,
         }
     )
+
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
     const onModalCancelClicked = () => {
         setModal(null)
@@ -69,6 +76,15 @@ export const ApprovedRto = () => {
         )
     }
 
+    const onAllowUpdation = (rto: Rto) => {
+        setModal(
+            <AllowUpdationModal
+                rto={rto}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     const contextBar = useContextBar()
     const onViewSubAdminsClicked = (rto: Rto) => {
         contextBar.setTitle('Sub Admins')
@@ -76,7 +92,9 @@ export const ApprovedRto = () => {
         contextBar.show()
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const role = getUserCredentials()?.role
+
+    const tableActionOptions = (rto: Rto) => [
         {
             text: 'View',
             onClick: (rto: any) => {
@@ -95,6 +113,17 @@ export const ApprovedRto = () => {
             text: 'View Password',
             onClick: (rto: Rto) => onViewPassword(rto),
             Icon: FaEdit,
+        },
+        {
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: rto?.allowUpdate
+                          ? 'Remove Updation'
+                          : `Allow Updation`,
+                      onClick: (rto: Rto) => onAllowUpdation(rto),
+                      Icon: MdOutlineUpdate,
+                  }
+                : {}),
         },
         {
             text: 'Sub Admins',
@@ -145,17 +174,20 @@ export const ApprovedRto = () => {
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: ({ row }: any) => (
-                <div className="flex gap-x-1 items-center">
-                    <TableAction
-                        options={tableActionOptions}
-                        rowItem={row.original}
-                        lastIndex={checkListLength<Rto>(
-                            data?.data as Rto[]
-                        )?.includes(row?.index)}
-                    />
-                </div>
-            ),
+            cell: ({ row }: any) => {
+                const tableActionOption = tableActionOptions(row.original)
+                return (
+                    <div className="flex gap-x-1 items-center">
+                        <TableAction
+                            options={tableActionOption}
+                            rowItem={row.original}
+                            lastIndex={checkListLength<Rto>(
+                                data?.data as Rto[]
+                            )?.includes(row?.index)}
+                        />
+                    </div>
+                )
+            },
         },
     ]
 

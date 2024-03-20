@@ -1,66 +1,82 @@
 import { useRouter } from 'next/router'
+import { ReactElement } from 'react'
 
 // Icons
-import { FaEye } from 'react-icons/fa'
+import { FaEdit, FaEye } from 'react-icons/fa'
 
 // components
 import {
     Card,
     EmptyData,
-    InitialAvatar,
     LoadingAnimation,
-    StudentExpiryDaysLeft,
+    StudentStatusProgressCell,
     StudentSubAdmin,
     Table,
     TableAction,
-    TableActionOption,
     Typography,
-    UserCreatedAt,
 } from '@components'
 import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
+import { useActionModal, useJoyRide } from '@hooks'
 import { SubAdminApi } from '@queries'
-import { Student, UserStatus } from '@types'
-import { ReactElement, useEffect, useState } from 'react'
-import { MdBlock } from 'react-icons/md'
-import { BlockModal, UnAssignStudentModal } from './modals'
+import { Student } from '@types'
+import { useEffect, useState } from 'react'
+import { ChangeStudentStatusModal } from './modals'
 
-import { useActionModal } from '@hooks'
-import { ProgressCell, SectorCell } from '@partials/admin/student/components'
+import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import {
     WorkplaceCurrentStatus,
-    calculateRemainingDays,
-    checkWorkplaceStatus,
+    checkListLength,
+    checkStudentStatus,
     getStudentWorkplaceAppliedIndustry,
     setLink,
     studentsListWorkplace,
 } from '@utils'
+import moment from 'moment'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCellInfo } from '../Industries'
-import moment from 'moment'
-import { AiOutlineWarning } from 'react-icons/ai'
+import { RTOCellInfo } from '../rto/components'
 
-export const PlacementStartedStudents = () => {
+export const CompletedStudents = () => {
     const router = useRouter()
+
+    const [mount, setMount] = useState(false)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
+
+    useEffect(() => {
+        if (!mount) {
+            setMount(true)
+        }
+    }, [])
+
+    // WORKPLACE JOY RIDE - Start
+    const joyride = useJoyRide()
+    useEffect(() => {
+        if (joyride.state.tourActive && mount) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
+            }, 1200)
+        }
+    }, [mount])
+
+    // STUDENT JOY RIDE - END
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
-    // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
-
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, isFetching, data, isError } =
-        SubAdminApi.Student.placementStartedStudents({
-            search: `currentStatus:${WorkplaceCurrentStatus.PlacementStarted},status:${UserStatus.Approved}`,
+    const { isSuccess, isLoading, data, isError, isFetching, refetch } =
+        SubAdminApi.Student.useCompletedStudents({
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
@@ -69,81 +85,60 @@ export const PlacementStartedStudents = () => {
         setModal(null)
     }
 
-    const onBlockClicked = (student: Student) => {
-        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
-    }
-
-    const onAssignStudentClicked = (student: Student) => {
+    const onChangeStatus = (student: Student) => {
         setModal(
-            <UnAssignStudentModal
+            <ChangeStudentStatusModal
                 student={student}
-                onCancel={() => onModalCancelClicked()}
+                onCancel={onModalCancelClicked}
             />
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions = [
         {
             text: 'View',
-            onClick: (student: Student) => {
-                router.push(`/portals/sub-admin/students/${student?.id}/detail`)
-
-                setLink('subadmin-student', router)
+            onClick: (student: any) => {
+                router.push(
+                    `/portals/admin/student/${student?.id}?tab=overview`
+                )
+                setLink('student', router)
             },
             Icon: FaEye,
         },
         {
-            text: 'Old Profile',
+            text: 'Edit',
             onClick: (student: Student) => {
                 router.push(
-                    `/portals/sub-admin/students/${student.id}?tab=overview`
+                    `/portals/admin/student/edit-student/${student?.id}`
                 )
             },
-            Icon: FaEye,
+            Icon: FaEdit,
+        },
+        {
+            text: 'Change Status',
+            onClick: (student: Student) => onChangeStatus(student),
+            Icon: FaEdit,
         },
         {
             text: 'View Password',
-            onClick: (student: Student) => onViewPassword(student),
+            onClick: (student: Student) =>
+                onViewPassword({ user: student?.user }),
             Icon: RiLockPasswordFill,
-        },
-        {
-            text: 'Block',
-            onClick: (student: Student) => onBlockClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-        {
-            text: 'Un Assign',
-            onClick: (student: Student) => onAssignStudentClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
     ]
 
-    const Columns: ColumnDef<StudentSubAdmin>[] = [
+    const columns: ColumnDef<StudentSubAdmin>[] = [
         {
-            header: () => 'Name',
-            accessorKey: 'user',
-            cell: ({ row }: any) => {
-                return <StudentCellInfo student={row.original} call />
+            accessorKey: 'user.name',
+            cell: (info) => {
+                return <StudentCellInfo student={info?.row?.original} call />
             },
+            header: () => <span>Student</span>,
         },
-
         {
             header: () => 'RTO',
             accessorKey: 'rto',
-            cell({ row }: any) {
-                const { rto } = row.original
-
-                return (
-                    <div className="flex gap-x-2 items-center">
-                        {rto.user.name && (
-                            <InitialAvatar name={rto.user.name} small />
-                        )}
-                        {rto.user.name}
-                    </div>
-                )
-            },
+            cell: ({ row }: any) => <RTOCellInfo rto={row.original?.rto} />,
         },
         {
             accessorKey: 'industry',
@@ -169,96 +164,96 @@ export const PlacementStartedStudents = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: ({ row }: any) => {
-                return <SectorCell student={row.original} />
-            },
+            cell: (info) => <SectorCell student={info.row.original} />,
         },
         {
-            accessorKey: 'expiry',
-            header: () => <span>Expiry Date</span>,
-            cell: (info) => (
-                <StudentExpiryDaysLeft
-                    expiryDate={info.row.original?.expiryDate}
-                />
-            ),
-        },
-        {
-            header: () => 'Progress',
             accessorKey: 'progress',
+            header: () => <span>Progress</span>,
             cell: ({ row }) => {
-                const workplace = row.original?.workplace?.reduce(
-                    (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
-                    {
-                        currentStatus: WorkplaceCurrentStatus.NotRequested,
-                    }
-                )
-                const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                const student = row.original
+                const workplace = student?.workplace
+                    ?.filter(
+                        (w: any) =>
+                            w?.currentStatus !==
+                            WorkplaceCurrentStatus.Cancelled
+                    )
+                    ?.reduce(
+                        (a: any, b: any) =>
+                            a?.createdAt > b?.createdAt ? a : b,
+                        {
+                            currentStatus: WorkplaceCurrentStatus.NotRequested,
+                        }
+                    )
+
+                const studentStatus = checkStudentStatus(student?.studentStatus)
                 const appliedIndustry = getStudentWorkplaceAppliedIndustry(
                     workplace?.industries
                 )
+
                 return (
-                    <ProgressCell
-                        studentId={row.original?.id}
+                    <StudentStatusProgressCell
+                        studentId={student?.id}
+                        step={studentStatus}
                         appliedIndustry={appliedIndustry}
-                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     />
                 )
             },
-        },
-        {
-            accessorKey: 'user.status',
-            header: () => <span>Status</span>,
-            cell: (info) => (
-                <Typography
-                    uppercase
-                    variant={'badge'}
-                    color={
-                        info.row.original?.user?.status === UserStatus.Blocked
-                            ? 'text-error'
-                            : 'text-black'
-                    }
-                >
-                    <span className="font-bold">
-                        {info.row.original?.user?.status}
-                    </span>
-                </Typography>
-            ),
         },
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
-            cell: ({ row }: any) => (
-                <UserCreatedAt createdAt={row.original?.createdAt} />
-            ),
+            cell: (info) => {
+                return (
+                    <>
+                        <Typography variant={'small'} color={'text-gray-600'}>
+                            <span className="font-semibold whitespace-pre">
+                                {moment(info?.row?.original?.createdAt).format(
+                                    'Do MMM YYYY'
+                                )}
+                            </span>
+                        </Typography>
+                        <Typography variant={'small'} color={'text-gray-600'}>
+                            <span className="font-semibold whitespace-pre">
+                                {moment(info?.row?.original?.createdAt).format(
+                                    'hh:mm:ss a'
+                                )}
+                            </span>
+                        </Typography>
+                    </>
+                )
+            },
         },
         {
-            header: () => 'Action',
-            accessorKey: 'Action',
-            cell: ({ row }: any) => {
+            accessorKey: 'action',
+            header: () => <span>Action</span>,
+            cell: (info) => {
+                const length = checkListLength<StudentSubAdmin>(
+                    data?.data as StudentSubAdmin[]
+                )
+
                 return (
-                    <TableAction
-                        options={tableActionOptions}
-                        rowItem={row.original}
-                    />
+                    <div className="flex gap-x-1 items-center">
+                        <TableAction
+                            options={tableActionOptions}
+                            rowItem={info?.row?.original}
+                            lastIndex={length.includes(info?.row?.index)}
+                        />
+                    </div>
                 )
             },
         },
     ]
+
     return (
         <div>
             {modal && modal}
             {passwordModal}
+            {isError && <TechnicalError />}
             <Card noPadding>
-                {isError && <TechnicalError />}
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length ? (
-                    <Table
-                        columns={Columns}
-                        data={data.data}
-                        // quickActions={quickActionsElements}
-                        enableRowSelection
-                    >
+                ) : data && data?.data.length && !isError ? (
+                    <Table columns={columns} data={data.data}>
                         {({
                             table,
                             pagination,
@@ -281,6 +276,7 @@ export const PlacementStartedStudents = () => {
                                             )}
                                         </div>
                                     </div>
+
                                     <div className="overflow-x-auto remove-scrollbar">
                                         <div
                                             className="px-6 w-full"
@@ -313,7 +309,7 @@ export const PlacementStartedStudents = () => {
                     !isError && (
                         <EmptyData
                             title={'No Students'}
-                            description={'You have not added any Student'}
+                            description={'You have not approved Students yet'}
                             height={'50vh'}
                         />
                     )

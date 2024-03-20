@@ -35,7 +35,7 @@ export const SectorCell = ({ student }: { student: Student }) => {
                     <span className="whitespace-pre">View / Edit</span>
                 </ActionButton>
                 <div className="flex gap-x-1">
-                    {student.courses.map((c: Course) => (
+                    {student?.courses?.map((c: Course) => (
                         <CourseDot key={c?.id} course={c} />
                     ))}
                 </div>
