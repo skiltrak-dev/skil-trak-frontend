@@ -1,7 +1,9 @@
+import { StudentSubAdmin } from '@components'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 import {
     PaginatedResponse,
+    PaginationValues,
     Student,
     StudentStatusEnum,
     UserStatus,
@@ -32,7 +34,16 @@ export const studentsEndpoints = (
             'Students',
         ],
     }),
-
+    subadminCompletedStudents: builder.query<
+        PaginatedResponse<StudentSubAdmin>,
+        PaginationValues
+    >({
+        query: (params) => ({
+            url: `${PREFIX}/completed-students/list`,
+            params,
+        }),
+        providesTags: ['Students', 'SubAdminStudents'],
+    }),
     subadminStudentAssignCourses: builder.mutation({
         query: (body) => ({
             url: `admin/student/course/assign`,

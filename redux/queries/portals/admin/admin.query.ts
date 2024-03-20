@@ -108,6 +108,7 @@ const {
     useRtoDetailQuery,
     useRtoStatusChangeMutation,
     useRtoRemoveMutation,
+    useAllowUpdationMutation,
     useRtoCreateAssessmentToolsMutation,
     useRtoUpdateAssessmentToolsMutation,
     useRtoRemoveAssessmentToolsMutation,
@@ -133,6 +134,7 @@ const {
     useStudentCountQuery,
     useStudentsQuery,
     useStudentProfileQuery,
+    useCompletedStudentsQuery,
     useStudentStatusChangeMutation,
     useStudentRemoveMutation,
 
@@ -277,6 +279,7 @@ export const AdminApi = {
         useChangeStatusMutation: useRtoStatusChangeMutation,
         useRemove: useRtoRemoveMutation,
         useCreateAssessmentTools: useRtoCreateAssessmentToolsMutation,
+        useAllowUpdation: useAllowUpdationMutation,
         useUpdateAssessmentTools: useRtoUpdateAssessmentToolsMutation,
         useRemoveAssessmentTools: useRtoRemoveAssessmentToolsMutation,
         useArchiveAssessmentTools: useRtoAssessmentToolArchiveMutation,
@@ -299,11 +302,12 @@ export const AdminApi = {
     },
 
     Students: {
-        useCountQuery: useStudentCountQuery,
         useListQuery: useStudentsQuery,
         useProfile: useStudentProfileQuery,
-        useChangeStatusMutation: useStudentStatusChangeMutation,
+        useCountQuery: useStudentCountQuery,
         useRemove: useStudentRemoveMutation,
+        useCompletedStudents: useCompletedStudentsQuery,
+        useChangeStatusMutation: useStudentStatusChangeMutation,
 
         useFilteredStudents: useFilteredStudentsQuery,
 

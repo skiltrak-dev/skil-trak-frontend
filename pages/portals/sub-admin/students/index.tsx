@@ -22,6 +22,7 @@ import {
     AllStudents,
     ArchivedStudents,
     BlockedStudents,
+    CompletedStudents,
     FilteredStudents,
     MyStudents,
     NonContactableStudents,
@@ -206,6 +207,18 @@ const Students: NextPageWithLayout = (props: Props) => {
                 loading: count.isLoading,
             },
             element: <ArchivedStudents />,
+        },
+        {
+            label: 'Completed Students',
+            href: {
+                pathname: 'students',
+                query: { tab: 'completed-students' },
+            },
+            badge: {
+                text: studentCount?.countCompleted,
+                loading: count.isLoading,
+            },
+            element: <CompletedStudents />,
         },
     ]
 

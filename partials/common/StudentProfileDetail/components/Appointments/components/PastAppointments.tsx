@@ -2,7 +2,12 @@ import { CommonApi } from '@queries'
 import { Appointment } from '@types'
 import React from 'react'
 import { AppointmentCard } from '../Card'
-import { EmptyData, LoadingAnimation, Typography } from '@components'
+import {
+    EmptyData,
+    LoadingAnimation,
+    TechnicalError,
+    Typography,
+} from '@components'
 
 export const PastAppointments = ({ userId }: { userId: number }) => {
     const pastAppointments = CommonApi.Appointments.useBookedAppointments({
@@ -12,6 +17,13 @@ export const PastAppointments = ({ userId }: { userId: number }) => {
     return (
         <div className="h-[350px] custom-scrollbar overflow-auto">
             <div className="flex flex-col gap-y-3">
+                {pastAppointments.isError ? (
+                    <TechnicalError
+                        description={false}
+                        imageUrl={'/images/icons/common/appointmentsError.png'}
+                        height="40vh"
+                    />
+                ) : null}
                 {pastAppointments.isLoading ? (
                     <div className="flex flex-col items-center justify-center h-60">
                         <LoadingAnimation size={60} />

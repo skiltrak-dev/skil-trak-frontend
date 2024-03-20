@@ -7,6 +7,7 @@ import {
     Course,
     Folder,
     PaginatedResponse,
+    PaginationValues,
     PaginationWithSearch,
     Student,
     UserCount,
@@ -44,6 +45,17 @@ export const studentEndpoints = (
             'BulkUsersDelete',
             'BulkStatus',
         ],
+    }),
+
+    completedStudents: builder.query<
+        PaginatedResponse<StudentSubAdmin>,
+        PaginationValues
+    >({
+        query: (params) => ({
+            url: `${PREFIX}completed-students/list`,
+            params,
+        }),
+        providesTags: ['Students', 'SubAdminStudents'],
     }),
 
     filteredStudents: builder.query<

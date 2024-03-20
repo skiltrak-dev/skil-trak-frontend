@@ -1,6 +1,6 @@
 import { ActionButton, Button, Portal, Typography } from '@components'
 import { Appointment, User, appointmentWithUser } from '@types'
-import { getUserCredentials } from '@utils'
+import { getUserCredentials, isLessThan24HoursDifference } from '@utils'
 import moment from 'moment'
 import { MouseEvent, ReactElement, useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
@@ -125,7 +125,17 @@ export const UpcomingAppointmentCard = ({
                         variant={'error'}
                         onClick={(e: MouseEvent<HTMLElement>) => {
                             e?.stopPropagation()
-                            cancellAppointment(appointment?.id)
+                            if (
+                                !isLessThan24HoursDifference(appointment?.date)
+                            ) {
+                                cancellAppointment(appointment?.id)
+                            } else {
+                                notification.error({
+                                    title: 'Appointment Cant be cancel',
+                                    description:
+                                        'Appointment Cant cancel before 1 day',
+                                })
+                            }
                         }}
                         loading={cancellAppointmentResult?.isLoading}
                         disabled={cancellAppointmentResult?.isLoading}
