@@ -117,18 +117,19 @@ const StudentPlacementManagement = () => {
 
                         <div className="absolute w-60 md:w-auto -left-12 top-0 md:-left-20">
                             <Image
-                                className="animate-float"
+                                className="animate-float w-full h-full"
                                 src="/images/site/student-placement.webp"
                                 layout="responsive"
                                 objectFit="contain"
-                                width={100}
-                                height={100}
+                                width={0}
+                                height={0}
                                 alt="hero image"
                                 blurDataURL={
                                     '/images/student-placement-blur.png'
                                 }
                                 placeholder="blur"
                                 priority
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 10vw"
                             />
                         </div>
                     </div>

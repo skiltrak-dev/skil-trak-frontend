@@ -8,18 +8,40 @@ import {
 } from '@components'
 import { CommonApi } from '@queries'
 import { TicketCard } from './Card'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
+import { useRouter } from 'next/router'
 
 export const Tickets = ({ studentId }: { studentId: number }) => {
     const tickets = CommonApi.Tickets.useStudentTicketsList(studentId, {
         refetchOnMountOrArgChange: true,
     })
+
+    const router = useRouter()
+
+    const role = getUserCredentials()?.role
+
     return (
         <Card noPadding fullHeight>
             <div className="px-4 py-3.5 flex justify-between items-center border-b border-secondary-dark">
                 <Typography variant="label" semibold>
                     Tickets
                 </Typography>
-                <Button>Create Ticket</Button>
+                <Button
+                    onClick={() => {
+                        role === UserRoles.ADMIN
+                            ? router.push('/portals/admin/tickets/add-ticket')
+                            : role === UserRoles.SUBADMIN
+                            ? router.push(
+                                  '/portals/sub-admin/tickets/add-ticket'
+                              )
+                            : role === UserRoles.RTO
+                            ? router.push('/portals/rto/tickets/add-ticket')
+                            : ''
+                    }}
+                >
+                    Create Ticket
+                </Button>
             </div>
 
             <div className="px-4">

@@ -18,6 +18,7 @@ import {
     ApprovedStudent,
     ArchivedStudent,
     BlockedStudent,
+    CompletedStudents,
     FilteredStudents,
     PendingStudent,
     RejectedStudent,
@@ -163,6 +164,18 @@ const StudentList: NextPageWithLayout = () => {
                 loading: isLoading,
             },
             element: <ArchivedStudent />,
+        },
+        {
+            label: 'Completed Students',
+            href: {
+                pathname: 'student',
+                query: { tab: 'completed-students' },
+            },
+            badge: {
+                text: data?.completed,
+                loading: isLoading,
+            },
+            element: <CompletedStudents />,
         },
         {
             label: 'All Students Report',

@@ -111,14 +111,16 @@ export const IndustryStudentProfileCB = ({ profile }: { profile: any }) => {
                 />
             </div>
 
-            {/* Student Detail */}
-            <StudentDetail profile={profile} />
+            <div className="pt-4 flex flex-col gap-y-3">
+                {/* Student Detail */}
+                <StudentDetail profile={profile} />
 
-            {/*  */}
-            <StudentRelatedInfo profile={profile} />
+                {/*  */}
+                <StudentRelatedInfo profile={profile} />
 
-            {/*  */}
-            <EmergencyContact profile={profile} />
+                {/*  */}
+                <EmergencyContact profile={profile} />
+            </div>
 
             {(industry?.awaitingAgreementSigned ||
                 industry?.AgreementSigned) && (

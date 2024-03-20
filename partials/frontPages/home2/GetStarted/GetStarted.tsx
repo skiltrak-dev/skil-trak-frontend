@@ -1,8 +1,7 @@
-import { Typography, Button } from '@components'
+import { Button, Typography } from '@components'
 import { MediaQueries } from '@constants'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React from 'react'
 import { useMediaQuery } from 'react-responsive'
 
 const GetStarted = ({ contactUsRef }: { contactUsRef: any }) => {
@@ -54,12 +53,15 @@ const GetStarted = ({ contactUsRef }: { contactUsRef: any }) => {
             </div>
 
             <div data-aos="zoom-in" className="max-w-4xl mt-7 md:mt-9 mx-auto">
-                <div className="">
+                <div className="w-full h-full">
                     <Image
                         className="w-full h-full"
                         src="/images/site/get-started-image.png"
-                        sizes="100vw"
-                        fill
+                        sizes={
+                            '(max-width: 640px) 260px, (max-width: 768px) 896px, (max-width: 1024px) 1420px, 1792px'
+                        }
+                        width={0}
+                        height={0}
                         alt="get-started-with-us"
                         placeholder="blur"
                         blurDataURL={'/images/get-started-with-us-blur.png'}

@@ -6,7 +6,6 @@ import { Appointment } from '@types'
 import classNames from 'classnames'
 import { ReactElement, useState } from 'react'
 
-// export const EventWrapper = <T extends object>(event: EventWrapperProps<T>) => {
 export const EventWrapper = <T extends object>(event: any) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -125,6 +124,9 @@ export const EventWrapper = <T extends object>(event: any) => {
                 <p className={subtitleClasses}>
                     {event.event.subTitle || 'Unknown'}
                 </p>
+                {event.event?.appointment?.isCancelled ? (
+                    <p className={subtitleClasses}>(Cancelled)</p>
+                ) : null}
             </div>
         </>
     )

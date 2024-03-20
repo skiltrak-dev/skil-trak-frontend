@@ -102,6 +102,10 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
             skip: !id,
             refetchOnMountOrArgChange: true,
         })
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: !UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+    })
     const [notContactable, notContactableResult] =
         SubAdminApi.Student.useNotContactable()
     const { passwordModal, onViewPassword } = useActionModal()
@@ -256,7 +260,8 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                             onClick={() => {
                                 router.push({
                                     pathname:
-                                        role === UserRoles.ADMIN
+                                        role === UserRoles.ADMIN ||
+                                        subadmin?.data?.isAdmin
                                             ? '/portals/admin/appointment-type/create-appointment'
                                             : `/portals/sub-admin/tasks/appointments/create-appointment`,
                                     query: { student: data?.user?.id },

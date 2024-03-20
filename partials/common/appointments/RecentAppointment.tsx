@@ -92,12 +92,29 @@ export const RecentAppointment = ({
                 className={`w-full ${appointment ? 'cursor-pointer' : ''}`}
                 onClick={onAppointmentClicked}
             >
-                <div className="bg-gradient-to-r from-[#3883F3] to-[#5D1BE0] rounded-2xl p-4">
+                <div
+                    className={`${
+                        appointment?.isCancelled
+                            ? 'bg-error-dark'
+                            : 'bg-gradient-to-r from-[#3883F3] to-[#5D1BE0]'
+                    }  rounded-2xl p-4`}
+                >
                     <div className="flex gap-x-16 justify-between items-center mb-1.5">
-                        <div>
+                        <div className="flex items-center gap-x-2">
                             <p className="font-medium text-xs 2xl:text-sm text-white">
                                 Recent Appointment
                             </p>
+
+                            {appointment?.isCancelled ? (
+                                <Typography
+                                    variant={'label'}
+                                    color={'text-white'}
+                                >
+                                    (Cancelled)
+                                </Typography>
+                            ) : (
+                                ''
+                            )}
                         </div>
                         {appointment && link && (
                             <div>
@@ -131,7 +148,7 @@ export const RecentAppointment = ({
                                         <h2 className="text-[#0644AF] font-semibold text-sm 2xl:text-lg">
                                             {appointment?.type?.title}
                                         </h2>
-                                        <p className="text-[#8CD2F9] font-medium text-sm 2xl:text-base">
+                                        <p className="text-[#e3f2ff] font-medium text-sm">
                                             {appointmentUser?.name}(
                                             {appointmentUser?.role})
                                         </p>
@@ -141,7 +158,7 @@ export const RecentAppointment = ({
                                             <div className="flex items-center gap-x-2.5 font-semibold ">
                                                 <RiShieldUserFill className="text-[#E3F2FF]" />
                                                 <Typography
-                                                    color={'text-[#E3F2FF]'}
+                                                    color={'text-[#e3f2ff]'}
                                                     variant={
                                                         isLargeDevice
                                                             ? 'body'

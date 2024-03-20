@@ -26,7 +26,7 @@ const Appointments: NextPageWithLayout = () => {
             <div className="flex items-center justify-between">
                 <div id="create-appointment">
                     <Button
-                        text={'Create Appointment'}
+                        text={'Book Appointment'}
                         variant={'info'}
                         onClick={() => {
                             router.push(

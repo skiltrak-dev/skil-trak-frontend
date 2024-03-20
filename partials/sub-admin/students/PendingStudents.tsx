@@ -78,17 +78,18 @@ export const PendingStudents = () => {
         {
             text: 'View',
             onClick: (student: Student) => {
-                router.push(
-                    `/portals/sub-admin/students/${student.id}?tab=overview`
-                )
+                router.push(`/portals/sub-admin/students/${student?.id}/detail`)
+
                 setLink('subadmin-student', router)
             },
             Icon: FaEye,
         },
         {
-            text: 'New Profile',
+            text: 'Old Profile',
             onClick: (student: Student) => {
-                router.push(`/portals/sub-admin/students/${student.id}/detail`)
+                router.push(
+                    `/portals/sub-admin/students/${student.id}?tab=overview`
+                )
             },
             Icon: FaEye,
         },

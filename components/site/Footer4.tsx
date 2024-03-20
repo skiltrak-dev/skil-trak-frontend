@@ -93,6 +93,14 @@ export const Footer4 = () => {
                             <span className="whitespace-pre">Home</span>
                         </Typography>
                     </Link>
+                    <Link href="/our-services">
+                        <Typography
+                            variant={isMobile ? 'label' : 'body'}
+                            color="text-gray-300"
+                        >
+                            <span className="whitespace-pre">Services</span>
+                        </Typography>
+                    </Link>
                     <Link href="/features">
                         <Typography
                             variant={isMobile ? 'label' : 'body'}

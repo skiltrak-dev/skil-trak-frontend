@@ -12,6 +12,16 @@ import { NoData } from '@components/ActionAnimations'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 import { StudentRtoCellInfo } from './StudentRtoCellInfo'
 import { GoDotFill } from 'react-icons/go'
+import { ActionButton } from '@components/buttons'
+import { RescheduleAppointmentModal } from '../UpcomingAppointmentCard/RescheduleAppointmentModal'
+import { Portal } from '@components/Portal'
+import { MouseEvent, ReactElement, useState } from 'react'
+import { TbCalendarTime } from 'react-icons/tb'
+import { Appointment } from '@types'
+import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
+import { useNotification } from '@hooks'
+import { Badge } from '@components/Badge'
+import { isLessThan24HoursDifference } from '@utils'
 
 export const AppointmentViewModal = ({
     id,
@@ -20,12 +30,48 @@ export const AppointmentViewModal = ({
     id: number
     onCancel: () => void
 }) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const appointment = CommonApi.Appointments.appointmentDetail(id, {
         skip: !id,
     })
+    const [cancellAppointment, cancellAppointmentResult] =
+        CommonApi.Appointments.cancellAppointment()
+
+    const { notification } = useNotification()
+
+    const onCancelClicked = () => {
+        setModal(null)
+    }
+
+    const onRescheduleClicked = () => {
+        setModal(
+            <Portal>
+                <RescheduleAppointmentModal
+                    onCancel={onCancelClicked}
+                    appointment={appointment?.data as Appointment}
+                />
+            </Portal>
+        )
+    }
+
+    const onCancelAppointment = () => {
+        if (appointment?.data) {
+            cancellAppointment(appointment?.data?.id).then((res: any) => {
+                if (res?.data) {
+                    notification.success({
+                        title: 'Appointment Cancelled',
+                        description: 'Appointment Cancelled Successfully',
+                    })
+                    onCancel()
+                }
+            })
+        }
+    }
 
     return (
         <>
+            {modal}
+            <ShowErrorNotifications result={cancellAppointmentResult} />
             <div className="fixed w-full h-screen bg-black/50 top-0 left-0 z-[1000] flex items-center justify-center">
                 <div className="bg-white shadow-lg rounded-md min-w-[500px]">
                     {appointment.isError && (
@@ -50,13 +96,112 @@ export const AppointmentViewModal = ({
                             <>
                                 <div className="pl-4 py-2 flex justify-between items-center border-b">
                                     <div>
-                                        <p className="text-md font-semibold">
-                                            Appointment Detail
-                                        </p>
+                                        <div
+                                            className={
+                                                'flex items-center gap-x-4'
+                                            }
+                                        >
+                                            <p className="text-md font-semibold">
+                                                Appointment Detail
+                                            </p>
+                                            {appointment?.data?.isCancelled ? (
+                                                <Badge
+                                                    text="Cancelled"
+                                                    variant="error"
+                                                />
+                                            ) : (
+                                                <div className="flex items-center gap-x-2">
+                                                    <ActionButton
+                                                        Icon={TbCalendarTime}
+                                                        mini
+                                                        title={
+                                                            'Reschedule Appointment'
+                                                        }
+                                                        variant={'info'}
+                                                        onClick={() => {
+                                                            onRescheduleClicked()
+                                                        }}
+                                                        loading={
+                                                            cancellAppointmentResult?.isLoading
+                                                        }
+                                                        disabled={
+                                                            cancellAppointmentResult?.isLoading
+                                                        }
+                                                    />
+                                                    <ActionButton
+                                                        Icon={FaTimes}
+                                                        mini
+                                                        title={
+                                                            'Cancell Appointment'
+                                                        }
+                                                        variant={'error'}
+                                                        onClick={(
+                                                            e: MouseEvent<HTMLElement>
+                                                        ) => {
+                                                            e?.stopPropagation()
+                                                            if (
+                                                                !isLessThan24HoursDifference(
+                                                                    appointment
+                                                                        ?.data
+                                                                        ?.date
+                                                                )
+                                                            ) {
+                                                                onCancelAppointment()
+                                                            } else {
+                                                                notification.error(
+                                                                    {
+                                                                        title: 'Appointment Cant be cancel',
+                                                                        description:
+                                                                            'Appointment Cant cancel before 1 day',
+                                                                    }
+                                                                )
+                                                            }
+                                                        }}
+                                                        loading={
+                                                            cancellAppointmentResult?.isLoading
+                                                        }
+                                                        disabled={
+                                                            cancellAppointmentResult?.isLoading
+                                                        }
+                                                    />
+                                                </div>
+                                            )}
+                                        </div>
                                         <p className="text-sm font-medium text-gray-400">
                                             Detail for appointment you have
                                             selected
                                         </p>
+                                        {appointment?.data?.isCancelled &&
+                                        appointment?.data?.cancelledBy ? (
+                                            <div className="mt-2">
+                                                <Typography
+                                                    variant="small"
+                                                    color="text-gray-500"
+                                                >
+                                                    Cancelled By
+                                                </Typography>
+                                                <Typography
+                                                    variant="label"
+                                                    color={'text-gray-600'}
+                                                >
+                                                    {
+                                                        appointment?.data
+                                                            ?.cancelledBy?.name
+                                                    }
+                                                </Typography>
+                                                <Typography
+                                                    variant="small"
+                                                    color={'text-gray-500'}
+                                                >
+                                                    {
+                                                        appointment?.data
+                                                            ?.cancelledBy?.email
+                                                    }
+                                                </Typography>
+                                            </div>
+                                        ) : (
+                                            ''
+                                        )}
                                     </div>
                                     <button
                                         onClick={onCancel}
@@ -66,7 +211,7 @@ export const AppointmentViewModal = ({
                                     </button>
                                 </div>
 
-                                <div className="h-[80vh] overflow-auto custom-scrollbar">
+                                <div className="h-[75vh] overflow-auto custom-scrollbar">
                                     <div className="flex border-b">
                                         {/* Type & With */}
                                         <div className="border-r px-8 py-4">

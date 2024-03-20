@@ -1,4 +1,10 @@
-import { Button, Card, TabProps, Typography } from '@components'
+import {
+    AuthorizedUserComponent,
+    Button,
+    Card,
+    TabProps,
+    Typography,
+} from '@components'
 import React from 'react'
 import { Tabs } from '../Tabs'
 import {
@@ -49,24 +55,28 @@ export const Appointments = ({ user }: { user: User }) => {
                 <Typography variant="label" semibold>
                     Appointments
                 </Typography>
-                <Button
-                    onClick={() => {
-                        role === UserRoles.ADMIN
-                            ? router.push({
-                                  pathname:
-                                      '/portals/admin/appointment-type/create-appointment',
-                                  query: { student: user?.id },
-                              })
-                            : role === UserRoles.SUBADMIN
-                            ? router.push({
-                                  pathname: `/portals/sub-admin/tasks/appointments/create-appointment`,
-                                  query: { student: user?.id },
-                              })
-                            : ''
-                    }}
+                <AuthorizedUserComponent
+                    roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                 >
-                    Book Appointment
-                </Button>
+                    <Button
+                        onClick={() => {
+                            role === UserRoles.ADMIN
+                                ? router.push({
+                                      pathname:
+                                          '/portals/admin/appointment-type/create-appointment',
+                                      query: { student: user?.id },
+                                  })
+                                : role === UserRoles.SUBADMIN
+                                ? router.push({
+                                      pathname: `/portals/sub-admin/tasks/appointments/create-appointment`,
+                                      query: { student: user?.id },
+                                  })
+                                : ''
+                        }}
+                    >
+                        Book Appointment
+                    </Button>
+                </AuthorizedUserComponent>
             </div>
             <Tabs tabs={tabs} defaultTabSelected={0}>
                 {({ header, element }: any) => {

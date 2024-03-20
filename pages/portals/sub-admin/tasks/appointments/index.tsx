@@ -124,7 +124,7 @@ const Appointments: NextPageWithLayout = (props: Props) => {
                 <div className="flex items-center gap-x-2">
                     <Button
                         variant={'info'}
-                        text={'Create Appointments'}
+                        text={'Book Appointments'}
                         onClick={() => {
                             router.push(
                                 '/portals/sub-admin/tasks/appointments/create-appointment'
