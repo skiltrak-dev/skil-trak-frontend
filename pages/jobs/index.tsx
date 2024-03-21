@@ -21,15 +21,14 @@ import { NextPageWithLayout } from '@types'
 import { NextPage } from 'next'
 import { PaginatedItems } from '@partials/common'
 
-const Jobs: NextPageWithLayout = () => {
+const Jobs: NextPageWithLayout = ({data}:any) => {
     const [itemPerPage, setItemPerPage] = useState(10)
     const [page, setPage] = useState(1)
     const [currentItems, setCurrentItems] = useState([])
 
-    const { data, isLoading, isError } = commonApi.useGetAllAdvertisedJobsQuery(
-        { skip: itemPerPage * page - itemPerPage, limit: itemPerPage }
-    )
-
+    // const { data, isLoading, isError } = commonApi.useGetAllAdvertisedJobsQuery(
+    //     { skip: itemPerPage * page - itemPerPage, limit: itemPerPage }
+    // )
     return (
         <>
             {/* <Navbar2 /> */}
@@ -39,20 +38,13 @@ const Jobs: NextPageWithLayout = () => {
                     <h1 className="font-bold text-2xl md:text-4xl mb-4">
                         Jobs
                     </h1>
-                    {isLoading ? (
-                        <LoadingAnimation />
-                    ) : data?.data?.length > 0 ? (
+                    
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
                             {currentItems?.map((job: any) => (
                                 <RecentJobCard key={job.id} {...job} />
                             ))}
                         </div>
-                    ) : (
-                        <EmptyData
-                            description="There is no jobs posted yet"
-                            title="No jobs found"
-                        />
-                    )}
+                   
 
                     <div className="flex items-center justify-end mb-4">
                         {data?.data && data.data.length > 0 && (
@@ -79,6 +71,19 @@ const Jobs: NextPageWithLayout = () => {
 
 Jobs.getLayout = (page: ReactElement) => {
     return <SiteLayout title={'Jobs'}>{page}</SiteLayout>
+}
+
+export const getStaticProps = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/jobs/list`)
+    const data = await res.json()
+    if (!data) {
+        return <NoData text="No Data" />
+    }
+    return {
+        props: {
+            data: data,
+        },
+    }
 }
 
 export default Jobs
