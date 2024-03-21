@@ -204,7 +204,7 @@ export const StudentProfileDetail = () => {
                         onClick={() => {
                             setQuickSearch(true)
                         }}
-                        className="-mr-9 flex items-center gap-x-4 bg-white rounded-[10px] py-2 px-5 shadow-md cursor-pointer"
+                        className="-mr-9 flex items-center gap-x-4 bg-white rounded-l-[10px] py-2 px-5 shadow-md cursor-pointer"
                     >
                         <IoIosArrowRoundBack />
                         <Typography variant="label" color="block">
@@ -220,7 +220,7 @@ export const StudentProfileDetail = () => {
             {profile.isLoading ? (
                 <LoadingAnimation />
             ) : profile?.data && profile?.isSuccess ? (
-                <div className="flex flex-col gap-y-5">
+                <div className="flex flex-col gap-y-5 mt-8">
                     <div className="h-[500px] overflow-hidden grid grid-cols-5 gap-x-3">
                         <div
                             className={`col-span-3 h-full ${activeBorder(

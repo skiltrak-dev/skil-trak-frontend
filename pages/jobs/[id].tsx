@@ -18,22 +18,19 @@ import { ellipsisText } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useState } from 'react'
 
-const JobDetail: NextPageWithLayout = () => {
+const JobDetail: NextPageWithLayout = ({
+    jobData,
+    industryRelatedList,
+}: any) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
     const router = useRouter()
     const { id } = router.query
 
-    const jobDetail = CommonApi.Industries.getAdvertisedJobDetail(id, {
-        skip: !id,
-    })
     const incrementJobCount = CommonApi.Industries.jobsCount(Number(id), {
         skip: !id,
     })
-    const { data, isLoading, isError } =
-        CommonApi.Industries.getAllAdvertisedJobs({
-            industry: jobDetail?.data?.job?.industry?.id,
-        })
-    const openJobId = jobDetail?.data?.job?.id
+   
+    const openJobId = jobData?.job?.id
 
     const onCancelModal = () => setModal(null)
 
@@ -43,7 +40,12 @@ const JobDetail: NextPageWithLayout = () => {
         )
     }
 
-    const otherJobs = data?.data.filter((job: any) => job.id !== openJobId)
+    const otherJobs = industryRelatedList?.data.filter(
+        (job: any) =>
+            job.id !== openJobId &&
+            jobData?.job?.industry?.id === job?.industry?.id
+    )
+
     return (
         <>
             {modal}
@@ -53,14 +55,12 @@ const JobDetail: NextPageWithLayout = () => {
                         <div className="md:w-2/3">
                             <div className="flex flex-col gap-y-2">
                                 <div className="flex flex-col gap-y-1 pt-1">
-                                    {jobDetail?.isLoading ? (
-                                        <LoadingAnimation />
-                                    ) : jobDetail?.data?.job ? (
+                                    {jobData?.job ? (
                                         <Card>
                                             <div className="flex items-center justify-between">
                                                 <div>
                                                     <div className="flex items-center gap-x-2">
-                                                        {jobDetail?.data?.job?.sectors
+                                                        {jobData?.job?.sectors
                                                             ?.slice(0, 2)
                                                             .map(
                                                                 (
@@ -87,29 +87,26 @@ const JobDetail: NextPageWithLayout = () => {
                                                     </div>{' '}
                                                     <div>
                                                         <Typography variant="title">
-                                                            {jobDetail?.data
-                                                                ?.job?.title ||
+                                                            {jobData?.job
+                                                                ?.title ||
                                                                 'N/A'}
                                                         </Typography>
                                                     </div>
                                                     <div className="flex items-center flex-row gap-x-2">
                                                         <div>
-                                                            {jobDetail?.data
-                                                                ?.job?.industry
-                                                                ?.user
+                                                            {jobData?.job
+                                                                ?.industry?.user
                                                                 ?.name && (
                                                                 <InitialAvatar
                                                                     name={
-                                                                        jobDetail
-                                                                            ?.data
+                                                                        jobData
                                                                             ?.job
                                                                             ?.industry
                                                                             ?.user
                                                                             ?.name
                                                                     }
                                                                     imageUrl={
-                                                                        jobDetail
-                                                                            ?.data
+                                                                        jobData
                                                                             ?.job
                                                                             ?.industry
                                                                             ?.user
@@ -120,8 +117,7 @@ const JobDetail: NextPageWithLayout = () => {
                                                         </div>
                                                         <div>
                                                             <Typography variant="small">
-                                                                {jobDetail?.data
-                                                                    ?.job
+                                                                {jobData?.job
                                                                     ?.industry
                                                                     ?.user
                                                                     ?.name ||
@@ -147,8 +143,8 @@ const JobDetail: NextPageWithLayout = () => {
                                                     </div>
                                                     <div>
                                                         <Typography variant="small">
-                                                            {jobDetail?.data
-                                                                ?.job?.suburb ||
+                                                            {jobData?.job
+                                                                ?.suburb ||
                                                                 'N/A'}
                                                         </Typography>
                                                     </div>
@@ -161,8 +157,7 @@ const JobDetail: NextPageWithLayout = () => {
                                                         <div>
                                                             <div className="flex items-center gap-x-2">
                                                                 <strong>
-                                                                    {jobDetail
-                                                                        ?.data
+                                                                    {jobData
                                                                         ?.job
                                                                         ?.salaryFrom ||
                                                                         'N/A'}
@@ -181,8 +176,7 @@ const JobDetail: NextPageWithLayout = () => {
                                                         <div>
                                                             <div className="flex items-center gap-x-2">
                                                                 <strong>
-                                                                    {jobDetail
-                                                                        ?.data
+                                                                    {jobData
                                                                         ?.job
                                                                         ?.salaryTo ||
                                                                         'N/A'}
@@ -205,7 +199,7 @@ const JobDetail: NextPageWithLayout = () => {
                                                     Description:
                                                 </Typography>
                                                 <Typography variant="body">
-                                                    {jobDetail?.data?.job
+                                                    {jobData?.job
                                                         ?.description || 'N/A'}
                                                 </Typography>
                                             </div>
@@ -227,9 +221,7 @@ const JobDetail: NextPageWithLayout = () => {
                                 {/* Other Jobs From This Industry Right Sidebar */}
                                 Other Jobs From This Industry
                                 <div className="flex flex-col gap-y-2">
-                                    {isLoading ? (
-                                        <LoadingAnimation size={60} />
-                                    ) : otherJobs && otherJobs?.length > 0 ? (
+                                    {otherJobs && otherJobs?.length > 0 ? (
                                         otherJobs
                                             .slice(0, 3)
                                             .map((job: any, index: any) => (
@@ -257,17 +249,13 @@ const JobDetail: NextPageWithLayout = () => {
                     </div>
                     <div
                         className={`${
-                            jobDetail?.data?.relatedJobs?.length > 0
-                                ? 'block'
-                                : 'hidden'
+                            jobData.relatedJobs?.length > 0 ? 'block' : 'hidden'
                         } mt-12`}
                     >
-                        Related jobs
+                        Related Jobs
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                            {jobDetail?.isLoading ? (
-                                <LoadingAnimation size={60} />
-                            ) : jobDetail?.data?.relatedJobs?.length > 0 ? (
-                                jobDetail?.data?.relatedJobs?.map(
+                            {jobData.relatedJobs?.length > 0 ? (
+                                jobData.relatedJobs?.map(
                                     (job: any, index: any) => (
                                         <div
                                             key={index}
@@ -283,7 +271,9 @@ const JobDetail: NextPageWithLayout = () => {
                                         </div>
                                     )
                                 )
-                            ) : null}
+                            ) : (
+                                <NoData text="No related jobs found" />
+                            )}
                         </div>
                     </div>
                 </div>
@@ -294,6 +284,40 @@ const JobDetail: NextPageWithLayout = () => {
 
 JobDetail.getLayout = (page: ReactElement) => {
     return <SiteLayout>{page}</SiteLayout>
+}
+
+export async function getStaticPaths() {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/jobs/list`)
+    const jobs = await res.json()
+
+    const paths = jobs?.data?.map((job: any) => {
+        return { params: { id: `${job?.id}` } }
+    })
+
+    return { paths: paths, fallback: 'blocking' }
+}
+
+export async function getStaticProps(context: any) {
+    const { params } = context
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_END_POINT}/jobs/view-related/${params?.id}`
+    )
+    const jobData = await res.json()
+    const industryId = jobData?.job?.industry?.id
+    const resList = await fetch(
+        `${process.env.NEXT_PUBLIC_END_POINT}/jobs/list?industry=${industryId}`
+    )
+    const industryRelatedList = await resList.json()
+    if (!jobData) {
+        return <NoData text="No Data" />
+    }
+
+    return {
+        props: {
+            jobData,
+            industryRelatedList,
+        },
+    }
 }
 
 export default JobDetail
