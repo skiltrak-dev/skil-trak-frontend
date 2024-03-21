@@ -23,6 +23,9 @@ import { UserStatus } from '@types'
 import { FaTimes } from 'react-icons/fa'
 import { IoIosArrowRoundBack } from 'react-icons/io'
 import dynamic from 'next/dynamic'
+import { UserRoles } from '@constants'
+import { getLink, getUserCredentials } from '@utils'
+import { IoArrowBackOutline } from 'react-icons/io5'
 
 const Schedule = dynamic(() => import('./components/Schedule/Schedule'), {
     ssr: false,
@@ -133,10 +136,38 @@ export const StudentProfileDetail = () => {
     const activeBorder = (key: ProfileIds) =>
         selectedId === key ? 'border-2 border-primary rounded-xl' : ''
 
+    const role = getUserCredentials()?.role
+
     return (
         <div>
             <div className="flex justify-between items-center gap-x-3">
-                <PageTitle title="Student Profile" />
+                <div className="flex items-center gap-x-2.5">
+                    <div
+                        className={
+                            'shadow-site rounded-[10px] px-2.5 bg-white group max-w-max transition-all text-xs flex justify-start items-center py-2.5 text-muted hover:text-muted-dark cursor-pointer'
+                        }
+                        onClick={() => {
+                            role === UserRoles.ADMIN
+                                ? router.push(
+                                      `/${getLink('student')}` ||
+                                          'portals/admin/student?tab=active&page=1&pageSize=50'
+                                  )
+                                : role === UserRoles.SUBADMIN
+                                ? router.push(
+                                      `/${getLink('subadmin-student')}` ||
+                                          '/portals/sub-admin/students?tab=all'
+                                  )
+                                : role === UserRoles.RTO
+                                ? router.push(
+                                      '/portals/rto/students?tab=active'
+                                  )
+                                : '#'
+                        }}
+                    >
+                        <IoArrowBackOutline className="transition-all inline-flex text-lg text-gray-600 group-hover:-translate-x-1" />
+                    </div>
+                    <PageTitle title="Student Profile" />
+                </div>
                 {quickSearch ? (
                     <div className="-mr-9 pl-7 shadow px-3 w-full bg-white rounded-[10px] py-2 flex items-center justify-between">
                         <div

@@ -12,14 +12,13 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 import { Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { CourseCard, SectorCard } from '../Cards'
+import { SliderStyleContainer } from '../styles'
 import { AssessmentFiles, InitiateSign } from './AssessmentFiles'
 import { AddComment } from './AssessmentFiles/AddComment'
 import { AssessmentsFolders } from './AssessmentsFolders'
 import { FinalResult } from './FinalResult'
 import { SubmitAssessmentSubmission } from './SubmitAssessmentSubmission'
 import { SubmitFinalResult } from './SubmitFinalResult'
-import { SliderStyleContainer } from '../styles'
-import { Waypoint } from 'react-waypoint'
 
 export const Courses = ({
     student,

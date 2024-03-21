@@ -21,7 +21,7 @@ export const FolderCard = ({
         switch (response?.status) {
             case 'approved':
                 return (
-                    <Typography color="text-primary" variant="xs" medium>
+                    <Typography color="text-success" variant="xs" medium>
                         Approved
                     </Typography>
                 )
@@ -50,7 +50,7 @@ export const FolderCard = ({
     const commentClasses = classNames({
         'text-[11px]': true,
         'text-gray-500': response?.status === 'pending' && !active,
-        'text-green-700': response?.status === 'approved' && !active,
+        'text-success-dark': response?.status === 'approved' && !active,
         'text-red-700':
             (response?.status === 'rejected' ||
                 response?.status === 'blocked') &&

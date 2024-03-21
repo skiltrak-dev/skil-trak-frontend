@@ -32,7 +32,7 @@ export const PastAppointments = ({ userId }: { userId: number }) => {
                         </Typography>
                     </div>
                 ) : pastAppointments?.data &&
-                  pastAppointments?.data?.length > 0 ? (
+                  pastAppointments?.data?.data?.length > 0 ? (
                     pastAppointments?.data?.data?.map(
                         (appointment: Appointment) => (
                             <AppointmentCard

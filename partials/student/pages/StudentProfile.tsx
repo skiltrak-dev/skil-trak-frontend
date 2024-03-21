@@ -370,14 +370,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                                           `/${getLink('subadmin-student')}` ||
                                               '/portals/sub-admin/students?tab=all'
                                       )
-                                    : //  setNotifModal(
-                                    //       <AddNoteNotificationModal
-                                    //           onCancel={() =>
-                                    //               onCancelNotifModal()
-                                    //           }
-                                    //       />
-                                    //   )
-                                    role === UserRoles.RTO
+                                    : role === UserRoles.RTO
                                     ? router.push(
                                           '/portals/rto/students?tab=active'
                                       )

@@ -144,6 +144,14 @@ export const studentsEndpoints = (
         ],
     }),
 
+    updateStudentDate: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/update/student/${id}/data`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdminStudents'],
+    }),
+
     getSubAdminStudentWorkplaceDetail: builder.query<any, number>({
         query: (id) => `${PREFIX}/workplace-request/view/${id}`,
         providesTags: [

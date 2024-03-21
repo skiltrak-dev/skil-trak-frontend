@@ -18,10 +18,16 @@ export const AllowUpdationModal = ({
     const onConfirmUClicked = async (rto: Rto) => {
         allowUpdation(rto?.id).then((res: any) => {
             if (res?.data) {
-                notification.success({
-                    title: rto?.allowUpdate ? `Not Allowed` : 'Allowed',
-                    description: rto?.allowUpdate ? `Not Allowed` : 'Allowed',
-                })
+                rto?.allowUpdate
+                    ? notification.message({
+                          title: `Revoked`,
+                          description: `Revoked permission to update the timestamp.`,
+                      })
+                    : notification.success({
+                          title: 'Granted',
+                          description:
+                              'Granted permission to update the timestamp.',
+                      })
                 onCancel()
             }
         })
