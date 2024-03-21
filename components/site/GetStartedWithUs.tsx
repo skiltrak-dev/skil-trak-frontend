@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 
 export const GetStartedWithUs = ({ contactUsRef }: any) => {
     const router = useRouter()
+    
     return (
         <div className="md:px-36 px-8 py-8 md:py-20 bg-[#192A65]">
             <div className="max-w-7xl mx-auto gap-y-12 flex flex-col-reverse md:flex-row items-center md:gap-x-20 md:justify-between">

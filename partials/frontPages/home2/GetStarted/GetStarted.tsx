@@ -7,7 +7,6 @@ import { useMediaQuery } from 'react-responsive'
 const GetStarted = ({ contactUsRef }: { contactUsRef: any }) => {
     const router = useRouter()
     const isMobile = useMediaQuery(MediaQueries.Mobile)
-    // console.log("router")
     return (
         <div className="bg-gradient-to-t from-[#0C1535] to-[#2C3E7F] py-10 px-5 md:px-0">
             <div data-aos="fade-up">
@@ -51,7 +50,6 @@ const GetStarted = ({ contactUsRef }: { contactUsRef: any }) => {
                     text="Request a demo"
                 />
             </div>
-
             <div data-aos="zoom-in" className="max-w-4xl mt-7 md:mt-9 mx-auto">
                 <div className="w-full h-full">
                     <Image
