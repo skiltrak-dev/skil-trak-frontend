@@ -24,7 +24,7 @@ type StudentPrgressStatusDetail = {
 const StudentProgress = (appliedIndustry?: any) => ({
     '1-PlacementStarted': {
         status: 'Placement Started',
-        description: '',
+        description: 'Placement Started',
         color: 'text-white',
         image: 'placement-started.png',
         date: appliedIndustry?.placementStartedDate,
@@ -107,7 +107,14 @@ export const StudentStatusProgressCell = ({
                 >
                     {currentStatus?.status}
                 </p>
-                <p className="text-[11px] text-gray-400 whitespace-nowrap">
+                <p
+                    className={`text-[11px] ${
+                        currentStatus?.status ===
+                        StudentProgress()['1-PlacementStarted']?.status
+                            ? 'text-gray-100'
+                            : 'text-gray-400'
+                    }  whitespace-nowrap`}
+                >
                     {currentStatus?.description || 'N/A'}
                 </p>
                 {currentStatus?.date && (

@@ -21,6 +21,7 @@ import { BsUnlockFill } from 'react-icons/bs'
 import { FaAddressCard, FaMoneyBill } from 'react-icons/fa'
 import { IoLocation } from 'react-icons/io5'
 import { MdOutlineUpdate, MdPhone, MdVerified } from 'react-icons/md'
+import { RxUpdate } from 'react-icons/rx'
 
 type Props = {}
 
@@ -60,7 +61,7 @@ export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
     const onAllowUpdation = () => {
         setModal(
             <AllowUpdationModal
-                rto={rto}
+                rto={rto?.data}
                 onCancel={() => onModalCancelClicked()}
             />
         )
@@ -79,42 +80,50 @@ export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
                     <div>
                         <div className="flex flex-col items-center">
                             <div className="relative flex items-center justify-center w-full">
-                                <div className="flex items-center justify-between w-full gap-x-2 absolute top-0 right-0">
-                                    <div className="mt-2">
-                                        <ActionButton
-                                            rounded
-                                            Icon={MdOutlineUpdate}
-                                            variant={'info'}
-                                            onClick={() => onAllowUpdation()}
-                                            title="Allow Updation"
-                                        />
-                                    </div>
-                                    <div className="flex items-center gap-x-2">
-                                        <ActionButton
-                                            rounded
-                                            Icon={AiFillEdit}
-                                            variant={'info'}
-                                            onClick={() =>
-                                                pathname.push(
-                                                    role === UserRoles.ADMIN ||
-                                                        subadmin?.data?.isAdmin
-                                                        ? `/portals/admin/rto/${rto?.data?.id}/edit-profile`
-                                                        : `/portals/sub-admin/users/rtos/${rto?.data?.id}/edit-profile`
-                                                )
-                                            }
-                                            title="Edit Profile"
-                                        />
+                                <div className="flex items-center justify-between gap-x-2 absolute top-0 right-0">
+                                    <ActionButton
+                                        rounded
+                                        Icon={
+                                            rto?.data?.allowUpdate
+                                                ? MdOutlineUpdate
+                                                : RxUpdate
+                                        }
+                                        variant={
+                                            rto?.data?.allowUpdate
+                                                ? 'success'
+                                                : 'info'
+                                        }
+                                        onClick={() => onAllowUpdation()}
+                                        title={
+                                            rto?.data?.allowUpdate
+                                                ? 'Remove Updation'
+                                                : 'Allow Updation'
+                                        }
+                                    />
+                                    <ActionButton
+                                        rounded
+                                        Icon={AiFillEdit}
+                                        variant={'info'}
+                                        onClick={() =>
+                                            pathname.push(
+                                                role === UserRoles.ADMIN ||
+                                                    subadmin?.data?.isAdmin
+                                                    ? `/portals/admin/rto/${rto?.data?.id}/edit-profile`
+                                                    : `/portals/sub-admin/users/rtos/${rto?.data?.id}/edit-profile`
+                                            )
+                                        }
+                                        title="Edit Profile"
+                                    />
 
-                                        <ActionButton
-                                            rounded
-                                            Icon={BsUnlockFill}
-                                            variant={'neutral'}
-                                            onClick={() =>
-                                                onUpdatePassword(rto?.data)
-                                            }
-                                            title="Edit Password"
-                                        />
-                                    </div>
+                                    <ActionButton
+                                        rounded
+                                        Icon={BsUnlockFill}
+                                        variant={'neutral'}
+                                        onClick={() =>
+                                            onUpdatePassword(rto?.data)
+                                        }
+                                        title="Edit Password"
+                                    />
                                 </div>
                                 <RtoAvatar
                                     imageUrl={rto?.data?.user?.avatar}

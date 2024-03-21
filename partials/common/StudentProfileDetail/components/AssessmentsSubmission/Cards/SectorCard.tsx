@@ -28,7 +28,7 @@ export const SectorCard = ({
                 Sector
             </Typography>
             <Typography
-                variant="label"
+                variant="small"
                 medium
                 color={active ? 'text-white' : '#374151'}
             >
