@@ -49,13 +49,6 @@ export const CourseCard = ({
                         {course?.code} - {course?.title}
                     </Typography>
                 </div>
-
-                {/* <div className="mt-3">
-                    <CourseSubmisstionBadge
-                        result={result}
-                        resultLength={course?.results?.length}
-                    />
-                </div> */}
             </div>
 
             {/*  */}

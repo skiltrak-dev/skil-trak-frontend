@@ -1,9 +1,6 @@
 import { LoadingAnimation, NoData, Typography } from '@components'
 import { AssessmentEvidenceDetailType, Course, Student } from '@types'
-import { useEffect } from 'react'
 import { FolderCard } from '../../Cards'
-import { AssessmentFiles, InitiateSign } from '../AssessmentFiles'
-import { useGetAssessmentResponseQuery } from '@queries'
 
 export const AssessmentsFolders = ({
     getFolders,

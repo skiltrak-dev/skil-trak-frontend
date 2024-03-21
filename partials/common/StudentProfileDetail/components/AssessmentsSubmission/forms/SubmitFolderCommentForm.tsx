@@ -31,7 +31,10 @@ export const SubmitFolderCommentForm = ({
         if (comment) {
             methods.setValue('comment', comment)
         }
-    }, [comment])
+        if (folderStatus) {
+            methods.setValue('type', folderStatus)
+        }
+    }, [comment, folderStatus])
 
     const [selectedType, setSelectedType] = useState<AddCommentEnum>(
         AddCommentEnum.Approved
@@ -62,10 +65,10 @@ export const SubmitFolderCommentForm = ({
                                     name={'type'}
                                     menuPlacement={'top'}
                                     options={typeOptions}
-                                    value={typeOptions?.find(
-                                        (type: OptionType) =>
-                                            type.value === folderStatus
-                                    )}
+                                    // value={typeOptions?.find(
+                                    //     (type: OptionType) =>
+                                    //         type.value === folderStatus
+                                    // )}
                                     onlyValue
                                     onChange={(e: AddCommentEnum) => {
                                         if (e === AddCommentEnum.Approved) {

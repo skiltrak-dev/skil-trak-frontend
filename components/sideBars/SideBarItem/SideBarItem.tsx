@@ -100,13 +100,17 @@ export const SideBarItem = ({
                 <Icon className={iconClasses} />
                 {children}
                 {count ? (
-                    count?.loading ? (
-                        <PulseLoader size={15} color={'black'} />
-                    ) : (
-                        <span className="w-5 h-5 flex items-center justify-center text-center text-white absolute top-1 right-2 bg-error rounded-full text-xs">
-                            {count?.text}
-                        </span>
-                    )
+                    <span
+                        className={`w-5 h-5 flex items-center justify-center text-center ${
+                            !count?.loading ? 'bg-error' : ''
+                        } text-white absolute top-1 right-2  rounded-full text-xs`}
+                    >
+                        {count?.loading ? (
+                            <PulseLoader size={4} color={'black'} />
+                        ) : (
+                            count?.text
+                        )}
+                    </span>
                 ) : null}
             </div>
         </Link>

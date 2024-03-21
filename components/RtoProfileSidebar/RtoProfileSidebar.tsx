@@ -2,28 +2,34 @@ import {
     ActionButton,
     LoadingAnimation,
     RtoAvatar,
+    Switch,
     Typography,
 } from '@components'
 import { NoData } from '@components/ActionAnimations'
 import { UserRoles } from '@constants'
 import { useActionModal } from '@hooks'
+import { AllowUpdationModal } from '@partials/admin/rto/modals'
 import { CourseList } from '@partials/common'
 import { SubAdminApi } from '@queries'
-import { Course, GetSectorsType } from '@types'
+import { Course, GetSectorsType, Rto } from '@types'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
+import { ReactElement, useState } from 'react'
 import { AiFillEdit } from 'react-icons/ai'
 import { BiPackage } from 'react-icons/bi'
 import { BsUnlockFill } from 'react-icons/bs'
 import { FaAddressCard, FaMoneyBill } from 'react-icons/fa'
 import { IoLocation } from 'react-icons/io5'
-import { MdPhone, MdVerified } from 'react-icons/md'
+import { MdOutlineUpdate, MdPhone, MdVerified } from 'react-icons/md'
+import { RxUpdate } from 'react-icons/rx'
 
 type Props = {}
 
 export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
     const pathname = useRouter()
     const profileId = pathname.query.profileId
+
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
         skip: !UserRoles.SUBADMIN,
@@ -50,10 +56,22 @@ export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
         return sectors
     }
 
+    const onModalCancelClicked = () => setModal(null)
+
+    const onAllowUpdation = () => {
+        setModal(
+            <AllowUpdationModal
+                rto={rto?.data}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     const role = getUserCredentials()?.role
     const sectorsWithCourses = getSectors(rto?.data?.courses)
     return (
         <>
+            {modal}
             {passwordModal && passwordModal}
             {rto?.isLoading ? (
                 <LoadingAnimation />
@@ -62,7 +80,26 @@ export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
                     <div>
                         <div className="flex flex-col items-center">
                             <div className="relative flex items-center justify-center w-full">
-                                <div className="flex items-center gap-x-2 absolute top-0 right-0">
+                                <div className="flex items-center justify-between gap-x-2 absolute top-0 right-0">
+                                    <ActionButton
+                                        rounded
+                                        Icon={
+                                            rto?.data?.allowUpdate
+                                                ? MdOutlineUpdate
+                                                : RxUpdate
+                                        }
+                                        variant={
+                                            rto?.data?.allowUpdate
+                                                ? 'success'
+                                                : 'info'
+                                        }
+                                        onClick={() => onAllowUpdation()}
+                                        title={
+                                            rto?.data?.allowUpdate
+                                                ? 'Remove Updation'
+                                                : 'Allow Updation'
+                                        }
+                                    />
                                     <ActionButton
                                         rounded
                                         Icon={AiFillEdit}
