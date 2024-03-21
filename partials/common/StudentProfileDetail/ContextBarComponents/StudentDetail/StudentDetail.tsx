@@ -93,7 +93,11 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
                     />
                     <StudentDetailCard
                         title="Gender"
-                        detail={String(getGender(profile?.gender))}
+                        detail={
+                            profile?.gender
+                                ? String(getGender(profile?.gender))
+                                : 'N/A'
+                        }
                     />
                 </div>
                 <div>

@@ -2,28 +2,33 @@ import {
     ActionButton,
     LoadingAnimation,
     RtoAvatar,
+    Switch,
     Typography,
 } from '@components'
 import { NoData } from '@components/ActionAnimations'
 import { UserRoles } from '@constants'
 import { useActionModal } from '@hooks'
+import { AllowUpdationModal } from '@partials/admin/rto/modals'
 import { CourseList } from '@partials/common'
 import { SubAdminApi } from '@queries'
-import { Course, GetSectorsType } from '@types'
+import { Course, GetSectorsType, Rto } from '@types'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
+import { ReactElement, useState } from 'react'
 import { AiFillEdit } from 'react-icons/ai'
 import { BiPackage } from 'react-icons/bi'
 import { BsUnlockFill } from 'react-icons/bs'
 import { FaAddressCard, FaMoneyBill } from 'react-icons/fa'
 import { IoLocation } from 'react-icons/io5'
-import { MdPhone, MdVerified } from 'react-icons/md'
+import { MdOutlineUpdate, MdPhone, MdVerified } from 'react-icons/md'
 
 type Props = {}
 
 export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
     const pathname = useRouter()
     const profileId = pathname.query.profileId
+
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
         skip: !UserRoles.SUBADMIN,
@@ -50,10 +55,22 @@ export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
         return sectors
     }
 
+    const onModalCancelClicked = () => setModal(null)
+
+    const onAllowUpdation = () => {
+        setModal(
+            <AllowUpdationModal
+                rto={rto}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     const role = getUserCredentials()?.role
     const sectorsWithCourses = getSectors(rto?.data?.courses)
     return (
         <>
+            {modal}
             {passwordModal && passwordModal}
             {rto?.isLoading ? (
                 <LoadingAnimation />
@@ -62,31 +79,42 @@ export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
                     <div>
                         <div className="flex flex-col items-center">
                             <div className="relative flex items-center justify-center w-full">
-                                <div className="flex items-center gap-x-2 absolute top-0 right-0">
-                                    <ActionButton
-                                        rounded
-                                        Icon={AiFillEdit}
-                                        variant={'info'}
-                                        onClick={() =>
-                                            pathname.push(
-                                                role === UserRoles.ADMIN ||
-                                                    subadmin?.data?.isAdmin
-                                                    ? `/portals/admin/rto/${rto?.data?.id}/edit-profile`
-                                                    : `/portals/sub-admin/users/rtos/${rto?.data?.id}/edit-profile`
-                                            )
-                                        }
-                                        title="Edit Profile"
-                                    />
+                                <div className="flex items-center justify-between w-full gap-x-2 absolute top-0 right-0">
+                                    <div className="mt-2">
+                                        <ActionButton
+                                            rounded
+                                            Icon={MdOutlineUpdate}
+                                            variant={'info'}
+                                            onClick={() => onAllowUpdation()}
+                                            title="Allow Updation"
+                                        />
+                                    </div>
+                                    <div className="flex items-center gap-x-2">
+                                        <ActionButton
+                                            rounded
+                                            Icon={AiFillEdit}
+                                            variant={'info'}
+                                            onClick={() =>
+                                                pathname.push(
+                                                    role === UserRoles.ADMIN ||
+                                                        subadmin?.data?.isAdmin
+                                                        ? `/portals/admin/rto/${rto?.data?.id}/edit-profile`
+                                                        : `/portals/sub-admin/users/rtos/${rto?.data?.id}/edit-profile`
+                                                )
+                                            }
+                                            title="Edit Profile"
+                                        />
 
-                                    <ActionButton
-                                        rounded
-                                        Icon={BsUnlockFill}
-                                        variant={'neutral'}
-                                        onClick={() =>
-                                            onUpdatePassword(rto?.data)
-                                        }
-                                        title="Edit Password"
-                                    />
+                                        <ActionButton
+                                            rounded
+                                            Icon={BsUnlockFill}
+                                            variant={'neutral'}
+                                            onClick={() =>
+                                                onUpdatePassword(rto?.data)
+                                            }
+                                            title="Edit Password"
+                                        />
+                                    </div>
                                 </div>
                                 <RtoAvatar
                                     imageUrl={rto?.data?.user?.avatar}

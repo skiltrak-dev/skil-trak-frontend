@@ -43,14 +43,15 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
             {passwordModal}
             {profileLinks.map(
                 ({ text, link, Icon, onClick }: any, index: number) => (
-                    <div className="flex items-center gap-x-2" key={index}>
+                    <div
+                        className="flex items-center gap-x-2 cursor-pointer"
+                        key={index}
+                        onClick={() => {
+                            onClick()
+                        }}
+                    >
                         <Typography variant="xxs">{text}</Typography>
-                        <div
-                            onClick={() => {
-                                onClick(router)
-                            }}
-                            className="w-5 h-5 rounded-full bg-primaryNew flex justify-center items-center"
-                        >
+                        <div className="w-5 h-5 rounded-full bg-primaryNew flex justify-center items-center">
                             <Icon className="text-white" size={12} />
                         </div>
                     </div>

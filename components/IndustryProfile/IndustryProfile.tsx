@@ -136,13 +136,21 @@ export const IndustryProfile = ({ data }: Props) => {
         )
     }
 
-    var inputString = 'Saad australia'
-    var resultString = inputString.replace(/Australia/i, '') // 'i' flag makes the search case-insensitive
-
     const onRemoveBranch = () => {
         setModal(
             <RemoveBranchModal industry={data} onCancel={onCancelClicked} />
         )
+    }
+
+    const onHiring = () => {
+        isHiring(data?.user?.id)?.then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: data?.isHiring ? 'Not Hiring' : 'Hiring',
+                    description: data?.isHiring ? 'Not Hiring' : 'Hiring',
+                })
+            }
+        })
     }
     return (
         <>
@@ -160,22 +168,8 @@ export const IndustryProfile = ({ data }: Props) => {
                             <div className="mt-2">
                                 <Switch
                                     name="hiring"
-                                    onChange={(e: any) => {
-                                        isHiring(data?.user?.id)?.then(
-                                            (res: any) => {
-                                                if (res?.data) {
-                                                    notification.success({
-                                                        title: data?.isHiring
-                                                            ? 'Not Hiring'
-                                                            : 'Hiring',
-                                                        description:
-                                                            data?.isHiring
-                                                                ? 'Not Hiring'
-                                                                : 'Hiring',
-                                                    })
-                                                }
-                                            }
-                                        )
+                                    onChange={() => {
+                                        onHiring()
                                     }}
                                     value={data?.isHiring}
                                     defaultChecked={data?.isHiring}
