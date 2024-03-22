@@ -1,5 +1,6 @@
 import {
     AlertProvider,
+    AutoLogoutProvider,
     ContextBarProvider,
     DownloadAssessmentProvider,
     HeaderWrapperProvider,
