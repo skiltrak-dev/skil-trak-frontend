@@ -144,12 +144,16 @@ export const studentsEndpoints = (
         ],
     }),
 
-    updateStudentDate: builder.mutation<any, number>({
-        query: (id) => ({
+    updateStudentDate: builder.mutation<
+        any,
+        { id: number; range: { startDate: Date; endDate: Date } }
+    >({
+        query: ({ id, ...body }) => ({
             url: `${PREFIX}/update/student/${id}/data`,
             method: 'PATCH',
+            body,
         }),
-        invalidatesTags: ['SubAdminStudents'],
+        invalidatesTags: ['SubAdminStudents', 'Notes', 'Mails'],
     }),
 
     getSubAdminStudentWorkplaceDetail: builder.query<any, number>({

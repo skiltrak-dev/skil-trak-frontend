@@ -1,17 +1,17 @@
 import { useContextBar, useNavbar, useNotification } from '@hooks'
-import { RtoLayout, SubAdminLayout } from '@layouts'
+import { SubAdminLayout } from '@layouts'
 import { Course, NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
 import { ShowErrorNotifications } from '@components'
-import { ImportStudentList } from '@partials/common'
 import {
-    SubAdminApi,
-    useGetSubAdminRTOCoursesQuery,
-    useGetSubAdminRTODetailQuery,
-} from '@queries'
-import { trimText } from '@utils'
+    CreatedStudentsList,
+    ImportStudentFromWithOtp,
+    ImportStudentVerificationModal,
+    useImportStudents,
+} from '@partials/common'
+import { RtoApi, useGetSubAdminRTOCoursesQuery } from '@queries'
 
 const RtoStudentLists: NextPageWithLayout = () => {
     const { notification } = useNotification()
@@ -26,9 +26,13 @@ const RtoStudentLists: NextPageWithLayout = () => {
     const [foundStudents, setFoundStudents] = useState<any>([])
 
     const [existingEmails, setExistingEmails] = useState<any>([])
+    const [modal, setModal] = useState<ReactElement | null>(null)
+    const [importedStudentsResult, setImportedStudentsResult] =
+        useState<any>(null)
 
-    const [importStudents, importStudentsResult] =
-        SubAdminApi.Rto.useImportStudentList()
+    const [sendVerificationCode, sendVerificationCodeResult] =
+        RtoApi.Students.useSendVerificationCode()
+
     const rtoCourses = useGetSubAdminRTOCoursesQuery(
         Number(router?.query?.rtoId),
         {
@@ -45,6 +49,11 @@ const RtoStudentLists: NextPageWithLayout = () => {
               }))
             : []
 
+    const { onSubadminImportStudents, importStudentsResult } =
+        useImportStudents()
+
+    const onCancel = () => setModal(null)
+
     const onSubmit = async (values: any) => {
         // const courses = values?.courses?.map((c: any) => c.value)
 
@@ -60,47 +69,71 @@ const RtoStudentLists: NextPageWithLayout = () => {
 
         // await importStudents({ id: Number(router.query.id), body: formData })
 
-        let list = foundStudents.filter((fs: any) => !!fs.email)
+        sendVerificationCode().then((res: any) => {
+            if (res?.data) {
+                setModal(
+                    <ImportStudentVerificationModal
+                        values={values}
+                        onCancel={onCancel}
+                        foundStudents={foundStudents}
+                        existingEmails={existingEmails}
+                        setImportedStudentsResult={setImportedStudentsResult}
+                        result={importStudentsResult}
+                        onImportStudentsList={onSubadminImportStudents}
+                    />
+                )
+            }
+        })
 
-        if (existingEmails.length) {
-            existingEmails.forEach((item: any) => {
-                if (list.findIndex((o: any) => o.email === item.email) !== -1) {
-                    list = list.filter((o: any) => o.email !== item.email)
-                }
-            })
-        }
+        // let list = foundStudents.filter((fs: any) => !!fs.email)
 
-        if (list.length === 0) {
-            notification.error({
-                title: 'No Student Found',
-                description: 'List is invalid or empty',
-            })
-        } else {
-            await importStudents({
-                id: Number(router.query.id),
-                body: {
-                    ...values,
-                    // courses,
-                    list: list?.map((o: any) => ({
-                        ...o,
-                        email: trimText(o?.email),
-                    })),
-                },
-            })
-        }
+        // if (existingEmails.length) {
+        //     existingEmails.forEach((item: any) => {
+        //         if (list.findIndex((o: any) => o.email === item.email) !== -1) {
+        //             list = list.filter((o: any) => o.email !== item.email)
+        //         }
+        //     })
+        // }
+
+        // if (list.length === 0) {
+        //     notification.error({
+        //         title: 'No Student Found',
+        //         description: 'List is invalid or empty',
+        //     })
+        // } else {
+        //     await importStudents({
+        //         id: Number(router.query.id),
+        //         body: {
+        //             ...values,
+        //             // courses,
+        //             list: list?.map((o: any) => ({
+        //                 ...o,
+        //                 email: trimText(o?.email),
+        //             })),
+        //         },
+        //     })
+        // }
     }
 
     return (
         <>
+            {modal}
             <ShowErrorNotifications result={importStudentsResult} />
-            <ImportStudentList
-                onSubmit={onSubmit}
-                setFoundStudents={setFoundStudents}
-                setExistingEmails={setExistingEmails}
-                foundStudents={foundStudents}
-                rtoCourses={rtoCoursesOptions}
-                result={importStudentsResult}
-            />
+
+            {!importedStudentsResult ? (
+                <ImportStudentFromWithOtp
+                    onSubmit={onSubmit}
+                    setFoundStudents={setFoundStudents}
+                    setExistingEmails={setExistingEmails}
+                    foundStudents={foundStudents}
+                    rtoCourses={rtoCoursesOptions}
+                    result={sendVerificationCodeResult}
+                />
+            ) : (
+                <CreatedStudentsList
+                    importedStudentsResult={importedStudentsResult}
+                />
+            )}
         </>
     )
 }

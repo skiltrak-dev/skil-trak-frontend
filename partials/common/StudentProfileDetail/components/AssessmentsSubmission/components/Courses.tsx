@@ -222,7 +222,6 @@ export const Courses = ({
                                                 courses &&
                                                 courses?.length > 0
                                             ) {
-                                                console.log('courses')
                                                 setSelectedCourse(courses?.[0])
                                             }
                                         }

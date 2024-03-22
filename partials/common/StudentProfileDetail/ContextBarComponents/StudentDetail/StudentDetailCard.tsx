@@ -4,10 +4,12 @@ import { Typography } from '@components'
 export const StudentDetailCard = ({
     title,
     detail,
+    border = true,
     onClick,
     children,
 }: {
     title: string
+    border?: boolean
     detail: string
     onClick?: any
     children?: ReactNode
@@ -19,9 +21,9 @@ export const StudentDetailCard = ({
                     onClick()
                 }
             }}
-            className={`${
-                onClick ? 'cursor-pointer' : ''
-            } w-full px-2.5 py-1.5 border border-[#6B728050] rounded-md flex justify-between items-center`}
+            className={`${onClick ? 'cursor-pointer' : ''} ${
+                border ? 'border border-[#6B728050] rounded-md' : ''
+            } w-full px-2.5 py-1.5  flex justify-between items-center`}
         >
             <div className="">
                 <Typography normal variant="xxs" color="text-[#979797] block">

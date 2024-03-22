@@ -107,12 +107,18 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
                                     } `}
                                 >
                                     {format(
-                                        new Date(note.createdAt!!),
+                                        new Date(
+                                            note?.isEnabled!! ||
+                                                note.createdAt!!
+                                        ),
                                         'EEE dd, LLL, yyyy'
                                     )}{' '}
                                     at{' '}
                                     {format(
-                                        new Date(note.createdAt!!),
+                                        new Date(
+                                            note?.isEnabled!! ||
+                                                note.createdAt!!
+                                        ),
                                         'hh:mm aa'
                                     )}
                                 </p>

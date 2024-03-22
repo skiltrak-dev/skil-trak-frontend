@@ -124,7 +124,7 @@ export const Mail = ({ message, sender, index }: any) => {
                                 {/* Jul 15, 2022 10:55am */}
                                 {/* {moment(message.createdAt).format('LLL')} */}
                                 {moment(
-                                    message.createdAt,
+                                    message?.isEnabled || message.createdAt,
                                     'YYYY-MM-DD hh:mm:ss Z'
                                 ).format('MMM DD, YYYY hh:mm a')}
                             </Typography>

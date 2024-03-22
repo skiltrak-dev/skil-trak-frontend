@@ -72,39 +72,39 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         <>
             <GoogleAnalyticsScript />
             <Provider store={store}>
-                {/* <AutoLogoutProvider> */}
-                <ErrorBoundaryContext>
-                    <JoyRideProvider>
-                        <NoteScrollProvider>
-                            <DownloadAssessmentProvider>
-                                <AlertProvider>
-                                    <NotificationProvider>
-                                        <NavbarProvider>
-                                            <ContextBarProvider>
-                                                <HeaderWrapperProvider>
-                                                    <SocketListenerProvider>
-                                                        <Socket>
-                                                            <NetworkProvider>
-                                                                <HeadWrapper>
-                                                                    {getLayout(
-                                                                        <Component
-                                                                            {...pageProps}
-                                                                        />
-                                                                    )}
-                                                                </HeadWrapper>
-                                                            </NetworkProvider>
-                                                        </Socket>
-                                                    </SocketListenerProvider>
-                                                </HeaderWrapperProvider>
-                                            </ContextBarProvider>
-                                        </NavbarProvider>
-                                    </NotificationProvider>
-                                </AlertProvider>
-                            </DownloadAssessmentProvider>
-                        </NoteScrollProvider>
-                    </JoyRideProvider>
-                </ErrorBoundaryContext>
-                {/* </AutoLogoutProvider> */}
+                <AutoLogoutProvider>
+                    <ErrorBoundaryContext>
+                        <JoyRideProvider>
+                            <NoteScrollProvider>
+                                <DownloadAssessmentProvider>
+                                    <AlertProvider>
+                                        <NotificationProvider>
+                                            <NavbarProvider>
+                                                <ContextBarProvider>
+                                                    <HeaderWrapperProvider>
+                                                        <SocketListenerProvider>
+                                                            <Socket>
+                                                                <NetworkProvider>
+                                                                    <HeadWrapper>
+                                                                        {getLayout(
+                                                                            <Component
+                                                                                {...pageProps}
+                                                                            />
+                                                                        )}
+                                                                    </HeadWrapper>
+                                                                </NetworkProvider>
+                                                            </Socket>
+                                                        </SocketListenerProvider>
+                                                    </HeaderWrapperProvider>
+                                                </ContextBarProvider>
+                                            </NavbarProvider>
+                                        </NotificationProvider>
+                                    </AlertProvider>
+                                </DownloadAssessmentProvider>
+                            </NoteScrollProvider>
+                        </JoyRideProvider>
+                    </ErrorBoundaryContext>
+                </AutoLogoutProvider>
             </Provider>
         </>
     )

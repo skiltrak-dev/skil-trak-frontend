@@ -1,9 +1,7 @@
 import { Button, TextInput } from '@components'
 import { AuthLayout } from '@layouts'
 import { LoginCredentials } from '@types'
-import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { useSession, signIn, signOut } from 'next-auth/react'
 
 const TestLogin = () => {
     const methods = useForm<LoginCredentials>({

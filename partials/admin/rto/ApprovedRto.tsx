@@ -110,9 +110,13 @@ export const ApprovedRto = () => {
             Icon: FaEdit,
         },
         {
-            text: 'View Password',
-            onClick: (rto: Rto) => onViewPassword(rto),
-            Icon: FaEdit,
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'View Password',
+                      onClick: (rto: Rto) => onViewPassword(rto),
+                      Icon: FaEdit,
+                  }
+                : {}),
         },
         {
             ...(role === UserRoles.ADMIN

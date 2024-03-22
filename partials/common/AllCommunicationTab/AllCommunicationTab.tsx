@@ -11,14 +11,14 @@ import {
 import { useContextBar } from '@hooks'
 import { CommonApi } from '@queries'
 
-import { getCommonDates, getDate, getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
+import { StudentCellInfo } from '@partials/admin/student/components'
+import { StudentCellInfo as RtoStudentCellInfo } from '@partials/rto/student/components'
+import { StudentCellInfo as SubadminStudentCellInfo } from '@partials/sub-admin/students'
+import { getDate, getIsEnabledCommonDates } from '@utils'
 import moment from 'moment'
 import { HistoryCard } from '../History'
 import { TicketSubject, TicketUser } from '../Tickets'
-import { StudentCellInfo } from '@partials/admin/student/components'
-import { UserRoles } from '@constants'
-import { StudentCellInfo as SubadminStudentCellInfo } from '@partials/sub-admin/students'
-import { StudentCellInfo as RtoStudentCellInfo } from '@partials/rto/student/components'
 
 export const AllCommunicationTab = ({ user }: { user: any }) => {
     const contextBar = useContextBar()
@@ -44,7 +44,7 @@ export const AllCommunicationTab = ({ user }: { user: any }) => {
                     </div>
                 ) : allCommunications?.data &&
                   allCommunications?.data.length > 0 ? (
-                    getCommonDates(allCommunications?.data)?.map(
+                    getIsEnabledCommonDates(allCommunications?.data)?.map(
                         (date: any) => {
                             return (
                                 <div
@@ -64,34 +64,42 @@ export const AllCommunicationTab = ({ user }: { user: any }) => {
                                     <div className="border-l-4 border-gray-700 ml-8 overflow-x-auto custom-scrollbar">
                                         {allCommunications.data.map(
                                             (item: any, i: number) => {
-                                                if (item?.calledBy) {
-                                                    return (
-                                                        <HistoryCard
-                                                            call
-                                                            history={{
-                                                                ...item,
-                                                                title: 'Call',
-                                                                description: (
-                                                                    <>
-                                                                        call
-                                                                        made by{' '}
-                                                                        <strong>
-                                                                            {
-                                                                                item
-                                                                                    ?.calledBy
-                                                                                    ?.name
-                                                                            }
-                                                                        </strong>
-                                                                    </>
-                                                                ),
-                                                            }}
-                                                        />
-                                                    )
-                                                } else if (
+                                                if (
                                                     date ==
-                                                    getDate(item?.updatedAt)
+                                                    getDate(
+                                                        item?.isEnabled
+                                                            ? item?.isEnabled
+                                                            : item?.createdAt
+                                                    )
                                                 ) {
-                                                    if (item?.assignedTo) {
+                                                    if (item?.calledBy) {
+                                                        return (
+                                                            <HistoryCard
+                                                                call
+                                                                history={{
+                                                                    ...item,
+                                                                    title: 'Call',
+                                                                    description:
+                                                                        (
+                                                                            <>
+                                                                                call
+                                                                                made
+                                                                                by{' '}
+                                                                                <strong>
+                                                                                    {
+                                                                                        item
+                                                                                            ?.calledBy
+                                                                                            ?.name
+                                                                                    }
+                                                                                </strong>
+                                                                            </>
+                                                                        ),
+                                                                }}
+                                                            />
+                                                        )
+                                                    } else if (
+                                                        item?.assignedTo
+                                                    ) {
                                                         return (
                                                             <div>
                                                                 <table className="w-full">
