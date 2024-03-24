@@ -1,29 +1,35 @@
-import { useContextBar, useNavbar, useNotification } from '@hooks'
+import { useContextBar, useNavbar } from '@hooks'
 import { RtoLayout } from '@layouts'
 import { Course, NextPageWithLayout } from '@types'
-import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
+import {
+    CreatedStudentsList,
+    ImportStudentFromWithOtp,
+    ImportStudentVerificationModal,
+    useImportStudents,
+} from '@partials/common'
+import { RtoApi } from '@queries'
 import { ShowErrorNotifications } from '@components'
-import { ImportStudentList } from '@partials/common'
-import { SubAdminApi, RtoApi } from '@queries'
 
 const RtoStudentLists: NextPageWithLayout = () => {
-    const { notification } = useNotification()
-    const router = useRouter()
     const navBar = useNavbar()
     const contextBar = useContextBar()
+
+    const [importedStudentsResult, setImportedStudentsResult] =
+        useState<any>(null)
 
     useEffect(() => {
         navBar.setTitle('RTO Detail')
         contextBar.hide()
     }, [])
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const [foundStudents, setFoundStudents] = useState<any>([])
 
     const [existingEmails, setExistingEmails] = useState<any>([])
 
-    const [importStudents, importStudentsResult] =
-        RtoApi.Students.useImportStudents()
+    const [sendVerificationCode, sendVerificationCodeResult] =
+        RtoApi.Students.useSendVerificationCode()
     const rto = RtoApi.Rto.useProfile()
 
     const rtoCoursesOptions =
@@ -35,7 +41,27 @@ const RtoStudentLists: NextPageWithLayout = () => {
               }))
             : []
 
+    const { onRtoImportStudents, RTOImportStudentsResult } = useImportStudents()
+
+    const onCancel = () => setModal(null)
+
     const onSubmit = async (values: any) => {
+        sendVerificationCode().then((res: any) => {
+            if (res?.data) {
+                setModal(
+                    <ImportStudentVerificationModal
+                        values={values}
+                        onCancel={onCancel}
+                        foundStudents={foundStudents}
+                        existingEmails={existingEmails}
+                        result={RTOImportStudentsResult}
+                        setImportedStudentsResult={setImportedStudentsResult}
+                        onImportStudentsList={onRtoImportStudents}
+                    />
+                )
+            }
+        })
+
         // const courses = values?.courses?.map((c: any) => c.value)
 
         // const formData = new FormData()
@@ -49,41 +75,26 @@ const RtoStudentLists: NextPageWithLayout = () => {
         // formData.append('file', file)
 
         // await importStudents({ id: Number(router.query.id), body: formData })
-
-        let list = foundStudents.filter((fs: any) => !!fs.email)
-
-        if (existingEmails.length) {
-            existingEmails.forEach((item: any) => {
-                if (list.findIndex((o: any) => o.email === item.email) !== -1) {
-                    list = list.filter((o: any) => o.email !== item.email)
-                }
-            })
-        }
-
-        if (list.length === 0) {
-            notification.error({
-                title: 'No Student Found',
-                description: 'List is invalid or empty',
-            })
-        } else {
-            await importStudents({
-                ...values,
-                list,
-            })
-        }
     }
 
     return (
         <>
-            <ShowErrorNotifications result={importStudentsResult} />
-            <ImportStudentList
-                onSubmit={onSubmit}
-                setFoundStudents={setFoundStudents}
-                setExistingEmails={setExistingEmails}
-                foundStudents={foundStudents}
-                rtoCourses={rtoCoursesOptions}
-                result={importStudentsResult}
-            />
+            {modal}
+            <ShowErrorNotifications result={RTOImportStudentsResult} />
+            {!importedStudentsResult ? (
+                <ImportStudentFromWithOtp
+                    onSubmit={onSubmit}
+                    setFoundStudents={setFoundStudents}
+                    setExistingEmails={setExistingEmails}
+                    foundStudents={foundStudents}
+                    rtoCourses={rtoCoursesOptions}
+                    result={sendVerificationCodeResult}
+                />
+            ) : (
+                <CreatedStudentsList
+                    importedStudentsResult={importedStudentsResult}
+                />
+            )}
         </>
     )
 }

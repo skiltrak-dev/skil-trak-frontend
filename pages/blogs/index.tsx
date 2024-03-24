@@ -1,26 +1,18 @@
+import { NoData, Typography } from '@components'
+import { useWindowWidth } from '@hooks'
 import { SiteLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
-import { ReactElement, useEffect, useState } from 'react'
-import { adminApi } from '@queries'
+import { PaginatedItems } from '@partials/common'
 import {
     BlogCard,
-    MostRecentBlog,
     HeroSectionBlog,
+    MostRecentBlog,
 } from '@partials/common/Blogs'
-import { useRouter } from 'next/router'
-import Image from 'next/image'
+import { NextPageWithLayout } from '@types'
 import moment from 'moment'
-import {
-    LoadingAnimation,
-    NoData,
-    Paginate,
-    TechnicalError,
-    Typography,
-} from '@components'
+import Image from 'next/image'
 import Link from 'next/link'
-import { PaginatedItems } from '@partials/common'
-import { isBrowser } from '@utils'
-import { useWindowWidth } from '@hooks'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
 
 const Blogs: NextPageWithLayout = ({ data }: any) => {
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -146,18 +138,17 @@ const Blogs: NextPageWithLayout = ({ data }: any) => {
                         className={`grid grid-col-1 md:grid-cols-3 mx-auto  gap-7 `}
                     >
                         {currentItems?.map((blog: any) => (
-                            <div key={blog?.id}>
-                                <BlogCard
-                                    title={blog?.title}
-                                    content={blog?.content}
-                                    featuredImage={blog?.featuredImage}
-                                    date={blog?.createdAt}
-                                    id={blog.id}
-                                    slug={blog?.slug}
-                                    author={blog?.author}
-                                    shortDescription={blog?.shortDescription}
-                                />
-                            </div>
+                            <BlogCard
+                                key={blog?.id}
+                                title={blog?.title}
+                                content={blog?.content}
+                                featuredImage={blog?.featuredImage}
+                                date={blog?.createdAt}
+                                id={blog.id}
+                                slug={blog?.slug}
+                                author={blog?.author}
+                                shortDescription={blog?.shortDescription}
+                            />
                         ))}
                     </div>
                 </div>
@@ -190,7 +181,7 @@ export const getStaticProps = async () => {
     }
     return {
         props: {
-            data: data,
+            data,
         },
     }
 }

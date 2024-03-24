@@ -1,7 +1,6 @@
 import { useContextBar, useNavbar, useNotification } from '@hooks'
-import { AdminLayout } from '@layouts'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { BackButton, Button, Card, ShowErrorNotifications } from '@components'
 import { PageHeading } from '@components/headings'
@@ -94,7 +93,7 @@ export const ImportStudentList = ({
                         ></PageHeading>
                     </div>
                 </div>
-                {!result.data || !result.isSuccess ? (
+                {result.data || result.isSuccess ? (
                     <div className="flex flex-col gap-2">
                         <div className="w-full flex items-stretch gap-2">
                             <Card>
@@ -278,7 +277,7 @@ export const ImportStudentList = ({
 
                         <div className="my-4" />
 
-                        {result.data?.ignored.length ? (
+                        {result.data?.ignored?.length ? (
                             <div className="bg-red-100 rounded-lg p-4">
                                 <p className="text-red-600 font-medium">
                                     {result.data?.ignored.length | 0} student(s)

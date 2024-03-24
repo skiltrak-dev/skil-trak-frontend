@@ -28,8 +28,8 @@ export const AddShiftContext = ({ availability }: { availability: any }) => {
     useEffect(() => {
         if (addShiftResult.isSuccess) {
             notification.success({
-                title: 'Courses Assigned',
-                description: 'Courses have been assigned to RTO',
+                title: 'Shift Added',
+                description: 'Shift Added Successfully',
             })
             contextBar.setContent(null)
             contextBar.hide()

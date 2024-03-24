@@ -1,5 +1,4 @@
 import {
-    ActionButton,
     Badge,
     LoadingAnimation,
     ShowErrorNotifications,
@@ -10,15 +9,12 @@ import {
 import { useNotification } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { CallLog } from '@types'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
-import { MdAddIcCall, MdCall, MdCancel, MdPhoneDisabled } from 'react-icons/md'
-import { TbDiscountCheckFilled } from 'react-icons/tb'
-import { PulseLoader } from 'react-spinners'
 
-const CallType = {
-    Answer: 'answer',
-    NotAnswer: 'notAnswer',
+export enum CallType {
+    Answer = 'answer',
+    NotAnswer = 'notAnswer',
 }
 
 export const CallLogDetail = ({ callLog }: { callLog: CallLog }) => {

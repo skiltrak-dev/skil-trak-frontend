@@ -69,7 +69,6 @@ export const AssessmentFilesUpload = ({
     return (
         <div>
             <ShowErrorNotifications result={uploadDocsResult} />
-
             {results?.result !== Result.Competent && (
                 <div className="flex items-center gap-x-2 mb-1">
                     <div>

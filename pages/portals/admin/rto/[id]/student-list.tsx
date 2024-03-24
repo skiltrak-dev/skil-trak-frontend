@@ -5,7 +5,6 @@ import {
     ImportStudentFileList,
     ImportStudentFormType,
     NextPageWithLayout,
-    OptionType,
 } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
