@@ -1,5 +1,6 @@
 import {
     ActionButton,
+    AuthorizedUserComponent,
     BackButton,
     Button,
     EmptyData,
@@ -25,6 +26,7 @@ import { PinnedNotes } from '@partials'
 import { useActionModals } from '@partials/admin/rto/hooks/useActionModals'
 import { DetailTabs } from '@partials/admin/rto/tabs'
 import { AdminApi } from '@queries'
+import { UserRoles } from '@constants'
 
 const RtoDetail: NextPageWithLayout = () => {
     const router = useRouter()
@@ -259,12 +261,16 @@ const RtoDetail: NextPageWithLayout = () => {
                             }
                         />
                         <div className="flex items-center gap-x-2">
-                            <Button
-                                text={'View Password'}
-                                onClick={() => {
-                                    onViewPassword({ user: rto?.data?.user })
-                                }}
-                            />
+                            <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                                <Button
+                                    text={'View Password'}
+                                    onClick={() => {
+                                        onViewPassword({
+                                            user: rto?.data?.user,
+                                        })
+                                    }}
+                                />
+                            </AuthorizedUserComponent>
                             <Button
                                 text="Book Appointment"
                                 variant="info"

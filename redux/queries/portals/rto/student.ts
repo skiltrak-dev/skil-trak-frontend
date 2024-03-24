@@ -31,6 +31,22 @@ export const studentEndpoints = (
         query: () => `${PREFIX}/students/imported-lists`,
         providesTags: ['Rto-Students'],
     }),
+    sendVerificationCode: builder.mutation<any, void>({
+        query: () => ({
+            url: `shared/otp/add`,
+            method: 'POST',
+        }),
+        invalidatesTags: ['Rto-Students'],
+    }),
+    compareVerificationCode: builder.mutation<any, { otp: string }>({
+        query: (body) => ({
+            url: `shared/otp/compare`,
+            body,
+            method: 'POST',
+        }),
+        invalidatesTags: ['Rto-Students'],
+    }),
+
     getRtoStudents: builder.query<any, any>({
         query: (params) => {
             return {

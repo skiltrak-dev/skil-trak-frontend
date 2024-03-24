@@ -15,17 +15,6 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
 
     const onCancel = () => setModal(null)
 
-    const onUpdateDates = () => {
-        setModal(
-            <UpdateDateModal
-                profile={profile}
-                onCancelClick={() => {
-                    onCancel()
-                }}
-            />
-        )
-    }
-
     const profileLinks = [
         {
             text: 'Edit Password',
@@ -50,13 +39,6 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
                 )
             },
         },
-        {
-            text: 'Update Dates',
-            Icon: CiCalendarDate,
-            onClick: () => {
-                onUpdateDates()
-            },
-        },
     ]
 
     return (
@@ -65,20 +47,25 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
             {passwordModal}
             <div className="grid grid-cols-2 gap-1.5">
                 {profileLinks.map(
-                    ({ text, Icon, onClick }: any, index: number) => (
-                        <div
-                            className="flex items-center justify-end gap-x-2 cursor-pointer"
-                            key={index}
-                            onClick={() => {
-                                onClick()
-                            }}
-                        >
-                            <Typography variant="xxs">{text}</Typography>
-                            <div className="w-5 h-5 rounded-full bg-primaryNew flex justify-center items-center">
-                                <Icon className="text-white" size={12} />
+                    ({ text, Icon, onClick }: any, index: number) =>
+                        text ? (
+                            <div
+                                className={`flex items-center justify-end gap-x-2 cursor-pointer ${
+                                    !profile?.rto?.allowUpdate && index === 2
+                                        ? 'col-span-2 ml-auto'
+                                        : ''
+                                }`}
+                                key={index}
+                                onClick={() => {
+                                    onClick()
+                                }}
+                            >
+                                <Typography variant="xxs">{text}</Typography>
+                                <div className="w-5 h-5 rounded-full bg-primaryNew flex justify-center items-center">
+                                    <Icon className="text-white" size={12} />
+                                </div>
                             </div>
-                        </div>
-                    )
+                        ) : null
                 )}
             </div>
         </div>

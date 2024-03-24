@@ -16,7 +16,7 @@ import {
 } from '@radix-ui/react-accordion'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 
-const BlogDetail: NextPageWithLayout = ({blogData}: any) => {
+const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
     const router = useRouter()
     const blogId = router.query.slug as string
     const [activeKey, setActiveKey] = useState(null)
@@ -29,93 +29,87 @@ const BlogDetail: NextPageWithLayout = ({blogData}: any) => {
         <div className="">
             <HeroSectionBlog />
             <div className="md:p-10 p-0 mt-8 md:mt-0 mx-auto max-w-7xl">
-                
-                    <div className="rounded-xl md:px-8 px-4 py-8 md:py-4 bg-white">
-                        <div className="md:h-[600px] h-[250px] w-full relative overflow-hidden rounded-xl">
-                            <Image
-                                src={blogData?.featuredImage}
-                                alt="blog-card"
-                                fill
-                                sizes="100vw"
-                                className="object-contain w-full"
-                            />
-                        </div>
-                        <div className="flex items-center justify-between my-3">
-                            <p className="text-slate-400 text-xs font-bold">
-                                Published by : {blogData?.author}
-                            </p>
-                            <p className="text-slate-400 text-xs">
-                                {moment(blogData?.createdAt).format('Do MMM YYYY')}
-                            </p>
-                        </div>
-                        <h1 className="font-bold text-xl md:text-[40px] md:leading-10 uppercase my-2 md:my-10">
-                            {blogData?.title}
-                        </h1>
-                        <div
-                            className="blog-content block text-sm md:text-normal mr-0 md:mr-6 text-gray-600 leading-6"
-                            dangerouslySetInnerHTML={{
-                                __html: blogData?.content,
-                            }}
+                <div className="rounded-xl md:px-8 px-4 py-8 md:py-4 bg-white">
+                    <div className="md:h-[600px] h-[250px] w-full relative overflow-hidden rounded-xl">
+                        <Image
+                            src={blogData?.featuredImage}
+                            alt="blog-card"
+                            fill
+                            sizes="100vw"
+                            className="object-contain w-full"
                         />
-                        {blogData?.blogQuestions &&
-                            blogData?.blogQuestions?.length > 0 && (
-                                <div className="md:mt-20 mt-8">
-                                    <h2 className="font-semibold text-xl md:text-3xl md:leading-10 uppercase my-2 md:my-4">
-                                        FAQ's
-                                    </h2>
-                                    <Accordion
-                                        type="single"
-                                        collapsible
-                                        className="w-full flex flex-col gap-y-1 "
-                                    >
-                                        {blogData?.blogQuestions?.map(
-                                            (faq: any, index: any) => {
-                                                return (
-                                                    <AccordionItem
-                                                        key={index}
-                                                        className="shadow-md px-5 py-4 w-full "
-                                                        value={faq?.id}
-                                                        onClick={() =>
-                                                            setActiveKey(
-                                                                (
-                                                                    prevActiveKey
-                                                                ) =>
-                                                                    prevActiveKey ===
-                                                                    faq.id
-                                                                        ? null
-                                                                        : faq.id
-                                                            )
-                                                        }
-                                                    >
-                                                        <AccordionTrigger className="mb-2 font-medium text-sm  w-full">
-                                                            <div className="flex items-center justify-between">
-                                                                <h3>
-                                                                    {
-                                                                        faq?.question
-                                                                    }
-                                                                </h3>
-                                                                <div>
-                                                                    {activeKey ===
-                                                                    faq?.id ? (
-                                                                        <FaChevronUp />
-                                                                    ) : (
-                                                                        <FaChevronDown />
-                                                                    )}
-                                                                </div>
-                                                            </div>
-                                                        </AccordionTrigger>
-                                                        <AccordionContent className="text-sm text-gray-500">
-                                                            {faq?.answer}
-                                                        </AccordionContent>
-                                                    </AccordionItem>
-                                                )
-                                            }
-                                        )}
-                                    </Accordion>
-                                </div>
-                            )}
                     </div>
-                
+                    <div className="flex items-center justify-between my-3">
+                        <p className="text-slate-400 text-xs font-bold">
+                            Published by : {blogData?.author}
+                        </p>
+                        <p className="text-slate-400 text-xs">
+                            {moment(blogData?.createdAt).format('Do MMM YYYY')}
+                        </p>
+                    </div>
+                    <h1 className="font-bold text-xl md:text-[40px] md:leading-10 uppercase my-2 md:my-10">
+                        {blogData?.title}
+                    </h1>
+                    <div
+                        className="blog-content block text-sm md:text-normal mr-0 md:mr-6 text-gray-600 leading-6"
+                        dangerouslySetInnerHTML={{
+                            __html: blogData?.content,
+                        }}
+                    />
+                    {blogData?.blogQuestions &&
+                        blogData?.blogQuestions?.length > 0 && (
+                            <div className="md:mt-20 mt-8">
+                                <h2 className="font-semibold text-xl md:text-3xl md:leading-10 uppercase my-2 md:my-4">
+                                    FAQ's
+                                </h2>
+                                <Accordion
+                                    type="single"
+                                    collapsible
+                                    className="w-full flex flex-col gap-y-1 "
+                                >
+                                    {blogData?.blogQuestions?.map(
+                                        (faq: any, index: any) => {
+                                            return (
+                                                <AccordionItem
+                                                    key={index}
+                                                    className="shadow-md px-5 py-4 w-full "
+                                                    value={faq?.id}
+                                                    onClick={() =>
+                                                        setActiveKey(
+                                                            (prevActiveKey) =>
+                                                                prevActiveKey ===
+                                                                faq.id
+                                                                    ? null
+                                                                    : faq.id
+                                                        )
+                                                    }
+                                                >
+                                                    <AccordionTrigger className="mb-2 font-medium text-sm  w-full">
+                                                        <div className="flex items-center justify-between">
+                                                            <h3>
+                                                                {faq?.question}
+                                                            </h3>
+                                                            <div>
+                                                                {activeKey ===
+                                                                faq?.id ? (
+                                                                    <FaChevronUp />
+                                                                ) : (
+                                                                    <FaChevronDown />
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </AccordionTrigger>
+                                                    <AccordionContent className="text-sm text-gray-500">
+                                                        {faq?.answer}
+                                                    </AccordionContent>
+                                                </AccordionItem>
+                                            )
+                                        }
+                                    )}
+                                </Accordion>
+                            </div>
+                        )}
+                </div>
             </div>
         </div>
     )
@@ -133,7 +127,7 @@ export async function getStaticPaths() {
         return { params: { slug: `${blog.slug}` } }
     })
 
-    return { paths: paths, fallback: 'blocking' } 
+    return { paths, fallback: 'blocking' }
 }
 
 export async function getStaticProps(context: any) {

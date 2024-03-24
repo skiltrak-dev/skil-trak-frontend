@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -11,6 +11,7 @@ import {
     Select,
     ShowErrorNotifications,
     TextInput,
+    Tooltip,
     Typography,
 } from '@components'
 
@@ -22,8 +23,12 @@ import {
     CourseSelectOption,
     ageOptions,
     formatOptionLabel,
+    getUserCredentials,
     onlyAlphabets,
 } from '@utils'
+import { IoInformationCircle } from 'react-icons/io5'
+import { UpdateDateModal } from '../StudentProfileDetail/modals'
+import { UserRoles } from '@constants'
 
 export const StudentProfileForm = ({
     profile,
@@ -47,6 +52,7 @@ export const StudentProfileForm = ({
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
     const [courseValues, setCourseValues] = useState<any>([])
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const [sectors, setSectors] = useState<any | null>(null)
     const [courseOptions, setCourseOptions] = useState([])
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
@@ -265,10 +271,25 @@ export const StudentProfileForm = ({
         }
     }
 
+    const onCancel = () => setModal(null)
+
+    const onUpdateDates = () => {
+        setModal(
+            <UpdateDateModal
+                profile={profile?.data}
+                onCancelClick={() => {
+                    onCancel()
+                }}
+            />
+        )
+    }
+
+    const role = getUserCredentials()?.role
+
     return (
         <>
+            {modal}
             <ShowErrorNotifications result={result} />
-
             <Card>
                 <FormProvider {...formMethods}>
                     <form
@@ -278,12 +299,20 @@ export const StudentProfileForm = ({
                         {/* Personal Information */}
                         <div className="flex flex-col md:flex-row gap-x-16 border-t py-4">
                             <div className="w-full md:w-2/6">
-                                <Typography
-                                    variant={'subtitle'}
-                                    color={'text-gray-500'}
-                                >
-                                    Student Information
-                                </Typography>
+                                <div className="flex items-center gap-x-1">
+                                    <Typography
+                                        variant={'subtitle'}
+                                        color={'text-gray-500'}
+                                    >
+                                        Student Information
+                                    </Typography>
+                                    <div className="relative group">
+                                        <IoInformationCircle size={18} />
+                                        <Tooltip>
+                                            Add Student Information
+                                        </Tooltip>
+                                    </div>
+                                </div>
                                 <p className="text-gray-400 text-sm leading-6">
                                     Your information is required to make things
                                     clear and transparent
@@ -530,12 +559,20 @@ export const StudentProfileForm = ({
                         {/* Profile Information */}
                         <div className="flex flex-col md:flex-row gap-x-16 border-t py-2 md:py-4">
                             <div className="w-full md:w-2/6">
-                                <Typography
-                                    variant={'subtitle'}
-                                    color={'text-gray-500'}
-                                >
-                                    Profile Information
-                                </Typography>
+                                <div className="flex items-center gap-x-1">
+                                    <Typography
+                                        variant={'subtitle'}
+                                        color={'text-gray-500'}
+                                    >
+                                        Profile Information
+                                    </Typography>
+                                    <div className="relative group">
+                                        <IoInformationCircle size={18} />
+                                        <Tooltip>
+                                            Add Profile Information
+                                        </Tooltip>
+                                    </div>
+                                </div>
                                 <p className="text-gray-400 text-sm leading-6">
                                     This will be your information used as
                                     account login.
@@ -558,12 +595,35 @@ export const StudentProfileForm = ({
                         {/* Address Information */}
                         <div className="flex flex-col md:flex-row gap-x-16 border-t py-0 md:py-4">
                             <div className="w-full md:w-2/6">
-                                <Typography
-                                    variant={'subtitle'}
-                                    color={'text-gray-500'}
-                                >
-                                    Address Information
-                                </Typography>
+                                <div className="flex items-center gap-x-1">
+                                    <Typography
+                                        variant={'subtitle'}
+                                        color={'text-gray-500'}
+                                    >
+                                        Address Information
+                                    </Typography>
+                                    <div className="relative group">
+                                        <IoInformationCircle
+                                            size={18}
+                                            onDoubleClick={() => {
+                                                if (
+                                                    [
+                                                        UserRoles.ADMIN,
+                                                        UserRoles.RTO,
+                                                        UserRoles.SUBADMIN,
+                                                    ]?.includes(role) &&
+                                                    profile?.data?.rto
+                                                        ?.allowUpdate
+                                                ) {
+                                                    onUpdateDates()
+                                                }
+                                            }}
+                                        />
+                                        <Tooltip>
+                                            Add Address Information
+                                        </Tooltip>
+                                    </div>
+                                </div>
                                 <p className="text-gray-400 text-sm leading-6">
                                     This will help us to find out about your
                                     nearby sites

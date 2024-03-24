@@ -21,3 +21,19 @@ export const getCommonDates = (data: any) => {
             (date: Date, i: number, array: any) => array.indexOf(date) === i
         )
 }
+
+export const getIsEnabledCommonDates = (data: any) => {
+    return data
+        ?.map(
+            ({
+                createdAt,
+                isEnabled,
+            }: {
+                createdAt: Date
+                isEnabled: Date | null
+            }) => getDate(isEnabled ? isEnabled : createdAt)
+        )
+        ?.filter(
+            (date: Date, i: number, array: any) => array.indexOf(date) === i
+        )
+}

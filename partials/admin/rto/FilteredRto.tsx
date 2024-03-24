@@ -12,7 +12,7 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 
-import { useContextBar } from '@hooks'
+import { useActionModal, useContextBar } from '@hooks'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { Rto, Student, UserStatus } from '@types'
 import { useRouter } from 'next/router'
@@ -29,6 +29,8 @@ import {
     UnblockModal,
 } from './modals'
 import { CgUnblock } from 'react-icons/cg'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 interface StatusTableActionOption extends TableActionOption {
     status: string[]
@@ -54,6 +56,8 @@ export const FilteredRto = ({
         contextBar.setContent(<ViewSubAdminsCB rto={rto} />)
         contextBar.show()
     }
+
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -90,6 +94,8 @@ export const FilteredRto = ({
         )
     }
 
+    const role = getUserCredentials()?.role
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
@@ -104,6 +110,15 @@ export const FilteredRto = ({
                 router.push(`/portals/admin/rto/${rto.id}/edit-profile`)
             },
             Icon: FaEdit,
+        },
+        {
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'View Password',
+                      onClick: (rto: Rto) => onViewPassword(rto),
+                      Icon: FaEdit,
+                  }
+                : {}),
         },
         {
             text: 'Sub Admins',
@@ -246,7 +261,8 @@ export const FilteredRto = ({
 
     return (
         <>
-            {modal && modal}
+            {modal}
+            {passwordModal}
             <div className="flex flex-col gap-y-4 p-4">
                 <PageHeading
                     title={'Filtered RTOS'}

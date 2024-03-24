@@ -122,11 +122,18 @@ export const Note = ({ note }: { note: NoteType }) => {
                                 } `}
                             >
                                 {format(
-                                    new Date(note.createdAt!!),
+                                    new Date(
+                                        note?.isEnabled || note?.createdAt!!
+                                    ),
                                     'EEE dd, LLL, yyyy'
                                 )}{' '}
                                 at{' '}
-                                {format(new Date(note.createdAt!!), 'hh:mm aa')}
+                                {format(
+                                    new Date(
+                                        note?.isEnabled || note?.createdAt!!
+                                    ),
+                                    'hh:mm aa'
+                                )}
                             </p>
                         </div>
                     </div>
