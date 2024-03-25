@@ -16,6 +16,22 @@ export const CourseCard = ({
     onClick: () => void
 }) => {
     const result = getCourseResult(course?.results)
+
+    const getResultBadge = () => {
+        switch (result?.result) {
+            case Result.Competent:
+                return 'Competent'
+
+            case Result.NotCompetent:
+                return 'Not Competent'
+            case Result.ReOpened:
+                return 'Re-Opened'
+            case Result.Pending:
+                return 'Submitted'
+            default:
+                return result?.result
+        }
+    }
     return (
         <div
             onClick={onClick}
@@ -25,14 +41,19 @@ export const CourseCard = ({
                     : 'bg-white border border-secondary-dark'
             }  rounded-md h-[71px] cursor-pointer grid grid-cols-2 relative overflow-hidden`}
         >
-            {result?.result && (
-                <div className="w-20 h-5 bg-primary flex justify-center items-center absolute top-0 right-0">
-                    <Typography variant="badge" color="text-white">
-                        {result?.result}
-                    </Typography>
-                </div>
-            )}
-            <div className="p-4 ">
+            <div className="p-4 relative">
+                {result?.result && (
+                    <div className="w-32 h-7 bg-primary-dark flex justify-center items-center absolute top-0 right-0">
+                        <Typography
+                            variant="small"
+                            medium
+                            uppercase
+                            color="text-white"
+                        >
+                            {getResultBadge()}
+                        </Typography>
+                    </div>
+                )}
                 <div className="flex flex-col gap-y-1">
                     <Typography
                         variant="small"
@@ -50,7 +71,6 @@ export const CourseCard = ({
                     </Typography>
                 </div>
             </div>
-
             {/*  */}
             <AuthorizedUserComponent
                 roles={[UserRoles.ADMIN, UserRoles.SUBADMIN, UserRoles.RTO]}

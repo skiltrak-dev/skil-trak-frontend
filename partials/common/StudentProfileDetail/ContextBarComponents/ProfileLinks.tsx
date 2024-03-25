@@ -3,10 +3,8 @@ import { useActionModal } from '@hooks'
 import { Student } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
-import { CiCalendarDate } from 'react-icons/ci'
 import { IoMdEyeOff } from 'react-icons/io'
 import { RiEditFill } from 'react-icons/ri'
-import { UpdateDateModal } from '../modals'
 
 export const ProfileLinks = ({ profile }: { profile: Student }) => {
     const router = useRouter()
@@ -45,7 +43,7 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
         <div className="flex flex-col items-end gap-y-2.5">
             {modal}
             {passwordModal}
-            <div className="grid grid-cols-2 gap-1.5">
+            <div className="flex flex-col gap-1.5">
                 {profileLinks.map(
                     ({ text, Icon, onClick }: any, index: number) =>
                         text ? (

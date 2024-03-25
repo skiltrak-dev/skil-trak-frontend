@@ -27,16 +27,16 @@ import { store } from '../redux/store'
 
 import { HeadWrapper } from '@layouts'
 
-import 'swiper/css'
+import { Socket } from '@components'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
+import 'react-datepicker/dist/react-datepicker.css'
+import 'swiper/css'
 import 'swiper/css/bundle'
 import 'swiper/css/free-mode'
-import 'swiper/css/scrollbar'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
-import { Socket } from '@components'
-import 'react-datepicker/dist/react-datepicker.css'
+import 'swiper/css/scrollbar'
 
 //test
 import { GoogleAnalyticsScript } from '@scripts'

@@ -5,6 +5,7 @@ import { IconType } from 'react-icons'
 
 export const ButtonType = {
     Primary: 'primary',
+    PrimaryNew: 'primaryNew',
     Secondary: 'secondary',
     Info: 'info',
     Error: 'error',
@@ -21,6 +22,7 @@ const VariantOptions = [
     'action',
     'dark',
     'success',
+    'primaryNew',
 ] as const
 
 interface ButtonProps {

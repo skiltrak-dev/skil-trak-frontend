@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { CommonApi } from '@queries'
 import { ESignTitleCards } from './ESignTitleCards'
-import { WorkplaceAgreementDetail } from './components'
+import { SignersStatus, WorkplaceAgreementDetail } from './components'
 import { PuffLoader } from 'react-spinners'
 import { Card, NoData } from '@components'
 
@@ -64,9 +64,10 @@ export const ESignatures = (props: Props) => {
                 <div className="w-full lg:w-[67%]">
                     <Card noPadding>
                         {selectedFolder ? (
-                            <WorkplaceAgreementDetail
-                                selectedFolder={selectedFolder}
-                            />
+                            // <WorkplaceAgreementDetail
+                            //     selectedFolder={selectedFolder}
+                            // />
+                            <SignersStatus selectedFolder={selectedFolder} />
                         ) : (
                             <div className="h-80 p-5">
                                 <NoData text="No Document Selected" />
