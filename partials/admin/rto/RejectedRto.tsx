@@ -21,6 +21,8 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { RtoCellInfo } from './components'
 import { AcceptModal, DeleteModal } from './modals'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 export const RejectedRto = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -30,7 +32,7 @@ export const RejectedRto = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-
+    const role = getUserCredentials()?.role
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
@@ -76,13 +78,23 @@ export const RejectedRto = () => {
             onClick: (rto: Rto) => onAcceptClicked(rto),
             color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
         },
-
         {
-            text: 'Delete',
-            onClick: (rto: Rto) => onDeleteClicked(rto),
-            Icon: FaTrash,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'Delete',
+                      onClick: (rto: Rto) => onDeleteClicked(rto),
+                      Icon: FaTrash,
+                      color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+                  }
+                : {}),
         },
+
+        // {
+        //     text: 'Delete',
+        //     onClick: (rto: Rto) => onDeleteClicked(rto),
+        //     Icon: FaTrash,
+        //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        // },
     ]
 
     const columns: ColumnDef<Rto>[] = [

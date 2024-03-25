@@ -33,7 +33,7 @@ export const ApprovedRto = () => {
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
-
+    
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
@@ -112,9 +112,9 @@ export const ApprovedRto = () => {
         {
             ...(role === UserRoles.ADMIN
                 ? {
-                      text: 'View Password',
-                      onClick: (rto: Rto) => onViewPassword(rto),
-                      Icon: FaEdit,
+                    text: 'View Password',
+                    onClick: (rto: Rto) => onViewPassword(rto),
+                    Icon: FaEdit,
                   }
                 : {}),
         },

@@ -98,11 +98,11 @@ export const BlockedIndustries = () => {
             onClick: (industry: Industry) => onUnBlockClicked(industry),
             Icon: CgUnblock,
         },
-        {
-            text: 'View Password',
-            onClick: (industry: Industry) => onViewPassword(industry),
-            Icon: RiLockPasswordFill,
-        },
+        // {
+        //     text: 'View Password',
+        //     onClick: (industry: Industry) => onViewPassword(industry),
+        //     Icon: RiLockPasswordFill,
+        // },
     ]
 
     const Columns = [

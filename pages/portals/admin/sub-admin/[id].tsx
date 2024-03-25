@@ -28,13 +28,15 @@ import { MdPlace } from 'react-icons/md'
 import { FigureCard } from '@components/sections/subAdmin/components/Cards/FigureCard'
 import { PinnedNotes } from '@partials'
 import { ArchiveModal, BlockModal } from '@partials/admin/sub-admin/modals'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 const SubAdminDetail: NextPageWithLayout = () => {
     const [changeStatusResult, setChangeStatusResult] = useState<any>({})
     const router = useRouter()
     const navBar = useNavbar()
     const contextBar = useContextBar()
-
+    const role = getUserCredentials()?.role
     const [modal, setModal] = useState<ReactElement | null>(null)
     const { passwordModal, onUpdatePassword, onViewPassword } = useActionModal()
 
@@ -96,19 +98,24 @@ const SubAdminDetail: NextPageWithLayout = () => {
                             link={sessionStorage.getItem('subadmin')}
                         />
                         <div className="flex gap-x-2">
-                            <Button
-                                text={'View Password'}
-                                onClick={() => {
-                                    onViewPassword({
-                                        user: data?.user,
-                                    })
-                                }}
-                            />
-                            <div>
+                            {role === UserRoles.ADMIN && (
                                 <Button
-                                    text={'Update Password'}
-                                    onClick={() => onUpdatePassword(data)}
+                                    text={'View Password'}
+                                    onClick={() => {
+                                        onViewPassword({
+                                            user: data?.user,
+                                        })
+                                    }}
                                 />
+                            )}
+
+                            <div>
+                                {role === UserRoles.ADMIN && (
+                                    <Button
+                                        text={'Update Password'}
+                                        onClick={() => onUpdatePassword(data)}
+                                    />
+                                )}
                             </div>
                             <ActionButton
                                 Icon={FaArchive}

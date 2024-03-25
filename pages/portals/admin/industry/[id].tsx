@@ -26,11 +26,11 @@ import { SnoozeIndustryModal, UnSnoozeIndustryModal } from '@partials/common'
 import { getUserCredentials } from '@utils'
 import moment from 'moment'
 import { MdSnooze } from 'react-icons/md'
+import { UserRoles } from '@constants'
 
 const Detail: NextPageWithLayout = () => {
     const [newModal, setNewModal] = useState<ReactNode | null>(null)
     const [isMouseMove, setIsMouseMove] = useState<any>(null)
-
     const router = useRouter()
     const navBar = useNavbar()
     const contextBar = useContextBar()
@@ -297,14 +297,17 @@ const Detail: NextPageWithLayout = () => {
                     <div className="flex items-center justify-between">
                         <BackButton text="Industries" />
                         <div className="flex items-center gap-x-2">
-                            <Button
-                                text={'View Password'}
-                                onClick={() => {
-                                    onViewPassword({
-                                        user: industry?.data?.user,
-                                    })
-                                }}
-                            />
+                            {role === UserRoles.ADMIN && (
+                                <Button
+                                    text={'View Password'}
+                                    onClick={() => {
+                                        onViewPassword({
+                                            user: industry?.data?.user,
+                                        })
+                                    }}
+                                />
+                            )}
+
                             <Button
                                 text="Book Appointment"
                                 variant="info"

@@ -91,11 +91,12 @@ const RTOs: NextPageWithLayout = () => {
             },
             Icon: FaEye,
         },
-        {
-            text: 'View Password',
-            onClick: (rto: Rto) => onViewPassword(rto),
-            Icon: RiLockPasswordFill,
-        },
+        
+        // {
+        //     text: 'View Password',
+        //     onClick: (rto: Rto) => onViewPassword(rto),
+        //     Icon: RiLockPasswordFill,
+        // },
     ]
 
     type RTOStudents = Rto & {

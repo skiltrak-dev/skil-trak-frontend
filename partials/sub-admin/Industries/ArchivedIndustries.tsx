@@ -106,11 +106,11 @@ export const ArchivedIndustries = () => {
                 onClick: (industry: Industry) => onUnArchiveClicked(industry),
                 Icon: RiInboxUnarchiveFill,
             },
-            {
-                text: 'View Password',
-                onClick: (industry: Industry) => onViewPassword(industry),
-                Icon: RiLockPasswordFill,
-            },
+            // {
+            //     text: 'View Password',
+            //     onClick: (industry: Industry) => onViewPassword(industry),
+            //     Icon: RiLockPasswordFill,
+            // },
         ]
     }
 

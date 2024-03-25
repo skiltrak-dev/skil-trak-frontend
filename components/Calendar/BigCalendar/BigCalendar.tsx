@@ -130,12 +130,14 @@ export const BigCalendar = ({
                 min={min}
                 max={max}
                 onView={(view: any) => {
+                    console.log("view::", view)
                     onCalanderViewType(view)
                     setCalanderView(view)
                 }}
                 onRangeChange={(e: any) => {
                     setRangeDates(e)
                 }}
+
             />
         </CalendarStyles>
     )
