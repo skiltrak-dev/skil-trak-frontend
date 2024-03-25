@@ -1,4 +1,4 @@
-import { ReactElement, useRef } from 'react'
+import { ReactElement, lazy, useRef } from 'react'
 
 // Components
 // site components
@@ -6,39 +6,38 @@ import { JumboSection } from '@components/site/JumboSection'
 import { SiteLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
-import dynamic from 'next/dynamic'
-const LatestUpdates = dynamic(
+const LatestUpdates = lazy(
     () => import('@partials/frontPages/home2/LatestUpdates/LatestUpdates')
 )
-const RecentJobs = dynamic(
+const RecentJobs = lazy(
     () => import('@partials/frontPages/home2/RecentJobs/RecentJobs')
 )
-const TechnicalPartners = dynamic(
+const TechnicalPartners = lazy(
     () =>
         import('@partials/frontPages/home2/TechnicalPartners/TechnicalPartners')
 )
-const OurPartners = dynamic(
+const OurPartners = lazy(
     () => import('@partials/frontPages/home2/OurPartners/OurPartners')
 )
-const OurPackages = dynamic(
+const OurPackages = lazy(
     () => import('@partials/frontPages/home2/OurPackages/OurPackages')
 )
-const OperateStates = dynamic(
+const OperateStates = lazy(
     () => import('@partials/frontPages/home2/OperateStates/OperateStates')
 )
-const GetStarted = dynamic(
+const GetStarted = lazy(
     () => import('@partials/frontPages/home2/GetStarted/GetStarted')
 )
-const ContactUs = dynamic(
+const ContactUs = lazy(
     () => import('@partials/frontPages/home2/ContactUs/ContactUs')
 )
-const StudentPlacementManagement = dynamic(
+const StudentPlacementManagement = lazy(
     () =>
         import(
             '@components/site/studentPlacementManagement/StudentPlacementManagement'
         )
 )
-const KeyFeatures = dynamic(
+const KeyFeatures = lazy(
     () => import('@components/site/keyFeatures/KeyFeatures')
 )
 

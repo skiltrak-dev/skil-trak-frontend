@@ -45,7 +45,7 @@ export const useColumns = () => {
                 text: 'View',
                 onClick: (item: any) => {
                     router.push({
-                        pathname: `/portals/sub-admin/students/${item?.student?.id}`,
+                        pathname: `/portals/sub-admin/students/${item?.student?.id}/detail`,
                         query: {
                             tab: 'submissions',
                             course: item?.course?.id,

@@ -1,5 +1,11 @@
 import { ReactElement, useEffect, useState } from 'react'
 
+import {
+    LoadingAnimation,
+    NoData,
+    SectorCourseStudentCount,
+    Typography,
+} from '@components'
 import { FigureCard } from '@components/sections/subAdmin'
 import { useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
@@ -7,14 +13,8 @@ import { AdminApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { AuthUtils } from '@utils'
 import { format } from 'date-fns'
-import {
-    LoadingAnimation,
-    NoData,
-    SectorCourseStudentCount,
-    Typography,
-} from '@components'
-import StackGrid, { transitions } from 'react-stack-grid'
 import { useMediaQuery } from 'react-responsive'
+import StackGrid, { transitions } from 'react-stack-grid'
 const { scaleDown } = transitions
 
 const AdminDashboard: NextPageWithLayout = () => {
