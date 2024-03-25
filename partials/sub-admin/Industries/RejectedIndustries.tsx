@@ -98,11 +98,11 @@ export const RejectedIndustries = () => {
             onClick: (industry: Industry) => onUnRejectClicked(industry),
             Icon: AiFillCheckCircle,
         },
-        {
-            text: 'View Password',
-            onClick: (industry: Industry) => onViewPassword(industry),
-            Icon: RiLockPasswordFill,
-        },
+        // {
+        //     text: 'View Password',
+        //     onClick: (industry: Industry) => onViewPassword(industry),
+        //     Icon: RiLockPasswordFill,
+        // },
     ]
 
     const Columns = [

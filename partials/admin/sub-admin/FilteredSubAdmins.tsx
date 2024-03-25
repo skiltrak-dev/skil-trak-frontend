@@ -19,6 +19,8 @@ import { MdBlock } from 'react-icons/md'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
 import { RiLockPasswordFill } from 'react-icons/ri'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 export const FilteredSubAdmins = ({
     subAdmin,
@@ -34,6 +36,7 @@ export const FilteredSubAdmins = ({
     const router = useRouter()
 
     const contextBar = useContextBar()
+    const role = getUserCredentials()?.role
 
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
@@ -76,9 +79,13 @@ export const FilteredSubAdmins = ({
             Icon: FaEdit,
         },
         {
-            text: 'View Password',
-            onClick: (subAdmin: SubAdmin) => onViewPassword(subAdmin),
-            Icon: RiLockPasswordFill,
+            ...(role === UserRoles.ADMIN
+                ? {
+                    text: 'View Password',
+                    onClick: (subAdmin: SubAdmin) => onViewPassword(subAdmin),
+                    Icon: RiLockPasswordFill,
+                  }
+                : {}),
         },
         // {
         //     text: 'Archive',

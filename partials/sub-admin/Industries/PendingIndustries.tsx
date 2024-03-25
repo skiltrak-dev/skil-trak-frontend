@@ -111,11 +111,11 @@ export const PendingIndustries = () => {
                 text: 'Reject',
                 onClick: (industry: Industry) => onRejectClicked(industry),
             },
-            {
-                text: 'View Password',
-                onClick: (industry: Industry) => onViewPassword(industry),
-                Icon: RiLockPasswordFill,
-            },
+            // {
+            //     text: 'View Password',
+            //     onClick: (industry: Industry) => onViewPassword(industry),
+            //     Icon: RiLockPasswordFill,
+            // },
         ]
     }
 

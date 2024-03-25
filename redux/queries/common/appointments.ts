@@ -60,6 +60,14 @@ export const appointmentsEndpoints = (
         }),
         invalidatesTags: ['Appointments'],
     }),
+    addNoteOnAppointment: builder.mutation<Appointment, any>({
+        query: (body) => ({
+            url: `${PREFIX}/note/add`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['Appointments'],
+    }),
     getAppointmentsAvailableSlots: builder.query<
         AppointmentAvailableSlots,
         GetAppointmentSlots

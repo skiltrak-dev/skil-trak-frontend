@@ -27,7 +27,8 @@ import { BlockModal, MultiBlockModal } from './modals'
 // hooks
 import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import { ellipsisText } from '@utils'
+import { ellipsisText, getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 export const ApprovedIndustry = () => {
     const selectInputRef = useRef()
@@ -36,7 +37,7 @@ export const ApprovedIndustry = () => {
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-
+    const role = getUserCredentials()?.role
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
@@ -92,9 +93,13 @@ export const ApprovedIndustry = () => {
             Icon: FaEdit,
         },
         {
-            text: 'View Password',
-            onClick: (industry: Industry) => onViewPassword(industry),
-            Icon: RiLockPasswordFill,
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'View Password',
+                      onClick: (industry: Industry) => onViewPassword(industry),
+                      Icon: RiLockPasswordFill,
+                  }
+                : {}),
         },
         {
             text: 'Block',

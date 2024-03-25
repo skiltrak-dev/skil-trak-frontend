@@ -21,12 +21,14 @@ import { ReactElement, useEffect, useState } from 'react'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { SubAdminCell } from './components'
 import { AcceptModal, DeleteModal } from './modals'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 export const RejectedSubAdmin = () => {
     const router = useRouter()
     const [changeStatusResult, setChangeStatusResult] = useState<any>({})
     const [modal, setModal] = useState<ReactElement | null>(null)
-
+    const role = getUserCredentials()?.role
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
@@ -91,9 +93,13 @@ export const RejectedSubAdmin = () => {
             Icon: FaEdit,
         },
         {
-            text: 'View Password',
-            onClick: (subAdmin: SubAdmin) => onViewPassword(subAdmin),
-            Icon: RiLockPasswordFill,
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'View Password',
+                      onClick: (subAdmin: SubAdmin) => onViewPassword(subAdmin),
+                      Icon: RiLockPasswordFill,
+                  }
+                : {}),
         },
         // {
         //     text: 'Accept',
@@ -102,15 +108,26 @@ export const RejectedSubAdmin = () => {
         //     },
         //     color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
         // },
-
         {
-            text: 'Delete',
-            onClick: (subAdmin: SubAdmin) => {
-                onDeleteClicked(subAdmin)
-            },
-            Icon: FaTrash,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: `Delete`,
+                      onClick: (subAdmin: SubAdmin) => {
+                          onDeleteClicked(subAdmin)
+                      },
+                      Icon: FaTrash,
+                      color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+                  }
+                : {}),
         },
+        // {
+        //     text: 'Delete',
+        //     onClick: (subAdmin: SubAdmin) => {
+        //         onDeleteClicked(subAdmin)
+        //     },
+        //     Icon: FaTrash,
+        //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        // },
     ]
 
     const columns: ColumnDef<SubAdmin>[] = [

@@ -24,6 +24,7 @@ export interface Appointment extends BaseResponse {
     joinUrl: string
     name: string
     note: string
+    notes: []
     phone: string
     sectorId: string
     skiltrakId: string

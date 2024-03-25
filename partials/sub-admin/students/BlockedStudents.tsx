@@ -124,12 +124,12 @@ export const BlockedStudents = () => {
             Icon: AiFillCheckCircle,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
-        {
-            text: 'Delete',
-            onClick: (student: Student) => onDeleteClicked(student),
-            Icon: MdDelete,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
+        // {
+        //     text: 'Delete',
+        //     onClick: (student: Student) => onDeleteClicked(student),
+        //     Icon: MdDelete,
+        //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        // },
         {
             text: 'Assign to me',
             onClick: (student: Student) => onAssignStudentClicked(student),

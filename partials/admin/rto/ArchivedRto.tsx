@@ -20,6 +20,8 @@ import { ReactElement, useEffect, useState } from 'react'
 import { MdUnarchive } from 'react-icons/md'
 import { RtoCellInfo, SectorCell } from './components'
 import { DeleteModal } from './modals'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 export const ArchivedRto = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -27,7 +29,7 @@ export const ArchivedRto = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-
+    const role = getUserCredentials()?.role
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
@@ -78,13 +80,18 @@ export const ArchivedRto = () => {
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
         {
-            text: 'Delete',
-            onClick: (rto: Rto) => {
-                onDeleteClicked(rto)
-            },
-            Icon: FaTrash,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'Delete',
+                      onClick: (rto: Rto) => {
+                          onDeleteClicked(rto)
+                      },
+                      Icon: FaTrash,
+                      color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+                  }
+                : {}),
         },
+        
     ]
 
     const columns: ColumnDef<Rto>[] = [

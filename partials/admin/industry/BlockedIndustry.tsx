@@ -28,10 +28,13 @@ import { DeleteModal, MultiAcceptModal, UnblockModal } from './modals'
 import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
 
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
+
 export const BlockedIndustry = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
-
+    const role = getUserCredentials()?.role
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
@@ -99,9 +102,13 @@ export const BlockedIndustry = () => {
             Icon: FaEdit,
         },
         {
-            text: 'View Password',
-            onClick: (industry: Industry) => onViewPassword(industry),
-            Icon: RiLockPasswordFill,
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'View Password',
+                      onClick: (industry: Industry) => onViewPassword(industry),
+                      Icon: RiLockPasswordFill,
+                  }
+                : {}),
         },
         {
             text: 'Unblock',
@@ -110,11 +117,23 @@ export const BlockedIndustry = () => {
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
         {
-            text: 'Delete',
-            onClick: (industry: Industry) => onDeleteClicked(industry),
-            Icon: FaTrash,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: `Delete`,
+                      onClick: (student: any) => {
+                          onDeleteClicked(student)
+                      },
+                      Icon: FaTrash,
+                      color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+                  }
+                : {}),
         },
+        // {
+        //     text: 'Delete',
+        //     onClick: (industry: Industry) => onDeleteClicked(industry),
+        //     Icon: FaTrash,
+        //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        // },
     ]
 
     const columns: ColumnDef<Industry>[] = [
@@ -196,9 +215,11 @@ export const BlockedIndustry = () => {
                 <ActionButton Icon={CgUnblock} variant="warning">
                     Unblock
                 </ActionButton>
-                <ActionButton Icon={FaTrash} variant="error">
-                    Delete
-                </ActionButton>
+                {role === UserRoles.ADMIN && (
+                    <ActionButton Icon={FaTrash} variant="error">
+                        Delete
+                    </ActionButton>
+                )}
             </div>
         ),
         common: (industries: Industry[]) => (
@@ -212,9 +233,11 @@ export const BlockedIndustry = () => {
                 >
                     Unblock
                 </ActionButton>
-                <ActionButton Icon={FaTrash} variant="error">
-                    Delete
-                </ActionButton>
+                {role === UserRoles.ADMIN && (
+                    <ActionButton Icon={FaTrash} variant="error">
+                        Delete
+                    </ActionButton>
+                )}
             </div>
         ),
     }
@@ -270,7 +293,9 @@ export const BlockedIndustry = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="px-6">{table}</div>
+                                        <div className="px-6 overflow-auto remove-scrollbar">
+                                            {table}
+                                        </div>
                                     </div>
                                 )
                             }}

@@ -139,11 +139,11 @@ export const SnoozedIndustrySubAdmin = () => {
                     onAddToFavoriteClicked(industry),
                 Icon: subAdmin ? MdFavorite : MdFavoriteBorder,
             },
-            {
-                text: 'View Password',
-                onClick: (industry: Industry) => onViewPassword(industry),
-                Icon: RiLockPasswordFill,
-            },
+            // {
+            //     text: 'View Password',
+            //     onClick: (industry: Industry) => onViewPassword(industry),
+            //     Icon: RiLockPasswordFill,
+            // },
             {
                 text: `Block`,
                 color: 'text-error',

@@ -22,6 +22,8 @@ import { ReactElement, useEffect, useState } from 'react'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { AcceptModal, DeleteModal } from './modals'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 export const BlockedSubAdmin = () => {
     const router = useRouter()
@@ -35,6 +37,7 @@ export const BlockedSubAdmin = () => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
+    const role = getUserCredentials()?.role
 
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
@@ -72,47 +75,66 @@ export const BlockedSubAdmin = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
-        {
-            text: 'View',
-            onClick: (subAdmin: any) => {
-                router.push(
-                    `/portals/admin/sub-admin/${subAdmin?.id}?tab=notes`
-                )
+    const tableActionOptions = (subAdmin: any) => {
+        return [
+            {
+                text: 'View',
+                onClick: (subAdmin: any) => {
+                    router.push(
+                        `/portals/admin/sub-admin/${subAdmin?.id}?tab=notes`
+                    )
+                },
+                Icon: FaEye,
             },
-            Icon: FaEye,
-        },
-        {
-            text: 'Edit',
-            onClick: (student: any) => {
-                router.push(
-                    `/portals/admin/industry/edit-industry/${student.id}`
-                )
+            {
+                text: 'Edit',
+                onClick: (student: any) => {
+                    router.push(
+                        `/portals/admin/industry/edit-industry/${student.id}`
+                    )
+                },
+                Icon: FaEdit,
             },
-            Icon: FaEdit,
-        },
-        {
-            text: 'View Password',
-            onClick: (subAdmin: SubAdmin) => onViewPassword(subAdmin),
-            Icon: RiLockPasswordFill,
-        },
-        {
-            text: 'Un-Block',
-            onClick: (subAdmin: SubAdmin) => {
-                onAcceptClicked(subAdmin)
+            {
+                ...(role === UserRoles.ADMIN
+                    ? {
+                          text: 'View Password',
+                          onClick: (subAdmin: SubAdmin) =>
+                              onViewPassword(subAdmin),
+                          Icon: RiLockPasswordFill,
+                      }
+                    : {}),
             },
-            color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
-        },
+            {
+                text: 'Un-Block',
+                onClick: (subAdmin: SubAdmin) => {
+                    onAcceptClicked(subAdmin)
+                },
+                color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
+            },
+            {
+                ...(role === UserRoles.ADMIN
+                    ? {
+                          text: `${!subAdmin?.canAdmin && 'Delete'}`,
+                          onClick: (subAdmin: SubAdmin) => {
+                              onDeleteClicked(subAdmin)
+                          },
+                          Icon: FaTrash,
+                          color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+                      }
+                    : {}),
+            },
 
-        {
-            text: 'Delete',
-            onClick: (subAdmin: SubAdmin) => {
-                onDeleteClicked(subAdmin)
-            },
-            Icon: FaTrash,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-    ]
+            // {
+            //     text: 'Delete',
+            //     onClick: (subAdmin: SubAdmin) => {
+            //         onDeleteClicked(subAdmin)
+            //     },
+            //     Icon: FaTrash,
+            //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            // },
+        ]
+    }
 
     const columns: ColumnDef<SubAdmin>[] = [
         {
@@ -152,10 +174,12 @@ export const BlockedSubAdmin = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info: any) => {
+                const actions = tableActionOptions(info?.row?.original)
+                console.log('info?.row?.original', info?.row?.original)
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
-                            options={tableActionOptions}
+                            options={actions}
                             rowItem={info.row.original}
                         />
                     </div>
@@ -170,17 +194,21 @@ export const BlockedSubAdmin = () => {
             <div className="flex gap-x-2">
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton variant="success">Accept</ActionButton>
-                <ActionButton Icon={FaTrash} variant="error">
-                    Delete
-                </ActionButton>
+                {role === UserRoles.ADMIN && (
+                    <ActionButton Icon={FaTrash} variant="error">
+                        Delete
+                    </ActionButton>
+                )}
             </div>
         ),
         common: (ids: SubAdmin[]) => (
             <div className="flex gap-x-2">
+                {role === UserRoles.ADMIN && (
+                    <ActionButton Icon={FaTrash} variant="error">
+                        Delete
+                    </ActionButton>
+                )}
                 <ActionButton variant="success">Accept</ActionButton>
-                <ActionButton Icon={FaTrash} variant="error">
-                    Delete
-                </ActionButton>
             </div>
         ),
     }

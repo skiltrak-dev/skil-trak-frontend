@@ -152,9 +152,14 @@ export const ActiveSubAdmin = () => {
                 Icon: FaEdit,
             },
             {
-                text: 'View Password',
-                onClick: (subAdmin: SubAdmin) => onViewPassword(subAdmin),
-                Icon: RiLockPasswordFill,
+                ...(role === UserRoles.ADMIN
+                    ? {
+                          text: 'View Password',
+                          onClick: (subAdmin: SubAdmin) =>
+                              onViewPassword(subAdmin),
+                          Icon: RiLockPasswordFill,
+                      }
+                    : {}),
             },
             {
                 ...(role === UserRoles.ADMIN

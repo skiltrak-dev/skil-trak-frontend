@@ -28,6 +28,8 @@ import { MdSnooze } from 'react-icons/md'
 import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { SnoozeIndustryModal, UnSnoozeIndustryModal } from '@partials/common'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 export const SnoozedIndustry = () => {
     const selectInputRef = useRef()
@@ -36,7 +38,7 @@ export const SnoozedIndustry = () => {
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-
+    const role = getUserCredentials()?.role
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
@@ -135,9 +137,14 @@ export const SnoozedIndustry = () => {
                 color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
             },
             {
-                text: 'View Password',
-                onClick: (industry: Industry) => onViewPassword(industry),
-                Icon: RiLockPasswordFill,
+                ...(role === UserRoles.ADMIN
+                    ? {
+                          text: 'View Password',
+                          onClick: (industry: Industry) =>
+                              onViewPassword(industry),
+                          Icon: RiLockPasswordFill,
+                      }
+                    : {}),
             },
             {
                 text: 'Block',
