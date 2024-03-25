@@ -29,8 +29,8 @@ export const FinalResult = ({
                     ?.filter((result: any) => result?.finalComment)
                     ?.sort(
                         (a: any, b: any) =>
-                            (new Date(a?.createdAt) as any) -
-                            (new Date(b?.createdAt) as any)
+                            (new Date(b?.createdAt) as any) -
+                            (new Date(a?.createdAt) as any)
                     )?.[0]
             )
         }
@@ -93,8 +93,8 @@ export const FinalResult = ({
                         ?.filter((result: any) => result?.finalComment)
                         ?.sort(
                             (a: any, b: any) =>
-                                (new Date(a?.createdAt) as any) -
-                                (new Date(b?.createdAt) as any)
+                                (new Date(b?.createdAt) as any) -
+                                (new Date(a?.createdAt) as any)
                         )
                         ?.map((result: any, index: number) => (
                             <div
