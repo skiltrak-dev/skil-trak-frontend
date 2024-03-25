@@ -11,17 +11,20 @@ import { CommonApi } from '@queries'
 import { NoData } from '@components/ActionAnimations'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 import { StudentRtoCellInfo } from './StudentRtoCellInfo'
-import { GoDotFill } from 'react-icons/go'
-import { ActionButton } from '@components/buttons'
+import { GoDotFill, GoKebabHorizontal } from 'react-icons/go'
+import { ActionButton, Button } from '@components/buttons'
 import { RescheduleAppointmentModal } from '../UpcomingAppointmentCard/RescheduleAppointmentModal'
 import { Portal } from '@components/Portal'
-import { MouseEvent, ReactElement, useState } from 'react'
+import { MouseEvent, ReactElement, useRef, useState } from 'react'
 import { TbCalendarTime } from 'react-icons/tb'
 import { Appointment } from '@types'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 import { useNotification } from '@hooks'
 import { Badge } from '@components/Badge'
 import { isLessThan24HoursDifference } from '@utils'
+import { GiNotebook } from 'react-icons/gi'
+import { TextArea } from '@components/inputs'
+import { AddAppointmentNote } from '../AddAppointmentNote'
 
 export const AppointmentViewModal = ({
     id,
@@ -31,9 +34,12 @@ export const AppointmentViewModal = ({
     onCancel: () => void
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [addNote, setAddNote] = useState('')
+
     const appointment = CommonApi.Appointments.appointmentDetail(id, {
         skip: !id,
     })
+    console.log('appointment', appointment?.data)
     const [cancellAppointment, cancellAppointmentResult] =
         CommonApi.Appointments.cancellAppointment()
 
@@ -43,6 +49,13 @@ export const AppointmentViewModal = ({
         setModal(null)
     }
 
+    const onAddNote = () => {
+        setModal(
+            <Portal>
+                <AddAppointmentNote onCancel={onCancelClicked} id={id} />
+            </Portal>
+        )
+    }
     const onRescheduleClicked = () => {
         setModal(
             <Portal>
@@ -112,6 +125,15 @@ export const AppointmentViewModal = ({
                                             ) : (
                                                 <div className="flex items-center gap-x-2">
                                                     <ActionButton
+                                                        Icon={GiNotebook}
+                                                        mini
+                                                        title={'Add Note'}
+                                                        variant={'success'}
+                                                        onClick={() => {
+                                                            onAddNote()
+                                                        }}
+                                                    />
+                                                    <ActionButton
                                                         Icon={TbCalendarTime}
                                                         mini
                                                         title={
@@ -128,6 +150,8 @@ export const AppointmentViewModal = ({
                                                             cancellAppointmentResult?.isLoading
                                                         }
                                                     />
+                                                    {/* <GiNotebook /> */}
+
                                                     <ActionButton
                                                         Icon={FaTimes}
                                                         mini
@@ -369,6 +393,42 @@ export const AppointmentViewModal = ({
                                         Address Not Provided
                                     </p>
                                 </div> */}
+                                                </div>
+                                                <div className="border-t mt-2 py-1">
+                                                    <Typography variant="subtitle">
+                                                        Notes
+                                                    </Typography>
+                                                </div>
+                                                <div className="flex flex-col gap-2 mt-2 overflow-auto custom-scrollbar h-44 bg-gray-100 p-2">
+                                                    {appointment?.data?.notes?.map(
+                                                        (note: any) => (
+                                                            <div
+                                                                key={
+                                                                    appointment
+                                                                        ?.data
+                                                                        ?.id
+                                                                }
+                                                                className="p-2 bg-white shadow-sm rounded-md"
+                                                            >
+                                                                <Typography variant="small">
+                                                                    {note?.body}
+                                                                </Typography>
+                                                                <div className="flex items-center gap-x-2 mt-2">
+                                                                    <Typography variant="muted">
+                                                                        Added
+                                                                        by:
+                                                                    </Typography>
+                                                                    <Typography variant="muted">
+                                                                        {
+                                                                            note
+                                                                                ?.addedBy
+                                                                                ?.name
+                                                                        }
+                                                                    </Typography>
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>

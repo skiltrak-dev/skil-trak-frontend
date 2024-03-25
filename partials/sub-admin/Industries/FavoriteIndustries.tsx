@@ -83,11 +83,11 @@ export const FavoriteIndustries = () => {
             color: 'text-error',
             Icon: MdFavorite,
         },
-        {
-            text: 'View Password',
-            onClick: (industry: Industry) => onViewPassword(industry),
-            Icon: RiLockPasswordFill,
-        },
+        // {
+        //     text: 'View Password',
+        //     onClick: (industry: Industry) => onViewPassword(industry),
+        //     Icon: RiLockPasswordFill,
+        // },
     ]
 
     const Columns = [

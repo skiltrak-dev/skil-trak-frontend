@@ -20,11 +20,13 @@ import { ReactElement, useEffect, useState } from 'react'
 import { CgUnblock } from 'react-icons/cg'
 import { RtoCellInfo, SectorCell } from './components'
 import { BulkUnBlockModal, DeleteModal, UnblockModal } from './modals'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 export const BlockedRto = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
-
+    const role = getUserCredentials()?.role
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
@@ -89,11 +91,23 @@ export const BlockedRto = () => {
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
         {
-            text: 'Delete',
-            onClick: (rto: Rto) => onDeleteClicked(rto),
-            Icon: FaTrash,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: `Delete`,
+                      onClick: (student: any) => {
+                          onDeleteClicked(student)
+                      },
+                      Icon: FaTrash,
+                      color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+                  }
+                : {}),
         },
+        // {
+        //     text: 'Delete',
+        //     onClick: (rto: Rto) => onDeleteClicked(rto),
+        //     Icon: FaTrash,
+        //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        // },
     ]
 
     const columns: ColumnDef<Rto>[] = [
@@ -148,13 +162,15 @@ export const BlockedRto = () => {
                 >
                     Unblock
                 </ActionButton>
-                <ActionButton
-                    Icon={FaTrash}
-                    variant="error"
-                    onClick={() => onDeleteClicked(rto)}
-                >
-                    Delete
-                </ActionButton>
+                {role === UserRoles.ADMIN && (
+                    <ActionButton
+                        Icon={FaTrash}
+                        variant="error"
+                        onClick={() => onDeleteClicked(rto)}
+                    >
+                        Delete
+                    </ActionButton>
+                )}
             </div>
         ),
         common: (ids: Rto[]) => (
@@ -169,9 +185,11 @@ export const BlockedRto = () => {
                 >
                     Unblock
                 </ActionButton>
-                <ActionButton Icon={FaTrash} variant="error">
-                    Delete
-                </ActionButton>
+                {role === UserRoles.ADMIN && (
+                    <ActionButton Icon={FaTrash} variant="error">
+                        Delete
+                    </ActionButton>
+                )}
             </div>
         ),
     }

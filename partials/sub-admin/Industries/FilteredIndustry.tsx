@@ -83,11 +83,11 @@ export const FilteredIndustry = ({
                     onAddToFavoriteClicked(industry),
                 Icon: subAdmin ? MdFavorite : MdFavoriteBorder,
             },
-            {
-                text: 'View Password',
-                onClick: (industry: Industry) => onViewPassword(industry),
-                Icon: RiLockPasswordFill,
-            },
+            // {
+            //     text: 'View Password',
+            //     onClick: (industry: Industry) => onViewPassword(industry),
+            //     Icon: RiLockPasswordFill,
+            // },
         ]
     }
     const Columns = [

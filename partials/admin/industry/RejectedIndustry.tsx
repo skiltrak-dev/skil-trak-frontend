@@ -24,6 +24,8 @@ import { ReactElement, useEffect, useState } from 'react'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell, SectorCell } from './components'
 import { AcceptModal, DeleteModal, MultiAcceptModal } from './modals'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 export const RejectedIndustry = () => {
     const router = useRouter()
@@ -31,7 +33,7 @@ export const RejectedIndustry = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-
+    const role = getUserCredentials()?.role
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
@@ -95,9 +97,13 @@ export const RejectedIndustry = () => {
             Icon: FaEdit,
         },
         {
-            text: 'View Password',
-            onClick: (industry: Industry) => onViewPassword(industry),
-            Icon: RiLockPasswordFill,
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'View Password',
+                      onClick: (industry: Industry) => onViewPassword(industry),
+                      Icon: RiLockPasswordFill,
+                  }
+                : {}),
         },
         {
             text: 'Accept',

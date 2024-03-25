@@ -27,6 +27,7 @@ import { useActionModals } from '@partials/admin/rto/hooks/useActionModals'
 import { DetailTabs } from '@partials/admin/rto/tabs'
 import { AdminApi } from '@queries'
 import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 const RtoDetail: NextPageWithLayout = () => {
     const router = useRouter()
@@ -44,6 +45,7 @@ const RtoDetail: NextPageWithLayout = () => {
         onBlockClicked,
     } = useActionModals()
     const { passwordModal, onViewPassword } = useActionModal()
+    const role = getUserCredentials()?.role
 
     const rto = AdminApi.Rtos.useDetailQuery(Number(router.query.id), {
         skip: !router.query?.id,
@@ -261,7 +263,7 @@ const RtoDetail: NextPageWithLayout = () => {
                             }
                         />
                         <div className="flex items-center gap-x-2">
-                            <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                            {role === UserRoles.ADMIN && (
                                 <Button
                                     text={'View Password'}
                                     onClick={() => {
@@ -270,7 +272,7 @@ const RtoDetail: NextPageWithLayout = () => {
                                         })
                                     }}
                                 />
-                            </AuthorizedUserComponent>
+                            )}
                             <Button
                                 text="Book Appointment"
                                 variant="info"

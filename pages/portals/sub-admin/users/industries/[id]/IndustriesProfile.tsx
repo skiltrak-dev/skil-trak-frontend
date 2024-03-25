@@ -63,12 +63,12 @@ const IndustriesProfile: NextPageWithLayout = () => {
                     <PageTitle title="Industry Profile" />
                 </div>
                 <div className="flex items-center gap-x-2">
-                    <Button
+                    {/* <Button
                         text={'View Password'}
                         onClick={() => {
                             onViewPassword({ user: data?.user })
                         }}
-                    />
+                    /> */}
                     <Button
                         text="Book Appointment"
                         variant="info"

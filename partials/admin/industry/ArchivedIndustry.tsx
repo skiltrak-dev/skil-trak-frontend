@@ -26,12 +26,14 @@ import { IndustryCell, SectorCell } from './components'
 // hooks
 import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 export const ArchivedIndustry = () => {
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-
+    const role = getUserCredentials()?.role
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
@@ -66,9 +68,13 @@ export const ArchivedIndustry = () => {
             Icon: FaEdit,
         },
         {
-            text: 'View Password',
-            onClick: (industry: Industry) => onViewPassword(industry),
-            Icon: RiLockPasswordFill,
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'View Password',
+                      onClick: (industry: Industry) => onViewPassword(industry),
+                      Icon: RiLockPasswordFill,
+                  }
+                : {}),
         },
         {
             text: 'Unarchive',

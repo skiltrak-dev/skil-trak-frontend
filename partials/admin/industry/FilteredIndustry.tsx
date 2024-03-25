@@ -30,7 +30,8 @@ import {
 } from './modals'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { CgUnblock } from 'react-icons/cg'
-import { ellipsisText } from '@utils'
+import { ellipsisText, getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 interface StatusTableActionOption extends TableActionOption {
     status: string[]
@@ -49,7 +50,7 @@ export const FilteredIndustry = ({
 }) => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
-
+    const role = getUserCredentials()?.role
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
@@ -118,9 +119,13 @@ export const FilteredIndustry = ({
             Icon: FaEdit,
         },
         {
-            text: 'View Password',
-            onClick: (industry: Industry) => onViewPassword(industry),
-            Icon: RiLockPasswordFill,
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'View Password',
+                      onClick: (industry: Industry) => onViewPassword(industry),
+                      Icon: RiLockPasswordFill,
+                  }
+                : {}),
         },
     ]
 

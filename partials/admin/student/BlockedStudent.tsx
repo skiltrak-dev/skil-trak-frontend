@@ -30,6 +30,8 @@ import { IndustryCell } from '../industry/components'
 import { RtoCellInfo } from '../rto/components'
 import { SectorCell, StudentCellInfo } from './components'
 import { DeleteModal, UnblockModal } from './modals'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 export const BlockedStudent = () => {
     const router = useRouter()
@@ -38,7 +40,8 @@ export const BlockedStudent = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-
+    const role = getUserCredentials()?.role
+    console.log('role', role)
     useEffect(() => {
         setPage(Number(router.query.page))
         setItemPerPage(Number(router.query.pageSize))
@@ -81,41 +84,57 @@ export const BlockedStudent = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
-        {
-            text: 'View',
-            onClick: (student: any) => {
-                router.push(
-                    `/portals/admin/student/${student?.id}?tab=overview`
-                )
+    const tableActionOptions = (student: any) => {
+        return [
+            {
+                text: 'View',
+                onClick: (student: any) => {
+                    router.push(
+                        `/portals/admin/student/${student?.id}?tab=overview`
+                    )
+                },
+                Icon: FaEye,
             },
-            Icon: FaEye,
-        },
-        {
-            text: 'Edit',
-            onClick: (row: any) => {
-                router.push(`/portals/admin/student/edit-student/${row?.id}`)
+            {
+                text: 'Edit',
+                onClick: (row: any) => {
+                    router.push(
+                        `/portals/admin/student/edit-student/${row?.id}`
+                    )
+                },
+                Icon: FaEdit,
             },
-            Icon: FaEdit,
-        },
-        {
-            text: 'View Password',
-            onClick: (student: Student) => onViewPassword(student),
-            Icon: RiLockPasswordFill,
-        },
-        {
-            text: 'Unblock',
-            onClick: (student: Student) => onUnblockClicked(student),
-            Icon: CgUnblock,
-            color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
-        },
-        {
-            text: 'Delete',
-            onClick: (student: Student) => onDeleteClicked(student),
-            Icon: FaTrash,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-    ]
+            {
+                text: 'View Password',
+                onClick: (student: Student) => onViewPassword(student),
+                Icon: RiLockPasswordFill,
+            },
+            {
+                text: 'Unblock',
+                onClick: (student: Student) => onUnblockClicked(student),
+                Icon: CgUnblock,
+                color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
+            },
+            {
+                ...(role === UserRoles.ADMIN
+                    ? {
+                          text: `Delete`,
+                          onClick: (student: any) => {
+                              onDeleteClicked(student)
+                          },
+                          Icon: FaTrash,
+                          color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+                      }
+                    : {}),
+            },
+            // {
+            //     text: 'Delete',
+            //     onClick: (student: Student) => onDeleteClicked(student),
+            //     Icon: FaTrash,
+            //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            // },
+        ]
+    }
 
     const columns: ColumnDef<StudentSubAdmin>[] = [
         {
@@ -218,10 +237,11 @@ export const BlockedStudent = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info: any) => {
+                const actions = tableActionOptions(info?.row?.original)
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
-                            options={tableActionOptions}
+                            options={actions}
                             rowItem={info.row.original}
                         />
                     </div>
@@ -238,9 +258,11 @@ export const BlockedStudent = () => {
                 <ActionButton Icon={CgUnblock} variant="warning">
                     Unblock
                 </ActionButton>
-                <ActionButton Icon={FaTrash} variant="error">
-                    Delete
-                </ActionButton>
+                {role === UserRoles.ADMIN && (
+                    <ActionButton Icon={FaTrash} variant="error">
+                        Delete
+                    </ActionButton>
+                )}
             </div>
         ),
         common: (ids: StudentSubAdmin[]) => (
@@ -255,16 +277,18 @@ export const BlockedStudent = () => {
                 >
                     Unblock
                 </ActionButton>
-                <ActionButton
-                    Icon={FaTrash}
-                    variant="error"
-                    onClick={() => {
-                        const arrayOfIds = ids.map((id: any) => id?.user.id)
-                        onBulkDeleteClicked(arrayOfIds)
-                    }}
-                >
-                    Delete
-                </ActionButton>
+                {role === UserRoles.ADMIN && (
+                    <ActionButton
+                        Icon={FaTrash}
+                        variant="error"
+                        onClick={() => {
+                            const arrayOfIds = ids.map((id: any) => id?.user.id)
+                            onBulkDeleteClicked(arrayOfIds)
+                        }}
+                    >
+                        Delete
+                    </ActionButton>
+                )}
             </div>
         ),
     }

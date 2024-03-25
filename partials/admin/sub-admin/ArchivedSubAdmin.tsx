@@ -22,6 +22,8 @@ import { RiLockPasswordFill } from 'react-icons/ri'
 import { SubAdminCell } from './components'
 import { AddSubAdminCB } from './contextBar'
 import { DeleteModal, UnArchiveModal } from './modals'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 export const ArchivedSubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -35,6 +37,7 @@ export const ArchivedSubAdmin = () => {
         setPage(Number(router.query?.page || 1))
         setItemPerPage(Number(router.query?.pageSize || 50))
     }, [router])
+    const role = getUserCredentials()?.role
 
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
@@ -101,9 +104,13 @@ export const ArchivedSubAdmin = () => {
             Icon: FaEdit,
         },
         {
-            text: 'View Password',
-            onClick: (subAdmin: SubAdmin) => onViewPassword(subAdmin),
-            Icon: RiLockPasswordFill,
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'View Password',
+                      onClick: (subAdmin: SubAdmin) => onViewPassword(subAdmin),
+                      Icon: RiLockPasswordFill,
+                  }
+                : {}),
         },
         {
             text: 'Unarchive',
@@ -112,11 +119,18 @@ export const ArchivedSubAdmin = () => {
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
         {
-            text: 'Delete',
-            onClick: (subadmin: SubAdmin) => onDeleteClicked(subadmin),
-            Icon: FaTrash,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: `Delete`,
+                      onClick: (subAdmin: SubAdmin) => {
+                          onDeleteClicked(subAdmin)
+                      },
+                      Icon: FaTrash,
+                      color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+                  }
+                : {}),
         },
+       
     ]
 
     const columns: ColumnDef<SubAdmin>[] = [

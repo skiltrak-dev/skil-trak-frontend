@@ -31,11 +31,13 @@ import {
     MultiAcceptModal,
     MultiRejectModal,
 } from './modals'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 export const PendingIndustry = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
-
+    const role = getUserCredentials()?.role
     const { notification } = useNotification()
 
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -110,9 +112,13 @@ export const PendingIndustry = () => {
             Icon: FaEye,
         },
         {
-            text: 'View Password',
-            onClick: (industry: Industry) => onViewPassword(industry),
-            Icon: RiLockPasswordFill,
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'View Password',
+                      onClick: (industry: Industry) => onViewPassword(industry),
+                      Icon: RiLockPasswordFill,
+                  }
+                : {}),
         },
         {
             text: 'Edit',

@@ -5,6 +5,7 @@ import { ReOpenedAssessment } from '@partials/sub-admin'
 import { Appointment } from '@types'
 import classNames from 'classnames'
 import { ReactElement, useState } from 'react'
+import { GoKebabHorizontal } from 'react-icons/go'
 
 export const EventWrapper = <T extends object>(event: any) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -104,6 +105,18 @@ export const EventWrapper = <T extends object>(event: any) => {
         )
     }
 
+    const onMenuClicked = (appointment: Appointment) => {
+        setModal(
+            <Portal>
+                {/* <AppointmentViewModal
+                    id={appointment?.id}
+                    onCancel={onModalCancelled}
+                /> */}
+                Add Note here
+            </Portal>
+        )
+    }
+
     return (
         <>
             {modal}
@@ -119,6 +132,7 @@ export const EventWrapper = <T extends object>(event: any) => {
                     onClicked(event.event?.appointment)
                 }}
             >
+                
                 <p className={labelClasses}>{event.label}</p>
                 <p className={textClasses}>{event.event.title}</p>
                 <p className={subtitleClasses}>
