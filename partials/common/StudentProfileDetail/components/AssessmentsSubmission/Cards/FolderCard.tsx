@@ -33,7 +33,7 @@ export const FolderCard = ({
                 )
             case 'rejected':
                 return (
-                    <Typography color="text-primary" variant="xs" medium>
+                    <Typography color="text-error" variant="xs" medium>
                         Rejected
                     </Typography>
                 )
@@ -81,6 +81,14 @@ export const FolderCard = ({
                         medium
                     >
                         {folder?.name}
+                    </Typography>
+                    <Typography
+                        variant={'small'}
+                        color={active ? 'text-white' : 'text-[#374151]'}
+                    >
+                        {response?.files?.length
+                            ? `(${response?.files?.length})`
+                            : '0'}
                     </Typography>
                 </div>
                 {response ? (

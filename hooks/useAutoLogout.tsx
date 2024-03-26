@@ -66,8 +66,31 @@ export const AutoLogoutProvider = ({
 
             if (timestamp < expTime && !refreshTokenResult.isLoading) {
                 time = setInterval(() => {
-                    refreshToken()
+                    refreshToken().then((res: any) => {
+                        if (res?.data) {
+                            if (isBrowser()) {
+                                const rememberLogin =
+                                    localStorage.getItem('rememberMe')
+                                if (rememberLogin) {
+                                    AuthUtils.setToken(res?.data?.access_token)
+                                    AuthUtils.setRefreshToken(
+                                        res?.data?.refreshToken
+                                    )
+                                } else {
+                                    console.log({ refreshTokenResult })
+                                    AuthUtils.setTokenToSession(
+                                        res?.data?.access_token
+                                    )
+                                    AuthUtils.setRefreshTokenToSessionStorage(
+                                        res?.data?.refreshToken
+                                    )
+                                }
+                            }
+                        }
+                    })
                 }, 30 * 1000)
+            } else {
+                setModal(<SessionExpireModal onCancel={onCancelClicked} />)
             }
         }
 
@@ -134,6 +157,7 @@ export const AutoLogoutProvider = ({
     }, [router])
 
     useEffect(() => {
+        console.log({ refreshTokenResult: refreshTokenResult })
         if (refreshTokenResult.isSuccess) {
             if (refreshTokenResult.data) {
                 if (isBrowser()) {
@@ -144,6 +168,7 @@ export const AutoLogoutProvider = ({
                             refreshTokenResult.data.refreshToken
                         )
                     } else {
+                        console.log({ refreshTokenResult })
                         AuthUtils.setTokenToSession(
                             refreshTokenResult.data.access_token
                         )

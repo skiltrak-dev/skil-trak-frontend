@@ -1,4 +1,4 @@
-import { Typography } from '@components'
+import { StudentAvatar, Typography } from '@components'
 import { Student } from '@types'
 import {
     Avatar,
@@ -17,9 +17,14 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
         <div>
             <div className="flex justify-between items-center">
                 <div>
-                    <Avatar
+                    {/* <Avatar
                         avatar={profile?.user?.avatar}
                         name={profile?.user?.name}
+                    /> */}
+                    <StudentAvatar
+                        name={profile?.user.name}
+                        imageUrl={profile?.user?.avatar}
+                        gender={profile?.gender}
                     />
                 </div>
                 <ProfileLinks profile={profile} />

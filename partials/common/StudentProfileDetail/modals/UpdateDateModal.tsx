@@ -13,7 +13,7 @@ export const UpdateDateModal = ({
     profile: any
     onCancelClick: () => void
 }) => {
-    const password = '12345678'
+    const password = process.env.NEXT_PUBLIC_UPDATE_DATE
     const [enteredPassword, setEnteredPassword] = useState<boolean>(false)
     const [updateDate, updateDateResult] =
         SubAdminApi.Student.useUpdateStudentDate()
