@@ -2,7 +2,6 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
-import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 
 import { Animations } from '@animations'
@@ -15,23 +14,30 @@ import {
     TextInput,
     Typography,
 } from '@components'
+import { FormProvider, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 const ForgotPassword: NextPage = () => {
     const router = useRouter()
 
     const [emailSent, setEmailSent] = useState(false)
-
-    const initialValues = {
-        email: '',
-    }
-
     const validationSchema = Yup.object({
         email: Yup.string()
             .email('Invalid Email')
             .required('Email is required!'),
     })
+    const methods = useForm({
+        mode: 'all',
+        resolver: yupResolver(validationSchema),
+        // defaultValues: { ...editValues, body: bodyData },
+    })
+    const initialValues = {
+        email: '',
+    }
+
 
     const onSubmit = async (values: any) => {
+        console.log("values", values)
         // send reset password email
         setEmailSent(true)
     }
@@ -59,14 +65,13 @@ const ForgotPassword: NextPage = () => {
                                 link.
                             </Typography>
 
-                            <Formik
-                                initialValues={initialValues}
-                                validationSchema={validationSchema}
-                                onSubmit={onSubmit}
-                            >
-                                {({ dirty, isValid }) => {
-                                    return (
-                                        <Form className="mt-2 w-full">
+                            <FormProvider {...methods}>
+                                        <form
+                                            className="mt-2 w-full"
+                                            onSubmit={methods.handleSubmit(
+                                                onSubmit
+                                            )}
+                                        >
                                             <div className="">
                                                 <TextInput
                                                     label={'Email'}
@@ -83,17 +88,12 @@ const ForgotPassword: NextPage = () => {
                                             <div className="mt-4 flex items-center justify-between">
                                                 <Button
                                                     submit
-                                                    disabled={
-                                                        !(isValid && dirty)
-                                                    }
                                                     loading={false}
-                                                    text={'Send Reset Email'}
+                                                    text={'Send Password'}
                                                 />
                                             </div>
-                                        </Form>
-                                    )
-                                }}
-                            </Formik>
+                                        </form>
+                            </FormProvider>
                         </div>
 
                         <div className="h-48 w-px bg-gray-300 mx-8"></div>
