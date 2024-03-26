@@ -29,15 +29,15 @@ export const StudentAvatar = ({
             {getImageUrl() ? (
                 <Image
                     src={getImageUrl() || ''}
-                    width={80}
-                    height={80}
+                    width={70}
+                    height={70}
                     className="rounded-full"
                     alt=""
                     blurDataURL={'/images/blur_image.png'}
                     placeholder="blur"
                 />
             ) : (
-                <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
+                <div className="h-16 w-16 flex items-center justify-center bg-gray-100 rounded-full">
                     <span className="text-4xl text-gray-300">
                         <FaUserGraduate />
                     </span>
