@@ -54,7 +54,7 @@ export const TableAction = ({
 
             {options && (isOverButton || isOverList) && (
                 <ul
-                    className={`bg-white rounded-xl shadow-xl min-w-[130px] max-w-[175px]  absolute ${
+                    className={`bg-white rounded-xl shadow-xl min-w-[130px] max-w-[175px] absolute ${
                         lastIndex ? 'bottom-full' : 'top-full'
                     } right-0 z-10`}
                     // className={`bg-white rounded-xl shadow-xl min-w-[130px] max-w-[175px] ${

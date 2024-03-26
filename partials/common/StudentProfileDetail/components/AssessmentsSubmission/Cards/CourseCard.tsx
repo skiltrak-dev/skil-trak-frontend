@@ -5,6 +5,7 @@ import { Result, UserRoles } from '@constants'
 import { Course } from '@types'
 import { getCourseResult } from '@utils'
 import { Waypoint } from 'react-waypoint'
+import classNames from 'classnames'
 
 export const CourseCard = ({
     course,
@@ -32,6 +33,12 @@ export const CourseCard = ({
                 return result?.result
         }
     }
+
+    const statusClasses = classNames({
+        'bg-primary': result?.result === Result.Pending || !result,
+        'bg-success': result?.result === Result.Competent,
+        'bg-error-dark': result?.result === Result.NotCompetent,
+    })
     return (
         <div
             onClick={onClick}
@@ -43,7 +50,9 @@ export const CourseCard = ({
         >
             <div className="p-4 relative">
                 {result?.result && (
-                    <div className="w-32 h-7 bg-primary-dark flex justify-center items-center absolute top-0 right-0">
+                    <div
+                        className={`w-32 h-7 ${statusClasses}  flex justify-center items-center absolute top-0 right-0`}
+                    >
                         <Typography
                             variant="small"
                             medium
