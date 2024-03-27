@@ -26,15 +26,13 @@ import {
 // queries
 import { useGetSubAdminRtosQuery } from '@queries'
 // icons
-import { useActionModal, useContextBar } from '@hooks'
+import { useActionModal } from '@hooks'
 
 import { RTOCellInfo, SectorCell } from '@partials/sub-admin/rto/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { checkFilteredDataLength, getFilterQuery, setLink } from '@utils'
-import { RiLockPasswordFill } from 'react-icons/ri'
 
 const RTOs: NextPageWithLayout = () => {
-    const { setContent } = useContextBar()
     const router = useRouter()
 
     // hooks
@@ -91,7 +89,7 @@ const RTOs: NextPageWithLayout = () => {
             },
             Icon: FaEye,
         },
-        
+
         // {
         //     text: 'View Password',
         //     onClick: (rto: Rto) => onViewPassword(rto),

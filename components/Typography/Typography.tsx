@@ -61,6 +61,8 @@ interface TypographyProps {
     normal?: boolean
 
     underline?: boolean
+
+    cursorPointer?: boolean
 }
 
 export const Typography = ({
@@ -90,6 +92,8 @@ export const Typography = ({
     extraBold,
 
     underline,
+
+    cursorPointer,
 }: TypographyProps) => {
     let classes = `${color}`
 
@@ -123,6 +127,10 @@ export const Typography = ({
 
     if (underline) {
         classes = `${classes} underline`
+    }
+
+    if (cursorPointer) {
+        classes = `${classes} cursor-pointer`
     }
 
     const Component = `${

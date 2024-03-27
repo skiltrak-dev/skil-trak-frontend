@@ -118,14 +118,6 @@ export const SubAdminNavbar = () => {
                 {navBarData.map((nav, i) => (
                     <NavLinkItem key={i} nav={nav} PREFIX={PREFIX} />
                 ))}
-                {getUserCredentials()?.id == 5726 ? (
-                    <Typography variant="h3">
-                        {String.fromCodePoint(0x1f642)}
-                        {String.fromCodePoint(0x1f643)}
-                    </Typography>
-                ) : (
-                    ''
-                )}
             </ul>
             <ul className="flex gap-x-2 py-4">
                 {additionalMenuItems.map((nav, i) => (

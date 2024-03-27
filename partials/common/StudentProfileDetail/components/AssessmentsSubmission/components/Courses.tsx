@@ -431,7 +431,9 @@ export const Courses = ({
                             : null}
                         {getAssessmentResponse?.isSuccess &&
                         getAssessmentResponse?.data &&
-                        result?.result !== Result.Competent ? (
+                        (result?.result === Result.Pending ||
+                            result?.result === Result.NotCompetent ||
+                            result?.result === Result.ReOpened) ? (
                             <AddComment
                                 resultId={result?.id}
                                 studentId={student?.id}

@@ -1,6 +1,5 @@
 import {
     ActionButton,
-    Button,
     Card,
     EmptyData,
     LoadingAnimation,
@@ -9,12 +8,11 @@ import {
     TableActionOption,
     TechnicalError,
     TruncatedTextWithTooltip,
-    Typography,
     UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
+import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { AdminApi, commonApi } from '@queries'
 import { Industry, UserStatus } from '@types'
@@ -25,10 +23,10 @@ import { BranchCell, IndustryCell, SectorCell } from './components'
 import { BlockModal, MultiBlockModal } from './modals'
 
 // hooks
-import { useActionModal } from '@hooks'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { ellipsisText, getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
+import { useActionModal } from '@hooks'
+import { getUserCredentials } from '@utils'
+import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const ApprovedIndustry = () => {
     const selectInputRef = useRef()
@@ -51,8 +49,6 @@ export const ApprovedIndustry = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     const onModalCancelClicked = () => {
         setModal(null)

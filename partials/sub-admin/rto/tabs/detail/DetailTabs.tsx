@@ -15,6 +15,7 @@ import { RTOReports } from '@partials/common/Reports'
 import { RtoStudentsAssessmentGallery } from '@partials/common/RtoStudentsAssessmentGallery'
 import { RtoAddDocuments } from '@partials/rto/components'
 import { useState } from 'react'
+import { ContactPersons } from './ContactPersons'
 export const DetailTabs = ({ rto }: { rto: Rto }) => {
     const [selectedNoteId, setSelectedNoteId] = useState<number>(0)
     const rtoStatsCount = SubAdminApi.Rto.useRtoStatsCount(
@@ -62,6 +63,14 @@ export const DetailTabs = ({ rto }: { rto: Rto }) => {
                     createdAt={rto?.createdAt as Date}
                 />
             ),
+        },
+        {
+            label: 'Contact Persons',
+            href: {
+                pathname: String(rto?.id),
+                query: { tab: 'contact-person' },
+            },
+            element: <ContactPersons rto={rto} />,
         },
         {
             label: 'Gallery',

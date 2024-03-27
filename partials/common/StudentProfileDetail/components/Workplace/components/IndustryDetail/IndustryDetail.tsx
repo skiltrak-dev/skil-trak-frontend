@@ -9,6 +9,7 @@ import { AddIndustryCB } from '@partials/sub-admin/workplace/contextBar'
 import { Actions } from './Actions'
 import { StudentProvidedActions } from './StudentProvidedActions'
 import { StudentProvidedABNActions } from './StudentProvidedABNActions'
+import { AgreementView } from '../AgreementView'
 
 export const IndustryDetail = ({
     workplace,
@@ -49,6 +50,8 @@ export const IndustryDetail = ({
             />
         )
     }
+
+    console.log({ appliedIndustry })
     return (
         <>
             {modal}
@@ -58,51 +61,69 @@ export const IndustryDetail = ({
                         Industry Detail
                     </Typography>
                     <div className="flex items-center gap-x-3">
-                        <Typography variant={'small'} color={'text-info'}>
-                            <span
-                                className="font-semibold cursor-pointer"
-                                onClick={() => {
-                                    if (!appliedIndustry) {
-                                        onViewMoreIndustries()
-                                    } else {
-                                        notification.warning({
-                                            title: 'Already Applied',
-                                            description:
-                                                'Student have already applied to industry',
-                                        })
-                                    }
-                                }}
-                            >
-                                View More Industry
-                            </span>
-                        </Typography>
-                        <Typography variant={'small'} color={'text-info'}>
-                            <span
-                                className="font-semibold cursor-pointer"
-                                onClick={() => {
-                                    if (!appliedIndustry) {
-                                        contextBar.setContent(
-                                            <AddIndustryCB
-                                                studentId={
-                                                    workplace?.student?.id
-                                                }
-                                                workplaceId={workplace?.id}
-                                                courseId={course?.id}
-                                            />
-                                        )
-                                        contextBar.show()
-                                    } else {
-                                        notification.warning({
-                                            title: 'Already Applied',
-                                            description:
-                                                'Student have already applied to industry',
-                                        })
-                                    }
-                                }}
-                            >
-                                + Add Industry
-                            </span>
-                        </Typography>
+                        {appliedIndustry?.AgreementSigned && (
+                            <AgreementView workplace={workplace} />
+                        )}
+                        {!appliedIndustry ? (
+                            <>
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-info'}
+                                >
+                                    <span
+                                        className="font-semibold cursor-pointer"
+                                        onClick={() => {
+                                            if (!appliedIndustry) {
+                                                onViewMoreIndustries()
+                                            } else {
+                                                notification.warning({
+                                                    title: 'Already Applied',
+                                                    description:
+                                                        'Student have already applied to industry',
+                                                })
+                                            }
+                                        }}
+                                    >
+                                        View More Industry
+                                    </span>
+                                </Typography>
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-info'}
+                                >
+                                    <span
+                                        className="font-semibold cursor-pointer"
+                                        onClick={() => {
+                                            if (!appliedIndustry) {
+                                                contextBar.setContent(
+                                                    <AddIndustryCB
+                                                        studentId={
+                                                            workplace?.student
+                                                                ?.id
+                                                        }
+                                                        workplaceId={
+                                                            workplace?.id
+                                                        }
+                                                        courseId={course?.id}
+                                                    />
+                                                )
+                                                contextBar.show()
+                                            } else {
+                                                notification.warning({
+                                                    title: 'Already Applied',
+                                                    description:
+                                                        'Student have already applied to industry',
+                                                })
+                                            }
+                                        }}
+                                    >
+                                        + Add Industry
+                                    </span>
+                                </Typography>
+                            </>
+                        ) : (
+                            ''
+                        )}
                     </div>
                 </div>
                 <div className="h-[200px] overflow-auto custom-scrollbar flex flex-col gap-y-2 border border-[#6B7280] rounded-md p-2.5 mt-2.5">

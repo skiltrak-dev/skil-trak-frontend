@@ -19,6 +19,7 @@ import moment from 'moment'
 import { ReactElement, useEffect, useState } from 'react'
 import {
     WorkplaceTab,
+    AgreementView,
     IndustryStatus,
     ViewAvailability,
     WorkplaceHistory,
@@ -101,7 +102,13 @@ export const Workplace = ({
             <Card noPadding fullHeight>
                 <div className="px-4 py-3.5 flex justify-between items-center border-b border-secondary-dark">
                     <Typography variant="label" semibold>
-                        Workplace
+                        Workplace -{' '}
+                        <span className="text-xs text-gray-500 font-normal">
+                            {selectedWorkplace?.studentProvidedWorkplace ||
+                            selectedWorkplace?.byExistingAbn
+                                ? 'Provided Workplace'
+                                : 'Requested Workplace'}
+                        </span>
                     </Typography>
                     {studentWorkplace?.data &&
                     studentWorkplace?.data?.length === 1 ? (

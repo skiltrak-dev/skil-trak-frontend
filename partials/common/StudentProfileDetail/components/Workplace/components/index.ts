@@ -1,4 +1,5 @@
 export * from './WorkplaceTab'
+export * from './AgreementView'
 export * from './IndustryStatus'
 export * from './WorkplaceHistory'
 export * from './ViewAvailability'

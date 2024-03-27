@@ -1,5 +1,6 @@
 import {
     ActionButton,
+    AuthorizedUserComponent,
     LoadingAnimation,
     RtoAvatar,
     Switch,
@@ -16,9 +17,9 @@ import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { AiFillEdit } from 'react-icons/ai'
-import { BiPackage } from 'react-icons/bi'
+import { BiPackage, BiRename } from 'react-icons/bi'
 import { BsUnlockFill } from 'react-icons/bs'
-import { FaAddressCard, FaMoneyBill } from 'react-icons/fa'
+import { FaAddressCard, FaMoneyBill, FaPhoneAlt } from 'react-icons/fa'
 import { IoLocation } from 'react-icons/io5'
 import { MdOutlineUpdate, MdPhone, MdVerified } from 'react-icons/md'
 import { RxUpdate } from 'react-icons/rx'
@@ -115,15 +116,19 @@ export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
                                         title="Edit Profile"
                                     />
 
-                                    <ActionButton
-                                        rounded
-                                        Icon={BsUnlockFill}
-                                        variant={'neutral'}
-                                        onClick={() =>
-                                            onUpdatePassword(rto?.data)
-                                        }
-                                        title="Edit Password"
-                                    />
+                                    <AuthorizedUserComponent
+                                        roles={[UserRoles.ADMIN]}
+                                    >
+                                        <ActionButton
+                                            rounded
+                                            Icon={BsUnlockFill}
+                                            variant={'neutral'}
+                                            onClick={() =>
+                                                onUpdatePassword(rto?.data)
+                                            }
+                                            title="Edit Password"
+                                        />
+                                    </AuthorizedUserComponent>
                                 </div>
                                 <RtoAvatar
                                     imageUrl={rto?.data?.user?.avatar}
@@ -230,41 +235,58 @@ export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
                             </div>
                         </div>
                         {/* contact person row 4 */}
-                        {/* <div className="mt-4">
-                                <Typography variant={'small'} color={'text-gray-500'}>
-                                    Contact Person
-                                </Typography>
-                                <div className="flex justify-around divide-x border-t border-b">
-                                    <div className="p-2">
-                                        <div className="flex items-center gap-x-2">
-                                            <BiRename className="text-gray-400" size={11}/>
-                                            <Typography
-                                                variant={'small'}
-                                                color={'text-gray-400'}
-                                            >
-                                                Name
-                                            </Typography>
-                                        </div>
-                                        <Typography variant={'small'} color={'text-black'}>
-                                            {rto?.data?.contactPerson || 'N/A'}
+                        <div className="mt-4">
+                            <Typography
+                                variant={'small'}
+                                color={'text-gray-500'}
+                            >
+                                Contact Person
+                            </Typography>
+                            <div className="flex justify-around divide-x border-t border-b">
+                                <div className="p-2">
+                                    <div className="flex items-center gap-x-2">
+                                        <BiRename
+                                            className="text-gray-400"
+                                            size={11}
+                                        />
+                                        <Typography
+                                            variant={'small'}
+                                            color={'text-gray-400'}
+                                        >
+                                            Name
                                         </Typography>
                                     </div>
-                                    <div className="p-2">
-                                        <div className="flex items-center gap-x-2">
-                                            <FaPhoneAlt className="text-gray-400" size={11} />
-                                            <Typography
-                                                variant={'small'}
-                                                color={'text-gray-400'}
-                                            >
-                                                Phone
-                                            </Typography>
-                                        </div>
-                                        <Typography variant={'small'} color={'text-black'}>
-                                            {rto?.data?.contactPersonNumber || 'N/A'}
-                                        </Typography>
-                                    </div>
+                                    <Typography
+                                        variant={'small'}
+                                        color={'text-black'}
+                                    >
+                                        {rto?.data?.contactPersons?.[0]?.name ||
+                                            'N/A'}
+                                    </Typography>
                                 </div>
-                            </div> */}
+                                <div className="p-2">
+                                    <div className="flex items-center gap-x-2">
+                                        <FaPhoneAlt
+                                            className="text-gray-400"
+                                            size={11}
+                                        />
+                                        <Typography
+                                            variant={'small'}
+                                            color={'text-gray-400'}
+                                        >
+                                            Phone
+                                        </Typography>
+                                    </div>
+                                    <Typography
+                                        variant={'small'}
+                                        color={'text-black'}
+                                    >
+                                        {rto?.data?.contactPersons?.[0]
+                                            ?.phone || 'N/A'}
+                                    </Typography>
+                                </div>
+                            </div>
+                        </div>
 
                         {/* rto Package */}
                         <div className="mt-4">

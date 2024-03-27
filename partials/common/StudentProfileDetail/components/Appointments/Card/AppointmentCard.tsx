@@ -191,6 +191,7 @@ export const AppointmentCard = ({
                                 variant="xs"
                                 bold
                                 color="text-[#F67F1E]"
+                                cursorPointer
                             >
                                 VIEW DETAILS
                             </Typography>

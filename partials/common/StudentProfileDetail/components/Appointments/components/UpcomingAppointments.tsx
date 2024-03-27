@@ -5,6 +5,7 @@ import { Appointment } from '@types'
 import {
     EmptyData,
     LoadingAnimation,
+    NoData,
     TechnicalError,
     Typography,
 } from '@components'
@@ -15,13 +16,12 @@ export const UpcomingAppointments = ({ userId }: { userId: number }) => {
         status: 'future',
     })
     return (
-        <div className="h-[inherit] custom-scrollbar overflow-auto">
+        <div className="h-auto flex flex-col gap-2">
+            <Typography variant="label" semibold>
+                Upcoming Appointments
+            </Typography>
             {futureAppointments.isError ? (
-                <TechnicalError
-                    description={false}
-                    imageUrl={'/images/icons/common/appointmentsError.png'}
-                    height="40vh"
-                />
+                <NoData text="There is Some technical issue" />
             ) : null}
             <div className="flex flex-col gap-y-3">
                 {futureAppointments.isLoading ? (
@@ -44,14 +44,7 @@ export const UpcomingAppointments = ({ userId }: { userId: number }) => {
                     )
                 ) : (
                     futureAppointments.isSuccess && (
-                        <EmptyData
-                            imageUrl={
-                                '/images/icons/placement-progress/appointment.png'
-                            }
-                            title="No Future Appointment Found"
-                            description="No Future Appointment Found"
-                            height="40vh"
-                        />
+                        <NoData text="There is no upcomming appointments" />
                     )
                 )}
             </div>

@@ -1,6 +1,7 @@
-import moment from "moment"
+import moment from 'moment'
 
 export const isLessThan24HoursDifference = (givenDate: Date) => {
+    console.log({ givenDate })
     // Get the current date and time using Moment.js
     const currentDate = moment()
 
@@ -8,7 +9,8 @@ export const isLessThan24HoursDifference = (givenDate: Date) => {
     const givenDateObj = moment(givenDate)
 
     // Calculate the difference in hours between the current date and the given date
-    const hoursDifference = currentDate.diff(givenDateObj, 'hours')
+    const hoursDifference = givenDateObj.diff(currentDate, 'hours')
+    console.log({ hoursDifference })
 
     // Check if the difference is less than 24 hours
     return hoursDifference < 24
