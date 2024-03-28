@@ -41,7 +41,6 @@ export const BlockedStudent = () => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
     const role = getUserCredentials()?.role
-    console.log('role', role)
     useEffect(() => {
         setPage(Number(router.query.page))
         setItemPerPage(Number(router.query.pageSize))

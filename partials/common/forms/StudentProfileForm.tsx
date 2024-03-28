@@ -43,7 +43,6 @@ export const StudentProfileForm = ({
     courses: any
     student?: boolean
 }) => {
-    console.log({ profile })
     const { notification } = useNotification()
 
     const sectorResponse = AuthApi.useSectors({})

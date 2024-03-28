@@ -77,7 +77,6 @@ export const AutoLogoutProvider = ({
                                         res?.data?.refreshToken
                                     )
                                 } else {
-                                    console.log({ refreshTokenResult })
                                     AuthUtils.setTokenToSession(
                                         res?.data?.access_token
                                     )
@@ -157,7 +156,6 @@ export const AutoLogoutProvider = ({
     }, [router])
 
     useEffect(() => {
-        console.log({ refreshTokenResult: refreshTokenResult })
         if (refreshTokenResult.isSuccess) {
             if (refreshTokenResult.data) {
                 if (isBrowser()) {
@@ -168,7 +166,6 @@ export const AutoLogoutProvider = ({
                             refreshTokenResult.data.refreshToken
                         )
                     } else {
-                        console.log({ refreshTokenResult })
                         AuthUtils.setTokenToSession(
                             refreshTokenResult.data.access_token
                         )

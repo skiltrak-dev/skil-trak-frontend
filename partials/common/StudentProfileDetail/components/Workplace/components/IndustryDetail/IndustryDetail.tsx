@@ -51,7 +51,6 @@ export const IndustryDetail = ({
         )
     }
 
-    console.log({ appliedIndustry })
     return (
         <>
             {modal}

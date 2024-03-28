@@ -68,7 +68,6 @@ export const ImportStudentVerificationModal = ({
                     email: trimText(o?.email),
                 })),
             }).then((res: any) => {
-                console.log({ res })
                 if (res?.data) {
                     setImportedStudentsResult(res?.data)
                     onCancel()

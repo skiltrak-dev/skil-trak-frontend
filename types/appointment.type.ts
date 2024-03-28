@@ -11,6 +11,7 @@ export interface appointmentWithUser extends User {
 
 export interface Appointment extends BaseResponse {
     type: AppointmentType
+    isApproved: boolean
     course: Course
     date: Date
     WorkplacePhone: string
