@@ -350,6 +350,7 @@ const {
     useAppointmentDetailQuery,
     useCancellAppointmentMutation,
     useAddNoteOnAppointmentMutation,
+    useApprovePendingAppointmentMutation,
     useGetAppointmentsAvailableSlotsQuery,
     useGetRescheduleAppointmentsAvailableSlotsQuery,
     useAllCoordinatorsQuery,
@@ -579,6 +580,7 @@ export const CommonApi = {
     Appointments: {
         appointmentType: useGetAppointmentsTypesQuery,
         createAppointment: useCreateAppointmentMutation,
+        useApproveAppointment: useApprovePendingAppointmentMutation,
         useAppointmentsAvailableSlots: useGetAppointmentsAvailableSlotsQuery,
         getRescheduleAppointmentsAvailableSlots:
             useGetRescheduleAppointmentsAvailableSlotsQuery,

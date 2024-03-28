@@ -57,7 +57,7 @@ export const LoginForm = ({
                         required
                     />
 
-                    <Checkbox name={'remember'} label={'Remember Me'} />
+                    <Checkbox name={'remember'} label={'Keep me logged in'} />
                 </div>
 
                 <div className="mt-4 flex items-center justify-between">

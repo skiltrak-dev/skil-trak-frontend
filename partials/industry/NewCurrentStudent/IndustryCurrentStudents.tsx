@@ -103,15 +103,15 @@ export const IndustryCurrentStudents = () => {
                         selectedId === ProfileIds.Appointments
                             ? 'border-2 border-primary'
                             : ''
-                    }`}
+                    } h-[inherit]`}
                 >
                     <Appointments user={profile?.data?.user} />
                 </div>
                 <div
                     id={`student-profile-${ProfileIds.Notes}`}
-                    className={`${activeBorder(ProfileIds.Notes)}`}
+                    className={`${activeBorder(ProfileIds.Notes)} h-[inherit]`}
                 >
-                    <Notes userId={profile?.data?.user?.id} />
+                    <Notes userId={profile?.data?.student?.user?.id} />
                 </div>
             </div>
             <StudentSchedule

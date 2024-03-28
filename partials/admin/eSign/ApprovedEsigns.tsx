@@ -200,7 +200,7 @@ export const ApprovedEsigns = () => {
                     <ActionButton
                         onClick={() => {
                             router.push(
-                                `/portals/admin/student/${student?.id}?tab=overview`
+                                `/portals/admin/student/${student?.id}/detail`
                             )
                         }}
                     >

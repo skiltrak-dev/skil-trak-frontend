@@ -13,6 +13,7 @@ import {
 import { RTOReports } from '@partials/common/Reports'
 import { RtoStudentsAssessmentGallery } from '@partials/common/RtoStudentsAssessmentGallery'
 import { RtoAddDocuments } from '@partials/rto/components'
+import { ContactPersons } from './ContactPersons'
 
 export const DetailTabs = ({
     id,
@@ -48,6 +49,11 @@ export const DetailTabs = ({
             label: 'Sub Admins',
             href: { query: { tab: 'sub-admin', id } },
             element: <SubAdminsTab rto={rto} />,
+        },
+        {
+            label: 'Contact Persons',
+            href: { query: { tab: 'contact-person', id } },
+            element: <ContactPersons rto={rto?.data} />,
         },
         {
             label: 'Appointments',

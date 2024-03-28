@@ -32,7 +32,6 @@ export const SessionExpireModal = ({ onCancel }: { onCancel: () => void }) => {
                         }
                         onCancel()
                     }}
-                    onCancelClick={() => {}}
                     confirmText={'Login'}
                     titleIcon={AiFillWarning}
                 >

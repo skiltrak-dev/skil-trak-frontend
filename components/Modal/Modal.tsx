@@ -67,9 +67,14 @@ export const Modal = ({
 
             {showActions && (
                 <div className="flex justify-end items-end gap-x-4 px-4 py-2">
-                    <Button variant={'secondary'} onClick={onCancelButtonClick}>
-                        {cancelText || 'Cancel'}
-                    </Button>
+                    {onCancelClick ? (
+                        <Button
+                            variant={'secondary'}
+                            onClick={onCancelButtonClick}
+                        >
+                            {cancelText || 'Cancel'}
+                        </Button>
+                    ) : null}
                     <Button
                         onClick={onConfirmButtonClick}
                         loading={loading}

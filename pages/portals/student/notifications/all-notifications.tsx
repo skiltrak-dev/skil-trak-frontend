@@ -66,7 +66,9 @@ const SubAdminAllNotifications: NextPageWithLayout = () => {
                                         <div
                                             key={notification.id}
                                             onClick={() =>
-                                                readNotifications(notification)
+                                                readNotifications(
+                                                    notification?.id
+                                                )
                                             }
                                             className={`${
                                                 !notification.isRead

@@ -8,30 +8,30 @@ import { NoData } from '@components/ActionAnimations'
 import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
+import { Tooltip } from '@components/Tooltip'
 import { ActionButton } from '@components/buttons'
+import { Switch } from '@components/inputs'
 import { UserRoles } from '@constants'
 import { useActionModal, useNotification } from '@hooks'
 import { BranchOrHeadofficeType, CourseList } from '@partials/common'
+import { IndustryCallLogModal } from '@partials/sub-admin/Industries'
 import { AddToPartnerModal } from '@partials/sub-admin/Industries/modals/AddToPartnerModal'
-import { SubAdminApi, CommonApi } from '@queries'
+import { CommonApi, SubAdminApi } from '@queries'
+import { Course, GetSectorsType, Industry } from '@types'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { Fragment, ReactNode, useEffect, useState } from 'react'
 import { BsFillBuildingFill, BsUnlockFill } from 'react-icons/bs'
 import { FaAddressCard, FaRegHandshake } from 'react-icons/fa'
 import { GiBackwardTime } from 'react-icons/gi'
+import { IoMdEye } from 'react-icons/io'
 import { IoLocation } from 'react-icons/io5'
 import { MdAdminPanelSettings, MdPhone, MdVerified } from 'react-icons/md'
 import { PulseLoader } from 'react-spinners'
-import { Course, GetSectorsType, Industry } from '@types'
-import { IoMdEye } from 'react-icons/io'
-import { Tooltip } from '@components/Tooltip'
-import { IndustryCallLogModal } from '@partials/sub-admin/Industries'
 import {
     MakeHeadQuarterModal,
     RemoveBranchModal,
 } from '../../partials/common/IndustryBranches/modal'
-import { Switch } from '@components/inputs'
 
 type Props = {
     data: Industry
@@ -194,13 +194,17 @@ export const IndustryProfile = ({ data }: Props) => {
                                 title="Edit Profile"
                             />
 
-                            <ActionButton
-                                rounded
-                                Icon={BsUnlockFill}
-                                variant={'neutral'}
-                                onClick={() => onUpdatePassword(data)}
-                                title="Edit Password"
-                            />
+                            <AuthorizedUserComponent
+                                roles={[UserRoles.ADMIN, UserRoles.INDUSTRY]}
+                            >
+                                <ActionButton
+                                    rounded
+                                    Icon={BsUnlockFill}
+                                    variant={'neutral'}
+                                    onClick={() => onUpdatePassword(data)}
+                                    title="Edit Password"
+                                />
+                            </AuthorizedUserComponent>
                         </div>
                         <div className="mt-4">
                             {data?.user.avatar ? (

@@ -16,17 +16,19 @@ export const contactPersonEndpoints = (
         providesTags: ['ContactPersons'],
     }),
     addContactPerson: builder.mutation<any, any>({
-        query: (body) => {
+        query: ({ rto, ...body }) => {
+            const params = rto ? { id: rto } : {}
             return {
                 url: `${PREFIX}/contactperson/add`,
                 method: 'POST',
+                params,
                 body,
             }
         },
         invalidatesTags: ['ContactPersons'],
     }),
     updateContactPerson: builder.mutation<any, any>({
-        query: ({id,body}) => ({
+        query: ({ id, body }) => ({
             url: `${PREFIX}/contact-person/update/${id}`,
             method: 'PATCH',
             body,

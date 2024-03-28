@@ -270,12 +270,12 @@ export const StudentProfileDetail = () => {
                         className={`h-[500px] overflow-hidden grid grid-cols-2 gap-x-3 `}
                     >
                         <div
-                            id={`student-profile-${ProfileIds.Appointments}`}
+                            id={`student-profile-${ProfileIds.Appointments} `}
                             className={`${
                                 selectedId === ProfileIds.Appointments
                                     ? 'border-2 border-primary'
                                     : ''
-                            }`}
+                            } !h-[inherit]`}
                         >
                             <Appointments user={profile?.data?.user} />
                         </div>

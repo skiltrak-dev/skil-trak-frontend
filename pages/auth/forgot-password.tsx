@@ -35,9 +35,7 @@ const ForgotPassword: NextPage = () => {
         email: '',
     }
 
-
     const onSubmit = async (values: any) => {
-        console.log("values", values)
         // send reset password email
         setEmailSent(true)
     }
@@ -66,33 +64,29 @@ const ForgotPassword: NextPage = () => {
                             </Typography>
 
                             <FormProvider {...methods}>
-                                        <form
-                                            className="mt-2 w-full"
-                                            onSubmit={methods.handleSubmit(
-                                                onSubmit
-                                            )}
-                                        >
-                                            <div className="">
-                                                <TextInput
-                                                    label={'Email'}
-                                                    name={'email'}
-                                                    type={'email'}
-                                                    placeholder={
-                                                        'Your Email Here...'
-                                                    }
-                                                    validationIcons
-                                                    required
-                                                />
-                                            </div>
+                                <form
+                                    className="mt-2 w-full"
+                                    onSubmit={methods.handleSubmit(onSubmit)}
+                                >
+                                    <div className="">
+                                        <TextInput
+                                            label={'Email'}
+                                            name={'email'}
+                                            type={'email'}
+                                            placeholder={'Your Email Here...'}
+                                            validationIcons
+                                            required
+                                        />
+                                    </div>
 
-                                            <div className="mt-4 flex items-center justify-between">
-                                                <Button
-                                                    submit
-                                                    loading={false}
-                                                    text={'Send Password'}
-                                                />
-                                            </div>
-                                        </form>
+                                    <div className="mt-4 flex items-center justify-between">
+                                        <Button
+                                            submit
+                                            loading={false}
+                                            text={'Send Password'}
+                                        />
+                                    </div>
+                                </form>
                             </FormProvider>
                         </div>
 

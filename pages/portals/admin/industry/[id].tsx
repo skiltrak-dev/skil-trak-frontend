@@ -1,6 +1,7 @@
 import {
     ActionButton,
     Alert,
+    AuthorizedUserComponent,
     BackButton,
     Button,
     EmptyData,
@@ -297,7 +298,7 @@ const Detail: NextPageWithLayout = () => {
                     <div className="flex items-center justify-between">
                         <BackButton text="Industries" />
                         <div className="flex items-center gap-x-2">
-                            {role === UserRoles.ADMIN && (
+                            <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                                 <Button
                                     text={'View Password'}
                                     onClick={() => {
@@ -306,7 +307,7 @@ const Detail: NextPageWithLayout = () => {
                                         })
                                     }}
                                 />
-                            )}
+                            </AuthorizedUserComponent>
 
                             <Button
                                 text="Book Appointment"

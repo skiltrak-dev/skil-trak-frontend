@@ -5,6 +5,7 @@ import { AppointmentCard } from '../Card'
 import {
     EmptyData,
     LoadingAnimation,
+    NoData,
     TechnicalError,
     Typography,
 } from '@components'
@@ -15,14 +16,13 @@ export const CancelledAppointments = ({ userId }: { userId: number }) => {
         status: 'cancelled',
     })
     return (
-        <div className="h-[350px] custom-scrollbar overflow-auto">
+        <div className="h-auto flex flex-col gap-2">
+            <Typography variant="label" semibold>
+                Cancelled Appointments
+            </Typography>
             <div className="flex flex-col gap-y-3">
                 {cancelledAppointments.isError ? (
-                    <TechnicalError
-                        description={false}
-                        imageUrl={'/images/icons/common/appointmentsError.png'}
-                        height="40vh"
-                    />
+                    <NoData text="There is Some technical issue" />
                 ) : null}
                 {cancelledAppointments.isLoading ? (
                     <div className="flex flex-col items-center justify-center h-60">
@@ -33,10 +33,10 @@ export const CancelledAppointments = ({ userId }: { userId: number }) => {
                     </div>
                 ) : cancelledAppointments?.data &&
                   cancelledAppointments?.data?.length > 0 ? (
-                    cancelledAppointments?.data?.data?.map(
+                    cancelledAppointments?.data?.map(
                         (appointment: Appointment) => (
                             <AppointmentCard
-                                type={'Past'}
+                                type={'Cancelled'}
                                 key={appointment?.id}
                                 appointment={appointment}
                             />
@@ -44,14 +44,7 @@ export const CancelledAppointments = ({ userId }: { userId: number }) => {
                     )
                 ) : (
                     cancelledAppointments.isSuccess && (
-                        <EmptyData
-                            imageUrl={
-                                '/images/icons/placement-progress/appointment.png'
-                            }
-                            title="No Cancelled Appointment Found"
-                            description="No Cancelled Appointment Found"
-                            height="40vh"
-                        />
+                        <NoData text="There is no cancelled appointments" />
                     )
                 )}
             </div>

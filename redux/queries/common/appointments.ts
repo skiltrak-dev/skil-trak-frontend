@@ -32,6 +32,14 @@ export const appointmentsEndpoints = (
         query: (body) => ({ url: `${PREFIX}`, method: 'POST', body }),
         invalidatesTags: ['Appointments'],
     }),
+    approvePendingAppointment: builder.mutation<Appointment, number>({
+        query: (id) => ({
+            url: `${PREFIX}/approve/${id}`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Appointments'],
+    }),
+
     getBookedAppointmnts: builder.query<
         any,
         {

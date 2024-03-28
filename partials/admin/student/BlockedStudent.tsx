@@ -41,7 +41,6 @@ export const BlockedStudent = () => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
     const role = getUserCredentials()?.role
-    console.log('role', role)
     useEffect(() => {
         setPage(Number(router.query.page))
         setItemPerPage(Number(router.query.pageSize))
@@ -89,9 +88,7 @@ export const BlockedStudent = () => {
             {
                 text: 'View',
                 onClick: (student: any) => {
-                    router.push(
-                        `/portals/admin/student/${student?.id}?tab=overview`
-                    )
+                    router.push(`/portals/admin/student/${student?.id}/detail`)
                 },
                 Icon: FaEye,
             },

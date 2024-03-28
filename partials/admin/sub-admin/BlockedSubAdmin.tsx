@@ -175,7 +175,6 @@ export const BlockedSubAdmin = () => {
             header: () => <span>Action</span>,
             cell: (info: any) => {
                 const actions = tableActionOptions(info?.row?.original)
-                console.log('info?.row?.original', info?.row?.original)
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction

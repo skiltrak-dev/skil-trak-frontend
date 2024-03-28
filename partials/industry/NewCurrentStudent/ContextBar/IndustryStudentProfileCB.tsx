@@ -115,6 +115,9 @@ export const IndustryStudentProfileCB = ({ profile }: { profile: any }) => {
                 {/* Student Detail */}
                 <StudentDetail profile={profile} />
 
+                {/* RTO */}
+                <RtoDetail rto={profile?.student?.rto} />
+
                 {/*  */}
                 <StudentRelatedInfo profile={profile} />
 
@@ -137,9 +140,6 @@ export const IndustryStudentProfileCB = ({ profile }: { profile: any }) => {
                 <StudentFeedBack workplace={profile} />
                 <StudentReport workplace={profile} />
             </div>
-
-            {/* RTO */}
-            <RtoDetail rto={profile?.student?.rto} />
         </div>
     )
 }
