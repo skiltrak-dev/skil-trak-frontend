@@ -73,7 +73,7 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
                     >
                         <div onClick={onViewCallLogs}>
                             <Typography
-                                variant="badge"
+                                variant="xs"
                                 color="text-primaryNew"
                                 bold
                                 underline

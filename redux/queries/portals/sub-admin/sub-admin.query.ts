@@ -1,18 +1,19 @@
 import { UserStatus } from '@types'
-import { emptySplitApi } from '../empty.query'
-import { subAdminAppointmentspoints } from './appointments'
-import { assessmentEvidenceEndpoints } from './assessmentEvidence'
-import { subAdminIndustriesEndpoints } from './industries'
 import { notesEndpoints } from './notes'
-import { profileEndpoints } from './profile'
 import { subAdminReports } from './reports'
 import { subAdminRtoEndpoints } from './rto'
-import { setScheduleEndpoints } from './setSchedule'
-import { setUnavailabilityEndpoints } from './setUnavailability'
-import { subAdminSettingEndpoints } from './setting'
+import { profileEndpoints } from './profile'
+import { emptySplitApi } from '../empty.query'
+import { todoListEndpoints } from './todoList'
 import { studentsEndpoints } from './students'
 import { workplaceEndpoints } from './workplace'
+import { setScheduleEndpoints } from './setSchedule'
+import { subAdminSettingEndpoints } from './setting'
 import { subadminVolunteerEndpoints } from './volunteer'
+import { subAdminIndustriesEndpoints } from './industries'
+import { subAdminAppointmentspoints } from './appointments'
+import { setUnavailabilityEndpoints } from './setUnavailability'
+import { assessmentEvidenceEndpoints } from './assessmentEvidence'
 export const subAdminApi = emptySplitApi.injectEndpoints({
     // export const subAdminApi = createApi({
     //     reducerPath: 'subAdminApi',
@@ -70,6 +71,7 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
         ...subAdminReports(build),
         ...profileEndpoints(build),
         ...studentsEndpoints(build),
+        ...todoListEndpoints(build),
         ...workplaceEndpoints(build),
         ...setScheduleEndpoints(build),
         ...subAdminRtoEndpoints(build),
@@ -89,6 +91,9 @@ export const {
     useSubadminCoursesQuery,
     useUpdateSubAdminProfileMutation,
     useChangeSubAdminUserStatusMutation,
+
+    // ---- TODO ---- //
+    useTodoListCountQuery,
 
     // ------ NOTES ------ //
     useSubadminNotesQuery,
@@ -284,6 +289,9 @@ export const SubAdminApi = {
         useSubadminCourses: useSubadminCoursesQuery,
         useUpdateProfile: useUpdateSubAdminProfileMutation,
         changeSubAdminUserStatus: useChangeSubAdminUserStatusMutation,
+    },
+    Todo: {
+        todoListCount: useTodoListCountQuery,
     },
     Notes: {
         useList: useSubadminNotesQuery,

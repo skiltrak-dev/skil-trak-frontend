@@ -32,7 +32,10 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                 <div className="rounded-xl md:px-8 px-4 py-8 md:py-4 bg-white">
                     <div className="md:h-[600px] h-[250px] w-full relative overflow-hidden rounded-xl">
                         <Image
-                            src={blogData?.featuredImage}
+                            src={
+                                blogData?.featuredImage ||
+                                '/images/blogs/blog.jpg'
+                            }
                             alt="blog-card"
                             fill
                             sizes="100vw"

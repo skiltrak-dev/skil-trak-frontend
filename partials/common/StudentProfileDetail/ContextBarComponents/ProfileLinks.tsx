@@ -1,6 +1,9 @@
 import { Typography } from '@components'
+import { UserRoles } from '@constants'
 import { useActionModal } from '@hooks'
+import { SubAdminApi } from '@queries'
 import { Student } from '@types'
+import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { IoMdEyeOff } from 'react-icons/io'
@@ -8,10 +11,14 @@ import { RiEditFill } from 'react-icons/ri'
 
 export const ProfileLinks = ({ profile }: { profile: Student }) => {
     const router = useRouter()
-    const [modal, setModal] = useState<ReactElement | null>(null)
     const { passwordModal, onViewPassword, onUpdatePassword } = useActionModal()
 
-    const onCancel = () => setModal(null)
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: !UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+    })
+
+    const role = getUserCredentials()?.role
 
     const profileLinks = [
         {
@@ -33,7 +40,13 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
             Icon: RiEditFill,
             onClick: () => {
                 router.push(
-                    `/portals/sub-admin/students/${router.query?.id}/edit-student`
+                    role === UserRoles.ADMIN || subadmin?.data?.isAdmin
+                        ? `/portals/admin/student/edit-student/${profile?.id}`
+                        : role === UserRoles.SUBADMIN
+                        ? `/portals/sub-admin/students/${profile?.id}/edit-student`
+                        : role === UserRoles.RTO
+                        ? `/portals/rto/students/${profile?.id}/edit-student`
+                        : '#'
                 )
             },
         },
@@ -41,7 +54,6 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
 
     return (
         <div className="flex flex-col items-end gap-y-2.5">
-            {modal}
             {passwordModal}
             <div className="flex flex-col gap-1.5">
                 {profileLinks.map(

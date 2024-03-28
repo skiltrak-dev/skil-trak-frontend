@@ -53,7 +53,7 @@ export const ActionModal = ({
     const [keyMatched, setKeyMatched] = useState(false)
 
     return (
-        <div className="bg-[#00000050] w-full h-screen flex items-center justify-center fixed top-0 left-0 z-40 px-2 xl:px-0">
+        <div className="bg-[#00000050] w-full h-screen flex items-center justify-center z-[1111111] fixed top-0 left-0 px-2 xl:px-0">
             <div className="bg-white modal-animation rounded-2xl flex flex-col items-center gap-y-6 shadow-xl w-full sm:w-auto sm:min-w-[450px] px-16 py-4">
                 {Icon && (
                     <div className={`${ActionModalType[variant]}`}>

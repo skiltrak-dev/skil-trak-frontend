@@ -1,54 +1,18 @@
-import {
-    AuthorizedUserComponent,
-    Button,
-    Card,
-    TabProps,
-    Typography,
-} from '@components'
-import React from 'react'
-import { Tabs } from '../Tabs'
+import { AuthorizedUserComponent, Button, Card, Typography } from '@components'
+import { UserRoles } from '@constants'
+import { User } from '@types'
+import { getUserCredentials } from '@utils'
+import { useRouter } from 'next/router'
 import {
     CancelledAppointments,
     PastAppointments,
     UpcomingAppointments,
 } from './components'
-import { User } from '@types'
-import { useRouter } from 'next/router'
-import { getUserCredentials } from '@utils'
-import { UserRoles } from '@constants'
 
 export const Appointments = ({ user }: { user: User }) => {
     const router = useRouter()
     const role = getUserCredentials()?.role
 
-    const tabs: TabProps[] = [
-        {
-            label: 'Upcoming',
-            href: {
-                pathname: `/portals/sub-admin/students/${router?.query?.id}/detail`,
-                query: { tab: 'upcoming' },
-            },
-
-            element: <UpcomingAppointments userId={user?.id} />,
-        },
-        {
-            label: 'Past',
-
-            href: {
-                pathname: `/portals/sub-admin/students/${router?.query?.id}/detail`,
-                query: { tab: 'past' },
-            },
-            element: <PastAppointments userId={user?.id} />,
-        },
-        {
-            label: 'Cancelled',
-            href: {
-                pathname: `/portals/sub-admin/students/${router?.query?.id}/detail`,
-                query: { tab: 'cancelled' },
-            },
-            element: <CancelledAppointments userId={user?.id} />,
-        },
-    ]
     return (
         <Card noPadding fullHeight>
             <div className="px-4 py-3.5 flex justify-between items-center border-b border-secondary-dark">
@@ -78,7 +42,18 @@ export const Appointments = ({ user }: { user: User }) => {
                     </Button>
                 </AuthorizedUserComponent>
             </div>
-            <Tabs tabs={tabs} defaultTabSelected={0}>
+            <div className="h-[calc(100%-70px)] py-2.5 overflow-auto custom-scrollbar flex flex-col ">
+                <div className="px-3 border-b border-secondary-dark py-2">
+                    <UpcomingAppointments userId={user?.id} />
+                </div>
+                <div className="px-3 border-b border-secondary-dark py-2">
+                    <PastAppointments userId={user?.id} />
+                </div>
+                <div className="px-3 border-b border-secondary-dark py-2">
+                    <CancelledAppointments userId={user?.id} />
+                </div>
+            </div>
+            {/* <Tabs tabs={tabs} defaultTabSelected={0}>
                 {({ header, element }: any) => {
                     return (
                         <div>
@@ -89,7 +64,7 @@ export const Appointments = ({ user }: { user: User }) => {
                         </div>
                     )
                 }}
-            </Tabs>
+            </Tabs> */}
         </Card>
     )
 }

@@ -35,7 +35,10 @@ export const CourseCard = ({
     }
 
     const statusClasses = classNames({
-        'bg-primary': result?.result === Result.Pending || !result,
+        'bg-primary':
+            result?.result === Result.Pending ||
+            result?.result === Result.NotSubmitted ||
+            !result,
         'bg-success': result?.result === Result.Competent,
         'bg-error-dark': result?.result === Result.NotCompetent,
     })

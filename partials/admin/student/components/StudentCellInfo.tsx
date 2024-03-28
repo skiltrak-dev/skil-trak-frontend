@@ -61,14 +61,14 @@ export const StudentCellInfo = ({
         //         }) // First router.push is using for the save the full url in session storage to access when go back from detail page to list page
         //         setLink('student', router)
         //         router.push(
-        //             /portals/admin/student/${student?.id}?tab=overview
+        //             /portals/admin/student/${student?.id}/detail
         //         ) // Secound Router.push is using for the navigating to detail page
         //     }}
         //     className="flex items-center gap-x-2 cursor-pointer"
         // >
         <Link
             legacyBehavior
-            href={`/portals/admin/student/${student?.id}?tab=overview`}
+            href={`/portals/admin/student/${student?.id}/detail`}
         >
             <a
                 onClick={() => {

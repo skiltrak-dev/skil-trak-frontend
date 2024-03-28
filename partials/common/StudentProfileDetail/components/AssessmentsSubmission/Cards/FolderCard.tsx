@@ -2,6 +2,7 @@ import { Typography } from '@components'
 import { AssessmentEvidenceDetailType, StudentResponseType } from '@types'
 import classNames from 'classnames'
 import { HiOutlineDocumentText } from 'react-icons/hi'
+import { PiHandshakeDuotone } from 'react-icons/pi'
 
 export const FolderCard = ({
     active,
@@ -82,6 +83,13 @@ export const FolderCard = ({
                     >
                         {folder?.name}
                     </Typography>
+                    {folder?.isAgreement && (
+                        <PiHandshakeDuotone
+                            className={`${
+                                active ? 'text-white' : 'text-[#374151]'
+                            }`}
+                        />
+                    )}
                     <Typography
                         variant={'small'}
                         color={active ? 'text-white' : 'text-[#374151]'}

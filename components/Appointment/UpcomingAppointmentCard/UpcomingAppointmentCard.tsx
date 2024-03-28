@@ -1,4 +1,10 @@
-import { ActionButton, Button, Portal, Typography } from '@components'
+import {
+    ActionButton,
+    AuthorizedUserComponent,
+    Button,
+    Portal,
+    Typography,
+} from '@components'
 import { Appointment, User, appointmentWithUser } from '@types'
 import { getUserCredentials, isLessThan24HoursDifference } from '@utils'
 import moment from 'moment'
@@ -13,6 +19,8 @@ import { TbCalendarTime } from 'react-icons/tb'
 import { RescheduleAppointmentModal } from './RescheduleAppointmentModal'
 import { UserRoles } from '@constants'
 import { useRouter } from 'next/router'
+import { ApproveAppointmentModal } from '../AppointmentModal'
+import { FaCircleCheck } from 'react-icons/fa6'
 
 type AppointmentCardProps = {
     totalMinutes?: string
@@ -84,6 +92,18 @@ export const UpcomingAppointmentCard = ({
             </Portal>
         )
     }
+
+    const onApproveModal = () => {
+        setModal(
+            <Portal>
+                <ApproveAppointmentModal
+                    onCancel={onCancelClicked}
+                    appointment={appointment}
+                    appointmentUser={appointmentUser}
+                />
+            </Portal>
+        )
+    }
     const urlRole =
         getUserCredentials()?.role === 'subadmin'
             ? 'sub-admin'
@@ -107,6 +127,23 @@ export const UpcomingAppointmentCard = ({
                                 }}
                             />
                         )}
+                    {!appointment?.isApproved ? (
+                        <AuthorizedUserComponent
+                            roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                        >
+                            <ActionButton
+                                Icon={FaCircleCheck}
+                                mini
+                                title={'Approve Appointment'}
+                                variant={'warning'}
+                                onClick={() => {
+                                    onApproveModal()
+                                }}
+                                loading={cancellAppointmentResult?.isLoading}
+                                disabled={cancellAppointmentResult?.isLoading}
+                            />
+                        </AuthorizedUserComponent>
+                    ) : null}
                     <ActionButton
                         Icon={TbCalendarTime}
                         mini
@@ -142,13 +179,24 @@ export const UpcomingAppointmentCard = ({
                     />
                 </div>
                 <div
-                    className="w-full bg-gradient-to-r from-[#3883F3] to-[#5D1BE0] rounded-2xl p-4"
+                    className={`w-full ${
+                        appointment?.isApproved
+                            ? 'bg-gradient-to-r from-[#3883F3] to-[#5D1BE0]'
+                            : 'bg-primary-dark'
+                    } rounded-2xl p-4`}
                     onClick={(e) => {
                         e?.stopPropagation()
                         onAppointmentClicked &&
                             onAppointmentClicked(appointment)
                     }}
                 >
+                    {!appointment?.isApproved ? (
+                        <Typography variant="label" color="text-white" semibold>
+                            Pending Approval
+                        </Typography>
+                    ) : (
+                        ''
+                    )}
                     <div className="flex justify-between gap-x-4">
                         <div className="">
                             <Typography
@@ -157,7 +205,7 @@ export const UpcomingAppointmentCard = ({
                             >
                                 {moment(appointment?.date).format(
                                     'dddd, Do MMMM, YYYY'
-                                )}
+                                )}{' '}
                             </Typography>
                             <div className="flex gap-x-2 items-center">
                                 <p className="text-xl font-bold text-white">
@@ -173,7 +221,7 @@ export const UpcomingAppointmentCard = ({
                                 </p>
                                 <Typography
                                     variant={'muted'}
-                                    color={'text-blue-300'}
+                                    color={'text-blue-100'}
                                 >
                                     ~{totalMinutes} Minutes
                                 </Typography>

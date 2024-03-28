@@ -57,10 +57,10 @@ const SubAdminAllNotifications: NextPageWithLayout = () => {
                                     {notifications?.data?.map(
                                         (notification: any, i: any) => (
                                             <div
-                                                key={notification.id}
+                                                key={notification?.id}
                                                 onClick={() =>
                                                     readNotifications(
-                                                        notification
+                                                        notification?.id
                                                     )
                                                 }
                                                 className={`${

@@ -17,14 +17,17 @@ import { RescheduleAppointmentModal } from '../UpcomingAppointmentCard/Reschedul
 import { Portal } from '@components/Portal'
 import { MouseEvent, ReactElement, useRef, useState } from 'react'
 import { TbCalendarTime } from 'react-icons/tb'
-import { Appointment } from '@types'
+import { Appointment, appointmentWithUser } from '@types'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 import { useNotification } from '@hooks'
 import { Badge } from '@components/Badge'
-import { isLessThan24HoursDifference } from '@utils'
+import { getUserCredentials, isLessThan24HoursDifference } from '@utils'
 import { GiNotebook } from 'react-icons/gi'
 import { TextArea } from '@components/inputs'
 import { AddAppointmentNote } from '../AddAppointmentNote'
+import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
+import { FaCircleCheck } from 'react-icons/fa6'
+import { ApproveAppointmentModal } from './ApproveAppointmentModal'
 
 export const AppointmentViewModal = ({
     id,
@@ -39,11 +42,20 @@ export const AppointmentViewModal = ({
     const appointment = CommonApi.Appointments.appointmentDetail(id, {
         skip: !id,
     })
-    console.log('appointment', appointment?.data)
     const [cancellAppointment, cancellAppointmentResult] =
         CommonApi.Appointments.cancellAppointment()
 
     const { notification } = useNotification()
+
+    const userId = getUserCredentials()?.id
+    const appointmentWith =
+        appointment?.data?.appointmentBy?.id === userId
+            ? 'appointmentFor'
+            : 'appointmentBy'
+
+    const appointmentUser: appointmentWithUser = appointment?.data
+        ? appointment?.data[appointmentWith]
+        : ({} as appointmentWithUser)
 
     const onCancelClicked = () => {
         setModal(null)
@@ -79,6 +91,21 @@ export const AppointmentViewModal = ({
                 }
             })
         }
+    }
+
+    const onApproveModal = () => {
+        setModal(
+            <Portal>
+                <ApproveAppointmentModal
+                    onCancel={() => {
+                        onCancelClicked()
+                        onCancel()
+                    }}
+                    appointment={appointment?.data}
+                    appointmentUser={appointmentUser}
+                />
+            </Portal>
+        )
     }
 
     return (
@@ -124,6 +151,37 @@ export const AppointmentViewModal = ({
                                                 />
                                             ) : (
                                                 <div className="flex items-center gap-x-2">
+                                                    {!appointment?.data
+                                                        ?.isApproved ? (
+                                                        <AuthorizedUserComponent
+                                                            roles={[
+                                                                UserRoles.ADMIN,
+                                                                UserRoles.SUBADMIN,
+                                                            ]}
+                                                        >
+                                                            <ActionButton
+                                                                Icon={
+                                                                    FaCircleCheck
+                                                                }
+                                                                mini
+                                                                title={
+                                                                    'Approve Appointment'
+                                                                }
+                                                                variant={
+                                                                    'warning'
+                                                                }
+                                                                onClick={() => {
+                                                                    onApproveModal()
+                                                                }}
+                                                                loading={
+                                                                    cancellAppointmentResult?.isLoading
+                                                                }
+                                                                disabled={
+                                                                    cancellAppointmentResult?.isLoading
+                                                                }
+                                                            />
+                                                        </AuthorizedUserComponent>
+                                                    ) : null}
                                                     <ActionButton
                                                         Icon={GiNotebook}
                                                         mini

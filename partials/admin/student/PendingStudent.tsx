@@ -71,9 +71,7 @@ export const PendingStudent = () => {
         {
             text: 'View',
             onClick: (student: any) => {
-                router.push(
-                    `/portals/admin/student/${student?.id}?tab=required-documents`
-                )
+                router.push(`/portals/admin/student/${student?.id}/detail`)
             },
             Icon: FaEye,
         },

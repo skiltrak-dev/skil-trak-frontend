@@ -5,6 +5,7 @@ import { AppointmentCard } from '../Card'
 import {
     EmptyData,
     LoadingAnimation,
+    NoData,
     TechnicalError,
     Typography,
 } from '@components'
@@ -15,14 +16,13 @@ export const PastAppointments = ({ userId }: { userId: number }) => {
         status: 'past',
     })
     return (
-        <div className="h-[350px] custom-scrollbar overflow-auto">
+        <div className="h-auto flex flex-col gap-2">
+            <Typography variant="label" semibold>
+                Past Appointments
+            </Typography>
             <div className="flex flex-col gap-y-3">
                 {pastAppointments.isError ? (
-                    <TechnicalError
-                        description={false}
-                        imageUrl={'/images/icons/common/appointmentsError.png'}
-                        height="40vh"
-                    />
+                    <NoData text="There is Some technical issue" />
                 ) : null}
                 {pastAppointments.isLoading ? (
                     <div className="flex flex-col items-center justify-center h-60">
@@ -44,14 +44,7 @@ export const PastAppointments = ({ userId }: { userId: number }) => {
                     )
                 ) : (
                     pastAppointments.isSuccess && (
-                        <EmptyData
-                            imageUrl={
-                                '/images/icons/placement-progress/appointment.png'
-                            }
-                            title="No Past Appointment Found"
-                            description="No Past Appointment Found"
-                            height="40vh"
-                        />
+                        <NoData text="There is no past appointments" />
                     )
                 )}
             </div>
