@@ -1,23 +1,23 @@
-import { ActionButton, LoadingAnimation, NoData, Typography } from '@components'
+import { ActionButton, LoadingAnimation, Typography } from '@components'
 import { SubAdminApi } from '@queries'
-import { useRouter } from 'next/router'
-import { Course } from '@types'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { AiFillEdit } from 'react-icons/ai'
 import { BsUnlockFill } from 'react-icons/bs'
-import { FaAddressCard, FaBirthdayCake, FaUserCircle } from 'react-icons/fa'
+import { FaAddressCard } from 'react-icons/fa'
 import { IoLocation } from 'react-icons/io5'
 import { MdAdminPanelSettings, MdPhone, MdVerified } from 'react-icons/md'
 
 // hooks
 import { useActionModal } from '@hooks'
-import moment from 'moment'
-import { Fragment } from 'react'
+import Link from 'next/link'
+import { PulseLoader } from 'react-spinners'
 
 export const ViewProfileCB = () => {
     const router = useRouter()
     const { data, isSuccess, isLoading, isFetching } =
         SubAdminApi.SubAdmin.useProfile()
+    const todoListCount = SubAdminApi.Todo.todoListCount()
 
     const { onUpdatePassword, passwordModal } = useActionModal()
 
@@ -35,6 +35,49 @@ export const ViewProfileCB = () => {
         return sectors
     }
     const sectorsWithCourses = getSectors(data?.courses)
+
+    const sectionsData = [
+        {
+            text: 'Up coming appointments',
+            count: todoListCount?.data?.upCommingAppointments,
+            link: '/portals/sub-admin/tasks/appointments',
+        },
+        {
+            text: 'Pending workplace requests (before appointments)',
+            count: todoListCount?.data?.workplace,
+            link: '/portals/sub-admin/tasks/workplace?tab=all&subTab=case-officer-not-assigned',
+        },
+        {
+            text: 'Agreements pending',
+            count: todoListCount?.data?.awaitingAgreementSignedCount,
+            link: '/portals/sub-admin/students?tab=agreement-pending',
+        },
+        // {
+        //     text: 'Schedule pending',
+        //     count: 2,
+        //     link: '',
+        // },
+        {
+            text: 'Pending students (same sector and RtO)',
+            count: todoListCount?.data?.pendingStudent,
+            link: '/portals/sub-admin/students?tab=pending',
+        },
+        {
+            text: 'Tickets pending  (unclosed)',
+            count: todoListCount?.data?.openTicket,
+            link: '/portals/sub-admin/tickets?tab=all-tickets',
+        },
+        {
+            text: 'Pending industry (assigned students added)',
+            count: todoListCount?.data?.pendingIndustries,
+            link: '/portals/sub-admin/users/industries?tab=pending',
+        },
+        {
+            text: 'Pending assessment',
+            count: todoListCount?.data?.pendingAssessment,
+            link: '/portals/sub-admin/tasks/assessment-evidence?tab=pending',
+        },
+    ]
     return (
         <>
             {isLoading || isFetching ? (
@@ -154,7 +197,7 @@ export const ViewProfileCB = () => {
                         </div>
                     </div>
                     {/* Eligible sectors */}
-                    <div className="mt-4">
+                    {/* <div className="mt-4">
                         <Typography variant={'small'} color={'text-gray-500'}>
                             Eligible Sectors
                         </Typography>
@@ -203,6 +246,32 @@ export const ViewProfileCB = () => {
                         ) : (
                             <NoData text={'No Sectors Assigned'} />
                         )}
+                    </div> */}
+
+                    <div>
+                        <Typography variant="label" semibold>
+                            To do List:
+                        </Typography>
+
+                        {/*  */}
+                        <div>
+                            {sectionsData.map((secData) => (
+                                <Link href={secData?.link}>
+                                    <div className="flex items-center justify-between border-b border-secondary-dark py-2">
+                                        <Typography variant="small">
+                                            {secData.text}
+                                        </Typography>
+                                        <Typography variant="small">
+                                            {todoListCount.isLoading ? (
+                                                <PulseLoader size={3} />
+                                            ) : (
+                                                secData.count
+                                            )}
+                                        </Typography>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
                     </div>
                 </div>
             )}

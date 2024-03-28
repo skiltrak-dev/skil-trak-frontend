@@ -32,6 +32,7 @@ const adminTagTypes = [
 ]
 
 const subadminTagTypes = [
+    'TODO',
     'Setting',
     'SubAdmin',
     'SetSchedule',
