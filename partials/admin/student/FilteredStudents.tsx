@@ -119,9 +119,7 @@ export const FilteredStudents = ({
         {
             text: 'View',
             onClick: (student: any) => {
-                router.push(
-                    `/portals/admin/student/${student?.id}?tab=overview`
-                )
+                router.push(`/portals/admin/student/${student?.id}/detail`)
             },
             Icon: FaEye,
         },

@@ -182,9 +182,7 @@ export const ApprovedStudent = () => {
             {
                 text: 'View',
                 onClick: (student: any) => {
-                    router.push(
-                        `/portals/admin/student/${student?.id}?tab=overview`
-                    )
+                    router.push(`/portals/admin/student/${student?.id}/detail`)
                     setLink('student', router)
                 },
                 Icon: FaEye,
@@ -350,7 +348,7 @@ export const ApprovedStudent = () => {
                     <ActionButton
                         onClick={() => {
                             router.push(
-                                `/portals/admin/student/${student?.id}?tab=overview`
+                                `/portals/admin/student/${student?.id}/detail`
                             )
                         }}
                     >

@@ -119,9 +119,7 @@ export const Students = ({ industry }: { industry: Industry }) => {
         {
             text: 'View',
             onClick: (student: any) => {
-                router.push(
-                    `/portals/admin/student/${student?.id}?tab=overview`
-                )
+                router.push(`/portals/admin/student/${student?.id}/detail`)
                 setLink('student', router)
             },
             Icon: FaEye,
@@ -261,7 +259,7 @@ export const Students = ({ industry }: { industry: Industry }) => {
                 <ActionButton
                     onClick={() => {
                         router.push(
-                            `/portals/admin/student/${student?.id}?tab=overview`
+                            `/portals/admin/student/${student?.id}/detail`
                         )
                     }}
                 >

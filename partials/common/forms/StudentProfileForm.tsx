@@ -18,7 +18,7 @@ import {
 // utils
 import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
-import { Course } from '@types'
+import { Course, StudentStatusEnum } from '@types'
 import {
     CourseSelectOption,
     ageOptions,
@@ -43,6 +43,7 @@ export const StudentProfileForm = ({
     courses: any
     student?: boolean
 }) => {
+    console.log({ profile })
     const { notification } = useNotification()
 
     const sectorResponse = AuthApi.useSectors({})
@@ -613,7 +614,10 @@ export const StudentProfileForm = ({
                                                         UserRoles.SUBADMIN,
                                                     ]?.includes(role) &&
                                                     profile?.data?.rto
-                                                        ?.allowUpdate
+                                                        ?.allowUpdate &&
+                                                    profile?.data
+                                                        ?.studentStatus ===
+                                                        StudentStatusEnum.COMPLETED
                                                 ) {
                                                     onUpdateDates()
                                                 }

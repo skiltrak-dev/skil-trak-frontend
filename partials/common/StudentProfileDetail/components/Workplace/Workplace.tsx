@@ -26,6 +26,7 @@ import {
     AddWorkplaceAction,
     WorkplaceStatusView,
     WorkplaceCoordinators,
+    ContactPersonDetail,
 } from './components'
 import { IndustryDetail } from './components/IndustryDetail'
 import { AddSecondWPCB } from '@partials/sub-admin/students/contextBar'
@@ -178,6 +179,9 @@ export const Workplace = ({
                             />
                             <div className="w-full">
                                 <div className="flex justify-end gap-x-1 divide-x-2 mb-1">
+                                    <ContactPersonDetail
+                                        appliedIndustry={appliedIndustry}
+                                    />
                                     <WorkplaceHistory />
                                     <div className="pl-1">
                                         <ViewAvailability
