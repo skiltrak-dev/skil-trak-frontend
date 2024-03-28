@@ -60,7 +60,7 @@ const SubAdminAllNotifications: NextPageWithLayout = () => {
                                                 key={notification.id}
                                                 onClick={() =>
                                                     readNotifications(
-                                                        notification
+                                                        notification?.id
                                                     )
                                                 }
                                                 className={`${

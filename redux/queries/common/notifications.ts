@@ -15,8 +15,8 @@ export const notificationsEndpoints = (
         }),
         providesTags: ['AllNotifications'],
     }),
-    isReadNotification: builder.mutation({
-        query: (id: any) => ({
+    isReadNotification: builder.mutation<any, number>({
+        query: (id) => ({
             url: `${PREFIX}/read/${id}`,
             method: 'PATCH',
         }),
