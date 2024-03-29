@@ -1,4 +1,5 @@
 // export * from './industry'
+export * from './ManagementLoginForm'
 export * from './LoginForm'
 export * from './student'
 export * from './rto'
