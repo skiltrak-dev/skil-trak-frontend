@@ -150,16 +150,31 @@ export const FilteredRto = ({
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
         {
-            status: [
-                UserStatus.Blocked,
-                UserStatus.Rejected,
-                UserStatus.Archived,
-            ],
-            text: 'Delete',
-            onClick: (rto: Rto) => onDeleteClicked(rto),
-            Icon: FaTrash,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            ...(role === UserRoles.ADMIN
+                ? {
+                      status: [
+                          UserStatus.Blocked,
+                          UserStatus.Rejected,
+                          UserStatus.Archived,
+                      ],
+                      text: 'Delete',
+                      onClick: (rto: Rto) => onDeleteClicked(rto),
+                      Icon: FaTrash,
+                      color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+                  }
+                : { status: [] }),
         },
+        // {
+        //     status: [
+        //         UserStatus.Blocked,
+        //         UserStatus.Rejected,
+        //         UserStatus.Archived,
+        //     ],
+        //     text: 'Delete',
+        //     onClick: (rto: Rto) => onDeleteClicked(rto),
+        //     Icon: FaTrash,
+        //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        // },
         {
             status: [UserStatus.Pending, UserStatus.Rejected],
             text: 'Accept',

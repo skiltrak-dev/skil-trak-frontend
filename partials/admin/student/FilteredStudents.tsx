@@ -18,7 +18,7 @@ import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 import { useActionModal } from '@hooks'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { Student, UserStatus } from '@types'
-import { studentsListWorkplace } from '@utils'
+import { getUserCredentials, studentsListWorkplace } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
@@ -36,6 +36,7 @@ import {
     RejectModal,
     UnblockModal,
 } from './modals'
+import { UserRoles } from '@constants'
 
 interface StatusTableActionOption extends TableActionOption {
     status: string[]
@@ -58,7 +59,7 @@ export const FilteredStudents = ({
 }) => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
-
+    const role = getUserCredentials()?.role
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
@@ -165,16 +166,31 @@ export const FilteredStudents = ({
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
         {
-            status: [
-                UserStatus.Blocked,
-                UserStatus.Rejected,
-                UserStatus.Archived,
-            ],
-            text: 'Delete',
-            onClick: (student: Student) => onDeleteClicked(student),
-            Icon: FaTrash,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            ...(role === UserRoles.ADMIN
+                ? {
+                      status: [
+                          UserStatus.Blocked,
+                          UserStatus.Rejected,
+                          UserStatus.Archived,
+                      ],
+                      text: 'Delete',
+                      onClick: (student: Student) => onDeleteClicked(student),
+                      Icon: FaTrash,
+                      color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+                  }
+                : { status: [] }),
         },
+        // {
+        //     status: [
+        //         UserStatus.Blocked,
+        //         UserStatus.Rejected,
+        //         UserStatus.Archived,
+        //     ],
+        //     text: 'Delete',
+        //     onClick: (student: Student) => onDeleteClicked(student),
+        //     Icon: FaTrash,
+        //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        // },
         {
             status: [UserStatus.Pending, UserStatus.Rejected],
             text: 'Accept',
