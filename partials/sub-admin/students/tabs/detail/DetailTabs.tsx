@@ -22,13 +22,20 @@ export const DetailTabs = ({
     const tabs: TabProps[] = [
         {
             label: 'Overview',
-            href: { pathname: String(id), query: { tab: 'overview' } },
+            href: {
+                pathname: `/portals/sub-admin/students/${String(
+                    id
+                )}/old-detail`,
+                query: { tab: 'overview' },
+            },
             element: <OverViewTab student={student} />,
         },
         {
             label: 'Submissions',
             href: {
-                pathname: String(id),
+                pathname: `/portals/sub-admin/students/${String(
+                    id
+                )}/old-detail`,
                 query: { tab: 'submissions' },
             },
             element: (
@@ -43,7 +50,9 @@ export const DetailTabs = ({
         {
             label: 'Industry Checks',
             href: {
-                pathname: String(id),
+                pathname: `/portals/sub-admin/students/${String(
+                    id
+                )}/old-detail`,
                 query: { tab: 'industry-checks' },
             },
             element: (
@@ -56,38 +65,70 @@ export const DetailTabs = ({
         },
         {
             label: 'Schedule',
-            href: { pathname: String(id), query: { tab: 'schedule' } },
+            href: {
+                pathname: `/portals/sub-admin/students/${String(
+                    id
+                )}/old-detail`,
+                query: { tab: 'schedule' },
+            },
             element: <Schedule studentId={student?.id} user={student?.user} />,
         },
         {
             label: 'Workplace',
-            href: { pathname: String(id), query: { tab: 'workplace' } },
+            href: {
+                pathname: `/portals/sub-admin/students/${String(
+                    id
+                )}/old-detail`,
+                query: { tab: 'workplace' },
+            },
             element: <WorkplaceTab studentId={student?.id} />,
         },
         {
             label: 'Student Ticket',
-            href: { pathname: String(id), query: { tab: 'studenttickets' } },
+            href: {
+                pathname: `/portals/sub-admin/students/${String(
+                    id
+                )}/old-detail`,
+                query: { tab: 'studenttickets' },
+            },
             element: <StudentTickets student={student} />,
         },
         {
             label: 'Appointments',
-            href: { pathname: String(id), query: { tab: 'appointments' } },
+            href: {
+                pathname: `/portals/sub-admin/students/${String(
+                    id
+                )}/old-detail`,
+                query: { tab: 'appointments' },
+            },
             element: <AppointmentTab userId={student?.user?.id} />,
         },
         {
             label: 'Mails',
-            href: { pathname: String(id), query: { tab: 'mails' } },
+            href: {
+                pathname: `/portals/sub-admin/students/${String(
+                    id
+                )}/old-detail`,
+                query: { tab: 'mails' },
+            },
             element: <MailsTab user={student?.user} />,
         },
         {
             label: 'Notes',
-            href: { pathname: String(id), query: { tab: 'notes' } },
+            href: {
+                pathname: `/portals/sub-admin/students/${String(
+                    id
+                )}/old-detail`,
+                query: { tab: 'notes' },
+            },
             element: <NotesTab user={student?.user} />,
         },
         {
             label: 'All Communications',
             href: {
-                pathname: String(id),
+                pathname: `/portals/sub-admin/students/${String(
+                    id
+                )}/old-detail`,
                 query: { tab: 'all-communications' },
             },
             element: <AllCommunicationTab user={student?.user} />,

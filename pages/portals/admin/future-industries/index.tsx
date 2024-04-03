@@ -19,7 +19,6 @@ import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
 import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
-import { FaIndustry } from 'react-icons/fa'
 import { MdAddBusiness } from 'react-icons/md'
 
 type Props = {}
@@ -33,8 +32,6 @@ const FutureIndustryListing: NextPageWithLayout = (props: Props) => {
         {} as FindWorkplaceFilter
     )
     const [industryData, setIndustryData] = useState<any>(null)
-
-   
 
     const router = useRouter()
 

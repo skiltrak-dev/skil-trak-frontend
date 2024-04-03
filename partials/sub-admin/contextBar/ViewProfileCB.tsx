@@ -12,12 +12,17 @@ import { MdAdminPanelSettings, MdPhone, MdVerified } from 'react-icons/md'
 import { useActionModal } from '@hooks'
 import Link from 'next/link'
 import { PulseLoader } from 'react-spinners'
+import { UserStatus } from '@types'
+import { getUserCredentials } from '@utils'
 
 export const ViewProfileCB = () => {
+    const status = getUserCredentials()?.status
     const router = useRouter()
     const { data, isSuccess, isLoading, isFetching } =
         SubAdminApi.SubAdmin.useProfile()
-    const todoListCount = SubAdminApi.Todo.todoListCount()
+    const todoListCount = SubAdminApi.Todo.todoListCount(undefined, {
+        skip: status !== UserStatus.Approved,
+    })
 
     const { onUpdatePassword, passwordModal } = useActionModal()
 

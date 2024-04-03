@@ -1,12 +1,11 @@
+import { NoData } from '@components'
 import { SiteLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
-import { ReactElement, useState } from 'react'
-import { adminApi } from '@queries'
-import { useRouter } from 'next/router'
-import { LoadingAnimation, NoData, TechnicalError } from '@components'
-import Image from 'next/image'
-import moment from 'moment'
 import { HeroSectionBlog } from '@partials/common/Blogs'
+import { NextPageWithLayout } from '@types'
+import moment from 'moment'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { ReactElement, useState } from 'react'
 // Accordion Shadcn
 import {
     Accordion,
@@ -18,7 +17,7 @@ import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 
 const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
     const router = useRouter()
-    const blogId = router.query.slug as string
+    const blogId = router.query?.slug as string
     const [activeKey, setActiveKey] = useState(null)
     // const { data, isLoading, isFetching, isError } =
     //     adminApi.useGetBlogDetailQuery(blogId, {

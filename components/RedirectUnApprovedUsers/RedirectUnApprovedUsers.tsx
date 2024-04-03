@@ -16,7 +16,7 @@ export const RedirectUnApprovedUsers = ({
 
     const router = useRouter()
 
-    const token = AuthUtils.getToken()
+    const token = AuthUtils.token()
     const status = getUserCredentials()?.status
 
     useEffect(() => {

@@ -169,7 +169,13 @@ export const StudentProfileDetail = () => {
                     <PageTitle title="Student Profile" />
                 </div>
                 {quickSearch ? (
-                    <div className="-mr-9 pl-7 shadow px-3 w-full bg-white rounded-[10px] py-2 flex items-center justify-between">
+                    <div
+                        className={`${
+                            role !== UserRoles.ADMIN
+                                ? '-mr-9'
+                                : 'flex-wrap gap-x-3'
+                        } pl-7 shadow px-3 w-full bg-white rounded-[10px] py-2 flex items-center justify-between`}
+                    >
                         <div
                             onClick={() => {
                                 setQuickSearch(false)
@@ -191,7 +197,7 @@ export const StudentProfileDetail = () => {
                                     }}
                                 >
                                     <Typography medium>
-                                        <span className="text-[11px]  block">
+                                        <span className="text-[11px] block">
                                             {key}
                                         </span>
                                     </Typography>
@@ -204,7 +210,9 @@ export const StudentProfileDetail = () => {
                         onClick={() => {
                             setQuickSearch(true)
                         }}
-                        className="-mr-9 flex items-center gap-x-4 bg-white rounded-l-[10px] py-2 px-5 shadow-md cursor-pointer"
+                        className={`${
+                            role !== UserRoles.ADMIN ? '-mr-9' : ''
+                        } flex items-center gap-x-4 bg-white rounded-l-[10px] py-2 px-5 shadow-md cursor-pointer`}
                     >
                         <IoIosArrowRoundBack />
                         <Typography variant="label" color="block">
@@ -220,7 +228,7 @@ export const StudentProfileDetail = () => {
             {profile.isLoading ? (
                 <LoadingAnimation />
             ) : profile?.data && profile?.isSuccess ? (
-                <div className="flex flex-col gap-y-5 mt-8">
+                <div className="flex flex-col gap-y-5 mt-8 px-2">
                     <div className="h-[500px] overflow-hidden grid grid-cols-5 gap-x-3">
                         <div
                             className={`col-span-3 h-full ${activeBorder(

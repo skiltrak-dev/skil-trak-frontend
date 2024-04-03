@@ -164,7 +164,11 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
                     />
 
                     <div className="mt-5">
-                        <TextArea name={'note'} />
+                        <TextArea
+                            name={'note'}
+                            label={'Add Note'}
+                            placeholder="Add Note here..."
+                        />
                     </div>
 
                     <Button

@@ -12,7 +12,7 @@ import { WorkplaceCurrentStatus } from '@utils'
 import { useNotification } from '@hooks'
 import { isClearedFunctionType } from '@partials/sub-admin/workplace/studentProvidedComponents/RequestTypeAbn'
 import { UserStatus } from '@types'
-import { CancelWorlplaceModal } from '../components'
+import { AddFeedbackModal, CancelWorlplaceModal } from '../components'
 
 export const useRequestType = ({
     appliedIndustry,
@@ -41,12 +41,21 @@ export const useRequestType = ({
     }
 
     const onPlacementStartedClicked = (id: number) => {
+        // setModal(
+        //     <PlacementStartedModal
+        //         id={id}
+        //         agreementSigned={appliedIndustry?.AgreementSigned}
+        //         student={workplace?.student}
+        //         onCancel={() => onModalCancelClicked()}
+        //     />
+        // )
         setModal(
-            <PlacementStartedModal
+            <AddFeedbackModal
+                onCancel={onModalCancelClicked}
                 id={id}
                 agreementSigned={appliedIndustry?.AgreementSigned}
                 student={workplace?.student}
-                onCancel={() => onModalCancelClicked()}
+                course={workplace?.courses?.[0]}
             />
         )
     }

@@ -46,7 +46,7 @@ const RtoStudentLists: NextPageWithLayout = () => {
     const onCancel = () => setModal(null)
 
     const onSubmit = async (values: any) => {
-        sendVerificationCode().then((res: any) => {
+        sendVerificationCode({}).then((res: any) => {
             if (res?.data) {
                 setModal(
                     <ImportStudentVerificationModal
@@ -54,7 +54,6 @@ const RtoStudentLists: NextPageWithLayout = () => {
                         onCancel={onCancel}
                         foundStudents={foundStudents}
                         existingEmails={existingEmails}
-                        result={RTOImportStudentsResult}
                         setImportedStudentsResult={setImportedStudentsResult}
                         onImportStudentsList={onRtoImportStudents}
                     />

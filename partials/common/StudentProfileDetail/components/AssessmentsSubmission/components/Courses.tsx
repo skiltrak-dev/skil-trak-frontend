@@ -22,8 +22,10 @@ import { SubmitFinalResult } from './SubmitFinalResult'
 
 export const Courses = ({
     student,
+    isEntered,
     onSetSelectedCourse,
 }: {
+    isEntered: boolean
     onSetSelectedCourse: (id: number | undefined) => void
     student: Student
 }) => {
@@ -43,7 +45,7 @@ export const Courses = ({
     const studentCourses = useStudentAssessmentCoursesQuery(
         Number(student?.id),
         {
-            skip: !student?.id,
+            skip: !student?.id || !isEntered,
             refetchOnMountOrArgChange: true,
         }
     )
@@ -53,7 +55,7 @@ export const Courses = ({
             studentId: Number(student?.id),
         },
         {
-            skip: !selectedCourse || !student?.id,
+            skip: !selectedCourse || !student?.id || !isEntered,
         }
     )
     const getAssessmentResponse = useGetAssessmentResponseQuery(
@@ -62,7 +64,7 @@ export const Courses = ({
             student: Number(student?.user?.id),
         },
         {
-            skip: !selectedFolder || !student,
+            skip: !selectedFolder || !student || !isEntered,
         }
     )
 
