@@ -61,6 +61,7 @@ const MatchingProfileDetail: NextPageWithLayout = () => {
     // }, [])
     const getFolders =
         data?.connectionRequests?.[0]?.talentPoolRequiredDocuments
+    
 
     useEffect(() => {
         if (data && isSuccess && data?.length > 0) {

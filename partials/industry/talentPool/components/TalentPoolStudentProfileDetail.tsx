@@ -39,17 +39,19 @@ export const TalentPoolStudentProfileDetail = ({
 
     const onSubmit = (data: any) => {
         const values = data?.requiredDocs?.map((n: any) => n?.label)
-
+        const selectedValues = values.map((name: string) => ({
+            name,
+        }))
+        const mergedValues = selectedValues?.concat(data?.otherDocs || [])
         sentConnectionReq({
             talentPoolProfile: profile?.id,
-            talentPoolRequiredDocuments: values.map((name: string) => ({
-                name,
-            })),
+            talentPoolRequiredDocuments: mergedValues,
         })
         if (sentConnectionReqResult.isSuccess) {
             onCancelClicked()
         }
     }
+
     const handleClick = () => {
         setModal(
             <GlobalModal>
@@ -61,6 +63,7 @@ export const TalentPoolStudentProfileDetail = ({
             </GlobalModal>
         )
     }
+    
     const onSentRequest = () => {
         setModal(
             <GlobalModal>
@@ -91,7 +94,6 @@ export const TalentPoolStudentProfileDetail = ({
         profile?.connectionRequests &&
         profile.connectionRequests?.length > 0 &&
         profile?.connectionRequests?.[0]?.status
-  
 
     return (
         <>
@@ -289,7 +291,7 @@ export const TalentPoolStudentProfileDetail = ({
                             {profile?.student?.rto?.user?.name}
                         </Typography>
                     </div>
-                    
+
                     {/* Expected Graduation Date */}
                     <div className="bg-[#286788]  rounded-md py-1.5 px-2.5">
                         <Typography variant="xs" color="text-white">

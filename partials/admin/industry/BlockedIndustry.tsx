@@ -120,8 +120,8 @@ export const BlockedIndustry = () => {
             ...(role === UserRoles.ADMIN
                 ? {
                       text: `Delete`,
-                      onClick: (student: any) => {
-                          onDeleteClicked(student)
+                      onClick: (industry: any) => {
+                          onDeleteClicked(industry)
                       },
                       Icon: FaTrash,
                       color: 'text-red-500 hover:bg-red-100 hover:border-red-200',

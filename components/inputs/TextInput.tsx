@@ -44,6 +44,7 @@ export type TextInputProps = InputProps & {
     color?: string
     defaultValue?: string
     showError?: boolean
+    shadow?: string
 }
 
 export const TextInput = ({
@@ -75,6 +76,7 @@ export const TextInput = ({
     defaultValue,
     onFocus,
     showError = true,
+    shadow,
 }: TextInputProps) => {
     const [passwordType, setPasswordType] = useState<string | null>(
         type || null
@@ -123,7 +125,7 @@ export const TextInput = ({
             <div className="w-full">
                 <div className="relative">
                     <input
-                        className={`${inputFieldClasses}`}
+                        className={`${inputFieldClasses} ${shadow}`}
                         {...(id ? { id } : {})}
                         {...formRef}
                         type={passwordType || type}

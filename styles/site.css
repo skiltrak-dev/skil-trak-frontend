@@ -591,3 +591,13 @@ img {
 .activePage {
     @apply bg-orange-400 text-white  px-3 py-1 rounded-md;
 }
+
+
+.management-portal-log{
+    background-image: url('/images/management-portal/management-portal-login-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+}
