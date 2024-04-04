@@ -10,11 +10,22 @@ import {
     Typography,
 } from '@components'
 
-export const PastAppointments = ({ userId }: { userId: number }) => {
-    const pastAppointments = CommonApi.Appointments.useBookedAppointments({
-        userId,
-        status: 'past',
-    })
+export const PastAppointments = ({
+    userId,
+    isEntered,
+}: {
+    userId: number
+    isEntered: boolean
+}) => {
+    const pastAppointments = CommonApi.Appointments.useBookedAppointments(
+        {
+            userId,
+            status: 'past',
+        },
+        {
+            skip: !isEntered,
+        }
+    )
     return (
         <div className="h-auto flex flex-col gap-2">
             <Typography variant="label" semibold>

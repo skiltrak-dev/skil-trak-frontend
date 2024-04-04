@@ -16,6 +16,9 @@ import { Card, Typography } from '@components'
 import { useNotification } from '@hooks'
 import { Course } from '@types'
 import { getUserCredentials } from '@utils'
+import { WorkplaceQuestionCard } from '../components'
+import { InputErrorMessage } from '@components/inputs/components'
+import { WorkplaceQuestionType } from 'redux/queryTypes'
 
 type PersonalInfoProps = {
     onSubmit: any
@@ -25,18 +28,54 @@ type PersonalInfoProps = {
 
 const placesLibrary = ['places'] as any
 
+export const workplaceQuestions = {
+    location:
+        'Are you familiar with the location and commute requirements for this workplace?',
+    researched:
+        "Have you researched the workplace's industry and any relevant regulations or standards?",
+    responsibilities:
+        'Do you understand the specific duties and responsibilities associated with this placement?',
+    scheduling:
+        'Are you aware of the work hours and scheduling expectations for this placement?',
+    placement:
+        'Have you considered how this placement aligns with your academic and career goals?',
+    instructions:
+        'Have you read and understood any additional instructions or requirements provided by the employer?',
+    interviews:
+        'Are you prepared to attend any interviews or orientation sessions required by the employer?',
+}
+
 export const PersonalInfoForm = ({
     onSubmit,
     courses,
     personalInfoData,
 }: PersonalInfoProps) => {
     const [selectedCourse, setSelectedCourse] = useState<any>(null)
+    const [questionsData, setQuestionsData] = useState<any>(
+        Object.entries(workplaceQuestions).map(([key, value]: any) => ({
+            question: value,
+            answer: '',
+            type: key,
+        }))
+    )
 
     const [work, setWork] = useState<string>('')
     const [qualification, setQualification] = useState<string>('')
     const [onLocationClicked, setOnLocationClicked] = useState<boolean>(true)
 
     const { notification } = useNotification()
+
+    console.log({ personalInfoData })
+
+    useEffect(() => {
+        if (
+            personalInfoData &&
+            personalInfoData?.questions &&
+            personalInfoData?.questions?.length > 0
+        ) {
+            setQuestionsData(personalInfoData?.questions)
+        }
+    }, [personalInfoData])
 
     const role = getUserCredentials()?.role
     useEffect(() => {
@@ -106,47 +145,71 @@ export const PersonalInfoForm = ({
                     return true
                 }
             ),
-        qualification: yup
+        location: yup.string().nullable(true).required('Must provide location'),
+        researched: yup
             .string()
             .nullable(true)
-            .required('Must provide currentQualification'),
-        currentQualification: yup.string().when('qualification', {
-            is: 'yes',
-            then: yup.string().required(),
-        }),
-        work: yup.string().nullable(true).required('Must provide currentWork'),
-        currentWork: yup.string().when('work', {
-            is: 'yes',
-            then: yup.string().required(),
-        }),
-        haveTransport: yup
+            .required('Must provide researched'),
+        responsibilities: yup
             .string()
             .nullable(true)
-            .required('Must provide Transport Option'),
-        haveDrivingLicense: yup
+            .required('Must provide responsibilities'),
+        scheduling: yup
             .string()
             .nullable(true)
-            .required('Must provide Driving License Option'),
-        // preferableLocation: yup
+            .required('Must provide scheduling'),
+        placement: yup
+            .string()
+            .nullable(true)
+            .required('Must provide placement'),
+        instructions: yup
+            .string()
+            .nullable(true)
+            .required('Must provide instructions'),
+        interviews: yup
+            .string()
+            .nullable(true)
+            .required('Must provide interviews'),
+        // qualification: yup
         //     .string()
-        //     .required('Must provide preferableLocation'),
+        //     .nullable(true)
+        //     .required('Must provide currentQualification'),
+        // currentQualification: yup.string().when('qualification', {
+        //     is: 'yes',
+        //     then: yup.string().required(),
+        // }),
+        // work: yup.string().nullable(true).required('Must provide currentWork'),
+        // currentWork: yup.string().when('work', {
+        //     is: 'yes',
+        //     then: yup.string().required(),
+        // }),
+        // haveTransport: yup
+        //     .string()
+        //     .nullable(true)
+        //     .required('Must provide Transport Option'),
+        // haveDrivingLicense: yup
+        //     .string()
+        //     .nullable(true)
+        //     .required('Must provide Driving License Option'),
+        preferableLocation: yup
+            .string()
+            .required('Must provide preferableLocation'),
     })
+
+    const questionsDefaultValues = () => {
+        let questions: any = {}
+        personalInfoData?.questions?.forEach((question: any) => {
+            questions[question?.type] = question?.answer
+        })
+        return questions
+    }
 
     const formMethods = useForm({
         mode: 'all',
         resolver: yupResolver(validationSchema),
         defaultValues: {
             ...personalInfoData,
-            haveDrivingLicense: personalInfoData?.haveDrivingLicense
-                ? 'yes'
-                : personalInfoData?.haveDrivingLicense === false
-                ? 'no'
-                : '',
-            haveTransport: personalInfoData?.haveTransport
-                ? 'yes'
-                : personalInfoData?.haveTransport === false
-                ? 'no'
-                : '',
+            ...questionsDefaultValues(),
         },
     })
 
@@ -208,10 +271,10 @@ export const PersonalInfoForm = ({
                                 disabled={courses.isLoading}
                             />
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2 mt-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1 mt-4">
                             {/*
                              */}
-                            <div>
+                            {/* <div>
                                 <RadioGroup
                                     gridColumns="2"
                                     layout="grid"
@@ -255,31 +318,100 @@ export const PersonalInfoForm = ({
                                         placeholder="Provide Detail"
                                     />
                                 )}
+                            </div> */}
+                            {questionsData?.map(
+                                (data: WorkplaceQuestionType, i: number) => (
+                                    <div>
+                                        <WorkplaceQuestionCard
+                                            title={data?.question}
+                                            index={i}
+                                            data={data}
+                                            onClick={(text) => {
+                                                formMethods.setValue(
+                                                    data?.type,
+                                                    text
+                                                )
+                                            }}
+                                        />
+                                        <InputErrorMessage name={data?.type} />
+                                    </div>
+                                )
+                            )}
+
+                            {/* <div>
+                                <RadioGroup
+                                    gridColumns="2"
+                                    layout="grid"
+                                    name="researched"
+                                    label={workplaceQuestions.researched}
+                                    options={[
+                                        { value: 'yes', label: 'Yes' },
+                                        { value: 'no', label: 'No' },
+                                    ]}
+                                />
                             </div>
+                            <div>
+                                <RadioGroup
+                                    gridColumns="2"
+                                    layout="grid"
+                                    name="responsibilities"
+                                    label={workplaceQuestions.responsibilities}
+                                    options={[
+                                        { value: 'yes', label: 'Yes' },
+                                        { value: 'no', label: 'No' },
+                                    ]}
+                                />
+                            </div>
+                            <div>
+                                <RadioGroup
+                                    gridColumns="2"
+                                    layout="grid"
+                                    name="scheduling"
+                                    label={workplaceQuestions.scheduling}
+                                    options={[
+                                        { value: 'yes', label: 'Yes' },
+                                        { value: 'no', label: 'No' },
+                                    ]}
+                                />
+                            </div>
+                            <div>
+                                <RadioGroup
+                                    gridColumns="2"
+                                    layout="grid"
+                                    name="placement"
+                                    label={workplaceQuestions.placement}
+                                    options={[
+                                        { value: 'yes', label: 'Yes' },
+                                        { value: 'no', label: 'No' },
+                                    ]}
+                                />
+                            </div>
+                            <div>
+                                <RadioGroup
+                                    gridColumns="2"
+                                    layout="grid"
+                                    name="instructions"
+                                    label={workplaceQuestions.instructions}
+                                    options={[
+                                        { value: 'yes', label: 'Yes' },
+                                        { value: 'no', label: 'No' },
+                                    ]}
+                                />
+                            </div>
+                            <div>
+                                <RadioGroup
+                                    gridColumns="2"
+                                    layout="grid"
+                                    name="interviews"
+                                    label={workplaceQuestions.interviews}
+                                    options={[
+                                        { value: 'yes', label: 'Yes' },
+                                        { value: 'no', label: 'No' },
+                                    ]}
+                                />
+                            </div> */}
                         </div>
-                        <div className="flex flex-col md:flex-row gap-y-3 mb-5">
-                            <RadioGroup
-                                gridColumns="2"
-                                layout="grid"
-                                name="haveTransport"
-                                label="Do you have your own transport?"
-                                options={[
-                                    { value: 'yes', label: 'Yes' },
-                                    { value: 'no', label: 'No' },
-                                ]}
-                            />
-                            <RadioGroup
-                                gridColumns="2"
-                                layout="grid"
-                                // value={'yes'}
-                                name="haveDrivingLicense"
-                                label="Do you have Australian driving license?"
-                                options={[
-                                    { value: 'yes', label: 'Yes' },
-                                    { value: 'no', label: 'No' },
-                                ]}
-                            />
-                        </div>
+
                         <div>
                             <TextInput
                                 name={'preferableLocation'}

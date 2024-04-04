@@ -1,23 +1,19 @@
 import { ReactElement, useEffect } from 'react'
 
-import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
-import { SubAdminApi } from '@queries'
 import { Animations } from '@animations'
 import {
-    AssessmentResultCard,
     Button,
     DisplayPrimaryActions,
-    HelpQuestionSet,
-    ImportantDocumentCard,
-    PendingSignatureCard,
-    PlacementProgressCard,
     RtoContextBarData,
     SidebarCalendar,
 } from '@components'
-import { useContextBar, useJoyRide } from '@hooks'
-import { AppointmentCard } from '@components/sections/subAdmin/components/Cards/AppointmentCard'
 import { FigureCard } from '@components/sections/subAdmin'
+import { AppointmentCard } from '@components/sections/subAdmin/components/Cards/AppointmentCard'
+import { useContextBar, useJoyRide } from '@hooks'
+import { SubAdminLayout } from '@layouts'
+import { SubAdminApi } from '@queries'
+import { NextPageWithLayout, UserStatus } from '@types'
+import { getUserCredentials } from '@utils'
 
 const PrimaryLinks = [
     {
@@ -82,7 +78,10 @@ const OtherQuestions = [
 ]
 
 const SubAdminUsers: NextPageWithLayout = () => {
-    const statistics = SubAdminApi.Count.statistics()
+    const status = getUserCredentials()?.status
+    const statistics = SubAdminApi.Count.statistics(undefined, {
+        skip: status !== UserStatus.Approved,
+    })
     const contextBar = useContextBar()
     useEffect(() => {
         contextBar.setContent(

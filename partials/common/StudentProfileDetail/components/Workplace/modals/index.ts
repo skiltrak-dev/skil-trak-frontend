@@ -1,2 +1,6 @@
+export * from './AddFeedbackModal'
+export * from './AddFeedbackModal'
+export * from './ViewQuestionsModal'
+export * from './AddIndustryFeedback'
 export * from './CancelWorlplaceModal'
 export * from './ViewContactPersonDetail'

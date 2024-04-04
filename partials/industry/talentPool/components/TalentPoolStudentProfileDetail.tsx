@@ -46,6 +46,9 @@ export const TalentPoolStudentProfileDetail = ({
         sentConnectionReq({
             talentPoolProfile: profile?.id,
             talentPoolRequiredDocuments: mergedValues,
+            // talentPoolRequiredDocuments: values?.map((name: string) => ({
+            //     name,
+            // })),
         })
         if (sentConnectionReqResult.isSuccess) {
             onCancelClicked()
@@ -63,7 +66,7 @@ export const TalentPoolStudentProfileDetail = ({
             </GlobalModal>
         )
     }
-    
+
     const onSentRequest = () => {
         setModal(
             <GlobalModal>

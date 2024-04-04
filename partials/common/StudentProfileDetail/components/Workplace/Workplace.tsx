@@ -7,6 +7,7 @@ import {
     AuthorizedUserComponent,
     ActionButton,
     ShowErrorNotifications,
+    Button,
 } from '@components'
 import { UserRoles } from '@constants'
 import { GetFolders } from '@partials/sub-admin/workplace/hooks'
@@ -16,7 +17,7 @@ import {
     useCancelWorkplaceStatusMutation,
 } from '@queries'
 import moment from 'moment'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import {
     WorkplaceTab,
     AgreementView,
@@ -32,6 +33,8 @@ import { IndustryDetail } from './components/IndustryDetail'
 import { AddSecondWPCB } from '@partials/sub-admin/students/contextBar'
 import { useContextBar } from '@hooks'
 import { WorkplaceCurrentStatus } from '@utils'
+import { ViewQuestionsModal } from './modals'
+import { WorkplaceQuestionType } from 'redux/queryTypes'
 
 const WPStatusForCancelButon = [
     WorkplaceCurrentStatus.Applied,
@@ -51,6 +54,7 @@ export const Workplace = ({
     studentUserId: number
     studentId: number
 }) => {
+    const [modal, setModal] = useState<ReactNode | null>(null)
     const [selectedWorkplace, setSelectedWorkplace] = useState<any>(null)
 
     const contextBar = useContextBar()
@@ -97,43 +101,74 @@ export const Workplace = ({
         }
     }, [studentWorkplace])
 
+    const onCancelModal = () => setModal(null)
+
+    const onViewWorkplaceQuestions = (questions: WorkplaceQuestionType[]) => {
+        setModal(
+            <ViewQuestionsModal
+                questions={questions}
+                onCancel={() => {
+                    onCancelModal()
+                }}
+            />
+        )
+    }
+
     return (
         <>
+            {modal}
             <ShowErrorNotifications result={cancelWorkplaceResult} />
             <Card noPadding fullHeight>
                 <div className="px-4 py-3.5 flex justify-between items-center border-b border-secondary-dark">
                     <Typography variant="label" semibold>
-                        Workplace -{' '}
+                        Workplace
                         <span className="text-xs text-gray-500 font-normal">
-                            {selectedWorkplace?.studentProvidedWorkplace ||
-                            selectedWorkplace?.byExistingAbn
-                                ? 'Provided Workplace'
-                                : 'Requested Workplace'}
+                            {selectedWorkplace
+                                ? selectedWorkplace?.studentProvidedWorkplace ||
+                                  selectedWorkplace?.byExistingAbn
+                                    ? '- Student Provided Workplace'
+                                    : '- Requested Workplace'
+                                : null}
                         </span>
                     </Typography>
-                    {studentWorkplace?.data &&
-                    studentWorkplace?.data?.length === 1 ? (
-                        <div className="whitespace-pre">
+                    <div className="flex items-center gap-x-2">
+                        {selectedWorkplace && (
                             <ActionButton
                                 variant={'link'}
                                 onClick={() => {
-                                    contextBar.setContent(
-                                        <AddSecondWPCB
-                                            studentId={studentId}
-                                            studentUserId={studentUserId}
-                                        />
+                                    onViewWorkplaceQuestions(
+                                        selectedWorkplace?.questions
                                     )
-                                    contextBar.show(false)
                                 }}
                             >
-                                Add Second
+                                View Answers
                             </ActionButton>
-                        </div>
-                    ) : studentWorkplace?.data?.length === 0 ? (
-                        <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
-                            <AddWorkplaceAction id={studentId} />
-                        </AuthorizedUserComponent>
-                    ) : null}
+                        )}
+                        {studentWorkplace?.data &&
+                        studentWorkplace?.data?.length === 1 ? (
+                            <div className="whitespace-pre">
+                                <Button
+                                    onClick={() => {
+                                        contextBar.setContent(
+                                            <AddSecondWPCB
+                                                studentId={studentId}
+                                                studentUserId={studentUserId}
+                                            />
+                                        )
+                                        contextBar.show(false)
+                                    }}
+                                >
+                                    Add Another Workplace
+                                </Button>
+                            </div>
+                        ) : studentWorkplace?.data?.length === 0 ? (
+                            <AuthorizedUserComponent
+                                roles={[UserRoles.SUBADMIN]}
+                            >
+                                <AddWorkplaceAction id={studentId} />
+                            </AuthorizedUserComponent>
+                        ) : null}
+                    </div>
                 </div>
 
                 {studentWorkplace?.data &&
@@ -178,12 +213,12 @@ export const Workplace = ({
                                 appliedIndustry={appliedIndustry}
                             />
                             <div className="w-full">
-                                <div className="flex justify-end gap-x-1 divide-x-2 mb-1">
+                                <div className="flex justify-end divide-x-2 mb-1">
                                     <ContactPersonDetail
                                         appliedIndustry={appliedIndustry}
                                     />
                                     <WorkplaceHistory />
-                                    <div className="pl-1">
+                                    <div className="">
                                         <ViewAvailability
                                             availability={
                                                 selectedWorkplace?.generalAvailability

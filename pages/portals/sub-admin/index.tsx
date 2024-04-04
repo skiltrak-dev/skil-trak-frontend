@@ -17,12 +17,12 @@ import { FaSchool } from 'react-icons/fa'
 // animations
 import { Animations } from '@animations'
 // hooks
-import { ContextBarProvider, useContextBar } from '@hooks'
+import { useContextBar } from '@hooks'
 import { ViewProfileCB } from '@partials/sub-admin/contextBar'
 
 import { FigureCard } from '@components/sections/subAdmin/components/Cards/FigureCard'
 
-import { AuthUtils } from '@utils'
+import { AuthUtils, getUserCredentials } from '@utils'
 
 import { ImportantDocuments } from '@partials/common'
 import { SubAdminApi, useGetSubAdminIndustriesQuery } from '@queries'
@@ -63,11 +63,16 @@ const SubAdminDashboard: NextPageWithLayout = () => {
     //     limit: 50,
     // })
 
+    const status = getUserCredentials()?.status
+
     const contextBar = useContextBar()
     const [credentials, setCredentials] = useState<any>(null)
     const [modal, setModal] = useState<any | null>(null)
     const { data, isSuccess, isLoading } = SubAdminApi.SubAdmin.useProfile()
-    const statistics = SubAdminApi.Count.statistics()
+    const statistics = SubAdminApi.Count.statistics(undefined, {
+        skip: status !== UserStatus.Approved,
+    })
+    console.log({ statistics })
     const sectorsWithCourses = getSectors(data?.courses)
 
     const { viewedPendingIndustriesModal, setViewedPendingIndustriesModal } =

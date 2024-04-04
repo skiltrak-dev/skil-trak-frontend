@@ -12,11 +12,16 @@ import { useContextBar } from '@hooks'
 import { SubAdminLayout } from '@layouts'
 import { ActiveIndustries, AddIndustry } from '@partials/common'
 import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
+import {
+    ImportIndustriesList,
+    ImportIndustriesListWithOTP,
+} from '@partials/common/FindWorkplaces/contextBar'
 import { commonApi } from '@queries'
 import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
 import { checkFilteredDataLength } from '@utils'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { FaIndustry } from 'react-icons/fa'
+import { MdAddBusiness } from 'react-icons/md'
 type Props = {}
 const filterKeys = ['businessName', 'address', 'sector', 'email', 'phone']
 const IndustryListing: NextPageWithLayout = (props: Props) => {
@@ -75,6 +80,12 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
         contextBar.show(false)
         contextBar.setTitle('Add Future Industry')
     }
+
+    const onUploadIndustries = () => {
+        contextBar.setContent(<ImportIndustriesListWithOTP />)
+        contextBar.show(false)
+        contextBar.setTitle('Upload Industries')
+    }
     return (
         <div>
             <SetDetaultQueryFilteres<FindWorkplaceFilter>
@@ -83,6 +94,14 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
             />
             <div className="flex justify-end gap-x-2 mt-4 mr-6">
                 {filterAction}{' '}
+                <Button
+                    text={'Upload Industries'}
+                    variant="dark"
+                    Icon={MdAddBusiness}
+                    onClick={() => {
+                        onUploadIndustries()
+                    }}
+                />
                 <Button
                     text={'Add Industry'}
                     variant="dark"

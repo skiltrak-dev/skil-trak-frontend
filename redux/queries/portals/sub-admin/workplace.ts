@@ -116,6 +116,7 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['SubAdminWorkplace'],
     }),
+
     terminatePlacement: builder.mutation({
         query: (id) => ({
             url: `${PREFIX}terminate-workplace-request/${id}`,

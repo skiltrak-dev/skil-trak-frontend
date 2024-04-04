@@ -9,21 +9,19 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
 import { RtoApi } from '@queries'
 import { trimText } from '@utils'
-import React from 'react'
+import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { MdCancel } from 'react-icons/md'
 import * as Yup from 'yup'
 
 export const ImportStudentVerificationModal = ({
     values,
-    result,
     onCancel,
     foundStudents,
     existingEmails,
     onImportStudentsList,
     setImportedStudentsResult,
 }: {
-    result: any
     values: any
     foundStudents: any
     existingEmails: any
@@ -32,6 +30,7 @@ export const ImportStudentVerificationModal = ({
     setImportedStudentsResult: any
 }) => {
     const [compareCode, compareCodeResult] = RtoApi.Students.useCompareCode()
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const { notification } = useNotification()
 
@@ -45,6 +44,7 @@ export const ImportStudentVerificationModal = ({
     })
 
     const onImportStudents = () => {
+        setIsLoading(true)
         let list = foundStudents.filter((fs: any) => !!fs.email)
 
         if (existingEmails.length) {
@@ -56,6 +56,7 @@ export const ImportStudentVerificationModal = ({
         }
 
         if (list.length === 0) {
+            setIsLoading(false)
             notification.error({
                 title: 'No Student Found',
                 description: 'List is invalid or empty',
@@ -67,12 +68,17 @@ export const ImportStudentVerificationModal = ({
                     ...o,
                     email: trimText(o?.email),
                 })),
-            }).then((res: any) => {
-                if (res?.data) {
-                    setImportedStudentsResult(res?.data)
-                    onCancel()
-                }
             })
+                .then((res: any) => {
+                    setIsLoading(false)
+                    if (res?.data) {
+                        setImportedStudentsResult(res?.data)
+                        onCancel()
+                    }
+                })
+                .catch(() => {
+                    setIsLoading(false)
+                })
         }
     }
 
@@ -121,12 +127,10 @@ export const ImportStudentVerificationModal = ({
                                 fullWidth
                                 text={'Submit'}
                                 loading={
-                                    compareCodeResult.isLoading ||
-                                    result?.isLoading
+                                    compareCodeResult.isLoading || isLoading
                                 }
                                 disabled={
-                                    compareCodeResult.isLoading ||
-                                    result?.isLoading
+                                    compareCodeResult.isLoading || isLoading
                                 }
                             />
                         </form>
