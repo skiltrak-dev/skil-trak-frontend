@@ -69,7 +69,7 @@ const RtoStudentLists: NextPageWithLayout = () => {
 
         // await importStudents({ id: Number(router.query.id), body: formData })
 
-        sendVerificationCode().then((res: any) => {
+        sendVerificationCode({}).then((res: any) => {
             if (res?.data) {
                 setModal(
                     <ImportStudentVerificationModal
@@ -78,7 +78,6 @@ const RtoStudentLists: NextPageWithLayout = () => {
                         foundStudents={foundStudents}
                         existingEmails={existingEmails}
                         setImportedStudentsResult={setImportedStudentsResult}
-                        result={importStudentsResult}
                         onImportStudentsList={onSubadminImportStudents}
                     />
                 )

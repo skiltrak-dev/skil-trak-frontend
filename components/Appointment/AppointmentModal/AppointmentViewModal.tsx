@@ -151,6 +151,15 @@ export const AppointmentViewModal = ({
                                                 />
                                             ) : (
                                                 <div className="flex items-center gap-x-2">
+                                                    <Typography
+                                                        variant={'small'}
+                                                        color={'text-gray-400'}
+                                                    >
+                                                        {!appointment?.data
+                                                            ?.isApproved
+                                                            ? '(Pending Appointment)'
+                                                            : ''}
+                                                    </Typography>
                                                     {!appointment?.data
                                                         ?.isApproved ? (
                                                         <AuthorizedUserComponent
@@ -182,15 +191,22 @@ export const AppointmentViewModal = ({
                                                             />
                                                         </AuthorizedUserComponent>
                                                     ) : null}
-                                                    <ActionButton
-                                                        Icon={GiNotebook}
-                                                        mini
-                                                        title={'Add Note'}
-                                                        variant={'success'}
-                                                        onClick={() => {
-                                                            onAddNote()
-                                                        }}
-                                                    />
+                                                    <AuthorizedUserComponent
+                                                        roles={[
+                                                            UserRoles.ADMIN,
+                                                            UserRoles.SUBADMIN,
+                                                        ]}
+                                                    >
+                                                        <ActionButton
+                                                            Icon={GiNotebook}
+                                                            mini
+                                                            title={'Add Note'}
+                                                            variant={'success'}
+                                                            onClick={() => {
+                                                                onAddNote()
+                                                            }}
+                                                        />
+                                                    </AuthorizedUserComponent>
                                                     <ActionButton
                                                         Icon={TbCalendarTime}
                                                         mini
@@ -209,7 +225,6 @@ export const AppointmentViewModal = ({
                                                         }
                                                     />
                                                     {/* <GiNotebook /> */}
-
                                                     <ActionButton
                                                         Icon={FaTimes}
                                                         mini

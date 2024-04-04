@@ -16,6 +16,7 @@ import { eSignEndpoints } from './eSign'
 import { ticketEndpoints } from './ticket.query'
 import { agreementsEndpoints } from './agreement'
 import { findWorkplaceEndpoints } from './findWorkplaces'
+import { studentFeedbackEndpoints } from './studentFeedback'
 import { emptySplitApi } from '@queries/portals/empty.query'
 import { workBasedProgramEndpoints } from './workBasedProgram'
 import { traineeshipProgramEndpoints } from './traineeshipProgram'
@@ -260,6 +261,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
         ...notificationsEndpoints(build),
         ...findWorkplaceEndpoints(build),
         ...impersonationEndpoints(build),
+        ...studentFeedbackEndpoints(build),
         ...workBasedProgramEndpoints(build),
         ...allCommunicationEndpoints(build),
         ...changeProfileImageEndpoints(build),
@@ -486,6 +488,10 @@ const {
     useGetWorkBasedProgramCountQuery,
     useContactWorkBasedProgramMutation,
     useGetWorkBasedProgramAndTraineeshipCountQuery,
+
+    // ---- FEEDBACK ---- //
+    useStudentFeedbackMutation,
+    useGetStudentCoordinatorFeedbackQuery,
 } = commonApi
 
 export const CommonApi = {
@@ -718,5 +724,9 @@ export const CommonApi = {
         useContactWorkBase: useContactWorkBasedProgramMutation,
         useWorkBaseAndTraineeCount:
             useGetWorkBasedProgramAndTraineeshipCountQuery,
+    },
+    Feedback: {
+        useStudentFeedback: useStudentFeedbackMutation,
+        useStudentFeedbackList: useGetStudentCoordinatorFeedbackQuery,
     },
 }

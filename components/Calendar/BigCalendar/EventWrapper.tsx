@@ -17,24 +17,32 @@ export const EventWrapper = <T extends object>(event: any) => {
 
     const rto = roles.includes(UserRoles.RTO)
 
+    console.log({ event: event?.event })
+
     const classes = classNames({
         'absolute max-h-full min-h-[20px] hover:min-h-[80px] border-l-2 px-1 py-1 overflow-hidden transition-all cursor-pointer':
             true,
         'bg-success': rto,
+        'bg-primary': !event.event?.appointment?.isApproved,
         'bg-indigo-200/50 border-indigo-400':
             event.event.priority === 'high' &&
             !event.event?.appointment?.isCancelled &&
-            !rto,
+            !rto &&
+            event.event?.appointment?.isApproved,
         'bg-blue-200/50 border-blue-400':
             event.event.priority === 'medium' &&
             !event.event?.appointment?.isCancelled &&
-            !rto,
+            !rto &&
+            event.event?.appointment?.isApproved,
         'bg-green-200/50 border-green-600':
             event.event.priority === 'low' &&
             !event.event?.appointment?.isCancelled &&
-            !rto,
+            !rto &&
+            event.event?.appointment?.isApproved,
         'bg-red-600 border-green-600':
-            event.event?.appointment?.isCancelled && !rto,
+            event.event?.appointment?.isCancelled &&
+            !rto &&
+            event.event?.appointment?.isApproved,
     })
 
     const labelClasses = classNames({
@@ -132,7 +140,6 @@ export const EventWrapper = <T extends object>(event: any) => {
                     onClicked(event.event?.appointment)
                 }}
             >
-                
                 <p className={labelClasses}>{event.label}</p>
                 <p className={textClasses}>{event.event.title}</p>
                 <p className={subtitleClasses}>

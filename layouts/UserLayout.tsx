@@ -1,5 +1,8 @@
 import { DetailNavbar, ProtectedRoute } from '@components'
 import { ContextBar } from '@components/sideBars'
+import { useAlert } from '@hooks'
+import { UserStatus } from '@types'
+import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useRef } from 'react'
 
@@ -9,6 +12,10 @@ interface UserLayoutProps {
 export const UserLayout = ({ children }: UserLayoutProps) => {
     const router = useRouter()
     const childrenRef = useRef<any>(null)
+
+    const userData = getUserCredentials()
+
+    const { alert, setAlerts } = useAlert()
 
     useEffect(() => {
         const handleRouteChange = () => {
@@ -29,6 +36,40 @@ export const UserLayout = ({ children }: UserLayoutProps) => {
             router.events.off('routeChangeComplete', handleRouteChange)
         }
     }, [router])
+
+    useEffect(() => {
+        if (userData?.status === UserStatus.Pending) {
+            alert.warning({
+                title: `${userData?.name} is Pending`,
+                description: 'Please wait for admin approval',
+                autoDismiss: false,
+            })
+        }
+        if (userData?.status === UserStatus.Archived) {
+            alert.warning({
+                title: `${userData?.name} is Archived`,
+                description: 'Account is archived',
+                autoDismiss: false,
+            })
+        }
+        if (userData?.status === UserStatus.Blocked) {
+            alert.error({
+                title: `${userData?.name} is Blocked`,
+                description: 'Your Account is Blocked!',
+                autoDismiss: false,
+            })
+        }
+        if (userData?.status === UserStatus.Rejected) {
+            alert.error({
+                title: `${userData?.name} is Rejected`,
+                description: 'Account is Rejected!',
+                autoDismiss: false,
+            })
+        }
+        return () => {
+            setAlerts([])
+        }
+    }, [])
     return (
         <ProtectedRoute>
             <div>

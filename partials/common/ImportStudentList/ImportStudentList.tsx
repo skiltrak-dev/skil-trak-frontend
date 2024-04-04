@@ -93,7 +93,7 @@ export const ImportStudentList = ({
                         ></PageHeading>
                     </div>
                 </div>
-                {result.data || result.isSuccess ? (
+                {!result.data || !result.isSuccess ? (
                     <div className="flex flex-col gap-2">
                         <div className="w-full flex items-stretch gap-2">
                             <Card>

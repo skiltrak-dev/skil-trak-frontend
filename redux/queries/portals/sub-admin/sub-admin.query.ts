@@ -346,6 +346,7 @@ export const SubAdminApi = {
     },
     Workplace: {
         count: useWorkplaceCountQuery,
+
         useViewMoreIndustries: useViewMoreIndustriesQuery,
         assignCourse: useAssignSubadminWorkplaceCourseMutation,
         AgreementSign: useAgrementSignMutation,

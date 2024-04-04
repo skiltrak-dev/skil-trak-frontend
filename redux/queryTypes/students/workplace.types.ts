@@ -1,6 +1,17 @@
+import { WorkplaceAnswerEnum } from '@partials/common'
 import { IndustrySubAdmin } from '@partials/sub-admin/Industries'
 import { Course, Student, SubAdmin, UserStatus } from '@types'
 import { WorkplaceCurrentStatus } from '@utils'
+
+export interface WorkplaceQuestionType {
+    id: number
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    question: string
+    type: string
+    answer: WorkplaceAnswerEnum
+}
 
 export interface AdminWorkplaceCount {
     studentProvided: number
@@ -69,4 +80,5 @@ export interface IWorkplaceIndustries {
     industries?: WorkplaceWorkIndustriesType[]
     courses?: Course[]
     student?: Student
+    questions?: WorkplaceQuestionType[]
 }

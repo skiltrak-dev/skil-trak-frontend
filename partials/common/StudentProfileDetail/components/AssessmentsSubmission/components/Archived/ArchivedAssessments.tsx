@@ -18,10 +18,12 @@ import { FinalResult } from '../FinalResult'
 
 export const ArchivedAssessments = ({
     student,
+    isEntered,
     onSetSelectedCourse,
 }: {
-    onSetSelectedCourse: (id: number | undefined) => void
     student: Student
+    isEntered: boolean
+    onSetSelectedCourse: (id: number | undefined) => void
 }) => {
     const [selectedSector, setSelectedSector] = useState<number | null>(null)
     const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
@@ -37,7 +39,7 @@ export const ArchivedAssessments = ({
     const studentCourses = useStudentAssessmentCoursesQuery(
         Number(student?.id),
         {
-            skip: !student?.id,
+            skip: !student?.id || !isEntered,
             refetchOnMountOrArgChange: true,
         }
     )
@@ -47,7 +49,7 @@ export const ArchivedAssessments = ({
             studentId: Number(student?.id),
         },
         {
-            skip: !selectedCourse || !student?.id,
+            skip: !selectedCourse || !student?.id || !isEntered,
         }
     )
     const getAssessmentResponse = useGetAssessmentResponseQuery(
@@ -56,7 +58,7 @@ export const ArchivedAssessments = ({
             student: Number(student?.user?.id),
         },
         {
-            skip: !selectedFolder || !student,
+            skip: !selectedFolder || !student || !isEntered,
         }
     )
 

@@ -31,6 +31,7 @@ export const ImportStudentForm = ({
 }: FormProps) => {
     const { notification } = useNotification()
     const [mount, setMount] = useState(false)
+    const [studentsCount, setStudentsCount] = useState<number>(0)
 
     const router = useRouter()
 
@@ -80,7 +81,18 @@ export const ImportStudentForm = ({
 
             if (sheets.length) {
                 const rows = utils.sheet_to_json(wb.Sheets[sheets[0]])
-                onStudentFound && onStudentFound(rows, fileData)
+                console.log({ sheets, rows })
+                setStudentsCount(rows?.length)
+                if (rows?.length <= 50) {
+                    onStudentFound && onStudentFound(rows, fileData)
+                } else {
+                    notification.error({
+                        title: 'Student Length!',
+                        description:
+                            'Student Length must be less then or equal to 50!',
+                        dissmissTimer: 5000,
+                    })
+                }
             }
         } catch (err) {
             notification.error({
@@ -153,7 +165,7 @@ export const ImportStudentForm = ({
                         text="Import"
                         submit
                         loading={result.isLoading}
-                        disabled={result.isLoading}
+                        disabled={result.isLoading || studentsCount > 50}
                     />
                     {/* {checkEmailResult?.data?.length > 0 ? (
                         <Button text="Import" submit disabled />
