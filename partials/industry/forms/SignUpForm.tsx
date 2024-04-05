@@ -28,7 +28,8 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const { notification } = useNotification()
 
     const sectorResponse = AuthApi.useSectors({})
-
+    const [onStateSelect, setOnStateSelect] = useState()
+    console.log('onStateSelect', onStateSelect)
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
     const [checkAbnExist, checkAbnExistResult] = AuthApi.useAbn()
 
@@ -151,8 +152,9 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         courses: yup.array().min(1, 'Must select at least 1 course').required(),
         // country and state
         country: yup.number().required('Must provide country'),
-        region: yup.number().required('Must provide state'),
-
+        // region: yup.number().required('Must provide state'),
+        // region: yup.array().min(1, 'Must provide state').nullable(),
+        region: yup.object().required('Must provide state').nullable(),
         // Contact Person Information
         contactPerson: yup
             .string()
@@ -508,9 +510,13 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                     label: state.name,
                                     value: state.id,
                                 }))}
+                                onChange={(e: any) => {
+                                    console.log('e', e)
+                                    setOnStateSelect(e.label)
+                                }}
                                 loading={statesLoading}
                                 disabled={!countryId}
-                                onlyValue
+                                // onlyValue
                                 validationIcons
                             />
                         </div>
@@ -546,6 +552,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 name={'state'}
                                 placeholder={'State...'}
                                 validationIcons
+                                value={onStateSelect || ''}
                             />
 
                             <TextInput

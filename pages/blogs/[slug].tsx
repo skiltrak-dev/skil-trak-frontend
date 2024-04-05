@@ -1,21 +1,36 @@
-import { NoData } from '@components'
 import { SiteLayout } from '@layouts'
-import { HeroSectionBlog } from '@partials/common/Blogs'
 import { NextPageWithLayout } from '@types'
-import moment from 'moment'
-import Image from 'next/image'
-import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
-// Accordion Shadcn
+import { adminApi } from '@queries'
+import { useRouter } from 'next/router'
 import {
+    LoadingAnimation,
+    NoData,
+    TechnicalError,
     Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from '@radix-ui/react-accordion'
+} from '@components'
+import Image from 'next/image'
+import moment from 'moment'
+import { HeroSectionBlog } from '@partials/common/Blogs'
+// Accordion Shadcn
+// import {
+//     Accordion,
+//     AccordionContent,
+//     AccordionItem,
+//     AccordionTrigger,
+// } from '@radix-ui/react-accordion'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 
 const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
+    const [activeAccordion, setActiveAccordion] = useState<number | null>(null)
+
+    const handleToggle = (index: number) => {
+        if (activeAccordion === index) {
+            setActiveAccordion(null) // Close the accordion if it's already open
+        } else {
+            setActiveAccordion(index)
+        }
+    }
     const router = useRouter()
     const blogId = router.query?.slug as string
     const [activeKey, setActiveKey] = useState(null)
@@ -64,51 +79,67 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                                 <h2 className="font-semibold text-xl md:text-3xl md:leading-10 uppercase my-2 md:my-4">
                                     FAQ's
                                 </h2>
-                                <Accordion
-                                    type="single"
-                                    collapsible
-                                    className="w-full flex flex-col gap-y-1 "
+                                <div
+                                    // type="single"
+                                    // collapsible
+                                    className="w-full flex flex-col "
                                 >
                                     {blogData?.blogQuestions?.map(
                                         (faq: any, index: any) => {
                                             return (
-                                                <AccordionItem
-                                                    key={index}
-                                                    className="shadow-md px-5 py-4 w-full "
-                                                    value={faq?.id}
-                                                    onClick={() =>
-                                                        setActiveKey(
-                                                            (prevActiveKey) =>
-                                                                prevActiveKey ===
-                                                                faq.id
-                                                                    ? null
-                                                                    : faq.id
-                                                        )
-                                                    }
-                                                >
-                                                    <AccordionTrigger className="mb-2 font-medium text-sm  w-full">
-                                                        <div className="flex items-center justify-between">
-                                                            <h3>
-                                                                {faq?.question}
-                                                            </h3>
-                                                            <div>
-                                                                {activeKey ===
-                                                                faq?.id ? (
-                                                                    <FaChevronUp />
-                                                                ) : (
-                                                                    <FaChevronDown />
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    </AccordionTrigger>
-                                                    <AccordionContent className="text-sm text-gray-500">
-                                                        {faq?.answer}
-                                                    </AccordionContent>
-                                                </AccordionItem>
+                                                <div key={faq?.id}>
+                                                    <Accordion
+                                                        question={faq?.question}
+                                                        answer={faq?.answer}
+                                                        index={index + 1}
+                                                        isOpen={
+                                                            activeAccordion ===
+                                                            index + 1
+                                                        }
+                                                        onToggle={() =>
+                                                            handleToggle(
+                                                                index + 1
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+                                                // <AccordionItem
+                                                //     key={index}
+                                                //     className="shadow-md px-5 py-4 w-full "
+                                                //     value={faq?.id}
+                                                //     onClick={() =>
+                                                //         setActiveKey(
+                                                //             (prevActiveKey) =>
+                                                //                 prevActiveKey ===
+                                                //                 faq.id
+                                                //                     ? null
+                                                //                     : faq.id
+                                                //         )
+                                                //     }
+                                                // >
+                                                //     <AccordionTrigger className="mb-2 font-medium text-sm  w-full">
+                                                //         <div className="flex items-center justify-between">
+                                                //             <h3>
+                                                //                 {faq?.question}
+                                                //             </h3>
+                                                //             <div>
+                                                //                 {activeKey ===
+                                                //                 faq?.id ? (
+                                                //                     <FaChevronUp />
+                                                //                 ) : (
+                                                //                     <FaChevronDown />
+                                                //                 )}
+                                                //             </div>
+                                                //         </div>
+                                                //     </AccordionTrigger>
+                                                //     <AccordionContent className="text-sm text-gray-500">
+                                                //         {faq?.answer}
+                                                //     </AccordionContent>
+                                                // </AccordionItem>
                                             )
                                         }
                                     )}
-                                </Accordion>
+                                </div>
                             </div>
                         )}
                 </div>

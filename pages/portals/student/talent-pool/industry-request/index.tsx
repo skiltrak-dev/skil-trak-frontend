@@ -169,7 +169,7 @@ const IndustryRequest: NextPageWithLayout = () => {
                                 {info?.row?.original?.email || 'N/A'}
                             </Typography>
                         ) : (
-                            <div className="relative">
+                            <div className="relative select-none cursor-not-allowed">
                                 nothing to show here
                                 <div
                                     className={`absolute top-0 left-0 backdrop-blur-sm bg-[#cfcdcd]/20 w-full h-4 rounded-lg z-10`}
@@ -204,7 +204,7 @@ const IndustryRequest: NextPageWithLayout = () => {
                                 {info?.row?.original?.phonenumber || 'N/A'}
                             </Typography>
                         ) : (
-                            <div className="relative">
+                            <div className="relative select-none cursor-not-allowed">
                                 nothing to show here
                                 <div
                                     className={`absolute top-0 left-0 backdrop-blur-sm bg-[#cfcdcd]/20 h-4 rounded-lg w-full z-10`}

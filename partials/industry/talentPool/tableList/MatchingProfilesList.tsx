@@ -198,7 +198,7 @@ export const MatchingProfilesList = () => {
                                     'N/A'}
                             </Typography>
                         ) : (
-                            <div className="relative">
+                            <div className="relative select-none cursor-not-allowed">
                                 nothing to show here
                                 <div
                                     className={`absolute top-0 left-0 backdrop-blur-sm bg-[#cfcdcd]/20 w-full h-4 rounded-lg z-10`}
@@ -236,7 +236,7 @@ export const MatchingProfilesList = () => {
                                 {info?.row?.original?.student?.phone}
                             </Typography>
                         ) : (
-                            <div className="relative">
+                            <div className="relative select-none cursor-not-allowed">
                                 nothing to show here
                                 <div
                                     className={`absolute top-0 left-0 backdrop-blur-sm bg-[#cfcdcd]/20 w-full h-4 rounded-lg z-10`}
@@ -370,66 +370,70 @@ export const MatchingProfilesList = () => {
             </div>
 
             <Card noPadding>
-            <div className="flex items-center justify-between border-b border-secondary-dark p-3.5">
-                <Typography variant="subtitle">Matching Profiles</Typography>
-                <div className="flex items-center gap-x-5">
-                    <TalentPoolDropdown
-                        title="Sector"
-                        selected={
-                            selectedSector?.label || 'Search by sector...'
-                        }
-                        onClear={() => {
-                            setSelectedSector(null)
-                        }}
-                        dropDown={() => (
-                            <div>
-                                {sectorOptions?.map((sector: OptionType) => (
-                                    <div
-                                        key={Number(sector.value)}
-                                        onClick={() => {
-                                            setSelectedSector(sector)
-                                        }}
-                                        className="hover:bg-gray-200 py-2 border-b border-secondary-dark px-2 cursor-pointer"
-                                    >
-                                        <Typography variant="small">
-                                            {sector?.label}
-                                        </Typography>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    />
-                    <TalentPoolDropdown
-                        title="Showing Results"
-                        selected={selectedTalentPool?.toLocaleUpperCase()}
-                        dropDown={() => {
-                            return (
+                <div className="flex items-center justify-between border-b border-secondary-dark p-3.5">
+                    <Typography variant="subtitle">
+                        Matching Profiles
+                    </Typography>
+                    <div className="flex items-center gap-x-5">
+                        <TalentPoolDropdown
+                            title="Sector"
+                            selected={
+                                selectedSector?.label || 'Search by sector...'
+                            }
+                            onClear={() => {
+                                setSelectedSector(null)
+                            }}
+                            dropDown={() => (
                                 <div>
-                                    {Object.entries(
-                                        TalentPoolProfileIndustryStatus
-                                    )?.map(([key, value]: any) => (
-                                        <div
-                                            key={key}
-                                            onClick={() => {
-                                                setSelectedTalentPool(value)
-                                            }}
-                                            className={`${
-                                                key === selectedTalentPool
-                                                    ? 'bg-gray-200'
-                                                    : ''
-                                            } hover:bg-gray-200 py-2 border-b border-secondary-dark px-2 cursor-pointer`}
-                                        >
-                                            <Typography variant="small">
-                                                {key}
-                                            </Typography>
-                                        </div>
-                                    ))}
+                                    {sectorOptions?.map(
+                                        (sector: OptionType) => (
+                                            <div
+                                                key={Number(sector.value)}
+                                                onClick={() => {
+                                                    setSelectedSector(sector)
+                                                }}
+                                                className="hover:bg-gray-200 py-2 border-b border-secondary-dark px-2 cursor-pointer"
+                                            >
+                                                <Typography variant="small">
+                                                    {sector?.label}
+                                                </Typography>
+                                            </div>
+                                        )
+                                    )}
                                 </div>
-                            )
-                        }}
-                    />
+                            )}
+                        />
+                        <TalentPoolDropdown
+                            title="Showing Results"
+                            selected={selectedTalentPool?.toLocaleUpperCase()}
+                            dropDown={() => {
+                                return (
+                                    <div>
+                                        {Object.entries(
+                                            TalentPoolProfileIndustryStatus
+                                        )?.map(([key, value]: any) => (
+                                            <div
+                                                key={key}
+                                                onClick={() => {
+                                                    setSelectedTalentPool(value)
+                                                }}
+                                                className={`${
+                                                    key === selectedTalentPool
+                                                        ? 'bg-gray-200'
+                                                        : ''
+                                                } hover:bg-gray-200 py-2 border-b border-secondary-dark px-2 cursor-pointer`}
+                                            >
+                                                <Typography variant="small">
+                                                    {key}
+                                                </Typography>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )
+                            }}
+                        />
+                    </div>
                 </div>
-            </div>
                 {isError && <TechnicalError />}
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
