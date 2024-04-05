@@ -16,7 +16,7 @@ const PREFIX = '/portals/student'
 const Routes = {
     Dashboard: `${PREFIX}`,
     Workplace: `${PREFIX}/workplace`,
-    Jobs: `${PREFIX}/jobs`,
+    Jobs: `${PREFIX}/jobs?tab=jobs`,
     Assessments: `${PREFIX}/assessments`,
     Notifications: `${PREFIX}/notifications`,
     TalentPool: `${PREFIX}/talent-pool`,

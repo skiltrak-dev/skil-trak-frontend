@@ -17,6 +17,7 @@ import React, {
 } from 'react'
 import { PageSize } from './components/PageSize'
 import { Pagination } from './components/Pagination'
+import { useRouter } from 'next/router'
 
 interface pageSize {
     (
@@ -69,6 +70,7 @@ export const Table = <Type,>({
     pageSize = true,
 }: TableProps<Type>) => {
     // Table Columns
+    const router = useRouter()
     const tableColumns = useMemo<ColumnDef<Type>[]>(
         () => [
             ...(enableRowSelection

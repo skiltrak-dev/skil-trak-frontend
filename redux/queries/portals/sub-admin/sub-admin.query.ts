@@ -14,6 +14,7 @@ import { subAdminIndustriesEndpoints } from './industries'
 import { subAdminAppointmentspoints } from './appointments'
 import { setUnavailabilityEndpoints } from './setUnavailability'
 import { assessmentEvidenceEndpoints } from './assessmentEvidence'
+import { talentPoolEndpoints } from './talentPool'
 export const subAdminApi = emptySplitApi.injectEndpoints({
     // export const subAdminApi = createApi({
     //     reducerPath: 'subAdminApi',
@@ -81,6 +82,7 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
         ...subAdminAppointmentspoints(build),
         ...assessmentEvidenceEndpoints(build),
         ...subAdminIndustriesEndpoints(build),
+        ...talentPoolEndpoints(build),
     }),
     // overrideExisting: false,
 })
@@ -278,6 +280,9 @@ export const {
 
     // ---- VOLUNTEER ---- //
     useGetSubadminVolunteerRequestsQuery,
+
+    // ----- TALENT POOL ----- //
+    useGetSubAdminTalentPoolListQuery,
 } = subAdminApi
 
 export const SubAdminApi = {
@@ -422,4 +427,7 @@ export const SubAdminApi = {
     Volunteer: {
         useVolunteerRequests: useGetSubadminVolunteerRequestsQuery,
     },
+    TalentPool: {
+        useTalentPoolList: useGetSubAdminTalentPoolListQuery,
+    }
 }

@@ -1,4 +1,5 @@
 export * from './Alert'
+export * from './Accordion'
 export * from './ActionAlert'
 export * from './buttons'
 export * from './LottieAnimation'

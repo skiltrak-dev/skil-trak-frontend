@@ -9,7 +9,7 @@ export enum TalentPoolStatusEnum {
 }
 export enum TalentPoolProfileStatus {
     All = 'all',
-    PENDING = 'pending',
+    // PENDING = 'pending',
     APPROVED = 'approved',
     REJECTED = 'rejected',
     HIRED = 'hired',

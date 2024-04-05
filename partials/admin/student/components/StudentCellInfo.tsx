@@ -101,7 +101,8 @@ export const StudentCellInfo = ({
                                     {student?.studentId}
                                 </ErrorBoundary>
                             </p>
-                            {showHignPriority
+                            {router.pathname !== '/portals/admin/talent-pool' &&
+                            showHignPriority
                                 ? student?.isHighPriority && (
                                       <div className="rounded-md whitespace-nowrap px-1 py-0.5 border border-red-400 text-red-400 text-xs font-medium">
                                           High Priority
