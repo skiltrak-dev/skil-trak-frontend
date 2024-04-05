@@ -11,6 +11,7 @@ import {
     subAdminApi,
     studentApi,
     refreshTokenApi,
+    managementApi
 } from '@queries'
 
 export const store = configureStore({
@@ -21,6 +22,7 @@ export const store = configureStore({
         [commonApi.reducerPath]: commonApi.reducer,
         [refreshTokenApi.reducerPath]: commonApi.reducer,
         [adminApi.reducerPath]: adminApi.reducer,
+        [managementApi.reducerPath]: managementApi.reducer,
         [studentApi.reducerPath]: studentApi.reducer,
         [rtoApi.reducerPath]: rtoApi.reducer,
         [subAdminApi.reducerPath]: subAdminApi.reducer,
@@ -34,6 +36,7 @@ export const store = configureStore({
             industryApi.middleware,
             commonApi.middleware,
             adminApi.middleware,
+            managementApi.middleware,
             studentApi.middleware,
             refreshTokenApi.middleware,
             rtoApi.middleware,

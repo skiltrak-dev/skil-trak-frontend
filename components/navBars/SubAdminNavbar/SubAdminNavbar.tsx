@@ -12,6 +12,7 @@ import { HiDocumentReport, HiUsers } from 'react-icons/hi'
 import { MdEmail, MdNotifications, MdSpaceDashboard } from 'react-icons/md'
 import { NavLinkItem } from '../NavLinkItem'
 import { Typography } from '@components/Typography'
+import { LiaCertificateSolid } from 'react-icons/lia'
 
 const PREFIX = '/portals/sub-admin'
 const Routes = {
@@ -26,6 +27,7 @@ const Routes = {
     History: `${PREFIX}/history`,
     ESign: `${PREFIX}/e-sign?tab=all`,
     VolunteerRequest: `${PREFIX}/volunteer-requests?tab=pending`,
+    TalentPool: `${PREFIX}/talent-pool`,
 }
 
 export const SubAdminNavbar = () => {
@@ -90,6 +92,13 @@ export const SubAdminNavbar = () => {
             link: Routes.VolunteerRequest,
             text: 'Volunteer Requests',
             Icon: FaClipboardList,
+            activeClasses: 'bg-orange-100 text-orange-700',
+            inActiveClasses: 'text-slate-700',
+        },
+        {
+            link: Routes.TalentPool,
+            text: 'Talent Pool',
+            Icon: LiaCertificateSolid,
             activeClasses: 'bg-orange-100 text-orange-700',
             inActiveClasses: 'text-slate-700',
         },

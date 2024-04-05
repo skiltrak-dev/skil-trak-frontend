@@ -9,3 +9,5 @@ export * from './StudentNavbar'
 export * from './RtoNavbar'
 export * from './SubAdminNavbar'
 export * from './IndustryNavbar/'
+
+export * from './ManagementNavbar'

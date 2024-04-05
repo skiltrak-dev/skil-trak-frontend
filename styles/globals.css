@@ -510,3 +510,13 @@ ul.landing-content {
     overflow-y: scroll;
     overflow-x: scroll; */
 }
+
+
+.management-portal-bg{
+    background-image: url('/images/management-portal/management-portal-login-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    width: 100%;
+}

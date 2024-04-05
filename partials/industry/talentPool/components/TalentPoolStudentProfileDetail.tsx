@@ -189,7 +189,7 @@ export const TalentPoolStudentProfileDetail = ({
                                 {profile?.student?.user?.email}
                             </Typography>
                         ) : (
-                            <div className="relative">
+                            <div className="relative select-none cursor-not-allowed	">
                                 nothing to show here
                                 <div
                                     className={`absolute top-0 left-0 backdrop-blur-sm bg-[#cfcdcd]/20 w-full h-4 rounded-lg z-10`}
@@ -218,7 +218,7 @@ export const TalentPoolStudentProfileDetail = ({
                                 {profile?.student?.phone}
                             </Typography>
                         ) : (
-                            <div className="relative">
+                            <div className="relative select-none cursor-not-allowed	">
                                 nothing to show here
                                 <div
                                     className={`absolute top-0.5 left-0 backdrop-blur-sm bg-[#cfcdcd]/20 w-full h-4 rounded-lg z-10`}

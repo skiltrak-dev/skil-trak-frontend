@@ -1,10 +1,11 @@
 import { Button, Typography } from '@components'
 import { MediaQueries } from '@constants'
+import { useRouter } from 'next/router'
 import { useMediaQuery } from 'react-responsive'
 
 export const JoinTalentPool = () => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
-
+    const router = useRouter()
     return (
         <div>
             <div className="flex flex-col gap-y-3">
@@ -60,7 +61,10 @@ export const JoinTalentPool = () => {
                 className="flex items-center justify-center mt-8"
                 data-aos="fade-up"
             >
-                <Button text="Join Talent Pool" />
+                <Button
+                    text="Join Talent Pool"
+                    onClick={() => router.push('/auth/login')}
+                />
             </div>
         </div>
     )

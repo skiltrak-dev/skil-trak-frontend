@@ -46,7 +46,11 @@ export const StudentCellInfo = ({
                 </div>
 
                 <Link
-                    href={`/portals/sub-admin/students/${student?.id}/detail`}
+                    href={`${
+                        router.pathname === '/portals/sub-admin/talent-pool'
+                            ? "#"
+                            : `/portals/sub-admin/students/${student?.id}/detail`
+                    }`}
                     legacyBehavior
                 >
                     <a

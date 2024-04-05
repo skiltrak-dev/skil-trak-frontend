@@ -162,10 +162,10 @@ export const FilteredTalentPoolRequests = ({
         },
         {
             accessorKey: 'status',
-            header: () => <span>Request Status</span>,
+            header: () => <span>Registration Request</span>,
             cell: (info) => {
                 switch (info?.row?.original?.status) {
-                case TalentPoolStatusEnum.Requested:
+                    case TalentPoolStatusEnum.Requested:
                         return <Badge text="Requested" variant="info" />
                     case TalentPoolStatusEnum.Connected:
                         return <Badge text="Connected" variant="primary" />
