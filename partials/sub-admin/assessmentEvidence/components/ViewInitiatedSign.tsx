@@ -1,4 +1,4 @@
-import { Button } from '@components'
+import { ActionButton, Button } from '@components'
 import { DocumentsView } from '@hooks'
 import { Folder, Rto } from '@types'
 import { EsignDocumentStatus } from '@utils'
@@ -78,14 +78,6 @@ export const ViewInitiatedSign = ({
         <>
             {modal}
             {documentsViewModal}
-            <div className="flex justify-end px-4 pt-2">
-                <Button
-                    text="Initiate Another Signing"
-                    onClick={() => {
-                        onInitiateSigning()
-                    }}
-                />
-            </div>
             {/* {filteredFiles && filteredFiles?.length > 0 && (
                 <div className="p-2 flex flex-wrap gap-x-2 gap-y-2 items-end  overflow-hidden">
                     {filteredFiles?.map((file: any, i: number) => (
@@ -103,38 +95,51 @@ export const ViewInitiatedSign = ({
                     ))}
                 </div>
             )} */}
-            {document?.length > 0 && (
-                <div className="flex items-center justify-end gap-x-3 text-xs font-semibold mt-3 px-3">
-                    <button
-                        className={`flex items-center gap-x-1 text-gray-500 hover:text-black disabled:text-gray-300 disabled:cursor-not-allowed`}
-                        onClick={() => setSelectedDocument(prevData)}
-                        disabled={!prevData}
+            <div className="flex items-center justify-between gap-x-3">
+                <div className="flex items-center gap-x-2 px-4 pt-2">
+                    <ActionButton
+                        onClick={() => {
+                            onInitiateSigning()
+                        }}
+                        variant="info"
                     >
-                        <FaChevronLeft />
-                        Previous
-                    </button>
-                    <button
-                        onClick={() => setSelectedDocument(nextData)}
-                        disabled={!nextData}
-                        className={`flex items-center gap-x-1 text-gray-500 hover:text-black disabled:text-gray-300 disabled:cursor-not-allowed`}
-                    >
-                        Next
-                        <FaChevronRight />
-                    </button>
+                        Initiate Another Signing
+                    </ActionButton>
+                    {selectedDocument?.status !==
+                        EsignDocumentStatus.SIGNED && (
+                        <div className="flex">
+                            <Button
+                                text="Cancel Sign"
+                                onClick={() => onCancelInitiateSignClicked()}
+                            />
+                        </div>
+                    )}
                 </div>
-            )}
+                {document?.length > 0 && (
+                    <div className="flex items-center gap-x-3 text-xs font-semibold mt-3 px-3">
+                        <button
+                            className={`flex items-center gap-x-1 text-gray-500 hover:text-black disabled:text-gray-300 disabled:cursor-not-allowed`}
+                            onClick={() => setSelectedDocument(prevData)}
+                            disabled={!prevData}
+                        >
+                            <FaChevronLeft />
+                            Previous
+                        </button>
+                        <button
+                            onClick={() => setSelectedDocument(nextData)}
+                            disabled={!nextData}
+                            className={`flex items-center gap-x-1 text-gray-500 hover:text-black disabled:text-gray-300 disabled:cursor-not-allowed`}
+                        >
+                            Next
+                            <FaChevronRight />
+                        </button>
+                    </div>
+                )}
+            </div>
             <CheckAgreementSignedStatus
                 document={selectedDocument}
                 documentSigned={selectedDocument?.status}
             />
-            {selectedDocument?.status !== EsignDocumentStatus.SIGNED && (
-                <div className="flex justify-end px-4 pt-2">
-                    <Button
-                        text="Cancel Sign"
-                        onClick={() => onCancelInitiateSignClicked()}
-                    />
-                </div>
-            )}{' '}
         </>
     )
 }

@@ -16,16 +16,20 @@ import { GiHamburgerMenu } from 'react-icons/gi'
 import { IoMdArrowDropleftCircle } from 'react-icons/io'
 import { SVGView, ScrollTabsView } from './components'
 import { EsignSignatureModal, FinishSignModal } from './modal'
+import { FinishShignInfoModal } from './modal'
 
 export const ViewDocumentAndSign = () => {
     const router = useRouter()
 
-    const { alert } = useAlert()
+    const { alert, alerts, setAlerts } = useAlert()
 
     const [showSignersField, setShowSignersField] = useState<boolean>(true)
 
     const [modal, setModal] = useState<ReactNode | null>(null)
+    const [isSignature, setIsSignature] = useState<boolean>(false)
     const [customFieldsData, setCustomFieldsData] = useState<any>([])
+    const [customFieldsDataUpdated, setCustomFieldsDataUpdated] =
+        useState<boolean>(false)
     const [selectedFillDataField, setSelectedFillDataField] =
         useState<any>(null)
 
@@ -49,13 +53,20 @@ export const ViewDocumentAndSign = () => {
         }
     )
 
+    // const sign = ''
+
     useEffect(() => {
         if (tabs?.data && tabs?.data?.length > 0) {
-            alert.warning({
-                title: 'Make a Sign first',
-                description: 'Make a Sign before to fill your fields data',
-                autoDismiss: false,
-            })
+            if (!alerts?.length) {
+                alert.warning({
+                    title: 'Make a Sign first',
+                    description: 'Make a Sign before to fill your fields data',
+                    autoDismiss: false,
+                })
+            }
+        }
+        return () => {
+            setAlerts([])
         }
     }, [tabs])
 
@@ -70,7 +81,10 @@ export const ViewDocumentAndSign = () => {
     }
 
     useEffect(() => {
-        if (tabs?.data && tabs.isSuccess && tabs?.data?.length > 0) {
+        if (tabs.isLoading || tabs.isFetching || tabs.isError) {
+            setCustomFieldsDataUpdated(false)
+        } else if (tabs?.data && tabs.isSuccess && tabs?.data?.length > 0) {
+            setCustomFieldsDataUpdated(true)
             setCustomFieldsData(
                 tabs?.data?.map((tab: any) => {
                     const response = tab?.responses?.reduce(
@@ -104,21 +118,34 @@ export const ViewDocumentAndSign = () => {
         setCustomFieldsData(updatedData)
     }
 
-    const sign = tabs?.data?.find(
+    const sign = customFieldsData?.find(
         (s: any) => s?.type === FieldsTypeEnum.Signature
     )
+    // const sign = tabs?.data?.find(
+    //     (s: any) => s?.type === FieldsTypeEnum.Signature
+    // )
+
+    console.log({ sign })
 
     const onCancelClicked = () => setModal(null)
-
-    const onSignatureClicked = (sign: any) => {
-        setModal(
-            <EsignSignatureModal
-                tab={sign}
-                onCancel={() => {
-                    onCancelClicked()
-                }}
-            />
-        )
+    console.log({ outerTabs: tabs })
+    const onSignatureCancelClicked = (cancel?: boolean) => {
+        if (cancel) {
+            setIsSignature(false)
+        } else {
+            console.log({ tabs })
+            if (tabs?.data && tabs.isSuccess && tabs?.data?.length > 0) {
+                console.log({ innerTabs: tabs })
+                setTimeout(() => {
+                    setModal(
+                        <FinishShignInfoModal
+                            onCancel={onCancelClicked}
+                            customFieldsData={customFieldsData}
+                        />
+                    )
+                }, 1000)
+            }
+        }
     }
 
     const onSelectAll = useCallback((e: any) => {
@@ -163,6 +190,19 @@ export const ViewDocumentAndSign = () => {
         }
     }
 
+    const onSignatureClicked = (sign: any) => {
+        setIsSignature(true)
+        // setModal(
+        //     <EsignSignatureModal
+        //         tab={sign}
+        //         onCancel={() => {
+        //             onSignatureCancelClicked()
+        //         }}
+        //         customFieldsData={customFieldsData}
+        //     />
+        // )
+    }
+
     const customFieldsAndSign = customFieldsData?.filter(
         (s: any) => s?.type === FieldsTypeEnum.Signature || s?.isCustom
     )
@@ -176,6 +216,15 @@ export const ViewDocumentAndSign = () => {
     return (
         <div>
             {modal}
+            {isSignature ? (
+                <EsignSignatureModal
+                    tab={sign}
+                    onCancel={(cancel?: boolean) => {
+                        onSignatureCancelClicked(cancel)
+                    }}
+                    customFieldsData={customFieldsData}
+                />
+            ) : null}
             <button
                 onClick={() => {
                     // document.refetch()

@@ -104,27 +104,36 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
         label: course?.title,
     }))
 
+    const noWorkplaceOption = [
+        {
+            label: 'No Workplace',
+            value: 'Na',
+        },
+    ]
+
     return (
         <>
             <SetQueryFilters<StudentsFilterType> filter={filter} />
-            <div className="grid grid-cols-3 gap-x-3">
+            <div className="grid grid-cols-4 gap-x-3">
+                <TextInput
+                    name="studentId"
+                    label={'Student Id'}
+                    value={filter?.studentId}
+                    placeholder={'Search by Student Id ...'}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, studentId: e.target.value })
+                    }}
+                    showError={false}
+                />
                 <TextInput
                     name="name"
                     label={'Name'}
                     placeholder={'Search by Student Name ...'}
                     value={filter?.name}
                     onChange={(e: any) => {
-                        // router.push({
-                        //     pathname: '/portals/admin/student',
-                        //     query: {
-                        //         tab: 'active',
-                        //         page: 1,
-                        //         pageSize: 50,
-                        //         name: e.target.value,
-                        //     },
-                        // })
                         onFilterChange({ ...filter, name: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="email"
@@ -135,6 +144,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, email: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="phone"
@@ -144,15 +154,17 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, phone: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
-                    name="studentId"
-                    label={'Student Id'}
-                    value={filter?.studentId}
-                    placeholder={'Search by Student Id Email ...'}
+                    name="suburb"
+                    label={'Suburb'}
+                    value={filter?.suburb}
+                    placeholder={'Search by Student Suburb ...'}
                     onChange={(e: any) => {
-                        onFilterChange({ ...filter, studentId: e.target.value })
+                        onFilterChange({ ...filter, suburb: e.target.value })
                     }}
+                    showError={false}
                 />
                 <Select
                     label={'Status'}
@@ -168,6 +180,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                             status: e?.value as UserStatus,
                         })
                     }}
+                    showError={false}
                 />
                 {getUserRole?.role !== 'rto' && (
                     <Select
@@ -185,6 +198,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                                 rtoId: Number(e?.value),
                             })
                         }}
+                        showError={false}
                         loading={getRtos.isLoading}
                         disabled={getRtos.isLoading}
                     />
@@ -201,6 +215,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, industryId: e?.value })
                     }}
+                    showError={false}
                     loading={getIndustries.isLoading}
                     disabled={getIndustries.isLoading}
                 />
@@ -217,6 +232,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, courseId: e?.value })
                     }}
+                    showError={false}
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}
                     components={{
@@ -236,6 +252,20 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, currentStatus: e?.value })
                     }}
+                    showError={false}
+                />
+                <Select
+                    label={'Student with no workplace'}
+                    name={'nowp'}
+                    options={noWorkplaceOption}
+                    placeholder={'Student with no workplace...'}
+                    value={noWorkplaceOption?.find(
+                        (noWp: SelectOption) => noWp.value === filter?.nowp
+                    )}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, nowp: e?.value })
+                    }}
+                    showError={false}
                 />
             </div>
         </>

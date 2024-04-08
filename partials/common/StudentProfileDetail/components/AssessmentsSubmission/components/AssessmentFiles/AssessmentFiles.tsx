@@ -176,7 +176,7 @@ export const AssessmentFiles = ({
                     </SliderStyleContainer>
                 ) : (
                     getAssessmentResponse.isSuccess && (
-                        <NoData text="There is no Assessment Files!" />
+                        <NoData text="There is no Assessment Files!" simple />
                     )
                 )}
                 {children}

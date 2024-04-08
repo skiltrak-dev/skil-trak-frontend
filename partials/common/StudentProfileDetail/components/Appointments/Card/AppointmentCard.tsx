@@ -69,7 +69,7 @@ export const AppointmentCard = ({
                                 </div>
                                 <Typography variant="small" color="text-white">
                                     {moment(new Date(appointment?.date)).format(
-                                        'dddd, MMMM DD'
+                                        'dddd, MMMM DD YYYY'
                                     )}{' '}
                                 </Typography>
                             </div>

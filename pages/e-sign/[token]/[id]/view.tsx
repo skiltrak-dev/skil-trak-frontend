@@ -115,18 +115,6 @@ const ESign = () => {
 
     const onCancelClicked = () => setModal(null)
 
-    const onSignatureClicked = () => {
-        setModal(
-            <EsignSignatureModal
-                tab={sign}
-                onCancel={() => {
-                    onCancelClicked()
-                }}
-                action={CommonApi.ESign.useAddSign}
-            />
-        )
-    }
-
     const onSelectAll = useCallback((e: any) => {
         setCustomFieldsData((customFields: any) =>
             customFields?.map((data: any) =>
@@ -179,6 +167,18 @@ const ESign = () => {
                 />
             )
         }
+    }
+
+    const onSignatureClicked = (sign: any) => {
+        setModal(
+            <EsignSignatureModal
+                tab={sign}
+                onCancel={() => {
+                    onCancelClicked()
+                }}
+                customFieldsData={customFieldsData}
+            />
+        )
     }
 
     return (
