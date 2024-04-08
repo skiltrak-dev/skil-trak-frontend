@@ -5,7 +5,7 @@ import { ActionButton, Card, LoadingAnimation, Typography } from '@components'
 
 import { IndustryNotResponded } from '@partials/common'
 import { RejectedIndustries } from '@partials/common/workplace/components/dontHaveWorkplace/RejectedIndustries'
-import { useCancelWorkplaceRequestMutation, StudentApi} from '@queries'
+import { useCancelWorkplaceRequestMutation, StudentApi } from '@queries'
 import { WorkplaceCurrentStatus } from '@utils'
 import { AppliedIndustry } from './AppliedIndustry'
 import { ApplyForWorkplace, VerifyStudentDocs } from './components'
@@ -30,10 +30,10 @@ export const IndustrySelection = ({
     const [workplaceIndustries, setWorkplaceIndustries] = useState<any | null>(
         null
     )
-        // const {data} = StudentApi.Workplace.useGetIndustryFoldersQuery({
-        //     id: industry?.industry?.id,
-        //     course: industry?.industry?.courses[0]?.id
-        // })
+    // const {data} = StudentApi.Workplace.useGetIndustryFoldersQuery({
+    //     id: industry?.industry?.id,
+    //     course: industry?.industry?.courses[0]?.id
+    // })
     const [cancelRequest, cancelRequestResult] =
         useCancelWorkplaceRequestMutation()
 
@@ -154,16 +154,27 @@ export const IndustrySelection = ({
                         <div className="px-5 py-12 border border-dashed rounded-lg">
                             <Typography
                                 variant={'body'}
-                                color={'text-gray-400'}
+                                color={'text-gray-600'}
                                 center
                             >
-                                Unfortunately! No industry is available with
+                                Thank you for submitting your request. It has
+                                been forwarded to our placement team. One of our
+                                coordinators will reach out to you with
+                                workplace details within 48 hours. Feel free to
+                                contact us at{' '}
+                                <span className="font-bold">0393636378</span> or
+                                via email at{' '}
+                                <span className="font-bold">
+                                    info@skiltrak.com.au
+                                </span>{' '}
+                                if you have any questions.
+                                {/* Unfortunately! No industry is available with
                                 your provided criteria, but one of{' '}
                                 <span className="font-bold">
                                     our coordinator will soon get in touch with
                                     you
                                 </span>{' '}
-                                to help you out.
+                                to help you out. */}
                             </Typography>
                         </div>
 

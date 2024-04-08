@@ -1,4 +1,4 @@
-import { PersonalInfoForm } from '@partials/common'
+import { PersonalInfoForm, workplaceQuestions } from '@partials/common'
 import { useGetStudentCoursesQuery } from '@queries'
 import { useRouter } from 'next/router'
 import React, { useState, useEffect } from 'react'
@@ -20,12 +20,23 @@ export const PersonalInfo = ({
     // const [courses, setCourses] = useState<any>([])
 
     const onSubmit = (values: any) => {
+        let questions: { question: string; answer: string; type: string }[] = []
+        Object.entries(workplaceQuestions).forEach(([key, value]: any) =>
+            questions.push({
+                question: value,
+                answer: values[key],
+                type: key,
+            })
+        )
+
         setPersonalInfoData({
-            ...values,
             courses: values?.courses?.value,
-            haveTransport: values.haveTransport === 'yes' ? true : false,
-            haveDrivingLicense:
-                values.haveDrivingLicense === 'yes' ? true : false,
+            preferableLocation: values?.preferableLocation,
+            questions,
+            // courses: values?.courses?.value,
+            // haveTransport: values.haveTransport === 'yes' ? true : false,
+            // haveDrivingLicense:
+            //     values.haveDrivingLicense === 'yes' ? true : false,
         })
         setActive((active: number) => active + 1)
     }
