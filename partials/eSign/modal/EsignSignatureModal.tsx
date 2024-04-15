@@ -1,29 +1,32 @@
 import {
-    BackButton,
     Button,
     GlobalModal,
     ShowErrorNotifications,
     Typography,
 } from '@components'
-import React, { useEffect, useRef } from 'react'
-import { DocumentSignature } from '../components'
-import ReactSignatureCanvas from 'react-signature-canvas'
-import { MdCancel } from 'react-icons/md'
-import { CommonApi } from '@queries'
-import { useRouter } from 'next/router'
 import { useNotification } from '@hooks'
+import { CommonApi } from '@queries'
 import jwt from 'jwt-decode'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useRef, useState } from 'react'
+import { MdCancel } from 'react-icons/md'
+import ReactSignatureCanvas from 'react-signature-canvas'
+import { DocumentSignature } from '../components'
 
 export const EsignSignatureModal = ({
     tab,
     action,
     onCancel,
+    customFieldsData,
 }: {
     tab: any
     action?: any
-    onCancel: () => void
+    customFieldsData: any
+    onCancel: (cancel?: boolean) => void
 }) => {
     const router = useRouter()
+
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const ref = useRef<ReactSignatureCanvas>()
 
@@ -33,19 +36,20 @@ export const EsignSignatureModal = ({
         ? action()
         : CommonApi.ESign.useSignDocumentByUser()
 
-    useEffect(() => {
-        if (signDocumentResult.isSuccess) {
-            notification.success({
-                title: 'Signed',
-                description: 'Signed',
-            })
-            onCancel()
-        }
-    }, [signDocumentResult])
-
     const onClear = () => {
         ref?.current?.clear()
     }
+
+    const setModalModal = () => setModal(null)
+
+    useEffect(() => {
+        if (signDocumentResult?.isSuccess) {
+            console.log({ tab })
+            if (tab && tab?.responses && tab?.responses?.length > 0) {
+                onCancel()
+            }
+        }
+    }, [signDocumentResult, tab])
 
     const onSubmit = async () => {
         var dataURL = ref?.current?.toDataURL('image/jpg+xml')
@@ -63,17 +67,28 @@ export const EsignSignatureModal = ({
                           id: token?.id,
                       }
                     : {}),
+            }).then((res: any) => {
+                if (res?.data) {
+                    notification.success({
+                        title: 'Signed',
+                        description: 'Signed',
+                    })
+                    console.log({ signsignsignsign: tab })
+                }
             })
         }
     }
     return (
         <GlobalModal>
+            {modal}
             <ShowErrorNotifications result={signDocumentResult} />
             <div className="p-3 md:p-8">
                 <div>
                     <div className="flex justify-end">
                         <MdCancel
-                            onClick={onCancel}
+                            onClick={() => {
+                                onCancel(true)
+                            }}
                             className="transition-all duration-500 text-gray-400 hover:text-black text-2xl cursor-pointer hover:rotate-90"
                         />
                     </div>

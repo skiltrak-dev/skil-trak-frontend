@@ -57,7 +57,8 @@ export const ViewDocumentAndSign = () => {
         if (tabs?.data && tabs?.data?.length > 0) {
             alert.warning({
                 title: 'Make a Sign first',
-                description: 'Make a Sign before to fill your fields data',
+                description:
+                    'Please sign the document first, then fill in the required fields. Finally, complete the e-signature process by clicking button.',
                 autoDismiss: false,
             })
         }
@@ -114,17 +115,6 @@ export const ViewDocumentAndSign = () => {
 
     const onCancelClicked = () => setModal(null)
 
-    const onSignatureClicked = (sign: any) => {
-        setModal(
-            <EsignSignatureModal
-                tab={sign}
-                onCancel={() => {
-                    onCancelClicked()
-                }}
-            />
-        )
-    }
-
     const onSelectAll = useCallback((e: any) => {
         setCustomFieldsData((customFields: any) =>
             customFields?.map((data: any) =>
@@ -165,6 +155,18 @@ export const ViewDocumentAndSign = () => {
                 />
             )
         }
+    }
+
+    const onSignatureClicked = (sign: any) => {
+        setModal(
+            <EsignSignatureModal
+                tab={sign}
+                onCancel={() => {
+                    onCancelClicked()
+                }}
+                customFieldsData={customFieldsData}
+            />
+        )
     }
 
     const customFieldsAndSign = customFieldsData?.filter(

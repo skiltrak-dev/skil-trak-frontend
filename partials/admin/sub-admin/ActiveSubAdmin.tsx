@@ -25,6 +25,7 @@ import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
 import {
     AllowAsAdminModal,
+    AllowLoginAfterHoursModal,
     ArchiveModal,
     AssignAutoWorkplaceModal,
     BlockModal,
@@ -32,7 +33,7 @@ import {
 import { UserRoles } from '@constants'
 import { RtoCellInfo } from '../rto/components'
 import { MdAdminPanelSettings, MdOutlineAssignmentReturn } from 'react-icons/md'
-import { getUserCredentials } from '@utils'
+import { checkListLength, getUserCredentials } from '@utils'
 
 export const ActiveSubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -83,6 +84,14 @@ export const ActiveSubAdmin = () => {
         )
     }
 
+    const onAllowLoginAfterHoursModalClicked = (subAdmin: SubAdmin) => {
+        setModal(
+            <AllowLoginAfterHoursModal
+                subAdmin={subAdmin}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
     const onMakeAsAdminClicked = (subAdmin: SubAdmin) => {
         setModal(
             <AllowAsAdminModal
@@ -176,6 +185,18 @@ export const ActiveSubAdmin = () => {
                     : {}),
             },
             {
+                ...(role === UserRoles.ADMIN
+                    ? {
+                          text: subAdmin?.user?.after_hours_access
+                              ? 'Remove Login'
+                              : 'Allow Login',
+                          onClick: (subAdmin: SubAdmin) =>
+                              onAllowLoginAfterHoursModalClicked(subAdmin),
+                          Icon: MdAdminPanelSettings,
+                      }
+                    : {}),
+            },
+            {
                 text: `${
                     !subAdmin?.allowAutoAssignment
                         ? 'Allow Auto Assignment'
@@ -244,6 +265,26 @@ export const ActiveSubAdmin = () => {
                             </span>
                         </Typography>
                     </>
+                ) : info.row.original?.createdBy?.role ===
+                  UserRoles.SUBADMIN ? (
+                    <>
+                        <SubAdminCell
+                            subAdmin={
+                                {
+                                    id: info.row.original?.createdBy
+                                        ?.coordinator?.id,
+                                    phone: info.row.original?.createdBy
+                                        ?.coordinator?.phone,
+                                    user: info.row.original?.createdBy as User,
+                                } as SubAdmin
+                            }
+                        />
+                        <Typography variant={'small'} uppercase>
+                            <span className="font-semibold">
+                                {info.row.original?.createdBy?.role}
+                            </span>
+                        </Typography>
+                    </>
                 ) : (
                     <Typography variant={'small'} uppercase>
                         <span className="font-semibold">
@@ -264,10 +305,14 @@ export const ActiveSubAdmin = () => {
             header: () => <span>Action</span>,
             cell: (info: any) => {
                 const actions = tableActionOptions(info?.row?.original)
+                const length = checkListLength<SubAdmin>(
+                    data?.data as SubAdmin[]
+                )
                 return (
                     <TableAction
                         options={actions}
                         rowItem={info.row.original}
+                        lastIndex={length.includes(info?.row?.index)}
                     />
                 )
             },
@@ -350,7 +395,14 @@ export const ActiveSubAdmin = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="px-6">{table}</div>
+                                        <div className="overflow-x-auto remove-scrollbar">
+                                            <div
+                                                className="px-6 w-full"
+                                                id={'studentScrollId'}
+                                            >
+                                                {table}
+                                            </div>
+                                        </div>
                                     </div>
                                 )
                             }}

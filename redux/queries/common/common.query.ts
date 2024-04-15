@@ -13,6 +13,7 @@ import { UserStatus } from '@types'
 import { LogoutType } from '@hooks'
 import { draftEndpoints } from './draft'
 import { eSignEndpoints } from './eSign'
+import { allowLoginEndpoints } from './allowLogin'
 import { ticketEndpoints } from './ticket.query'
 import { agreementsEndpoints } from './agreement'
 import { findWorkplaceEndpoints } from './findWorkplaces'
@@ -256,6 +257,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
         ...ticketEndpoints(build),
         ...coursesEndpoints(build),
         ...industriesEndpoints(build),
+        ...allowLoginEndpoints(build),
         ...agreementsEndpoints(build),
         ...appointmentsEndpoints(build),
         ...notificationsEndpoints(build),
@@ -492,6 +494,9 @@ const {
     // ---- FEEDBACK ---- //
     useStudentFeedbackMutation,
     useGetStudentCoordinatorFeedbackQuery,
+
+    // ---- ALLOW LOGIN ---- //
+    useAllowAsLoginMutation,
 } = commonApi
 
 export const CommonApi = {
@@ -728,5 +733,8 @@ export const CommonApi = {
     Feedback: {
         useStudentFeedback: useStudentFeedbackMutation,
         useStudentFeedbackList: useGetStudentCoordinatorFeedbackQuery,
+    },
+    AllowLogin: {
+        useAllowAsLogin: useAllowAsLoginMutation,
     },
 }

@@ -104,7 +104,9 @@ export function Navbar2() {
                         <div className="flex-shrink-0 flex items-center">
                             <Link href={'/'}>
                                 <Image
-                                    fill
+                                    width={0}
+                                    height={0}
+                                    sizes={'100vh 100vw'}
                                     className="block lg:hidden h-8 w-auto"
                                     src={'/images/site/logo-light.webp'}
                                     alt="Skiltrak Logo"

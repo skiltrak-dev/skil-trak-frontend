@@ -6,13 +6,15 @@ import { AgreementInitiate } from '../../../../../../sub-admin/assessmentEvidenc
 import { ViewInitiatedSign } from '../../../../../../sub-admin/assessmentEvidence/components/ViewInitiatedSign'
 
 export const InitiateSign = ({
-    courseId,
-    student,
     folder,
+    student,
+    courseId,
+    eSignDocument,
 }: {
-    courseId: number | undefined
     folder: any
     student: Student
+    eSignDocument: any
+    courseId: number | undefined
 }) => {
     const getTemplate = CommonApi.ESign.useESignTemplateDetail(
         {
@@ -21,16 +23,6 @@ export const InitiateSign = ({
         },
         {
             skip: !folder || !student,
-            refetchOnMountOrArgChange: true,
-        }
-    )
-    const eSignDocument = CommonApi.ESign.useStudentEsignDocument(
-        {
-            std: student?.user?.id,
-            folder: folder?.id,
-        },
-        {
-            skip: !folder,
             refetchOnMountOrArgChange: true,
         }
     )

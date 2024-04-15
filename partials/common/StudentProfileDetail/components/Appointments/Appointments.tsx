@@ -26,7 +26,7 @@ export const Appointments = ({ user }: { user: User }) => {
                 setIsEntered(false)
             }}
         >
-            <div>
+            <div className="!h-full">
                 <Card noPadding fullHeight>
                     <div className="px-4 py-3.5 flex justify-between items-center border-b border-secondary-dark">
                         <Typography variant="label" semibold>

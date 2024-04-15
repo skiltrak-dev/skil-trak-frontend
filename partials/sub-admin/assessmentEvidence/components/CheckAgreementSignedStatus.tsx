@@ -26,7 +26,7 @@ export const CheckAgreementSignedStatus = ({
     return (
         <div>
             {modal}
-            <div className="flex justify-center items-center border-2 border-dashed m-3 px-4 py-2">
+            <div className="flex justify-center items-center border-2 border-dashed m-3 px-4 py-0.5">
                 <div>
                     <div className="flex flex-col gap-y-1">
                         <Typography
@@ -45,14 +45,14 @@ export const CheckAgreementSignedStatus = ({
                         </Typography>
                     </div>
 
-                    <div className="mt-4 p-2">
+                    <div className="mt-1 p-1">
                         <div
                             className={`grid ${
                                 role === UserRoles.ADMIN ||
                                 role === UserRoles.SUBADMIN
                                     ? 'grid-cols-4'
                                     : 'grid-cols-3'
-                            } items-center py-1`}
+                            } items-center py-0.5`}
                         >
                             <Typography
                                 variant="small"
@@ -92,7 +92,7 @@ export const CheckAgreementSignedStatus = ({
                                         role === UserRoles.SUBADMIN
                                             ? 'grid-cols-4'
                                             : 'grid-cols-3'
-                                    } border-t-2 border-[#D9D9D9] py-2`}
+                                    } border-t-2 border-[#D9D9D9] py-1`}
                                 >
                                     <div>
                                         <Typography

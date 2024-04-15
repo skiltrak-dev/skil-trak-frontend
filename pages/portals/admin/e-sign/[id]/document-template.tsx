@@ -14,10 +14,11 @@ import { Contextbar, Sidebar } from '@components/Esign'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import DynamicSvgLoader from '@components/Esign/components/SvgLoader'
 import { NotificationMessage } from '@components/NotificationMessage'
+import { UserRoles } from '@constants'
 import { DndContext, DragOverlay } from '@dnd-kit/core'
 import { restrictToWindowEdges } from '@dnd-kit/modifiers'
 import { useAlert, useNavbar, useNotification } from '@hooks'
-import { ShowNotificationModal } from '@partials'
+import { ShowNotificationModal, ShowWarningModal } from '@partials'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -39,6 +40,7 @@ export default function ESign() {
     const [isTabSelected, setIsTabSelected] = useState<boolean>(false)
     const [tabsError, setTabsError] = useState<any>(null)
     const [pastedTabsCount, setPastedTabsCount] = useState<number>(1)
+    const [showWarning, setShowWarning] = useState<boolean>(false)
 
     const navBar = useNavbar()
 
@@ -479,7 +481,7 @@ export default function ESign() {
         }
     }
 
-    const onSaveClick = () => {
+    const onSaveTemplate = () => {
         const notRoles = items.filter((item: any) => !item?.data?.role)
         if (notRoles && notRoles?.length > 0) {
             const detailItem = document.getElementById(`${notRoles?.[0]?.id}`)
@@ -524,6 +526,7 @@ export default function ESign() {
                             description: `Templates Tabs Saved Successfully`,
                             dissmissTimer: 5500,
                         })
+                        setShowWarning(false)
                         setModal(
                             <ShowNotificationModal
                                 onCancel={() => setModal(null)}
@@ -560,6 +563,30 @@ export default function ESign() {
                         }
                     }
                 })
+        }
+    }
+
+    const signers = items
+        ?.filter((a: any) => a?.data?.type === FieldsTypeEnum.Signature)
+        ?.map((a: any) => a?.data?.role)
+    const isIcluded = pagesCount?.data?.recipients?.every((a: any) =>
+        signers?.includes(a)
+    )
+
+    const remainingRecipents: UserRoles[] =
+        pagesCount?.data?.recipients?.filter(
+            (resipent: any) => !signers?.includes(resipent)
+        )
+
+    const onSaveClick = () => {
+        // console.log({
+        //     items,
+        // })
+
+        if (isIcluded) {
+            onSaveTemplate()
+        } else {
+            setShowWarning(true)
         }
     }
 
@@ -636,6 +663,17 @@ export default function ESign() {
             {modal}
             <DisplayNotifications />
             <ShowErrorNotifications result={removeTabsResult} />
+
+            {showWarning ? (
+                <ShowWarningModal
+                    onConfirmClick={onSaveTemplate}
+                    onCancel={() => setModal(null)}
+                    loading={saveEsignTemplateResult.isLoading}
+                    remainingRecipents={remainingRecipents}
+                />
+            ) : (
+                ''
+            )}
 
             <div className="border-b bg-white">
                 <AdminNavbar />

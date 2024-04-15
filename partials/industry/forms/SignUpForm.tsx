@@ -151,10 +151,21 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         sectors: yup.array().min(1, 'Must select at least 1 sector').required(),
         courses: yup.array().min(1, 'Must select at least 1 course').required(),
         // country and state
-        country: yup.number().required('Must provide country'),
-        // region: yup.number().required('Must provide state'),
-        // region: yup.array().min(1, 'Must provide state').nullable(),
-        region: yup.object().required('Must provide state').nullable(),
+        country: yup
+            .object({
+                label: yup.string().required('Required '),
+                value: yup.number().required('Required '),
+            })
+            .typeError('Must provide country')
+            .required('Must provide country'),
+        region: yup
+            .object({
+                label: yup.string().required('Required '),
+                value: yup.number().required('Required '),
+            })
+            .typeError('Must provide country')
+            .required('Must provide country'),
+
         // Contact Person Information
         contactPerson: yup
             .string()
@@ -352,16 +363,16 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                         /> */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                             <TextInput
-                                label={'Contact Person Number'}
-                                name={'contactPersonNumber'}
-                                placeholder={'Contact Person Number ...'}
+                                label={'Contact Person Name'}
+                                name={'contactPerson'}
+                                placeholder={'Contact Person Name...'}
                                 validationIcons
                                 required
                             />
                             <TextInput
-                                label={'Contact Person Name'}
-                                name={'contactPerson'}
-                                placeholder={'Contact Person Name...'}
+                                label={'Contact Person Number'}
+                                name={'contactPersonNumber'}
+                                placeholder={'Contact Person Number ...'}
                                 validationIcons
                                 required
                             />
@@ -487,6 +498,13 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
                     <div className="w-full lg:w-4/6 mt-4">
                         <div className="grid grid-cols-2 gap-x-8">
+                            <TextInput
+                                label={'Address Line 1'}
+                                name={'addressLine1'}
+                                placeholder={'Your Address Line 1...'}
+                                validationIcons
+                                placesSuggetions
+                            />
                             <Select
                                 name="country"
                                 label={'Country'}
@@ -510,23 +528,10 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                     label: state.name,
                                     value: state.id,
                                 }))}
-                                onChange={(e: any) => {
-                                    console.log('e', e)
-                                    setOnStateSelect(e.label)
-                                }}
                                 loading={statesLoading}
                                 disabled={!countryId}
-                                // onlyValue
+                                onlyValue
                                 validationIcons
-                            />
-                        </div>
-                        <div className="grid grid-cols-1 gap-x-8">
-                            <TextInput
-                                label={'Address Line 1'}
-                                name={'addressLine1'}
-                                placeholder={'Your Address Line 1...'}
-                                validationIcons
-                                placesSuggetions
                             />
                         </div>
 
@@ -547,10 +552,19 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 }}
                             />
 
-                            <TextInput
+                            <Select
+                                name="region"
                                 label={'State'}
-                                name={'state'}
-                                placeholder={'State...'}
+                                options={states?.map((state: any) => ({
+                                    label: state.name,
+                                    value: state.id,
+                                }))}
+                                onChange={(e: any) => {
+                                    formMethods.setValue('state', e?.label)
+                                }}
+                                loading={statesLoading}
+                                disabled={!countryId}
+                                // onlyValue
                                 validationIcons
                                 value={onStateSelect || ''}
                             />

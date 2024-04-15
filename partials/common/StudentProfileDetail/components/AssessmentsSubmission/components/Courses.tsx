@@ -1,6 +1,7 @@
 import { Button, Typography } from '@components'
 import { Result } from '@constants'
 import {
+    CommonApi,
     useGetAssessmentEvidenceDetailQuery,
     useGetAssessmentResponseQuery,
     useStudentAssessmentCoursesQuery,
@@ -65,6 +66,17 @@ export const Courses = ({
         },
         {
             skip: !selectedFolder || !student || !isEntered,
+        }
+    )
+
+    const eSignDocument = CommonApi.ESign.useStudentEsignDocument(
+        {
+            std: student?.user?.id,
+            folder: Number(selectedFolder?.id),
+        },
+        {
+            skip: !selectedFolder,
+            refetchOnMountOrArgChange: true,
         }
     )
 
@@ -338,7 +350,13 @@ export const Courses = ({
 
             {/*  */}
 
-            <div className="border-y border-secondary-dark h-[450px] overflow-hidden">
+            <div
+                className={`border-y border-secondary-dark ${
+                    eSignDocument?.data && eSignDocument?.data?.length > 0
+                        ? 'h-[520px]'
+                        : 'h-[400px]'
+                }  overflow-hidden`}
+            >
                 <div className="grid grid-cols-3 h-[inherit]">
                     <div className="py-4 border-r h-[inherit]">
                         <AssessmentsFolders
@@ -350,7 +368,7 @@ export const Courses = ({
                         />
                     </div>
                     <div className="col-span-2 h-[inherit]">
-                        <div className="h-[84%]">
+                        <div className="h-[80%]">
                             <AssessmentFiles
                                 selectedFolder={selectedFolder}
                                 course={selectedCourse}
@@ -361,6 +379,7 @@ export const Courses = ({
                                         student={student}
                                         folder={selectedFolder}
                                         courseId={selectedCourse?.id}
+                                        eSignDocument={eSignDocument}
                                     />
                                 ) : null}
                             </AssessmentFiles>
@@ -372,7 +391,7 @@ export const Courses = ({
                                           result?.result === Result.ReOpened ||
                                           result?.result ===
                                               Result.NotCompetent) && (
-                                          <div className="flex justify-center items-center">
+                                          <div className="flex justify-center items-center mt-2">
                                               <SubmitAssessmentSubmission
                                                   results={
                                                       selectedCourse?.results
@@ -394,7 +413,7 @@ export const Courses = ({
                                       !getAssessmentResponse.isFetching &&
                                       getAssessmentResponse.isSuccess &&
                                       result?.isManualSubmission && (
-                                          <div className="flex justify-center items-center">
+                                          <div className="flex justify-center items-center mt-2">
                                               <SubmitAssessmentSubmission
                                                   results={
                                                       selectedCourse?.results
@@ -416,7 +435,7 @@ export const Courses = ({
                                   !getAssessmentResponse.isFetching &&
                                   getAssessmentResponse.isSuccess &&
                                   selectedCourse && (
-                                      <div className="flex justify-center items-center">
+                                      <div className="flex justify-center items-center mt-2">
                                           <SubmitAssessmentSubmission
                                               results={selectedCourse?.results}
                                               selectedCourseId={Number(

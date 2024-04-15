@@ -22,7 +22,7 @@ import { useActionModal, useContextBar, useNotification } from '@hooks'
 
 // utills
 import { UserRoles } from '@constants'
-import { AuthApi } from '@queries'
+import { AuthApi, CommonApi } from '@queries'
 import { Course } from '@types'
 import { useRouter } from 'next/router'
 import {
@@ -55,8 +55,16 @@ export const IndustryProfileFrom = ({
     const [isPartner, setIsPartner] = useState<string>('')
     const [courseOptions, setCourseOptions] = useState([])
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
+    const [countryId, setCountryId] = useState(null)
+    const [stateId, setStateId] = useState(null)
 
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
+
+    const country = CommonApi.Countries.useCountriesList()
+    const { data: states, isLoading: statesLoading } =
+        CommonApi.Countries.useCountryStatesList(countryId, {
+            skip: !countryId,
+        })
 
     const { onUpdatePassword, passwordModal } = useActionModal()
 
@@ -78,6 +86,8 @@ export const IndustryProfileFrom = ({
             )
             setCourseValues(courseAddedOptions)
             setCourseOptions(courseAddedOptions)
+            setCountryId(profile?.data?.country?.id)
+            setStateId(profile?.data?.region?.id)
         }
     }, [profile])
 
@@ -173,6 +183,21 @@ export const IndustryProfileFrom = ({
         abn: onlyNumbersAcceptedInYup(yup),
         phoneNumber: yup.string().required('Must provide phone number'),
 
+        country: yup
+            .object({
+                label: yup.string().required('Required '),
+                value: yup.number().required('Required '),
+            })
+            .typeError('Must provide country')
+            .required('Must provide country'),
+        region: yup
+            .object({
+                label: yup.string().required('Required '),
+                value: yup.number().required('Required '),
+            })
+            .typeError('Must provide country')
+            .required('Must provide country'),
+
         // Contact Person Information
         contactPerson: yup.string().required(),
         contactPersonEmail: yup.string().email('Must be a valid email'),
@@ -260,6 +285,17 @@ export const IndustryProfileFrom = ({
             })
         }
     }
+
+    const statesOption = states?.map((state: any) => ({
+        label: state.name,
+        value: state.id,
+    }))
+
+    const countryOptions =
+        country?.data?.map((country: any) => ({
+            label: country.name,
+            value: country.id,
+        })) || []
 
     return (
         <>
@@ -487,13 +523,27 @@ export const IndustryProfileFrom = ({
                             </div>
 
                             <div className="w-4/6">
-                                <div className="grid grid-cols-1 gap-x-8">
+                                <div className="grid grid-cols-2 gap-x-8">
                                     <TextInput
                                         label={'Address Line 1'}
                                         name={'addressLine1'}
                                         placeholder={'Your Address Line 1...'}
                                         validationIcons
                                         placesSuggetions
+                                    />
+                                    <Select
+                                        name="country"
+                                        label={'Country'}
+                                        options={countryOptions}
+                                        value={countryOptions?.find(
+                                            (c: any) => c?.value === countryId
+                                        )}
+                                        loading={country.isLoading}
+                                        onChange={(e: any) => {
+                                            setCountryId(e?.value)
+                                        }}
+                                        // onlyValue
+                                        validationIcons
                                     />
                                 </div>
 
@@ -514,10 +564,28 @@ export const IndustryProfileFrom = ({
                                         }}
                                     />
 
-                                    <TextInput
+                                    {/* <TextInput
                                         label={'State'}
                                         name={'state'}
                                         placeholder={'State...'}
+                                        validationIcons
+                                    /> */}
+                                    <Select
+                                        name="region"
+                                        label={'State'}
+                                        options={statesOption}
+                                        value={statesOption?.find(
+                                            (s: any) => s?.value === stateId
+                                        )}
+                                        onChange={(e: any) => {
+                                            formMethods.setValue(
+                                                'state',
+                                                e?.label
+                                            )
+                                        }}
+                                        loading={statesLoading}
+                                        disabled={!countryId}
+                                        // onlyValue
                                         validationIcons
                                     />
 

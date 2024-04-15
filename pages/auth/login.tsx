@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 import type { NextPage } from 'next'
 import Link from 'next/link'
@@ -17,11 +17,14 @@ import { AuthApi } from '@queries'
 import { LoginCredentials, StatusType, UserStatus } from '@types'
 import { AuthUtils, isBrowser } from '@utils'
 import { UserRoles } from '@constants'
+import { LoginErrorAfterHoursModal } from '@modals'
 
 const Login: NextPage = () => {
     const router = useRouter()
 
     const [login, loginResult] = AuthApi.useLogin()
+
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [requested, setRequested] = useState(false)
     const [rejected, setRejected] = useState(false)
@@ -118,13 +121,27 @@ const Login: NextPage = () => {
                 role: role === 'sub-admin' ? UserRoles.SUBADMIN : role,
             })
         }
+
         AuthUtils.logout()
         setRememberLogin(values?.remember as boolean)
-        await login(values)
+        await login(values).then((res: any) => {
+            console.log({ res: res?.error?.data?.error === 'ahle' })
+            if (res?.error?.data?.error === 'ahle') {
+                setModal(
+                    <LoginErrorAfterHoursModal
+                        onCancel={() => {
+                            setModal(null)
+                        }}
+                        error={res?.error?.data}
+                    />
+                )
+            }
+        })
     }
 
     return (
         <AuthLayout type="log-in">
+            {modal}
             {requested && <AccountStatus status={UserStatus.Pending} />}
             {rejected && <AccountStatus status={UserStatus.Rejected} />}
             {archived && <AccountStatus status={UserStatus.Archived} />}

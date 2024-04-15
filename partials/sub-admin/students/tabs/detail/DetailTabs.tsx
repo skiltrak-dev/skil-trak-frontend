@@ -12,6 +12,8 @@ import { RequiredDocs } from './RequiredDocs'
 import { Schedule } from './Schedule'
 import { StudentTickets } from './StudentTickets'
 import { WorkplaceTab } from './WorkplaceTab'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 export const DetailTabs = ({
     id,
     student,
@@ -19,13 +21,16 @@ export const DetailTabs = ({
     id: number | string | string[] | undefined
     student: StudentSubAdmin
 }) => {
+    const role = getUserCredentials()?.role
+    const url =
+        role === UserRoles.ADMIN
+            ? String(id)
+            : `/portals/sub-admin/students/${String(id)}/old-detail`
     const tabs: TabProps[] = [
         {
             label: 'Overview',
             href: {
-                pathname: `/portals/sub-admin/students/${String(
-                    id
-                )}/old-detail`,
+                pathname: url,
                 query: { tab: 'overview' },
             },
             element: <OverViewTab student={student} />,
@@ -33,9 +38,7 @@ export const DetailTabs = ({
         {
             label: 'Submissions',
             href: {
-                pathname: `/portals/sub-admin/students/${String(
-                    id
-                )}/old-detail`,
+                pathname: url,
                 query: { tab: 'submissions' },
             },
             element: (
@@ -50,9 +53,7 @@ export const DetailTabs = ({
         {
             label: 'Industry Checks',
             href: {
-                pathname: `/portals/sub-admin/students/${String(
-                    id
-                )}/old-detail`,
+                pathname: url,
                 query: { tab: 'industry-checks' },
             },
             element: (
@@ -66,9 +67,7 @@ export const DetailTabs = ({
         {
             label: 'Schedule',
             href: {
-                pathname: `/portals/sub-admin/students/${String(
-                    id
-                )}/old-detail`,
+                pathname: url,
                 query: { tab: 'schedule' },
             },
             element: <Schedule studentId={student?.id} user={student?.user} />,
@@ -76,9 +75,7 @@ export const DetailTabs = ({
         {
             label: 'Workplace',
             href: {
-                pathname: `/portals/sub-admin/students/${String(
-                    id
-                )}/old-detail`,
+                pathname: url,
                 query: { tab: 'workplace' },
             },
             element: <WorkplaceTab studentId={student?.id} />,
@@ -86,9 +83,7 @@ export const DetailTabs = ({
         {
             label: 'Student Ticket',
             href: {
-                pathname: `/portals/sub-admin/students/${String(
-                    id
-                )}/old-detail`,
+                pathname: url,
                 query: { tab: 'studenttickets' },
             },
             element: <StudentTickets student={student} />,
@@ -96,9 +91,7 @@ export const DetailTabs = ({
         {
             label: 'Appointments',
             href: {
-                pathname: `/portals/sub-admin/students/${String(
-                    id
-                )}/old-detail`,
+                pathname: url,
                 query: { tab: 'appointments' },
             },
             element: <AppointmentTab userId={student?.user?.id} />,
@@ -106,9 +99,7 @@ export const DetailTabs = ({
         {
             label: 'Mails',
             href: {
-                pathname: `/portals/sub-admin/students/${String(
-                    id
-                )}/old-detail`,
+                pathname: url,
                 query: { tab: 'mails' },
             },
             element: <MailsTab user={student?.user} />,
@@ -116,9 +107,7 @@ export const DetailTabs = ({
         {
             label: 'Notes',
             href: {
-                pathname: `/portals/sub-admin/students/${String(
-                    id
-                )}/old-detail`,
+                pathname: url,
                 query: { tab: 'notes' },
             },
             element: <NotesTab user={student?.user} />,
@@ -126,9 +115,7 @@ export const DetailTabs = ({
         {
             label: 'All Communications',
             href: {
-                pathname: `/portals/sub-admin/students/${String(
-                    id
-                )}/old-detail`,
+                pathname: url,
                 query: { tab: 'all-communications' },
             },
             element: <AllCommunicationTab user={student?.user} />,

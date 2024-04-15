@@ -15,6 +15,7 @@ import { AuthUtils } from '@utils'
 import { format } from 'date-fns'
 import { useMediaQuery } from 'react-responsive'
 import StackGrid, { transitions } from 'react-stack-grid'
+import moment from 'moment-timezone'
 const { scaleDown } = transitions
 
 const AdminDashboard: NextPageWithLayout = () => {
@@ -54,6 +55,15 @@ const AdminDashboard: NextPageWithLayout = () => {
             }
         }
     }, [])
+
+    const Melbourne = 'Melbourne'
+
+    // Get current time in Australia/Sydney timezone
+    const currentTimeSydney = moment()
+        .tz(`Australia/${Melbourne}`)
+        .format('YYYY-MM-DD HH:mm:ss')
+
+    console.log('Current time in Australia/Melbourne:', currentTimeSydney)
 
     return (
         <div className="flex flex-col gap-y-6 pb-8 px-6 pt-6 ">

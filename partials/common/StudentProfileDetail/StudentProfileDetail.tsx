@@ -19,7 +19,7 @@ import {
     Tickets,
     Workplace,
 } from './components'
-import { UserStatus } from '@types'
+import { StudentStatusEnum, UserStatus } from '@types'
 import { FaTimes } from 'react-icons/fa'
 import { IoIosArrowRoundBack } from 'react-icons/io'
 import dynamic from 'next/dynamic'
@@ -80,9 +80,22 @@ export const StudentProfileDetail = () => {
                         })
                         break
                     case UserStatus.Archived:
-                        alertMessage.warning({
-                            title: 'Student is Archived',
-                            description: 'Student is Archived',
+                        alertMessage[
+                            profile?.data?.studentStatus ===
+                            StudentStatusEnum.COMPLETED
+                                ? 'success'
+                                : 'warning'
+                        ]({
+                            title:
+                                profile?.data?.studentStatus ===
+                                StudentStatusEnum.COMPLETED
+                                    ? 'Student is Completed'
+                                    : 'Student is Archived',
+                            description:
+                                profile?.data?.studentStatus ===
+                                StudentStatusEnum.COMPLETED
+                                    ? 'Student is Completed'
+                                    : 'Student is Archived',
                             autoDismiss: false,
                         })
                         break
@@ -229,11 +242,19 @@ export const StudentProfileDetail = () => {
                 <LoadingAnimation />
             ) : profile?.data && profile?.isSuccess ? (
                 <div className="flex flex-col gap-y-5 mt-8 px-2">
-                    <div className="h-[500px] overflow-hidden grid grid-cols-5 gap-x-3">
+                    <div
+                        className={` overflow-hidden grid ${
+                            role === UserRoles.ADMIN
+                                ? 'grid-cols-1 gap-3'
+                                : 'grid-cols-5 h-[500px]'
+                        } gap-x-3`}
+                    >
                         <div
-                            className={`col-span-3 h-full ${activeBorder(
-                                ProfileIds.Workplace
-                            )}`}
+                            className={`${
+                                role === UserRoles.ADMIN
+                                    ? 'col-span-1'
+                                    : 'col-span-3'
+                            } h-full ${activeBorder(ProfileIds.Workplace)}`}
                             id={`student-profile-${ProfileIds.Workplace}`}
                         >
                             <Workplace
@@ -242,9 +263,11 @@ export const StudentProfileDetail = () => {
                             />
                         </div>
                         <div
-                            className={`col-span-2 h-full ${activeBorder(
-                                ProfileIds.Notes
-                            )}`}
+                            className={`${
+                                role === UserRoles.ADMIN
+                                    ? 'col-span-1'
+                                    : 'col-span-2'
+                            } h-full ${activeBorder(ProfileIds.Notes)}`}
                             id={`student-profile-${ProfileIds.Notes}`}
                         >
                             <Notes userId={profile?.data?.user?.id} />
@@ -289,7 +312,9 @@ export const StudentProfileDetail = () => {
                         </div>
                         <div
                             id={`student-profile-${ProfileIds.Tickets}`}
-                            className={`${activeBorder(ProfileIds.Tickets)}`}
+                            className={`${activeBorder(
+                                ProfileIds.Tickets
+                            )} !h-[inherit]`}
                         >
                             <Tickets studentId={profile?.data?.id} />
                         </div>

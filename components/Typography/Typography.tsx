@@ -63,6 +63,8 @@ interface TypographyProps {
     underline?: boolean
 
     cursorPointer?: boolean
+    block?: boolean
+    italic?: boolean
 }
 
 export const Typography = ({
@@ -92,8 +94,11 @@ export const Typography = ({
     extraBold,
 
     underline,
+    italic,
 
     cursorPointer,
+
+    block,
 }: TypographyProps) => {
     let classes = `${color}`
 
@@ -129,8 +134,16 @@ export const Typography = ({
         classes = `${classes} underline`
     }
 
+    if (italic) {
+        classes = `${classes} italic`
+    }
+
     if (cursorPointer) {
         classes = `${classes} cursor-pointer`
+    }
+
+    if (block) {
+        classes = `${classes} block`
     }
 
     const Component = `${
