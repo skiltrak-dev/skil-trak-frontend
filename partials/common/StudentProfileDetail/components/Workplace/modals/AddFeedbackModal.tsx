@@ -1,4 +1,4 @@
-import { GlobalModal, Typography } from '@components'
+import { GlobalModal, ShowErrorNotifications, Typography } from '@components'
 import { useNotification } from '@hooks'
 import { CommonApi, useStartPlacementMutation } from '@queries'
 import { Course } from '@types'
@@ -71,6 +71,7 @@ export const AddFeedbackModal = ({
     }
     return (
         <GlobalModal>
+            <ShowErrorNotifications result={addFeedbackResult} />
             <div className="relative lg:min-w-[800px] max-w-6xl px-10 py-7">
                 {onCancel && (
                     <MdCancel

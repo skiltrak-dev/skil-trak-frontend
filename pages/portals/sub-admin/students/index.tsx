@@ -45,14 +45,16 @@ import { useRouter } from 'next/router'
 type Props = {}
 
 const filterKeys = [
+    'nowp',
     'name',
     'email',
     'phone',
-    'studentId',
-    'status',
     'rtoId',
-    'industryId',
+    'suburb',
+    'status',
     'courseId',
+    'studentId',
+    'industryId',
     'currentStatus',
 ]
 

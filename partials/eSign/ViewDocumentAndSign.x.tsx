@@ -98,17 +98,6 @@ export const ViewDocumentAndSign = () => {
 
     const onCancelClicked = () => setModal(null)
 
-    const onSignatureClicked = (sign: any) => {
-        setModal(
-            <EsignSignatureModal
-                tab={sign}
-                onCancel={() => {
-                    onCancelClicked()
-                }}
-            />
-        )
-    }
-
     const onSelectAll = useCallback((e: any) => {
         setCustomFieldsData((customFields: any) =>
             customFields?.map((data: any) =>
@@ -149,6 +138,18 @@ export const ViewDocumentAndSign = () => {
                 />
             )
         }
+    }
+
+    const onSignatureClicked = (sign: any) => {
+        setModal(
+            <EsignSignatureModal
+                tab={sign}
+                onCancel={() => {
+                    onCancelClicked()
+                }}
+                customFieldsData={customFieldsData}
+            />
+        )
     }
 
     const customFieldsAndSign = customFieldsData?.filter(

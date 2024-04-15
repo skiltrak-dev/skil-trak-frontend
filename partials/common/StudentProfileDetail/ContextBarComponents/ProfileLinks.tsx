@@ -22,18 +22,26 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
 
     const profileLinks = [
         {
-            text: 'Edit Password',
-            Icon: IoMdEyeOff,
-            onClick: () => {
-                onUpdatePassword({ user: profile?.user })
-            },
+            ...(role === UserRoles.ADMIN || role === UserRoles.RTO
+                ? {
+                      text: 'Edit Password',
+                      Icon: IoMdEyeOff,
+                      onClick: () => {
+                          onUpdatePassword({ user: profile?.user })
+                      },
+                  }
+                : {}),
         },
         {
-            text: 'View Password',
-            Icon: IoMdEyeOff,
-            onClick: () => {
-                onViewPassword(profile)
-            },
+            ...(role === UserRoles.ADMIN || role === UserRoles.RTO
+                ? {
+                      text: 'View Password',
+                      Icon: IoMdEyeOff,
+                      onClick: () => {
+                          onViewPassword(profile)
+                      },
+                  }
+                : {}),
         },
         {
             text: 'Edit Profile',

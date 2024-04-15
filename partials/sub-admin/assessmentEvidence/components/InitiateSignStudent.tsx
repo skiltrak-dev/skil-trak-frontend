@@ -10,7 +10,7 @@ import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import { Industry, OptionType, SubAdmin } from '@types'
-import { AuthUtils } from '@utils'
+import { AuthUtils, getUserCredentials } from '@utils'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
@@ -115,6 +115,10 @@ export const InitiateSignStudent = ({
         }
     }, [student])
 
+    const user = getUserCredentials()
+
+    console.log({ subadmins, user })
+
     useEffect(() => {
         if (
             student?.data &&
@@ -125,7 +129,9 @@ export const InitiateSignStudent = ({
             setSelectedCoordinator(
                 student?.data?.subadmin
                     ? student?.data?.subadmin
-                    : subadmins?.data?.[0]
+                    : subadmins?.data?.find(
+                          (s: SubAdmin) => s?.user?.id === user?.id
+                      ) || subadmins?.data?.[0]
             )
         }
     }, [student, subadmins])

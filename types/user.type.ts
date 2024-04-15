@@ -114,6 +114,7 @@ export interface Student extends BaseResponse {
 
 interface UserExtend extends User {
     rto: Rto
+    coordinator: SubAdmin
 }
 
 export interface SubAdmin extends BaseResponse {

@@ -29,14 +29,16 @@ import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
 
 const filterKeys = [
+    'nowp',
     'name',
     'email',
     'phone',
-    'studentId',
-    'status',
     'rtoId',
-    'industryId',
+    'suburb',
+    'status',
     'courseId',
+    'studentId',
+    'industryId',
     'currentStatus',
 ]
 

@@ -7,13 +7,13 @@ import { useRouter } from 'next/router'
 import { IoWarningOutline } from 'react-icons/io5'
 
 export const FinishEmailSignModal = ({
-    customFieldsData,
     onCancel,
     decodeDataId,
+    customFieldsData,
 }: {
-    customFieldsData: any
     onCancel: Function
     decodeDataId: number
+    customFieldsData: any
 }) => {
     const { notification } = useNotification()
     const router = useRouter()
@@ -46,18 +46,20 @@ export const FinishEmailSignModal = ({
     return (
         <>
             <ShowErrorNotifications result={addCustomFieldsDataResult} />
-            <ActionModal
-                Icon={IoWarningOutline}
-                variant="success"
-                title="Are you sure!"
-                description={`You are about to finish Esign Do you wish to continue?`}
-                onConfirm={onConfirmUClicked}
-                onCancel={onCancel}
-                input
-                inputKey={customFieldsData}
-                actionObject={customFieldsData}
-                loading={addCustomFieldsDataResult.isLoading}
-            />
+            <div className="relative z-[11111111]">
+                <ActionModal
+                    Icon={IoWarningOutline}
+                    variant="success"
+                    title="Are you sure!"
+                    description={`You are about to finish Esign Do you wish to continue?`}
+                    onConfirm={onConfirmUClicked}
+                    onCancel={onCancel}
+                    input
+                    inputKey={customFieldsData}
+                    actionObject={customFieldsData}
+                    loading={addCustomFieldsDataResult.isLoading}
+                />
+            </div>
         </>
     )
 }

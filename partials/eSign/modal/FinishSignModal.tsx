@@ -19,6 +19,8 @@ export const FinishSignModal = ({
     const [addCustomFieldsData, addCustomFieldsDataResult] =
         CommonApi.ESign.addCustomFieldData()
 
+    console.log({ customFieldsData })
+
     const onConfirmUClicked = () => {
         addCustomFieldsData({
             documentId: Number(router.query?.id),
@@ -39,18 +41,20 @@ export const FinishSignModal = ({
     return (
         <>
             <ShowErrorNotifications result={addCustomFieldsDataResult} />
-            <ActionModal
-                Icon={IoWarningOutline}
-                variant="success"
-                title="Are you sure!"
-                description={`You are about to finish Esign Do you wish to continue?`}
-                onConfirm={onConfirmUClicked}
-                onCancel={onCancel}
-                input
-                inputKey={customFieldsData}
-                actionObject={customFieldsData}
-                loading={addCustomFieldsDataResult.isLoading}
-            />
+            <div className="relative z-[11111111]">
+                <ActionModal
+                    Icon={IoWarningOutline}
+                    variant="success"
+                    title="Are you sure!"
+                    description={`You are about to finish Esign Do you wish to continue?`}
+                    onConfirm={onConfirmUClicked}
+                    onCancel={onCancel}
+                    input
+                    inputKey={customFieldsData}
+                    actionObject={customFieldsData}
+                    loading={addCustomFieldsDataResult.isLoading}
+                />
+            </div>
         </>
     )
 }

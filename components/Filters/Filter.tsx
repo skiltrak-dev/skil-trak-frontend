@@ -125,7 +125,7 @@ export const Filter = <FormFilterTypes,>({
                         removeFilterKeysToUrl={removeFilterKeysToUrl}
                     />
                 </div>
-                <div className="flex flex-wrap gap-x-2">
+                <div className="flex flex-wrap gap-x-2 mt-2">
                     {Object.entries(filters as unknown as QueryType).map(
                         ([key, value]) =>
                             (value as string) && (

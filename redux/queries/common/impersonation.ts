@@ -16,6 +16,6 @@ export const impersonationEndpoints = (
             url: `admin/can-admin/${id}`,
             method: 'PATCH',
         }),
-        invalidatesTags: ['Impersonation'],
+        invalidatesTags: ['Impersonation', 'SubAdmins'],
     }),
 })

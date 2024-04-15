@@ -38,10 +38,27 @@ export const SubAdminStudentFilters = ({
         label: course?.title,
     }))
 
+    const noWorkplaceOption = [
+        {
+            label: 'No Workplace',
+            value: 'Na',
+        },
+    ]
+
     return (
         <>
             <SetQueryFilters<SubAdminStudentsFilterType> filter={filter} />
-            <div className="grid grid-cols-3 gap-x-3">
+            <div className="grid grid-cols-4 gap-x-3">
+                <TextInput
+                    name="studentId"
+                    label={'Student Id'}
+                    placeholder={'Search by Student Id Email ...'}
+                    value={filter?.studentId}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, studentId: e.target.value })
+                    }}
+                    showError={false}
+                />
                 <TextInput
                     name="name"
                     label={'Name'}
@@ -50,6 +67,7 @@ export const SubAdminStudentFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, name: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="email"
@@ -60,6 +78,7 @@ export const SubAdminStudentFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, email: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="phone"
@@ -69,16 +88,20 @@ export const SubAdminStudentFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, phone: e.target.value })
                     }}
+                    showError={false}
                 />
+
                 <TextInput
-                    name="studentId"
-                    label={'Student Id'}
-                    placeholder={'Search by Student Id Email ...'}
-                    value={filter?.studentId}
+                    name="suburb"
+                    label={'Suburb'}
+                    placeholder={'Search by Student Suburb ...'}
+                    value={filter?.suburb}
                     onChange={(e: any) => {
-                        onFilterChange({ ...filter, studentId: e.target.value })
+                        onFilterChange({ ...filter, suburb: e.target.value })
                     }}
+                    showError={false}
                 />
+
                 <Select
                     label={'Status'}
                     name={'status'}
@@ -93,6 +116,7 @@ export const SubAdminStudentFilters = ({
                             status: e?.value as UserStatus,
                         })
                     }}
+                    showError={false}
                 />
                 <Select
                     label={'Search By Rto'}
@@ -106,6 +130,7 @@ export const SubAdminStudentFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, rtoId: e?.value })
                     }}
+                    showError={false}
                     loading={getRtos.isLoading}
                     disabled={getRtos.isLoading}
                 />
@@ -121,6 +146,7 @@ export const SubAdminStudentFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, industryId: e?.value })
                     }}
+                    showError={false}
                     loading={getIndustries.isLoading}
                     disabled={getIndustries.isLoading}
                 />
@@ -137,6 +163,7 @@ export const SubAdminStudentFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, courseId: e?.value })
                     }}
+                    showError={false}
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}
                 />
@@ -152,6 +179,20 @@ export const SubAdminStudentFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, currentStatus: e?.value })
                     }}
+                    showError={false}
+                />
+                <Select
+                    label={'Student with no workplace'}
+                    name={'nowp'}
+                    options={noWorkplaceOption}
+                    placeholder={'Student with no workplace...'}
+                    value={noWorkplaceOption?.find(
+                        (noWp: SelectOption) => noWp.value === filter?.nowp
+                    )}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, nowp: e?.value })
+                    }}
+                    showError={false}
                 />
             </div>
         </>

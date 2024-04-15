@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 
 export const StepCreate = () => {
     const router = useRouter()
-    const formData: RtoFormData = SignUpUtils.getValuesFromStorage()
+    const formData: any = SignUpUtils.getValuesFromStorage()
     const [register, registerResult] = AuthApi.useRegisterIndustry()
     const [login, loginResult] = AuthApi.useLogin()
 
@@ -19,6 +19,8 @@ export const StepCreate = () => {
                     ...formData,
                     courses: formData.courses?.map((c: OptionType) => c.value),
                     sectors: formData.sectors?.map((s: OptionType) => s.value),
+                    country: formData?.country?.value,
+                    region: formData?.region?.value,
                     // package: formData.package.id,
                     role: UserRoles.INDUSTRY,
                 }
