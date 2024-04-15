@@ -13,6 +13,7 @@ import { SiteLayout } from '@layouts'
 import {
     EsignSignatureModal,
     FinishEmailSignModal,
+    FinishShignInfoModal,
     SVGView,
     ScrollTabsView,
 } from '@partials'
@@ -27,6 +28,8 @@ const ESign = () => {
 
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [customFieldsData, setCustomFieldsData] = useState<any>([])
+    const [isSignature, setIsSignature] = useState<boolean>(false)
+
     const [decodeData, setDecodeData] = useState<any>(null)
     const [selectedFillDataField, setSelectedFillDataField] =
         useState<any>(null)
@@ -75,7 +78,7 @@ const ESign = () => {
         if (tabs.isSuccess && tabs?.data && tabs?.data?.length > 0) {
             setCustomFieldsData(
                 tabs?.data
-                    ?.filter((t: any) => !t?.responses?.length)
+                    // ?.filter((t: any) => !t?.responses?.length)
                     ?.map((tab: any) => {
                         const response = tab?.responses?.reduce(
                             (accumulator: any, current: any) => {
@@ -109,11 +112,32 @@ const ESign = () => {
         setCustomFieldsData(updatedData)
     }
 
-    const sign = tabs?.data?.find(
+    const sign = customFieldsData?.find(
         (s: any) => s?.type === FieldsTypeEnum.Signature
     )
 
     const onCancelClicked = () => setModal(null)
+
+    const onSignatureCancelClicked = (cancel?: boolean) => {
+        if (cancel) {
+            setIsSignature(false)
+        } else {
+            console.log({ tabs })
+            if (tabs?.data && tabs.isSuccess && tabs?.data?.length > 0) {
+                setTimeout(() => {
+                    console.log({ innerTabs: tabs })
+                    setModal(
+                        <FinishShignInfoModal
+                            emailSign
+                            decodeData={decodeData}
+                            onCancel={onCancelClicked}
+                            customFieldsData={customFieldsData}
+                        />
+                    )
+                }, 1000)
+            }
+        }
+    }
 
     const onSelectAll = useCallback((e: any) => {
         setCustomFieldsData((customFields: any) =>
@@ -162,28 +186,40 @@ const ESign = () => {
             setModal(
                 <FinishEmailSignModal
                     onCancel={onCancelClicked}
-                    customFieldsData={customFieldsData}
                     decodeDataId={decodeData?.id}
+                    customFieldsData={customFieldsData}
                 />
             )
         }
     }
 
     const onSignatureClicked = (sign: any) => {
-        setModal(
-            <EsignSignatureModal
-                tab={sign}
-                onCancel={() => {
-                    onCancelClicked()
-                }}
-                customFieldsData={customFieldsData}
-            />
-        )
+        setIsSignature(true)
+        // setModal(
+        //     <EsignSignatureModal
+        //         tab={sign}
+        //         onCancel={() => {
+        //             onSignatureCancelClicked()
+        //         }}
+        //         customFieldsData={customFieldsData}
+        //         action={CommonApi.ESign.useAddSign}
+        //     />
+        // )
     }
 
     return (
         <SiteLayout title={'E Sign'}>
             {modal}
+            {isSignature ? (
+                <EsignSignatureModal
+                    tab={sign}
+                    onCancel={(cancel?: boolean) => {
+                        onSignatureCancelClicked(cancel)
+                    }}
+                    customFieldsData={customFieldsData}
+                    action={CommonApi.ESign.useAddSign}
+                />
+            ) : null}
             <ShowErrorNotifications result={checkIfUserSigned} />
             <div className="max-w-7xl mx-auto py-10">
                 <PageHeading title="E-Sign" subtitle="E Sign" />

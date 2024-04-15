@@ -265,6 +265,26 @@ export const ActiveSubAdmin = () => {
                             </span>
                         </Typography>
                     </>
+                ) : info.row.original?.createdBy?.role ===
+                  UserRoles.SUBADMIN ? (
+                    <>
+                        <SubAdminCell
+                            subAdmin={
+                                {
+                                    id: info.row.original?.createdBy
+                                        ?.coordinator?.id,
+                                    phone: info.row.original?.createdBy
+                                        ?.coordinator?.phone,
+                                    user: info.row.original?.createdBy as User,
+                                } as SubAdmin
+                            }
+                        />
+                        <Typography variant={'small'} uppercase>
+                            <span className="font-semibold">
+                                {info.row.original?.createdBy?.role}
+                            </span>
+                        </Typography>
+                    </>
                 ) : (
                     <Typography variant={'small'} uppercase>
                         <span className="font-semibold">

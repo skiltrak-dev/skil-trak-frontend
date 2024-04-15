@@ -21,8 +21,8 @@ export const EsignSignatureModal = ({
 }: {
     tab: any
     action?: any
-    onCancel: (cancel?: boolean) => void
     customFieldsData: any
+    onCancel: (cancel?: boolean) => void
 }) => {
     const router = useRouter()
 
@@ -31,8 +31,6 @@ export const EsignSignatureModal = ({
     const ref = useRef<ReactSignatureCanvas>()
 
     const { notification } = useNotification()
-
-    console.log({ bundData: customFieldsData })
 
     const [signDocument, signDocumentResult] = action
         ? action()

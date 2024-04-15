@@ -57,7 +57,8 @@ export const ViewDocumentAndSign = () => {
         if (tabs?.data && tabs?.data?.length > 0) {
             alert.warning({
                 title: 'Make a Sign first',
-                description: 'Make a Sign before to fill your fields data',
+                description:
+                    'Please sign the document first, then fill in the required fields. Finally, complete the e-signature process by clicking button.',
                 autoDismiss: false,
             })
         }

@@ -5,21 +5,27 @@ import { FaCircleCheck } from 'react-icons/fa6'
 import { IoWarningOutline } from 'react-icons/io5'
 import { FinishSignModal } from './FinishSignModal'
 import { useNotification } from '@hooks'
+import { FinishEmailSignModal } from './FinishEmailSignModal'
 
 export const FinishShignInfoModal = ({
     onCancel,
+    emailSign,
     customFieldsData,
+    decodeData,
 }: {
+    emailSign?: boolean
     onCancel: () => void
     customFieldsData: any
+    decodeData?: any
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const { notification } = useNotification()
 
-    console.log({ customFieldsDatacustomFieldsData: customFieldsData })
-
-    const onCancelClicked = () => setModal(null)
+    const onCancelClicked = () => {
+        setModal(null)
+        onCancel()
+    }
     const onConfirmClicked = () => {
         const customValues = customFieldsData?.filter(
             (data: any) => data?.isCustom && !data?.fieldValue && data?.required
@@ -40,12 +46,22 @@ export const FinishShignInfoModal = ({
                 description: 'Please fill all required fields',
             })
         } else {
-            setModal(
-                <FinishSignModal
-                    onCancel={onCancelClicked}
-                    customFieldsData={customFieldsData}
-                />
-            )
+            if (emailSign) {
+                setModal(
+                    <FinishEmailSignModal
+                        onCancel={onCancelClicked}
+                        decodeDataId={decodeData?.id}
+                        customFieldsData={customFieldsData}
+                    />
+                )
+            } else {
+                setModal(
+                    <FinishSignModal
+                        onCancel={onCancelClicked}
+                        customFieldsData={customFieldsData}
+                    />
+                )
+            }
         }
     }
     return (
@@ -62,7 +78,7 @@ export const FinishShignInfoModal = ({
                         <p
                             className="text-gray-500 max-w-[400px] text-center"
                             dangerouslySetInnerHTML={{
-                                __html: `Sign completed, Please fill your fields data or if you already have filled the data or there is no fields to fill so finish the e-sign document from button below! <br/> You can also finish the e-sign form the the end of document`,
+                                __html: `Please fill in your data in the fields provided. If you have already filled in the data or if there are no fields to fill, proceed to finish the e-signature process by clicking the button below. <br/> You may also complete the e-signature form at the end of the document.`,
                             }}
                         ></p>
                     </div>
