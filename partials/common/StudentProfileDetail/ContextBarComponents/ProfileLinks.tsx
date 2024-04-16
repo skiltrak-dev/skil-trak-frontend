@@ -33,15 +33,11 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
                 : {}),
         },
         {
-            ...(role === UserRoles.ADMIN || role === UserRoles.RTO
-                ? {
-                      text: 'View Password',
-                      Icon: IoMdEyeOff,
-                      onClick: () => {
-                          onViewPassword(profile)
-                      },
-                  }
-                : {}),
+            text: 'View Password',
+            Icon: IoMdEyeOff,
+            onClick: () => {
+                onViewPassword(profile)
+            },
         },
         {
             text: 'Edit Profile',

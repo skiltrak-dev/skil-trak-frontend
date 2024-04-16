@@ -97,8 +97,13 @@ export const TabsView = ({
                                     ''
                                 ) : (
                                     <div
+                                        id={`tabs-view-${s?.id}`}
                                         onClick={() => onSignatureClicked(s)}
-                                        className="z-10 w-full h-full bg-red-600 flex justify-center items-center gap-x-2 text-white"
+                                        className={`z-10 w-full h-full bg-red-600 flex justify-center items-center gap-x-2 text-white ${
+                                            selectedFillDataField === s?.id
+                                                ? 'border-2 border-primary-light'
+                                                : ''
+                                        }  rounded`}
                                     >
                                         <FaSignature className="text-xs" />
                                         <button className="text-[8px]">
@@ -113,7 +118,7 @@ export const TabsView = ({
                                     <input
                                         type="text"
                                         name=""
-                                        // id={`tabs-view-${i}`}
+                                        id={`tabs-view-${s?.id}`}
                                         value={s?.fieldValue}
                                         className={`w-full h-full border-2 rounded-md placeholder:text-xs ${
                                             selectedFillDataField === s?.id
@@ -133,7 +138,7 @@ export const TabsView = ({
                                         <input
                                             type={FieldsTypeEnum.Checkbox}
                                             name={s?.columnName}
-                                            // id={`tabs-view-${i}`}
+                                            id={`tabs-view-${s?.id}`}
                                             // defaultChecked={s?.fieldValue}
                                             checked={s?.fieldValue}
                                             style={{
@@ -171,7 +176,7 @@ export const TabsView = ({
                                         <input
                                             type={FieldsTypeEnum.Radio}
                                             name={s?.columnName}
-                                            // id={`tabs-view-${i}`}
+                                            id={`tabs-view-${s?.id}`}
                                             value={s?.fieldValue}
                                             className="border rounded-md border-gray-500 text-sm p-1 outline-none"
                                             placeholder={s?.label}
@@ -196,7 +201,7 @@ export const TabsView = ({
                                                 fieldValue: e?.target?.value,
                                             })
                                         }}
-                                        // id={`tabs-view-${i}`}
+                                        id={`tabs-view-${s?.id}`}
                                         className="w-full h-4 border border-gray-600 rounded text-xs"
                                     >
                                         <option>Select</option>
@@ -233,7 +238,7 @@ export const TabsView = ({
                                         <input
                                             type="date"
                                             name=""
-                                            // id={`tabs-view-${i}`}
+                                            id={`tabs-view-${s?.id}`}
                                             value={s?.fieldValue?.slice(0, 10)}
                                             className="w-full h-5 border rounded-md border-gray-500 text-sm p-1 outline-none"
                                             placeholder={s?.label}

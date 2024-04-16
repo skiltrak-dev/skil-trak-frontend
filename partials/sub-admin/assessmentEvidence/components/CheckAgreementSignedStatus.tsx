@@ -120,7 +120,6 @@ export const CheckAgreementSignedStatus = ({
                                                 variant="xs"
                                                 color={'text-gray-700'}
                                                 medium
-                                                capitalize
                                             >
                                                 {signer?.user?.email}
                                             </Typography>
