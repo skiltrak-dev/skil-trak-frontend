@@ -51,7 +51,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                 </>
             )
             show(false)
-        } 
+        }
         return () => {
             setContent(null)
             hide()
@@ -153,7 +153,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                         }}
                         disabled={!rtoDetail?.isSuccess}
                     />
-                    <Button text="More" variant="action" />
+                    {/* <Button text="More" variant="action" /> */}
                 </div>
             </div>
             {rtoDetail.isError && <TechnicalError />}

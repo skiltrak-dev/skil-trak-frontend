@@ -200,7 +200,7 @@ export const useRequestType = ({
             date: appliedIndustry?.awaitingWorkplaceResponseDate,
         },
         {
-            primaryText: 'Agreement & Eligibility ',
+            primaryText: 'Agreement & Eligibility (Pending)',
             secondaryText: 'Checklist Pending',
             color: 'text-info',
             onClick: (isCleared: (bool: boolean) => void) => {
@@ -225,7 +225,7 @@ export const useRequestType = ({
             date: appliedIndustry?.awaitingAgreementSignedDate,
         },
         {
-            primaryText: 'Agreement & Eligibility ',
+            primaryText: 'Agreement & Eligibility (Signed)',
             secondaryText: 'Checklist Signed',
             color: 'text-success',
             onClick: (isCleared: (bool: boolean) => void) => {
@@ -351,7 +351,7 @@ export const useRequestType = ({
             date: appliedIndustry?.interviewDate,
         },
         {
-            primaryText: 'Agreement & Eligibility ',
+            primaryText: 'Agreement & Eligibility (Pending)',
             secondaryText: 'Checklist Pending',
             color: 'text-info',
             onClick: (isCleared: any) => {
@@ -376,7 +376,7 @@ export const useRequestType = ({
             date: appliedIndustry?.awaitingAgreementSignedDate,
         },
         {
-            primaryText: 'Agreement & Eligibility ',
+            primaryText: 'Agreement & Eligibility (Signed)',
             secondaryText: 'Checklist Signed',
             color: 'text-success',
             onClick: (isCleared: any) => {
@@ -497,7 +497,7 @@ export const useRequestType = ({
             date: appliedIndustry?.awaitingWorkplaceResponseDate,
         },
         {
-            primaryText: 'Agreement & Eligibility ',
+            primaryText: 'Agreement & Eligibility (Pending)',
             secondaryText: 'Checklist Pending',
             color: 'text-info',
             onClick: (isCleared: isClearedFunctionType) => {
@@ -521,7 +521,7 @@ export const useRequestType = ({
             date: appliedIndustry?.awaitingAgreementSignedDate,
         },
         {
-            primaryText: 'Agreement & Eligibility ',
+            primaryText: 'Agreement & Eligibility (Signed)',
             secondaryText: 'Checklist Signed',
             color: 'text-success',
             onClick: (isCleared: isClearedFunctionType) => {
