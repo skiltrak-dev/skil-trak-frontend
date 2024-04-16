@@ -14,7 +14,7 @@ import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import { FaRegTimesCircle } from 'react-icons/fa'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { IoMdArrowDropleftCircle } from 'react-icons/io'
-import { SVGView, ScrollTabsView } from './components'
+import { DocumentScrollArrow, SVGView, ScrollTabsView } from './components'
 import { EsignSignatureModal, FinishSignModal } from './modal'
 import { FinishShignInfoModal } from './modal'
 
@@ -30,6 +30,8 @@ export const ViewDocumentAndSign = () => {
     const [customFieldsData, setCustomFieldsData] = useState<any>([])
     const [customFieldsDataUpdated, setCustomFieldsDataUpdated] =
         useState<boolean>(false)
+    const [customFieldsSelectedId, setCustomFieldsSelectedId] =
+        useState<number>(-1)
     const [selectedFillDataField, setSelectedFillDataField] =
         useState<any>(null)
 
@@ -53,8 +55,6 @@ export const ViewDocumentAndSign = () => {
         }
     )
 
-    // const sign = ''
-
     useEffect(() => {
         if (tabs?.data && tabs?.data?.length > 0) {
             if (!alerts?.length) {
@@ -73,10 +73,17 @@ export const ViewDocumentAndSign = () => {
 
     const scrollTargetRef = useRef<any>([])
 
-    const scrollToPage = (pageIndex: number) => {
-        const targetElement = scrollTargetRef.current[pageIndex]
+    const scrollToPage = (pageIndex: number, currentPage: number) => {
+        const targetElement = scrollTargetRef.current[currentPage]
         const detailItem = document.getElementById(`tabs-view-${pageIndex}`)
-        if (targetElement) {
+        console.log({
+            detailItemdetailItemdetailItem: detailItem,
+            pageIndex,
+            targetElement,
+        })
+        if (detailItem) {
+            detailItem.scrollIntoView({ behavior: 'smooth' })
+        } else if (targetElement) {
             targetElement.scrollIntoView({ behavior: 'smooth' })
         }
     }
@@ -208,10 +215,64 @@ export const ViewDocumentAndSign = () => {
         (s: any) => s?.type === FieldsTypeEnum.Signature || s?.isCustom
     )
 
+    console.log({ customFieldsAndSign })
+
     const [isChecked, setIsChecked] = useState(false)
 
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked)
+    }
+
+    console.log({
+        babababa: customFieldsAndSign?.[customFieldsSelectedId],
+        customFieldsData,
+        customFieldsSelectedId,
+    })
+
+    const extractAndConvert = (position: string) => {
+        const [x, y] = position.split(',').map(parseFloat)
+        return x + y
+    }
+
+    // Function to add the number with position
+    const addNumberWithPosition = (item: any) => {
+        const number = item.number
+        const position = item.position
+        const sum = extractAndConvert(position)
+        return { id: item?.id, number, position, sum }
+    }
+
+    // Adding number with position and sorting in ascending order based on sum
+    const sortedPositions = customFieldsData
+        .map(addNumberWithPosition)
+        .sort((a: any, b: any) => {
+            // First, sort by number in ascending order
+            if (a.number !== b.number) {
+                return a.number - b.number
+            }
+            // If numbers are equal, sort by sum of position values
+            return a.sum - b.sum
+        })
+
+    console.log({ sortedPositions })
+
+    useEffect(() => {
+        scrollToPage(
+            Number(sortedPositions?.[customFieldsSelectedId]?.id),
+            sortedPositions?.[customFieldsSelectedId]?.number - 1
+        )
+    }, [customFieldsSelectedId])
+
+    const onDocumentScrollArrow = () => {
+        if (customFieldsSelectedId < sortedPositions?.length - 1) {
+            setSelectedFillDataField(
+                sortedPositions?.[customFieldsSelectedId + 1]?.id
+            )
+            setCustomFieldsSelectedId(customFieldsSelectedId + 1)
+        } else {
+            setSelectedFillDataField(sortedPositions?.[0]?.id)
+            setCustomFieldsSelectedId(0)
+        }
     }
 
     return (
@@ -247,7 +308,7 @@ export const ViewDocumentAndSign = () => {
                 </div>
             )}
 
-            {documentsTotalPages.isSuccess && (
+            {/* {documentsTotalPages.isSuccess && (
                 <div className="flex justify-end items-center">
                     <ActionButton
                         onClick={() => {
@@ -260,7 +321,7 @@ export const ViewDocumentAndSign = () => {
                         Show Sign or Text Fields
                     </ActionButton>
                 </div>
-            )}
+            )} */}
 
             {documentsTotalPages.isError && <TechnicalError />}
             {documentsTotalPages.isLoading ? (
@@ -269,7 +330,7 @@ export const ViewDocumentAndSign = () => {
                 <>
                     <div className="grid grid-cols-1 lg:grid-cols-6 gap-x-2.5 relative">
                         <div className="block lg:hidden">
-                            <div className=" flex justify-end items-center ">
+                            {/* <div className="flex justify-end items-center ">
                                 <div
                                     onClick={() =>
                                         setShowSignersField(!showSignersField)
@@ -293,14 +354,15 @@ export const ViewDocumentAndSign = () => {
                                         />
                                     </div>
                                 )}
-                            </div>
+                            </div> */}
                         </div>
+
                         <div
                             className={`${
                                 showSignersField
-                                    ? 'lg:col-span-5'
+                                    ? 'lg:col-span-6'
                                     : 'lg:col-span-6'
-                            }  flex flex-col gap-y-3 relative w-full`}
+                            } max-w- pl-20 mx-auto flex flex-col gap-y-3 relative w-full`}
                         >
                             {/* <div className="flex justify-end items-center gap-x-2">
                                 <input
@@ -322,9 +384,11 @@ export const ViewDocumentAndSign = () => {
                                     ref={(el) =>
                                         (scrollTargetRef.current[i] = el)
                                     }
+                                    onClick={() => {}}
+                                    className="relative"
                                 >
-                                    <Card key={i}>
-                                        <div className="flex justify-center">
+                                    <Card key={i} noPadding>
+                                        <div className="absolute top-1 left-1/2 flex justify-center">
                                             <Typography
                                                 variant="label"
                                                 semibold
@@ -334,7 +398,17 @@ export const ViewDocumentAndSign = () => {
                                         </div>
                                         <SVGView
                                             index={i}
+                                            sortedPositions={sortedPositions}
+                                            onDocumentScrollArrow={() => {
+                                                onDocumentScrollArrow()
+                                            }}
                                             customFieldsData={customFieldsData}
+                                            customFieldsAndSign={
+                                                customFieldsAndSign
+                                            }
+                                            customFieldsSelectedId={
+                                                customFieldsSelectedId
+                                            }
                                             selectedFillDataField={
                                                 selectedFillDataField
                                             }
@@ -353,7 +427,7 @@ export const ViewDocumentAndSign = () => {
                             ))}
                         </div>
 
-                        {showSignersField && (
+                        {/* {showSignersField && (
                             <div className="hidden lg:block sticky top-0 bg-white h-[85vh]">
                                 <div className="p-3 flex justify-end">
                                     <FaRegTimesCircle
@@ -374,7 +448,7 @@ export const ViewDocumentAndSign = () => {
                                     customFieldsAndSign={customFieldsAndSign}
                                 />
                             </div>
-                        )}
+                        )} */}
                     </div>
                     <div className="flex justify-center bg-white px-5 py-2 shadow-md w-full rounded my-2">
                         <button

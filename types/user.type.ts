@@ -37,6 +37,7 @@ export interface User extends BaseResponse {
     avatar: string | undefined
     appointmentFor: any
     statusChangeHistory: StatusChangeHistory
+    after_hours_access: boolean
 }
 
 export interface UserCount {

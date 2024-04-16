@@ -29,6 +29,8 @@ const ESign = () => {
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [customFieldsData, setCustomFieldsData] = useState<any>([])
     const [isSignature, setIsSignature] = useState<boolean>(false)
+    const [customFieldsSelectedId, setCustomFieldsSelectedId] =
+        useState<number>(-1)
 
     const [decodeData, setDecodeData] = useState<any>(null)
     const [selectedFillDataField, setSelectedFillDataField] =
@@ -139,6 +141,31 @@ const ESign = () => {
         }
     }
 
+    const extractAndConvert = (position: string) => {
+        const [x, y] = position.split(',').map(parseFloat)
+        return x + y
+    }
+
+    // Function to add the number with position
+    const addNumberWithPosition = (item: any) => {
+        const number = item.number
+        const position = item.position
+        const sum = extractAndConvert(position)
+        return { id: item?.id, number, position, sum }
+    }
+
+    // Adding number with position and sorting in ascending order based on sum
+    const sortedPositions = customFieldsData
+        .map(addNumberWithPosition)
+        .sort((a: any, b: any) => {
+            // First, sort by number in ascending order
+            if (a.number !== b.number) {
+                return a.number - b.number
+            }
+            // If numbers are equal, sort by sum of position values
+            return a.sum - b.sum
+        })
+
     const onSelectAll = useCallback((e: any) => {
         setCustomFieldsData((customFields: any) =>
             customFields?.map((data: any) =>
@@ -152,12 +179,27 @@ const ESign = () => {
         )
     }, [])
 
-    const scrollToPage = (pageIndex: number) => {
-        const targetElement = scrollTargetRef.current[pageIndex]
-        if (targetElement) {
+    const scrollToPage = (pageIndex: number, currentPage: number) => {
+        const targetElement = scrollTargetRef.current[currentPage]
+        const detailItem = document.getElementById(`tabs-view-${pageIndex}`)
+        console.log({
+            detailItemdetailItemdetailItem: detailItem,
+            pageIndex,
+            targetElement,
+        })
+        if (detailItem) {
+            detailItem.scrollIntoView({ behavior: 'smooth' })
+        } else if (targetElement) {
             targetElement.scrollIntoView({ behavior: 'smooth' })
         }
     }
+
+    useEffect(() => {
+        scrollToPage(
+            Number(sortedPositions?.[customFieldsSelectedId]?.id),
+            sortedPositions?.[customFieldsSelectedId]?.number - 1
+        )
+    }, [customFieldsSelectedId])
 
     const customFieldsAndSign = customFieldsData?.filter(
         (s: any) => s?.type === FieldsTypeEnum.Signature || s?.isCustom
@@ -205,6 +247,18 @@ const ESign = () => {
         //         action={CommonApi.ESign.useAddSign}
         //     />
         // )
+    }
+
+    const onDocumentScrollArrow = () => {
+        if (customFieldsSelectedId < sortedPositions?.length - 1) {
+            setSelectedFillDataField(
+                sortedPositions?.[customFieldsSelectedId + 1]?.id
+            )
+            setCustomFieldsSelectedId(customFieldsSelectedId + 1)
+        } else {
+            setSelectedFillDataField(sortedPositions?.[0]?.id)
+            setCustomFieldsSelectedId(0)
+        }
     }
 
     return (
@@ -317,6 +371,18 @@ const ESign = () => {
                                                 </Typography>
                                             </div>
                                             <SVGView
+                                                customFieldsAndSign={
+                                                    customFieldsAndSign
+                                                }
+                                                customFieldsSelectedId={
+                                                    customFieldsSelectedId
+                                                }
+                                                onDocumentScrollArrow={() => {
+                                                    onDocumentScrollArrow()
+                                                }}
+                                                sortedPositions={
+                                                    sortedPositions
+                                                }
                                                 index={i}
                                                 customFieldsData={
                                                     customFieldsData

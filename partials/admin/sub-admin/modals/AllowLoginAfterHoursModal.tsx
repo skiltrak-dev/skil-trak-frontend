@@ -19,7 +19,13 @@ export const AllowLoginAfterHoursModal = ({
             if (res?.data) {
                 notification.success({
                     title: `subAdmin Allowed As Admin`,
-                    description: `subAdmin "${subAdmin?.user?.name}" has been Allowed as Admin.`,
+                    description: `subAdmin "${
+                        subAdmin?.user?.name
+                    }" login access has been ${
+                        subAdmin?.user?.after_hours_access
+                            ? 'removed'
+                            : 'provided'
+                    }.`,
                 })
                 onCancel()
             }

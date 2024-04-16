@@ -143,7 +143,7 @@ export const Typography = ({
     }
 
     if (block) {
-        classes = `${classes} block`
+        classes = `${classes} !block`
     }
 
     const Component = `${

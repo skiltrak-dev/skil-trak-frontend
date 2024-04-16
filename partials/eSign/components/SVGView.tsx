@@ -5,15 +5,24 @@ import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { Waypoint } from 'react-waypoint'
 import { TabsView } from './TabsView'
+import { DocumentScrollArrow } from './DocumentScrollArrow'
 
 export const SVGView = ({
+    sortedPositions,
     index,
     documentData,
     customFieldsData,
     onSignatureClicked,
     onAddCustomFieldsData,
+    onDocumentScrollArrow,
     selectedFillDataField,
+    customFieldsSelectedId,
+    customFieldsAndSign,
 }: {
+    sortedPositions: any
+    onDocumentScrollArrow: () => void
+    customFieldsAndSign: any
+    customFieldsSelectedId: number
     index: number
     documentData: any
     customFieldsData: any
@@ -25,6 +34,8 @@ export const SVGView = ({
     const [viewport, setViewport] = useState<string | null>('')
 
     const [loadSvg, setLoadSvg] = useState(false)
+
+    const [x, y, width, height] = viewport?.split(' ') || []
 
     const document = CommonApi.ESign.useTemplateDocumentForSign(
         { id: Number(router.query?.id), pageNumber: index },
@@ -68,6 +79,12 @@ export const SVGView = ({
 
         setTimerId(id)
     }
+    console.log(
+        'ABCDE',
+        height,
+        viewport,
+        customFieldsAndSign?.[customFieldsSelectedId]?.number - 1 === index
+    )
 
     return (
         <>
@@ -91,7 +108,38 @@ export const SVGView = ({
                 // bottomOffset="-50%"
                 // topOffset="50%"
             >
-                <div>
+                <div className="relative">
+                    {((sortedPositions &&
+                        sortedPositions?.[customFieldsSelectedId]?.number -
+                            1 ===
+                            index) ||
+                        customFieldsSelectedId === -1) && (
+                        <div
+                            className={`absolute -left-24 z-[111111111] ${
+                                customFieldsSelectedId < 0 ? 'rotate-90' : ''
+                            } transition-all duration-500`}
+                            style={{
+                                top:
+                                    customFieldsSelectedId >= 0
+                                        ? `${
+                                              (Number(
+                                                  sortedPositions?.[
+                                                      customFieldsSelectedId
+                                                  ]?.position?.split(',')?.[1]
+                                              ) *
+                                                  100) /
+                                              Number(height)
+                                          }%`
+                                        : 0,
+                                // top: '24%',
+                            }}
+                            onClick={() => {
+                                onDocumentScrollArrow()
+                            }}
+                        >
+                            <DocumentScrollArrow />
+                        </div>
+                    )}
                     {document.isError && <TechnicalError />}
                     {document?.data ? (
                         <svg
@@ -124,6 +172,21 @@ __html: svgContent,
                                             )
                                     )}`}
                                 />
+
+                                {/* <foreignObject
+                                    x={-1}
+                                    y={
+                                        customFieldsSelectedId >= 0
+                                            ? Number(
+                                                  customFieldsAndSign?.[
+                                                      customFieldsSelectedId
+                                                  ]?.position?.split(',')?.[1]
+                                              )
+                                            : 0
+                                    }
+                                    width={100}
+                                    height={100}
+                                ></foreignObject> */}
 
                                 <TabsView
                                     index={index}

@@ -316,7 +316,7 @@ export const ViewDocumentAndSign = () => {
                                                 {i + 1}
                                             </Typography>
                                         </div>
-                                        <SVGView
+                                        {/* <SVGView
                                             index={i}
                                             customFieldsData={customFieldsData}
                                             selectedFillDataField={
@@ -331,7 +331,7 @@ export const ViewDocumentAndSign = () => {
                                             documentData={
                                                 documentsTotalPages?.data
                                             }
-                                        />
+                                        /> */}
                                     </Card>
                                 </div>
                             ))}
