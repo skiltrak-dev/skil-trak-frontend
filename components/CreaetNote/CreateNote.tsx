@@ -114,8 +114,6 @@ export const CreateNote = ({
 
     const sa = 'Saad Khan'
 
-    console.log({ receiverId })
-
     useEffect(() => {
         setBodyData(
             EditorState.createWithContent(ContentState.createFromText(sa))

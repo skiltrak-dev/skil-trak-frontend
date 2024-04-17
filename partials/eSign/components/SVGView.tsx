@@ -79,12 +79,6 @@ export const SVGView = ({
 
         setTimerId(id)
     }
-    console.log(
-        'ABCDE',
-        height,
-        viewport,
-        customFieldsAndSign?.[customFieldsSelectedId]?.number - 1 === index
-    )
 
     return (
         <>

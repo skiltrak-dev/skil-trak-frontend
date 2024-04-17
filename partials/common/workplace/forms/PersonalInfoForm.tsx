@@ -65,8 +65,6 @@ export const PersonalInfoForm = ({
 
     const { notification } = useNotification()
 
-    console.log({ personalInfoData })
-
     useEffect(() => {
         if (
             personalInfoData &&

@@ -63,8 +63,6 @@ const AdminDashboard: NextPageWithLayout = () => {
         .tz(`Australia/${Melbourne}`)
         .format('YYYY-MM-DD HH:mm:ss')
 
-    console.log('Current time in Australia/Melbourne:', currentTimeSydney)
-
     return (
         <div className="flex flex-col gap-y-6 pb-8 px-6 pt-6 ">
             {/* Admin Welcome Message */}

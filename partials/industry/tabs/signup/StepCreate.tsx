@@ -21,7 +21,6 @@ export const StepCreate = () => {
                     sectors: formData.sectors?.map((s: OptionType) => s.value),
                     country: formData?.country?.value,
                     region: formData?.region?.value,
-                    // package: formData.package.id,
                     role: UserRoles.INDUSTRY,
                 }
 

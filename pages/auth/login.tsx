@@ -125,7 +125,6 @@ const Login: NextPage = () => {
         AuthUtils.logout()
         setRememberLogin(values?.remember as boolean)
         await login(values).then((res: any) => {
-            console.log({ res: res?.error?.data?.error === 'ahle' })
             if (res?.error?.data?.error === 'ahle') {
                 setModal(
                     <LoginErrorAfterHoursModal

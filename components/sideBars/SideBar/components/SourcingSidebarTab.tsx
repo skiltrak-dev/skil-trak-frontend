@@ -38,9 +38,7 @@ export const SourcingSidebarTab = () => {
         },
     ]
 
-    const onSubmit = async (values: any) => {
-        console.log('values', values)
-    }
+    const onSubmit = (values: any) => {}
     return (
         <div>
             <FormProvider {...methods}>

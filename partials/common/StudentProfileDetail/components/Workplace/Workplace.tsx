@@ -50,7 +50,9 @@ const WPStatusForCancelButon = [
 export const Workplace = ({
     studentId,
     studentUserId,
+    getWorkplaceLength,
 }: {
+    getWorkplaceLength: (length: number) => void
     studentUserId: number
     studentId: number
 }) => {
@@ -91,6 +93,7 @@ export const Workplace = ({
             studentWorkplace?.isSuccess &&
             studentWorkplace?.data?.length > 0
         ) {
+            getWorkplaceLength(studentWorkplace?.data?.length)
             setSelectedWorkplace(
                 selectedWorkplace
                     ? studentWorkplace?.data?.find(
@@ -132,18 +135,21 @@ export const Workplace = ({
                         </span>
                     </Typography>
                     <div className="flex items-center gap-x-2">
-                        {selectedWorkplace && (
-                            <ActionButton
-                                variant={'link'}
-                                onClick={() => {
-                                    onViewWorkplaceQuestions(
-                                        selectedWorkplace?.questions
-                                    )
-                                }}
-                            >
-                                View Answers
-                            </ActionButton>
-                        )}
+                        {selectedWorkplace
+                            ? !selectedWorkplace?.studentProvidedWorkplace &&
+                              !selectedWorkplace?.byExistingAbn && (
+                                  <ActionButton
+                                      variant={'link'}
+                                      onClick={() => {
+                                          onViewWorkplaceQuestions(
+                                              selectedWorkplace?.questions
+                                          )
+                                      }}
+                                  >
+                                      View Answers
+                                  </ActionButton>
+                              )
+                            : null}
                         {studentWorkplace?.data &&
                         studentWorkplace?.data?.length === 1 ? (
                             <div className="whitespace-pre">

@@ -57,10 +57,6 @@ export const ImportStudentFromWithOtp = ({
             .catch((err) => {})
     }
 
-    console.log(
-        'Hello Boss',
-        checkMailsResult.data?.findIndex((obj: any) => 'email' === obj.email)
-    )
     return (
         <div className="p-6">
             <div className="mb-4">

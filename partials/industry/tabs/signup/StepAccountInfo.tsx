@@ -9,7 +9,6 @@ export const StepAccountInfo = () => {
     const onSubmit = (values: any) => {
         SignUpUtils.setValuesToStorage({
             ...values,
-            region: values?.region?.value,
         })
         router.push({ query: { step: 'notification-method' } })
     }

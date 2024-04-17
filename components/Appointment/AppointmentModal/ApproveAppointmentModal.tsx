@@ -14,7 +14,6 @@ export const ApproveAppointmentModal = ({
     onCancel: Function
     appointmentUser: any
 }) => {
-    console.log({ appointmentUser })
     const { notification } = useNotification()
     const [approveAppointment, approveAppointmentResult] =
         CommonApi.Appointments.useApproveAppointment()
