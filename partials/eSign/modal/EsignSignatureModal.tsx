@@ -44,7 +44,6 @@ export const EsignSignatureModal = ({
 
     useEffect(() => {
         if (signDocumentResult?.isSuccess) {
-            console.log({ tab })
             if (tab && tab?.responses && tab?.responses?.length > 0) {
                 onCancel()
             }
@@ -73,7 +72,6 @@ export const EsignSignatureModal = ({
                         title: 'Signed',
                         description: 'Signed',
                     })
-                    console.log({ signsignsignsign: tab })
                 }
             })
         }

@@ -26,12 +26,9 @@ export const UploadReportKpiForm = ({ name, onChange }: any) => {
         }
     }, [values])
     const { register, handleSubmit } = useForm()
-    console.log('values', values)
-    console.log('fileName', fileName)
-    console.log('mediaFile', mediaFile)
+
     const handleChange = (event: any, isDragging: boolean) => {
         const formData = new FormData()
-        console.log('isDragging', event[0])
         setIsDrag(false)
         // Gettin file Data
         setValues(event[0] || event.target.files[0])
@@ -72,7 +69,6 @@ export const UploadReportKpiForm = ({ name, onChange }: any) => {
     }
     const onSubmit = () => {
         if (values) {
-            console.log('values', values, mediaFile)
             window.alert(mediaFile.type)
         }
     }

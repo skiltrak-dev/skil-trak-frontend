@@ -51,10 +51,12 @@ export const IndustryStatus = ({
     )
 
     useEffect(() => {
-        if (findStatusIndex) {
+        if (findStatusIndex || findStatusIndex === 0) {
             setSelectedRequestType(findStatusIndex)
         }
-    }, [findStatusIndex])
+    }, [findStatusIndex, workplace?.currentStatus])
+
+    console.log({ findStatusIndex, selectedRequestType })
 
     return (
         <div className="flex flex-col gap-y-1.5">

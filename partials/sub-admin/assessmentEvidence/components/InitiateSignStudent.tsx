@@ -117,8 +117,6 @@ export const InitiateSignStudent = ({
 
     const user = getUserCredentials()
 
-    console.log({ subadmins, user })
-
     useEffect(() => {
         if (
             student?.data &&

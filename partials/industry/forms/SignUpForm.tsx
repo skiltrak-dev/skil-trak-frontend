@@ -29,7 +29,6 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
     const sectorResponse = AuthApi.useSectors({})
     const [onStateSelect, setOnStateSelect] = useState()
-    console.log('onStateSelect', onStateSelect)
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
     const [checkAbnExist, checkAbnExistResult] = AuthApi.useAbn()
 

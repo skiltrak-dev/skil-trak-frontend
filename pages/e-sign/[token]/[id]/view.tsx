@@ -124,10 +124,8 @@ const ESign = () => {
         if (cancel) {
             setIsSignature(false)
         } else {
-            console.log({ tabs })
             if (tabs?.data && tabs.isSuccess && tabs?.data?.length > 0) {
                 setTimeout(() => {
-                    console.log({ innerTabs: tabs })
                     setModal(
                         <FinishShignInfoModal
                             emailSign
@@ -182,11 +180,7 @@ const ESign = () => {
     const scrollToPage = (pageIndex: number, currentPage: number) => {
         const targetElement = scrollTargetRef.current[currentPage]
         const detailItem = document.getElementById(`tabs-view-${pageIndex}`)
-        console.log({
-            detailItemdetailItemdetailItem: detailItem,
-            pageIndex,
-            targetElement,
-        })
+
         if (detailItem) {
             detailItem.scrollIntoView({ behavior: 'smooth' })
         } else if (targetElement) {

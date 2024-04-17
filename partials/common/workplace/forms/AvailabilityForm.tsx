@@ -76,6 +76,7 @@ export const AvailabilityForm = ({
             icon: './icons/night.svg',
         },
     ]
+
     return (
         <div>
             <ShowErrorNotifications result={result} />
@@ -107,28 +108,28 @@ export const AvailabilityForm = ({
                         </div>
 
                         <div className="flex flex-col gap-y-2 mt-4">
-                            {days.map((days, i) => {
+                            {days.map((day, i) => {
                                 const availabilityDay = availabilities?.find(
                                     (availability: any) =>
-                                        availability?.name == days
+                                        availability?.name == day
                                 )
 
                                 return (
                                     <div
-                                        key={days}
+                                        key={day}
                                         className="grid grid-cols-5 items-center gap-4 px-3 bg-secondary rounded-lg py-2"
                                     >
                                         <Typography
                                             capitalize
                                             variant={'label'}
                                         >
-                                            {days}
+                                            {day}
                                         </Typography>
 
                                         {shifts.map((shift, i) => {
                                             const defaultChecked =
                                                 availabilityDay &&
-                                                Object.keys(
+                                                Object.values(
                                                     availabilityDay
                                                 )?.find(
                                                     (time: any) =>
@@ -141,7 +142,7 @@ export const AvailabilityForm = ({
                                                     key={shift.time}
                                                 >
                                                     <Checkbox
-                                                        name={days}
+                                                        name={day}
                                                         value={shift.time}
                                                         defaultChecked={
                                                             defaultChecked

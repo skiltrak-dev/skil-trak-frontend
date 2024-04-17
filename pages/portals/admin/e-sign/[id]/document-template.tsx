@@ -579,10 +579,6 @@ export default function ESign() {
         )
 
     const onSaveClick = () => {
-        // console.log({
-        //     items,
-        // })
-
         if (isIcluded) {
             onSaveTemplate()
         } else {

@@ -8,9 +8,7 @@ const TestLogin = () => {
         mode: 'all',
     })
 
-    const onSubmit = (data: LoginCredentials) => {
-        console.log({ data })
-    }
+    const onSubmit = (data: LoginCredentials) => {}
     return (
         <AuthLayout type="log-in">
             <FormProvider {...methods}>

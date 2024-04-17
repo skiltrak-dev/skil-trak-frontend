@@ -76,11 +76,7 @@ export const ViewDocumentAndSign = () => {
     const scrollToPage = (pageIndex: number, currentPage: number) => {
         const targetElement = scrollTargetRef.current[currentPage]
         const detailItem = document.getElementById(`tabs-view-${pageIndex}`)
-        console.log({
-            detailItemdetailItemdetailItem: detailItem,
-            pageIndex,
-            targetElement,
-        })
+
         if (detailItem) {
             detailItem.scrollIntoView({ behavior: 'smooth' })
         } else if (targetElement) {
@@ -133,17 +129,12 @@ export const ViewDocumentAndSign = () => {
     //     (s: any) => s?.type === FieldsTypeEnum.Signature
     // )
 
-    console.log({ sign })
-
     const onCancelClicked = () => setModal(null)
-    console.log({ outerTabs: tabs })
     const onSignatureCancelClicked = (cancel?: boolean) => {
         if (cancel) {
             setIsSignature(false)
         } else {
-            console.log({ tabs })
             if (tabs?.data && tabs.isSuccess && tabs?.data?.length > 0) {
-                console.log({ innerTabs: tabs })
                 setTimeout(() => {
                     setModal(
                         <FinishShignInfoModal
@@ -215,19 +206,11 @@ export const ViewDocumentAndSign = () => {
         (s: any) => s?.type === FieldsTypeEnum.Signature || s?.isCustom
     )
 
-    console.log({ customFieldsAndSign })
-
     const [isChecked, setIsChecked] = useState(false)
 
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked)
     }
-
-    console.log({
-        babababa: customFieldsAndSign?.[customFieldsSelectedId],
-        customFieldsData,
-        customFieldsSelectedId,
-    })
 
     const extractAndConvert = (position: string) => {
         const [x, y] = position.split(',').map(parseFloat)
@@ -253,8 +236,6 @@ export const ViewDocumentAndSign = () => {
             // If numbers are equal, sort by sum of position values
             return a.sum - b.sum
         })
-
-    console.log({ sortedPositions })
 
     useEffect(() => {
         scrollToPage(
