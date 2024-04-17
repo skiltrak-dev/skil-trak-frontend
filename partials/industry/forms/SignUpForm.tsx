@@ -21,6 +21,7 @@ import {
 import { Button, Checkbox, Select, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
+import { OptionType } from '@types'
 
 export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const router = useRouter()
@@ -515,21 +516,12 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 }
                                 loading={country.isLoading}
                                 onChange={(e: any) => {
-                                    setCountryId(e)
+                                    setCountryId(e?.value)
                                 }}
-                                onlyValue
-                                validationIcons
-                            />
-                            <Select
-                                name="region"
-                                label={'State'}
-                                options={states?.map((state: any) => ({
-                                    label: state.name,
-                                    value: state.id,
-                                }))}
-                                loading={statesLoading}
-                                disabled={!countryId}
-                                onlyValue
+                                value={country?.data?.find(
+                                    (c: OptionType) => c?.value === countryId
+                                )}
+                                // onlyValue
                                 validationIcons
                             />
                         </div>
@@ -560,12 +552,16 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 }))}
                                 onChange={(e: any) => {
                                     formMethods.setValue('state', e?.label)
+                                    setOnStateSelect(e?.value)
                                 }}
                                 loading={statesLoading}
                                 disabled={!countryId}
                                 // onlyValue
                                 validationIcons
-                                value={onStateSelect || ''}
+                                value={states?.find(
+                                    (state: OptionType) =>
+                                        state?.value === onStateSelect
+                                )}
                             />
 
                             <TextInput
