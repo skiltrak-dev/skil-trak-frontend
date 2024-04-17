@@ -72,7 +72,6 @@ const SubAdminDashboard: NextPageWithLayout = () => {
     const statistics = SubAdminApi.Count.statistics(undefined, {
         skip: status !== UserStatus.Approved,
     })
-    console.log({ statistics })
     const sectorsWithCourses = getSectors(data?.courses)
 
     const { viewedPendingIndustriesModal, setViewedPendingIndustriesModal } =

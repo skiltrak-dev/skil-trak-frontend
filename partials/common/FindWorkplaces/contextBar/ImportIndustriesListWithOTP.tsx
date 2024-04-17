@@ -68,7 +68,6 @@ export const ImportIndustriesListWithOTP = () => {
         importListResult?.errorMails?.filter(
             (ind: { source: string }) => ind?.source === source
         )
-    console.log({ importListResult })
     return (
         <div>
             {modal}

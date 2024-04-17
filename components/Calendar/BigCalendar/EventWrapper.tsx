@@ -17,8 +17,6 @@ export const EventWrapper = <T extends object>(event: any) => {
 
     const rto = roles.includes(UserRoles.RTO)
 
-    console.log({ event: event?.event })
-
     const classes = classNames({
         'absolute max-h-full min-h-[20px] hover:min-h-[80px] border-l-2 px-1 py-1 overflow-hidden transition-all cursor-pointer':
             true,

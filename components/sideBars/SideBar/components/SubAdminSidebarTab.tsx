@@ -40,16 +40,11 @@ export const SubAdminSidebarTab = () => {
             value: 3,
         },
     ]
-    const onSubmit = async (values: any) => {
-        console.log('values', values)
-    }
+    const onSubmit = async (values: any) => {}
     return (
         <div>
             <FormProvider {...methods}>
-                <form
-                    className=""
-                    onSubmit={methods.handleSubmit(onSubmit)}
-                >
+                <form className="" onSubmit={methods.handleSubmit(onSubmit)}>
                     <div className="p-4">
                         <Select
                             name="subadmin"
@@ -77,7 +72,12 @@ export const SubAdminSidebarTab = () => {
                             type="date"
                             label={'To'}
                         />
-                        <Button submit text="Search" variant="primaryNew" fullWidth />
+                        <Button
+                            submit
+                            text="Search"
+                            variant="primaryNew"
+                            fullWidth
+                        />
                     </div>
                 </form>
             </FormProvider>

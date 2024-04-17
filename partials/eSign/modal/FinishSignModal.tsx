@@ -19,8 +19,6 @@ export const FinishSignModal = ({
     const [addCustomFieldsData, addCustomFieldsDataResult] =
         CommonApi.ESign.addCustomFieldData()
 
-    console.log({ customFieldsData })
-
     const onConfirmUClicked = () => {
         addCustomFieldsData({
             documentId: Number(router.query?.id),

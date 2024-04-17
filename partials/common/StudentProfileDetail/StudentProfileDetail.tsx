@@ -33,6 +33,7 @@ const Schedule = dynamic(() => import('./components/Schedule/Schedule'), {
 export const StudentProfileDetail = () => {
     const contextBar = useContextBar()
     const [selectedId, setSelectedId] = useState<string>('')
+    const [workplaceLength, setWorkplaceLength] = useState<number>(0)
 
     useEffect(() => {
         let timer: any = null
@@ -151,6 +152,12 @@ export const StudentProfileDetail = () => {
 
     const role = getUserCredentials()?.role
 
+    const getWorkplaceLength = (length: number) => {
+        if (length) {
+            setWorkplaceLength(length)
+        }
+    }
+
     return (
         <div>
             <div className="flex justify-between items-center gap-x-3">
@@ -241,12 +248,16 @@ export const StudentProfileDetail = () => {
             {profile.isLoading ? (
                 <LoadingAnimation />
             ) : profile?.data && profile?.isSuccess ? (
-                <div className="flex flex-col gap-y-5 mt-8 px-2">
+                <div className="flex flex-col gap-y-5 mt-8 mb-20 px-2">
                     <div
-                        className={` overflow-hidden grid ${
+                        className={`overflow-hidden grid ${
                             role === UserRoles.ADMIN
                                 ? 'grid-cols-1 gap-3'
-                                : 'grid-cols-5 h-[500px]'
+                                : `grid-cols-5  ${
+                                      workplaceLength > 1
+                                          ? 'h-[580px]'
+                                          : 'h-[500px]'
+                                  } `
                         } gap-x-3`}
                     >
                         <div
@@ -254,10 +265,11 @@ export const StudentProfileDetail = () => {
                                 role === UserRoles.ADMIN
                                     ? 'col-span-1'
                                     : 'col-span-3'
-                            } h-full ${activeBorder(ProfileIds.Workplace)}`}
+                            } h-[99%] ${activeBorder(ProfileIds.Workplace)}`}
                             id={`student-profile-${ProfileIds.Workplace}`}
                         >
                             <Workplace
+                                getWorkplaceLength={getWorkplaceLength}
                                 studentId={profile?.data?.id}
                                 studentUserId={profile?.data?.user?.id}
                             />
@@ -267,7 +279,7 @@ export const StudentProfileDetail = () => {
                                 role === UserRoles.ADMIN
                                     ? 'col-span-1'
                                     : 'col-span-2'
-                            } h-full ${activeBorder(ProfileIds.Notes)}`}
+                            } h-[99%] ${activeBorder(ProfileIds.Notes)}`}
                             id={`student-profile-${ProfileIds.Notes}`}
                         >
                             <Notes userId={profile?.data?.user?.id} />

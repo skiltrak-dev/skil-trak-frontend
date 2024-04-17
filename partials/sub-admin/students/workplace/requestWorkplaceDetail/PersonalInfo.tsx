@@ -17,8 +17,6 @@ export const PersonalInfo = ({
     const router = useRouter()
     const { id } = router.query
 
-    
-
     const courses = SubAdminApi.Courses.useStudentCourses(Number(id), {
         skip: !id,
     })
@@ -33,7 +31,6 @@ export const PersonalInfo = ({
             })
         )
 
-        console.log({ values, questions })
         setPersonalInfoData({
             // ...values,
             courses: values?.courses?.value,
