@@ -7,6 +7,7 @@ import {
     Rto,
     SubAdmin,
     SubAdminProfileCount,
+    SubadminCount,
     SubadminFromType,
     UserCount,
     ViewSummaryType,
@@ -57,7 +58,7 @@ export const subAdminEndpoints = (
         providesTags: ['SubAdmins'],
     }),
 
-    subAdminCount: builder.query<UserCount, void>({
+    subAdminCount: builder.query<SubadminCount, void>({
         query: () => `${PREFIX}/subadmin/list/count`,
         providesTags: ['SubAdmins'],
     }),

@@ -198,6 +198,9 @@ export const PlacementStartedStudents = () => {
                 )
                 return (
                     <ProgressCell
+                        assigned={
+                            workplace?.assignedTo || row?.original?.subadmin
+                        }
                         studentId={row.original?.id}
                         appliedIndustry={appliedIndustry}
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}

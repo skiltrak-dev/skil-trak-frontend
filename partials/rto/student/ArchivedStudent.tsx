@@ -188,6 +188,9 @@ export const ArchivedStudent = () => {
 
                 return (
                     <StudentStatusProgressCell
+                        assigned={
+                            workplace?.assignedTo || row?.original?.subadmin
+                        }
                         step={studentStatus}
                         appliedIndustry={appliedIndustry}
                     />

@@ -1,10 +1,11 @@
-import { InitialAvatar } from '@components'
+import { InitialAvatar, Tooltip, TooltipPosition } from '@components'
 import { SubAdmin } from '@types'
 import { QueryType, queryToUrl } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { RiAdminLine } from 'react-icons/ri'
+import { TbLogin } from 'react-icons/tb'
 
 export const SubAdminCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
     const router = useRouter()
@@ -36,6 +37,14 @@ export const SubAdminCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                         <p className="font-semibold">{subAdmin?.user?.name}</p>
                         {subAdmin?.canAdmin && (
                             <RiAdminLine className="text-red-500" size={18} />
+                        )}
+                        {!subAdmin?.user?.after_hours_access && (
+                            <div className="relative group">
+                                <TbLogin className="text-error" size={18} />
+                                <Tooltip position={TooltipPosition.left}>
+                                    Login disabled after business hours
+                                </Tooltip>
+                            </div>
                         )}
                     </div>
 

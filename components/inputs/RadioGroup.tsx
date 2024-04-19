@@ -55,6 +55,7 @@ export const RadioGroup = ({
 
     layout = 'row',
     gridColumns = '3',
+    showError = true,
 }: RadioGroupType) => {
     const getOptionsLayout = () => {
         let currentLayout = OptionLayout[layout]
@@ -65,7 +66,7 @@ export const RadioGroup = ({
     }
 
     return (
-        <div className="w-full">
+        <div className="w-full flex flex-col gap-y-1">
             {label && (
                 <div className="flex justify-between ">
                     <div>
@@ -77,9 +78,9 @@ export const RadioGroup = ({
             )}
 
             <div className={`w-full ${getOptionsLayout()}`}>
-                {options.map((option: RadioGroupOption) => (
+                {options.map((option: RadioGroupOption, i) => (
                     <RadioButton
-                        key={Number(option.value)}
+                        key={i}
                         name={name}
                         label={option.label}
                         value={option.value}
@@ -93,7 +94,7 @@ export const RadioGroup = ({
                 ))}
             </div>
 
-            <InputErrorMessage name={name} />
+            {showError ? <InputErrorMessage name={name} /> : null}
 
             <HelpText text={helpText} />
         </div>

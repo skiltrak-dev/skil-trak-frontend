@@ -1,8 +1,10 @@
 import {
     Button,
+    Checkbox,
     RadioGroup,
     Select,
     SelectOption,
+    TextArea,
     TextInput,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -16,7 +18,7 @@ import { Card, Typography } from '@components'
 import { useNotification } from '@hooks'
 import { Course } from '@types'
 import { getUserCredentials } from '@utils'
-import { WorkplaceQuestionCard } from '../components'
+import { WorkplaceAnswerEnum, WorkplaceQuestionCard } from '../components'
 import { InputErrorMessage } from '@components/inputs/components'
 import { WorkplaceQuestionType } from 'redux/queryTypes'
 
@@ -28,21 +30,69 @@ type PersonalInfoProps = {
 
 const placesLibrary = ['places'] as any
 
+// export const workplaceQuestions = {
+//     location:
+//         'Are you familiar with the location and commute requirements for this workplace?',
+//     researched:
+//         "Have you researched the workplace's industry and any relevant regulations or standards?",
+//     responsibilities:
+//         'Do you understand the specific duties and responsibilities associated with this placement?',
+//     scheduling:
+//         'Are you aware of the work hours and scheduling expectations for this placement?',
+//     placement:
+//         'Have you considered how this placement aligns with your academic and career goals?',
+//     instructions:
+//         'Have you read and understood any additional instructions or requirements provided by the employer?',
+//     interviews:
+//         'Are you prepared to attend any interviews or orientation sessions required by the employer?',
+// }
+
+export enum workplaceQuestionsKeys {
+    suburb = 'suburb',
+    commutePlan = 'commutePlan',
+    supervisorMeeting = 'supervisorMeeting',
+    placementStartDate = 'placementStartDate',
+    possession = 'possession',
+    currentEmploymentStatus = 'currentEmploymentStatus',
+    relaventExperience = 'relaventExperience',
+    placementGoals = 'placementGoals',
+    medicalCondition = 'medicalCondition',
+    workPreference = 'workPreference',
+    placementPreferences = 'placementPreferences',
+    awarenessOfUnpaidPlacement = 'awarenessOfUnpaidPlacement',
+    understandingOfDocumentation = 'understandingOfDocumentation',
+    preferredContactTime = 'preferredContactTime',
+}
+
 export const workplaceQuestions = {
-    location:
-        'Are you familiar with the location and commute requirements for this workplace?',
-    researched:
-        "Have you researched the workplace's industry and any relevant regulations or standards?",
-    responsibilities:
-        'Do you understand the specific duties and responsibilities associated with this placement?',
-    scheduling:
-        'Are you aware of the work hours and scheduling expectations for this placement?',
-    placement:
-        'Have you considered how this placement aligns with your academic and career goals?',
-    instructions:
-        'Have you read and understood any additional instructions or requirements provided by the employer?',
-    interviews:
-        'Are you prepared to attend any interviews or orientation sessions required by the employer?',
+    [workplaceQuestionsKeys.suburb]:
+        'In which suburb would you prefer to work? Please provide the suburb name and postcode.',
+    [workplaceQuestionsKeys.supervisorMeeting]:
+        'When would you be available to meet with workplace supervisors once a placement becomes available? Please provide two timing options',
+    [workplaceQuestionsKeys.commutePlan]:
+        'How do you plan to commute to the workplace',
+    [workplaceQuestionsKeys.placementStartDate]:
+        'When would you like to commence your placement? options',
+    [workplaceQuestionsKeys.possession]:
+        'Do you possess any of the following documents? Please ignore those that do not apply to you:',
+    [workplaceQuestionsKeys.currentEmploymentStatus]:
+        'Are you currently employed? Would you mint providing the details?',
+    [workplaceQuestionsKeys.relaventExperience]:
+        'Do you have any relevant experience in the field for which you are seeking placement?',
+    [workplaceQuestionsKeys.placementGoals]:
+        'What are your desired outcomes upon successfully completing the placement? Options include securing',
+    [workplaceQuestionsKeys.medicalCondition]:
+        'Do you have any medical conditions that may affect your ability to work?',
+    [workplaceQuestionsKeys.workPreference]:
+        'Do you prefer working in a team or independently?',
+    [workplaceQuestionsKeys.placementPreferences]:
+        'Is there any specific aspect you are seeking in a placement opportunity? (provide details) 100 words*',
+    [workplaceQuestionsKeys.awarenessOfUnpaidPlacement]:
+        'Are you aware that the placement is unpaid and forms a part of your studies?',
+    [workplaceQuestionsKeys.understandingOfDocumentation]:
+        'Do you understand the documentation and assessments required for the placement, such as the Agreement and workbook etc?',
+    [workplaceQuestionsKeys.preferredContactTime]:
+        'When would be the most convenient time for one of the SkilTrak coordinators to call you to discuss workplace details further*',
 }
 
 export const PersonalInfoForm = ({
@@ -50,7 +100,9 @@ export const PersonalInfoForm = ({
     courses,
     personalInfoData,
 }: PersonalInfoProps) => {
+    console.log({ personalInfoData })
     const [selectedCourse, setSelectedCourse] = useState<any>(null)
+    const [possession, setPossession] = useState<any>([])
     const [questionsData, setQuestionsData] = useState<any>(
         Object.entries(workplaceQuestions).map(([key, value]: any) => ({
             question: value,
@@ -66,12 +118,21 @@ export const PersonalInfoForm = ({
     const { notification } = useNotification()
 
     useEffect(() => {
-        if (
-            personalInfoData &&
-            personalInfoData?.questions &&
-            personalInfoData?.questions?.length > 0
-        ) {
-            setQuestionsData(personalInfoData?.questions)
+        if (personalInfoData) {
+            if (
+                personalInfoData?.questions &&
+                personalInfoData?.questions?.length > 0
+            ) {
+                setQuestionsData(personalInfoData?.questions)
+            }
+            const possession = personalInfoData?.questions
+                ?.find(
+                    (q: any) => q?.type === workplaceQuestionsKeys.possession
+                )
+                ?.answer?.split(',')
+            if (possession && possession?.length > 0) {
+                setPossession(possession)
+            }
         }
     }, [personalInfoData])
 
@@ -143,31 +204,32 @@ export const PersonalInfoForm = ({
                     return true
                 }
             ),
-        location: yup.string().nullable(true).required('Must provide location'),
-        researched: yup
-            .string()
-            .nullable(true)
-            .required('Must provide researched'),
-        responsibilities: yup
-            .string()
-            .nullable(true)
-            .required('Must provide responsibilities'),
-        scheduling: yup
-            .string()
-            .nullable(true)
-            .required('Must provide scheduling'),
-        placement: yup
-            .string()
-            .nullable(true)
-            .required('Must provide placement'),
-        instructions: yup
-            .string()
-            .nullable(true)
-            .required('Must provide instructions'),
-        interviews: yup
-            .string()
-            .nullable(true)
-            .required('Must provide interviews'),
+        // location: yup.string().nullable(true).required('Must provide location'),
+        // researched: yup
+        //     .string()
+        //     .nullable(true)
+        //     .required('Must provide researched'),
+        // responsibilities: yup
+        //     .string()
+        //     .nullable(true)
+        //     .required('Must provide responsibilities'),
+        // scheduling: yup
+        //     .string()
+        //     .nullable(true)
+        //     .required('Must provide scheduling'),
+        // placement: yup
+        //     .string()
+        //     .nullable(true)
+        //     .required('Must provide placement'),
+        // instructions: yup
+        //     .string()
+        //     .nullable(true)
+        //     .required('Must provide instructions'),
+        // interviews: yup
+        //     .string()
+        //     .nullable(true)
+        //     .required('Must provide interviews'),
+
         // qualification: yup
         //     .string()
         //     .nullable(true)
@@ -197,7 +259,22 @@ export const PersonalInfoForm = ({
     const questionsDefaultValues = () => {
         let questions: any = {}
         personalInfoData?.questions?.forEach((question: any) => {
-            questions[question?.type] = question?.answer
+            if (question?.type === workplaceQuestionsKeys.suburb) {
+                questions[workplaceQuestionsKeys.suburb] =
+                    question?.answer?.suburb
+                questions['zip'] = question?.answer?.zip
+            } else if (
+                question?.type === workplaceQuestionsKeys.supervisorMeeting
+            ) {
+                questions['supervisorMeetingDate1'] =
+                    question?.answer?.supervisorMeetingDate1
+                questions['supervisorMeetingDate2'] =
+                    question?.answer?.supervisorMeetingDate2
+            } else if (question?.type === workplaceQuestionsKeys.possession) {
+                questions[question?.type] = question?.answer?.split(',')
+            } else {
+                questions[question?.type] = question?.answer
+            }
         })
         return questions
     }
@@ -245,15 +322,23 @@ export const PersonalInfoForm = ({
         // }
     }
 
+    console.log({ possession })
+
+    const updateQuestionData = (type: workplaceQuestionsKeys) =>
+        personalInfoData?.questions?.find((q: any) => q?.type === type)
+
     return (
-        <div>
-            <Typography variant={'label'} capitalize>
+        <div className="flex flex-col gap-y-3">
+            <Typography variant={'subtitle'} capitalize bold>
                 Please provide following information
             </Typography>
 
             <Card>
                 <FormProvider {...formMethods}>
-                    <form onSubmit={formMethods.handleSubmit(onHandleSubmit)}>
+                    <form
+                        className="flex flex-col gap-y-7"
+                        onSubmit={formMethods.handleSubmit(onHandleSubmit)}
+                    >
                         <div>
                             <Select
                                 id="courses"
@@ -269,145 +354,491 @@ export const PersonalInfoForm = ({
                                 disabled={courses.isLoading}
                             />
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1 mt-4">
-                            {/*
-                             */}
-                            {/* <div>
-                                <RadioGroup
-                                    gridColumns="2"
-                                    layout="grid"
-                                    // value={'yes'}
-                                    name="qualification"
-                                    label="Have you completed any qualification?"
-                                    options={[
-                                        { value: 'yes', label: 'Yes' },
-                                        { value: 'no', label: 'No' },
-                                    ]}
-                                    onChange={(e: any) => {
-                                        setQualification(e?.target?.value)
-                                    }}
+
+                        <div>
+                            <Typography variant="label" semibold block>
+                                1. Preferred Work Location:
+                            </Typography>
+                            <Typography variant="label" block>
+                                {
+                                    workplaceQuestions[
+                                        workplaceQuestionsKeys.suburb
+                                    ]
+                                }
+                            </Typography>
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                                <TextInput
+                                    name={'suburb'}
+                                    label={'Suburb'}
+                                    required
+                                    placeholder="Where would you want to locate your self? (Suburb)"
+                                    placesSuggetions
+                                    showError={false}
                                 />
-                                {qualification === 'yes' && (
-                                    <TextInput
-                                        name="currentQualification"
-                                        // label="Current Qualification"
-                                        placeholder="Provide detail"
-                                    />
-                                )}
+                                <TextInput
+                                    name={'zip'}
+                                    label={'Postcode'}
+                                    required
+                                    placeholder="Where would you want to locate your self? (Suburb)"
+                                    placesSuggetions
+                                    showError={false}
+                                />
                             </div>
-                            <div>
-                                <RadioGroup
-                                    gridColumns="2"
-                                    layout="grid"
-                                    name="work"
-                                    label="Are you currently working?"
-                                    options={[
-                                        { value: 'yes', label: 'Yes' },
-                                        { value: 'no', label: 'No' },
-                                    ]}
-                                    onChange={(e: any) => {
-                                        setWork(e?.target?.value)
-                                    }}
+                        </div>
+
+                        {/*  */}
+                        <div className="flex flex-col gap-y-2">
+                            <div className="flex flex-col gap-y-1">
+                                <Typography variant="label" semibold block>
+                                    1. Availability for Supervisor Meeting:
+                                </Typography>
+                                <Typography variant="label" block>
+                                    {
+                                        workplaceQuestions[
+                                            workplaceQuestionsKeys
+                                                .supervisorMeeting
+                                        ]
+                                    }
+                                </Typography>
+                            </div>
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                                <TextInput
+                                    name={'supervisorMeetingDate1'}
+                                    label={'Option1'}
+                                    required
+                                    type={'date'}
+                                    placeholder="Where would you want to locate your self? (Suburb)"
+                                    placesSuggetions
+                                    showError={false}
                                 />
-                                {work === 'yes' && (
-                                    <TextInput
-                                        name="currentWork"
-                                        // label="Current Work"
-                                        placeholder="Provide Detail"
-                                    />
-                                )}
-                            </div> */}
-                            {questionsData?.map(
-                                (data: WorkplaceQuestionType, i: number) => (
+                                <TextInput
+                                    type={'date'}
+                                    name={'supervisorMeetingDate2'}
+                                    label={'Option2'}
+                                    required
+                                    placeholder="Where would you want to locate your self? (Suburb)"
+                                    placesSuggetions
+                                    showError={false}
+                                />
+                            </div>
+                        </div>
+
+                        {/*  */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                            <div className="flex flex-col gap-y-1">
+                                <Typography variant="label" semibold block>
+                                    1. Commute Plan:
+                                </Typography>
+
+                                <RadioGroup
+                                    name="commutePlan"
+                                    showError={false}
+                                    label={
+                                        workplaceQuestions[
+                                            workplaceQuestionsKeys.commutePlan
+                                        ]
+                                    }
+                                    options={[
+                                        {
+                                            label: 'My Own',
+                                            value: 'myOwn',
+                                        },
+                                        {
+                                            label: 'Public transportation?',
+                                            value: 'publicTransportation',
+                                        },
+                                    ]}
+                                />
+                            </div>
+                            <div className="flex flex-col gap-y-1">
+                                <div>
+                                    <Typography variant="label" semibold block>
+                                        1. Placement Start Date:
+                                    </Typography>
+
+                                    <Typography variant="label" block>
+                                        {
+                                            workplaceQuestions[
+                                                workplaceQuestionsKeys
+                                                    .placementStartDate
+                                            ]
+                                        }
+                                    </Typography>
+                                </div>
+                                <TextInput
+                                    name={'placementStartDate'}
+                                    label={'Estimated Date'}
+                                    required
+                                    type={'date'}
+                                    placesSuggetions
+                                    showError={false}
+                                />
+                            </div>
+                        </div>
+
+                        {/*  */}
+                        <div className="flex flex-col gap-y-2">
+                            <div className="flex flex-col gap-y-1">
+                                <Typography variant="label" semibold block>
+                                    1. Possession of Documents:
+                                </Typography>
+                                <Typography variant="label" block>
+                                    {
+                                        workplaceQuestions[
+                                            workplaceQuestionsKeys.possession
+                                        ]
+                                    }
+                                </Typography>
+                            </div>
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+                                {[
+                                    'CV',
+                                    'Cover letter',
+                                    'Police check',
+                                    'COVID-19 vaccine certificate',
+                                    'working with children check',
+                                    'NDIS screening check',
+                                    'First aid certification',
+                                    'driving license',
+                                ]?.map((text) => (
                                     <div>
-                                        <WorkplaceQuestionCard
-                                            title={data?.question}
-                                            index={i}
-                                            data={data}
-                                            onClick={(text) => {
-                                                formMethods.setValue(
-                                                    data?.type,
-                                                    text
-                                                )
+                                        <Checkbox
+                                            name={text}
+                                            label={text}
+                                            defaultChecked={possession?.includes(
+                                                text
+                                            )}
+                                            showError={false}
+                                            onChange={(e: any) => {
+                                                setPossession((p: any) => {
+                                                    const pos = p?.includes(
+                                                        text
+                                                    )
+                                                        ? p?.filter(
+                                                              (name: string) =>
+                                                                  name !==
+                                                                  e.target?.name
+                                                          )
+                                                        : [...p, e.target?.name]
+
+                                                    formMethods.setValue(
+                                                        'possession',
+                                                        pos
+                                                    )
+
+                                                    return pos
+                                                })
                                             }}
                                         />
-                                        <InputErrorMessage name={data?.type} />
                                     </div>
-                                )
-                            )}
+                                ))}
+                            </div>
+                        </div>
 
-                            {/* <div>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                            {/*  */}
+                            <div className="flex flex-col gap-y-2">
+                                <div className="flex flex-col gap-y-1">
+                                    <Typography variant="label" semibold block>
+                                        1. Current Employment Status:
+                                    </Typography>
+                                </div>
+                                <div>
+                                    <WorkplaceQuestionCard
+                                        title={
+                                            workplaceQuestions[
+                                                workplaceQuestionsKeys
+                                                    .currentEmploymentStatus
+                                            ]
+                                        }
+                                        onClick={(
+                                            answer: WorkplaceAnswerEnum
+                                        ) => {
+                                            formMethods.setValue(
+                                                workplaceQuestionsKeys.currentEmploymentStatus,
+                                                answer
+                                            )
+                                        }}
+                                        index={0}
+                                        data={updateQuestionData(
+                                            workplaceQuestionsKeys.currentEmploymentStatus
+                                        )}
+                                    />
+                                    <InputErrorMessage
+                                        name={
+                                            workplaceQuestionsKeys.currentEmploymentStatus
+                                        }
+                                    />
+                                </div>
+                            </div>
+
+                            {/*  */}
+                            <div className="flex flex-col gap-y-2">
+                                <div className="flex flex-col gap-y-1">
+                                    <Typography variant="label" semibold block>
+                                        1. Relevant Experience:
+                                    </Typography>
+                                </div>
+                                <div>
+                                    <WorkplaceQuestionCard
+                                        title={
+                                            workplaceQuestions[
+                                                workplaceQuestionsKeys
+                                                    .relaventExperience
+                                            ]
+                                        }
+                                        onClick={(
+                                            answer: WorkplaceAnswerEnum
+                                        ) => {
+                                            formMethods.setValue(
+                                                workplaceQuestionsKeys.relaventExperience,
+                                                answer
+                                            )
+                                        }}
+                                        index={0}
+                                        data={updateQuestionData(
+                                            workplaceQuestionsKeys.relaventExperience
+                                        )}
+                                    />
+                                    <InputErrorMessage
+                                        name={
+                                            workplaceQuestionsKeys.relaventExperience
+                                        }
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/*  */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                            <div className="flex flex-col gap-y-1">
+                                <Typography variant="label" semibold block>
+                                    1. Placement Goals:
+                                </Typography>
+
                                 <RadioGroup
+                                    showError={false}
                                     gridColumns="2"
                                     layout="grid"
-                                    name="researched"
-                                    label={workplaceQuestions.researched}
+                                    name={workplaceQuestionsKeys.placementGoals}
+                                    label={
+                                        workplaceQuestions[
+                                            workplaceQuestionsKeys
+                                                .placementGoals
+                                        ]
+                                    }
                                     options={[
-                                        { value: 'yes', label: 'Yes' },
-                                        { value: 'no', label: 'No' },
+                                        {
+                                            label: 'a job',
+                                            value: 'aJob',
+                                        },
+                                        {
+                                            label: 'completing your course',
+                                            value: 'completingYourCourse',
+                                        },
+                                        {
+                                            label: 'gaining experience',
+                                            value: 'gainingExperience',
+                                        },
+                                        {
+                                            label: 'Others',
+                                            value: 'others',
+                                        },
                                     ]}
                                 />
                             </div>
-                            <div>
-                                <RadioGroup
-                                    gridColumns="2"
-                                    layout="grid"
-                                    name="responsibilities"
-                                    label={workplaceQuestions.responsibilities}
-                                    options={[
-                                        { value: 'yes', label: 'Yes' },
-                                        { value: 'no', label: 'No' },
-                                    ]}
+
+                            {/*  */}
+                            <div className="flex flex-col gap-y-2">
+                                <div className="flex flex-col gap-y-1">
+                                    <Typography variant="label" semibold block>
+                                        1. Medical Conditions:
+                                    </Typography>
+                                </div>
+                                <div>
+                                    <WorkplaceQuestionCard
+                                        title={
+                                            workplaceQuestions[
+                                                workplaceQuestionsKeys
+                                                    .medicalCondition
+                                            ]
+                                        }
+                                        onClick={(
+                                            answer: WorkplaceAnswerEnum
+                                        ) => {
+                                            formMethods.setValue(
+                                                workplaceQuestionsKeys.medicalCondition,
+                                                answer
+                                            )
+                                        }}
+                                        index={0}
+                                        data={updateQuestionData(
+                                            workplaceQuestionsKeys.medicalCondition
+                                        )}
+                                    />
+                                    <InputErrorMessage
+                                        name={
+                                            workplaceQuestionsKeys.medicalCondition
+                                        }
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/*  */}
+                        <div className="flex flex-col gap-y-1">
+                            <Typography variant="label" semibold block>
+                                1. Work Preference:
+                            </Typography>
+
+                            <RadioGroup
+                                name="workPreference"
+                                label={
+                                    workplaceQuestions[
+                                        workplaceQuestionsKeys.workPreference
+                                    ]
+                                }
+                                options={[
+                                    {
+                                        label: 'Team',
+                                        value: 'team',
+                                    },
+                                    {
+                                        label: 'Independently',
+                                        value: 'independently',
+                                    },
+                                ]}
+                            />
+                        </div>
+
+                        {/*  */}
+                        <div className="flex flex-col gap-y-1">
+                            <Typography variant="label" semibold block>
+                                1. Specific Placement Preferences:**
+                            </Typography>
+                            <div className="">
+                                <TextArea
+                                    rows={5}
+                                    name={
+                                        workplaceQuestionsKeys.placementPreferences
+                                    }
+                                    label={
+                                        workplaceQuestions[
+                                            workplaceQuestionsKeys
+                                                .placementPreferences
+                                        ]
+                                    }
+                                    required
+                                    placeholder={
+                                        workplaceQuestions[
+                                            workplaceQuestionsKeys
+                                                .placementPreferences
+                                        ]
+                                    }
+                                    showError={false}
                                 />
                             </div>
-                            <div>
-                                <RadioGroup
-                                    gridColumns="2"
-                                    layout="grid"
-                                    name="scheduling"
-                                    label={workplaceQuestions.scheduling}
-                                    options={[
-                                        { value: 'yes', label: 'Yes' },
-                                        { value: 'no', label: 'No' },
-                                    ]}
+                        </div>
+
+                        {/*  */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                            <div className="flex flex-col gap-y-2">
+                                <div className="flex flex-col gap-y-1">
+                                    <Typography variant="label" semibold block>
+                                        1. Awareness of Unpaid Placement:
+                                    </Typography>
+                                </div>
+                                <div>
+                                    <WorkplaceQuestionCard
+                                        title={
+                                            workplaceQuestions[
+                                                workplaceQuestionsKeys
+                                                    .awarenessOfUnpaidPlacement
+                                            ]
+                                        }
+                                        onClick={(
+                                            answer: WorkplaceAnswerEnum
+                                        ) => {
+                                            formMethods.setValue(
+                                                workplaceQuestionsKeys.awarenessOfUnpaidPlacement,
+                                                answer
+                                            )
+                                        }}
+                                        index={0}
+                                        data={updateQuestionData(
+                                            workplaceQuestionsKeys.awarenessOfUnpaidPlacement
+                                        )}
+                                    />
+                                    <InputErrorMessage
+                                        name={
+                                            workplaceQuestionsKeys.awarenessOfUnpaidPlacement
+                                        }
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex flex-col gap-y-2">
+                                <div className="flex flex-col gap-y-1">
+                                    <Typography variant="label" semibold block>
+                                        1. Understanding of Documentation:
+                                    </Typography>
+                                </div>
+                                <div>
+                                    <WorkplaceQuestionCard
+                                        title={
+                                            workplaceQuestions[
+                                                workplaceQuestionsKeys
+                                                    .understandingOfDocumentation
+                                            ]
+                                        }
+                                        onClick={(
+                                            answer: WorkplaceAnswerEnum
+                                        ) => {
+                                            formMethods.setValue(
+                                                workplaceQuestionsKeys.understandingOfDocumentation,
+                                                answer
+                                            )
+                                        }}
+                                        index={0}
+                                        data={updateQuestionData(
+                                            workplaceQuestionsKeys.understandingOfDocumentation
+                                        )}
+                                    />
+                                    <InputErrorMessage
+                                        name={
+                                            workplaceQuestionsKeys.understandingOfDocumentation
+                                        }
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/*  */}
+                        <div className="flex flex-col gap-y-1">
+                            <Typography variant="label" semibold block>
+                                1. Preferred Contact Time
+                            </Typography>
+                            <div className="">
+                                <TextArea
+                                    rows={4}
+                                    name={
+                                        workplaceQuestionsKeys.preferredContactTime
+                                    }
+                                    label={
+                                        workplaceQuestions[
+                                            workplaceQuestionsKeys
+                                                .preferredContactTime
+                                        ]
+                                    }
+                                    required
+                                    placeholder={
+                                        workplaceQuestions[
+                                            workplaceQuestionsKeys
+                                                .preferredContactTime
+                                        ]
+                                    }
+                                    showError={false}
                                 />
                             </div>
-                            <div>
-                                <RadioGroup
-                                    gridColumns="2"
-                                    layout="grid"
-                                    name="placement"
-                                    label={workplaceQuestions.placement}
-                                    options={[
-                                        { value: 'yes', label: 'Yes' },
-                                        { value: 'no', label: 'No' },
-                                    ]}
-                                />
-                            </div>
-                            <div>
-                                <RadioGroup
-                                    gridColumns="2"
-                                    layout="grid"
-                                    name="instructions"
-                                    label={workplaceQuestions.instructions}
-                                    options={[
-                                        { value: 'yes', label: 'Yes' },
-                                        { value: 'no', label: 'No' },
-                                    ]}
-                                />
-                            </div>
-                            <div>
-                                <RadioGroup
-                                    gridColumns="2"
-                                    layout="grid"
-                                    name="interviews"
-                                    label={workplaceQuestions.interviews}
-                                    options={[
-                                        { value: 'yes', label: 'Yes' },
-                                        { value: 'no', label: 'No' },
-                                    ]}
-                                />
-                            </div> */}
                         </div>
 
                         <div>
@@ -429,32 +860,8 @@ export const PersonalInfoForm = ({
                                 }}
                             />
 
-                            {/* <div className="flex justify-between items-center mb-1">
-                                <div>
-                                    <Typography
-                                        variant={'label'}
-                                        htmlFor={'map'}
-                                    >
-                                        Where would you want to locate your
-                                        self? (Suburb)
-                                    </Typography>
-                                    <RequiredStar />
-                                </div>
-                            </div> */}
-
-                            {/* <input
-                                className="border text-black w-full rounded-md outline-none px-4 py-2 placeholder-gray text-sm"
-                                ref={(e: any) => {
-                                    preferableLocationRef(e)
-                                    ref.current = e
-                                }}
-                                {...rest}
-                                id={'map'}
-                                placeholder="Where would you want to locate your self? (Suburb)"
-                            />
-                            <InputErrorMessage name={'preferableLocation'} /> */}
+                            <Button text={'Continue'} submit />
                         </div>
-                        <Button text={'Continue'} submit />
                     </form>
                 </FormProvider>
             </Card>

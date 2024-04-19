@@ -16,22 +16,22 @@ import { IndustryDetail, StudentCellInfo } from './components'
 // query
 import { LoadingAnimation } from '@components/LoadingAnimation'
 import { PageHeading } from '@components/headings'
+import { ProgressCell } from '@partials/admin/student/components'
 import {
     useGetIndustryWorkplaceQuery,
     useWorkplaceActionsMutation,
 } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { useRouter } from 'next/router'
-import { FaEye } from 'react-icons/fa'
-import { MdEmail } from 'react-icons/md'
+import { UserStatus } from '@types'
 import {
     WorkplaceCurrentStatus,
     checkStudentStatus,
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
 } from '@utils'
-import { UserStatus } from '@types'
-import { ProgressCell } from '@partials/admin/student/components'
+import { useRouter } from 'next/router'
+import { FaEye } from 'react-icons/fa'
+import { MdEmail } from 'react-icons/md'
 
 export const Approved = () => {
     const [page, setPage] = useState(1)
@@ -178,26 +178,10 @@ export const Approved = () => {
 
                 return wpStatus.includes(row.original?.currentStatus) ? (
                     <StudentStatusProgressCell
-                        studentId={row.original?.student?.id}
-                        step={
-                            workplace?.currentStatus ===
-                            WorkplaceCurrentStatus.Cancelled
-                                ? 4
-                                : studentStatus
+                        assigned={
+                            workplace?.assignedTo ||
+                            row.original?.student?.subadmin
                         }
-                        appliedIndustry={appliedIndustry}
-                    />
-                ) : (
-                    <ProgressCell
-                        appliedIndustry={appliedIndustry}
-                        studentId={row.original?.student?.id}
-                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
-                    />
-                )
-
-                return workplace?.currentStatus ===
-                    WorkplaceCurrentStatus.PlacementStarted ? (
-                    <StudentStatusProgressCell
                         studentId={row.original?.student?.id}
                         step={
                             workplace?.currentStatus ===

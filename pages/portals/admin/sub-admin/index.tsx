@@ -13,6 +13,7 @@ import {
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import {
+    ActiveRTOSubAdmin,
     ActiveSubAdmin,
     ArchivedSubAdmin,
     BlockedSubAdmin,
@@ -59,7 +60,6 @@ const SubAdminList: NextPageWithLayout = () => {
     }, [])
 
     const tabs: TabProps[] = [
-        
         {
             label: 'Active',
             href: {
@@ -67,12 +67,23 @@ const SubAdminList: NextPageWithLayout = () => {
                 query: { tab: 'active', page: 1, pageSize: 50 },
             },
             badge: {
-                text: data?.approved,
+                text: data?.admin_approved,
                 loading: isLoading,
             },
             element: <ActiveSubAdmin />,
         },
-
+        {
+            label: 'Active RTO SubAdmin',
+            href: {
+                pathname: 'sub-admin',
+                query: { tab: 'active-rto', page: 1, pageSize: 50 },
+            },
+            badge: {
+                text: data?.rto_approved,
+                loading: isLoading,
+            },
+            element: <ActiveRTOSubAdmin />,
+        },
         {
             label: 'Blocked',
             href: {

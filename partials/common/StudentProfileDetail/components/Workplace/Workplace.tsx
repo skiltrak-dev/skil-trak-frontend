@@ -106,13 +106,17 @@ export const Workplace = ({
 
     const onCancelModal = () => setModal(null)
 
-    const onViewWorkplaceQuestions = (questions: WorkplaceQuestionType[]) => {
+    const onViewWorkplaceQuestions = (
+        questions: WorkplaceQuestionType[],
+        wpId: number
+    ) => {
         setModal(
             <ViewQuestionsModal
                 questions={questions}
                 onCancel={() => {
                     onCancelModal()
                 }}
+                wpId={wpId}
             />
         )
     }
@@ -142,7 +146,8 @@ export const Workplace = ({
                                       variant={'link'}
                                       onClick={() => {
                                           onViewWorkplaceQuestions(
-                                              selectedWorkplace?.questions
+                                              selectedWorkplace?.questions,
+                                              selectedWorkplace?.id
                                           )
                                       }}
                                   >
@@ -226,9 +231,7 @@ export const Workplace = ({
                                     <WorkplaceHistory />
                                     <div className="">
                                         <ViewAvailability
-                                            availability={
-                                                selectedWorkplace?.generalAvailability
-                                            }
+                                            wpId={selectedWorkplace?.id}
                                         />
                                     </div>
                                 </div>

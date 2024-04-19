@@ -340,11 +340,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                                     />
 
                                     <div className="flex-shrink-0 flex justify-end ml-auto">
-                                        <Availability
-                                            availability={
-                                                workplace?.generalAvailability
-                                            }
-                                        />
+                                        <Availability wpId={workplace?.id} />
                                     </div>
                                 </div>
                                 {/* Industries and notes */}

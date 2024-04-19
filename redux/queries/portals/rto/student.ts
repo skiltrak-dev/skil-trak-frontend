@@ -1,5 +1,7 @@
+import { StudentSubAdmin } from '@components'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+import { PaginatedResponse, PaginationValues } from '@types'
 
 const PREFIX = 'rtos'
 const STATISTICS = 'statistics'
@@ -60,6 +62,16 @@ export const studentEndpoints = (
     getRtoStudentsList: builder.query<any, void>({
         query: () => `${PREFIX}/students/names/list`,
         providesTags: ['Rto-Students'],
+    }),
+    rtoCompletedStudents: builder.query<
+        PaginatedResponse<StudentSubAdmin>,
+        PaginationValues
+    >({
+        query: (params) => ({
+            url: `${PREFIX}/student/completed/list`,
+            params,
+        }),
+        providesTags: ['Students', 'SubAdminStudents'],
     }),
     getRtoStudentProfile: builder.query<any, any>({
         query: (id) => {

@@ -1,22 +1,24 @@
-import { ChangeEvent, ReactElement } from "react";
+import { ChangeEvent, ReactElement } from 'react'
 
 export type InputProps = {
-	id?: string;
-	name: string;
-	label?: string | ReactElement;
+    id?: string
+    name: string
+    label?: string | ReactElement
 
-	helpText?: string;
-	tooltip?: string;
+    helpText?: string
+    tooltip?: string
 
-	onBlur?: any;
-	rules?: any;
-	onChange?: any
-	value?: any;
+    onBlur?: any
+    rules?: any
+    onChange?: any
+    value?: any
 
-	loading?: boolean;
-	disabled?: boolean;
-	required?: boolean;
-	validationIcons?: boolean;
+    loading?: boolean
+    disabled?: boolean
+    required?: boolean
+    validationIcons?: boolean
 
-	className?: string;
-};
+    className?: string
+
+    showError?: boolean
+}

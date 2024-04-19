@@ -1,4 +1,8 @@
-import { PersonalInfoForm, workplaceQuestions } from '@partials/common'
+import {
+    PersonalInfoForm,
+    workplaceQuestions,
+    workplaceQuestionsKeys,
+} from '@partials/common'
 import { SubAdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import React, { useState, useEffect } from 'react'
@@ -11,8 +15,8 @@ type PersonalInfoProps = {
 
 export const PersonalInfo = ({
     setActive,
-    setPersonalInfoData,
     personalInfoData,
+    setPersonalInfoData,
 }: PersonalInfoProps) => {
     const router = useRouter()
     const { id } = router.query
@@ -22,14 +26,48 @@ export const PersonalInfo = ({
     })
 
     const onSubmit = (values: any) => {
-        let questions: { question: string; answer: string; type: string }[] = []
-        Object.entries(workplaceQuestions).forEach(([key, value]: any) =>
-            questions.push({
-                question: value,
-                answer: values[key],
-                type: key,
-            })
-        )
+        let questions: {
+            question: string
+            answer: string | any
+            type: string
+        }[] = []
+        Object.entries(workplaceQuestions).forEach(([key, value]: string[]) => {
+            if (key === workplaceQuestionsKeys.suburb) {
+                questions.push({
+                    question: value,
+                    answer: {
+                        suburb: values[key],
+                        zip: values['zip'],
+                    },
+                    type: key,
+                })
+            } else if (key === workplaceQuestionsKeys.supervisorMeeting) {
+                questions.push({
+                    question: value,
+                    answer: {
+                        supervisorMeetingDate1:
+                            values['supervisorMeetingDate1'],
+                        supervisorMeetingDate2:
+                            values['supervisorMeetingDate2'],
+                    },
+                    type: key,
+                })
+            } else if (key === workplaceQuestionsKeys.possession) {
+                questions.push({
+                    question: value,
+                    answer: values[key]?.join(','),
+                    type: key,
+                })
+            } else {
+                questions.push({
+                    question: value,
+                    answer: values[key],
+                    type: key,
+                })
+            }
+        })
+        console.log({ values, questions })
+        // return null
 
         setPersonalInfoData({
             // ...values,
