@@ -72,15 +72,20 @@ export const ViewDocumentAndSign = () => {
     }, [tabs])
 
     const scrollTargetRef = useRef<any>([])
+    const abcRef = useRef<any>(null)
 
     const scrollToPage = (pageIndex: number, currentPage: number) => {
         const targetElement = scrollTargetRef.current[currentPage]
         const detailItem = document.getElementById(`tabs-view-${pageIndex}`)
+        const container: any = document.getElementById('abcRef') // Replace "your-container-id" with the actual ID of your container
 
         if (detailItem) {
-            detailItem.scrollIntoView({ behavior: 'smooth' })
+            detailItem.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (targetElement) {
-            targetElement.scrollIntoView({ behavior: 'smooth' })
+            targetElement.scrollIntoView({
+                behavior: 'smooth',
+                // block: 'center',
+            })
         }
     }
 
@@ -129,7 +134,10 @@ export const ViewDocumentAndSign = () => {
     //     (s: any) => s?.type === FieldsTypeEnum.Signature
     // )
 
-    const onCancelClicked = () => setModal(null)
+    const onCancelClicked = () => {
+        setIsSignature(false)
+        setModal(null)
+    }
     const onSignatureCancelClicked = (cancel?: boolean) => {
         if (cancel) {
             setIsSignature(false)
@@ -226,7 +234,7 @@ export const ViewDocumentAndSign = () => {
     }
 
     // Adding number with position and sorting in ascending order based on sum
-    const sortedPositions = customFieldsData
+    const sortedPositions = customFieldsAndSign
         .map(addNumberWithPosition)
         .sort((a: any, b: any) => {
             // First, sort by number in ascending order
@@ -236,13 +244,6 @@ export const ViewDocumentAndSign = () => {
             // If numbers are equal, sort by sum of position values
             return a.sum - b.sum
         })
-
-    useEffect(() => {
-        scrollToPage(
-            Number(sortedPositions?.[customFieldsSelectedId]?.id),
-            sortedPositions?.[customFieldsSelectedId]?.number - 1
-        )
-    }, [customFieldsSelectedId])
 
     const onDocumentScrollArrow = () => {
         if (customFieldsSelectedId < sortedPositions?.length - 1) {
@@ -344,6 +345,7 @@ export const ViewDocumentAndSign = () => {
                                     ? 'lg:col-span-6'
                                     : 'lg:col-span-6'
                             } max-w- pl-20 mx-auto flex flex-col gap-y-3 relative w-full`}
+                            id={'abcRef'}
                         >
                             {/* <div className="flex justify-end items-center gap-x-2">
                                 <input
@@ -379,6 +381,7 @@ export const ViewDocumentAndSign = () => {
                                         </div>
                                         <SVGView
                                             index={i}
+                                            scrollToPage={scrollToPage}
                                             sortedPositions={sortedPositions}
                                             onDocumentScrollArrow={() => {
                                                 onDocumentScrollArrow()

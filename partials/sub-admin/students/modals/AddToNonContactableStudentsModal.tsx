@@ -7,15 +7,11 @@ import { HiCheckBadge } from 'react-icons/hi2'
 // query
 import { SubAdminApi } from '@queries'
 
-interface StudentSubadmin extends Student {
-    subadmin?: SubAdmin
-}
-
 export const AddToNonContactableStudents = ({
     student,
     onCancel,
 }: {
-    student: StudentSubadmin
+    student: Student
     onCancel: Function
 }) => {
     const { alert } = useAlert()

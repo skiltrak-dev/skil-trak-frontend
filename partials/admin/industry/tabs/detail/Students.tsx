@@ -198,6 +198,9 @@ export const Students = ({ industry }: { industry: Industry }) => {
 
                 return industries?.length > 0 ? (
                     <StudentStatusProgressCell
+                        assigned={
+                            workplace?.assignedTo || row?.original?.subadmin
+                        }
                         studentId={row.original?.id}
                         step={studentStatus}
                         appliedIndustry={appliedIndustry}

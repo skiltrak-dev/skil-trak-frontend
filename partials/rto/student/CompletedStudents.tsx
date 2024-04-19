@@ -1,95 +1,115 @@
 import {
+    ActionButton,
     Button,
     Card,
-    CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
+    StudentExpiryDaysLeft,
+    StudentStatusProgressCell,
     StudentSubAdmin,
     Table,
     TableAction,
-    TableChildrenProps,
+    TableActionOption,
     TechnicalError,
     Typography,
+    UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
-import { RtoCellInfo } from '@partials/admin/rto/components'
-import { AdminApi } from '@queries'
+import { EditTimer } from '@components/StudentTimer/EditTimer'
+import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
+import { RtoApi } from '@queries'
 import { Student } from '@types'
 import {
     WorkplaceCurrentStatus,
-    checkListLength,
     checkStudentStatus,
     getStudentWorkplaceAppliedIndustry,
-    setLink,
+    getUserCredentials,
     studentsListWorkplace,
 } from '@utils'
 import { useRouter } from 'next/router'
-import { ReactElement, useCallback, useEffect, useState } from 'react'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { IndustryCell } from '../industry/components'
+import { ReactElement, useState } from 'react'
+import { MdBlock } from 'react-icons/md'
 import { SectorCell, StudentCellInfo } from './components'
-import { ChangeStatusModal } from './modals'
-
-// hooks
-import { useActionModal } from '@hooks'
-import moment from 'moment'
-
+import { IndustryCell } from './components/IndustryCell'
+import { ArchiveModal, BlockModal } from './modals'
 export const CompletedStudents = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [changeExpiryData, setChangeExpiryData] = useState(false)
+    const [isExcelDownload, setIsExcelDownload] = useState<boolean>(false)
+    const userId = getUserCredentials()?.id
+
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+    const { isLoading, data, isError, refetch } =
+        RtoApi.Students.useRtoCompletedStudents({
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
-    useEffect(() => {
-        setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 50))
-    }, [router])
-
-    // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
-
-    const { isLoading, isFetching, data, isError } =
-        AdminApi.Students.useCompletedStudents(
-            {
-                skip: itemPerPage * page - itemPerPage,
-                limit: itemPerPage,
-            },
-            { refetchOnMountOrArgChange: true }
-        )
-
-    const onModalCancelClicked = useCallback(() => {
+    const onModalCancelClicked = () => {
         setModal(null)
-    }, [])
+    }
+    const onBlockClicked = (student: Student) => {
+        setModal(
+            <BlockModal
+                item={student}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onArchiveClicked = (student: Student) => {
+        setModal(
+            <ArchiveModal
+                item={student}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
 
     const onChangeStatus = (student: Student) => {
         setModal(
-            <ChangeStatusModal
+            <ChangeStudentStatusModal
                 student={student}
                 onCancel={onModalCancelClicked}
             />
         )
     }
 
-    const tableActionOptions = [
+    const onDateClick = (student: Student) => {
+        setModal(
+            <EditTimer
+                studentId={student?.user?.id}
+                date={student?.expiryDate}
+                onCancel={onModalCancelClicked}
+                changeExpiryData={setChangeExpiryData}
+            />
+        )
+    }
+
+    const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: (student: any) => {
-                router.push(`/portals/admin/student/${student?.id}/detail`)
-                setLink('student', router)
+            onClick: (student: Student) => {
+                router.push(`/portals/rto/students/${student.id}?tab=overview`)
             },
             Icon: FaEye,
         },
         {
-            text: 'Edit',
-            onClick: (student: Student) => {
-                router.push(
-                    `/portals/admin/student/edit-student/${student?.id}`
-                )
-            },
-            Icon: FaEdit,
+            text: 'Archive',
+            onClick: (student: Student) => onArchiveClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            text: 'Block',
+            onClick: (student: Student) => onBlockClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             text: 'Change Status',
@@ -97,10 +117,9 @@ export const CompletedStudents = () => {
             Icon: FaEdit,
         },
         {
-            text: 'View Password',
-            onClick: (student: Student) =>
-                onViewPassword({ user: student?.user }),
-            Icon: RiLockPasswordFill,
+            text: 'Change Expiry',
+            onClick: (student: Student) => onDateClick(student),
+            Icon: FaEdit,
         },
     ]
 
@@ -108,16 +127,9 @@ export const CompletedStudents = () => {
         {
             accessorKey: 'user.name',
             cell: (info) => {
-                return <StudentCellInfo student={info?.row?.original} call />
+                return <StudentCellInfo student={info.row.original} call />
             },
             header: () => <span>Student</span>,
-        },
-        {
-            accessorKey: 'rto',
-            header: () => <span>RTO</span>,
-            cell: (info) => {
-                return <RtoCellInfo rto={info?.row?.original?.rto} short />
-            },
         },
         {
             accessorKey: 'industry',
@@ -143,7 +155,18 @@ export const CompletedStudents = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: (info) => <SectorCell student={info.row.original} />,
+            cell: (info) => {
+                return <SectorCell student={info.row.original} />
+            },
+        },
+        {
+            accessorKey: 'expiry',
+            header: () => <span>Expiry Date</span>,
+            cell: (info) => (
+                <StudentExpiryDaysLeft
+                    expiryDate={info.row.original?.expiryDate}
+                />
+            ),
         },
         {
             accessorKey: 'progress',
@@ -169,47 +192,32 @@ export const CompletedStudents = () => {
                     workplace?.industries
                 )
 
-                return <CaseOfficerAssignedStudent student={row.original} />
+                return (
+                    <StudentStatusProgressCell
+                        assigned={workplace?.assignedTo || student?.subadmin}
+                        studentId={student?.id}
+                        step={studentStatus}
+                        appliedIndustry={appliedIndustry}
+                    />
+                )
             },
         },
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
-            cell: (info) => {
-                return (
-                    <>
-                        <Typography variant={'small'} color={'text-gray-600'}>
-                            <span className="font-semibold whitespace-pre">
-                                {moment(info?.row?.original?.createdAt).format(
-                                    'Do MMM YYYY'
-                                )}
-                            </span>
-                        </Typography>
-                        <Typography variant={'small'} color={'text-gray-600'}>
-                            <span className="font-semibold whitespace-pre">
-                                {moment(info?.row?.original?.createdAt).format(
-                                    'hh:mm:ss a'
-                                )}
-                            </span>
-                        </Typography>
-                    </>
-                )
-            },
+            cell: ({ row }: any) => (
+                <UserCreatedAt createdAt={row.original?.createdAt} />
+            ),
         },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info) => {
-                const length = checkListLength<StudentSubAdmin>(
-                    data?.data as StudentSubAdmin[]
-                )
-
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
                             options={tableActionOptions}
-                            rowItem={info?.row?.original}
-                            lastIndex={length.includes(info?.row?.index)}
+                            rowItem={info.row.original}
                         />
                     </div>
                 )
@@ -217,24 +225,47 @@ export const CompletedStudents = () => {
         },
     ]
 
+    const quickActionsElements = {
+        id: 'id',
+        individual: (id: StudentSubAdmin) => (
+            <div className="flex gap-x-2">
+                <ActionButton Icon={FaEdit}>Edit</ActionButton>
+                <ActionButton>Sub Admins</ActionButton>
+                <ActionButton Icon={MdBlock} variant="error">
+                    Block
+                </ActionButton>
+            </div>
+        ),
+        common: (ids: StudentSubAdmin[]) => (
+            <ActionButton Icon={MdBlock} variant="error">
+                Block
+            </ActionButton>
+        ),
+    }
+
     return (
         <>
             {modal && modal}
-            {passwordModal && passwordModal}
-            <div className="flex flex-col gap-y-4">
-                <div className="flex">
-                    <PageHeading
-                        title={'Approved Students'}
-                        subtitle={'List of Approved Students'}
-                    />
+            <div className="flex flex-col gap-y-4 mb-32">
+                <PageHeading
+                    title={'Approved Students'}
+                    subtitle={'List of Approved Students'}
+                >
                     {data && data?.data.length ? (
-                        <div className="">
+                        <>
+                            {/* <Button
+                                text="Export"
+                                variant="action"
+                                Icon={FaFileExport}
+                                onClick={handleDownloadExcel}
+                                loading={exportList?.isLoading}
+                                disabled={exportList?.isLoading}
+                            /> */}
                             <a
-                                href={`${process.env.NEXT_PUBLIC_END_POINT}/admin/students/list/download
+                                href={`${process.env.NEXT_PUBLIC_END_POINT}/rtos/students-list/download/${userId}?status=active
                         `}
                                 target="_blank"
                                 rel="noreferrer"
-                                className=""
                             >
                                 {' '}
                                 <Button
@@ -243,66 +274,59 @@ export const CompletedStudents = () => {
                                     Icon={FaFileExport}
                                 />
                             </a>
-                        </div>
+                        </>
                     ) : null}
-                </div>
+                </PageHeading>
+
                 <Card noPadding>
                     {isError && <TechnicalError />}
-                    {isLoading || isFetching ? (
+                    {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
-                        <Table columns={columns} data={data.data}>
+                        <Table
+                            columns={columns}
+                            data={data.data}
+                            quickActions={quickActionsElements}
+                            // enableRowSelection
+                        >
                             {({
                                 table,
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: TableChildrenProps) => {
+                            }: any) => {
                                 return (
                                     <div>
                                         <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize
-                                                ? pageSize(
-                                                      itemPerPage,
-                                                      setItemPerPage,
-                                                      data?.data?.length
-                                                  )
-                                                : null}
+                                            {pageSize(
+                                                itemPerPage,
+                                                setItemPerPage,
+                                                data?.data?.length
+                                            )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
-                                                {pagination
-                                                    ? pagination(
-                                                          data?.pagination,
-                                                          setPage
-                                                      )
-                                                    : null}
+                                                {pagination(
+                                                    data?.pagination,
+                                                    setPage
+                                                )}
                                             </div>
                                         </div>
-                                        <div className="overflow-x-auto remove-scrollbar">
-                                            <div
-                                                className="px-6 w-full"
-                                                id={'studentScrollId'}
-                                            >
-                                                {table}
-                                            </div>
+                                        <div className="px-6 overflow-auto">
+                                            {table}
                                         </div>
                                         {data?.data?.length > 10 && (
                                             <div className="p-6 mb-2 flex justify-between">
-                                                {pageSize
-                                                    ? pageSize(
-                                                          itemPerPage,
-                                                          setItemPerPage,
-                                                          data?.data?.length
-                                                      )
-                                                    : null}
+                                                {pageSize(
+                                                    itemPerPage,
+                                                    setItemPerPage,
+                                                    data?.data?.length
+                                                )}
                                                 <div className="flex gap-x-2">
                                                     {quickActions}
-                                                    {pagination
-                                                        ? pagination(
-                                                              data?.pagination,
-                                                              setPage
-                                                          )
-                                                        : null}
+                                                    {pagination(
+                                                        data?.pagination,
+                                                        setPage
+                                                    )}
                                                 </div>
                                             </div>
                                         )}

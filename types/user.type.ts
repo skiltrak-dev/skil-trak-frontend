@@ -49,6 +49,12 @@ export interface UserCount {
     snoozed: any
     completed: number
 }
+
+export interface SubadminCount extends UserCount {
+    admin_approved: number
+    rto_approved: number
+}
+
 export enum IndustryStatus {
     DEFAULT = 'default',
     FAVOURITE = 'favourite',
@@ -111,6 +117,7 @@ export interface Student extends BaseResponse {
     callLog: CallLog[]
 
     gender: string
+    subadmin: SubAdmin
 }
 
 interface UserExtend extends User {

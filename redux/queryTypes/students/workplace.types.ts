@@ -10,7 +10,7 @@ export interface WorkplaceQuestionType {
     updatedAt: Date
     question: string
     type: string
-    answer: WorkplaceAnswerEnum
+    answer: WorkplaceAnswerEnum | any
 }
 
 export interface AdminWorkplaceCount {

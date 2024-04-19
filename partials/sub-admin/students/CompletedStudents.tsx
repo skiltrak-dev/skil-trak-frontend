@@ -7,9 +7,9 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 // components
 import {
     Card,
+    CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
-    StudentStatusProgressCell,
     StudentSubAdmin,
     Table,
     TableAction,
@@ -26,14 +26,7 @@ import { ChangeStudentStatusModal } from './modals'
 
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import {
-    WorkplaceCurrentStatus,
-    checkListLength,
-    checkStudentStatus,
-    getStudentWorkplaceAppliedIndustry,
-    setLink,
-    studentsListWorkplace,
-} from '@utils'
+import { checkListLength, setLink, studentsListWorkplace } from '@utils'
 import moment from 'moment'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCellInfo } from '../Industries'
@@ -167,35 +160,9 @@ export const CompletedStudents = () => {
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
-            cell: ({ row }) => {
-                const student = row.original
-                const workplace = student?.workplace
-                    ?.filter(
-                        (w: any) =>
-                            w?.currentStatus !==
-                            WorkplaceCurrentStatus.Cancelled
-                    )
-                    ?.reduce(
-                        (a: any, b: any) =>
-                            a?.createdAt > b?.createdAt ? a : b,
-                        {
-                            currentStatus: WorkplaceCurrentStatus.NotRequested,
-                        }
-                    )
-
-                const studentStatus = checkStudentStatus(student?.studentStatus)
-                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-                    workplace?.industries
-                )
-
-                return (
-                    <StudentStatusProgressCell
-                        studentId={student?.id}
-                        step={studentStatus}
-                        appliedIndustry={appliedIndustry}
-                    />
-                )
-            },
+            cell: ({ row }) => (
+                <CaseOfficerAssignedStudent student={row.original} />
+            ),
         },
         {
             accessorKey: 'createdAt',

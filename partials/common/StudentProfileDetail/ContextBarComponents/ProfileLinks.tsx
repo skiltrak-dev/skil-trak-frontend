@@ -5,13 +5,16 @@ import { SubAdminApi } from '@queries'
 import { Student } from '@types'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
-import { ReactElement, useState } from 'react'
+import { ReactElement, ReactNode, useState } from 'react'
 import { IoMdEyeOff } from 'react-icons/io'
 import { RiEditFill } from 'react-icons/ri'
+import { MailPasswordModal } from '../modals'
+import { CiUnlock } from 'react-icons/ci'
 
 export const ProfileLinks = ({ profile }: { profile: Student }) => {
     const router = useRouter()
     const { passwordModal, onViewPassword, onUpdatePassword } = useActionModal()
+    const [modal, setModal] = useState<ReactNode | null>(null)
 
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
         skip: !UserRoles.SUBADMIN,
@@ -19,6 +22,14 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
     })
 
     const role = getUserCredentials()?.role
+
+    const onCancelClicked = () => setModal(null)
+
+    const onMailPasswordToStudent = (student: Student) => {
+        setModal(
+            <MailPasswordModal onCancel={onCancelClicked} student={student} />
+        )
+    }
 
     const profileLinks = [
         {
@@ -33,10 +44,21 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
                 : {}),
         },
         {
-            text: 'View Password',
-            Icon: IoMdEyeOff,
+            ...(role === UserRoles.ADMIN || role === UserRoles.RTO
+                ? {
+                      text: 'View Password',
+                      Icon: IoMdEyeOff,
+                      onClick: () => {
+                          onViewPassword(profile)
+                      },
+                  }
+                : {}),
+        },
+        {
+            text: 'Send Password',
+            Icon: CiUnlock,
             onClick: () => {
-                onViewPassword(profile)
+                onMailPasswordToStudent(profile)
             },
         },
         {
@@ -58,6 +80,7 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
 
     return (
         <div className="flex flex-col items-end gap-y-2.5">
+            {modal}
             {passwordModal}
             <div className="flex flex-col gap-1.5">
                 {profileLinks.map(

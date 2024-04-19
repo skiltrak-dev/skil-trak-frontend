@@ -1,7 +1,7 @@
 import { Typography } from '@components/Typography'
 import { useContextBar } from '@hooks'
 import { ChangeWorkplaceStatus } from '@partials/common'
-import { Student } from '@types'
+import { Student, SubAdmin } from '@types'
 import classNames from 'classnames'
 import moment from 'moment'
 import Link from 'next/link'
@@ -56,11 +56,13 @@ const StudentProgress = (appliedIndustry?: any) => ({
 })
 
 export const StudentStatusProgressCell = ({
+    assigned,
     studentId,
     status,
     step,
     appliedIndustry,
 }: {
+    assigned: SubAdmin
     studentId?: any
     status?: StudentProgressStatus
     step: 1 | 2 | 3 | 4 | number
@@ -107,16 +109,44 @@ export const StudentStatusProgressCell = ({
                 >
                     {currentStatus?.status}
                 </p>
-                <p
-                    className={`text-[11px] ${
-                        currentStatus?.status ===
-                        StudentProgress()['1-PlacementStarted']?.status
-                            ? 'text-gray-100'
-                            : 'text-gray-400'
-                    }  whitespace-nowrap`}
-                >
-                    {currentStatus?.description || 'N/A'}
-                </p>
+
+                {assigned ? (
+                    <Typography
+                        variant={'xs'}
+                        color={
+                            currentStatus?.status ===
+                            StudentProgress()['1-PlacementStarted']?.status
+                                ? 'text-gray-100'
+                                : 'text-gray-400'
+                        }
+                    >
+                        <span className="font-semibold">
+                            <span
+                                className={`${
+                                    currentStatus?.status ===
+                                    StudentProgress()['1-PlacementStarted']
+                                        ?.status
+                                        ? 'text-gray-100'
+                                        : 'text-gray-400'
+                                }`}
+                            >
+                                CO-
+                            </span>{' '}
+                            {assigned?.user?.name}
+                        </span>
+                    </Typography>
+                ) : (
+                    <p
+                        className={`text-[11px] ${
+                            currentStatus?.status ===
+                            StudentProgress()['1-PlacementStarted']?.status
+                                ? 'text-gray-100'
+                                : 'text-gray-400'
+                        }  whitespace-nowrap`}
+                    >
+                        {currentStatus?.description || 'N/A'}
+                    </p>
+                )}
                 {currentStatus?.date && (
                     <Typography>
                         <span className="text-[10px] font-semibold">

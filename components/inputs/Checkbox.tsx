@@ -33,6 +33,7 @@ export const Checkbox = ({
     loading,
     required,
     disabled,
+    showError = true,
 }: CheckboxProps) => {
     const formContext = useFormContext()
 
@@ -72,7 +73,7 @@ export const Checkbox = ({
 
                 <Tooltip text={tooltip} />
             </label>
-            <InputErrorMessage name={name} />
+            {showError ? <InputErrorMessage name={name} /> : null}
 
             <HelpText text={helpText} />
         </>

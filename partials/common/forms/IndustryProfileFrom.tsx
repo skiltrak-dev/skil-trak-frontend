@@ -86,8 +86,6 @@ export const IndustryProfileFrom = ({
             )
             setCourseValues(courseAddedOptions)
             setCourseOptions(courseAddedOptions)
-            setCountryId(profile?.data?.country?.id)
-            setStateId(profile?.data?.region?.id)
         }
     }, [profile])
 
@@ -215,6 +213,17 @@ export const IndustryProfileFrom = ({
         resolver: yupResolver(validationSchema),
     })
 
+    const statesOption = states?.map((state: any) => ({
+        label: state.name,
+        value: state.id,
+    }))
+
+    const countryOptions =
+        country?.data?.map((country: any) => ({
+            label: country.name,
+            value: country.id,
+        })) || []
+
     useEffect(() => {
         if (profile?.data && profile.isSuccess) {
             const {
@@ -247,17 +256,26 @@ export const IndustryProfileFrom = ({
                 ...userRest
             } = user
             const values = {
-                courses: courses?.map((c: Course) => c.id),
                 ...rest,
                 ...userRest,
+                courses: courses?.map((c: Course) => c.id),
+                state: profile?.data?.region?.name,
+                country: countryOptions?.find(
+                    (c: any) => c?.value === profile?.data?.country?.id
+                ),
+                region: statesOption?.find(
+                    (s: any) => s?.value === profile?.data?.region?.id
+                ),
+                isPartner: isPartner ? 'yes' : 'no',
             }
             for (const key in values) {
                 formMethods.setValue(key, values[key])
             }
-            formMethods.setValue('isPartner', isPartner ? 'yes' : 'no')
+            setCountryId(profile?.data?.country?.id)
+            setStateId(profile?.data?.region?.id)
             setIsPartner(profile?.data?.isPartner ? 'yes' : 'no')
         }
-    }, [profile])
+    }, [profile, countryOptions, statesOption])
 
     useEffect(() => {
         if (courseValues && courseValues?.length > 0) {
@@ -285,17 +303,6 @@ export const IndustryProfileFrom = ({
             })
         }
     }
-
-    const statesOption = states?.map((state: any) => ({
-        label: state.name,
-        value: state.id,
-    }))
-
-    const countryOptions =
-        country?.data?.map((country: any) => ({
-            label: country.name,
-            value: country.id,
-        })) || []
 
     return (
         <>

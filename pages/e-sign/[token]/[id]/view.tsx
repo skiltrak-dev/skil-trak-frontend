@@ -188,12 +188,12 @@ const ESign = () => {
         }
     }
 
-    useEffect(() => {
-        scrollToPage(
-            Number(sortedPositions?.[customFieldsSelectedId]?.id),
-            sortedPositions?.[customFieldsSelectedId]?.number - 1
-        )
-    }, [customFieldsSelectedId])
+    // useEffect(() => {
+    //     scrollToPage(
+    //         Number(sortedPositions?.[customFieldsSelectedId]?.id),
+    //         sortedPositions?.[customFieldsSelectedId]?.number - 1
+    //     )
+    // }, [customFieldsSelectedId])
 
     const customFieldsAndSign = customFieldsData?.filter(
         (s: any) => s?.type === FieldsTypeEnum.Signature || s?.isCustom
@@ -368,6 +368,7 @@ const ESign = () => {
                                                 customFieldsAndSign={
                                                     customFieldsAndSign
                                                 }
+                                                scrollToPage={scrollToPage}
                                                 customFieldsSelectedId={
                                                     customFieldsSelectedId
                                                 }

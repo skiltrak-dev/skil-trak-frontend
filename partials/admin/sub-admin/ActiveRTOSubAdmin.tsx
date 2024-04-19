@@ -35,7 +35,7 @@ import { RtoCellInfo } from '../rto/components'
 import { MdAdminPanelSettings, MdOutlineAssignmentReturn } from 'react-icons/md'
 import { checkListLength, getUserCredentials } from '@utils'
 
-export const ActiveSubAdmin = () => {
+export const ActiveRTOSubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [changeStatusResult, setChangeStatusResult] = useState<any>({})
     const router = useRouter()
@@ -56,7 +56,7 @@ export const ActiveSubAdmin = () => {
     const { isLoading, isFetching, data, isError, refetch } =
         AdminApi.SubAdmins.useListQuery(
             {
-                search: `status:${UserStatus.Approved},createdBy:${UserRoles.ADMIN}`,
+                search: `status:${UserStatus.Approved},createdBy:${UserRoles.RTO}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },

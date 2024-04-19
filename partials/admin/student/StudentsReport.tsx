@@ -5,21 +5,16 @@ import {
     Button,
     Card,
     Select,
+    StatusOptions,
     Typography,
     workplaceProgressOptions,
-    StatusOptions,
 } from '@components'
 import { CalendarStyles } from '@components/Calendar/style'
 import Calendar from 'react-calendar'
 
 import { CommonApi } from '@queries'
-import { OptionType, UserStatus } from '@types'
-import {
-    WorkplaceCurrentStatus,
-    getUserCredentials,
-    queryToUrl,
-    removeEmptyValues,
-} from '@utils'
+import { OptionType } from '@types'
+import { WorkplaceCurrentStatus, queryToUrl, removeEmptyValues } from '@utils'
 import moment from 'moment'
 import { RiTimerLine } from 'react-icons/ri'
 import OutsideClickHandler from 'react-outside-click-handler'

@@ -6,6 +6,7 @@ import { FaEye } from 'react-icons/fa'
 // components
 import {
     Card,
+    CaseOfficerAssignedStudent,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
@@ -198,13 +199,7 @@ export const AgreementPendingStudents = () => {
                 const appliedIndustry = getStudentWorkplaceAppliedIndustry(
                     workplace?.industries
                 )
-                return (
-                    <ProgressCell
-                        studentId={row.original?.id}
-                        appliedIndustry={appliedIndustry}
-                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
-                    />
-                )
+                return <CaseOfficerAssignedStudent student={row.original} />
             },
         },
         {
