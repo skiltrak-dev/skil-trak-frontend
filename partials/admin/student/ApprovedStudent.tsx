@@ -21,7 +21,11 @@ import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import {
+    WorkplaceCurrentStatus,
     checkListLength,
+    checkStudentStatus,
+    checkWorkplaceStatus,
+    getStudentWorkplaceAppliedIndustry,
     isBrowser,
     setLink,
     studentsListWorkplace,
@@ -31,7 +35,7 @@ import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
 import { MdBlock, MdPriorityHigh } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
-import { SectorCell, StudentCellInfo } from './components'
+import { ProgressCell, SectorCell, StudentCellInfo } from './components'
 import {
     ArchiveModal,
     BlockModal,

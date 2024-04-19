@@ -447,4 +447,12 @@ export const studentsEndpoints = (
         query: () => `${PREFIX}/students/list`,
         providesTags: ['SubAdminStudents'],
     }),
+    sendPasswordToStudentMail: builder.mutation<any, string>({
+        query: (email) => ({
+            url: `${PREFIX}/users/password/send`,
+            body: { email },
+            method: 'POST',
+        }),
+        invalidatesTags: ['Students', 'SubAdminStudents'],
+    }),
 })

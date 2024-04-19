@@ -2,7 +2,7 @@ import { ActionButton, Modal } from '@components'
 import { StudentAvailability } from '@partials/common/workplace'
 import React, { ReactElement, useState } from 'react'
 
-export const ViewAvailability = ({ availability }: { availability: any }) => {
+export const ViewAvailability = ({ wpId }: { wpId: number }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const onCancel = () => setModal(null)
@@ -15,7 +15,7 @@ export const ViewAvailability = ({ availability }: { availability: any }) => {
                 onCancelClick={onCancel}
                 showActions={false}
             >
-                <StudentAvailability availability={availability} />
+                <StudentAvailability wpId={wpId} />
             </Modal>
         )
     }

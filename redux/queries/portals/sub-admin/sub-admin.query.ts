@@ -110,6 +110,9 @@ export const {
     useAgrementSignMutation,
     useViewMoreIndustriesQuery,
 
+    useGetStudentWorkplaceAnswersQuery,
+    useGetStudentWorkplaceAvailabilityQuery,
+    useGetStudentWorkplacePlacementAnswersQuery,
     useAssignSubadminWorkplaceCourseMutation,
     useStartPlacementMutation,
     useIndustryResponseMutation,
@@ -146,6 +149,7 @@ export const {
     useCalledStudentMutation,
     useSubAdminStudentCountQuery,
     useSubAdminRequestWorkplaceMutation,
+    useSendPasswordToStudentMailMutation,
     useSubAdminFilteredStudentsQuery,
     useSubadminStudentAssignCoursesMutation,
     useGetSubAdminNonContactableStudentsQuery,
@@ -311,6 +315,7 @@ export const SubAdminApi = {
         useCompletedStudents: useSubadminCompletedStudentsQuery,
         useSubAdminStudentList: useGetSubAdminTicketStudentsListQuery,
         assignCourse: useSubadminStudentAssignCoursesMutation,
+        useMailPassword: useSendPasswordToStudentMailMutation,
         subadminStudentUnassignCourses:
             useSubadminStudentUnassignCoursesMutation,
         useNotContactable: useSetNotContactableMutation,
@@ -351,7 +356,9 @@ export const SubAdminApi = {
     },
     Workplace: {
         count: useWorkplaceCountQuery,
-
+        useStudentWorkplaceAnswers: useGetStudentWorkplaceAnswersQuery,
+        useWorkplaceAvailability: useGetStudentWorkplaceAvailabilityQuery,
+        useStudentPlacementAnswers: useGetStudentWorkplacePlacementAnswersQuery,
         useViewMoreIndustries: useViewMoreIndustriesQuery,
         assignCourse: useAssignSubadminWorkplaceCourseMutation,
         AgreementSign: useAgrementSignMutation,
@@ -429,5 +436,5 @@ export const SubAdminApi = {
     },
     TalentPool: {
         useTalentPoolList: useGetSubAdminTalentPoolListQuery,
-    }
+    },
 }

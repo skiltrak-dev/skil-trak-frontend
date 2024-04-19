@@ -10,56 +10,60 @@ import {
     StepAwaitingResponse,
     StepCaseOfficerAssigned,
     StepInterview,
+    StepPlacementCompleted,
     StepPlacementStarted,
 } from '@partials/common'
 import { StepSignAgreement } from './StepSignAgreement'
 import { Course } from '@types'
+import { WorkplaceCurrentStatus } from '@utils'
 
 type Props = {
     status: any
+    course: Course
     appliedIndustry: any
-    setIndustrySelection?: any
-    workplaceCancelRequest: any
     workplaceRequest: any
     studentAdded?: boolean
-    course: Course
+    setIndustrySelection?: any
+    workplaceCancelRequest: any
 }
 
 export const AppliedIndustry = ({
     status,
+    course,
+    studentAdded,
     appliedIndustry,
+    workplaceRequest,
     setIndustrySelection,
     workplaceCancelRequest,
-    workplaceRequest,
-    studentAdded,
-    course,
 }: Props) => {
     const getNextStep = () => {
         switch (status) {
-            case 'interview':
+            case WorkplaceCurrentStatus.Interview:
                 return <StepInterview />
 
-            case 'caseOfficerAssigned':
+            case WorkplaceCurrentStatus.CaseOfficerAssigned:
                 return <StepCaseOfficerAssigned />
 
-            case 'awaitingWorkplaceResponse':
+            case WorkplaceCurrentStatus.AwaitingWorkplaceResponse:
                 return <StepAwaitingResponse />
 
-            case 'appointmentBooked':
+            case WorkplaceCurrentStatus.AppointmentBooked:
                 return <StepAppointmentBooked />
 
-            case 'awaitingAgreementSigned':
+            case WorkplaceCurrentStatus.AwaitingAgreementSigned:
                 return (
                     <StepSignAgreement
                         appliedIndustryId={appliedIndustry?.id}
                         course={course}
                     />
                 )
-            case 'AgreementSigned':
+            case WorkplaceCurrentStatus.AgreementSigned:
                 return <AgreementSigned />
 
-            case 'placementStarted':
+            case WorkplaceCurrentStatus.PlacementStarted:
                 return <StepPlacementStarted />
+            case WorkplaceCurrentStatus.Completed:
+                return <StepPlacementCompleted />
 
             default:
                 return !studentAdded ? (

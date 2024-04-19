@@ -23,6 +23,7 @@ import {
     ApprovedStudent,
     ArchivedStudent,
     BlockedStudent,
+    CompletedStudents,
     FilteredStudents,
     PendingStudent,
     RejectedStudent,
@@ -97,8 +98,6 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
         }
     )
 
-    const studentCount = getCountData<{ [key: string]: number }>(count?.data)
-
     // ADD STUDENT JOY RIDE - START
     const joyride = useJoyRide()
     useEffect(() => {
@@ -115,7 +114,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
             label: 'Pending',
             href: { pathname: 'students', query: { tab: UserStatus.Pending } },
             badge: {
-                text: studentCount?.pending,
+                text: count?.data?.pending,
                 loading: count.isLoading,
             },
             element: <PendingStudent />,
@@ -123,7 +122,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
         {
             label: 'Active',
             badge: {
-                text: studentCount?.approved,
+                text: count?.data?.approved,
                 loading: count.isLoading,
             },
             href: { pathname: 'students', query: { tab: 'active' } },
@@ -132,7 +131,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
         {
             label: 'Rejected',
             badge: {
-                text: studentCount?.rejected,
+                text: count?.data?.rejected,
                 loading: count.isLoading,
             },
             href: { pathname: 'students', query: { tab: UserStatus.Rejected } },
@@ -141,7 +140,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
         {
             label: 'Blocked',
             badge: {
-                text: studentCount?.blocked,
+                text: count?.data?.blocked,
                 loading: count.isLoading,
             },
             href: { pathname: 'students', query: { tab: UserStatus.Blocked } },
@@ -150,11 +149,20 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
         {
             label: 'Archived',
             badge: {
-                text: studentCount?.archived,
+                text: count?.data?.archived,
                 loading: count.isLoading,
             },
             href: { pathname: 'students', query: { tab: UserStatus.Archived } },
             element: <ArchivedStudent />,
+        },
+        {
+            label: 'Completed',
+            badge: {
+                text: count?.data?.completed,
+                loading: count.isLoading,
+            },
+            href: { pathname: 'students', query: { tab: 'completed' } },
+            element: <CompletedStudents />,
         },
     ]
 

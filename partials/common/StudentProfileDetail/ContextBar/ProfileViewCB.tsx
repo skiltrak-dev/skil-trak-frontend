@@ -1,6 +1,7 @@
-import { StudentAvatar, Typography } from '@components'
+import { AuthorizedUserComponent, StudentAvatar, Typography } from '@components'
 import { Student } from '@types'
 import {
+    AssignToMeStudent,
     Avatar,
     ContactStatus,
     EmergencyContact,
@@ -11,6 +12,7 @@ import {
     StudentExpireTime,
     StudentStatus,
 } from '../ContextBarComponents'
+import { UserRoles } from '@constants'
 
 export const ProfileViewCB = ({ profile }: { profile: Student }) => {
     return (
@@ -31,13 +33,21 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
             </div>
 
             {/* User */}
-            <div className="mt-2">
-                <Typography semibold>
-                    <span className="text-[15px]"> {profile?.user?.name}</span>
-                </Typography>
-                <Typography variant="xs" color="text-[#6B7280]">
-                    {profile?.user?.email}
-                </Typography>
+            <div className="flex justify-between">
+                <div className="mt-2">
+                    <Typography semibold>
+                        <span className="text-[15px]">
+                            {' '}
+                            {profile?.user?.name}
+                        </span>
+                    </Typography>
+                    <Typography variant="xs" color="text-[#6B7280]">
+                        {profile?.user?.email}
+                    </Typography>
+                </div>
+                <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                    <AssignToMeStudent student={profile} />
+                </AuthorizedUserComponent>
             </div>
 
             {/* Expiry Date */}

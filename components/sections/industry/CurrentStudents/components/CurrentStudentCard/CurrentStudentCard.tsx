@@ -74,9 +74,7 @@ export const CurrentStudentCard = ({ workplace }: any) => {
             {/* Industries and notes */}
             <div className="grid grid-cols-2 gap-x-3 mt-4">
                 {/* Industries */}
-                <StudentAvailability
-                    availability={workplace?.generalAvailability}
-                />
+                <StudentAvailability wpId={workplace?.id} />
                 {/* Notes */}
                 <Notes />
             </div>

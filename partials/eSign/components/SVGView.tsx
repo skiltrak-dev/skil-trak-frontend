@@ -8,6 +8,7 @@ import { TabsView } from './TabsView'
 import { DocumentScrollArrow } from './DocumentScrollArrow'
 
 export const SVGView = ({
+    scrollToPage,
     sortedPositions,
     index,
     documentData,
@@ -19,6 +20,7 @@ export const SVGView = ({
     customFieldsSelectedId,
     customFieldsAndSign,
 }: {
+    scrollToPage: any
     sortedPositions: any
     onDocumentScrollArrow: () => void
     customFieldsAndSign: any
@@ -45,6 +47,13 @@ export const SVGView = ({
     )
 
     const doc = document?.data?.data
+
+    useEffect(() => {
+        scrollToPage(
+            Number(sortedPositions?.[customFieldsSelectedId]?.id),
+            sortedPositions?.[customFieldsSelectedId]?.number - 1
+        )
+    }, [customFieldsSelectedId, doc])
 
     useEffect(() => {
         const parser = new DOMParser()

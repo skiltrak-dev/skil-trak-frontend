@@ -43,6 +43,7 @@ export const CaseOfficerAssignedStudent = ({
         />
     ) : industries?.length > 0 ? (
         <StudentStatusProgressCell
+            assigned={workplace?.assignedTo || student?.subadmin}
             studentId={student?.id}
             step={
                 workplace?.currentStatus === WorkplaceCurrentStatus.Cancelled

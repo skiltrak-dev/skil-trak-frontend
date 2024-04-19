@@ -1,6 +1,6 @@
 import { Badge, Typography } from '@components'
 import classNames from 'classnames'
-import React, { useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { FaCircleCheck } from 'react-icons/fa6'
 
 export enum WorkplaceAnswerEnum {
@@ -14,16 +14,20 @@ export const WorkplaceQuestionCard = ({
     data,
     index,
     title,
+    height,
     onClick,
+    children,
     showOnlyAnswer,
 }: {
     data: any
     index: number
     title: string
+    height?: string
+    children?: ReactNode
     showOnlyAnswer?: boolean
     onClick?: (value: WorkplaceAnswerEnum) => void
 }) => {
-    const [answer, setAnswer] = useState<WorkplaceAnswerEnum | null>(null)
+    const [answer, setAnswer] = useState<any>(null)
 
     useEffect(() => {
         if (data?.answer) {
@@ -34,7 +38,10 @@ export const WorkplaceQuestionCard = ({
     const numberClasses = classNames({
         'bg-[#BF0000]': WorkplaceAnswerEnum.No === answer,
         'bg-[#30AF22]': WorkplaceAnswerEnum.Yes === answer,
-        'bg-muted-dark': !answer,
+        'bg-muted-dark':
+            !answer ||
+            (answer !== WorkplaceAnswerEnum.Yes &&
+                answer !== WorkplaceAnswerEnum.No),
     })
 
     const answerIconClasses = (text: WorkplaceAnswerEnum, type?: string) => {
@@ -48,13 +55,18 @@ export const WorkplaceQuestionCard = ({
     }
 
     return (
-        <div className="border border-dashed border-[#A5A3A9] p-2.5 h-auto lg:h-[104px] rounded-[10px] flex flex-col justify-between">
+        <div
+            className={`flex-grow border border-dashed border-[#A5A3A9] p-2.5 h-auto ${
+                height ? height : 'lg:h-[104px]'
+            }  rounded-[10px] flex flex-col justify-between`}
+        >
             <div className="flex items-start gap-x-4">
                 <div
                     className={`mt-1 min-w-6 min-h-6 w-fit flex justify-center items-center ${numberClasses}  rounded-full`}
                 >
                     <Typography variant="small" color="text-white">
-                        0{index + 1}
+                        {index < 9 ? 0 : null}
+                        {index + 1}
                     </Typography>
                 </div>
                 <Typography medium>
@@ -66,17 +78,21 @@ export const WorkplaceQuestionCard = ({
             <div className="flex items-center gap-x-6 px-10">
                 {showOnlyAnswer ? (
                     // <Typography variant="label">{data?.answer}</Typography>
-                    <div className="flex items-center gap-x-1">
-                        <Typography variant={'label'}>Answer:</Typography>
-                        <Badge
-                            text={data?.answer}
-                            variant={
-                                data?.answer === WorkplaceAnswerEnum.Yes
-                                    ? 'success'
-                                    : 'error'
-                            }
-                        />
-                    </div>
+                    children ? (
+                        children
+                    ) : (
+                        <div className="flex items-center gap-x-1">
+                            <Typography variant={'label'}>Answer:</Typography>
+                            <Badge
+                                text={data?.answer}
+                                variant={
+                                    data?.answer === WorkplaceAnswerEnum.No
+                                        ? 'error'
+                                        : 'success'
+                                }
+                            />
+                        </div>
+                    )
                 ) : (
                     answersData.map((text) => (
                         <div
