@@ -136,7 +136,7 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
                         detail={
                             profile?.gender
                                 ? String(getGender(profile?.gender))
-                                : 'N/A'
+                                : '---'
                         }
                     />
                 </div>

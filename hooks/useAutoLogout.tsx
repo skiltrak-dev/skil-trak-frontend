@@ -203,7 +203,7 @@ export const AutoLogoutProvider = ({
         let time: any = null
         if (AuthUtils.isAuthenticated() && path?.includes('portals')) {
             time = setTimeout(async () => {
-                if (AuthUtils.getToken()) {
+                if (AuthUtils.token()) {
                     await logoutActivity({ type: LogoutType.Auto })
                 }
                 setModal(<SessionExpireModal onCancel={onCancelClicked} />)

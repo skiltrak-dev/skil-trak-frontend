@@ -22,7 +22,7 @@ export const AuthNavbar = ({ type }: AuthHeaderProps) => {
     const [logoutActivity] = CommonApi.LogoutActivity.perFormAcivityOnLogout()
 
     const onLogOut = async () => {
-        if (AuthUtils.getToken()) {
+        if (AuthUtils.token()) {
             await logoutActivity({})
         }
         AuthUtils.logout(router)

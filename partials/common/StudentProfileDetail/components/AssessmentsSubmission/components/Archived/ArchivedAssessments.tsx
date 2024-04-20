@@ -1,5 +1,7 @@
 import { Typography } from '@components'
 import {
+    useGetArchivedAssessmentEvidenceDetailQuery,
+    useGetArchivedAssessmentResponseQuery,
     useGetAssessmentEvidenceDetailQuery,
     useGetAssessmentResponseQuery,
     useStudentAssessmentCoursesQuery,
@@ -43,23 +45,23 @@ export const ArchivedAssessments = ({
             refetchOnMountOrArgChange: true,
         }
     )
-    const getFolders = useGetAssessmentEvidenceDetailQuery(
+
+    const getFolders = useGetArchivedAssessmentEvidenceDetailQuery(
         {
             courseId: Number(selectedCourse?.id),
             studentId: Number(student?.id),
         },
         {
-            skip: !selectedCourse || !student?.id || !isEntered,
+            skip: !selectedCourse,
         }
     )
-    const getAssessmentResponse = useGetAssessmentResponseQuery(
+
+    const getArchivedAssessmentResponse = useGetArchivedAssessmentResponseQuery(
         {
             selectedFolder: Number(selectedFolder?.id),
             student: Number(student?.user?.id),
         },
-        {
-            skip: !selectedFolder || !student || !isEntered,
-        }
+        { skip: !selectedFolder || !student || !isEntered }
     )
 
     useEffect(() => {
@@ -312,7 +314,9 @@ export const ArchivedAssessments = ({
                         <AssessmentFiles
                             course={selectedCourse}
                             selectedFolder={selectedFolder}
-                            getAssessmentResponse={getAssessmentResponse}
+                            getAssessmentResponse={
+                                getArchivedAssessmentResponse
+                            }
                             uploadAssessment={false}
                         />
                     </div>
