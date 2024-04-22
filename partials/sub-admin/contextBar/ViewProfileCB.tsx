@@ -82,7 +82,13 @@ export const ViewProfileCB = () => {
             count: todoListCount?.data?.pendingAssessment,
             link: '/portals/sub-admin/tasks/assessment-evidence?tab=pending',
         },
+        {
+            text: 'Urgent Students',
+            count: todoListCount?.data?.urgentStudents,
+            link: '/portals/sub-admin/students?tab=urgent-students',
+        },
     ]
+
     return (
         <>
             {isLoading || isFetching ? (

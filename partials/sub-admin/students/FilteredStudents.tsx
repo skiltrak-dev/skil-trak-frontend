@@ -56,9 +56,6 @@ export const FilteredStudents = ({
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
-
     const onModalCancelClicked = () => {
         setModal(null)
     }
@@ -148,11 +145,6 @@ export const FilteredStudents = ({
                 text: 'Interview',
                 onClick: (student: Student) => onInterviewClicked(student),
                 Icon: FaUsers,
-            },
-            {
-                text: 'View Password',
-                onClick: (student: Student) => onViewPassword(student),
-                Icon: RiLockPasswordFill,
             },
             {
                 text: 'Change Status',
@@ -358,22 +350,9 @@ export const FilteredStudents = ({
         ?.map((s: any) => s?.industries?.filter((s: any) => s?.applied))
         ?.flat()
 
-    // const ddd = filter?.industryId
-    //     ? abc && abc?.length > 0
-    //         ? abc
-    //         : student?.data.filter((item: any) => {
-    //               // Check if any of the industries have an ID of 32
-    //               return item.industries.some(
-    //                   (industry: any) =>
-    //                       industry.id === Number(filter?.industryId)
-    //               )
-    //           })
-    //     : student?.data?.data
-
     return (
         <>
-            {modal && modal}
-            {passwordModal}
+            {modal}
             <div className="flex flex-col gap-y-4 p-4">
                 <PageHeading
                     title={'Filtered Students'}

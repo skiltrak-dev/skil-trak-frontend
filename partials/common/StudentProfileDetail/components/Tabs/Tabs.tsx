@@ -1,15 +1,16 @@
-import { useRouter } from 'next/router'
-import { ReactNode, useEffect, useState } from 'react'
-import { Tab } from './Tab'
 import { TabProps } from '@components'
+import { useEffect, useState } from 'react'
+import { Tab } from './Tab'
 
 export const Tabs = ({
     children,
     tabs,
     type,
     defaultTabSelected,
+    onSetSelectedElement,
     className,
 }: {
+    onSetSelectedElement?: (element: TabProps) => void
     children: ({ header, element }: any) => JSX.Element
     tabs: TabProps[]
     type?: any
@@ -18,9 +19,15 @@ export const Tabs = ({
 }) => {
     const [element, setElement] = useState<any>(null)
 
+    console.log({ element })
+
     useEffect(() => {
         if (defaultTabSelected === 0) {
-            setElement(tabs[0])
+            const zeroIndexTab = tabs?.[0]
+            setElement(zeroIndexTab)
+            if (onSetSelectedElement) {
+                onSetSelectedElement(zeroIndexTab)
+            }
         } else if (defaultTabSelected) {
             setElement(tabs[defaultTabSelected])
         }
@@ -45,6 +52,9 @@ export const Tabs = ({
                         type={type}
                         transKey={tab?.transKey}
                         onClick={() => {
+                            if (onSetSelectedElement) {
+                                onSetSelectedElement(tab)
+                            }
                             setElement(tab)
                         }}
                     />

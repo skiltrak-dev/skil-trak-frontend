@@ -76,7 +76,7 @@ export const Notification = ({
         if (autoDismiss && !hovered) {
             const timer = setTimeout(() => {
                 setDismissing(!dismissingRef.current)
-            }, dissmissTimer || 3000)
+            }, dissmissTimer || 5000)
             return () => {
                 clearTimeout(timer)
             }

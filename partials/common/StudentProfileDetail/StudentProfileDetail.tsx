@@ -6,7 +6,7 @@ import {
     Typography,
 } from '@components'
 import { useAlert, useContextBar } from '@hooks'
-import { useGetSubAdminStudentDetailQuery } from '@queries'
+import { SubAdminApi, useGetSubAdminStudentDetailQuery } from '@queries'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { ProfileViewCB } from './ContextBar'
@@ -15,6 +15,7 @@ import {
     Appointments,
     AssessmentSubmissions,
     Mails,
+    MailsCommunication,
     Notes,
     Tickets,
     Workplace,
@@ -34,6 +35,7 @@ export const StudentProfileDetail = () => {
     const contextBar = useContextBar()
     const [selectedId, setSelectedId] = useState<string>('')
     const [workplaceLength, setWorkplaceLength] = useState<number>(0)
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
     useEffect(() => {
         let timer: any = null
@@ -47,6 +49,20 @@ export const StudentProfileDetail = () => {
         }
     }, [selectedId])
 
+    const handleMouseMove = (event: any) => {
+        if (!contextBar.content) {
+            setMousePosition({ x: event.clientX, y: event.clientY })
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener('mousemove', handleMouseMove)
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove)
+        }
+    }, [contextBar])
+
     const router = useRouter()
 
     const [quickSearch, setQuickSearch] = useState<boolean>(false)
@@ -56,6 +72,11 @@ export const StudentProfileDetail = () => {
     const profile = useGetSubAdminStudentDetailQuery(Number(router.query?.id), {
         skip: !router.query?.id,
         refetchOnMountOrArgChange: true,
+    })
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: !UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+        refetchOnFocus: true,
     })
 
     useEffect(() => {
@@ -67,7 +88,7 @@ export const StudentProfileDetail = () => {
             contextBar.hide()
             contextBar.setContent(null)
         }
-    }, [profile])
+    }, [profile, mousePosition])
 
     useEffect(() => {
         if (profile?.isSuccess && profile?.data) {
@@ -250,22 +271,23 @@ export const StudentProfileDetail = () => {
             ) : profile?.data && profile?.isSuccess ? (
                 <div className="flex flex-col gap-y-5 mt-8 mb-20 px-2">
                     <div
-                        className={`overflow-hidden grid ${
-                            role === UserRoles.ADMIN
+                        className={` grid ${
+                            role === UserRoles.ADMIN || subadmin?.data?.isAdmin
                                 ? 'grid-cols-1 gap-3'
                                 : `grid-cols-5  ${
                                       workplaceLength > 1
                                           ? 'h-[580px]'
-                                          : 'h-[500px]'
+                                          : 'h-[510px]'
                                   } `
-                        } gap-x-3`}
+                        }  px-2 gap-x-3`}
                     >
                         <div
                             className={`${
-                                role === UserRoles.ADMIN
+                                role === UserRoles.ADMIN ||
+                                subadmin?.data?.isAdmin
                                     ? 'col-span-1'
                                     : 'col-span-3'
-                            } h-[99%] ${activeBorder(ProfileIds.Workplace)}`}
+                            } h-[99%]  ${activeBorder(ProfileIds.Workplace)}`}
                             id={`student-profile-${ProfileIds.Workplace}`}
                         >
                             <Workplace
@@ -276,7 +298,8 @@ export const StudentProfileDetail = () => {
                         </div>
                         <div
                             className={`${
-                                role === UserRoles.ADMIN
+                                role === UserRoles.ADMIN ||
+                                subadmin?.data?.isAdmin
                                     ? 'col-span-1'
                                     : 'col-span-2'
                             } h-[99%] ${activeBorder(ProfileIds.Notes)}`}
@@ -288,31 +311,36 @@ export const StudentProfileDetail = () => {
                     <div
                         className={`${activeBorder(
                             ProfileIds['Assessment Evidence']
-                        )}`}
+                        )}  px-2`}
                         id={`student-profile-${ProfileIds['Assessment Evidence']}`}
                     >
                         <AssessmentSubmissions student={profile?.data} />
                     </div>
-                    <div className="h-[640px] overflow-hidden grid grid-cols-2 gap-x-3">
+                    <div className="h-[640px] px-2  grid grid-cols-2 gap-x-3">
                         <div
-                            id={`student-profile-${ProfileIds.Mails}`}
                             className={`${activeBorder(
                                 ProfileIds.Mails
-                            )} h-[99%]`}
+                            )} !h-[99%] col-span-2`}
+                        >
+                            <MailsCommunication user={profile?.data?.user} />
+                        </div>
+                        {/* <div
+                            id={`student-profile-${ProfileIds.Mails}`}
+                            className={`${activeBorder(ProfileIds.Mails)} `}
                         >
                             <Mails user={profile?.data?.user} />
                         </div>
                         <div
                             className={`${activeBorder(
                                 ProfileIds['All Communications']
-                            )} h-[99%]`}
+                            )} `}
                             id={`student-profile-${ProfileIds['All Communications']}`}
                         >
                             <AllCommunication user={profile?.data?.user} />
-                        </div>
+                        </div> */}
                     </div>
                     <div
-                        className={`h-[500px] overflow-hidden grid grid-cols-2 gap-x-3 `}
+                        className={`h-[600px] px-3  grid grid-cols-2 gap-x-3 `}
                     >
                         <div
                             id={`student-profile-${ProfileIds.Appointments} `}
@@ -320,7 +348,7 @@ export const StudentProfileDetail = () => {
                                 selectedId === ProfileIds.Appointments
                                     ? 'border-2 border-primary'
                                     : ''
-                            } !h-[inherit]`}
+                            } !h-[99%] overflow-hidden`}
                         >
                             <Appointments user={profile?.data?.user} />
                         </div>
@@ -328,7 +356,7 @@ export const StudentProfileDetail = () => {
                             id={`student-profile-${ProfileIds.Tickets}`}
                             className={`${activeBorder(
                                 ProfileIds.Tickets
-                            )} !h-[inherit]`}
+                            )} !h-[99%] overflow-hidden`}
                         >
                             <Tickets studentId={profile?.data?.id} />
                         </div>

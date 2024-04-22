@@ -26,21 +26,16 @@ import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { BlockModal, UnAssignStudentModal } from './modals'
 
-import { useActionModal } from '@hooks'
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import {
     WorkplaceCurrentStatus,
-    calculateRemainingDays,
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
     setLink,
     studentsListWorkplace,
 } from '@utils'
-import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCellInfo } from '../Industries'
-import moment from 'moment'
-import { AiOutlineWarning } from 'react-icons/ai'
 
 export const PlacementStartedStudents = () => {
     const router = useRouter()
@@ -51,7 +46,6 @@ export const PlacementStartedStudents = () => {
     const [page, setPage] = useState(1)
 
     // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -100,11 +94,6 @@ export const PlacementStartedStudents = () => {
                 )
             },
             Icon: FaEye,
-        },
-        {
-            text: 'View Password',
-            onClick: (student: Student) => onViewPassword(student),
-            Icon: RiLockPasswordFill,
         },
         {
             text: 'Block',
@@ -249,8 +238,7 @@ export const PlacementStartedStudents = () => {
     ]
     return (
         <div>
-            {modal && modal}
-            {passwordModal}
+            {modal}
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading || isFetching ? (

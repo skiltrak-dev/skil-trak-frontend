@@ -143,6 +143,7 @@ export const {
 
     // ----- STUDENTS-------//
     useGetSubAdminStudentsQuery,
+    useGetSubAdminUrgentStudentsQuery,
     useSubadminCompletedStudentsQuery,
     useGetSubAdminTicketStudentsListQuery,
     useSetNotContactableMutation,
@@ -312,6 +313,7 @@ export const SubAdminApi = {
     Student: {
         useCount: useSubAdminStudentCountQuery,
         useList: useGetSubAdminStudentsQuery,
+        useUrgentStudents: useGetSubAdminUrgentStudentsQuery,
         useCompletedStudents: useSubadminCompletedStudentsQuery,
         useSubAdminStudentList: useGetSubAdminTicketStudentsListQuery,
         assignCourse: useSubadminStudentAssignCoursesMutation,

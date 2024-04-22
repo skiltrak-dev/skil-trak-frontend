@@ -29,6 +29,7 @@ import {
     PendingStudents,
     PlacementStartedStudents,
     RejectedStudents,
+    UrgentStudents,
 } from '@partials/sub-admin/students'
 
 // query
@@ -149,6 +150,15 @@ const Students: NextPageWithLayout = (props: Props) => {
             },
             href: { pathname: 'students', query: { tab: 'my-students' } },
             element: <MyStudents />,
+        },
+        {
+            label: 'Urgent Students',
+            badge: {
+                text: studentCount?.urgentStudents,
+                loading: count.isLoading,
+            },
+            href: { pathname: 'students', query: { tab: 'urgent-students' } },
+            element: <UrgentStudents />,
         },
         {
             label: 'Agreement Pending',
