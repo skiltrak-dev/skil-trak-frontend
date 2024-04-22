@@ -296,14 +296,16 @@ export const StudentProfileDetail = () => {
                     <div className="h-[640px] overflow-hidden grid grid-cols-2 gap-x-3">
                         <div
                             id={`student-profile-${ProfileIds.Mails}`}
-                            className={`${activeBorder(ProfileIds.Mails)}`}
+                            className={`${activeBorder(
+                                ProfileIds.Mails
+                            )} h-[99%]`}
                         >
                             <Mails user={profile?.data?.user} />
                         </div>
                         <div
                             className={`${activeBorder(
                                 ProfileIds['All Communications']
-                            )}`}
+                            )} h-[99%]`}
                             id={`student-profile-${ProfileIds['All Communications']}`}
                         >
                             <AllCommunication user={profile?.data?.user} />

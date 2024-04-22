@@ -1,21 +1,10 @@
-import {
-    Button,
-    Card,
-    EmptyData,
-    LoadingAnimation,
-    Mail,
-    TechnicalError,
-    Typography,
-} from '@components'
-import { CommonApi } from '@queries'
-import { User } from '@types'
-import { ReactElement, useState } from 'react'
-import { ComposeMailModal } from '../../modals'
+import { Card, Typography } from '@components'
 import { AllCommunicationTab } from '@partials/common/AllCommunicationTab'
+import { User } from '@types'
 
 export const AllCommunication = ({ user }: { user: User }) => {
     return (
-        <Card noPadding>
+        <Card noPadding fullHeight>
             <div className="px-4 py-3.5 flex justify-between items-center border-b border-secondary-dark">
                 <Typography variant="label" semibold>
                     All Communications

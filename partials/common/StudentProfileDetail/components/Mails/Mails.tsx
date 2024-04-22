@@ -42,7 +42,7 @@ export const Mails = ({ user }: { user: User }) => {
                 setIsEntered(false)
             }}
         >
-            <div>
+            <div className="h-full">
                 {modal}
                 <Card noPadding>
                     <div className="px-4 py-3.5 flex justify-between items-center border-b border-secondary-dark">
