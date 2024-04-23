@@ -182,7 +182,7 @@ const ESign = () => {
         const detailItem = document.getElementById(`tabs-view-${pageIndex}`)
 
         if (detailItem) {
-            detailItem.scrollIntoView({ behavior: 'smooth' })
+            detailItem.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (targetElement) {
             targetElement.scrollIntoView({ behavior: 'smooth' })
         }
@@ -298,7 +298,7 @@ const ESign = () => {
                                 </button>
                             </div>
                         )} */}
-                            <div className="block lg:hidden">
+                            {/* <div className="block lg:hidden">
                                 <div className=" flex justify-end items-center ">
                                     <div
                                         onClick={() =>
@@ -328,8 +328,8 @@ const ESign = () => {
                                         </div>
                                     )}
                                 </div>
-                            </div>
-                            <div className="lg:col-span-5 flex flex-col gap-y-3">
+                            </div> */}
+                            <div className="lg:col-span-6 flex flex-col gap-y-3 pl-14 lg:pl-0">
                                 {/* <div className="flex justify-end items-center gap-x-2">
                                     <input
                                         type={'checkbox'}
@@ -354,9 +354,10 @@ const ESign = () => {
                                         ref={(el) =>
                                             (scrollTargetRef.current[i] = el)
                                         }
+                                        className="relative"
                                     >
-                                        <Card>
-                                            <div className="flex justify-center">
+                                        <Card noPadding>
+                                            <div className="absolute top-1 left-1/2 flex justify-center">
                                                 <Typography
                                                     variant="label"
                                                     semibold
@@ -399,7 +400,7 @@ const ESign = () => {
                                     </div>
                                 ))}
                             </div>
-                            <div className="hidden lg:block sticky top-0 h-[85vh]">
+                            {/* <div className="hidden lg:block sticky top-0 h-[85vh]">
                                 <ScrollTabsView
                                     onClick={() => setShowSignersField(false)}
                                     customFieldsAndSign={customFieldsAndSign}
@@ -408,7 +409,7 @@ const ESign = () => {
                                         setSelectedFillDataField
                                     }
                                 />
-                            </div>
+                            </div> */}
                         </div>
                         <div className="flex justify-center bg-white px-5 py-2 shadow-md w-full rounded my-2">
                             <button

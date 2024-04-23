@@ -5,6 +5,7 @@ import { FaEye } from 'react-icons/fa'
 
 // components
 import {
+    Button,
     Card,
     CaseOfficerAssignedStudent,
     EmptyData,
@@ -16,7 +17,6 @@ import {
     TableAction,
     Typography,
     UserCreatedAt,
-    Button,
 } from '@components'
 import { StudentCellInfo } from './components'
 
@@ -35,28 +35,17 @@ import {
 import { useActionModal } from '@hooks'
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import {
-    calculateRemainingDays,
-    getUserCredentials,
-    setLink,
-    studentsListWorkplace,
-} from '@utils'
+import { getUserCredentials, setLink, studentsListWorkplace } from '@utils'
+import { FaFileExport } from 'react-icons/fa'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCellInfo } from '../Industries'
-import moment from 'moment'
-import { AiOutlineWarning } from 'react-icons/ai'
-import { FaFileExport } from 'react-icons/fa'
 
 export const MyStudents = () => {
     const router = useRouter()
     const userId = getUserCredentials()?.id
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const [refetchStudents, setRefetchStudents] = useState(false)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-
-    // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -73,12 +62,6 @@ export const MyStudents = () => {
                 refetchOnMountOrArgChange: true,
             }
         )
-
-    useEffect(() => {
-        if (refetchStudents) {
-            refetch()
-        }
-    }, [refetchStudents, data])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -136,11 +119,6 @@ export const MyStudents = () => {
                     )
                 },
                 Icon: FaEye,
-            },
-            {
-                text: 'View Password',
-                onClick: (student: Student) => onViewPassword(student),
-                Icon: RiLockPasswordFill,
             },
             {
                 text: student?.nonContactable
@@ -265,8 +243,7 @@ export const MyStudents = () => {
     ]
     return (
         <div>
-            {modal && modal}
-            {passwordModal}
+            {modal}
             <Card noPadding>
                 {isError && <TechnicalError />}
 

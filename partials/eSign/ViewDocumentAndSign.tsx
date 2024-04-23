@@ -1,5 +1,4 @@
 import {
-    ActionButton,
     Card,
     EmptyData,
     LoadingAnimation,
@@ -11,12 +10,13 @@ import { useAlert, useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
-import { FaRegTimesCircle } from 'react-icons/fa'
-import { GiHamburgerMenu } from 'react-icons/gi'
 import { IoMdArrowDropleftCircle } from 'react-icons/io'
-import { DocumentScrollArrow, SVGView, ScrollTabsView } from './components'
-import { EsignSignatureModal, FinishSignModal } from './modal'
-import { FinishShignInfoModal } from './modal'
+import { SVGView } from './components'
+import {
+    EsignSignatureModal,
+    FinishShignInfoModal,
+    FinishSignModal,
+} from './modal'
 
 export const ViewDocumentAndSign = () => {
     const router = useRouter()
@@ -72,12 +72,10 @@ export const ViewDocumentAndSign = () => {
     }, [tabs])
 
     const scrollTargetRef = useRef<any>([])
-    const abcRef = useRef<any>(null)
 
     const scrollToPage = (pageIndex: number, currentPage: number) => {
         const targetElement = scrollTargetRef.current[currentPage]
         const detailItem = document.getElementById(`tabs-view-${pageIndex}`)
-        const container: any = document.getElementById('abcRef') // Replace "your-container-id" with the actual ID of your container
 
         if (detailItem) {
             detailItem.scrollIntoView({ behavior: 'smooth', block: 'center' })
@@ -345,7 +343,6 @@ export const ViewDocumentAndSign = () => {
                                     ? 'lg:col-span-6'
                                     : 'lg:col-span-6'
                             } max-w- pl-20 mx-auto flex flex-col gap-y-3 relative w-full`}
-                            id={'abcRef'}
                         >
                             {/* <div className="flex justify-end items-center gap-x-2">
                                 <input

@@ -1,6 +1,7 @@
 import {
     AssessmentFolderFileCard,
     AuthorizedUserComponent,
+    LoadingAnimation,
     NoData,
     Typography,
 } from '@components'
@@ -109,7 +110,10 @@ export const AssessmentFiles = ({
                 {getAssessmentResponse.isError && (
                     <NoData text="There is some technical issue!" />
                 )}
-                {filteredFiles && filteredFiles?.length > 0 ? (
+                {getAssessmentResponse?.isLoading ||
+                getAssessmentResponse?.isFetching ? (
+                    <LoadingAnimation size={60} height="h-full" />
+                ) : filteredFiles && filteredFiles?.length > 0 ? (
                     <SliderStyleContainer className="relative">
                         <div
                             ref={containerRef}

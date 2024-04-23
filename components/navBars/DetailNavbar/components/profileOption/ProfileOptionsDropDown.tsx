@@ -120,7 +120,7 @@ export const ProfileOptionsDropDown = ({
 
                     <li
                         onClick={async () => {
-                            if (AuthUtils.getToken()) {
+                            if (AuthUtils.token()) {
                                 await logoutActivity({})
                             }
                             // await signOut({

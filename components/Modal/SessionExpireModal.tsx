@@ -20,7 +20,7 @@ export const SessionExpireModal = ({ onCancel }: { onCancel: () => void }) => {
                     title={'Session Expire'}
                     subtitle={'Session Expire'}
                     onConfirmClick={async () => {
-                        if (AuthUtils.getToken()) {
+                        if (AuthUtils.token()) {
                             await logoutActivity({ type: LogoutType.Auto })
                         }
                         AuthUtils.logout(router)

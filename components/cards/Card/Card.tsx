@@ -20,7 +20,7 @@ export const Card = ({
 }: CardProps) => {
     const classes = classNames({
         'w-full': layout === 'fluid',
-        'h-full': fullHeight,
+        '!h-full': fullHeight,
         'w-fit': layout === 'wrap',
         'w-[450px]': layout === 'min',
         'bg-white rounded-xl': true,

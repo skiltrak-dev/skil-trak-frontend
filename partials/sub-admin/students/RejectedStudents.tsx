@@ -45,7 +45,6 @@ export const RejectedStudents = () => {
     const [page, setPage] = useState(1)
 
     // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -98,11 +97,6 @@ export const RejectedStudents = () => {
                 )
             },
             Icon: FaEye,
-        },
-        {
-            text: 'View Password',
-            onClick: (student: Student) => onViewPassword(student),
-            Icon: RiLockPasswordFill,
         },
         {
             text: 'Block',
@@ -220,8 +214,7 @@ export const RejectedStudents = () => {
 
     return (
         <div>
-            {modal && modal}
-            {passwordModal}
+            {modal}
             {isError && <TechnicalError />}
             <Card noPadding>
                 {isLoading || isFetching ? (

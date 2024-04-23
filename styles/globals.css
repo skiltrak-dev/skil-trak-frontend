@@ -543,3 +543,7 @@ ul.landing-content {
     height: 100%;
     width: 100%;
 }
+
+.remove-text-bg span{
+    background-color: transparent !important;
+  }

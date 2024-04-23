@@ -37,9 +37,6 @@ export const CompletedStudents = () => {
 
     const [mount, setMount] = useState(false)
 
-    // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
-
     useEffect(() => {
         if (!mount) {
             setMount(true)
@@ -109,12 +106,6 @@ export const CompletedStudents = () => {
             text: 'Change Status',
             onClick: (student: Student) => onChangeStatus(student),
             Icon: FaEdit,
-        },
-        {
-            text: 'View Password',
-            onClick: (student: Student) =>
-                onViewPassword({ user: student?.user }),
-            Icon: RiLockPasswordFill,
         },
     ]
 
@@ -211,8 +202,7 @@ export const CompletedStudents = () => {
 
     return (
         <div>
-            {modal && modal}
-            {passwordModal}
+            {modal}
             {isError && <TechnicalError />}
             <Card noPadding>
                 {isLoading || isFetching ? (

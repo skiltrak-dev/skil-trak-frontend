@@ -18,6 +18,8 @@ export const WorkplaceQuestionCard = ({
     onClick,
     children,
     showOnlyAnswer,
+    customAnswers,
+    multipleSelection,
 }: {
     data: any
     index: number
@@ -25,7 +27,9 @@ export const WorkplaceQuestionCard = ({
     height?: string
     children?: ReactNode
     showOnlyAnswer?: boolean
-    onClick?: (value: WorkplaceAnswerEnum) => void
+    onClick?: (value: string) => void
+    customAnswers?: string[]
+    multipleSelection?: boolean
 }) => {
     const [answer, setAnswer] = useState<any>(null)
 
@@ -34,6 +38,8 @@ export const WorkplaceQuestionCard = ({
             setAnswer(data?.answer)
         }
     }, [data])
+
+    console.log({ answer })
 
     const numberClasses = classNames({
         'bg-[#BF0000]': WorkplaceAnswerEnum.No === answer,
@@ -44,15 +50,18 @@ export const WorkplaceQuestionCard = ({
                 answer !== WorkplaceAnswerEnum.No),
     })
 
-    const answerIconClasses = (text: WorkplaceAnswerEnum, type?: string) => {
+    const answerIconClasses = (text: string, type?: string) => {
         return classNames({
             'text-[#BF0000]':
                 text === answer && WorkplaceAnswerEnum.No === answer,
-            'text-[#30AF22]':
-                text === answer && WorkplaceAnswerEnum.Yes === answer,
+            'text-[#30AF22]': customAnswers
+                ? text === answer
+                : text === answer && WorkplaceAnswerEnum.Yes === answer,
             'text-secondary-dark': answer !== text,
         })
     }
+
+    const selectAnswers = customAnswers ? customAnswers : answersData
 
     return (
         <div
@@ -69,46 +78,58 @@ export const WorkplaceQuestionCard = ({
                         {index + 1}
                     </Typography>
                 </div>
-                <Typography medium>
-                    <span className="text-[15px]">{title}</span>
+                <Typography medium variant="label">
+                    {title}
                 </Typography>
             </div>
 
             {/*  */}
-            <div className="flex items-center gap-x-6 px-10">
-                {showOnlyAnswer ? (
-                    // <Typography variant="label">{data?.answer}</Typography>
-                    children ? (
-                        children
-                    ) : (
-                        <div className="flex items-center gap-x-1">
-                            <Typography variant={'label'}>Answer:</Typography>
-                            <Badge
-                                text={data?.answer}
-                                variant={
-                                    data?.answer === WorkplaceAnswerEnum.No
-                                        ? 'error'
-                                        : 'success'
-                                }
-                            />
-                        </div>
-                    )
+            <div className="flex items-center flex-wrap gap-x-6 gap-y-2.5 px-10">
+                {children ? (
+                    children
+                ) : showOnlyAnswer ? (
+                    <div className="flex items-center gap-x-1">
+                        <Typography variant={'label'}>Answer:</Typography>
+                        <Badge
+                            text={data?.answer}
+                            variant={
+                                data?.answer === WorkplaceAnswerEnum.No
+                                    ? 'error'
+                                    : 'success'
+                            }
+                        />
+                    </div>
                 ) : (
-                    answersData.map((text) => (
+                    selectAnswers?.map((text: string) => (
                         <div
                             className="flex items-center gap-x-2.5 cursor-pointer"
                             onClick={() => {
-                                setAnswer(text)
+                                const ans = multipleSelection
+                                    ? answer?.includes(text)
+                                        ? answer?.filter((a: any) => a !== text)
+                                        : answer && answer?.length > 0
+                                        ? [...answer, text]
+                                        : [text]
+                                    : null
+                                setAnswer(multipleSelection ? ans : text)
                                 if (onClick) {
-                                    onClick(text)
+                                    onClick(multipleSelection ? ans : text)
                                 }
                             }}
                         >
                             <FaCircleCheck
                                 size={19}
-                                className={answerIconClasses(text)}
+                                className={
+                                    multipleSelection
+                                        ? answer?.includes(text)
+                                            ? 'text-[#30AF22]'
+                                            : answerIconClasses(text)
+                                        : answerIconClasses(text)
+                                }
                             />
-                            <Typography variant="label">{text}</Typography>
+                            <Typography variant="label">
+                                <span className="whitespace-pre">{text}</span>
+                            </Typography>
                         </div>
                     ))
                 )}

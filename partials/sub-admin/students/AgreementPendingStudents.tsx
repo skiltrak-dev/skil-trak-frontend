@@ -48,9 +48,6 @@ export const AgreementPendingStudents = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
-    // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
-
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
@@ -98,11 +95,6 @@ export const AgreementPendingStudents = () => {
                 )
             },
             Icon: FaEye,
-        },
-        {
-            text: 'View Password',
-            onClick: (student: Student) => onViewPassword(student),
-            Icon: RiLockPasswordFill,
         },
         {
             text: 'Block',
@@ -243,8 +235,7 @@ export const AgreementPendingStudents = () => {
     ]
     return (
         <div>
-            {modal && modal}
-            {passwordModal}
+            {modal}
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading || isFetching ? (

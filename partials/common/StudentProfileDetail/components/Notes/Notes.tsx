@@ -1,6 +1,7 @@
 import {
     Button,
     Card,
+    CreateNote,
     EmptyData,
     LoadingAnimation,
     TechnicalError,
@@ -10,21 +11,22 @@ import { CommonApi } from '@queries'
 import { ReactElement, useState } from 'react'
 import { AddNoteModal } from '../../modals'
 import { NoteCard } from './Card'
+import { useContextBar } from '@hooks'
 
 export const Notes = ({ userId }: { userId: number }) => {
-    const [modal, setModal] = useState<ReactElement | null>(null)
+    const contextBar = useContextBar()
 
     const notes = CommonApi.Notes.useList(userId, { skip: !userId })
 
-    const onCancel = () => setModal(null)
-
     const onAddNote = () => {
-        setModal(<AddNoteModal userId={userId} onCancel={onCancel} />)
+        contextBar.setTitle('Add Note')
+        contextBar.setContent(<CreateNote receiverId={Number(userId)} />)
+        contextBar.show(false)
+        // setModal(<AddNoteModal userId={userId} onCancel={onCancel} />)
     }
 
     return (
         <>
-            {modal}
             <Card noPadding fullHeight>
                 <div className="px-4 py-3.5 flex justify-between items-center border-b border-secondary-dark">
                     <Typography variant="label" semibold>

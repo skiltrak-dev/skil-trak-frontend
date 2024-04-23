@@ -118,7 +118,7 @@ export const SVGView = ({
                             index) ||
                         customFieldsSelectedId === -1) && (
                         <div
-                            className={`absolute -left-24 z-[111111111] ${
+                            className={`absolute -left-14 lg:-left-24 z-[111111111] ${
                                 customFieldsSelectedId < 0 ? 'rotate-90' : ''
                             } transition-all duration-500`}
                             style={{

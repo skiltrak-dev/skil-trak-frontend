@@ -53,9 +53,6 @@ export const AllStudents = () => {
     const [mount, setMount] = useState(false)
     const [refetchStudents, setRefetchStudents] = useState(false)
 
-    // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
-
     useEffect(() => {
         if (!mount) {
             setMount(true)
@@ -217,11 +214,6 @@ export const AllStudents = () => {
                 Icon: FaEdit,
             },
             {
-                text: 'View Password',
-                onClick: (student: Student) => onViewPassword(student),
-                Icon: RiLockPasswordFill,
-            },
-            {
                 text: 'Block',
                 onClick: (student: Student) => onBlockClicked(student),
                 Icon: MdBlock,
@@ -325,8 +317,7 @@ export const AllStudents = () => {
 
     return (
         <div>
-            {modal && modal}
-            {passwordModal}
+            {modal}
             {isError && <TechnicalError />}
             <Card noPadding>
                 {isLoading || isFetching ? (
