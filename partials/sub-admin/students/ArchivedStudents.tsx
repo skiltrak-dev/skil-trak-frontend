@@ -50,9 +50,6 @@ export const ArchivedStudents = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
-    // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
-
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
@@ -122,11 +119,6 @@ export const ArchivedStudents = () => {
             text: 'Change Status',
             onClick: (student: Student) => onChangeStatus(student),
             Icon: FaEdit,
-        },
-        {
-            text: 'View Password',
-            onClick: (student: Student) => onViewPassword(student),
-            Icon: RiLockPasswordFill,
         },
         {
             text: 'Block',
@@ -283,8 +275,7 @@ export const ArchivedStudents = () => {
 
     return (
         <div>
-            {modal && modal}
-            {passwordModal}
+            {modal}
             {isError && <TechnicalError />}
             <Card noPadding>
                 {isLoading || isFetching ? (

@@ -34,6 +34,18 @@ export const studentsEndpoints = (
             'Students',
         ],
     }),
+    getSubAdminUrgentStudents: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/students/urgent/list`,
+            params,
+        }),
+        providesTags: [
+            'SubAdminStudents',
+            'BulkUsersDelete',
+            'BulkStatus',
+            'Students',
+        ],
+    }),
     subadminCompletedStudents: builder.query<
         PaginatedResponse<StudentSubAdmin>,
         PaginationValues

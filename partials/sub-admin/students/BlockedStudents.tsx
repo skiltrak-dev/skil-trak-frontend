@@ -47,9 +47,6 @@ export const BlockedStudents = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
-    // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
-
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
@@ -79,15 +76,6 @@ export const BlockedStudents = () => {
         )
     }
 
-    const onDeleteClicked = (student: Student) => {
-        setModal(
-            <DeleteModal
-                item={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
     const onBulkDeleteClicked = (ids: number[]) => {
         setModal(
             <BulkDeleteModal onCancel={onModalCancelClicked} usersIds={ids} />
@@ -112,11 +100,6 @@ export const BlockedStudents = () => {
                 )
             },
             Icon: FaEye,
-        },
-        {
-            text: 'View Password',
-            onClick: (student: Student) => onViewPassword(student),
-            Icon: RiLockPasswordFill,
         },
         {
             text: 'Un Block',
@@ -262,8 +245,7 @@ export const BlockedStudents = () => {
 
     return (
         <div>
-            {modal && modal}
-            {passwordModal}
+            {modal}
             {isError && <TechnicalError />}
             <Card noPadding>
                 {isLoading || isFetching ? (

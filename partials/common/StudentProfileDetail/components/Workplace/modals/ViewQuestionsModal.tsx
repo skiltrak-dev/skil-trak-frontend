@@ -64,7 +64,7 @@ export const ViewQuestionsModal = ({
             ) : workplaceAnswers?.data && workplaceAnswers?.data?.length > 0 ? (
                 <div className="max-w-5xl max-h-[70vh] custom-scrollbar overflow-auto pb-2">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
-                        {questions?.map(
+                        {workplaceAnswers?.data?.map(
                             (data: WorkplaceQuestionType, i: number) => {
                                 if (
                                     data?.question ===

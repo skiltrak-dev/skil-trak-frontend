@@ -36,7 +36,13 @@ export const AssessmentSubmissions = ({ student }: { student: Student }) => {
                     <div className="h-[inherit] overflow-auto custom-scrollbar">
                         <div className="px-4  py-3.5 flex justify-between items-center border-b border-secondary-dark">
                             <Typography variant="label" semibold>
-                                Assessment Evidence
+                                Assessment Evidence{' '}
+                                <span className="text-[11px] text-gray-600 font-normal">
+                                    {selectedAssessment ===
+                                    AssessmentType.Archived
+                                        ? ' - Archived Assessment'
+                                        : ''}
+                                </span>
                             </Typography>
                             <div className="flex items-center gap-x-2.5">
                                 <OutsideClickHandler

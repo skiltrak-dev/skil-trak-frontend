@@ -1,20 +1,19 @@
 import { useRouter } from 'next/router'
+import { ReactElement } from 'react'
 
 // Icons
-import { FaEye } from 'react-icons/fa'
+import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
 
 // components
 import {
     Card,
     CaseOfficerAssignedStudent,
     EmptyData,
-    InitialAvatar,
     LoadingAnimation,
     StudentExpiryDaysLeft,
     StudentSubAdmin,
     Table,
     TableAction,
-    TableActionOption,
     Typography,
     UserCreatedAt,
 } from '@components'
@@ -22,22 +21,34 @@ import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { SubAdminApi } from '@queries'
-import { Student, UserStatus } from '@types'
-import { ReactElement, useEffect, useState } from 'react'
-import { MdBlock } from 'react-icons/md'
+import { Student } from '@types'
+import { useEffect, useState } from 'react'
+import { MdBlock, MdPriorityHigh } from 'react-icons/md'
 import {
     AddToNonContactableStudents,
+    AssignStudentModal,
     BlockModal,
-    UnAssignStudentModal,
+    ChangeStudentStatusModal,
+    HighPriorityModal,
 } from './modals'
 
+import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import { setLink, studentsListWorkplace } from '@utils'
+import {
+    getStudentWorkplaceAppliedIndustry,
+    setLink,
+    studentsListWorkplace,
+} from '@utils'
+import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
 import { IndustryCellInfo } from '../Industries'
+import { RTOCellInfo } from '../rto/components'
+import { InterviewModal } from '../workplace/modals'
 
-export const NonContactableStudents = () => {
+export const UrgentStudents = () => {
     const router = useRouter()
+
+    // hooks
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -49,23 +60,23 @@ export const NonContactableStudents = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, isFetching, data, isError } =
-        SubAdminApi.Student.useNonContactableStudents({
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+    const { isSuccess, isLoading, data, isError, isFetching } =
+        SubAdminApi.Student.useUrgentStudents(
+            {
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: true,
+            }
+        )
 
     const onModalCancelClicked = () => {
         setModal(null)
     }
-
-    const onBlockClicked = (student: Student) => {
-        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
-    }
-
     const onAssignStudentClicked = (student: Student) => {
         setModal(
-            <UnAssignStudentModal
+            <AssignStudentModal
                 student={student}
                 onCancel={() => onModalCancelClicked()}
             />
@@ -81,89 +92,100 @@ export const NonContactableStudents = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
-        {
-            text: 'View',
-            onClick: (student: Student) => {
-                router.push(`/portals/sub-admin/students/${student?.id}/detail`)
+    const onChangeStatus = (student: Student) => {
+        setModal(
+            <ChangeStudentStatusModal
+                student={student}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
 
-                setLink('subadmin-student', router)
+    const onDateClick = (student: Student) => {
+        setModal(
+            <EditTimer
+                studentId={student?.user?.id}
+                date={student?.expiryDate}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
+    const onBlockClicked = (student: Student) => {
+        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
+    }
+    const onMarkAsHighPriorityClicked = (studetnt: Student) => {
+        setModal(
+            <HighPriorityModal
+                item={studetnt}
+                onCancel={onModalCancelClicked}
+                // setRefetchStudents={setRefetchStudents}
+            />
+        )
+    }
+
+    const onInterviewClicked = (student: Student) => {
+        setModal(
+            <InterviewModal
+                student={student}
+                onCancel={onModalCancelClicked}
+                workplace={Number(student?.workplace[0]?.id)}
+                workIndustry={Number(
+                    getStudentWorkplaceAppliedIndustry(
+                        student?.workplace[0]
+                            ?.industries as WorkplaceWorkIndustriesType[]
+                    )?.id
+                )}
+            />
+        )
+    }
+
+    const tableActionOptions = (student: any) => {
+        return [
+            {
+                text: 'View',
+                onClick: (student: Student) => {
+                    router.push(
+                        `/portals/sub-admin/students/${student?.id}/detail`
+                    )
+                    setLink('subadmin-student', router)
+                },
+                Icon: FaEye,
             },
-            Icon: FaEye,
-        },
-        {
-            text: 'Old Profile',
-            onClick: (student: Student) => {
-                router.push(
-                    `/portals/sub-admin/students/${student.id}?tab=overview`
-                )
+            {
+                text: student?.nonContactable
+                    ? 'Add to Contactable'
+                    : 'Add to Not Contactable',
+                onClick: (student: Student) =>
+                    onNonContactableStudents(student),
+                Icon: MdBlock,
             },
-            Icon: FaEye,
-        },
-        {
-            text: 'Add to Contactable',
-            onClick: (student: Student) => onNonContactableStudents(student),
-            Icon: MdBlock,
-        },
-        {
-            text: 'Block',
-            onClick: (student: Student) => onBlockClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-        {
-            text: 'Un Assign',
-            onClick: (student: Student) => onAssignStudentClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-    ]
+            {
+                text: 'Block',
+                onClick: (student: Student) => onBlockClicked(student),
+                Icon: MdBlock,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+            {
+                text: 'Change Expiry',
+                onClick: (student: Student) => onDateClick(student),
+                Icon: FaEdit,
+            },
+        ]
+    }
 
     const Columns: ColumnDef<StudentSubAdmin>[] = [
         {
             header: () => 'Name',
             accessorKey: 'user',
-            cell: ({ row }: any) => {
-                return <StudentCellInfo student={row.original} call />
+            cell: (info) => {
+                return <StudentCellInfo student={info.row.original} call />
             },
         },
-
         {
             header: () => 'RTO',
             accessorKey: 'rto',
-            cell({ row }: any) {
-                const { rto } = row.original
-
-                return (
-                    <div className="flex gap-x-2 items-center">
-                        {rto.user.name && (
-                            <InitialAvatar name={rto.user.name} small />
-                        )}
-                        {rto.user.name}
-                    </div>
-                )
-            },
-        },
-        {
-            accessorKey: 'industry',
-            header: () => <span>Industry</span>,
-            cell: (info: any) => {
-                const industry = info.row.original?.industries
-
-                const appliedIndustry = studentsListWorkplace(
-                    info.row.original?.workplace
-                )
-
-                return industry && industry?.length > 0 ? (
-                    <IndustryCellInfo industry={industry[0]} />
-                ) : info.row.original?.workplace &&
-                  info.row.original?.workplace?.length > 0 &&
-                  appliedIndustry ? (
-                    <IndustryCellInfo industry={appliedIndustry} />
-                ) : (
-                    <Typography center>N/A</Typography>
-                )
-            },
+            cell: ({ row }: any) => <RTOCellInfo rto={row.original?.rto} />,
         },
         {
             accessorKey: 'sectors',
@@ -182,32 +204,6 @@ export const NonContactableStudents = () => {
             ),
         },
         {
-            header: () => 'Progress',
-            accessorKey: 'progress',
-            cell: ({ row }) => (
-                <CaseOfficerAssignedStudent student={row.original} />
-            ),
-        },
-        {
-            accessorKey: 'user.status',
-            header: () => <span>Status</span>,
-            cell: (info) => (
-                <Typography
-                    uppercase
-                    variant={'badge'}
-                    color={
-                        info.row.original?.user?.status === UserStatus.Blocked
-                            ? 'text-error'
-                            : 'text-black'
-                    }
-                >
-                    <span className="font-bold">
-                        {info.row.original?.user?.status}
-                    </span>
-                </Typography>
-            ),
-        },
-        {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
             cell: ({ row }: any) => (
@@ -217,28 +213,29 @@ export const NonContactableStudents = () => {
         {
             header: () => 'Action',
             accessorKey: 'Action',
-            cell: ({ row }: any) => {
+            cell: ({ row }) => {
+                const tableActionOption = tableActionOptions(row.original)
                 return (
                     <TableAction
-                        options={tableActionOptions}
+                        options={tableActionOption}
                         rowItem={row.original}
                     />
                 )
             },
         },
     ]
+
     return (
         <div>
             {modal}
+            {isError && <TechnicalError />}
             <Card noPadding>
-                {isError && <TechnicalError />}
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length ? (
+                ) : data && data?.data?.length && !isError ? (
                     <Table
                         columns={Columns}
-                        data={data.data}
-                        // quickActions={quickActionsElements}
+                        data={data?.data}
                         enableRowSelection
                     >
                         {({
@@ -263,6 +260,7 @@ export const NonContactableStudents = () => {
                                             )}
                                         </div>
                                     </div>
+
                                     <div className="overflow-x-auto remove-scrollbar">
                                         <div
                                             className="px-6 w-full"
@@ -295,7 +293,7 @@ export const NonContactableStudents = () => {
                     !isError && (
                         <EmptyData
                             title={'No Students'}
-                            description={'You have not added any Student'}
+                            description={'You have not approved Students yet'}
                             height={'50vh'}
                         />
                     )

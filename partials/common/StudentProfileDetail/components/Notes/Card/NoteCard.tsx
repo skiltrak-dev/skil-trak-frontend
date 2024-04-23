@@ -81,7 +81,7 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
                     <div>
                         <div className={`text-sm mt-1 mb-2`}>
                             <span
-                                className="block"
+                                className="block remove-text-bg"
                                 dangerouslySetInnerHTML={{
                                     __html: note?.body,
                                 }}

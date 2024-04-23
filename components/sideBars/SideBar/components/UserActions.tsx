@@ -85,7 +85,7 @@ export const UserActions = () => {
         {
             text: 'Log Out',
             onClick: async () => {
-                if (AuthUtils.getToken()) {
+                if (AuthUtils.token()) {
                     await logoutActivity({})
                 }
                 AuthUtils.logout(router)
