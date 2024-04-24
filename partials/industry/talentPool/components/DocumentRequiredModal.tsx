@@ -79,7 +79,6 @@ export const DocumentRequiredModal = ({
                         options={docsOption}
                         // onlyValue
                         // onChange={(e: any) => {
-                        //     console.log('on other', e)
                         //     // setOtherDocument(e)
                         // }}
                         // onChange={handleOptionSelect}

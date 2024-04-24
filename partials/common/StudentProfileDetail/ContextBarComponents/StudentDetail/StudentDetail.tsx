@@ -7,6 +7,7 @@ import { getGender } from '@utils'
 import moment from 'moment'
 import { ReactElement, useState } from 'react'
 import { StudentDetailCard } from './StudentDetailCard'
+import { LatestCallAnswer } from './LatestCallAnswer'
 
 export const StudentDetail = ({ profile }: { profile: Student }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -15,9 +16,6 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
     const { notification } = useNotification()
 
     const [callLog] = SubAdminApi.Student.useStudentCallLog()
-
-    // const [isAnsweredCall, isAnsweredCallResult] =
-    //     SubAdminApi.Student.useStudentAnsweredCall()
 
     const onViewCallLogs = (e: any) => {
         e.stopPropagation()
@@ -71,10 +69,10 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
                             })
                         }}
                     >
-                        <div onClick={onViewCallLogs}>
+                        <div className="bg-primaryNew py-1.5 px-2.5 rounded" onClick={onViewCallLogs}>
                             <Typography
                                 variant="xs"
-                                color="text-primaryNew"
+                                color="text-white"
                                 bold
                                 underline
                             >
@@ -82,41 +80,19 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
                             </Typography>
                         </div>
                     </StudentDetailCard>
-                    <div className="px-2.5 pb-2">
-                        <Typography
-                            normal
-                            variant="xxs"
-                            color="text-[#979797] block"
-                        >
-                            Last Call Log
-                        </Typography>
-                        <div className="flex items-center gap-x-1">
-                            {/* <div
-                                className="group relative p-1 rounded-full bg-red-500 cursor-pointer"
-                                onClick={() => {
-                                    setCallType(CallType.NotAnswer)
-                                    isAnsweredCall({
-                                        id: callLog?.id,
-                                        status: 'false',
-                                    })
-                                }}
+                    {profile?.callLog?.[0] &&
+                    profile?.callLog?.[0]?.isAnswered === null ? (
+                        <div className="px-2.5 pb-2 flex justify-between">
+                            <Typography
+                                normal
+                                variant="xs"
+                                color="text-gray-500 block"
                             >
-                                <ImPhoneHangUp className="text-white text-[10px]" />
-                            </div>
-                            <div
-                                className="group relative p-1 rounded-full bg-success cursor-pointer"
-                                onClick={() => {
-                                    setCallType(CallType.Answer)
-                                    isAnsweredCall({
-                                        id: callLog?.id,
-                                        status: 'true',
-                                    })
-                                }}
-                            >
-                                <ImPhone className="text-white text-[10px]" />
-                            </div> */}
+                                Last Call Log
+                            </Typography>
+                            <LatestCallAnswer callLog={profile?.callLog?.[0]} />
                         </div>
-                    </div>
+                    ) : null}
                 </div>
                 <div>
                     <StudentDetailCard

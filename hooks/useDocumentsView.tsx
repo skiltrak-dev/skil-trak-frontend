@@ -34,12 +34,17 @@ export const DocumentsView = () => {
     }
 
     const onFileClicked = (file: any) => {
-        // setSelected(file)
-
         if (
-            ['jpg', 'jpeg', 'png', 'jfif', 'heiv', 'JPG', 'webp'].includes(
-                file?.extension?.toLowerCase()
-            )
+            [
+                'jpg',
+                'jpeg',
+                'png',
+                'jfif',
+                'heiv',
+                'JPG',
+                'webp',
+                'heic',
+            ].includes(file?.extension?.toLowerCase())
         ) {
             setModal(getImageViewModal(file))
         } else if (

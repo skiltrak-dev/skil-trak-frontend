@@ -1,14 +1,10 @@
 import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
-import { FileMimeTypes } from '@components/inputs'
-import { PdfViewer } from '@components/PdfViewer'
 import { getDocType } from '@components/sections/student/AssessmentsContainer'
-import { Typography } from '@components/Typography'
 import { VideoPreview } from '@components/VideoPreview'
 import { UserRoles } from '@constants'
-import { ellipsisText, FileFormat } from '@utils'
 import moment from 'moment'
 import Image from 'next/image'
-import { BsFillInfoCircleFill, BsInfo } from 'react-icons/bs'
+import { BsInfo } from 'react-icons/bs'
 import { IoMdDocument } from 'react-icons/io'
 
 type AssessmentFolderFileCardProps = {
@@ -125,7 +121,7 @@ export const AssessmentFolderFileCard = ({
                             // ></div>
                             <div className="w-full h-[80px] relative">
                                 <Image
-                                    src={file.file}
+                                    src={file?.file}
                                     alt={filename || fileName}
                                     sizes="100vw 100vh"
                                     fill

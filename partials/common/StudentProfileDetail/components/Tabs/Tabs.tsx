@@ -19,7 +19,6 @@ export const Tabs = ({
 }) => {
     const [element, setElement] = useState<any>(null)
 
-    console.log({ element })
 
     useEffect(() => {
         if (defaultTabSelected === 0) {

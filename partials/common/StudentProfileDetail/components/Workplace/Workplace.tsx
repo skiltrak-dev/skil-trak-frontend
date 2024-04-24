@@ -33,7 +33,7 @@ import { IndustryDetail } from './components/IndustryDetail'
 import { AddSecondWPCB } from '@partials/sub-admin/students/contextBar'
 import { useContextBar } from '@hooks'
 import { WorkplaceCurrentStatus } from '@utils'
-import { ViewQuestionsModal } from './modals'
+import { ViewPlacementStartedAnswersModal, ViewQuestionsModal } from './modals'
 import { WorkplaceQuestionType } from 'redux/queryTypes'
 
 const WPStatusForCancelButon = [
@@ -106,13 +106,19 @@ export const Workplace = ({
 
     const onCancelModal = () => setModal(null)
 
-    const onViewWorkplaceQuestions = (
-        questions: WorkplaceQuestionType[],
-        wpId: number
-    ) => {
+    const onViewWorkplaceQuestions = (wpId: number) => {
         setModal(
             <ViewQuestionsModal
-                questions={questions}
+                onCancel={() => {
+                    onCancelModal()
+                }}
+                wpId={wpId}
+            />
+        )
+    }
+    const onViewPlacementStartedAnswers = (wpId: number) => {
+        setModal(
+            <ViewPlacementStartedAnswersModal
                 onCancel={() => {
                     onCancelModal()
                 }}
@@ -141,12 +147,12 @@ export const Workplace = ({
                     <div className="flex items-center gap-x-2">
                         {selectedWorkplace
                             ? !selectedWorkplace?.studentProvidedWorkplace &&
-                              !selectedWorkplace?.byExistingAbn && (
+                              !selectedWorkplace?.byExistingAbn &&
+                              selectedWorkplace?.questions > 0 && (
                                   <ActionButton
                                       variant={'link'}
                                       onClick={() => {
                                           onViewWorkplaceQuestions(
-                                              selectedWorkplace?.questions,
                                               selectedWorkplace?.id
                                           )
                                       }}
@@ -261,7 +267,7 @@ export const Workplace = ({
                         </div>
 
                         <div className="flex justify-between items-center p-4">
-                            <div>
+                            <div className="flex items-center gap-x-2.5">
                                 {WPStatusForCancelButon.includes(
                                     selectedWorkplace?.currentStatus
                                 ) && (
@@ -282,6 +288,22 @@ export const Workplace = ({
                                         Cancel Request
                                     </ActionButton>
                                 )}
+                                {selectedWorkplace
+                                    ? appliedIndustry?.placementStarted &&
+                                      selectedWorkplace?.studentFeedBacks >
+                                          0 && (
+                                          <ActionButton
+                                              variant={'link'}
+                                              onClick={() => {
+                                                  onViewPlacementStartedAnswers(
+                                                      selectedWorkplace?.id
+                                                  )
+                                              }}
+                                          >
+                                              View Placement Answers
+                                          </ActionButton>
+                                      )
+                                    : null}
                             </div>
                             <Typography variant="small" medium>
                                 Recieved On:{' '}
