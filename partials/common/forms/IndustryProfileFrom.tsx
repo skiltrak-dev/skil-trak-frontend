@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -28,6 +28,7 @@ import { useRouter } from 'next/router'
 import {
     CourseSelectOption,
     formatOptionLabel,
+    isEmailValid,
     onlyNumbersAcceptedInYup,
     removeEmptySpaces,
 } from '@utils'
@@ -174,7 +175,17 @@ export const IndustryProfileFrom = ({
 
         email: yup
             .string()
-            .email('Invalid Email')
+            // .test('test-name', 'Validation failure message', function (value) {
+            //     const validEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+            //     console.log(
+            //         'SaadkHnasS',
+            //         value ? isEmailValid(value) : false,
+            //         validEmailRegex.test(value)
+            //     )
+            //     return false
+            //     // return value ? isEmailValid(value) : false
+            // })
+            // .email('Invalid Email')
             .required('Must provide email'),
 
         // Business Information
@@ -213,16 +224,23 @@ export const IndustryProfileFrom = ({
         resolver: yupResolver(validationSchema),
     })
 
-    const statesOption = states?.map((state: any) => ({
-        label: state.name,
-        value: state.id,
-    }))
+    const statesOption = useMemo(
+        () =>
+            states?.map((state: any) => ({
+                label: state?.name,
+                value: state?.id,
+            })),
+        [states]
+    )
 
-    const countryOptions =
-        country?.data?.map((country: any) => ({
-            label: country.name,
-            value: country.id,
-        })) || []
+    const countryOptions = useMemo(
+        () =>
+            country?.data?.map((c: any) => ({
+                label: c?.name,
+                value: c?.id,
+            })) || [],
+        [country]
+    )
 
     useEffect(() => {
         if (profile?.data && profile.isSuccess) {
@@ -260,19 +278,33 @@ export const IndustryProfileFrom = ({
                 ...userRest,
                 courses: courses?.map((c: Course) => c.id),
                 state: profile?.data?.region?.name,
-                country: countryOptions?.find(
-                    (c: any) => c?.value === profile?.data?.country?.id
-                ),
-                region: statesOption?.find(
-                    (s: any) => s?.value === profile?.data?.region?.id
-                ),
+                ...(profile?.data?.country?.id
+                    ? {
+                          country: countryOptions?.find(
+                              (c: any) =>
+                                  c?.value === profile?.data?.country?.id
+                          ),
+                      }
+                    : {}),
+                ...(profile?.data?.region?.id
+                    ? {
+                          region: statesOption?.find(
+                              (s: any) => s?.value === profile?.data?.region?.id
+                          ),
+                      }
+                    : {}),
                 isPartner: isPartner ? 'yes' : 'no',
             }
             for (const key in values) {
                 formMethods.setValue(key, values[key])
             }
-            setCountryId(profile?.data?.country?.id)
-            setStateId(profile?.data?.region?.id)
+
+            if (profile?.data?.country?.id) {
+                setCountryId(profile?.data?.country?.id)
+            }
+            if (profile?.data?.region?.id) {
+                setStateId(profile?.data?.region?.id)
+            }
             setIsPartner(profile?.data?.isPartner ? 'yes' : 'no')
         }
     }, [profile, countryOptions, statesOption])
@@ -289,6 +321,7 @@ export const IndustryProfileFrom = ({
     }
 
     const onHandleSubmit = (values: any) => {
+        console.log({ values })
         if (!onSuburbClicked) {
             notification.error({
                 title: 'You must select on Suburb Dropdown',
@@ -300,9 +333,13 @@ export const IndustryProfileFrom = ({
                 isPartner: values?.isPartner === 'yes' ? true : false,
                 studentCapacity:
                     isPartner === 'yes' ? values?.studentCapacity : 0,
+                region: values?.region?.value,
+                country: countryId,
             })
         }
     }
+
+    console.log({ countryId })
 
     return (
         <>
@@ -589,6 +626,7 @@ export const IndustryProfileFrom = ({
                                                 'state',
                                                 e?.label
                                             )
+                                            setStateId(e?.id)
                                         }}
                                         loading={statesLoading}
                                         disabled={!countryId}

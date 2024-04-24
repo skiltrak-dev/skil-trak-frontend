@@ -12,9 +12,11 @@ export const studentFeedbackEndpoints = (
         {
             rating: number
             course: number
-            questions: { question: string; answer: string }[]
             student: number
+            industry: number
+            workplaceRequest: number
             type?: StudentFeedbackType
+            questions: { question: string; answer: string }[]
         }
     >({
         query: (body) => ({

@@ -10,19 +10,18 @@ import moment from 'moment'
 import React, { ReactNode } from 'react'
 import { WorkplaceQuestionType } from 'redux/queryTypes'
 
-export const ViewQuestionsModal = ({
+export const ViewPlacementStartedAnswersModal = ({
     wpId,
     onCancel,
 }: {
     wpId: number
     onCancel: () => void
 }) => {
-    const workplaceAnswers = SubAdminApi.Workplace.useStudentWorkplaceAnswers(
-        wpId,
-        {
+    const workplacePlacementAnswers =
+        SubAdminApi.Workplace.useStudentPlacementAnswers(wpId, {
             skip: !wpId,
-        }
-    )
+            refetchOnMountOrArgChange: true,
+        })
 
     const WorkplaceQuestionUpdatedCard = ({
         data,
@@ -54,15 +53,16 @@ export const ViewQuestionsModal = ({
             showActions={false}
             onCancelClick={onCancel}
         >
-            {workplaceAnswers.isError ? (
+            {workplacePlacementAnswers.isError ? (
                 <NoData text="There is some technical issue, try refresh the page!" />
             ) : null}
-            {workplaceAnswers.isLoading ? (
+            {workplacePlacementAnswers.isLoading ? (
                 <LoadingAnimation size={60} height="h-full" />
-            ) : workplaceAnswers?.data && workplaceAnswers?.data?.length > 0 ? (
+            ) : workplacePlacementAnswers?.data?.questions &&
+              workplacePlacementAnswers?.data?.questions?.length > 0 ? (
                 <div className="max-w-5xl max-h-[70vh] custom-scrollbar overflow-auto pb-2">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
-                        {workplaceAnswers?.data?.map(
+                        {workplacePlacementAnswers?.data?.questions?.map(
                             (data: WorkplaceQuestionType, i: number) => {
                                 if (
                                     data?.question ===
@@ -201,7 +201,7 @@ export const ViewQuestionsModal = ({
                         )}
                     </div>
                 </div>
-            ) : workplaceAnswers.isSuccess ? (
+            ) : workplacePlacementAnswers.isSuccess ? (
                 <NoData text="There is no Answers Provided availability!" />
             ) : null}
         </Modal>

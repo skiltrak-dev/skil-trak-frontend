@@ -18,7 +18,7 @@ export enum CallType {
 }
 
 export const CallLogDetail = ({ callLog }: { callLog: CallLog }) => {
-    const [callType, setCallType] = useState<string>(CallType.Answer)
+    const [callType, setCallType] = useState<CallType>(CallType.Answer)
 
     const [isAnsweredCall, isAnsweredCallResult] =
         SubAdminApi.Student.useStudentAnsweredCall()

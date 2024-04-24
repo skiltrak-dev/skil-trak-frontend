@@ -66,8 +66,6 @@ export const PersonalInfo = ({
                 })
             }
         })
-        console.log({ values, questions })
-        // return null
 
         setPersonalInfoData({
             // ...values,

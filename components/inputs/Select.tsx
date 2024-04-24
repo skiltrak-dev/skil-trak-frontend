@@ -179,6 +179,8 @@ export const Select = forwardRef(
                 : event
         }
 
+        console.log({ formContext, name })
+
         const getSimpleSelect = (
             onChange: any,
             onBlur: any,

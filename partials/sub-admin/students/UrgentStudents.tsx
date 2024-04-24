@@ -1,55 +1,39 @@
-import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
+import { useRouter } from 'next/router'
 
 // Icons
-import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
+import { FaEdit, FaEye } from 'react-icons/fa'
 
 // components
 import {
     Card,
-    CaseOfficerAssignedStudent,
+    Table,
     EmptyData,
+    TableAction,
+    UserCreatedAt,
+    StudentSubAdmin,
     LoadingAnimation,
     StudentExpiryDaysLeft,
-    StudentSubAdmin,
-    Table,
-    TableAction,
-    Typography,
-    UserCreatedAt,
 } from '@components'
 import { StudentCellInfo } from './components'
 
-import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { SubAdminApi } from '@queries'
 import { Student } from '@types'
+import { SubAdminApi } from '@queries'
+import { MdBlock } from 'react-icons/md'
 import { useEffect, useState } from 'react'
-import { MdBlock, MdPriorityHigh } from 'react-icons/md'
-import {
-    AddToNonContactableStudents,
-    AssignStudentModal,
-    BlockModal,
-    ChangeStudentStatusModal,
-    HighPriorityModal,
-} from './modals'
+import { AddToNonContactableStudents } from './modals'
+import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 
+import { setLink } from '@utils'
+import { RTOCellInfo } from '../rto/components'
+import { ColumnDef } from '@tanstack/react-table'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { SectorCell } from '@partials/admin/student/components'
-import { ColumnDef } from '@tanstack/react-table'
-import {
-    getStudentWorkplaceAppliedIndustry,
-    setLink,
-    studentsListWorkplace,
-} from '@utils'
-import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
-import { IndustryCellInfo } from '../Industries'
-import { RTOCellInfo } from '../rto/components'
-import { InterviewModal } from '../workplace/modals'
 
 export const UrgentStudents = () => {
     const router = useRouter()
 
     // hooks
-
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -74,14 +58,6 @@ export const UrgentStudents = () => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onAssignStudentClicked = (student: Student) => {
-        setModal(
-            <AssignStudentModal
-                student={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
 
     const onNonContactableStudents = (student: Student) => {
         setModal(
@@ -92,50 +68,12 @@ export const UrgentStudents = () => {
         )
     }
 
-    const onChangeStatus = (student: Student) => {
-        setModal(
-            <ChangeStudentStatusModal
-                student={student}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
     const onDateClick = (student: Student) => {
         setModal(
             <EditTimer
                 studentId={student?.user?.id}
                 date={student?.expiryDate}
                 onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const onBlockClicked = (student: Student) => {
-        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
-    }
-    const onMarkAsHighPriorityClicked = (studetnt: Student) => {
-        setModal(
-            <HighPriorityModal
-                item={studetnt}
-                onCancel={onModalCancelClicked}
-                // setRefetchStudents={setRefetchStudents}
-            />
-        )
-    }
-
-    const onInterviewClicked = (student: Student) => {
-        setModal(
-            <InterviewModal
-                student={student}
-                onCancel={onModalCancelClicked}
-                workplace={Number(student?.workplace[0]?.id)}
-                workIndustry={Number(
-                    getStudentWorkplaceAppliedIndustry(
-                        student?.workplace[0]
-                            ?.industries as WorkplaceWorkIndustriesType[]
-                    )?.id
-                )}
             />
         )
     }
@@ -159,12 +97,6 @@ export const UrgentStudents = () => {
                 onClick: (student: Student) =>
                     onNonContactableStudents(student),
                 Icon: MdBlock,
-            },
-            {
-                text: 'Block',
-                onClick: (student: Student) => onBlockClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
             },
             {
                 text: 'Change Expiry',

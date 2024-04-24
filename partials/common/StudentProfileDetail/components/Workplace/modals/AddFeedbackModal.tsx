@@ -29,7 +29,11 @@ export const AddFeedbackModal = ({
     student,
     agreementSigned,
     onCancel,
+    wpId,
+    industryId,
 }: {
+    wpId: number
+    industryId: number
     course: Course
     id: any
     student: any
@@ -55,6 +59,8 @@ export const AddFeedbackModal = ({
             course: course?.id,
             questions,
             student: student?.id,
+            workplaceRequest: wpId,
+            industry: industryId,
         }).then((res: any) => {
             if (res?.data) {
                 startPlacement(id).then((placementRes: any) => {
