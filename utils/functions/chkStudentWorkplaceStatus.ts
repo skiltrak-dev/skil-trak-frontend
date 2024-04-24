@@ -73,15 +73,14 @@ export const latestWorkplace = (workplace: IWorkplaceIndustries[]) => {
     )
 }
 
-export const activeWorkplace = (workplace: IWorkplaceIndustries[]) => {
-    return workplace?.filter(
+export const activeWorkplace = (workplace: IWorkplaceIndustries[]) =>
+    workplace?.filter(
         (wp: any) =>
-            wp?.currentStatus !== WorkplaceCurrentStatus.Cancelled ||
-            wp?.currentStatus !== WorkplaceCurrentStatus.Terminated ||
-            wp?.currentStatus !== WorkplaceCurrentStatus.Rejected ||
+            wp?.currentStatus !== WorkplaceCurrentStatus.Cancelled &&
+            wp?.currentStatus !== WorkplaceCurrentStatus.Terminated &&
+            wp?.currentStatus !== WorkplaceCurrentStatus.Rejected &&
             wp?.currentStatus !== WorkplaceCurrentStatus.NoResponse
     )
-}
 
 export const studentsListWorkplace = (workplace: IWorkplaceIndustries[]) => {
     const activeWP = activeWorkplace(workplace)

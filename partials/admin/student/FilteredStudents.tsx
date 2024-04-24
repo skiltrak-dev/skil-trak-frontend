@@ -230,9 +230,9 @@ export const FilteredStudents = ({
         {
             accessorKey: 'rto',
             header: () => <span>RTO</span>,
-            cell: (info) => {
-                return <RtoCellInfo rto={info?.row?.original?.rto} short />
-            },
+            cell: (info) => (
+                <RtoCellInfo rto={info?.row?.original?.rto} short />
+            ),
         },
         {
             accessorKey: 'industry',
@@ -245,7 +245,7 @@ export const FilteredStudents = ({
                 )
 
                 return industry && industry?.length > 0 ? (
-                    <IndustryCell industry={industry[0]} />
+                    <IndustryCell industry={industry?.[0]} />
                 ) : info.row.original?.workplace &&
                   info.row.original?.workplace?.length > 0 &&
                   appliedIndustry ? (
@@ -259,9 +259,7 @@ export const FilteredStudents = ({
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell student={info.row.original} />
-            },
+            cell: (info) => <SectorCell student={info.row.original} />,
         },
         {
             accessorKey: 'expiry',
@@ -275,14 +273,12 @@ export const FilteredStudents = ({
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
-            cell: ({ row }) => {
-                return (
-                    <CaseOfficerAssignedStudent
-                        student={row.original}
-                        workplaceFilter={filter?.currentStatus}
-                    />
-                )
-            },
+            cell: ({ row }) => (
+                <CaseOfficerAssignedStudent
+                    student={row.original}
+                    workplaceFilter={filter?.currentStatus}
+                />
+            ),
         },
         {
             accessorKey: 'user.status',
