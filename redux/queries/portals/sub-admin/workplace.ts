@@ -256,11 +256,8 @@ export const workplaceEndpoints = (
         query: (wpId) => `students/workplace-requests/${wpId}/get/questions`,
         providesTags: ['SubAdminWorkplace'],
     }),
-    getStudentWorkplacePlacementAnswers: builder.query<any, void>({
-        query: (params) => ({
-            url: `shared/industries/search`,
-            params,
-        }),
+    getStudentWorkplacePlacementAnswers: builder.query<any, number>({
+        query: (wpId) => `students/workplace-requests/${wpId}/get-feedback`,
         providesTags: ['SubAdminWorkplace'],
     }),
 })

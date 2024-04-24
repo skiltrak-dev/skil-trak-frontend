@@ -21,6 +21,8 @@ export const StudentFeedBack = ({ workplace }: { workplace: any }) => {
                 id={industry?.id}
                 student={workplace?.student}
                 course={workplace?.courses?.[0]}
+                workplaceId={workplace?.[0]?.id}
+                industryId={industry?.industry?.id as number}
             />
         )
     }

@@ -51,7 +51,6 @@ export const MailsCommunication = ({ user }: { user: User }) => {
                     onSetSelectedElement={onSetSelectedElement}
                 >
                     {({ header, element }: any) => {
-                        console.log({ header })
                         return (
                             <div className="h-full">
                                 <div className="flex items-center justify-between pr-3 pl-1 py-3 border-b border-secondary-dark">

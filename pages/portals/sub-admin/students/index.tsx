@@ -162,10 +162,10 @@ const Students: NextPageWithLayout = (props: Props) => {
         },
         {
             label: 'Agreement Pending',
-            // badge: {
-            //     text: studentCount?.myStudents,
-            //     loading: count.isLoading,
-            // },
+            badge: {
+                text: studentCount?.awaitingAgreementSigned,
+                loading: count.isLoading,
+            },
             href: { pathname: 'students', query: { tab: 'agreement-pending' } },
             element: <AgreementPendingStudents />,
         },

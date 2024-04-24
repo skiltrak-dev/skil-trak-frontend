@@ -56,6 +56,8 @@ export const useRequestType = ({
                 agreementSigned={appliedIndustry?.AgreementSigned}
                 student={workplace?.student}
                 course={workplace?.courses?.[0]}
+                wpId={workplace?.id}
+                industryId={appliedIndustry?.industry?.id}
             />
         )
     }

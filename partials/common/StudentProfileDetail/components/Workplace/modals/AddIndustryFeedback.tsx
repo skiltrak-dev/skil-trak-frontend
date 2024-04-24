@@ -34,7 +34,11 @@ export const AddIndustryFeedback = ({
     id,
     student,
     onCancel,
+    workplaceId,
+    industryId,
 }: {
+    industryId: number
+    workplaceId: number
     course: Course
     id: any
     student: any
@@ -54,6 +58,8 @@ export const AddIndustryFeedback = ({
             })
         )
         addFeedback({
+            industry: industryId,
+            workplaceRequest: workplaceId,
             rating: Number(values?.rating),
             course: course?.id,
             questions,

@@ -1,6 +1,8 @@
 import { Badge, Typography } from '@components'
+import { RequiredStar } from '@components/inputs/components'
 import classNames from 'classnames'
-import React, { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
+import { useFormContext } from 'react-hook-form'
 import { FaCircleCheck } from 'react-icons/fa6'
 
 export enum WorkplaceAnswerEnum {
@@ -12,34 +14,48 @@ const answersData = [WorkplaceAnswerEnum.No, WorkplaceAnswerEnum.Yes]
 
 export const WorkplaceQuestionCard = ({
     data,
+    name,
     index,
     title,
     height,
     onClick,
     children,
-    showOnlyAnswer,
+    required,
     customAnswers,
+    showOnlyAnswer,
     multipleSelection,
 }: {
     data: any
     index: number
     title: string
+    name?: string
     height?: string
+    required?: boolean
     children?: ReactNode
-    showOnlyAnswer?: boolean
-    onClick?: (value: string) => void
     customAnswers?: string[]
+    showOnlyAnswer?: boolean
     multipleSelection?: boolean
+    onClick?: (value: string) => void
 }) => {
     const [answer, setAnswer] = useState<any>(null)
 
+    const formContext = useFormContext()
+
+    const error =
+        formContext &&
+        formContext.getFieldState(String(name)).error !== undefined
+
     useEffect(() => {
         if (data?.answer) {
-            setAnswer(data?.answer)
+            setAnswer(
+                multipleSelection
+                    ? data?.answer
+                        ? data?.answer?.split(',')
+                        : []
+                    : data?.answer
+            )
         }
     }, [data])
-
-    console.log({ answer })
 
     const numberClasses = classNames({
         'bg-[#BF0000]': WorkplaceAnswerEnum.No === answer,
@@ -64,75 +80,85 @@ export const WorkplaceQuestionCard = ({
     const selectAnswers = customAnswers ? customAnswers : answersData
 
     return (
-        <div
-            className={`flex-grow border border-dashed border-[#A5A3A9] p-2.5 h-auto ${
-                height ? height : 'lg:h-[104px]'
-            }  rounded-[10px] flex flex-col justify-between`}
-        >
-            <div className="flex items-start gap-x-4">
-                <div
-                    className={`mt-1 min-w-6 min-h-6 w-fit flex justify-center items-center ${numberClasses}  rounded-full`}
-                >
-                    <Typography variant="small" color="text-white">
-                        {index < 9 ? 0 : null}
-                        {index + 1}
-                    </Typography>
-                </div>
-                <Typography medium variant="label">
-                    {title}
-                </Typography>
-            </div>
-
-            {/*  */}
-            <div className="flex items-center flex-wrap gap-x-6 gap-y-2.5 px-10">
-                {children ? (
-                    children
-                ) : showOnlyAnswer ? (
-                    <div className="flex items-center gap-x-1">
-                        <Typography variant={'label'}>Answer:</Typography>
-                        <Badge
-                            text={data?.answer}
-                            variant={
-                                data?.answer === WorkplaceAnswerEnum.No
-                                    ? 'error'
-                                    : 'success'
-                            }
-                        />
+        <div>
+            <div
+                className={`flex-grow  border-dashed ${
+                    error ? 'border-2 border-error' : 'border border-[#A5A3A9]'
+                }  p-2.5 h-auto ${
+                    height ? height : 'lg:h-[104px]'
+                }  rounded-[10px] flex flex-col justify-between`}
+            >
+                <div className="flex items-start gap-x-4">
+                    <div
+                        className={`mt-1 min-w-6 min-h-6 w-fit flex justify-center items-center ${numberClasses}  rounded-full`}
+                    >
+                        <Typography variant="small" color="text-white">
+                            {index < 9 ? 0 : null}
+                            {index + 1}
+                        </Typography>
                     </div>
-                ) : (
-                    selectAnswers?.map((text: string) => (
-                        <div
-                            className="flex items-center gap-x-2.5 cursor-pointer"
-                            onClick={() => {
-                                const ans = multipleSelection
-                                    ? answer?.includes(text)
-                                        ? answer?.filter((a: any) => a !== text)
-                                        : answer && answer?.length > 0
-                                        ? [...answer, text]
-                                        : [text]
-                                    : null
-                                setAnswer(multipleSelection ? ans : text)
-                                if (onClick) {
-                                    onClick(multipleSelection ? ans : text)
-                                }
-                            }}
-                        >
-                            <FaCircleCheck
-                                size={19}
-                                className={
-                                    multipleSelection
-                                        ? answer?.includes(text)
-                                            ? 'text-[#30AF22]'
-                                            : answerIconClasses(text)
-                                        : answerIconClasses(text)
+                    <Typography medium variant="label">
+                        {title}
+                    </Typography>
+                    {required && <RequiredStar />}
+                </div>
+
+                {/*  */}
+                <div className="flex items-center flex-wrap gap-x-6 gap-y-2.5 px-10">
+                    {children ? (
+                        children
+                    ) : showOnlyAnswer ? (
+                        <div className="flex items-center gap-x-1">
+                            <Typography variant={'label'}>Answer:</Typography>
+                            <Badge
+                                text={data?.answer}
+                                variant={
+                                    data?.answer === WorkplaceAnswerEnum.No
+                                        ? 'error'
+                                        : 'success'
                                 }
                             />
-                            <Typography variant="label">
-                                <span className="whitespace-pre">{text}</span>
-                            </Typography>
                         </div>
-                    ))
-                )}
+                    ) : (
+                        selectAnswers?.map((text: string) => (
+                            <div
+                                key={text}
+                                className="flex items-center gap-x-2.5 cursor-pointer"
+                                onClick={() => {
+                                    const ans = multipleSelection
+                                        ? answer?.includes(text)
+                                            ? answer?.filter(
+                                                  (a: any) => a !== text
+                                              )
+                                            : answer && answer?.length > 0
+                                            ? [...answer, text]
+                                            : [text]
+                                        : null
+                                    setAnswer(multipleSelection ? ans : text)
+                                    if (onClick) {
+                                        onClick(multipleSelection ? ans : text)
+                                    }
+                                }}
+                            >
+                                <FaCircleCheck
+                                    size={19}
+                                    className={
+                                        multipleSelection
+                                            ? answer?.includes(text)
+                                                ? 'text-[#30AF22]'
+                                                : answerIconClasses(text)
+                                            : answerIconClasses(text)
+                                    }
+                                />
+                                <Typography variant="label">
+                                    <span className="whitespace-pre">
+                                        {text}
+                                    </span>
+                                </Typography>
+                            </div>
+                        ))
+                    )}
+                </div>
             </div>
         </div>
     )

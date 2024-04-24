@@ -1,15 +1,6 @@
 import { ReactElement } from 'react'
 
 //Layouts
-import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
-import { IndustryProfileFrom } from '@partials/common'
-import {
-    useGetSubAdminIndustriesProfileQuery,
-    useIndustryProfileQuery,
-    useUpdateIndustryProfileMutation,
-} from '@queries'
-import { useRouter } from 'next/router'
 import {
     EmptyData,
     LoadingAnimation,
@@ -17,6 +8,14 @@ import {
     ShowErrorNotifications,
     TechnicalError,
 } from '@components'
+import { SubAdminLayout } from '@layouts'
+import { IndustryProfileFrom } from '@partials/common'
+import {
+    useGetSubAdminIndustriesProfileQuery,
+    useUpdateIndustryProfileMutation,
+} from '@queries'
+import { NextPageWithLayout } from '@types'
+import { useRouter } from 'next/router'
 
 // hooks
 //components

@@ -115,6 +115,7 @@ const commonTagTypes = [
     'WorkBased',
     'Statistics',
     'BulkStatus',
+    'Email Sign',
     'MailsRecent',
     'Traineeship',
     'Appointments',
@@ -126,9 +127,7 @@ const commonTagTypes = [
     'StudentAppointments',
 ]
 
-const managementTypes = [
-    "KpiReportDocument"
-]
+const managementTypes = ['KpiReportDocument']
 export const emptySplitApi = createApi({
     reducerPath: 'allApis',
     baseQuery: fetchBaseQuery({
@@ -148,9 +147,9 @@ export const emptySplitApi = createApi({
         ...adminTagTypes,
         ...commonTagTypes,
         ...studentTagTypes,
+        ...managementTypes,
         ...industryTagTypes,
         ...subadminTagTypes,
-        ...managementTypes
     ],
 
     endpoints: () => ({}),

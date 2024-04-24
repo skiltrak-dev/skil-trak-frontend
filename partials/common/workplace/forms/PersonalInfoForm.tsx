@@ -1,12 +1,4 @@
-import {
-    Button,
-    Checkbox,
-    RadioGroup,
-    Select,
-    SelectOption,
-    TextArea,
-    TextInput,
-} from '@components'
+import { Button, Select, SelectOption, TextArea, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -15,13 +7,11 @@ import * as yup from 'yup'
 // components
 
 import { Card, Typography } from '@components'
+import { InputErrorMessage, RequiredStar } from '@components/inputs/components'
 import { useNotification } from '@hooks'
 import { Course } from '@types'
 import { getUserCredentials } from '@utils'
-import { WorkplaceAnswerEnum, WorkplaceQuestionCard } from '../components'
-import { InputErrorMessage } from '@components/inputs/components'
-import { WorkplaceQuestionType } from 'redux/queryTypes'
-import { FaCircleCheck } from 'react-icons/fa6'
+import { WorkplaceQuestionCard } from '../components'
 
 type PersonalInfoProps = {
     onSubmit: any
@@ -96,12 +86,22 @@ export const workplaceQuestions = {
         'When would be the most convenient time for one of the SkilTrak coordinators to call you to discuss workplace details further*',
 }
 
+const requiredFields = [
+    workplaceQuestionsKeys.suburb,
+    workplaceQuestionsKeys.placementStartDate,
+    workplaceQuestionsKeys.preferredContactTime,
+    workplaceQuestionsKeys.possession,
+    workplaceQuestionsKeys.medicalCondition,
+    workplaceQuestionsKeys.commutePlan,
+    workplaceQuestionsKeys.awarenessOfUnpaidPlacement,
+    workplaceQuestionsKeys.understandingOfDocumentation,
+]
+
 export const PersonalInfoForm = ({
     onSubmit,
     courses,
     personalInfoData,
 }: PersonalInfoProps) => {
-    console.log({ personalInfoData })
     const [selectedCourse, setSelectedCourse] = useState<any>(null)
     const [possession, setPossession] = useState<any>([])
     const [questionsData, setQuestionsData] = useState<any>(
@@ -186,6 +186,27 @@ export const PersonalInfoForm = ({
     //     day: moment.weekdaysShort()[i],
     // }))
 
+    const requiredQuestion = () => {
+        let fields: any = {}
+
+        requiredFields?.forEach((field: workplaceQuestionsKeys) => {
+            if (field === workplaceQuestionsKeys.possession) {
+                fields[field] = yup
+                    .array()
+                    .of(
+                        yup.string().required('Item must be a non-empty string')
+                    )
+                    .min(1, 'Array must contain at least one item')
+            } else {
+                fields[field] = yup
+                    .string()
+                    .nullable(true)
+                    .required('Required!')
+            }
+        })
+        return fields
+    }
+
     const validationSchema = yup.object({
         courses: yup
             .object()
@@ -205,6 +226,7 @@ export const PersonalInfoForm = ({
                     return true
                 }
             ),
+        ...requiredQuestion(),
         // location: yup.string().nullable(true).required('Must provide location'),
         // researched: yup
         //     .string()
@@ -295,22 +317,6 @@ export const PersonalInfoForm = ({
         }
     }, [selectedCourse])
 
-    const onPlaceChanged = () => {}
-
-    // const { ref }: any = usePlacesWidget({
-    //     apiKey: process.env.NEXT_PUBLIC_MAP_KEY,
-    //     onPlaceSelected: (place) => {},
-    //     options: {
-    //         // types: ['(suburbs)'],
-    //         componentRestrictions: {
-    //             country: 'au',
-    //         },
-    //     },
-    // })
-
-    // const { ref: preferableLocationRef, ...rest } =
-    //     formMethods.register('preferableLocation')
-
     const onHandleSubmit = (values: any) => {
         onSubmit(values)
         // if (!onLocationClicked) {
@@ -322,8 +328,6 @@ export const PersonalInfoForm = ({
         //     onSubmit(values)
         // }
     }
-
-    console.log({ possession })
 
     const updateQuestionData = (type: workplaceQuestionsKeys) =>
         personalInfoData?.questions?.find((q: any) => q?.type === type)
@@ -385,13 +389,16 @@ export const PersonalInfoForm = ({
                                     showError={false}
                                 />
                             </div>
+                            <InputErrorMessage
+                                name={workplaceQuestionsKeys.suburb}
+                            />
                         </div>
 
                         {/*  */}
                         <div className="flex flex-col gap-y-2">
                             <div className="flex flex-col gap-y-1">
                                 <Typography variant="label" semibold block>
-                                    1. Availability for Supervisor Meeting:
+                                    2. Availability for Supervisor Meeting:
                                 </Typography>
                                 <Typography variant="label" block>
                                     {
@@ -429,7 +436,7 @@ export const PersonalInfoForm = ({
                             <div className="flex flex-col gap-y-1">
                                 <div>
                                     <Typography variant="label" semibold block>
-                                        1. Placement Start Date:
+                                        3. Placement Start Date:
                                     </Typography>
 
                                     <Typography variant="label" block>
@@ -447,7 +454,6 @@ export const PersonalInfoForm = ({
                                     required
                                     type={'date'}
                                     placesSuggetions
-                                    showError={false}
                                 />
                             </div>
                         </div>
@@ -456,7 +462,7 @@ export const PersonalInfoForm = ({
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                             <div className="flex flex-col gap-y-1">
                                 <Typography variant="label" semibold block>
-                                    1. Specific Placement Preferences:**
+                                    4. Specific Placement Preferences:**
                                 </Typography>
                                 <Typography variant="label">
                                     {
@@ -485,7 +491,7 @@ export const PersonalInfoForm = ({
                             </div>
                             <div className="flex flex-col gap-y-1">
                                 <Typography variant="label" semibold block>
-                                    1. Preferred Contact Time
+                                    5. Preferred Contact Time
                                 </Typography>
                                 <Typography variant="label">
                                     {
@@ -508,24 +514,17 @@ export const PersonalInfoForm = ({
                                                     .preferredContactTime
                                             ]
                                         }
-                                        showError={false}
                                     />
                                 </div>
                             </div>
                         </div>
                         {/*  */}
                         <div className="flex flex-col gap-y-2">
-                            <div className="flex flex-col gap-y-1">
+                            <div className="flex gap-x-1">
                                 <Typography variant="label" semibold block>
-                                    1. Possession of Documents:
+                                    6. Possession of Documents:
                                 </Typography>
-                                {/* <Typography variant="label" block>
-                                    {
-                                        workplaceQuestions[
-                                            workplaceQuestionsKeys.possession
-                                        ]
-                                    }
-                                </Typography> */}
+                                <RequiredStar />
                             </div>
                             <div className="grid grid-cols-1 gap-3">
                                 <WorkplaceQuestionCard
@@ -546,8 +545,8 @@ export const PersonalInfoForm = ({
                                             workplaceQuestionsKeys.possession
                                         ]
                                     }
+                                    name={workplaceQuestionsKeys.possession}
                                     onClick={(answer: string) => {
-                                        console.log({ beeru: answer })
                                         formMethods.setValue(
                                             workplaceQuestionsKeys.possession,
                                             answer
@@ -558,6 +557,7 @@ export const PersonalInfoForm = ({
                                         workplaceQuestionsKeys.possession
                                     )}
                                 />
+
                                 {/* {[
                                     'CV',
                                     'Cover letter',
@@ -607,7 +607,7 @@ export const PersonalInfoForm = ({
                             <div className="flex flex-col gap-y-2">
                                 <div className="flex flex-col gap-y-1">
                                     <Typography variant="label" semibold block>
-                                        1. Current Employment Status:
+                                        7. Current Employment Status:
                                     </Typography>
                                 </div>
                                 <div>
@@ -628,8 +628,6 @@ export const PersonalInfoForm = ({
                                         data={updateQuestionData(
                                             workplaceQuestionsKeys.currentEmploymentStatus
                                         )}
-                                    />
-                                    <InputErrorMessage
                                         name={
                                             workplaceQuestionsKeys.currentEmploymentStatus
                                         }
@@ -641,7 +639,7 @@ export const PersonalInfoForm = ({
                             <div className="flex flex-col gap-y-2">
                                 <div className="flex flex-col gap-y-1">
                                     <Typography variant="label" semibold block>
-                                        1. Relevant Experience:
+                                        8. Relevant Experience:
                                     </Typography>
                                 </div>
                                 <div>
@@ -662,8 +660,6 @@ export const PersonalInfoForm = ({
                                         data={updateQuestionData(
                                             workplaceQuestionsKeys.relaventExperience
                                         )}
-                                    />
-                                    <InputErrorMessage
                                         name={
                                             workplaceQuestionsKeys.relaventExperience
                                         }
@@ -676,7 +672,7 @@ export const PersonalInfoForm = ({
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                             <div className="flex flex-col gap-y-2">
                                 <Typography variant="label" semibold block>
-                                    1. Placement Goals:
+                                    9. Placement Goals:
                                 </Typography>
 
                                 {/* <RadioGroup
@@ -738,10 +734,11 @@ export const PersonalInfoForm = ({
 
                             {/*  */}
                             <div className="flex flex-col gap-y-2">
-                                <div className="flex flex-col gap-y-1">
+                                <div className="flex gap-x-1">
                                     <Typography variant="label" semibold block>
-                                        1. Medical Conditions:
+                                        10. Medical Conditions:
                                     </Typography>
+                                    <RequiredStar />
                                 </div>
                                 <WorkplaceQuestionCard
                                     height="lg:h-[125px] max-h-[125px]"
@@ -761,8 +758,6 @@ export const PersonalInfoForm = ({
                                     data={updateQuestionData(
                                         workplaceQuestionsKeys.medicalCondition
                                     )}
-                                />
-                                <InputErrorMessage
                                     name={
                                         workplaceQuestionsKeys.medicalCondition
                                     }
@@ -774,7 +769,7 @@ export const PersonalInfoForm = ({
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                             <div className="flex flex-col gap-y-1">
                                 <Typography variant="label" semibold block>
-                                    1. Work Preference:
+                                    11. Work Preference:
                                 </Typography>
 
                                 {/* <RadioGroup
@@ -817,9 +812,12 @@ export const PersonalInfoForm = ({
                             </div>
 
                             <div className="flex flex-col gap-y-1">
-                                <Typography variant="label" semibold block>
-                                    1. Commute Plan:
-                                </Typography>
+                                <div className="flex gap-x-1">
+                                    <Typography variant="label" semibold block>
+                                        12. Commute Plan:
+                                    </Typography>
+                                    <RequiredStar />
+                                </div>
 
                                 {/* <RadioGroup
                                     name="commutePlan"
@@ -860,6 +858,7 @@ export const PersonalInfoForm = ({
                                     data={updateQuestionData(
                                         workplaceQuestionsKeys.commutePlan
                                     )}
+                                    name={workplaceQuestionsKeys.commutePlan}
                                 />
                             </div>
                         </div>
@@ -869,10 +868,11 @@ export const PersonalInfoForm = ({
                         {/*  */}
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                             <div className="flex flex-col gap-y-2">
-                                <div className="flex flex-col gap-y-1">
+                                <div className="flex gap-x-1">
                                     <Typography variant="label" semibold block>
-                                        1. Awareness of Unpaid Placement:
+                                        13. Awareness of Unpaid Placement:
                                     </Typography>
+                                    <RequiredStar />
                                 </div>
                                 <div>
                                     <WorkplaceQuestionCard
@@ -893,8 +893,6 @@ export const PersonalInfoForm = ({
                                         data={updateQuestionData(
                                             workplaceQuestionsKeys.awarenessOfUnpaidPlacement
                                         )}
-                                    />
-                                    <InputErrorMessage
                                         name={
                                             workplaceQuestionsKeys.awarenessOfUnpaidPlacement
                                         }
@@ -902,10 +900,11 @@ export const PersonalInfoForm = ({
                                 </div>
                             </div>
                             <div className="flex flex-col gap-y-2">
-                                <div className="flex flex-col gap-y-1">
+                                <div className="flex gap-x-1">
                                     <Typography variant="label" semibold block>
-                                        1. Understanding of Documentation:
+                                        14. Understanding of Documentation:
                                     </Typography>
+                                    <RequiredStar />
                                 </div>
                                 <div>
                                     <WorkplaceQuestionCard
@@ -926,8 +925,6 @@ export const PersonalInfoForm = ({
                                         data={updateQuestionData(
                                             workplaceQuestionsKeys.understandingOfDocumentation
                                         )}
-                                    />
-                                    <InputErrorMessage
                                         name={
                                             workplaceQuestionsKeys.understandingOfDocumentation
                                         }

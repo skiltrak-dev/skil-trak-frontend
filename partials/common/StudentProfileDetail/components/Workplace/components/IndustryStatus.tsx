@@ -56,8 +56,6 @@ export const IndustryStatus = ({
         }
     }, [findStatusIndex, workplace?.currentStatus])
 
-    console.log({ findStatusIndex, selectedRequestType })
-
     return (
         <div className="flex flex-col gap-y-1.5">
             {modal}
