@@ -113,6 +113,13 @@ export const ViewQuestionsModal = ({
                                     const supervisorMeeting = JSON.parse(
                                         data?.answer
                                     )
+                                    const meeting = {
+                                        supervisorMeetingDate1:
+                                            'Supervisor Meeting Date 1',
+                                        supervisorMeetingDate2:
+                                            'Supervisor Meeting Date 2',
+                                    }
+
                                     return (
                                         <WorkplaceQuestionUpdatedCard
                                             data={data}
@@ -134,7 +141,11 @@ export const ViewQuestionsModal = ({
                                                                     }
                                                                     capitalize
                                                                 >
-                                                                    {key}
+                                                                    {
+                                                                        meeting[
+                                                                            key as keyof typeof meeting
+                                                                        ]
+                                                                    }
                                                                 </Typography>
                                                                 <Badge
                                                                     text={moment(

@@ -4,7 +4,4 @@ export const strongPassword = () =>
 
 export const validEmail = () => /\S+@\S+\.\S+/
 
-export const isEmailValid = (email: string) => {
-    console.log('ValidEmail', validEmail().test(email))
-    return validEmail().test(email)
-}
+export const isEmailValid = (email: string) => validEmail().test(email)

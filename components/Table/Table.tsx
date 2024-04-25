@@ -255,7 +255,10 @@ export const Table = <Type,>({
                                                 className={`${
                                                     row?.original?.user
                                                         ?.status ===
-                                                    UserStatus.Blocked
+                                                        UserStatus.Blocked ||
+                                                    row?.original?.user
+                                                        ?.status ===
+                                                        UserStatus.Rejected
                                                         ? '!bg-error-light'
                                                         : row?.original?.user
                                                               ?.status ===

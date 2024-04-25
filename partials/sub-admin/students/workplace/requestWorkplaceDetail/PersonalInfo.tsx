@@ -33,37 +33,45 @@ export const PersonalInfo = ({
         }[] = []
         Object.entries(workplaceQuestions).forEach(([key, value]: string[]) => {
             if (key === workplaceQuestionsKeys.suburb) {
-                questions.push({
-                    question: value,
-                    answer: {
-                        suburb: values[key],
-                        zip: values['zip'],
-                    },
-                    type: key,
-                })
+                if (values[key]) {
+                    questions.push({
+                        question: value,
+                        answer: {
+                            suburb: values[key],
+                            zip: values['zip'],
+                        },
+                        type: key,
+                    })
+                }
             } else if (key === workplaceQuestionsKeys.supervisorMeeting) {
-                questions.push({
-                    question: value,
-                    answer: {
-                        supervisorMeetingDate1:
-                            values['supervisorMeetingDate1'],
-                        supervisorMeetingDate2:
-                            values['supervisorMeetingDate2'],
-                    },
-                    type: key,
-                })
+                if (values['supervisorMeetingDate1']) {
+                    questions.push({
+                        question: value,
+                        answer: {
+                            supervisorMeetingDate1:
+                                values['supervisorMeetingDate1'],
+                            supervisorMeetingDate2:
+                                values['supervisorMeetingDate2'],
+                        },
+                        type: key,
+                    })
+                }
             } else if (key === workplaceQuestionsKeys.possession) {
-                questions.push({
-                    question: value,
-                    answer: values[key]?.join(','),
-                    type: key,
-                })
+                if (values[key]) {
+                    questions.push({
+                        question: value,
+                        answer: values[key]?.join(','),
+                        type: key,
+                    })
+                }
             } else {
-                questions.push({
-                    question: value,
-                    answer: values[key],
-                    type: key,
-                })
+                if (values[key]) {
+                    questions.push({
+                        question: value,
+                        answer: values[key],
+                        type: key,
+                    })
+                }
             }
         })
 

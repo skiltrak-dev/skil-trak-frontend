@@ -7,13 +7,14 @@ import {
     TextInput,
     inputEditorErrorMessage,
 } from '@components'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AdminApi, AuthApi, SubAdminApi } from '@queries'
 import { getUserCredentials } from '@utils'
 import { OptionType } from '@types'
+import { useRouter } from 'next/router'
 
 enum Priority {
     Low = 'low',
@@ -33,6 +34,16 @@ export const AddTicketForm = ({
     subadmins: any
 }) => {
     const sectorResponse = AuthApi.useSectors({})
+
+    const [selectedStudent, setSelectedStudent] = useState<number | null>(null)
+
+    const router = useRouter()
+
+    useEffect(() => {
+        if (router?.query?.student) {
+            setSelectedStudent(+router?.query?.student)
+        }
+    }, [router])
 
     const courses = sectorResponse?.data
         ?.map((sector: any) => {
@@ -120,6 +131,13 @@ export const AddTicketForm = ({
                                 name={'student'}
                                 placeholder={'Link Student (Optional)'}
                                 options={studentsOptions}
+                                value={studentsOptions?.find(
+                                    (std: OptionType) =>
+                                        std?.value === selectedStudent
+                                )}
+                                onChange={(e: any) => {
+                                    setSelectedStudent(e)
+                                }}
                                 onlyValue
                                 loading={students.isLoading}
                                 disabled={students?.isLoading}

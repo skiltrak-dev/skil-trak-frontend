@@ -211,7 +211,7 @@ export const Workplace = ({
 
                 {/*  */}
                 {studentWorkplace.isError ? (
-                    <TechnicalError description={false} />
+                    <TechnicalError height="h-64" description={false} />
                 ) : null}
                 {studentWorkplace?.isLoading ? (
                     <div className="flex flex-col items-center justify-center h-60">
