@@ -1,17 +1,17 @@
 import {
+    ActionButton,
     Button,
     Card,
-    Table,
-    EmptyData,
-    Typography,
-    TableAction,
-    ActionButton,
-    TechnicalError,
-    StudentSubAdmin,
-    LoadingAnimation,
-    TableChildrenProps,
-    StudentExpiryDaysLeft,
     CaseOfficerAssignedStudent,
+    EmptyData,
+    LoadingAnimation,
+    StudentExpiryDaysLeft,
+    StudentSubAdmin,
+    Table,
+    TableAction,
+    TableChildrenProps,
+    TechnicalError,
+    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -21,11 +21,7 @@ import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import {
-    WorkplaceCurrentStatus,
     checkListLength,
-    checkStudentStatus,
-    checkWorkplaceStatus,
-    getStudentWorkplaceAppliedIndustry,
     isBrowser,
     setLink,
     studentsListWorkplace,
@@ -35,7 +31,7 @@ import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
 import { MdBlock, MdPriorityHigh } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
-import { ProgressCell, SectorCell, StudentCellInfo } from './components'
+import { SectorCell, StudentCellInfo } from './components'
 import {
     ArchiveModal,
     BlockModal,

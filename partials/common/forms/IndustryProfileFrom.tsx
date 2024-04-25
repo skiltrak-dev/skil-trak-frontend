@@ -177,11 +177,6 @@ export const IndustryProfileFrom = ({
             .string()
             // .test('test-name', 'Validation failure message', function (value) {
             //     const validEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-            //     console.log(
-            //         'SaadkHnasS',
-            //         value ? isEmailValid(value) : false,
-            //         validEmailRegex.test(value)
-            //     )
             //     return false
             //     // return value ? isEmailValid(value) : false
             // })
@@ -321,7 +316,6 @@ export const IndustryProfileFrom = ({
     }
 
     const onHandleSubmit = (values: any) => {
-        console.log({ values })
         if (!onSuburbClicked) {
             notification.error({
                 title: 'You must select on Suburb Dropdown',
@@ -338,8 +332,6 @@ export const IndustryProfileFrom = ({
             })
         }
     }
-
-    console.log({ countryId })
 
     return (
         <>

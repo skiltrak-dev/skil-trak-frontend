@@ -61,12 +61,14 @@ export const StudentStatusProgressCell = ({
     status,
     step,
     appliedIndustry,
+    studentProvidedWorkplace,
 }: {
     assigned: SubAdmin
     studentId?: any
     status?: StudentProgressStatus
     step: 1 | 2 | 3 | 4 | number
     appliedIndustry: any
+    studentProvidedWorkplace?: boolean
 }) => {
     const contextBar = useContextBar()
     // const currentStatus = StudentProgress[status]
@@ -147,6 +149,11 @@ export const StudentStatusProgressCell = ({
                         {currentStatus?.description || 'N/A'}
                     </p>
                 )}
+                <p className="text-xs font-semibold text-gray-700 whitespace-nowrap">
+                    {studentProvidedWorkplace
+                        ? 'Student Provided Workplace'
+                        : ''}
+                </p>
                 {currentStatus?.date && (
                     <Typography>
                         <span className="text-[10px] font-semibold">

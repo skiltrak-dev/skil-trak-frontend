@@ -43,17 +43,23 @@ export const Tickets = ({ studentId }: { studentId: number }) => {
                         <Button
                             onClick={() => {
                                 role === UserRoles.ADMIN
-                                    ? router.push(
-                                          '/portals/admin/tickets/add-ticket'
-                                      )
+                                    ? router.push({
+                                          pathname:
+                                              '/portals/admin/tickets/add-ticket',
+                                          query: { student: studentId },
+                                      })
                                     : role === UserRoles.SUBADMIN
-                                    ? router.push(
-                                          '/portals/sub-admin/tickets/add-ticket'
-                                      )
+                                    ? router.push({
+                                          pathname:
+                                              '/portals/sub-admin/tickets/add-ticket',
+                                          query: { student: studentId },
+                                      })
                                     : role === UserRoles.RTO
-                                    ? router.push(
-                                          '/portals/rto/tickets/add-ticket'
-                                      )
+                                    ? router.push({
+                                          pathname:
+                                              '/portals/rto/tickets/add-ticket',
+                                          query: { student: studentId },
+                                      })
                                     : ''
                             }}
                         >
@@ -70,7 +76,7 @@ export const Tickets = ({ studentId }: { studentId: number }) => {
                             )}
                         </div>
 
-                        <div className="h-[385px] custom-scrollbar overflow-auto">
+                        <div className="h-[calc(600px-120px)] custom-scrollbar overflow-auto">
                             {tickets.isError ? (
                                 <TechnicalError
                                     description={false}

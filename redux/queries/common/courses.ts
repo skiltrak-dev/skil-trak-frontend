@@ -12,7 +12,7 @@ export const coursesEndpoints = (
         query: (rto) => {
             const params = rto ? { id: rto } : {}
             return {
-                url: `appointments/rto/courses`,
+                url: `appointments/courses/get`,
                 params,
             }
         },

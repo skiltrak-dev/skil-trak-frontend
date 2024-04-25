@@ -1,4 +1,4 @@
-import { InitialAvatar } from '@components'
+import { InitialAvatar, Tooltip } from '@components'
 import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary'
 import { useScrollIntoView } from '@hooks'
 import { Student } from '@types'
@@ -6,6 +6,7 @@ import { QueryType, isBrowser, queryToUrl, setLink } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { BsTicketDetailed } from 'react-icons/bs'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { MdEmail, MdPhone } from 'react-icons/md'
 
@@ -128,12 +129,21 @@ export const StudentCellInfo = ({
                                 </div>
                             ) : null)}
                     </div>
-                    <p className="font-semibold">
-                        {student?.user?.name}{' '}
-                        {student?.familyName?.toLowerCase() === 'na'
-                            ? ''
-                            : student?.familyName}
-                    </p>
+
+                    <div className="flex items-center gap-x-1.5">
+                        <p className="font-semibold">
+                            {student?.user?.name}{' '}
+                            {student?.familyName?.toLowerCase() === 'na'
+                                ? ''
+                                : student?.familyName}
+                        </p>
+                        {student?.tickets && student?.tickets?.length > 0 ? (
+                            <div className="w-4 h-4 rounded  relative group">
+                                <BsTicketDetailed className="text-black text-lg" />
+                                <Tooltip>Ticket Created</Tooltip>
+                            </div>
+                        ) : null}
+                    </div>
                     <div className="font-medium text-xs text-gray-500">
                         <p className="flex items-center gap-x-1">
                             <span>

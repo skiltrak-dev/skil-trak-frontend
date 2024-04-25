@@ -1,10 +1,11 @@
-import { InitialAvatar } from '@components'
+import { InitialAvatar, Tooltip } from '@components'
 import { useScrollIntoView } from '@hooks'
 import { Student } from '@types'
 import { isBrowser, setLink } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { BsTicketDetailed } from 'react-icons/bs'
 import { FaEnvelope, FaPhone } from 'react-icons/fa'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 
@@ -48,7 +49,7 @@ export const StudentCellInfo = ({
                 <Link
                     href={`${
                         router.pathname === '/portals/sub-admin/talent-pool'
-                            ? "#"
+                            ? '#'
                             : `/portals/sub-admin/students/${student?.id}/detail`
                     }`}
                     legacyBehavior
@@ -123,9 +124,18 @@ export const StudentCellInfo = ({
                                             </Typography>
                                         </div> */}
                         </div>
-                        <p className="text-gray-800 font-medium">
-                            {student?.user?.name} {student?.familyName}
-                        </p>
+                        <div className="flex items-center gap-x-1.5">
+                            <p className="text-gray-800 font-medium">
+                                {student?.user?.name} {student?.familyName}{' '}
+                            </p>
+                            {student?.tickets &&
+                            student?.tickets?.length > 0 ? (
+                                <div className="w-4 h-4 rounded  relative group">
+                                    <BsTicketDetailed className="text-black text-lg" />
+                                    <Tooltip>Ticket Created</Tooltip>
+                                </div>
+                            ) : null}
+                        </div>
                         <div className="flex items-center gap-x-2 text-sm">
                             <span className="text-gray-400">
                                 <FaEnvelope />

@@ -122,7 +122,7 @@ export const TimeSlots = ({
                     <div className="flex justify-between items-center">
                         <Typography variant="subtitle" color="text-black">
                             {moment(
-                                selectedDate?.toISOString(),
+                                selectedDate || new Date(),
                                 'YYYY-MM-DD hh:mm:ss Z'
                             ).format('dddd, Do MMMM')}
                         </Typography>
