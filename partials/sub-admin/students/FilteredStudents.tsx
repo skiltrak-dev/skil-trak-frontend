@@ -248,14 +248,14 @@ export const FilteredStudents = ({
                     <ProgressCell
                         appliedIndustry={appliedIndustry}
                         studentId={student?.id}
-                        assigned={student?.subadmin || workplace?.assignedTo}
+                        assigned={workplace?.assignedTo || student?.subadmin}
                         step={9}
                     />
                 ) : student?.workplace && student?.workplace?.length > 0 ? (
                     <ProgressCell
                         appliedIndustry={appliedIndustry}
                         studentId={student?.id}
-                        assigned={student?.subadmin || workplace?.assignedTo}
+                        assigned={workplace?.assignedTo || student?.subadmin}
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     />
                 ) : student?.subadmin ? (
@@ -263,14 +263,14 @@ export const FilteredStudents = ({
                         appliedIndustry={appliedIndustry}
                         studentId={student?.id}
                         step={3}
-                        assigned={student?.subadmin || workplace?.assignedTo}
+                        assigned={workplace?.assignedTo || student?.subadmin}
                     />
                 ) : (
                     <ProgressCell
                         appliedIndustry={appliedIndustry}
                         studentId={student?.id}
                         step={1}
-                        assigned={student?.subadmin || workplace?.assignedTo}
+                        assigned={workplace?.assignedTo || student?.subadmin}
                     />
                 )
             },

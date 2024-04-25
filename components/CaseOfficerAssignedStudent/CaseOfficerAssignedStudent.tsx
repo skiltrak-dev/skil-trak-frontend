@@ -40,6 +40,9 @@ export const CaseOfficerAssignedStudent = ({
             studentId={student?.id}
             assigned={workplace?.assignedTo || student?.subadmin}
             step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+            studentProvidedWorkplace={
+                workplace?.studentProvidedWorkplace || workplace?.byExistingAbn
+            }
         />
     ) : industries?.length > 0 ? (
         <StudentStatusProgressCell
@@ -51,6 +54,9 @@ export const CaseOfficerAssignedStudent = ({
                     : studentStatus
             }
             appliedIndustry={appliedIndustry}
+            studentProvidedWorkplace={
+                workplace?.studentProvidedWorkplace || workplace?.byExistingAbn
+            }
         />
     ) : student?.workplace && student?.workplace?.length > 0 ? (
         <ProgressCell
@@ -58,6 +64,9 @@ export const CaseOfficerAssignedStudent = ({
             studentId={student?.id}
             assigned={workplace?.assignedTo || student?.subadmin}
             step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+            studentProvidedWorkplace={
+                workplace?.studentProvidedWorkplace || workplace?.byExistingAbn
+            }
         />
     ) : student?.subadmin ? (
         <ProgressCell
@@ -65,6 +74,9 @@ export const CaseOfficerAssignedStudent = ({
             studentId={student?.id}
             step={3}
             assigned={workplace?.assignedTo || student?.subadmin}
+            studentProvidedWorkplace={
+                workplace?.studentProvidedWorkplace || workplace?.byExistingAbn
+            }
         />
     ) : (
         <ProgressCell
@@ -72,6 +84,9 @@ export const CaseOfficerAssignedStudent = ({
             studentId={student?.id}
             step={1}
             assigned={workplace?.assignedTo || student?.subadmin}
+            studentProvidedWorkplace={
+                workplace?.studentProvidedWorkplace || workplace?.byExistingAbn
+            }
         />
     )
 }

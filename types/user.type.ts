@@ -118,6 +118,7 @@ export interface Student extends BaseResponse {
 
     gender: string
     subadmin: SubAdmin
+    tickets: any
 }
 
 interface UserExtend extends User {

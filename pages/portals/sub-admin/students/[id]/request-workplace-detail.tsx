@@ -13,8 +13,8 @@ import { NextPageWithLayout } from '@types'
 // query
 import {
     Availability,
-    IndustrySelection,
     PersonalInfo,
+    IndustrySelection,
 } from '@partials/sub-admin/students'
 import {
     useGetSubAdminStudentDetailQuery,

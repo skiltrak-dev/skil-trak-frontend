@@ -14,11 +14,11 @@ export const TicketDataCard = ({
 }) => {
     return (
         <div className="bg-gray-500 rounded-lg p-2.5">
-            <span className="text-[8px] block text-white">{title}</span>
-            <Typography variant={'badge'} color="text-white">
+            <span className="text-[10px] block text-white">{title}</span>
+            <Typography variant={'xs'} color="text-white">
                 {text || children}
             </Typography>
-            <span className="text-[8px] block text-white">{subText}</span>
+            <span className="text-[10px] block text-white">{subText}</span>
         </div>
     )
 }

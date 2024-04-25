@@ -137,12 +137,14 @@ export const ProgressCell = ({
     step,
     assigned,
     appliedIndustry,
+    studentProvidedWorkplace,
 }: {
     studentId?: number
     status?: WorkplaceRequestStatus
     step: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | number
     assigned?: SubAdmin
     appliedIndustry: any
+    studentProvidedWorkplace?: boolean
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     // const currentStatus = WorkplaceRequestProgress[status]
@@ -202,6 +204,11 @@ export const ProgressCell = ({
                             {currentStatus.description}
                         </p>
                     )}
+                    <p className="text-xs font-semibold text-gray-700 whitespace-nowrap">
+                        {studentProvidedWorkplace
+                            ? 'Student Provided Workplace'
+                            : ''}
+                    </p>
                     {currentStatus?.date && (
                         <Typography>
                             <span className="text-[10px] font-semibold">

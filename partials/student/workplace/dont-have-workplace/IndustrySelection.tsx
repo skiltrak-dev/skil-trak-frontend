@@ -118,7 +118,7 @@ export const IndustrySelection = ({
                         setIndustrySelection={setIndustrySelection}
                         status={workplaceIndustries?.currentStatus}
                         workplaceRequest={workplaceIndustries}
-                        course={workplace?.data?.courses?.[0]}
+                        course={workplaceIndustries?.courses?.[0]}
                     />
                 </>
             )}
