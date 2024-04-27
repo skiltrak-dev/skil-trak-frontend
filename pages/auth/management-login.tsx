@@ -11,13 +11,23 @@ import { AuthApi } from '@queries'
 import { LoginCredentials } from '@types'
 import { AuthUtils, isBrowser } from '@utils'
 import Image from 'next/image'
+import { UserRoles } from '@constants'
 
 const Login: NextPage = () => {
     const router = useRouter()
 
-    const [login, loginResult] = AuthApi.useLogin()
+    const [login, loginResult] = AuthApi.useManagementLogin()
 
     const [rememberLogin, setRememberLogin] = useState<boolean>(false)
+
+    const nextDestination = (role: string) => {
+        if (role === UserRoles.MANAGER) {
+            router.push('/portals/management/dashboard') // Assuming '/portals/manager' is the correct destination
+        } else {
+            // Handle other roles or default behavior as needed
+            console.warn(`Unhandled role: ${role}`) // Or implement appropriate logic
+        }
+    }
 
     useEffect(() => {
         if (loginResult.isSuccess) {
@@ -35,7 +45,7 @@ const Login: NextPage = () => {
                     )
                 }
 
-                // onLogin(loginResult.data.status, loginResult.data?.role)
+                nextDestination(loginResult?.data?.role)
             }
         }
     }, [loginResult.isSuccess])

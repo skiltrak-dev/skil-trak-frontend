@@ -21,6 +21,13 @@ export const authApi = createApi({
                 body,
             }),
         }),
+        managementLogin: builder.mutation({
+            query: (body: LoginCredentials) => ({
+                url: `${PREFIX}manager/login`,
+                method: 'POST',
+                body,
+            }),
+        }),
 
         registerIndustry: builder.mutation<any, any>({
             query: (body) => ({
@@ -87,6 +94,7 @@ export const authApi = createApi({
 
 const {
     useLoginMutation,
+    useManagementLoginMutation,
     useCheckAbnMutation,
     useGetSectorsQuery,
     useCheckStatusMutation,
@@ -100,6 +108,7 @@ const {
 
 export const AuthApi = {
     useLogin: useLoginMutation,
+    useManagementLogin: useManagementLoginMutation,
 
     useStatusCheck: useCheckStatusMutation,
     useEmailCheck: useCheckEmailMutation,

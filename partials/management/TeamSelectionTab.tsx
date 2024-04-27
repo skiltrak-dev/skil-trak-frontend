@@ -4,7 +4,7 @@ import React from 'react'
 export const TeamSelectionTab = ({ handleTabChange, activeTab }: any) => {
     return (
         <>
-            <div className=" p-4 flex items-center gap-x-10 px-4 py-3  mx-4 border-2 border-dashed rounded-md">
+            <div className=" p-4 flex items-center gap-x-10 px-4 py-3 border-2 border-dashed rounded-md">
                 <div
                     className="cursor-pointer"
                     onClick={() => handleTabChange('subadmin')}

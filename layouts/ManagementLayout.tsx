@@ -1,9 +1,10 @@
-import { ManagementSideBar } from '@components'
+import { ProtectedRoute } from '@components'
+import { ReactNode } from 'react'
 
-export const ManagementLayout = () => {
+export const ManagementLayout = ({ children }: { children: ReactNode }) => {
     return (
-        <div>
-            <ManagementSideBar />
-        </div>
+        <ProtectedRoute>
+            <div>{children}</div>
+        </ProtectedRoute>
     )
 }

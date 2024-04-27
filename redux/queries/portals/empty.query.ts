@@ -127,7 +127,12 @@ const commonTagTypes = [
     'StudentAppointments',
 ]
 
-const managementTypes = ['KpiReportDocument']
+const managementTypes = [
+    "KpiReportDocument",
+    'KpiReportList',
+    'TeamManagement',
+    
+]
 export const emptySplitApi = createApi({
     reducerPath: 'allApis',
     baseQuery: fetchBaseQuery({
