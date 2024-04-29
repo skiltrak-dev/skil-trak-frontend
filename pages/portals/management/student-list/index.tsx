@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from 'react'
-import { AdminLayout } from '@layouts'
+import { AdminLayout, ManagementLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { ManagementNavbar, ManagementSideBar } from '@components'
 import { ManagementStudentList } from '@partials/management'
@@ -23,8 +23,8 @@ const StudentListPage: NextPageWithLayout = () => {
     )
 }
 
-// ManagementDashboard.getLayout = (page: ReactElement) => {
-//     return <AdminLayout>{page}</AdminLayout>
+// StudentListPage.getLayout = (page: ReactElement) => {
+//     return <ManagementLayout>{page}</ManagementLayout>
 // }
 
 export default StudentListPage

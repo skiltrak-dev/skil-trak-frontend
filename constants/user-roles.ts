@@ -4,4 +4,5 @@ export enum UserRoles {
     STUDENT = 'student',
     INDUSTRY = 'industry',
     SUBADMIN = 'subadmin',
+    MANAGER= 'manager'
 }

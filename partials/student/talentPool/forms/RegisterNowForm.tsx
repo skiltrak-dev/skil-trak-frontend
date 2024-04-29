@@ -43,10 +43,6 @@ const termsAndCondition = [
         title: '6. Confidentiality',
         description: `Students must respect the confidentiality of any information shared by industry partners during the talent acquisition process.`,
     },
-    {
-        title: '7. Active Participation',
-        description: `Students are encouraged to keep their profiles updated, including skills, projects, and experiences, to enhance their visibility and attractiveness to potential employers.`,
-    },
 ]
 type RegistrationFormProps = {
     tags: any
