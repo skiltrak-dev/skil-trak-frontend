@@ -35,24 +35,10 @@ const TeamDetailPage: NextPageWithLayout = () => {
             classes: 'flex-col',
         },
     ]
+    console.log('fffffffff', teamMembersList?.data)
     return (
-        <div className="management-portal-log h-screen flex flex-col gap-y-4 overflow-hidden pb-8 px-6 pt-6 w-full">
-            <ManagementNavbar
-                setIsExpanded={setIsExpanded}
-                isExpanded={isExpanded}
-            />
+        <>
             <div className="flex gap-x-4">
-                {/* <TeamSideBar
-                    title="Commercial Cookery"
-                    subtitle="TEAM KPIs Record"
-                    KpiCountCard={kpiCountData.map((item) => (
-                        <KpiRecordCount
-                            title={item.title}
-                            count={item.count}
-                            classes={item.classes}
-                        />
-                    ))}
-                /> */}
                 <TeamSideBar sideBar>
                     <TeamSideBar.Title>
                         <div className="mb-8">
@@ -61,7 +47,7 @@ const TeamDetailPage: NextPageWithLayout = () => {
                                 color="text-primaryNew"
                                 bold
                             >
-                                Commercial Cookery
+                                {teamMembersList?.data?.sector?.name || 'N/A'}
                             </Typography>
                         </div>
                         <div className="mb-4">
@@ -88,12 +74,12 @@ const TeamDetailPage: NextPageWithLayout = () => {
                         </div>
                     </TeamSideBar.KpiCountCard>
                 </TeamSideBar>
-                 <TeamMembers data={teamMembersList} /> 
+                <TeamMembers data={teamMembersList} />
             </div>
-        </div>
+        </>
     )
 }
-// TeamDetailPage.getLayout = (page: ReactElement) => {
-//     return <ManagementLayout>{page}</ManagementLayout>
-// }
+TeamDetailPage.getLayout = (page: ReactElement) => {
+    return <ManagementLayout>{page}</ManagementLayout>
+}
 export default TeamDetailPage
