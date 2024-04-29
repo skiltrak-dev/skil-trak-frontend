@@ -112,7 +112,7 @@
       "pages/portals/admin/e-sign/[id]",
       "./jest-setup.ts",
       "vite.config.ts"
-   ],
+, "pages/portals/management/teams/members/[memberId]"   ],
    "exclude": [
       "node_modules"
    ]

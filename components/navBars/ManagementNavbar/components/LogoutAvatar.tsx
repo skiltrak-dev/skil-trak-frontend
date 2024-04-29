@@ -20,8 +20,9 @@ export const LogoutAvatar = ({
 }: AvatarProps) => {
     const initials = name
         .split(' ')
-        .map((word: any) => word[0].toUpperCase())
+        .map((word: string) => word[0].toUpperCase())
         .join('')
+        .slice(0, 2) // Take only the first two letters for initials
 
     const colorMap: any = {
         // Assign colors to each letter position (adjust as needed)

@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from 'react'
-import { AdminLayout } from '@layouts'
+import { AdminLayout, ManagementLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { ManagementNavbar, ManagementSideBar } from '@components'
 import {
@@ -29,8 +29,8 @@ const CheckKpiPage: NextPageWithLayout = () => {
     )
 }
 
-// ManagementDashboard.getLayout = (page: ReactElement) => {
-//     return <AdminLayout>{page}</AdminLayout>
+// CheckKpiPage.getLayout = (page: ReactElement) => {
+//     return <ManagementLayout>{page}</ManagementLayout>
 // }
 
 export default CheckKpiPage

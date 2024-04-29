@@ -12,7 +12,7 @@ export const documentsEndpoints = (
     // }),
     uploadKpiReport: builder.mutation<any, any>({
         query: (body) => ({
-            url: `https://dummy.restapiexample.com/api/v1/create`,
+            url: `${PREFIX}/kpi-report/create`,
             method: 'POST',
             body: body,
         }),

@@ -2,6 +2,7 @@ import { Typography } from '@components/Typography'
 import { useState } from 'react'
 import { SubAdminSidebarTab, SourcingSidebarTab } from './components'
 import { TeamSelectionTab } from '@partials/management'
+
 type TabOption = 'subadmin' | 'sourcing'
 export const ManagementSideBar = () => {
     const [activeTab, setActiveTab] = useState<TabOption>('subadmin')

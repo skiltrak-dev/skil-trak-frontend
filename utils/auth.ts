@@ -1,7 +1,7 @@
 import jwt from 'jwt-decode'
 import { isBrowser } from './browser-supported'
 import { UserStatus } from '@types'
-
+import { UserRoles } from '@constants'
 const KEYS = {
     TOKEN: 'user-token',
     REFRESHTOKEN: 'refresh-token',
@@ -10,7 +10,7 @@ const KEYS = {
 
 type UserCredentials = {
     username: string
-    role: 'admin' | 'subadmin' | 'rto' | 'student' | 'industry'
+    role: 'admin' | 'subadmin' | 'rto' | 'student' | 'industry' | 'manager'
     id: number
     email: string
     status: UserStatus.Approved | UserStatus.Rejected | UserStatus.Pending
@@ -91,6 +91,17 @@ export const logout = (router?: any) => {
         }
     }
 }
+export const managerLogout = (router?: any) => {
+    if (isBrowser()) {
+        localStorage.clear()
+        sessionStorage.clear()
+        // localStorage.removeItem(KEYS.TOKEN)
+
+        if (router) {
+            router.push('/auth/management-login')
+        }
+    }
+}
 
 export const AuthUtils = {
     KEYS,
@@ -105,5 +116,6 @@ export const AuthUtils = {
     getRefreshTokenFromSession,
     isAuthenticated,
     logout,
+    managerLogout,
     setTokenToSession,
 }
