@@ -1,4 +1,4 @@
-import { Button, Typography, NoData } from '@components'
+import { Button, Typography, NoData, LoadingAnimation } from '@components'
 import React from 'react'
 import { useRouter } from 'next/router'
 import { ManagementApi } from '@queries'
@@ -19,7 +19,7 @@ export const ViewFeedbackModal = ({ onCancel }: any) => {
             <div className="flex flex-col gap-y-3 remove-scrollbar max-h-[calc(100vh-200px)] overflow-auto">
                 {isError && <>Something went wrong</>}
                 {isLoading ? (
-                    <></>
+                    <LoadingAnimation />
                 ) : data && data.length > 0 ? (
                     data?.map((feedback: any, index: number) => (
                         <div className="p-4 bg-[#FEF6E6] rounded-lg flex flex-col gap-y-3">

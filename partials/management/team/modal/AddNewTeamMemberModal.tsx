@@ -1,11 +1,12 @@
 import { Button, Select, TextInput, Typography } from '@components'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { MdClose } from 'react-icons/md'
 import { ManagementApi } from '@queries'
 import { TeamMemberTag } from '../teamMember'
+import { useNotification } from '@hooks'
 
 type AddNewTeamMemberModalProps = {
     createTeamMembersResult: any
@@ -20,6 +21,7 @@ export const AddNewTeamMemberModal = ({
     teamId,
 }: AddNewTeamMemberModalProps) => {
     const [teamMembers, setTeamMembers] = useState<any>([])
+    const { notification } = useNotification()
     const { data, isLoading } = ManagementApi.Team.useSubAdminList()
     const subAdminOptions = data?.map((subAdmin: any) => ({
         label: `${subAdmin?.user?.name}`,
@@ -55,6 +57,16 @@ export const AddNewTeamMemberModal = ({
             prevMembers.filter((_: any, index: any) => index !== indexToRemove)
         )
     }
+
+    useEffect(() => {
+        if (createTeamMembersResult.isSuccess) {
+            notification.success({
+                title: 'Team Member Added',
+                description: 'Team Members Added Successfully',
+            })
+            onCancel()
+        }
+    }, [createTeamMembersResult])
     return (
         <div className="pb-9 pt-10 px-5">
             <div className="mb-12 flex justify-center">

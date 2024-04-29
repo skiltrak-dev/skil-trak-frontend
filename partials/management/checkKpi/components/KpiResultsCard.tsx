@@ -1,11 +1,19 @@
-import { Button, GlobalModal, Select, Typography, TextArea } from '@components'
+import {
+    Button,
+    GlobalModal,
+    Select,
+    Typography,
+    TextArea,
+    ShowErrorNotifications,
+} from '@components'
 import { InfoTabCard } from './InfoTabCard'
 import { LuDownload } from 'react-icons/lu'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { ManagementApi } from '@queries'
-import { ViewFeedbackModal } from '@partials/management/team'
+import { ViewFeedbackModal, AddFeedbackModal } from '@partials/management/team'
+import { useNotification } from '@hooks'
 
 const infoTabCardData = [
     {
@@ -51,6 +59,7 @@ export const KpiResultsCard = ({
 }: any) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
+    const { notification } = useNotification()
     const reportId = router.query.reportId
     const memberId = router.query.memberId
 
@@ -58,13 +67,8 @@ export const KpiResultsCard = ({
         ManagementApi.CheckKpi.useKpiReportOverview(reportId, {
             skip: !reportId,
         })
-    const [addFeedback, addFeedbackResult] =
-        ManagementApi.CheckKpi.useAddFeedbackOnKpiReport()
-    const methods = useForm({
-        // resolver: yupResolver(validationSchema),
-        // defaultValues: initialValues,
-        mode: 'all',
-    })
+    
+    
     const onCancel = () => {
         setModal(null)
     }
@@ -73,41 +77,7 @@ export const KpiResultsCard = ({
         // if (applyForTalentPoolResult.isSuccess) {
         setModal(
             <GlobalModal>
-                <div className="px-12 py-10 overflow-auto remove-scrollbar">
-                    <FormProvider {...methods}>
-                        <form
-                            className="w-full"
-                            onSubmit={methods.handleSubmit(onSubmit)}
-                        >
-                            <div className="flex justify-center">
-                                <Typography
-                                    variant={'title'}
-                                    color={'text-primaryNew'}
-                                    semibold
-                                >
-                                    FEEDBACK
-                                </Typography>
-                            </div>
-                            <TextArea
-                                placeholder="Feedback..."
-                                name="feedback"
-                                rows={10}
-                            />
-                            <div className="flex items-center justify-center gap-x-3">
-                                <Button
-                                    variant="primaryNew"
-                                    text="Add feedback"
-                                    submit
-                                />
-                                <Button
-                                    variant="error"
-                                    text="cancel"
-                                    onClick={onCancel}
-                                />
-                            </div>
-                        </form>
-                    </FormProvider>
-                </div>
+                <AddFeedbackModal onCancel={onCancel} />
             </GlobalModal>
         )
         // }
@@ -121,16 +91,6 @@ export const KpiResultsCard = ({
         )
     }
 
-    const onSubmit = async (values: any) => {
-        const data = {
-            id: reportId,
-            body: { member: Number(memberId), comment: values.feedback },
-        }
-        console.log('data::::feedback', data)
-        addFeedback(data)
-        // onCancel()
-        // methods.reset()
-    }
     return (
         <>
             {modal && modal}
@@ -179,67 +139,6 @@ export const KpiResultsCard = ({
                             variant="primaryNew"
                             text="Feedback"
                         />
-                    </div>
-                </div>
-                <div className="flex items-center justify-between p-5">
-                    {/* Tabs */}
-                    <div className="flex gap-x-10 ">
-                        <div
-                            className="cursor-pointer"
-                            onClick={() => {
-                                handleTabChange('firstTimeStudent')
-                                setFilter('')
-                            }}
-                        >
-                            <Typography
-                                variant="small"
-                                color={
-                                    activeTab === 'firstTimeStudent'
-                                        ? 'text-primaryNew'
-                                        : 'text-gray-400'
-                                }
-                                bold={activeTab === 'firstTimeStudent'}
-                            >
-                                First Time Student
-                            </Typography>
-                        </div>
-                        <div
-                            className="cursor-pointer"
-                            onClick={() => {
-                                handleTabChange('studentDuplication')
-                                setFilter('')
-                            }}
-                        >
-                            <Typography
-                                variant="small"
-                                color={
-                                    activeTab === 'studentDuplication'
-                                        ? 'text-primaryNew'
-                                        : 'text-gray-400'
-                                }
-                                bold={activeTab === 'studentDuplication'}
-                            >
-                                Student Duplication
-                            </Typography>
-                        </div>
-                    </div>
-                    {/* Download Link */}
-                    <div className={`flex items-center gap-x-2`}>
-                        <div className="mb-4">
-                            <Typography variant="small">
-                                Showing Results:
-                            </Typography>
-                        </div>
-                        <div className="min-w-[280px]">
-                            <Select
-                                name="filter"
-                                options={filterOptions}
-                                placeholder="Select Status..."
-                                onlyValue
-                                onChange={(e: any) => setFilter(e || undefined)}
-                                shadow="shadow-md"
-                            />
-                        </div>
                     </div>
                 </div>
                 <div className="flex items-center justify-between p-5">

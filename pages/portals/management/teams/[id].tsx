@@ -1,6 +1,6 @@
 import { ManagementNavbar, Typography } from '@components'
 import { ManagementLayout } from '@layouts'
-import { KpiRecordCount, TeamMembers, TeamSideBar } from '@partials/management'
+import { KpiRecordCount, TeamSideBar, TeamMembers } from '@partials/management'
 import { ManagementApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
@@ -88,7 +88,7 @@ const TeamDetailPage: NextPageWithLayout = () => {
                         </div>
                     </TeamSideBar.KpiCountCard>
                 </TeamSideBar>
-                <TeamMembers data={teamMembersList} />
+                 <TeamMembers data={teamMembersList} /> 
             </div>
         </div>
     )

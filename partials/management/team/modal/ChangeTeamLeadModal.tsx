@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Select, Typography } from '@components'
 import { ManagementApi } from '@queries'
 import { useRouter } from 'next/router'
+import { useNotification } from '@hooks'
 
 export const ChangeTeamLeadModal = ({ onCancel, member }: any) => {
     const router = useRouter()
+    const {notification} = useNotification()
     const teamId = router?.query?.id
     const [subAdminId, setSubAdminId] = useState<any>(null)
     const [changeTeamLead, changeTeamLeadResult] =
@@ -21,6 +23,16 @@ export const ChangeTeamLeadModal = ({ onCancel, member }: any) => {
             label: `${member?.subadmin?.user?.name}`,
             value: member?.id,
         }))
+
+        useEffect(() => {
+            if (changeTeamLeadResult.isSuccess) {
+                notification.success({
+                    title: 'Team Lead Changed',
+                    description: 'Team Lead Changed Successfully',
+                })
+                onCancel()
+            } 
+        }, [changeTeamLeadResult])
 
     return (
         <div className="pb-9 pt-5 px-5">
@@ -53,9 +65,7 @@ export const ChangeTeamLeadModal = ({ onCancel, member }: any) => {
                     text="change"
                     onClick={() => {
                         changeTeamLead(subAdminId)
-                        if (changeTeamLeadResult.isSuccess) {
-                            onCancel()
-                        }
+                        
                     }}
                     loading={changeTeamLeadResult.isLoading}
                     disabled={changeTeamLeadResult.isLoading}

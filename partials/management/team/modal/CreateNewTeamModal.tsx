@@ -38,12 +38,7 @@ export const CreateNewTeamModal = ({
             })
             onCancel()
             // router.push('/portals/management/dashboard')
-        } else {
-            notification.error({
-                title: 'Error While Creating Team',
-                description: 'Error while creating team try again later',
-            })
-        }
+        } 
     }, [createTeamResult])
 
     const validationSchema = yup.object().shape({

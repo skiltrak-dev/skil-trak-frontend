@@ -19,7 +19,6 @@ export const TeamMembers = ({ data }: any) => {
     const [createTeamMember, createTeamMembersResult] =
         ManagementApi.Team.useCreateTeamMembers()
 
-    console.log('data', data?.data)
     // useTeamMembersList
 
     const onCancel = () => {

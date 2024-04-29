@@ -189,9 +189,9 @@ export const StudentDuplication = ({ filter }: any) => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No Approved Student!'}
+                            title={'No Duplication'}
                             description={
-                                'You have not approved any Student request yet'
+                                'No Duplication found.'
                             }
                             height={'50vh'}
                         />

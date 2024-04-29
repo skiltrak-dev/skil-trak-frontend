@@ -53,12 +53,7 @@ export const CreateKpiTargetModal = ({ onCancel }: any) => {
                 description: 'Target Added Successfully',
             })
             onCancel()
-        } else {
-            notification.error({
-                title: 'Error While Adding Target',
-                description: 'Error While Adding Target Please Try Again Later',
-            })
-        }
+        } 
     }, [createKpiTargetResult])
     const onSubmit = (data: any) => {
         const values = {
@@ -104,7 +99,7 @@ export const CreateKpiTargetModal = ({ onCancel }: any) => {
                             type="number"
                         />
                         <div className="flex items-center gap-x-2 justify-center">
-                            <Button variant="primaryNew" text="create" submit />
+                            <Button variant="primaryNew" text="create" loading={createKpiTargetResult.isLoading} disabled={createKpiTargetResult.isLoading} submit />
                             <Button
                                 variant="error"
                                 text="cancel"

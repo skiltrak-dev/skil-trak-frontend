@@ -5,7 +5,7 @@ import { MdClose } from 'react-icons/md'
 export const TeamMemberTag = ({ teamMembers, removeTeamMember }: any) => {
     return (
         <div className="grid grid-cols-2 gap-y-2.5 gap-x-4 mb-4">
-            {teamMembers.map((member: any, index: number) => (
+            {teamMembers?.map((member: any, index: number) => (
                 <div key={index} className="">
                     <div className="bg-[#F5F4FF] border-2 border-dashed py-2 px-3 rounded-md flex justify-between w-full gap-x-4 items-center">
                         <div className="flex flex-col gap-1">
