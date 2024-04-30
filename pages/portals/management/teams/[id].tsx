@@ -35,7 +35,6 @@ const TeamDetailPage: NextPageWithLayout = () => {
             classes: 'flex-col',
         },
     ]
-    console.log('fffffffff', teamMembersList?.data)
     return (
         <>
             <div className="flex gap-x-4">

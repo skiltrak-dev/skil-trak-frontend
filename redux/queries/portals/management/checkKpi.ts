@@ -67,7 +67,7 @@ export const checkKpiEndpoints = (
                 url: `${PREFIX}/member/${id}/targets`,
             }
         }, 
-        providesTags: ['KpiReportDocument'],
+        providesTags: ['KpiReportDocument', 'KpiProgress'],
     }),
     getKpiReportFeedback: builder.query<any, any>({
         query: (id) => {
