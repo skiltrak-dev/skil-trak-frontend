@@ -1,14 +1,14 @@
 import {
     DisplayNotifications,
     ManagementNavbar,
-    ProtectedRoute,
+    ManagementProtectedRoute,
 } from '@components'
 import { ReactNode, useState } from 'react'
 
 export const ManagementLayout = ({ children }: { children: ReactNode }) => {
     const [isExpanded, setIsExpanded] = useState<boolean>(false)
     return (
-        <ProtectedRoute>
+        <ManagementProtectedRoute>
             <div className="management-portal-log h-screen flex flex-col gap-y-4 overflow-hidden pb-8 px-6 pt-6 w-full">
                 <DisplayNotifications />
                 <ManagementNavbar
@@ -18,6 +18,6 @@ export const ManagementLayout = ({ children }: { children: ReactNode }) => {
 
                 {children}
             </div>
-        </ProtectedRoute>
+        </ManagementProtectedRoute>
     )
 }

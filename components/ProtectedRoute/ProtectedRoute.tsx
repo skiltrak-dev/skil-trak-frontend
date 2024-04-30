@@ -68,7 +68,7 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
             if (!authenticated) {
                 setAuthorized(false)
                 router.push('/auth/login')
-            } else if (updatedRoute !== role && role !== UserRoles.MANAGER) {
+            } else if (updatedRoute !== role) {
                 setAuthorized(false)
                 router.push('/404')
             } else {
