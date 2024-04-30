@@ -20,7 +20,7 @@ import { PuffLoader } from 'react-spinners'
 
 const MemberDetailPage: NextPageWithLayout = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const [isExpanded, setIsExpanded] = useState<boolean>(false)
+    
     const router = useRouter()
     const memberId = router?.query?.memberId
     // useKpiTargets
@@ -88,11 +88,7 @@ const MemberDetailPage: NextPageWithLayout = () => {
     return (
         <>
             {modal && modal}
-            <div className="management-portal-log h-screen flex flex-col gap-y-4 overflow-hidden pb-8 px-6 pt-6 w-full">
-                <ManagementNavbar
-                    setIsExpanded={setIsExpanded}
-                    isExpanded={isExpanded}
-                />
+           
                 <div className=" bg-white/80 rounded-lg py-6 px-5 w-full">
                     <div className="container mx-auto flex gap-x-5">
                         <div className="flex flex-col gap-x-4 gap-y-4 w-full">
@@ -202,11 +198,11 @@ const MemberDetailPage: NextPageWithLayout = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+           
         </>
     )
 }
-// MemberDetailPage.getLayout = (page: ReactElement) => {
-//     return <ManagementLayout>{page}</ManagementLayout>
-// }
+MemberDetailPage.getLayout = (page: ReactElement) => {
+    return <ManagementLayout>{page}</ManagementLayout>
+}
 export default MemberDetailPage

@@ -26,7 +26,7 @@ export const StudentDuplication = ({ filter }: any) => {
             {
                 id: reportId,
                 params: {
-                    search: `status:${filter||""}`,
+                    search: `status:${filter || ''}`,
                     skip: itemPerPage * page - itemPerPage,
                     limit: itemPerPage,
                 },
@@ -117,7 +117,7 @@ export const StudentDuplication = ({ filter }: any) => {
     ]
     return (
         <div className="">
-            <div className="bg-white/80 rounded-lg">
+            <div className="bg-white/80 rounded-lg h-full">
                 {isError && <TechnicalError />}
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
@@ -190,10 +190,8 @@ export const StudentDuplication = ({ filter }: any) => {
                     !isError && (
                         <EmptyData
                             title={'No Duplication'}
-                            description={
-                                'No Duplication found.'
-                            }
-                            height={'50vh'}
+                            description={'No Duplication found.'}
+                            height={'40vh'}
                         />
                     )
                 )}

@@ -1,7 +1,12 @@
 import { NextPageWithLayout } from '@types'
-import React from 'react'
+import React, { ReactElement }  from 'react'
+import { ManagementLayout } from '@layouts'
 
- const MembersPage: NextPageWithLayout = () => {
+
+const MembersPage: NextPageWithLayout = () => {
     return <div>MembersPage</div>
+}
+MembersPage.getLayout = (page: ReactElement) => {
+    return <ManagementLayout>{page}</ManagementLayout>
 }
 export default MembersPage

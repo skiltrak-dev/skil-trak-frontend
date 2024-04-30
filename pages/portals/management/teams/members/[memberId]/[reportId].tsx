@@ -25,7 +25,6 @@ type TabOption = 'firstTimeStudent' | 'studentDuplication'
 
 const ReportDetailPage: NextPageWithLayout = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const [isExpanded, setIsExpanded] = useState<boolean>(false)
     const [filter, setFilter] = useState(undefined)
     const router = useRouter()
     const reportId = router?.query?.reportId
@@ -86,31 +85,25 @@ const ReportDetailPage: NextPageWithLayout = () => {
     return (
         <>
             {modal && modal}
-            <div className="management-portal-log h-screen flex flex-col gap-y-4 overflow-hidden pb-8 px-6 pt-6 w-full">
-                <ManagementNavbar
-                    setIsExpanded={setIsExpanded}
-                    isExpanded={isExpanded}
+            <div className="w-full flex flex-col gap-y-2.5">
+                <KpiResultsCard
+                    handleTabChange={handleTabChange}
+                    activeTab={activeTab}
+                    setFilter={setFilter}
                 />
-                <div className="w-full flex flex-col gap-y-2.5">
-                    <KpiResultsCard
-                        handleTabChange={handleTabChange}
-                        activeTab={activeTab}
-                        setFilter={setFilter}
-                    />
-                    <div className="w-full">
-                        {activeTab === 'firstTimeStudent' && (
-                            <FirstTimeStudent filter={filter} />
-                        )}
-                        {activeTab === 'studentDuplication' && (
-                            <StudentDuplication filter={filter} />
-                        )}
-                    </div>
+                <div className="w-full">
+                    {activeTab === 'firstTimeStudent' && (
+                        <FirstTimeStudent filter={filter} />
+                    )}
+                    {activeTab === 'studentDuplication' && (
+                        <StudentDuplication filter={filter} />
+                    )}
                 </div>
             </div>
         </>
     )
 }
-// MemberDetailPage.getLayout = (page: ReactElement) => {
-//     return <ManagementLayout>{page}</ManagementLayout>
-// }
+ReportDetailPage.getLayout = (page: ReactElement) => {
+    return <ManagementLayout>{page}</ManagementLayout>
+}
 export default ReportDetailPage

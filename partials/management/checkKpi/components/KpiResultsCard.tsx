@@ -67,8 +67,7 @@ export const KpiResultsCard = ({
         ManagementApi.CheckKpi.useKpiReportOverview(reportId, {
             skip: !reportId,
         })
-    
-    
+
     const onCancel = () => {
         setModal(null)
     }
@@ -99,14 +98,19 @@ export const KpiResultsCard = ({
                     <Typography variant="label" bold color="text-primaryNew">
                         Results
                     </Typography>
-                    {/* <a href="#" className="flex items-center gap-x-1.5">
+                    <a
+                        href={`${process.env.NEXT_PUBLIC_END_POINT}/management/kpi-report/${reportId}/data/download`}
+                        className="flex items-center gap-x-1.5"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
                         <LuDownload className="text-primaryNew" />
                         <div className="underline text-primaryNew">
                             <Typography variant="body" color="text-primaryNew">
                                 Download Result
                             </Typography>
                         </div>
-                    </a> */}
+                    </a>
                 </div>
                 <div className="flex justify-between items-center border-t border-b px-6 py-2.5 ">
                     <div className="flex items-center gap-x-4">

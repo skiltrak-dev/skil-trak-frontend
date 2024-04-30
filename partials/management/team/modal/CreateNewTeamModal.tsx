@@ -26,7 +26,7 @@ export const CreateNewTeamModal = ({
     const { notification } = useNotification()
     const getSectors = AuthApi.useSectors({})
     // useCreateTeam
-    const sectorOptions = getSectors.data?.map((sector: any) => ({
+    const sectorOptions = getSectors?.data?.map((sector: any) => ({
         label: `${sector?.code} - ${sector?.name}`,
         value: sector.id,
     }))
@@ -38,7 +38,7 @@ export const CreateNewTeamModal = ({
             })
             onCancel()
             // router.push('/portals/management/dashboard')
-        } 
+        }
     }, [createTeamResult])
 
     const validationSchema = yup.object().shape({
@@ -52,10 +52,9 @@ export const CreateNewTeamModal = ({
     })
 
     const onSubmit = (data: any) => {
-        createTeam({ name: data.name, sector: data.sector })
+        createTeam({ name: data?.name, sector: data?.sector })
         methods.reset()
     }
-
     return (
         <>
             <ShowErrorNotifications result={createTeamResult} />

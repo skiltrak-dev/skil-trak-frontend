@@ -24,11 +24,12 @@ export const SessionExpireModal = ({ onCancel }: { onCancel: () => void }) => {
                         if (AuthUtils.token()) {
                             await logoutActivity({ type: LogoutType.Auto })
                         }
-                        if (UserRoles.MANAGER) {
-                            AuthUtils.managerLogout(router)
-                        } else {
-                            AuthUtils.logout(router)
-                        }
+                        // if (UserRoles.MANAGER) {
+                        //     AuthUtils.managerLogout(router)
+                        // } else {
+                        //     AuthUtils.logout(router)
+                        // }
+                        AuthUtils.logout(router)
                         if (isBrowser()) {
                             localStorage.setItem(
                                 'autoLogoutPath',
