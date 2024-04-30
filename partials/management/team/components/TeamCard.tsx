@@ -15,15 +15,20 @@ export const TeamCard = ({ team }: any) => {
                     {team?.membersCount || 0}
                 </Typography>
             </div>
+
             <div className="bg-[#F5F4FF] border-2 border-dashed px-3 py-2 rounded-md">
                 <Typography variant="small" color="text-primaryNew" bold>
-                    {team?.members?.[0]?.subadmin?.user?.name || 'N/A'}
+                    {team?.members?.[0]?.subadmin?.user?.name ||
+                        'No member added yet'}
                 </Typography>
 
                 <Typography variant="small" color="text-[#25516C]">
-                    TEAM LEAD
+                    {team?.members && team?.members?.length > 0
+                        ? 'TEAM LEAD'
+                        : '-'}
                 </Typography>
             </div>
+
             <div className="flex items-center gap-x-2 w-full">
                 <DashedCountCard
                     title="Team KPI"
@@ -32,7 +37,10 @@ export const TeamCard = ({ team }: any) => {
                 />
                 <DashedCountCard
                     title="KPI Doubling"
-                    subtitle={team?.members?.[0]?.kpiReportsCount?.kpiDuplicationsCount || 0}
+                    subtitle={
+                        team?.members?.[0]?.kpiReportsCount
+                            ?.kpiDuplicationsCount || 0
+                    }
                     align="center"
                 />
             </div>

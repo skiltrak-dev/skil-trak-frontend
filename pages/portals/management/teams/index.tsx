@@ -15,15 +15,11 @@ const TeamsPage: NextPageWithLayout = () => {
     const router = useRouter()
     const [isExpanded, setIsExpanded] = useState<boolean>(false)
 
-    return (
-        <div className="management-portal-log h-screen flex flex-col gap-y-4 overflow-hidden pb-8 px-6 pt-6 w-full">
-            teams
-        </div>
-    )
+    return <>teams</>
 }
 
-// TeamsPage.getLayout = (page: ReactElement) => {
-//     return <ManagementLayout>{page}</ManagementLayout>
-// }
+TeamsPage.getLayout = (page: ReactElement) => {
+    return <ManagementLayout>{page}</ManagementLayout>
+}
 
 export default TeamsPage

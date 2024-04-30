@@ -68,7 +68,7 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
             if (!authenticated) {
                 setAuthorized(false)
                 router.push('/auth/login')
-            } else if (updatedRoute !== role) {
+            } else if (updatedRoute !== role && role !== UserRoles.MANAGER) {
                 setAuthorized(false)
                 router.push('/404')
             } else {
@@ -76,55 +76,6 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
             }
         }
     }, [router, updatedRoute, role, subadmin])
-
-    // useEffect(() => {
-    //     if (!authenticated) {
-    //         setAuthorized(false)
-    //         router.push('/auth/login')
-    //     } else if (updatedRoute !== role) {
-    //         setAuthorized(false)
-    //         router.push('/404')
-    //     } else {
-    //         setAuthorized(true)
-    //     }
-    // }, [router, updatedRoute, role])
-
-    // useEffect(() => {
-    //     const isAdmin = subadmin?.data?.isAdmin
-
-    //     if (!authenticated) {
-    //         setAuthorized(false)
-    //         router.push('/auth/login')
-    //     } else if (role === UserRoles.SUBADMIN) {
-    //         if (isAdmin) {
-    //             if (router.pathname !== '/portals/admin') {
-    //                 router.push('/portals/admin')
-    //             }
-    //             setAuthorized(true)
-    //         } else {
-    //             if (router.pathname !== '/portals/sub-admin') {
-    //                 router.push('/portals/sub-admin')
-    //             }
-    //             setAuthorized(true)
-    //         }
-    //     } else if (role === UserRoles.ADMIN) {
-    //         if (!isAdmin) {
-    //             if (router.pathname !== '/portals/sub-admin') {
-    //                 router.push('/portals/sub-admin')
-    //             }
-    //             setAuthorized(true)
-    //         } else {
-    //             if (router.pathname !== '/portals/admin') {
-    //                 router.push('/portals/admin')
-    //             }
-    //             setAuthorized(true)
-    //         }
-    //     } else {
-    //         // Handle other roles or fallback
-    //         setAuthorized(false)
-    //         router.push('/404')
-    //     }
-    // }, [router, role, subadmin, authenticated])
 
     return authorized ? children : null
 }

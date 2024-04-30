@@ -1,10 +1,23 @@
-import { ProtectedRoute } from '@components'
-import { ReactNode } from 'react'
+import {
+    DisplayNotifications,
+    ManagementNavbar,
+    ProtectedRoute,
+} from '@components'
+import { ReactNode, useState } from 'react'
 
 export const ManagementLayout = ({ children }: { children: ReactNode }) => {
+    const [isExpanded, setIsExpanded] = useState<boolean>(false)
     return (
         <ProtectedRoute>
-            <div>{children}</div>
+            <div className="management-portal-log h-screen flex flex-col gap-y-4 overflow-hidden pb-8 px-6 pt-6 w-full">
+                <DisplayNotifications />
+                <ManagementNavbar
+                    setIsExpanded={setIsExpanded}
+                    isExpanded={isExpanded}
+                />
+
+                {children}
+            </div>
         </ProtectedRoute>
     )
 }

@@ -128,11 +128,11 @@ const ManagementDashboard: NextPageWithLayout = () => {
         <>
             {modal && modal}
             {/* <ShowErrorNotifications result={createTeamResult} /> */}
-            <div className="management-portal-log h-screen flex flex-col gap-y-4 overflow-hidden pb-8 px-6 pt-6 w-full">
+            {/* <div className="management-portal-log h-screen flex flex-col gap-y-4 overflow-hidden pb-8 px-6 pt-6 w-full">
                 <ManagementNavbar
                     setIsExpanded={setIsExpanded}
                     isExpanded={isExpanded}
-                />
+                /> */}
                 <div className="bg-white/80 px-4 pt-5 pb-8 rounded-lg w-full">
                     <div className="mb-5">
                         <Typography
@@ -212,12 +212,12 @@ const ManagementDashboard: NextPageWithLayout = () => {
                             >
                                 Overall KPIs
                             </Typography>
-                            <Link
+                            {/* <Link
                                 href={'/portals/management/upload-report'}
                                 className="text-blue-500 font-medium text-sm uppercase underline"
                             >
                                 + Create New kpi
-                            </Link>
+                            </Link> */}
                         </div>
                         <OverallKpiCard
                             title="Workplace Request"
@@ -261,13 +261,13 @@ const ManagementDashboard: NextPageWithLayout = () => {
                         />
                     </div>
                 </div>
-            </div>
+            {/* </div> */}
         </>
     )
 }
 
-// ManagementDashboard.getLayout = (page: ReactElement) => {
-//     return <ManagementLayout>{page}</ManagementLayout>
-// }
+ManagementDashboard.getLayout = (page: ReactElement) => {
+    return <ManagementLayout>{page}</ManagementLayout>
+}
 
 export default ManagementDashboard
