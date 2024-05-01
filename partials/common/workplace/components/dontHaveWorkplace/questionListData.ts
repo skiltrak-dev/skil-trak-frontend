@@ -1,0 +1,187 @@
+import { workplaceQuestionsKeys } from '../../enum'
+
+export const workplaceQuestions = {
+    [workplaceQuestionsKeys.suburb]:
+        'In which suburb would you prefer to work? Please provide the suburb name and postcode.',
+    [workplaceQuestionsKeys.supervisorMeeting]:
+        'When would you be available to meet with workplace supervisors once a placement becomes available? Please provide two timing options',
+    [workplaceQuestionsKeys.commutePlan]:
+        'How do you plan to commute to the workplace',
+    [workplaceQuestionsKeys.placementStartDate]:
+        'When would you like to commence your placement? options',
+    [workplaceQuestionsKeys.possession]:
+        'Do you possess any of the following documents? Please ignore those that do not apply to you:',
+    [workplaceQuestionsKeys.currentEmploymentStatus]:
+        'Are you currently employed? Would you mint providing the details?',
+    [workplaceQuestionsKeys.relaventExperience]:
+        'Do you have any relevant experience in the field for which you are seeking placement?',
+    [workplaceQuestionsKeys.placementGoals]:
+        'What are your desired outcomes upon successfully completing the placement? Options include securing',
+    [workplaceQuestionsKeys.medicalCondition]:
+        'Do you have any medical conditions that may affect your ability to work?',
+    [workplaceQuestionsKeys.workPreference]:
+        'Do you prefer working in a team or independently?',
+    [workplaceQuestionsKeys.placementPreferences]:
+        'Is there any specific aspect you are seeking in a placement opportunity? (provide details) 100 words*',
+    [workplaceQuestionsKeys.awarenessOfUnpaidPlacement]:
+        'Are you aware that the placement is unpaid and forms a part of your studies?',
+    [workplaceQuestionsKeys.understandingOfDocumentation]:
+        'Do you understand the documentation and assessments required for the placement, such as the Agreement and workbook etc?',
+    [workplaceQuestionsKeys.preferredContactTime]:
+        'When would be the most convenient time for one of the SkilTrak coordinators to call you to discuss workplace details further*',
+}
+
+export const questionList = [
+    {
+        name: workplaceQuestionsKeys.suburb,
+        index: 1,
+        title: 'Preferred Work Location: Suburb',
+        required: true,
+        type: 'text',
+        inputValues: [
+            {
+                name: 'suburb',
+                label: 'Suburb',
+                type: 'text',
+                placeholder:
+                    'Where would you want to locate your self? (Suburb)',
+            },
+            {
+                name: 'zip',
+                label: 'Post Code',
+                type: 'text',
+                placeholder:
+                    'Where would you want to locate your self? (Suburb)',
+            },
+        ],
+        fullWidth: true,
+    },
+    {
+        name: workplaceQuestionsKeys.supervisorMeeting,
+        index: 2,
+        type: 'text',
+        title: 'Availability for Supervisor Meeting:',
+        fullWidth: true,
+        inputValues: [
+            {
+                name: 'supervisorMeetingDate1',
+                type: 'date',
+                label: 'Option 1',
+                placeholder:
+                    'Where would you want to locate your self? (Suburb)',
+            },
+            {
+                name: 'supervisorMeetingDate2',
+                type: 'date',
+                label: 'Option 2',
+                placeholder:
+                    'Where would you want to locate your self? (Suburb)',
+            },
+        ],
+    },
+    {
+        name: workplaceQuestionsKeys.placementStartDate,
+        index: 3,
+        title: 'Placement Start Date:',
+        required: true,
+        type: 'text',
+        inputKey: 'Estimated Date',
+        inputValues: [
+            {
+                name: 'placementStartDate',
+                type: 'date',
+                label: 'Estimated Date',
+                placeholder:
+                    'Where would you want to locate your self? (Suburb)',
+            },
+        ],
+    },
+    {
+        name: workplaceQuestionsKeys.placementPreferences,
+        index: 4,
+        title: 'Specific Placement Preferences:',
+        required: true,
+        type: 'textarea',
+    },
+    {
+        name: workplaceQuestionsKeys.preferredContactTime,
+        index: 5,
+        title: 'Preferred Contact Time',
+        required: true,
+        type: 'textarea',
+    },
+    {
+        name: workplaceQuestionsKeys.possession,
+        index: 6,
+        title: 'Possession of Documents:',
+        required: true,
+        multipleSelection: true,
+        fullWidth: true,
+        customAnswers: [
+            'CV',
+            'Cover letter',
+            'Police check',
+            'COVID-19 vaccine certificate',
+            'working with children check',
+            'NDIS screening check',
+            'First aid certification',
+            'driving license',
+        ],
+    },
+    {
+        name: workplaceQuestionsKeys.currentEmploymentStatus,
+        index: 7,
+        title: 'Current Employment Status:',
+        required: true,
+    },
+    {
+        name: workplaceQuestionsKeys.relaventExperience,
+        index: 8,
+        title: 'Relevant Experience:',
+        required: false,
+    },
+    {
+        name: workplaceQuestionsKeys.placementGoals,
+        index: 9,
+        title: 'Placement Goals:',
+        customAnswers: [
+            'a job',
+            'completing your course',
+            'gaining experience',
+            'Others',
+        ],
+        required: true,
+    },
+    {
+        name: workplaceQuestionsKeys.medicalCondition,
+        index: 10,
+        title: 'Medical Conditions:',
+        required: true,
+    },
+    {
+        name: workplaceQuestionsKeys.workPreference,
+        index: 11,
+        title: 'Work Preference:',
+        customAnswers: ['Team', 'Independently'],
+        required: false,
+    },
+    {
+        name: workplaceQuestionsKeys.commutePlan,
+        index: 12,
+        title: 'Commute Plan:',
+        customAnswers: ['My Own', 'Public transportation?'],
+        required: true,
+    },
+    {
+        name: workplaceQuestionsKeys.awarenessOfUnpaidPlacement,
+        index: 13,
+        title: 'Awareness of Unpaid Placement:',
+        required: true,
+    },
+    {
+        name: workplaceQuestionsKeys.understandingOfDocumentation,
+        index: 14,
+        title: 'Understanding of Documentation:',
+        required: true,
+    },
+]

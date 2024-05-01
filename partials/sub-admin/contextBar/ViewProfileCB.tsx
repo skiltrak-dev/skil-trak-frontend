@@ -77,11 +77,11 @@ export const ViewProfileCB = () => {
             count: todoListCount?.data?.pendingIndustries,
             link: '/portals/sub-admin/users/industries?tab=pending',
         },
-        {
-            text: 'Pending assessment',
-            count: todoListCount?.data?.pendingAssessment,
-            link: '/portals/sub-admin/tasks/assessment-evidence?tab=pending',
-        },
+        // {
+        //     text: 'Pending assessment',
+        //     count: todoListCount?.data?.pendingAssessment,
+        //     link: '/portals/sub-admin/tasks/assessment-evidence?tab=pending',
+        // },
         {
             text: 'Urgent Students',
             count: todoListCount?.data?.urgentStudents,

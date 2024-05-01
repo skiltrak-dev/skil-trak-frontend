@@ -1,26 +1,28 @@
 import {
     ActionButton,
-    Button,
     Card,
     EmptyData,
     LoadingAnimation,
     Table,
     TableAction,
-    TableActionOption,
     TechnicalError,
     Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
+import { FaEdit, FaEye } from 'react-icons/fa'
 
+import { UserRoles } from '@constants'
 import { useActionModal, useContextBar } from '@hooks'
-import { AdminApi, CommonApi, commonApi } from '@queries'
+import { AdminApi, commonApi } from '@queries'
 import { Rto, SubAdmin, User, UserStatus } from '@types'
+import { checkListLength, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { BsArchiveFill } from 'react-icons/bs'
+import { MdAdminPanelSettings, MdOutlineAssignmentReturn } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
+import { RtoCellInfo } from '../rto/components'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
 import {
@@ -30,10 +32,6 @@ import {
     AssignAutoWorkplaceModal,
     BlockModal,
 } from './modals'
-import { UserRoles } from '@constants'
-import { RtoCellInfo } from '../rto/components'
-import { MdAdminPanelSettings, MdOutlineAssignmentReturn } from 'react-icons/md'
-import { checkListLength, getUserCredentials } from '@utils'
 
 export const ActiveSubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)

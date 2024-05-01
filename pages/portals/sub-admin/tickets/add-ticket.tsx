@@ -3,7 +3,11 @@ import { ReactElement, useEffect } from 'react'
 // Layouts
 import { SubAdminLayout } from '@layouts'
 // Types
-import { BackButton, draftToHtmlText } from '@components'
+import {
+    BackButton,
+    ShowErrorNotifications,
+    draftToHtmlText,
+} from '@components'
 import { PageHeading } from '@components/headings'
 import { useNavbar, useNotification } from '@hooks'
 import { AddTicketForm } from '@partials/common/Tickets'
@@ -43,25 +47,28 @@ const AddTicket: NextPageWithLayout = () => {
     }
 
     return (
-        <div className="px-4">
-            <div className="mt-4">
-                <BackButton
-                    text={'Ticket'}
-                    link={'/portals/sub-admin/tickets'}
-                />
-                <PageHeading
-                    title={'Create New Ticket'}
-                    subtitle={'You can add Ticket here'}
-                ></PageHeading>
-            </div>
+        <>
+            <ShowErrorNotifications result={createTicketResult} />
+            <div className="px-4">
+                <div className="mt-4">
+                    <BackButton
+                        text={'Ticket'}
+                        link={'/portals/sub-admin/tickets'}
+                    />
+                    <PageHeading
+                        title={'Create New Ticket'}
+                        subtitle={'You can add Ticket here'}
+                    ></PageHeading>
+                </div>
 
-            <AddTicketForm
-                onSubmit={onSubmit}
-                result={createTicketResult}
-                students={studentList}
-                subadmins={subadmins}
-            />
-        </div>
+                <AddTicketForm
+                    onSubmit={onSubmit}
+                    subadmins={subadmins}
+                    students={studentList}
+                    result={createTicketResult}
+                />
+            </div>
+        </>
     )
 }
 

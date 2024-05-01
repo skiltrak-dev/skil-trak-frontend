@@ -22,7 +22,7 @@ import {
 import { AddSubAdminCB } from '@partials/admin/sub-admin/contextBar'
 import { AdminApi } from '@queries'
 import { AdminSubadminFilter, NextPageWithLayout, UserStatus } from '@types'
-import { checkFilteredDataLength, removeSpecialCharactersString } from '@utils'
+import { checkFilteredDataLength } from '@utils'
 
 const filterKeys = ['name', 'email', 'status', 'courseId']
 

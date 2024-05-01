@@ -239,17 +239,17 @@ export const ApprovedStudent = () => {
     const columns: ColumnDef<StudentSubAdmin>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <StudentCellInfo student={info?.row?.original} call />
-            },
+            cell: (info) => (
+                <StudentCellInfo student={info?.row?.original} call />
+            ),
             header: () => <span>Student</span>,
         },
         {
             accessorKey: 'rto',
             header: () => <span>RTO</span>,
-            cell: (info) => {
-                return <RtoCellInfo rto={info?.row?.original?.rto} short />
-            },
+            cell: (info) => (
+                <RtoCellInfo rto={info?.row?.original?.rto} short />
+            ),
         },
         {
             accessorKey: 'industry',

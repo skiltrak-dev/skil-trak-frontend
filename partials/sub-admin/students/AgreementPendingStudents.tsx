@@ -26,19 +26,18 @@ import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { BlockModal, UnAssignStudentModal } from './modals'
 
-import { useActionModal } from '@hooks'
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import {
     WorkplaceCurrentStatus,
+    checkStudentStatus,
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
     setLink,
     studentsListWorkplace,
 } from '@utils'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { IndustryCellInfo } from '../Industries'
 import moment from 'moment'
+import { IndustryCellInfo } from '../Industries'
 
 export const AgreementPendingStudents = () => {
     const router = useRouter()
@@ -114,9 +113,9 @@ export const AgreementPendingStudents = () => {
         {
             header: () => 'Name',
             accessorKey: 'user',
-            cell: ({ row }: any) => {
-                return <StudentCellInfo student={row.original} call />
-            },
+            cell: ({ row }: any) => (
+                <StudentCellInfo student={row.original} call />
+            ),
         },
 
         {
@@ -181,17 +180,38 @@ export const AgreementPendingStudents = () => {
             header: () => 'Progress',
             accessorKey: 'progress',
             cell: ({ row }) => {
-                const workplace = row.original?.workplace?.reduce(
-                    (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
-                    {
-                        currentStatus: WorkplaceCurrentStatus.NotRequested,
-                    }
-                )
+                const student = row?.original
+                const workplace = student?.workplace
+                    ?.filter(
+                        (w: any) =>
+                            w?.currentStatus !==
+                            WorkplaceCurrentStatus.Cancelled
+                    )
+                    ?.reduce(
+                        (a: any, b: any) =>
+                            a?.createdAt > b?.createdAt ? a : b,
+                        {
+                            currentStatus: WorkplaceCurrentStatus.NotRequested,
+                        }
+                    )
+                const industries = student?.industries
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                const studentStatus = checkStudentStatus(student?.studentStatus)
                 const appliedIndustry = getStudentWorkplaceAppliedIndustry(
                     workplace?.industries
                 )
-                return <CaseOfficerAssignedStudent student={row.original} />
+                return (
+                    <ProgressCell
+                        appliedIndustry={appliedIndustry}
+                        studentId={student?.id}
+                        assigned={workplace?.assignedTo || student?.subadmin}
+                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                        studentProvidedWorkplace={
+                            workplace?.studentProvidedWorkplace ||
+                            workplace?.byExistingAbn
+                        }
+                    />
+                )
             },
         },
         {
