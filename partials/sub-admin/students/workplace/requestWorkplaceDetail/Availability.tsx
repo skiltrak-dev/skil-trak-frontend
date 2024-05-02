@@ -1,12 +1,9 @@
-import { ShowErrorNotifications } from '@components'
+import { useRef } from 'react'
 import { useNotification } from '@hooks'
 import { AvailabilityForm } from '@partials/common'
-import {
-    useSubAdminRequestWorkplaceMutation,
-    useGetSubAdminStudentDetailQuery,
-} from '@queries'
-import { useRouter } from 'next/router'
-import React, { useEffect, useRef } from 'react'
+import { ShowErrorNotifications } from '@components'
+import { useSubAdminRequestWorkplaceMutation } from '@queries'
+import { useShowErrorNotification } from '@components/ShowErrorNotifications/useShowErrorNotification'
 
 type AvailabilityProps = {
     setActive: any
@@ -26,7 +23,7 @@ export const Availability = ({
     const [workplaceRequest, workplaceRequestResult] =
         useSubAdminRequestWorkplaceMutation()
 
-    const router = useRouter()
+    const showErrorNotifications = useShowErrorNotification()
 
     const { notification } = useNotification()
     const notificationRef = useRef(notification)
@@ -42,47 +39,18 @@ export const Availability = ({
                 setActive((active: number) => active + 1)
             }
             if (res?.error?.data) {
-                const showErrorNotifications = async () => {
-                    const errorTitle = res?.error?.data?.error
-                    if (
-                        errorTitle &&
-                        Array.isArray(res?.error?.data?.message)
-                    ) {
-                        for (let msg of res?.error?.data?.message) {
-                            await new Promise((resolve) =>
-                                setTimeout(resolve, 100)
-                            )
-                            notificationRef.current['error']({
-                                title: errorTitle,
-                                description: msg,
-                                autoDismiss: true,
-                            })
-                        }
-                    } else {
-                        notificationRef.current['error']({
-                            title: errorTitle || 'Some thing is not right',
-                            description:
-                                res?.error?.data?.message ||
-                                'Please check your network connection',
-                            autoDismiss: true,
-                        })
-                    }
-                }
-
-                showErrorNotifications()
+                showErrorNotifications(res)
                 setActive(1)
             }
         })
-
-        // setActive((active: number) => active + 1)
     }
 
     return (
         <div>
             <ShowErrorNotifications result={workplaceRequestResult} />
             <AvailabilityForm
-                setActive={setActive}
                 onSubmit={onSubmit}
+                setActive={setActive}
                 result={workplaceRequestResult}
                 availabilities={availabilities}
                 setAvailabilities={setAvailabilities}

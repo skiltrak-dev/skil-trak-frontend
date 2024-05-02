@@ -136,6 +136,7 @@ export interface SubAdmin extends BaseResponse {
     addressLine1: string
     createdBy: UserExtend
     canAdmin: boolean
+    rtos: Rto[]
 }
 
 export interface Industry extends BaseResponse {

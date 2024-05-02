@@ -20,7 +20,7 @@ export const NotificationType = {
     message: 'message',
 }
 
-const VariantOptions = [
+export const VariantOptions = [
     'default',
     'success',
     'info',

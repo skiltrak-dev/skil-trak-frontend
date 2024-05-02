@@ -62,7 +62,7 @@ export const AssignSectorForm = ({
 
     const removeAddedSectors = () => {
         return sectors.data?.data?.filter(
-            (f) => f?.courses?.length !== sectorsWithCourses[f.name]?.length
+            (f) => f?.courses?.length !== sectorsWithCourses[f?.name]?.length
         )
     }
 

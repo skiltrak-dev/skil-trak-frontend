@@ -7,14 +7,17 @@ import 'react-phone-number-input/style.css'
 import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
-import { useNotification } from '@hooks'
+import { useNotification, useSectorsAndCoursesOptions } from '@hooks'
 import { AuthApi } from '@queries'
 import {
+    courseOptionsWhenSectorChange,
     CourseSelectOption,
     formatOptionLabel,
     getDate,
+    getRemovedCoursesFromList,
     isEmailValid,
     onlyAlphabets,
+    sectorsCoursesOptions,
     SignUpUtils,
 } from '@utils'
 
@@ -29,7 +32,7 @@ import {
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
-import { StudentFormType } from '@types'
+import { OptionType, StudentFormType } from '@types'
 
 export const StudentSignUpForm = ({
     onSubmit,
@@ -40,24 +43,22 @@ export const StudentSignUpForm = ({
 
     const { notification } = useNotification()
 
-    const sectorResponse = AuthApi.useSectors({})
     const rtoResponse = AuthApi.useRtos({})
 
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
-
-    const [courseOptions, setCourseOptions] = useState<SelectOption[]>([])
-    const [courseLoading, setCourseLoading] = useState(false)
-
-    const [courseValues, setCourseValues] = useState<SelectOption[]>([])
-
+    // const [selectedSector, setSelectedSector] = useState<any>(null)
+    // const [removedCourses, setRemovedCourses] = useState<number[] | null>(null)
+    // const [courseOptions, setCourseOptions] = useState<SelectOption[]>([])
+    // const [courseLoading, setCourseLoading] = useState(false)
+    // const [courseValues, setCourseValues] = useState<number[]>([])
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
-    const sectorOptions = sectorResponse.data?.length
-        ? sectorResponse.data?.map((sector: any) => ({
-              label: sector.name,
-              value: sector.id,
-          }))
-        : []
+    // const sectorOptions = sectorResponse.data?.length
+    //     ? sectorResponse.data?.map((sector: any) => ({
+    //           label: sector.name,
+    //           value: sector.id,
+    //       }))
+    //     : []
 
     const rtoOptions = rtoResponse.data?.length
         ? rtoResponse?.data?.map((rto: any) => ({
@@ -81,34 +82,40 @@ export const StudentSignUpForm = ({
         }, 300)()
     }
 
-    const onSectorChanged = (sectors: any) => {
-        setCourseLoading(true)
-        const filteredCourses = sectors.map((selectedSector: any) => {
-            const sectorExisting = sectorResponse.data?.find(
-                (sector: any) => sector.id === selectedSector.value
-            )
-            if (sectorExisting && sectorExisting?.courses?.length) {
-                return sectorExisting.courses
-            }
-        })
+    const {
+        courseLoading,
+        courseOptions,
+        onCourseChange,
+        onSectorChanged,
+        sectorOptions,
+        courseValues,
+        setCourseOptions,
+        sectorLoading,
+    } = useSectorsAndCoursesOptions()
 
-        const newCourseOptions: any = []
-        filteredCourses.map((courseList: any) => {
-            if (courseList && courseList.length) {
-                return courseList.map((course: any) =>
-                    newCourseOptions.push({
-                        item: course,
-                        value: course.id,
-                        label: course.title,
-                    })
-                )
-            }
-        })
+    // const onSectorChanged = (sectors: any) => {
+    //     setSelectedSector(sectors)
+    //     setCourseLoading(true)
 
-        setCourseOptions(newCourseOptions)
-        setCourseValues(newCourseOptions)
-        setCourseLoading(false)
-    }
+    //     const newCourseOptions = sectorsCoursesOptions(
+    //         sectors,
+    //         sectorResponse?.data
+    //     )
+    //     setCourseOptions(newCourseOptions)
+
+    //     const newSelectedCoursesOptions = courseOptionsWhenSectorChange(
+    //         newCourseOptions,
+    //         removedCourses as number[]
+    //     )
+    //     setCourseValues(newSelectedCoursesOptions)
+    //     setCourseLoading(false)
+    // }
+
+    // const onCourseChange = (e: number[]) => {
+    //     setCourseValues(e)
+    //     const removedValue = getRemovedCoursesFromList(courseOptions, e)
+    //     setRemovedCourses(removedValue)
+    // }
     // const onRtoChange = (rto: any) => {
     //    const filteredCourses = rto.map((selectedRto: any) => {
     //       const rtoExisting = rtoResponse.data?.find(
@@ -401,7 +408,7 @@ export const StudentSignUpForm = ({
                                 options={sectorOptions}
                                 placeholder={'Select Sectors...'}
                                 multi
-                                loading={sectorResponse.isLoading}
+                                loading={sectorLoading}
                                 onChange={onSectorChanged}
                                 validationIcons
                             />
@@ -411,6 +418,12 @@ export const StudentSignUpForm = ({
                                 label={'Courses'}
                                 name={'courses'}
                                 defaultValue={courseOptions}
+                                // value={courseOptions?.filter(
+                                //     (course: OptionType) =>
+                                //         courseValues?.includes(
+                                //             course?.value as number
+                                //         )
+                                // )}
                                 value={courseValues}
                                 options={courseOptions}
                                 loading={courseLoading}
@@ -420,7 +433,9 @@ export const StudentSignUpForm = ({
                                         : courseOptions?.length === 0
                                 }
                                 onChange={(e: any) => {
-                                    setCourseValues(e)
+                                    onCourseChange(
+                                        e?.map((c: OptionType) => c?.value)
+                                    )
                                 }}
                                 multi
                                 validationIcons
