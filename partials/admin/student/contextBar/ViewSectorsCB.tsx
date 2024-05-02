@@ -89,7 +89,7 @@ export const ViewSectorsCB = ({ student }: { student: Student }) => {
                 <Typography variant={'muted'} color={'text-gray-400'}>
                     Sectors &amp; Courses Of:
                 </Typography>
-                <Typography variant={'label'}>{student.user.name}</Typography>
+                <Typography variant={'label'}>{student?.user?.name}</Typography>
             </div>
 
             <AssignSectorForm

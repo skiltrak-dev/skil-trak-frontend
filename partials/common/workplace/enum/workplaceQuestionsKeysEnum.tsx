@@ -1,0 +1,16 @@
+export enum workplaceQuestionsKeys {
+    suburb = 'suburb',
+    commutePlan = 'commutePlan',
+    supervisorMeeting = 'supervisorMeeting',
+    placementStartDate = 'placementStartDate',
+    possession = 'possession',
+    currentEmploymentStatus = 'currentEmploymentStatus',
+    relaventExperience = 'relaventExperience',
+    placementGoals = 'placementGoals',
+    medicalCondition = 'medicalCondition',
+    workPreference = 'workPreference',
+    placementPreferences = 'placementPreferences',
+    awarenessOfUnpaidPlacement = 'awarenessOfUnpaidPlacement',
+    understandingOfDocumentation = 'understandingOfDocumentation',
+    preferredContactTime = 'preferredContactTime',
+}

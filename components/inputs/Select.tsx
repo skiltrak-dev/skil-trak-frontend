@@ -16,7 +16,7 @@ import { getThemeColors } from '@theme'
 import { OptionType } from '@types'
 import { Controller, useFormContext } from 'react-hook-form'
 import { InputProps } from './InputPropType'
-import { forwardRef } from 'react'
+import { forwardRef, useEffect } from 'react'
 
 const Colors = getThemeColors()
 
@@ -70,6 +70,12 @@ export const Select = forwardRef(
         ref: any
     ) => {
         const formContext = useFormContext()
+
+        useEffect(() => {
+            if (value && formContext) {
+                formContext.setValue(name, handleChange(value))
+            }
+        }, [value])
 
         const CustomStyle = {
             control: (
@@ -217,8 +223,9 @@ export const Select = forwardRef(
                     render={({ field }) =>
                         getSimpleSelect(
                             (event: any) => {
-                                field.onChange(handleChange(event))
-                                onChange && onChange(handleChange(event))
+                                const selectedData = handleChange(event)
+                                field.onChange(selectedData)
+                                onChange && onChange(selectedData)
                             },
                             onBlur,
                             defaultValue

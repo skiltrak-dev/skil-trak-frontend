@@ -4,6 +4,7 @@ import { RubberBand } from './RubberBand'
 import { useEffect, useRef, useState } from 'react'
 import { TextInput } from '@components/inputs'
 import { FieldsTypeEnum } from './SidebarData'
+import { UserRoles } from '@constants'
 
 export const DraggableTab = ({
     item,
@@ -127,7 +128,9 @@ export const DraggableTab = ({
                                 y="-2"
                                 // fill={item.data?.color}
                             >
-                                {item?.data?.role}
+                                {item?.data?.role === UserRoles.SUBADMIN
+                                    ? 'Coordinator'
+                                    : item?.data?.role}
                             </text>
                         )
                     )}

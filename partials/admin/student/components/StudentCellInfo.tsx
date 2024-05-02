@@ -6,6 +6,7 @@ import { QueryType, isBrowser, queryToUrl, setLink } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { BiMessageRoundedDots } from 'react-icons/bi'
 import { BsTicketDetailed } from 'react-icons/bs'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { MdEmail, MdPhone } from 'react-icons/md'
@@ -138,8 +139,8 @@ export const StudentCellInfo = ({
                                 : student?.familyName}
                         </p>
                         {student?.tickets && student?.tickets?.length > 0 ? (
-                            <div className="w-4 h-4 rounded  relative group">
-                                <BsTicketDetailed className="text-black text-lg" />
+                            <div className="w-5 h-5 flex items-center justify-center rounded relative group">
+                                <BiMessageRoundedDots className="text-primary text-lg" />
                                 <Tooltip>Ticket Created</Tooltip>
                             </div>
                         ) : null}

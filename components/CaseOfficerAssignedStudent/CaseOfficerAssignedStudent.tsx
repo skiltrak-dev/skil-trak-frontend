@@ -38,7 +38,7 @@ export const CaseOfficerAssignedStudent = ({
         <ProgressCell
             appliedIndustry={appliedIndustry}
             studentId={student?.id}
-            assigned={workplace?.assignedTo || student?.subadmin}
+            assigned={student?.subadmin}
             step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
             studentProvidedWorkplace={
                 workplace?.studentProvidedWorkplace || workplace?.byExistingAbn
@@ -46,7 +46,7 @@ export const CaseOfficerAssignedStudent = ({
         />
     ) : industries?.length > 0 ? (
         <StudentStatusProgressCell
-            assigned={workplace?.assignedTo || student?.subadmin}
+            assigned={student?.subadmin}
             studentId={student?.id}
             step={
                 workplace?.currentStatus === WorkplaceCurrentStatus.Cancelled
@@ -62,7 +62,7 @@ export const CaseOfficerAssignedStudent = ({
         <ProgressCell
             appliedIndustry={appliedIndustry}
             studentId={student?.id}
-            assigned={workplace?.assignedTo || student?.subadmin}
+            assigned={student?.subadmin}
             step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
             studentProvidedWorkplace={
                 workplace?.studentProvidedWorkplace || workplace?.byExistingAbn
@@ -73,7 +73,7 @@ export const CaseOfficerAssignedStudent = ({
             appliedIndustry={appliedIndustry}
             studentId={student?.id}
             step={3}
-            assigned={workplace?.assignedTo || student?.subadmin}
+            assigned={student?.subadmin}
             studentProvidedWorkplace={
                 workplace?.studentProvidedWorkplace || workplace?.byExistingAbn
             }
@@ -83,7 +83,7 @@ export const CaseOfficerAssignedStudent = ({
             appliedIndustry={appliedIndustry}
             studentId={student?.id}
             step={1}
-            assigned={workplace?.assignedTo || student?.subadmin}
+            assigned={student?.subadmin}
             studentProvidedWorkplace={
                 workplace?.studentProvidedWorkplace || workplace?.byExistingAbn
             }

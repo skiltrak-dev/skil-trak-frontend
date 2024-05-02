@@ -1,4 +1,9 @@
-import { NoData, Typography } from '@components'
+import {
+    LoadingAnimation,
+    NoData,
+    ShowErrorNotifications,
+    Typography,
+} from '@components'
 import { useContextBar, useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 
@@ -27,24 +32,14 @@ export const ViewSectorsCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
 
     const courses = AdminApi.SubAdmins.useCourses(subAdmin.id)
     const sectorsWithCourses = getSectors(courses.data)
-    //  const courses = subAdmin.courses
-    //  const sectorsWithCourses = getSectors(courses)
+
     const [assignCourses, assignCoursesResult] =
         AdminApi.SubAdmins.useAssignCourses()
     const onSubmit = async (values: any) => {
         const { courses } = values
         await assignCourses({
             subadmin: subAdmin.id,
-            courses: courses.map((c: OptionType) => c.value),
-        })
-    }
-
-    const [unassignCourse, unassignCourseResult] =
-        AdminApi.SubAdmins.useUnassignCourse()
-    const onCourseRemove = async (course: Course) => {
-        await unassignCourse({
-            id: subAdmin.id,
-            course: course.id,
+            courses: courses?.map((c: OptionType) => c.value),
         })
     }
 
@@ -57,77 +52,62 @@ export const ViewSectorsCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
             contextBar.setContent(null)
             contextBar.hide()
         }
-
-        if (assignCoursesResult.isError) {
-            notification.error({
-                title: 'Courses Assignment Failed',
-                description: 'An error occurred while assigning course(s)',
-            })
-        }
     }, [assignCoursesResult])
 
-    useEffect(() => {
-        if (unassignCourseResult.isSuccess) {
-            notification.info({
-                title: 'Courses Unassigned',
-                description: 'Courses have been unassigned to Sub Admin',
-            })
-        }
-
-        if (unassignCourseResult.isError) {
-            notification.error({
-                title: 'Failed To Unassign',
-                description: 'An error occurred while unassign course(s)',
-            })
-        }
-    }, [unassignCourseResult])
-
     return (
-        <div className="flex flex-col gap-y-6">
-            <div>
-                <Typography variant={'muted'} color={'text-gray-400'}>
-                    Sectors &amp; Courses Of:
-                </Typography>
-                <Typography variant={'label'}>{subAdmin.user.name}</Typography>
+        <>
+            <ShowErrorNotifications result={assignCoursesResult} />
+            <div className="flex flex-col gap-y-6">
+                <div>
+                    <Typography variant={'muted'} color={'text-gray-400'}>
+                        Sectors &amp; Courses Of:
+                    </Typography>
+                    <Typography variant={'label'}>
+                        {subAdmin.user.name}
+                    </Typography>
+                </div>
+
+                <AssignSectorForm
+                    onSubmit={onSubmit}
+                    result={assignCoursesResult}
+                    addedCourses={subAdmin?.courses}
+                />
+
+                <div className={'flex flex-col gap-y-2'}>
+                    <Typography variant={'muted'} color={'text-gray-400'}>
+                        Selected Sectors &amp; Courses
+                    </Typography>
+
+                    {courses.isLoading ? (
+                        <LoadingAnimation size={70} />
+                    ) : courses.data?.length ? (
+                        Object.keys(sectorsWithCourses).map((sector) => {
+                            return (
+                                <>
+                                    <span
+                                        key={sector}
+                                        className="text-xs font-medium text-slate-400 border-t pt-2"
+                                    >
+                                        {sector}
+                                    </span>
+
+                                    {(sectorsWithCourses as any)[sector].map(
+                                        (c: Course) => (
+                                            <AssignedCourse
+                                                key={c.id}
+                                                course={c}
+                                                subAdminId={subAdmin?.id}
+                                            />
+                                        )
+                                    )}
+                                </>
+                            )
+                        })
+                    ) : (
+                        <NoData text={'No Courses Assigned'} />
+                    )}
+                </div>
             </div>
-
-            <AssignSectorForm
-                onSubmit={onSubmit}
-                result={assignCoursesResult}
-            />
-
-            <div className={'flex flex-col gap-y-2'}>
-                <Typography variant={'muted'} color={'text-gray-400'}>
-                    Selected Sectors &amp; Courses
-                </Typography>
-
-                {courses.data?.length ? (
-                    Object.keys(sectorsWithCourses).map((sector) => {
-                        return (
-                            <>
-                                <span
-                                    key={sector}
-                                    className="text-xs font-medium text-slate-400 border-t pt-2"
-                                >
-                                    {sector}
-                                </span>
-
-                                {(sectorsWithCourses as any)[sector].map(
-                                    (c: Course) => (
-                                        <AssignedCourse
-                                            key={c.id}
-                                            course={c}
-                                            onRemove={onCourseRemove}
-                                        />
-                                    )
-                                )}
-                            </>
-                        )
-                    })
-                ) : (
-                    <NoData text={'No Courses Assigned'} />
-                )}
-            </div>
-        </div>
+        </>
     )
 }

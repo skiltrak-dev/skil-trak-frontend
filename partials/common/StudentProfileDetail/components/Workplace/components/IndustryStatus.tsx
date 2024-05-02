@@ -96,10 +96,10 @@ export const IndustryStatus = ({
                             WorkplaceCurrentStatus.PlacementStarted
                                 ? 'bg-success-dark'
                                 : 'bg-white'
-                        } w-full relative cursor-pointer px-4 py-2.5 flex justify-evenly gap-x-2 rounded-md border border-[#128C7E] overflow-hidden`}
+                        } w-full relative cursor-pointer p-2.5 flex justify-evenly gap-x-2 rounded-md border border-[#128C7E] overflow-hidden`}
                     >
                         <Typography
-                            variant="small"
+                            variant="xs"
                             color={
                                 workplace?.currentStatus ===
                                 WorkplaceCurrentStatus.PlacementStarted

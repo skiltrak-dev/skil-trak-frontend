@@ -1,20 +1,23 @@
 import { Button, Select, TextArea, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useSectorsAndCoursesOptions } from '@hooks'
 import { AdminApi } from '@queries'
-import { Course, Sector } from '@types'
+import { Course, OptionType, Sector } from '@types'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 interface FormProps {
+    addedCourses: Course[]
     onSubmit: (values: any) => void
     edit?: boolean
-    initialValues?: Course
+    initialValues?: any
     result: any
 }
 
 export const AssignSectorForm = ({
+    addedCourses,
     onSubmit,
     edit,
     initialValues,
@@ -26,6 +29,19 @@ export const AssignSectorForm = ({
 
     const courses = AdminApi.Courses.useListQuery(undefined)
     const [selectableCourses, setSelectableCourses] = useState<Course[]>([])
+
+    const {
+        courseValues,
+        sectorOptions,
+        courseLoading,
+        courseOptions,
+        selectedSector,
+        onSectorChanged,
+        onCourseChange,
+        sectorLoading,
+        removeAddedSectors,
+        updatedSectorsOptions,
+    } = useSectorsAndCoursesOptions()
 
     const onSectorSelect = (options: any) => {
         const currentSelectedSectors = options.map((opt: any) => opt.value)
@@ -65,28 +81,41 @@ export const AssignSectorForm = ({
                     <Select
                         name={'sectors'}
                         label={'Sector'}
-                        options={
-                            sectors.isLoading
-                                ? []
-                                : sectors.data?.data.map((s) => ({
-                                      label: s.name,
-                                      value: s.id,
-                                  }))
+                        value={selectedSector}
+                        // options={
+                        //     sectors.isLoading
+                        //         ? []
+                        //         : sectors.data?.data.map((s) => ({
+                        //               label: s.name,
+                        //               value: s.id,
+                        //           }))
+                        // }
+                        options={updatedSectorsOptions(
+                            removeAddedSectors(addedCourses)
+                        )}
+                        loading={sectorLoading}
+                        disabled={sectorLoading}
+                        onChange={(option: any) =>
+                            onSectorChanged(option, addedCourses)
                         }
-                        onChange={(option: any) => onSectorSelect(option)}
-                        loading={sectors.isLoading}
                         multi
                     />
 
                     <Select
                         name={'courses'}
                         label={'Courses'}
-                        options={selectableCourses.map((c) => ({
-                            item: c,
-                            value: c.id,
-                            label: c.title,
-                        }))}
+                        options={courseOptions}
+                        loading={courseLoading}
+                        value={courseValues}
+                        // options={selectableCourses.map((c) => ({
+                        //     item: c,
+                        //     value: c.id,
+                        //     label: c.title,
+                        // }))}
                         multi
+                        onChange={(event: OptionType[]) => {
+                            onCourseChange(event?.map((e: any) => e?.value))
+                        }}
                         components={{
                             Option: CourseSelectOption,
                         }}

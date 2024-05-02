@@ -8,13 +8,21 @@ import {
 } from '@components'
 import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useSectorsAndCoursesOptions } from '@hooks'
 import { AuthApi } from '@queries'
-import { OptionType, SubAdmin, SubadminFromType } from '@types'
+import {
+    Course,
+    OptionType,
+    Rto,
+    Sector,
+    SubAdmin,
+    SubadminFromType,
+} from '@types'
 import {
     CourseSelectOption,
     formatOptionLabel,
+    getSectorsDetail,
     getUserCredentials,
-    onlyAlphabets,
 } from '@utils'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -33,10 +41,14 @@ export const SubAdminForm = ({
     subAdmin?: SubAdmin
     rtoCoursesOptions?: OptionType[]
 }) => {
-    const [sectorOptions, setSectorOptions] = useState<any>([])
-    const [selectedSector, setSelectedSector] = useState<any>(null)
-    const [courseOptions, setCourseOptions] = useState([])
-    const [courseLoading, setCourseLoading] = useState(false)
+    // const [selectedSector, setSelectedSector] = useState<any>(null)
+    // const [courseOptions, setCourseOptions] = useState([])
+    // const [courseLoading, setCourseLoading] = useState(false)
+    const [selectedRtos, setSelectedRtos] = useState<number[] | null>(null)
+    // const [selectedCourses, setSelectedCourses] = useState<number[] | null>(
+    //     null
+    // )
+    // const [removedCourses, setRemovedCourses] = useState<number[] | null>(null)
 
     const role = getUserCredentials()?.role
 
@@ -67,37 +79,26 @@ export const SubAdminForm = ({
     const validationSchema = yup.object(
         role === UserRoles.ADMIN ? validation : rtoValidation
     )
-    const sectorResponse = AuthApi.useSectors({})
+    // const sectorResponse = AuthApi.useSectors({})
     const getRtos = AuthApi.useRtos({})
 
-    const onSectorChanged = (sectors: any) => {
-        setSelectedSector(sectors)
-        setCourseLoading(true)
-        const filteredCourses = sectors?.map((selectedSector: any) => {
-            const sectorExisting = sectorResponse?.data?.find(
-                (sector: any) => sector.id === selectedSector.value
-            )
-            if (sectorExisting && sectorExisting?.courses?.length) {
-                return sectorExisting.courses
-            }
-        })
+    // const onSectorChanged = (sectors: any) => {
+    //     setSelectedSector(sectors)
+    //     setCourseLoading(true)
 
-        const newCourseOptions: any = []
-        filteredCourses.map((courseList: any) => {
-            if (courseList && courseList.length) {
-                return courseList.map((course: any) =>
-                    newCourseOptions.push({
-                        item: course,
-                        value: course.id,
-                        label: course.title,
-                    })
-                )
-            }
-        })
+    //     const newCourseOptions = sectorsCoursesOptions(
+    //         sectors,
+    //         sectorResponse?.data
+    //     )
 
-        setCourseOptions(newCourseOptions)
-        setCourseLoading(false)
-    }
+    //     setCourseOptions(newCourseOptions)
+    //     const newSelectedCoursesOptions = courseOptionsWhenSectorChange(
+    //         newCourseOptions,
+    //         removedCourses as number[]
+    //     )
+    //     setSelectedCourses(newSelectedCoursesOptions)
+    //     setCourseLoading(false)
+    // }
 
     const formMethods = useForm<SubadminFromType>({
         mode: 'all',
@@ -110,44 +111,14 @@ export const SubAdminForm = ({
         }
     }, [result])
 
-    useEffect(() => {
-        if (sectorResponse.data?.length) {
-            const options = sectorResponse.data?.map((sector: any) => ({
-                label: sector?.name,
-                value: sector?.id,
-            }))
-            setSectorOptions(options)
-        }
-    }, [sectorResponse?.data])
-
-    useEffect(() => {
-        if (subAdmin) {
-            const values = {
-                name: subAdmin?.user?.name,
-                email: subAdmin?.user?.email,
-                phone: subAdmin?.phone,
-                addressLine1: subAdmin?.addressLine1,
-                coordinatorId: subAdmin?.coordinatorId,
-            }
-            Object.entries(values)?.forEach(([key, value]) => {
-                formMethods.setValue(
-                    key as keyof SubadminFromType,
-                    value as string
-                )
-            })
-            // for (let key in values) {
-            //     formMethods.setValue(key, values[key as keyof typeof values])
-            // }
-        }
-    }, [subAdmin])
-
-    // const rtoCoursesOptions =
-    //     rto.isSuccess && rto?.data?.courses && rto?.data?.courses?.length > 0
-    //         ? rto?.data?.courses?.map((course: Course) => ({
-    //               label: course?.title,
-    //               value: course?.id,
-    //           }))
-    //         : []
+    // const sectorOptions = useMemo(
+    //     () =>
+    //         sectorResponse.data?.map((sector: any) => ({
+    //             label: sector?.name,
+    //             value: sector?.id,
+    //         })),
+    //     [sectorResponse]
+    // )
 
     const rtosOptions =
         getRtos?.isSuccess && getRtos?.data && getRtos?.data.length > 0
@@ -156,6 +127,69 @@ export const SubAdminForm = ({
                   value: rto?.id,
               }))
             : []
+
+    // const onCourseChange = (e: number[]) => {
+    //     setSelectedCourses(e)
+    //     const removedValue = getRemovedCoursesFromList(courseOptions, e)
+    //     setRemovedCourses(removedValue)
+    // }
+
+    const {
+        courseLoading,
+        courseOptions,
+        courseValues,
+        onCourseChange,
+        onSectorChanged,
+        sectorOptions,
+        selectedSector,
+        setSelectedSector,
+        sectorLoading,
+        setSelectedCourses,
+    } = useSectorsAndCoursesOptions()
+
+    useEffect(() => {
+        if (subAdmin) {
+            const rtos = subAdmin?.rtos?.map((rto: Rto) => rto?.id)
+            const courses = subAdmin?.courses?.map(
+                (course: Course) => course?.id
+            )
+            const sectors: any = getSectorsDetail(subAdmin?.courses as Course[])
+            const sSectors: any = sectorOptions?.filter((sector: OptionType) =>
+                sectors
+                    ?.map((s: Sector) => s?.id)
+                    ?.includes(sector?.value as number)
+            )
+            const values = {
+                name: subAdmin?.user?.name,
+                email: subAdmin?.user?.email,
+                phone: subAdmin?.phone,
+                addressLine1: subAdmin?.addressLine1,
+                coordinatorId: subAdmin?.coordinatorId,
+                rtos,
+                courses,
+                sectors: sSectors,
+            }
+            Object.entries(values)?.forEach(([key, value]) => {
+                formMethods.setValue(
+                    key as keyof SubadminFromType,
+                    value as string
+                )
+            })
+
+            if (rtos && rtos?.length > 0) {
+                setSelectedRtos(rtos)
+            }
+
+            if (sSectors && sSectors?.length > 0) {
+                setSelectedSector(sSectors)
+                onSectorChanged(sSectors)
+            }
+
+            if (courses && courses?.length > 0) {
+                setSelectedCourses(courses)
+            }
+        }
+    }, [subAdmin, sectorOptions])
 
     return (
         <>
@@ -208,6 +242,12 @@ export const SubAdminForm = ({
                             label={'RTOs'}
                             name={'rtos'}
                             options={rtosOptions}
+                            value={rtosOptions?.filter((rto: OptionType) =>
+                                selectedRtos?.includes(rto?.value as number)
+                            )}
+                            onChange={(e: number[]) => {
+                                setSelectedRtos(e)
+                            }}
                             multi
                             validationIcons
                             onlyValue
@@ -219,18 +259,27 @@ export const SubAdminForm = ({
                             options={sectorOptions}
                             placeholder={'Select Sectors...'}
                             multi
-                            loading={sectorResponse.isLoading}
-                            disabled={sectorResponse.isLoading}
+                            loading={sectorLoading}
+                            disabled={sectorLoading}
                             onChange={onSectorChanged}
                             validationIcons
                         />
                         <Select
                             label={'Courses'}
                             name={'courses'}
+                            value={courseValues}
                             defaultValue={courseOptions}
                             options={courseOptions}
+                            // value={courseOptions?.filter((course: OptionType) =>
+                            //     selectedCourses?.includes(
+                            //         course?.value as number
+                            //     )
+                            // )}
                             multi
                             loading={courseLoading}
+                            onChange={(e: any) => {
+                                onCourseChange(e)
+                            }}
                             // components={{
                             //     Option: CourseSelectOption,
                             // }}
@@ -247,6 +296,12 @@ export const SubAdminForm = ({
                             label={'RTOs'}
                             name={'rtos'}
                             options={rtosOptions}
+                            value={rtosOptions?.filter((rto: OptionType) =>
+                                selectedRtos?.includes(rto?.value as number)
+                            )}
+                            onChange={(e: number[]) => {
+                                setSelectedRtos(e)
+                            }}
                             multi
                             validationIcons
                             onlyValue
@@ -258,21 +313,27 @@ export const SubAdminForm = ({
                             options={sectorOptions}
                             placeholder={'Select Sectors...'}
                             multi
-                            loading={sectorResponse.isLoading}
-                            disabled={sectorResponse.isLoading}
+                            loading={sectorLoading}
+                            disabled={sectorLoading}
                             onChange={onSectorChanged}
                             validationIcons
                         />
                         <Select
                             label={'Courses'}
                             name={'courses'}
+                            value={courseValues}
                             defaultValue={courseOptions}
                             options={courseOptions}
+                            // value={courseOptions?.filter((course: OptionType) =>
+                            //     selectedCourses?.includes(
+                            //         course?.value as number
+                            //     )
+                            // )}
+                            onChange={(e: number[]) => {
+                                onCourseChange(e)
+                            }}
                             multi
                             loading={courseLoading}
-                            // components={{
-                            //     Option: CourseSelectOption,
-                            // }}
                             disabled={courseOptions.length === 0}
                             validationIcons
                             onlyValue
@@ -283,11 +344,20 @@ export const SubAdminForm = ({
                         <Select
                             label={'Courses'}
                             name={'courses'}
+                            value={courseValues}
                             options={rtoCoursesOptions}
                             multi
                             loading={courseLoading}
                             components={{
                                 Option: CourseSelectOption,
+                            }}
+                            // value={courseOptions?.filter((course: OptionType) =>
+                            //     selectedCourses?.includes(
+                            //         course?.value as number
+                            //     )
+                            // )}
+                            onChange={(e: number[]) => {
+                                onCourseChange(e)
                             }}
                             formatOptionLabel={formatOptionLabel}
                             disabled={

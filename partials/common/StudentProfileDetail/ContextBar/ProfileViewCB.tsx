@@ -38,7 +38,7 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                     <Typography semibold>
                         <span className="text-[15px]">
                             {' '}
-                            {profile?.user?.name}
+                            {profile?.user?.name} {profile?.familyName}
                         </span>
                     </Typography>
                     <Typography variant="xs" color="text-[#6B7280]">
