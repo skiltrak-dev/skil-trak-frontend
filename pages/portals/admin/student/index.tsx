@@ -36,6 +36,7 @@ const filterKeys = [
     'rtoId',
     'suburb',
     'status',
+    'sectorId',
     'courseId',
     'studentId',
     'industryId',

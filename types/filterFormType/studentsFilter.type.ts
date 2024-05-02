@@ -10,6 +10,7 @@ export interface StudentsFilterType {
     status: UserStatus
     rtoId: number
     industryId: number
+    sectorId: number
     courseId: number
     nowp: string
     currentStatus: WorkplaceCurrentStatus

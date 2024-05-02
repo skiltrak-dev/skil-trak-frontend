@@ -73,7 +73,7 @@ export const Select = forwardRef(
 
         useEffect(() => {
             if (value && formContext) {
-                formContext.setValue(name, value)
+                formContext.setValue(name, handleChange(value))
             }
         }, [value])
 

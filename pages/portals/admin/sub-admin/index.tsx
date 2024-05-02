@@ -61,7 +61,7 @@ const SubAdminList: NextPageWithLayout = () => {
 
     const tabs: TabProps[] = [
         {
-            label: 'Active',
+            label: 'Working from ADMIN',
             href: {
                 pathname: 'sub-admin',
                 query: { tab: 'active', page: 1, pageSize: 50 },
@@ -73,7 +73,7 @@ const SubAdminList: NextPageWithLayout = () => {
             element: <ActiveSubAdmin />,
         },
         {
-            label: 'Active RTO SubAdmin',
+            label: 'Working from RTO',
             href: {
                 pathname: 'sub-admin',
                 query: { tab: 'active-rto', page: 1, pageSize: 50 },

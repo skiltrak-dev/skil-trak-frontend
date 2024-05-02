@@ -1,7 +1,7 @@
 import { Select, TextInput } from '@components/inputs'
 
 // query
-import { CommonApi } from '@queries'
+import { AuthApi, CommonApi } from '@queries'
 
 import {
     Course,
@@ -20,6 +20,7 @@ import {
 import { SetQueryFilters } from './SetQueryFilters'
 import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
+import { useMemo } from 'react'
 
 interface ItemFilterProps {
     onFilterChange: (values: StudentsFilterType) => void
@@ -87,6 +88,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
     const getRtos = CommonApi.Filter.useRtos()
     const getCourses = CommonApi.Filter.useCourses()
     const getUserRole = AuthUtils.getUserCredentials()
+    const sectorResponse = AuthApi.useSectors({})
 
     const industryOptions = getIndustries?.data?.map((industry: Industry) => ({
         value: industry?.id,
@@ -103,6 +105,15 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
         value: course?.id,
         label: course?.title,
     }))
+
+    const sectorOptions = useMemo(
+        () =>
+            sectorResponse.data?.map((sector: any) => ({
+                label: sector?.name,
+                value: sector?.id,
+            })),
+        [sectorResponse]
+    )
 
     const noWorkplaceOption = [
         {
@@ -220,6 +231,22 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     disabled={getIndustries.isLoading}
                 />
 
+                <Select
+                    label={'Search by Sector'}
+                    name={'sectorId'}
+                    options={sectorOptions}
+                    placeholder={'Select Sector...'}
+                    value={sectorOptions?.find(
+                        (sector: SelectOption) =>
+                            sector.value === Number(filter?.sectorId)
+                    )}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, sectorId: e?.value })
+                    }}
+                    showError={false}
+                    loading={sectorResponse.isLoading}
+                    disabled={sectorResponse.isLoading}
+                />
                 <Select
                     label={'Search by Courses'}
                     name={'courseId'}
