@@ -6,10 +6,10 @@ import { SubAdminReports } from 'types/sub-admin-reports.type'
 
 type Props = {
     reportType: any
-    setReportType: any
+    onReportChange: (e: SubAdminReports) => void
 }
 
-export const ReportType = ({ reportType, setReportType }: Props) => {
+export const ReportType = ({ reportType, onReportChange }: Props) => {
     const router = useRouter()
     const reportOptions = [
         {
@@ -58,12 +58,8 @@ export const ReportType = ({ reportType, setReportType }: Props) => {
                     (report) => report?.value === reportType
                 )}
                 options={reportOptions}
-                onChange={(e: any) => {
-                    router.push({
-                        pathname: '/portals/sub-admin/report',
-                        query: { report: e },
-                    })
-                    setReportType(e)
+                onChange={(e: SubAdminReports) => {
+                    onReportChange(e)
                 }}
                 onlyValue
             />

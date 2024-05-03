@@ -13,7 +13,7 @@ type Props = {}
 
 export const TerminatedWorkplaceDetail = (props: Props) => {
     const { data, isLoading, isError } =
-        SubAdminApi.Reports.useTerminatedWorkplaceReport({})
+        SubAdminApi.Reports.useTerminatedWorkplaceReport(undefined)
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,

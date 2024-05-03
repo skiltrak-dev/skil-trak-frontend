@@ -8,20 +8,20 @@ import {
     Typography,
 } from '@components'
 import { CourseDot } from '@partials/rto/student/components'
-import { RtoApi, SubAdminApi } from '@queries'
+import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import React, { useState } from 'react'
-import { FilterReport } from '../../FilterReport'
-import { ViewFullListReport } from '../../ViewFullListReport'
-import { Course, ReportOptionsEnum } from '@types'
+import { CoordinatorStudentHaveWorkplaceReport, Course } from '@types'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 import { SubAdminReports } from 'types/sub-admin-reports.type'
+import { FilterReport } from '../../FilterReport'
 
 type Props = {
     startDate: Date
     setStartDate: (startDate: Date) => void
     endDate: Date
     setEndDate: (endDate: Date) => void
+    subadmin?: number
 }
 
 export const StudentHaveWorkplaceReport = ({
@@ -29,6 +29,7 @@ export const StudentHaveWorkplaceReport = ({
     setEndDate,
     startDate,
     endDate,
+    subadmin,
 }: Props) => {
     let end = new Date(endDate)
     end.setDate(end.getDate() + 1)
@@ -41,13 +42,14 @@ export const StudentHaveWorkplaceReport = ({
             endDate: end.toISOString().slice(0, 10),
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
+            userId: subadmin,
         })
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<CoordinatorStudentHaveWorkplaceReport>[] = [
         {
             header: () => <span>Name</span>,
             accessorKey: 'user',
-            cell: (info: any) => (
+            cell: (info) => (
                 <a className="flex items-center gap-x-2">
                     {info.row.original?.user?.name && (
                         <InitialAvatar

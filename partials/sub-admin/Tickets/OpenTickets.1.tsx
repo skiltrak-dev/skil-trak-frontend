@@ -11,18 +11,16 @@ import {
     Typography,
 } from '@components'
 import { TicketSubject, TicketUser } from '@partials/common/Tickets/components'
-import { CommonApi, SubAdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import moment from 'moment'
 import { useRouter } from 'next/router'
-import { TicketStatus } from 'pages/portals/admin/tickets'
 import { useState } from 'react'
-import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
+import { BsFillEyeFill, BsFillTicketDetailedFill } from 'react-icons/bs'
 import { StudentCellInfo } from '../students'
 import { PageHeading } from '@components/headings'
-import { BsFillTicketDetailedFill } from 'react-icons/bs'
 
-export const ClosedTickets = () => {
+export const OpenTickets = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
@@ -31,7 +29,6 @@ export const ClosedTickets = () => {
     const { isLoading, isFetching, data, isError } =
         CommonApi.Tickets.useGetTicket(
             {
-                search: `status:${TicketStatus.CLOSED}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
@@ -43,7 +40,7 @@ export const ClosedTickets = () => {
             text: 'View',
             onClick: (ticket: any) =>
                 router.push(`/portals/sub-admin/tickets/detail/${ticket?.id}`),
-            Icon: AiFillCloseCircle,
+            Icon: BsFillEyeFill,
         },
         // {
         //     text: 'Delete',
@@ -54,10 +51,16 @@ export const ClosedTickets = () => {
     const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'subject',
-            cell: (info) => {
-                return <TicketSubject ticket={info?.row?.original} />
-            },
+            cell: (info) => <TicketSubject ticket={info?.row?.original} />,
             header: () => <span>Subject</span>,
+        },
+
+        {
+            accessorKey: 'createdBy',
+            cell: (info) => (
+                <TicketUser ticket={info?.row?.original?.createdBy} />
+            ),
+            header: () => <span>Created By</span>,
         },
         {
             accessorKey: 'user.name',
@@ -71,15 +74,7 @@ export const ClosedTickets = () => {
                     'N/A'
                 )
             },
-            header: () => <span>Student</span>,
-        },
-
-        {
-            accessorKey: 'createdBy',
-            cell: (info) => (
-                <TicketUser ticket={info?.row?.original?.createdBy} />
-            ),
-            header: () => <span>Created By</span>,
+            header: () => <span>Linked Student</span>,
         },
         {
             accessorKey: 'assignedTo',
@@ -89,17 +84,13 @@ export const ClosedTickets = () => {
             header: () => <span>Assigned To</span>,
         },
         {
-            accessorKey: 'closedAt',
+            accessorKey: 'course',
+            header: () => <span>Course</span>,
             cell: (info) => (
-                <Typography variant="small" semibold>
-                    <span className="whitespace-pre">
-                        {moment(info.row.original?.closedAt).format(
-                            'DD, MMM YYYY'
-                        )}
-                    </span>
+                <Typography variant="muted" capitalize>
+                    {info?.row?.original?.course?.title || 'N/A'}
                 </Typography>
             ),
-            header: () => <span>Closed At</span>,
         },
         {
             accessorKey: 'priority',
@@ -142,7 +133,8 @@ export const ClosedTickets = () => {
     ]
     return (
         <div>
-            <div className="ml-4 mb-2">
+            <div className="mt-4 ml-4">
+                <BackButton text={'Go Back'} />
                 <PageHeading
                     title={'Ticket'}
                     subtitle={'You can find all Tickets here'}

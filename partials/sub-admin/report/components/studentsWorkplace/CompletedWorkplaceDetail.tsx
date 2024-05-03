@@ -16,7 +16,7 @@ type Props = {}
 
 export const CompletedWorkplaceDetail = (props: Props) => {
     const { data, isLoading, isError } =
-        SubAdminApi.Reports.useCompletedWorkplaceReport({})
+        SubAdminApi.Reports.useCompletedWorkplaceReport(undefined)
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,

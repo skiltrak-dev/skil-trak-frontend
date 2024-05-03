@@ -13,7 +13,7 @@ import React, { useState } from 'react'
 
 export const PlacementStartedDetail = () => {
     const { data, isLoading, isError } =
-        SubAdminApi.Reports.useStudentWorkplaceStartedReport({})
+        SubAdminApi.Reports.useStudentWorkplaceStartedReport(undefined)
 
     const columns: ColumnDef<any>[] = [
         {

@@ -12,7 +12,11 @@ import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import React, { useState } from 'react'
 
-import { Course, ReportOptionsEnum } from '@types'
+import {
+    CoordinatorStudentCallsReport,
+    Course,
+    ReportOptionsEnum,
+} from '@types'
 import { FilterReport } from '../../FilterReport'
 import { ViewFullListReport } from '../../ViewFullListReport'
 import { useRouter } from 'next/router'
@@ -23,6 +27,7 @@ type Props = {
     setStartDate: (startDate: Date) => void
     endDate: Date
     setEndDate: (endDate: Date) => void
+    subadmin?: number
 }
 
 export const StudentsCallsPerDayReport = ({
@@ -30,6 +35,7 @@ export const StudentsCallsPerDayReport = ({
     setEndDate,
     startDate,
     endDate,
+    subadmin,
 }: Props) => {
     let end = new Date(endDate)
     end.setDate(end.getDate() + 1)
@@ -42,13 +48,14 @@ export const StudentsCallsPerDayReport = ({
             endDate: end.toISOString().slice(0, 10),
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
+            userId: subadmin,
         })
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<CoordinatorStudentCallsReport>[] = [
         {
             header: () => <span>Name</span>,
             accessorKey: 'user',
-            cell: (info: any) => {
+            cell: (info) => {
                 return (
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar
@@ -77,20 +84,13 @@ export const StudentsCallsPerDayReport = ({
         {
             accessorKey: 'courses',
             header: () => <span>Courses</span>,
-            cell: (info) => {
-                return (
-                    <div className="flex items-center gap-x-1">
-                        {info?.row?.original?.courses?.map((c: Course) => (
-                            <CourseDot key={c?.id} course={c} />
-                        ))}
-                    </div>
-                )
-                // return (
-                //     <span>
-                //         {info?.row?.original?.courses[0]?.title || 'N/A'}
-                //     </span>
-                // )
-            },
+            cell: (info) => (
+                <div className="flex items-center gap-x-1">
+                    {info?.row?.original?.courses?.map((c: Course) => (
+                        <CourseDot key={c?.id} course={c} />
+                    ))}
+                </div>
+            ),
         },
     ]
     const count = data?.pagination?.totalResult

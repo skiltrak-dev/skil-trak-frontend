@@ -23,6 +23,7 @@ type Props = {
     setStartDate: (startDate: Date) => void
     endDate: Date
     setEndDate: (endDate: Date) => void
+    subadmin?: number
 }
 
 export const CancelledWorkplaceReport = ({
@@ -30,6 +31,7 @@ export const CancelledWorkplaceReport = ({
     setEndDate,
     startDate,
     endDate,
+    subadmin,
 }: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -40,6 +42,7 @@ export const CancelledWorkplaceReport = ({
             endDate: endDate.toISOString().slice(0, 10),
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
+            userId: subadmin,
         })
 
     const columns: ColumnDef<any>[] = [

@@ -1,7 +1,10 @@
 import {
+    BackButton,
+    Button,
     Card,
     EmptyData,
     LoadingAnimation,
+    Select,
     Table,
     TableAction,
     TableActionOption,
@@ -16,12 +19,16 @@ import { useRouter } from 'next/router'
 import { TicketStatus } from 'pages/portals/admin/tickets'
 import { useState } from 'react'
 import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
-import { BsFillEyeFill } from 'react-icons/bs'
+import { BsFillEyeFill, BsFillTicketDetailedFill } from 'react-icons/bs'
 import { StudentCellInfo } from '../students'
+import { PageHeading } from '@components/headings'
+import { removeEmptyValues } from '@utils'
+import { ticketPriorityEnum } from '@partials/common/Tickets'
 
 export const OpenTickets = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+    const [isHighPriority, setIsHighPriority] = useState<string | null>(null)
 
     const router = useRouter()
 
@@ -30,6 +37,15 @@ export const OpenTickets = () => {
             {
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
+                search: `${JSON.stringify(
+                    removeEmptyValues({
+                        priority: isHighPriority,
+                    })
+                )
+                    .replaceAll('{', '')
+                    .replaceAll('}', '')
+                    .replaceAll('"', '')
+                    .trim()}`,
             },
             { refetchOnMountOrArgChange: true }
         )
@@ -50,9 +66,7 @@ export const OpenTickets = () => {
     const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'subject',
-            cell: (info) => {
-                return <TicketSubject ticket={info?.row?.original} />
-            },
+            cell: (info) => <TicketSubject ticket={info?.row?.original} />,
             header: () => <span>Subject</span>,
         },
 
@@ -89,7 +103,7 @@ export const OpenTickets = () => {
             header: () => <span>Course</span>,
             cell: (info) => (
                 <Typography variant="muted" capitalize>
-                    {info?.row?.original?.course?.title || "N/A"}
+                    {info?.row?.original?.course?.title || 'N/A'}
                 </Typography>
             ),
         },
@@ -132,8 +146,47 @@ export const OpenTickets = () => {
             },
         },
     ]
+
+    const onFilterChange = (value: string) => {
+        console.log({ value })
+        setIsHighPriority(value)
+    }
+
+    const priorityOptions = [
+        ...Object.entries(ticketPriorityEnum).map(([label, value]) => ({
+            label,
+            value,
+        })),
+    ]
     return (
         <div>
+            <div className="ml-4 mb-2">
+                <PageHeading
+                    title={'Ticket'}
+                    subtitle={'You can find all Tickets here'}
+                >
+                    <div className="w-64">
+                        <Select
+                            label={'Select Priority'}
+                            name={'priority'}
+                            placeholder={'Select Priority...'}
+                            options={priorityOptions}
+                            onlyValue
+                            onChange={(e: any) => {
+                                onFilterChange(e)
+                            }}
+                        />
+                    </div>
+                    <Button
+                        variant={'dark'}
+                        text={'Create a Ticket'}
+                        Icon={BsFillTicketDetailedFill}
+                        onClick={() => {
+                            router.push('/portals/sub-admin/tickets/add-ticket')
+                        }}
+                    />
+                </PageHeading>
+            </div>
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading || isFetching ? (

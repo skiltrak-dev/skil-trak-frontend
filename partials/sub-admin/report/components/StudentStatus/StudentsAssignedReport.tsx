@@ -11,7 +11,7 @@ import {
 import { CourseDot } from '@partials/rto/student/components'
 import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { Course } from '@types'
+import { CoordinatorAssignedReport, Course } from '@types'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { SubAdminReports } from 'types/sub-admin-reports.type'
@@ -22,6 +22,7 @@ type Props = {
     setStartDate: (startDate: Date) => void
     endDate: Date
     setEndDate: (endDate: Date) => void
+    subadmin?: number
 }
 
 export const StudentsAssignedReport = ({
@@ -29,6 +30,7 @@ export const StudentsAssignedReport = ({
     setEndDate,
     startDate,
     endDate,
+    subadmin,
 }: Props) => {
     let end = new Date(endDate)
     end.setDate(end.getDate() + 1)
@@ -37,17 +39,18 @@ export const StudentsAssignedReport = ({
     const router = useRouter()
     const { data, isLoading, isError } =
         SubAdminApi.Reports.useAssignedStudents({
-            startDate: startDate.toISOString().slice(0, 10),
-            endDate: end.toISOString().slice(0, 10),
-            skip: itemPerPage * page - itemPerPage,
+            userId: subadmin,
             limit: itemPerPage,
+            skip: itemPerPage * page - itemPerPage,
+            endDate: end.toISOString().slice(0, 10),
+            startDate: startDate.toISOString().slice(0, 10),
         })
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<CoordinatorAssignedReport>[] = [
         {
             header: () => <span>Name</span>,
             accessorKey: 'user',
-            cell: (info: any) => {
+            cell: (info) => {
                 return (
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar
@@ -85,11 +88,6 @@ export const StudentsAssignedReport = ({
                         ))}
                     </div>
                 )
-                // return (
-                //     <span>
-                //         {info?.row?.original?.courses[0]?.title || 'N/A'}
-                //     </span>
-                // )
             },
         },
     ]

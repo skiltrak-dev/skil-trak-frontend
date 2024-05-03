@@ -3,56 +3,53 @@ import {
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
+    ShowErrorNotifications,
     Table,
     TechnicalError,
     Typography,
 } from '@components'
-import { CourseDot } from '@partials/rto/student/components'
-import React, { useState } from 'react'
 import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { Course, ReportOptionsEnum } from '@types'
-import { ViewFullListReport } from '../../ViewFullListReport'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 import { SubAdminReports } from 'types/sub-admin-reports.type'
-type Props = {}
+type Props = {
+    subadmin?: number
+}
 
-export const ActiveStudentsWithoutWorkplacesReport = (props: Props) => {
+export const ActiveStudentsWithoutWorkplacesReport = ({ subadmin }: Props) => {
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
-    const { data, isLoading, isError } =
+    const noWorkplaceStudents =
         SubAdminApi.Reports.useStudentWithNoWorkplaceReport({
-            skip: itemPerPage * page - itemPerPage,
+            userId: subadmin,
             limit: itemPerPage,
+            skip: itemPerPage * page - itemPerPage,
         })
 
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,
             accessorKey: 'user',
-            cell: (info: any) => {
-                return (
-                    <a className="flex items-center gap-x-2">
-                        <InitialAvatar
-                            name={info?.row?.original?.user?.name}
-                            imageUrl={info?.row?.original?.user?.avatar}
-                        />
-                        <div className="flex flex-col">
-                            <span>{info?.row?.original?.studentId}</span>
-                            <span>{info?.row?.original?.user?.name}</span>
-                        </div>
-                    </a>
-                )
-            },
+            cell: (info: any) => (
+                <a className="flex items-center gap-x-2">
+                    <InitialAvatar
+                        name={info?.row?.original?.user?.name}
+                        imageUrl={info?.row?.original?.user?.avatar}
+                    />
+                    <div className="flex flex-col">
+                        <span>{info?.row?.original?.studentId}</span>
+                        <span>{info?.row?.original?.user?.name}</span>
+                    </div>
+                </a>
+            ),
         },
         {
             accessorKey: 'email',
             header: () => <span>Email</span>,
-            cell: (info) => {
-                return <span>{info?.row?.original?.user?.email}</span>
-            },
+            cell: (info) => <span>{info?.row?.original?.user?.email}</span>,
         },
         {
             accessorKey: 'phone',
@@ -61,21 +58,15 @@ export const ActiveStudentsWithoutWorkplacesReport = (props: Props) => {
         {
             accessorKey: 'courses',
             header: () => <span>Courses</span>,
-            cell: (info) => {
-                // return info?.row?.original?.courses?.map((c: Course) => (
-                //     <CourseDot key={c?.id} course={c} />
-                // ))
-                return (
-                    <span>
-                        {info?.row?.original?.courses[0]?.title || 'N/A'}
-                    </span>
-                )
-            },
+            cell: (info) => (
+                <span>{info?.row?.original?.courses[0]?.title || 'N/A'}</span>
+            ),
         },
     ]
-    const count = data?.pagination?.totalResult
+    const count = noWorkplaceStudents?.data?.pagination?.totalResult
     return (
         <>
+            <ShowErrorNotifications result={noWorkplaceStudents} />
             <div className="flex justify-between items-center">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
@@ -94,11 +85,12 @@ export const ActiveStudentsWithoutWorkplacesReport = (props: Props) => {
                 </ActionButton>
             </div>
 
-            {isError && <TechnicalError />}
-            {isLoading ? (
+            {noWorkplaceStudents?.isError && <TechnicalError />}
+            {noWorkplaceStudents?.isLoading ? (
                 <LoadingAnimation height="h-[60vh]" />
-            ) : data?.data && data?.data?.length ? (
-                <Table columns={columns} data={data?.data}>
+            ) : noWorkplaceStudents?.data?.data &&
+              noWorkplaceStudents?.data?.data?.length ? (
+                <Table columns={columns} data={noWorkplaceStudents?.data?.data}>
                     {({ table, pagination, pageSize, quickActions }: any) => {
                         return (
                             <div>
@@ -106,7 +98,11 @@ export const ActiveStudentsWithoutWorkplacesReport = (props: Props) => {
                                     {pageSize(itemPerPage, setItemPerPage)}
                                     <div className="flex gap-x-2">
                                         {/* {quickActions} */}
-                                        {pagination(data?.pagination, setPage)}
+                                        {pagination(
+                                            noWorkplaceStudents.data
+                                                ?.pagination,
+                                            setPage
+                                        )}
                                     </div>
                                 </div>
                                 <div className="px-6">{table}</div>
@@ -115,7 +111,7 @@ export const ActiveStudentsWithoutWorkplacesReport = (props: Props) => {
                     }}
                 </Table>
             ) : (
-                !isError && (
+                !noWorkplaceStudents?.isError && (
                     <EmptyData
                         title={
                             'No Active Students With No Requested Workplaces Found'
