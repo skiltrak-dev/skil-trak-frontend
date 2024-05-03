@@ -32,3 +32,4 @@ export * from './volunteer-request.type'
 export * from './filterFormType'
 
 export * from './coordinator-reports.types'
+export * from './tickets.types'
