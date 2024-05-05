@@ -1,4 +1,4 @@
-import { InitialAvatar, Tooltip } from '@components'
+import { InitialAvatar, Tooltip, TooltipPosition } from '@components'
 import { useScrollIntoView } from '@hooks'
 import { Student } from '@types'
 import { isBrowser, setLink } from '@utils'
@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { BsTicketDetailed } from 'react-icons/bs'
 import { FaEnvelope, FaPhone } from 'react-icons/fa'
+import { FiPhoneOff } from 'react-icons/fi'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 
 export const StudentCellInfo = ({
@@ -82,6 +83,16 @@ export const StudentCellInfo = ({
                                     >
                                         {student?.studentId}
                                     </p>
+                                    {student?.nonContactable && (
+                                        <div className="group relative bg-red-600 p-1 rounded-full flex items-center justify-center">
+                                            <FiPhoneOff className="text-white text-[10px]" />
+                                            <Tooltip
+                                                position={TooltipPosition.left}
+                                            >
+                                                Not Contactable
+                                            </Tooltip>
+                                        </div>
+                                    )}
                                     {student?.isHighPriority && (
                                         <div className="rounded-md whitespace-nowrap px-1 py-0.5 border border-red-400 text-red-400 text-xs font-medium">
                                             High Priority

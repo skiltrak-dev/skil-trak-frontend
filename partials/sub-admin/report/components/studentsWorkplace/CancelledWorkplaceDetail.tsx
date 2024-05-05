@@ -1,5 +1,4 @@
 import {
-    ActionButton,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
@@ -7,18 +6,14 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { CourseDot } from '@partials/rto/student/components'
 import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import React, { useState } from 'react'
-
-import { Course, ReportOptionsEnum } from '@types'
 
 type Props = {}
 
 export const CancelledWorkplaceDetail = (props: Props) => {
     const { data, isLoading, isError } =
-        SubAdminApi.Reports.useCancelledWorkplaceReport({})
+        SubAdminApi.Reports.useCancelledWorkplaceReport(undefined)
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,

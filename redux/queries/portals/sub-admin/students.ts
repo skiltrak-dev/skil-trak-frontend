@@ -148,8 +148,8 @@ export const studentsEndpoints = (
     getSubAdminStudentDetail: builder.query<Student, number>({
         query: (id) => `${PREFIX}/student/view/${id}`,
         providesTags: [
-            'SubAdminStudents',
             'Notes',
+            'SubAdminStudents',
             'AllCommunications',
             'AssessmentEvidence',
             'SubAdminWorkplace',

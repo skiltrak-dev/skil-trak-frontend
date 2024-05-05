@@ -13,7 +13,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import React, { useState } from 'react'
 import { FilterReport } from '../../FilterReport'
 import { CourseDot } from '@partials/rto/student/components'
-import { Course, ReportOptionsEnum } from '@types'
+import { CoordinatorAppointmentReport, Course, ReportOptionsEnum } from '@types'
 import { ViewFullListReport } from '../../ViewFullListReport'
 import { useRouter } from 'next/router'
 import { SubAdminReports } from 'types/sub-admin-reports.type'
@@ -24,6 +24,7 @@ type Props = {
     setStartDate: (startDate: Date) => void
     endDate: Date
     setEndDate: (endDate: Date) => void
+    subadmin?: number
 }
 
 export const AppointmentsReport = ({
@@ -31,6 +32,7 @@ export const AppointmentsReport = ({
     setEndDate,
     startDate,
     endDate,
+    subadmin,
 }: Props) => {
     let end = new Date(endDate)
     end.setDate(end.getDate() + 1)
@@ -43,9 +45,10 @@ export const AppointmentsReport = ({
             endDate: end.toISOString().slice(0, 10),
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
+            userId: subadmin,
         })
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<CoordinatorAppointmentReport>[] = [
         {
             header: () => <span>Appointment By</span>,
             accessorKey: 'appointmentBy',

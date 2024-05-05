@@ -1,8 +1,4 @@
-import React from 'react'
-import { SubAdminApi } from '@queries'
-import { ColumnDef } from '@tanstack/react-table'
 import {
-    ActionButton,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
@@ -10,13 +6,13 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { CourseDot } from '@partials/rto/student/components'
-import { Course } from '@types'
+import { SubAdminApi } from '@queries'
+import { ColumnDef } from '@tanstack/react-table'
 type Props = {}
 
 export const StudentsAssignedDetail = (props: Props) => {
     const { data, isLoading, isError } =
-        SubAdminApi.Reports.useAssignedStudents({})
+        SubAdminApi.Reports.useAssignedStudents(undefined)
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,

@@ -1,4 +1,4 @@
-import { InitialAvatar, Tooltip } from '@components'
+import { InitialAvatar, Tooltip, TooltipPosition } from '@components'
 import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary'
 import { useScrollIntoView } from '@hooks'
 import { Student } from '@types'
@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { BiMessageRoundedDots } from 'react-icons/bi'
 import { BsTicketDetailed } from 'react-icons/bs'
+import { FiPhoneOff } from 'react-icons/fi'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { MdEmail, MdPhone } from 'react-icons/md'
 
@@ -103,6 +104,14 @@ export const StudentCellInfo = ({
                                     {student?.studentId}
                                 </ErrorBoundary>
                             </p>
+                            {student?.nonContactable && (
+                                <div className="group relative bg-red-600 p-1 rounded-full flex items-center justify-center">
+                                    <FiPhoneOff className="text-white text-[10px]" />
+                                    <Tooltip position={TooltipPosition.left}>
+                                        Not Contactable
+                                    </Tooltip>
+                                </div>
+                            )}
                             {router.pathname !== '/portals/admin/talent-pool' &&
                             showHignPriority
                                 ? student?.isHighPriority && (

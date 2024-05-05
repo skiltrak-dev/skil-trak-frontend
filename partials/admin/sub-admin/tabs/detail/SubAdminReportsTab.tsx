@@ -1,8 +1,6 @@
-import { NextPageWithLayout } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 
 // layouts
-import { SubAdminLayout } from '@layouts'
 
 import { Button, Card, PageTitle } from '@components'
 
@@ -28,7 +26,7 @@ import { SubAdminReports } from 'types/sub-admin-reports.type'
 
 // components
 
-const Report: NextPageWithLayout = () => {
+export const SubAdminReportsTab = ({ subadmin }: { subadmin: number }) => {
     const weekEnd = new Date()
     weekEnd.setDate(weekEnd.getDate() - 6)
     const [startDate, setStartDate] = useState<any>(weekEnd)
@@ -42,20 +40,22 @@ const Report: NextPageWithLayout = () => {
     useEffect(() => {
         router?.query?.report &&
             setReportType(router?.query?.report as SubAdminReports)
-    }, [])
+    }, [router])
 
     const onClose = () => {
         setModal(null)
     }
     const onViewClicked = () => {
-        setModal(<ReportListModal onClose={() => onClose()} />)
+        setModal(
+            <ReportListModal onClose={() => onClose()} subadmin={subadmin} />
+        )
     }
 
     const onReportChange = (e: SubAdminReports) => {
-        router.push({
-            pathname: '/portals/sub-admin/report',
-            query: { report: e },
-        })
+        // router.push({
+        //     pathname: '/portals/sub-admin/report',
+        //     query: { report: e },
+        // })
         setReportType(e)
     }
 
@@ -68,6 +68,7 @@ const Report: NextPageWithLayout = () => {
                         setStartDate={setStartDate}
                         endDate={endDate}
                         setEndDate={setEndDate}
+                        subadmin={subadmin}
                     />
                 )
             case SubAdminReports.STUDENT_HAVE_WORKPLACE:
@@ -77,10 +78,11 @@ const Report: NextPageWithLayout = () => {
                         setStartDate={setStartDate}
                         endDate={endDate}
                         setEndDate={setEndDate}
+                        subadmin={subadmin}
                     />
                 )
             case SubAdminReports.ACTIVE_STUDENTS:
-                return <ActiveStudentsReport />
+                return <ActiveStudentsReport subadmin={subadmin} />
             // case SubAdminReports.ARCHIVED_STUDENTS:
             //     return <ArchivedStudentsReport />
             case SubAdminReports.STUDENTS_CALLS:
@@ -90,6 +92,7 @@ const Report: NextPageWithLayout = () => {
                         setStartDate={setStartDate}
                         endDate={endDate}
                         setEndDate={setEndDate}
+                        subadmin={subadmin}
                     />
                 )
             case SubAdminReports.BOOK_APPOINTMENTS:
@@ -99,6 +102,7 @@ const Report: NextPageWithLayout = () => {
                         setStartDate={setStartDate}
                         endDate={endDate}
                         setEndDate={setEndDate}
+                        subadmin={subadmin}
                     />
                 )
             case SubAdminReports.TERMINATED_STUDENTS:
@@ -108,6 +112,7 @@ const Report: NextPageWithLayout = () => {
                         setStartDate={setStartDate}
                         endDate={endDate}
                         setEndDate={setEndDate}
+                        subadmin={subadmin}
                     />
                 )
             case SubAdminReports.COMPLETED_STUDENTS:
@@ -117,6 +122,7 @@ const Report: NextPageWithLayout = () => {
                         setStartDate={setStartDate}
                         endDate={endDate}
                         setEndDate={setEndDate}
+                        subadmin={subadmin}
                     />
                 )
             case SubAdminReports.CANCELLED_STUDENTS:
@@ -126,6 +132,7 @@ const Report: NextPageWithLayout = () => {
                         setStartDate={setStartDate}
                         endDate={endDate}
                         setEndDate={setEndDate}
+                        subadmin={subadmin}
                     />
                 )
             case SubAdminReports.PLACEMENT_STARTED:
@@ -135,10 +142,15 @@ const Report: NextPageWithLayout = () => {
                         setStartDate={setStartDate}
                         endDate={endDate}
                         setEndDate={setEndDate}
+                        subadmin={subadmin}
                     />
                 )
             case SubAdminReports.NO_WORKPLACE:
-                return <ActiveStudentsWithoutWorkplacesReport />
+                return (
+                    <ActiveStudentsWithoutWorkplacesReport
+                        subadmin={subadmin}
+                    />
+                )
             default:
                 return (
                     <StudentsAssignedReport
@@ -146,6 +158,7 @@ const Report: NextPageWithLayout = () => {
                         setStartDate={setStartDate}
                         endDate={endDate}
                         setEndDate={setEndDate}
+                        subadmin={subadmin}
                     />
                 )
         }
@@ -178,9 +191,3 @@ const Report: NextPageWithLayout = () => {
         </>
     )
 }
-
-Report.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout>{page}</SubAdminLayout>
-}
-
-export default Report

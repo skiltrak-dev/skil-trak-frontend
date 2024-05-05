@@ -18,7 +18,7 @@ import { Course } from '@types'
 export const StudentHaveWorkplaceDetail = () => {
     const router = useRouter()
     const { data, isLoading, isError } =
-        SubAdminApi.Reports.useStudentProvidedWorkplaceReport({})
+        SubAdminApi.Reports.useStudentProvidedWorkplaceReport(undefined)
 
     const columns: ColumnDef<any>[] = [
         {

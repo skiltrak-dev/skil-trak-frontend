@@ -1,9 +1,6 @@
-import { ReactElement, useState, useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
-import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout, SubadminWorkplaceFiltersType } from '@types'
 import {
-    Card,
     Filter,
     LoadingAnimation,
     Modal,
@@ -13,19 +10,20 @@ import {
     TechnicalError,
     WorkplaceFilters,
 } from '@components'
+import { SubAdminLayout } from '@layouts'
+import { NextPageWithLayout, SubadminWorkplaceFiltersType } from '@types'
 
 // query
-import { useGetSubAdminFilteredWorkplacesQuery, SubAdminApi } from '@queries'
+import { SubAdminApi, useGetSubAdminFilteredWorkplacesQuery } from '@queries'
 
 // components
 import {
-    MyWorkplaces,
     AllWorkplaces,
     CancelledWorkplaces,
-    StudentAddedWorkplaces,
     FilteredWorkplaces,
+    MyWorkplaces,
     PlacementStartedWorkplaces,
-    NeedWorkplaces,
+    StudentAddedWorkplaces,
 } from '@partials/sub-admin'
 import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
@@ -58,7 +56,9 @@ const Workplace: NextPageWithLayout = (props: Props) => {
         setItemPerPage(Number(router.query.pageSize || 10))
     }, [router])
 
-    const count = SubAdminApi.Workplace.count()
+    const count = SubAdminApi.Workplace.count(undefined, {
+        refetchOnMountOrArgChange: true,
+    })
     const profile = SubAdminApi.SubAdmin.useProfile(undefined, {
         refetchOnMountOrArgChange: true,
     })

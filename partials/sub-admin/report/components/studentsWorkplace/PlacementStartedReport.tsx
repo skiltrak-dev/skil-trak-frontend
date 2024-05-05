@@ -22,6 +22,7 @@ type Props = {
     setStartDate: (startDate: Date) => void
     endDate: Date
     setEndDate: (endDate: Date) => void
+    subadmin?: number
 }
 
 export const PlacementStartedReport = ({
@@ -29,6 +30,7 @@ export const PlacementStartedReport = ({
     setEndDate,
     startDate,
     endDate,
+    subadmin,
 }: Props) => {
     let end = new Date(endDate)
     end.setDate(end.getDate() + 1)
@@ -41,6 +43,7 @@ export const PlacementStartedReport = ({
             endDate: end.toISOString().slice(0, 10),
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
+            userId: subadmin,
         })
 
     const columns: ColumnDef<any>[] = [

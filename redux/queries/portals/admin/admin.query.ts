@@ -190,13 +190,14 @@ const {
 
     // ------ SUB ADMINS ------ //
     useSubAdminsQuery,
-    useSubAdminAsAdminListQuery,
     useViewSummaryQuery,
     useSubAdminCountQuery,
     useSubAdminProfileQuery,
     useSubadminRemoveMutation,
     useCreateSubAdminMutation,
     useUpdateSubAdminMutation,
+    useSubAdminAsAdminListQuery,
+    useSubAdminsFilterListQuery,
     useSubAdminProfileCountQuery,
     useToggleAutoWorkplaceAssignmentMutation,
 
@@ -321,6 +322,7 @@ export const AdminApi = {
     SubAdmins: {
         useListQuery: useSubAdminsQuery,
         useSubAdminAsAdminList: useSubAdminAsAdminListQuery,
+        useSubAdminsFilterList: useSubAdminsFilterListQuery,
         useCountQuery: useSubAdminCountQuery,
         useProfileCount: useSubAdminProfileCountQuery,
         createSubAmin: useCreateSubAdminMutation,

@@ -7,7 +7,8 @@ import { getUserCredentials } from '@utils'
 import { saveAs } from 'file-saver'
 import { DownloadLoader } from './DownloadLoader'
 
-export const ReportListModal = ({ onClose }: any) => {
+export const ReportListModal = ({ onClose, subadmin }: any) => {
+    console.log({ subadmin })
     const [filterReports, setFilterReports] = useState({
         label: 'Monthly',
         value: 'monthly',
@@ -16,8 +17,10 @@ export const ReportListModal = ({ onClose }: any) => {
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
 
-    const userId = getUserCredentials()?.id
+    const userId = subadmin || getUserCredentials()?.id
     const subAdminName = getUserCredentials()?.name
+
+    console.log({ userId })
 
     const downloadAsPdf = SubAdminApi.Reports.useDownloadLink(
         {

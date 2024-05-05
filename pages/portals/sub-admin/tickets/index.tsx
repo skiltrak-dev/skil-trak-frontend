@@ -46,29 +46,12 @@ const Tickets: NextPageWithLayout = () => {
 
     return (
         <div className="px-4">
+            <BackButton text={'Go Back'} />
             <TabNavigation tabs={tabs}>
                 {({ header, element }: any) => {
                     return (
                         <div>
                             <div>{header}</div>
-                            <div className="mt-4 ml-4">
-                                <BackButton text={'Go Back'} />
-                                <PageHeading
-                                    title={'Ticket'}
-                                    subtitle={'You can find all Tickets here'}
-                                >
-                                    <Button
-                                        variant={'dark'}
-                                        text={'Create a Ticket'}
-                                        Icon={BsFillTicketDetailedFill}
-                                        onClick={() => {
-                                            router.push(
-                                                '/portals/sub-admin/tickets/add-ticket'
-                                            )
-                                        }}
-                                    />
-                                </PageHeading>
-                            </div>
                             <div className="p-4">{element}</div>
                         </div>
                     )

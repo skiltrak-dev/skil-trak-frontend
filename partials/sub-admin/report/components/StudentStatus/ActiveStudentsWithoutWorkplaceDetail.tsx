@@ -1,5 +1,4 @@
 import {
-    ActionButton,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
@@ -7,12 +6,8 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { CourseDot } from '@partials/rto/student/components'
 import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import React, { useState } from 'react'
-
-import { Course, ReportOptionsEnum } from '@types'
 
 type Props = {}
 
