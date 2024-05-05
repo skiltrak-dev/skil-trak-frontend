@@ -6,6 +6,7 @@ export interface StudentsFilterType {
     email: string
     phone: string
     studentId: string
+    subadminId: number
     suburb: string
     status: UserStatus
     rtoId: number

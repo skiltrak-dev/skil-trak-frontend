@@ -7,13 +7,11 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { CourseDot } from '@partials/rto/student/components'
-import React, { useState } from 'react'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { Course, ReportOptionsEnum } from '@types'
-import { ViewFullListReport } from '../../ViewFullListReport'
+import { ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 type Props = {}
 
 export const ArchivedStudentsWithoutWorkplacesReport = (props: Props) => {

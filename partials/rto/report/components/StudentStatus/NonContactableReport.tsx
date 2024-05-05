@@ -80,6 +80,11 @@ export const NonContactableReport = ({
         {
             accessorKey: 'phone',
             header: () => <span>Phone</span>,
+            cell: (info) => (
+                <span className="whitespace-pre">
+                    {info?.row?.original?.phone}
+                </span>
+            ),
         },
         {
             accessorKey: 'courses',
@@ -185,7 +190,14 @@ export const NonContactableReport = ({
                                             )}
                                         </div>
                                     </div>
-                                    <div className="px-6">{table}</div>
+                                    <div className="overflow-x-auto remove-scrollbar">
+                                        <div
+                                            className="px-6 w-full"
+                                            id={'studentScrollId'}
+                                        >
+                                            {table}
+                                        </div>
+                                    </div>
                                 </div>
                             )
                         }}

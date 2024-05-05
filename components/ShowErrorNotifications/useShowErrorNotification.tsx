@@ -20,6 +20,7 @@ export const useShowErrorNotification = () => {
                         title: errorTitle,
                         description: msg,
                         autoDismiss: true,
+                        dissmissTimer: 4500,
                     })
                 }
             } else {
@@ -29,6 +30,7 @@ export const useShowErrorNotification = () => {
                         result.error?.data?.message ||
                         'Please check your network connection',
                     autoDismiss: true,
+                    dissmissTimer: 4500,
                 })
             }
         }

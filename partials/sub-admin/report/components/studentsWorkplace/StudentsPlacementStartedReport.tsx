@@ -8,13 +8,12 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { CourseDot } from '@partials/rto/student/components'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { FilterReport } from '../../FilterReport'
 
-import { Course, ReportOptionsEnum } from '@types'
+import { ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
 
 type Props = {

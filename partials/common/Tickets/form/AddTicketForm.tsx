@@ -16,7 +16,7 @@ import { getUserCredentials } from '@utils'
 import { OptionType } from '@types'
 import { useRouter } from 'next/router'
 
-enum Priority {
+export enum ticketPriorityEnum {
     Low = 'low',
     Medium = 'medium',
     High = 'high',
@@ -69,7 +69,7 @@ export const AddTicketForm = ({
     })
 
     const priorityOptions = [
-        ...Object.entries(Priority).map(([label, value]) => ({
+        ...Object.entries(ticketPriorityEnum).map(([label, value]) => ({
             label,
             value,
         })),

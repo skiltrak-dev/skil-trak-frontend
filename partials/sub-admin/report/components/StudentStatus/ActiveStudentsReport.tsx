@@ -3,36 +3,37 @@ import {
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
+    ShowErrorNotifications,
     Table,
     TechnicalError,
     Typography,
 } from '@components'
-import { CourseDot } from '@partials/rto/student/components'
-import React, { useState } from 'react'
 import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { Course, ReportOptionsEnum } from '@types'
-import { ViewFullListReport } from '../../ViewFullListReport'
+import { CoordinatorActiveStudentReport } from '@types'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 import { SubAdminReports } from 'types/sub-admin-reports.type'
-type Props = {}
+type Props = {
+    subadmin?: number
+}
 
-export const ActiveStudentsReport = (props: Props) => {
+export const ActiveStudentsReport = ({ subadmin }: Props) => {
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
-    const { data, isLoading, isError } =
-        SubAdminApi.Reports.useActiveStudentsReport({
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+    const activeStudentsReport = SubAdminApi.Reports.useActiveStudentsReport({
+        userId: subadmin,
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<CoordinatorActiveStudentReport>[] = [
         {
             header: () => <span>Name</span>,
             accessorKey: 'user',
-            cell: (info: any) => {
+            cell: (info) => {
                 return (
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar
@@ -73,9 +74,10 @@ export const ActiveStudentsReport = (props: Props) => {
             },
         },
     ]
-    const count = data?.pagination?.totalResult
+    const count = activeStudentsReport?.data?.pagination?.totalResult
     return (
         <>
+            <ShowErrorNotifications result={activeStudentsReport} />
             <div className="flex justify-between items-center">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
@@ -94,11 +96,15 @@ export const ActiveStudentsReport = (props: Props) => {
                 </ActionButton>
             </div>
 
-            {isError && <TechnicalError />}
-            {isLoading ? (
+            {activeStudentsReport?.isError && <TechnicalError />}
+            {activeStudentsReport?.isLoading ? (
                 <LoadingAnimation height="h-[60vh]" />
-            ) : data?.data && data?.data?.length ? (
-                <Table columns={columns} data={data?.data}>
+            ) : activeStudentsReport?.data?.data &&
+              activeStudentsReport?.data?.data?.length ? (
+                <Table
+                    columns={columns}
+                    data={activeStudentsReport?.data?.data}
+                >
                     {({ table, pagination, pageSize, quickActions }: any) => {
                         return (
                             <div>
@@ -106,7 +112,11 @@ export const ActiveStudentsReport = (props: Props) => {
                                     {pageSize(itemPerPage, setItemPerPage)}
                                     <div className="flex gap-x-2">
                                         {/* {quickActions} */}
-                                        {pagination(data?.pagination, setPage)}
+                                        {pagination(
+                                            activeStudentsReport?.data
+                                                ?.pagination,
+                                            setPage
+                                        )}
                                     </div>
                                 </div>
                                 <div className="px-6">{table}</div>
@@ -115,7 +125,7 @@ export const ActiveStudentsReport = (props: Props) => {
                     }}
                 </Table>
             ) : (
-                !isError && (
+                !activeStudentsReport?.isError && (
                     <EmptyData
                         title={'No Active Students Found'}
                         description={'There is no any Active Students yet'}

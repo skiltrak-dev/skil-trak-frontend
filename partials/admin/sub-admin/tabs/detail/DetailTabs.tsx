@@ -1,7 +1,8 @@
 import { TabNavigation, TabProps } from '@components'
-import { AllCommunicationTab, NotesTab, MailsTab } from '@partials/common'
-import { ViewSummary } from './ViewSummary'
+import { AllCommunicationTab, MailsTab, NotesTab } from '@partials/common'
 import { SubAdminHistory } from './SubAdminHistory'
+import { SubAdminReportsTab } from './SubAdminReportsTab'
+import { ViewSummary } from './ViewSummary'
 
 export const DetailTabs = ({
     id,
@@ -15,6 +16,11 @@ export const DetailTabs = ({
             label: 'History',
             href: { query: { tab: 'history', id } },
             element: <SubAdminHistory subadmin={subAdmin?.user?.id} />,
+        },
+        {
+            label: 'Reports',
+            href: { query: { tab: 'reports', id } },
+            element: <SubAdminReportsTab subadmin={subAdmin?.user?.id} />,
         },
         {
             label: 'Notes',
