@@ -1,6 +1,5 @@
 import { WorkplaceAnswerEnum } from '@partials/common'
-import { IndustrySubAdmin } from '@partials/sub-admin/Industries'
-import { Course, Student, SubAdmin, UserStatus } from '@types'
+import { Course, Industry, Student, SubAdmin, UserStatus } from '@types'
 import { WorkplaceCurrentStatus } from '@utils'
 
 export interface WorkplaceQuestionType {
@@ -54,7 +53,7 @@ export interface WorkplaceWorkIndustriesType {
     terminated: boolean
     terminatedDate: string
     updatedAt: string
-    industry: IndustrySubAdmin
+    industry: Industry
 }
 
 export interface IWorkplaceIndustries {

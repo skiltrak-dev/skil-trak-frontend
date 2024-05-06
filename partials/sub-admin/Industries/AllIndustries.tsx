@@ -17,7 +17,7 @@ import {
 } from '@components'
 
 import { useGetSubAdminIndustriesQuery } from '@queries'
-import { Industry, SubAdmin, UserStatus } from '@types'
+import { CallLog, Industry, SubAdmin, UserStatus } from '@types'
 import { IndustryCellInfo } from './components'
 import { AddToFavoriteModal, ArchiveModal, BlockModal } from './modals'
 import { MdBlock, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
@@ -26,19 +26,11 @@ import { RiInboxArchiveFill, RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
 import { BranchCell } from './components/BranchCell'
 
-export interface IndustrySubAdmin extends Industry {
-    subAdmin: SubAdmin[]
-    callLog: any
-}
-
 export const AllIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-
-    // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -85,7 +77,7 @@ export const AllIndustries = () => {
         return subAdmin?.find((subadmin: any) => subadmin?.user?.id === id)
     }
 
-    const tableActionOptions = (industry: IndustrySubAdmin) => {
+    const tableActionOptions = (industry: Industry) => {
         const subAdmin = isFavorite(industry?.subAdmin)
         return [
             {
@@ -235,8 +227,7 @@ export const AllIndustries = () => {
 
     return (
         <>
-            {modal && modal}
-            {passwordModal}
+            {modal}
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading ? (

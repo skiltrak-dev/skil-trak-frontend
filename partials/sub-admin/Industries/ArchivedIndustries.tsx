@@ -11,20 +11,18 @@ import {
     LoadingAnimation,
     Table,
     TableAction,
-    TableActionOption,
     TechnicalError,
     Typography,
 } from '@components'
 
+import { useActionModal } from '@hooks'
 import { useGetSubAdminIndustriesQuery } from '@queries'
 import { Industry, SubAdmin, UserStatus } from '@types'
+import { getUserCredentials, setLink } from '@utils'
+import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
+import { RiInboxUnarchiveFill } from 'react-icons/ri'
 import { IndustryCellInfo } from './components'
 import { AddToFavoriteModal, UnArchiveModal } from './modals'
-import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
-import { getUserCredentials, setLink } from '@utils'
-import { RiInboxUnarchiveFill, RiLockPasswordFill } from 'react-icons/ri'
-import { useActionModal } from '@hooks'
-import { IndustrySubAdmin } from './AllIndustries'
 
 export const ArchivedIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -71,7 +69,7 @@ export const ArchivedIndustries = () => {
         return subAdmin?.find((subadmin: any) => subadmin?.user?.id === id)
     }
 
-    const tableActionOptions = (industry: IndustrySubAdmin) => {
+    const tableActionOptions = (industry: Industry) => {
         const subAdmin = isFavorite(industry?.subAdmin)
         return [
             {

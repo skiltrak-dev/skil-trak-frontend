@@ -32,8 +32,10 @@ export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
+    const role = getUserCredentials()?.role
+
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
-        skip: !UserRoles.SUBADMIN,
+        skip: role !== UserRoles.SUBADMIN,
         refetchOnMountOrArgChange: true,
     })
     // const {data} = useGetSubAdminRTODetailQuery(String(profileId), {
@@ -68,7 +70,6 @@ export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
         )
     }
 
-    const role = getUserCredentials()?.role
     const sectorsWithCourses = getSectors(rto?.data?.courses)
     return (
         <>

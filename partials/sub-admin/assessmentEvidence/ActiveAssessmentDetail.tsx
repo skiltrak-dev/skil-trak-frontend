@@ -85,8 +85,10 @@ export const ActiveAssessmentDetail = ({
     const workplace = useGetSubAdminStudentWorkplaceQuery(Number(studentId), {
         skip: !studentId,
     })
+
+    const role = getUserCredentials()?.role
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
-        skip: !UserRoles.SUBADMIN,
+        skip: role !== UserRoles.SUBADMIN,
         refetchOnMountOrArgChange: true,
     })
 
@@ -186,8 +188,6 @@ export const ActiveAssessmentDetail = ({
     const onManuallyReopen = (event: any) => {
         manullyReopenSubmission(results?.id)
     }
-
-    const role = getUserCredentials()?.role
 
     const [archiveFile, archiveFileResult] =
         SubAdminApi.AssessmentEvidence.archiveUploadedFile()

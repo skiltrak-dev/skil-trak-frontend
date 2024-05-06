@@ -1,4 +1,4 @@
-import { Typography } from '@components'
+import { Badge, Typography } from '@components'
 import { UserRoles } from '@constants'
 import { SubAdminApi } from '@queries'
 import { ellipsisText, getUserCredentials } from '@utils'
@@ -11,7 +11,7 @@ export const TicketSubject = ({ ticket }: { ticket: any }) => {
     const role = getUserCredentials()?.role
 
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
-        skip: !UserRoles.SUBADMIN,
+        skip: role !== UserRoles.SUBADMIN,
         refetchOnMountOrArgChange: true,
     })
 
@@ -41,6 +41,11 @@ export const TicketSubject = ({ ticket }: { ticket: any }) => {
                 </div>
                 <div className="rounded-full bg-info uppercase text-[11px] text-white px-1.5 whitespace-pre">
                     {ticket?.replies} New Replies
+                </div>
+                <div
+                    className={`rounded-full bg-success uppercase text-[11px] font-semibold text-white px-1.5 whitespace-pre`}
+                >
+                    {ticket?.priority}
                 </div>
             </div>
             <Typography variant={'label'}>

@@ -9,19 +9,13 @@ import {
 import { PageHeading } from '@components/headings'
 import { Industry, SubAdmin } from '@types'
 import { useRouter } from 'next/router'
-import React, { ReactElement, useState } from 'react'
+import { ReactElement, useState } from 'react'
 import { IndustryCellInfo } from './components'
 //icons
-import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
-import { FaEye, FaPencilAlt } from 'react-icons/fa'
-import { AddToFavoriteModal } from './modals'
 import { getUserCredentials } from '@utils'
-import { IndustrySubAdmin } from './AllIndustries'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { useActionModal } from '@hooks'
-// export interface IndustrySubAdmin extends Industry {
-//     subAdmin: SubAdmin[]
-// }
+import { FaEye, FaPencilAlt } from 'react-icons/fa'
+import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
+import { AddToFavoriteModal } from './modals'
 
 export const FilteredIndustry = ({
     industry,
@@ -37,14 +31,13 @@ export const FilteredIndustry = ({
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
 
     const router = useRouter()
     const id = getUserCredentials()?.id
     const isFavorite = (subAdmin: SubAdmin[] | undefined) => {
         return subAdmin?.find((subadmin: SubAdmin) => subadmin?.user?.id === id)
     }
-    const tableActionOptions = (industry: IndustrySubAdmin) => {
+    const tableActionOptions = (industry: Industry) => {
         const onCancelClicked = () => {
             setModal(null)
         }
@@ -167,7 +160,6 @@ export const FilteredIndustry = ({
     return (
         <>
             {modal}
-            {passwordModal}
             <div className="flex flex-col gap-y-4 p-4">
                 <PageHeading
                     title={'Filtered Industries'}
