@@ -16,12 +16,12 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
     const { passwordModal, onViewPassword, onUpdatePassword } = useActionModal()
     const [modal, setModal] = useState<ReactNode | null>(null)
 
+    const role = getUserCredentials()?.role
+
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
-        skip: !UserRoles.SUBADMIN,
+        skip: role !== UserRoles.SUBADMIN,
         refetchOnMountOrArgChange: true,
     })
-
-    const role = getUserCredentials()?.role
 
     const onCancelClicked = () => setModal(null)
 

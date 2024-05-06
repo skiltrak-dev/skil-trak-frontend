@@ -17,7 +17,7 @@ import {
     Typography,
     UserCreatedAt,
 } from '@components'
-import { StudentCellInfo } from './components'
+import { StudentCellInfo, SubadminStudentIndustries } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { SubAdminApi } from '@queries'
@@ -137,23 +137,12 @@ export const PlacementStartedStudents = () => {
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info: any) => {
-                const industry = info.row.original?.industries
-
-                const appliedIndustry = studentsListWorkplace(
-                    info.row.original?.workplace
-                )
-
-                return industry && industry?.length > 0 ? (
-                    <IndustryCellInfo industry={industry[0]} />
-                ) : info.row.original?.workplace &&
-                  info.row.original?.workplace?.length > 0 &&
-                  appliedIndustry ? (
-                    <IndustryCellInfo industry={appliedIndustry} />
-                ) : (
-                    <Typography center>N/A</Typography>
-                )
-            },
+            cell: (info) => (
+                <SubadminStudentIndustries
+                    workplace={info.row.original?.workplace}
+                    industries={info.row.original?.industries}
+                />
+            ),
         },
         {
             accessorKey: 'sectors',

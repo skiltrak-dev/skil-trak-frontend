@@ -5,17 +5,17 @@ import { useRouter } from 'next/router'
 import { AiFillStar } from 'react-icons/ai'
 import { FaHandshake } from 'react-icons/fa'
 import { MdEmail, MdPhoneIphone, MdSnooze } from 'react-icons/md'
-import { IndustrySubAdmin } from '../AllIndustries'
 import moment from 'moment'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { FaHireAHelper } from 'react-icons/fa'
+import { Industry } from '@types'
 
 export const IndustryCellInfo = ({
     industry,
     isFavorite,
     call,
 }: {
-    industry: IndustrySubAdmin
+    industry: Industry
     isFavorite?: any
     call?: boolean
 }) => {

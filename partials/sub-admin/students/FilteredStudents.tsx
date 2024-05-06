@@ -13,7 +13,6 @@ import {
     UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
-import { useActionModal } from '@hooks'
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { Student, UserStatus } from '@types'
@@ -28,11 +27,10 @@ import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
 import { MdBlock } from 'react-icons/md'
-import { RiLockPasswordFill } from 'react-icons/ri'
 import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
-import { IndustryCellInfo, IndustrySubAdmin } from '../Industries'
+import { IndustryCellInfo } from '../Industries'
 import { InterviewModal } from '../workplace/modals'
-import { StudentCellInfo } from './components'
+import { StudentCellInfo, SubadminStudentIndustries } from './components'
 import {
     AddToNonContactableStudents,
     AssignStudentModal,
@@ -191,25 +189,12 @@ export const FilteredStudents = ({
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info) => {
-                const industry = info.row.original?.industries
-
-                const appliedIndustry = studentsListWorkplace(
-                    info.row.original?.workplace
-                )
-
-                return industry && industry?.length > 0 ? (
-                    <IndustryCellInfo
-                        industry={industry[0] as IndustrySubAdmin}
-                    />
-                ) : info.row.original?.workplace &&
-                  info.row.original?.workplace?.length > 0 &&
-                  appliedIndustry ? (
-                    <IndustryCellInfo industry={appliedIndustry} />
-                ) : (
-                    <Typography center>N/A</Typography>
-                )
-            },
+            cell: (info) => (
+                <SubadminStudentIndustries
+                    workplace={info.row.original?.workplace}
+                    industries={info.row.original?.industries}
+                />
+            ),
         },
         {
             accessorKey: 'sectors',

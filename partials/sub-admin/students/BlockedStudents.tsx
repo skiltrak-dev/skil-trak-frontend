@@ -17,27 +17,23 @@ import {
     Table,
     TableAction,
     TableActionOption,
-    Typography,
     UserCreatedAt,
 } from '@components'
-import { StudentCellInfo } from './components'
+import { StudentCellInfo, SubadminStudentIndustries } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { useActionModal } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
-import { MdBlock, MdDelete } from 'react-icons/md'
-import { AcceptModal, AssignStudentModal, DeleteModal } from './modals'
+import { MdBlock } from 'react-icons/md'
+import { AcceptModal, AssignStudentModal } from './modals'
 
 import { BulkDeleteModal } from '@modals'
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import { checkListLength, setLink, studentsListWorkplace } from '@utils'
+import { checkListLength, setLink } from '@utils'
 import { AiFillCheckCircle } from 'react-icons/ai'
 import { CgUnblock } from 'react-icons/cg'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { IndustryCellInfo, IndustrySubAdmin } from '../Industries'
 
 export const BlockedStudents = () => {
     const router = useRouter()
@@ -148,25 +144,12 @@ export const BlockedStudents = () => {
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info) => {
-                const industry = info.row.original?.industries
-
-                const appliedIndustry = studentsListWorkplace(
-                    info.row.original?.workplace
-                )
-
-                return industry && industry?.length > 0 ? (
-                    <IndustryCellInfo
-                        industry={industry[0] as IndustrySubAdmin}
-                    />
-                ) : info.row.original?.workplace &&
-                  info.row.original?.workplace?.length > 0 &&
-                  appliedIndustry ? (
-                    <IndustryCellInfo industry={appliedIndustry} />
-                ) : (
-                    <Typography center>N/A</Typography>
-                )
-            },
+            cell: (info) => (
+                <SubadminStudentIndustries
+                    workplace={info.row.original?.workplace}
+                    industries={info.row.original?.industries}
+                />
+            ),
         },
         {
             accessorKey: 'sectors',

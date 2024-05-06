@@ -11,7 +11,7 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
     const authenticated = AuthUtils.isAuthenticated()
 
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
-        skip: !UserRoles.SUBADMIN,
+        skip: role !== UserRoles.SUBADMIN,
         refetchOnMountOrArgChange: true,
         refetchOnFocus: true,
     })

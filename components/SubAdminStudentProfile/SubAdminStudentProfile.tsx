@@ -49,12 +49,12 @@ export const SubAdminStudentProfile = ({
     const [callLog, callLogResult] = SubAdminApi.Student.useStudentCallLog()
     const [makeAsHighPriority, makeAsHighPriorityResult] =
         CommonApi.StudentAssessmentFiles.useMakeAsHighPriority()
-    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
-        skip: !UserRoles.SUBADMIN,
-        refetchOnMountOrArgChange: true,
-    })
 
     const role = getUserCredentials()?.role
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: role !== UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+    })
 
     // useEffect(() => {
     //     if (resultCalledStudent.isSuccess) {

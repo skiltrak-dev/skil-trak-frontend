@@ -1,49 +1,41 @@
-import { Portal, TableAction, TableActionOption, Typography } from '@components'
-import { RtoCellInfo } from '@partials/admin/rto/components'
-import { StudentCellInfo } from '@partials/admin/student/components'
-import { TicketSubject } from '@partials/common/Tickets'
-import { TicketUser } from '@partials/common/Tickets/components'
+import { TableAction, TableActionOption, Typography } from '@components'
+import { TicketSubject, TicketUser } from '@partials/common/Tickets/components'
+import { RTOCellInfo } from '@partials/sub-admin/rto/components'
+import { StudentCellInfo } from '@partials/sub-admin/students'
 import { ColumnDef } from '@tanstack/react-table'
-import { TicketTypes } from '@types'
 import moment from 'moment'
 import { useRouter } from 'next/router'
-import { ReactElement, useState } from 'react'
-import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
-import { CloseTicketModal } from '../modals'
+import { BsFillEyeFill } from 'react-icons/bs'
 
-export const useTicketsColumns = () => {
+export const useSubadminTicketsColumns = () => {
     const router = useRouter()
-    const [modal, setModal] = useState<ReactElement | null>(null)
-
-    const onCancelClicked = () => setModal(null)
-
-    const onCloseClicked = (ticket: any) => {
-        setModal(
-            <Portal>
-                <CloseTicketModal onCancel={onCancelClicked} ticket={ticket} />
-            </Portal>
-        )
-    }
 
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
             onClick: (ticket: any) =>
-                router.push(`/portals/admin/tickets/detail/${ticket?.id}`),
-            Icon: AiFillCloseCircle,
+                router.push(`/portals/sub-admin/tickets/detail/${ticket?.id}`),
+            Icon: BsFillEyeFill,
         },
-        {
-            text: 'Close',
-            onClick: (ticket: any) => onCloseClicked(ticket),
-            Icon: AiFillDelete,
-        },
+        // {
+        //     text: 'Delete',
+        //     onClick: () => {},
+        //     Icon: AiFillDelete,
+        // },
     ]
-
-    const columns: ColumnDef<TicketTypes>[] = [
+    const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'subject',
             cell: (info) => <TicketSubject ticket={info?.row?.original} />,
             header: () => <span>Subject</span>,
+        },
+
+        {
+            accessorKey: 'createdBy',
+            cell: (info) => (
+                <TicketUser ticket={info?.row?.original?.createdBy} />
+            ),
+            header: () => <span>Created By</span>,
         },
         {
             accessorKey: 'user.name',
@@ -57,25 +49,18 @@ export const useTicketsColumns = () => {
                     'N/A'
                 )
             },
-            header: () => <span>Student</span>,
+            header: () => <span>Linked Student</span>,
         },
         {
             accessorKey: 'rto',
             cell: (info) => {
                 return info?.row?.original?.student ? (
-                    <RtoCellInfo rto={info?.row?.original?.student?.rto} />
+                    <RTOCellInfo rto={info.row.original?.student?.rto} />
                 ) : (
                     'N/A'
                 )
             },
             header: () => <span>RTO</span>,
-        },
-        {
-            accessorKey: 'createdBy',
-            cell: (info) => (
-                <TicketUser ticket={info?.row?.original?.createdBy} />
-            ),
-            header: () => <span>Created By</span>,
         },
         {
             accessorKey: 'assignedTo',
@@ -128,5 +113,5 @@ export const useTicketsColumns = () => {
             },
         },
     ]
-    return { columns, modal }
+    return { columns }
 }
