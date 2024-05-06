@@ -31,7 +31,7 @@ import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
 import { MdBlock, MdPriorityHigh } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
-import { SectorCell, StudentCellInfo } from './components'
+import { SectorCell, StudentCellInfo, StudentIndustries } from './components'
 import {
     ArchiveModal,
     BlockModal,
@@ -254,23 +254,12 @@ export const ApprovedStudent = () => {
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info) => {
-                const industry = info.row.original?.industries
-
-                const appliedIndustry = studentsListWorkplace(
-                    info.row.original?.workplace
-                )
-
-                return industry && industry?.length > 0 ? (
-                    <IndustryCell industry={industry[0]} />
-                ) : info.row.original?.workplace &&
-                  info.row.original?.workplace?.length > 0 &&
-                  appliedIndustry ? (
-                    <IndustryCell industry={appliedIndustry} />
-                ) : (
-                    <Typography center>N/A</Typography>
-                )
-            },
+            cell: (info) => (
+                <StudentIndustries
+                    industries={info.row.original?.industries}
+                    workplace={info.row.original?.workplace}
+                />
+            ),
         },
         {
             accessorKey: 'sectors',

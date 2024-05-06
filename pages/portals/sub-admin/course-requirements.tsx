@@ -1,43 +1,29 @@
 import { ReactElement } from 'react'
 
-import { RtoLayout, StudentLayout, SubAdminLayout } from '@layouts'
-import { RtoApi, SubAdminApi, useGetStudentCoursesQuery } from '@queries'
-import { Course, GetSectorsType, NextPageWithLayout } from '@types'
+import { SubAdminLayout } from '@layouts'
+import { CommonApi } from '@queries'
+import { NextPageWithLayout } from '@types'
 
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { CourseRequirementsDetail } from '@partials/common'
-
-const getSectors = (courses: Course[]) => {
-    if (!courses) return {}
-    const sectors: GetSectorsType = {}
-    courses?.forEach((c: Course) => {
-        if (sectors[c?.sector?.name]) {
-            sectors[c?.sector?.name].push(c)
-        } else {
-            sectors[c?.sector?.name] = []
-            sectors[c?.sector?.name].push(c)
-        }
-    })
-    return sectors
-}
+import { getSectors } from '@utils'
 
 const CourseRequirements: NextPageWithLayout = () => {
-    const { data, isSuccess, isLoading, isError } =
-        SubAdminApi.SubAdmin.useProfile()
-    const sectorsWithCourses = getSectors(data?.courses)
+    const subadminCourses = CommonApi.Courses.subadminCoursesList()
+    const sectorsWithCourses = getSectors(subadminCourses?.data)
 
     return (
         <>
-            {isError && <TechnicalError />}
-            {isLoading ? (
+            {subadminCourses?.isError && <TechnicalError />}
+            {subadminCourses?.isLoading ? (
                 <LoadingAnimation />
-            ) : data?.courses && data?.courses?.length > 0 ? (
+            ) : subadminCourses?.data && subadminCourses?.data?.length > 0 ? (
                 <CourseRequirementsDetail
                     sectorsWithCourses={sectorsWithCourses}
-                    loading={isLoading}
+                    loading={subadminCourses?.isLoading}
                 />
             ) : (
-                !isError && (
+                !subadminCourses?.isError && (
                     <EmptyData
                         title={'No Courses were found'}
                         description={'You have no courses assigned'}

@@ -22,10 +22,10 @@ import { ViewProfileCB } from '@partials/sub-admin/contextBar'
 
 import { FigureCard } from '@components/sections/subAdmin/components/Cards/FigureCard'
 
-import { AuthUtils, getUserCredentials } from '@utils'
+import { AuthUtils, getSectors, getUserCredentials } from '@utils'
 
 import { ImportantDocuments } from '@partials/common'
-import { SubAdminApi, useGetSubAdminIndustriesQuery } from '@queries'
+import { CommonApi, SubAdminApi, useGetSubAdminIndustriesQuery } from '@queries'
 import { useRouter } from 'next/router'
 import { CallBackProps } from 'react-joyride'
 
@@ -42,37 +42,18 @@ const NotificationQuestions = [
     },
 ]
 
-const getSectors = (courses: any) => {
-    if (!courses) return {}
-    const sectors = {}
-    courses.forEach((c: any) => {
-        if ((sectors as any)[c.sector.name]) {
-            ;(sectors as any)[c.sector.name].push(c)
-        } else {
-            ;(sectors as any)[c.sector.name] = []
-            ;(sectors as any)[c.sector.name].push(c)
-        }
-    })
-    return sectors
-}
-
 const SubAdminDashboard: NextPageWithLayout = () => {
-    // const studentList = useGetSubAdminIndustryStudentsQuery({
-    //     industry: 198,
-    //     skip: 0,
-    //     limit: 50,
-    // })
-
     const status = getUserCredentials()?.status
 
     const contextBar = useContextBar()
     const [credentials, setCredentials] = useState<any>(null)
     const [modal, setModal] = useState<any | null>(null)
-    const { data, isSuccess, isLoading } = SubAdminApi.SubAdmin.useProfile()
+    const subadminCourses = CommonApi.Courses.subadminCoursesList()
+
     const statistics = SubAdminApi.Count.statistics(undefined, {
         skip: status !== UserStatus.Approved,
     })
-    const sectorsWithCourses = getSectors(data?.courses)
+    const sectorsWithCourses = getSectors(subadminCourses?.data)
 
     const { viewedPendingIndustriesModal, setViewedPendingIndustriesModal } =
         useContextBar()
@@ -898,9 +879,9 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     </div>
 
                     <div className="mt-4">
-                        {isLoading ? (
+                        {subadminCourses?.isLoading ? (
                             <ContextBarLoading />
-                        ) : data?.courses.length ? (
+                        ) : subadminCourses?.data?.length > 0 ? (
                             Object.keys(sectorsWithCourses).map(
                                 (sector: any) => {
                                     return (

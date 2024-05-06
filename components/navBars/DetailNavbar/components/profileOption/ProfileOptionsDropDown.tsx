@@ -47,8 +47,7 @@ export const ProfileOptionsDropDown = ({
     const contextBar = useContextBar()
     //  EDIT PROFILE JOY RIDE
     const joyride = useJoyRide()
-    const { data, isSuccess, isLoading, isFetching } =
-        SubAdminApi.SubAdmin.useProfile()
+    const { data } = SubAdminApi.SubAdmin.useProfile()
     const [logoutActivity] = CommonApi.LogoutActivity.perFormAcivityOnLogout()
     const [switchUserRole, resultSwitchUserRole] =
         CommonApi.Impersonation.useImpersonationToggle()

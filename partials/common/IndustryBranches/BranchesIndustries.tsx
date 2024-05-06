@@ -25,10 +25,7 @@ import {
 } from '@partials/common/IndustryBranches/modal'
 import { UserRoles } from '@constants'
 import { IndustryCell } from '@partials/admin/industry/components'
-import {
-    IndustryCellInfo,
-    IndustrySubAdmin,
-} from '@partials/sub-admin/Industries'
+import { IndustryCellInfo } from '@partials/sub-admin/Industries'
 import { getUserCredentials } from '@utils'
 
 export enum BranchOrHeadofficeType {
@@ -122,9 +119,7 @@ export const BranchesIndustries = ({
                             <IndustryCell industry={info.row.original} />
                         </AuthorizedUserComponent>
                         <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
-                            <IndustryCellInfo
-                                industry={info.row.original as IndustrySubAdmin}
-                            />
+                            <IndustryCellInfo industry={info.row.original} />
                         </AuthorizedUserComponent>
                     </>
                 )

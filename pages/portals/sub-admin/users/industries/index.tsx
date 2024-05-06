@@ -5,12 +5,9 @@ import { NextPageWithLayout, SubadminIndustryFilter, UserStatus } from '@types'
 
 //components
 import {
-    Button,
     Filter,
     LoadingAnimation,
-    RtoContextBarData,
     SetDetaultQueryFilteres,
-    SidebarCalendar,
     SubAdminIndustryFilter,
     TabNavigation,
     TabProps,
@@ -25,12 +22,11 @@ import {
     BlockedIndustries,
     FavoriteIndustries,
     FilteredIndustry,
-    IsHiringIndustries,
     PendingIndustries,
     RejectedIndustries,
     SnoozedIndustrySubAdmin,
 } from '@partials/sub-admin/Industries'
-import { checkFilteredDataLength, getFilterQuery } from '@utils'
+import { checkFilteredDataLength } from '@utils'
 //query
 import {
     useGetSubAdminIndustriesQuery,

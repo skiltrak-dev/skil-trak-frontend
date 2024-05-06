@@ -11,21 +11,17 @@ import {
     LoadingAnimation,
     Table,
     TableAction,
-    TableActionOption,
     TechnicalError,
     Typography,
 } from '@components'
 
+import { useActionModal } from '@hooks'
 import { useGetSubAdminIndustriesQuery } from '@queries'
 import { Industry, SubAdmin, UserStatus } from '@types'
+import { getUserCredentials, setLink } from '@utils'
+import { AiFillCheckCircle } from 'react-icons/ai'
 import { IndustryCellInfo } from './components'
 import { AddToFavoriteModal, UnRejectModal } from './modals'
-import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
-import { getUserCredentials, setLink } from '@utils'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { useActionModal } from '@hooks'
-import { IndustrySubAdmin } from './AllIndustries'
-import { AiFillCheckCircle } from 'react-icons/ai'
 
 export const RejectedIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)

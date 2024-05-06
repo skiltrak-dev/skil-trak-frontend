@@ -11,21 +11,17 @@ import {
     LoadingAnimation,
     Table,
     TableAction,
-    TableActionOption,
     TechnicalError,
     Typography,
 } from '@components'
 
+import { useActionModal } from '@hooks'
 import { useGetSubAdminIndustriesQuery } from '@queries'
 import { Industry, SubAdmin, UserStatus } from '@types'
+import { getUserCredentials, setLink } from '@utils'
+import { CgUnblock } from 'react-icons/cg'
 import { IndustryCellInfo } from './components'
 import { AddToFavoriteModal, UnBlockedModal } from './modals'
-import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
-import { getUserCredentials, setLink } from '@utils'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { useActionModal } from '@hooks'
-import { IndustrySubAdmin } from './AllIndustries'
-import { CgUnblock } from 'react-icons/cg'
 
 export const BlockedIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)

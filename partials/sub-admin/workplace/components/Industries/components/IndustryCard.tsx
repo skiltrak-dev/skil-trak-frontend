@@ -34,8 +34,10 @@ export const IndustryCard = ({
     const [modal, setModal] = useState<any | null>(null)
     const [applyForWorkplace, applyForWorkplaceResult] =
         useSubAdminApplyStudentWorkplaceMutation()
+
+    const role = getUserCredentials()?.role
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
-        skip: !UserRoles.SUBADMIN,
+        skip: role !== UserRoles.SUBADMIN,
         refetchOnMountOrArgChange: true,
     })
 
@@ -77,8 +79,6 @@ export const IndustryCard = ({
             />
         )
     }
-
-    const role = getUserCredentials()?.role
 
     return (
         <>

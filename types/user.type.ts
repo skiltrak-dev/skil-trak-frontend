@@ -163,6 +163,8 @@ export interface Industry extends BaseResponse {
     location: string
     headQuarter: Industry
     isHiring: boolean
+    subAdmin: SubAdmin[]
+    callLog: CallLog[]
 }
 
 export interface IndustryBranchesAddressType extends BaseResponse {

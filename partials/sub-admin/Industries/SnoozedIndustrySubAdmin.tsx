@@ -29,19 +29,11 @@ import { RiInboxArchiveFill, RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
 import { UnSnoozeIndustryModal } from '@partials/common'
 
-interface IndustrySubAdmin extends Industry {
-    subAdmin: SubAdmin[]
-    callLog: any
-}
-
 export const SnoozedIndustrySubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-
-    // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -92,7 +84,7 @@ export const SnoozedIndustrySubAdmin = () => {
     const isFavorite = (subAdmin: SubAdmin[] | undefined) => {
         return subAdmin?.find((subadmin: any) => subadmin?.user?.id === id)
     }
-    const UnSnoozeModal = (industry: IndustrySubAdmin) => {
+    const UnSnoozeModal = (industry: Industry) => {
         setModal(
             <UnSnoozeIndustryModal
                 onCancel={onCancelClicked}
@@ -101,7 +93,7 @@ export const SnoozedIndustrySubAdmin = () => {
         )
     }
 
-    const tableActionOptions = (industry: IndustrySubAdmin) => {
+    const tableActionOptions = (industry: Industry) => {
         const subAdmin = isFavorite(industry?.subAdmin)
         return [
             {
@@ -269,8 +261,7 @@ export const SnoozedIndustrySubAdmin = () => {
 
     return (
         <>
-            {modal && modal}
-            {passwordModal}
+            {modal}
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading ? (
