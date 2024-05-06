@@ -14,21 +14,19 @@ import { useNotification } from '@hooks'
 type CreateNewTeamModalProps = {
     onCancel: any
     onAddNewMember?: any
-    createTeam: any
-    createTeamResult: any
 }
 export const CreateNewTeamModal = ({
     onCancel,
     onAddNewMember,
-    createTeam,
-    createTeamResult,
 }: CreateNewTeamModalProps) => {
     const { notification } = useNotification()
-    const getSectors = AuthApi.useSectors({})
+    const [loading, setLoading] = useState<boolean>(false)
+    const [createTeam, createTeamResult] = ManagementApi.Team.useCreateTeam()
+    const getSectors = ManagementApi.Team.useSectorsList()
     // useCreateTeam
     const sectorOptions = getSectors?.data?.map((sector: any) => ({
         label: `${sector?.code} - ${sector?.name}`,
-        value: sector.id,
+        value: sector?.id,
     }))
     useEffect(() => {
         if (createTeamResult.isSuccess) {
@@ -43,7 +41,8 @@ export const CreateNewTeamModal = ({
 
     const validationSchema = yup.object().shape({
         name: yup.string().required('Name is required'),
-        sector: yup.number().required('Sector is required'),
+        // sector: yup.number().required('Sector is required'),
+        sectors: yup.array().min(1, 'Must select at least 1 sector'),
     })
     const methods = useForm({
         mode: 'all',
@@ -52,8 +51,7 @@ export const CreateNewTeamModal = ({
     })
 
     const onSubmit = (data: any) => {
-        createTeam({ name: data?.name, sector: data?.sector })
-        methods.reset()
+        createTeam({ name: data?.name, sectors: data?.sectors })
     }
     return (
         <>
@@ -81,11 +79,13 @@ export const CreateNewTeamModal = ({
                                 shadow="shadow-lg"
                             />
                             <Select
-                                name="sector"
+                                name="sectors"
                                 options={sectorOptions}
                                 label={'Sector'}
                                 shadow="shadow-lg"
+                                loading={getSectors.isLoading}
                                 onlyValue
+                                multi
                             />
                         </div>
 

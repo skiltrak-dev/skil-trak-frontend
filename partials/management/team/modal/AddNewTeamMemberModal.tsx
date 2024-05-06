@@ -9,24 +9,40 @@ import { TeamMemberTag } from '../teamMember'
 import { useNotification } from '@hooks'
 
 type AddNewTeamMemberModalProps = {
-    createTeamMembersResult: any
+    // createTeamMembersResult: any
     onCancel: any
-    createTeamMember: any
+    // createTeamMember: any
     teamId?: any
+    teamLead?: any
 }
 export const AddNewTeamMemberModal = ({
     onCancel,
-    createTeamMembersResult,
-    createTeamMember,
+    // createTeamMembersResult,
+    // createTeamMember,
     teamId,
+    teamLead,
 }: AddNewTeamMemberModalProps) => {
     const [teamMembers, setTeamMembers] = useState<any>([])
+    const [loading, setLoading] = useState<boolean>(false)
     const { notification } = useNotification()
+    const [createTeamMember, createTeamMembersResult] =
+    ManagementApi.Team.useCreateTeamMembers()
     const { data, isLoading } = ManagementApi.Team.useSubAdminList()
     const subAdminOptions = data?.map((subAdmin: any) => ({
         label: `${subAdmin?.user?.name}`,
         value: subAdmin?.id,
     }))
+
+    useEffect(() => {
+        if (createTeamMembersResult.isSuccess) {
+            notification.success({
+                title: 'Team Member Added',
+                description: 'Team Members Added Successfully',
+            })
+            methods.reset()
+            onCancel()
+        }
+    }, [createTeamMembersResult])
     const teamPositionOptions = [
         {
             label: 'Team Lead',
@@ -39,7 +55,7 @@ export const AddNewTeamMemberModal = ({
     ]
 
     const validationSchema = yup.object().shape({
-        name: yup.string().required('Name is required'),
+        subadmin: yup.string().required('Select Coordinator'),
         isLead: yup.boolean().required('Position is required'),
     })
     const methods = useForm({
@@ -49,7 +65,6 @@ export const AddNewTeamMemberModal = ({
     })
     const onSubmit = (data: any) => {
         setTeamMembers([...teamMembers, data])
-        methods.reset()
     }
 
     const removeTeamMember = (indexToRemove: any) => {
@@ -58,15 +73,6 @@ export const AddNewTeamMemberModal = ({
         )
     }
 
-    useEffect(() => {
-        if (createTeamMembersResult.isSuccess) {
-            notification.success({
-                title: 'Team Member Added',
-                description: 'Team Members Added Successfully',
-            })
-            onCancel()
-        }
-    }, [createTeamMembersResult])
     return (
         <div className="pb-9 pt-10 px-5">
             <div className="mb-12 flex justify-center">
@@ -81,7 +87,7 @@ export const AddNewTeamMemberModal = ({
             </div>
             <FormProvider {...methods}>
                 <form
-                    className="mt-2 w-full"
+                    className="mt-2 max-w-[480px]"
                     onSubmit={methods.handleSubmit(onSubmit)}
                 >
                     <div className="min-w-[447px]">
@@ -92,15 +98,27 @@ export const AddNewTeamMemberModal = ({
                         /> */}
                         <Select
                             name="subadmin"
-                            options={subAdminOptions}
+                            options={subAdminOptions?.filter(
+                                (m: any) =>
+                                    !teamMembers
+                                        ?.map((t: any) => +t?.subadmin)
+                                        ?.includes(m?.value)
+                            )}
                             label={'Name'}
                             shadow="shadow-lg"
+                            loading={isLoading}
                             onlyValue
                         />
                         {/* subAdminOptions */}
                         <Select
                             name="isLead"
-                            options={teamPositionOptions}
+                            options={
+                                teamMembers?.find((t: any) => t?.isLead) ||
+                                teamLead
+                                    ? teamPositionOptions?.slice(1)
+                                    : teamPositionOptions
+                            }
+                            defaultValue={false}
                             label={'POSITION'}
                             shadow="shadow-lg"
                             onlyValue
@@ -116,6 +134,11 @@ export const AddNewTeamMemberModal = ({
                     </div>
                     <TeamMemberTag
                         teamMembers={teamMembers}
+                        // teamMembers={subAdminOptions?.filter((m: any) =>
+                        //     teamMembers
+                        //         ?.map((t: any) => +t?.subadmin)
+                        //         ?.includes(m?.value)
+                        // )}
                         removeTeamMember={removeTeamMember}
                     />
                     <div className="flex justify-center items-center gap-x-2">
@@ -132,9 +155,6 @@ export const AddNewTeamMemberModal = ({
                                     id: teamId,
                                     body: { members: teamMembers },
                                 })
-                                if (createTeamMembersResult.isSuccess) {
-                                    onCancel()
-                                }
                             }}
                         />
                         <Button

@@ -6,7 +6,7 @@ import { useNotification } from '@hooks'
 
 export const ChangeTeamLeadModal = ({ onCancel, member }: any) => {
     const router = useRouter()
-    const {notification} = useNotification()
+    const { notification } = useNotification()
     const teamId = router?.query?.id
     const [subAdminId, setSubAdminId] = useState<any>(null)
     const [changeTeamLead, changeTeamLeadResult] =
@@ -17,22 +17,22 @@ export const ChangeTeamLeadModal = ({ onCancel, member }: any) => {
             skip: !teamId,
         }
     )
-    const subAdminOptions = data
+    const subAdminOptions = data?.members
         ?.filter((member: any) => !member?.isLead)
         ?.map((member: any) => ({
             label: `${member?.subadmin?.user?.name}`,
             value: member?.id,
         }))
 
-        useEffect(() => {
-            if (changeTeamLeadResult.isSuccess) {
-                notification.success({
-                    title: 'Team Lead Changed',
-                    description: 'Team Lead Changed Successfully',
-                })
-                onCancel()
-            } 
-        }, [changeTeamLeadResult])
+    useEffect(() => {
+        if (changeTeamLeadResult.isSuccess) {
+            notification.success({
+                title: 'Team Lead Changed',
+                description: 'Team Lead Changed Successfully',
+            })
+            onCancel()
+        }
+    }, [changeTeamLeadResult])
 
     return (
         <div className="pb-9 pt-5 px-5">
@@ -65,7 +65,6 @@ export const ChangeTeamLeadModal = ({ onCancel, member }: any) => {
                     text="change"
                     onClick={() => {
                         changeTeamLead(subAdminId)
-                        
                     }}
                     loading={changeTeamLeadResult.isLoading}
                     disabled={changeTeamLeadResult.isLoading}

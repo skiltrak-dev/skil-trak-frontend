@@ -5,6 +5,7 @@ import { ManagementApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import React, { ReactElement, useState } from 'react'
+import { PuffLoader } from 'react-spinners'
 
 const TeamDetailPage: NextPageWithLayout = () => {
     const [isExpanded, setIsExpanded] = useState<boolean>(false)
@@ -38,6 +39,8 @@ const TeamDetailPage: NextPageWithLayout = () => {
     return (
         <>
             <div className="flex gap-x-4">
+                {teamMembersList.isLoading ? <PuffLoader /> : (
+
                 <TeamSideBar sideBar>
                     <TeamSideBar.Title>
                         <div className="mb-8">
@@ -46,7 +49,7 @@ const TeamDetailPage: NextPageWithLayout = () => {
                                 color="text-primaryNew"
                                 bold
                             >
-                                {teamMembersList?.data?.sector?.name || 'N/A'}
+                                {teamMembersList?.data?.name || 'N/A'}
                             </Typography>
                         </div>
                         <div className="mb-4">
@@ -61,18 +64,19 @@ const TeamDetailPage: NextPageWithLayout = () => {
                     </TeamSideBar.Title>
                     <TeamSideBar.KpiCountCard>
                         <div className="flex flex-col gap-y-2">
-                            {kpiCountData.map((item) => (
+                            {kpiCountData?.map((item) => (
                                 <div key={item?.title}>
                                     <KpiRecordCount
-                                        title={item.title}
-                                        count={item.count}
-                                        classes={item.classes}
+                                        title={item?.title}
+                                        count={item?.count}
+                                        classes={item?.classes}
                                     />
                                 </div>
                             ))}
                         </div>
                     </TeamSideBar.KpiCountCard>
                 </TeamSideBar>
+                )}
                 <TeamMembers data={teamMembersList} />
             </div>
         </>

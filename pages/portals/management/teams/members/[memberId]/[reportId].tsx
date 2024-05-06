@@ -80,8 +80,7 @@ const ReportDetailPage: NextPageWithLayout = () => {
         )
         // }
     }
-    const achieved = 50
-    const total = 100
+
     return (
         <>
             {modal && modal}

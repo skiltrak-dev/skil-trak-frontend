@@ -102,6 +102,46 @@ export const checkKpiEndpoints = (
         }, 
         invalidatesTags: ['KpiReportDocument'],
     }),
+    deleteKpiReport: builder.mutation<any, any>({
+        query: (id) => {
+            return {
+                url: `${PREFIX}/kpi-report/${id}/delete`,
+                method: 'DELETE',
+                // body,
+            }
+        }, 
+        invalidatesTags: ['KpiReportDocument'],
+    }),
+    deleteBulkKpiReport: builder.mutation<any, any>({
+        query: (body) => {
+            return {
+                url: `${PREFIX}/kpi-reports/delete-all`,
+                method: 'DELETE',
+                body,
+            }
+        }, 
+        invalidatesTags: ['KpiReportDocument'],
+    }),
+    deleteTeam: builder.mutation<any, any>({
+        query: (id) => {
+            return {
+                url: `${PREFIX}/team/${id}/delete`,
+                method: 'DELETE',
+                // body,
+            }
+        }, 
+        invalidatesTags: ['RemoveTeam', 'TeamManagement'],
+    }),
+    deleteBulkTeams: builder.mutation<any, any>({
+        query: (body) => {
+            return {
+                url: `${PREFIX}/teams/delete-all`,
+                method: 'DELETE',
+                body,
+            }
+        }, 
+        invalidatesTags: ['KpiReportDocument'],
+    }),
     createKpiTargetLimit: builder.mutation<any, any>({
         query: (body) => {
             return {

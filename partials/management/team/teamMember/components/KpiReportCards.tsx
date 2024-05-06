@@ -16,7 +16,7 @@ export const KpiReportCards = ({ id }: any) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
-    console.log('from', startDate + 'to ' + endDate)
+    
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(6)
     // useSubAdminKpiReports

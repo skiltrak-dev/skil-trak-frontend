@@ -9,8 +9,6 @@ import { DashedCountCard } from '@partials/management/components'
 import { ChangeTeamLeadModal } from '../../modal/ChangeTeamLeadModal'
 
 export const TeamMemberCard = ({ member }: any) => {
-    console.log('data:::', member)
-
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
