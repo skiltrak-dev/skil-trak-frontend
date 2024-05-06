@@ -148,7 +148,6 @@ export const OpenTickets = () => {
     ]
 
     const onFilterChange = (value: string) => {
-        console.log({ value })
         setIsHighPriority(value)
     }
 

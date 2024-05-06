@@ -3,24 +3,30 @@ import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, TextInput, Typography } from '@components'
-type KpisFilterModalProps={
+type KpisFilterModalProps = {
     onCancel: any
-    setStartDate?:any
-    setEndDate?:any
+    setStartDate?: any
+    setEndDate?: any
 }
-export const KpisFilterModal = ({ onCancel, setStartDate,setEndDate }: KpisFilterModalProps) => {
+export const KpisFilterModal = ({
+    onCancel,
+    setStartDate,
+    setEndDate,
+}: KpisFilterModalProps) => {
     const validationSchema = yup.object().shape({
-        name: yup.string().required('Name is required'),
-        isLead: yup.boolean().required('Position is required'),
+        from: yup.date(),
+        to: yup
+            .date()
+            .min(yup.ref('from'), "end date can't be before start date"),
     })
     const methods = useForm({
         mode: 'all',
-        // resolver: yupResolver(validationSchema),
+        resolver: yupResolver(validationSchema),
         // defaultValues: { ...editValues, body: bodyData },
     })
     const onSubmit = (data: any) => {
-        setStartDate(data?.from)
-        setEndDate(data?.to)
+        setStartDate(data?.from.toISOString().slice(0, 10))
+        setEndDate(data?.to.toISOString().slice(0, 10))
         onCancel()
         methods.reset()
     }

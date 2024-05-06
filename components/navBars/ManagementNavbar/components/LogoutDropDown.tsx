@@ -18,9 +18,9 @@ export const LogoutDropDown = ({ isExpanded, setIsExpanded }: any) => {
             onClick={toggleClick}
             className="flex items-center gap-x-3 relative cursor-pointer"
         >
-            <LogoutAvatar name={'Quality Manager'} />
+            <LogoutAvatar name={'Operation Manager'} />
             <Typography variant={'body'} medium color="text-primaryNew">
-                Manger
+                Management
             </Typography>
             {isExpanded ? <IoIosArrowUp /> : <IoIosArrowDown />}
             <div

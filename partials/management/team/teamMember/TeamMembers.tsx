@@ -20,6 +20,7 @@ export const TeamMembers = ({ data }: any) => {
         ManagementApi.Team.useCreateTeamMembers()
 
     // useTeamMembersList
+    
 
     const onCancel = () => {
         setModal(null)
@@ -39,9 +40,10 @@ export const TeamMembers = ({ data }: any) => {
             <GlobalModal>
                 <AddNewTeamMemberModal
                     onCancel={onCancel}
-                    createTeamMember={createTeamMember}
-                    createTeamMembersResult={createTeamMembersResult}
+                    // createTeamMember={createTeamMember}
+                    // createTeamMembersResult={createTeamMembersResult}
                     teamId={router?.query?.id}
+                    teamLead={data?.data?.members?.find((m: any) => m?.isLead)}
                 />
             </GlobalModal>
         )

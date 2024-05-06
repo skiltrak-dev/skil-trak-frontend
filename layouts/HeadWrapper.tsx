@@ -6,7 +6,7 @@ export const HeadWrapper = ({ children }: any) => {
     return (
         <>
             <Head>
-                <title>{title ? title : 'SkilTrak'}</title>
+                <title>{title ? title : ''}</title>
             </Head>
             {children}
         </>
