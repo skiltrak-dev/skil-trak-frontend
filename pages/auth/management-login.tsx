@@ -85,6 +85,11 @@ const Login: NextPage = () => {
                             Login To Your Account
                         </Typography>
                     </div>
+                    {loginResult.isError && (
+                        <p className="text-sm text-error w-full border border-error px-2 py-1 rounded shadow text-center">
+                            Invalid Email or Password
+                        </p>
+                    )}
                     <ManagementLoginForm
                         onSubmit={onSubmit}
                         result={loginResult}

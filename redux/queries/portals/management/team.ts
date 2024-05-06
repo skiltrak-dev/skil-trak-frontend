@@ -8,20 +8,25 @@ export const teamEndpoints = (
     // Get Queries
     getTeamsList: builder.query<any, void>({
         query: () => `${PREFIX}/teams/list`,
-        providesTags: ['TeamManagement'],
+        providesTags: ['TeamManagement', 'RemoveTeam'],
     }),
     getSubAdminList: builder.query<any, void>({
         query: () => `subadmin/list-all`,
         providesTags: ['TeamManagement'],
     }),
+    getSectorsList: builder.query<any, void>({
+        query: () => `${PREFIX}/sectors/list`,
+        providesTags: ['TeamManagement'],
+    }),
     getTeamMembersList: builder.query<any, any>({
         query: (id) => `${PREFIX}/team/${id}/list-members`,
-        providesTags: ['TeamManagement'],
+        providesTags: ['TeamManagement', 'TeamMembers'],
     }),
     getTeamMembersDetail: builder.query<any, any>({
         query: (id) => `${PREFIX}/member/${id}/detail`,
         providesTags: ['TeamManagement'],
     }),
+    // sectors/list
     
 
     // Mutation 

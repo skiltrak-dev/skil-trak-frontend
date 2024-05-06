@@ -12,6 +12,7 @@ import {
 import { ManagementApi } from '@queries'
 import { useRouter } from 'next/router'
 import { useNotification } from '@hooks'
+import moment from 'moment'
 
 const filterOptions = [
     {
@@ -36,14 +37,16 @@ export const CreateKpiTargetModal = ({ onCancel }: any) => {
     const [createKpiTarget, createKpiTargetResult] =
         ManagementApi.CheckKpi.useCreateKpiTargetLimit()
     const router = useRouter()
-    console.log('router', router.query.memberId)
     const validationSchema = yup.object().shape({
-        name: yup.string().required('Name is required'),
-        isLead: yup.boolean().required('Position is required'),
+        target: yup
+            .number()
+            .positive('Number cannot be negative')
+            .nullable(true),
+        data: yup.array().min(4, 'Must select 4 statuses'),
     })
     const methods = useForm({
         mode: 'all',
-        // resolver: yupResolver(validationSchema),
+        resolver: yupResolver(validationSchema),
         // defaultValues: { ...editValues, body: bodyData },
     })
     useEffect(() => {
@@ -53,20 +56,32 @@ export const CreateKpiTargetModal = ({ onCancel }: any) => {
                 description: 'Target Added Successfully',
             })
             onCancel()
-        } 
+        }
     }, [createKpiTargetResult])
-    const onSubmit = (data: any) => {
-        const values = {
-            ...data,
+    const onSubmit = (values: any) => {
+        // const values = {
+        //     ...data,
+        //     member: router.query.memberId,
+        // }
+        const statuses = {
+            target: values.target,
+            data: values?.data,
+        }
+        const data = statuses?.data?.map((status: any) => ({
+            target: statuses?.target,
+            status: status,
+        }))
+        const structuredData = {
+            data,
             member: router.query.memberId,
         }
-        createKpiTarget(values)
+        createKpiTarget(structuredData)
         methods.reset()
     }
     return (
         <>
             <ShowErrorNotifications result={createKpiTargetResult} />
-            <div className="pb-9 pt-10 px-5">
+            <div className="pb-9 pt-10 px-5 max-w-[480px]">
                 <div className="mb-8 flex justify-center">
                     <Typography
                         variant="title"
@@ -84,12 +99,13 @@ export const CreateKpiTargetModal = ({ onCancel }: any) => {
                     >
                         <div className="min-w-[280px]">
                             <Select
-                                name="status"
+                                name="data"
                                 options={filterOptions}
                                 placeholder="Select Status..."
                                 onlyValue
                                 // onChange={(e: any) => setFilter(e || undefined)}
                                 shadow="shadow-md"
+                                multi
                             />
                         </div>
                         <TextInput
@@ -99,7 +115,13 @@ export const CreateKpiTargetModal = ({ onCancel }: any) => {
                             type="number"
                         />
                         <div className="flex items-center gap-x-2 justify-center">
-                            <Button variant="primaryNew" text="create" loading={createKpiTargetResult.isLoading} disabled={createKpiTargetResult.isLoading} submit />
+                            <Button
+                                variant="primaryNew"
+                                text="create"
+                                loading={createKpiTargetResult.isLoading}
+                                disabled={createKpiTargetResult.isLoading}
+                                submit
+                            />
                             <Button
                                 variant="error"
                                 text="cancel"

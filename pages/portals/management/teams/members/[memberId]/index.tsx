@@ -1,4 +1,4 @@
-import { GlobalModal, ManagementNavbar, NoData, Typography } from '@components'
+import { GlobalModal, ManagementNavbar, NoData, Typography, LoadingAnimation, TechnicalError } from '@components'
 import { ManagementLayout } from '@layouts'
 import {
     ChangeTeamLeadModal,
@@ -88,10 +88,13 @@ const MemberDetailPage: NextPageWithLayout = () => {
     return (
         <>
             {modal && modal}
-           
                 <div className=" bg-white/80 rounded-lg py-6 px-5 w-full">
+                    {isError && <TechnicalError /> }
+                    {isLoading ? <LoadingAnimation />: data && Object.keys(data)?.length > 0 ? (
                     <div className="container mx-auto flex gap-x-5">
                         <div className="flex flex-col gap-x-4 gap-y-4 w-full">
+                            {isLoading ? <PuffLoader />: (
+
                             <TeamSideBar>
                                 <div className="flex gap-x-12 items-center justify-between">
                                     <TeamSideBar.Avatar>
@@ -140,6 +143,7 @@ const MemberDetailPage: NextPageWithLayout = () => {
                                     </div>
                                 </div>
                             </TeamSideBar>
+                            )}
                             <KpiReportCards id={data?.subadmin?.id} />
                         </div>
                         {/* CreateKpiTargetModal */}
@@ -166,7 +170,7 @@ const MemberDetailPage: NextPageWithLayout = () => {
                                     <PuffLoader />
                                 </>
                             ) : kpiTargetsList?.data &&
-                              kpiTargetsList?.data.length > 0 ? (
+                              kpiTargetsList?.data?.length > 0 ? (
                                 <div className={`grid grid-cols-2 gap-2.5`}>
                                     {kpiTargetsList?.data?.map((item: any) => (
                                         <>
@@ -197,6 +201,7 @@ const MemberDetailPage: NextPageWithLayout = () => {
                             )}
                         </div>
                     </div>
+                    ):(!isError && <NoData text={"No Data Found"}/>)}
                 </div>
            
         </>

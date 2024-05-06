@@ -25,6 +25,7 @@ const {
     useGetSubAdminListQuery,
     useGetTeamMembersListQuery,
     useGetTeamMembersDetailQuery,
+    useGetSectorsListQuery,
 
     // ------ CHECK KPI -------- //
 
@@ -32,6 +33,10 @@ const {
     useAddFeedbackOnKpiReportMutation,
     useUpdateKpiTargetLimitMutation,
     useCreateKpiTargetLimitMutation,
+    useDeleteKpiReportMutation,
+    useDeleteTeamMutation,
+    useDeleteBulkKpiReportMutation,
+    useDeleteBulkTeamsMutation,
     // Query
     useGetKpiReportListQuery,
     useGetKpiReportDetailQuery,
@@ -59,6 +64,7 @@ export const ManagementApi = {
         useSubAdminList: useGetSubAdminListQuery, 
         useTeamMembersList: useGetTeamMembersListQuery,
         useTeamMemberDetail: useGetTeamMembersDetailQuery,
+        useSectorsList: useGetSectorsListQuery,
     },
     CheckKpi: {
         useKpiReportList: useGetKpiReportListQuery,
@@ -73,5 +79,9 @@ export const ManagementApi = {
         useCreateKpiTargetLimit: useCreateKpiTargetLimitMutation,
         useKpiTargets: useGetKpiTargetsQuery,
         useKpiReportFeedback: useGetKpiReportFeedbackQuery,
+        useDeleteKpiReport: useDeleteKpiReportMutation,
+        useDeleteTeam: useDeleteTeamMutation,
+        useDeleteBulkKpiReport: useDeleteBulkKpiReportMutation,
+        useDeleteBulkTeams: useDeleteBulkTeamsMutation
     }
 }

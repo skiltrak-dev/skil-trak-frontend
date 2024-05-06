@@ -131,7 +131,9 @@ const managementTypes = [
     "KpiReportDocument",
     'KpiReportList',
     'TeamManagement',
-    'KpiProgress'
+    'KpiProgress',
+    "TeamMembers",
+    'RemoveTeam'
     
 ]
 export const emptySplitApi = createApi({

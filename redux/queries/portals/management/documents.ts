@@ -16,6 +16,6 @@ export const documentsEndpoints = (
             method: 'POST',
             body: body,
         }),
-        invalidatesTags: ['KpiReportDocument'],
+        invalidatesTags: ['KpiReportDocument', 'KpiProgress'],
     }),
 })
