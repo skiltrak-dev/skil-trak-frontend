@@ -23,7 +23,10 @@ export const KpiReportCard = ({ report }: any) => {
                         <Typography variant="small" color="text-primaryNew">
                             KPI Date:
                         </Typography>
-                        <div className="cursor-pointer" onClick={onDeleteKpiReport}>
+                        <div
+                            className="cursor-pointer delete-icon"
+                            onClick={onDeleteKpiReport}
+                        >
                             <MdDeleteOutline className="text-red-400" />
                         </div>
                     </div>

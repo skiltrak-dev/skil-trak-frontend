@@ -73,7 +73,7 @@ export const TeamMembers = ({ data }: any) => {
                         </button>
                     </div>
                 </div>
-                <div className="h-screen">
+                <div className="h-screen overflow-auto custom-scrollbar">
                     {data?.isError && <TechnicalError />}
                     {data?.isLoading ? (
                         <>
@@ -81,7 +81,7 @@ export const TeamMembers = ({ data }: any) => {
                         </>
                     ) : data?.data?.members &&
                       data?.data?.members?.length > 0 ? (
-                        <div className="grid grid-cols-4 gap-2.5 overflow-auto remove-scrollbar !h-[calc(100%-200px)]">
+                        <div className="grid md:grid-cols-4 grid-cols-1 gap-2.5 overflow-auto remove-scrollbar !h-[calc(100%-200px)]">
                             {data?.data?.members?.map((member: any) => (
                                 <div key={member?.id}>
                                     <TeamMemberCard member={member} />
