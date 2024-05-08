@@ -23,22 +23,22 @@ export const FirstTimeStudent = ({ filter }: any) => {
     const [page, setPage] = useState(1)
     const router = useRouter()
     const reportId = router?.query?.reportId
-    
+
     const { data, isLoading, isError, isFetching } =
-    ManagementApi.CheckKpi.useKpiReportDetail(
-        {
-            id: reportId,
-            params: {
-                search: `status:${filter || ''}`,
-                skip: itemPerPage * page - itemPerPage,
-                limit: itemPerPage,
+        ManagementApi.CheckKpi.useKpiReportDetail(
+            {
+                id: reportId,
+                params: {
+                    search: `status:${filter || ''}`,
+                    skip: itemPerPage * page - itemPerPage,
+                    limit: itemPerPage,
+                },
             },
-        },
-        {
-            skip: !reportId,
-            refetchOnMountOrArgChange: true,
-        }
-    )
+            {
+                skip: !reportId,
+                refetchOnMountOrArgChange: true,
+            }
+        )
     const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'id',
@@ -71,10 +71,27 @@ export const FirstTimeStudent = ({ filter }: any) => {
             accessorKey: 'course',
             cell: (info) => {
                 return (
-                    <span className="text-xs">
-                        {info?.row?.original?.course?.code} -
-                        {info?.row?.original?.course?.title}
-                    </span>
+                    // <span className="text-xs">
+                    //     {info?.row?.original?.course?.code} -
+                    //     {info?.row?.original?.course?.title}
+                    // </span>
+                    <div>
+                        <div className="flex flex-wrap gap-1">
+                            {info?.row?.original?.student?.courses?.map(
+                                (c: any) => (
+                                    <div className="relative group" key={c?.id}>
+                                        <div className="w-[9px] h-[9px] rounded-full bg-gray-400 cursor-pointer"></div>
+                                        <div className="bg-white p-2 rounded-xl shadow-xl z-20 absolute whitespace-nowrap hidden group-hover:block">
+                                            <p className="text-xs font-medium text-gray-400">
+                                                {c?.code}
+                                            </p>
+                                            <p>{c?.title}</p>
+                                        </div>
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    </div>
                 )
             },
             header: () => <span>Course</span>,
@@ -94,14 +111,12 @@ export const FirstTimeStudent = ({ filter }: any) => {
             header: () => <span>Status</span>,
         },
     ]
-   
 
     return (
         <>
-            
             <div className="">
                 {isError && <TechnicalError />}
-                
+
                 <div className="bg-white/80 rounded-lg">
                     {isLoading || isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
