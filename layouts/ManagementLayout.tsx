@@ -15,8 +15,9 @@ export const ManagementLayout = ({ children }: { children: ReactNode }) => {
                     setIsExpanded={setIsExpanded}
                     isExpanded={isExpanded}
                 />
-
+                {/* <div className="container mx-auto flex flex-col gap-y-4"> */}
                 {children}
+                {/* </div> */}
             </div>
         </ManagementProtectedRoute>
     )
