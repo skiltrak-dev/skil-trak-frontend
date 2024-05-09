@@ -4,6 +4,7 @@ import { AiOutlineDownload } from 'react-icons/ai'
 import { BsDownload } from 'react-icons/bs'
 import { RtoReportsDates } from './components'
 import { User } from '@types'
+import { ReportTabs } from './ReportTabs'
 
 export const RtoReports = ({
     user,
@@ -45,12 +46,21 @@ export const RtoReports = ({
             </div>
 
             {/*  */}
-            <div className="px-4 py-3.5">
+            <div className="px-4 py-3.5 bg-[#F5F7FB]">
                 <RtoReportsDates
                     user={user}
                     createdAt={createdAt}
-                    onSetDates={onSetDates}
                     startDate={startDate}
+                    onSetDates={onSetDates}
+                />
+            </div>
+
+            {/*  */}
+            <div className="pb-3.5">
+                <ReportTabs
+                    endDate={endDate}
+                    startDate={startDate}
+                    user={user?.id}
                 />
             </div>
         </Card>

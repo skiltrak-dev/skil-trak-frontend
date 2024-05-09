@@ -67,23 +67,25 @@ export const RtoReportsDates = ({
     }
     const dateObjects = dates()
 
+    const lastDate = dateObjects?.[dateObjects?.length - 1]
+    useEffect(() => {
+        if (dateObjects && dateObjects?.length > 0) {
+            onSetDates(lastDate?.startDate, lastDate?.endDatee)
+        }
+    }, [])
     useEffect(() => {
         if (dateObjects && dateObjects?.length > 0) {
             if (ref?.current) {
                 setWidth(ref?.current?.offsetWidth)
             }
-            const firstDate = dateObjects[0]
-            onSetDates(firstDate?.startDate, firstDate?.endDatee)
         }
-    }, [ref?.current])
-
-    
+    }, [ref, startDate])
 
     return (
-        <div ref={ref}>
+        <div ref={ref} className="">
             {dateObjects && dateObjects?.length > 0 ? (
                 <div
-                    className="flex items-center gap-x-2.5 overflow-auto custom-scrollbar"
+                    className="flex items-center gap-x-2.5 overflow-x-auto custom-scrollbar"
                     style={{
                         width: `${width}px`,
                     }}

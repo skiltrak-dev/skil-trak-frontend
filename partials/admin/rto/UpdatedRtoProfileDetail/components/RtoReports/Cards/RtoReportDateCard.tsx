@@ -15,7 +15,7 @@ export const RtoReportDateCard = ({
     return (
         <div
             onClick={onClick}
-            className={`border cursor-pointer border-[#6B7280] rounded-[5px] p-2 flex items-center gap-x-3.5 ${
+            className={`border cursor-pointer border-[#6B7280] rounded-[5px] p-2 flex items-center gap-x-3.5 shadow-[0px_1px_16px_0px_rgba(0,0,0,0.10)] ${
                 active ? 'bg-primaryNew' : 'bg-white'
             }`}
         >
