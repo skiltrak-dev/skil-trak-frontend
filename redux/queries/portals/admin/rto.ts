@@ -170,7 +170,7 @@ export const rtoEndpoints = (
 
     rtoProfileSubAdmins: builder.query<
         PaginatedResponse<RTOSubAdmin>,
-        { skip: number; limit: number; id: number }
+        { skip?: number; limit?: number; id: number }
     >({
         query: (params) => ({
             url: `${PREFIX}/rto/subadmin/list/${params?.id}`,

@@ -75,6 +75,7 @@ const maxWidth = {
 const boxShadow = {
     site: '0px 4px 34px 0px rgba(177, 177, 177, 0.25)',
     profiles: '0px 4px 16px 0px rgba(0, 0, 0, 0.05)',
+    profiles2: '0px 1px 16px 0px rgba(0, 0, 0, 0.10)',
     'inner-image': 'inset 0 1px 4px rgba(0, 0, 0, 0.3)',
 }
 

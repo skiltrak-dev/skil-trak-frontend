@@ -7,6 +7,7 @@ import {
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { RtoProfileDetail } from '@partials'
+import { ProfileViewContextBar } from '@partials/admin/rto/UpdatedRtoProfileDetail/ProfileViewContextBar'
 import { AdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import React, { ReactElement, useEffect, useState } from 'react'
@@ -45,13 +46,7 @@ const RtoProfile = () => {
 
     useEffect(() => {
         if (rto.isSuccess) {
-            contextBar.setContent(
-                <RtoProfileSidebar
-                    rto={rto}
-                    data={rto?.data}
-                    loading={rto?.isLoading}
-                />
-            )
+            contextBar.setContent(<ProfileViewContextBar rto={rto?.data} />)
             contextBar.show(false)
         }
 
