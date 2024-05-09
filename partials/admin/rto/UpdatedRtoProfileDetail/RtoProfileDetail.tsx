@@ -67,6 +67,9 @@ export const RtoProfileDetail = ({ rto }: { rto: Rto }) => {
                 />
             </div>
 
+            {/* Reports */}
+            <div>Reports</div>
+
             {/* Mails */}
             <div className="mt-5">
                 <MailsCommunication user={rto?.user} />
