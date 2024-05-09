@@ -286,7 +286,7 @@ export const IndustryProfile = ({ data }: Props) => {
                                                 receiver: UserRoles.INDUSTRY,
                                             })
                                             notification.success({
-                                                title: 'Cpoied',
+                                                title: 'Copied',
                                                 description:
                                                     'Phone Number Copied',
                                             })

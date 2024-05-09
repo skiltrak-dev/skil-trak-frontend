@@ -204,7 +204,7 @@ export const SubAdminStudentProfile = ({
                                         student: student?.id,
                                     })
                                     notification.success({
-                                        title: 'Cpoied',
+                                        title: 'Copied',
                                         description: 'Phone Number Copied',
                                     })
                                 }}
