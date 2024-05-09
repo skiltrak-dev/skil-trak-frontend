@@ -100,32 +100,65 @@ export const ViewProfileCB = () => {
                     </div>
 
                     {/* Info Row 1 */}
-                    <div className="flex justify-between divide-x border-b mt-4">
-                        <div className="p-1">
-                            <div className="flex items-center space-x-2">
-                                <span className="text-gray-300">
-                                    <FaAddressCard />
-                                </span>
-                                <p className="text-xs font-medium">
-                                    {rto?.rtoCode}
-                                </p>
+                    <div className="flex flex-col divide-y mt-4 border-b">
+                        <div className="flex justify-around divide-x border-t">
+                            <div className="p-2">
+                                <div className="flex items-center gap-x-2">
+                                    <FaAddressCard
+                                        className="text-gray-400"
+                                        size={12}
+                                    />
+                                    <Typography
+                                        variant={'xs'}
+                                        color={'text-gray-400'}
+                                    >
+                                        RTO Code
+                                    </Typography>
+                                </div>
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-black'}
+                                >
+                                    {rto?.rtoCode || 'N/A'}
+                                </Typography>
                             </div>
-                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                                RTO CODE
+                            <div className="p-2">
+                                <div className="flex items-center gap-x-2">
+                                    <FaMoneyBill
+                                        className="text-gray-400"
+                                        size={12}
+                                    />
+                                    <Typography
+                                        variant={'xs'}
+                                        color={'text-gray-400'}
+                                    >
+                                        RTO ABN
+                                    </Typography>
+                                </div>
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-black'}
+                                    capitalize
+                                >
+                                    {rto?.abn || 'N/A'}
+                                </Typography>
                             </div>
                         </div>
 
-                        <div className="p-1">
+                        <div className="p-2">
                             <div className="flex items-center space-x-2">
                                 <span className="text-gray-300">
                                     <MdPhone />
                                 </span>
-                                <p className="text-xs font-medium">
-                                    {rto?.phone}
-                                </p>
-                            </div>
-                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                                Phone Number
+
+                                <div>
+                                    <div className="text-gray-400 text-[11px] -mb-1">
+                                        Phone Number
+                                    </div>
+                                    <p className="text-xs font-medium">
+                                        {rto?.phone}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                         {/* <div className="p-1">

@@ -65,8 +65,8 @@ const RtoDetail: NextPageWithLayout = () => {
             contextBar.setContent(
                 <RtoProfileSidebar
                     rto={rto}
-                    loading={rto?.isLoading}
                     data={rto?.data}
+                    loading={rto?.isLoading}
                 />
             )
             contextBar.show(false)

@@ -13,15 +13,16 @@ import { useGetSubAdminRTOCoursesQuery, AdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import { UploadFile } from '@components/inputs/UploadFile'
 import { useContextBar, useNotification } from '@hooks'
-import { RtoAssessmentToolFormType } from '@types'
+import { RtoAssessmentToolFormType, User } from '@types'
 import { omit } from 'lodash'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
 type Props = {
     edit?: boolean
     assessment?: any
+    rtoUser: User
 }
 
-export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
+export const AddAssessmentToolCB = ({ edit, assessment, rtoUser }: Props) => {
     const [coursesOptions, setCoursesOptions] = useState<any | null>([])
     const [fileData, setFileData] = useState<any | null>([])
 
@@ -92,7 +93,7 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
             <Typography variant={'small'} color={'text-gray-500'}>
                 {edit ? 'Edit' : 'Add'} Assessment To:
             </Typography>
-            <Typography variant={'label'}>{assessment?.user?.name}</Typography>
+            <Typography variant={'label'}>{rtoUser?.name}</Typography>
             <FormProvider {...methods}>
                 <form
                     className="mt-2 w-full"

@@ -4,7 +4,7 @@ import { ReactNode } from 'react'
 interface CardProps {
     children?: ReactNode
     noPadding?: boolean
-    shadowType?: 'soft' | 'hard'
+    shadowType?: 'soft' | 'hard' | 'profile'
     shadowColor?: string
     layout?: 'wrap' | 'fluid' | 'min'
     fullHeight?: boolean
@@ -26,6 +26,7 @@ export const Card = ({
         'bg-white rounded-xl': true,
         'shadow-xl': !shadowType || shadowType === 'soft',
         shadow: shadowType === 'hard',
+        'shadow-profiles': shadowType === 'profile',
         'p-0': noPadding,
         'p-4': !noPadding,
     })

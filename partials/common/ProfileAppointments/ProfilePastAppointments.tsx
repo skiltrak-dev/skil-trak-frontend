@@ -1,0 +1,58 @@
+import { LoadingAnimation, NoData, Typography } from '@components'
+import { CommonApi } from '@queries'
+import { Appointment } from '@types'
+import { ProfileAppointmentsCard } from './ProfileAppointmentsCard'
+
+export const ProfilePastAppointments = ({
+    userId,
+    isEntered,
+}: {
+    userId: number
+    isEntered: boolean
+}) => {
+    const pastAppointments = CommonApi.Appointments.useBookedAppointments(
+        {
+            userId,
+            status: 'past',
+        },
+        {
+            skip: !isEntered,
+        }
+    )
+    return (
+        <div className="h-auto flex flex-col gap-2">
+            <Typography variant="label">Past</Typography>
+
+            <div className="flex flex-col gap-y-3">
+                {pastAppointments.isError ? (
+                    <NoData text="There is Some technical issue" />
+                ) : null}
+                {pastAppointments.isLoading ? (
+                    <div className="flex flex-col items-center justify-center h-60">
+                        <LoadingAnimation size={60} />
+                        <Typography variant="label">
+                            Appointments Loading...
+                        </Typography>
+                    </div>
+                ) : pastAppointments?.data?.data &&
+                  pastAppointments?.data?.data?.length > 0 ? (
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2.5">
+                        {pastAppointments?.data?.data?.map(
+                            (appointment: Appointment) => (
+                                <ProfileAppointmentsCard
+                                    type={'Upcoming'}
+                                    key={appointment?.id}
+                                    appointment={appointment}
+                                />
+                            )
+                        )}
+                    </div>
+                ) : (
+                    pastAppointments.isSuccess && (
+                        <NoData text="There is no past appointments" />
+                    )
+                )}
+            </div>
+        </div>
+    )
+}
