@@ -5,6 +5,7 @@ import {
     RtoAssessmentTools,
     RtoProfileProgress,
     RtoProfileTopbar,
+    RtoReports,
     RtoSectors,
 } from './components'
 import { Card } from '@components'
@@ -68,7 +69,12 @@ export const RtoProfileDetail = ({ rto }: { rto: Rto }) => {
             </div>
 
             {/* Reports */}
-            <div>Reports</div>
+            <div className="mt-5 h-[405px]">
+                <RtoReports
+                    user={rto?.user}
+                    createdAt={rto?.createdAt as Date}
+                />
+            </div>
 
             {/* Mails */}
             <div className="mt-5">
