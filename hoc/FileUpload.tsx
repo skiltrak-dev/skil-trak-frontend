@@ -133,7 +133,7 @@ export const FileUpload = ({
             setFileList(multipleFiles)
         } else {
             setFile(fileData[0])
-            setFileObject(fileData[0])
+            setFileObject(URL.createObjectURL(fileData[0]))
             onChange && onChange(fileData[0])
         }
 

@@ -5,11 +5,11 @@ import TawkMessengerReact from '@tawk.to/tawk-messenger-react'
 import { useRef } from 'react'
 
 export const SiteLayout = ({ children, title }: any) => {
-    const tawkMessengerRef = useRef<any>()
+    // const tawkMessengerRef = useRef<any>()
 
-    const handleMinimize = () => {
-        tawkMessengerRef.current.minimize()
-    }
+    // const handleMinimize = () => {
+    //     tawkMessengerRef?.current?.minimize()
+    // }
 
     return (
         <div>

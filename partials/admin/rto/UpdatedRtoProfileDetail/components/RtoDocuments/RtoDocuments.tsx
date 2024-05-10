@@ -83,6 +83,8 @@ export const RtoDocuments = ({ userId }: { userId: number }) => {
             handleRemove()
         }
 
+        console.log({ fileObjectfileObjectfileObject: fileObject })
+
         return (
             <RtoDocumentCard
                 title={name}

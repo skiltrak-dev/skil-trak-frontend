@@ -14,7 +14,7 @@ export const RtoDocumentCard = ({
 }) => {
     console.log({ file })
     return (
-        <div className="bg-[#F8F8FF] p-4 rounded border border-dashed flex flex-col items-center">
+        <div className="bg-[#F8F8FF] p-4 rounded border-2 border-[#384EB74D] border-dashed flex flex-col items-center">
             <div className="flex flex-col items-center gap-y-2">
                 <CgFileDocument className="text-2xl" />
                 <Typography color="text-[#374151]" medium>
@@ -24,7 +24,7 @@ export const RtoDocumentCard = ({
 
             {/*  */}
             {file ? (
-                <div>
+                <div className="mt-2">
                     <Image
                         alt={''}
                         width={0}
@@ -46,7 +46,7 @@ export const RtoDocumentCard = ({
                         htmlFor={`file_id_${name}`}
                         className="cursor-pointer"
                     >
-                        Browse
+                        {file ? 'Edit' : 'Browse'}
                     </label>
                 </Typography>
             </div>
