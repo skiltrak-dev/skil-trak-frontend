@@ -28,7 +28,7 @@ const LatestUpdates = () => {
     }
 
     return (
-        <div className="py-8 md:py-12" data-aos="zoom-in">
+        <div className="py-8 md:py-12">
             <ShowErrorNotifications result={subscribeResult} />
             <div className="relative max-w-6xl mx-auto bg-gradient-to-t from-[#0C1535] to-[#2C3E7F] rounded-[10px] px-8 py-9 md:py-14">
                 <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-y-6">
