@@ -1,6 +1,6 @@
-import { Typography } from '@components'
-import Image from 'next/image'
 import React from 'react'
+import Image from 'next/image'
+import { Typography } from '@components'
 import { CgFileDocument } from 'react-icons/cg'
 
 export const RtoDocumentCard = ({
@@ -12,7 +12,6 @@ export const RtoDocumentCard = ({
     name: string
     title: string
 }) => {
-    console.log({ file })
     return (
         <div className="bg-[#F8F8FF] p-4 rounded border-2 border-[#384EB74D] border-dashed flex flex-col items-center">
             <div className="flex flex-col items-center gap-y-2">

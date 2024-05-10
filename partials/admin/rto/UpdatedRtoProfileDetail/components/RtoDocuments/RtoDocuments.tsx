@@ -33,37 +33,13 @@ export const RtoDocuments = ({ userId }: { userId: number }) => {
         contextBar.setTitle('Add Contact Person')
         contextBar.setContent(
             <AddAdminCB
-                {...(contactPerson ? { initialValues: contactPerson } : {})}
-                {...(edit ? { edit: edit } : {})}
                 userId={userId}
+                {...(edit ? { edit: edit } : {})}
+                {...(contactPerson ? { initialValues: contactPerson } : {})}
             />
         )
         contextBar.show(false)
     }
-
-    const onModalCancelClicked = () => setModal(null)
-
-    const onDeleteClicked = (contactPerson: any) => {
-        setModal(
-            <DeleteModal
-                contactPerson={contactPerson}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
-    const actions = [
-        {
-            text: 'View',
-            onClick: (subadmin: any) => {
-                router.push({
-                    pathname: `/portals/admin/sub-admin/${subadmin?.id}`,
-                    query: { tab: 'history' },
-                })
-            },
-            Icon: FaRegEye,
-        },
-    ]
 
     const MyComponent = ({
         name,
@@ -83,12 +59,10 @@ export const RtoDocuments = ({ userId }: { userId: number }) => {
             handleRemove()
         }
 
-        console.log({ fileObjectfileObjectfileObject: fileObject })
-
         return (
             <RtoDocumentCard
-                title={name}
                 name={name}
+                title={name}
                 file={uploadedFile || fileObject}
             />
         )
