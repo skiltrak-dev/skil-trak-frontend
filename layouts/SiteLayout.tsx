@@ -18,11 +18,11 @@ export const SiteLayout = ({ children, title }: any) => {
             <DisplayNotifications />
             <main>{children}</main>
             <Footer4 />
-            <TawkMessengerReact
+            {/* <TawkMessengerReact
                 propertyId={'61b1f52ec82c976b71c091e2'}
                 widgetId={'1fmfibg61'}
                 useRef={tawkMessengerRef}
-            />
+            /> */}
         </div>
     )
 }

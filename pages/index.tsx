@@ -74,9 +74,9 @@ const Home3: NextPageWithLayout = ({ data }: any) => {
     )
 }
 
-// Home3.getLayout = (page: ReactElement) => {
-//     return <SiteLayout>{page}</SiteLayout>
-// }
+Home3.getLayout = (page: ReactElement) => {
+    return <SiteLayout>{page}</SiteLayout>
+}
 
 export async function getStaticProps() {
     return {

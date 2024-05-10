@@ -1,6 +1,7 @@
 export * from './Subadmins'
 export * from './RtoReports'
 export * from './RtoSectors'
+export * from './RtoDocuments'
 export * from './ProfileCounts'
 export * from './ContactPersons'
 export * from './RtoProfileTopbar'
