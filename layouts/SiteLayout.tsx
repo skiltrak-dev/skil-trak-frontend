@@ -1,12 +1,14 @@
 import { DisplayNotifications } from '@components'
 import { Navbar2 } from '@components/site/navbar/Navbar2'
+import TawkMessengerReact from '@tawk.to/tawk-messenger-react'
+import { useRef } from 'react'
 
 export const SiteLayout = ({ children, title }: any) => {
-    // const tawkMessengerRef = useRef<any>()
+    const tawkMessengerRef = useRef<any>()
 
-    // const handleMinimize = () => {
-    //     tawkMessengerRef?.current?.minimize()
-    // }
+    const handleMinimize = () => {
+        tawkMessengerRef?.current?.minimize()
+    }
 
     return (
         <div>
@@ -15,11 +17,11 @@ export const SiteLayout = ({ children, title }: any) => {
             <DisplayNotifications />
             <main>{children}</main>
             {/* <Footer4 /> */}
-            {/* <TawkMessengerReact
+            <TawkMessengerReact
                 propertyId={'61b1f52ec82c976b71c091e2'}
                 widgetId={'1fmfibg61'}
                 useRef={tawkMessengerRef}
-            /> */}
+            />
         </div>
     )
 }
