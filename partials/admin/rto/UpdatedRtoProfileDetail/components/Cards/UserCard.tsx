@@ -1,16 +1,27 @@
-import { Typography } from '@components'
+import { TruncatedTextWithTooltip, Typography } from '@components'
 import React from 'react'
 import { FaRegEye } from 'react-icons/fa'
 import { RiDeleteBin6Line, RiEdit2Fill } from 'react-icons/ri'
 
-export const UserCard = ({ user, actions }: { actions: any; user: any }) => {
+export const UserCard = ({
+    user,
+    actions,
+    userType,
+}: {
+    userType: string
+    actions: any
+    user: any
+}) => {
     return (
         <div className="bg-[#F8F8FF] p-2.5 rounded-lg flex flex-col gap-y-1.5">
             <div className="flex justify-between items-center">
                 <div className="flex flex-col gap-y-0.5">
-                    <Typography variant="badge">Contact Person</Typography>
+                    <Typography variant="badge">{userType}</Typography>
                     <Typography>
-                        <span className="text-[15px]">{user?.name}</span>
+                        <TruncatedTextWithTooltip
+                            maxLength={21}
+                            text={user?.name}
+                        />
                     </Typography>
                 </div>
 
@@ -44,7 +55,15 @@ export const UserCard = ({ user, actions }: { actions: any; user: any }) => {
                 </div>
                 <div className="flex flex-col ">
                     <Typography variant="badge">Email</Typography>
-                    <Typography variant="xs">{user?.email}</Typography>
+                    <TruncatedTextWithTooltip
+                        text={user?.email}
+                        fontSize={10}
+                        maxLength={23}
+                        position={{
+                            bottom: true,
+                            right: true,
+                        }}
+                    />
                 </div>
             </div>
         </div>

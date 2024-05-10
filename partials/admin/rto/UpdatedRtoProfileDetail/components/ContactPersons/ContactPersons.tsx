@@ -84,7 +84,11 @@ export const ContactPersons = ({ userId }: { userId: number }) => {
                 ) : data?.data && data?.data?.length > 0 ? (
                     <div className="flex flex-col gap-y-2.5">
                         {data?.data?.map((contactPerson: any) => (
-                            <UserCard user={contactPerson} actions={actions} />
+                            <UserCard
+                                userType="Contact Person"
+                                user={contactPerson}
+                                actions={actions}
+                            />
                         ))}
                     </div>
                 ) : (
