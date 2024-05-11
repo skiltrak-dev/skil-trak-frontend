@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
+// Trigger
 const colors = {
     primary: {
         DEFAULT: 'var(--theme-primary-default)',
