@@ -1,16 +1,11 @@
-import {
-    EmptyData,
-    LoadingAnimation,
-    RtoProfileSidebar,
-    TechnicalError,
-} from '@components'
+import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { RtoProfileDetail } from '@partials'
 import { ProfileViewContextBar } from '@partials/admin/rto/UpdatedRtoProfileDetail/ProfileViewContextBar'
 import { AdminApi } from '@queries'
 import { useRouter } from 'next/router'
-import React, { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 const RtoProfile = () => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
