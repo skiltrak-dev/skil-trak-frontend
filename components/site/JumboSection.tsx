@@ -27,7 +27,7 @@ export const JumboSection = () => {
         transition: 'transform 0.3s ease-out',
     }
     return (
-        <div className="jumbo-bg mb-0 md:mb-20" data-aos="fade-up">
+        <div className="jumbo-bg mb-0 md:mb-20">
             <div className="flex-col-reverse flex md:flex-row md:h-[450px] overflow-hidden">
                 {/* Text */}
                 <div className="w-full z-50 px-6 py-8 md:py-16 md:p-16 flex flex-col gap-y-6">

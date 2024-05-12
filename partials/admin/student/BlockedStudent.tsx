@@ -28,7 +28,7 @@ import { CgUnblock } from 'react-icons/cg'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
 import { RtoCellInfo } from '../rto/components'
-import { SectorCell, StudentCellInfo } from './components'
+import { SectorCell, StudentCellInfo, StudentIndustries } from './components'
 import { DeleteModal, UnblockModal } from './modals'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
@@ -151,23 +151,12 @@ export const BlockedStudent = () => {
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info: any) => {
-                const industry = info.row.original?.industries
-
-                const appliedIndustry = studentsListWorkplace(
-                    info.row.original?.workplace
-                )
-
-                return industry && industry?.length > 0 ? (
-                    <IndustryCell industry={industry[0]} />
-                ) : info.row.original?.workplace &&
-                  info.row.original?.workplace?.length > 0 &&
-                  appliedIndustry ? (
-                    <IndustryCell industry={appliedIndustry} />
-                ) : (
-                    <Typography center>N/A</Typography>
-                )
-            },
+            cell: (info) => (
+                <StudentIndustries
+                    industries={info.row.original?.industries}
+                    workplace={info.row.original?.workplace}
+                />
+            ),
         },
         {
             accessorKey: 'sectors',

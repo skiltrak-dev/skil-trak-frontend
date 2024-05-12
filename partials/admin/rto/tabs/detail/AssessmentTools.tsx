@@ -18,7 +18,11 @@ export const AssessmentTools = ({ rto }: any) => {
     const onAddAssessment = (tool: any) => {
         contextBar.setTitle('Add Assessment')
         contextBar.setContent(
-            <AddAssessmentToolCB assessment={tool} edit={true} />
+            <AddAssessmentToolCB
+                assessment={tool}
+                edit={true}
+                rtoUser={rto?.data?.user}
+            />
         )
         contextBar.show()
     }

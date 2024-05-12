@@ -66,7 +66,7 @@ const OperateStates = () => {
     }
     return (
         <div className="pt-10 pb-16">
-            <div className="pb-8 flex justify-center" data-aos="fade-up">
+            <div className="pb-8 flex justify-center">
                 <Typography
                     variant={isMobile ? 'title' : 'h2'}
                     {...(isMobile
@@ -80,7 +80,6 @@ const OperateStates = () => {
                 </Typography>
             </div>
             <div
-                data-aos="fade-up"
                 className="max-w-7xl mx-auto overflow-auto md:overflow-hidden box-content px-10"
                 ref={containerRef}
             >

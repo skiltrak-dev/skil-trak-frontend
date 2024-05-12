@@ -56,18 +56,12 @@ const KeyFeatures = () => {
     ]
     return (
         <div className="px-4 xl:px-0 py-6 max-w-7xl mx-auto">
-            <div
-                className="w-full flex justify-center px-4 mb-4"
-                data-aos="fade-up"
-            >
+            <div className="w-full flex justify-center px-4 mb-4">
                 <Typography variant="h2">
                     Key features and benefits of SkilTrak
                 </Typography>
             </div>
-            <div
-                data-aos="fade-up"
-                className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5"
-            >
+            <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
                 {features.map((feature, index) => (
                     <KeyFeatureCard
                         key={index}
@@ -79,7 +73,7 @@ const KeyFeatures = () => {
                     />
                 ))}
             </div>
-            <div data-aos="fade-up" className="flex justify-center my-5">
+            <div className="flex justify-center my-5">
                 <Button
                     onClick={() => {
                         router.push('/features')

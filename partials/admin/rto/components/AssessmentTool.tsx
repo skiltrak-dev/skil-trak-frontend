@@ -1,23 +1,17 @@
-import { useState, useEffect } from 'react'
 import {
-    Card,
-    NoData,
-    Button,
-    Typography,
-    LoadingAnimation,
-    AssessmentCourse,
-    DownloadableFile,
-    TabNavigation,
-    TabProps,
     ActionButton,
+    AssessmentCourse,
+    Card,
+    DownloadableFile,
+    LoadingAnimation,
+    NoData,
+    Typography,
 } from '@components'
+import { useEffect, useState } from 'react'
 
-import { UserStatus } from '@types'
-
+import { useContextBar } from '@hooks'
 import { AdminApi } from '@queries'
 import { AddAssessmentToolCB } from './AddAssessmentToolCB'
-import { useContextBar } from '@hooks'
-import { FaEdit } from 'react-icons/fa'
 
 export const AssessmentTool = ({ rto, actions, setAssessmentView }: any) => {
     const [courses, setCourses] = useState<any | null>(null)
@@ -48,7 +42,11 @@ export const AssessmentTool = ({ rto, actions, setAssessmentView }: any) => {
     const onAddAssessment = () => {
         contextBar.setTitle('Add Assessment')
         contextBar.setContent(
-            <AddAssessmentToolCB assessment={rto?.data} edit={false} />
+            <AddAssessmentToolCB
+                assessment={rto?.data}
+                edit={false}
+                rtoUser={rto?.data?.user}
+            />
         )
         contextBar.show()
     }

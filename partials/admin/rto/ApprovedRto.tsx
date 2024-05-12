@@ -5,20 +5,20 @@ import {
     LoadingAnimation,
     Table,
     TableAction,
-    TableActionOption,
     TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye } from 'react-icons/fa'
 
+import { UserRoles } from '@constants'
 import { useActionModal, useContextBar } from '@hooks'
 import { AdminApi, commonApi } from '@queries'
 import { Rto, UserStatus } from '@types'
 import { checkListLength, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
-import { MdAdminPanelSettings, MdBlock, MdOutlineUpdate } from 'react-icons/md'
+import { MdBlock, MdOutlineUpdate } from 'react-icons/md'
 import { RtoCellInfo, SectorCell } from './components'
 import { ViewSubAdminsCB } from './contextBar'
 import {
@@ -27,13 +27,12 @@ import {
     BlockModal,
     BulkBlockModal,
 } from './modals'
-import { UserRoles } from '@constants'
 
 export const ApprovedRto = () => {
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
-    
+
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
@@ -103,6 +102,13 @@ export const ApprovedRto = () => {
             Icon: FaEye,
         },
         {
+            text: 'New Profile',
+            onClick: (rto: any) => {
+                router.push(`/portals/admin/rto/${rto.id}/detail`)
+            },
+            Icon: FaEye,
+        },
+        {
             text: 'Edit',
             onClick: (rto: Rto) => {
                 router.push(`/portals/admin/rto/${rto.id}/edit-profile`)
@@ -112,9 +118,9 @@ export const ApprovedRto = () => {
         {
             ...(role === UserRoles.ADMIN
                 ? {
-                    text: 'View Password',
-                    onClick: (rto: Rto) => onViewPassword(rto),
-                    Icon: FaEdit,
+                      text: 'View Password',
+                      onClick: (rto: Rto) => onViewPassword(rto),
+                      Icon: FaEdit,
                   }
                 : {}),
         },

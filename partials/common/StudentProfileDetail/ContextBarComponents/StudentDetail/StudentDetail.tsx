@@ -64,12 +64,15 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
                                 }
                             })
                             notification.success({
-                                title: 'Cpoied',
+                                title: 'Copied',
                                 description: 'Phone Number Copied',
                             })
                         }}
                     >
-                        <div className="bg-primaryNew py-1.5 px-2.5 rounded" onClick={onViewCallLogs}>
+                        <div
+                            className="bg-primaryNew py-1.5 px-2.5 rounded"
+                            onClick={onViewCallLogs}
+                        >
                             <Typography
                                 variant="xs"
                                 color="text-white"

@@ -1,6 +1,6 @@
-import { Course } from "./sector.type"
+import { Course } from './sector.type'
 
-export interface AssessmentTools {
+export interface AssessmentToolsType {
     id: number
     isActive: boolean
     createdAt: string

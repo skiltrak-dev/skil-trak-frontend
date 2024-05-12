@@ -1,0 +1,180 @@
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
+import { ReactNode, useState } from 'react'
+import { Appointment, appointmentWithUser } from '@types'
+import { AppointmentViewModal } from '@components/Appointment/AppointmentModal'
+import { Typography } from '@components'
+import { GrLocation } from 'react-icons/gr'
+import moment from 'moment'
+import { LuClock } from 'react-icons/lu'
+import { RxCalendar } from 'react-icons/rx'
+import Image from 'next/image'
+
+export const ProfileAppointmentsCard = ({
+    type,
+    appointment,
+}: {
+    type: string
+    appointment: Appointment
+}) => {
+    const [modal, setModal] = useState<ReactNode | null>(null)
+
+    const id = getUserCredentials()?.id
+    const appointmentWith =
+        appointment?.appointmentBy?.id === id
+            ? 'appointmentFor'
+            : 'appointmentBy'
+
+    const appointmentUser: appointmentWithUser = appointment[appointmentWith]
+
+    const appointmentWithUser = appointmentUser
+        ? appointmentUser[
+              appointmentUser?.role === UserRoles.SUBADMIN
+                  ? ('coordinator' as keyof typeof appointmentUser)
+                  : (appointmentUser?.role as keyof typeof appointmentUser)
+          ]
+        : {}
+
+    const appointmentWithUserProfile = appointmentUser
+        ? appointmentUser?.role === UserRoles.SUBADMIN
+            ? appointmentWithUser[0]
+            : appointmentWithUser
+        : appointment?.coordinator
+
+    const onAppointmentClicked = () => {
+        setModal(
+            <AppointmentViewModal
+                id={appointment?.id}
+                onCancel={() => setModal(null)}
+            />
+        )
+    }
+    return (
+        <>
+            {modal}
+            <div className="bg-[#E9E9FF] rounded-lg px-1.5 pt-3 pb-2">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-x-5">
+                        <div>
+                            <Typography variant="xxs" normal capitalize>
+                                {appointment?.appointmentFor?.role ===
+                                UserRoles.SUBADMIN
+                                    ? 'Coordinator'
+                                    : appointment?.appointmentFor?.role}
+                            </Typography>
+                            <Typography normal>
+                                {appointment?.appointmentFor?.name}
+                            </Typography>
+                        </div>
+                        <Typography variant="badge" normal>
+                            &
+                        </Typography>
+                        <div>
+                            <Typography variant="xxs" normal capitalize>
+                                {appointment?.appointmentBy?.role ===
+                                UserRoles.SUBADMIN
+                                    ? 'Coordinator'
+                                    : appointment?.appointmentBy?.role}
+                            </Typography>
+                            <Typography normal>
+                                {appointment?.appointmentBy?.name}
+                            </Typography>
+                        </div>
+                    </div>
+
+                    <div className="w-[104px] h-6 rounded bg-primary flex justify-center items-center ">
+                        <Typography bold variant="xxs" color="text-white">
+                            {type}
+                        </Typography>
+                    </div>
+                </div>
+
+                {/*  */}
+                <div className="mt-3.5 grid grid-cols-3 gap-x-1.5">
+                    <div className="flex flex-col gap-y-2 col-span-2">
+                        <div className="flex items-center gap-x-2.5 bg-white py-1 px-2.5 rounded">
+                            {/* <div className="w-[30px] h-[30px] rounded-lg bg-primary flex justify-center items-center"> */}
+                            <RxCalendar className="text-" />
+                            {/* </div> */}
+                            <Typography variant="small">
+                                {moment(new Date(appointment?.date)).format(
+                                    'dddd, MMMM DD YYYY'
+                                )}{' '}
+                            </Typography>
+                        </div>
+                        <div className="flex items-center gap-x-2.5 py-1 px-2.5 bg-white">
+                            <LuClock />
+                            <div className="flex items-center gap-x-2">
+                                <Typography variant="small">
+                                    {moment(
+                                        appointment?.startTime,
+                                        'hh:mm'
+                                    ).format('hh:mm a')}{' '}
+                                    -{' '}
+                                    {moment(
+                                        appointment?.endTime,
+                                        'hh:mm'
+                                    ).format('hh:mm a')}
+                                </Typography>
+                                <Typography
+                                    variant="badge"
+                                    normal
+                                    color="text-white"
+                                >
+                                    ~ {appointment?.type?.breakDuration} Min
+                                    Break
+                                </Typography>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-x-2.5 py-1 px-2.5 bg-white">
+                            <GrLocation />
+                            <Typography variant="small">
+                                {`${
+                                    appointmentWithUserProfile?.addressLine1 ||
+                                    'Address Not Provided'
+                                }`}
+                            </Typography>
+                        </div>
+                    </div>
+
+                    {/*  */}
+                    <div className="flex flex-col items-center justify-center gap-y-2.5 bg-white">
+                        <Image
+                            src={'/images/appointments/darkVideoConference.svg'}
+                            alt={'Upcoming Appointments'}
+                            width={40}
+                            height={40}
+                        />
+                        <Typography
+                            variant="badge"
+                            color="text-primaryNew"
+                            normal
+                            capitalize
+                        >
+                            {appointment?.type?.title}
+                        </Typography>
+                    </div>
+                </div>
+
+                {/*  */}
+                <div
+                    onClick={() => {
+                        onAppointmentClicked()
+                    }}
+                    className="mt-2"
+                >
+                    <Typography
+                        underline
+                        variant="xs"
+                        bold
+                        color="text-[#F67F1E]"
+                        cursorPointer
+                        center
+                    >
+                        VIEW DETAILS
+                    </Typography>
+                </div>
+            </div>
+        </>
+    )
+}

@@ -105,6 +105,13 @@ export const FilteredRto = ({
             Icon: FaEye,
         },
         {
+            text: 'New Profile',
+            onClick: (rto: any) => {
+                router.push(`/portals/admin/rto/${rto.id}/detail`)
+            },
+            Icon: FaEye,
+        },
+        {
             text: 'Edit',
             onClick: (rto: Rto) => {
                 router.push(`/portals/admin/rto/${rto.id}/edit-profile`)
