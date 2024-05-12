@@ -224,9 +224,7 @@ export const ActiveRTOSubAdmin = () => {
     const columns: ColumnDef<SubAdmin>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <SubAdminCell subAdmin={info.row.original} />
-            },
+            cell: (info) => <SubAdminCell subAdmin={info.row.original} />,
             header: () => <span>Sub Admin</span>,
         },
         {
@@ -238,6 +236,10 @@ export const ActiveRTOSubAdmin = () => {
             accessorKey: 'rto',
             header: () => <span>RTOs</span>,
             cell: (info) => <RtoCell subAdmin={info.row.original} />,
+        },
+        {
+            accessorKey: 'studentCount',
+            header: () => <span>Assigned Students</span>,
         },
         {
             accessorKey: 'addressLine1',

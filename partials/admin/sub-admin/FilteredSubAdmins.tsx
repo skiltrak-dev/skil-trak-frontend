@@ -81,9 +81,9 @@ export const FilteredSubAdmins = ({
         {
             ...(role === UserRoles.ADMIN
                 ? {
-                    text: 'View Password',
-                    onClick: (subAdmin: SubAdmin) => onViewPassword(subAdmin),
-                    Icon: RiLockPasswordFill,
+                      text: 'View Password',
+                      onClick: (subAdmin: SubAdmin) => onViewPassword(subAdmin),
+                      Icon: RiLockPasswordFill,
                   }
                 : {}),
         },
@@ -98,17 +98,13 @@ export const FilteredSubAdmins = ({
     const columns: ColumnDef<SubAdmin>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <SubAdminCell subAdmin={info.row.original} />
-            },
+            cell: (info) => <SubAdminCell subAdmin={info.row.original} />,
             header: () => <span>Sub Admin</span>,
         },
         {
             accessorKey: 'sector',
             header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell subAdmin={info.row.original} />
-            },
+            cell: (info) => <SectorCell subAdmin={info.row.original} />,
         },
         {
             accessorKey: 'rto',
@@ -116,6 +112,10 @@ export const FilteredSubAdmins = ({
             cell: (info) => {
                 return <RtoCell subAdmin={info.row.original} />
             },
+        },
+        {
+            accessorKey: 'studentCount',
+            header: () => <span>Assigned Students</span>,
         },
         {
             accessorKey: 'user.status',

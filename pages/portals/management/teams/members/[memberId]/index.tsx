@@ -27,7 +27,6 @@ const MemberDetailPage: NextPageWithLayout = () => {
     const kpiTargetsList = ManagementApi.CheckKpi.useKpiTargets(memberId, {
         skip: !memberId,
     })
-    console.log('kpiTargetsList', kpiTargetsList?.data)
     const { data, isLoading, isError } = ManagementApi.Team.useTeamMemberDetail(
         memberId,
         {

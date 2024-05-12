@@ -157,7 +157,10 @@ export const RejectedSubAdmin = () => {
                 )
             },
         },
-
+        {
+            accessorKey: 'studentCount',
+            header: () => <span>Assigned Students</span>,
+        },
         {
             accessorKey: 'address',
             header: () => <span>Address</span>,

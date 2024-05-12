@@ -155,6 +155,10 @@ export const BlockedSubAdmin = () => {
             cell: (info) => <RtoCell subAdmin={info.row.original} />,
         },
         {
+            accessorKey: 'studentCount',
+            header: () => <span>Assigned Students</span>,
+        },
+        {
             accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
             cell: (info) => info.getValue(),

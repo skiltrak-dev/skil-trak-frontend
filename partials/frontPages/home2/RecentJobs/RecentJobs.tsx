@@ -8,11 +8,7 @@ const RecentJobs = () => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
 
     return (
-        <div
-            className="relative py-10"
-            data-aos="fade-up"
-            data-aos-duration="3000"
-        >
+        <div className="relative py-10">
             <div className="max-w-7xl mx-auto flex flex-col gap-y-">
                 <div className="flex flex-col md:flex-row gap-y-1 justify-center md:justify-between items-center">
                     <Typography
@@ -36,7 +32,7 @@ const RecentJobs = () => {
                 </div>
 
                 {/* Jobs */}
-                <div className="pt-6" data-aos="fade-up">
+                <div className="pt-6">
                     <JobsSlider />
                 </div>
             </div>

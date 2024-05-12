@@ -9,15 +9,12 @@ const GetStarted = ({ contactUsRef }: { contactUsRef: any }) => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
     return (
         <div className="bg-gradient-to-t from-[#0C1535] to-[#2C3E7F] py-10 px-5 md:px-0">
-            <div data-aos="fade-up">
+            <div>
                 <Typography variant="h3" bold center color={'text-white'}>
                     Get Started With Us
                 </Typography>
             </div>
-            <div
-                data-aos="fade-up"
-                className="w-full sm:max-w-[450px] mx-auto flex justify-center mt-3"
-            >
+            <div className="w-full sm:max-w-[450px] mx-auto flex justify-center mt-3">
                 <Typography
                     variant={isMobile ? 'small' : 'label'}
                     color={'text-white'}
@@ -29,10 +26,7 @@ const GetStarted = ({ contactUsRef }: { contactUsRef: any }) => {
                 </Typography>
             </div>
 
-            <div
-                data-aos="fade-up"
-                className="flex items-center justify-center mt-5 gap-x-2"
-            >
+            <div className="flex items-center justify-center mt-5 gap-x-2">
                 <Button
                     onClick={() => {
                         router.push('/auth/signup')
@@ -50,7 +44,7 @@ const GetStarted = ({ contactUsRef }: { contactUsRef: any }) => {
                     text="Request a demo"
                 />
             </div>
-            <div data-aos="zoom-in" className="max-w-4xl mt-7 md:mt-9 mx-auto">
+            <div className="max-w-4xl mt-7 md:mt-9 mx-auto">
                 <div className="w-full h-full">
                     <Image
                         className="w-full h-full"

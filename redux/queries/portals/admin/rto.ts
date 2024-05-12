@@ -2,7 +2,7 @@ import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
 import {
-    AssessmentTools,
+    AssessmentToolsType,
     Course,
     ImportStudentFormType,
     PaginatedResponse,
@@ -61,7 +61,7 @@ export const rtoEndpoints = (
     }),
 
     rtoAssessmentTools: builder.query<
-        AssessmentTools[],
+        AssessmentToolsType[],
         { rto: number; course: number; status: string }
     >({
         query: ({ rto, course, status }) => ({
@@ -98,7 +98,7 @@ export const rtoEndpoints = (
         invalidatesTags: ['RTOS'],
     }),
     rtoCreateAssessmentTools: builder.mutation<
-        AssessmentTools,
+        AssessmentToolsType,
         { body: FormData; id: number }
     >({
         query: ({ body, id }) => ({
@@ -109,7 +109,7 @@ export const rtoEndpoints = (
         invalidatesTags: ['RTOS'],
     }),
     rtoUpdateAssessmentTools: builder.mutation<
-        AssessmentTools,
+        AssessmentToolsType,
         { body: FormData; assessment: number }
     >({
         query: ({ body, assessment }) => ({
@@ -119,14 +119,14 @@ export const rtoEndpoints = (
         }),
         invalidatesTags: ['RTOS'],
     }),
-    rtoRemoveAssessmentTools: builder.mutation<AssessmentTools, number>({
+    rtoRemoveAssessmentTools: builder.mutation<AssessmentToolsType, number>({
         query: (id) => ({
             url: `${PREFIX}/rto/assessment-tool/remove/${id}`,
             method: 'DELETE',
         }),
         invalidatesTags: ['RTOS'],
     }),
-    rtoAssessmentToolArchive: builder.mutation<AssessmentTools[], number>({
+    rtoAssessmentToolArchive: builder.mutation<AssessmentToolsType[], number>({
         query: (id) => ({
             url: `${PREFIX}/rto/assessment-tool/archived/${id}`,
             method: 'PATCH',
@@ -170,7 +170,7 @@ export const rtoEndpoints = (
 
     rtoProfileSubAdmins: builder.query<
         PaginatedResponse<RTOSubAdmin>,
-        { skip: number; limit: number; id: number }
+        { skip?: number; limit?: number; id: number }
     >({
         query: (params) => ({
             url: `${PREFIX}/rto/subadmin/list/${params?.id}`,

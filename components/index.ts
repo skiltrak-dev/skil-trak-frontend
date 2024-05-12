@@ -34,6 +34,8 @@ export * from './CaseOfficerAssignedStudent'
 export * from './AuthorizedUserComponent'
 export * from './StudentExpiryDaysLeft'
 
+export * from './ErrorBoundary'
+
 // export * from './Pagination'
 export * from './PopUp'
 export * from './buttons/PortalSelectButton'

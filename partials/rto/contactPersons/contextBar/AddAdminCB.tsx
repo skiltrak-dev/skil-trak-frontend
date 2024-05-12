@@ -9,7 +9,15 @@ import { useContextBar, useNotification } from '@hooks'
 import { RtoApi } from '@queries'
 import { AddContactPersonForm } from '../forms'
 
-export const AddAdminCB = ({ initialValues, edit, rto }: any) => {
+export const AddAdminCB = ({
+    initialValues,
+    edit,
+    userId,
+}: {
+    initialValues?: any
+    edit?: boolean
+    userId?: number
+}) => {
     const { notification } = useNotification()
     const { hide, setContent } = useContextBar()
     const [create, createResult] = RtoApi.Rto.useAddContactPerson()
@@ -41,7 +49,7 @@ export const AddAdminCB = ({ initialValues, edit, rto }: any) => {
                 }
             )
         } else {
-            await create({ ...values, rto: rto?.user?.id })
+            await create({ ...values, rto: userId })
         }
     }
 
@@ -56,7 +64,7 @@ export const AddAdminCB = ({ initialValues, edit, rto }: any) => {
             </Typography>
 
             <AddContactPersonForm
-                edit={edit}
+                edit={edit as boolean}
                 onSubmit={onSubmit}
                 isLoading={isLoading}
                 initialValues={initialValues}

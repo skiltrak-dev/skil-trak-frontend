@@ -1,5 +1,4 @@
 import {
-    AuthorizedUserComponent,
     Button,
     Card,
     EmptyData,
@@ -13,25 +12,18 @@ import { ReportListDownload } from '@partials/rto/components/ReportListDownload'
 import { ReportListModal } from '@partials/rto/components/ReportListModal'
 import {
     AppointmentsReport,
-    BlockedStudentsReport,
-    CancelledWorkplaceReport,
     CompletedWorkplaceReport,
-    NewStudentReport,
     NonContactableReport,
     PlacementStartedReport,
-    ReportedStudents,
     StudentResultsReport,
-    StudentsWithoutWorkplaceReport,
-    TerminatedWorkplaceReport,
     WorkplaceRequestReport,
 } from '@partials/rto/report'
 import { User } from '@types'
 import { getUserCredentials } from '@utils'
 import moment from 'moment'
 import { ReactElement, useEffect, useState } from 'react'
-import { IoDocumentText } from 'react-icons/io5'
-import { WeeklyReport } from './contextBar'
 import { IoMdDownload } from 'react-icons/io'
+import { IoDocumentText } from 'react-icons/io5'
 
 export const RTOReports = ({
     user,

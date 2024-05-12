@@ -49,7 +49,7 @@ const OurPackages = () => {
                     className="w-full h-full absolute right-0 -z-10"
                     priority
                 />
-                <div data-aos="fade-up">
+                <div>
                     <Typography variant={isMobile ? 'title' : 'h2'} center bold>
                         Our Packages For Training Organizations
                     </Typography>
@@ -59,7 +59,7 @@ const OurPackages = () => {
                     className="max-w-7xl mx-auto mt-5 grid grid-cols-1 lg:grid-cols-3 gap-y-8 gap-x-4 sticky top-0 px-4 xl:px-0"
                     id={'helloPackages'}
                 >
-                    <div className="lg:hidden" data-aos="fade-right">
+                    <div className="lg:hidden">
                         <PackageSliderContainer className="relative w-full">
                             <Swiper
                                 spaceBetween={10}
@@ -103,7 +103,7 @@ const OurPackages = () => {
                             </Swiper>
                         </PackageSliderContainer>
                     </div>
-                    <div className="hidden lg:block" data-aos="fade-up">
+                    <div className="hidden lg:block">
                         <div className=" flex flex-col justify-between gap-y-4 h-full ">
                             {data?.map((packageData, i) => (
                                 <PackageCard
@@ -121,7 +121,7 @@ const OurPackages = () => {
                             ))}
                         </div>
                     </div>
-                    <div className="md:col-span-2" data-aos="fade-up">
+                    <div className="md:col-span-2">
                         <PackageDetail
                             packageTypes={packageTypes}
                             selectedPackage={selectedPackage}

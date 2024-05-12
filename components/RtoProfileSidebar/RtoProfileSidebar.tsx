@@ -3,7 +3,6 @@ import {
     AuthorizedUserComponent,
     LoadingAnimation,
     RtoAvatar,
-    Switch,
     Typography,
 } from '@components'
 import { NoData } from '@components/ActionAnimations'
@@ -12,8 +11,8 @@ import { useActionModal } from '@hooks'
 import { AllowUpdationModal } from '@partials/admin/rto/modals'
 import { CourseList } from '@partials/common'
 import { SubAdminApi } from '@queries'
-import { Course, GetSectorsType, Rto } from '@types'
-import { getUserCredentials } from '@utils'
+import { Course, GetSectorsType } from '@types'
+import { getSectors, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { AiFillEdit } from 'react-icons/ai'
@@ -44,20 +43,6 @@ export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
 
     // hooks
     const { onUpdatePassword, passwordModal } = useActionModal()
-
-    const getSectors = (courses: Course[]) => {
-        if (!courses) return {}
-        const sectors: GetSectorsType = {}
-        courses.forEach((c: Course) => {
-            if (sectors[c.sector.name]) {
-                sectors[c.sector.name].push(c)
-            } else {
-                sectors[c.sector.name] = []
-                sectors[c.sector.name].push(c)
-            }
-        })
-        return sectors
-    }
 
     const onModalCancelClicked = () => setModal(null)
 

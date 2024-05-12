@@ -1,7 +1,6 @@
 import {
     ActionButton,
     AuthorizedUserComponent,
-    EmptyData,
     InitialAvatar,
     LoadingAnimation,
     NoData,
@@ -10,15 +9,12 @@ import {
     Typography,
 } from '@components'
 
+import { UserRoles } from '@constants'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import React, { useState } from 'react'
-import { FilterReport } from '../../FilterReport'
-import { CourseDot } from '@partials/rto/student/components'
-import { Course, ReportOptionsEnum } from '@types'
-import { ViewFullListReport } from '../../ViewFullListReport'
+import { ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
-import { UserRoles } from '@constants'
+import { useState } from 'react'
 import { Waypoint } from 'react-waypoint'
 
 type Props = {
@@ -55,7 +51,7 @@ export const AppointmentsReport = ({
         },
         { skip: !renderComponent }
     )
-        
+
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Appointment By</span>,

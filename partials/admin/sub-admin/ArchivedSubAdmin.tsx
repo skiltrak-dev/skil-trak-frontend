@@ -130,7 +130,6 @@ export const ArchivedSubAdmin = () => {
                   }
                 : {}),
         },
-       
     ]
 
     const columns: ColumnDef<SubAdmin>[] = [
@@ -160,7 +159,10 @@ export const ArchivedSubAdmin = () => {
                 )
             },
         },
-
+        {
+            accessorKey: 'studentCount',
+            header: () => <span>Assigned Students</span>,
+        },
         {
             accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
