@@ -17,14 +17,14 @@ export const SiteLayout = ({ children, title }: any) => {
             <Navbar2 />
             <DisplayNotifications />
             <main>{children}</main>
-            <ErrorBoundary>
-                <Footer4 />
-            </ErrorBoundary>
-            <TawkMessengerReact
-                propertyId={'61b1f52ec82c976b71c091e2'}
-                widgetId={'1fmfibg61'}
-                useRef={tawkMessengerRef}
-            />
+            <Footer4 />
+            <div>
+                <TawkMessengerReact
+                    propertyId={'61b1f52ec82c976b71c091e2'}
+                    widgetId={'1fmfibg61'}
+                    useRef={tawkMessengerRef}
+                />
+            </div>
         </div>
     )
 }
