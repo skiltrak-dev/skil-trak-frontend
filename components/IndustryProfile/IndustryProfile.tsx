@@ -22,7 +22,7 @@ import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { Fragment, ReactNode, useEffect, useState } from 'react'
 import { BsFillBuildingFill, BsUnlockFill } from 'react-icons/bs'
-import { FaAddressCard, FaRegHandshake } from 'react-icons/fa'
+import { FaAddressCard, FaRegClock, FaRegHandshake } from 'react-icons/fa'
 import { GiBackwardTime } from 'react-icons/gi'
 import { IoMdEye } from 'react-icons/io'
 import { IoLocation } from 'react-icons/io5'
@@ -32,6 +32,7 @@ import {
     MakeHeadQuarterModal,
     RemoveBranchModal,
 } from '../../partials/common/IndustryBranches/modal'
+import moment from 'moment'
 
 type Props = {
     data: Industry
@@ -285,7 +286,7 @@ export const IndustryProfile = ({ data }: Props) => {
                                                 receiver: UserRoles.INDUSTRY,
                                             })
                                             notification.success({
-                                                title: 'Cpoied',
+                                                title: 'Copied',
                                                 description:
                                                     'Phone Number Copied',
                                             })
@@ -327,16 +328,20 @@ export const IndustryProfile = ({ data }: Props) => {
                                 </Typography>
                             </div> */}
                     </div>
-                    <div className="mb-2">
+                    <div className="mb-2 py-1.5">
                         <div className="text-gray-400 text-[11px] ml-4">
-                            Last Login
+                            Created At
                         </div>
                         <div className="flex items-center space-x-2">
                             <span className="text-gray-300">
-                                <GiBackwardTime />
+                                <FaRegClock />
                             </span>
                             <Typography variant={'small'} color={'text-black'}>
-                                Yesterday
+                                <span className="whitespace-pre">
+                                    {moment(data?.createdAt).format(
+                                        'Do MMM YYYY, hh:mm:ss a'
+                                    )}
+                                </span>
                             </Typography>
                         </div>
                     </div>

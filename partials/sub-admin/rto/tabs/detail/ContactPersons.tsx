@@ -56,7 +56,7 @@ export const ContactPersons = ({ rto }: { rto: Rto }) => {
             <AddAdminCB
                 {...(contactPerson ? { initialValues: contactPerson } : {})}
                 {...(edit ? { edit: edit } : {})}
-                rto={rto}
+                userId={rto?.user?.id}
             />
         )
         contextBar.show(false)

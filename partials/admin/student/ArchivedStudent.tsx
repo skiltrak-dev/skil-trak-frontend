@@ -34,7 +34,7 @@ import { useEffect, useState } from 'react'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
 import { RtoCellInfo } from '../rto/components'
-import { SectorCell, StudentCellInfo } from './components'
+import { SectorCell, StudentCellInfo, StudentIndustries } from './components'
 import { ChangeStatusModal, DeleteModal } from './modals'
 
 export const ArchivedStudent = () => {
@@ -158,23 +158,29 @@ export const ArchivedStudent = () => {
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info: any) => {
-                const industry = info.row.original?.industries
+            // cell: (info: any) => {
+            //     const industry = info.row.original?.industries
 
-                const appliedIndustry = studentsListWorkplace(
-                    info.row.original?.workplace
-                )
+            //     const appliedIndustry = studentsListWorkplace(
+            //         info.row.original?.workplace
+            //     )
 
-                return industry && industry?.length > 0 ? (
-                    <IndustryCell industry={industry[0]} />
-                ) : info.row.original?.workplace &&
-                  info.row.original?.workplace?.length > 0 &&
-                  appliedIndustry ? (
-                    <IndustryCell industry={appliedIndustry} />
-                ) : (
-                    <Typography center>N/A</Typography>
-                )
-            },
+            //     return industry && industry?.length > 0 ? (
+            //         <IndustryCell industry={industry[0]} />
+            //     ) : info.row.original?.workplace &&
+            //       info.row.original?.workplace?.length > 0 &&
+            //       appliedIndustry ? (
+            //         <IndustryCell industry={appliedIndustry} />
+            //     ) : (
+            //         <Typography center>N/A</Typography>
+            //     )
+            // },
+            cell: (info) => (
+                <StudentIndustries
+                    industries={info.row.original?.industries}
+                    workplace={info.row.original?.workplace}
+                />
+            ),
         },
         {
             accessorKey: 'sectors',

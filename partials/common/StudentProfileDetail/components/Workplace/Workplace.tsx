@@ -94,8 +94,6 @@ export const Workplace = ({
     //           )
     //         : []
 
-    // console.log({ sortedWorkplace: sortedWorkplace })
-
     useEffect(() => {
         if (
             studentWorkplace?.data &&

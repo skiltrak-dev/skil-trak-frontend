@@ -25,20 +25,14 @@ const TechnicalPartners = () => {
     return (
         <div className="border-y border-secondary-dark">
             <div className="max-w-[1400px] mx-auto overflow-hidden flex flex-col md:flex-row items-center">
-                <div
-                    data-aos="fade-right"
-                    className="px-9 py-5 md:py-3 md:border-r border-secondary-dark"
-                >
+                <div className="px-9 py-5 md:py-3 md:border-r border-secondary-dark">
                     <Typography variant={isMobile ? 'title' : 'h2'}>
                         <span className="whitespace-pre">
                             Our Technical Partners
                         </span>
                     </Typography>
                 </div>
-                <div
-                    // data-aos="fade-left"
-                    className="py-5 md:py-0 px-9 w-full border-y md:border-y-0"
-                >
+                <div className="py-5 md:py-0 px-9 w-full border-y md:border-y-0">
                     <div className="w-full items-center justify-between gap-y-12 md:gap-y-10 mx-auto">
                         <TechnicalPartnerStyleContainer>
                             <Marquee className="w-full py-5" speed={50}>

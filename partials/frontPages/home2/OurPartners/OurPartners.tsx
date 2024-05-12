@@ -39,14 +39,14 @@ const OurPartners = () => {
             <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center overflow-hidden">
                 <div
                     className="px-9 py-3 md:border-r border-secondary-dark"
-                    data-aos="fade-right"
+                 
                 >
                     <Typography variant={isMobile ? 'title' : 'h2'}>
                         <span className="whitespace-pre">Our Partners</span>
                     </Typography>
                 </div>
                 <div
-                    data-aos="fade-left"
+                  
                     className="px-9 w-full border-y md:border-y-0 py-4 md:py-0"
                 >
                     <div className="w-full items-center justify-between gap-y-12 md:gap-y-10 mx-auto">

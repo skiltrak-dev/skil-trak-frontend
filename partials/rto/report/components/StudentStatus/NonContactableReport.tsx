@@ -15,7 +15,6 @@ import { ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { Waypoint } from 'react-waypoint'
-import { FilterReport } from '../../FilterReport'
 type Props = {
     startDate: Date
     setStartDate: (startDate: Date) => void
