@@ -1,8 +1,8 @@
-import { useRef } from 'react'
+import { DisplayNotifications } from '@components'
 import { Footer4 } from '@components/site'
 import { Navbar2 } from '@components/site/navbar/Navbar2'
 import TawkMessengerReact from '@tawk.to/tawk-messenger-react'
-import { DisplayNotifications, ErrorBoundary } from '@components'
+import { useRef } from 'react'
 
 export const SiteLayout = ({ children, title }: any) => {
     const tawkMessengerRef = useRef<any>()
