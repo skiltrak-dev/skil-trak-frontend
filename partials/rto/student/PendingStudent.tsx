@@ -53,19 +53,19 @@ export const PendingStudent = () => {
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: (student: StudentSubAdmin) => {
+            onClick: (student: Student) => {
                 router.push(`/portals/rto/students/${student.id}`)
             },
             Icon: FaEye,
         },
         {
             text: 'Approve',
-            onClick: (student: StudentSubAdmin) => onAcceptClicked(student),
+            onClick: (student: Student) => onAcceptClicked(student),
             Icon: FaEye,
         },
         {
             text: 'Reject',
-            onClick: (student: StudentSubAdmin) => onRejectClicked(student),
+            onClick: (student: Student) => onRejectClicked(student),
             Icon: FaEye,
         },
     ]
@@ -107,7 +107,7 @@ export const PendingStudent = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: StudentSubAdmin) => (
+        individual: (id: Student) => (
             <div className="flex gap-x-2">
                 <ActionButton variant="success" onClick={() => {}}>
                     Accept
@@ -117,7 +117,7 @@ export const PendingStudent = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: Student) => (
+        common: (ids: Student[]) => (
             <ActionButton variant="error" onClick={() => {}}>
                 Reject
             </ActionButton>
