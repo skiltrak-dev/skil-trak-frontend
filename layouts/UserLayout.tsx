@@ -1,4 +1,4 @@
-import { DetailNavbar, ProtectedRoute } from '@components'
+import { Alert, DetailNavbar, ProtectedRoute } from '@components'
 import { ContextBar } from '@components/sideBars'
 import { useAlert } from '@hooks'
 import { UserStatus } from '@types'
@@ -43,6 +43,7 @@ export const UserLayout = ({ children }: UserLayoutProps) => {
                 title: `${userData?.name} is Pending`,
                 description: 'Please wait for admin approval',
                 autoDismiss: false,
+                existId: 'userStatusPending',
             })
         }
         if (userData?.status === UserStatus.Archived) {
@@ -50,6 +51,7 @@ export const UserLayout = ({ children }: UserLayoutProps) => {
                 title: `${userData?.name} is Archived`,
                 description: 'Account is archived',
                 autoDismiss: false,
+                existId: 'userStatusArchived',
             })
         }
         if (userData?.status === UserStatus.Blocked) {
@@ -57,6 +59,7 @@ export const UserLayout = ({ children }: UserLayoutProps) => {
                 title: `${userData?.name} is Blocked`,
                 description: 'Your Account is Blocked!',
                 autoDismiss: false,
+                existId: 'userStatusBlocked',
             })
         }
         if (userData?.status === UserStatus.Rejected) {
@@ -64,6 +67,7 @@ export const UserLayout = ({ children }: UserLayoutProps) => {
                 title: `${userData?.name} is Rejected`,
                 description: 'Account is Rejected!',
                 autoDismiss: false,
+                existId: 'userStatusRejected',
             })
         }
         return () => {
@@ -74,6 +78,7 @@ export const UserLayout = ({ children }: UserLayoutProps) => {
         <ProtectedRoute>
             <div>
                 <DetailNavbar />
+
                 {/* Viewport & SideBar Container */}
                 <div className="bg-slate-50 h-[90vh] flex justify-between w-full overflow-hidden">
                     {/* Viewport */}

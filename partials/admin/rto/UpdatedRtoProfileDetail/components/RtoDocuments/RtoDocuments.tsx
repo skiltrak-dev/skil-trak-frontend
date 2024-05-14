@@ -1,13 +1,11 @@
+import { FileUpload } from '@hoc'
 import { useContextBar } from '@hooks'
-import { AddAdminCB, DeleteModal } from '@partials/rto'
+import { AddAdminCB } from '@partials/rto'
 import { AdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import { ReactNode, useState } from 'react'
-import { FaRegEye } from 'react-icons/fa'
 import { ContextBarDropdown } from '../ContextBarDropdown'
 import { RtoDocumentCard } from './Cards'
-import { FileUpload } from '@hoc'
-import { isBrowser } from '@utils'
 
 export const RtoDocuments = ({ userId }: { userId: number }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
@@ -77,7 +75,6 @@ export const RtoDocuments = ({ userId }: { userId: number }) => {
                     component={MyComponent}
                     onChange={(e: any) => {
                         const fileType = e?.type?.split('/')?.[1]
-                        console.log({ fileType })
                     }}
                 />
             </ContextBarDropdown>

@@ -9,7 +9,6 @@ export const RtoCourses = ({
     sector: string
     courses: Course[]
 }) => {
-    console.log({ courses })
     return (
         <div className="border border-primaryNew rounded-md overflow-hidden">
             <div className={'bg-primaryNew px-3.5 py-4'}>
