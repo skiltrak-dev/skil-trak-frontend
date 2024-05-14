@@ -173,7 +173,7 @@ export const FilteredEsigns = ({
             header: () => <span>Action</span>,
             cell: (info) => {
                 const length = checkListLength<Student>(
-                    eSign?.data?.data as Student
+                    eSign?.data?.data as Student[]
                 )
 
                 const actionOptions = tableActionOptions(info.row.original)

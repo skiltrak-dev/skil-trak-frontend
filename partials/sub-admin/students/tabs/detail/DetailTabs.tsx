@@ -14,12 +14,14 @@ import { StudentTickets } from './StudentTickets'
 import { WorkplaceTab } from './WorkplaceTab'
 import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
+import { Student } from '@types'
+
 export const DetailTabs = ({
     id,
     student,
 }: {
+    student: Student
     id: number | string | string[] | undefined
-    student: StudentSubAdmin
 }) => {
     const role = getUserCredentials()?.role
     const url =

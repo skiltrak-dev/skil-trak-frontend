@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
 //Layouts
-import { UserStatus } from '@types'
+import { Student, UserStatus } from '@types'
 
 //components
 import {
@@ -486,10 +486,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                 {isLoading ? (
                     <LoadingAnimation height={'h-[60vh]'} />
                 ) : data && !isError ? (
-                    <DetailTabs
-                        student={data as StudentSubAdmin}
-                        id={data?.id}
-                    />
+                    <DetailTabs student={data as Student} id={data?.id} />
                 ) : (
                     !isError &&
                     isSuccess && (

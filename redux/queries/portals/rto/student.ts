@@ -1,7 +1,6 @@
-import { StudentSubAdmin } from '@components'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { PaginatedResponse, PaginationValues } from '@types'
+import { PaginatedResponse, PaginationValues, Student } from '@types'
 
 const PREFIX = 'rtos'
 const STATISTICS = 'statistics'

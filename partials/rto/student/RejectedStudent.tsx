@@ -150,7 +150,7 @@ export const RejectedStudent = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: StudentSubAdmin) => (
+        individual: (id: Student) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton variant="success">Accept</ActionButton>
@@ -159,7 +159,7 @@ export const RejectedStudent = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: Student) => (
+        common: (ids: Student[]) => (
             <div className="flex gap-x-2">
                 <ActionButton variant="success">Accept</ActionButton>
                 <ActionButton Icon={FaTrash} variant="error">

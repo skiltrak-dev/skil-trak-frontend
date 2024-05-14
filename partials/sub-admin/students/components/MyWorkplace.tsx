@@ -16,7 +16,7 @@ import { MediaQueries, UserRoles } from '@constants'
 import { useContextBar } from '@hooks'
 import { RemoveIndustryModal } from '@partials/sub-admin/workplace/modals'
 import { useGetSubAdminStudentWorkplaceQuery } from '@queries'
-import { UserStatus } from '@types'
+import { Student, UserStatus } from '@types'
 import {
     WorkplaceCurrentStatus,
     getStudentWorkplaceAppliedIndustry,
@@ -28,7 +28,7 @@ import { AddSecondWPCB } from '../contextBar'
 import { AddWorkplace } from './AddWorkplace'
 import { useMediaQuery } from 'react-responsive'
 
-export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
+export const MyWorkplace = ({ student }: { student: Student }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [currentStatus, setCurrentStatus] = useState<string | null>(null)
 

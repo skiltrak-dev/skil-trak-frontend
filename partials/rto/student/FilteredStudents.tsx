@@ -53,14 +53,14 @@ export const FilteredStudents = ({
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: (student: StudentSubAdmin) => {
+            onClick: (student: Student) => {
                 router.push(`/portals/admin/student/${student?.id}/detail`)
             },
             Icon: FaEye,
         },
         {
             text: 'Edit',
-            onClick: (student: StudentSubAdmin) => {
+            onClick: (student: Student) => {
                 router.push(
                     `/portals/admin/student/edit-student/${student?.id}`
                 )
@@ -171,7 +171,7 @@ export const FilteredStudents = ({
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: StudentSubAdmin) => (
+        individual: (id: Student) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton>Sub Admins</ActionButton>
@@ -180,7 +180,7 @@ export const FilteredStudents = ({
                 </ActionButton>
             </div>
         ),
-        common: (ids: Student) => (
+        common: (ids: Student[]) => (
             <ActionButton Icon={MdBlock} variant="error">
                 Block
             </ActionButton>
