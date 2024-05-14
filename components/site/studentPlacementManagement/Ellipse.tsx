@@ -1,7 +1,8 @@
 import { Typography } from '@components/Typography'
+import { IconType } from 'react-icons'
 import { HiOutlineStatusOnline } from 'react-icons/hi'
 
-export const Ellipse = ({ Icon, text }: any) => {
+export const Ellipse = ({ Icon, text }: { Icon: IconType; text: string }) => {
     return (
         <div className="relative">
             <div className="absolute -top-6 left-64">

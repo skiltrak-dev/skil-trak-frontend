@@ -110,7 +110,10 @@ export const ActiveRtos = () => {
     }
     useEffect(() => {
         if (selectAll && selectAll?.length > 0) {
-            formMethods.setValue('rto', selectAll)
+            formMethods.setValue(
+                'rto',
+                selectAll?.map((rto: any) => rto?.value)
+            )
         }
     }, [selectAll])
     useEffect(() => {

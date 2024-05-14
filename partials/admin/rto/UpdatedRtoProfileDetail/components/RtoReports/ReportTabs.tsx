@@ -16,8 +16,6 @@ export const ReportTabs = ({
     endDate: Date
     startDate: Date
 }) => {
-    console.log({ ssss: startDate })
-
     const reportsData = [
         {
             title: 'Non Contactable Students',

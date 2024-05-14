@@ -6,6 +6,7 @@ import { MdCancel } from 'react-icons/md'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false })
+// import ReactPlayer from 'react-player'
 
 // Icons
 import { BsFillPlayCircleFill } from 'react-icons/bs'
@@ -73,23 +74,27 @@ export const VideoPlayModal = ({
 
                 <div className="w-full relative">
                     {isBrowser() && (
-                        <ReactPlayer
-                            onReady={onReady}
-                            url={url}
-                            playing
-                            config={{
-                                file: {
-                                    attributes: { controlsList: 'nodownload' },
-                                },
-                            }}
-                            controls
-                            playIcon={
-                                <div className="w-full h-full flex justify-center items-center relative">
-                                    <BsFillPlayCircleFill className="text-4xl text-white absolute top-12 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-                                </div>
-                            }
-                            stopOnUnmount
-                        />
+                        <div>
+                            <ReactPlayer
+                                onReady={onReady}
+                                url={url}
+                                playing
+                                config={{
+                                    file: {
+                                        attributes: {
+                                            controlsList: 'nodownload',
+                                        },
+                                    },
+                                }}
+                                controls
+                                playIcon={
+                                    <div className="w-full h-full flex justify-center items-center relative">
+                                        <BsFillPlayCircleFill className="text-4xl text-white absolute top-12 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                                    </div>
+                                }
+                                stopOnUnmount
+                            />
+                        </div>
                     )}
                 </div>
 

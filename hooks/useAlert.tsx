@@ -13,6 +13,7 @@ export type AlertObjectType = {
 export interface AlertPropType {
     id: number
     element: ReactNode
+    existId?: string
 }
 
 interface AlertContextType {
@@ -47,25 +48,33 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
         avatar,
         icon,
         variant,
+        existId,
     }: AlertProps) => {
-        setAlerts([
-            ...alerts,
-            {
-                id: lastId,
-                element: (
-                    <Alert
-                        id={lastId}
-                        title={title}
-                        description={description}
-                        variant={variant}
-                        dismiss={dismiss}
-                        avatar={avatar}
-                        icon={icon}
-                        autoDismiss={autoDismiss}
-                    />
-                ),
-            },
-        ])
+        const fff = alerts?.filter((a: AlertPropType) => a?.existId === existId)
+
+        const abc =
+            fff && fff?.length > 0
+                ? alerts
+                : [
+                      ...alerts,
+                      {
+                          id: lastId,
+                          element: (
+                              <Alert
+                                  id={lastId}
+                                  title={title}
+                                  description={description}
+                                  variant={variant}
+                                  dismiss={dismiss}
+                                  avatar={avatar}
+                                  icon={icon}
+                                  autoDismiss={autoDismiss}
+                              />
+                          ),
+                          existId,
+                      },
+                  ]
+        setAlerts(abc)
         setLastId(lastId + 1)
     }
 

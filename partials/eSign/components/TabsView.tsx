@@ -5,7 +5,7 @@ import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import debounce from 'lodash/debounce'
-import React, { forwardRef, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { FaSignature } from 'react-icons/fa'
 
 export const TabsView = ({

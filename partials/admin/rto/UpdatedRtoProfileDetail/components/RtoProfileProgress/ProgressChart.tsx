@@ -27,7 +27,6 @@ export const ProgressChart = ({
         ]),
     ]
 
-    console.log({ updatedData, data })
     return (
         <div className="">
             <ChartContainer>

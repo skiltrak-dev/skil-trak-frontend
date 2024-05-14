@@ -26,6 +26,7 @@ export const ViewDocumentAndSign = () => {
     const [showSignersField, setShowSignersField] = useState<boolean>(true)
 
     const [modal, setModal] = useState<ReactNode | null>(null)
+    const [selectedSign, setSelectedSign] = useState<ReactNode | null>(null)
     const [isSignature, setIsSignature] = useState<boolean>(false)
     const [customFieldsData, setCustomFieldsData] = useState<any>([])
     const [customFieldsDataUpdated, setCustomFieldsDataUpdated] =
@@ -135,6 +136,7 @@ export const ViewDocumentAndSign = () => {
     const onCancelClicked = () => {
         setIsSignature(false)
         setModal(null)
+        setSelectedSign(null)
     }
     const onSignatureCancelClicked = (cancel?: boolean) => {
         if (cancel) {
@@ -197,6 +199,7 @@ export const ViewDocumentAndSign = () => {
 
     const onSignatureClicked = (sign: any) => {
         setIsSignature(true)
+        setSelectedSign(sign)
         // setModal(
         //     <EsignSignatureModal
         //         tab={sign}
@@ -255,16 +258,24 @@ export const ViewDocumentAndSign = () => {
         }
     }
 
+    const allSignAdded = customFieldsData
+        ?.filter((c: any) => c?.type === FieldsTypeEnum.Signature)
+        ?.every((a: any) => a?.responses?.length > 0)
+
     return (
         <div>
             {modal}
             {isSignature ? (
                 <EsignSignatureModal
-                    tab={sign}
+                    tab={selectedSign}
                     onCancel={(cancel?: boolean) => {
                         onSignatureCancelClicked(cancel)
                     }}
+                    allSignAdded={allSignAdded}
                     customFieldsData={customFieldsData}
+                    success={
+                        !tabs?.isLoading && !tabs?.isFetching && tabs?.isSuccess
+                    }
                 />
             ) : null}
             <button
@@ -361,7 +372,7 @@ export const ViewDocumentAndSign = () => {
                                 ),
                             ]?.map((_, i: number) => (
                                 <div
-                                    ref={(el) =>
+                                    ref={(el: any) =>
                                         (scrollTargetRef.current[i] = el)
                                     }
                                     onClick={() => {}}
