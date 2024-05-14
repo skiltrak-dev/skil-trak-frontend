@@ -1,6 +1,7 @@
 import {
     LoadingAnimation,
     NoData,
+    TableChildrenProps,
     TechnicalError,
     Typography,
 } from '@components'
@@ -8,7 +9,7 @@ import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { ReportsTable } from './components'
+import { RtoProfileTable } from './components'
 
 export const PlacementStartedReport = ({
     user,
@@ -104,7 +105,9 @@ export const PlacementStartedReport = ({
                 <LoadingAnimation height="h-[30vh]" />
             ) : data?.data && data?.data?.length ? (
                 <div className="h-52 overflow-auto custom-scrollbar">
-                    <ReportsTable columns={columns} data={data?.data} />
+                    <RtoProfileTable columns={columns} data={data?.data}>
+                        {({ table }: TableChildrenProps) => table}
+                    </RtoProfileTable>
                 </div>
             ) : (
                 !isError && <NoData text="No Not Contactable Students Found" />

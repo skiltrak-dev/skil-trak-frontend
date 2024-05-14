@@ -12,7 +12,6 @@ import {
     InitialAvatar,
     LoadingAnimation,
     StudentExpiryDaysLeft,
-    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
@@ -118,7 +117,7 @@ export const RejectedStudents = () => {
         },
     ]
 
-    const Columns: ColumnDef<StudentSubAdmin>[] = [
+    const Columns: ColumnDef<Student>[] = [
         {
             header: () => 'Name',
             accessorKey: 'user',

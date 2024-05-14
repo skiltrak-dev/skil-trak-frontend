@@ -6,6 +6,7 @@ import {
     Course,
     ImportStudentFormType,
     PaginatedResponse,
+    PaginationValues,
     PaginationWithSearch,
     RTOSubAdmin,
     Rto,
@@ -36,6 +37,19 @@ export const rtoEndpoints = (
             params,
         }),
         providesTags: ['RTOS'],
+    }),
+
+    rtoStudentsLogsList: builder.query<
+        PaginatedResponse<Student>,
+        PaginationValues & {
+            id: number
+        }
+    >({
+        query: ({ id, ...params }) => ({
+            url: `${PREFIX}/rto/${id}/students/list-all`,
+            params,
+        }),
+        providesTags: ['RTOS', 'Avatar', 'Profile'],
     }),
 
     allowUpdation: builder.mutation<Rto, number>({

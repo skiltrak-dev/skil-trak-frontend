@@ -4,7 +4,6 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
-    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
@@ -71,7 +70,7 @@ export const PendingStudent = () => {
         },
     ]
 
-    const columns: ColumnDef<StudentSubAdmin>[] = [
+    const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => {
@@ -118,7 +117,7 @@ export const PendingStudent = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: StudentSubAdmin[]) => (
+        common: (ids: Student) => (
             <ActionButton variant="error" onClick={() => {}}>
                 Reject
             </ActionButton>

@@ -1,17 +1,15 @@
 import React, { ReactNode, useState } from 'react'
 import { ContextBarDropdown } from '../ContextBarDropdown'
-import { UserCard } from '../Cards'
 import { RtoApi } from '@queries'
 import { LoadingAnimation, NoData } from '@components'
 import { useContextBar } from '@hooks'
 import { AddAdminCB, DeleteModal } from '@partials/rto'
 import { RiDeleteBin6Line, RiEdit2Fill } from 'react-icons/ri'
+import { UserCard } from '../../cards'
 
 export const ContactPersons = ({ userId }: { userId: number }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [isViewd, setIsViewd] = useState<boolean>(false)
-
-    console.log({ isViewd })
 
     const { isLoading, data } = RtoApi.Rto.useContactPersons(
         {

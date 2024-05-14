@@ -107,7 +107,9 @@ export const RtoReportsDates = ({
                     ))}
                 </div>
             ) : (
-                <NoData text={'No Report were found'} />
+                <div className="bg-white">
+                    <NoData text={'No Report Dates were found'} simple />
+                </div>
             )}
         </div>
     )

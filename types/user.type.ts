@@ -71,6 +71,7 @@ export interface RtoStatsCount {
 export interface Rto extends BaseResponse {
     id: number
     rtoCode: string
+    abn: string
     phone: string
     suburb: string
     state: string
@@ -95,6 +96,7 @@ export interface Student extends BaseResponse {
     dob: Date
     isHighPriority: boolean
     emergencyPerson: string
+    subadmin: SubAdmin
     called: boolean
     batch: string
     emergencyPersonPhone: string
@@ -117,7 +119,6 @@ export interface Student extends BaseResponse {
     callLog: CallLog[]
 
     gender: string
-    subadmin: SubAdmin
     tickets: any
 }
 

@@ -6,7 +6,6 @@ import {
     EmptyData,
     LoadingAnimation,
     StudentExpiryDaysLeft,
-    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
@@ -154,7 +153,7 @@ export const ApprovedStudent = () => {
         },
     ]
 
-    const columns: ColumnDef<StudentSubAdmin>[] = [
+    const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => {
@@ -240,7 +239,7 @@ export const ApprovedStudent = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: StudentSubAdmin[]) => (
+        common: (ids: Student) => (
             <ActionButton Icon={MdBlock} variant="error">
                 Block
             </ActionButton>

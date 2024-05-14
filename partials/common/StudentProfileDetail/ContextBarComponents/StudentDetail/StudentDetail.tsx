@@ -6,8 +6,9 @@ import { Student } from '@types'
 import { getGender } from '@utils'
 import moment from 'moment'
 import { ReactElement, useState } from 'react'
-import { StudentDetailCard } from './StudentDetailCard'
+
 import { LatestCallAnswer } from './LatestCallAnswer'
+import { UserProfileDetailCard } from '@partials/common/Cards'
 
 export const StudentDetail = ({ profile }: { profile: Student }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -37,17 +38,17 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
 
             <div className="mt-1.5 flex flex-col gap-y-1.5">
                 <div className="flex items-center gap-x-[5px]">
-                    <StudentDetailCard
+                    <UserProfileDetailCard
                         title="Student ID"
                         detail={profile?.studentId}
                     />
-                    <StudentDetailCard
+                    <UserProfileDetailCard
                         title="Student Batch"
                         detail={profile?.batch}
                     />
                 </div>
                 <div className="border border-[#6B728050] rounded-md">
-                    <StudentDetailCard
+                    <UserProfileDetailCard
                         border={false}
                         title="Phone Number"
                         detail={profile?.phone}
@@ -82,7 +83,7 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
                                 Call Log
                             </Typography>
                         </div>
-                    </StudentDetailCard>
+                    </UserProfileDetailCard>
                     {profile?.callLog?.[0] &&
                     profile?.callLog?.[0]?.isAnswered === null ? (
                         <div className="px-2.5 pb-2 flex justify-between">
@@ -98,7 +99,7 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
                     ) : null}
                 </div>
                 <div>
-                    <StudentDetailCard
+                    <UserProfileDetailCard
                         title="Account Created"
                         detail={moment(profile?.createdAt).format(
                             'Do MMM YYYY - hh:mm:ss A'
@@ -106,11 +107,11 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
                     />
                 </div>
                 <div className="flex items-center gap-x-[5px]">
-                    <StudentDetailCard
+                    <UserProfileDetailCard
                         title="Age Range"
                         detail={profile?.age}
                     />
-                    <StudentDetailCard
+                    <UserProfileDetailCard
                         title="Gender"
                         detail={
                             profile?.gender
@@ -120,14 +121,14 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
                     />
                 </div>
                 <div>
-                    <StudentDetailCard
+                    <UserProfileDetailCard
                         title="Location"
                         detail={`${profile?.suburb}, ${profile?.state}, ${profile?.addressLine1}`}
                     />
                 </div>
 
                 <div>
-                    <StudentDetailCard
+                    <UserProfileDetailCard
                         title="Student Type"
                         detail={
                             profile?.isInternational

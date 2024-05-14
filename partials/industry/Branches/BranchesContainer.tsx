@@ -3,7 +3,6 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
-    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
@@ -140,9 +139,7 @@ export const BranchesContainer = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info) => {
-                const length = checkListLength<StudentSubAdmin>(
-                    data?.data as StudentSubAdmin[]
-                )
+                const length = checkListLength<Student>(data?.data as Student)
 
                 return (
                     <div className="flex gap-x-1 items-center">

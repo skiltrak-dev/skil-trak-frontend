@@ -1,6 +1,5 @@
 import React, { ReactNode, useState } from 'react'
 import { ContextBarDropdown } from '../ContextBarDropdown'
-import { UserCard } from '../Cards'
 import { AdminApi, RtoApi } from '@queries'
 import { LoadingAnimation, NoData } from '@components'
 import { useContextBar } from '@hooks'
@@ -8,47 +7,22 @@ import { AddAdminCB, DeleteModal } from '@partials/rto'
 import { RiDeleteBin6Line, RiEdit2Fill } from 'react-icons/ri'
 import { FaRegEye } from 'react-icons/fa'
 import { useRouter } from 'next/router'
+import { UserCard } from '../../cards'
 
 export const Subadmins = ({ userId }: { userId: number }) => {
-    const [modal, setModal] = useState<ReactNode | null>(null)
     const [isViewd, setIsViewd] = useState<boolean>(false)
 
     const router = useRouter()
 
-    const { isLoading, data, refetch } = AdminApi.Rtos.useRtoProfileSubAdmins({
-        id: Number(userId),
-    })
-
-    const contextBar = useContextBar()
-
-    const onAddAdmin = ({
-        contactPerson,
-        edit,
-    }: {
-        contactPerson?: any
-        edit: boolean
-    }) => {
-        contextBar.setTitle('Add Contact Person')
-        contextBar.setContent(
-            <AddAdminCB
-                {...(contactPerson ? { initialValues: contactPerson } : {})}
-                {...(edit ? { edit: edit } : {})}
-                userId={userId}
-            />
-        )
-        contextBar.show(false)
-    }
-
-    const onModalCancelClicked = () => setModal(null)
-
-    const onDeleteClicked = (contactPerson: any) => {
-        setModal(
-            <DeleteModal
-                contactPerson={contactPerson}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
+    const { isLoading, data } = AdminApi.Rtos.useRtoProfileSubAdmins(
+        {
+            id: Number(userId),
+        },
+        {
+            skip: !isViewd,
+        }
+    )
+    console.log({ isViewdS: isViewd, data })
 
     const actions = [
         {
@@ -64,7 +38,6 @@ export const Subadmins = ({ userId }: { userId: number }) => {
     ]
     return (
         <div>
-            {modal}
             <ContextBarDropdown title="Subadmins" onSetDropdown={setIsViewd}>
                 {isLoading ? (
                     <LoadingAnimation size={60} />

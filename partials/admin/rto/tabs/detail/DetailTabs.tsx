@@ -19,8 +19,8 @@ export const DetailTabs = ({
     id,
     rto,
 }: {
-    id: number | string | string[] | undefined
     rto: any
+    id: number | string | string[] | undefined
 }) => {
     const router = useRouter()
     const [isArchivedAssessment, setIsArchivedAssessment] =
