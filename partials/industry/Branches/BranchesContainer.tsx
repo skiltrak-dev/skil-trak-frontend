@@ -139,7 +139,7 @@ export const BranchesContainer = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info) => {
-                const length = checkListLength<Student>(data?.data as Student)
+                const length = checkListLength<Student>(data?.data as Student[])
 
                 return (
                     <div className="flex gap-x-1 items-center">

@@ -214,7 +214,7 @@ export const ArchivedStudent = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: StudentSubAdmin) => (
+        individual: (id: Student) => (
             <div className="flex gap-x-2">
                 <ActionButton>Sub Admins</ActionButton>
                 <ActionButton Icon={MdUnarchive} variant="warning">
@@ -225,7 +225,7 @@ export const ArchivedStudent = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: Student) => (
+        common: (ids: Student[]) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={MdUnarchive} variant="warning">
                     Unarchive

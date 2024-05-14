@@ -1,4 +1,4 @@
-import { ProgressStep, StudentSubAdmin } from '@components'
+import { ProgressStep } from '@components'
 import { PinnedNotes } from '@components/sections/subAdmin'
 
 import { Courses } from '../../components/Courses'
@@ -9,11 +9,11 @@ import { useGetSubAdminStudentWorkplaceQuery } from '@queries'
 
 //
 import { RecentAppointment } from '@partials/common'
+import { Student } from '@types'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
 
 type StudentsProfileOverviewProps = {
-    student: StudentSubAdmin
+    student: Student
 }
 
 export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {

@@ -308,7 +308,7 @@ export const FilteredStudents = ({
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: StudentSubAdmin) => (
+        individual: (id: Student) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton>Sub Admins</ActionButton>
@@ -317,7 +317,7 @@ export const FilteredStudents = ({
                 </ActionButton>
             </div>
         ),
-        common: (ids: Student) => (
+        common: (ids: Student[]) => (
             <ActionButton Icon={MdBlock} variant="error">
                 Block
             </ActionButton>

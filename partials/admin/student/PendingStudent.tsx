@@ -169,7 +169,7 @@ export const PendingStudent = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (student: StudentSubAdmin) => (
+        individual: (student: Student) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     variant="success"
@@ -189,7 +189,7 @@ export const PendingStudent = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: Student) => (
+        common: (ids: Student[]) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     onClick={() => {
