@@ -29,8 +29,6 @@ export const WorkplaceRequestReport = ({
     const [page, setPage] = useState(1)
     const router = useRouter()
 
-    console.log({ startDate })
-
     // let end = new Date(endDate)
     // end.setDate(end.getDate() + 1)
 

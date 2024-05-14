@@ -29,11 +29,6 @@ export const CompletedWorkplaceReport = ({
     const [page, setPage] = useState(1)
     const router = useRouter()
 
-    console.log({ startDate })
-
-    // let end = new Date(endDate)
-    // end.setDate(end.getDate() + 1)
-
     const { data, isLoading, isError, isFetching } =
         RtoApi.Students.useCompletedWorkplaceReport(
             {

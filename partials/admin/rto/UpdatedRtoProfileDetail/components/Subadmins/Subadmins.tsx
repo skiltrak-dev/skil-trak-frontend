@@ -22,7 +22,6 @@ export const Subadmins = ({ userId }: { userId: number }) => {
             skip: !isViewd,
         }
     )
-    console.log({ isViewdS: isViewd, data })
 
     const actions = [
         {

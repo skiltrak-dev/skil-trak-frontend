@@ -1,5 +1,4 @@
 import {
-    FileViewModal,
     ImportantDocument,
     Modal,
     PdfViewModal,
@@ -8,16 +7,11 @@ import {
 import classNames from 'classnames'
 
 // query
-import {
-    CommonApi,
-    StudentApi,
-    useGetStudentProfileDetailQuery,
-} from '@queries'
-import { ReactElement, useState } from 'react'
 import { useNotification } from '@hooks'
-import { ellipsisText } from '@utils'
-import Image from 'next/image'
+import { CommonApi } from '@queries'
 import { Rto } from '@types'
+import Image from 'next/image'
+import { ReactElement, useState } from 'react'
 
 export const ImportantDocuments = ({
     rto,

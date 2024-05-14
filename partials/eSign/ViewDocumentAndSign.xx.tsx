@@ -157,9 +157,15 @@ export const ViewDocumentAndSign = () => {
         }
     }
 
+    const allSignAdded = customFieldsData
+        ?.filter((c: any) => c?.type === FieldsTypeEnum.Signature)
+        ?.every((a: any) => a?.responses?.length > 0)
+
     const onSignatureClicked = (sign: any) => {
         setModal(
             <EsignSignatureModal
+                allSignAdded={allSignAdded}
+                success={true}
                 tab={sign}
                 onCancel={() => {
                     onCancelClicked()
@@ -280,7 +286,7 @@ export const ViewDocumentAndSign = () => {
                                 ),
                             ]?.map((_, i: number) => (
                                 <div
-                                    ref={(el) =>
+                                    ref={(el: any) =>
                                         (scrollTargetRef.current[i] = el)
                                     }
                                 >

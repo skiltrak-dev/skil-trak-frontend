@@ -1,13 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 
-import { IoCloseSharp } from 'react-icons/io5'
-
 import { useAlert } from '@hooks'
-import { Typography } from '@components'
 
-import { theme } from './theme'
 import { IconType } from 'react-icons'
-
+import { theme } from './theme'
+import { IoCloseSharp } from 'react-icons/io5'
 export const AlertType = {
     success: 'success',
     info: 'info',
@@ -20,6 +17,7 @@ const VariantOptions = ['success', 'info', 'error', 'warning'] as const
 
 export interface AlertProps {
     id?: number
+    existId?: string
     title: string
     description: string
     avatar?: string | undefined

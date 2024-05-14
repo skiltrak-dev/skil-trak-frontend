@@ -69,18 +69,18 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     )
     const joyride = useJoyRide()
 
-    useEffect(() => {
-        if (userData?.status === UserStatus.Pending) {
-            alert.warning({
-                title: `${userData?.name} is Pending`,
-                description: 'Please wait for admin approval',
-                autoDismiss: false,
-            })
-        }
-        return () => {
-            setAlerts([])
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (userData?.status === UserStatus.Pending) {
+    //         alert.warning({
+    //             title: `${userData?.name} is Pending`,
+    //             description: 'Please wait for admin approval',
+    //             autoDismiss: false,
+    //         })
+    //     }
+    //     return () => {
+    //         setAlerts([])
+    //     }
+    // }, [])
 
     useEffect(() => {
         setMounted(true)

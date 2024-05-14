@@ -178,7 +178,7 @@ const ESign = () => {
     }, [])
 
     const scrollToPage = (pageIndex: number, currentPage: number) => {
-        const targetElement = scrollTargetRef.current[currentPage]
+        const targetElement = scrollTargetRef?.current[currentPage]
         const detailItem = document.getElementById(`tabs-view-${pageIndex}`)
 
         if (detailItem) {
@@ -255,6 +255,10 @@ const ESign = () => {
         }
     }
 
+    const allSignAdded = customFieldsData
+        ?.filter((c: any) => c?.type === FieldsTypeEnum.Signature)
+        ?.every((a: any) => a?.responses?.length > 0)
+
     return (
         <SiteLayout title={'E Sign'}>
             {modal}
@@ -266,6 +270,10 @@ const ESign = () => {
                     }}
                     customFieldsData={customFieldsData}
                     action={CommonApi.ESign.useAddSign}
+                    allSignAdded={allSignAdded}
+                    success={
+                        !tabs?.isLoading && !tabs?.isFetching && tabs?.isSuccess
+                    }
                 />
             ) : null}
             <ShowErrorNotifications result={checkIfUserSigned} />
@@ -351,8 +359,9 @@ const ESign = () => {
                                 ]?.map((doc: any, i: number) => (
                                     <div
                                         key={i}
-                                        ref={(el) =>
-                                            (scrollTargetRef.current[i] = el)
+                                        ref={(el: any) =>
+                                            (scrollTargetRef.current[i] =
+                                                el as any)
                                         }
                                         className="relative"
                                     >

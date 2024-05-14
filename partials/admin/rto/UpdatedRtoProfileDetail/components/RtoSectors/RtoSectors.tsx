@@ -5,7 +5,6 @@ import { RtoCourses } from './RtoCourses'
 
 export const RtoSectors = ({ courses }: { courses: Course[] }) => {
     const sectors = getSectors(courses)
-    console.log({ sectors })
     return (
         <Card shadowType="profile" noPadding fullHeight>
             <div className="h-full pb-4">

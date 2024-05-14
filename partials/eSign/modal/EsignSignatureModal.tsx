@@ -17,10 +17,14 @@ export const EsignSignatureModal = ({
     tab,
     action,
     onCancel,
+    allSignAdded,
     customFieldsData,
+    success,
 }: {
+    allSignAdded: any
     tab: any
     action?: any
+    success: boolean
     customFieldsData: any
     onCancel: (cancel?: boolean) => void
 }) => {
@@ -42,13 +46,25 @@ export const EsignSignatureModal = ({
 
     const setModalModal = () => setModal(null)
 
+    console.log({ allSignAdded, success })
+
     useEffect(() => {
         if (signDocumentResult?.isSuccess) {
-            if (tab && tab?.responses && tab?.responses?.length > 0) {
-                onCancel()
-            }
+            // if (
+            //     (tab && tab?.responses && tab?.responses?.length > 0) ||
+            //     allSignAdded
+            // ) {
+            //     onCancel()
+            // }
+            setTimeout(() => {
+                if (allSignAdded && success) {
+                    onCancel()
+                } else {
+                    onCancel(true)
+                }
+            }, 700)
         }
-    }, [signDocumentResult, tab])
+    }, [signDocumentResult, tab, allSignAdded, success])
 
     const onSubmit = async () => {
         var dataURL = ref?.current?.toDataURL('image/jpg+xml')

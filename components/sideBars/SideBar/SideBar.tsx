@@ -113,13 +113,19 @@ export const SideBar = ({
                                 return null
                             if (route.type === 'title' && route.text)
                                 return (
-                                    <p className="text-sm font-semibold text-gray">
+                                    <p
+                                        key={route.text}
+                                        className="text-sm font-semibold text-gray"
+                                    >
                                         {route.text}
                                     </p>
                                 )
                             else if (route.type === 'divider')
                                 return (
-                                    <div className="w-full h-[0.1px] bg-gray-300 my-2"></div>
+                                    <div
+                                        key={route.text}
+                                        className="w-full h-[0.1px] bg-gray-300 my-2"
+                                    ></div>
                                 )
                             else
                                 return (
