@@ -13,7 +13,6 @@ import {
     InitialAvatar,
     LoadingAnimation,
     StudentExpiryDaysLeft,
-    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
@@ -117,7 +116,7 @@ export const BlockedStudents = () => {
         },
     ]
 
-    const Columns: ColumnDef<StudentSubAdmin>[] = [
+    const Columns: ColumnDef<Student>[] = [
         {
             header: () => 'Name',
             accessorKey: 'user',
@@ -185,7 +184,7 @@ export const BlockedStudents = () => {
             header: () => 'Action',
             accessorKey: 'Action',
             cell: ({ row }) => {
-                const length = checkListLength<StudentSubAdmin>(data?.data)
+                const length = checkListLength<Student>(data?.data)
                 return (
                     <TableAction
                         options={tableActionOptions}
@@ -210,7 +209,7 @@ export const BlockedStudents = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: StudentSubAdmin[]) => (
+        common: (ids: Student) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     Icon={FaTrash}

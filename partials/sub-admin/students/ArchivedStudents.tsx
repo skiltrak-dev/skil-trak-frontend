@@ -11,7 +11,6 @@ import {
     InitialAvatar,
     LoadingAnimation,
     StudentStatusProgressCell,
-    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
@@ -133,7 +132,7 @@ export const ArchivedStudents = () => {
         },
     ]
 
-    const Columns: ColumnDef<StudentSubAdmin>[] = [
+    const Columns: ColumnDef<Student>[] = [
         {
             header: () => 'Name',
             accessorKey: 'user',

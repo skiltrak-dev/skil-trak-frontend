@@ -13,7 +13,6 @@ import {
     LoadingAnimation,
     PageTitle,
     ShowErrorNotifications,
-    StudentSubAdmin,
     StudentTimer,
     SubAdminStudentProfile,
     TechnicalError,

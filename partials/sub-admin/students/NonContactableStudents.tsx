@@ -11,7 +11,6 @@ import {
     InitialAvatar,
     LoadingAnimation,
     StudentExpiryDaysLeft,
-    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
@@ -119,7 +118,7 @@ export const NonContactableStudents = () => {
         },
     ]
 
-    const Columns: ColumnDef<StudentSubAdmin>[] = [
+    const Columns: ColumnDef<Student>[] = [
         {
             header: () => 'Name',
             accessorKey: 'user',

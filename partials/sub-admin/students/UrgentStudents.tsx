@@ -11,7 +11,6 @@ import {
     EmptyData,
     TableAction,
     UserCreatedAt,
-    StudentSubAdmin,
     LoadingAnimation,
     StudentExpiryDaysLeft,
 } from '@components'
@@ -106,7 +105,7 @@ export const UrgentStudents = () => {
         ]
     }
 
-    const Columns: ColumnDef<StudentSubAdmin>[] = [
+    const Columns: ColumnDef<Student>[] = [
         {
             header: () => 'Name',
             accessorKey: 'user',

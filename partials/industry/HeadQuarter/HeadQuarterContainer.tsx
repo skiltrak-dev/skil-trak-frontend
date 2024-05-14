@@ -3,7 +3,6 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
-    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,

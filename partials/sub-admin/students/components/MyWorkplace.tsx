@@ -8,7 +8,6 @@ import { IoBriefcase } from 'react-icons/io5'
 import {
     Badge,
     LoadingAnimation,
-    StudentSubAdmin,
     Typography,
     WorkplaceAvatar,
 } from '@components'

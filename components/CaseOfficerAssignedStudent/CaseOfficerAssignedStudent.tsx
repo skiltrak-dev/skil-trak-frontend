@@ -9,16 +9,12 @@ import {
 } from '@utils'
 import React from 'react'
 
-export interface StudentSubAdmin extends Student {
-    subadmin: SubAdmin
-}
-
 export const CaseOfficerAssignedStudent = ({
     student,
     workplaceFilter,
 }: {
+    student: Student
     workplaceFilter?: WorkplaceCurrentStatus
-    student: StudentSubAdmin
 }) => {
     const workplace = student?.workplace
         ?.filter(

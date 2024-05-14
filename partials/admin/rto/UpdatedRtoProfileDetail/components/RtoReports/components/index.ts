@@ -1,2 +1,2 @@
-export * from './ReportsTable'
+export * from './RtoProfileTable'
 export * from './RtoReportsDates'
