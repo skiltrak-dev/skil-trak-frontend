@@ -10,7 +10,6 @@ import {
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
-    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
@@ -109,7 +108,7 @@ export const AgreementPendingStudents = () => {
         },
     ]
 
-    const Columns: ColumnDef<StudentSubAdmin>[] = [
+    const Columns: ColumnDef<Student>[] = [
         {
             header: () => 'Name',
             accessorKey: 'user',

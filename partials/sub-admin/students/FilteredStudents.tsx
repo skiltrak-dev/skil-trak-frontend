@@ -5,7 +5,6 @@ import {
     InitialAvatar,
     LoadingAnimation,
     StudentExpiryDaysLeft,
-    StudentSubAdmin,
     Table,
     TableAction,
     TableChildrenProps,
@@ -158,7 +157,7 @@ export const FilteredStudents = ({
         ]
     }
 
-    const columns: ColumnDef<StudentSubAdmin>[] = [
+    const columns: ColumnDef<Student>[] = [
         {
             header: () => 'Name',
             accessorKey: 'user',
@@ -318,7 +317,7 @@ export const FilteredStudents = ({
                 </ActionButton>
             </div>
         ),
-        common: (ids: StudentSubAdmin[]) => (
+        common: (ids: Student) => (
             <ActionButton Icon={MdBlock} variant="error">
                 Block
             </ActionButton>

@@ -1,17 +1,15 @@
-import { StudentSubAdmin } from '@components'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
 import {
-    Appointment,
     Course,
-    Folder,
-    PaginatedResponse,
-    PaginationValues,
-    PaginationWithSearch,
     Student,
     UserCount,
     UserStatus,
+    Appointment,
+    PaginationValues,
+    PaginatedResponse,
+    PaginationWithSearch,
 } from '@types'
 
 const PREFIX = 'admin/'
@@ -28,10 +26,7 @@ export const studentEndpoints = (
             'BulkStatus',
         ],
     }),
-    students: builder.query<
-        PaginatedResponse<StudentSubAdmin>,
-        PaginationWithSearch
-    >({
+    students: builder.query<PaginatedResponse<Student>, PaginationWithSearch>({
         query: (params) => ({
             url: `${PREFIX}students/list`,
             params,
@@ -48,7 +43,7 @@ export const studentEndpoints = (
     }),
 
     completedStudents: builder.query<
-        PaginatedResponse<StudentSubAdmin>,
+        PaginatedResponse<Student>,
         PaginationValues
     >({
         query: (params) => ({

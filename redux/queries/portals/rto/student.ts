@@ -64,7 +64,7 @@ export const studentEndpoints = (
         providesTags: ['Rto-Students'],
     }),
     rtoCompletedStudents: builder.query<
-        PaginatedResponse<StudentSubAdmin>,
+        PaginatedResponse<Student>,
         PaginationValues
     >({
         query: (params) => ({

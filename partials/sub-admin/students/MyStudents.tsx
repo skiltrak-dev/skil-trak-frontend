@@ -12,7 +12,6 @@ import {
     InitialAvatar,
     LoadingAnimation,
     StudentExpiryDaysLeft,
-    StudentSubAdmin,
     Table,
     TableAction,
     Typography,
@@ -152,7 +151,7 @@ export const MyStudents = () => {
         ]
     }
 
-    const Columns: ColumnDef<StudentSubAdmin>[] = [
+    const Columns: ColumnDef<Student>[] = [
         {
             header: () => 'Name',
             accessorKey: 'user',

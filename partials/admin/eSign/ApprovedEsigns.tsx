@@ -4,7 +4,6 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
-    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
@@ -175,8 +174,8 @@ export const ApprovedEsigns = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info) => {
-                const length = checkListLength<StudentSubAdmin>(
-                    getEsign?.data?.data as StudentSubAdmin[]
+                const length = checkListLength<Student>(
+                    getEsign?.data?.data as Student[]
                 )
 
                 return (

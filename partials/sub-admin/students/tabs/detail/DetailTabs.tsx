@@ -1,4 +1,4 @@
-import { StudentSubAdmin, TabNavigation, TabProps } from '@components'
+import { TabNavigation, TabProps } from '@components'
 import { Detail } from '@partials/sub-admin/assessmentEvidence'
 
 import {

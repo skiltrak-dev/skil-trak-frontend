@@ -5,7 +5,6 @@ import {
     EmptyData,
     LoadingAnimation,
     StudentExpiryDaysLeft,
-    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
@@ -102,7 +101,7 @@ export const RejectedStudent = () => {
         },
     ]
 
-    const columns: ColumnDef<StudentSubAdmin>[] = [
+    const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => {
@@ -201,7 +200,7 @@ export const RejectedStudent = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: StudentSubAdmin[]) => (
+        common: (ids: Student) => (
             <div className="flex gap-x-2">
                 <ActionButton variant="success">Accept</ActionButton>
                 <ActionButton Icon={FaTrash} variant="error">

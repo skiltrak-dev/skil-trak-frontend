@@ -4,7 +4,6 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
-    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
@@ -173,8 +172,8 @@ export const FilteredEsigns = ({
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info) => {
-                const length = checkListLength<StudentSubAdmin>(
-                    eSign?.data?.data as StudentSubAdmin[]
+                const length = checkListLength<Student>(
+                    eSign?.data?.data as Student
                 )
 
                 const actionOptions = tableActionOptions(info.row.original)

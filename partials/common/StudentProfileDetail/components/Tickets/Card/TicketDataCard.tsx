@@ -18,7 +18,9 @@ export const TicketDataCard = ({
             <Typography variant={'xs'} color="text-white">
                 {text || children}
             </Typography>
-            <span className="text-[10px] block text-white">{subText}</span>
+            <span className="text-[10px] block text-white break-all">
+                {subText}
+            </span>
         </div>
     )
 }

@@ -4,7 +4,6 @@ import {
     EmptyData,
     LoadingAnimation,
     StudentStatusProgressCell,
-    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
@@ -140,7 +139,7 @@ export const ArchivedStudent = () => {
         },
     ]
 
-    const columns: ColumnDef<StudentSubAdmin>[] = [
+    const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => {
@@ -323,7 +322,7 @@ export const ArchivedStudent = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (student: StudentSubAdmin) => (
+        individual: (student: Student) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     onClick={() => {
@@ -344,7 +343,7 @@ export const ArchivedStudent = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: StudentSubAdmin[]) => (
+        common: (ids: Student[]) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     Icon={FaTrash}

@@ -6,7 +6,6 @@ import {
     EmptyData,
     LoadingAnimation,
     StudentExpiryDaysLeft,
-    StudentSubAdmin,
     Table,
     TableAction,
     TableChildrenProps,
@@ -20,17 +19,11 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import {
-    checkListLength,
-    isBrowser,
-    setLink,
-    studentsListWorkplace,
-} from '@utils'
+import { checkListLength, isBrowser, setLink } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
 import { MdBlock, MdPriorityHigh } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import { IndustryCell } from '../industry/components'
 import { SectorCell, StudentCellInfo, StudentIndustries } from './components'
 import {
     ArchiveModal,
@@ -236,7 +229,7 @@ export const ApprovedStudent = () => {
         ]
     }
 
-    const columns: ColumnDef<StudentSubAdmin>[] = [
+    const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => (
@@ -310,9 +303,7 @@ export const ApprovedStudent = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info) => {
-                const length = checkListLength<StudentSubAdmin>(
-                    data?.data as StudentSubAdmin[]
-                )
+                const length = checkListLength<Student>(data?.data as Student[])
                 const tableActionOption = tableActionOptions(
                     info?.row?.original
                 )

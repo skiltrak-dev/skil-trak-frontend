@@ -38,7 +38,7 @@ const Loading = () => {
 }
 
 export const getDocType = (type: string) => {
-    const docs = ['pdf', 'document']
+    const docs = ['pdf', 'document', 'msword']
     const images = ['jpg', 'png', 'jpeg', 'JPG', 'jfif', 'webp', 'heic']
     const videos = [
         'mp4',

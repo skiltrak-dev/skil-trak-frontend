@@ -37,7 +37,7 @@ export const ProfileAppointments = ({
             </div>
 
             {/*  */}
-            <div className="py-2 flex flex-col h-[445px] overflow-auto custom-scrollbar">
+            <div className="py-2 flex flex-col h-[405px] overflow-auto custom-scrollbar">
                 <div className="px-3.5 border-b border-secondary-dark pb-3">
                     <ProfileUpcommingAppointments userId={userId} />
                 </div>

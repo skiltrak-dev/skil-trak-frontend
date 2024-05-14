@@ -2,8 +2,8 @@
 import { MdCancel } from 'react-icons/md'
 
 // components
-import { Typography, Button, Portal } from '@components'
-import { MouseEventHandler, ReactNode } from 'react'
+import { Button, Typography } from '@components'
+import { ReactNode } from 'react'
 import { GlobalModal } from './GlobalModal'
 
 interface ModalProps {

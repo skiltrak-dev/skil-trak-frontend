@@ -47,7 +47,7 @@ export const RtoProfileDetail = ({ rto }: { rto: Rto }) => {
             </div>
 
             {/* Appointments */}
-            <div className="mt-5 h-[520px]">
+            <div className="mt-5 h-[480px]">
                 <ProfileAppointments
                     link={{
                         pathname:

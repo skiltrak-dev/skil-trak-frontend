@@ -32,7 +32,7 @@ interface pagination {
 }
 
 export interface TableChildrenProps {
-    quickActions: ReactNode
+    quickActions?: ReactNode
     pageSize?: pageSize | null
     pagination: pagination | null
     table: JSX.Element

@@ -1,8 +1,8 @@
 import { AuthorizedUserComponent, StudentAvatar, Typography } from '@components'
+import { UserRoles } from '@constants'
 import { Student } from '@types'
 import {
     AssignToMeStudent,
-    Avatar,
     ContactStatus,
     EmergencyContact,
     ProfileLinks,
@@ -12,7 +12,6 @@ import {
     StudentExpireTime,
     StudentStatus,
 } from '../ContextBarComponents'
-import { UserRoles } from '@constants'
 
 export const ProfileViewCB = ({ profile }: { profile: Student }) => {
     return (

@@ -47,7 +47,7 @@ export const studentsEndpoints = (
         ],
     }),
     subadminCompletedStudents: builder.query<
-        PaginatedResponse<StudentSubAdmin>,
+        PaginatedResponse<Student>,
         PaginationValues
     >({
         query: (params) => ({
