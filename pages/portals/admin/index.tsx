@@ -29,6 +29,8 @@ const AdminDashboard: NextPageWithLayout = () => {
     const stats = AdminApi.Admin.useCount()
     const sectorsStudentsCount = AdminApi.Admin.useSectorsStudentsCount()
 
+    console.log({ sectorsStudentsCount })
+
     useEffect(() => {
         navBar.setTitle('Admin Dashboard')
     }, [])

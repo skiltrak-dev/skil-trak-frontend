@@ -58,7 +58,8 @@ export const EsignSignatureModal = ({
             // }
             setTimeout(() => {
                 if (allSignAdded && success) {
-                    onCancel()
+                    // onCancel()
+                    onCancel() // For the time being
                 } else {
                     onCancel(true)
                 }
