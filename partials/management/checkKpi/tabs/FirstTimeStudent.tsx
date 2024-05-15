@@ -23,22 +23,22 @@ export const FirstTimeStudent = ({ filter }: any) => {
     const [page, setPage] = useState(1)
     const router = useRouter()
     const reportId = router?.query?.reportId
-    
+
     const { data, isLoading, isError, isFetching } =
-    ManagementApi.CheckKpi.useKpiReportDetail(
-        {
-            id: reportId,
-            params: {
-                search: `status:${filter || ''}`,
-                skip: itemPerPage * page - itemPerPage,
-                limit: itemPerPage,
+        ManagementApi.CheckKpi.useKpiReportDetail(
+            {
+                id: reportId,
+                params: {
+                    search: `status:${filter || ''}`,
+                    skip: itemPerPage * page - itemPerPage,
+                    limit: itemPerPage,
+                },
             },
-        },
-        {
-            skip: !reportId,
-            refetchOnMountOrArgChange: true,
-        }
-    )
+            {
+                skip: !reportId,
+                refetchOnMountOrArgChange: true,
+            }
+        )
     const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'id',
@@ -84,24 +84,19 @@ export const FirstTimeStudent = ({ filter }: any) => {
             cell: (info) => {
                 return (
                     <span className="capitalize text-xs">
-                        {info?.row?.original?.status.replace(
-                            /([a-z])([A-Z])/g,
-                            '$1 $2'
-                        )}
+                        {info?.row?.original?.status}
                     </span>
                 )
             },
             header: () => <span>Status</span>,
         },
     ]
-   
 
     return (
         <>
-            
             <div className="">
                 {isError && <TechnicalError />}
-                
+
                 <div className="bg-white/80 rounded-lg">
                     {isLoading || isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
