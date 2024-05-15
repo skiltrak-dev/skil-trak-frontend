@@ -2,8 +2,8 @@ import { ReactElement } from 'react'
 
 import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
+import { IndustryDashboardContainer } from '@components/sections'
 
-import { IndustryDashboardContainer } from '@components/sections/industry/Dashboard'
 
 const IndustryDashboard: NextPageWithLayout = () => {
     return (

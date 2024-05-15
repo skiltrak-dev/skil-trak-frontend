@@ -61,15 +61,13 @@ export const checkKpiEndpoints = (
         }, 
         providesTags: ['KpiReportDocument'],
     }),
-    
-    // -----------------TEAM MEMBER PROFILE ----------------- //
     getKpiTargets: builder.query<any, any>({
         query: (id) => {
             return {
                 url: `${PREFIX}/member/${id}/targets`,
             }
         }, 
-        providesTags: ['KpiReportDocument', 'KpiProgress', 'TeamManagement', 'KpiReportDocument'],
+        providesTags: ['KpiReportDocument', 'KpiProgress'],
     }),
     getKpiReportFeedback: builder.query<any, any>({
         query: (id) => {

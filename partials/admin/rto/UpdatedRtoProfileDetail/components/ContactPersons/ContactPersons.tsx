@@ -11,6 +11,7 @@ export const ContactPersons = ({ userId }: { userId: number }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [isViewd, setIsViewd] = useState<boolean>(false)
 
+
     const { isLoading, data } = RtoApi.Rto.useContactPersons(
         {
             id: userId,

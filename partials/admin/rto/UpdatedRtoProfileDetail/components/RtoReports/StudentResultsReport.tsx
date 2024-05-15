@@ -29,8 +29,6 @@ export const StudentResultsReport = ({
     const [page, setPage] = useState(1)
     const router = useRouter()
 
-    // let end = new Date(endDate)
-    // end.setDate(end.getDate() + 1)
 
     const { data, isLoading, isError, isFetching } =
         RtoApi.Students.useStudentsResultsReport(

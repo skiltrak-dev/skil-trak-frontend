@@ -96,3 +96,6 @@ export * from './PlacementProgress'
 export * from './avatars'
 
 export * from './StudentTimer'
+
+
+export * from './PaymentModal'

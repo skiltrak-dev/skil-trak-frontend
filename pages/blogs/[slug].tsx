@@ -1,6 +1,8 @@
+import { ReactElement, useState } from 'react'
+import Head from 'next/head'
+
 import { SiteLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { ReactElement, useState } from 'react'
 import { adminApi } from '@queries'
 import { useRouter } from 'next/router'
 import {
@@ -20,6 +22,7 @@ import { HeroSectionBlog } from '@partials/common/Blogs'
 //     AccordionTrigger,
 // } from '@radix-ui/react-accordion'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
+import { ellipsisText } from '@utils'
 
 const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
     const [activeAccordion, setActiveAccordion] = useState<number | null>(null)
@@ -41,6 +44,17 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
 
     return (
         <div className="">
+            <Head>
+                <title>{ellipsisText(blogData?.title, 11)}</title>
+                <meta
+                    name="description"
+                    content={`${
+                        blogData?.metaData ||
+                        'Skiltrak, we are specialized in student placement'
+                    }`}
+                    key="desc"
+                />
+            </Head>
             <HeroSectionBlog />
             <div className="md:p-10 p-0 mt-8 md:mt-0 mx-auto max-w-7xl">
                 <div className="rounded-xl md:px-8 px-4 py-8 md:py-4 bg-white">

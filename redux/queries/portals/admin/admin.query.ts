@@ -53,6 +53,13 @@ export const adminApi = emptySplitApi.injectEndpoints({
                 body,
             }),
         }),
+        allowRtoListing: build.mutation<any, number>({
+            query: (id) => ({
+                url: `admin/subadmin/${id}/allow-rto/listing`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['AllowRtoListing', 'SubAdmins'],
+        }),
 
         ...rtoEndpoints(build),
         ...jobEndpoints(build),
@@ -82,6 +89,7 @@ const {
     useSectorsStudentsCountQuery,
     useUpdateAdminProfileMutation,
     useRegisterByFutureIndustryMutation,
+    useAllowRtoListingMutation,
 
     // Blogs
     useCreateBlogMutation,
@@ -271,6 +279,7 @@ export const AdminApi = {
         useUpdateProfile: useUpdateAdminProfileMutation,
         useSectorsStudentsCount: useSectorsStudentsCountQuery,
         useRegisterByFutureIndustry: useRegisterByFutureIndustryMutation,
+        useAllowRtoListing: useAllowRtoListingMutation,
     },
     Rtos: {
         useCountQuery: useRtoCountQuery,

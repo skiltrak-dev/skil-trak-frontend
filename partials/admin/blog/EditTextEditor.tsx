@@ -139,6 +139,7 @@ TextEditorProps) {
         defaultValues: {
             featuredImage: blogData?.featuredImage || null,
             title: blogData?.title || '',
+            metaData: blogData?.metaData,
             shortDescription: blogData?.shortDescription || '',
             author: blogData?.author || '',
             isFeatured: blogData?.isFeatured || false,
@@ -347,8 +348,9 @@ TextEditorProps) {
             featuredImage: Array.isArray(data?.featuredImage)
                 ? data?.featuredImage?.[0]
                 : blogData?.featuredImage,
-            title: data.title,
-            author: data.author,
+            title: data?.title,
+            author: data?.author,
+            metaData: data?.metaData,
             content: content,
             isPublished: publish.toString(),
             isFeatured: isFeatured.toString(),
@@ -433,6 +435,11 @@ TextEditorProps) {
                         />
                         <TextInput name="author" label="Author" />
                         <TextInput name="title" label="Title" />
+                        <TextArea
+                            label={'Meta Daata'}
+                            name={'metaData'}
+                            placeholder="Add meta tags...."
+                        />
                         <TextArea
                             label={'Short Description'}
                             name={'shortDescription'}

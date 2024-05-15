@@ -112,7 +112,7 @@ export const ApprovedVolunteers = () => {
             accessorKey: 'industry.addressLine1',
             cell: (info) => (
                 <Typography variant="small" medium color={'text-gray-800'}>
-                    {moment(info?.row?.original?.industry?.createdAt).format(
+                    {moment(info?.row?.original?.createdAt).format(
                         'Do MMMM, YYYY'
                     )}
                 </Typography>

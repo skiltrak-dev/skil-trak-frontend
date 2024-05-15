@@ -85,7 +85,7 @@ export const PendingVolunteers = () => {
     }
 
     const tableActionOptions: TableActionOption[] = [
-        {
+        {   
             text: 'Approve',
             onClick: (volunteer: any) => {
                 onApproveRequest(volunteer)
@@ -140,13 +140,15 @@ export const PendingVolunteers = () => {
         {
             header: () => <span>Created At</span>,
             accessorKey: 'industry.addressLine1',
-            cell: (info) => (
-                <Typography variant="small" medium color={'text-gray-800'}>
-                    {moment(info?.row?.original?.industry?.createdAt).format(
-                        'Do MMMM, YYYY'
-                    )}
-                </Typography>
-            ),
+            cell: (info) => {
+                return (
+                    <Typography variant="small" medium color={'text-gray-800'}>
+                        {moment(info?.row?.original?.createdAt).format(
+                            'Do MMMM, YYYY'
+                        )}
+                    </Typography>
+                )
+            }
         },
         {
             accessorKey: 'action',

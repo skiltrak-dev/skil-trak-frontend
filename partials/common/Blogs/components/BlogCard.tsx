@@ -1,6 +1,7 @@
 import { useWindowWidth } from '@hooks'
 import { ellipsisText } from '@utils'
 import moment from 'moment'
+import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -14,6 +15,7 @@ export const BlogCard = ({
     slug,
     author,
     shortDescription,
+    metaData,
 }: any) => {
     const router = useRouter()
     function isMobile(width: any) {
@@ -23,6 +25,17 @@ export const BlogCard = ({
     const mobile = isMobile(width)
     return (
         <div className="bg-[#FFFCF7] rounded-xl shadow-md px-2 py-1.5 h-[390px]">
+            <Head>
+                <title>{ellipsisText(title, 11)}</title>
+                <meta
+                    name="description"
+                    content={`${
+                        metaData ||
+                        'Skiltrak, we are specialized in student placement'
+                    }`}
+                    key="desc"
+                />
+            </Head>
             <Link href={`blogs/${slug}`}>
                 <div className="h-[150px] relative overflow-hidden rounded-xl">
                     <Image
@@ -44,7 +57,9 @@ export const BlogCard = ({
                         </p>
                     </div>
 
-                    <h1 className="font-bold uppercase mb-1.5">{ellipsisText(title, 26)}</h1>
+                    <h1 className="font-bold uppercase mb-1.5">
+                        {ellipsisText(title, 26)}
+                    </h1>
                     <div
                         className="blog-content block mr-6 text-gray-400 text-xs"
                         // dangerouslySetInnerHTML={{
@@ -52,7 +67,8 @@ export const BlogCard = ({
                         // }}
                     >
                         {(shortDescription &&
-                            shortDescription?.substr(0, mobile ? 180 : 460) + '...') ||
+                            shortDescription?.substr(0, mobile ? 180 : 460) +
+                                '...') ||
                             ' '}
                     </div>
                 </div>

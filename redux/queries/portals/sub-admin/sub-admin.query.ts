@@ -67,6 +67,52 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
                 'SubAdminIndustries',
             ],
         }),
+        importRtosList: build.mutation<any, any>({
+            query: (body) => ({
+                url: `rtolisting/bulk/create`,
+                body,
+                method: 'POST',
+            }),
+            invalidatesTags: ['RtosListing'],
+        }),
+        getAllRtosList: build.query<any, any>({
+            query: (params) => ({
+                url: `rtolisting`,
+                params,
+            }),
+            providesTags: ['RtosListing'],
+        }),
+        rtosStatusChange: build.mutation<any,{ id: number; status: string }>({
+            query: ({ id, status }) => ({
+                url: `rtolisting/status-update/${id}`,
+                method: 'PATCH',
+                body: { status },
+            }),
+            invalidatesTags: ['RtosListing'],
+        }),
+        addRtoInListing: build.mutation<any, any>({
+            query: (body) => ({
+                url: `rtolisting`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ['RtosListing'],
+        }),
+        updateRtoListing: build.mutation<any, any>({
+            query: ({ id, ...body }) => ({
+                url: `rtolisting/${id}/update`,
+                method: 'PATCH',
+                body,
+            }),
+            invalidatesTags: ['RtosListing'],
+        }),
+        deleteRtoListing: build.mutation<any, any>({
+            query: (id) => ({
+                url: `rtolisting/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['RtosListing'],
+        }),
 
         ...notesEndpoints(build),
         ...subAdminReports(build),
@@ -93,6 +139,13 @@ export const {
     useSubadminCoursesQuery,
     useUpdateSubAdminProfileMutation,
     useChangeSubAdminUserStatusMutation,
+    // -------- Rtos Listing --------//
+    useImportRtosListMutation,
+    useGetAllRtosListQuery,
+    useRtosStatusChangeMutation,
+    useAddRtoInListingMutation,
+    useUpdateRtoListingMutation,
+    useDeleteRtoListingMutation,
 
     // ---- TODO ---- //
     useTodoListCountQuery,
@@ -299,6 +352,12 @@ export const SubAdminApi = {
         useSubadminCourses: useSubadminCoursesQuery,
         useUpdateProfile: useUpdateSubAdminProfileMutation,
         changeSubAdminUserStatus: useChangeSubAdminUserStatusMutation,
+        useImportRtosList: useImportRtosListMutation,
+        useRtosStatusChange: useRtosStatusChangeMutation,
+        useAddRtoInListing: useAddRtoInListingMutation,
+        useUpdateRtoListing: useUpdateRtoListingMutation,
+        useDeleteRtoListing: useDeleteRtoListingMutation,
+        useAllRtosList: useGetAllRtosListQuery,
     },
     Todo: {
         todoListCount: useTodoListCountQuery,

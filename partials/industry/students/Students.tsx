@@ -88,9 +88,9 @@ export const StudentsContainer = () => {
                         <Typography variant={'title'}>
                             Total Students
                         </Typography>
-                        <Typography variant={'small'} color={'text-info'}>
+                        {/* <Typography variant={'small'} color={'text-info'}>
                             View All
-                        </Typography>
+                        </Typography> */}
                     </div>
 
                     {/*  */}

@@ -207,15 +207,15 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
                             options={
                                 EmployeeData.isSuccess
                                     ? EmployeeData?.data?.data?.map(
-                                        ({
-                                            id,
-                                            firstName,
-                                            lastName,
-                                        }: any) => ({
-                                            value: id,
-                                            label: `${firstName} ${lastName}`,
-                                        })
-                                    )
+                                          ({
+                                              id,
+                                              firstName,
+                                              lastName,
+                                          }: any) => ({
+                                              value: id,
+                                              label: `${firstName} ${lastName}`,
+                                          })
+                                      )
                                     : []
                             }
                             loading={EmployeeData?.isLoading}
@@ -276,7 +276,7 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
                                             name={`tasks[${index}].endTime`}
                                             placeholder={'End Time...'}
                                             type={'time'}
-                                        // min={getDate()}
+                                            // min={getDate()}
                                         />
                                         <InputErrorMessage
                                             name={`tasks[${index}].endTime`}
@@ -303,7 +303,7 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
                                     required
                                     label={'Title'}
                                     name={`tasks[${index}].title`}
-                                    placeholder={'Some Text Here...'}
+                                    placeholder={'Title...'}
                                 />
                                 <InputErrorMessage
                                     name={`tasks[${index}].title`}
@@ -321,6 +321,7 @@ export const AddTaskForm = ({ publishTask, DraftTask }: any) => {
                                     required
                                     label={'Notes'}
                                     name={`tasks[${index}].note`}
+                                    placeholder={'Add note here...'}
                                 />
                                 <InputErrorMessage
                                     name={`tasks[${index}].note`}

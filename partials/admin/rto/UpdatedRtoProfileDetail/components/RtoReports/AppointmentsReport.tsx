@@ -29,6 +29,7 @@ export const AppointmentsReport = ({
     const [page, setPage] = useState(1)
     const router = useRouter()
 
+
     // let end = new Date(endDate)
     // end.setDate(end.getDate() + 1)
 
