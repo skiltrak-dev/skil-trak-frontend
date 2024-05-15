@@ -36,5 +36,5 @@ export const useRtoOptions = () => {
               value: rto?.id,
           }))
         : []
-    return { rtoOptions, rtoResponse }
+    return { rtoOptions, rtoResponse, rtoOptionLoading: rtoResponse?.isLoading }
 }

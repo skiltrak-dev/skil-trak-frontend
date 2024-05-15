@@ -1,4 +1,4 @@
-import { Button, TechnicalError } from '@components'
+import { Button, TechnicalError, Typography } from '@components'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -6,6 +6,7 @@ import Skeleton from 'react-loading-skeleton'
 import { Waypoint } from 'react-waypoint'
 import { TabsView } from './TabsView'
 import { DocumentScrollArrow } from './DocumentScrollArrow'
+import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 
 export const SVGView = ({
     scrollToPage,
@@ -19,6 +20,7 @@ export const SVGView = ({
     selectedFillDataField,
     customFieldsSelectedId,
     customFieldsAndSign,
+    setIsDocumentLoaded,
 }: {
     scrollToPage: any
     sortedPositions: any
@@ -28,12 +30,14 @@ export const SVGView = ({
     index: number
     documentData: any
     customFieldsData: any
+    setIsDocumentLoaded: any
     onSignatureClicked: any
     onAddCustomFieldsData: any
     selectedFillDataField?: any
 }) => {
     const router = useRouter()
     const [viewport, setViewport] = useState<string | null>('')
+    const [showStartDocument, setShowStartDocument] = useState<boolean>(true)
 
     const [loadSvg, setLoadSvg] = useState(false)
 
@@ -64,6 +68,23 @@ export const SVGView = ({
 
         setViewport(svgViewport)
     }, [doc])
+
+    useEffect(() => {
+        const signData = customFieldsData?.filter(
+            (a: any) =>
+                a?.type === FieldsTypeEnum.Signature && !a?.responses?.length
+        )
+
+        if (
+            signData &&
+            signData?.length > 0 &&
+            signData?.[0]?.number === index + 1
+        ) {
+            if (setIsDocumentLoaded) {
+                setIsDocumentLoaded(document)
+            }
+        }
+    }, [doc, index, customFieldsData])
 
     const [timerId, setTimerId] = useState<any>(null)
 
@@ -112,37 +133,67 @@ export const SVGView = ({
                 // topOffset="50%"
             >
                 <div className="relative">
-                    {((sortedPositions &&
-                        sortedPositions?.[customFieldsSelectedId]?.number -
-                            1 ===
-                            index) ||
-                        customFieldsSelectedId === -1) && (
-                        <div
-                            className={`absolute -left-14 lg:-left-24 z-[111111111] ${
-                                customFieldsSelectedId < 0 ? 'rotate-90' : ''
-                            } transition-all duration-500`}
-                            style={{
-                                top:
-                                    customFieldsSelectedId >= 0
-                                        ? `${
-                                              (Number(
-                                                  sortedPositions?.[
-                                                      customFieldsSelectedId
-                                                  ]?.position?.split(',')?.[1]
-                                              ) *
-                                                  100) /
-                                              Number(height)
-                                          }%`
-                                        : 0,
-                                // top: '24%',
-                            }}
-                            onClick={() => {
-                                onDocumentScrollArrow()
-                            }}
-                        >
-                            <DocumentScrollArrow />
+                    {(index === 0 ? !showStartDocument : true)
+                        ? ((sortedPositions &&
+                              sortedPositions?.[customFieldsSelectedId]
+                                  ?.number -
+                                  1 ===
+                                  index) ||
+                              customFieldsSelectedId === -1) && (
+                              <div
+                                  className={`absolute -left-14 lg:-left-24 z-[111111111] ${
+                                      customFieldsSelectedId < 0
+                                          ? 'rotate-90'
+                                          : ''
+                                  } transition-all duration-500`}
+                                  style={{
+                                      top:
+                                          customFieldsSelectedId >= 0
+                                              ? `${
+                                                    (Number(
+                                                        sortedPositions?.[
+                                                            customFieldsSelectedId
+                                                        ]?.position?.split(
+                                                            ','
+                                                        )?.[1]
+                                                    ) *
+                                                        100) /
+                                                    Number(height)
+                                                }%`
+                                              : 0,
+                                      // top: '24%',
+                                  }}
+                                  onClick={() => {
+                                      onDocumentScrollArrow()
+                                  }}
+                              >
+                                  <DocumentScrollArrow />
+                              </div>
+                          )
+                        : null}
+                    {index === 0 && showStartDocument ? (
+                        <div className="w-full absolute h-full bg-[#00000050]">
+                            <div className="flex flex-col gap-y-2 bg-white w-[500px] p-5 rounded-md top-6 lg:top-28 absolute left-1/2 -translate-x-1/2">
+                                <Typography center variant="label">
+                                    Please sign the document first. Then, fill
+                                    in the required fields. Finally, complete
+                                    the e-signature process by clicking the
+                                    button at the end of document.
+                                </Typography>
+                                <div
+                                    onClick={() => {
+                                        onDocumentScrollArrow()
+                                        setShowStartDocument(false)
+                                    }}
+                                    className="cursor-pointer bg-primary w-60 h-12 mx-auto shadow-lg flex items-center justify-center rounded  "
+                                >
+                                    <Typography color="text-white" center>
+                                        Start With Document
+                                    </Typography>
+                                </div>
+                            </div>
                         </div>
-                    )}
+                    ) : null}
                     {document.isError && <TechnicalError />}
                     {document?.data ? (
                         <svg

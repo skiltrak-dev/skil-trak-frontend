@@ -29,6 +29,7 @@ export const ViewDocumentAndSign = () => {
     const [selectedSign, setSelectedSign] = useState<ReactNode | null>(null)
     const [isSignature, setIsSignature] = useState<boolean>(false)
     const [customFieldsData, setCustomFieldsData] = useState<any>([])
+    const [isDocumentLoaded, setIsDocumentLoaded] = useState<any>([])
     const [customFieldsDataUpdated, setCustomFieldsDataUpdated] =
         useState<boolean>(false)
     const [customFieldsSelectedId, setCustomFieldsSelectedId] =
@@ -143,14 +144,15 @@ export const ViewDocumentAndSign = () => {
             setIsSignature(false)
         } else {
             if (tabs?.data && tabs.isSuccess && tabs?.data?.length > 0) {
-                setTimeout(() => {
-                    setModal(
-                        <FinishShignInfoModal
-                            onCancel={onCancelClicked}
-                            customFieldsData={customFieldsData}
-                        />
-                    )
-                }, 1000)
+                // setTimeout(() => {
+                //     setModal(
+                //         <FinishShignInfoModal
+                //             onCancel={onCancelClicked}
+                //             customFieldsData={customFieldsData}
+                //         />
+                //     )
+                // }, 1000)
+                onDocumentScrollArrow()
             }
         }
     }
@@ -231,26 +233,44 @@ export const ViewDocumentAndSign = () => {
         const number = item.number
         const position = item.position
         const sum = extractAndConvert(position)
-        return { id: item?.id, number, position, sum }
+        return {
+            ...item,
+            number,
+            position,
+            sum,
+        }
     }
 
     // Adding number with position and sorting in ascending order based on sum
-    const sortedPositions = customFieldsAndSign
+    const fields = customFieldsAndSign
         .map(addNumberWithPosition)
+        ?.filter((sign: any) => !sign?.responses?.length)
         .sort((a: any, b: any) => {
             // First, sort by number in ascending order
             if (a.number !== b.number) {
-                return a.number - b.number
+                return a?.number - b?.number
             }
             // If numbers are equal, sort by sum of position values
-            return a.sum - b.sum
+            return a?.sum - b?.sum
         })
+
+    const sortedPositions = fields?.sort((a: any, b: any) => {
+        if (a.type === 'signature') return -1
+        if (b.type === 'signature') return 1
+        return 0
+    })
 
     const onDocumentScrollArrow = () => {
         if (customFieldsSelectedId < sortedPositions?.length - 1) {
-            setSelectedFillDataField(
-                sortedPositions?.[customFieldsSelectedId + 1]?.id
-            )
+            const fieldData = sortedPositions?.[customFieldsSelectedId + 1]
+            const isSign = fieldData?.type === FieldsTypeEnum.Signature
+            setSelectedFillDataField(fieldData?.id)
+            if (isSign) {
+                setTimeout(() => {
+                    setIsSignature(true)
+                    setSelectedSign(fieldData)
+                }, 500)
+            }
             setCustomFieldsSelectedId(customFieldsSelectedId + 1)
         } else {
             setSelectedFillDataField(sortedPositions?.[0]?.id)
@@ -265,7 +285,7 @@ export const ViewDocumentAndSign = () => {
     return (
         <div>
             {modal}
-            {isSignature ? (
+            {isSignature && isDocumentLoaded?.isSuccess ? (
                 <EsignSignatureModal
                     tab={selectedSign}
                     onCancel={(cancel?: boolean) => {
@@ -394,6 +414,9 @@ export const ViewDocumentAndSign = () => {
                                             onDocumentScrollArrow={() => {
                                                 onDocumentScrollArrow()
                                             }}
+                                            setIsDocumentLoaded={
+                                                setIsDocumentLoaded
+                                            }
                                             customFieldsData={customFieldsData}
                                             customFieldsAndSign={
                                                 customFieldsAndSign
