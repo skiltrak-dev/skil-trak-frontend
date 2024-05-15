@@ -100,9 +100,9 @@ export const TasksContainer = () => {
                         <Typography variant={'title'}>
                             Total Students
                         </Typography>
-                        <Typography variant={'small'} color={'textLink'}>
+                        {/* <Typography variant={'small'} color={'textLink'}>
                             View All
-                        </Typography>
+                        </Typography> */}
                     </div>
 
                     {/*  */}

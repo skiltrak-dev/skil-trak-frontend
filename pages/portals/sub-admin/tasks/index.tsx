@@ -112,6 +112,13 @@ const SubAdminTasks: NextPageWithLayout = () => {
             animation: Animations.Student.Appointments.AssessmentEvidence,
             id: 'industry-listing',
         },
+        {
+            title: 'RTO Listing',
+            description: 'RTO Listing',
+            link: 'tasks/rto-listing?tab=all&page=1&pageSize=50',
+            animation: Animations.Student.Appointments.AssessmentEvidence,
+            id: 'rto-listing',
+        },
     ]
 
     // WORKPLACE JOY RIDE - END

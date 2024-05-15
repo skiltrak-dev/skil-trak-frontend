@@ -148,6 +148,7 @@ const Blogs: NextPageWithLayout = ({ data }: any) => {
                                 slug={blog?.slug}
                                 author={blog?.author}
                                 shortDescription={blog?.shortDescription}
+                                metaData={blog?.metaData}
                             />
                         ))}
                     </div>

@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 import { ManagementLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { GlobalModal, LoadingAnimation, NoData, Typography } from '@components'
+import { GlobalModal, NoData, Typography } from '@components'
 
 import { useRouter } from 'next/router'
 import {
@@ -116,11 +116,7 @@ const ManagementDashboard: NextPageWithLayout = () => {
             </div>
             {/* Teams */}
             <div className="flex gap-x-4 justify-between">
-                {isLoading ? (
-                    <LoadingAnimation />
-                ) : (
-                    isError && <NoData text="Something is not right" />
-                )}
+                {isError && <NoData text="Something is not right" />}
                 <div className="w-2/3 h-screen">
                     <div className="bg-white/80 px-4 py-5 rounded-md overflow-auto custom-scrollbar !h-[calc(100%-340px)]">
                         <div className="pb-5 flex items-center justify-between">
@@ -147,7 +143,7 @@ const ManagementDashboard: NextPageWithLayout = () => {
                                         </div>
                                     ))}
                                     {Array.from({
-                                        length: 9 - teamList?.length,
+                                        length: 9 - teamList.length,
                                     }).map((_, index) => (
                                         <div key={`add-new-${index}`}>
                                             <AddNewTeamCard

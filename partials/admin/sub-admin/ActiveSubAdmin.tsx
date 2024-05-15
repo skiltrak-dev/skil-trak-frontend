@@ -22,6 +22,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { BsArchiveFill } from 'react-icons/bs'
 import { MdAdminPanelSettings, MdOutlineAssignmentReturn } from 'react-icons/md'
+import { FaSchool } from 'react-icons/fa'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { RtoCellInfo } from '../rto/components'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
@@ -32,6 +33,7 @@ import {
     ArchiveModal,
     AssignAutoWorkplaceModal,
     BlockModal,
+    AllowRtoListingModal,
 } from './modals'
 
 export const ActiveSubAdmin = () => {
@@ -94,6 +96,15 @@ export const ActiveSubAdmin = () => {
     const onMakeAsAdminClicked = (subAdmin: SubAdmin) => {
         setModal(
             <AllowAsAdminModal
+                subAdmin={subAdmin}
+                setChangeStatusResult={setChangeStatusResult}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+    const onAllowRtoListingClicked = (subAdmin: SubAdmin) => {
+        setModal(
+            <AllowRtoListingModal
                 subAdmin={subAdmin}
                 setChangeStatusResult={setChangeStatusResult}
                 onCancel={() => onModalCancelClicked()}
@@ -166,6 +177,20 @@ export const ActiveSubAdmin = () => {
                           onClick: (subAdmin: SubAdmin) =>
                               onViewPassword(subAdmin),
                           Icon: RiLockPasswordFill,
+                      }
+                    : {}),
+            },
+            {
+                ...(role === UserRoles.ADMIN
+                    ? {
+                          text: `${
+                              !subAdmin?.allowRtoListing
+                                  ? 'Allow Rto Listing'
+                                  : 'Remove Rto Listing'
+                          }`,
+                          onClick: (subAdmin: SubAdmin) =>
+                            onAllowRtoListingClicked(subAdmin),
+                          Icon: FaSchool,
                       }
                     : {}),
             },

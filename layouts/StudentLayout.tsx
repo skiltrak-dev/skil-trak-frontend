@@ -1,7 +1,10 @@
 import {
+    Button,
     DisplayAlerts,
+    GlobalModal,
     PageTitle,
     PageTitleProps,
+    PaymentModal,
     RedirectUnApprovedUsers,
     StudentNavbar,
     StudentTimer,
@@ -45,18 +48,16 @@ const urls = [
 ]
 
 const redirectUrls = urls?.map((url: string) => `${getRoutePath}${url}`)
-enum TalentPoolLinks {
-    TALENTPOOL = '/portals/student/talent-pool',
-    REGISTERNOW = '/portals/student/talent-pool/register-now',
-    PROFILE = '/portals/student/talent-pool/profile',
-    INDUSTRYREQUEST = '/portals/student/talent-pool/industry-request',
-}
+
 export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     const [mounted, setMounted] = useState(false)
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
+    const onCancel = () => {
+        setModal(null)
+    }
     const { alert, setAlerts } = useAlert()
     const userData = getUserCredentials()
     const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
@@ -111,6 +112,13 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     })
 
     const profileCompletion = Math.floor((filledValues / totalValues) * 100)
+    const onPaymentClick = () => {
+        setModal(
+            <GlobalModal>
+                <PaymentModal onCancel={onCancel} />
+            </GlobalModal>
+        )
+    }
 
     useEffect(() => {
         if (profile.isSuccess) {
@@ -148,6 +156,10 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
             }
         }
     }, [profileCompletion, profile, pendingDocuments, router])
+
+    const parts = router?.pathname.split('/')
+    const talentPoolLink = '/' + parts.slice(1, 4).join('/')
+  
     return (
         <RedirectUnApprovedUsers
             getRoutePath={getRoutePath}
@@ -156,27 +168,34 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
             {modal}
             <UserLayout>
                 <>
-                    {router?.pathname !== TalentPoolLinks.TALENTPOOL &&
-                        router?.pathname !== TalentPoolLinks.REGISTERNOW &&
-                        router?.pathname !== TalentPoolLinks.PROFILE &&
-                        router?.pathname !== TalentPoolLinks.INDUSTRYREQUEST &&
-                        (!router?.query.id ||
-                            router?.pathname !==
-                                `${TalentPoolLinks.INDUSTRYREQUEST}/[id]`) && (
-                            <StudentContextBar />
-                        )}
+                    {talentPoolLink !== '/portals/student/talent-pool' && (
+                        <StudentContextBar />
+                    )}
                     <div className="px-4 mb-32 md:px-8">
                         <div>
-                            <div className="flex justify-between">
+                            <div className="flex items-center gap-x-3 justify-between mb-2">
                                 <StudentNavbar />
-                                {profile.data?.expiryDate && (
-                                    <StudentTimer
-                                        studentId={profile.data?.user?.id}
-                                        date={profile.data?.expiryDate}
-                                        oldExpiry={profile?.data?.oldExpiry}
-                                    />
-                                )}
+                                <div className="flex items-center gap-x-5 mt-3">
+                                    <div className="">
+                                        {userData?.status ===
+                                            UserStatus.Archived && (
+                                            <Button
+                                                text="make payment to reactivate"
+                                                // variant="success"
+                                                onClick={onPaymentClick}
+                                            />
+                                        )}
+                                    </div>
+                                    {profile?.data?.expiryDate && (
+                                        <StudentTimer
+                                            studentId={profile.data?.user?.id}
+                                            date={profile.data?.expiryDate}
+                                            oldExpiry={profile?.data?.oldExpiry}
+                                        />
+                                    )}
+                                </div>
                             </div>
+
                             <DisplayAlerts />
                         </div>
                         {pageTitle && pageTitle.title && (

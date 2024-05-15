@@ -14,7 +14,6 @@ import { ColumnDef } from '@tanstack/react-table'
 import moment from 'moment'
 import { ManagementApi } from '@queries'
 import { useRouter } from 'next/router'
-import { SectorCell } from '@partials/admin/sub-admin'
 
 export const StudentDuplication = ({ filter }: any) => {
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -69,27 +68,10 @@ export const StudentDuplication = ({ filter }: any) => {
             accessorKey: 'course',
             cell: (info) => {
                 return (
-                    // <span className="text-xs">
-                    //     {info?.row?.original?.course?.code} -
-                    //     {info?.row?.original?.course?.title}
-                    // </span>
-                    <div>
-                        <div className="flex flex-wrap gap-1">
-                            {info?.row?.original?.student?.courses?.map(
-                                (c: any) => (
-                                    <div className="relative group" key={c.id}>
-                                        <div className="w-[9px] h-[9px] rounded-full bg-gray-400 cursor-pointer"></div>
-                                        <div className="bg-white p-2 rounded-xl shadow-xl z-20 absolute whitespace-nowrap hidden group-hover:block">
-                                            <p className="text-xs font-medium text-gray-400">
-                                                {c?.code}
-                                            </p>
-                                            <p>{c?.title}</p>
-                                        </div>
-                                    </div>
-                                )
-                            )}
-                        </div>
-                    </div>
+                    <span className="text-xs">
+                        {info?.row?.original?.course?.code} -
+                        {info?.row?.original?.course?.title}
+                    </span>
                 )
             },
             header: () => <span>Course</span>,
@@ -172,7 +154,7 @@ export const StudentDuplication = ({ filter }: any) => {
                                                 : null}
                                         </div>
                                     </div>
-                                    <div className="overflow-auto remove-scrollbar h-[calc(100vh-470px)]">
+                                    <div className="overflow-x-auto remove-scrollbar">
                                         <div
                                             className="px-6 w-full"
                                             id={'studentScrollId'}

@@ -923,6 +923,9 @@ export const IndustryDashboardContainer = () => {
                         imageUrl="/images/icons/students.png"
                         count={studentCount?.data?.count}
                         title={'Current Students'}
+                        link={
+                            '/portals/industry/students/current-students?tab=pending'
+                        }
                     />
                 </div>
                 <section className="bg-[#D6F4FF] w-full p-4 rounded-2xl relative overflow-hidden">

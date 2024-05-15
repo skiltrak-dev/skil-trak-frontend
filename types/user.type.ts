@@ -60,6 +60,11 @@ export enum IndustryStatus {
     FAVOURITE = 'favourite',
     DO_NOT_DISTURB = 'doNotDisturb',
 }
+export enum RtoStatus {
+    DEFAULT = 'default',
+    FAVOURITE = 'favourite',
+    DO_NOT_DISTURB = 'doNotDisturb',
+}
 
 export interface RtoStatsCount {
     currentStudent: number | string
