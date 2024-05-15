@@ -344,7 +344,7 @@ export const SubAdminForm = ({
                         <Select
                             label={'Courses'}
                             name={'courses'}
-                            value={courseValues}
+                            // value={courseValues}
                             options={rtoCoursesOptions}
                             multi
                             loading={courseLoading}
