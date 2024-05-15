@@ -70,9 +70,9 @@ export const ActiveStudents = ({
         getIndustriesIds,
         isWithWorkplace,
     })
-    const { rtoOptions } = useRtoOptions()
-    const { coursesOptions } = useCoursesOptions()
-    const { industryOptions } = useIndustriesOptions()
+    const { rtoOptions, rtoResponse } = useRtoOptions()
+    const { coursesOptions, coursesResponse } = useCoursesOptions()
+    const { industryOptions, industriesResponse } = useIndustriesOptions()
 
     const [sendBulkEmail, resultSendBulkEmail] =
         CommonApi.Messages.useSendBulkMail()
@@ -214,9 +214,13 @@ export const ActiveStudents = ({
 
     useEffect(() => {
         if (resultSendBulkEmail.isSuccess) {
+            console.log({ resultSendBulkEmail })
             notification.success({
                 title: 'Bulk Email Sent',
-                description: 'Bulk Email Sent Successfully',
+                description:
+                    resultSendBulkEmail?.data?.message ||
+                    'Bulk Email Sent Successfully',
+                dissmissTimer: 6500,
             })
             formMethods.reset()
             setSelectAll(null)
@@ -260,6 +264,8 @@ export const ActiveStudents = ({
                             label={'Search by RTO'}
                             name={'rtos'}
                             options={rtoOptions}
+                            loading={rtoResponse?.isLoading}
+                            disabled={rtoResponse?.isLoading}
                             multi
                             onChange={(e: any) => {
                                 setRtoIds(e)
@@ -270,6 +276,8 @@ export const ActiveStudents = ({
                                 label={'Search by Industry'}
                                 name={'industries'}
                                 options={industryOptions}
+                                loading={industriesResponse?.isLoading}
+                                disabled={industriesResponse?.isLoading}
                                 multi
                                 onChange={(e: any) => {
                                     setIndustryIds(e)
@@ -302,6 +310,8 @@ export const ActiveStudents = ({
                             label={'Search by Course'}
                             name={'course'}
                             options={coursesOptions}
+                            loading={coursesResponse?.isLoading}
+                            disabled={coursesResponse?.isLoading}
                             multi
                             // loading={courseLoading}
                             onChange={(e: any) => {

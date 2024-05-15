@@ -71,9 +71,9 @@ export const SignersStatus = ({ selectedFolder }: { selectedFolder: any }) => {
                         : 'Waiting For Signing'}
                 </Typography>
                 <Typography variant="small" color="text-muted-dark">
-                    Your document is being signed by concerned parties. Once the
-                    signing is completed, your document will be available for
-                    download.
+                    Your document is being signed by the relevant parties. Once
+                    the signing process is complete, your document will be
+                    available for download.Thanku For your Patience
                 </Typography>
             </div>
 

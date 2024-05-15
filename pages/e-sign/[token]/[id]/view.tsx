@@ -15,13 +15,11 @@ import {
     FinishEmailSignModal,
     FinishShignInfoModal,
     SVGView,
-    ScrollTabsView,
 } from '@partials'
 import { CommonApi } from '@queries'
 import jwt from 'jwt-decode'
 import { useRouter } from 'next/router'
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
-import { PuffLoader } from 'react-spinners'
 
 const ESign = () => {
     const router = useRouter()
@@ -29,8 +27,10 @@ const ESign = () => {
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [customFieldsData, setCustomFieldsData] = useState<any>([])
     const [isSignature, setIsSignature] = useState<boolean>(false)
+    const [selectedSign, setSelectedSign] = useState<ReactNode | null>(null)
     const [customFieldsSelectedId, setCustomFieldsSelectedId] =
         useState<number>(-1)
+    const [isDocumentLoaded, setIsDocumentLoaded] = useState<any>([])
 
     const [decodeData, setDecodeData] = useState<any>(null)
     const [selectedFillDataField, setSelectedFillDataField] =
@@ -118,23 +118,28 @@ const ESign = () => {
         (s: any) => s?.type === FieldsTypeEnum.Signature
     )
 
-    const onCancelClicked = () => setModal(null)
+    const onCancelClicked = () => {
+        setIsSignature(false)
+        setModal(null)
+        setSelectedSign(null)
+    }
 
     const onSignatureCancelClicked = (cancel?: boolean) => {
         if (cancel) {
             setIsSignature(false)
         } else {
             if (tabs?.data && tabs.isSuccess && tabs?.data?.length > 0) {
-                setTimeout(() => {
-                    setModal(
-                        <FinishShignInfoModal
-                            emailSign
-                            decodeData={decodeData}
-                            onCancel={onCancelClicked}
-                            customFieldsData={customFieldsData}
-                        />
-                    )
-                }, 1000)
+                // setTimeout(() => {
+                //     setModal(
+                //         <FinishShignInfoModal
+                //             emailSign
+                //             decodeData={decodeData}
+                //             onCancel={onCancelClicked}
+                //             customFieldsData={customFieldsData}
+                //         />
+                //     )
+                // }, 1000)
+                onDocumentScrollArrow()
             }
         }
     }
@@ -149,20 +154,36 @@ const ESign = () => {
         const number = item.number
         const position = item.position
         const sum = extractAndConvert(position)
-        return { id: item?.id, number, position, sum }
+        return {
+            ...item,
+            number,
+            position,
+            sum,
+        }
     }
 
+    const customFieldsAndSign = customFieldsData?.filter(
+        (s: any) => s?.type === FieldsTypeEnum.Signature || s?.isCustom
+    )
+
     // Adding number with position and sorting in ascending order based on sum
-    const sortedPositions = customFieldsData
+    const fields = customFieldsAndSign
         .map(addNumberWithPosition)
+        ?.filter((sign: any) => !sign?.responses?.length)
         .sort((a: any, b: any) => {
             // First, sort by number in ascending order
             if (a.number !== b.number) {
-                return a.number - b.number
+                return a?.number - b?.number
             }
             // If numbers are equal, sort by sum of position values
-            return a.sum - b.sum
+            return a?.sum - b?.sum
         })
+
+    const sortedPositions = fields?.sort((a: any, b: any) => {
+        if (a.type === 'signature') return -1
+        if (b.type === 'signature') return 1
+        return 0
+    })
 
     const onSelectAll = useCallback((e: any) => {
         setCustomFieldsData((customFields: any) =>
@@ -194,10 +215,6 @@ const ESign = () => {
     //         sortedPositions?.[customFieldsSelectedId]?.number - 1
     //     )
     // }, [customFieldsSelectedId])
-
-    const customFieldsAndSign = customFieldsData?.filter(
-        (s: any) => s?.type === FieldsTypeEnum.Signature || s?.isCustom
-    )
 
     const onSaveCustomFieldsValue = async () => {
         const customValues = customFieldsData?.filter(
@@ -245,9 +262,15 @@ const ESign = () => {
 
     const onDocumentScrollArrow = () => {
         if (customFieldsSelectedId < sortedPositions?.length - 1) {
-            setSelectedFillDataField(
-                sortedPositions?.[customFieldsSelectedId + 1]?.id
-            )
+            const fieldData = sortedPositions?.[customFieldsSelectedId + 1]
+            const isSign = fieldData?.type === FieldsTypeEnum.Signature
+            setSelectedFillDataField(fieldData?.id)
+            if (isSign) {
+                setTimeout(() => {
+                    setIsSignature(true)
+                    setSelectedSign(fieldData)
+                }, 500)
+            }
             setCustomFieldsSelectedId(customFieldsSelectedId + 1)
         } else {
             setSelectedFillDataField(sortedPositions?.[0]?.id)
@@ -262,7 +285,7 @@ const ESign = () => {
     return (
         <SiteLayout title={'E Sign'}>
             {modal}
-            {isSignature ? (
+            {isSignature && isDocumentLoaded?.isSuccess ? (
                 <EsignSignatureModal
                     tab={sign}
                     onCancel={(cancel?: boolean) => {
@@ -385,6 +408,9 @@ const ESign = () => {
                                                 onDocumentScrollArrow={() => {
                                                     onDocumentScrollArrow()
                                                 }}
+                                                setIsDocumentLoaded={
+                                                    setIsDocumentLoaded
+                                                }
                                                 sortedPositions={
                                                     sortedPositions
                                                 }
