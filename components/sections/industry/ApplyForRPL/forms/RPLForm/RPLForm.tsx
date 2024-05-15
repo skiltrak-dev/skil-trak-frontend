@@ -111,10 +111,8 @@ export const RPLForm = () => {
             )}
             {addRplResult.isSuccess && (
                 <ActionAlert
-                    title={'Student Added Successfully!'}
-                    description={
-                        'You will be redirected to student list in a moment.'
-                    }
+                    title={'RPL Submission Successful!'}
+                    description={'Your RPL has been submitted successfully.'}
                     variant={'primary'}
                     primaryAction={{
                         text: 'Back To List',
@@ -228,12 +226,12 @@ export const RPLForm = () => {
                                 </div>
 
                                 <div className="flex justify-between items-center">
-                                    <Button
+                                    {/* <Button
                                         variant={'secondary'}
                                         onClick={() => setIseRPLSaved(true)}
                                     >
                                         Save
-                                    </Button>
+                                    </Button> */}
                                     <Button
                                         submit
                                         loading={addRplResult?.isLoading}

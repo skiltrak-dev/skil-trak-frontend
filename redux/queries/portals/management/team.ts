@@ -22,11 +22,9 @@ export const teamEndpoints = (
         query: (id) => `${PREFIX}/team/${id}/list-members`,
         providesTags: ['TeamManagement', 'TeamMembers'],
     }),
-
-    // -----------------TEAM MEMBER PROFILE ----------------- //
     getTeamMembersDetail: builder.query<any, any>({
         query: (id) => `${PREFIX}/member/${id}/detail`,
-        providesTags: ['TeamManagement', 'KpiReportDocument', 'KpiProgress', 'TeamManagement', 'KpiReportDocument'],
+        providesTags: ['TeamManagement'],
     }),
     // sectors/list
     

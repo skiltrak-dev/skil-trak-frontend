@@ -22,7 +22,7 @@ export const LogoutDropDown = ({ isExpanded, setIsExpanded }: any) => {
             <Typography variant={'body'} medium color="text-primaryNew">
                 Management
             </Typography>
-            <IoIosArrowDown className={`${isExpanded ? '-rotate-180': "rotate-0"} transition-all duration-700`}/>
+            {isExpanded ? <IoIosArrowUp /> : <IoIosArrowDown />}
             <div
                 className={`absolute left-2 top-10 bg-white shadow-lg rounded-md border w-32 ${
                     !isExpanded ? 'hidden' : 'block'

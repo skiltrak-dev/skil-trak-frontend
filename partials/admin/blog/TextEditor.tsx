@@ -87,6 +87,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
         shortDescription: yup
             .string()
             .required('Short description is required'),
+        metaData: yup.string(),
     })
 
     const formMethods = useForm({
@@ -184,11 +185,12 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
             .then(() => {
                 // If the validation passes, proceed with form submission
                 const formData = new FormData()
-                formData.append('featuredImage', data.featuredImage?.[0])
-                formData.append('title', data.title)
+                formData.append('featuredImage', data?.featuredImage?.[0])
+                formData.append('title', data?.title)
+                formData.append('metaData', data?.metaData)
                 formData.append('content', content)
                 formData.append('isPublished', publish.toString())
-                formData.append('isFeatured', data.isFeatured.toString())
+                formData.append('isFeatured', data?.isFeatured.toString())
                 formData.append('tags', tagIds)
                 formData.append('category', data?.category)
                 formData.append('author', data?.author)
@@ -275,6 +277,11 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                     />
                     <TextInput name="author" label="Author" />
                     <TextInput name="title" label="Title" />
+                    <TextArea
+                        label={'Meta Data'}
+                        name={'metaData'}
+                        placeholder="Add meta data...."
+                    />
                     <TextArea
                         label={'Short Description'}
                         name={'shortDescription'}
