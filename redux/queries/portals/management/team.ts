@@ -45,6 +45,23 @@ export const teamEndpoints = (
         }),
         invalidatesTags: ['TeamManagement'],
     }),
+    updateTeamName: builder.mutation<any, any>({
+        query: ({id,body}) => ({
+            url: `${PREFIX}/team/${id}/update`,
+            method: 'PATCH',
+            body: body,
+        }),
+        invalidatesTags: ['TeamManagement'],
+    }),
+    updateMemberTeam: builder.mutation<any, any>({
+        query: ({id,body}) => ({
+            url: `${PREFIX}/member/${id}/update`,
+            method: 'PATCH',
+            body: body,
+        }),
+        invalidatesTags: ['TeamManagement'],
+    }),
+    // member/id/update
     createTeamMembers: builder.mutation<any, any>({
         query: ({id,body}) => {
             return {

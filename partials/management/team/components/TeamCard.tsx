@@ -1,26 +1,73 @@
-import { Typography } from '@components'
+import { ShowErrorNotifications, TextInput, Typography } from '@components'
 import { DashedCountCard } from '@partials/management/components'
 import Link from 'next/link'
-import React, { useState, ReactElement } from 'react'
+import React, { useState, ReactElement, useEffect } from 'react'
 import { DeleteTeamModal } from '../modal'
 import { MdDeleteOutline } from 'react-icons/md'
+import { CiEdit } from 'react-icons/ci'
+import { ManagementApi } from '@queries'
+import { useNotification } from '@hooks'
 
 export const TeamCard = ({ team }: any) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [editMode, setEditMode] = useState(false)
+    const [teamName, setTeamName] = useState('')
+    const { notification } = useNotification()
+    const [updateTeamName, updateTeamNameResult] =
+        ManagementApi.Team.useUpdateTeamName()
     const onCancel = () => {
         setModal(null)
     }
     const onDeleteTeam = () => {
         setModal(<DeleteTeamModal item={team} onCancel={onCancel} />)
     }
+    useEffect(() => {
+        if (updateTeamNameResult.isSuccess) {
+            notification.success({
+                title: 'Updated Successfully',
+                description: 'Team name updated successfully',
+            })
+        }
+    }, [updateTeamNameResult])
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            const newTeamName = e.currentTarget.value
+            setEditMode(false)
+            updateTeamName({ id: team?.id, body: { name: newTeamName } })
+        }
+    }
+
     return (
         <>
-        {modal && modal}
+            {modal && modal}
+            <ShowErrorNotifications result={updateTeamNameResult} />
             <div className="p-4 bg-white rounded-2xl shadow-md flex flex-col gap-y-2.5">
                 <div className="flex items-center justify-between">
-                    <Typography variant="small" bold>
-                        {team?.name || 'N/A'}
-                    </Typography>
+                    <div className="flex items-center gap-x-3">
+                        {editMode ? (
+                            <>
+                                <input
+                                    name="name"
+                                    placeholder="Enter team & press enter"
+                                    className="outline rounded-sm text-sm px-3 py-2 outline-gray-300"
+                                    defaultValue={team?.name}
+                                    onKeyDown={handleKeyDown}
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <Typography variant="small" bold>
+                                    {team?.name || 'N/A'}
+                                </Typography>
+                                <div
+                                    onClick={() => setEditMode(true)}
+                                    className="cursor-pointer"
+                                >
+                                    <CiEdit className="text-blue-500" />
+                                </div>
+                            </>
+                        )}
+                    </div>
                     <div className="cursor-pointer" onClick={onDeleteTeam}>
                         <MdDeleteOutline className="text-red-400" />
                     </div>

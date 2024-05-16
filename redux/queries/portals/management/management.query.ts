@@ -20,6 +20,8 @@ const {
     useCreateTeamMutation,
     useCreateTeamMembersMutation,
     useUpdateTeamLeadMutation,
+    useUpdateTeamNameMutation,
+    useUpdateMemberTeamMutation,
     // Query
     useGetTeamsListQuery,
     useGetSubAdminListQuery,
@@ -59,6 +61,8 @@ export const ManagementApi = {
         useCreateTeam: useCreateTeamMutation,
         useCreateTeamMembers: useCreateTeamMembersMutation,
         useChangeTeamLead: useUpdateTeamLeadMutation, 
+        useUpdateTeamName: useUpdateTeamNameMutation,
+        useUpdateMemberTeam: useUpdateMemberTeamMutation,
         // get Queries
         useTeamList: useGetTeamsListQuery,
         useSubAdminList: useGetSubAdminListQuery, 
