@@ -76,7 +76,10 @@ export const AddRtoListing = ({
     }
     const validationSchema = yup.object({
         // Profile Information
-        businessName: yup.string().required('Must provide your name'),
+        businessName: yup
+            .string()
+            .matches(/^[A-Za-z\s]+$/, 'Name should only contain letters')
+            .required('Must provide your name'),
         email: yup
             .string()
             .email('Invalid Email')
@@ -361,11 +364,7 @@ export const AddRtoListing = ({
 
                     <div className="mb-4 flex justify-start">
                         <Button
-                            text={
-                                industryData
-                                    ? 'Update Industry'
-                                    : 'Add Industry'
-                            }
+                            text={industryData ? 'Update RTO' : 'Add RTO'}
                             submit
                             {...(industryData ? { outline: true } : {})}
                             disabled={

@@ -432,8 +432,8 @@ export const ActiveRtosList = ({
                     ) : (
                         !isError && (
                             <EmptyData
-                                title={'No All RTOs!'}
-                                description={'You have not any Rto in the list'}
+                                title={'No RTOs!'}
+                                description={'You have no Rto in the list'}
                                 height={'50vh'}
                             />
                         )

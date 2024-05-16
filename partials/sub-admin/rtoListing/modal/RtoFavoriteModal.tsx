@@ -45,7 +45,7 @@ export const RtoFavoriteModal = ({
             Icon={MdOutlineFavorite}
             variant="primary"
             title="Are you sure!"
-            description={`You are about to favorite <em>"${rto?.businessName}"</em>. Do you wish to continue?`}
+            description={`You want to add <em>"${rto?.businessName}"</em> to your favorites?`}
             onConfirm={onConfirmClicked}
             onCancel={onCancel}
             input

@@ -15,7 +15,7 @@ export const RtoDefaultModal = ({
     const { alert } = useAlert()
     const { notification } = useNotification()
     const [changeStatus, changeStatusResult] =
-    SubAdminApi.SubAdmin.useRtosStatusChange()
+        SubAdminApi.SubAdmin.useRtosStatusChange()
 
     const onConfirmClicked = async (rto: any) => {
         await changeStatus({
@@ -45,7 +45,7 @@ export const RtoDefaultModal = ({
             Icon={AiFillCheckCircle}
             variant="primary"
             title="Are you sure!"
-            description={`You are about to default <em>"${rto?.businessName}"</em>. Do you wish to continue?`}
+            description={`You want to set <em>"${rto?.businessName}"</em> as your default?`}
             onConfirm={onConfirmClicked}
             onCancel={onCancel}
             input
