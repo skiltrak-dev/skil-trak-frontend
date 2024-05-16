@@ -36,13 +36,13 @@ export const CheckAgreementSignedStatus = ({
                         >
                             {documentSigned === EsignDocumentStatus.SIGNED
                                 ? 'Document Signed'
-                                : 'Waiting For Signing'}
+                                : 'Awaiting Signature'}
                         </Typography>
                         <Typography variant="small" color="text-muted-dark">
-                            Your document is being signed by the relevant
-                            parties. Once the signing process is complete, your
-                            document will be available for download.Thanku For
-                            your Patience
+                            Your document is currently undergoing signature from
+                            the necessary parties. Upon completion of the
+                            signing process, your document will be ready for
+                            download. Thank you for your patience.
                         </Typography>
                     </div>
 

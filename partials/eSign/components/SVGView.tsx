@@ -21,13 +21,17 @@ export const SVGView = ({
     customFieldsSelectedId,
     customFieldsAndSign,
     setIsDocumentLoaded,
+    onFinishSignModal,
+    onGoToSignFieldIfRemaining,
 }: {
+    onGoToSignFieldIfRemaining: any
     scrollToPage: any
     sortedPositions: any
     onDocumentScrollArrow: () => void
     customFieldsAndSign: any
     customFieldsSelectedId: number
     index: number
+    onFinishSignModal: any
     documentData: any
     customFieldsData: any
     setIsDocumentLoaded: any
@@ -37,6 +41,7 @@ export const SVGView = ({
 }) => {
     const router = useRouter()
     const [viewport, setViewport] = useState<string | null>('')
+    const [showEndDocument, setShowEndDocument] = useState(true)
     const [showStartDocument, setShowStartDocument] = useState<boolean>(true)
 
     const [loadSvg, setLoadSvg] = useState(false)
@@ -53,11 +58,16 @@ export const SVGView = ({
     const doc = document?.data?.data
 
     useEffect(() => {
-        scrollToPage(
-            Number(sortedPositions?.[customFieldsSelectedId]?.id),
-            sortedPositions?.[customFieldsSelectedId]?.number - 1
-        )
-    }, [customFieldsSelectedId, doc])
+        if (customFieldsSelectedId < sortedPositions?.length) {
+            scrollToPage(
+                Number(sortedPositions?.[customFieldsSelectedId]?.id),
+                sortedPositions?.[customFieldsSelectedId]?.number - 1
+            )
+        }
+    }, [
+        customFieldsSelectedId,
+        customFieldsSelectedId < sortedPositions?.length - 1 ? doc : null,
+    ])
 
     useEffect(() => {
         const parser = new DOMParser()
@@ -76,9 +86,9 @@ export const SVGView = ({
         )
 
         if (
-            signData &&
-            signData?.length > 0 &&
-            signData?.[0]?.number === index + 1
+            sortedPositions &&
+            sortedPositions?.length > 0 &&
+            sortedPositions?.[0]?.number === index + 1
         ) {
             if (setIsDocumentLoaded) {
                 setIsDocumentLoaded(document)
@@ -109,6 +119,10 @@ export const SVGView = ({
 
         setTimerId(id)
     }
+
+    const remainingFields = sortedPositions?.filter(
+        (field: any) => !field?.fieldValue && field?.required
+    )
 
     return (
         <>
@@ -173,12 +187,14 @@ export const SVGView = ({
                         : null}
                     {index === 0 && showStartDocument ? (
                         <div className="w-full absolute h-full bg-[#00000050]">
-                            <div className="flex flex-col gap-y-2 bg-white w-[500px] p-5 rounded-md top-6 lg:top-28 absolute left-1/2 -translate-x-1/2">
+                            <div className="flex flex-col gap-y-2 bg-white w-[500px] p-5 rounded-md top-6 lg:top-24 absolute left-1/2 -translate-x-1/2">
                                 <Typography center variant="label">
-                                    Please sign the document first. Then, fill
-                                    in the required fields. Finally, complete
-                                    the e-signature process by clicking the
-                                    button at the end of document.
+                                    To begin, please sign the document
+                                    initially. Next, proceed to fill in the
+                                    necessary fields. Finally, conclude the
+                                    e-signature process by clicking the button
+                                    located at the end of the document. Let's
+                                    commence with the document.
                                 </Typography>
                                 <div
                                     onClick={() => {
@@ -190,6 +206,94 @@ export const SVGView = ({
                                     <Typography color="text-white" center>
                                         Start With Document
                                     </Typography>
+                                </div>
+                            </div>
+                        </div>
+                    ) : null}
+                    {index === documentData?.pageCount - 1 &&
+                    customFieldsSelectedId === sortedPositions?.length - 1 &&
+                    showEndDocument ? (
+                        <div
+                            id={'finishSign'}
+                            className="w-full absolute h-full bg-[#00000050]"
+                        >
+                            <div className="flex flex-col gap-y-2 bg-white w-[500px] p-5 rounded-md bottom-6 lg:bottom-16 absolute left-1/2 -translate-x-1/2">
+                                {remainingFields?.length > 0 ? (
+                                    <Typography center variant="label">
+                                        <span className="text-[13px]">
+                                            It appears you did not fill in all
+                                            the required fields. Please ensure
+                                            all fields are completed before
+                                            finalizing your e-signature.
+                                        </span>
+                                    </Typography>
+                                ) : (
+                                    <>
+                                        <Typography center variant="label">
+                                            <span className="text-[13px]">
+                                                Thank you for completing all the
+                                                required fields. To finalize
+                                                your e-signature, please click
+                                                the button below
+                                            </span>
+                                        </Typography>
+                                        <Typography center variant="label">
+                                            <span className="text-[13px]">
+                                                <span className="font-semibold">
+                                                    Important Note:
+                                                </span>{' '}
+                                                Once you click "Finish," your
+                                                e-signature will be legally
+                                                binding, and you will not be
+                                                able to make further changes to
+                                                the document.
+                                            </span>
+                                        </Typography>
+                                    </>
+                                )}
+
+                                <div className="flex items-center gap-x-3">
+                                    <div className="w-full h-11">
+                                        <Button
+                                            variant={
+                                                customFieldsData &&
+                                                customFieldsData?.length > 0
+                                                    ? 'primary'
+                                                    : 'secondary'
+                                            }
+                                            disabled={
+                                                remainingFields?.length > 0
+                                            }
+                                            fullHeight
+                                            fullWidth
+                                            onClick={() => {
+                                                if (
+                                                    customFieldsData &&
+                                                    customFieldsData?.length > 0
+                                                ) {
+                                                    onFinishSignModal()
+                                                }
+                                            }}
+                                            text={'Finish Signing'}
+                                        />
+                                    </div>
+                                    {remainingFields?.length > 0 ? (
+                                        <div className="w-full h-11">
+                                            <Button
+                                                onClick={() => {
+                                                    const r0 =
+                                                        remainingFields?.[0]
+                                                    onGoToSignFieldIfRemaining(
+                                                        r0
+                                                    )
+                                                }}
+                                                fullHeight
+                                                fullWidth
+                                                outline
+                                                text={'Fill Required Fields'}
+                                            />
+                                        </div>
+                                    ) : null}
                                 </div>
                             </div>
                         </div>

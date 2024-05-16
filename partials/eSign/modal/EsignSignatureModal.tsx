@@ -26,7 +26,7 @@ export const EsignSignatureModal = ({
     action?: any
     success: boolean
     customFieldsData: any
-    onCancel: (cancel?: boolean) => void
+    onCancel: (cancel?: boolean, isSigned?: boolean) => void
 }) => {
     const router = useRouter()
 
@@ -46,8 +46,6 @@ export const EsignSignatureModal = ({
 
     const setModalModal = () => setModal(null)
 
-    console.log({ allSignAdded, success })
-
     useEffect(() => {
         if (signDocumentResult?.isSuccess) {
             // if (
@@ -59,9 +57,9 @@ export const EsignSignatureModal = ({
             setTimeout(() => {
                 if (allSignAdded && success) {
                     // onCancel()
-                    onCancel() // For the time being
+                    onCancel(false, true) // For the time being
                 } else {
-                    onCancel(true)
+                    onCancel(true, true)
                 }
             }, 700)
         }

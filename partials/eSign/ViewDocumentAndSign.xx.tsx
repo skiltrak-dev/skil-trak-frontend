@@ -53,16 +53,16 @@ export const ViewDocumentAndSign = () => {
         }
     )
 
-    useEffect(() => {
-        if (tabs?.data && tabs?.data?.length > 0) {
-            alert.warning({
-                title: 'Make a Sign first',
-                description:
-                    'Please sign the document first, then fill in the required fields. Finally, complete the e-signature process by clicking button.',
-                autoDismiss: false,
-            })
-        }
-    }, [tabs])
+    // useEffect(() => {
+    //     if (tabs?.data && tabs?.data?.length > 0) {
+    //         alert.warning({
+    //             title: 'Make a Sign first',
+    //             description:
+    //                 'Please sign the document first, then fill in the required fields. Finally, complete the e-signature process by clicking button.',
+    //             autoDismiss: false,
+    //         })
+    //     }
+    // }, [tabs])
 
     const scrollTargetRef = useRef<any>([])
 
