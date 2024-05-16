@@ -44,9 +44,7 @@ export const RtoDoNotDisturbModal = ({
             Icon={FaBan}
             variant="error"
             title="Are you sure!"
-            description={`You are about 'to do not disturb'
-                    
-            }" <em>"${rto?.businessName}"</em>. Do you wish to continue?`}
+            description={`You want to activate 'do not disturb' mode for <em>"${rto?.businessName}"</em>?`}
             onConfirm={onConfirmClicked}
             onCancel={onCancel}
             input

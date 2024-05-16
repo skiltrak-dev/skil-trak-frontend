@@ -4,7 +4,8 @@ import { Industry, UserStatus, RtoStatus } from '@types'
 import { useEffect } from 'react'
 import { MdCall } from 'react-icons/md'
 import { SubAdminApi } from '@queries'
-import { AiFillCheckCircle } from 'react-icons/ai'
+import { MdDelete } from 'react-icons/md'
+
 export const RtoListingDeleteModal = ({
     rto,
     onCancel,
@@ -38,7 +39,7 @@ export const RtoListingDeleteModal = ({
 
     return (
         <ActionModal
-            Icon={AiFillCheckCircle}
+            Icon={MdDelete}
             variant="primary"
             title="Are you sure!"
             description={`You are about to delete <em>"${rto?.businessName}"</em>. Do you wish to continue?`}
