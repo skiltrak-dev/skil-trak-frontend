@@ -1,82 +1,132 @@
 import { FileUpload } from '@hoc'
-import { useContextBar } from '@hooks'
+import { useContextBar, useNotification } from '@hooks'
 import { AddAdminCB } from '@partials/rto'
-import { AdminApi } from '@queries'
+import { AdminApi, RtoApi } from '@queries'
 import { useRouter } from 'next/router'
 import { ReactNode, useState } from 'react'
 import { ContextBarDropdown } from '../ContextBarDropdown'
 import { RtoDocumentCard } from './Cards'
+import { DocumentType } from '@partials/admin/documents/componnets'
+import { UserRoles } from '@constants'
+import { ShowErrorNotifications } from '@components'
 
 export const RtoDocuments = ({ userId }: { userId: number }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [isViewd, setIsViewd] = useState<boolean>(false)
+    const [selectedDoc, setSelectedDoc] = useState<DocumentType | null>(null)
 
-    const [uploadedFile, setUploadedFile] = useState<string | null>(null)
+    const { notification } = useNotification()
 
-    const router = useRouter()
-
-    const { isLoading, data, refetch } = AdminApi.Rtos.useRtoProfileSubAdmins({
-        id: Number(userId),
+    const getDocuments = RtoApi.RtoDocument.useGetRtoDocuments(Number(userId), {
+        skip: !isViewd,
     })
+    const [addDocument, addDocumentResult] =
+        RtoApi.RtoDocument.useAddRtoDocuments()
 
-    const contextBar = useContextBar()
+    const filterDocuments = (docType: string) =>
+        getDocuments.data
+            ?.map((doc: any) => ({ ...doc, for: 'rto' }))
+            ?.find((doc: any) => doc?.docType === docType)
 
-    const onAddAdmin = ({
-        contactPerson,
-        edit,
-    }: {
-        contactPerson?: any
-        edit: boolean
-    }) => {
-        contextBar.setTitle('Add Contact Person')
-        contextBar.setContent(
-            <AddAdminCB
-                userId={userId}
-                {...(edit ? { edit: edit } : {})}
-                {...(contactPerson ? { initialValues: contactPerson } : {})}
-            />
-        )
-        contextBar.show(false)
+    const data = {
+        workflow: filterDocuments(DocumentType.WorkFlow),
+        inductionProcess: filterDocuments(DocumentType.InductionProcess),
+        placementInfo: filterDocuments(DocumentType.PlacementInfo),
+        legal: filterDocuments(DocumentType.Legal),
     }
 
-    const MyComponent = ({
-        name,
-        dragging,
-        file,
-        handleRemove,
-        fileObject,
-    }: {
-        name: string
-        dragging: boolean
-        file: any
-        handleRemove: any
-        fileObject: any
-    }) => {
-        const onRemove = () => {
-            setUploadedFile(null)
-            handleRemove()
+    const MyComponent = ({ name }: { name: string }) => {
+        const documentNames = {
+            'Work Flow': DocumentType.WorkFlow,
+            'Induction Process': DocumentType.InductionProcess,
+            'Placement Info': DocumentType.PlacementInfo,
+            Legal: DocumentType.Legal,
         }
 
         return (
             <RtoDocumentCard
                 name={name}
                 title={name}
-                file={uploadedFile || fileObject}
+                file={(data as any)?.[(documentNames as any)?.[name]]?.file}
+                loading={
+                    addDocumentResult.isLoading &&
+                    selectedDoc === (documentNames as any)?.[name]
+                }
             />
         )
+    }
+
+    const onUploadDocument = (file: File, docType: DocumentType) => {
+        setSelectedDoc(docType)
+        const formData = new FormData()
+        const values = {
+            file: file,
+            for: UserRoles.RTO,
+            fileType: 'file',
+            docType: docType,
+            userId: String(userId),
+        }
+        Object.entries(values)?.map(([key, value]: any) => {
+            formData.append(key, value)
+        })
+
+        addDocument(formData).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: 'File Uploaded',
+                    description: 'File Uploaded Successfully',
+                })
+            }
+        })
     }
 
     return (
         <div>
             {modal}
+            <ShowErrorNotifications result={addDocumentResult} />
             <ContextBarDropdown title="Documents" onSetDropdown={setIsViewd}>
-                <FileUpload
-                    name="Work Flow"
-                    component={MyComponent}
-                    onChange={(e: any) => {
-                        const fileType = e?.type?.split('/')?.[1]
-                    }}
-                />
+                <div className="h-96 overflow-auto custom-scrollbar">
+                    <FileUpload
+                        name="Work Flow"
+                        component={MyComponent}
+                        onChange={(e: any) => {
+                            onUploadDocument(e, DocumentType.WorkFlow)
+                        }}
+                    />
+                    <FileUpload
+                        name="Induction Process"
+                        component={MyComponent}
+                        onChange={(e: any) => {
+                            onUploadDocument(e, DocumentType.InductionProcess)
+                        }}
+                        loading={
+                            addDocumentResult.isLoading &&
+                            selectedDoc === DocumentType.InductionProcess
+                        }
+                    />
+                    <FileUpload
+                        name="Placement Info"
+                        component={MyComponent}
+                        onChange={(e: any) => {
+                            onUploadDocument(e, DocumentType.PlacementInfo)
+                        }}
+                        loading={
+                            addDocumentResult.isLoading &&
+                            selectedDoc === DocumentType.PlacementInfo
+                        }
+                    />
+                    <FileUpload
+                        name="Legal"
+                        component={MyComponent}
+                        onChange={(e: any) => {
+                            onUploadDocument(e, DocumentType.Legal)
+                        }}
+                        loading={
+                            addDocumentResult.isLoading &&
+                            selectedDoc === DocumentType.Legal
+                        }
+                    />
+                </div>
             </ContextBarDropdown>
         </div>
     )

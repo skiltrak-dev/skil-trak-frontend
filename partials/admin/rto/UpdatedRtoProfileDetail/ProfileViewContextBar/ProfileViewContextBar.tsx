@@ -1,8 +1,7 @@
-import React from 'react'
+import { RtoAvatar, Typography } from '@components'
 import { Rto } from '@types'
 import {
     ContactPersons,
-    ContextBarDropdown,
     ProfileLinks,
     RtoDetails,
     RtoDocuments,
@@ -10,7 +9,6 @@ import {
     RtoProfileActions,
     Subadmins,
 } from '../components'
-import { RtoAvatar, Typography } from '@components'
 
 export const ProfileViewContextBar = ({ rto }: { rto: Rto }) => {
     return (

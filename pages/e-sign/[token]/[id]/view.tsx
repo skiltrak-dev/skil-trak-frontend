@@ -317,25 +317,44 @@ const ESign = () => {
                 )
                 const nextData = sortedPositions?.[findMyIndex + 1]
                 if (isFieldValue) {
+                    console.log('a')
                     setCustomFieldsSelectedId(findMyIndex)
                     setSelectedFillDataField(requiredData?.id)
                 } else {
                     let updatedIndex = findMyIndex + 1
-                    while (
-                        !sortedPositions?.[updatedIndex]?.required ||
-                        sortedPositions?.[updatedIndex]?.fieldValue
-                    ) {
-                        updatedIndex++
+
+                    if (updatedIndex <= sortedPositions?.length) {
+                        while (
+                            sortedPositions?.[updatedIndex] &&
+                            (!sortedPositions?.[updatedIndex]?.required ||
+                                sortedPositions?.[updatedIndex]?.fieldValue)
+                        ) {
+                            console.log('innerD')
+                            updatedIndex++
+                        }
+                    } else {
+                        scrollToPage(
+                            -1,
+                            documentsTotalPages?.data?.pageCount - 1,
+                            'end'
+                        )
                     }
+                    console.log(
+                        'd',
+                        updatedIndex,
+                        sortedPositions?.[updatedIndex]
+                    )
 
                     setCustomFieldsSelectedId(updatedIndex)
                     setSelectedFillDataField(nextData?.id)
                 }
             } else {
+                console.log('b')
                 setSelectedFillDataField(fieldData?.id)
                 setCustomFieldsSelectedId(customFieldsSelectedId + 1)
             }
-        } else if (customFieldsSelectedId >= sortedPositions?.length - 1) {
+        } else {
+            console.log('c')
             setSelectedFillDataField(sortedPositions?.[0]?.id)
             scrollToPage(-1, documentsTotalPages?.data?.pageCount - 1, 'end')
             // setCustomFieldsSelectedId(0)
@@ -518,6 +537,9 @@ const ESign = () => {
                                                 }
                                                 onGoToSignFieldIfRemaining={
                                                     onGoToSignFieldIfRemaining
+                                                }
+                                                isFillRequiredFields={
+                                                    isFillRequiredFields
                                                 }
                                             />
                                         </Card>
