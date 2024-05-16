@@ -12,11 +12,7 @@ import { useRouter } from 'next/router'
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import { IoMdArrowDropleftCircle } from 'react-icons/io'
 import { SVGView } from './components'
-import {
-    EsignSignatureModal,
-    FinishShignInfoModal,
-    FinishSignModal,
-} from './modal'
+import { EsignSignatureModal, FinishSignModal } from './modal'
 
 export const ViewDocumentAndSign = () => {
     const router = useRouter()
@@ -29,7 +25,9 @@ export const ViewDocumentAndSign = () => {
     const [selectedSign, setSelectedSign] = useState<ReactNode | null>(null)
     const [isSignature, setIsSignature] = useState<boolean>(false)
     const [customFieldsData, setCustomFieldsData] = useState<any>([])
-    const [isDocumentLoaded, setIsDocumentLoaded] = useState<any>([])
+    const [isDocumentLoaded, setIsDocumentLoaded] = useState<any>(null)
+    const [isFillRequiredFields, setIsFillRequiredFields] =
+        useState<boolean>(false)
     const [customFieldsDataUpdated, setCustomFieldsDataUpdated] =
         useState<boolean>(false)
     const [customFieldsSelectedId, setCustomFieldsSelectedId] =
@@ -57,34 +55,41 @@ export const ViewDocumentAndSign = () => {
         }
     )
 
-    useEffect(() => {
-        if (tabs?.data && tabs?.data?.length > 0) {
-            if (!alerts?.length) {
-                alert.warning({
-                    title: 'Make a Sign first',
-                    description:
-                        'Please sign the document first, then fill in the required fields. Finally, complete the e-signature process by clicking button.',
-                    autoDismiss: false,
-                })
-            }
-        }
-        return () => {
-            setAlerts([])
-        }
-    }, [tabs])
+    // useEffect(() => {
+    //     if (tabs?.data && tabs?.data?.length > 0) {
+    //         if (!alerts?.length) {
+    //             alert.warning({
+    //                 title: 'Make a Sign first',
+    //                 description:
+    //                     'Please sign the document first, then fill in the required fields. Finally, complete the e-signature process by clicking button.',
+    //                 autoDismiss: false,
+    //             })
+    //         }
+    //     }
+    //     return () => {
+    //         setAlerts([])
+    //     }
+    // }, [tabs])
 
     const scrollTargetRef = useRef<any>([])
 
-    const scrollToPage = (pageIndex: number, currentPage: number) => {
+    const scrollToPage = (
+        tabId: number,
+        currentPage: number,
+        block?: ScrollLogicalPosition
+    ) => {
         const targetElement = scrollTargetRef.current[currentPage]
-        const detailItem = document.getElementById(`tabs-view-${pageIndex}`)
+        const detailItem = document.getElementById(`tabs-view-${tabId}`)
 
         if (detailItem) {
-            detailItem.scrollIntoView({ behavior: 'smooth', block: 'center' })
+            detailItem.scrollIntoView({
+                behavior: 'smooth',
+                block: block || 'center',
+            })
         } else if (targetElement) {
             targetElement.scrollIntoView({
                 behavior: 'smooth',
-                // block: 'center',
+                block: block || 'center',
             })
         }
     }
@@ -139,7 +144,17 @@ export const ViewDocumentAndSign = () => {
         setModal(null)
         setSelectedSign(null)
     }
-    const onSignatureCancelClicked = (cancel?: boolean) => {
+    const onSignatureCancelClicked = (cancel?: boolean, isSigned?: boolean) => {
+        if (isSigned) {
+            const fieldData = sortedPositions?.[customFieldsSelectedId + 1]
+            const isSign = fieldData?.type === FieldsTypeEnum.Signature
+            if (isSign) {
+                setTimeout(() => {
+                    setIsSignature(true)
+                    setSelectedSign(fieldData)
+                }, 500)
+            }
+        }
         if (cancel) {
             setIsSignature(false)
         } else {
@@ -152,7 +167,9 @@ export const ViewDocumentAndSign = () => {
                 //         />
                 //     )
                 // }, 1000)
-                onDocumentScrollArrow()
+                setIsSignature(false)
+                setIsDocumentLoaded(null)
+                // onDocumentScrollArrow()
             }
         }
     }
@@ -225,7 +242,7 @@ export const ViewDocumentAndSign = () => {
 
     const extractAndConvert = (position: string) => {
         const [x, y] = position.split(',').map(parseFloat)
-        return x + y
+        return y
     }
 
     // Function to add the number with position
@@ -242,39 +259,92 @@ export const ViewDocumentAndSign = () => {
     }
 
     // Adding number with position and sorting in ascending order based on sum
-    const fields = customFieldsAndSign
+
+    const processedItems = customFieldsAndSign
         .map(addNumberWithPosition)
         ?.filter((sign: any) => !sign?.responses?.length)
-        .sort((a: any, b: any) => {
-            // First, sort by number in ascending order
-            if (a.number !== b.number) {
-                return a?.number - b?.number
-            }
-            // If numbers are equal, sort by sum of position values
-            return a?.sum - b?.sum
-        })
 
-    const sortedPositions = fields?.sort((a: any, b: any) => {
-        if (a.type === 'signature') return -1
-        if (b.type === 'signature') return 1
-        return 0
+    const sortedPositions = processedItems.sort((a: any, b: any) => {
+        // First, prioritize 'signature' type
+        if (
+            a.type === FieldsTypeEnum.Signature &&
+            b.type !== FieldsTypeEnum.Signature
+        ) {
+            return -1
+        }
+        if (
+            a.type !== FieldsTypeEnum.Signature &&
+            b.type === FieldsTypeEnum.Signature
+        ) {
+            return 1
+        }
+        // Then, sort by number in ascending order
+        if (a.number !== b.number) {
+            return a.number - b.number
+        }
+        // If numbers are equal, sort by sum of position values
+        return a.sum - b.sum
     })
 
     const onDocumentScrollArrow = () => {
         if (customFieldsSelectedId < sortedPositions?.length - 1) {
             const fieldData = sortedPositions?.[customFieldsSelectedId + 1]
             const isSign = fieldData?.type === FieldsTypeEnum.Signature
-            setSelectedFillDataField(fieldData?.id)
+
+            const isFieldValue =
+                sortedPositions?.[customFieldsSelectedId]?.fieldValue
+
             if (isSign) {
                 setTimeout(() => {
                     setIsSignature(true)
                     setSelectedSign(fieldData)
                 }, 500)
             }
-            setCustomFieldsSelectedId(customFieldsSelectedId + 1)
-        } else {
+
+            if (isFillRequiredFields) {
+                const slicedData = sortedPositions?.slice(
+                    customFieldsSelectedId
+                )
+                const requiredData = slicedData?.find(
+                    (field: any) => !field?.fieldValue && field?.required
+                )
+
+                const findMyIndex = sortedPositions?.findIndex(
+                    (f: any) => f?.id === requiredData?.id
+                )
+                const nextData = sortedPositions?.[findMyIndex + 1]
+                if (isFieldValue) {
+                    setCustomFieldsSelectedId(findMyIndex)
+                    setSelectedFillDataField(requiredData?.id)
+                } else {
+                    let updatedIndex = findMyIndex + 1
+                    while (
+                        !sortedPositions?.[updatedIndex]?.required ||
+                        sortedPositions?.[updatedIndex]?.fieldValue
+                    ) {
+                        updatedIndex++
+                    }
+
+                    setCustomFieldsSelectedId(updatedIndex)
+                    setSelectedFillDataField(nextData?.id)
+                }
+            } else {
+                setSelectedFillDataField(fieldData?.id)
+                setCustomFieldsSelectedId(customFieldsSelectedId + 1)
+            }
+        } else if (customFieldsSelectedId >= sortedPositions?.length - 1) {
             setSelectedFillDataField(sortedPositions?.[0]?.id)
-            setCustomFieldsSelectedId(0)
+            scrollToPage(-1, documentsTotalPages?.data?.pageCount - 1, 'end')
+            // setCustomFieldsSelectedId(0)
+            // finishSign
+            // const detailItem = document.getElementById(`finishSign`)
+
+            // if (detailItem) {
+            //     detailItem.scrollIntoView({
+            //         behavior: 'smooth',
+            //         block: 'center',
+            //     })
+            // }
         }
     }
 
@@ -282,14 +352,24 @@ export const ViewDocumentAndSign = () => {
         ?.filter((c: any) => c?.type === FieldsTypeEnum.Signature)
         ?.every((a: any) => a?.responses?.length > 0)
 
+    const onGoToSignFieldIfRemaining = (r: any) => {
+        const findMyIndex = sortedPositions?.findIndex(
+            (f: any) => f?.id === r?.id
+        )
+        setCustomFieldsSelectedId(findMyIndex)
+        setSelectedFillDataField(r?.id)
+        scrollToPage(Number(r?.id), r?.number - 1)
+        setIsFillRequiredFields(true)
+    }
+
     return (
         <div>
             {modal}
             {isSignature && isDocumentLoaded?.isSuccess ? (
                 <EsignSignatureModal
                     tab={selectedSign}
-                    onCancel={(cancel?: boolean) => {
-                        onSignatureCancelClicked(cancel)
+                    onCancel={(cancel?: boolean, isSigned?: boolean) => {
+                        onSignatureCancelClicked(cancel, isSigned)
                     }}
                     allSignAdded={allSignAdded}
                     customFieldsData={customFieldsData}
@@ -436,6 +516,12 @@ export const ViewDocumentAndSign = () => {
                                             documentData={
                                                 documentsTotalPages?.data
                                             }
+                                            onFinishSignModal={
+                                                onFinishSignModal
+                                            }
+                                            onGoToSignFieldIfRemaining={
+                                                onGoToSignFieldIfRemaining
+                                            }
                                         />
                                     </Card>
                                 </div>
@@ -465,7 +551,7 @@ export const ViewDocumentAndSign = () => {
                             </div>
                         )} */}
                     </div>
-                    <div className="flex justify-center bg-white px-5 py-2 shadow-md w-full rounded my-2">
+                    {/* <div className="flex justify-center bg-white px-5 py-2 shadow-md w-full rounded my-2">
                         <button
                             className={`${
                                 tabs?.isSuccess &&
@@ -489,7 +575,7 @@ export const ViewDocumentAndSign = () => {
                                 Finish Signing
                             </div>
                         </button>
-                    </div>
+                    </div> */}
                 </>
             ) : (
                 documentsTotalPages.isSuccess && <EmptyData />
