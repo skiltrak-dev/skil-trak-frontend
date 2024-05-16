@@ -308,10 +308,20 @@ export const ActiveRtosList = ({
                 )
             },
         },
-        // {
-        //     accessorKey: 'note',
-        //     header: () => <span>Note</span>,
-        // },
+        {
+            accessorKey: 'note',
+            header: () => <span>Note</span>,
+            cell: (info) => (
+                <span>
+                    {ellipsisText(info.row.original?.note, 16) || 'N/A'}
+                </span>
+            ),
+        },
+        {
+            accessorKey: 'createdBy',
+            header: () => <span>Created By</span>,
+            cell: (info) => <>{info.row.original?.createdBy?.name || 'N/A'}</>,
+        },
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
@@ -319,6 +329,7 @@ export const ActiveRtosList = ({
                 <UserCreatedAt createdAt={info.row.original?.createdAt} />
             ),
         },
+
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,

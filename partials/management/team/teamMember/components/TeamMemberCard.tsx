@@ -7,9 +7,14 @@ import { TeamMemberAvatar } from './TeamMemberAvatar'
 import { useRouter } from 'next/router'
 import { DashedCountCard } from '@partials/management/components'
 import { ChangeTeamLeadModal } from '../../modal/ChangeTeamLeadModal'
+import { ManagementApi } from '@queries'
+import { SwitchMemberTeamModal } from '../../modal'
 
 export const TeamMemberCard = ({ member }: any) => {
     const router = useRouter()
+    // useUpdateMemberTeam
+    const [switchTeam, switchTeamResult] =
+        ManagementApi.Team.useUpdateMemberTeam()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
     const onCancel = () => {
@@ -24,6 +29,7 @@ export const TeamMemberCard = ({ member }: any) => {
         )
         // }
     }
+   
     return (
         <>
             {modal && modal}
