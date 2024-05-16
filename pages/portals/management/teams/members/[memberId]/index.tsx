@@ -1,4 +1,11 @@
-import { GlobalModal, ManagementNavbar, NoData, Typography, LoadingAnimation, TechnicalError } from '@components'
+import {
+    GlobalModal,
+    ManagementNavbar,
+    NoData,
+    Typography,
+    LoadingAnimation,
+    TechnicalError,
+} from '@components'
 import { ManagementLayout } from '@layouts'
 import {
     ChangeTeamLeadModal,
@@ -6,6 +13,7 @@ import {
     KpiProgressCard,
     KpiRecordCount,
     KpiReportCards,
+    SwitchMemberTeamModal,
     TeamMemberAvatar,
     TeamSideBar,
     UploadKpiModal,
@@ -20,7 +28,7 @@ import { PuffLoader } from 'react-spinners'
 
 const MemberDetailPage: NextPageWithLayout = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
-    
+
     const router = useRouter()
     const memberId = router?.query?.memberId
     // useKpiTargets
@@ -83,65 +91,94 @@ const MemberDetailPage: NextPageWithLayout = () => {
             classes: 'flex-row justify-between items-center gap-x-12',
         },
     ]
+    const onSwitchMemberTeam = () => {
+        // if (applyForTalentPoolResult.isSuccess) {
+        setModal(
+            <GlobalModal>
+                <SwitchMemberTeamModal onCancel={onCancel} />
+            </GlobalModal>
+        )
+        // }
+    }
 
     return (
         <>
             {modal && modal}
-                <div className=" bg-white/80 rounded-lg py-6 px-5 w-full">
-                    {isError && <TechnicalError /> }
-                    {isLoading ? <LoadingAnimation />: data && Object.keys(data)?.length > 0 ? (
+            <div className=" bg-white/80 rounded-lg py-6 px-5 w-full">
+                {isError && <TechnicalError />}
+                {isLoading ? (
+                    <LoadingAnimation />
+                ) : data && Object.keys(data)?.length > 0 ? (
                     <div className="container mx-auto flex gap-x-5">
                         <div className="flex flex-col gap-x-4 gap-y-4 w-full">
-                            {isLoading ? <PuffLoader />: (
-
-                            <TeamSideBar>
-                                <div className="flex gap-x-12 items-center justify-between">
-                                    <TeamSideBar.Avatar>
-                                        <TeamMemberAvatar
-                                            name={data?.subadmin?.user?.name}
-                                            // isLead={data?.isLead}
-                                            avatarUrl={
-                                                data?.subadmin?.user?.avatar
-                                            }
-                                        />
-                                    </TeamSideBar.Avatar>
-                                    <div>
-                                        <TeamSideBar.Title>
-                                            <div className="flex justify-between items-center mb-4">
-                                                <Typography
-                                                    variant="label"
-                                                    color="text-primaryNew"
-                                                    bold
-                                                >
-                                                    Total KPIs Record
-                                                </Typography>
-                                                <button
-                                                    onClick={onCreateNewKpi}
-                                                    className="text-blue-500 font-medium text-sm uppercase underline"
-                                                >
-                                                    + Create New kpi
-                                                </button>
-                                            </div>
-                                        </TeamSideBar.Title>
-                                        <TeamSideBar.KpiCountCard>
-                                            <div className="grid grid-cols-2 gap-y-3 gap-x-4">
-                                                {kpiCountData.map((item) => (
-                                                    <div key={item?.title}>
-                                                        <KpiRecordCount
-                                                            title={item.title}
-                                                            count={item.count}
-                                                            classes={
-                                                                item.classes
-                                                            }
-                                                            loading={isLoading}
-                                                        />
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </TeamSideBar.KpiCountCard>
+                            {isLoading ? (
+                                <PuffLoader />
+                            ) : (
+                                <TeamSideBar>
+                                    <div className="flex gap-x-12 items-center justify-between">
+                                        <TeamSideBar.Avatar>
+                                            <TeamMemberAvatar
+                                                name={
+                                                    data?.subadmin?.user?.name
+                                                }
+                                                // isLead={data?.isLead}
+                                                avatarUrl={
+                                                    data?.subadmin?.user?.avatar
+                                                }
+                                                onSwitchMemberTeam={
+                                                    onSwitchMemberTeam
+                                                }
+                                            />
+                                        </TeamSideBar.Avatar>
+                                        <div>
+                                            <TeamSideBar.Title>
+                                                <div className="flex justify-between items-center mb-4">
+                                                    <Typography
+                                                        variant="label"
+                                                        color="text-primaryNew"
+                                                        bold
+                                                    >
+                                                        Total KPIs Record
+                                                    </Typography>
+                                                    <button
+                                                        onClick={onCreateNewKpi}
+                                                        className="text-blue-500 font-medium text-sm uppercase underline"
+                                                    >
+                                                        + Create New kpi
+                                                    </button>
+                                                </div>
+                                            </TeamSideBar.Title>
+                                            <TeamSideBar.KpiCountCard>
+                                                <div className="grid grid-cols-2 gap-y-3 gap-x-4">
+                                                    {kpiCountData.map(
+                                                        (item) => (
+                                                            <div
+                                                                key={
+                                                                    item?.title
+                                                                }
+                                                            >
+                                                                <KpiRecordCount
+                                                                    title={
+                                                                        item.title
+                                                                    }
+                                                                    count={
+                                                                        item.count
+                                                                    }
+                                                                    classes={
+                                                                        item.classes
+                                                                    }
+                                                                    loading={
+                                                                        isLoading
+                                                                    }
+                                                                />
+                                                            </div>
+                                                        )
+                                                    )}
+                                                </div>
+                                            </TeamSideBar.KpiCountCard>
+                                        </div>
                                     </div>
-                                </div>
-                            </TeamSideBar>
+                                </TeamSideBar>
                             )}
                             <KpiReportCards id={data?.subadmin?.id} />
                         </div>
@@ -200,9 +237,10 @@ const MemberDetailPage: NextPageWithLayout = () => {
                             )}
                         </div>
                     </div>
-                    ):(!isError && <NoData text={"No Data Found"}/>)}
-                </div>
-           
+                ) : (
+                    !isError && <NoData text={'No Data Found'} />
+                )}
+            </div>
         </>
     )
 }

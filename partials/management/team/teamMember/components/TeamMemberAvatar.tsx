@@ -8,11 +8,13 @@ type TeamMemberAvatarProps = {
     avatarUrl?: string
     isLead?: boolean
     onChangeTeamLead?: any
+    onSwitchMemberTeam?: any
     name: string
 }
 export const TeamMemberAvatar = ({
     avatarUrl,
     onChangeTeamLead,
+    onSwitchMemberTeam,
     isLead,
     name,
 }: TeamMemberAvatarProps) => {
@@ -45,13 +47,25 @@ export const TeamMemberAvatar = ({
                             alt="avatar image"
                             className="rounded-lg h-20"
                         />
-                        {isLead && (
+                        {isLead ? (
                             <div
                                 onClick={onChangeTeamLead}
                                 className="cursor-pointer absolute -bottom-1 -right-2"
                             >
                                 <FaEdit className="text-blue-600" size={16} />
                             </div>
+                        ) : (
+                            onSwitchMemberTeam && (
+                                <div
+                                    onClick={onSwitchMemberTeam}
+                                    className="cursor-pointer absolute -bottom-1 -right-2"
+                                >
+                                    <FaEdit
+                                        className="text-blue-600"
+                                        size={16}
+                                    />
+                                </div>
+                            )
                         )}
                     </div>
                     <div>
