@@ -31,6 +31,7 @@ export const RtoAddDocuments = ({ rto }: { rto?: Rto }) => {
     const onAddDocument = (values: any) => {
         const role = getUserCredentials()?.role
         role !== UserRoles.RTO && values.append('userId', rto?.user?.id)
+        console.log({ values })
 
         addDocument(values)
     }

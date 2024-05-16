@@ -286,6 +286,18 @@ export const ViewDocumentAndSign = () => {
         return a.sum - b.sum
     })
 
+    console.log({ sortedPositions })
+
+    useEffect(() => {
+        if (
+            customFieldsSelectedId >= sortedPositions?.length ||
+            customFieldsSelectedId < 0
+        ) {
+            setSelectedFillDataField(sortedPositions?.[0]?.id)
+            scrollToPage(-1, documentsTotalPages?.data?.pageCount - 1, 'end')
+        }
+    }, [customFieldsSelectedId])
+
     const onDocumentScrollArrow = () => {
         if (customFieldsSelectedId < sortedPositions?.length - 1) {
             const fieldData = sortedPositions?.[customFieldsSelectedId + 1]
@@ -314,25 +326,44 @@ export const ViewDocumentAndSign = () => {
                 )
                 const nextData = sortedPositions?.[findMyIndex + 1]
                 if (isFieldValue) {
+                    console.log('a')
                     setCustomFieldsSelectedId(findMyIndex)
                     setSelectedFillDataField(requiredData?.id)
                 } else {
                     let updatedIndex = findMyIndex + 1
-                    while (
-                        !sortedPositions?.[updatedIndex]?.required ||
-                        sortedPositions?.[updatedIndex]?.fieldValue
-                    ) {
-                        updatedIndex++
+
+                    if (updatedIndex <= sortedPositions?.length) {
+                        while (
+                            sortedPositions?.[updatedIndex] &&
+                            (!sortedPositions?.[updatedIndex]?.required ||
+                                sortedPositions?.[updatedIndex]?.fieldValue)
+                        ) {
+                            console.log('innerD')
+                            updatedIndex++
+                        }
+                    } else {
+                        scrollToPage(
+                            -1,
+                            documentsTotalPages?.data?.pageCount - 1,
+                            'end'
+                        )
                     }
+                    console.log(
+                        'd',
+                        updatedIndex,
+                        sortedPositions?.[updatedIndex]
+                    )
 
                     setCustomFieldsSelectedId(updatedIndex)
                     setSelectedFillDataField(nextData?.id)
                 }
             } else {
+                console.log('b')
                 setSelectedFillDataField(fieldData?.id)
                 setCustomFieldsSelectedId(customFieldsSelectedId + 1)
             }
-        } else if (customFieldsSelectedId >= sortedPositions?.length - 1) {
+        } else {
+            console.log('c')
             setSelectedFillDataField(sortedPositions?.[0]?.id)
             scrollToPage(-1, documentsTotalPages?.data?.pageCount - 1, 'end')
             // setCustomFieldsSelectedId(0)
@@ -361,6 +392,8 @@ export const ViewDocumentAndSign = () => {
         scrollToPage(Number(r?.id), r?.number - 1)
         setIsFillRequiredFields(true)
     }
+
+    console.log({ customFieldsSelectedId })
 
     return (
         <div>
@@ -521,6 +554,9 @@ export const ViewDocumentAndSign = () => {
                                             }
                                             onGoToSignFieldIfRemaining={
                                                 onGoToSignFieldIfRemaining
+                                            }
+                                            isFillRequiredFields={
+                                                isFillRequiredFields
                                             }
                                         />
                                     </Card>
