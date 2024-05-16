@@ -1,5 +1,4 @@
 import { ActionModal, ShowErrorNotifications } from '@components'
-import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 
@@ -24,7 +23,7 @@ export const FinishEmailSignModal = ({
         addCustomFieldsData({
             documentId: Number(router.query?.id),
             tabsResponse: customFieldsData
-                ?.filter((data: any) => data?.isCustom)
+                ?.filter((data: any) => data?.isCustom && data?.fieldValue)
                 ?.map((tab: any) => ({
                     tab: tab?.id,
                     data: tab?.fieldValue,

@@ -214,7 +214,6 @@ export const ActiveStudents = ({
 
     useEffect(() => {
         if (resultSendBulkEmail.isSuccess) {
-            console.log({ resultSendBulkEmail })
             notification.success({
                 title: 'Bulk Email Sent',
                 description:

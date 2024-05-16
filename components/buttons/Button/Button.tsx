@@ -37,6 +37,7 @@ interface ButtonProps {
     outline?: boolean
     submit?: boolean
     fullWidth?: boolean
+    fullHeight?: boolean
     mini?: boolean
 }
 
@@ -52,11 +53,12 @@ export const Button = ({
     outline,
     submit,
     fullWidth,
+    fullHeight,
     mini,
 }: ButtonProps) => {
     const buttonClass = `text-[11px] 2xl:text-xs font-medium uppercase transition-all duration-300 border px-4 py-2 shadow focus:outline-none focus:ring-4 ${
         rounded ? 'rounded-full' : 'rounded-md'
-    } ${fullWidth ? 'w-full' : 'min-w-[80px]'} `
+    } ${fullWidth ? 'w-full' : 'min-w-[80px]'} ${fullHeight ? 'h-full' : ''} `
 
     const miniButtonClass = `transition-all duration-300 cursor-pointer w-6 h-6 flex items-center justify-center rounded shadow`
 
