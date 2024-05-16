@@ -15,6 +15,7 @@ export const SVGView = ({
     documentData,
     customFieldsData,
     onSignatureClicked,
+    isFillRequiredFields,
     onAddCustomFieldsData,
     onDocumentScrollArrow,
     selectedFillDataField,
@@ -24,6 +25,7 @@ export const SVGView = ({
     onFinishSignModal,
     onGoToSignFieldIfRemaining,
 }: {
+    isFillRequiredFields: any
     onGoToSignFieldIfRemaining: any
     scrollToPage: any
     sortedPositions: any
@@ -211,7 +213,8 @@ export const SVGView = ({
                         </div>
                     ) : null}
                     {index === documentData?.pageCount - 1 &&
-                    customFieldsSelectedId === sortedPositions?.length - 1 &&
+                    (customFieldsSelectedId >= sortedPositions?.length - 1 ||
+                        isFillRequiredFields) &&
                     showEndDocument ? (
                         <div
                             id={'finishSign'}

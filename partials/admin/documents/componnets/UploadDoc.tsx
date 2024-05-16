@@ -1,9 +1,5 @@
-import React, { useEffect, useState } from 'react'
-
+import { Button } from '@components'
 import { FileUpload } from '@hoc'
-import { AdminApi } from '@queries'
-import { Button, ShowErrorNotifications } from '@components'
-import { useNotification } from '@hooks'
 
 export const UploadDoc = ({
     loading,

@@ -16,10 +16,7 @@ export const rtoDocumentsEndpoints = (
         },
         providesTags: ['RtoDocuments'],
     }),
-    addRtoDocuments: builder.mutation<
-        DocumentsType,
-        { body: FormData; id: number }
-    >({
+    addRtoDocuments: builder.mutation<DocumentsType, FormData>({
         query: (body) => ({
             url: `${PREFIX}/documents/create`,
             method: 'POST',
