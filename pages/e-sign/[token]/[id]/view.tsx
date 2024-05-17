@@ -28,6 +28,8 @@ const ESign = () => {
         useState<boolean>(false)
     const [customFieldsSelectedId, setCustomFieldsSelectedId] =
         useState<number>(-1)
+    const [isLastSelected, setIsLastSelected] = useState<boolean>(false)
+
     const [isDocumentLoaded, setIsDocumentLoaded] = useState<any>([])
 
     const [decodeData, setDecodeData] = useState<any>(null)
@@ -203,6 +205,16 @@ const ESign = () => {
         return a.sum - b.sum
     })
 
+    useEffect(() => {
+        if (
+            customFieldsSelectedId >= sortedPositions?.length ||
+            customFieldsSelectedId < 0
+        ) {
+            setSelectedFillDataField(sortedPositions?.[0]?.id)
+            scrollToPage(-1, documentsTotalPages?.data?.pageCount - 1, 'end')
+        }
+    }, [customFieldsSelectedId])
+
     const onSelectAll = useCallback((e: any) => {
         setCustomFieldsData((customFields: any) =>
             customFields?.map((data: any) =>
@@ -312,12 +324,19 @@ const ESign = () => {
                     (field: any) => !field?.fieldValue && field?.required
                 )
 
+                if (!requiredData) {
+                    setIsLastSelected(true)
+                }
+
+                console.log({ requiredData })
+
                 const findMyIndex = sortedPositions?.findIndex(
                     (f: any) => f?.id === requiredData?.id
                 )
                 const nextData = sortedPositions?.[findMyIndex + 1]
                 if (isFieldValue) {
                     console.log('a')
+
                     setCustomFieldsSelectedId(findMyIndex)
                     setSelectedFillDataField(requiredData?.id)
                 } else {
@@ -355,6 +374,10 @@ const ESign = () => {
             }
         } else {
             console.log('c')
+            setIsLastSelected(
+                sortedPositions?.[customFieldsSelectedId]?.id ===
+                    sortedPositions?.[sortedPositions?.length - 1]?.id
+            )
             setSelectedFillDataField(sortedPositions?.[0]?.id)
             scrollToPage(-1, documentsTotalPages?.data?.pageCount - 1, 'end')
             // setCustomFieldsSelectedId(0)
@@ -382,6 +405,12 @@ const ESign = () => {
         setSelectedFillDataField(r?.id)
         scrollToPage(Number(r?.id), r?.number - 1)
         setIsFillRequiredFields(true)
+    }
+
+    const onCancelFinishSign = () => {
+        setIsFillRequiredFields(false)
+        setIsLastSelected(false)
+        setCustomFieldsSelectedId(0)
     }
 
     return (
@@ -538,8 +567,9 @@ const ESign = () => {
                                                 onGoToSignFieldIfRemaining={
                                                     onGoToSignFieldIfRemaining
                                                 }
-                                                isFillRequiredFields={
-                                                    isFillRequiredFields
+                                                isLastSelected={isLastSelected}
+                                                onCancelFinishSign={
+                                                    onCancelFinishSign
                                                 }
                                             />
                                         </Card>

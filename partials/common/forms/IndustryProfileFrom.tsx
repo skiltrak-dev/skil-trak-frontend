@@ -422,18 +422,18 @@ export const IndustryProfileFrom = ({
                             <div className="w-4/6">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                                     <TextInput
+                                        label={'Contact Person Name'}
+                                        name={'contactPerson'}
+                                        placeholder={'Contact Person Name...'}
+                                        validationIcons
+                                        required
+                                    />
+                                    <TextInput
                                         label={'Contact Person Number'}
                                         name={'contactPersonNumber'}
                                         placeholder={
                                             'Contact Person Number ...'
                                         }
-                                        validationIcons
-                                        required
-                                    />
-                                    <TextInput
-                                        label={'Contact Person Name'}
-                                        name={'contactPerson'}
-                                        placeholder={'Contact Person Name...'}
                                         validationIcons
                                         required
                                     />

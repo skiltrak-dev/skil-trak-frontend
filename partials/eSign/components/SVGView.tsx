@@ -7,6 +7,7 @@ import { Waypoint } from 'react-waypoint'
 import { TabsView } from './TabsView'
 import { DocumentScrollArrow } from './DocumentScrollArrow'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
+import { MdCancel } from 'react-icons/md'
 
 export const SVGView = ({
     scrollToPage,
@@ -15,7 +16,7 @@ export const SVGView = ({
     documentData,
     customFieldsData,
     onSignatureClicked,
-    isFillRequiredFields,
+    isLastSelected,
     onAddCustomFieldsData,
     onDocumentScrollArrow,
     selectedFillDataField,
@@ -24,8 +25,10 @@ export const SVGView = ({
     setIsDocumentLoaded,
     onFinishSignModal,
     onGoToSignFieldIfRemaining,
+    onCancelFinishSign,
 }: {
-    isFillRequiredFields: any
+    onCancelFinishSign: () => void
+    isLastSelected: boolean
     onGoToSignFieldIfRemaining: any
     scrollToPage: any
     sortedPositions: any
@@ -126,6 +129,13 @@ export const SVGView = ({
         (field: any) => !field?.fieldValue && field?.required
     )
 
+    console.log({
+        customFieldsSelectedId,
+        len: sortedPositions?.length,
+        all: sortedPositions?.[customFieldsSelectedId],
+        sortedPositions,
+    })
+
     return (
         <>
             {document.isError && (
@@ -187,7 +197,7 @@ export const SVGView = ({
                               </div>
                           )
                         : null}
-                    {index === 0 && showStartDocument ? (
+                    {document?.isSuccess && index === 0 && showStartDocument ? (
                         <div className="w-full absolute h-full bg-[#00000050]">
                             <div className="flex flex-col gap-y-2 bg-white w-[500px] p-5 rounded-md top-6 lg:top-24 absolute left-1/2 -translate-x-1/2">
                                 <Typography center variant="label">
@@ -212,15 +222,21 @@ export const SVGView = ({
                             </div>
                         </div>
                     ) : null}
-                    {index === documentData?.pageCount - 1 &&
+                    {document?.isSuccess &&
+                    index === documentData?.pageCount - 1 &&
                     (customFieldsSelectedId >= sortedPositions?.length - 1 ||
-                        isFillRequiredFields) &&
-                    showEndDocument ? (
+                        customFieldsSelectedId < 0) &&
+                    showEndDocument &&
+                    isLastSelected ? (
                         <div
                             id={'finishSign'}
                             className="w-full absolute h-full bg-[#00000050]"
                         >
                             <div className="flex flex-col gap-y-2 bg-white w-[500px] p-5 rounded-md bottom-6 lg:bottom-16 absolute left-1/2 -translate-x-1/2">
+                                <MdCancel
+                                    onClick={onCancelFinishSign}
+                                    className="transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
+                                />
                                 {remainingFields?.length > 0 ? (
                                     <Typography center variant="label">
                                         <span className="text-[13px]">
