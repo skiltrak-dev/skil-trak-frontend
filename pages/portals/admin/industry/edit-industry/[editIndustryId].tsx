@@ -1,6 +1,6 @@
 import { useContextBar, useNavbar, useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, OptionType } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 
@@ -42,7 +42,7 @@ const EditRto: NextPageWithLayout = () => {
             id: industry?.data?.user?.id,
             body: {
                 ...values,
-                courses: values?.courses?.map((course: number) => ({
+                courses: values?.courses?.map((course: OptionType) => ({
                     id: course?.value,
                 })),
             },
