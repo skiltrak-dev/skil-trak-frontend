@@ -1,5 +1,4 @@
 import { ActionModal, ShowErrorNotifications } from '@components'
-import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 
@@ -11,7 +10,7 @@ export const FinishSignModal = ({
     onCancel,
 }: {
     customFieldsData: any
-    onCancel: Function
+    onCancel?: Function
 }) => {
     const { notification } = useNotification()
     const router = useRouter()
@@ -30,7 +29,7 @@ export const FinishSignModal = ({
                 })),
         }).then((res: any) => {
             if (res?.data) {
-                onCancel()
+                // onCancel()
                 router.back()
             }
         })
@@ -46,7 +45,7 @@ export const FinishSignModal = ({
                     title="Are you sure!"
                     description={`You are about to finish Esign Do you wish to continue?`}
                     onConfirm={onConfirmUClicked}
-                    onCancel={onCancel}
+                    // onCancel={onCancel}
                     input
                     inputKey={customFieldsData}
                     actionObject={customFieldsData}

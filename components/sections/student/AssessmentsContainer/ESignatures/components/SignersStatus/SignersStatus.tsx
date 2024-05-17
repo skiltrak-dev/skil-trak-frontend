@@ -70,10 +70,10 @@ export const SignersStatus = ({ selectedFolder }: { selectedFolder: any }) => {
                         ? 'Document Signed'
                         : 'Waiting For Signing'}
                 </Typography>
-                <Typography variant="small" color="text-muted-dark">
-                    Your document is being signed by the relevant parties. Once
-                    the signing process is complete, your document will be
-                    available for download.Thanku For your Patience
+                <Typography variant="small" color="text-muted-dark" center>
+                    {documentSigned === EsignDocumentStatus.SIGNED
+                        ? 'Congratulations! Your document has been successfully signed by all relevant parties. You can now download the finalized document. Thank you for your patience throughout this process.'
+                        : ' Your document is being signed by the relevant parties. Once the signing process is complete, your document will be available for download.Thank You For your Patience'}
                 </Typography>
             </div>
 
