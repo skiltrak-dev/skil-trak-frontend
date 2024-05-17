@@ -9,12 +9,14 @@ import React, { useCallback } from 'react'
 import { FaSignature } from 'react-icons/fa'
 
 export const TabsView = ({
+    onHandleKeyDown,
     customFieldsData,
     index,
     onAddCustomFieldsData,
     onSignatureClicked,
     selectedFillDataField,
 }: {
+    onHandleKeyDown: (event: KeyboardEvent) => void
     index: number
     customFieldsData: any
     onAddCustomFieldsData: any
@@ -116,6 +118,9 @@ export const TabsView = ({
                                 s?.type === FieldsTypeEnum.Text &&
                                 s?.isCustom ? (
                                     <input
+                                        onKeyDown={(e: KeyboardEvent) => {
+                                            onHandleKeyDown(e)
+                                        }}
                                         type="text"
                                         name=""
                                         id={`tabs-view-${s?.id}`}
@@ -136,6 +141,9 @@ export const TabsView = ({
                                 ) : s?.type === FieldsTypeEnum.Checkbox ? (
                                     <div className="flex items-center gap-x-2 w-full h-full">
                                         <input
+                                            onKeyDown={(e: KeyboardEvent) => {
+                                                onHandleKeyDown(e)
+                                            }}
                                             type={FieldsTypeEnum.Checkbox}
                                             name={s?.columnName}
                                             id={`tabs-view-${s?.id}`}
@@ -174,6 +182,9 @@ export const TabsView = ({
                                 ) : s?.type === FieldsTypeEnum.Radio ? (
                                     <div className="flex items-center gap-x-2">
                                         <input
+                                            onKeyDown={(e: KeyboardEvent) => {
+                                                onHandleKeyDown(e)
+                                            }}
                                             type={FieldsTypeEnum.Radio}
                                             name={s?.columnName}
                                             id={`tabs-view-${s?.id}`}
@@ -194,6 +205,9 @@ export const TabsView = ({
                                     </div>
                                 ) : s?.type === FieldsTypeEnum.Dropdown ? (
                                     <select
+                                        onKeyDown={(e: KeyboardEvent) => {
+                                            onHandleKeyDown(e)
+                                        }}
                                         value={s?.fieldValue}
                                         onChange={(e: any) => {
                                             onAddCustomFieldsData({
@@ -236,6 +250,9 @@ export const TabsView = ({
                                         </label>
 
                                         <input
+                                            onKeyDown={(e: KeyboardEvent) => {
+                                                onHandleKeyDown(e)
+                                            }}
                                             type="date"
                                             name=""
                                             id={`tabs-view-${s?.id}`}

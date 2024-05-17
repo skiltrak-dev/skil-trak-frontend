@@ -1,10 +1,10 @@
-import { ReactNode, useEffect } from 'react'
 import {
     useIndustryProfileQuery,
-    useUpdateIndustryProfileMutation
+    useUpdateIndustryProfileMutation,
 } from '@queries'
+import { ReactNode, useEffect } from 'react'
 
-import { IndustryProfileFrom, StudentProfileForm } from '@partials/common'
+import { IndustryProfileFrom } from '@partials/common'
 
 import ProgressBar from '@ramonak/react-progress-bar'
 
@@ -15,8 +15,8 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { getThemeColors } from '@theme'
 import { useNotification } from '@hooks'
+import { getThemeColors } from '@theme'
 
 const colors = getThemeColors()
 

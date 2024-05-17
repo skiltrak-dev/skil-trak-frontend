@@ -113,8 +113,14 @@ export const PdfViewModal = ({
                         ) : (
                             <div className="p-2">
                                 <Typography>
-                                    Document is not a PDF format, so plzz
-                                    download the file then view the document
+                                    The document you provided is not in PDF
+                                    format. Please download the file and view it
+                                    in the appropriate application.
+                                    <br /> If you need any help please contact
+                                    us at:{' '}
+                                    <span className="font-bold text-red-500 underline">
+                                        tech@skiltrak.com.au
+                                    </span>
                                 </Typography>
                             </div>
                         )}

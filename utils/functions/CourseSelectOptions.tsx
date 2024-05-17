@@ -1,5 +1,3 @@
-import { ellipsisText } from './ellipsisText'
-
 export const CourseSelectOption = (optionItem: any) => (
     <div
         ref={optionItem.innerRef}

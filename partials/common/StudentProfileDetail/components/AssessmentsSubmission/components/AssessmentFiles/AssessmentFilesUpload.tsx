@@ -1,12 +1,11 @@
-import { Result } from '@constants'
-import { SignAgreement } from '@partials/sub-admin/workplace/components/Industries/components/Actions/components'
-import React, { useEffect } from 'react'
-import { FileUpload } from '@hoc'
+import { ShowErrorNotifications } from '@components'
 import { getDocType } from '@components/sections/student/AssessmentsContainer'
 import { UploadFile } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/AssessmentFolderDetailX/UploadFile'
-import { SubAdminApi } from '@queries'
+import { Result } from '@constants'
+import { FileUpload } from '@hoc'
 import { useNotification } from '@hooks'
-import { ShowErrorNotifications } from '@components'
+import { SubAdminApi } from '@queries'
+import { useEffect } from 'react'
 
 export const AssessmentFilesUpload = ({
     results,
@@ -17,6 +16,7 @@ export const AssessmentFilesUpload = ({
     studentId: number
     selectedFolder: any
 }) => {
+    console.log({ selectedFolder })
     const { notification } = useNotification()
 
     const [uploadDocs, uploadDocsResult] =
@@ -38,10 +38,19 @@ export const AssessmentFilesUpload = ({
     const onUploadDocs = (docs: any) => {
         const formData = new FormData()
 
+        console.log({ docs })
+
         const filteredDocs = [...docs]?.filter((doc) => {
             const docSize = doc?.size / 1024 / 1024
             return docSize <= 150
         })
+
+        const fff = [...docs]?.filter((file: any) =>
+            getDocType(selectedFolder?.type)?.includes(
+                file?.type?.split('/')?.[1]
+            )
+        )
+        console.log({ fff })
 
         if (filteredDocs?.length < docs?.length) {
             notification.warning({

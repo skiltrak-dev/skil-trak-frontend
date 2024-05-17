@@ -13,6 +13,7 @@ import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import { IoMdArrowDropleftCircle } from 'react-icons/io'
 import { SVGView } from './components'
 import { EsignSignatureModal, FinishSignModal } from './modal'
+import { isBrowser } from '@utils'
 
 export const ViewDocumentAndSign = () => {
     const router = useRouter()
@@ -212,7 +213,7 @@ export const ViewDocumentAndSign = () => {
         } else {
             setModal(
                 <FinishSignModal
-                    onCancel={onCancelClicked}
+                    // onCancel={onCancelClicked}
                     customFieldsData={customFieldsData}
                 />
             )
@@ -310,6 +311,24 @@ export const ViewDocumentAndSign = () => {
                 new: sortedPositions?.[sortedPositions?.length - 1],
             })
 
+            // if (isDocumentLoaded) {
+            //     if (isBrowser()) {
+            //         const inputElement = document?.getElementById(
+            //             `tabs-view-${fieldData?.id}`
+            //         ) as HTMLInputElement | null
+            //         console.log({ inputElement })
+            //         if (inputElement) {
+            //             inputElement.scrollIntoView({
+            //                 behavior: 'smooth',
+            //                 block: 'center',
+            //             })
+            //             setTimeout(() => {
+            //                 inputElement.focus()
+            //             }, 400)
+            //         }
+            //     }
+            // }
+
             const isFieldValue =
                 sortedPositions?.[customFieldsSelectedId]?.fieldValue
 
@@ -327,6 +346,10 @@ export const ViewDocumentAndSign = () => {
                 const requiredData = slicedData?.find(
                     (field: any) => !field?.fieldValue && field?.required
                 )
+
+                if (!requiredData) {
+                    setIsLastSelected(true)
+                }
 
                 const findMyIndex = sortedPositions?.findIndex(
                     (f: any) => f?.id === requiredData?.id

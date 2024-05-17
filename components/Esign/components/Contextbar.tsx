@@ -17,12 +17,14 @@ export const Contextbar = ({
     setCurrentPage,
     onSetContextBar,
     onSetCoordinates,
+    recipients,
 }: {
     items: any
     content: any
     totalPages: number
     onHandleScroll: any
     isTabSelected: boolean
+    recipients: string[]
     setCurrentPage: (pageNumber: number) => void
     onSetContextBar: (e: any, key: string) => void
     onSetCoordinates: (content: any, cordinate: any, key: string) => void
@@ -55,6 +57,8 @@ export const Contextbar = ({
             )
         }
     }, [inputs])
+
+    console.log({ recipients })
 
     useEffect(() => {
         if (
@@ -339,13 +343,19 @@ export const Contextbar = ({
                                 }}
                             >
                                 <option value="">Select</option>
-                                {Object.entries({
-                                    Admin: 'admin',
-                                    Rto: 'rto',
-                                    Student: 'student',
-                                    Industry: 'industry',
-                                    Coordinator: 'subadmin',
-                                }).map(([key, value]) => (
+                                {Object.entries(
+                                    Object.fromEntries(
+                                        Object.entries({
+                                            Admin: UserRoles.ADMIN,
+                                            Rto: UserRoles.RTO,
+                                            Student: UserRoles.STUDENT,
+                                            Industry: UserRoles.INDUSTRY,
+                                            Coordinator: UserRoles.SUBADMIN,
+                                        }).filter(([key, value]) =>
+                                            recipients.includes(value)
+                                        )
+                                    )
+                                ).map(([key, value]) => (
                                     <option
                                         key={key}
                                         value={value}

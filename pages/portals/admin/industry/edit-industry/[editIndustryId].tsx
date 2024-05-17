@@ -42,7 +42,7 @@ const EditRto: NextPageWithLayout = () => {
             id: industry?.data?.user?.id,
             body: {
                 ...values,
-                courses: values?.courses?.map((course: SelectOption) => ({
+                courses: values?.courses?.map((course: number) => ({
                     id: course?.value,
                 })),
             },

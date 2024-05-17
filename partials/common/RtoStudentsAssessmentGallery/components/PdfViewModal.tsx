@@ -114,7 +114,7 @@ export const PdfViewModal = ({
                             ) : (
                                 <div className="p-2">
                                     <Typography>
-                                        Document is not a PDF format, so plzz
+                                        Document is not a PDF format, so Please
                                         download the file then view the document
                                     </Typography>
                                 </div>

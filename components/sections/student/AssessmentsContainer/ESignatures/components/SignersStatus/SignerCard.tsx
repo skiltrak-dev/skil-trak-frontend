@@ -1,4 +1,5 @@
 import { Typography } from '@components/Typography'
+import moment from 'moment'
 import React from 'react'
 
 export const SignerCard = ({ signer }: { signer: any }) => {
@@ -58,7 +59,7 @@ export const SignerCard = ({ signer }: { signer: any }) => {
                     Dated
                 </Typography>
                 <Typography variant="small" color="text-[#18191C]" bold center>
-                    Not Found
+                   {signer?.createdAt ? moment(signer?.createdAt).format("MMM, DD YYYY") :"Not Found"}
                 </Typography>
             </div>
         </div>

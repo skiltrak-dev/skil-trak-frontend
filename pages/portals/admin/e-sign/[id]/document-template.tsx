@@ -827,6 +827,7 @@ export default function ESign() {
                             items={items}
                             totalPages={pagesCount?.data?.pageCount}
                             isTabSelected={isTabSelected}
+                            recipients={pagesCount?.data?.recipients}
                         />
                     </div>
                 </div>
