@@ -1,7 +1,7 @@
 import { Button, TechnicalError, Typography } from '@components'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, KeyboardEvent } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { Waypoint } from 'react-waypoint'
 import { TabsView } from './TabsView'
@@ -156,7 +156,7 @@ export const SVGView = ({
         (field: any) => !field?.fieldValue && field?.required
     )
 
-    const onHandleKeyDown = (event: KeyboardEvent) => {
+    const onHandleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
             onDocumentScrollArrow()
         }
