@@ -312,9 +312,9 @@ export const ActiveRtosList = ({
             accessorKey: 'note',
             header: () => <span>Note</span>,
             cell: (info) => (
-                <span>
+                <div title={info?.row?.original?.note}>
                     {ellipsisText(info.row.original?.note, 16) || 'N/A'}
-                </span>
+                </div>
             ),
         },
         {

@@ -7,6 +7,7 @@ import { MdDeleteOutline } from 'react-icons/md'
 import { CiEdit } from 'react-icons/ci'
 import { ManagementApi } from '@queries'
 import { useNotification } from '@hooks'
+import OutsideClickHandler from 'react-outside-click-handler'
 
 export const TeamCard = ({ team }: any) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -46,13 +47,19 @@ export const TeamCard = ({ team }: any) => {
                     <div className="flex items-center gap-x-3">
                         {editMode ? (
                             <>
-                                <input
-                                    name="name"
-                                    placeholder="Enter team & press enter"
-                                    className="outline rounded-sm text-sm px-3 py-2 outline-gray-300"
-                                    defaultValue={team?.name}
-                                    onKeyDown={handleKeyDown}
-                                />
+                                <OutsideClickHandler
+                                    onOutsideClick={() => {
+                                        setEditMode(false)
+                                    }}
+                                >
+                                    <input
+                                        name="name"
+                                        placeholder="Enter team & press enter"
+                                        className="outline rounded-sm text-sm px-3 py-2 outline-gray-300"
+                                        defaultValue={team?.name}
+                                        onKeyDown={handleKeyDown}
+                                    />
+                                </OutsideClickHandler>
                             </>
                         ) : (
                             <>

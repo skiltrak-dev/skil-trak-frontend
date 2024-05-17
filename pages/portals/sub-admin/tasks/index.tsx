@@ -84,14 +84,14 @@ const SubAdminTasks: NextPageWithLayout = () => {
             title: 'Appointments',
             description: 'Appointments',
             link: 'tasks/appointments',
-            animation: Animations.Student.Appointments.AssessmentTool,
+            animation: Animations.Student.Appointments.AppointmentsSec,
             id: 'appointments',
         },
         {
             title: 'Assessment Submissions',
             description: ' ',
             link: 'tasks/assessment-evidence?tab=pending',
-            animation: Animations.Student.Appointments.AssessmentEvidence,
+            animation: Animations.Student.Appointments.Submissions,
             id: 'assessment-evidence',
             badge: {
                 text: statistics?.data?.assessmentEvidence,
@@ -102,21 +102,21 @@ const SubAdminTasks: NextPageWithLayout = () => {
             title: 'My Student Report',
             description: 'My Student Report',
             link: 'tasks/my-students-report',
-            animation: Animations.Student.Appointments.AssessmentEvidence,
+            animation: Animations.Student.Appointments.MyStudentsReport,
             id: 'my-student-report',
         },
         {
             title: 'Industry Listing',
             description: 'Industry Listing',
             link: 'tasks/industry-listing?tab=all&page=1&pageSize=50',
-            animation: Animations.Student.Appointments.AssessmentEvidence,
+            animation: Animations.Student.Appointments.IndustryListing,
             id: 'industry-listing',
         },
         {
             title: 'RTO Listing',
             description: 'RTO Listing',
             link: 'tasks/rto-listing?tab=all&page=1&pageSize=50',
-            animation: Animations.Student.Appointments.AssessmentEvidence,
+            animation: Animations.Student.Appointments.RtoListing,
             id: 'rto-listing',
         },
     ]
@@ -124,7 +124,7 @@ const SubAdminTasks: NextPageWithLayout = () => {
     // WORKPLACE JOY RIDE - END
     return (
         <div className="flex flex-col">
-            <div className="flex gap-x-6">
+            <div className="flex items-start gap-x-6">
                 {/* Primary Actions */}
                 <div className="bg-white p-4 rounded-2xl shadow-xl flex-shrink-0">
                     <DisplayPrimaryActions actions={PrimaryLinks} />

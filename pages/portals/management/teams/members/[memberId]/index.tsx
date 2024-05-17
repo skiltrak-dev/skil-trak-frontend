@@ -95,7 +95,7 @@ const MemberDetailPage: NextPageWithLayout = () => {
         // if (applyForTalentPoolResult.isSuccess) {
         setModal(
             <GlobalModal>
-                <SwitchMemberTeamModal onCancel={onCancel} />
+                <SwitchMemberTeamModal onCancel={onCancel} member={data} />
             </GlobalModal>
         )
         // }
@@ -125,9 +125,12 @@ const MemberDetailPage: NextPageWithLayout = () => {
                                                 avatarUrl={
                                                     data?.subadmin?.user?.avatar
                                                 }
-                                                onSwitchMemberTeam={
-                                                    onSwitchMemberTeam
-                                                }
+                                                // onSwitchMemberTeam={
+                                                //     onSwitchMemberTeam
+                                                // }
+                                                {...(!data?.isLead && {
+                                                    onSwitchMemberTeam,
+                                                })}
                                             />
                                         </TeamSideBar.Avatar>
                                         <div>
