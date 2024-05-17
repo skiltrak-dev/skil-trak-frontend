@@ -78,6 +78,12 @@ import student from './students/student.json'
 
 import consultation from './jobs/consultation.json'
 
+import rtoListing from './students/rto-listing.json'
+import industryListing from './students/industry-listing.json'
+import myStudentsReport from './students/my-student-report.json'
+import appointmentsSec from './students/appointments-sec.json'
+import submissions from './students/submissions.json'
+
 export const ANIM_ERROR = error
 export const ANIM_PAGE_NOT_FOUND = pageNotFound
 export const Animations = {
@@ -175,6 +181,11 @@ export const Animations = {
             AssessmentEvidence: assessment,
             AssessmentTool: assessmentTool,
             Esign: esign,
+            RtoListing: rtoListing,
+            IndustryListing: industryListing,
+            MyStudentsReport: myStudentsReport,
+            AppointmentsSec: appointmentsSec,
+            Submissions: submissions,
         },
         Notifications: {
             Emails: emails,

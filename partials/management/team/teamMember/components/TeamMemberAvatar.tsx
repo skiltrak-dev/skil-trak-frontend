@@ -3,6 +3,7 @@ import Image from 'next/image'
 import React, { ReactElement, useState } from 'react'
 import { FaEdit } from 'react-icons/fa'
 import { BsPatchCheckFill } from 'react-icons/bs'
+import { RiExchangeLine } from "react-icons/ri";
 
 type TeamMemberAvatarProps = {
     avatarUrl?: string
@@ -60,9 +61,9 @@ export const TeamMemberAvatar = ({
                                     onClick={onSwitchMemberTeam}
                                     className="cursor-pointer absolute -bottom-1 -right-2"
                                 >
-                                    <FaEdit
+                                    <RiExchangeLine
                                         className="text-blue-600"
-                                        size={16}
+                                        size={25}
                                     />
                                 </div>
                             )

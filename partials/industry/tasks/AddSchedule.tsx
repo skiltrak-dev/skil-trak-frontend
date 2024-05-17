@@ -24,10 +24,10 @@ export const AddScheduleContainer = () => {
             image: '/images/portal-icons/Employee.png',
             text: 'Employee Schedule',
         },
-        {
-            image: '/images/portal-icons/students.png',
-            text: 'Student Scheduled',
-        },
+        // {
+        //     image: '/images/portal-icons/students.png',
+        //     text: 'We are currently developing this functionality. Thank you for your patience! Stay tuned for updates.',
+        // },
     ]
     // ADD STUDENT JOY RIDE - START
     const joyride = useJoyRide()

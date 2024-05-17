@@ -4,7 +4,7 @@ import { ManagementApi } from '@queries'
 import { useRouter } from 'next/router'
 import { useNotification } from '@hooks'
 
-export const ChangeTeamLeadModal = ({ onCancel, member }: any) => {
+export const ChangeTeamLeadModal = ({ onCancel }: any) => {
     const router = useRouter()
     const { notification } = useNotification()
     const teamId = router?.query?.id

@@ -12,10 +12,16 @@ export const SwitchMemberTeamModal = ({ onCancel, member }: any) => {
     const [changeTeamLead, changeTeamLeadResult] =
         ManagementApi.Team.useUpdateMemberTeam()
     const { data, isLoading, isError } = ManagementApi.Team.useTeamList()
-    const subAdminOptions = data?.map((team: any) => ({
+    const teamOptions = data?.map((team: any) => ({
         label: `${team?.name}`,
         value: team?.id,
     }))
+
+    // filter over team to make sure not same team of current user
+    const currentTeamId = member?.team?.id
+    const filteredTeamOptions = teamOptions?.filter(
+        (team: any) => team?.value !== currentTeamId
+    )
 
     useEffect(() => {
         if (changeTeamLeadResult.isSuccess) {
@@ -42,9 +48,9 @@ export const SwitchMemberTeamModal = ({ onCancel, member }: any) => {
 
             <div className="min-w-[447px]">
                 <Select
-                    name="subadmin"
-                    options={subAdminOptions}
-                    label={'TEAM LEAD'}
+                    name="team"
+                    options={filteredTeamOptions}
+                    label={'TEAMS'}
                     shadow="shadow-md"
                     loading={isLoading}
                     onChange={(e: any) => {
