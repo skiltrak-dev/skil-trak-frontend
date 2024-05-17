@@ -26,6 +26,7 @@ export const ViewDocumentAndSign = () => {
     const [isSignature, setIsSignature] = useState<boolean>(false)
     const [customFieldsData, setCustomFieldsData] = useState<any>([])
     const [isDocumentLoaded, setIsDocumentLoaded] = useState<any>(null)
+    const [isLastSelected, setIsLastSelected] = useState<boolean>(false)
     const [isFillRequiredFields, setIsFillRequiredFields] =
         useState<boolean>(false)
     const [customFieldsDataUpdated, setCustomFieldsDataUpdated] =
@@ -43,6 +44,8 @@ export const ViewDocumentAndSign = () => {
             skip: !router.query?.id,
         }
     )
+
+    console.log({ isLastSelected })
 
     const tabs = CommonApi.ESign.useSignatureTabForTemplate(
         {
@@ -286,7 +289,7 @@ export const ViewDocumentAndSign = () => {
         return a.sum - b.sum
     })
 
-    console.log({ sortedPositions })
+    console.log({ sortedPositions, customFieldsSelectedId })
 
     useEffect(() => {
         if (
@@ -302,6 +305,10 @@ export const ViewDocumentAndSign = () => {
         if (customFieldsSelectedId < sortedPositions?.length - 1) {
             const fieldData = sortedPositions?.[customFieldsSelectedId + 1]
             const isSign = fieldData?.type === FieldsTypeEnum.Signature
+            console.log({
+                custom: sortedPositions?.[customFieldsSelectedId],
+                new: sortedPositions?.[sortedPositions?.length - 1],
+            })
 
             const isFieldValue =
                 sortedPositions?.[customFieldsSelectedId]?.fieldValue
@@ -364,6 +371,10 @@ export const ViewDocumentAndSign = () => {
             }
         } else {
             console.log('c')
+            setIsLastSelected(
+                sortedPositions?.[customFieldsSelectedId]?.id ===
+                    sortedPositions?.[sortedPositions?.length - 1]?.id
+            )
             setSelectedFillDataField(sortedPositions?.[0]?.id)
             scrollToPage(-1, documentsTotalPages?.data?.pageCount - 1, 'end')
             // setCustomFieldsSelectedId(0)
@@ -391,9 +402,16 @@ export const ViewDocumentAndSign = () => {
         setSelectedFillDataField(r?.id)
         scrollToPage(Number(r?.id), r?.number - 1)
         setIsFillRequiredFields(true)
+        setIsLastSelected(false)
     }
 
     console.log({ customFieldsSelectedId })
+
+    const onCancelFinishSign = () => {
+        setIsFillRequiredFields(false)
+        setIsLastSelected(false)
+        setCustomFieldsSelectedId(0)
+    }
 
     return (
         <div>
@@ -555,8 +573,9 @@ export const ViewDocumentAndSign = () => {
                                             onGoToSignFieldIfRemaining={
                                                 onGoToSignFieldIfRemaining
                                             }
-                                            isFillRequiredFields={
-                                                isFillRequiredFields
+                                            isLastSelected={isLastSelected}
+                                            onCancelFinishSign={
+                                                onCancelFinishSign
                                             }
                                         />
                                     </Card>
