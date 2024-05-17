@@ -10,7 +10,7 @@ export const FinishEmailSignModal = ({
     decodeDataId,
     customFieldsData,
 }: {
-    onCancel: Function
+    onCancel?: Function
     decodeDataId: number
     customFieldsData: any
 }) => {
@@ -36,7 +36,7 @@ export const FinishEmailSignModal = ({
                     description:
                         'Document signed has been Finished successfully',
                 })
-                onCancel()
+                // onCancel()
                 router.push('/')
             }
         })
@@ -52,7 +52,7 @@ export const FinishEmailSignModal = ({
                     title="Are you sure!"
                     description={`You are about to finish Esign Do you wish to continue?`}
                     onConfirm={onConfirmUClicked}
-                    onCancel={onCancel}
+                    // onCancel={onCancel}
                     input
                     inputKey={customFieldsData}
                     actionObject={customFieldsData}

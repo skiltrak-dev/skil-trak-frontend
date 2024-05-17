@@ -1,13 +1,14 @@
 import { Button, TechnicalError, Typography } from '@components'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { Waypoint } from 'react-waypoint'
 import { TabsView } from './TabsView'
 import { DocumentScrollArrow } from './DocumentScrollArrow'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import { MdCancel } from 'react-icons/md'
+import { isBrowser } from '@utils'
 
 export const SVGView = ({
     scrollToPage,
@@ -49,18 +50,20 @@ export const SVGView = ({
     const [showEndDocument, setShowEndDocument] = useState(true)
     const [showStartDocument, setShowStartDocument] = useState<boolean>(true)
 
+    const ref = useRef<any>(null)
+
     const [loadSvg, setLoadSvg] = useState(false)
 
     const [x, y, width, height] = viewport?.split(' ') || []
 
-    const document = CommonApi.ESign.useTemplateDocumentForSign(
+    const documentSvgData = CommonApi.ESign.useTemplateDocumentForSign(
         { id: Number(router.query?.id), pageNumber: index },
         {
             skip: !router?.query?.id || !loadSvg,
         }
     )
 
-    const doc = document?.data?.data
+    const doc = documentSvgData?.data?.data
 
     useEffect(() => {
         if (customFieldsSelectedId < sortedPositions?.length) {
@@ -73,6 +76,30 @@ export const SVGView = ({
         customFieldsSelectedId,
         customFieldsSelectedId < sortedPositions?.length - 1 ? doc : null,
     ])
+
+    const handleFocus = () => {
+        if (documentSvgData?.isSuccess && doc) {
+            if (isBrowser()) {
+                const inputElement = document?.getElementById(
+                    `tabs-view-${sortedPositions?.[customFieldsSelectedId]?.id}`
+                ) as HTMLInputElement | null
+                console.log({ inputElement })
+                if (inputElement) {
+                    inputElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center',
+                    })
+                    setTimeout(() => {
+                        inputElement.focus()
+                    }, 400)
+                }
+            }
+        }
+    }
+
+    useEffect(() => {
+        handleFocus()
+    }, [customFieldsSelectedId, documentSvgData])
 
     useEffect(() => {
         const parser = new DOMParser()
@@ -129,6 +156,12 @@ export const SVGView = ({
         (field: any) => !field?.fieldValue && field?.required
     )
 
+    const onHandleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'Enter') {
+            onDocumentScrollArrow()
+        }
+    }
+
     console.log({
         customFieldsSelectedId,
         len: sortedPositions?.length,
@@ -136,14 +169,19 @@ export const SVGView = ({
         sortedPositions,
     })
 
+    console.log(
+        `tabs-view-${sortedPositions?.[customFieldsSelectedId]?.id}`,
+        sortedPositions
+    )
+
     return (
         <>
-            {document.isError && (
+            {documentSvgData.isError && (
                 <Button
                     text={'Refetch'}
                     variant={'action'}
                     onClick={() => {
-                        document?.refetch()
+                        documentSvgData?.refetch()
                     }}
                 />
             )}
@@ -197,7 +235,9 @@ export const SVGView = ({
                               </div>
                           )
                         : null}
-                    {document?.isSuccess && index === 0 && showStartDocument ? (
+                    {documentSvgData?.isSuccess &&
+                    index === 0 &&
+                    showStartDocument ? (
                         <div className="w-full absolute h-full bg-[#00000050]">
                             <div className="flex flex-col gap-y-2 bg-white w-[500px] p-5 rounded-md top-6 lg:top-24 absolute left-1/2 -translate-x-1/2">
                                 <Typography center variant="label">
@@ -208,21 +248,22 @@ export const SVGView = ({
                                     located at the end of the document. Let's
                                     commence with the document.
                                 </Typography>
-                                <div
+                                <label
+                                    htmlFor={`tabs-view-${sortedPositions?.[customFieldsSelectedId]?.id}`}
                                     onClick={() => {
                                         onDocumentScrollArrow()
                                         setShowStartDocument(false)
                                     }}
-                                    className="cursor-pointer bg-primary w-60 h-12 mx-auto shadow-lg flex items-center justify-center rounded  "
+                                    className=" cursor-pointer bg-primary w-60 h-12 mx-auto shadow-lg flex items-center justify-center rounded  "
                                 >
                                     <Typography color="text-white" center>
                                         Start With Document
                                     </Typography>
-                                </div>
+                                </label>
                             </div>
                         </div>
                     ) : null}
-                    {document?.isSuccess &&
+                    {documentSvgData?.isSuccess &&
                     index === documentData?.pageCount - 1 &&
                     (customFieldsSelectedId >= sortedPositions?.length - 1 ||
                         customFieldsSelectedId < 0) &&
@@ -317,8 +358,8 @@ export const SVGView = ({
                             </div>
                         </div>
                     ) : null}
-                    {document.isError && <TechnicalError />}
-                    {document?.data ? (
+                    {documentSvgData.isError && <TechnicalError />}
+                    {documentSvgData?.data ? (
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             // width="596"
@@ -375,11 +416,12 @@ __html: svgContent,
                                     selectedFillDataField={
                                         selectedFillDataField
                                     }
+                                    onHandleKeyDown={onHandleKeyDown}
                                 />
                             </g>
                         </svg>
                     ) : (
-                        !document.isError && (
+                        !documentSvgData.isError && (
                             <div className="relative w-full">
                                 <Skeleton
                                     className="w-full rounded-lg"

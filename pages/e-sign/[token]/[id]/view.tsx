@@ -278,7 +278,7 @@ const ESign = () => {
         } else {
             setModal(
                 <FinishEmailSignModal
-                    onCancel={onCancelClicked}
+                    // onCancel={onCancelClicked}
                     decodeDataId={decodeData?.id}
                     customFieldsData={customFieldsData}
                 />
@@ -405,6 +405,7 @@ const ESign = () => {
         setSelectedFillDataField(r?.id)
         scrollToPage(Number(r?.id), r?.number - 1)
         setIsFillRequiredFields(true)
+        setIsLastSelected(false)
     }
 
     const onCancelFinishSign = () => {

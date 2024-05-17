@@ -33,6 +33,53 @@ import {
     removeEmptySpaces,
 } from '@utils'
 
+const validationSchema = yup.object({
+    // Profile Information
+    name: yup.string().required('Must provide your name'),
+
+    email: yup
+        .string()
+        // .test('test-name', 'Validation failure message', function (value) {
+        //     const validEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        //     return false
+        //     // return value ? isEmailValid(value) : false
+        // })
+        // .email('Invalid Email')
+        .required('Must provide email'),
+
+    // Business Information
+    abn: onlyNumbersAcceptedInYup(yup),
+    phoneNumber: yup.string().required('Must provide phone number'),
+
+    courses: yup.array().min(1, 'Must select at least 1 course'),
+
+    country: yup
+        .object({
+            label: yup.string().required('Required '),
+            value: yup.number().required('Required '),
+        })
+        .typeError('Must provide country')
+        .required('Must provide country'),
+    region: yup
+        .object({
+            label: yup.string().required('Required '),
+            value: yup.number().required('Required '),
+        })
+        .typeError('Must provide country')
+        .required('Must provide country'),
+
+    // Contact Person Information
+    contactPerson: yup.string().required(),
+    contactPersonEmail: yup.string().email('Must be a valid email'),
+    contactPersonNumber: yup.string(),
+
+    // Address Information
+    addressLine1: yup.string().required('Must provide address'),
+    state: yup.string().required('Must provide name of state'),
+    suburb: yup.string().required('Must provide suburb name'),
+    zipCode: yup.string().required('Must provide zip code for your state'),
+})
+
 export const IndustryProfileFrom = ({
     result,
     profile,
@@ -59,7 +106,16 @@ export const IndustryProfileFrom = ({
     const [countryId, setCountryId] = useState(null)
     const [stateId, setStateId] = useState(null)
 
+    console.log({ countryId })
+
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
+
+    const formMethods = useForm({
+        mode: 'all',
+        resolver: yupResolver(validationSchema),
+    })
+
+    const formValues = formMethods.watch()
 
     const country = CommonApi.Countries.useCountriesList()
     const { data: states, isLoading: statesLoading } =
@@ -139,6 +195,7 @@ export const IndustryProfileFrom = ({
         sectors: any,
         chkDefaultOptions: boolean = true
     ) => {
+        setSectorDefaultOptions(sectors)
         const filteredCourses = sectors.map((selectedSector: any) => {
             const sectorExisting = sectorResponse.data?.find(
                 (sector: any) => sector.id === selectedSector.value
@@ -169,55 +226,11 @@ export const IndustryProfileFrom = ({
         chkDefaultOptions && setCourseValues(newCourseOptions)
     }
 
-    const validationSchema = yup.object({
-        // Profile Information
-        name: yup.string().required('Must provide your name'),
+    useEffect(() => {
+        console.log({ allValues: formMethods.getValues(), formValues })
+    }, [formValues])
 
-        email: yup
-            .string()
-            // .test('test-name', 'Validation failure message', function (value) {
-            //     const validEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-            //     return false
-            //     // return value ? isEmailValid(value) : false
-            // })
-            // .email('Invalid Email')
-            .required('Must provide email'),
-
-        // Business Information
-        abn: onlyNumbersAcceptedInYup(yup),
-        phoneNumber: yup.string().required('Must provide phone number'),
-
-        country: yup
-            .object({
-                label: yup.string().required('Required '),
-                value: yup.number().required('Required '),
-            })
-            .typeError('Must provide country')
-            .required('Must provide country'),
-        region: yup
-            .object({
-                label: yup.string().required('Required '),
-                value: yup.number().required('Required '),
-            })
-            .typeError('Must provide country')
-            .required('Must provide country'),
-
-        // Contact Person Information
-        contactPerson: yup.string().required(),
-        contactPersonEmail: yup.string().email('Must be a valid email'),
-        contactPersonNumber: yup.string(),
-
-        // Address Information
-        addressLine1: yup.string().required('Must provide address'),
-        state: yup.string().required('Must provide name of state'),
-        suburb: yup.string().required('Must provide suburb name'),
-        zipCode: yup.string().required('Must provide zip code for your state'),
-    })
-
-    const formMethods = useForm({
-        mode: 'all',
-        resolver: yupResolver(validationSchema),
-    })
+    useEffect(() => {}, [formMethods, profile])
 
     const statesOption = useMemo(
         () =>
@@ -251,6 +264,10 @@ export const IndustryProfileFrom = ({
                 skiltrakId,
                 updatedAt,
                 createdAt,
+                branches,
+                country,
+                region,
+                headQuarter,
                 ...rest
             } = profile?.data
             const {
@@ -266,12 +283,19 @@ export const IndustryProfileFrom = ({
                 skiltrakId: userSkiltrakId,
                 role,
                 id: { userId },
+                statusChangeHistory,
+                statusChange,
+                status,
                 ...userRest
             } = user
             const values = {
                 ...rest,
                 ...userRest,
-                courses: courses?.map((c: Course) => c.id),
+                courses: courses?.map((c: Course) => ({
+                    item: c,
+                    value: c?.id,
+                    label: c?.title,
+                })),
                 state: profile?.data?.region?.name,
                 ...(profile?.data?.country?.id
                     ? {
@@ -304,11 +328,7 @@ export const IndustryProfileFrom = ({
         }
     }, [profile, countryOptions, statesOption])
 
-    useEffect(() => {
-        if (courseValues && courseValues?.length > 0) {
-            formMethods.setValue('courses', courseValues)
-        }
-    }, [courseValues])
+    console.log({ countryOptions })
 
     const onBlur = (e: any) => {
         const abn = e.target?.value
@@ -443,76 +463,36 @@ export const IndustryProfileFrom = ({
 
                         <div className="w-4/6 grid grid-cols-1 gap-y-4">
                             <div>
-                                {sectorDefaultOptions &&
-                                    sectorDefaultOptions?.length > 0 && (
-                                        <Select
-                                            label={'Sector'}
-                                            {...(sectorDefaultOptions &&
-                                                sectorDefaultOptions?.length >
-                                                    0 && {
-                                                    defaultValue:
-                                                        sectorDefaultOptions,
-                                                })}
-                                            name={'sectors'}
-                                            options={sectorOptions}
-                                            placeholder={'Select Sectors...'}
-                                            multi
-                                            loading={sectorResponse.isLoading}
-                                            onChange={onSectorChanged}
-                                            validationIcons
-                                        />
-                                    )}
-                                {!sectorDefaultOptions?.length && (
-                                    <Select
-                                        label={'Sector'}
-                                        name={'sectors'}
-                                        options={sectorOptions}
-                                        placeholder={'Select Sectors...'}
-                                        multi
-                                        loading={sectorResponse.isLoading}
-                                        onChange={onSectorChanged}
-                                        validationIcons
-                                    />
-                                )}
+                                <Select
+                                    label={'Sector'}
+                                    value={sectorDefaultOptions}
+                                    name={'sectors'}
+                                    options={sectorOptions}
+                                    placeholder={'Select Sectors...'}
+                                    multi
+                                    loading={sectorResponse.isLoading}
+                                    onChange={onSectorChanged}
+                                    validationIcons
+                                />
                             </div>
                             <div>
-                                {courseOptions && courseOptions?.length > 0 && (
-                                    <Select
-                                        label={'Courses'}
-                                        name={'courses'}
-                                        defaultValue={courseDefaultOptions}
-                                        options={courseOptions}
-                                        value={courseValues}
-                                        multi
-                                        disabled={courseOptions?.length === 0}
-                                        validationIcons
-                                        onChange={(e: any) => {
-                                            setCourseValues(e)
-                                        }}
-                                        components={{
-                                            Option: CourseSelectOption,
-                                        }}
-                                        formatOptionLabel={formatOptionLabel}
-                                    />
-                                )}
-                                {!courseOptions?.length && (
-                                    <Select
-                                        label={'Courses'}
-                                        name={'courses'}
-                                        options={courseOptions}
-                                        value={courseValues}
-                                        multi
-                                        disabled={courseOptions?.length === 0}
-                                        validationIcons
-                                        onChange={(e: any) => {
-                                            setCourseValues(e)
-                                        }}
-                                        components={{
-                                            Option: CourseSelectOption,
-                                        }}
-                                        formatOptionLabel={formatOptionLabel}
-                                    />
-                                )}
+                                <Select
+                                    label={'Courses'}
+                                    name={'courses'}
+                                    // defaultValue={courseDefaultOptions}
+                                    options={courseOptions}
+                                    value={courseValues}
+                                    multi
+                                    disabled={courseOptions?.length === 0}
+                                    validationIcons
+                                    onChange={(e: any) => {
+                                        setCourseValues(e)
+                                    }}
+                                    components={{
+                                        Option: CourseSelectOption,
+                                    }}
+                                    formatOptionLabel={formatOptionLabel}
+                                />
                             </div>
                         </div>
 
@@ -578,7 +558,6 @@ export const IndustryProfileFrom = ({
                                         onChange={(e: any) => {
                                             setCountryId(e?.value)
                                         }}
-                                        // onlyValue
                                         validationIcons
                                     />
                                 </div>
