@@ -1,5 +1,5 @@
 import React from 'react'
-import { Rto } from '@types'
+import { Rto, UserStatus } from '@types'
 import { ProfileCountsCard, StudentCountCard } from '../cards'
 import { HiUserCircle } from 'react-icons/hi'
 import { IconType } from 'react-icons'
@@ -8,6 +8,7 @@ import {
     SiSimpleanalytics,
 } from 'react-icons/si'
 import { AdminApi } from '@queries'
+import { useRouter } from 'next/router'
 
 export interface RtoProfileCountDataType {
     title: string
@@ -15,6 +16,12 @@ export interface RtoProfileCountDataType {
     Icon: IconType
     loading: boolean
     background: Background
+    link?: {
+        pathname: string
+        query?: {
+            [key: string]: string | number
+        }
+    }
 }
 
 export interface Background {
@@ -22,17 +29,29 @@ export interface Background {
     to: string
 }
 
-export const ProfileCounts = ({ rtoUserId }: { rtoUserId: number }) => {
-    const statisticsCount = AdminApi.Rtos.useStatisticsCount(
-        Number(rtoUserId),
-        { skip: !rtoUserId }
-    )
+export const ProfileCounts = ({
+    statisticsCount,
+}: {
+    statisticsCount: any
+}) => {
+    const router = useRouter()
+
     const countsData: RtoProfileCountDataType[] = [
         {
             title: 'Active Students',
             count: Number(statisticsCount?.data?.currentStudent),
             Icon: HiUserCircle,
             loading: statisticsCount?.isLoading,
+            link: {
+                pathname: '/portals/admin/student',
+                query: {
+                    tab: 'active',
+                    page: 1,
+                    pageSize: 50,
+                    rtoId: Number(router?.query?.id),
+                    status: UserStatus.Approved,
+                },
+            },
             background: {
                 from: '#3E3D45',
                 to: '#202020',
@@ -43,6 +62,16 @@ export const ProfileCounts = ({ rtoUserId }: { rtoUserId: number }) => {
             count: Number(statisticsCount?.data?.pendingStudent),
             Icon: HiUserCircle,
             loading: statisticsCount?.isLoading,
+            link: {
+                pathname: '/portals/admin/student',
+                query: {
+                    tab: 'active',
+                    page: 1,
+                    pageSize: 50,
+                    rtoId: Number(router?.query?.id),
+                    status: UserStatus.Pending,
+                },
+            },
             background: {
                 from: '#E93B77',
                 to: '#DA1F63',
@@ -71,7 +100,9 @@ export const ProfileCounts = ({ rtoUserId }: { rtoUserId: number }) => {
     ]
     return (
         <div className="mt-[18px] h-[calc(100%-18px)] flex flex-col justify-between">
-            <StudentCountCard />
+            <StudentCountCard
+                newAddedStudents={statisticsCount?.data?.newAddedStudents}
+            />
             <div className="mt-[18px] grid grid-cols-2 gap-x-3.5 gap-y-[18px]">
                 {countsData.map((data, i) => (
                     <div className="mt-[18px]">

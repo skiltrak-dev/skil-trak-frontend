@@ -111,6 +111,11 @@ export const SVGView = ({
         setViewport(svgViewport)
     }, [doc])
 
+    console.log({
+        zeroSorted: sortedPositions?.[0]?.number,
+        indexPlus1: index + 1,
+    })
+
     useEffect(() => {
         const signData = customFieldsData?.filter(
             (a: any) =>
@@ -123,7 +128,7 @@ export const SVGView = ({
             sortedPositions?.[0]?.number === index + 1
         ) {
             if (setIsDocumentLoaded) {
-                setIsDocumentLoaded(document)
+                setIsDocumentLoaded(documentSvgData)
             }
         }
     }, [doc, index, customFieldsData])
@@ -161,18 +166,6 @@ export const SVGView = ({
             onDocumentScrollArrow()
         }
     }
-
-    console.log({
-        customFieldsSelectedId,
-        len: sortedPositions?.length,
-        all: sortedPositions?.[customFieldsSelectedId],
-        sortedPositions,
-    })
-
-    console.log(
-        `tabs-view-${sortedPositions?.[customFieldsSelectedId]?.id}`,
-        sortedPositions
-    )
 
     return (
         <>

@@ -168,13 +168,11 @@ export const IndustryStatus = ({
                 </div>
             </OutsideClickHandler>
             {types[selectedRequestType as any]?.date && (
-                <Typography>
-                    <span className="text-[10px] font-semibold">
-                        Status Updated :{' '}
-                        {moment(types[selectedRequestType as any]?.date).format(
-                            'Do MMM YYYY'
-                        )}
-                    </span>
+                <Typography variant="badge" semibold>
+                    Status Updated :{' '}
+                    {moment(types[selectedRequestType as any]?.date).format(
+                        'Do MMM YYYY'
+                    )}
                 </Typography>
             )}
         </div>

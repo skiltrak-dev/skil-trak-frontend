@@ -8,32 +8,53 @@ export interface RtoProfileProgressTypes {
     percent: number
 }
 
-export const RtoProfileProgress = () => {
+export const RtoProfileProgress = ({
+    statisticsCount,
+}: {
+    statisticsCount: any
+}) => {
+    const countsArr = {
+        inProgress: statisticsCount?.data?.inProgress || 0,
+        noWorkPlace: statisticsCount?.data?.noWorkPlace || 0,
+        placementStarted: statisticsCount?.data?.placementStarted || 0,
+        appointmentBooked: statisticsCount?.data?.appointmentBooked || 0,
+        awaitingAgreementSigned:
+            statisticsCount?.data?.awaitingAgreementSigned || 0,
+    }
+
+    const addedData = Object.values(countsArr)?.reduce(
+        (acum: any, curr: any) => acum + curr,
+        0
+    )
+
+    const percentData = (count: number) =>
+        (((count * 100) / addedData).toFixed(1) || 0) as number
+
     const progressData: RtoProfileProgressTypes[] = [
         {
             title: 'Placement Started',
             color: '#34B53A',
-            percent: 35,
+            percent: percentData(countsArr?.placementStarted),
         },
         {
             title: 'In Progress',
             color: '#4339F2',
-            percent: 20,
+            percent: percentData(countsArr?.inProgress),
         },
         {
             title: 'Agreement Pending',
             color: '#FF3A29',
-            percent: 15,
+            percent: percentData(countsArr?.awaitingAgreementSigned),
         },
         {
             title: 'Appointments',
             color: '#02A0FC',
-            percent: 15,
+            percent: percentData(countsArr?.appointmentBooked),
         },
         {
             title: 'Don’t Have Workplace',
             color: '#21516A',
-            percent: 15,
+            percent: percentData(countsArr?.noWorkPlace),
         },
     ]
 

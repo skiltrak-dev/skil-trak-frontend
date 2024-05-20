@@ -29,7 +29,6 @@ export const PlacementStartedReport = ({
     const [page, setPage] = useState(1)
     const router = useRouter()
 
-
     const { data, isLoading, isError, isFetching } =
         RtoApi.Students.usePlacementStartedReport(
             {
@@ -88,7 +87,7 @@ export const PlacementStartedReport = ({
                 // ))
                 return (
                     <Typography variant="small">
-                        {info?.row?.original?.courses[0]?.title || 'N/A'}
+                        {info?.row?.original?.courses?.[0]?.title || 'N/A'}
                     </Typography>
                 )
             },

@@ -1,19 +1,16 @@
-import React from 'react'
-import { Rto } from '@types'
-import {
-    ProfileCounts,
-    RtoAssessmentTools,
-    RtoProfileProgress,
-    RtoProfileTopbar,
-    RtoReports,
-    RtoSectors,
-} from './components'
-import { Card } from '@components'
+import { ProfileAppointments } from '@partials/common'
 import {
     MailsCommunication,
     Notes,
 } from '@partials/common/StudentProfileDetail/components'
-import { ProfileAppointments } from '@partials/common'
+import { Rto } from '@types'
+import {
+    RtoAssessmentTools,
+    RtoProfileStatistics,
+    RtoProfileTopbar,
+    RtoReports,
+    RtoSectors,
+} from './components'
 
 export const RtoProfileDetail = ({ rto }: { rto: Rto }) => {
     return (
@@ -21,22 +18,8 @@ export const RtoProfileDetail = ({ rto }: { rto: Rto }) => {
             <RtoProfileTopbar />
 
             {/*  */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3.5 mt-[18px]">
-                <div className="flex flex-col">
-                    <div className="flex-grow">
-                        <div className="h-full">
-                            <ProfileCounts rtoUserId={rto?.user?.id} />
-                        </div>
-                    </div>
-                </div>
-                <div className="flex flex-col">
-                    <div className="flex-grow">
-                        <Card shadowType="profile" fullHeight>
-                            <RtoProfileProgress />
-                        </Card>
-                    </div>
-                </div>
-            </div>
+
+            <RtoProfileStatistics rtoUserId={rto?.user?.id} />
 
             {/* Sector */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-3 mt-5 h-[506px]">

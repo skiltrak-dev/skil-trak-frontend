@@ -23,9 +23,11 @@ export const ProgressChart = ({
         ['Task', 'Hours per Day'],
         ...data?.map((d: RtoProfileProgressTypes, i: number) => [
             `${d?.title}`,
-            d?.percent,
+            +d?.percent,
         ]),
     ]
+
+    console.log({ updatedData })
 
     return (
         <div className="">

@@ -3,15 +3,26 @@ import React from 'react'
 import { LabelCard } from './LabelCard'
 import { RtoProfileCountDataType } from '../components'
 import { PulseLoader } from 'react-spinners'
+import { useRouter } from 'next/router'
 
 export const ProfileCountsCard = ({
     data,
 }: {
     data: RtoProfileCountDataType
 }) => {
+    const router = useRouter()
     return (
         <Card noPadding>
-            <div className="px-3.5 py-3 flex flex-col gap-y-1 relative">
+            <div
+                onClick={() => {
+                    if (data?.link) {
+                        router.push(data?.link)
+                    }
+                }}
+                className={`px-3.5 py-3 flex flex-col gap-y-1 relative ${
+                    data?.link ? 'cursor-pointer' : ''
+                }`}
+            >
                 <LabelCard
                     left={16}
                     top={-20}
