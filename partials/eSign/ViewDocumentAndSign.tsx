@@ -46,8 +46,6 @@ export const ViewDocumentAndSign = () => {
         }
     )
 
-    console.log({ isLastSelected })
-
     const tabs = CommonApi.ESign.useSignatureTabForTemplate(
         {
             template: documentsTotalPages?.data?.templateId,
@@ -213,7 +211,7 @@ export const ViewDocumentAndSign = () => {
         } else {
             setModal(
                 <FinishSignModal
-                    // onCancel={onCancelClicked}
+                    onCancel={onCancelClicked}
                     customFieldsData={customFieldsData}
                 />
             )
@@ -221,6 +219,7 @@ export const ViewDocumentAndSign = () => {
     }
 
     const onSignatureClicked = (sign: any) => {
+        console.log('CCCCCCCCCCCCC')
         setIsSignature(true)
         setSelectedSign(sign)
         // setModal(

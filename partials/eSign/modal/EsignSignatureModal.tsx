@@ -97,14 +97,14 @@ export const EsignSignatureModal = ({
             <ShowErrorNotifications result={signDocumentResult} />
             <div className="p-3 md:p-8">
                 <div>
-                    <div className="flex justify-end">
+                    {/* <div className="flex justify-end">
                         <MdCancel
                             onClick={() => {
                                 onCancel(true)
                             }}
                             className="transition-all duration-500 text-gray-400 hover:text-black text-2xl cursor-pointer hover:rotate-90"
                         />
-                    </div>
+                    </div> */}
                     <Typography color="text-[#6B7280]" variant="label" medium>
                         Please sign in given here
                     </Typography>
