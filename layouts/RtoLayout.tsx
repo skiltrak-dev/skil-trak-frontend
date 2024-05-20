@@ -59,19 +59,19 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
 
     const status = AuthUtils.getUserCredentials()?.status
 
-    useEffect(() => {
-        if (status === UserStatus.Pending) {
-            alert.warning({
-                title: `Your account is Pending`,
-                description:
-                    'Your request is waiting for approval. Meanwhile, your functionalities will be limited',
-                autoDismiss: false,
-            })
-        }
-        return () => {
-            setAlerts([])
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (status === UserStatus.Pending) {
+    //         alert.warning({
+    //             title: `Your account is Pending`,
+    //             description:
+    //                 'Your request is waiting for approval. Meanwhile, your functionalities will be limited',
+    //             autoDismiss: false,
+    //         })
+    //     }
+    //     return () => {
+    //         setAlerts([])
+    //     }
+    // }, [])
 
     useEffect(() => {
         setMounted(true)

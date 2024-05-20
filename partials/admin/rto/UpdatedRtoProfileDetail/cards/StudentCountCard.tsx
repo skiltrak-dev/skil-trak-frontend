@@ -3,7 +3,11 @@ import { LabelCard } from './LabelCard'
 import { ReactElement, useState } from 'react'
 import { StudentLogsModal } from '../modals'
 
-export const StudentCountCard = () => {
+export const StudentCountCard = ({
+    newAddedStudents,
+}: {
+    newAddedStudents: number
+}) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const onCancelClicked = () => setModal(null)
@@ -30,7 +34,7 @@ export const StudentCountCard = () => {
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-x-1.5">
                             <Typography variant="h3" bold>
-                                50
+                                {newAddedStudents}
                             </Typography>
                             <Typography
                                 variant="xxs"
