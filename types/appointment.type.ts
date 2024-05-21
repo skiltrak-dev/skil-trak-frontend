@@ -15,6 +15,7 @@ export interface Appointment extends BaseResponse {
     course: Course
     date: Date
     WorkplacePhone: string
+    future: boolean
     address: string
     email: string
     endTime: Date

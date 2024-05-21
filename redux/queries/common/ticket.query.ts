@@ -84,4 +84,8 @@ export const ticketEndpoints = (
         query: (id) => `students/tickets/list/${id}`,
         providesTags: ['SubAdminStudents'],
     }),
+    getTicketsListByUser: builder.query<any, number>({
+        query: (id) => `tickets/list/by-user/${id}`,
+        providesTags: ['SubAdminStudents'],
+    }),
 })

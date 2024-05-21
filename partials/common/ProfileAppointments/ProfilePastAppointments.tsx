@@ -40,7 +40,7 @@ export const ProfilePastAppointments = ({
                         {pastAppointments?.data?.data?.map(
                             (appointment: Appointment) => (
                                 <ProfileAppointmentsCard
-                                    type={'Upcoming'}
+                                    type={'Past'}
                                     key={appointment?.id}
                                     appointment={appointment}
                                 />
