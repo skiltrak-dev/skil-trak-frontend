@@ -77,6 +77,8 @@ export const SVGView = ({
         customFieldsSelectedId < sortedPositions?.length - 1 ? doc : null,
     ])
 
+    console.log({ customFieldsSelectedId })
+
     const handleFocus = () => {
         if (documentSvgData?.isSuccess && doc) {
             if (isBrowser()) {
@@ -84,7 +86,7 @@ export const SVGView = ({
                     `tabs-view-${sortedPositions?.[customFieldsSelectedId]?.id}`
                 ) as HTMLInputElement | null
                 console.log({ inputElement })
-                if (inputElement) {
+                if (inputElement && !isLastSelected) {
                     inputElement.scrollIntoView({
                         behavior: 'smooth',
                         block: 'center',
@@ -114,6 +116,12 @@ export const SVGView = ({
     console.log({
         zeroSorted: sortedPositions?.[0]?.number,
         indexPlus1: index + 1,
+        documentSvgData: documentSvgData?.isSuccess,
+        index,
+        pageCount: documentData?.pageCount,
+        showEndDocument,
+        isLastSelected,
+        sortedPositions,
     })
 
     useEffect(() => {

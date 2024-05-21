@@ -12,9 +12,11 @@ import Image from 'next/image'
 
 export const ProfileAppointmentsCard = ({
     type,
+    upcomming,
     appointment,
 }: {
     type: string
+    upcomming?: boolean
     appointment: Appointment
 }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
@@ -46,6 +48,7 @@ export const ProfileAppointmentsCard = ({
             <AppointmentViewModal
                 id={appointment?.id}
                 onCancel={() => setModal(null)}
+                upcomming
             />
         )
     }

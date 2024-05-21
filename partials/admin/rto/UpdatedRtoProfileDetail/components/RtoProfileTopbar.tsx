@@ -41,7 +41,7 @@ export const RtoProfileTopbar = () => {
                                         <button
                                             onClick={() => {
                                                 router.push(
-                                                    `${router?.query?.id}/student-list`
+                                                    `/portals/admin/rto/${router?.query?.id}/student-list`
                                                 )
                                             }}
                                             className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
@@ -59,7 +59,7 @@ export const RtoProfileTopbar = () => {
                                         <button
                                             onClick={() => {
                                                 router.push(
-                                                    `${router?.query?.id}/add-individual-student`
+                                                    `/portals/admin/rto/${router?.query?.id}/add-individual-student`
                                                 )
                                             }}
                                             className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"

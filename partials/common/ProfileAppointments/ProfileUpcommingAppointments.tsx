@@ -41,6 +41,7 @@ export const ProfileUpcommingAppointments = ({
                                     type={'Upcoming'}
                                     key={appointment?.id}
                                     appointment={appointment}
+                                    upcomming
                                 />
                             )
                         )}
