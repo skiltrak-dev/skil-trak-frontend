@@ -40,8 +40,8 @@ export const UserLayout = ({ children }: UserLayoutProps) => {
     useEffect(() => {
         if (userData?.status === UserStatus.Pending) {
             alert.warning({
-                title: `${userData?.name} is Pending`,
-                description: 'Please wait for admin approval',
+                title: `Account Pending Approval`,
+                description: `${userData?.name}, your account is currently pending admin approval. Until your request is approved, your functionalities will be limited. Thank you for your patience.`,
                 autoDismiss: false,
                 existId: 'userStatusPending',
             })

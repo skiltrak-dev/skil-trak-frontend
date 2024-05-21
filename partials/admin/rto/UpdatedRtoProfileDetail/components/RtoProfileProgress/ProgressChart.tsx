@@ -11,7 +11,7 @@ export const ProgressChart = ({
         pieHole: 0.5,
         is3D: false,
         legend: { position: 'none' },
-        chartArea: { width: '100%', height: '90%' },
+        chartArea: { width: '60%', height: '90%' },
         colors: data?.map((d: RtoProfileProgressTypes, i: number) => d?.color),
         // pieSliceText: 'none',
         // pieSliceTextStyle: {
