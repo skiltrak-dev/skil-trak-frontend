@@ -137,7 +137,9 @@ export const RtoProfileActions = ({ rto }: { rto: Rto }) => {
     }
 
     const onTicketClicked = () => {
-        setModalView(<RtoTickets onCancel={onModalCancelled} />)
+        setModalView(
+            <RtoTickets rtoUser={rto?.user?.id} onCancel={onModalCancelled} />
+        )
     }
 
     return (

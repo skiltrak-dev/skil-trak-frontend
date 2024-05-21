@@ -416,6 +416,7 @@ const {
     useForwardTicketMutation,
     useGetTicketRepliesQuery,
     useSeenTicketReplyMutation,
+    useGetTicketsListByUserQuery,
     useGetStudentTicketsListQuery,
 
     // ----- STUDENTASSESSMENTFILES ----- //
@@ -654,6 +655,7 @@ export const CommonApi = {
         useGetTicketReplies: useGetTicketRepliesQuery,
         useSeenTicketReply: useSeenTicketReplyMutation,
         useGetTicketCountQuery: useGetTicketCountQuery,
+        useTicketListByUser: useGetTicketsListByUserQuery,
         useStudentTicketsList: useGetStudentTicketsListQuery,
     },
     StudentAssessmentFiles: {

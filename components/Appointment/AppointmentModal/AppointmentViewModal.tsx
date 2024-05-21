@@ -32,8 +32,10 @@ import { ApproveAppointmentModal } from './ApproveAppointmentModal'
 export const AppointmentViewModal = ({
     id,
     onCancel,
+    upcomming,
 }: {
     id: number
+    upcomming?: boolean
     onCancel: () => void
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -160,27 +162,73 @@ export const AppointmentViewModal = ({
                                                             ? '(Pending Appointment)'
                                                             : ''}
                                                     </Typography>
-                                                    {!appointment?.data
-                                                        ?.isApproved ? (
-                                                        <AuthorizedUserComponent
-                                                            roles={[
-                                                                UserRoles.ADMIN,
-                                                                UserRoles.SUBADMIN,
-                                                            ]}
-                                                        >
+                                                    {appointment?.data
+                                                        ?.future ? (
+                                                        <>
+                                                            {!appointment?.data
+                                                                ?.isApproved ? (
+                                                                <AuthorizedUserComponent
+                                                                    roles={[
+                                                                        UserRoles.ADMIN,
+                                                                        UserRoles.SUBADMIN,
+                                                                    ]}
+                                                                >
+                                                                    <ActionButton
+                                                                        Icon={
+                                                                            FaCircleCheck
+                                                                        }
+                                                                        mini
+                                                                        title={
+                                                                            'Approve Appointment'
+                                                                        }
+                                                                        variant={
+                                                                            'warning'
+                                                                        }
+                                                                        onClick={() => {
+                                                                            onApproveModal()
+                                                                        }}
+                                                                        loading={
+                                                                            cancellAppointmentResult?.isLoading
+                                                                        }
+                                                                        disabled={
+                                                                            cancellAppointmentResult?.isLoading
+                                                                        }
+                                                                    />
+                                                                </AuthorizedUserComponent>
+                                                            ) : null}
+                                                            <AuthorizedUserComponent
+                                                                roles={[
+                                                                    UserRoles.ADMIN,
+                                                                    UserRoles.SUBADMIN,
+                                                                ]}
+                                                            >
+                                                                <ActionButton
+                                                                    Icon={
+                                                                        GiNotebook
+                                                                    }
+                                                                    mini
+                                                                    title={
+                                                                        'Add Note'
+                                                                    }
+                                                                    variant={
+                                                                        'success'
+                                                                    }
+                                                                    onClick={() => {
+                                                                        onAddNote()
+                                                                    }}
+                                                                />
+                                                            </AuthorizedUserComponent>
                                                             <ActionButton
                                                                 Icon={
-                                                                    FaCircleCheck
+                                                                    TbCalendarTime
                                                                 }
                                                                 mini
                                                                 title={
-                                                                    'Approve Appointment'
+                                                                    'Reschedule Appointment'
                                                                 }
-                                                                variant={
-                                                                    'warning'
-                                                                }
+                                                                variant={'info'}
                                                                 onClick={() => {
-                                                                    onApproveModal()
+                                                                    onRescheduleClicked()
                                                                 }}
                                                                 loading={
                                                                     cancellAppointmentResult?.isLoading
@@ -189,78 +237,47 @@ export const AppointmentViewModal = ({
                                                                     cancellAppointmentResult?.isLoading
                                                                 }
                                                             />
-                                                        </AuthorizedUserComponent>
-                                                    ) : null}
-                                                    <AuthorizedUserComponent
-                                                        roles={[
-                                                            UserRoles.ADMIN,
-                                                            UserRoles.SUBADMIN,
-                                                        ]}
-                                                    >
-                                                        <ActionButton
-                                                            Icon={GiNotebook}
-                                                            mini
-                                                            title={'Add Note'}
-                                                            variant={'success'}
-                                                            onClick={() => {
-                                                                onAddNote()
-                                                            }}
-                                                        />
-                                                    </AuthorizedUserComponent>
-                                                    <ActionButton
-                                                        Icon={TbCalendarTime}
-                                                        mini
-                                                        title={
-                                                            'Reschedule Appointment'
-                                                        }
-                                                        variant={'info'}
-                                                        onClick={() => {
-                                                            onRescheduleClicked()
-                                                        }}
-                                                        loading={
-                                                            cancellAppointmentResult?.isLoading
-                                                        }
-                                                        disabled={
-                                                            cancellAppointmentResult?.isLoading
-                                                        }
-                                                    />
-                                                    {/* <GiNotebook /> */}
-                                                    <ActionButton
-                                                        Icon={FaTimes}
-                                                        mini
-                                                        title={
-                                                            'Cancell Appointment'
-                                                        }
-                                                        variant={'error'}
-                                                        onClick={(
-                                                            e: MouseEvent<HTMLElement>
-                                                        ) => {
-                                                            e?.stopPropagation()
-                                                            if (
-                                                                !isLessThan24HoursDifference(
-                                                                    appointment
-                                                                        ?.data
-                                                                        ?.date
-                                                                )
-                                                            ) {
-                                                                onCancelAppointment()
-                                                            } else {
-                                                                notification.error(
-                                                                    {
-                                                                        title: 'Appointment Cant be cancel',
-                                                                        description:
-                                                                            'Appointment Cant cancel before 1 day',
+                                                            {/* <GiNotebook /> */}
+                                                            <ActionButton
+                                                                Icon={FaTimes}
+                                                                mini
+                                                                title={
+                                                                    'Cancell Appointment'
+                                                                }
+                                                                variant={
+                                                                    'error'
+                                                                }
+                                                                onClick={(
+                                                                    e: MouseEvent<HTMLElement>
+                                                                ) => {
+                                                                    e?.stopPropagation()
+                                                                    if (
+                                                                        !isLessThan24HoursDifference(
+                                                                            appointment
+                                                                                ?.data
+                                                                                ?.date
+                                                                        )
+                                                                    ) {
+                                                                        onCancelAppointment()
+                                                                    } else {
+                                                                        notification.error(
+                                                                            {
+                                                                                title: 'Appointment Cant be cancel',
+                                                                                description:
+                                                                                    'Appointment Cant cancel before 1 day',
+                                                                            }
+                                                                        )
                                                                     }
-                                                                )
-                                                            }
-                                                        }}
-                                                        loading={
-                                                            cancellAppointmentResult?.isLoading
-                                                        }
-                                                        disabled={
-                                                            cancellAppointmentResult?.isLoading
-                                                        }
-                                                    />
+                                                                }}
+                                                                loading={
+                                                                    cancellAppointmentResult?.isLoading
+                                                                }
+                                                                disabled={
+                                                                    cancellAppointmentResult?.isLoading
+                                                                }
+                                                            />
+                                                        </>
+                                                    ) : null}
                                                 </div>
                                             )}
                                         </div>

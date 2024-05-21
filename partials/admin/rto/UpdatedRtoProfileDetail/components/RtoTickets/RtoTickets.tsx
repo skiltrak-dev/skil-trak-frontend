@@ -11,8 +11,15 @@ import { CommonApi } from '@queries'
 import React from 'react'
 import { FaTimes } from 'react-icons/fa'
 
-export const RtoTickets = ({ onCancel }: { onCancel: () => void }) => {
-    const tickets = CommonApi.Tickets.useStudentTicketsList(285, {
+export const RtoTickets = ({
+    rtoUser,
+    onCancel,
+}: {
+    rtoUser: number
+    onCancel: () => void
+}) => {
+    const tickets = CommonApi.Tickets.useTicketListByUser(rtoUser, {
+        skip: !rtoUser,
         refetchOnMountOrArgChange: true,
     })
     return (
@@ -28,7 +35,7 @@ export const RtoTickets = ({ onCancel }: { onCancel: () => void }) => {
             </div>
             <div className="px-4">
                 <div className="py-2.5 flex justify-between items-center">
-                    {tickets?.data?.data?.length > 0 && (
+                    {tickets?.data?.length > 0 && (
                         <Typography variant="small" medium>
                             {tickets?.data?.data?.length} Record Found
                         </Typography>
@@ -74,15 +81,8 @@ export const RtoTickets = ({ onCancel }: { onCancel: () => void }) => {
                                     Tickets Loading...
                                 </Typography>
                             </div>
-                        ) : tickets?.data?.data &&
-                          tickets?.data?.data?.length > 0 ? (
-                            [
-                                ...tickets?.data?.data,
-                                ...tickets?.data?.data,
-                                ...tickets?.data?.data,
-                                ...tickets?.data?.data,
-                                ...tickets?.data?.data,
-                            ]?.map((ticket: any) => (
+                        ) : tickets?.data && tickets?.data?.length > 0 ? (
+                            tickets?.data?.map((ticket: any) => (
                                 <TicketCard key={ticket?.id} ticket={ticket} />
                             ))
                         ) : (

@@ -376,12 +376,18 @@ export const ViewDocumentAndSign = () => {
                             documentsTotalPages?.data?.pageCount - 1,
                             'end'
                         )
+                        setIsLastSelected(true)
                     }
                     console.log(
                         'd',
                         updatedIndex,
-                        sortedPositions?.[updatedIndex]
+                        sortedPositions?.[updatedIndex],
+                        nextData
                     )
+
+                    if (!sortedPositions?.[updatedIndex]) {
+                        setIsLastSelected(true)
+                    }
 
                     setCustomFieldsSelectedId(updatedIndex)
                     setSelectedFillDataField(nextData?.id)

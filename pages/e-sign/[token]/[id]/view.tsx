@@ -364,6 +364,10 @@ const ESign = () => {
                         sortedPositions?.[updatedIndex]
                     )
 
+                    if (!sortedPositions?.[updatedIndex]) {
+                        setIsLastSelected(true)
+                    }
+
                     setCustomFieldsSelectedId(updatedIndex)
                     setSelectedFillDataField(nextData?.id)
                 }
