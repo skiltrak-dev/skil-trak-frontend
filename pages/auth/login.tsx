@@ -6,6 +6,8 @@ import { useRouter } from 'next/router'
 
 import {
     AccountStatus,
+    AuthNavbar,
+    Footer,
     LoginForm,
     LottieAnimation,
     Typography,
@@ -18,6 +20,7 @@ import { LoginCredentials, StatusType, UserStatus } from '@types'
 import { AuthUtils, isBrowser } from '@utils'
 import { UserRoles } from '@constants'
 import { LoginErrorAfterHoursModal } from '@modals'
+import Image from 'next/image'
 
 const Login: NextPage = () => {
     const router = useRouter()
@@ -140,16 +143,16 @@ const Login: NextPage = () => {
     }
 
     return (
-        <AuthLayout type="log-in">
+        <>
             {modal}
             {requested && <AccountStatus status={UserStatus.Pending} />}
             {rejected && <AccountStatus status={UserStatus.Rejected} />}
             {archived && <AccountStatus status={UserStatus.Archived} />}
             {blocked && <AccountStatus status={UserStatus.Blocked} />}
-
+            <AuthNavbar type={'log-in'} />
             {!requested && !rejected && !archived && !blocked && (
                 // <div className="w-4/5 mx-auto flex items-center justify-between">
-                <div className="w-full md:w-4/5 mx-auto flex flex-col sm:flex-row items-center justify-between">
+                <div className="w-full md:w-2/3 mx-auto flex flex-col sm:flex-row justify-between">
                     <div className="flex flex-col items-center flex-grow mt-8 w-full px-4">
                         <div className="w-full mb-8">
                             <Typography variant={'h3'}>
@@ -179,18 +182,74 @@ const Login: NextPage = () => {
                         ) : null}
                     </div>
 
-                    <div className="hidden md:block h-48 w-px bg-gray-300 mx-8"></div>
+                    <div className="hidden md:block h-48 my-auto w-px bg-gray-300 mx-8"></div>
 
-                    <div className="hidden md:block">
+                    {/* <div className="hidden md:block">
                         <LottieAnimation
                             height={550}
                             width={450}
                             animation={Animations.Auth.Login.Simple}
                         />
+                    </div> */}
+                    <div className="w-full">
+                        <div className="flex justify-between gap-x-28 mt-8 ml-20">
+                            <div className="flex flex-col gap-1 whitespace-nowrap">
+                                <Typography variant="h2">
+                                    Skiltrak App
+                                </Typography>
+                                <Typography variant="label">
+                                    Exclusive access for students:
+                                </Typography>
+                                <Typography variant="label" bold>
+                                    Download Skiltrak App now!
+                                </Typography>
+                            </div>
+                            <div className="flex flex-col gap-1.5">
+                                <div className="flex items-center gap-x-1.5">
+                                    <Image
+                                        src={'/images/app-qr-code.svg'}
+                                        alt="Skiltrak App"
+                                        width={106}
+                                        height={106}
+                                    />
+                                    <Image
+                                        src={'/images/scan-qr-code-text.svg'}
+                                        alt="Skiltrak App"
+                                        width={104}
+                                        height={93}
+                                    />
+                                </div>
+                                <Link
+                                    className="cursor-pointer"
+                                    href="https://apps.apple.com/pk/app/skiltrak/id6479631404"
+                                >
+                                    <div>
+                                        <Image
+                                            src={'/images/download-btn.svg'}
+                                            alt="Skiltrak App"
+                                            width={106}
+                                            height={34}
+                                        />
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>
+                        <div className="hidden md:block absolute right-0 bottom-0">
+                            <Image
+                                src="/images/skiltrak-app.svg"
+                                alt="Skiltrak App"
+                                width={550}
+                                height={550}
+                                className="w-auto h-full object-cover"
+                            />
+                        </div>
                     </div>
                 </div>
             )}
-        </AuthLayout>
+            <div className="w-full fixed bottom-0 left-0">
+                <Footer />
+            </div>
+        </>
     )
 }
 

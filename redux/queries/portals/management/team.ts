@@ -23,8 +23,11 @@ export const teamEndpoints = (
         providesTags: ['TeamManagement', 'TeamMembers'],
     }),
     getTeamMembersDetail: builder.query<any, any>({
-        query: (id) => `${PREFIX}/member/${id}/detail`,
-        providesTags: ['TeamManagement'],
+        query: ({id, params}) => ({
+            url: `${PREFIX}/member/${id}/detail`,
+            params,
+        }),
+        providesTags: ['TeamManagement', 'KpiReportDocument', 'KpiReportList'],
     }),
     // sectors/list
     

@@ -1,4 +1,9 @@
-import { Button, ShowErrorNotifications, TextInput, Typography } from '@components'
+import {
+    Button,
+    ShowErrorNotifications,
+    TextInput,
+    Typography,
+} from '@components'
 import { read, utils } from 'xlsx'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -25,6 +30,17 @@ export const UploadKpiModal = ({ onCancel, member }: UploadKpiModalProps) => {
     // APi
     const [upload, uploadResults] = ManagementApi.Documents.useUploadKpiReport()
     // --------- File ----------- //
+    const removeSpacesFromKeys = (row: any) => {
+        const newRow: any = {}
+        for (const key in row) {
+            if (row.hasOwnProperty(key)) {
+                const newKey = key.replace(/\s+/g, '')
+                newRow[newKey] = row[key]
+            }
+        }
+        return newRow
+    }
+
     const onFileChange = async (e: any) => {
         // const selectedFile = e.target.files[0];
         // const wb = readFile(e.target.result)
@@ -32,7 +48,8 @@ export const UploadKpiModal = ({ onCancel, member }: UploadKpiModalProps) => {
         const sheets = wb.SheetNames
 
         if (sheets.length) {
-            const rows = utils.sheet_to_json(wb.Sheets[sheets[0]])
+            let rows = utils.sheet_to_json(wb.Sheets[sheets[0]])
+            rows = rows?.map(removeSpacesFromKeys)
             setKpi(rows)
         }
     }
@@ -80,7 +97,7 @@ export const UploadKpiModal = ({ onCancel, member }: UploadKpiModalProps) => {
     }
     return (
         <>
-       <ShowErrorNotifications result={uploadResults} />
+            <ShowErrorNotifications result={uploadResults} />
             <div className="flex justify-center w-full overflow-auto remove-scrollbar">
                 <div
                     className={`w-[545px] bg-white/80 px-6 py-4 border rounded-lg overflow-hidden relative`}

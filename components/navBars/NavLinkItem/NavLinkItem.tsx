@@ -7,13 +7,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 
-export const NavLinkItem = ({
-    nav,
-    PREFIX,
-}: {
-    PREFIX: string
-    nav: any
-}) => {
+export const NavLinkItem = ({ nav, PREFIX }: { PREFIX: string; nav: any }) => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
     const router = useRouter()
     const isActive = (pathname: string) => {
@@ -27,7 +21,9 @@ export const NavLinkItem = ({
             <Link legacyBehavior href={nav.link}>
                 <a
                     className={`${
-                        isActive(nav.link)
+                        // isActive(nav?.link?.split('/')[3])
+                        router?.pathname?.split('/')[3] ===
+                        nav?.link?.split('/')[3]
                             ? nav.activeClasses
                             : nav.inActiveClasses
                     } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}

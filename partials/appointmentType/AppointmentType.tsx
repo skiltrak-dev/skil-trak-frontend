@@ -35,7 +35,7 @@ export const AppointmentType = ({
         <div>
             <div className="flex gap-x-1">
                 <Typography variant={'label'} color={'text-gray-700'}>
-                    Please select type of appointment you want to book?
+                Please select the type of appointment you would like to book:
                 </Typography>
                 <div className="-mt-1">
                     <RequiredStar />

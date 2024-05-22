@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react'
 
 export const useIndustriesOptions = () => {
     const [industriesResponse, setIndustriesResponse] = useState<any>(null)
-
     const role = getUserCredentials()?.role
     const adminCoursesResponse = CommonApi.Industries.useIndustriesList(
         undefined,
@@ -31,7 +30,7 @@ export const useIndustriesOptions = () => {
 
     const industryOptions = industriesResponse?.data?.length
         ? industriesResponse?.data?.map((industry: any) => ({
-              label: `${industry?.businessName} ${industry?.abn}`,
+              label: `${industry?.user?.name} - ${industry?.abn}`,
               value: industry?.id,
           }))
         : []

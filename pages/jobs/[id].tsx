@@ -29,7 +29,7 @@ const JobDetail: NextPageWithLayout = ({
     const incrementJobCount = CommonApi.Industries.jobsCount(Number(id), {
         skip: !id,
     })
-   
+
     const openJobId = jobData?.job?.id
 
     const onCancelModal = () => setModal(null)
@@ -40,11 +40,12 @@ const JobDetail: NextPageWithLayout = ({
         )
     }
 
-    const otherJobs = industryRelatedList?.data.filter(
+    const otherJobs = industryRelatedList?.data?.filter(
         (job: any) =>
             job.id !== openJobId &&
             jobData?.job?.industry?.id === job?.industry?.id
     )
+    console.log('otherJobs', otherJobs)
 
     return (
         <>
