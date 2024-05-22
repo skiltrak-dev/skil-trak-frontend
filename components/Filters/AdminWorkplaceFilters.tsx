@@ -70,6 +70,7 @@ export const AdminWorkplaceFilters = ({
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
                         onFilterChange({ ...filter, studentId: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="name"
@@ -79,6 +80,7 @@ export const AdminWorkplaceFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, name: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="email"
@@ -89,6 +91,7 @@ export const AdminWorkplaceFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, email: e.target.value })
                     }}
+                    showError={false}
                 />
 
                 <TextInput
@@ -99,6 +102,7 @@ export const AdminWorkplaceFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, location: e.target.value })
                     }}
+                    showError={false}
                 />
 
                 <Select
@@ -115,6 +119,7 @@ export const AdminWorkplaceFilters = ({
                             status: e?.value as UserStatus,
                         })
                     }}
+                    showError={false}
                 />
 
                 <Select
@@ -134,6 +139,7 @@ export const AdminWorkplaceFilters = ({
                     }}
                     loading={getCoordinators.isLoading}
                     disabled={getCoordinators.isLoading}
+                    showError={false}
                 />
 
                 <Select
@@ -149,6 +155,7 @@ export const AdminWorkplaceFilters = ({
                     }}
                     loading={getRtos.isLoading}
                     disabled={getRtos.isLoading}
+                    showError={false}
                 />
 
                 <Select
@@ -168,6 +175,7 @@ export const AdminWorkplaceFilters = ({
                     }}
                     loading={getIndustries.isLoading}
                     disabled={getIndustries.isLoading}
+                    showError={false}
                 />
 
                 <Select
@@ -191,6 +199,7 @@ export const AdminWorkplaceFilters = ({
                     }}
                     disabled={getCourses.isLoading}
                     formatOptionLabel={formatOptionLabel}
+                    showError={false}
                 />
             </div>
         </>

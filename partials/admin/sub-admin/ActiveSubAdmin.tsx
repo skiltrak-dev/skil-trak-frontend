@@ -57,7 +57,9 @@ export const ActiveSubAdmin = () => {
     const { isLoading, isFetching, data, isError, refetch } =
         AdminApi.SubAdmins.useListQuery(
             {
-                search: `status:${UserStatus.Approved},createdBy:${UserRoles.ADMIN}`,
+                search: `status:${
+                    UserStatus.Approved
+                },isAssociatedWithRto:${false}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
