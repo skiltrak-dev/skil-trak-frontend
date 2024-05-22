@@ -55,6 +55,7 @@ export const AssessmentFileCard = ({
                             window.open(assessmentTool?.file)
                         }
                     }}
+                    title="Download File"
                 />
                 <AssessmentActionCard
                     Icon={LuCopy}
@@ -62,6 +63,7 @@ export const AssessmentFileCard = ({
                         archiveAssessmentTool(assessmentTool?.id)
                     }}
                     loading={archiveAssessmentToolResult?.isLoading}
+                    title="Archive Assessment"
                 />
                 {!isArchived ? (
                     <AssessmentActionCard
@@ -70,6 +72,7 @@ export const AssessmentFileCard = ({
                             onEditAssessment()
                         }}
                         loading={removeResult?.isLoading}
+                        title="Edit Assessment"
                     />
                 ) : null}
                 {isArchived ? (
@@ -79,6 +82,7 @@ export const AssessmentFileCard = ({
                             remove(assessmentTool?.id)
                         }}
                         loading={removeResult?.isLoading}
+                        title="Delete Assessment"
                     />
                 ) : null}
 

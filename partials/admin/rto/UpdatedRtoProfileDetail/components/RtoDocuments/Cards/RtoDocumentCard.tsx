@@ -87,7 +87,7 @@ export const RtoDocumentCard = ({
             </div>
             <div className="mt-4">
                 <Typography variant="small" color={'text-[#676767]'}>
-                    Supported formate : PNG
+                    Supported format : PNG
                 </Typography>
             </div>
         </div>

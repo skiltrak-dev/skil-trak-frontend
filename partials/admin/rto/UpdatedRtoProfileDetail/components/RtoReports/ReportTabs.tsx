@@ -6,6 +6,7 @@ import { PlacementStartedReport } from './PlacementStartedReport'
 import { StudentResultsReport } from './StudentResultsReport'
 import { WorkplaceRequestReport } from './WorkplaceRequestReport'
 import { AppointmentsReport } from './AppointmentsReport'
+import { Waypoint } from 'react-waypoint'
 
 export const ReportTabs = ({
     user,
@@ -16,12 +17,14 @@ export const ReportTabs = ({
     endDate: Date
     startDate: Date
 }) => {
+    const [isViewd, setIsViewd] = useState<boolean>(false)
     const reportsData = [
         {
             title: 'Non Contactable Students',
             component: (
                 <NonContactableStudentReport
                     user={user}
+                    isViewd={isViewd}
                     endDate={endDate}
                     startDate={startDate}
                 />
@@ -32,6 +35,7 @@ export const ReportTabs = ({
             component: (
                 <CompletedWorkplaceReport
                     user={user}
+                    isViewd={isViewd}
                     endDate={endDate}
                     startDate={startDate}
                 />
@@ -42,6 +46,7 @@ export const ReportTabs = ({
             component: (
                 <PlacementStartedReport
                     user={user}
+                    isViewd={isViewd}
                     endDate={endDate}
                     startDate={startDate}
                 />
@@ -52,6 +57,7 @@ export const ReportTabs = ({
             component: (
                 <StudentResultsReport
                     user={user}
+                    isViewd={isViewd}
                     endDate={endDate}
                     startDate={startDate}
                 />
@@ -62,6 +68,7 @@ export const ReportTabs = ({
             component: (
                 <WorkplaceRequestReport
                     user={user}
+                    isViewd={isViewd}
                     endDate={endDate}
                     startDate={startDate}
                 />
@@ -72,6 +79,7 @@ export const ReportTabs = ({
             component: (
                 <AppointmentsReport
                     user={user}
+                    isViewd={isViewd}
                     endDate={endDate}
                     startDate={startDate}
                 />
@@ -83,40 +91,51 @@ export const ReportTabs = ({
     )
 
     return (
-        <div>
-            <div className="flex items-center justify-between px-4 pb-3.5 bg-[#F5F7FB]">
-                {reportsData?.map((report) => (
-                    <div
-                        onClick={() => {
-                            setSelectedReport(report?.title)
-                        }}
-                        className="cursor-pointer"
-                    >
-                        <Typography
-                            color={
-                                selectedReport === report?.title
-                                    ? 'text-[#017EFA]'
-                                    : 'text-[#797979]'
-                            }
-                            medium={
-                                selectedReport === report?.title ? true : false
-                            }
-                            variant="small"
+        <Waypoint
+            onEnter={() => {
+                setIsViewd(true)
+            }}
+            onLeave={() => {
+                setIsViewd(false)
+            }}
+        >
+            <div>
+                <div className="flex items-center justify-between px-4 pb-3.5 bg-[#F5F7FB]">
+                    {reportsData?.map((report) => (
+                        <div
+                            onClick={() => {
+                                setSelectedReport(report?.title)
+                            }}
+                            className="cursor-pointer"
                         >
-                            {report?.title}
-                        </Typography>
-                    </div>
-                ))}
-            </div>
+                            <Typography
+                                color={
+                                    selectedReport === report?.title
+                                        ? 'text-[#017EFA]'
+                                        : 'text-[#797979]'
+                                }
+                                medium={
+                                    selectedReport === report?.title
+                                        ? true
+                                        : false
+                                }
+                                variant="small"
+                            >
+                                {report?.title}
+                            </Typography>
+                        </div>
+                    ))}
+                </div>
 
-            {/*  */}
-            <div className="mt-4">
-                {
-                    reportsData?.find(
-                        (report) => report?.title === selectedReport
-                    )?.component
-                }
+                {/*  */}
+                <div className="mt-4">
+                    {
+                        reportsData?.find(
+                            (report) => report?.title === selectedReport
+                        )?.component
+                    }
+                </div>
             </div>
-        </div>
+        </Waypoint>
     )
 }

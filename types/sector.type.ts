@@ -2,6 +2,14 @@ import { AssessmentEvidenceFolder } from './assessment-evidence.type'
 import { BaseResponse } from './base.type'
 import { Folder } from './folder.type'
 
+export interface CourseExtraHours extends BaseResponse {
+    id: number
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    hours: string
+}
+
 export interface Course extends BaseResponse {
     id: number
     code: string
@@ -14,6 +22,7 @@ export interface Course extends BaseResponse {
     folders: Folder[]
     results: any
     timing: any
+    extraHours: CourseExtraHours[]
 }
 
 export interface Sector extends BaseResponse {

@@ -36,7 +36,9 @@ export const StudentLogsModal = ({ onCancel }: { onCancel: () => void }) => {
             accessorKey: 'user.name',
             cell: (info) => (
                 <div className="px-3 py-1 rounded bg-[#24556D1A]">
-                    <Typography variant="label">21959</Typography>{' '}
+                    <Typography variant="label">
+                        {info.row.original?.studentId}
+                    </Typography>
                 </div>
             ),
             header: () => <span>Student ID</span>,
@@ -87,7 +89,7 @@ export const StudentLogsModal = ({ onCancel }: { onCancel: () => void }) => {
                         profile={info.row.original?.subadmin}
                         onClick={() => {
                             router.push({
-                                pathname: `/portals/admin/sub-admin/${info.row?.original?.id}`,
+                                pathname: `/portals/admin/sub-admin/${info.row?.original?.subadmin?.id}`,
                                 query: { tab: 'history' },
                             })
                         }}

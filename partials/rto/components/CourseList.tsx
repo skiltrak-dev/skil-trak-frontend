@@ -14,12 +14,16 @@ export const CourseList = ({
     courses: Course[]
 }) => {
     useEffect(() => {
-        setSelectedCourses((prevCourses: any) =>
-            [...prevCourses, ...courses]?.map((c: Course) => ({
+        setSelectedCourses((prevCourses: any) => {
+            const allCourses = [...prevCourses, ...courses]
+            return allCourses?.map((c: Course) => ({
                 id: c?.id,
-                hours: c?.hours,
+                hours:
+                    c?.extraHours && c?.extraHours?.length > 0
+                        ? Number(c?.extraHours?.[0]?.hours).toFixed(0)
+                        : c?.hours,
             }))
-        )
+        })
     }, [])
 
     return (
@@ -43,7 +47,12 @@ export const CourseList = ({
                                     variant={'small'}
                                     color={'text-gray-500'}
                                 >
-                                    hours: {c?.hours}
+                                    hours:{' '}
+                                    {c?.extraHours && c?.extraHours?.length > 0
+                                        ? Number(
+                                              c?.extraHours?.[0]?.hours
+                                          ).toFixed(0)
+                                        : c?.hours}
                                 </Typography>
                                 <Typography
                                     variant={'small'}

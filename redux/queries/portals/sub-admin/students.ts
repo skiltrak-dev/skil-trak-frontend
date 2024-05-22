@@ -33,6 +33,18 @@ export const studentsEndpoints = (
             'Students',
         ],
     }),
+    getRtoSubadminStudents: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/students/list-all`,
+            params,
+        }),
+        providesTags: [
+            'SubAdminStudents',
+            'BulkUsersDelete',
+            'BulkStatus',
+            'Students',
+        ],
+    }),
     getSubAdminUrgentStudents: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}/students/urgent/list`,

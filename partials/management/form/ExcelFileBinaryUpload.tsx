@@ -163,7 +163,7 @@ export const ExcelFileBinaryUpload = ({ name, label, onChange }: any) => {
                                     htmlFor={`file_id_${name}`}
                                     className="cursor-pointer hover:underline"
                                 >
-                                    Supported formate : Excel
+                                    Supported format : Excel
                                 </label>
                             </p>
                         </div>

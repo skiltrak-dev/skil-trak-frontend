@@ -13,12 +13,14 @@ import { RtoProfileTable } from './components'
 
 export const StudentResultsReport = ({
     user,
+    isViewd,
     endDate,
     startDate,
 }: {
     user?: number
     endDate: Date
     startDate: Date
+    isViewd: boolean
 }) => {
     const monthEnd = new Date()
     monthEnd.setDate(monthEnd.getDate() - 30)
@@ -29,7 +31,6 @@ export const StudentResultsReport = ({
     const [page, setPage] = useState(1)
     const router = useRouter()
 
-
     const { data, isLoading, isError, isFetching } =
         RtoApi.Students.useStudentsResultsReport(
             {
@@ -38,8 +39,8 @@ export const StudentResultsReport = ({
                 endDate: endDate.toISOString().slice(0, 10),
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
-            }
-            // { skip: !renderComponent }
+            },
+            { skip: !isViewd }
         )
 
     const columns: ColumnDef<any>[] = [
@@ -48,7 +49,7 @@ export const StudentResultsReport = ({
             accessorKey: 'user',
             cell: (info: any) => (
                 <Typography medium variant="small">
-                    {info?.row?.original?.studentId}
+                    {info?.row?.original?.student?.studentId}
                 </Typography>
             ),
         },
@@ -57,7 +58,7 @@ export const StudentResultsReport = ({
             accessorKey: 'user.name',
             cell: (info: any) => (
                 <Typography medium variant="small">
-                    {info?.row?.original?.user?.name}
+                    {info?.row?.original?.student?.user?.name}
                 </Typography>
             ),
         },
@@ -66,7 +67,7 @@ export const StudentResultsReport = ({
             header: () => <span>Email</span>,
             cell: (info: any) => (
                 <Typography variant="small">
-                    {info?.row?.original?.user?.email}
+                    {info?.row?.original?.student?.user?.email}
                 </Typography>
             ),
         },
@@ -75,7 +76,7 @@ export const StudentResultsReport = ({
             header: () => <span>Phone</span>,
             cell: (info: any) => (
                 <Typography variant="small">
-                    {info?.row?.original?.phone}
+                    {info?.row?.original?.student?.phone}
                 </Typography>
             ),
         },
@@ -88,7 +89,7 @@ export const StudentResultsReport = ({
                 // ))
                 return (
                     <Typography variant="small">
-                        {info?.row?.original?.courses[0]?.title || 'N/A'}
+                        {info?.row?.original?.course?.title || 'N/A'}
                     </Typography>
                 )
             },
@@ -99,7 +100,7 @@ export const StudentResultsReport = ({
             {isError && <TechnicalError />}
             {isLoading || isFetching ? (
                 <LoadingAnimation height="h-[30vh]" />
-            ) : data?.data && data?.data?.length ? (
+            ) : data?.data && data?.data?.length > 0 ? (
                 <div className="h-52 overflow-auto custom-scrollbar">
                     <RtoProfileTable columns={columns} data={data?.data}>
                         {({ table }: TableChildrenProps) => table}

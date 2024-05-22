@@ -64,6 +64,10 @@ export const ActiveRTOSubAdmin = () => {
                 refetchOnMountOrArgChange: true,
             }
         )
+
+    // const [associatedWithRto, associatedWithRtoResult] =
+    //     AdminApi.SubAdmins.useAssociatedWithRto()
+
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     useEffect(() => {
@@ -302,6 +306,25 @@ export const ActiveRTOSubAdmin = () => {
             //     </Typography>
             // ),
         },
+        // {
+        //     accessorKey: 'associated',
+        //     header: () => <span>associated</span>,
+        //     cell: (info: any) => {
+        //         return (
+        //             <ActionButton
+        //                 onClick={() => {
+        //                     associatedWithRto({
+        //                         id: info?.row?.original?.id,
+        //                         rtoId: info?.row?.original?.rtos?.[0]?.id,
+        //                     })
+        //                     console.log({ subadmin: info?.row?.original })
+        //                 }}
+        //             >
+        //                 Associated With Rto
+        //             </ActionButton>
+        //         )
+        //     },
+        // },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,

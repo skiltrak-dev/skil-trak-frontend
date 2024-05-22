@@ -2,6 +2,8 @@ import { LoadingAnimation, NoData, Typography } from '@components'
 import { CommonApi } from '@queries'
 import { Appointment } from '@types'
 import { ProfileAppointmentsCard } from './ProfileAppointmentsCard'
+import { AppointmentType } from '@partials/appointmentType'
+import { AppointmentTypeEnum } from './appointment.enum'
 
 export const ProfilePastAppointments = ({
     userId,
@@ -40,7 +42,7 @@ export const ProfilePastAppointments = ({
                         {pastAppointments?.data?.data?.map(
                             (appointment: Appointment) => (
                                 <ProfileAppointmentsCard
-                                    type={'Past'}
+                                    type={AppointmentTypeEnum.Past}
                                     key={appointment?.id}
                                     appointment={appointment}
                                 />
