@@ -56,7 +56,9 @@ export const ActiveRTOSubAdmin = () => {
     const { isLoading, isFetching, data, isError, refetch } =
         AdminApi.SubAdmins.useListQuery(
             {
-                search: `status:${UserStatus.Approved},createdBy:${UserRoles.RTO}`,
+                search: `status:${
+                    UserStatus.Approved
+                },isAssociatedWithRto:${true}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
