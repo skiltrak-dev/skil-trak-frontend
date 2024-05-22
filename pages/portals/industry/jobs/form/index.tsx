@@ -77,9 +77,7 @@ const AdvertisesNewJob: NextPageWithLayout = () => {
                 {isSuccess && (
                     <ActionAlert
                         title={'Job Advertisement Created Successfully!'}
-                        description={
-                            'You will be redirected to jobs in a moment.'
-                        }
+                        description={`Click on button "Back To List" to go back to list or "View Job Detail" to view the job detail`}
                         variant={'primary'}
                         primaryAction={{
                             text: 'Back To List',
@@ -93,7 +91,7 @@ const AdvertisesNewJob: NextPageWithLayout = () => {
                             text: 'View Job Detail',
                             onClick: () => {
                                 router.push(
-                                    `/portals/industry/jobs/${addResult.data.id}`
+                                    `/portals/industry/jobs/${addResult?.data?.id}`
                                 )
                             },
                         }}

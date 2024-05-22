@@ -83,6 +83,7 @@ import industryListing from './students/industry-listing.json'
 import myStudentsReport from './students/my-student-report.json'
 import appointmentsSec from './students/appointments-sec.json'
 import submissions from './students/submissions.json'
+import workplace from './students/workplace.json'
 
 export const ANIM_ERROR = error
 export const ANIM_PAGE_NOT_FOUND = pageNotFound
@@ -186,6 +187,7 @@ export const Animations = {
             MyStudentsReport: myStudentsReport,
             AppointmentsSec: appointmentsSec,
             Submissions: submissions,
+            Workplace: workplace,
         },
         Notifications: {
             Emails: emails,

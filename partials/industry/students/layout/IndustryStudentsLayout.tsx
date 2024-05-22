@@ -6,6 +6,7 @@ import { HiInformationCircle, HiUsers } from 'react-icons/hi2'
 import { MdSpaceDashboard } from 'react-icons/md'
 import { IndustryLayout } from '@layouts'
 import { PageTitle, PageTitleProps } from '@components'
+import { useRouter } from 'next/router'
 
 export const IndustryStudentsLayout = ({
     children,
@@ -14,6 +15,7 @@ export const IndustryStudentsLayout = ({
     children: ReactNode
     pageTitle?: PageTitleProps
 }) => {
+    const router = useRouter()
     const defaultClasses = classNames({
         'transition-all duration-300 px-4 py-2 flex flex-col md:flex-row gap-x-2 items-center rounded-md':
             true,
@@ -22,13 +24,18 @@ export const IndustryStudentsLayout = ({
         <IndustryLayout>
             <div>
                 <ul className="flex gap-x-2 pb-4">
-                    <li>
+                    <li className={``}>
                         <Link
                             legacyBehavior
                             href="/portals/industry/students/current-students"
                         >
                             <a
-                                className={`text-slate-700 ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
+                                className={`${
+                                    router.pathname.split('/')[4] ===
+                                    'current-students'
+                                        ? 'bg-indigo-100 text-indigo-700 rounded-md'
+                                        : 'text-slate-700'
+                                } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
                             >
                                 <span>
                                     <MdSpaceDashboard />
@@ -59,13 +66,18 @@ export const IndustryStudentsLayout = ({
                         </Link>
                     </li> */}
 
-                    <li>
+                    <li className={``}>
                         <Link
                             legacyBehavior
                             href="/portals/industry/students/appointments"
                         >
                             <a
-                                className={`text-slate-700 ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
+                                className={`${
+                                    router.pathname.split('/')[4] ===
+                                    'appointments'
+                                        ? 'bg-green-100 text-green-700 rounded-md'
+                                        : 'text-slate-700'
+                                } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
                             >
                                 <span>
                                     <HiInformationCircle />

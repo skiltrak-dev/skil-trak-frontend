@@ -58,6 +58,11 @@ export const ActiveIndustries = () => {
         )
         setTemplateBody(template?.content)
         setTemplateSubject(template?.subject)
+        if (template?.file) {
+            setAttachmentFiles([template.file])
+        } else {
+            setAttachmentFiles([])
+        }
     }
 
     const getIndustriesIds = selectAll?.map((industry: any) => industry?.value)
@@ -96,11 +101,15 @@ export const ActiveIndustries = () => {
         let content = draftToHtmlText(data?.message)
 
         const formData = new FormData()
-        const { attachment, message, industries, template, ...rest } = data
-        Object.entries(rest)?.forEach(([key, value]: any) => {
-            formData.append(key, value)
-        })
-
+        const { attachment, message, industries, template, subject, industry } =
+            data
+        // Object.entries(rest)?.forEach(([key, value]: any) => {
+        //     formData.append(key, value)
+        // })
+        // industry.map((industryIds: any) => {
+        formData.append('industry', getIndustriesIds)
+        // })
+        formData.append('subject', subject)
         attachment?.forEach((attached: File) => {
             formData.append('attachment', attached)
         })
@@ -109,6 +118,18 @@ export const ActiveIndustries = () => {
         formData.append('message', content)
         // formData.append('subject', templateSubject)
         sendBulkEmail(formData)
+        // console.log('form Data bulk email', formData)
+        formData.forEach((value: any) => {
+            console.log('Form Data:', value)
+        })
+
+        // console.log('Form Data:>>>>>>>>>', {
+        //     ...rest,
+        //     attachment,
+        //     industries: industriesIds,
+        //     template: templateId,
+        //     message: content,
+        // })
     }
 
     useEffect(() => {
@@ -166,6 +187,7 @@ export const ActiveIndustries = () => {
                             }}
                             options={industryOptions}
                             multi
+
                             // loading={courseLoading}
                         />
                         <Checkbox

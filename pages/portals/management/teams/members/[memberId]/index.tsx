@@ -13,6 +13,7 @@ import {
     KpiProgressCard,
     KpiRecordCount,
     KpiReportCards,
+    KpisFilterModal,
     SwitchMemberTeamModal,
     TeamMemberAvatar,
     TeamSideBar,
@@ -28,7 +29,8 @@ import { PuffLoader } from 'react-spinners'
 
 const MemberDetailPage: NextPageWithLayout = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
-
+    const [startDate, setStartDate] = useState('')
+    const [endDate, setEndDate] = useState('')
     const router = useRouter()
     const memberId = router?.query?.memberId
     // useKpiTargets
@@ -36,9 +38,16 @@ const MemberDetailPage: NextPageWithLayout = () => {
         skip: !memberId,
     })
     const { data, isLoading, isError } = ManagementApi.Team.useTeamMemberDetail(
-        memberId,
+        {
+            id: memberId,
+            params: {
+                startDate: startDate,
+                endDate: endDate,
+            },
+        },
         {
             skip: !memberId,
+            refetchOnMountOrArgChange: true,
         }
     )
     const onCancel = () => {
@@ -71,7 +80,7 @@ const MemberDetailPage: NextPageWithLayout = () => {
     }
     const kpiCountData = [
         {
-            title: 'Workplace Requests',
+            title: 'Placement Started',
             count: data?.placementStarted || 0,
             classes: 'flex-row justify-between items-center gap-x-12',
         },
@@ -100,7 +109,23 @@ const MemberDetailPage: NextPageWithLayout = () => {
         )
         // }
     }
-
+    const onDateRange = () => {
+        // if (applyForTalentPoolResult.isSuccess) {
+        setModal(
+            <GlobalModal>
+                <KpisFilterModal
+                    onCancel={onCancel}
+                    setStartDate={setStartDate}
+                    setEndDate={setEndDate}
+                />
+            </GlobalModal>
+        )
+        // }
+    }
+    const onClear = () => {
+        setStartDate('')
+        setEndDate('')
+    }
     return (
         <>
             {modal && modal}
@@ -202,6 +227,35 @@ const MemberDetailPage: NextPageWithLayout = () => {
                                     >
                                         + Create KPI Target
                                     </button>
+                                )}
+                                {kpiTargetsList?.data?.length === 4 && (
+                                    <>
+                                        <div className="flex items-center gap-x-4">
+                                            {startDate && endDate && (
+                                                <>
+                                                    <div className="flex items-center gap-x-2 text-sm text-primaryNew font-medium">
+                                                        {startDate}{' '}
+                                                        <span className="text-sm font-bold">
+                                                            To
+                                                        </span>{' '}
+                                                        {endDate}
+                                                    </div>
+                                                    <button
+                                                        onClick={onClear}
+                                                        className="text-blue-500 font-medium text-sm underline"
+                                                    >
+                                                        Clear Filter
+                                                    </button>
+                                                </>
+                                            )}
+                                            <button
+                                                onClick={onDateRange}
+                                                className="text-blue-500 font-medium text-sm underline"
+                                            >
+                                                Date Range
+                                            </button>
+                                        </div>
+                                    </>
                                 )}
                             </div>
                             {kpiTargetsList.isLoading ? (

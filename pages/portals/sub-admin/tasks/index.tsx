@@ -73,7 +73,7 @@ const SubAdminTasks: NextPageWithLayout = () => {
             title: 'Workplace Requests',
             description: 'Student Workplace',
             link: 'tasks/workplace?tab=all&subTab=case-officer-not-assigned',
-            animation: Animations.Student.Appointments.AssessmentTool,
+            animation: Animations.Student.Appointments.Workplace,
             id: 'workplace',
             badge: {
                 text: statistics?.data?.workplaceRequest,

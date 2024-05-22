@@ -56,6 +56,11 @@ export const ActiveRtos = () => {
         )
         setTemplateBody(template?.content)
         setTemplateSubject(template?.subject)
+        if (template?.file) {
+            setAttachmentFiles([template.file])
+        } else {
+            setAttachmentFiles([])
+        }
     }
 
     const getRtosIds = selectAll?.map((rto: any) => rto?.value)

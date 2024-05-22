@@ -24,7 +24,7 @@ export const KpiProgressCard = ({ data, achieved }: any) => {
         data.status === 'appointment'
             ? 'Appointments'
             : data.status === 'placementStarted'
-            ? 'Workplace Requests'
+            ? 'Placement Started'
             : data.status === 'agreementUploaded'
             ? 'Agreements Uploaded'
             : 'Student Provided'

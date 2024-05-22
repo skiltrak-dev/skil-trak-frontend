@@ -24,12 +24,26 @@ export const KpisFilterModal = ({
         resolver: yupResolver(validationSchema),
         // defaultValues: { ...editValues, body: bodyData },
     })
+    // const onSubmit = (data: any) => {
+    //     setStartDate(data?.from.toISOString().slice(0, 10))
+    //     setEndDate(data?.to.toISOString().slice(0, 10))
+    //     onCancel()
+    //     methods.reset()
+    // }
     const onSubmit = (data: any) => {
-        setStartDate(data?.from.toISOString().slice(0, 10))
-        setEndDate(data?.to.toISOString().slice(0, 10))
+        const fromDate = new Date(data.from)
+        fromDate.setDate(fromDate.getDate() + 1)
+
+        const toDate = new Date(data.to)
+        toDate.setDate(toDate.getDate() + 1)
+
+        setStartDate(fromDate.toISOString().slice(0, 10))
+        setEndDate(toDate.toISOString().slice(0, 10))
+
         onCancel()
         methods.reset()
     }
+
     return (
         <div className="pb-9 pt-10 px-5">
             <div className="mb-12 flex justify-center">
