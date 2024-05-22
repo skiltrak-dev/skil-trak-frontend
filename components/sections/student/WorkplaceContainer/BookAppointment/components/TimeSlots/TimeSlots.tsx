@@ -182,7 +182,7 @@ export const TimeSlots = ({
                         </div>
                     </AuthorizedUserComponent>
 
-                    <div className="-mt-5">
+                    <div className="mt-3">
                         <Typography variant="label" color="text-gray-700">
                             Pre made Slots
                         </Typography>

@@ -1,7 +1,7 @@
 import { NoData, Typography } from '@components'
 import { useWindowWidth } from '@hooks'
 import { SiteLayout } from '@layouts'
-import { PaginatedItems } from '@partials/common'
+import { Map, PaginatedItems } from '@partials/common'
 import {
     BlogCard,
     HeroSectionBlog,
@@ -166,6 +166,8 @@ const Blogs: NextPageWithLayout = ({ data }: any) => {
                     </div>
                 )}
             </div>
+
+            {/* <Map /> */}
         </>
     )
 }

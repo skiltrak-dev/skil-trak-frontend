@@ -550,3 +550,22 @@ ul.landing-content {
 .remove-text-bg span{
     background-color: transparent !important;
   }
+
+
+
+
+  .marker {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .marker-student {
+    background-color: blue;
+  }
+  
+  .marker-industry {
+    background-color: red;
+  }
+  

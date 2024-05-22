@@ -484,42 +484,54 @@ export const AppointmentViewModal = ({
                                     </p>
                                 </div> */}
                                                 </div>
-                                                <div className="border-t mt-2 py-1">
-                                                    <Typography variant="subtitle">
-                                                        Notes
-                                                    </Typography>
-                                                </div>
-                                                <div className="flex flex-col gap-2 mt-2 overflow-auto custom-scrollbar h-44 bg-gray-100 p-2">
-                                                    {appointment?.data?.notes?.map(
-                                                        (note: any) => (
-                                                            <div
-                                                                key={
-                                                                    appointment
-                                                                        ?.data
-                                                                        ?.id
-                                                                }
-                                                                className="p-2 bg-white shadow-sm rounded-md"
-                                                            >
-                                                                <Typography variant="small">
-                                                                    {note?.body}
-                                                                </Typography>
-                                                                <div className="flex items-center gap-x-2 mt-2">
-                                                                    <Typography variant="muted">
-                                                                        Added
-                                                                        by:
-                                                                    </Typography>
-                                                                    <Typography variant="muted">
-                                                                        {
-                                                                            note
-                                                                                ?.addedBy
-                                                                                ?.name
-                                                                        }
-                                                                    </Typography>
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                    )}
-                                                </div>
+                                                {appointment?.data?.notes
+                                                    ?.length > 0 && (
+                                                    <>
+                                                        <div className="border-t mt-2 py-1">
+                                                            <Typography variant="subtitle">
+                                                                Notes
+                                                            </Typography>
+                                                        </div>
+                                                        <div className="flex flex-col gap-2 mt-2 overflow-auto custom-scrollbar h-44 bg-gray-100 p-2">
+                                                            {appointment?.data
+                                                                ?.notes
+                                                                ?.length > 0 &&
+                                                                appointment?.data?.notes?.map(
+                                                                    (
+                                                                        note: any
+                                                                    ) => (
+                                                                        <div
+                                                                            key={
+                                                                                appointment
+                                                                                    ?.data
+                                                                                    ?.id
+                                                                            }
+                                                                            className="p-2 bg-white shadow-sm rounded-md"
+                                                                        >
+                                                                            <Typography variant="small">
+                                                                                {
+                                                                                    note?.body
+                                                                                }
+                                                                            </Typography>
+                                                                            <div className="flex items-center gap-x-2 mt-2">
+                                                                                <Typography variant="muted">
+                                                                                    Added
+                                                                                    by:
+                                                                                </Typography>
+                                                                                <Typography variant="muted">
+                                                                                    {
+                                                                                        note
+                                                                                            ?.addedBy
+                                                                                            ?.name
+                                                                                    }
+                                                                                </Typography>
+                                                                            </div>
+                                                                        </div>
+                                                                    )
+                                                                )}
+                                                        </div>
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </div>

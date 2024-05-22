@@ -20,7 +20,7 @@ const PREFIX = '/portals/industry'
 const Routes = {
     Dashboard: `${PREFIX}`,
     Tasks: `${PREFIX}/tasks`,
-    Students: `${PREFIX}/students`,
+    Students: `${PREFIX}/students/current-students?tab=pending`,
     Supervisors: `${PREFIX}/supervisors`,
     Jobs: `${PREFIX}/jobs`,
     ESign: `${PREFIX}/students/e-sign`,
@@ -32,7 +32,7 @@ const Routes = {
 export const IndustryNavbar = () => {
     const router = useRouter()
     const talentPoolProfileCount =
-    IndustryApi.TalentPool.useTalentPoolProfileCount()
+        IndustryApi.TalentPool.useTalentPoolProfileCount()
     const defaultClasses = classNames({
         'transition-all duration-300 px-3 py-2 flex flex-col md:flex-row gap-x-2 items-center rounded-md':
             true,
@@ -84,7 +84,7 @@ export const IndustryNavbar = () => {
             Icon: LiaCertificateSolid,
             activeClasses: 'bg-blue-100 text-blue-700',
             inActiveClasses: 'text-slate-700',
-            count: talentPoolProfileCount?.data
+            count: talentPoolProfileCount?.data,
         },
         {
             link: Routes.ESign,

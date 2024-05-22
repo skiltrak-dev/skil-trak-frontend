@@ -13,6 +13,7 @@ import { ViewFeedbackModal } from '@partials/management/team'
 import { StudentCellInfo } from '@partials/sub-admin/students'
 import { ManagementApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
+import { addSpacesToCamelCase } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
@@ -44,9 +45,9 @@ export const FirstTimeStudent = ({ filter }: any) => {
             accessorKey: 'id',
             cell: (info) => {
                 return (
-                    <div className="px-3 py-1 bg-gray-200 text-center text-xs rounded-md">
+                    <span className="px-3 py-1 bg-gray-200 text-xs rounded-md">
                         {info?.row?.original?.student?.studentId}
-                    </div>
+                    </span>
                 )
             },
             header: () => <span>Student ID</span>,
@@ -72,7 +73,7 @@ export const FirstTimeStudent = ({ filter }: any) => {
             cell: (info) => {
                 return (
                     <span className="text-xs">
-                        {info?.row?.original?.course?.code} -
+                        {info?.row?.original?.course?.code} -{' '}
                         {info?.row?.original?.course?.title}
                     </span>
                 )
@@ -82,9 +83,13 @@ export const FirstTimeStudent = ({ filter }: any) => {
         {
             accessorKey: 'status',
             cell: (info) => {
+                const status = info?.row?.original?.status
+                const formattedStatus = status
+                    ? addSpacesToCamelCase(status)
+                    : 'N/A'
                 return (
                     <span className="capitalize text-xs">
-                        {info?.row?.original?.status}
+                        {formattedStatus}
                     </span>
                 )
             },

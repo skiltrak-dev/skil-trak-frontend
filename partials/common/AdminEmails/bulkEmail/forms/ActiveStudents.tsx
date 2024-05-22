@@ -102,6 +102,11 @@ export const ActiveStudents = ({
         )
         setTemplateBody(template?.content)
         setTemplateSubject(template?.subject)
+        if (template?.file) {
+            setAttachmentFiles([template.file])
+        } else {
+            setAttachmentFiles([])
+        }
     }
     // Courses List
 
