@@ -82,7 +82,7 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
             }),
             providesTags: ['RtosListing'],
         }),
-        rtosStatusChange: build.mutation<any,{ id: number; status: string }>({
+        rtosStatusChange: build.mutation<any, { id: number; status: string }>({
             query: ({ id, status }) => ({
                 url: `rtolisting/status-update/${id}`,
                 method: 'PATCH',
@@ -196,6 +196,7 @@ export const {
 
     // ----- STUDENTS-------//
     useGetSubAdminStudentsQuery,
+    useGetRtoSubadminStudentsQuery,
     useGetSubAdminUrgentStudentsQuery,
     useSubadminCompletedStudentsQuery,
     useGetSubAdminTicketStudentsListQuery,
@@ -372,6 +373,7 @@ export const SubAdminApi = {
     Student: {
         useCount: useSubAdminStudentCountQuery,
         useList: useGetSubAdminStudentsQuery,
+        useRtoSubadminStudentsList: useGetRtoSubadminStudentsQuery,
         useUrgentStudents: useGetSubAdminUrgentStudentsQuery,
         useCompletedStudents: useSubadminCompletedStudentsQuery,
         useSubAdminStudentList: useGetSubAdminTicketStudentsListQuery,

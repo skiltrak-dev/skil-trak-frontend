@@ -213,7 +213,7 @@ export const ViewProfileCB = () => {
                                     variant={'small'}
                                     color={'text-black'}
                                 >
-                                    {rto?.contactPersons[0]?.name || 'N/A'}
+                                    {rto?.contactPersons?.[0]?.name || 'N/A'}
                                 </Typography>
                             </div>
                             <div className="p-2">
@@ -230,7 +230,7 @@ export const ViewProfileCB = () => {
                                     variant={'small'}
                                     color={'text-black'}
                                 >
-                                    {rto?.contactPersons[0]?.phone || 'N/A'}
+                                    {rto?.contactPersons?.[0]?.phone || 'N/A'}
                                 </Typography>
                             </div>
                         </div>

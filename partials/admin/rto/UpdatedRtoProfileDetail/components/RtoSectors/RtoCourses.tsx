@@ -28,7 +28,7 @@ export const RtoCourses = ({
                         Course
                     </Typography>
                     <Typography variant="small" normal>
-                        {course?.title}
+                        {course?.code} - {course?.title}
                     </Typography>
                 </div>
             ))}

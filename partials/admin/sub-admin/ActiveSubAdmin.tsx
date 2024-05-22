@@ -1,32 +1,32 @@
 import {
-    ActionButton,
     Card,
-    EmptyData,
-    LoadingAnimation,
     Table,
-    TableAction,
-    TechnicalError,
-    TruncatedTextWithTooltip,
+    EmptyData,
     Typography,
+    TableAction,
+    ActionButton,
+    TechnicalError,
+    LoadingAnimation,
+    TruncatedTextWithTooltip,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { UserRoles } from '@constants'
-import { useActionModal, useContextBar } from '@hooks'
-import { AdminApi, commonApi } from '@queries'
-import { Rto, SubAdmin, User, UserStatus } from '@types'
-import { checkListLength, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
-import { BsArchiveFill } from 'react-icons/bs'
-import { MdAdminPanelSettings, MdOutlineAssignmentReturn } from 'react-icons/md'
 import { FaSchool } from 'react-icons/fa'
-import { RiLockPasswordFill } from 'react-icons/ri'
+import { BsArchiveFill } from 'react-icons/bs'
+import { AdminApi, commonApi } from '@queries'
 import { RtoCellInfo } from '../rto/components'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { useActionModal, useContextBar } from '@hooks'
+import { Rto, SubAdmin, User, UserStatus } from '@types'
+import { ReactElement, useEffect, useState } from 'react'
+import { checkListLength, getUserCredentials } from '@utils'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
+import { MdAdminPanelSettings, MdOutlineAssignmentReturn } from 'react-icons/md'
 import {
     AllowAsAdminModal,
     AllowLoginAfterHoursModal,
@@ -189,7 +189,7 @@ export const ActiveSubAdmin = () => {
                                   : 'Remove Rto Listing'
                           }`,
                           onClick: (subAdmin: SubAdmin) =>
-                            onAllowRtoListingClicked(subAdmin),
+                              onAllowRtoListingClicked(subAdmin),
                           Icon: FaSchool,
                       }
                     : {}),

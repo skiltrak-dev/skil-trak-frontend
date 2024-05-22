@@ -12,6 +12,7 @@ import {
 import { AddAssessmentToolCB } from '@partials/admin/rto/components/AddAssessmentToolCB'
 import { useRouter } from 'next/router'
 import { AssessmentFileCard } from './AssessmentFileCard'
+import { Waypoint } from 'react-waypoint'
 
 enum AssessmentToolFileType {
     Approved = 'approved',
@@ -25,6 +26,7 @@ export const AssessmentFiles = ({
     rtoUser: User
     selectedCourse: Course
 }) => {
+    const [isViewd, setIsViewd] = useState<boolean>(false)
     const [fileType, setFileType] = useState<AssessmentToolFileType>(
         AssessmentToolFileType.Approved
     )
@@ -37,7 +39,7 @@ export const AssessmentFiles = ({
             course: Number(selectedCourse?.id),
             status: fileType,
         },
-        { skip: !selectedCourse || !router?.query?.id }
+        { skip: !selectedCourse || !router?.query?.id || !isViewd }
     )
 
     const onAddAssessment = () => {
@@ -49,75 +51,84 @@ export const AssessmentFiles = ({
     }
 
     return (
-        <div className="h-full">
-            <div className="px-5 py-4 border-b border-secondary-dark flex justify-between items-center">
-                <div>
-                    <Typography variant="small" medium>
-                        {selectedCourse?.code}
-                    </Typography>
-                    <Typography variant="xxs">
-                        {selectedCourse?.title}
-                    </Typography>
-                </div>
-                <Button
-                    text="Add Assessment"
-                    variant="info"
-                    onClick={() => {
-                        onAddAssessment()
-                    }}
-                />
-            </div>
-
-            {/*  */}
-            <div className="px-5 py-2 flex justify-between items-center">
-                <Typography variant="label">Files</Typography>
-                <ActionButton
-                    variant={
-                        fileType === AssessmentToolFileType.Approved
-                            ? 'info'
-                            : 'warning'
-                    }
-                    simple
-                    onClick={() => {
-                        setFileType((file: AssessmentToolFileType) =>
-                            file === AssessmentToolFileType.Approved
-                                ? AssessmentToolFileType.Archived
-                                : AssessmentToolFileType.Approved
-                        )
-                    }}
-                >
-                    {fileType === AssessmentToolFileType.Approved
-                        ? 'VIEW ARCHIVED'
-                        : 'VIEW ACTIVE'}
-                </ActionButton>
-            </div>
-
-            {/*  */}
-            <div className="px-5 h-56">
-                {getAssessmentTools?.isLoading ||
-                getAssessmentTools?.isFetching ? (
-                    <LoadingAnimation size={80} />
-                ) : getAssessmentTools?.data &&
-                  getAssessmentTools?.data?.length > 0 ? (
-                    <div className="flex flex-col gap-y-3.5 h-full overflow-auto custom-scrollbar">
-                        {getAssessmentTools?.data?.map(
-                            (assessmentTool: AssessmentToolsType) => (
-                                <AssessmentFileCard
-                                    key={assessmentTool?.id}
-                                    assessmentTool={assessmentTool}
-                                    isArchived={
-                                        fileType ===
-                                        AssessmentToolFileType.Archived
-                                    }
-                                    rtoUser={rtoUser}
-                                />
-                            )
-                        )}
+        <Waypoint
+            onEnter={() => {
+                setIsViewd(true)
+            }}
+            onLeave={() => {
+                setIsViewd(false)
+            }}
+        >
+            <div className="h-full">
+                <div className="px-5 py-4 border-b border-secondary-dark flex justify-between items-center">
+                    <div>
+                        <Typography variant="small" medium>
+                            {selectedCourse?.code}
+                        </Typography>
+                        <Typography variant="xxs">
+                            {selectedCourse?.title}
+                        </Typography>
                     </div>
-                ) : (
-                    <NoData text={'No Assessment tools were found'} />
-                )}
+                    <Button
+                        text="Add Assessment"
+                        variant="info"
+                        onClick={() => {
+                            onAddAssessment()
+                        }}
+                    />
+                </div>
+
+                {/*  */}
+                <div className="px-5 py-2 flex justify-between items-center">
+                    <Typography variant="label">Files</Typography>
+                    <ActionButton
+                        variant={
+                            fileType === AssessmentToolFileType.Approved
+                                ? 'info'
+                                : 'warning'
+                        }
+                        simple
+                        onClick={() => {
+                            setFileType((file: AssessmentToolFileType) =>
+                                file === AssessmentToolFileType.Approved
+                                    ? AssessmentToolFileType.Archived
+                                    : AssessmentToolFileType.Approved
+                            )
+                        }}
+                    >
+                        {fileType === AssessmentToolFileType.Approved
+                            ? 'VIEW ARCHIVED'
+                            : 'VIEW ACTIVE'}
+                    </ActionButton>
+                </div>
+
+                {/*  */}
+                <div className="px-5 h-56">
+                    {getAssessmentTools?.isLoading ||
+                    getAssessmentTools?.isFetching ? (
+                        <LoadingAnimation size={80} />
+                    ) : getAssessmentTools?.data &&
+                      getAssessmentTools?.data?.length > 0 ? (
+                        <div className="flex flex-col gap-y-3.5 h-full overflow-auto custom-scrollbar">
+                            {getAssessmentTools?.data?.map(
+                                (assessmentTool: AssessmentToolsType) => (
+                                    <AssessmentFileCard
+                                        key={assessmentTool?.id}
+                                        assessmentTool={assessmentTool}
+                                        isArchived={
+                                            fileType ===
+                                            AssessmentToolFileType.Archived
+                                        }
+                                        rtoUser={rtoUser}
+                                    />
+                                )
+                            )}
+                        </div>
+                    ) : (
+                        <NoData text={'No Assessment tools were found'} />
+                    )}
+                </div>
             </div>
-        </div>
+        </Waypoint>
     )
 }

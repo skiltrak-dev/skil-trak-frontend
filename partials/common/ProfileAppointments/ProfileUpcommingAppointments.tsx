@@ -3,11 +3,14 @@ import { CommonApi } from '@queries'
 import React from 'react'
 import { ProfileAppointmentsCard } from './ProfileAppointmentsCard'
 import { Appointment } from '@types'
+import { AppointmentTypeEnum } from './appointment.enum'
 
 export const ProfileUpcommingAppointments = ({
     userId,
+    isEntered,
 }: {
     userId: number
+    isEntered: boolean
 }) => {
     const futureAppointments = CommonApi.Appointments.useBookedAppointments(
         {
@@ -38,7 +41,7 @@ export const ProfileUpcommingAppointments = ({
                         {futureAppointments?.data?.map(
                             (appointment: Appointment) => (
                                 <ProfileAppointmentsCard
-                                    type={'Upcoming'}
+                                    type={AppointmentTypeEnum.Upcoming}
                                     key={appointment?.id}
                                     appointment={appointment}
                                     upcomming

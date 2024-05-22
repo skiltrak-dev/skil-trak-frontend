@@ -25,6 +25,7 @@ export const subAdminEndpoints = (
         }),
         invalidatesTags: ['SubAdmins'],
     }),
+
     updateSubAdmin: builder.mutation<
         SubAdmin,
         { id: number; userId: number; body: SubadminFromType }
@@ -89,6 +90,17 @@ export const subAdminEndpoints = (
             url: `${PREFIX}/subadmin/assign-course`,
             method: 'POST',
             body,
+        }),
+        invalidatesTags: ['SubAdmins', 'Rto-Coordinators'],
+    }),
+
+    associatedWithRto: builder.mutation<
+        SubAdmin,
+        { id: number; rtoId: number }
+    >({
+        query: ({ id, rtoId }) => ({
+            url: `${PREFIX}/coordinator/${id}/rto/${rtoId}`,
+            method: 'PATCH',
         }),
         invalidatesTags: ['SubAdmins', 'Rto-Coordinators'],
     }),
