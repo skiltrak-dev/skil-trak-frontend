@@ -13,12 +13,14 @@ import { RtoProfileTable } from './components'
 
 export const CompletedWorkplaceReport = ({
     user,
+    isViewd,
     endDate,
     startDate,
 }: {
     user?: number
     endDate: Date
     startDate: Date
+    isViewd: boolean
 }) => {
     const monthEnd = new Date()
     monthEnd.setDate(monthEnd.getDate() - 30)
@@ -37,8 +39,8 @@ export const CompletedWorkplaceReport = ({
                 endDate: endDate.toISOString().slice(0, 10),
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
-            }
-            // { skip: !renderComponent }
+            },
+            { skip: !isViewd }
         )
 
     const columns: ColumnDef<any>[] = [

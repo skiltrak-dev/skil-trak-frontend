@@ -13,12 +13,14 @@ import { RtoProfileTable } from './components'
 
 export const NonContactableStudentReport = ({
     user,
+    isViewd,
     endDate,
     startDate,
 }: {
     user?: number
     endDate: Date
     startDate: Date
+    isViewd: boolean
 }) => {
     const monthEnd = new Date()
     monthEnd.setDate(monthEnd.getDate() - 30)
@@ -29,7 +31,6 @@ export const NonContactableStudentReport = ({
     const [page, setPage] = useState(1)
     const router = useRouter()
 
-
     const { data, isLoading, isError, isFetching } =
         RtoApi.Students.useGetNotContactableStudents(
             {
@@ -38,8 +39,8 @@ export const NonContactableStudentReport = ({
                 endDate: endDate.toISOString().slice(0, 10),
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
-            }
-            // { skip: !renderComponent }
+            },
+            { skip: !isViewd }
         )
 
     const columns: ColumnDef<any>[] = [

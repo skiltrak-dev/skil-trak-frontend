@@ -2,6 +2,7 @@ import { LoadingAnimation, NoData, Typography } from '@components'
 import { CommonApi } from '@queries'
 import { Appointment } from '@types'
 import { ProfileAppointmentsCard } from './ProfileAppointmentsCard'
+import { AppointmentTypeEnum } from './appointment.enum'
 
 export const ProfileCancelledAppointments = ({
     isEntered,
@@ -39,7 +40,7 @@ export const ProfileCancelledAppointments = ({
                         {cancelledAppointments?.data?.map(
                             (appointment: Appointment) => (
                                 <ProfileAppointmentsCard
-                                    type={'Cancelled'}
+                                    type={AppointmentTypeEnum.Cancelled}
                                     key={appointment?.id}
                                     appointment={appointment}
                                 />

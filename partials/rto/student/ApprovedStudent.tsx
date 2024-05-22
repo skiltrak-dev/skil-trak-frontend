@@ -15,7 +15,7 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
+import { FaEdit, FaEye, FaFileExport, FaUserPlus } from 'react-icons/fa'
 
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
@@ -28,7 +28,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { SectorCell, StudentCellInfo } from './components'
 import { IndustryCell } from './components/IndustryCell'
-import { ArchiveModal, BlockModal } from './modals'
+import { ArchiveModal, AssignCoordinatorModal, BlockModal } from './modals'
 export const ApprovedStudent = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -80,9 +80,8 @@ export const ApprovedStudent = () => {
         setIsExcelDownload(true)
     }
 
-    const onModalCancelClicked = () => {
-        setModal(null)
-    }
+    const onModalCancelClicked = () => setModal(null)
+
     const onBlockClicked = (student: Student) => {
         setModal(
             <BlockModal
@@ -121,13 +120,26 @@ export const ApprovedStudent = () => {
         )
     }
 
+    const onAssignCoordinatorClicked = (student: Student) => {
+        setModal(
+            <AssignCoordinatorModal
+                studentId={student?.id}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: (student: Student) => {
-                router.push(`/portals/rto/students/${student.id}?tab=overview`)
-            },
+            onClick: (student: Student) =>
+                router.push(`/portals/rto/students/${student.id}?tab=overview`),
             Icon: FaEye,
+        },
+        {
+            text: 'Assign Coordinator',
+            onClick: (student: Student) => onAssignCoordinatorClicked(student),
+            Icon: FaUserPlus,
         },
         {
             text: 'Archive',

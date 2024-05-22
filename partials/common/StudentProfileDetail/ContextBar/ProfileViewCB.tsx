@@ -58,17 +58,6 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                 />
             </div>
 
-            {/* Student Detail */}
-            <StudentDetail profile={profile} />
-            <RtoDetail rto={profile?.rto} />
-            <EmergencyContact profile={profile} />
-
-            {/* Student Status */}
-            <StudentStatus
-                studentUserId={profile?.user?.id}
-                studentStatus={profile?.studentStatus}
-            />
-
             {/* Profile Priority */}
             <ProfilePriority
                 studentId={profile?.id}
@@ -79,6 +68,17 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
             <ContactStatus
                 studentId={profile?.id}
                 nonContactable={profile?.nonContactable}
+            />
+
+            {/* Student Detail */}
+            <StudentDetail profile={profile} />
+            <RtoDetail rto={profile?.rto} />
+            <EmergencyContact profile={profile} />
+
+            {/* Student Status */}
+            <StudentStatus
+                studentUserId={profile?.user?.id}
+                studentStatus={profile?.studentStatus}
             />
 
             {/* RTO */}

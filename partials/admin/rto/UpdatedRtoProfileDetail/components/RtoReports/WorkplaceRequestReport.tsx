@@ -14,10 +14,12 @@ import { RtoProfileTable } from './components'
 export const WorkplaceRequestReport = ({
     user,
     endDate,
+    isViewd,
     startDate,
 }: {
     user?: number
     endDate: Date
+    isViewd: boolean
     startDate: Date
 }) => {
     const monthEnd = new Date()
@@ -29,8 +31,6 @@ export const WorkplaceRequestReport = ({
     const [page, setPage] = useState(1)
     const router = useRouter()
 
-    
-
     const { data, isLoading, isError, isFetching } =
         RtoApi.Students.useWorkplaceRequestReport(
             {
@@ -39,8 +39,8 @@ export const WorkplaceRequestReport = ({
                 endDate: endDate.toISOString().slice(0, 10),
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
-            }
-            // { skip: !renderComponent }
+            },
+            { skip: !isViewd }
         )
 
     const columns: ColumnDef<any>[] = [
@@ -100,7 +100,7 @@ export const WorkplaceRequestReport = ({
             {isError && <TechnicalError />}
             {isLoading || isFetching ? (
                 <LoadingAnimation height="h-[30vh]" />
-            ) : data?.data && data?.data?.length ? (
+            ) : data?.data && data?.data?.length > 0 ? (
                 <div className="h-52 overflow-auto custom-scrollbar">
                     <RtoProfileTable columns={columns} data={data?.data}>
                         {({ table }: TableChildrenProps) => table}

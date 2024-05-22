@@ -7,7 +7,7 @@ export const RtoPackage = ({ rto }: { rto: Rto }) => {
     return (
         <div className="">
             <Typography variant="small" medium>
-                RTO pakage{' '}
+                RTO Package{' '}
             </Typography>
 
             <div className="mt-1.5 flex flex-col gap-y-1.5">

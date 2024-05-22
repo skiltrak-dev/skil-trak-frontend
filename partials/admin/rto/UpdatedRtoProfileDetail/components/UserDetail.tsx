@@ -10,7 +10,7 @@ export const UserDetail = ({
 }) => {
     return (
         <div
-            className=""
+            className={`${onClick ? 'cursor-pointer' : ''}`}
             onClick={() => {
                 if (onClick) {
                     onClick()
