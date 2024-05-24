@@ -106,8 +106,6 @@ export const IndustryProfileFrom = ({
     const [countryId, setCountryId] = useState(null)
     const [stateId, setStateId] = useState(null)
 
-    console.log({ countryId })
-
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
     const formMethods = useForm({
@@ -226,10 +224,6 @@ export const IndustryProfileFrom = ({
         chkDefaultOptions && setCourseValues(newCourseOptions)
     }
 
-    useEffect(() => {
-        console.log({ allValues: formMethods.getValues(), formValues })
-    }, [formValues])
-
     useEffect(() => {}, [formMethods, profile])
 
     const statesOption = useMemo(
@@ -327,8 +321,6 @@ export const IndustryProfileFrom = ({
             setIsPartner(profile?.data?.isPartner ? 'yes' : 'no')
         }
     }, [profile, countryOptions, statesOption])
-
-    console.log({ countryOptions })
 
     const onBlur = (e: any) => {
         const abn = e.target?.value

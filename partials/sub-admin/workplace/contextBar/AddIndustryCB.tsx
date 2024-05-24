@@ -55,6 +55,7 @@ export const AddIndustryCB = ({
                 description: 'Industry Added Successfully',
             })
             setContent(null)
+            setTitle(null)
             hide()
         }
     }, [addExistingIndustryResult])

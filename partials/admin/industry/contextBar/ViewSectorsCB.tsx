@@ -52,7 +52,7 @@ export const ViewSectorsCB = ({ industry }: { industry: Industry }) => {
         if (assignCoursesResult.isSuccess) {
             notification.success({
                 title: 'Courses Assigned',
-                description: 'Courses have been assigned to Student',
+                description: 'Courses have been assigned to Industry',
             })
             contextBar.setContent(null)
             contextBar.hide()

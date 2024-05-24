@@ -55,8 +55,6 @@ export const StudentCellInfo = ({
 
     const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
 
-    console.log('student?.nonContactable', student?.nonContactable)
-
     return (
         // <div
         //     onClick={() => {

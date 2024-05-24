@@ -141,6 +141,7 @@ export interface SubAdmin extends BaseResponse {
     coordinatorId: string
     addressLine1: string
     createdBy: UserExtend
+    isAssociatedWithRto: boolean
     canAdmin: boolean
     rtos: Rto[]
 }

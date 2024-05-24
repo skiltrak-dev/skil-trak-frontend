@@ -1,28 +1,25 @@
 import {
-    Typography,
-    ShowErrorNotifications,
-    InitialAvatar,
     ActionButton,
+    InitialAvatar,
+    ShowErrorNotifications,
+    Typography,
 } from '@components'
-import React, { useEffect, useState } from 'react'
-import { BsDot, BsUnlockFill } from 'react-icons/bs'
+import { useEffect, useState } from 'react'
+import { BsDot } from 'react-icons/bs'
 
 // query
-import { useSubAdminApplyStudentWorkplaceMutation } from '@queries'
 import { useContextBar, useNotification } from '@hooks'
-import { PulseLoader } from 'react-spinners'
+import { useSubAdminApplyStudentWorkplaceMutation } from '@queries'
 import Link from 'next/link'
-import { AiFillEdit } from 'react-icons/ai'
-import { FaRemoveFormat } from 'react-icons/fa'
 import { MdDelete } from 'react-icons/md'
+import { PulseLoader } from 'react-spinners'
 
+import { UserRoles } from '@constants'
 import { AddIndustryCB } from '@partials/sub-admin/workplace/contextBar'
 import {
-    RemoveIndustryModal,
-    RemoveWorkplaceAppliedIndustryModal,
+    RemoveIndustryModal
 } from '@partials/sub-admin/workplace/modals'
 import { getUserCredentials } from '@utils'
-import { UserRoles } from '@constants'
 
 export const IndustryCard = ({
     industry,

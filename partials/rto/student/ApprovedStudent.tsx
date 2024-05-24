@@ -28,7 +28,13 @@ import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { SectorCell, StudentCellInfo } from './components'
 import { IndustryCell } from './components/IndustryCell'
-import { ArchiveModal, AssignCoordinatorModal, BlockModal } from './modals'
+import {
+    ArchiveModal,
+    AssignCoordinatorModal,
+    BlockModal,
+    RemoveCoordinator,
+} from './modals'
+import { IoPersonRemoveSharp } from 'react-icons/io5'
 export const ApprovedStudent = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -124,46 +130,75 @@ export const ApprovedStudent = () => {
         setModal(
             <AssignCoordinatorModal
                 studentId={student?.id}
+                studentUser={student?.user}
+                subadminId={student?.subadmin?.id}
                 onCancel={onModalCancelClicked}
             />
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
-        {
-            text: 'View',
-            onClick: (student: Student) =>
-                router.push(`/portals/rto/students/${student.id}?tab=overview`),
-            Icon: FaEye,
-        },
-        {
-            text: 'Assign Coordinator',
-            onClick: (student: Student) => onAssignCoordinatorClicked(student),
-            Icon: FaUserPlus,
-        },
-        {
-            text: 'Archive',
-            onClick: (student: Student) => onArchiveClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-        {
-            text: 'Block',
-            onClick: (student: Student) => onBlockClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-        {
-            text: 'Change Status',
-            onClick: (student: Student) => onChangeStatus(student),
-            Icon: FaEdit,
-        },
-        {
-            text: 'Change Expiry',
-            onClick: (student: Student) => onDateClick(student),
-            Icon: FaEdit,
-        },
-    ]
+    const onRemoveCoordinatorClicked = (student: Student) => {
+        setModal(
+            <RemoveCoordinator
+                student={student}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
+    const tableActionOptions = (student: Student) => {
+        return [
+            {
+                text: 'View',
+                onClick: (student: Student) =>
+                    router.push(
+                        `/portals/rto/students/${student.id}?tab=overview`
+                    ),
+                Icon: FaEye,
+            },
+            {
+                text: student?.subadmin
+                    ? 'Change Coordinator'
+                    : 'Assign Coordinator',
+                onClick: (student: Student) =>
+                    onAssignCoordinatorClicked(student),
+                Icon: FaUserPlus,
+            },
+            {
+                ...(student?.subadmin
+                    ? {
+                          text: 'Remove Coordinator',
+                          onClick: (student: Student) =>
+                              onRemoveCoordinatorClicked(student),
+                          Icon: IoPersonRemoveSharp,
+                          color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+                      }
+                    : {}),
+            },
+            {
+                text: 'Archive',
+                onClick: (student: Student) => onArchiveClicked(student),
+                Icon: MdBlock,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+            {
+                text: 'Block',
+                onClick: (student: Student) => onBlockClicked(student),
+                Icon: MdBlock,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+            {
+                text: 'Change Status',
+                onClick: (student: Student) => onChangeStatus(student),
+                Icon: FaEdit,
+            },
+            {
+                text: 'Change Expiry',
+                onClick: (student: Student) => onDateClick(student),
+                Icon: FaEdit,
+            },
+        ]
+    }
 
     const columns: ColumnDef<Student>[] = [
         {
@@ -228,10 +263,11 @@ export const ApprovedStudent = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info) => {
+                const tableActionOption = tableActionOptions(info.row.original)
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
-                            options={tableActionOptions}
+                            options={tableActionOption}
                             rowItem={info.row.original}
                         />
                     </div>

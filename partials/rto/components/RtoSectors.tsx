@@ -15,13 +15,8 @@ export const RtoSectors = ({
 }: {
     sectorsWithCourses: any
 }) => {
-    console.log({
-        sectorsWithCourses: Object.values(sectorsWithCourses)?.flat(),
-    })
     const [editCourse, setEditCourse] = useState<boolean>(false)
     const [selectedCourses, setSelectedCourses] = useState<any>([])
-
-    console.log({ selectedCourses })
 
     const { notification } = useNotification()
 
