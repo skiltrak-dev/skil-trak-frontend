@@ -437,7 +437,7 @@ export const RtoSubadminStudent = () => {
                     !students?.isError && (
                         <EmptyData
                             title={'No Students'}
-                            description={'You have not approved Students yet'}
+                            description={'You have not assigned Student yet!'}
                             height={'50vh'}
                         />
                     )

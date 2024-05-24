@@ -1,18 +1,9 @@
-import {
-    ActionModal,
-    Button,
-    Typography,
-    ShowErrorNotifications,
-} from '@components'
+import { Button, ShowErrorNotifications, Typography } from '@components'
 import { useAlert, useContextBar, useNotification } from '@hooks'
-import { AdminApi } from '@queries'
-import { Industry, Rto, Subscriber } from '@types'
-import { useEffect, useState } from 'react'
-import { FaBan } from 'react-icons/fa'
+import { useStartPlacementMutation } from '@queries'
+import { useEffect } from 'react'
 import { HiCheckBadge } from 'react-icons/hi2'
 import { IoIosWarning } from 'react-icons/io'
-import { useChangeStatus } from '../hooks'
-import { useStartPlacementMutation } from '@queries'
 
 export const PlacementStartedModal = ({
     id,

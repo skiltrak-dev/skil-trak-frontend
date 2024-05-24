@@ -219,6 +219,15 @@ export default function ESign() {
 
     const onItemResized = (data: any) => {
         const existingItem = items.find((x: any) => x.id === data.item.id)
+        if (
+            existingItem?.size?.height > 42 &&
+            existingItem?.data?.type === FieldsTypeEnum.Text &&
+            existingItem?.data?.isCustom
+        ) {
+            existingItem.data.type = FieldsTypeEnum.TextArea
+        } else {
+            existingItem.data.type = FieldsTypeEnum.Text
+        }
         if (existingItem) {
             const updatedList = items.filter((x: any) => x.id !== data.item.id)
             existingItem.resizing = false
@@ -663,7 +672,10 @@ export default function ESign() {
             {showWarning ? (
                 <ShowWarningModal
                     onConfirmClick={onSaveTemplate}
-                    onCancel={() => setModal(null)}
+                    onCancel={() => {
+                        setModal(null)
+                        setShowWarning(false)
+                    }}
                     loading={saveEsignTemplateResult.isLoading}
                     remainingRecipents={remainingRecipents}
                 />

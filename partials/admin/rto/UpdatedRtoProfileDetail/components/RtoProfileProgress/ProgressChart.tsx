@@ -8,7 +8,7 @@ export const ProgressChart = ({
     data: RtoProfileProgressTypes[]
 }) => {
     const options = {
-        pieHole: 0.5,
+        pieHole: 0.6,
         is3D: false,
         legend: { position: 'none' },
         chartArea: { width: '60%', height: '90%' },
@@ -27,15 +27,13 @@ export const ProgressChart = ({
         ]),
     ]
 
-    console.log({ updatedData })
-
     return (
         <div className="">
             <ChartContainer>
                 <Chart
                     chartType="PieChart"
                     width="100%"
-                    height="180px"
+                    height="250px"
                     data={updatedData}
                     options={options}
                 />

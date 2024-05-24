@@ -58,8 +58,6 @@ export const Contextbar = ({
         }
     }, [inputs])
 
-    console.log({ recipients })
-
     useEffect(() => {
         if (
             isTabSelected &&

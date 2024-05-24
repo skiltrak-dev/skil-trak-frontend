@@ -16,7 +16,6 @@ export const AssessmentFilesUpload = ({
     studentId: number
     selectedFolder: any
 }) => {
-    console.log({ selectedFolder })
     const { notification } = useNotification()
 
     const [uploadDocs, uploadDocsResult] =
@@ -38,8 +37,6 @@ export const AssessmentFilesUpload = ({
     const onUploadDocs = (docs: any) => {
         const formData = new FormData()
 
-        console.log({ docs })
-
         const filteredDocs = [...docs]?.filter((doc) => {
             const docSize = doc?.size / 1024 / 1024
             return docSize <= 150
@@ -50,7 +47,6 @@ export const AssessmentFilesUpload = ({
                 file?.type?.split('/')?.[1]
             )
         )
-        console.log({ fff })
 
         if (filteredDocs?.length < docs?.length) {
             notification.warning({

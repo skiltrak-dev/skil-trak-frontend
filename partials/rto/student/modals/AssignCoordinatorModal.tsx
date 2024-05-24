@@ -1,14 +1,18 @@
-import React, { useState } from 'react'
-import { Modal, Select } from '@components'
-import { AdminApi, RtoApi } from '@queries'
-import { OptionType } from '@types'
+import { Button, Modal, Select, Typography } from '@components'
 import { useNotification } from '@hooks'
+import { RtoApi } from '@queries'
+import { OptionType, SubAdmin, User } from '@types'
+import { useEffect, useState } from 'react'
 
 export const AssignCoordinatorModal = ({
     onCancel,
     studentId,
+    subadminId,
+    studentUser,
 }: {
     studentId: number
+    studentUser: User
+    subadminId: number
     onCancel: () => void
 }) => {
     const [selectedSubadmin, setSelectedSubadmin] = useState<number | null>(
@@ -26,6 +30,12 @@ export const AssignCoordinatorModal = ({
 
     const [assignCoordinator, assignCoordinatorResult] =
         RtoApi.Students.useAssignCoordinatoToStudent()
+
+    useEffect(() => {
+        if (subadminId) {
+            setSelectedSubadmin(subadminId)
+        }
+    }, [subadminId])
 
     const onAssignCoordinator = () => {
         if (selectedSubadmin) {
@@ -53,13 +63,18 @@ export const AssignCoordinatorModal = ({
         <div>
             <Modal
                 title="Assign Coordinator"
-                subtitle="Assign Coordinator to Subadmin"
+                subtitle="Assign Coordinator to Student"
                 onConfirmClick={() => {
                     onAssignCoordinator()
                 }}
+                showActions={false}
                 onCancelClick={onCancel}
                 loading={assignCoordinatorResult.isLoading}
             >
+                <Typography variant="label">
+                    You are assigning coordinator to student "
+                    <strong>{studentUser?.name}</strong>"
+                </Typography>
                 <Select
                     label={'Assign TO'}
                     name={'assignedTo'}
@@ -76,6 +91,18 @@ export const AssignCoordinatorModal = ({
                         setSelectedSubadmin(e)
                     }}
                 />
+                <div className="flex justify-end items-end gap-x-4 ">
+                    <Button variant={'secondary'} onClick={onCancel}>
+                        {'Cancel'}
+                    </Button>
+                    <Button
+                        onClick={onAssignCoordinator}
+                        loading={assignCoordinatorResult.isLoading}
+                        disabled={assignCoordinatorResult.isLoading}
+                    >
+                        {'Confirm'}
+                    </Button>
+                </div>
             </Modal>
         </div>
     )

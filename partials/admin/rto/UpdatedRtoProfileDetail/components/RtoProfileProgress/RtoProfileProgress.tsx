@@ -59,25 +59,29 @@ export const RtoProfileProgress = ({
     ]
 
     return (
-        <div>
-            <Typography semibold center>
-                <span className="text-[15px]">Progress</span>
-            </Typography>
-            <div className="flex items-center">
-                <div>
-                    {Object.entries(countsArr)?.map(
-                        ([key, value]: [string, number]) => (
-                            <div className="flex items-center gap-x-1">
-                                <Typography variant={'small'}>{key}</Typography>
-                                :
-                                <Typography variant={'small'}>
-                                    {value}
-                                </Typography>
-                            </div>
-                        )
-                    )}
+        <div >
+            <div>
+                <Typography semibold center>
+                    <span className="text-[15px]">Progress</span>
+                </Typography>
+                <div className="flex items-center">
+                    <div>
+                        {Object.entries(countsArr)?.map(
+                            ([key, value]: [string, number]) => (
+                                <div className="flex items-center gap-x-1">
+                                    <Typography variant={'small'}>
+                                        {key}
+                                    </Typography>
+                                    :
+                                    <Typography variant={'small'}>
+                                        {value}
+                                    </Typography>
+                                </div>
+                            )
+                        )}
+                    </div>
+                    <ProgressChart data={progressData} />
                 </div>
-                <ProgressChart data={progressData} />
             </div>
             <div className="grid grid-cols-2 gap-x-5 gap-y-4">
                 {progressData.map((progress, i) => (

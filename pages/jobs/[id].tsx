@@ -45,7 +45,6 @@ const JobDetail: NextPageWithLayout = ({
             job.id !== openJobId &&
             jobData?.job?.industry?.id === job?.industry?.id
     )
-    console.log('otherJobs', otherJobs)
 
     return (
         <>

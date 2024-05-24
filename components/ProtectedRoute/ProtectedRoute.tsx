@@ -21,6 +21,8 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 
     const updatedRoute =
         assessRole === 'sub-admin' ? UserRoles.SUBADMIN : assessRole
+
+    const newUrl = role === UserRoles.SUBADMIN ? 'sub-admin' : role
     useEffect(() => {
         const isAdmin = subadmin?.data?.isAdmin
         if (role === UserRoles.SUBADMIN) {
@@ -59,7 +61,19 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
                     // router.push('/portals/sub-admin')
                 } else if (updatedRoute !== role) {
                     setAuthorized(false)
-                    router.push('/404')
+                    router.push(`/portals/${newUrl}`)
+                    // router.push('/404')
+                } else {
+                    setAuthorized(true)
+                }
+            } else {
+                if (!authenticated) {
+                    setAuthorized(false)
+                    router.push('/auth/login')
+                } else if (updatedRoute !== role) {
+                    setAuthorized(false)
+                    router.push(`/portals/${newUrl}`)
+                    // router.push('/404')
                 } else {
                     setAuthorized(true)
                 }
@@ -70,7 +84,8 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
                 router.push('/auth/login')
             } else if (updatedRoute !== role) {
                 setAuthorized(false)
-                router.push('/404')
+                router.push(`/portals/${newUrl}`)
+                // router.push('/404')
             } else {
                 setAuthorized(true)
             }

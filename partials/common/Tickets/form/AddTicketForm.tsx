@@ -12,8 +12,12 @@ import { Controller, FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AdminApi, AuthApi, SubAdminApi } from '@queries'
-import { getUserCredentials } from '@utils'
-import { OptionType } from '@types'
+import {
+    CourseSelectOption,
+    formatOptionLabel,
+    getUserCredentials,
+} from '@utils'
+import { Course, OptionType } from '@types'
 import { useRouter } from 'next/router'
 
 export enum ticketPriorityEnum {
@@ -97,7 +101,8 @@ export const AddTicketForm = ({
         value: subAdmin?.user?.id,
     }))
 
-    const courseOptions = courses?.map((opt: any) => ({
+    const courseOptions = courses?.map((opt: Course) => ({
+        item: opt,
         label: opt?.title,
         value: opt?.id,
     }))
@@ -216,6 +221,10 @@ export const AddTicketForm = ({
                                 onlyValue
                                 loading={sectorResponse.isLoading}
                                 disabled={sectorResponse?.isLoading}
+                                components={{
+                                    Option: CourseSelectOption,
+                                }}
+                                formatOptionLabel={formatOptionLabel}
                             />
                             <Select
                                 label={'Priority'}

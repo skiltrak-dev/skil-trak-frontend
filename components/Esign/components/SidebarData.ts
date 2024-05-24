@@ -36,6 +36,7 @@ const ColorPreset = {
 
 export enum FieldsTypeEnum {
     Text = 'text',
+    TextArea = 'textarea',
     Email = 'email',
     Date = 'date',
     Address = 'address',

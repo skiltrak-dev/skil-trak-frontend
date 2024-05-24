@@ -328,15 +328,11 @@ const ESign = () => {
                     setIsLastSelected(true)
                 }
 
-                console.log({ requiredData })
-
                 const findMyIndex = sortedPositions?.findIndex(
                     (f: any) => f?.id === requiredData?.id
                 )
                 const nextData = sortedPositions?.[findMyIndex + 1]
                 if (isFieldValue) {
-                    console.log('a')
-
                     setCustomFieldsSelectedId(findMyIndex)
                     setSelectedFillDataField(requiredData?.id)
                 } else {
@@ -348,7 +344,6 @@ const ESign = () => {
                             (!sortedPositions?.[updatedIndex]?.required ||
                                 sortedPositions?.[updatedIndex]?.fieldValue)
                         ) {
-                            console.log('innerD')
                             updatedIndex++
                         }
                     } else {
@@ -358,11 +353,6 @@ const ESign = () => {
                             'end'
                         )
                     }
-                    console.log(
-                        'd',
-                        updatedIndex,
-                        sortedPositions?.[updatedIndex]
-                    )
 
                     if (!sortedPositions?.[updatedIndex]) {
                         setIsLastSelected(true)
@@ -372,12 +362,10 @@ const ESign = () => {
                     setSelectedFillDataField(nextData?.id)
                 }
             } else {
-                console.log('b')
                 setSelectedFillDataField(fieldData?.id)
                 setCustomFieldsSelectedId(customFieldsSelectedId + 1)
             }
         } else {
-            console.log('c')
             setIsLastSelected(
                 sortedPositions?.[customFieldsSelectedId]?.id ===
                     sortedPositions?.[sortedPositions?.length - 1]?.id
