@@ -167,6 +167,7 @@ const {
     useIndustryRemoveMutation,
     useIndustryStudentsQuery,
     useIndustryStatusChangeMutation,
+    useSaveIndustryQuestionsMutation,
     useIndustryAssignCoursesMutation,
     useIndustryUnassignCourseMutation,
     useVolunteerIsReadMutation,
@@ -368,17 +369,18 @@ export const AdminApi = {
     },
 
     Industries: {
-        useStatisticsCount: useIndustryStatisticsCountQuery,
-        useIndustrySectors: useIndustrySectorsQuery,
-        useListQuery: useIndustriesQuery,
-        useSnoozedIndustry: useSnoozedIndustriesQuery,
-        useAssignCourses: useIndustryAssignCoursesMutation,
-        useUnassignCourses: useIndustryUnassignCourseMutation,
         useCount: useIndustryCountQuery,
-        useStatusChange: useIndustryStatusChangeMutation,
+        useListQuery: useIndustriesQuery,
         useDetail: useIndustryDetailQuery,
         useRemove: useIndustryRemoveMutation,
         industryStudents: useIndustryStudentsQuery,
+        useIndustrySectors: useIndustrySectorsQuery,
+        useSnoozedIndustry: useSnoozedIndustriesQuery,
+        useStatusChange: useIndustryStatusChangeMutation,
+        useAssignCourses: useIndustryAssignCoursesMutation,
+        useStatisticsCount: useIndustryStatisticsCountQuery,
+        useUnassignCourses: useIndustryUnassignCourseMutation,
+        saveIndustryQuestions: useSaveIndustryQuestionsMutation,
     },
 
     Rpl: {
