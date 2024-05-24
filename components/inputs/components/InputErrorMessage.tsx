@@ -4,6 +4,8 @@ import { useFormContext } from 'react-hook-form'
 export const InputErrorMessage = ({ name }: { name: string }) => {
     const formContext = useFormContext()
 
+    console.log({ aaa: formContext.formState.errors })
+
     return (
         <div className="help-text text-xs mt-1">
             {formContext && (

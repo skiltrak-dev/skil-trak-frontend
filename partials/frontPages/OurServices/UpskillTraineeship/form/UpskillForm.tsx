@@ -21,6 +21,9 @@ export const UpskillForm = ({
             .typeError('Phone must be a valid number')
             .required('Phone is required!'),
         dob: Yup.string().required('DOB is required!'),
+        country: Yup.string().required('Country is required!'),
+        qualification: Yup.string().required('Qualification is required!'),
+        experience: Yup.string().required('Experience is required!'),
     })
 
     const methods = useForm({
@@ -98,7 +101,6 @@ export const UpskillForm = ({
                                 placeholder={'Write your Answer in here...'}
                                 validationIcons
                                 required
-                                showError={false}
                             />
                             <TextArea
                                 label={
@@ -108,7 +110,6 @@ export const UpskillForm = ({
                                 placeholder={'Write your Answer in here...'}
                                 validationIcons
                                 required
-                                showError={false}
                             />
                         </div>
                     </div>

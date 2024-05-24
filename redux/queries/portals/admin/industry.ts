@@ -88,6 +88,18 @@ export const industryEndpoints = (
         invalidatesTags: ['Industries'],
     }),
 
+    saveIndustryQuestions: builder.mutation<
+        any,
+        { id: number; questions: any }
+    >({
+        query: ({ id, questions }) => ({
+            url: `approval-review-question/${id}`,
+            method: 'POST',
+            body: { questions },
+        }),
+        invalidatesTags: ['Industries'],
+    }),
+
     industryDetail: builder.query<Industry, number>({
         query: (id) => `${PREFIX}industries/${id}`,
         providesTags: ['Industries', 'SubAdminIndustries'],

@@ -1,7 +1,10 @@
-import { PersonalInfoForm, workplaceQuestions, workplaceQuestionsKeys } from '@partials/common'
+import {
+    PersonalInfoForm,
+    workplaceQuestions,
+    workplaceQuestionsKeys,
+} from '@partials/common'
 import { useGetStudentCoursesQuery } from '@queries'
 import { useRouter } from 'next/router'
-import React, { useState, useEffect } from 'react'
 
 type PersonalInfoProps = {
     setActive: any
