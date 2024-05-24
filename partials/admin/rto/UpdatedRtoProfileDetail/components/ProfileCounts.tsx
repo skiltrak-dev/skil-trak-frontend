@@ -39,7 +39,7 @@ export const ProfileCounts = ({
     const countsData: RtoProfileCountDataType[] = [
         {
             title: 'Completed Student',
-            count: Number(statisticsCount?.data?.currentStudent),
+            count: Number(statisticsCount?.data?.completedStudent),
             Icon: HiUserCircle,
             loading: statisticsCount?.isLoading,
             link: {
@@ -59,7 +59,7 @@ export const ProfileCounts = ({
         },
         {
             title: 'Archive Students',
-            count: Number(statisticsCount?.data?.currentStudent),
+            count: Number(statisticsCount?.data?.archivedStudents),
             Icon: HiUserCircle,
             loading: statisticsCount?.isLoading,
             link: {

@@ -30,6 +30,7 @@ import {
     RejectModal,
     MultiAcceptModal,
     MultiRejectModal,
+    ApproveIndustryWithQuestionsModal,
 } from './modals'
 import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
@@ -63,8 +64,14 @@ export const PendingIndustry = () => {
     }
 
     const onAcceptClicked = (industry: Industry) => {
+        // setModal(
+        //     <AcceptModal
+        //         industry={industry}
+        //         onCancel={() => onModalCancelClicked()}
+        //     />
+        // )
         setModal(
-            <AcceptModal
+            <ApproveIndustryWithQuestionsModal
                 industry={industry}
                 onCancel={() => onModalCancelClicked()}
             />
