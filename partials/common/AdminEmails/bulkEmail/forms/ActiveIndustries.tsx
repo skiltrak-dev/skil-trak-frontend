@@ -118,18 +118,6 @@ export const ActiveIndustries = () => {
         formData.append('message', content)
         // formData.append('subject', templateSubject)
         sendBulkEmail(formData)
-        // console.log('form Data bulk email', formData)
-        formData.forEach((value: any) => {
-            console.log('Form Data:', value)
-        })
-
-        // console.log('Form Data:>>>>>>>>>', {
-        //     ...rest,
-        //     attachment,
-        //     industries: industriesIds,
-        //     template: templateId,
-        //     message: content,
-        // })
     }
 
     useEffect(() => {

@@ -170,19 +170,24 @@ export const Courses = ({
         ?.filter((f: any) => f)?.length
 
     const rejectedFolderes = getFolders?.data?.filter(
-        (f: any) => f?.studentResponse?.[0]?.status === 'rejected'
+        (f: any) =>
+            f?.studentResponse?.[0]?.status === 'rejected' &&
+            f?.studentResponse?.[0]?.files?.length > 0
     )?.length
 
     const resubmitFiles = getFolders?.data?.filter(
-        (f: any) => f?.studentResponse?.[0]?.reSubmitted
+        (f: any) =>
+            f?.studentResponse?.[0]?.reSubmitted &&
+            f?.studentResponse?.[0]?.files?.length > 0
     )?.length
 
-    const isResubmittedFiles =
-        !getFolders.isLoading &&
+    const isResubmittedFiles: boolean = (!getFolders.isLoading &&
         !getFolders.isFetching &&
         getFolders.isSuccess &&
+        rejectedFolderes &&
+        resubmitFiles &&
         rejectedFolderes === resubmitFiles &&
-        Number(files) > 0
+        Number(files) > 0) as boolean
 
     const result = getCourseResult(selectedCourse?.results)
 

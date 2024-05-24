@@ -14,6 +14,7 @@ import { SubAdminApi } from '@queries'
 
 //Layouts
 import { SubAdminLayout } from '@layouts'
+import { LoadingAnimation, TechnicalError } from '@components'
 
 type Props = {}
 
@@ -35,14 +36,16 @@ const Students: NextPageWithLayout = (props: Props) => {
     const profile = SubAdminApi.SubAdmin.useProfile()
     return (
         <div>
-            {profile?.isSuccess ? (
+            {profile?.isError && <TechnicalError />}
+            {profile.isLoading ? (
+                <LoadingAnimation />
+            ) : profile?.isSuccess ? (
                 profile?.data?.isAssociatedWithRto ? (
                     <RtoSubadminStudent />
                 ) : (
                     <SubadminStudents />
                 )
             ) : null}
-            {/* <SubadminStudents /> */}
         </div>
     )
 }

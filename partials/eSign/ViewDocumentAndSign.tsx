@@ -18,8 +18,6 @@ import { isBrowser } from '@utils'
 export const ViewDocumentAndSign = () => {
     const router = useRouter()
 
-    const { alert, alerts, setAlerts } = useAlert()
-
     const [showSignersField, setShowSignersField] = useState<boolean>(true)
 
     const [modal, setModal] = useState<ReactNode | null>(null)
@@ -219,7 +217,6 @@ export const ViewDocumentAndSign = () => {
     }
 
     const onSignatureClicked = (sign: any) => {
-        console.log('CCCCCCCCCCCCC')
         setIsSignature(true)
         setSelectedSign(sign)
         // setModal(
@@ -289,8 +286,6 @@ export const ViewDocumentAndSign = () => {
         return a.sum - b.sum
     })
 
-    console.log({ sortedPositions, customFieldsSelectedId })
-
     useEffect(() => {
         if (
             customFieldsSelectedId >= sortedPositions?.length ||
@@ -305,17 +300,12 @@ export const ViewDocumentAndSign = () => {
         if (customFieldsSelectedId < sortedPositions?.length - 1) {
             const fieldData = sortedPositions?.[customFieldsSelectedId + 1]
             const isSign = fieldData?.type === FieldsTypeEnum.Signature
-            console.log({
-                custom: sortedPositions?.[customFieldsSelectedId],
-                new: sortedPositions?.[sortedPositions?.length - 1],
-            })
 
             // if (isDocumentLoaded) {
             //     if (isBrowser()) {
             //         const inputElement = document?.getElementById(
             //             `tabs-view-${fieldData?.id}`
             //         ) as HTMLInputElement | null
-            //         console.log({ inputElement })
             //         if (inputElement) {
             //             inputElement.scrollIntoView({
             //                 behavior: 'smooth',
@@ -355,7 +345,6 @@ export const ViewDocumentAndSign = () => {
                 )
                 const nextData = sortedPositions?.[findMyIndex + 1]
                 if (isFieldValue) {
-                    console.log('a')
                     setCustomFieldsSelectedId(findMyIndex)
                     setSelectedFillDataField(requiredData?.id)
                 } else {
@@ -367,7 +356,6 @@ export const ViewDocumentAndSign = () => {
                             (!sortedPositions?.[updatedIndex]?.required ||
                                 sortedPositions?.[updatedIndex]?.fieldValue)
                         ) {
-                            console.log('innerD')
                             updatedIndex++
                         }
                     } else {
@@ -378,12 +366,6 @@ export const ViewDocumentAndSign = () => {
                         )
                         setIsLastSelected(true)
                     }
-                    console.log(
-                        'd',
-                        updatedIndex,
-                        sortedPositions?.[updatedIndex],
-                        nextData
-                    )
 
                     if (!sortedPositions?.[updatedIndex]) {
                         setIsLastSelected(true)
@@ -393,12 +375,10 @@ export const ViewDocumentAndSign = () => {
                     setSelectedFillDataField(nextData?.id)
                 }
             } else {
-                console.log('b')
                 setSelectedFillDataField(fieldData?.id)
                 setCustomFieldsSelectedId(customFieldsSelectedId + 1)
             }
         } else {
-            console.log('c')
             setIsLastSelected(
                 sortedPositions?.[customFieldsSelectedId]?.id ===
                     sortedPositions?.[sortedPositions?.length - 1]?.id
@@ -432,8 +412,6 @@ export const ViewDocumentAndSign = () => {
         setIsFillRequiredFields(true)
         setIsLastSelected(false)
     }
-
-    console.log({ customFieldsSelectedId })
 
     const onCancelFinishSign = () => {
         setIsFillRequiredFields(false)

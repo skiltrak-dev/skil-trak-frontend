@@ -90,8 +90,12 @@ export const SignersStatus = ({ selectedFolder }: { selectedFolder: any }) => {
                     </Typography>
                     <div className="pt-3.5 flex items-center justify-center gap-x-1.5">
                         {selectedFolder?.signers?.map(
-                            (signer: any, i: number) => (
-                                <SignerCard signer={signer} key={i} />
+                            (signer: any, i: number, signers: any) => (
+                                <SignerCard
+                                    signer={signer}
+                                    signers={signers}
+                                    key={i}
+                                />
                             )
                         )}
                     </div>

@@ -49,7 +49,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
     const [credentials, setCredentials] = useState<any>(null)
     const [modal, setModal] = useState<any | null>(null)
     const subadminCourses = CommonApi.Courses.subadminCoursesList()
-
+    const subadmin = SubAdminApi.SubAdmin.useProfile()
     const statistics = SubAdminApi.Count.statistics(undefined, {
         skip: status !== UserStatus.Approved,
     })
@@ -689,13 +689,15 @@ const SubAdminDashboard: NextPageWithLayout = () => {
         // },
     ]
     useEffect(() => {
-        contextBar.setContent(<ViewProfileCB />)
-        contextBar.show(false)
-        return () => {
-            contextBar.setContent(null)
-            contextBar.hide()
+        if (subadmin.isSuccess) {
+            contextBar.setContent(<ViewProfileCB subadmin={subadmin?.data} />)
+            contextBar.show(false)
+            return () => {
+                contextBar.setContent(null)
+                contextBar.hide()
+            }
         }
-    }, [])
+    }, [subadmin])
 
     useEffect(() => {
         if (!credentials) {
@@ -760,7 +762,11 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                         />
                         <FigureCard
                             imageUrl="/images/icons/students.png"
-                            count={statistics?.data?.student}
+                            count={
+                                subadmin?.data?.isAssociatedWithRto
+                                    ? statistics?.data?.assigned
+                                    : statistics?.data?.student
+                            }
                             title={'Students'}
                             link={'sub-admin/students?tab=all'}
                         />

@@ -38,6 +38,46 @@ export const ProfileCounts = ({
 
     const countsData: RtoProfileCountDataType[] = [
         {
+            title: 'Completed Student',
+            count: Number(statisticsCount?.data?.currentStudent),
+            Icon: HiUserCircle,
+            loading: statisticsCount?.isLoading,
+            link: {
+                pathname: '/portals/admin/student',
+                query: {
+                    tab: 'completed',
+                    page: 1,
+                    pageSize: 50,
+                    rtoId: Number(router?.query?.id),
+                    status: UserStatus.Approved,
+                },
+            },
+            background: {
+                from: '#3E3D45',
+                to: '#202020',
+            },
+        },
+        {
+            title: 'Archive Students',
+            count: Number(statisticsCount?.data?.currentStudent),
+            Icon: HiUserCircle,
+            loading: statisticsCount?.isLoading,
+            link: {
+                pathname: '/portals/admin/student',
+                query: {
+                    tab: 'archive',
+                    page: 1,
+                    pageSize: 50,
+                    rtoId: Number(router?.query?.id),
+                    status: UserStatus.Archived,
+                },
+            },
+            background: {
+                from: '#3E3D45',
+                to: '#202020',
+            },
+        },
+        {
             title: 'Active Students',
             count: Number(statisticsCount?.data?.currentStudent),
             Icon: HiUserCircle,

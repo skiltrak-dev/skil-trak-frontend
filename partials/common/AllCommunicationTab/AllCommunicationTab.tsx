@@ -26,8 +26,6 @@ export const AllCommunicationTab = ({ user }: { user: any }) => {
     const contextBar = useContextBar()
     const [isEntered, setIsEntered] = useState<boolean>(false)
 
-    console.log({ isEntered })
-
     const allCommunications = CommonApi.AllCommunication.useCommunications(
         user?.id,
         {

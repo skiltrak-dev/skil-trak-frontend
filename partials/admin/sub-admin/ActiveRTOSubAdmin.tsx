@@ -319,7 +319,6 @@ export const ActiveRTOSubAdmin = () => {
         //                         id: info?.row?.original?.id,
         //                         rtoId: info?.row?.original?.rtos?.[0]?.id,
         //                     })
-        //                     console.log({ subadmin: info?.row?.original })
         //                 }}
         //             >
         //                 Associated With Rto

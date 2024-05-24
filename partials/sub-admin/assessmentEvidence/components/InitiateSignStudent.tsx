@@ -452,7 +452,7 @@ export const InitiateSignStudent = ({
                     </div>
                     <div className="flex justify-end gap-x-3">
                         <Button
-                            text={'Preview As Signer'}
+                            text={'Preview'}
                             variant={'dark'}
                             onClick={() => {
                                 if (
@@ -467,7 +467,7 @@ export const InitiateSignStudent = ({
                             disabled={!student?.data}
                         />
                         <Button
-                            text={'Send For Signing'}
+                            text={'Initiate'}
                             onClick={() => {
                                 onInitiateSigning()
                             }}

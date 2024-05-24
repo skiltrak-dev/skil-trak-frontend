@@ -52,7 +52,6 @@ export const ImportRtosList = () => {
         //         })
         //     }
         // })
-        console.log('rtos', rtos)
     }
 
     const duplicatedIndustries = (source: string) =>

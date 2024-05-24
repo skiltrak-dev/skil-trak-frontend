@@ -136,6 +136,28 @@ export const TabsView = ({
                                             })
                                         }}
                                     />
+                                ) : s?.type === FieldsTypeEnum.TextArea &&
+                                  s?.isCustom ? (
+                                    <textarea
+                                        onKeyDown={(e: any) => {
+                                            onHandleKeyDown(e)
+                                        }}
+                                        name=""
+                                        id={`tabs-view-${s?.id}`}
+                                        value={s?.fieldValue}
+                                        className={`w-full h-full border-2 rounded-md placeholder:text-xs ${
+                                            selectedFillDataField === s?.id
+                                                ? 'border-primary'
+                                                : 'border-gray-500'
+                                        } text-sm p-1 outline-none`}
+                                        placeholder={s?.placeholder}
+                                        onChange={(e: any) => {
+                                            onAddCustomFieldsData({
+                                                ...s,
+                                                fieldValue: e?.target?.value,
+                                            })
+                                        }}
+                                    ></textarea>
                                 ) : s?.type === FieldsTypeEnum.Checkbox ? (
                                     <div className="flex items-center gap-x-2 w-full h-full">
                                         <input

@@ -27,15 +27,12 @@ export const RtoDocumentCard = ({
         'octet-stream',
     ]
 
-    console.log({ innerFile: file })
-
     const extension = file
         ?.replaceAll('{"', '')
         .replaceAll('"}', '')
         ?.split('.')
         .reverse()[0]
 
-    console.log({ extension })
     return (
         <div className="bg-[#F8F8FF] relative p-4 rounded border-2 border-[#384EB74D] border-dashed flex flex-col items-center">
             {loading && (

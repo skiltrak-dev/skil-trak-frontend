@@ -78,7 +78,6 @@ export const ProfileAppointmentsCard = ({
             type === AppointmentTypeEnum.Cancelled,
     })
 
-    console.log({ appointment })
     return (
         <>
             {modal}
@@ -208,7 +207,7 @@ export const ProfileAppointmentsCard = ({
 
                     {/*  */}
                     <div
-                        className={`flex flex-col items-center justify-center gap-y-2.5 ${barBgClasses} bg-white`}
+                        className={`flex flex-col items-center justify-center gap-y-2.5 ${barBgClasses}`}
                     >
                         <Image
                             src={
