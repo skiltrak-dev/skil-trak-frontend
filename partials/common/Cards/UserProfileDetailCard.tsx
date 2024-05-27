@@ -29,15 +29,10 @@ export const UserProfileDetailCard = ({
                 <Typography normal variant="xxs" color="text-[#979797] block">
                     {title}
                 </Typography>
-                <p
-                    dangerouslySetInnerHTML={{
-                        __html: detail,
-                    }}
-                />
-                {/* <Typography variant="xs" color="text-[#374151]">
 
+                <Typography variant="xs" color="text-[#374151]">
                     {detail || '---'}
-                </Typography> */}
+                </Typography>
             </div>
             {children && <div>{children}</div>}
         </div>

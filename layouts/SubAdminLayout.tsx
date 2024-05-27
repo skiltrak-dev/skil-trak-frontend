@@ -12,7 +12,7 @@ import { UserLayout } from './UserLayout'
 import { CommonApi } from '@queries'
 import { EsignDocumentStatus, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
-import { ViewUsersForEsignModal } from '@partials'
+import { UsersPendingEsignModal, ViewUsersForEsignModal } from '@partials'
 import { UserStatus } from '@types'
 
 interface SubAdminLayoutProps {
@@ -87,7 +87,7 @@ export const SubAdminLayout = ({
                 router?.pathname !== `/portals/sub-admin/e-sign/[id]`
             ) {
                 setModal(
-                    <ViewUsersForEsignModal
+                    <UsersPendingEsignModal
                         documents={pendingDocuments?.data}
                         onClick={() => router.push(route)}
                         route="/portals/sub-admin/e-sign"
