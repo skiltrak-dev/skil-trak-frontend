@@ -13,7 +13,7 @@ import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
 import { CommonApi } from '@queries'
-import { ViewUsersForEsignModal } from '@partials'
+import { UsersPendingEsignModal, ViewUsersForEsignModal } from '@partials'
 interface RtoLayoutProps {
     pageTitle?: PageTitleProps
     children: ReactNode
@@ -88,7 +88,7 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
                 router?.pathname !== `/portals/rto/tasks/e-sign/[id]`
             ) {
                 setModal(
-                    <ViewUsersForEsignModal
+                    <UsersPendingEsignModal
                         documents={pendingDocuments?.data}
                         onClick={() => router.push(route)}
                         route="/portals/rto/tasks/e-sign"

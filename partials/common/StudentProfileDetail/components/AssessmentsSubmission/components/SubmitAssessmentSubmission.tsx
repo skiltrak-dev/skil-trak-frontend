@@ -52,9 +52,12 @@ export const SubmitAssessmentSubmission = ({
             result?.result === Result.NotSubmitted &&
             !submitAssessmentResult.isLoading
         ) {
+            console.log('AAA')
             onSubmitAssessment()
         }
     }, [isFilesUploaded, submitAssessmentResult, results, result])
+
+    console.log({ isResubmittedFiles })
 
     useEffect(() => {
         if (
@@ -63,6 +66,7 @@ export const SubmitAssessmentSubmission = ({
             result?.status !== Result.Pending &&
             !submitAssessmentResult.isLoading
         ) {
+            console.log('BBB')
             onSubmitAssessment()
         }
     }, [result, results, isResubmittedFiles, submitAssessmentResult])
