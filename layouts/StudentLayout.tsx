@@ -10,7 +10,8 @@ import {
     StudentTimer,
 } from '@components'
 
-import { useAlert, useContextBar, useJoyRide } from '@hooks'
+import { useAlert, useJoyRide } from '@hooks'
+import { UsersPendingEsignModal, ViewUsersForEsignModal } from '@partials'
 import { ProfileModal } from '@partials/student/Profile/modal/ProfileModal'
 import {
     StudentContextBar,
@@ -23,7 +24,6 @@ import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
-import { ViewUsersForEsignModal } from '@partials'
 
 interface StudentLayoutProps {
     pageTitle?: PageTitleProps
@@ -139,7 +139,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                         `/portals/student/assessments/e-sign/[id]`
                 ) {
                     setModal(
-                        <ViewUsersForEsignModal
+                        <UsersPendingEsignModal
                             documents={pendingDocuments?.data}
                             onClick={() => router.push(route)}
                             route="/portals/student/assessments/e-sign"
@@ -160,7 +160,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
 
     const parts = router?.pathname.split('/')
     const talentPoolLink = '/' + parts.slice(1, 4).join('/')
-  
+
     return (
         <RedirectUnApprovedUsers
             getRoutePath={getRoutePath}

@@ -144,6 +144,7 @@ export interface SubAdmin extends BaseResponse {
     isAssociatedWithRto: boolean
     canAdmin: boolean
     rtos: Rto[]
+    associatedRto: Rto
 }
 
 export interface Industry extends BaseResponse {

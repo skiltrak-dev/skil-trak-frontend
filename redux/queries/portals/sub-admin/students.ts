@@ -197,9 +197,8 @@ export const studentsEndpoints = (
 
     getSubAdminStudentWorkplaceHistory: builder.query<any, { student: number }>(
         {
-            query: ({ student }) => ({
-                url: `subadmin/activity-logger/view-by-object-id/${student}`,
-            }),
+            query: ({ student }) =>
+                `subadmin/activity-logger/view-by-object-id/${student}`,
             providesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
         }
     ),

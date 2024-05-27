@@ -257,15 +257,6 @@ export const ViewDocumentAndSign = () => {
     return (
         <div>
             {modal}
-            <button
-                onClick={() => {
-                    // document.refetch()
-                    tabs.refetch()
-                    documentsTotalPages.refetch()
-                }}
-            >
-                Re fetch
-            </button>
 
             {documentsTotalPages.isError && <TechnicalError />}
             {documentsTotalPages.isLoading ? (
