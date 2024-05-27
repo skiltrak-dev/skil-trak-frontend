@@ -18,7 +18,7 @@ import { useAlert, useContextBar, useJoyRide } from '@hooks'
 import { UserStatus } from '@types'
 import { AuthUtils, EsignDocumentStatus } from '@utils'
 import { CommonApi, useIndustryProfileQuery } from '@queries'
-import { ViewUsersForEsignModal } from '@partials'
+import { UsersPendingEsignModal, ViewUsersForEsignModal } from '@partials'
 import { ProfileModal } from '@partials/industry'
 
 const getRoutePath = `/portals/industry`
@@ -99,7 +99,7 @@ export const IndustryLayout = ({
                 router?.pathname !== `/portals/industry/students/e-sign/[id]`
             ) {
                 setModal(
-                    <ViewUsersForEsignModal
+                    <UsersPendingEsignModal
                         documents={pendingDocuments?.data}
                         onClick={() => router.push(route)}
                         route="/portals/industry/students/e-sign"

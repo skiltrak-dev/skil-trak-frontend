@@ -289,7 +289,8 @@ export const ViewDocumentAndSign = () => {
     useEffect(() => {
         if (
             customFieldsSelectedId >= sortedPositions?.length ||
-            customFieldsSelectedId < 0
+            customFieldsSelectedId < 0 ||
+            isLastSelected
         ) {
             setSelectedFillDataField(sortedPositions?.[0]?.id)
             scrollToPage(-1, documentsTotalPages?.data?.pageCount - 1, 'end')

@@ -2,6 +2,7 @@ import { Button, GlobalModal, Typography } from '@components'
 import { MediaQueries } from '@constants'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { MdCancel } from 'react-icons/md'
 import { useMediaQuery } from 'react-responsive'
 
 export const UsersPendingEsignModal = ({
@@ -22,7 +23,14 @@ export const UsersPendingEsignModal = ({
     return (
         <>
             <GlobalModal>
-                <div className="max-w-4xl ">
+                <div className="max-w-4xl relative">
+                    {onCancel ? (
+                        <MdCancel
+                            onClick={onCancel}
+                            className="absolute top-2 right-2 transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
+                        />
+                    ) : null}
+
                     <div className="flex flex-col gap-y-2.5 justify-center items-center py-3 border-b border-[#24556D]">
                         <Image
                             src={'/images/esignDoc.png'}
