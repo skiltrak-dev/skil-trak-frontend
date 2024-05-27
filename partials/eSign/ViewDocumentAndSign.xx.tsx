@@ -206,15 +206,6 @@ export const ViewDocumentAndSign = () => {
     return (
         <div>
             {modal}
-            <button
-                onClick={() => {
-                    // document.refetch()
-                    tabs.refetch()
-                    documentsTotalPages.refetch()
-                }}
-            >
-                Re fetch
-            </button>
 
             {documentsTotalPages.isSuccess && (
                 <div className="flex justify-end items-center">

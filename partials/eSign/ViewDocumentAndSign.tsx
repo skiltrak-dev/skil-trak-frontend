@@ -435,15 +435,6 @@ export const ViewDocumentAndSign = () => {
                     }
                 />
             ) : null}
-            <button
-                onClick={() => {
-                    // document.refetch()
-                    tabs.refetch()
-                    documentsTotalPages.refetch()
-                }}
-            >
-                Re fetch
-            </button>
 
             {!showSignersField && (
                 <div
@@ -510,7 +501,7 @@ export const ViewDocumentAndSign = () => {
                                 showSignersField
                                     ? 'lg:col-span-6'
                                     : 'lg:col-span-6'
-                            } max-w- pl-20 mx-auto flex flex-col gap-y-3 relative w-full`}
+                            } max-w- lg:pl-20 mx-auto flex flex-col gap-y-3 relative w-full`}
                         >
                             {/* <div className="flex justify-end items-center gap-x-2">
                                 <input

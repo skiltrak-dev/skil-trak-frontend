@@ -30,7 +30,7 @@ export const StudentNavbar = () => {
     const status = getUserCredentials()?.status
 
     const defaultClasses = classNames({
-        'transition-all duration-300 px-4 py-2 flex flex-col md:flex-row gap-x-2 items-center rounded-md':
+        'transition-all duration-300 px-2.5 py-2 flex flex-col md:flex-row gap-x-2 items-center rounded-md':
             true,
     })
     const checkProfile =
@@ -62,7 +62,9 @@ export const StudentNavbar = () => {
             id: 'workplace',
         },
         {
-            link: checkProfile ? '/portals/student/talent-pool/profile' : Routes.TalentPool,
+            link: checkProfile
+                ? '/portals/student/talent-pool/profile'
+                : Routes.TalentPool,
             text: 'Talent Pool',
             Icon: LiaCertificateSolid,
             activeClasses: 'bg-blue-100 text-blue-700',
@@ -98,7 +100,7 @@ export const StudentNavbar = () => {
 
             <Mobile>
                 <ul
-                    className="flex justify-evenly gap-x-2 py-4 fixed bottom-0 left-0 right-0 bg-white z-30"
+                    className="w-screen overflow-auto custom-scrollbar flex justify-evenly py-1.5 fixed bottom-0 left-0 right-0 bg-white z-30"
                     style={{
                         boxShadow: `0 -10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)`,
                     }}
@@ -113,9 +115,9 @@ export const StudentNavbar = () => {
                                 } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
                             >
                                 <div>
-                                    <MdSpaceDashboard size={24} />
+                                    <MdSpaceDashboard size={19} />
                                 </div>
-                                <div className="text-xs font-semibold">
+                                <div className="text-[11px] font-semibold">
                                     Dashboard
                                 </div>
                             </a>
@@ -134,9 +136,9 @@ export const StudentNavbar = () => {
                                 id="workplace"
                             >
                                 <span>
-                                    <FaBriefcase size={24} />
+                                    <FaBriefcase size={19} />
                                 </span>
-                                <span className="text-xs font-semibold">
+                                <span className="text-[11px] font-semibold">
                                     Workplace
                                 </span>
                             </a>
@@ -158,9 +160,9 @@ export const StudentNavbar = () => {
                                 id="assessments"
                             >
                                 <span>
-                                    <MdAssessment size={24} />
+                                    <MdAssessment size={19} />
                                 </span>
-                                <span className="text-xs font-semibold">
+                                <span className="text-[11px] font-semibold">
                                     Assessments
                                 </span>
                             </a>
@@ -182,9 +184,9 @@ export const StudentNavbar = () => {
                                 id="talent-pool"
                             >
                                 <span>
-                                    <LiaCertificateSolid size={24} />
+                                    <LiaCertificateSolid size={19} />
                                 </span>
-                                <span className="text-xs font-semibold">
+                                <span className="text-[11px] font-semibold whitespace-pre">
                                     Talent Pool
                                 </span>
                             </a>

@@ -9,6 +9,8 @@ import { DocumentScrollArrow } from './DocumentScrollArrow'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import { MdCancel } from 'react-icons/md'
 import { isBrowser } from '@utils'
+import { useMediaQuery } from 'react-responsive'
+import { MediaQueries } from '@constants'
 
 export const SVGView = ({
     scrollToPage,
@@ -45,10 +47,13 @@ export const SVGView = ({
     onAddCustomFieldsData: any
     selectedFillDataField?: any
 }) => {
+    console.log({ sortedPositions })
     const router = useRouter()
     const [viewport, setViewport] = useState<string | null>('')
     const [showEndDocument, setShowEndDocument] = useState(true)
     const [showStartDocument, setShowStartDocument] = useState<boolean>(true)
+
+    const isMobile = useMediaQuery(MediaQueries.Tablet)
 
     const ref = useRef<any>(null)
 
@@ -138,6 +143,21 @@ export const SVGView = ({
         }
     }, [timerId])
 
+    console.log(
+        'sssssss',
+        ((Number(
+            sortedPositions?.[customFieldsSelectedId]?.size?.split(',')?.[0]
+        ) -
+            45) /
+            Number(
+                sortedPositions?.[customFieldsSelectedId]?.position?.split(
+                    ','
+                )?.[0]
+            )) *
+            100 -
+            4
+    )
+
     const handleEnter = () => {
         if (timerId) {
             clearTimeout(timerId)
@@ -192,7 +212,7 @@ export const SVGView = ({
                                   index) ||
                               customFieldsSelectedId === -1) && (
                               <div
-                                  className={`absolute -left-14 lg:-left-24 z-[111111111] ${
+                                  className={`absolute  lg:-left-24 z-[111] ${
                                       customFieldsSelectedId < 0
                                           ? 'rotate-90'
                                           : ''
@@ -212,6 +232,28 @@ export const SVGView = ({
                                                     Number(height)
                                                 }%`
                                               : 0,
+                                      ...(isMobile
+                                          ? {
+                                                left: `${
+                                                    ((Number(
+                                                        sortedPositions?.[
+                                                            customFieldsSelectedId
+                                                        ]?.size?.split(',')?.[0]
+                                                    ) -
+                                                        45) /
+                                                        Number(
+                                                            sortedPositions?.[
+                                                                customFieldsSelectedId
+                                                            ]?.position?.split(
+                                                                ','
+                                                            )?.[0]
+                                                        )) *
+                                                        100 -
+                                                    4
+                                                }%`,
+                                            }
+                                          : {}),
+
                                       // top: '24%',
                                   }}
                                   onClick={() => {
@@ -226,8 +268,11 @@ export const SVGView = ({
                     index === 0 &&
                     showStartDocument ? (
                         <div className="w-full absolute h-full bg-[#00000050]">
-                            <div className="flex flex-col gap-y-2 bg-white w-[500px] p-5 rounded-md top-6 lg:top-24 absolute left-1/2 -translate-x-1/2">
-                                <Typography center variant="label">
+                            <div className="flex flex-col gap-y-2 bg-white w-full lg:w-[500px] p-5 rounded-md top-6 lg:top-24 absolute left-1/2 -translate-x-1/2">
+                                <Typography
+                                    center
+                                    variant={isMobile ? 'small' : 'label'}
+                                >
                                     To begin, please sign the document
                                     initially. Next, proceed to fill in the
                                     necessary fields. Finally, conclude the
@@ -241,9 +286,13 @@ export const SVGView = ({
                                         onDocumentScrollArrow()
                                         setShowStartDocument(false)
                                     }}
-                                    className=" cursor-pointer bg-primary w-60 h-12 mx-auto shadow-lg flex items-center justify-center rounded  "
+                                    className=" cursor-pointer bg-primary w-36 lg:w-60 h-8 lg:h-12 mx-auto shadow-lg flex items-center justify-center rounded  "
                                 >
-                                    <Typography color="text-white" center>
+                                    <Typography
+                                        color="text-white"
+                                        center
+                                        variant={isMobile ? 'small' : 'body'}
+                                    >
                                         Start With Document
                                     </Typography>
                                 </label>
@@ -260,13 +309,16 @@ export const SVGView = ({
                             id={'finishSign'}
                             className="w-full absolute h-full bg-[#00000050]"
                         >
-                            <div className="flex flex-col gap-y-2 bg-white w-[500px] p-5 rounded-md bottom-6 lg:bottom-16 absolute left-1/2 -translate-x-1/2">
+                            <div className="flex flex-col gap-y-2 bg-white w-full lg:w-[500px] p-5 rounded-md bottom-6 lg:bottom-16 absolute left-1/2 -translate-x-1/2">
                                 <MdCancel
                                     onClick={onCancelFinishSign}
                                     className="transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
                                 />
                                 {remainingFields?.length > 0 ? (
-                                    <Typography center variant="label">
+                                    <Typography
+                                        center
+                                        variant={isMobile ? 'small' : 'label'}
+                                    >
                                         <span className="text-[13px]">
                                             It appears you did not fill in all
                                             the required fields. Please ensure
