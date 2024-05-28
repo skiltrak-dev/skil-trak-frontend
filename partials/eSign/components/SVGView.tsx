@@ -72,6 +72,7 @@ export const SVGView = ({
 
     useEffect(() => {
         if (customFieldsSelectedId < sortedPositions?.length) {
+            console.log('Lasted')
             scrollToPage(
                 Number(sortedPositions?.[customFieldsSelectedId]?.id),
                 sortedPositions?.[customFieldsSelectedId]?.number - 1

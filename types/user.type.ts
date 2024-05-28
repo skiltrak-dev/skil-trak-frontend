@@ -32,7 +32,7 @@ export interface User extends BaseResponse {
     name: string
     role: string
     socketId: string | undefined
-    status: string
+    status: UserStatus
     password: string
     avatar: string | undefined
     appointmentFor: any

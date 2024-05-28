@@ -61,6 +61,7 @@ export const SubAdminAssessmentsFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, name: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="email"
@@ -71,6 +72,7 @@ export const SubAdminAssessmentsFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, email: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="phone"
@@ -80,6 +82,7 @@ export const SubAdminAssessmentsFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, phone: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="studentId"
@@ -89,6 +92,7 @@ export const SubAdminAssessmentsFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, studentId: e.target.value })
                     }}
+                    showError={false}
                 />
                 <Select
                     label={'Result'}
@@ -99,6 +103,7 @@ export const SubAdminAssessmentsFilters = ({
                         (result: SelectOption) =>
                             result.value === filter?.result
                     )}
+                    showError={false}
                     onChange={(e: SelectOption) => {
                         onFilterChange({
                             ...filter,
@@ -114,6 +119,7 @@ export const SubAdminAssessmentsFilters = ({
                     value={rtoOptions?.find(
                         (rto: OptionType) => rto.value === Number(filter?.rtoId)
                     )}
+                    showError={false}
                     onChange={(e: OptionType) => {
                         onFilterChange({ ...filter, rtoId: Number(e?.value) })
                     }}

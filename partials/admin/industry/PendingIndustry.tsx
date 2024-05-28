@@ -119,6 +119,12 @@ export const PendingIndustry = () => {
             Icon: FaEye,
         },
         {
+            text: 'New Profile',
+            onClick: (industry: any) =>
+                router.push(`/portals/admin/industry/${industry?.id}/detail`),
+            Icon: FaEye,
+        },
+        {
             ...(role === UserRoles.ADMIN
                 ? {
                       text: 'View Password',
