@@ -8,10 +8,9 @@ import {
     StudentExpiryDaysLeft,
     Table,
     TableAction,
-    TableActionOption,
     TechnicalError,
     Typography,
-    UserCreatedAt,
+    UserCreatedAt
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -25,6 +24,7 @@ import { getUserCredentials, studentsListWorkplace } from '@utils'
 import { saveAs } from 'file-saver'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
+import { IoPersonRemoveSharp } from 'react-icons/io5'
 import { MdBlock } from 'react-icons/md'
 import { SectorCell, StudentCellInfo } from './components'
 import { IndustryCell } from './components/IndustryCell'
@@ -34,7 +34,6 @@ import {
     BlockModal,
     RemoveCoordinator,
 } from './modals'
-import { IoPersonRemoveSharp } from 'react-icons/io5'
 export const ApprovedStudent = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)

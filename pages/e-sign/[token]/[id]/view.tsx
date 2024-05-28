@@ -147,6 +147,7 @@ const ESign = () => {
                 //         />
                 //     )
                 // }, 1000)
+                setCustomFieldsSelectedId(customFieldsSelectedId + 1)
                 setIsSignature(false)
                 setIsDocumentLoaded(null)
                 // onDocumentScrollArrow()
@@ -210,6 +211,7 @@ const ESign = () => {
             customFieldsSelectedId >= sortedPositions?.length ||
             customFieldsSelectedId < 0
         ) {
+            setIsLastSelected(true)
             setSelectedFillDataField(sortedPositions?.[0]?.id)
             scrollToPage(-1, documentsTotalPages?.data?.pageCount - 1, 'end')
         }

@@ -19,7 +19,6 @@ export const Tabs = ({
 }) => {
     const [element, setElement] = useState<any>(null)
 
-
     useEffect(() => {
         if (defaultTabSelected === 0) {
             const zeroIndexTab = tabs?.[0]

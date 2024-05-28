@@ -34,7 +34,7 @@ import { useMediaQuery } from 'react-responsive'
 
 const StudentDashboard: NextPageWithLayout = () => {
     const [modal, setModal] = useState<any | null>(null)
-    const [modalShown, setModalShown] = useState(false);
+    const [modalShown, setModalShown] = useState(false)
     const contextBar = useContextBar()
     const handleMediaQueryChange = (matches: any) => {
         if (matches) {
@@ -58,43 +58,42 @@ const StudentDashboard: NextPageWithLayout = () => {
     // Modal
     const onCancel = () => {
         // setModal(null)
-        setModalShown(false);
+        setModalShown(false)
     }
 
     useEffect(() => {
         // Check if the user has logged in before
-        const hasUserLoggedInBefore = localStorage.getItem('hasUserLoggedIn');
-    
+        const hasUserLoggedInBefore = localStorage.getItem('hasUserLoggedIn')
+
         // If the user has logged in before, don't show the modal
         if (!hasUserLoggedInBefore) {
             // Check if the user has been hired
             if (
-                talentPoolStudentProfileDetail?.data && Object?.keys(talentPoolStudentProfileDetail?.data).length > 0 &&
+                talentPoolStudentProfileDetail?.data &&
+                Object?.keys(talentPoolStudentProfileDetail?.data).length > 0 &&
                 talentPoolStudentProfileDetail?.data?.status === 'hired'
             ) {
-                setModalShown(true);
-                localStorage.setItem('hasUserLoggedIn', 'true'); // Mark the user as logged in
+                setModalShown(true)
+                localStorage.setItem('hasUserLoggedIn', 'true') // Mark the user as logged in
             }
         }
-    }, [talentPoolStudentProfileDetail]);
-
+    }, [talentPoolStudentProfileDetail])
 
     const modalComponent = modalShown && (
         <Modal
             onCancelClick={onCancel}
             showActions={false}
             title={'Hired by industry'}
-            subtitle={
-                "Congratulations! You've been hired by the industry."
-            }
+            subtitle={"Congratulations! You've been hired by the industry."}
         >
-            Congratulations! You've been selected by an esteemed
-            industry, marking an important milestone in your career
-            journey. Your dedication and skills have paid off. We wish
-            you continued success!
+            <div className="max-w-3xl">
+                Congratulations! You've been selected by an esteemed industry,
+                marking an important milestone in your career journey. Your
+                dedication and skills have paid off. We wish you continued
+                success!
+            </div>
         </Modal>
-    );
-    
+    )
 
     return (
         <>
