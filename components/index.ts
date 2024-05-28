@@ -33,6 +33,7 @@ export * from './UserCardRole'
 export * from './CaseOfficerAssignedStudent'
 export * from './AuthorizedUserComponent'
 export * from './StudentExpiryDaysLeft'
+export * from './CustomDropdown'
 
 export * from './ErrorBoundary'
 
@@ -96,6 +97,5 @@ export * from './PlacementProgress'
 export * from './avatars'
 
 export * from './StudentTimer'
-
 
 export * from './PaymentModal'

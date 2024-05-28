@@ -82,6 +82,12 @@ export const ApprovedIndustry = () => {
             Icon: FaEye,
         },
         {
+            text: 'New Profile',
+            onClick: (industry: any) =>
+                router.push(`/portals/admin/industry/${industry?.id}/detail`),
+            Icon: FaEye,
+        },
+        {
             text: 'Edit',
             onClick: (row: any) => {
                 router.push(`/portals/admin/industry/edit-industry/${row?.id}`)
