@@ -17,7 +17,7 @@ import {
 } from '@components'
 
 import { useActionModal } from '@hooks'
-import { useGetSubAdminIndustriesQuery } from '@queries'
+import { SubAdminApi, useGetSubAdminIndustriesQuery } from '@queries'
 import { Industry, SubAdmin, UserStatus } from '@types'
 import { getUserCredentials, setLink } from '@utils'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
@@ -43,6 +43,7 @@ export const PendingIndustries = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    const profile = SubAdminApi.SubAdmin.useProfile()
 
     const id = getUserCredentials()?.id
 
@@ -125,6 +126,11 @@ export const PendingIndustries = () => {
                 <IndustryCellInfo
                     industry={row.original}
                     isFavorite={isFavorite}
+                    isAssociatedWithRto={
+                        profile?.data?.isAssociatedWithRto &&
+                        profile?.isSuccess &&
+                        profile?.data
+                    }
                 />
             ),
         },
@@ -169,29 +175,42 @@ export const PendingIndustries = () => {
             },
         },
         {
-            header: () => 'Action',
-            accessorKey: 'Action',
-            cell: ({ row }: any) => {
-                const actions = tableActionOptions(row.original)
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <ActionButton
-                            variant="success"
-                            onClick={() => onAcceptClicked(row.original)}
-                        >
-                            Accept
-                        </ActionButton>
-                        <ActionButton
-                            variant="error"
-                            onClick={() => onRejectClicked(row.original)}
-                        >
-                            Reject
-                        </ActionButton>
+            ...(!profile?.data?.isAssociatedWithRto &&
+            profile?.isSuccess &&
+            profile?.data
+                ? {
+                      header: () => 'Action',
+                      accessorKey: 'Action',
+                      cell: ({ row }: any) => {
+                          const actions = tableActionOptions(row.original)
+                          return (
+                              <div className="flex gap-x-1 items-center">
+                                  <ActionButton
+                                      variant="success"
+                                      onClick={() =>
+                                          onAcceptClicked(row.original)
+                                      }
+                                  >
+                                      Accept
+                                  </ActionButton>
+                                  <ActionButton
+                                      variant="error"
+                                      onClick={() =>
+                                          onRejectClicked(row.original)
+                                      }
+                                  >
+                                      Reject
+                                  </ActionButton>
 
-                        <TableAction options={actions} rowItem={row.original} />
-                    </div>
-                )
-            },
+                                  <TableAction
+                                      options={actions}
+                                      rowItem={row.original}
+                                  />
+                              </div>
+                          )
+                      },
+                  }
+                : {}),
         },
     ]
 
@@ -205,7 +224,7 @@ export const PendingIndustries = () => {
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
                     <Table
-                        columns={Columns}
+                        columns={Columns?.filter((c: any) => c?.header) as any}
                         data={data.data}
                         // quickActions={quickActionsElements}
                         enableRowSelection

@@ -179,13 +179,6 @@ export const Courses = ({
         ?.filter((f: any) => f?.studentResponse?.[0]?.status === 'rejected')
         ?.every((f: any) => f?.studentResponse?.[0]?.files?.length > 0)
 
-    console.log(
-        'ananana',
-        getFolders?.data
-            ?.filter((f: any) => f?.studentResponse?.[0]?.status === 'rejected')
-            ?.every((f: any) => f?.studentResponse?.[0]?.files?.length > 0)
-    )
-
     const resubmitFiles = getFolders?.data?.filter(
         (f: any) =>
             f?.studentResponse?.[0]?.reSubmitted &&
@@ -200,8 +193,6 @@ export const Courses = ({
         resubmitFiles &&
         rejectedFolderes === resubmitFiles &&
         Number(files) > 0) as boolean
-
-    console.log({ rejectedFolderes, resubmitFiles, files })
 
     const result = getCourseResult(selectedCourse?.results)
 

@@ -16,7 +16,7 @@ import {
 } from '@components'
 
 import { useActionModal } from '@hooks'
-import { useGetSubAdminIndustriesQuery } from '@queries'
+import { SubAdminApi, useGetSubAdminIndustriesQuery } from '@queries'
 import { Industry, SubAdmin, UserStatus } from '@types'
 import { getUserCredentials, setLink } from '@utils'
 import { CgUnblock } from 'react-icons/cg'
@@ -42,6 +42,7 @@ export const BlockedIndustries = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    const profile = SubAdminApi.SubAdmin.useProfile()
 
     const id = getUserCredentials()?.id
 
@@ -111,6 +112,11 @@ export const BlockedIndustries = () => {
                     industry={row.original}
                     isFavorite={isFavorite}
                     call
+                    isAssociatedWithRto={
+                        profile?.data?.isAssociatedWithRto &&
+                        profile?.isSuccess &&
+                        profile?.data
+                    }
                 />
             ),
         },
@@ -167,14 +173,20 @@ export const BlockedIndustries = () => {
             },
         },
         {
-            header: () => 'Action',
-            accessorKey: 'Action',
-            cell: ({ row }: any) => (
-                <TableAction
-                    options={tableActionOptions}
-                    rowItem={row.original}
-                />
-            ),
+            ...(!profile?.data?.isAssociatedWithRto &&
+            profile?.isSuccess &&
+            profile?.data
+                ? {
+                      header: () => 'Action',
+                      accessorKey: 'Action',
+                      cell: ({ row }: any) => (
+                          <TableAction
+                              options={tableActionOptions}
+                              rowItem={row.original}
+                          />
+                      ),
+                  }
+                : {}),
         },
     ]
 
@@ -188,7 +200,7 @@ export const BlockedIndustries = () => {
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
                     <Table
-                        columns={Columns}
+                        columns={Columns?.filter((c: any) => c?.header) as any}
                         data={data.data}
                         // quickActions={quickActionsElements}
                         enableRowSelection

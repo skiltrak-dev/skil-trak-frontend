@@ -104,6 +104,14 @@ export const studentsEndpoints = (
         providesTags: ['SubAdminStudents'],
     }),
 
+    getRtoCoordinatorStudents: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/list-by/rto-coordinator`,
+            params,
+        }),
+        providesTags: ['SubAdminStudents'],
+    }),
+
     getSubAdminNonContactableStudents: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}/students/list/not-contactable`,
