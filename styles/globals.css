@@ -13,6 +13,16 @@ html {
     font-size: 16px;
 }
 
+.column-border::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: #e5e7eb; /* This is Tailwind's gray-200 color */
+    left: 50%;
+    transform: translateX(-50%);
+}
 
 
 .rectangle {

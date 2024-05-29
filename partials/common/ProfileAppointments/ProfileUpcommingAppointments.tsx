@@ -8,8 +8,10 @@ import { AppointmentTypeEnum } from './appointment.enum'
 export const ProfileUpcommingAppointments = ({
     userId,
     isEntered,
+    fullWidth,
 }: {
     userId: number
+    fullWidth: boolean | undefined
     isEntered: boolean
 }) => {
     const futureAppointments = CommonApi.Appointments.useBookedAppointments(
@@ -37,7 +39,11 @@ export const ProfileUpcommingAppointments = ({
                     </div>
                 ) : futureAppointments?.data &&
                   futureAppointments?.data?.length > 0 ? (
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2.5">
+                    <div
+                        className={`grid grid-cols-1 ${
+                            fullWidth ? 'lg:grid-cols-2' : ''
+                        }  gap-2.5`}
+                    >
                         {futureAppointments?.data?.map(
                             (appointment: Appointment) => (
                                 <ProfileAppointmentsCard
