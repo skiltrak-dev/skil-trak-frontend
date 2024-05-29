@@ -5,15 +5,14 @@ import {
     RedirectUnApprovedUsers,
     SubAdminNavbar,
 } from '@components'
-import { useAlert, useContextBar, useJoyRide } from '@hooks'
-import React, { ReactElement, ReactNode, useEffect, useState } from 'react'
+import { useContextBar, useJoyRide } from '@hooks'
+import { UsersPendingEsignModal } from '@partials'
+import { CommonApi } from '@queries'
+import { EsignDocumentStatus } from '@utils'
+import { useRouter } from 'next/router'
+import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
-import { CommonApi } from '@queries'
-import { EsignDocumentStatus, getUserCredentials } from '@utils'
-import { useRouter } from 'next/router'
-import { UsersPendingEsignModal, ViewUsersForEsignModal } from '@partials'
-import { UserStatus } from '@types'
 
 interface SubAdminLayoutProps {
     pageTitle?: PageTitleProps

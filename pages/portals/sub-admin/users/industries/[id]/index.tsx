@@ -24,7 +24,7 @@ import { IndustryProfile } from '@components/IndustryProfile'
 // queries
 import { SnoozeIndustryModal } from '@partials/common'
 import { DetailTabs } from '@partials/sub-admin/Industries/tabs'
-import { useGetSubAdminIndustriesProfileQuery } from '@queries'
+import { SubAdminApi, useGetSubAdminIndustriesProfileQuery } from '@queries'
 import { getLink } from '@utils'
 
 type Props = {}
@@ -47,10 +47,21 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
             skip: !id,
             refetchOnMountOrArgChange: true,
         })
+    const profile = SubAdminApi.SubAdmin.useProfile()
 
     useEffect(() => {
         navBar.setSubTitle(data?.user?.name)
     }, [data])
+
+    useEffect(() => {
+        if (
+            profile?.data?.isAssociatedWithRto &&
+            profile?.isSuccess &&
+            profile?.data
+        ) {
+            pathname.push(`/portals/sub-admin/users/industries?tab=all`)
+        }
+    }, [profile])
 
     useEffect(() => {
         window.addEventListener('mousemove', () => setIsMouseMove(true))
@@ -116,7 +127,6 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
                             <PageTitle title="Industry Profile" />
                         </div>
                         <div className="flex items-center gap-x-2">
-
                             {/* <Button
                                 text={'View Password'}
                                 onClick={() => {

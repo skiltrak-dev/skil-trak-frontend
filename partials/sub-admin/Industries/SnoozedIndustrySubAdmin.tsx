@@ -19,6 +19,7 @@ import {
 import {
     useGetSubAdminIndustriesQuery,
     useGetSnoozedIndustryQuery,
+    SubAdminApi,
 } from '@queries'
 import { Industry, SubAdmin, UserStatus } from '@types'
 import { IndustryCellInfo } from './components'
@@ -55,6 +56,7 @@ export const SnoozedIndustrySubAdmin = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    const profile = SubAdminApi.SubAdmin.useProfile()
 
     const id = getUserCredentials()?.id
 
@@ -161,6 +163,11 @@ export const SnoozedIndustrySubAdmin = () => {
                     industry={row.original}
                     isFavorite={isFavorite}
                     call
+                    isAssociatedWithRto={
+                        profile?.data?.isAssociatedWithRto &&
+                        profile?.isSuccess &&
+                        profile?.data
+                    }
                 />
             ),
         },
@@ -250,12 +257,23 @@ export const SnoozedIndustrySubAdmin = () => {
             },
         },
         {
-            header: () => 'Action',
-            accessorKey: 'Action',
-            cell: ({ row }: any) => {
-                const actions = tableActionOptions(row.original)
-                return <TableAction options={actions} rowItem={row.original} />
-            },
+            ...(!profile?.data?.isAssociatedWithRto &&
+            profile?.isSuccess &&
+            profile?.data
+                ? {
+                      header: () => 'Action',
+                      accessorKey: 'Action',
+                      cell: ({ row }: any) => {
+                          const actions = tableActionOptions(row.original)
+                          return (
+                              <TableAction
+                                  options={actions}
+                                  rowItem={row.original}
+                              />
+                          )
+                      },
+                  }
+                : {}),
         },
     ]
 
@@ -268,7 +286,7 @@ export const SnoozedIndustrySubAdmin = () => {
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
                     <Table
-                        columns={Columns}
+                        columns={Columns?.filter((c: any) => c?.header) as any}
                         data={data.data}
                         // quickActions={quickActionsElements}
                         enableRowSelection

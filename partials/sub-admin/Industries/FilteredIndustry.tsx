@@ -16,6 +16,7 @@ import { getUserCredentials } from '@utils'
 import { FaEye, FaPencilAlt } from 'react-icons/fa'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { AddToFavoriteModal } from './modals'
+import { SubAdminApi } from '@queries'
 
 export const FilteredIndustry = ({
     industry,
@@ -30,6 +31,8 @@ export const FilteredIndustry = ({
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
+    const profile = SubAdminApi.SubAdmin.useProfile()
+
     // hooks
 
     const router = useRouter()
@@ -37,6 +40,7 @@ export const FilteredIndustry = ({
     const isFavorite = (subAdmin: SubAdmin[] | undefined) => {
         return subAdmin?.find((subadmin: SubAdmin) => subadmin?.user?.id === id)
     }
+
     const tableActionOptions = (industry: Industry) => {
         const onCancelClicked = () => {
             setModal(null)
@@ -93,6 +97,11 @@ export const FilteredIndustry = ({
                     industry={row.original}
                     isFavorite={isFavorite}
                     call
+                    isAssociatedWithRto={
+                        profile?.data?.isAssociatedWithRto &&
+                        profile?.isSuccess &&
+                        profile?.data
+                    }
                 />
             ),
         },
@@ -149,12 +158,23 @@ export const FilteredIndustry = ({
             },
         },
         {
-            header: () => 'Action',
-            accessorKey: 'Action',
-            cell: ({ row }: any) => {
-                const actions = tableActionOptions(row.original)
-                return <TableAction options={actions} rowItem={row.original} />
-            },
+            ...(!profile?.data?.isAssociatedWithRto &&
+            profile?.isSuccess &&
+            profile?.data
+                ? {
+                      header: () => 'Action',
+                      accessorKey: 'Action',
+                      cell: ({ row }: any) => {
+                          const actions = tableActionOptions(row.original)
+                          return (
+                              <TableAction
+                                  options={actions}
+                                  rowItem={row.original}
+                              />
+                          )
+                      },
+                  }
+                : {}),
         },
     ]
     return (
@@ -171,7 +191,9 @@ export const FilteredIndustry = ({
                         <LoadingAnimation height="h-[60vh]" />
                     ) : industry?.data && industry?.data?.data.length ? (
                         <Table
-                            columns={Columns}
+                            columns={
+                                Columns?.filter((c: any) => c?.header) as any
+                            }
                             data={industry?.data.data}
                             // quickActions={quickActionsElements}
                             enableRowSelection
