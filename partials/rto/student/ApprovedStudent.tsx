@@ -10,7 +10,7 @@ import {
     TableAction,
     TechnicalError,
     Typography,
-    UserCreatedAt
+    UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -130,7 +130,7 @@ export const ApprovedStudent = () => {
             <AssignCoordinatorModal
                 studentId={student?.id}
                 studentUser={student?.user}
-                subadminId={student?.subadmin?.id}
+                rtoCoordinatorId={student?.rtoCoordinator?.id}
                 onCancel={onModalCancelClicked}
             />
         )
@@ -156,24 +156,24 @@ export const ApprovedStudent = () => {
                 Icon: FaEye,
             },
             {
-                text: student?.subadmin
+                text: student?.rtoCoordinator
                     ? 'Change Coordinator'
                     : 'Assign Coordinator',
                 onClick: (student: Student) =>
                     onAssignCoordinatorClicked(student),
                 Icon: FaUserPlus,
             },
-            {
-                ...(student?.subadmin
-                    ? {
-                          text: 'Remove Coordinator',
-                          onClick: (student: Student) =>
-                              onRemoveCoordinatorClicked(student),
-                          Icon: IoPersonRemoveSharp,
-                          color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-                      }
-                    : {}),
-            },
+            // {
+            //     ...(student?.rtoCoordinator
+            //         ? {
+            //               text: 'Remove Coordinator',
+            //               onClick: (student: Student) =>
+            //                   onRemoveCoordinatorClicked(student),
+            //               Icon: IoPersonRemoveSharp,
+            //               color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            //           }
+            //         : {}),
+            // },
             {
                 text: 'Archive',
                 onClick: (student: Student) => onArchiveClicked(student),
@@ -249,6 +249,23 @@ export const ApprovedStudent = () => {
             header: () => <span>Progress</span>,
             cell: ({ row }) => (
                 <CaseOfficerAssignedStudent student={row.original} />
+            ),
+        },
+        {
+            accessorKey: 'assigned',
+            header: () => <span>Assigned To</span>,
+            cell: ({ row }: any) => (
+                <div>
+                    <Typography variant="label">
+                        {row.original?.rtoCoordinator?.user?.name}
+                    </Typography>
+                    <Typography variant="small" color={'text-gray-400'}>
+                        {row.original?.rtoCoordinator?.user?.email}
+                    </Typography>
+                    <Typography variant="small" color={'text-gray-400'}>
+                        {row.original?.rtoCoordinator?.phone}
+                    </Typography>
+                </div>
             ),
         },
         {

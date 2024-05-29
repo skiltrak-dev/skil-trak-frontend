@@ -34,6 +34,7 @@ export const SubAdminIndustryFilter = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, name: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="email"
@@ -44,6 +45,7 @@ export const SubAdminIndustryFilter = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, email: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="suburb"
@@ -51,9 +53,9 @@ export const SubAdminIndustryFilter = ({
                     placeholder={'Search Industry Suburb ...'}
                     value={filter?.suburb}
                     onChange={(e: any) => {
-                        ;``
                         onFilterChange({ ...filter, suburb: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="state"
@@ -63,6 +65,7 @@ export const SubAdminIndustryFilter = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, state: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     label={'Phone Number'}
@@ -72,6 +75,7 @@ export const SubAdminIndustryFilter = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, phone: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     label={'ABN'}
@@ -81,6 +85,7 @@ export const SubAdminIndustryFilter = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, abn: e.target.value })
                     }}
+                    showError={false}
                 />
                 <Select
                     label={'Is Hiring'}
@@ -94,6 +99,7 @@ export const SubAdminIndustryFilter = ({
                     onChange={(e: any) =>
                         onFilterChange({ ...filter, isHiring: e?.value })
                     }
+                    showError={false}
                 />
                 <TextInput
                     label={'Address'}
@@ -103,6 +109,7 @@ export const SubAdminIndustryFilter = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, address: e.target.value })
                     }}
+                    showError={false}
                 />
                 <Select
                     label={'Search by Courses'}
@@ -121,6 +128,7 @@ export const SubAdminIndustryFilter = ({
                     }}
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}
+                    showError={false}
                 />
             </div>
         </>

@@ -201,12 +201,11 @@ export const RtoSubadminStudent = () => {
                 },
                 Icon: FaEye,
             },
-
-            {
-                text: student?.subadmin ? 'Un Assign' : 'Assign to me',
-                onClick: (student: Student) => onAssignStudentClicked(student),
-                Icon: MdBlock,
-            },
+            // {
+            //     text: student?.subadmin ? 'Un Assign' : 'Assign to me',
+            //     onClick: (student: Student) => onAssignStudentClicked(student),
+            //     Icon: MdBlock,
+            // },
             {
                 text: student?.nonContactable
                     ? 'Add to Contactable'
@@ -215,27 +214,26 @@ export const RtoSubadminStudent = () => {
                     onNonContactableStudents(student),
                 Icon: MdBlock,
             },
+            {
+                text: 'Change Status',
+                onClick: (student: Student) => onChangeStatus(student),
+                Icon: FaEdit,
+            },
 
-            // {
-            //     text: 'Change Status',
-            //     onClick: (student: Student) => onChangeStatus(student),
-            //     Icon: FaEdit,
-            // },
-
-            // {
-            //     text: student?.isHighPriority
-            //         ? 'Remove Mark High Priority'
-            //         : 'Mark High Priority',
-            //     onClick: (student: Student) =>
-            //         onMarkAsHighPriorityClicked(student),
-            //     Icon: MdPriorityHigh,
-            //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            // },
-            // {
-            //     text: 'Change Expiry',
-            //     onClick: (student: Student) => onDateClick(student),
-            //     Icon: FaEdit,
-            // },
+            {
+                text: student?.isHighPriority
+                    ? 'Remove Mark High Priority'
+                    : 'Mark High Priority',
+                onClick: (student: Student) =>
+                    onMarkAsHighPriorityClicked(student),
+                Icon: MdPriorityHigh,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+            {
+                text: 'Change Expiry',
+                onClick: (student: Student) => onDateClick(student),
+                Icon: FaEdit,
+            },
         ]
     }
 

@@ -1,35 +1,16 @@
-import { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
 // Layouts
 import { RtoLayout } from '@layouts'
 import { NextPageWithLayout, SubAdmin } from '@types'
-import { ColumnDef } from '@tanstack/react-table'
 //components
-import {
-    HelpQuestionSet,
-    TableAction,
-    Typography,
-    EmptyData,
-    Table,
-    TechnicalError,
-    Card,
-    LoadingAnimation,
-    PageTitle,
-    Button,
-    TableActionOption,
-    InitialAvatar,
-    TabProps,
-    TabNavigation,
-} from '@components'
+import { Button, PageTitle, TabNavigation, TabProps } from '@components'
 // queries
 import { RtoApi } from '@queries'
 // Link
-import Link from 'next/link'
 // React icons
-import { toNamespacedPath } from 'path'
 import { useJoyRide, useNotification } from '@hooks'
 import { DeleteModal } from '@partials/admin/sub-admin/modals'
-import { UserRoles } from '@constants'
 import {
     AssignedCoordinators,
     MyCoordinators,
