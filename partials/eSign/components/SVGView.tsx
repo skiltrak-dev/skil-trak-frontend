@@ -47,7 +47,6 @@ export const SVGView = ({
     onAddCustomFieldsData: any
     selectedFillDataField?: any
 }) => {
-    console.log({ sortedPositions })
     const router = useRouter()
     const [viewport, setViewport] = useState<string | null>('')
     const [showEndDocument, setShowEndDocument] = useState(true)
@@ -72,7 +71,6 @@ export const SVGView = ({
 
     useEffect(() => {
         if (customFieldsSelectedId < sortedPositions?.length) {
-            console.log('Lasted')
             scrollToPage(
                 Number(sortedPositions?.[customFieldsSelectedId]?.id),
                 sortedPositions?.[customFieldsSelectedId]?.number - 1
@@ -143,21 +141,6 @@ export const SVGView = ({
             }
         }
     }, [timerId])
-
-    console.log(
-        'sssssss',
-        ((Number(
-            sortedPositions?.[customFieldsSelectedId]?.size?.split(',')?.[0]
-        ) -
-            45) /
-            Number(
-                sortedPositions?.[customFieldsSelectedId]?.position?.split(
-                    ','
-                )?.[0]
-            )) *
-            100 -
-            4
-    )
 
     const handleEnter = () => {
         if (timerId) {
