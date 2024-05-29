@@ -7,6 +7,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
     Typography,
 } from '@components'
 import { useContextBar } from '@hooks'
@@ -114,61 +115,74 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
         },
     ]
     return (
-        <div className="mb-10">
+        <div className="">
             {modal}
-            <div id="add-admin" className="flex justify-end mb-2">
-                <Button
-                    text={'+ Add Supervisor'}
-                    onClick={() => {
-                        contextBar.setTitle('Add Supervisor')
-                        contextBar.show()
-                        contextBar.setContent(
-                            <AddSupervisor industry={industry} />
-                        )
-                    }}
-                />
-            </div>
 
             {/*  */}
-            <Card noPadding>
-                {supervisors.isLoading ? (
-                    <LoadingAnimation height="h-[60vh]" />
-                ) : supervisors.data && supervisors.data?.data?.length ? (
-                    <Table columns={columns} data={supervisors.data?.data}>
-                        {({
-                            table,
-                            pagination,
-                            pageSize,
-                            quickActions,
-                        }: any) => {
-                            return (
-                                <div>
-                                    <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(itemPerPage, setItemPerPage)}
-                                        <div className="flex gap-x-2">
-                                            {quickActions}
-                                            {pagination(
-                                                supervisors.data?.pagination,
-                                                setPage
+            <Card fullHeight shadowType="profile" noPadding>
+                <div className="px-4 py-3 border-b border-secondary-dark flex justify-between items-center">
+                    <Typography semibold>
+                        <span className="text-[15px]">Supervisor</span>
+                    </Typography>
+                    <div id="add-admin">
+                        <Button
+                            text={'+ Add Supervisor'}
+                            onClick={() => {
+                                contextBar.setTitle('Add Supervisor')
+                                contextBar.show()
+                                contextBar.setContent(
+                                    <AddSupervisor industry={industry} />
+                                )
+                            }}
+                        />
+                    </div>
+                </div>
+
+                <div className="h-80 overflow-auto custom-scrollbar">
+                    {supervisors.isError ? <TechnicalError /> : null}
+                    {supervisors.isLoading ? (
+                        <LoadingAnimation height="h-[60vh]" />
+                    ) : supervisors.data && supervisors.data?.data?.length ? (
+                        <Table columns={columns} data={supervisors.data?.data}>
+                            {({
+                                table,
+                                pagination,
+                                pageSize,
+                                quickActions,
+                            }: any) => {
+                                return (
+                                    <div>
+                                        <div className="px-6 pt-3 pb-1 mb-2 flex justify-between">
+                                            {pageSize(
+                                                itemPerPage,
+                                                setItemPerPage
                                             )}
+                                            <div className="flex gap-x-2">
+                                                {quickActions}
+                                                {pagination(
+                                                    supervisors.data
+                                                        ?.pagination,
+                                                    setPage
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="overflow-x-auto remove-scrollbar">
+                                            <div className="px-6 w-full">
+                                                {table}
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="overflow-x-auto remove-scrollbar">
-                                        <div className="px-6 w-full">
-                                            {table}
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        }}
-                    </Table>
-                ) : (
-                    <EmptyData
-                        title={'No Contact Persons!'}
-                        description={'You have no contact persons yet'}
-                        height={'50vh'}
-                    />
-                )}
+                                )
+                            }}
+                        </Table>
+                    ) : (
+                        <EmptyData
+                            title={'No Contact Persons!'}
+                            description={'You have no contact persons yet'}
+                            height={'50vh'}
+                        />
+                    )}
+                </div>
             </Card>
         </div>
     )

@@ -8,8 +8,10 @@ import { Waypoint } from 'react-waypoint'
 
 export const ProfileAppointments = ({
     userId,
+    fullWidth,
     link,
 }: {
+    fullWidth?: boolean
     userId: number
     link:
         | string
@@ -53,17 +55,20 @@ export const ProfileAppointments = ({
                             <ProfileUpcommingAppointments
                                 isEntered={isEntered}
                                 userId={userId}
+                                fullWidth={fullWidth}
                             />
                         </div>
                         <div className="px-3.5 border-b border-secondary-dark py-3">
                             <ProfilePastAppointments
                                 userId={userId}
                                 isEntered={isEntered}
+                                fullWidth={fullWidth}
                             />
                         </div>
                         <div className="px-3.5 py-3">
                             <ProfileCancelledAppointments
                                 userId={userId}
+                                fullWidth={fullWidth}
                                 isEntered={isEntered}
                             />
                         </div>

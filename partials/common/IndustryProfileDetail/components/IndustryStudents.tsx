@@ -321,11 +321,7 @@ export const IndustryStudents = ({ industry }: { industry: Industry }) => {
                     ) : data && data?.data.length ? (
                         <Table
                             columns={columns}
-                            data={Array.from(
-                                { length: 5 },
-                                () => data?.data
-                            ).flatMap((x) => x)}
-                            // data={data.data}
+                            data={data.data}
                             quickActions={quickActionsElements}
                             enableRowSelection
                         >

@@ -1,2 +1,6 @@
 export * from './IndustryStudents'
 export * from './IndustryHistory'
+export * from './IndustryLocations'
+export * from './IndustrySupervisor'
+export * from './IndustryShiftingHours'
+export * from './IndustryRequiredDocuments'

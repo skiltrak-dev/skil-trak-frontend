@@ -1,11 +1,13 @@
 import { AuthorizedUserComponent, Typography } from '@components'
 import { UserRoles } from '@constants'
 import { Rto } from '@types'
+import { getUserCredentials } from '@utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
 export const RtoDetail = ({ rto }: { rto: Rto }) => {
+    const role = getUserCredentials()?.role
     return (
         <div className="my-3">
             <div className="flex items-center justify-between">
@@ -16,7 +18,13 @@ export const RtoDetail = ({ rto }: { rto: Rto }) => {
                     roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                 >
                     <Link
-                        href={`/portals/sub-admin/users/rtos/${rto?.id}?tab=overview`}
+                        href={
+                            role === UserRoles.ADMIN
+                                ? `/portals/admin/rto/${rto?.id}?tab=sectors`
+                                : role === UserRoles.SUBADMIN
+                                ? `/portals/sub-admin/users/rtos/${rto?.id}?tab=overview`
+                                : `/portals/rto`
+                        }
                     >
                         <Typography variant="xs" color="text-info" medium>
                             All Details
