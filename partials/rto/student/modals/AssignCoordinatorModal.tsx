@@ -7,12 +7,12 @@ import { useEffect, useState } from 'react'
 export const AssignCoordinatorModal = ({
     onCancel,
     studentId,
-    subadminId,
+    rtoCoordinatorId,
     studentUser,
 }: {
     studentId: number
     studentUser: User
-    subadminId: number
+    rtoCoordinatorId: number
     onCancel: () => void
 }) => {
     const [selectedSubadmin, setSelectedSubadmin] = useState<number | null>(
@@ -32,10 +32,10 @@ export const AssignCoordinatorModal = ({
         RtoApi.Students.useAssignCoordinatoToStudent()
 
     useEffect(() => {
-        if (subadminId) {
-            setSelectedSubadmin(subadminId)
+        if (rtoCoordinatorId) {
+            setSelectedSubadmin(rtoCoordinatorId)
         }
-    }, [subadminId])
+    }, [rtoCoordinatorId])
 
     const onAssignCoordinator = () => {
         if (selectedSubadmin) {
