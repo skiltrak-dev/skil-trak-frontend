@@ -3,8 +3,16 @@ import React, { useEffect, useState } from 'react'
 import { IndustryProfileCB } from './IndustryProfileCB'
 import { Industry, UserStatus } from '@types'
 import { MailsCommunication, Notes } from '../StudentProfileDetail/components'
-import { IndustryHistory, IndustryStudents } from './components'
+import {
+    IndustryHistory,
+    IndustryLocations,
+    IndustryRequiredDocuments,
+    IndustryShiftingHours,
+    IndustryStudents,
+    IndustrySupervisor,
+} from './components'
 import { ProfileAppointments } from '../ProfileAppointments'
+import { PageTitle } from '@components'
 
 export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -76,37 +84,58 @@ export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
 
     return (
         <div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-3 mt-5 h-[506px]">
-                <div className="h-full">
-                    <Notes userId={industry?.user?.id} />
+            <div className="flex flex-col gap-y-5 mb-20 px-2">
+                <PageTitle title="Industry Profile" />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-3 h-[540px]">
+                    <IndustryShiftingHours />
+                    <div className="h-full">
+                        <Notes userId={industry?.user?.id} />
+                    </div>
                 </div>
-            </div>
 
-            {/* Students */}
-            <div>
-                <IndustryStudents industry={industry} />
-            </div>
+                {/*  */}
+                <div>
+                    <IndustryStudents industry={industry} />
+                </div>
 
-            <div className="mt-5 h-[480px]">
-                <ProfileAppointments
-                    link={{
-                        pathname:
-                            '/portals/admin/appointment-type/create-appointment',
-                        query: {
-                            industry: industry?.user?.id,
-                        },
-                    }}
-                    userId={industry?.user?.id}
-                />
-            </div>
+                <div>
+                    {/*  */}
+                    <IndustrySupervisor industry={industry} />
+                </div>
 
-            {/* History */}
-            <IndustryHistory industry={industry} />
+                {/*  */}
+                <div>
+                    <IndustryLocations industry={industry} />
+                </div>
 
-            {/*  */}
-            <div className="h-[640px] px-2  grid grid-cols-2 gap-x-3">
-                <div className={`!h-[99%] col-span-2`}>
-                    <MailsCommunication user={industry?.user} />
+                {/*  */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-3 h-[470px]">
+                    {/* Required Docs */}
+                    <IndustryRequiredDocuments industry={industry} />
+                    <div className="h-full">
+                        <ProfileAppointments
+                            link={{
+                                pathname:
+                                    '/portals/admin/appointment-type/create-appointment',
+                                query: {
+                                    industry: industry?.user?.id,
+                                },
+                            }}
+                            userId={industry?.user?.id}
+                        />
+                    </div>
+                </div>
+
+                {/* Students */}
+
+                {/* History */}
+                <IndustryHistory industry={industry} />
+
+                {/*  */}
+                <div className="h-[640px] px-2  grid grid-cols-2 gap-x-3">
+                    <div className={`!h-[99%] col-span-2`}>
+                        <MailsCommunication user={industry?.user} />
+                    </div>
                 </div>
             </div>
         </div>

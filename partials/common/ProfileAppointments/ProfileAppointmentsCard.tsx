@@ -132,7 +132,11 @@ export const ProfileAppointmentsCard = ({
                                                 : 'coordinator'
                                         ]?.name
                                     }
-                                    textColor="white"
+                                    textColor={
+                                        type === AppointmentTypeEnum.Upcoming
+                                            ? 'var(--theme-primaryNew-dark)'
+                                            : 'white'
+                                    }
                                     maxLength={20}
                                 />
                             </Typography>

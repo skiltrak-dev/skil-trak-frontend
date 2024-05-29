@@ -7,8 +7,10 @@ import { AppointmentTypeEnum } from './appointment.enum'
 
 export const ProfilePastAppointments = ({
     userId,
+    fullWidth,
     isEntered,
 }: {
+    fullWidth: boolean | undefined
     userId: number
     isEntered: boolean
 }) => {
@@ -38,7 +40,11 @@ export const ProfilePastAppointments = ({
                     </div>
                 ) : pastAppointments?.data?.data &&
                   pastAppointments?.data?.data?.length > 0 ? (
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2.5">
+                    <div
+                        className={`grid grid-cols-1 ${
+                            fullWidth ? 'lg:grid-cols-2' : ''
+                        }  gap-2.5`}
+                    >
                         {pastAppointments?.data?.data?.map(
                             (appointment: Appointment) => (
                                 <ProfileAppointmentsCard
