@@ -14,7 +14,6 @@ import {
     StudentExpiryDaysLeft,
     Table,
     TableAction,
-    Typography,
     UserCreatedAt,
 } from '@components'
 import { StudentCellInfo, SubadminStudentIndustries } from './components'
@@ -31,13 +30,10 @@ import {
     UnAssignStudentModal,
 } from './modals'
 
-import { useActionModal } from '@hooks'
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import { getUserCredentials, setLink, studentsListWorkplace } from '@utils'
+import { getUserCredentials, setLink } from '@utils'
 import { FaFileExport } from 'react-icons/fa'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { IndustryCellInfo } from '../Industries'
 
 export const MyStudents = () => {
     const router = useRouter()

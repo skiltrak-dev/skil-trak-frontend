@@ -17,7 +17,7 @@ import {
 } from '@components'
 
 import { useActionModal } from '@hooks'
-import { useGetFavouriteIndustriesQuery } from '@queries'
+import { SubAdminApi, useGetFavouriteIndustriesQuery } from '@queries'
 import { Industry } from '@types'
 import { setLink } from '@utils'
 import { MdFavorite } from 'react-icons/md'
@@ -43,6 +43,7 @@ export const FavoriteIndustries = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    const profile = SubAdminApi.SubAdmin.useProfile()
 
     const onCancelClicked = () => {
         setModal(null)
@@ -96,7 +97,15 @@ export const FavoriteIndustries = () => {
             accessorKey: 'user',
             sort: true,
             cell: ({ row }: any) => (
-                <IndustryCellInfo industry={row.original} call />
+                <IndustryCellInfo
+                    industry={row.original}
+                    call
+                    isAssociatedWithRto={
+                        profile?.data?.isAssociatedWithRto &&
+                        profile?.isSuccess &&
+                        profile?.data
+                    }
+                />
             ),
         },
         {
@@ -158,16 +167,22 @@ export const FavoriteIndustries = () => {
             },
         },
         {
-            header: () => 'Action',
-            accessorKey: 'Action',
-            cell: ({ row }: any) => {
-                return (
-                    <TableAction
-                        options={tableActionOptions}
-                        rowItem={row.original}
-                    />
-                )
-            },
+            ...(!profile?.data?.isAssociatedWithRto &&
+            profile?.isSuccess &&
+            profile?.data
+                ? {
+                      header: () => 'Action',
+                      accessorKey: 'Action',
+                      cell: ({ row }: any) => {
+                          return (
+                              <TableAction
+                                  options={tableActionOptions}
+                                  rowItem={row.original}
+                              />
+                          )
+                      },
+                  }
+                : {}),
         },
     ]
 
@@ -181,7 +196,7 @@ export const FavoriteIndustries = () => {
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
                     <Table
-                        columns={Columns}
+                        columns={Columns?.filter((c: any) => c?.header) as any}
                         data={data.data}
                         // quickActions={quickActionsElements}
                         enableRowSelection

@@ -11,10 +11,12 @@ import { FaHireAHelper } from 'react-icons/fa'
 import { Industry } from '@types'
 
 export const IndustryCellInfo = ({
+    isAssociatedWithRto,
     industry,
     isFavorite,
     call,
 }: {
+    isAssociatedWithRto?: boolean
     industry: Industry
     isFavorite?: any
     call?: boolean
@@ -38,7 +40,11 @@ export const IndustryCellInfo = ({
     return (
         <Link
             legacyBehavior
-            href={`/portals/sub-admin/users/industries/${industry?.id}?tab=students`}
+            href={
+                isAssociatedWithRto
+                    ? '#'
+                    : `/portals/sub-admin/users/industries/${industry?.id}?tab=students`
+            }
         >
             <a
                 className="flex items-center gap-x-2"

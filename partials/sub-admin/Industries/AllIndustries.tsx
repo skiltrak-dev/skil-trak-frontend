@@ -16,7 +16,7 @@ import {
     Typography,
 } from '@components'
 
-import { useGetSubAdminIndustriesQuery } from '@queries'
+import { SubAdminApi, useGetSubAdminIndustriesQuery } from '@queries'
 import { CallLog, Industry, SubAdmin, UserStatus } from '@types'
 import { IndustryCellInfo } from './components'
 import { AddToFavoriteModal, ArchiveModal, BlockModal } from './modals'
@@ -47,6 +47,7 @@ export const AllIndustries = () => {
             refetchOnMountOrArgChange: true,
         }
     )
+    const profile = SubAdminApi.SubAdmin.useProfile()
 
     const id = getUserCredentials()?.id
 
@@ -136,6 +137,11 @@ export const AllIndustries = () => {
                     industry={row.original}
                     isFavorite={isFavorite}
                     call
+                    isAssociatedWithRto={
+                        profile?.data?.isAssociatedWithRto &&
+                        profile?.isSuccess &&
+                        profile?.data
+                    }
                 />
             ),
         },
@@ -216,12 +222,23 @@ export const AllIndustries = () => {
             },
         },
         {
-            header: () => 'Action',
-            accessorKey: 'Action',
-            cell: ({ row }: any) => {
-                const actions = tableActionOptions(row.original)
-                return <TableAction options={actions} rowItem={row.original} />
-            },
+            ...(!profile?.data?.isAssociatedWithRto &&
+            profile?.isSuccess &&
+            profile?.data
+                ? {
+                      header: () => 'Action',
+                      accessorKey: 'Action',
+                      cell: ({ row }: any) => {
+                          const actions = tableActionOptions(row.original)
+                          return (
+                              <TableAction
+                                  options={actions}
+                                  rowItem={row.original}
+                              />
+                          )
+                      },
+                  }
+                : {}),
         },
     ]
 
@@ -234,7 +251,7 @@ export const AllIndustries = () => {
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
                     <Table
-                        columns={Columns}
+                        columns={Columns?.filter((c: any) => c?.header) as any}
                         data={data.data}
                         // quickActions={quickActionsElements}
                         enableRowSelection

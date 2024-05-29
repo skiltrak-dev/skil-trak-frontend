@@ -30,7 +30,6 @@ const IndustryDetail: NextPageWithLayout = () => {
             )}
         </div>
     )
-    return null
 }
 
 IndustryDetail.getLayout = (page: ReactElement) => {

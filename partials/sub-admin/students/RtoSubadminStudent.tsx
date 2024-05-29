@@ -91,7 +91,7 @@ export const RtoSubadminStudent = () => {
 
     const count = SubAdminApi.Student.useCount()
 
-    const students = useGetSubAdminMyStudentsQuery(
+    const students = SubAdminApi.Student.useGetRtoCoordinatorStudents(
         {
             search: `${JSON.stringify(
                 removeEmptyValues({
@@ -216,26 +216,26 @@ export const RtoSubadminStudent = () => {
                 Icon: MdBlock,
             },
 
-            {
-                text: 'Change Status',
-                onClick: (student: Student) => onChangeStatus(student),
-                Icon: FaEdit,
-            },
+            // {
+            //     text: 'Change Status',
+            //     onClick: (student: Student) => onChangeStatus(student),
+            //     Icon: FaEdit,
+            // },
 
-            {
-                text: student?.isHighPriority
-                    ? 'Remove Mark High Priority'
-                    : 'Mark High Priority',
-                onClick: (student: Student) =>
-                    onMarkAsHighPriorityClicked(student),
-                Icon: MdPriorityHigh,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: 'Change Expiry',
-                onClick: (student: Student) => onDateClick(student),
-                Icon: FaEdit,
-            },
+            // {
+            //     text: student?.isHighPriority
+            //         ? 'Remove Mark High Priority'
+            //         : 'Mark High Priority',
+            //     onClick: (student: Student) =>
+            //         onMarkAsHighPriorityClicked(student),
+            //     Icon: MdPriorityHigh,
+            //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            // },
+            // {
+            //     text: 'Change Expiry',
+            //     onClick: (student: Student) => onDateClick(student),
+            //     Icon: FaEdit,
+            // },
         ]
     }
 
