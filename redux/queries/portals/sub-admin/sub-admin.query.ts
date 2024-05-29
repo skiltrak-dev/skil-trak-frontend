@@ -311,6 +311,7 @@ export const {
     useGetSnoozedIndustryQuery,
     useGetSubadminIndustriesCountQuery,
     useGetSubAdminIndustriesQuery,
+    useGetRtoCoordinatorsIndustryQuery,
     useGetFavouriteIndustriesQuery,
     useGetSubAdminIndustryStudentsQuery,
     useGetSubAdminIndustriesProfileQuery,
@@ -413,6 +414,7 @@ export const SubAdminApi = {
         useRemoveIndustryBranch: useRemoveIndustryBranchMutation,
         useStatusticsCount: useSubadminIndustryStatisticsCountQuery,
         useMakeIndustryHeadquarter: useMakeIndustryHeadquarterMutation,
+        useRtoCoordinatorsIndustries: useGetRtoCoordinatorsIndustryQuery,
     },
     Rto: {
         useRtoStatsCount: useSubadminRtoStatisticsCountQuery,

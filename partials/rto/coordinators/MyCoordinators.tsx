@@ -11,15 +11,18 @@ import {
 } from '@components'
 import { ColumnDef } from '@tanstack/react-table'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { CoursesCell } from '@partials/rto/coordinators'
 import { RtoApi } from '@queries'
 import { useRouter } from 'next/router'
 import { UserRoles } from '@constants'
+import { DeleteRtoCoordinatorModal } from './modal'
+import { SubAdmin } from '@types'
 
 export const MyCoordinators = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const router = useRouter()
 
@@ -28,8 +31,16 @@ export const MyCoordinators = () => {
         limit: itemPerPage,
     })
 
-    const [removeCoordinator, removeCoordinatorResult] =
-        RtoApi.Coordinator.useRemove()
+    const onCancelModal = () => setModal(null)
+
+    const onDeleteCoordinator = (coordinator: SubAdmin) => {
+        setModal(
+            <DeleteRtoCoordinatorModal
+                onCancel={onCancelModal}
+                coordinator={coordinator}
+            />
+        )
+    }
 
     const tableActionOptions = (coordinator: any) => [
         {
@@ -44,7 +55,8 @@ export const MyCoordinators = () => {
                 ? {
                       text: 'Delete',
                       onClick: (coordinator: any) => {
-                          removeCoordinator(coordinator?.user?.id)
+                          onDeleteCoordinator(coordinator)
+                          //   removeCoordinator(coordinator?.user?.id)
                       },
                       Icon: '',
                   }
@@ -126,6 +138,7 @@ export const MyCoordinators = () => {
     ]
     return (
         <div>
+            {modal}
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading ? (

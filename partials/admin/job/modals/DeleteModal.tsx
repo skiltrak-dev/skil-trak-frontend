@@ -1,8 +1,7 @@
 import { ActionModal, ShowErrorNotifications } from '@components'
-import { useAlert, useNotification } from '@hooks'
-import { AdminApi, useRemoveJobMutation } from '@queries'
+import { useNotification } from '@hooks'
+import { useRemoveJobMutation } from '@queries'
 
-import { AppointmentType, Rto, Sector } from '@types'
 import { useEffect } from 'react'
 import { FaTrash } from 'react-icons/fa'
 

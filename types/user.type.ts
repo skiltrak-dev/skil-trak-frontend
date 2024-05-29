@@ -116,6 +116,7 @@ export interface Student extends BaseResponse {
     nonContactable: boolean
     user: User
     rto: Rto
+    rtoCoordinator: SubAdmin
     location: string
     studentStatus: StudentStatusEnum
     courses: Course[]
