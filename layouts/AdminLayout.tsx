@@ -65,25 +65,25 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
     const rplCount = AdminApi.Rpl.useRplCount()
     const volunteerCount = AdminApi.Volunteer.useVolunteerCount()
 
-    // useEffect(() => {
-    //     const handleRouteChange = () => {
-    //         if (childrenRef.current) {
-    //             childrenRef.current.scrollTo({
-    //                 top: 0,
-    //                 left: 0,
-    //                 behavior: 'smooth',
-    //             })
-    //         }
-    //     }
+    useEffect(() => {
+        const handleRouteChange = () => {
+            if (childrenRef.current) {
+                childrenRef.current.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: 'smooth',
+                })
+            }
+        }
 
-    //     // Add event listener for route changes
-    //     router.events.on('routeChangeComplete', handleRouteChange)
+        // Add event listener for route changes
+        router.events.on('routeChangeComplete', handleRouteChange)
 
-    //     // Remove event listener when component unmounts
-    //     return () => {
-    //         router.events.off('routeChangeComplete', handleRouteChange)
-    //     }
-    // }, [router])
+        // Remove event listener when component unmounts
+        return () => {
+            router.events.off('routeChangeComplete', handleRouteChange)
+        }
+    }, [router])
 
     const routes: RouteNavLink[] = [
         {

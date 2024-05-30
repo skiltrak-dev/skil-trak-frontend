@@ -43,7 +43,6 @@ export const ArchivedIndustries = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    const profile = SubAdminApi.SubAdmin.useProfile()
 
     const id = getUserCredentials()?.id
 
@@ -123,11 +122,6 @@ export const ArchivedIndustries = () => {
                     industry={row.original}
                     isFavorite={isFavorite}
                     call
-                    isAssociatedWithRto={
-                        profile?.data?.isAssociatedWithRto &&
-                        profile?.isSuccess &&
-                        profile?.data
-                    }
                 />
             ),
         },
@@ -184,23 +178,12 @@ export const ArchivedIndustries = () => {
             },
         },
         {
-            ...(!profile?.data?.isAssociatedWithRto &&
-            profile?.isSuccess &&
-            profile?.data
-                ? {
-                      header: () => 'Action',
-                      accessorKey: 'Action',
-                      cell: ({ row }: any) => {
-                          const actions = tableActionOptions(row.original)
-                          return (
-                              <TableAction
-                                  options={actions}
-                                  rowItem={row.original}
-                              />
-                          )
-                      },
-                  }
-                : {}),
+            header: () => 'Action',
+            accessorKey: 'Action',
+            cell: ({ row }: any) => {
+                const actions = tableActionOptions(row.original)
+                return <TableAction options={actions} rowItem={row.original} />
+            },
         },
     ]
 

@@ -6,6 +6,7 @@ import { useNotification } from '@hooks'
 import { UserProfileDetailCard } from '@partials/common/Cards'
 import { SubAdminApi } from '@queries'
 import { IndustryCallLogModal } from '@partials/sub-admin/Industries'
+import moment from 'moment'
 
 export const IndustryDetail = ({ industry }: { industry: Industry }) => {
     const { notification } = useNotification()
@@ -35,7 +36,23 @@ export const IndustryDetail = ({ industry }: { industry: Industry }) => {
             {/*  */}
             <div className="mt-1.5 flex flex-col gap-y-1.5">
                 <div className="flex items-center gap-x-[5px]">
-                    <UserProfileDetailCard title="ABN" detail={industry?.abn} />
+                    <UserProfileDetailCard
+                        title="ABN"
+                        detail={industry?.abn}
+                        onClick={() => {
+                            navigator.clipboard.writeText(industry?.abn)
+                            notification.success({
+                                title: 'Copied',
+                                description: 'ABN Copied',
+                            })
+                        }}
+                    />
+                    <UserProfileDetailCard
+                        title="Created At"
+                        detail={moment(industry?.createdAt).format(
+                            'MMM, DD YYYY hh:mm A'
+                        )}
+                    />
                 </div>
                 <div className="border border-[#6B728050] rounded-md">
                     <UserProfileDetailCard

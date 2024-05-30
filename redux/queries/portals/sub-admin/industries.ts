@@ -24,7 +24,7 @@ export const subAdminIndustriesEndpoints = (
     }),
     getRtoCoordinatorsIndustry: builder.query<any, any>({
         query: (params) => ({
-            url: `${PREFIX}/industries/list`,
+            url: `${PREFIX}/industries/list/by-students`,
             params,
         }),
         providesTags: ['SubAdminIndustries'],

@@ -33,7 +33,6 @@ export const RtoCoordinatorsIndustries = () => {
     const { isLoading, data, isError } =
         SubAdminApi.Industry.useRtoCoordinatorsIndustries(
             {
-                search: `status:${UserStatus.Approved}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
@@ -41,7 +40,6 @@ export const RtoCoordinatorsIndustries = () => {
                 refetchOnMountOrArgChange: true,
             }
         )
-    const profile = SubAdminApi.SubAdmin.useProfile()
 
     const id = getUserCredentials()?.id
 
@@ -63,37 +61,8 @@ export const RtoCoordinatorsIndustries = () => {
                     industry={row.original}
                     isFavorite={isFavorite}
                     call
-                    isAssociatedWithRto={
-                        profile?.data?.isAssociatedWithRto &&
-                        profile?.isSuccess &&
-                        profile?.data
-                    }
                 />
             ),
-        },
-        {
-            accessorKey: 'branches',
-            cell: (info: any) => {
-                return (
-                    <div className="flex justify-start">
-                        {info?.row?.original?.branches.length > 0 ? (
-                            <BranchCell industry={info.row.original} />
-                        ) : info.row.original.headQuarter !== null ? (
-                            <div className="flex flex-col gap-y-1 items-center">
-                                <p className="text-xs font-semibold text-blue-400">
-                                    Head Quarter
-                                </p>
-                                <p className="text-xs font-semibold text-gray-400">
-                                    {info.row.original.headQuarter.user.name}
-                                </p>
-                            </div>
-                        ) : (
-                            'N/A'
-                        )}
-                    </div>
-                )
-            },
-            header: () => <span>Branches</span>,
         },
         {
             accessorKey: 'abn',
@@ -144,7 +113,7 @@ export const RtoCoordinatorsIndustries = () => {
                 {isError && <TechnicalError />}
                 {isLoading ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length > 999999 ? (
+                ) : data && data?.data.length > 0 ? (
                     <Table
                         columns={Columns?.filter((c: any) => c?.header) as any}
                         data={data.data}
