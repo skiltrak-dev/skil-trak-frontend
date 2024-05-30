@@ -58,7 +58,7 @@ export const IndustryInfoBoxCard = ({
                 <div className="flex justify-center mt-1.5">
                     <Link
                         className="text-blue-400 font-medium text-sm"
-                        href={`http://localhost:3000/portals/sub-admin/users/industries/${item?.id}?tab=students`}
+                        href={`/portals/sub-admin/users/industries/${item?.id}?tab=students`}
                     >
                         View Profile
                     </Link>
