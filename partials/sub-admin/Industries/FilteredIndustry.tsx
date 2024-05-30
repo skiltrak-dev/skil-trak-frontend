@@ -31,8 +31,6 @@ export const FilteredIndustry = ({
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const profile = SubAdminApi.SubAdmin.useProfile()
-
     // hooks
 
     const router = useRouter()
@@ -97,11 +95,6 @@ export const FilteredIndustry = ({
                     industry={row.original}
                     isFavorite={isFavorite}
                     call
-                    isAssociatedWithRto={
-                        profile?.data?.isAssociatedWithRto &&
-                        profile?.isSuccess &&
-                        profile?.data
-                    }
                 />
             ),
         },
@@ -158,23 +151,12 @@ export const FilteredIndustry = ({
             },
         },
         {
-            ...(!profile?.data?.isAssociatedWithRto &&
-            profile?.isSuccess &&
-            profile?.data
-                ? {
-                      header: () => 'Action',
-                      accessorKey: 'Action',
-                      cell: ({ row }: any) => {
-                          const actions = tableActionOptions(row.original)
-                          return (
-                              <TableAction
-                                  options={actions}
-                                  rowItem={row.original}
-                              />
-                          )
-                      },
-                  }
-                : {}),
+            header: () => 'Action',
+            accessorKey: 'Action',
+            cell: ({ row }: any) => {
+                const actions = tableActionOptions(row.original)
+                return <TableAction options={actions} rowItem={row.original} />
+            },
         },
     ]
     return (

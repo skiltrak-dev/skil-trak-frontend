@@ -253,7 +253,7 @@ export const ApprovedStudent = () => {
         },
         {
             accessorKey: 'assigned',
-            header: () => <span>Assigned To</span>,
+            header: () => <span>Assigned Coordinator</span>,
             cell: ({ row }: any) => (
                 <div>
                     <Typography variant="label">
