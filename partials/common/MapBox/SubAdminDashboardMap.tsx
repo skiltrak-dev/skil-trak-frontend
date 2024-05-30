@@ -261,6 +261,8 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
     const options = {
         imagePath:
             'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+        grid: 20,
+        maxZoom: 15,
     }
 
     const handleCountryView = () => {
@@ -363,8 +365,8 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                                                     marker?.user?.role &&
                                                     marker?.user?.role ===
                                                         'industry'
-                                                        ? '/images/icons/industry-map-pin.png'
-                                                        : '/images/icons/student-blue-map-pin.svg',
+                                                        ? '/images/icons/industry-pin-map-pin.png'
+                                                        : '/images/icons/student-red-map-pin.png',
                                                 scaledSize:
                                                     new google.maps.Size(
                                                         29,
@@ -374,9 +376,19 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                                             position={marker.location}
                                             // label={marker.name}
                                             clusterer={clusterer}
-                                            onMouseOver={() =>
-                                                onMarkerHover(marker)
-                                            }
+                                            onMouseOver={(e: any) => {
+                                                // handleMarkerClick(marker)
+                                                setStudentId(marker?.id)
+                                                setIndustryId(marker?.id)
+                                                setSelectedBox({
+                                                    ...marker,
+                                                    position: {
+                                                        lat: e.latLng.lat(),
+                                                        lng: e.latLng.lng(),
+                                                    },
+                                                })
+                                                setShowInfoBox(true)
+                                            }}
                                             onMouseOut={() =>
                                                 setSelectedMarker(null)
                                             }

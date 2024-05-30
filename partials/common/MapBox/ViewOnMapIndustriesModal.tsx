@@ -16,10 +16,11 @@ import { IndustryCard } from '../StudentProfileDetail/components/Workplace/compo
 import { IndustryInfoBoxCard } from './IndustryInfoBoxCard'
 import { useRouter } from 'next/router'
 import { StudentInfoBoxCard } from './StudentInfoBoxCard'
+import { IoMdCloseCircle } from 'react-icons/io'
 
 const containerStyle = {
-    width: '742px',
-    height: '389px',
+    width: '980px',
+    height: '450px',
 }
 
 const center = {
@@ -198,6 +199,8 @@ export const ViewOnMapIndustriesModal = ({
     const options = {
         imagePath:
             'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+        grid: 20,
+        maxZoom: 15,
     }
 
     const [selectedMarkers, setSelectedMarkers] = useState<any>([])
@@ -268,28 +271,41 @@ export const ViewOnMapIndustriesModal = ({
     }
     return (
         <div className="w-full">
+            <div
+                onClick={onCancel}
+                className="flex justify-end cursor-pointer border-b p-2 mb-2"
+            >
+                <IoMdCloseCircle size={25} className="text-red-500" />
+            </div>
+
             {visibleMarkers.length > 0 ? (
                 <div className="flex gap-x-3 w-full">
-                    <div className="p-4">
+                    <div className="p-4 w-1/3">
                         <Typography variant="small" semibold>
                             Near by Industries
                         </Typography>
                         <div className="flex flex-col gap-y-1 mt-4">
-                            {suggestedIndustries?.map(
-                                (industry: any, index: number) => (
-                                    <IndustryCard
-                                        key={industry?.id}
-                                        industry={industry}
-                                        workplace={workplace}
-                                        courseId={courseId}
-                                        appliedIndustry={appliedIndustry}
-                                    />
+                            {suggestedIndustries.length > 0 ? (
+                                suggestedIndustries?.map(
+                                    (industry: any, index: number) => (
+                                        <IndustryCard
+                                            key={industry?.id}
+                                            industry={industry}
+                                            workplace={workplace}
+                                            courseId={courseId}
+                                            appliedIndustry={appliedIndustry}
+                                        />
+                                    )
                                 )
+                            ) : (
+                                <NoData
+                                    text={'No Suggested Industries Found'}
+                                />
                             )}
                         </div>
                     </div>
                     {isLoaded && (
-                        <div className="">
+                        <div className="w-3/4">
                             <GoogleMap
                                 mapContainerStyle={containerStyle}
                                 center={center}
@@ -313,8 +329,8 @@ export const ViewOnMapIndustriesModal = ({
                                                                     marker?.user
                                                                         ?.role ===
                                                                         'student'
-                                                                        ? '/images/icons/student-blue-map-pin.svg'
-                                                                        : '/images/icons/industry-map-pin.png',
+                                                                        ? '/images/icons/student-red-map-pin.png'
+                                                                        : '/images/icons/industry-pin-map-pin.png',
                                                                 scaledSize:
                                                                     new google.maps.Size(
                                                                         29,
@@ -328,11 +344,26 @@ export const ViewOnMapIndustriesModal = ({
                                                             clusterer={
                                                                 clusterer
                                                             }
-                                                            onMouseOver={() =>
-                                                                onMarkerHover(
-                                                                    marker
+                                                            onMouseOver={(
+                                                                e: any
+                                                            ) => {
+                                                                // handleMarkerClick(
+                                                                //     marker
+                                                                // )
+                                                                setIndustryId(
+                                                                    marker?.id
                                                                 )
-                                                            }
+                                                                setSelectedBox({
+                                                                    ...marker,
+                                                                    position: {
+                                                                        lat: e.latLng.lat(),
+                                                                        lng: e.latLng.lng(),
+                                                                    },
+                                                                })
+                                                                setShowInfoBox(
+                                                                    true
+                                                                )
+                                                            }}
                                                             onMouseOut={() =>
                                                                 setSelectedMarker(
                                                                     null
@@ -341,9 +372,9 @@ export const ViewOnMapIndustriesModal = ({
                                                             onClick={(
                                                                 e: any
                                                             ) => {
-                                                                handleMarkerClick(
-                                                                    marker
-                                                                )
+                                                                // handleMarkerClick(
+                                                                //     marker
+                                                                // )
                                                                 setIndustryId(
                                                                     marker?.id
                                                                 )
@@ -439,9 +470,6 @@ export const ViewOnMapIndustriesModal = ({
             ) : (
                 <NoData text="No Data found" />
             )}
-            <div className="flex justify-center my-3">
-                <Button text="Close" onClick={onCancel} variant={'error'} />
-            </div>
         </div>
     )
 }
