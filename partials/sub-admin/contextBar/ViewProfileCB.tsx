@@ -148,9 +148,7 @@ export const ViewProfileCB = ({ subadmin }: { subadmin: SubAdmin }) => {
                                 {subadmin?.coordinatorId}
                             </p>
                         </div>
-                        <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                            Coordinator ID
-                        </div>
+                        <div className="text-gray-400 text-[11px] -mt-0.5 text-center"></div>
                     </div>
 
                     <div className="p-2">
@@ -158,36 +156,32 @@ export const ViewProfileCB = ({ subadmin }: { subadmin: SubAdmin }) => {
                             <span className="text-gray-300">
                                 <MdPhone />
                             </span>
-                            <p className="text-sm font-medium">
-                                {subadmin?.phone}
-                            </p>
-                        </div>
-                        <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                            Phone Number
+                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
+                                Phone Number
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                {/* Info Row 3 */}
-                <div className="flex justify-around divide-x border-b">
-                    <div className="p-2">
-                        <div className="flex items-center space-x-2">
-                            <span className="text-gray-300">
-                                <IoLocation />
-                            </span>
-                            <p className="text-sm font-medium">
-                                {subadmin?.addressLine1 ||
-                                    'No Address Provided'}
-                                ,
-                            </p>
-                        </div>
-                        <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                            Address
+                    {/* Info Row 3 */}
+                    <div className="flex justify-around divide-x border-b">
+                        <div className="p-2">
+                            <div className="flex items-center space-x-2">
+                                <span className="text-gray-300">
+                                    <IoLocation />
+                                </span>
+                                <p className="text-sm font-medium">
+                                    {subadmin?.addressLine1 ||
+                                        'No Address Provided'}
+                                    ,
+                                </p>
+                            </div>
+                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
+                                Address
+                            </div>
                         </div>
                     </div>
-                </div>
-                {/* Eligible sectors */}
-                {/* <div className="mt-4">
+                    {/* Eligible sectors */}
+                    {/* <div className="mt-4">
                         <Typography variant={'small'} color={'text-gray-500'}>
                             Eligible Sectors
                         </Typography>
@@ -238,29 +232,30 @@ export const ViewProfileCB = ({ subadmin }: { subadmin: SubAdmin }) => {
                         )}
                     </div> */}
 
-                <div>
-                    <Typography variant="label" semibold>
-                        To do List:
-                    </Typography>
-
-                    {/*  */}
                     <div>
-                        {sectionsData.map((secData) => (
-                            <Link href={secData?.link}>
-                                <div className="flex items-center justify-between border-b border-secondary-dark py-2">
-                                    <Typography variant="small">
-                                        {secData.text}
-                                    </Typography>
-                                    <Typography variant="small">
-                                        {todoListCount.isLoading ? (
-                                            <PulseLoader size={3} />
-                                        ) : (
-                                            secData.count
-                                        )}
-                                    </Typography>
-                                </div>
-                            </Link>
-                        ))}
+                        <Typography variant="label" semibold>
+                            To do List:
+                        </Typography>
+
+                        {/*  */}
+                        <div>
+                            {sectionsData.map((secData) => (
+                                <Link href={secData?.link}>
+                                    <div className="flex items-center justify-between border-b border-secondary-dark py-2">
+                                        <Typography variant="small">
+                                            {secData.text}
+                                        </Typography>
+                                        <Typography variant="small">
+                                            {todoListCount.isLoading ? (
+                                                <PulseLoader size={3} />
+                                            ) : (
+                                                secData.count
+                                            )}
+                                        </Typography>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

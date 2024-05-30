@@ -113,11 +113,11 @@ export const ViewProfileCB = () => {
                         <div className="relative">
                             {data?.user.avatar ? (
                                 <Image
-                                    src={data?.user.avatar}
+                                    src={data?.user?.avatar}
                                     width={100}
                                     height={100}
                                     alt=""
-                                    className="rounded-full shadow-inner-image"
+                                    className="rounded-full shadow-inner-image w-24 h-24"
                                 />
                             ) : (
                                 <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">

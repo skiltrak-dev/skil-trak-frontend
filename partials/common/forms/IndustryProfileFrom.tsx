@@ -322,6 +322,7 @@ export const IndustryProfileFrom = ({
         }
     }, [profile, countryOptions, statesOption])
 
+
     const onBlur = (e: any) => {
         const abn = e.target?.value
         removeEmptySpaces(formMethods, abn)

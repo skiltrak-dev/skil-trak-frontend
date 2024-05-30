@@ -81,6 +81,7 @@ export const SVGView = ({
         customFieldsSelectedId < sortedPositions?.length - 1 ? doc : null,
     ])
 
+
     const handleFocus = () => {
         if (documentSvgData?.isSuccess && doc) {
             if (isBrowser()) {
@@ -113,6 +114,8 @@ export const SVGView = ({
 
         setViewport(svgViewport)
     }, [doc])
+
+   
 
     useEffect(() => {
         const signData = customFieldsData?.filter(

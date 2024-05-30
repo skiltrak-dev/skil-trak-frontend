@@ -27,6 +27,7 @@ export const ProgressChart = ({
         ]),
     ]
 
+
     return (
         <div className="">
             <ChartContainer>

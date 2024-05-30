@@ -7,6 +7,7 @@ import { SubAdminLayout } from '@layouts'
 import {
     Card,
     ContextBarLoading,
+    GlobalModal,
     HelpQuestionSet,
     LottieAnimation,
     Modal,
@@ -24,10 +25,11 @@ import { FigureCard } from '@components/sections/subAdmin/components/Cards/Figur
 
 import { AuthUtils, getSectors, getUserCredentials } from '@utils'
 
-import { ImportantDocuments } from '@partials/common'
+import { ImportantDocuments, SubAdminDashboardMap } from '@partials/common'
 import { CommonApi, SubAdminApi, useGetSubAdminIndustriesQuery } from '@queries'
 import { useRouter } from 'next/router'
 import { CallBackProps } from 'react-joyride'
+import { IoMdCloseCircle } from 'react-icons/io'
 
 const NotificationQuestions = [
     {
@@ -54,6 +56,22 @@ const SubAdminDashboard: NextPageWithLayout = () => {
         skip: status !== UserStatus.Approved,
     })
     const sectorsWithCourses = getSectors(subadminCourses?.data)
+    const uniqueSectors = (() => {
+        const sectors = subadminCourses?.data?.map((item: any) => item?.sector)
+        const seen = new Set()
+        return sectors?.filter((sector: any) => {
+            if (seen.has(sector.id)) {
+                return false
+            } else {
+                seen.add(sector.id)
+                return true
+            }
+        })
+    })()
+    const sectorsOptions = uniqueSectors?.map((sector: any) => ({
+        value: sector?.id,
+        label: sector?.name,
+    }))
 
     const { viewedPendingIndustriesModal, setViewedPendingIndustriesModal } =
         useContextBar()
@@ -738,15 +756,21 @@ const SubAdminDashboard: NextPageWithLayout = () => {
         }
     }, [pendingIndustries?.data?.data])
 
-    // <Modal
-    //     onConfirmClick={onCancel}
-    //     title={'Pending Industry Requests'}
-    //     subtitle={'There are pending industry requests in your account'}
-    //     onCancelClick={onCancel}
-    // >
-    //     You need to enable Book/Receive Appointments from Setting to
-    //     recive Book/Receive Appointments
-    // </Modal>
+    const onMapClick = () => {
+        setModal(
+            <GlobalModal>
+                <div className="w-full p-5">
+                    <div
+                        onClick={onCancel}
+                        className="flex justify-end cursor-pointer border-b py-2 mb-2"
+                    >
+                        <IoMdCloseCircle size={20} className="text-red-500" />
+                    </div>
+                    <SubAdminDashboardMap sectorsOptions={sectorsOptions} />
+                </div>
+            </GlobalModal>
+        )
+    }
 
     return (
         <>
@@ -804,13 +828,8 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                 </div>
 
                 {/* Question Section */}
-                <section className="bg-[#D6F4FF] w-full p-4 rounded-2xl relative overflow-hidden">
+                {/* <section className="bg-[#D6F4FF] w-full p-4 rounded-2xl relative overflow-hidden">
                     <div className="absolute right-0 -bottom-3">
-                        {/* <Image
-                        src={'/images/students/help.png'}
-                        width={180}
-                        height={145}
-                    /> */}
                         <LottieAnimation
                             animation={Animations.Common.Help}
                             width={200}
@@ -854,85 +873,111 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> */}
 
+                {/* Sector Card */}
+                <div className="flex gap-x-5 w-full">
+                    <div className="w-1/3 h-full">
+                        <Card>
+                            {/* Card Header */}
+                            <div className="flex justify-between items-center">
+                                {/* Icon Title */}
+                                <div className="flex items-center gap-x-2">
+                                    <div className="w-8 h-8 bg-indigo-100 text-indigo-600 rounded-full flex justify-center items-center">
+                                        <FaSchool size={16} />
+                                    </div>
+                                    <p className="text-sm font-semibold">
+                                        My Sector &amp; Courses
+                                    </p>
+                                </div>
+
+                                {/* Action */}
+                                {/* <Link legacyBehavior href="#">
+                            <a className="inline-block uppercase text-xs font-medium bg-indigo-100 text-indigo-600 px-4 py-2 rounded">
+                                See Details
+                            </a>
+                        </Link> */}
+                            </div>
+
+                            <div className="mt-4">
+                                {subadminCourses?.isLoading ? (
+                                    <ContextBarLoading />
+                                ) : subadminCourses?.data?.length > 0 ? (
+                                    Object.keys(sectorsWithCourses).map(
+                                        (sector: any) => {
+                                            return (
+                                                <div
+                                                    className="mt-4"
+                                                    key={sector?.id}
+                                                >
+                                                    <div>
+                                                        {/* <p className="text-xs font-medium text-gray-400">
+                                                Sector
+                                            </p> */}
+                                                        <p className="text-sm font-semibold">
+                                                            {sector}
+                                                        </p>
+                                                    </div>
+
+                                                    {(
+                                                        sectorsWithCourses as any
+                                                    )[sector].map(
+                                                        (
+                                                            c: Course,
+                                                            i: number
+                                                        ) => (
+                                                            <div
+                                                                className="flex flex-col gap-y-4 ml-4"
+                                                                key={i}
+                                                            >
+                                                                <div className="border-l-4 border-green-600 px-2">
+                                                                    <div>
+                                                                        <p className="text-xs font-medium text-gray-400">
+                                                                            {
+                                                                                c.code
+                                                                            }
+                                                                        </p>
+                                                                        <p className="text-sm">
+                                                                            {
+                                                                                c.title
+                                                                            }
+                                                                        </p>
+                                                                    </div>
+
+                                                                    {/* <Badge text="Active" /> */}
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    )}
+                                                </div>
+                                            )
+                                        }
+                                    )
+                                ) : (
+                                    <div className="w-full">
+                                        <NoData text={'No Courses Assigned'} />
+                                    </div>
+                                )}
+                            </div>
+                        </Card>
+                    </div>
+                    <div>
+                        <p
+                            onClick={onMapClick}
+                            className="text-blue-500 font-medium text-xs underline cursor-pointer"
+                        >
+                            View Map
+                        </p>
+                    </div>
+                    {/* <div className="w-full">
+                        <SubAdminDashboardMap sectorsOptions={sectorsOptions} />
+                    </div> */}
+                </div>
                 <ImportantDocuments
                     coureseRequirementsLink={
                         '/portals/sub-admin/course-requirements'
                     }
                 />
-
-                {/* Sector Card */}
-                <Card>
-                    {/* Card Header */}
-                    <div className="flex justify-between items-center">
-                        {/* Icon Title */}
-                        <div className="flex items-center gap-x-2">
-                            <div className="w-8 h-8 bg-indigo-100 text-indigo-600 rounded-full flex justify-center items-center">
-                                <FaSchool size={16} />
-                            </div>
-                            <p className="text-sm font-semibold">
-                                My Sector &amp; Courses
-                            </p>
-                        </div>
-
-                        {/* Action */}
-                        {/* <Link legacyBehavior href="#">
-                        <a className="inline-block uppercase text-xs font-medium bg-indigo-100 text-indigo-600 px-4 py-2 rounded">
-                            See Details
-                        </a>
-                    </Link> */}
-                    </div>
-
-                    <div className="mt-4">
-                        {subadminCourses?.isLoading ? (
-                            <ContextBarLoading />
-                        ) : subadminCourses?.data?.length > 0 ? (
-                            Object.keys(sectorsWithCourses).map(
-                                (sector: any) => {
-                                    return (
-                                        <div className="mt-4" key={sector?.id}>
-                                            <div>
-                                                {/* <p className="text-xs font-medium text-gray-400">
-                                            Sector
-                                        </p> */}
-                                                <p className="text-sm font-semibold">
-                                                    {sector}
-                                                </p>
-                                            </div>
-
-                                            {(sectorsWithCourses as any)[
-                                                sector
-                                            ].map((c: Course, i: number) => (
-                                                <div
-                                                    className="flex flex-col gap-y-4 ml-4"
-                                                    key={i}
-                                                >
-                                                    <div className="border-l-4 border-green-600 px-2">
-                                                        <div>
-                                                            <p className="text-xs font-medium text-gray-400">
-                                                                {c.code}
-                                                            </p>
-                                                            <p className="text-sm">
-                                                                {c.title}
-                                                            </p>
-                                                        </div>
-
-                                                        {/* <Badge text="Active" /> */}
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )
-                                }
-                            )
-                        ) : (
-                            <div className="w-full">
-                                <NoData text={'No Courses Assigned'} />
-                            </div>
-                        )}
-                    </div>
-                </Card>
             </div>
         </>
     )

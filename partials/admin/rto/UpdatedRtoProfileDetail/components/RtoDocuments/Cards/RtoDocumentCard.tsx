@@ -27,6 +27,7 @@ export const RtoDocumentCard = ({
         'octet-stream',
     ]
 
+
     const extension = file
         ?.replaceAll('{"', '')
         .replaceAll('"}', '')
