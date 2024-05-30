@@ -330,11 +330,13 @@ const ESign = () => {
                     setIsLastSelected(true)
                 }
 
+
                 const findMyIndex = sortedPositions?.findIndex(
                     (f: any) => f?.id === requiredData?.id
                 )
                 const nextData = sortedPositions?.[findMyIndex + 1]
                 if (isFieldValue) {
+
                     setCustomFieldsSelectedId(findMyIndex)
                     setSelectedFillDataField(requiredData?.id)
                 } else {

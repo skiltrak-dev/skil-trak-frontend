@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from 'react'
 import { IndustryCard } from './components'
-import { NoData, Typography } from '@components'
+import { GlobalModal, NoData, Typography } from '@components'
 import { Course } from '@types'
 import { WorkplaceCurrentStatus } from '@utils'
 import { ViewMoreIndustriesModal } from '@partials/sub-admin/workplace/modals'
@@ -10,6 +10,7 @@ import { Actions } from './Actions'
 import { StudentProvidedActions } from './StudentProvidedActions'
 import { StudentProvidedABNActions } from './StudentProvidedABNActions'
 import { AgreementView } from '../AgreementView'
+import { ViewOnMapIndustriesModal } from '@partials/common/MapBox'
 
 export const IndustryDetail = ({
     workplace,
@@ -51,14 +52,29 @@ export const IndustryDetail = ({
         )
     }
 
+    const onViewOnMap = () => {
+        setModal(
+            <GlobalModal>
+                <ViewOnMapIndustriesModal
+                    suggestedIndustries={suggestedIndustries}
+                    onCancel={onCancelClicked}
+                    workplace={workplace}
+                    courseId={course?.id}
+                />
+            </GlobalModal>
+        )
+    }
+
     return (
         <>
             {modal}
             <div className="h-full">
                 <div className="flex justify-between items-center">
-                    <Typography variant="small" capitalize semibold>
-                        Industry Detail
-                    </Typography>
+                    <div className="flex items-center justify-between w-full">
+                        <Typography variant="small" capitalize semibold>
+                            Industry Detail
+                        </Typography>
+                    </div>
                     <div className="flex items-center gap-x-3">
                         {appliedIndustry?.AgreementSigned && (
                             <AgreementView workplace={workplace} />
@@ -119,6 +135,12 @@ export const IndustryDetail = ({
                                         + Add Industry
                                     </span>
                                 </Typography>
+                                <button
+                                    onClick={onViewOnMap}
+                                    className="text-blue-500 underline text-sm whitespace-nowrap"
+                                >
+                                    VIEW ON MAP
+                                </button>
                             </>
                         ) : (
                             ''

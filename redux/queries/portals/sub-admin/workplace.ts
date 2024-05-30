@@ -260,4 +260,12 @@ export const workplaceEndpoints = (
         query: (wpId) => `students/workplace-requests/${wpId}/get-feedback`,
         providesTags: ['SubAdminWorkplace'],
     }),
+    // Suggested Industries show on map
+    getSubAdminMapSuggestedIndustryDetail: builder.query<any, any>({
+        query: (id) => ({
+            url: `industries/industry/${id}/detail/for-map`,
+            // params,
+        }),
+        providesTags: ['SubAdminWorkplace'],
+    }),
 })
