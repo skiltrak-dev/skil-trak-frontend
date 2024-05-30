@@ -43,7 +43,6 @@ export const PendingIndustries = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    const profile = SubAdminApi.SubAdmin.useProfile()
 
     const id = getUserCredentials()?.id
 
@@ -126,11 +125,6 @@ export const PendingIndustries = () => {
                 <IndustryCellInfo
                     industry={row.original}
                     isFavorite={isFavorite}
-                    isAssociatedWithRto={
-                        profile?.data?.isAssociatedWithRto &&
-                        profile?.isSuccess &&
-                        profile?.data
-                    }
                 />
             ),
         },
@@ -175,42 +169,29 @@ export const PendingIndustries = () => {
             },
         },
         {
-            ...(!profile?.data?.isAssociatedWithRto &&
-            profile?.isSuccess &&
-            profile?.data
-                ? {
-                      header: () => 'Action',
-                      accessorKey: 'Action',
-                      cell: ({ row }: any) => {
-                          const actions = tableActionOptions(row.original)
-                          return (
-                              <div className="flex gap-x-1 items-center">
-                                  <ActionButton
-                                      variant="success"
-                                      onClick={() =>
-                                          onAcceptClicked(row.original)
-                                      }
-                                  >
-                                      Accept
-                                  </ActionButton>
-                                  <ActionButton
-                                      variant="error"
-                                      onClick={() =>
-                                          onRejectClicked(row.original)
-                                      }
-                                  >
-                                      Reject
-                                  </ActionButton>
+            header: () => 'Action',
+            accessorKey: 'Action',
+            cell: ({ row }: any) => {
+                const actions = tableActionOptions(row.original)
+                return (
+                    <div className="flex gap-x-1 items-center">
+                        <ActionButton
+                            variant="success"
+                            onClick={() => onAcceptClicked(row.original)}
+                        >
+                            Accept
+                        </ActionButton>
+                        <ActionButton
+                            variant="error"
+                            onClick={() => onRejectClicked(row.original)}
+                        >
+                            Reject
+                        </ActionButton>
 
-                                  <TableAction
-                                      options={actions}
-                                      rowItem={row.original}
-                                  />
-                              </div>
-                          )
-                      },
-                  }
-                : {}),
+                        <TableAction options={actions} rowItem={row.original} />
+                    </div>
+                )
+            },
         },
     ]
 

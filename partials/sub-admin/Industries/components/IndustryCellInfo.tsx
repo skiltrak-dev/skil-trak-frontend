@@ -1,27 +1,27 @@
 import { InitialAvatar } from '@components'
+import { SubAdminApi } from '@queries'
+import { Industry } from '@types'
 import { setLink } from '@utils'
+import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { AiFillStar } from 'react-icons/ai'
-import { FaHandshake } from 'react-icons/fa'
-import { MdEmail, MdPhoneIphone, MdSnooze } from 'react-icons/md'
-import moment from 'moment'
+import { FaHandshake, FaHireAHelper } from 'react-icons/fa'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
-import { FaHireAHelper } from 'react-icons/fa'
-import { Industry } from '@types'
+import { MdEmail, MdPhoneIphone, MdSnooze } from 'react-icons/md'
 
 export const IndustryCellInfo = ({
-    isAssociatedWithRto,
     industry,
     isFavorite,
     call,
 }: {
-    isAssociatedWithRto?: boolean
     industry: Industry
     isFavorite?: any
     call?: boolean
 }) => {
     const router = useRouter()
+
+    const profile = SubAdminApi.SubAdmin.useProfile()
 
     const callLog = industry?.callLog?.reduce(
         (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
@@ -41,7 +41,9 @@ export const IndustryCellInfo = ({
         <Link
             legacyBehavior
             href={
-                isAssociatedWithRto
+                profile?.data?.isAssociatedWithRto &&
+                profile?.isSuccess &&
+                profile?.data
                     ? '#'
                     : `/portals/sub-admin/users/industries/${industry?.id}?tab=students`
             }

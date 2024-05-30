@@ -59,7 +59,7 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
             profile?.isSuccess &&
             profile?.data
         ) {
-            pathname.push(`/portals/sub-admin/users/industries?tab=all`)
+            pathname.back()
         }
     }, [profile])
 

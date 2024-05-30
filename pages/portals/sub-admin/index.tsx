@@ -788,7 +788,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             imageUrl="/images/icons/students.png"
                             count={
                                 subadmin?.data?.isAssociatedWithRto
-                                    ? statistics?.data?.assigned
+                                    ? statistics?.data?.countByRtoCoordinator
                                     : statistics?.data?.student
                             }
                             title={'Students'}

@@ -53,7 +53,6 @@ export const IsHiringIndustries = () => {
             refetchOnMountOrArgChange: true,
         }
     )
-    const profile = SubAdminApi.SubAdmin.useProfile()
 
     const onCancelClicked = () => {
         setModal(null)
@@ -107,15 +106,7 @@ export const IsHiringIndustries = () => {
             accessorKey: 'user',
             sort: true,
             cell: ({ row }: any) => (
-                <IndustryCellInfo
-                    industry={row.original}
-                    call
-                    isAssociatedWithRto={
-                        profile?.data?.isAssociatedWithRto &&
-                        profile?.isSuccess &&
-                        profile?.data
-                    }
-                />
+                <IndustryCellInfo industry={row.original} call />
             ),
         },
 
@@ -172,22 +163,16 @@ export const IsHiringIndustries = () => {
             },
         },
         {
-            ...(!profile?.data?.isAssociatedWithRto &&
-            profile?.isSuccess &&
-            profile?.data
-                ? {
-                      header: () => 'Action',
-                      accessorKey: 'Action',
-                      cell: ({ row }: any) => {
-                          return (
-                              <TableAction
-                                  options={tableActionOptions}
-                                  rowItem={row.original}
-                              />
-                          )
-                      },
-                  }
-                : {}),
+            header: () => 'Action',
+            accessorKey: 'Action',
+            cell: ({ row }: any) => {
+                return (
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={row.original}
+                    />
+                )
+            },
         },
     ]
 

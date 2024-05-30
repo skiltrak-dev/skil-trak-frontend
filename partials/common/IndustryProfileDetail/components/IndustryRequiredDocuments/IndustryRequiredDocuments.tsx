@@ -52,7 +52,7 @@ export const IndustryRequiredDocuments = ({
                 {isError && <TechnicalError />}
 
                 <div className=" border-b border-secondary-dark pb-3">
-                    <div className="w-full md:w-1/2">
+                    <div className="w-full md:w-1/2 lg:w-2/3">
                         <Select
                             label={'Select by Courses'}
                             name={'courseId'}

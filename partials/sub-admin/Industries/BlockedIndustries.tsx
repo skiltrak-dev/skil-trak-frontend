@@ -42,7 +42,6 @@ export const BlockedIndustries = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    const profile = SubAdminApi.SubAdmin.useProfile()
 
     const id = getUserCredentials()?.id
 
@@ -112,11 +111,6 @@ export const BlockedIndustries = () => {
                     industry={row.original}
                     isFavorite={isFavorite}
                     call
-                    isAssociatedWithRto={
-                        profile?.data?.isAssociatedWithRto &&
-                        profile?.isSuccess &&
-                        profile?.data
-                    }
                 />
             ),
         },
@@ -173,20 +167,14 @@ export const BlockedIndustries = () => {
             },
         },
         {
-            ...(!profile?.data?.isAssociatedWithRto &&
-            profile?.isSuccess &&
-            profile?.data
-                ? {
-                      header: () => 'Action',
-                      accessorKey: 'Action',
-                      cell: ({ row }: any) => (
-                          <TableAction
-                              options={tableActionOptions}
-                              rowItem={row.original}
-                          />
-                      ),
-                  }
-                : {}),
+            header: () => 'Action',
+            accessorKey: 'Action',
+            cell: ({ row }: any) => (
+                <TableAction
+                    options={tableActionOptions}
+                    rowItem={row.original}
+                />
+            ),
         },
     ]
 

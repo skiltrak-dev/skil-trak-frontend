@@ -47,7 +47,6 @@ export const AllIndustries = () => {
             refetchOnMountOrArgChange: true,
         }
     )
-    const profile = SubAdminApi.SubAdmin.useProfile()
 
     const id = getUserCredentials()?.id
 
@@ -137,11 +136,6 @@ export const AllIndustries = () => {
                     industry={row.original}
                     isFavorite={isFavorite}
                     call
-                    isAssociatedWithRto={
-                        profile?.data?.isAssociatedWithRto &&
-                        profile?.isSuccess &&
-                        profile?.data
-                    }
                 />
             ),
         },
@@ -222,23 +216,12 @@ export const AllIndustries = () => {
             },
         },
         {
-            ...(!profile?.data?.isAssociatedWithRto &&
-            profile?.isSuccess &&
-            profile?.data
-                ? {
-                      header: () => 'Action',
-                      accessorKey: 'Action',
-                      cell: ({ row }: any) => {
-                          const actions = tableActionOptions(row.original)
-                          return (
-                              <TableAction
-                                  options={actions}
-                                  rowItem={row.original}
-                              />
-                          )
-                      },
-                  }
-                : {}),
+            header: () => 'Action',
+            accessorKey: 'Action',
+            cell: ({ row }: any) => {
+                const actions = tableActionOptions(row.original)
+                return <TableAction options={actions} rowItem={row.original} />
+            },
         },
     ]
 

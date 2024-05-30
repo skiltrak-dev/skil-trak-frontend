@@ -59,7 +59,7 @@ export const TradingHours = () => {
             {/*  */}
             <div className="flex justify-between border-b border-secondary-dark py-2.5">
                 {officeTimings?.map((timing) => (
-                    <div className="w-full h-32 flex justify-center items-center px-2">
+                    <div className="w-full h-32 flex justify-center items-center px-1">
                         <TimingCard timing={timing} />
                     </div>
                 ))}

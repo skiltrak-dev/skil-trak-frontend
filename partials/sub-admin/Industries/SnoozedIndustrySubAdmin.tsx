@@ -11,24 +11,18 @@ import {
     LoadingAnimation,
     Table,
     TableAction,
-    TableActionOption,
     TechnicalError,
     Typography,
 } from '@components'
 
-import {
-    useGetSubAdminIndustriesQuery,
-    useGetSnoozedIndustryQuery,
-    SubAdminApi,
-} from '@queries'
-import { Industry, SubAdmin, UserStatus } from '@types'
+import { UnSnoozeIndustryModal } from '@partials/common'
+import { useGetSnoozedIndustryQuery } from '@queries'
+import { Industry, SubAdmin } from '@types'
+import { getUserCredentials, setLink } from '@utils'
+import { MdBlock, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
+import { RiInboxArchiveFill } from 'react-icons/ri'
 import { IndustryCellInfo } from './components'
 import { AddToFavoriteModal, ArchiveModal, BlockModal } from './modals'
-import { MdBlock, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
-import { getUserCredentials, setLink } from '@utils'
-import { RiInboxArchiveFill, RiLockPasswordFill } from 'react-icons/ri'
-import { useActionModal } from '@hooks'
-import { UnSnoozeIndustryModal } from '@partials/common'
 
 export const SnoozedIndustrySubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -41,22 +35,10 @@ export const SnoozedIndustrySubAdmin = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    // const { isLoading, data, isError } = useGetSubAdminIndustriesQuery(
-    //     {
-    //         search: `status:${UserStatus.Approved}`,
-    //         skip: itemPerPage * page - itemPerPage,
-    //         limit: itemPerPage,
-    //     },
-    //     {
-    //         refetchOnMountOrArgChange: true,
-    //     }
-    // )
     const { isLoading, data, isError } = useGetSnoozedIndustryQuery({
-        // search: `status:${UserStatus.Approved}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    const profile = SubAdminApi.SubAdmin.useProfile()
 
     const id = getUserCredentials()?.id
 
@@ -163,11 +145,6 @@ export const SnoozedIndustrySubAdmin = () => {
                     industry={row.original}
                     isFavorite={isFavorite}
                     call
-                    isAssociatedWithRto={
-                        profile?.data?.isAssociatedWithRto &&
-                        profile?.isSuccess &&
-                        profile?.data
-                    }
                 />
             ),
         },
@@ -257,23 +234,12 @@ export const SnoozedIndustrySubAdmin = () => {
             },
         },
         {
-            ...(!profile?.data?.isAssociatedWithRto &&
-            profile?.isSuccess &&
-            profile?.data
-                ? {
-                      header: () => 'Action',
-                      accessorKey: 'Action',
-                      cell: ({ row }: any) => {
-                          const actions = tableActionOptions(row.original)
-                          return (
-                              <TableAction
-                                  options={actions}
-                                  rowItem={row.original}
-                              />
-                          )
-                      },
-                  }
-                : {}),
+            header: () => 'Action',
+            accessorKey: 'Action',
+            cell: ({ row }: any) => {
+                const actions = tableActionOptions(row.original)
+                return <TableAction options={actions} rowItem={row.original} />
+            },
         },
     ]
 
