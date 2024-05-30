@@ -244,7 +244,7 @@ export const ActiveRTOSubAdmin = () => {
             cell: (info) => <RtoCell subAdmin={info.row.original} />,
         },
         {
-            accessorKey: 'studentCount',
+            accessorKey: 'assignedStudents',
             header: () => <span>Assigned Students</span>,
         },
         {

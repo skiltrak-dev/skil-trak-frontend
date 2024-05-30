@@ -254,19 +254,22 @@ export const ApprovedStudent = () => {
         {
             accessorKey: 'assigned',
             header: () => <span>Assigned Coordinator</span>,
-            cell: ({ row }: any) => (
-                <div>
-                    <Typography variant="label">
-                        {row.original?.rtoCoordinator?.user?.name}
-                    </Typography>
-                    <Typography variant="small" color={'text-gray-400'}>
-                        {row.original?.rtoCoordinator?.user?.email}
-                    </Typography>
-                    <Typography variant="small" color={'text-gray-400'}>
-                        {row.original?.rtoCoordinator?.phone}
-                    </Typography>
-                </div>
-            ),
+            cell: ({ row }: any) =>
+                row.original?.rtoCoordinator ? (
+                    <div>
+                        <Typography variant="label">
+                            {row.original?.rtoCoordinator?.user?.name}
+                        </Typography>
+                        <Typography variant="small" color={'text-gray-400'}>
+                            {row.original?.rtoCoordinator?.user?.email}
+                        </Typography>
+                        <Typography variant="small" color={'text-gray-400'}>
+                            {row.original?.rtoCoordinator?.phone}
+                        </Typography>
+                    </div>
+                ) : (
+                    '----'
+                ),
         },
         {
             accessorKey: 'createdAt',

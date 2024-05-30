@@ -7,6 +7,11 @@ import { useEffect, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { MdDelete } from 'react-icons/md'
 import { FieldsTypeEnum } from './SidebarData'
+import { CommonApi } from '@queries'
+import { Button } from '@components/buttons'
+import { useRouter } from 'next/router'
+import { useNotification } from '@hooks'
+import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 
 export const Contextbar = ({
     items,
@@ -31,6 +36,12 @@ export const Contextbar = ({
 }) => {
     const [inputs, setInputs] = useState([''])
     const [currentTabId, setCurrentTabId] = useState('')
+
+    const router = useRouter()
+    const { notification } = useNotification()
+
+    const [downloadTabs, downloadTabsResult] =
+        CommonApi.ESign.useDownloadTemplateTabs()
 
     const currentTabContent = items?.find(
         (item: any) => item?.id === content?.id
@@ -98,79 +109,364 @@ export const Contextbar = ({
                 item?.id != content?.id
         )
 
+    const onDownladTabs = () => {
+        downloadTabs(Number(router?.query?.id)).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: 'Tabs Downloaded',
+                    description: 'Tabs Downloaded Successfully',
+                })
+            }
+        })
+    }
+
     return (
-        <div className="min-w-[250px] h-screen overflow-auto custom-scrollbar bg-white px-4 py-2">
-            <div className="h-[81%] overflow-auto custom-scrollbar">
-                <div className="text-sm font-medium">
-                    {content?.type || 'Select Input'}
-                </div>
-                <hr />
-                <div>
-                    <p className="text-sm font-medium">Location</p>
-                    <div className="grid grid-cols-2 gap-2">
-                        <div className="flex flex-col">
-                            <Typography
-                                variant="small"
-                                semibold
-                                color={'text-gray-600'}
-                            >
-                                X:
-                            </Typography>
-                            <input
-                                type="number"
-                                onChange={(e: any) => {
-                                    onSetCoordinates(content, e, 'x')
-                                }}
-                                value={content?.location?.x || ''}
-                                className="border p-0 w-full h-8 shadow rounded-md px-1"
-                            />
-                        </div>
-                        <div className="flex flex-col ">
-                            <Typography
-                                variant="small"
-                                semibold
-                                color={'text-gray-600'}
-                            >
-                                Y:
-                            </Typography>
-                            <input
-                                type="number"
-                                onChange={(e: any) => {
-                                    onSetCoordinates(content, e, 'y')
-                                }}
-                                value={content?.location?.y || ''}
-                                className="border p-0 w-full h-8 shadow rounded-md px-1"
-                            />
+        <>
+            <ShowErrorNotifications result={downloadTabsResult} />
+            <div className="min-w-[250px] h-screen overflow-auto custom-scrollbar bg-white px-4 py-2">
+                <div className="h-[81%] overflow-auto custom-scrollbar">
+                    <div className="text-sm font-medium">
+                        {content?.type || 'Select Input'}
+                    </div>
+                    <hr />
+                    <div>
+                        <p className="text-sm font-medium">Location</p>
+                        <div className="grid grid-cols-2 gap-2">
+                            <div className="flex flex-col">
+                                <Typography
+                                    variant="small"
+                                    semibold
+                                    color={'text-gray-600'}
+                                >
+                                    X:
+                                </Typography>
+                                <input
+                                    type="number"
+                                    onChange={(e: any) => {
+                                        onSetCoordinates(content, e, 'x')
+                                    }}
+                                    value={content?.location?.x || ''}
+                                    className="border p-0 w-full h-8 shadow rounded-md px-1"
+                                />
+                            </div>
+                            <div className="flex flex-col ">
+                                <Typography
+                                    variant="small"
+                                    semibold
+                                    color={'text-gray-600'}
+                                >
+                                    Y:
+                                </Typography>
+                                <input
+                                    type="number"
+                                    onChange={(e: any) => {
+                                        onSetCoordinates(content, e, 'y')
+                                    }}
+                                    value={content?.location?.y || ''}
+                                    className="border p-0 w-full h-8 shadow rounded-md px-1"
+                                />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="mt-2">
-                    <Typography
-                        variant="small"
-                        semibold
-                        color={'text-gray-600'}
-                    >
-                        Data Label
-                    </Typography>
-                    <input
-                        type="text"
-                        onChange={(e: any) => {
-                            onSetContextBar({ content, e }, 'dataLabel')
-                        }}
-                        disabled={content?.data?.preDefined}
-                        value={content?.data?.dataLabel || ''}
-                        className={`order p-0 w-full border h-8 shadow rounded-md px-1 ${
-                            content?.data?.preDefined
-                                ? 'bg-gray-200 cursor-not-allowed'
-                                : ''
-                        }`}
-                    />
-                    {/* {isExist('dataLabel') && content?.data?.dataLabel && (
+                    <div className="mt-2">
+                        <Typography
+                            variant="small"
+                            semibold
+                            color={'text-gray-600'}
+                        >
+                            Data Label
+                        </Typography>
+                        <input
+                            type="text"
+                            onChange={(e: any) => {
+                                onSetContextBar({ content, e }, 'dataLabel')
+                            }}
+                            disabled={content?.data?.preDefined}
+                            value={content?.data?.dataLabel || ''}
+                            className={`order p-0 w-full border h-8 shadow rounded-md px-1 ${
+                                content?.data?.preDefined
+                                    ? 'bg-gray-200 cursor-not-allowed'
+                                    : ''
+                            }`}
+                        />
+                        {/* {isExist('dataLabel') && content?.data?.dataLabel && (
                     <p className="text-xs text-error">
                         {content?.data?.dataLabel} Data Label Already exist
                     </p>
                 )} */}
+                    </div>
+                    {/* <div className="mt-2">
+                <p className="text-sm font-medium">Data Type</p>
+                <select
+                    className={`border w-full rounded ${
+                        content?.data?.preDefined
+                            ? 'bg-gray-200 cursor-not-allowed'
+                            : ''
+                    }`}
+                    name=""
+                    id=""
+                    disabled={content?.data?.preDefined}
+                    value={content?.data?.type || ''}
+                    onChange={(e: any) => {
+                        onSetContextBar({ content, e }, 'type')
+                    }}
+                >
+                    <option value="">Select</option>
+                    <option value={FieldsTypeEnum.Text}>Text</option>
+                    <option value={FieldsTypeEnum.Email}>Email</option>
+                    <option value={FieldsTypeEnum.Date}>Date</option>
+                </select>
+            </div> */}
+
+                    {content?.data?.isCustom && (
+                        <>
+                            <div className="mt-3">
+                                <Typography
+                                    variant="small"
+                                    semibold
+                                    color={'text-gray-600'}
+                                >
+                                    Name
+                                </Typography>{' '}
+                                <input
+                                    type="text"
+                                    onChange={(e: any) => {
+                                        onSetContextBar(
+                                            { content, e },
+                                            'column'
+                                        )
+                                    }}
+                                    disabled={content?.data?.preDefined}
+                                    value={content?.data?.column || ''}
+                                    className={`order p-0 w-full border h-8 shadow rounded-md px-1 ${
+                                        content?.data?.preDefined
+                                            ? 'bg-gray-200 cursor-not-allowed'
+                                            : ''
+                                    }`}
+                                />
+                                {/* {content?.data?.type !== FieldsTypeEnum.Checkbox &&
+                            content?.data?.type !== FieldsTypeEnum.Radio &&
+                            isExist('name') &&
+                            content?.data?.name && (
+                                <p className="text-xs text-error">
+                                    {content?.data?.name} Name Already exist
+                                </p>
+                            )} */}
+                            </div>
+                            <div className="mt-3">
+                                <Typography
+                                    variant="small"
+                                    semibold
+                                    color={'text-gray-600'}
+                                >
+                                    Placeholder
+                                </Typography>{' '}
+                                <input
+                                    type="text"
+                                    onChange={(e: any) => {
+                                        onSetContextBar(
+                                            { content, e },
+                                            'placeholder'
+                                        )
+                                    }}
+                                    disabled={content?.data?.preDefined}
+                                    value={content?.data?.placeholder || ''}
+                                    className={`order p-0 w-full border h-8 text-sm shadow rounded-md px-1 ${
+                                        content?.data?.preDefined
+                                            ? 'bg-gray-200 cursor-not-allowed'
+                                            : ''
+                                    }`}
+                                />
+                            </div>
+
+                            {content?.data?.type ===
+                                FieldsTypeEnum.Dropdown && (
+                                <div className="mt-3">
+                                    <Typography
+                                        variant="small"
+                                        semibold
+                                        color={'text-gray-600'}
+                                    >
+                                        DropDown Values
+                                    </Typography>
+
+                                    <div className="mb-3 flex flex-col gap-y-2">
+                                        {inputs.map((item, index) => (
+                                            <div
+                                                key={index}
+                                                className={`order p-0 w-full border h-7 shadow rounded-md input_container flex items-center gap-x-1 overflow-hidden pr-1 ${
+                                                    content?.data?.preDefined
+                                                        ? 'bg-gray-200 cursor-not-allowed'
+                                                        : ''
+                                                }`}
+                                            >
+                                                {/* {index === inputs.length - 1 && (
+                                               
+                                            )} */}
+
+                                                <div
+                                                    onClick={() => {
+                                                        if (inputs.length > 1) {
+                                                            handleDeleteInput(
+                                                                index
+                                                            )
+                                                        }
+                                                    }}
+                                                    className={` flex items-center justify-center w-7 h-full ${
+                                                        inputs.length > 1
+                                                            ? 'cursor-pointer bg-gray-200'
+                                                            : 'cursor-not-allowed bg-gray-100'
+                                                    } `}
+                                                >
+                                                    <MdDelete
+                                                        className={`${
+                                                            inputs.length > 1
+                                                                ? 'text-gray-500'
+                                                                : 'text-gray-300'
+                                                        } `}
+                                                    />
+                                                </div>
+
+                                                <input
+                                                    name="firstName"
+                                                    type="text"
+                                                    value={item}
+                                                    placeholder="Add Dropdown Option"
+                                                    onChange={(event) =>
+                                                        handleChange(
+                                                            event,
+                                                            index
+                                                        )
+                                                    }
+                                                    className="w-full outline-none px-2 placeholder:text-xs text-[11px]"
+                                                />
+                                            </div>
+                                        ))}
+                                        <div
+                                            className="bg-[#F7910F90] rounded-sm w-full h-7 flex items-center justify-center cursor-pointer"
+                                            onClick={() => handleAddInput()}
+                                        >
+                                            <FiPlus className="text-gray-600" />
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                            <div className="mt-3">
+                                <Typography
+                                    variant="small"
+                                    semibold
+                                    color={'text-gray-600'}
+                                >
+                                    Please Select the authorizrd user for the
+                                    tab
+                                </Typography>
+                                <select
+                                    className={`border border-gray-300 text-sm font-semibold h-8 outline-none w-full shadow-md rounded-md px-1 ${
+                                        content?.data?.preDefined
+                                            ? 'bg-gray-200 cursor-not-allowed'
+                                            : ''
+                                    }`}
+                                    name=""
+                                    id=""
+                                    value={content?.data?.role || ''}
+                                    onChange={(e: any) => {
+                                        onSetContextBar({ content, e }, 'role')
+                                    }}
+                                >
+                                    <option value="">Select</option>
+                                    {Object.entries(
+                                        Object.fromEntries(
+                                            Object.entries({
+                                                Admin: UserRoles.ADMIN,
+                                                Rto: UserRoles.RTO,
+                                                Student: UserRoles.STUDENT,
+                                                Industry: UserRoles.INDUSTRY,
+                                                Coordinator: UserRoles.SUBADMIN,
+                                            }).filter(([key, value]) =>
+                                                recipients.includes(value)
+                                            )
+                                        )
+                                    ).map(([key, value]) => (
+                                        <option
+                                            key={key}
+                                            value={value}
+                                            className="capitalize"
+                                        >
+                                            {key}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="mt-2 flex items-center gap-x-2">
+                                {/* <input
+                            onChange={(e) => {
+                                onSetContextBar({ content, e }, 'isRequired')
+                            }}
+                            defaultChecked={content?.data?.isRequired}
+                            type="checkbox"
+                            name=""
+                            value={content?.data?.isRequired}
+                            id="isRequired"
+                        /> */}
+                                <Checkbox
+                                    name={'isRequired'}
+                                    onChange={(e: any) => {
+                                        onSetContextBar(
+                                            { content, e },
+                                            'isRequired'
+                                        )
+                                    }}
+                                    defaultChecked={
+                                        content?.data?.isRequired || false
+                                    }
+                                    value={content?.data?.isRequired}
+                                    id="isRequired"
+                                    label={'IsRequired'}
+                                />
+                                {/* <label htmlFor="isRequired">IsRequired</label> */}
+                            </div>
+                        </>
+                    )}
+
+                    {/* <div className="mt-3">
+                        <Button
+                            text="Download Tabs"
+                            variant="info"
+                            outline
+                            onClick={() => {
+                                onDownladTabs()
+                            }}
+                            loading={downloadTabsResult?.isLoading}
+                            disabled={downloadTabsResult?.isLoading}
+                        />
+                    </div> */}
+
+                    {totalPages && (
+                        <div className="mt-4">
+                            <Typography
+                                variant="label"
+                                color="text-gray-600"
+                                semibold
+                            >
+                                Page Numbers
+                            </Typography>
+                            <div className="grid grid-cols-4 gap-3 mt-2">
+                                {[...Array(Number(totalPages))]?.map((_, i) => (
+                                    <span
+                                        key={i}
+                                        onClick={() => {
+                                            // setCurrentPage(i)
+                                            onHandleScroll(i)
+                                        }}
+                                        className="w-8 h-8 rounded-full bg-success text-white text-xs font-bold flex justify-center items-center cursor-pointer"
+                                    >
+                                        {i + 1}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
                 {/* <div className="mt-2">
                 <p className="text-sm font-medium">Data Type</p>
@@ -194,255 +490,7 @@ export const Contextbar = ({
                     <option value={FieldsTypeEnum.Date}>Date</option>
                 </select>
             </div> */}
-
-                {content?.data?.isCustom && (
-                    <>
-                        <div className="mt-3">
-                            <Typography
-                                variant="small"
-                                semibold
-                                color={'text-gray-600'}
-                            >
-                                Name
-                            </Typography>{' '}
-                            <input
-                                type="text"
-                                onChange={(e: any) => {
-                                    onSetContextBar({ content, e }, 'column')
-                                }}
-                                disabled={content?.data?.preDefined}
-                                value={content?.data?.column || ''}
-                                className={`order p-0 w-full border h-8 shadow rounded-md px-1 ${
-                                    content?.data?.preDefined
-                                        ? 'bg-gray-200 cursor-not-allowed'
-                                        : ''
-                                }`}
-                            />
-                            {/* {content?.data?.type !== FieldsTypeEnum.Checkbox &&
-                            content?.data?.type !== FieldsTypeEnum.Radio &&
-                            isExist('name') &&
-                            content?.data?.name && (
-                                <p className="text-xs text-error">
-                                    {content?.data?.name} Name Already exist
-                                </p>
-                            )} */}
-                        </div>
-                        <div className="mt-3">
-                            <Typography
-                                variant="small"
-                                semibold
-                                color={'text-gray-600'}
-                            >
-                                Placeholder
-                            </Typography>{' '}
-                            <input
-                                type="text"
-                                onChange={(e: any) => {
-                                    onSetContextBar(
-                                        { content, e },
-                                        'placeholder'
-                                    )
-                                }}
-                                disabled={content?.data?.preDefined}
-                                value={content?.data?.placeholder || ''}
-                                className={`order p-0 w-full border h-8 text-sm shadow rounded-md px-1 ${
-                                    content?.data?.preDefined
-                                        ? 'bg-gray-200 cursor-not-allowed'
-                                        : ''
-                                }`}
-                            />
-                        </div>
-
-                        {content?.data?.type === FieldsTypeEnum.Dropdown && (
-                            <div className="mt-3">
-                                <Typography
-                                    variant="small"
-                                    semibold
-                                    color={'text-gray-600'}
-                                >
-                                    DropDown Values
-                                </Typography>
-
-                                <div className="mb-3 flex flex-col gap-y-2">
-                                    {inputs.map((item, index) => (
-                                        <div
-                                            key={index}
-                                            className={`order p-0 w-full border h-7 shadow rounded-md input_container flex items-center gap-x-1 overflow-hidden pr-1 ${
-                                                content?.data?.preDefined
-                                                    ? 'bg-gray-200 cursor-not-allowed'
-                                                    : ''
-                                            }`}
-                                        >
-                                            {/* {index === inputs.length - 1 && (
-                                               
-                                            )} */}
-
-                                            <div
-                                                onClick={() => {
-                                                    if (inputs.length > 1) {
-                                                        handleDeleteInput(index)
-                                                    }
-                                                }}
-                                                className={` flex items-center justify-center w-7 h-full ${
-                                                    inputs.length > 1
-                                                        ? 'cursor-pointer bg-gray-200'
-                                                        : 'cursor-not-allowed bg-gray-100'
-                                                } `}
-                                            >
-                                                <MdDelete
-                                                    className={`${
-                                                        inputs.length > 1
-                                                            ? 'text-gray-500'
-                                                            : 'text-gray-300'
-                                                    } `}
-                                                />
-                                            </div>
-
-                                            <input
-                                                name="firstName"
-                                                type="text"
-                                                value={item}
-                                                placeholder="Add Dropdown Option"
-                                                onChange={(event) =>
-                                                    handleChange(event, index)
-                                                }
-                                                className="w-full outline-none px-2 placeholder:text-xs text-[11px]"
-                                            />
-                                        </div>
-                                    ))}
-                                    <div
-                                        className="bg-[#F7910F90] rounded-sm w-full h-7 flex items-center justify-center cursor-pointer"
-                                        onClick={() => handleAddInput()}
-                                    >
-                                        <FiPlus className="text-gray-600" />
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                        <div className="mt-3">
-                            <Typography
-                                variant="small"
-                                semibold
-                                color={'text-gray-600'}
-                            >
-                                Please Select the authorizrd user for the tab
-                            </Typography>
-                            <select
-                                className={`border border-gray-300 text-sm font-semibold h-8 outline-none w-full shadow-md rounded-md px-1 ${
-                                    content?.data?.preDefined
-                                        ? 'bg-gray-200 cursor-not-allowed'
-                                        : ''
-                                }`}
-                                name=""
-                                id=""
-                                value={content?.data?.role || ''}
-                                onChange={(e: any) => {
-                                    onSetContextBar({ content, e }, 'role')
-                                }}
-                            >
-                                <option value="">Select</option>
-                                {Object.entries(
-                                    Object.fromEntries(
-                                        Object.entries({
-                                            Admin: UserRoles.ADMIN,
-                                            Rto: UserRoles.RTO,
-                                            Student: UserRoles.STUDENT,
-                                            Industry: UserRoles.INDUSTRY,
-                                            Coordinator: UserRoles.SUBADMIN,
-                                        }).filter(([key, value]) =>
-                                            recipients.includes(value)
-                                        )
-                                    )
-                                ).map(([key, value]) => (
-                                    <option
-                                        key={key}
-                                        value={value}
-                                        className="capitalize"
-                                    >
-                                        {key}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="mt-2 flex items-center gap-x-2">
-                            {/* <input
-                            onChange={(e) => {
-                                onSetContextBar({ content, e }, 'isRequired')
-                            }}
-                            defaultChecked={content?.data?.isRequired}
-                            type="checkbox"
-                            name=""
-                            value={content?.data?.isRequired}
-                            id="isRequired"
-                        /> */}
-                            <Checkbox
-                                name={'isRequired'}
-                                onChange={(e: any) => {
-                                    onSetContextBar(
-                                        { content, e },
-                                        'isRequired'
-                                    )
-                                }}
-                                defaultChecked={
-                                    content?.data?.isRequired || false
-                                }
-                                value={content?.data?.isRequired}
-                                id="isRequired"
-                                label={'IsRequired'}
-                            />
-                            {/* <label htmlFor="isRequired">IsRequired</label> */}
-                        </div>
-                    </>
-                )}
-
-                {totalPages && (
-                    <div className="mt-4">
-                        <Typography
-                            variant="label"
-                            color="text-gray-600"
-                            semibold
-                        >
-                            Page Numbers
-                        </Typography>
-                        <div className="grid grid-cols-4 gap-3 mt-2">
-                            {[...Array(Number(totalPages))]?.map((_, i) => (
-                                <span
-                                    key={i}
-                                    onClick={() => {
-                                        // setCurrentPage(i)
-                                        onHandleScroll(i)
-                                    }}
-                                    className="w-8 h-8 rounded-full bg-success text-white text-xs font-bold flex justify-center items-center cursor-pointer"
-                                >
-                                    {i + 1}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-                )}
             </div>
-            {/* <div className="mt-2">
-                <p className="text-sm font-medium">Data Type</p>
-                <select
-                    className={`border w-full rounded ${
-                        content?.data?.preDefined
-                            ? 'bg-gray-200 cursor-not-allowed'
-                            : ''
-                    }`}
-                    name=""
-                    id=""
-                    disabled={content?.data?.preDefined}
-                    value={content?.data?.type || ''}
-                    onChange={(e: any) => {
-                        onSetContextBar({ content, e }, 'type')
-                    }}
-                >
-                    <option value="">Select</option>
-                    <option value={FieldsTypeEnum.Text}>Text</option>
-                    <option value={FieldsTypeEnum.Email}>Email</option>
-                    <option value={FieldsTypeEnum.Date}>Date</option>
-                </select>
-            </div> */}
-        </div>
+        </>
     )
 }

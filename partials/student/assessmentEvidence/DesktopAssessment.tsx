@@ -26,6 +26,10 @@ export const DesktopAssessment = ({
     setSelectedFolder: Function
     isFilesUploaded: any
 }) => {
+    const allFiles = assessmentsFolders?.data
+        ?.filter((f: any) => f?.studentResponse?.[0]?.status === 'rejected')
+        ?.every((f: any) => f?.studentResponse?.[0]?.files?.length > 0)
+
     const rejectedFolderes = assessmentsFolders?.data?.filter(
         (f: any) => f?.studentResponse?.[0]?.status === 'rejected'
     )?.length
@@ -38,7 +42,17 @@ export const DesktopAssessment = ({
         !assessmentsFolders.isLoading &&
         !assessmentsFolders.isFetching &&
         assessmentsFolders.isSuccess &&
-        rejectedFolderes === resubmitFiles
+        rejectedFolderes &&
+        resubmitFiles &&
+        rejectedFolderes === resubmitFiles &&
+        allFiles
+
+    console.log({
+        isResubmittedFiles,
+        rejectedFolderes,
+        resubmitFiles,
+        allFiles,
+    })
     const assessmentActions = () => (
         <Actions
             selectedCourseId={selectedCourse?.id}
