@@ -13,6 +13,15 @@ export const coordinatorEndpoints = (
         }),
         invalidatesTags: ['Rto-Coordinators'],
     }),
+    coordinatorUpdate: builder.mutation<any, any>({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}/coordinator/${id}/update`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['Rto-Coordinators'],
+    }),
+
     getRtoCoordinators: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}/coordinator/list`,

@@ -11,18 +11,22 @@ import {
 } from '@components'
 import { ColumnDef } from '@tanstack/react-table'
 import Link from 'next/link'
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { CoursesCell } from '@partials/rto/coordinators'
 import { RtoApi } from '@queries'
 import { useRouter } from 'next/router'
 import { UserRoles } from '@constants'
 import { DeleteRtoCoordinatorModal } from './modal'
 import { SubAdmin } from '@types'
+import { EditCoordinatorCB } from './contextBar'
+import { useContextBar } from '@hooks'
 
 export const MyCoordinators = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const contextBar = useContextBar()
 
     const router = useRouter()
 
@@ -30,6 +34,14 @@ export const MyCoordinators = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+
+    useEffect(() => {
+        return () => {
+            contextBar.hide()
+            contextBar.setContent(null)
+            contextBar.setTitle(null)
+        }
+    }, [])
 
     const onCancelModal = () => setModal(null)
 
@@ -42,11 +54,24 @@ export const MyCoordinators = () => {
         )
     }
 
+    const onEditClicked = (coordinator: SubAdmin) => {
+        contextBar.show(false)
+        contextBar.setContent(<EditCoordinatorCB coordinator={coordinator} />)
+        contextBar.setTitle('Edit My Coordinator Detail')
+    }
+
     const tableActionOptions = (coordinator: any) => [
         {
             text: 'View',
             onClick: (coordinator: any) => {
                 router.push(`/portals/rto/coordinators/${coordinator?.id}`)
+            },
+            Icon: '',
+        },
+        {
+            text: 'Edit',
+            onClick: (coordinator: any) => {
+                onEditClicked(coordinator)
             },
             Icon: '',
         },

@@ -102,6 +102,7 @@ export const {
     useGetRtoCoordinatorsQuery,
     useRemoveCoordinatorMutation,
     useCoordinatorCreateMutation,
+    useCoordinatorUpdateMutation,
     useGetRtoCoordinatorsDetailQuery,
     useGetRtoAssignedCoordinatorsQuery,
     useGetRtoAssignedCoordinatorsListQuery,
@@ -199,6 +200,7 @@ export const RtoApi = {
     },
     Coordinator: {
         useCreate: useCoordinatorCreateMutation,
+        useUpdate: useCoordinatorUpdateMutation,
         useList: useGetRtoCoordinatorsQuery,
         useRtoAssignedCoordinators: useGetRtoAssignedCoordinatorsListQuery,
         useDetail: useGetRtoCoordinatorsDetailQuery,

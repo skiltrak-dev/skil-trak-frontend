@@ -41,14 +41,12 @@ export const SubAdminForm = ({
     subAdmin?: SubAdmin
     rtoCoursesOptions?: OptionType[]
 }) => {
-    // const [selectedSector, setSelectedSector] = useState<any>(null)
-    // const [courseOptions, setCourseOptions] = useState([])
-    // const [courseLoading, setCourseLoading] = useState(false)
     const [selectedRtos, setSelectedRtos] = useState<number[] | null>(null)
-    // const [selectedCourses, setSelectedCourses] = useState<number[] | null>(
-    //     null
-    // )
-    // const [removedCourses, setRemovedCourses] = useState<number[] | null>(null)
+    const [rtoSelectedCourses, setRtoSelectedCourses] = useState<
+        number[] | null
+    >(null)
+
+    console.log({ rtoCoursesOptions })
 
     const role = getUserCredentials()?.role
 
@@ -175,6 +173,10 @@ export const SubAdminForm = ({
                     value as string
                 )
             })
+
+            if (edit && role === UserRoles.RTO) {
+                setRtoSelectedCourses(courses)
+            }
 
             if (rtos && rtos?.length > 0) {
                 setSelectedRtos(rtos)
@@ -344,7 +346,12 @@ export const SubAdminForm = ({
                         <Select
                             label={'Courses'}
                             name={'courses'}
-                            // value={courseValues}
+                            value={rtoCoursesOptions?.filter(
+                                (course: OptionType) =>
+                                    rtoSelectedCourses?.includes(
+                                        Number(course?.value)
+                                    )
+                            )}
                             options={rtoCoursesOptions}
                             multi
                             loading={courseLoading}
@@ -357,7 +364,7 @@ export const SubAdminForm = ({
                             //     )
                             // )}
                             onChange={(e: number[]) => {
-                                onCourseChange(e)
+                                setRtoSelectedCourses(e)
                             }}
                             formatOptionLabel={formatOptionLabel}
                             disabled={
