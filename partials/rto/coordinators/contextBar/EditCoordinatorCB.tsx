@@ -40,7 +40,6 @@ export const EditCoordinatorCB = ({
                 contextBar.setTitle(null)
             }
         })
-        console.log({ values })
     }
 
     return (
