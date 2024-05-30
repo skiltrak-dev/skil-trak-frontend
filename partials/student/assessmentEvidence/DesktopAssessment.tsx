@@ -47,12 +47,6 @@ export const DesktopAssessment = ({
         rejectedFolderes === resubmitFiles &&
         allFiles
 
-    console.log({
-        isResubmittedFiles,
-        rejectedFolderes,
-        resubmitFiles,
-        allFiles,
-    })
     const assessmentActions = () => (
         <Actions
             selectedCourseId={selectedCourse?.id}

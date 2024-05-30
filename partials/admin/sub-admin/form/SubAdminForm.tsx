@@ -46,8 +46,6 @@ export const SubAdminForm = ({
         number[] | null
     >(null)
 
-    console.log({ rtoCoursesOptions })
-
     const role = getUserCredentials()?.role
 
     const validationObject = {
