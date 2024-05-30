@@ -118,7 +118,7 @@ export const Select = forwardRef(
                     : state.selectProps.menuIsOpen
                     ? Colors.secondary.dark
                     : Colors.muted.dark,
-                fontSize: '14px',
+                fontSize: '12px',
             }),
             option: (base: any, state: any) => ({
                 ...base,

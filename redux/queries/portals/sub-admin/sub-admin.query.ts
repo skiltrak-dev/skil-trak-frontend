@@ -136,6 +136,11 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
 export const {
     // ------ SELF ------ //
     useProfileQuery,
+    useGetSubAdminMapStudentsQuery,
+    useGetSubAdminMapStudentDetailQuery,
+    useGetSubAdminMapIndustriesQuery,
+    useGetSubAdminRtosForMapQuery,
+    useGetSubAdminStudentSuburbsForMapQuery,
     useSubadminCoursesQuery,
     useUpdateSubAdminProfileMutation,
     useChangeSubAdminUserStatusMutation,
@@ -162,6 +167,7 @@ export const {
     useWorkplaceCountQuery,
     useAgrementSignMutation,
     useViewMoreIndustriesQuery,
+    useGetSubAdminMapSuggestedIndustryDetailQuery,
 
     useGetStudentWorkplaceAnswersQuery,
     useGetStudentWorkplaceAvailabilityQuery,
@@ -352,6 +358,11 @@ export const SubAdminApi = {
     },
     SubAdmin: {
         useProfile: useProfileQuery,
+        useSubAdminMapStudentDetail: useGetSubAdminMapStudentDetailQuery,
+        useSubAdminMapIndustries: useGetSubAdminMapIndustriesQuery,
+        useSubAdminRtosForMap: useGetSubAdminRtosForMapQuery, 
+        useSubAdminMapStudents:useGetSubAdminMapStudentsQuery,
+        useSubAdminStudentSuburbsForMap: useGetSubAdminStudentSuburbsForMapQuery,
         useSubadminCourses: useSubadminCoursesQuery,
         useUpdateProfile: useUpdateSubAdminProfileMutation,
         changeSubAdminUserStatus: useChangeSubAdminUserStatusMutation,
@@ -456,6 +467,7 @@ export const SubAdminApi = {
         useAddExistingIndustriesMutation,
         useChangeCustomIndustryStatusMutation,
         useSendMeetingNotification: useSendMeetingNotificationMutation,
+        useSubAdminMapSuggestedIndustryDetail: useGetSubAdminMapSuggestedIndustryDetailQuery,
     },
 
     Courses: {

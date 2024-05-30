@@ -17,4 +17,45 @@ export const profileEndpoints = (
         }),
         invalidatesTags: ['SubAdmin'],
     }),
+    getSubAdminMapStudents: builder.query<any, any>({
+        query: (params) => {
+            return ({
+                url: `${PREFIX}/students/list/for-map`,
+                params,
+            })
+        },
+        providesTags: ['SubAdmin'],
+    }),
+    getSubAdminMapIndustries: builder.query<any, any>({
+        query: (params) => {
+            return ({
+                url: `${PREFIX}/industries/list/for-map`,
+                params,
+            })
+        },
+        providesTags: ['SubAdmin'],
+    }),
+    getSubAdminRtosForMap: builder.query<any, void>({
+        query: () => {
+            return ({
+                url: `${PREFIX}/rtos/list/for-map`,
+            })
+        },
+        providesTags: ['SubAdmin'],
+    }),
+    getSubAdminStudentSuburbsForMap: builder.query<any, void>({
+        query: () => {
+            return ({
+                url: `${PREFIX}/students/suburb/for-map`,
+            })
+        },
+        providesTags: ['SubAdmin'],
+    }),
+    getSubAdminMapStudentDetail: builder.query<any, any>({
+        query: (id) => ({
+            url: `students/student/${id}/detail/for-map`,
+            // params,
+        }),
+        providesTags: ['SubAdmin'],
+    }),
 })

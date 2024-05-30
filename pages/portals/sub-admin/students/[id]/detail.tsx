@@ -6,6 +6,7 @@ import { NextPageWithLayout } from '@types'
 import { StudentProfileDetail } from '@partials/common'
 
 const StudentsProfileDetail: NextPageWithLayout = () => {
+   
     return (
         <div
         // style={{
