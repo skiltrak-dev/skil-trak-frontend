@@ -42,6 +42,9 @@ import { useContextBar } from '@hooks'
 import { AddIndustry } from './AddIndustry'
 import { ImportIndustriesList } from '../contextBar'
 import { ellipsisText } from '@utils'
+import { MultipleFavoriteModal } from '../MultipleFavoriteModal'
+import { MultipleDoNotDisturbModal } from '../MultipleDoNotDisturbModal'
+import { MultipleDefaultModal } from '../MultipleDefaultModal'
 
 export const ActiveIndustries = ({
     onSetIndustryData,
@@ -113,6 +116,24 @@ export const ActiveIndustries = ({
                 futureIndustries={industry}
                 onCancel={onModalCancelClicked}
             />
+        )
+    }
+    const onMultipleFavoriteClicked = (ids: any) => {
+        setModal(
+            <MultipleFavoriteModal ids={ids} onCancel={onModalCancelClicked} />
+        )
+    }
+    const onMultipleDoNotDisturbClick = (ids: any) => {
+        setModal(
+            <MultipleDoNotDisturbModal
+                ids={ids}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+    const onMultipleDefaultClicked = (ids: any) => {
+        setModal(
+            <MultipleDefaultModal ids={ids} onCancel={onModalCancelClicked} />
         )
     }
 
@@ -349,17 +370,49 @@ export const ActiveIndustries = ({
             </div>
         ),
         common: (ids: Industry[]) => (
-            <ActionButton
-                onClick={() => {
-                    const arrayOfIds = ids.map((id: any) => id?.id)
-                    onDeleteMultiFutureIndustry(arrayOfIds)
-                    // bulkAction({ ids: arrayOfIds, status: 'blocked' })
-                }}
-                Icon={MdDelete}
-                variant="error"
-            >
-                Delete
-            </ActionButton>
+            <div className="flex items-center gap-x-2">
+                <ActionButton
+                    onClick={() => {
+                        const arrayOfIds = ids.map((id: any) => id?.id)
+                        onMultipleDefaultClicked(arrayOfIds)
+                    }}
+                    Icon={MdDelete}
+                    variant="light"
+                >
+                    Default
+                </ActionButton>
+                <ActionButton
+                    onClick={() => {
+                        const arrayOfIds = ids.map((id: any) => id?.id)
+                        onMultipleDoNotDisturbClick(arrayOfIds)
+                    }}
+                    Icon={AiFillWarning}
+                    variant="error"
+                >
+                    Do Not Disturb
+                </ActionButton>
+                <ActionButton
+                    onClick={() => {
+                        const arrayOfIds = ids.map((id: any) => id?.id)
+                        onMultipleFavoriteClicked(arrayOfIds)
+                    }}
+                    Icon={MdOutlineFavorite}
+                    variant="success"
+                >
+                    Favorite
+                </ActionButton>
+                <ActionButton
+                    onClick={() => {
+                        const arrayOfIds = ids.map((id: any) => id?.id)
+                        onDeleteMultiFutureIndustry(arrayOfIds)
+                        // bulkAction({ ids: arrayOfIds, status: 'blocked' })
+                    }}
+                    Icon={MdDelete}
+                    variant="error"
+                >
+                    Delete
+                </ActionButton>
+            </div>
         ),
     }
 

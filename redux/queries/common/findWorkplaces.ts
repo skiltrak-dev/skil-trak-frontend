@@ -35,6 +35,17 @@ export const findWorkplaceEndpoints = (
         }),
         invalidatesTags: ['Industries'],
     }),
+    multipleIndustriesStatusChange: builder.mutation<
+        Industry,
+        { ids: number[]; status: string }
+    >({
+        query: ({ ids, status }) => ({
+            url: `${PREFIX}/status-update/multiple`,
+            method: 'PATCH',
+            body: { status, ids },
+        }),
+        invalidatesTags: ['Industries'],
+    }),
     addToSignup: builder.mutation<any, number>({
         query: (id) => ({
             url: `${PREFIX}/sign-up/${id}`,
@@ -65,6 +76,7 @@ export const findWorkplaceEndpoints = (
         }),
         invalidatesTags: ['Industries'],
     }),
+
     removeMultiFutureIndustry: builder.mutation<any, any>({
         query: (ids) => ({
             url: `${PREFIX}/remove/multiple`,
