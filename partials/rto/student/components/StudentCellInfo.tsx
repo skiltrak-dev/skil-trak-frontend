@@ -3,6 +3,7 @@ import { Student } from '@types'
 import moment from 'moment'
 import Link from 'next/link'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
+import { LuFlagTriangleRight } from 'react-icons/lu'
 import { MdEmail, MdPhone, MdPhoneIphone } from 'react-icons/md'
 import { RiErrorWarningFill } from 'react-icons/ri'
 
@@ -65,7 +66,7 @@ export const StudentCellInfo = ({
                             ) : null)}
                         {student?.hasIssue && (
                             <div className="group relative ">
-                                <RiErrorWarningFill className="text-red-600 text-xl" />
+                                <LuFlagTriangleRight className="text-red-600 text-xl" />
                                 <Tooltip position={TooltipPosition.left}>
                                     Problamatic Issue
                                 </Tooltip>

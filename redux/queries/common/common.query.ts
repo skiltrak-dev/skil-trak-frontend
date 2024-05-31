@@ -436,6 +436,7 @@ const {
     useRemoveFutureIndustryMutation,
     useIndustriesStatusChangeMutation,
     useRemoveMultiFutureIndustryMutation,
+    useMultipleIndustriesStatusChangeMutation,
 
     // Impersonation
     useImpersonationToggleMutation,
@@ -676,6 +677,7 @@ export const CommonApi = {
         useIndustriesStatusChange: useIndustriesStatusChangeMutation,
         useRemoveFutureIndustryMutation: useRemoveFutureIndustryMutation,
         useRemoveMultiFutureIndustry: useRemoveMultiFutureIndustryMutation,
+        useMultipleStatusChange: useMultipleIndustriesStatusChangeMutation,
     },
     Impersonation: {
         useImpersonationToggle: useImpersonationToggleMutation,

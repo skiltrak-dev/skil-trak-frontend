@@ -9,6 +9,7 @@ import { BsTicketDetailed } from 'react-icons/bs'
 import { FaEnvelope, FaPhone } from 'react-icons/fa'
 import { FiPhoneOff } from 'react-icons/fi'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
+import { LuFlagTriangleRight } from 'react-icons/lu'
 import { RiErrorWarningFill } from 'react-icons/ri'
 
 export const StudentCellInfo = ({
@@ -96,7 +97,7 @@ export const StudentCellInfo = ({
                                     )}
                                     {student?.hasIssue && (
                                         <div className="group relative ">
-                                            <RiErrorWarningFill className="text-red-600 text-xl" />
+                                            <LuFlagTriangleRight className="text-red-600 text-xl" />
                                             <Tooltip
                                                 position={TooltipPosition.left}
                                             >
