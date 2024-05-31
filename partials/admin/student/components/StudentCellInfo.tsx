@@ -11,6 +11,7 @@ import { BsTicketDetailed } from 'react-icons/bs'
 import { FiPhoneOff } from 'react-icons/fi'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { MdEmail, MdPhone } from 'react-icons/md'
+import { RiErrorWarningFill } from 'react-icons/ri'
 
 export const StudentCellInfo = ({
     student,
@@ -109,6 +110,14 @@ export const StudentCellInfo = ({
                                     <FiPhoneOff className="text-white text-[10px]" />
                                     <Tooltip position={TooltipPosition.left}>
                                         Not Contactable
+                                    </Tooltip>
+                                </div>
+                            )}
+                            {student?.hasIssue && (
+                                <div className="group relative">
+                                    <RiErrorWarningFill className="text-red-600 text-xl" />
+                                    <Tooltip position={TooltipPosition.left}>
+                                        Problamatic Issue
                                     </Tooltip>
                                 </div>
                             )}

@@ -58,6 +58,15 @@ export const studentEndpoints = (
         },
         providesTags: ['Rto-Students'],
     }),
+    getRtoProblematicStudents: builder.query<any, any>({
+        query: (params) => {
+            return {
+                url: `${PREFIX}/students/has-issues/list`,
+                params,
+            }
+        },
+        providesTags: ['Rto-Students'],
+    }),
 
     assignRtoCoordinatorToStudents: builder.mutation<
         any,

@@ -28,8 +28,6 @@ import { AcceptModal, BlockModal, RejectModal } from './modals'
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { setLink } from '@utils'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { useActionModal } from '@hooks'
 
 export const PendingStudents = () => {
     const router = useRouter()

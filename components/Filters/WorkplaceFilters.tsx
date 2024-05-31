@@ -4,9 +4,6 @@ import { ChangeEvent } from 'react'
 // query
 import { CommonApi, useGetSubAdminRtosQuery } from '@queries'
 
-import { SetQueryFilters } from './SetQueryFilters'
-import { StatusOptions } from './StatusOptions'
-import { SelectOption } from './types'
 import {
     Course,
     Industry,
@@ -15,6 +12,9 @@ import {
     SubadminWorkplaceFiltersType,
     UserStatus,
 } from '@types'
+import { SetQueryFilters } from './SetQueryFilters'
+import { StatusOptions } from './StatusOptions'
+import { SelectOption } from './types'
 
 interface ItemFilterProps {
     onFilterChange: (values: SubadminWorkplaceFiltersType) => void
@@ -48,6 +48,61 @@ export const WorkplaceFilters = ({
               }))
             : []
 
+    const workplaceProgressOptions = [
+        {
+            label: 'In Progress',
+            value: 'inProgress',
+        },
+        // {
+        //     label: 'Assigned',
+        //     value: WorkplaceCurrentStatus.CaseOfficerAssigned,
+        // },
+        // {
+        //     label: 'Interview',
+        //     value: WorkplaceCurrentStatus.Interview,
+        // },
+        // {
+        //     label: 'Waiting',
+        //     value: WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
+        // },
+        // {
+        //     label: 'Appointment',
+        //     value: WorkplaceCurrentStatus.AppointmentBooked,
+        // },
+        // {
+        //     label: 'Agreement & Eligibility Pending',
+        //     value: WorkplaceCurrentStatus.AwaitingAgreementSigned,
+        // },
+        // {
+        //     label: 'Agreement & Eligibility Signed',
+        //     value: WorkplaceCurrentStatus.AgreementSigned,
+        // },
+        // {
+        //     label: 'Placement Started',
+        //     value: WorkplaceCurrentStatus.PlacementStarted,
+        // },
+        // {
+        //     label: 'Placement Cancelled',
+        //     value: WorkplaceCurrentStatus.Cancelled,
+        // },
+        // {
+        //     label: 'Placement Completed',
+        //     value: WorkplaceCurrentStatus.Completed,
+        // },
+        // {
+        //     label: 'Rejected',
+        //     value: WorkplaceCurrentStatus.Rejected,
+        // },
+        // {
+        //     label: 'Terminated',
+        //     value: WorkplaceCurrentStatus.Terminated,
+        // },
+        // {
+        //     label: 'Industry NotResponded',
+        //     value: WorkplaceCurrentStatus.NoResponse,
+        // },
+    ]
+
     return (
         <>
             <SetQueryFilters<SubadminWorkplaceFiltersType> filter={filter} />
@@ -60,6 +115,7 @@ export const WorkplaceFilters = ({
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
                         onFilterChange({ ...filter, studentId: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="name"
@@ -69,6 +125,7 @@ export const WorkplaceFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, name: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="email"
@@ -79,15 +136,17 @@ export const WorkplaceFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, email: e.target.value })
                     }}
+                    showError={false}
                 />
 
                 <Select
-                    label={'Status'}
+                    label={'User Status'}
                     name={'status'}
                     options={StatusOptions}
                     value={StatusOptions?.find(
                         (status) => status.value === filter?.status
                     )}
+                    showError={false}
                     placeholder={'Select Sectors...'}
                     onChange={(e: OptionType) => {
                         onFilterChange({
@@ -103,6 +162,7 @@ export const WorkplaceFilters = ({
                     value={rtoOptions?.find(
                         (rto: OptionType) => rto.value === Number(filter?.rtoId)
                     )}
+                    showError={false}
                     placeholder={'Select Rto...'}
                     onChange={(e: OptionType) => {
                         onFilterChange({ ...filter, rtoId: Number(e?.value) })
@@ -118,6 +178,7 @@ export const WorkplaceFilters = ({
                         (industry: OptionType) =>
                             industry.value === Number(filter?.industryId)
                     )}
+                    showError={false}
                     placeholder={'Select Industry...'}
                     onChange={(e: OptionType) => {
                         onFilterChange({
@@ -137,6 +198,7 @@ export const WorkplaceFilters = ({
                         (course: OptionType) =>
                             course.value === Number(filter?.courseId)
                     )}
+                    showError={false}
                     placeholder={'Select Courses...'}
                     onChange={(e: OptionType) => {
                         onFilterChange({
@@ -147,6 +209,21 @@ export const WorkplaceFilters = ({
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}
                 />
+
+                {/* <Select
+                    label={'Search by Progress'}
+                    name={'currentStatus'}
+                    options={workplaceProgressOptions}
+                    placeholder={'Select Progress...'}
+                    value={workplaceProgressOptions?.find(
+                        (currentStatus: SelectOption) =>
+                            currentStatus.value === filter?.currentStatus
+                    )}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, currentStatus: e?.value })
+                    }}
+                    showError={false}
+                /> */}
             </div>
         </>
     )

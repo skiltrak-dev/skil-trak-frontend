@@ -5,6 +5,7 @@ import {
     AssignToMeStudent,
     ContactStatus,
     EmergencyContact,
+    ProblamaticStudent,
     ProfileLinks,
     ProfilePriority,
     RtoDetail,
@@ -67,6 +68,12 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
             <ContactStatus
                 studentId={profile?.id}
                 nonContactable={profile?.nonContactable}
+            />
+
+            {/*  */}
+            <ProblamaticStudent
+                studentId={profile?.id}
+                hasIssue={profile?.hasIssue}
             />
 
             {/* Student Detail */}
