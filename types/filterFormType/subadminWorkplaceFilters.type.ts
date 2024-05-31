@@ -8,4 +8,5 @@ export interface SubadminWorkplaceFiltersType {
     rtoId: number
     industryId: number
     courseId: number
+    currentStatus: any
 }
