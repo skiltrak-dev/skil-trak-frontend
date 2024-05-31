@@ -1,9 +1,10 @@
-import { InitialAvatar } from '@components'
+import { InitialAvatar, Tooltip, TooltipPosition } from '@components'
 import { Student } from '@types'
 import moment from 'moment'
 import Link from 'next/link'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { MdEmail, MdPhone, MdPhoneIphone } from 'react-icons/md'
+import { RiErrorWarningFill } from 'react-icons/ri'
 
 export const StudentCellInfo = ({
     student,
@@ -62,6 +63,14 @@ export const StudentCellInfo = ({
                                     />
                                 </div>
                             ) : null)}
+                        {student?.hasIssue && (
+                            <div className="group relative ">
+                                <RiErrorWarningFill className="text-red-600 text-xl" />
+                                <Tooltip position={TooltipPosition.left}>
+                                    Problamatic Issue
+                                </Tooltip>
+                            </div>
+                        )}
                     </div>
                     <p className="font-semibold">
                         {student?.user?.name}{' '}

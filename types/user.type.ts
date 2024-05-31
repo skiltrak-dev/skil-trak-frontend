@@ -97,6 +97,7 @@ export interface Student extends BaseResponse {
     age: string
     isInternational: boolean
     familyName: string
+    hasIssue: boolean
     phone: string
     dob: Date
     isHighPriority: boolean

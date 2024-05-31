@@ -485,4 +485,11 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['Students', 'SubAdminStudents'],
     }),
+    problamaticStudent: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `shared/student/${id}/has-issue/toggle`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Students', 'SubAdminStudents'],
+    }),
 })

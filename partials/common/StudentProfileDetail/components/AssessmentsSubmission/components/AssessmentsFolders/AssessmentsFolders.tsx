@@ -15,15 +15,6 @@ export const AssessmentsFolders = ({
     selectedFolder: AssessmentEvidenceDetailType | null
     onSelectFolder: (folder: AssessmentEvidenceDetailType) => void
 }) => {
-    const sortedFoldersData =
-        getFolders?.isSuccess &&
-        getFolders?.data &&
-        getFolders?.data?.length > 0
-            ? [...getFolders?.data]?.sort(
-                  (a: any, b: any) => b.isAgreement - a.isAgreement
-              )
-            : []
-
     return (
         <div className="px-4 h-[inherit]">
             <Typography variant="small" medium>
@@ -43,7 +34,7 @@ export const AssessmentsFolders = ({
                     </div>
                 ) : getFolders?.data && getFolders?.data?.length > 0 ? (
                     <div className="flex flex-col gap-y-2.5 h-[80%] overflow-auto custom-scrollbar pb-2">
-                        {sortedFoldersData?.map(
+                        {getFolders?.data?.map(
                             (folder: AssessmentEvidenceDetailType) => (
                                 <FolderCard
                                     folder={folder}

@@ -26,6 +26,7 @@ import {
     CompletedStudents,
     FilteredStudents,
     PendingStudent,
+    ProblematicStudent,
     RejectedStudent,
 } from '@partials/rto/student'
 import { useRouter } from 'next/router'
@@ -163,6 +164,15 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
             },
             href: { pathname: 'students', query: { tab: 'completed' } },
             element: <CompletedStudents />,
+        },
+        {
+            label: 'Problematic Student',
+            badge: {
+                text: count?.data?.completed,
+                loading: count.isLoading,
+            },
+            href: { pathname: 'students', query: { tab: 'problem' } },
+            element: <ProblematicStudent />,
         },
     ]
 

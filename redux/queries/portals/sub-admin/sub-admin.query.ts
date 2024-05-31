@@ -209,6 +209,7 @@ export const {
     useSetNotContactableMutation,
     useCalledStudentMutation,
     useSubAdminStudentCountQuery,
+    useProblamaticStudentMutation,
     useSubAdminRequestWorkplaceMutation,
     useSendPasswordToStudentMailMutation,
     useSubAdminFilteredStudentsQuery,
@@ -360,9 +361,10 @@ export const SubAdminApi = {
         useProfile: useProfileQuery,
         useSubAdminMapStudentDetail: useGetSubAdminMapStudentDetailQuery,
         useSubAdminMapIndustries: useGetSubAdminMapIndustriesQuery,
-        useSubAdminRtosForMap: useGetSubAdminRtosForMapQuery, 
-        useSubAdminMapStudents:useGetSubAdminMapStudentsQuery,
-        useSubAdminStudentSuburbsForMap: useGetSubAdminStudentSuburbsForMapQuery,
+        useSubAdminRtosForMap: useGetSubAdminRtosForMapQuery,
+        useSubAdminMapStudents: useGetSubAdminMapStudentsQuery,
+        useSubAdminStudentSuburbsForMap:
+            useGetSubAdminStudentSuburbsForMapQuery,
         useSubadminCourses: useSubadminCoursesQuery,
         useUpdateProfile: useUpdateSubAdminProfileMutation,
         changeSubAdminUserStatus: useChangeSubAdminUserStatusMutation,
@@ -384,6 +386,7 @@ export const SubAdminApi = {
     },
 
     Student: {
+        useProblamaticStudent: useProblamaticStudentMutation,
         useCount: useSubAdminStudentCountQuery,
         useList: useGetSubAdminStudentsQuery,
         useRtoSubadminStudentsList: useGetRtoSubadminStudentsQuery,
@@ -467,7 +470,8 @@ export const SubAdminApi = {
         useAddExistingIndustriesMutation,
         useChangeCustomIndustryStatusMutation,
         useSendMeetingNotification: useSendMeetingNotificationMutation,
-        useSubAdminMapSuggestedIndustryDetail: useGetSubAdminMapSuggestedIndustryDetailQuery,
+        useSubAdminMapSuggestedIndustryDetail:
+            useGetSubAdminMapSuggestedIndustryDetailQuery,
     },
 
     Courses: {
