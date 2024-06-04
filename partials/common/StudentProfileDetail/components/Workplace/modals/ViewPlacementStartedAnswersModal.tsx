@@ -1,13 +1,12 @@
 import { Badge, LoadingAnimation, Modal, NoData, Typography } from '@components'
 import {
-    WorkplaceAnswerEnum,
     WorkplaceQuestionCard,
     workplaceQuestions,
     workplaceQuestionsKeys,
 } from '@partials/common/workplace'
 import { SubAdminApi } from '@queries'
 import moment from 'moment'
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { WorkplaceQuestionType } from 'redux/queryTypes'
 
 export const ViewPlacementStartedAnswersModal = ({

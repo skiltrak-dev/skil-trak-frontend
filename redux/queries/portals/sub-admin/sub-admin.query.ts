@@ -167,6 +167,7 @@ export const {
     useWorkplaceCountQuery,
     useAgrementSignMutation,
     useViewMoreIndustriesQuery,
+    useChangeStatustoSignedMutation,
     useGetSubAdminMapSuggestedIndustryDetailQuery,
 
     useGetStudentWorkplaceAnswersQuery,
@@ -441,6 +442,7 @@ export const SubAdminApi = {
         useWorkplaceAvailability: useGetStudentWorkplaceAvailabilityQuery,
         useStudentPlacementAnswers: useGetStudentWorkplacePlacementAnswersQuery,
         useViewMoreIndustries: useViewMoreIndustriesQuery,
+        useChangeStatustoSigned: useChangeStatustoSignedMutation,
         assignCourse: useAssignSubadminWorkplaceCourseMutation,
         AgreementSign: useAgrementSignMutation,
         removeAppliedIndustry: useRemoveAppliedIndustryMutation,

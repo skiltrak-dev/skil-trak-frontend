@@ -14,6 +14,7 @@ export interface AssessmentEvidenceFolder extends BaseResponse {
     positiveComment: string
     negativeComment: string
     notAssessed: boolean
+    isAgreement: boolean
 }
 
 export interface CourseWithAssessmentEvidence extends Course {

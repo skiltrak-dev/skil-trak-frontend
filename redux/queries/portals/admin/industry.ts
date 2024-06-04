@@ -100,6 +100,11 @@ export const industryEndpoints = (
         invalidatesTags: ['Industries'],
     }),
 
+    getIndustryQuestions: builder.query<any, number>({
+        query: (id) => `approval-review-question/${id}`,
+        providesTags: ['Industries'],
+    }),
+
     industryDetail: builder.query<Industry, number>({
         query: (id) => `${PREFIX}industries/${id}`,
         providesTags: ['Industries', 'SubAdminIndustries'],

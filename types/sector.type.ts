@@ -1,4 +1,7 @@
-import { AssessmentEvidenceFolder } from './assessment-evidence.type'
+import {
+    AssessmentCourseType,
+    AssessmentEvidenceFolder,
+} from './assessment-evidence.type'
 import { BaseResponse } from './base.type'
 import { Folder } from './folder.type'
 
@@ -23,6 +26,7 @@ export interface Course extends BaseResponse {
     results: any
     timing: any
     extraHours: CourseExtraHours[]
+    assessmentEvidence: AssessmentEvidenceFolder[]
 }
 
 export interface Sector extends BaseResponse {
