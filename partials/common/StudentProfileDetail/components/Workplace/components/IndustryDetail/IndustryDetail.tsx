@@ -180,6 +180,7 @@ export const IndustryDetail = ({
                                     currentStatus={workplace?.currentStatus}
                                     student={workplace?.student}
                                     courses={workplace?.courses}
+                                    workplace={workplace}
                                 />
                             )}
                         </>

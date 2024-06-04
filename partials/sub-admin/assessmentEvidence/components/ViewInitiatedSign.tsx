@@ -1,6 +1,6 @@
 import { ActionButton, Button } from '@components'
 import { DocumentsView } from '@hooks'
-import { Folder, Rto } from '@types'
+import { AssessmentEvidenceDetailType, Folder, Rto } from '@types'
 import { EsignDocumentStatus } from '@utils'
 import { useEffect, useState } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
@@ -22,7 +22,7 @@ export const ViewInitiatedSign = ({
     document: any
     courseId: number
     rto: Rto
-    folder: Folder
+    folder: AssessmentEvidenceDetailType | null
 }) => {
     const [modal, setModal] = useState<any>(null)
 

@@ -7,8 +7,7 @@ import {
     Typography,
 } from '@components'
 import { CommonApi } from '@queries'
-import { Folder, Rto } from '@types'
-import { useRouter } from 'next/router'
+import { AssessmentEvidenceDetailType, Folder, Rto } from '@types'
 import { useEffect, useState } from 'react'
 import {
     DocumentView,
@@ -19,7 +18,7 @@ import {
 interface PdfViewModalProps {
     onCancel: () => void
     courseId: number
-    folder: Folder
+    folder: AssessmentEvidenceDetailType | null
     rto: Rto
 }
 export const InitiateSigningModal = ({
@@ -28,7 +27,6 @@ export const InitiateSigningModal = ({
     onCancel,
     folder,
 }: PdfViewModalProps) => {
-    const router = useRouter()
     const [isPreviewAsSigner, setIsPreviewAsSigner] = useState<boolean>(false)
     const [selectedDocument, setSelectedDocument] = useState<any>(null)
     const [userIds, setUserIds] = useState<any>({})
