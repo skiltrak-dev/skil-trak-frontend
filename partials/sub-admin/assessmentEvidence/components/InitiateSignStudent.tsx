@@ -113,7 +113,6 @@ export const InitiateSignStudent = ({
         useState<boolean>(false)
     const [secondaryMails, setSecondaryMails] = useState<any>([])
 
-    console.log({ secondaryMails })
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [isError, setIsError] = useState<boolean>(false)
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
@@ -198,8 +197,6 @@ export const InitiateSignStudent = ({
             })),
         [subadmins]
     )
-
-    console.log({ template })
 
     const userIds = () => {
         const ids = {
@@ -303,15 +300,6 @@ export const InitiateSignStudent = ({
         }
     }
 
-    const data = {
-        selectedIndustry,
-        selectedCoordinator,
-        rto: student?.data?.rto,
-        student: student?.data,
-    }
-
-    console.log({ userIds: userIds() })
-
     useEffect(() => {
         if (
             userIds() &&
@@ -325,7 +313,7 @@ export const InitiateSignStudent = ({
                 }))
             )
         }
-    }, [data])
+    }, [userIds()])
 
     return (
         <>
