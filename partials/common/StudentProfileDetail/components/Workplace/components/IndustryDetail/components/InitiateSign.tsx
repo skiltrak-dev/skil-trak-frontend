@@ -30,8 +30,6 @@ export const InitiateSign = ({
         eSignDocument.refetch()
     }, [])
 
-    console.log({ eSignDocument })
-
     return (
         <div>
             {getTemplate.isLoading || eSignDocument.isLoading ? (
