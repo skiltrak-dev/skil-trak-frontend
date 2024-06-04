@@ -310,11 +310,17 @@ export const InitiateSignStudent = ({
         student: student?.data,
     }
 
+    console.log({ userIds: userIds() })
+
     useEffect(() => {
-        if (data && secondaryMails?.filter((s: any) => s?.user)?.length < 4) {
+        if (
+            userIds() &&
+            secondaryMails?.filter((s: any) => s?.user)?.length <
+                template?.recipients?.length
+        ) {
             setSecondaryMails(
-                Object.values(data)?.map((d: any) => ({
-                    user: d?.user?.id,
+                Object.values(userIds())?.map((id: any) => ({
+                    user: id,
                     email: null,
                 }))
             )
