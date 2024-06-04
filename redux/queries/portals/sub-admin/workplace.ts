@@ -109,6 +109,14 @@ export const workplaceEndpoints = (
         invalidatesTags: ['SubAdminWorkplace'],
     }),
 
+    changeStatustoSigned: builder.mutation<any, number>({
+        query: (wpId) => ({
+            url: `${PREFIX}workplace/update/${wpId}`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdminWorkplace'],
+    }),
+
     startPlacement: builder.mutation({
         query: (id) => ({
             url: `${PREFIX}workplace-started/${id}`,

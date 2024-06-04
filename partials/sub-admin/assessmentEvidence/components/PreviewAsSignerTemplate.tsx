@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { SubAdminApi } from '@queries'
-import { Folder, Rto } from '@types'
+import { AssessmentEvidenceDetailType, Folder, Rto } from '@types'
 import { DocumentView } from './DocumentView'
 import { BackButton, LoadingAnimation, NoData } from '@components'
 import { queryToUrl } from '@utils'
@@ -15,7 +15,7 @@ export const PreviewAsSignerTemplate = ({
     rto: Rto
     userIds: any
     template: any
-    folder: Folder
+    folder: AssessmentEvidenceDetailType | null
     goBack: () => void
 }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false)

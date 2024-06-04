@@ -12,7 +12,11 @@ import { WorkplaceCurrentStatus } from '@utils'
 import { useNotification } from '@hooks'
 import { isClearedFunctionType } from '@partials/sub-admin/workplace/studentProvidedComponents/RequestTypeAbn'
 import { UserStatus } from '@types'
-import { AddFeedbackModal, CancelWorlplaceModal } from '../components'
+import {
+    AddFeedbackModal,
+    AgreementSignedModal,
+    CancelWorlplaceModal,
+} from '../components'
 
 export const useRequestType = ({
     appliedIndustry,
@@ -119,6 +123,15 @@ export const useRequestType = ({
         setModal(
             <CancelWorlplaceModal
                 onCancel={onModalCancelClicked}
+                workplaceId={workplace?.id}
+            />
+        )
+    }
+
+    const onChangeStatusToSigned = () => {
+        setModal(
+            <AgreementSignedModal
+                onCancel={onCancelClicked}
                 workplaceId={workplace?.id}
             />
         )
@@ -231,13 +244,14 @@ export const useRequestType = ({
             secondaryText: 'Checklist Signed',
             color: 'text-success',
             onClick: (isCleared: (bool: boolean) => void) => {
-                if (workplace?.currentStatus === 'awaitingAgreementSigned') {
-                    notification.info({
-                        title: 'Agreement Sign',
-                        description:
-                            'Now You can upload the agreement file on th workplace which is provided by student or you can request to student to upload the agreement file',
-                    })
-                    isCleared(false)
+                if (workplace?.currentStatus === WorkplaceCurrentStatus.AwaitingAgreementSigned) {
+                    // notification.info({
+                    //     title: 'Agreement Sign',
+                    //     description:
+                    //         'Now You can upload the agreement file on th workplace which is provided by student or you can request to student to upload the agreement file',
+                    // })
+                    // isCleared(false)
+                    onChangeStatusToSigned()
                 } else {
                     isCleared(false)
                     notification.error({

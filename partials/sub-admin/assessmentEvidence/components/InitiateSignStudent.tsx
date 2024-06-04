@@ -4,6 +4,7 @@ import {
     NoData,
     Select,
     ShowErrorNotifications,
+    TextInput,
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
@@ -17,31 +18,73 @@ import { useEffect, useMemo, useState } from 'react'
 import { MdEmail } from 'react-icons/md'
 import { PuffLoader } from 'react-spinners'
 
-const UserCellInfo = ({ profile }: { profile: any }) => (
-    <div className="flex items-center gap-x-2">
-        <div className="shadow-inner-image rounded-full">
-            {profile?.user?.name && (
-                <InitialAvatar
-                    name={profile?.user?.name}
-                    imageUrl={profile?.user?.avatar}
-                />
-            )}
-        </div>
-        <div>
-            {profile?.studentId && (
-                <p className={'font-light text-[10px] text-gray-600'}>
-                    {profile?.studentId}
-                </p>
-            )}
-            <p className={'font-medium'}>{profile?.user?.name}</p>
-            <div className="font-medium text-xs text-gray-500">
-                <p className="flex items-center gap-x-1">
-                    <span>
-                        <MdEmail />
-                    </span>
-                    {profile?.user?.email}
-                </p>
+const UserCellInfo = ({
+    profile,
+    setSecondaryMails,
+}: {
+    setSecondaryMails: (values: any) => void
+    profile: any
+}) => (
+    <div>
+        <div className="flex items-center gap-x-2">
+            <div className="shadow-inner-image rounded-full">
+                {profile?.user?.name && (
+                    <InitialAvatar
+                        name={profile?.user?.name}
+                        imageUrl={profile?.user?.avatar}
+                    />
+                )}
             </div>
+            <div>
+                {profile?.studentId && (
+                    <p className={'font-light text-[10px] text-gray-600'}>
+                        {profile?.studentId}
+                    </p>
+                )}
+                <p className={'font-medium'}>{profile?.user?.name}</p>
+                <div className="font-medium text-xs text-gray-500">
+                    <p className="flex items-center gap-x-1">
+                        <span>
+                            <MdEmail />
+                        </span>
+                        {profile?.user?.email}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div className="mt-1.5">
+            <TextInput
+                name={profile?.user?.name}
+                type="email"
+                placeholder={`Add Secondary mail for ${profile?.user?.role}`}
+                showError={false}
+                onChange={(e: any) => {
+                    setSecondaryMails((sMail: any) => {
+                        const findUser = sMail?.find(
+                            (a: any) => profile?.user?.id === a?.user
+                        )
+                        const usersMails = sMail?.map((a: any) =>
+                            profile?.user?.id === a?.user
+                                ? {
+                                      ...a,
+                                      email: e?.target?.value,
+                                  }
+                                : a
+                        )
+
+                        return findUser
+                            ? [...usersMails]
+                            : [
+                                  ...sMail,
+                                  {
+                                      user: profile?.user?.id,
+                                      email: e?.target?.value,
+                                  },
+                              ]
+                    })
+                }}
+            />
         </div>
     </div>
 )
@@ -68,7 +111,9 @@ export const InitiateSignStudent = ({
         useState<SubAdmin | null>(null)
     const [isSelectAnotherCoordinator, setIsSelectAnotherCoordinator] =
         useState<boolean>(false)
+    const [secondaryMails, setSecondaryMails] = useState<any>([])
 
+    console.log({ secondaryMails })
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [isError, setIsError] = useState<boolean>(false)
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
@@ -154,6 +199,8 @@ export const InitiateSignStudent = ({
         [subadmins]
     )
 
+    console.log({ template })
+
     const userIds = () => {
         const ids = {
             [UserRoles.INDUSTRY]: Number(selectedIndustry?.user?.id),
@@ -217,7 +264,15 @@ export const InitiateSignStudent = ({
                 const response = await axiosInstance.post(
                     `/esign/document/initiate/${
                         template?.id
-                    }?users=${Object.values(userIds())?.join(',')}`
+                    }?users=${Object.values(userIds())?.join(',')}`,
+                    // (...{
+                    //     signers: secondaryMails,
+                    // })
+                    {
+                        ...(secondaryMails && secondaryMails?.length > 0
+                            ? { signers: secondaryMails }
+                            : { signers: secondaryMails }),
+                    }
                 )
 
                 // Handle the response as needed
@@ -247,6 +302,24 @@ export const InitiateSignStudent = ({
             }
         }
     }
+
+    const data = {
+        selectedIndustry,
+        selectedCoordinator,
+        rto: student?.data?.rto,
+        student: student?.data,
+    }
+
+    useEffect(() => {
+        if (data && secondaryMails?.filter((s: any) => s?.user)?.length < 4) {
+            setSecondaryMails(
+                Object.values(data)?.map((d: any) => ({
+                    user: d?.user?.id,
+                    email: null,
+                }))
+            )
+        }
+    }, [data])
 
     return (
         <>
@@ -290,11 +363,16 @@ export const InitiateSignStudent = ({
                             </div>
                         </div>
 
-                        <div className="py-3 border-b">
-                            <Typography variant="small" color={'text-dark'}>
-                                RTO
-                            </Typography>
-                            <UserCellInfo profile={student?.data?.rto} />
+                        <div>
+                            <div className="pt-3 border-b">
+                                <Typography variant="small" color={'text-dark'}>
+                                    RTO
+                                </Typography>
+                                <UserCellInfo
+                                    profile={student?.data?.rto}
+                                    setSecondaryMails={setSecondaryMails}
+                                />
+                            </div>
                         </div>
 
                         <div className="mt-3">
@@ -302,7 +380,7 @@ export const InitiateSignStudent = ({
                                 Following users will assigned as signers:
                             </Typography>
 
-                            <div className="flex flex-col gap-y-4 mt-2">
+                            <div className="flex flex-col gap-y-2 mt-2">
                                 <div>
                                     <Typography variant="label" semibold>
                                         Student
@@ -313,6 +391,7 @@ export const InitiateSignStudent = ({
                                             studentId: student?.data?.studentId,
                                             user: student?.data?.user,
                                         }}
+                                        setSecondaryMails={setSecondaryMails}
                                     />
                                 </div>
                                 {selectedIndustry && (
@@ -377,76 +456,89 @@ export const InitiateSignStudent = ({
                                         ) : (
                                             <UserCellInfo
                                                 profile={selectedIndustry}
+                                                setSecondaryMails={
+                                                    setSecondaryMails
+                                                }
                                             />
                                         )}
                                     </div>
                                 )}
-                                <div className="pr-4">
-                                    <div className="flex justify-between items-center">
-                                        <Typography variant="label" semibold>
-                                            Coordinator
-                                        </Typography>
-                                        {subadmins?.data &&
-                                            subadmins?.data?.length > 0 && (
-                                                <Typography
-                                                    variant="small"
-                                                    color={'text-info'}
-                                                    light
-                                                >
-                                                    <span
-                                                        className="cursor-pointer"
-                                                        onClick={() => {
-                                                            setIsSelectAnotherCoordinator(
-                                                                !isSelectAnotherCoordinator
-                                                            )
-                                                        }}
+                                {template?.recipients?.includes(
+                                    UserRoles.SUBADMIN
+                                ) ? (
+                                    <div className="pr-4">
+                                        <div className="flex justify-between items-center">
+                                            <Typography
+                                                variant="label"
+                                                semibold
+                                            >
+                                                Coordinator
+                                            </Typography>
+                                            {subadmins?.data &&
+                                                subadmins?.data?.length > 0 && (
+                                                    <Typography
+                                                        variant="small"
+                                                        color={'text-info'}
+                                                        light
                                                     >
-                                                        {isSelectAnotherCoordinator
-                                                            ? 'Cancel'
-                                                            : 'Choose Another'}
-                                                    </span>
-                                                </Typography>
-                                            )}
-                                    </div>
+                                                        <span
+                                                            className="cursor-pointer"
+                                                            onClick={() => {
+                                                                setIsSelectAnotherCoordinator(
+                                                                    !isSelectAnotherCoordinator
+                                                                )
+                                                            }}
+                                                        >
+                                                            {isSelectAnotherCoordinator
+                                                                ? 'Cancel'
+                                                                : 'Choose Another'}
+                                                        </span>
+                                                    </Typography>
+                                                )}
+                                        </div>
 
-                                    {isSelectAnotherCoordinator ? (
-                                        <Select
-                                            menuPlacement="top"
-                                            label={'Sub Admin'}
-                                            name={'subAdmin'}
-                                            placeholder={'Select Sub Admin'}
-                                            options={subAdminOptions}
-                                            value={subAdminOptions?.find(
-                                                (coordinator: OptionType) =>
-                                                    coordinator?.value ===
-                                                    selectedCoordinator?.id
-                                            )}
-                                            loading={subadmins?.isLoading}
-                                            disabled={subadmins?.isLoading}
-                                            onChange={(e: OptionType) => {
-                                                const subadmin =
-                                                    subAdminOptions?.find(
-                                                        (
-                                                            subadmin: OptionType
-                                                        ) =>
-                                                            subadmin?.value ===
-                                                            e?.value
+                                        {isSelectAnotherCoordinator ? (
+                                            <Select
+                                                menuPlacement="top"
+                                                label={'Sub Admin'}
+                                                name={'subAdmin'}
+                                                placeholder={'Select Sub Admin'}
+                                                options={subAdminOptions}
+                                                value={subAdminOptions?.find(
+                                                    (coordinator: OptionType) =>
+                                                        coordinator?.value ===
+                                                        selectedCoordinator?.id
+                                                )}
+                                                loading={subadmins?.isLoading}
+                                                disabled={subadmins?.isLoading}
+                                                onChange={(e: OptionType) => {
+                                                    const subadmin =
+                                                        subAdminOptions?.find(
+                                                            (
+                                                                subadmin: OptionType
+                                                            ) =>
+                                                                subadmin?.value ===
+                                                                e?.value
+                                                        )
+
+                                                    setSelectedCoordinator(
+                                                        subadmin?.item as SubAdmin
                                                     )
-
-                                                setSelectedCoordinator(
-                                                    subadmin?.item as SubAdmin
-                                                )
-                                                setIsSelectAnotherCoordinator(
-                                                    false
-                                                )
-                                            }}
-                                        />
-                                    ) : (
-                                        <UserCellInfo
-                                            profile={selectedCoordinator}
-                                        />
-                                    )}
-                                </div>
+                                                    setIsSelectAnotherCoordinator(
+                                                        false
+                                                    )
+                                                }}
+                                            />
+                                        ) : (
+                                            <UserCellInfo
+                                                profile={selectedCoordinator}
+                                                setSecondaryMails={
+                                                    setSecondaryMails
+                                                }
+                                            />
+                                        )}
+                                    </div>
+                                ) : null}
                             </div>
                         </div>
                     </div>

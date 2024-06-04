@@ -1,9 +1,8 @@
 import { LoadingAnimation, Typography } from '@components'
 import { CommonApi } from '@queries'
-import { AssessmentEvidenceDetailType, Folder, Student } from '@types'
+import { AssessmentEvidenceFolder, Folder, Student } from '@types'
 import React, { useCallback } from 'react'
-import { AgreementInitiate } from '../../../../../../sub-admin/assessmentEvidence/components/AgreementInitiate'
-import { ViewInitiatedSign } from '../../../../../../sub-admin/assessmentEvidence/components/ViewInitiatedSign'
+import { AgreementInitiate } from './AgreementInitiate'
 
 export const InitiateSign = ({
     folder,
@@ -11,7 +10,7 @@ export const InitiateSign = ({
     courseId,
     eSignDocument,
 }: {
-    folder: AssessmentEvidenceDetailType | null
+    folder: AssessmentEvidenceFolder
     student: Student
     eSignDocument: any
     courseId: number | undefined
@@ -43,15 +42,9 @@ export const InitiateSign = ({
                     </Typography>
                 </div>
             ) : eSignDocument?.data && eSignDocument?.data?.length > 0 ? (
-                <ViewInitiatedSign
-                    document={eSignDocument?.data}
-                    courseId={Number(courseId)}
-                    folder={folder}
-                    rto={student?.rto}
-                    onEsignRefetch={() => {
-                        onEsignRefetch()
-                    }}
-                />
+                <div className="bg-success-light px-4 py-1.5 rounded">
+                    <Typography variant="label">Sign Initiated</Typography>
+                </div>
             ) : getTemplate.isSuccess &&
               getTemplate?.data &&
               getTemplate?.data?.length > 0 ? (
