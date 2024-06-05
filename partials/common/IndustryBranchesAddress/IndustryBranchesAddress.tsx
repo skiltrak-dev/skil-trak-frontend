@@ -4,6 +4,7 @@ import {
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
+    NoData,
     Table,
     TableAction,
     TableActionOption,
@@ -24,6 +25,7 @@ import { useContextBar } from '@hooks'
 import { MdDelete, MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { AddBranchesAddresses, EditBranchesAddresses } from './contextBar'
 import { DeleteBranchesModal } from './modal'
+import { Waypoint } from 'react-waypoint'
 
 export const IndustryBranchesAddress = ({
     industry,
@@ -31,17 +33,23 @@ export const IndustryBranchesAddress = ({
     industry: Industry
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [isViewd, setIsViewd] = useState<boolean>(false)
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
     const contextBar = useContextBar()
 
-    const { isLoading, data, isError } = CommonApi.Industries.useList({
-        id: industry?.id,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, data, isError } = CommonApi.Industries.useList(
+        {
+            id: industry?.id,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        {
+            skip: !isViewd,
+        }
+    )
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -169,48 +177,42 @@ export const IndustryBranchesAddress = ({
     return (
         <>
             {modal && modal}
-            <div className="flex flex-col gap-y-4">
-                <Card fullHeight shadowType="profile" noPadding>
-                    <div className="px-4 py-3 flex justify-between items-center border-b border-secondary-dark">
-                        <Typography semibold>
-                            <span className="text-[15px]">Branches</span>
-                        </Typography>
-                        <Button
-                            text="Add Location"
-                            Icon={FaFileExport}
-                            onClick={onAddLocations}
-                        />
-                    </div>
-                    <div className="h-80 overflow-auto custom-scrollbar">
-                        {isError && <TechnicalError />}
-                        {isLoading ? (
-                            <LoadingAnimation height="h-[60vh]" />
-                        ) : data && data?.data?.length ? (
-                            <Table columns={columns} data={data.data}>
-                                {({
-                                    table,
-                                    pagination,
-                                    pageSize,
-                                    quickActions,
-                                }: any) => (
-                                    <div>
-                                        <div className="px-6 pt-3 pb-1 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage,
-                                                data?.data?.length
-                                            )}
-                                            <div className="flex gap-x-2">
-                                                {quickActions}
-                                                {pagination(
-                                                    data?.pagination,
-                                                    setPage
-                                                )}
-                                            </div>
-                                        </div>
-                                        <div className="px-6">{table}</div>
-                                        {data?.data?.length > 10 && (
-                                            <div className="p-6 mb-2 flex justify-between">
+            <Waypoint
+                onEnter={() => {
+                    setIsViewd(true)
+                }}
+            >
+                <div className="flex flex-col gap-y-4">
+                    <Card fullHeight shadowType="profile" noPadding>
+                        <div className="px-4 py-3 flex justify-between items-center border-b border-secondary-dark">
+                            <Typography semibold>
+                                <span className="text-[15px]">Branches</span>
+                            </Typography>
+                            <Button
+                                text="Add Location"
+                                Icon={FaFileExport}
+                                onClick={onAddLocations}
+                            />
+                        </div>
+                        <div className="max-h-80 overflow-auto custom-scrollbar">
+                            {isError && (
+                                <NoData
+                                    simple
+                                    text="there is some technical issue!"
+                                />
+                            )}
+                            {isLoading ? (
+                                <LoadingAnimation height="h-[60vh]" />
+                            ) : data && data?.data?.length ? (
+                                <Table columns={columns} data={data.data}>
+                                    {({
+                                        table,
+                                        pagination,
+                                        pageSize,
+                                        quickActions,
+                                    }: any) => (
+                                        <div>
+                                            <div className="px-6 pt-3 pb-1 mb-2 flex justify-between">
                                                 {pageSize(
                                                     itemPerPage,
                                                     setItemPerPage,
@@ -224,24 +226,38 @@ export const IndustryBranchesAddress = ({
                                                     )}
                                                 </div>
                                             </div>
-                                        )}
-                                    </div>
-                                )}
-                            </Table>
-                        ) : (
-                            !isError && (
-                                <EmptyData
-                                    title={'No Industry Branches!'}
-                                    description={
-                                        'There is no Industry Branches'
-                                    }
-                                    height={'50vh'}
-                                />
-                            )
-                        )}
-                    </div>
-                </Card>
-            </div>
+                                            <div className="px-6">{table}</div>
+                                            {data?.data?.length > 10 && (
+                                                <div className="p-6 mb-2 flex justify-between">
+                                                    {pageSize(
+                                                        itemPerPage,
+                                                        setItemPerPage,
+                                                        data?.data?.length
+                                                    )}
+                                                    <div className="flex gap-x-2">
+                                                        {quickActions}
+                                                        {pagination(
+                                                            data?.pagination,
+                                                            setPage
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </Table>
+                            ) : (
+                                !isError && (
+                                    <NoData
+                                        simple
+                                        text="There is no locations for this industry, click on Add Location button to add new location!"
+                                    />
+                                )
+                            )}
+                        </div>
+                    </Card>
+                </div>
+            </Waypoint>
         </>
     )
 }

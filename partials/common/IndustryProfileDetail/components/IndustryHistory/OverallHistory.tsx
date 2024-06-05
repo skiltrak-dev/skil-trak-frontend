@@ -9,8 +9,10 @@ import { CommonApi } from '@queries'
 import { getCommonDates } from '@utils'
 import { FilterType } from 'pages/portals/sub-admin/history'
 import { useState } from 'react'
+import { Waypoint } from 'react-waypoint'
 
 export const OverallHistory = ({ industry }: { industry: number }) => {
+    const [isViewd, setIsViewd] = useState<boolean>(false)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [isCustomRange, setIsCustomRange] = useState<boolean>(false)
@@ -45,6 +47,7 @@ export const OverallHistory = ({ industry }: { industry: number }) => {
                 // search: `status:${searchedValue}`,
             },
             {
+                skip: !isViewd,
                 refetchOnMountOrArgChange: true,
             }
         )
@@ -77,26 +80,31 @@ export const OverallHistory = ({ industry }: { industry: number }) => {
 
     const dates = getCommonDates(data?.data)
     return (
-        <div>
-            <div className="flex justify-between items-center">
-                <PageTitle title={'History'} />
-                <HistoryFilters
-                    filterType={filterType}
-                    isCustomRange={isCustomRange}
-                    setFilterType={setFilterType}
-                    customRangeDate={customRangeDate}
-                    setSearchedValue={setSearchedValue}
-                    setIsCustomRange={setIsCustomRange}
-                    setCustomRangeDate={setCustomRangeDate}
-                />
-            </div>
+        <Waypoint
+            onEnter={() => {
+                setIsViewd(true)
+            }}
+        >
+            <div>
+                <div className=" flex justify-between items-center">
+                    <PageTitle title={'History'} />
+                    <HistoryFilters
+                        filterType={filterType}
+                        isCustomRange={isCustomRange}
+                        setFilterType={setFilterType}
+                        customRangeDate={customRangeDate}
+                        setSearchedValue={setSearchedValue}
+                        setIsCustomRange={setIsCustomRange}
+                        setCustomRangeDate={setCustomRangeDate}
+                    />
+                </div>
 
-            {/* {count.isError && (
+                {/* {count.isError && (
               <NoData
                   text={'There is some technical issue in history count'}
               />
           )} */}
-            {/* {count.isLoading ? (
+                {/* {count.isLoading ? (
               <LoadingAnimation size={60} />
           ) : (
               count.isSuccess && (
@@ -122,29 +130,32 @@ export const OverallHistory = ({ industry }: { industry: number }) => {
               )
           )} */}
 
-            {isError && <TechnicalError />}
-            {isLoading || isFetching ? (
-                <LoadingAnimation />
-            ) : data?.data && data?.data?.length > 0 ? (
-                dates?.map((date: Date, i: number) => (
-                    <HistoryDates
-                        history={data?.data}
-                        date={date}
-                        subadmin={industry}
-                        customRangeDate={customRangeDate}
-                        filterType={filterType}
-                    />
-                ))
-            ) : (
-                !isError && (
-                    <EmptyData
-                        title={'No Title were found'}
-                        description={
-                            'It may be due to you have perform any action yet'
-                        }
-                    />
-                )
-            )}
-        </div>
+                {isError && <TechnicalError />}
+                {isLoading || isFetching ? (
+                    <LoadingAnimation />
+                ) : data?.data && data?.data?.length > 0 ? (
+                    <div className="h-[480px] overflow-y-auto custom-scrollbar">
+                        {dates?.map((date: Date, i: number) => (
+                            <HistoryDates
+                                history={data?.data}
+                                date={date}
+                                subadmin={industry}
+                                customRangeDate={customRangeDate}
+                                filterType={filterType}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    !isError && (
+                        <EmptyData
+                            title={'No Title were found'}
+                            description={
+                                'It may be due to you have perform any action yet'
+                            }
+                        />
+                    )
+                )}
+            </div>
+        </Waypoint>
     )
 }

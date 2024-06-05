@@ -42,8 +42,10 @@ import {
     ChangeStatusModal,
 } from '@partials/admin/student/modals'
 import moment from 'moment'
+import { Waypoint } from 'react-waypoint'
 
 export const IndustryStudents = ({ industry }: { industry: Industry }) => {
+    const [isViewed, setIsViewed] = useState<boolean>(false)
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -70,7 +72,7 @@ export const IndustryStudents = ({ industry }: { industry: Industry }) => {
                 },
                 industryId: industry?.id,
             },
-            { refetchOnMountOrArgChange: true }
+            { refetchOnMountOrArgChange: true, skip: !isViewed }
         )
 
     const onModalCancelClicked = () => {
@@ -306,69 +308,77 @@ export const IndustryStudents = ({ industry }: { industry: Industry }) => {
         <>
             {modal && modal}
             {passwordModal && passwordModal}
-            <Card fullHeight shadowType="profile" noPadding>
-                <div className="px-4 py-3.5 border-b border-secondary-dark">
-                    <Typography semibold>
-                        <span className="text-[15px]">Students</span>
-                    </Typography>
-                </div>
+            <Waypoint
+                onEnter={() => {
+                    setIsViewed(true)
+                }}
+            >
+                <div>
+                    <Card fullHeight shadowType="profile" noPadding>
+                        <div className="px-4 py-3.5 border-b border-secondary-dark">
+                            <Typography semibold>
+                                <span className="text-[15px]">Students</span>
+                            </Typography>
+                        </div>
 
-                {/*  */}
-                <div className="h-[340px] overflow-auto custom-scrollbar">
-                    {isError && <TechnicalError />}
-                    {isLoading ? (
-                        <LoadingAnimation height="h-[60vh]" />
-                    ) : data && data?.data.length ? (
-                        <Table
-                            columns={columns}
-                            data={data.data}
-                            quickActions={quickActionsElements}
-                            enableRowSelection
-                        >
-                            {({
-                                table,
-                                pagination,
-                                pageSize,
-                                quickActions,
-                            }: any) => {
-                                return (
-                                    <div>
-                                        <div className="px-6 pt-2 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage,
-                                                data?.data?.length
-                                            )}
-                                            <div className="flex gap-x-2">
-                                                {quickActions}
-                                                {pagination(
-                                                    data?.pagination,
-                                                    setPage
-                                                )}
+                        {/*  */}
+                        <div className="h-[340px] overflow-auto custom-scrollbar">
+                            {isError && <TechnicalError />}
+                            {isLoading ? (
+                                <LoadingAnimation height="h-[60vh]" />
+                            ) : data && data?.data.length ? (
+                                <Table
+                                    columns={columns}
+                                    data={data.data}
+                                    quickActions={quickActionsElements}
+                                    enableRowSelection
+                                >
+                                    {({
+                                        table,
+                                        pagination,
+                                        pageSize,
+                                        quickActions,
+                                    }: any) => {
+                                        return (
+                                            <div>
+                                                <div className="px-6 pt-2 mb-2 flex justify-between">
+                                                    {pageSize(
+                                                        itemPerPage,
+                                                        setItemPerPage,
+                                                        data?.data?.length
+                                                    )}
+                                                    <div className="flex gap-x-2">
+                                                        {quickActions}
+                                                        {pagination(
+                                                            data?.pagination,
+                                                            setPage
+                                                        )}
+                                                    </div>
+                                                </div>
+                                                <div className=" overflow-x-scroll remove-scrollbar">
+                                                    <div className="px-6 w-full">
+                                                        {table}
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className=" overflow-x-scroll remove-scrollbar">
-                                            <div className="px-6 w-full">
-                                                {table}
-                                            </div>
-                                        </div>
-                                    </div>
+                                        )
+                                    }}
+                                </Table>
+                            ) : (
+                                !isError && (
+                                    <EmptyData
+                                        title={'No Approved Student!'}
+                                        description={
+                                            'You have not approved any Student request yet'
+                                        }
+                                        height={'50vh'}
+                                    />
                                 )
-                            }}
-                        </Table>
-                    ) : (
-                        !isError && (
-                            <EmptyData
-                                title={'No Approved Student!'}
-                                description={
-                                    'You have not approved any Student request yet'
-                                }
-                                height={'50vh'}
-                            />
-                        )
-                    )}
+                            )}
+                        </div>
+                    </Card>
                 </div>
-            </Card>
+            </Waypoint>
         </>
     )
 }

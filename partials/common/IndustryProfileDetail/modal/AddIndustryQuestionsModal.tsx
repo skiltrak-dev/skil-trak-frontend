@@ -1,20 +1,12 @@
-import React, { useEffect } from 'react'
-import { Industry } from '@types'
-import { AdminApi } from '@queries'
-import { FormProvider, useForm } from 'react-hook-form'
-import {
-    Button,
-    Modal,
-    ShowErrorNotifications,
-    TextInput,
-    Typography,
-} from '@components'
+import { Modal, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
-import { useChangeStatus } from '../hooks'
 import { industryQuestions } from '@partials/admin/industry/components'
+import { AdminApi } from '@queries'
+import { Industry } from '@types'
+import { useForm } from 'react-hook-form'
 import { AddIndustryQuestionForm } from '../forms'
 
-export const ApproveIndustryWithQuestionsModal = ({
+export const AddIndustryQuestionsModal = ({
     industry,
     onCancel,
 }: {
@@ -24,23 +16,11 @@ export const ApproveIndustryWithQuestionsModal = ({
     const [saveQuestions, saveQuestionsResult] =
         AdminApi.Industries.saveIndustryQuestions()
 
-    const { onAccept, changeStatusResult } = useChangeStatus()
-
     const { notification } = useNotification()
 
     const methods = useForm({
         mode: 'all',
     })
-
-    useEffect(() => {
-        if (changeStatusResult.isSuccess) {
-            notification.success({
-                title: `Industry Approved`,
-                description: `Industry "${industry?.user?.name}" has been accepted.`,
-            })
-            onCancel()
-        }
-    }, [changeStatusResult])
 
     const onSubmit = (values: any) => {
         let questions: {
@@ -54,23 +34,23 @@ export const ApproveIndustryWithQuestionsModal = ({
         })
         saveQuestions({ id: industry?.id, questions }).then((res: any) => {
             if (res?.data) {
-                onAccept(industry)
+                notification.success({
+                    title: `Industry Approved`,
+                    description: `Industry "${industry?.user?.name}" has been accepted.`,
+                })
+                onCancel()
             }
         })
     }
     return (
         <div>
-            <ShowErrorNotifications result={changeStatusResult} />
             <ShowErrorNotifications result={saveQuestionsResult} />
             <Modal
                 title="Provide Answers"
                 subtitle="Provide answers for the questions"
                 onConfirmClick={methods.handleSubmit(onSubmit)}
                 onCancelClick={onCancel}
-                loading={
-                    saveQuestionsResult.isLoading ||
-                    changeStatusResult.isLoading
-                }
+                loading={saveQuestionsResult.isLoading}
             >
                 <div className="w-full px-3 lg:max-w-[950px] max-h-[80vh] lg:max-h-[70vh] overflow-auto custom-scrollbar">
                     <AddIndustryQuestionForm methods={methods} />

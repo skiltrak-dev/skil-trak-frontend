@@ -15,7 +15,7 @@ export const IndustryHistory = ({ industry }: { industry: Industry }) => {
                 pathname: 'student',
                 query: { tab: 'completed-students' },
             },
-            element: <OverallHistory industry={industry?.id} />,
+            element: <OverallHistory industry={industry?.user?.id} />,
         },
         {
             label: 'Status History',
