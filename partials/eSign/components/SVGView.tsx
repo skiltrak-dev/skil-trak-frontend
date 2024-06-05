@@ -81,14 +81,16 @@ export const SVGView = ({
         customFieldsSelectedId < sortedPositions?.length - 1 ? doc : null,
     ])
 
-
     const handleFocus = () => {
         if (documentSvgData?.isSuccess && doc) {
             if (isBrowser()) {
                 const inputElement = document?.getElementById(
                     `tabs-view-${sortedPositions?.[customFieldsSelectedId]?.id}`
                 ) as HTMLInputElement | null
+
+                console.log({ inputElement, isLastSelected, showStartDocument })
                 if (inputElement && !isLastSelected) {
+                    console.log('IIIINNNN')
                     inputElement.scrollIntoView({
                         behavior: 'smooth',
                         block: 'center',
@@ -114,8 +116,6 @@ export const SVGView = ({
 
         setViewport(svgViewport)
     }, [doc])
-
-   
 
     useEffect(() => {
         const signData = customFieldsData?.filter(
@@ -168,6 +168,9 @@ export const SVGView = ({
         }
     }
 
+    const position =
+        sortedPositions?.[customFieldsSelectedId]?.position?.split(',')?.[0]
+
     return (
         <>
             {documentSvgData.isError && (
@@ -187,8 +190,6 @@ export const SVGView = ({
                         clearTimeout(timerId)
                     }
                 }}
-                // bottomOffset="-50%"
-                // topOffset="50%"
             >
                 <div className="relative">
                     {(index === 0 ? !showStartDocument : true)
@@ -221,23 +222,27 @@ export const SVGView = ({
                                               : 0,
                                       ...(isMobile
                                           ? {
-                                                left: `${
-                                                    ((Number(
-                                                        sortedPositions?.[
-                                                            customFieldsSelectedId
-                                                        ]?.size?.split(',')?.[0]
-                                                    ) -
-                                                        45) /
-                                                        Number(
-                                                            sortedPositions?.[
-                                                                customFieldsSelectedId
-                                                            ]?.position?.split(
-                                                                ','
-                                                            )?.[0]
-                                                        )) *
-                                                        100 -
-                                                    4
-                                                }%`,
+                                                // left: `${
+                                                //     ((Number(
+                                                //         sortedPositions?.[
+                                                //             customFieldsSelectedId
+                                                //         ]?.size?.split(',')?.[0]
+                                                //     ) -
+                                                //         45) /
+                                                //         Number(
+                                                //             sortedPositions?.[
+                                                //                 customFieldsSelectedId
+                                                //             ]?.position?.split(
+                                                //                 ','
+                                                //             )?.[0]
+                                                //         )) *
+                                                //         100 -
+                                                //     4
+                                                // }%`,
+                                                left:
+                                                    (Number(position) /
+                                                        Number(width)) *
+                                                    100,
                                             }
                                           : {}),
 

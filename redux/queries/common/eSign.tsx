@@ -355,11 +355,10 @@ export const eSignEndpoints = (
         providesTags: ['Email Sign'],
     }),
 
-    downloadTemplateTabs: builder.mutation<any, number>({
+    downloadTemplateTabs: builder.query<any, number>({
         query: (id) => ({
             url: `${PREFIX}/document/tabs/download/${id}`,
-            method: 'POST',
         }),
-        invalidatesTags: ['RemoveTemplate-E-Sign'],
+        providesTags: ['RemoveTemplate-E-Sign'],
     }),
 })

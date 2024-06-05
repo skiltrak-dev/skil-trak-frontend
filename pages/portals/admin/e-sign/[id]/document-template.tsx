@@ -97,40 +97,61 @@ export default function ESign() {
         }
     }, [])
 
+    const onUpdateTabs = (tabsData: any) => {
+        const updatedItems = tabsData?.map((tab: any) => {
+            const location = tab?.position?.split(',')
+            const size = tab?.size?.split(',')
+            return {
+                id: tab?.id,
+                page: Number(tab?.number) - 1,
+                location: {
+                    x: Number(location?.[0]),
+                    y: Number(location?.[1]),
+                    page: Number(tab?.number) - 1,
+                },
+                size: {
+                    width: Number(size?.[0]),
+                    height: Number(size?.[1]),
+                },
+                data: {
+                    role: tab?.role,
+                    type: tab?.type,
+                    color: tab?.colour,
+                    dataLabel: tab?.label,
+                    column: tab?.columnName,
+                    isCustom: tab?.isCustom,
+                    placeholder: tab?.placeholder,
+                    option: tab?.option,
+                    isRequired: tab?.required,
+                },
+                saved: true,
+            }
+        })
+
+        return updatedItems
+    }
+
     useEffect(() => {
         if (tabs?.data && tabs?.data?.length > 0 && tabs?.isSuccess) {
-            const updatedItems = tabs?.data?.map((tab: any) => {
-                const location = tab?.position?.split(',')
-                const size = tab?.size?.split(',')
-                return {
-                    id: tab?.id,
-                    page: Number(tab?.number) - 1,
-                    location: {
-                        x: Number(location?.[0]),
-                        y: Number(location?.[1]),
-                        page: Number(tab?.number) - 1,
-                    },
-                    size: {
-                        width: Number(size?.[0]),
-                        height: Number(size?.[1]),
-                    },
-                    data: {
-                        role: tab?.role,
-                        type: tab?.type,
-                        color: tab?.colour,
-                        dataLabel: tab?.label,
-                        column: tab?.columnName,
-                        isCustom: tab?.isCustom,
-                        placeholder: tab?.placeholder,
-                        option: tab?.option,
-                        isRequired: tab?.required,
-                    },
-                    saved: true,
-                }
-            })
+            const updatedItems = onUpdateTabs(tabs?.data)
             setItems(updatedItems)
         }
     }, [tabs])
+
+    const onUploadTabsData = (tabsData: any) => {
+        const updatedItems = onUpdateTabs(tabsData)
+
+        setItems((prev: any) => [
+            ...prev,
+            ...updatedItems?.map((u: any) => {
+                const newId = uuid()
+                return {
+                    ...u,
+                    id: newId,
+                }
+            }),
+        ])
+    }
 
     const onItemMove = (eventData: any) => {
         const [a, b, width, height] = tabDropCoordinates?.viewPortData
@@ -821,11 +842,13 @@ export default function ESign() {
                             )}
                         </div>
                         <Contextbar
+                            onUploadTabsData={onUploadTabsData}
                             onHandleScroll={onHandleScroll}
                             content={contextBar}
                             onSetContextBar={(e: any, key: string) => {
                                 onSetContextBar(e, key)
                             }}
+                            tabsLength={tabs?.data?.length}
                             onSetCoordinates={(
                                 content: any,
                                 e: any,

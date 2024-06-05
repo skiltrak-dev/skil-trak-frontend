@@ -4,6 +4,7 @@ import {
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
+    NoData,
     Table,
     TableAction,
     TableActionOption,
@@ -18,8 +19,11 @@ import { FaEdit, FaTrash } from 'react-icons/fa'
 import { AddSupervisor } from './form'
 import { Industry } from '@types'
 import { DeleteModal } from './modal'
+import { Waypoint } from 'react-waypoint'
 
 export const Supervisor = ({ industry }: { industry?: Industry }) => {
+    const [isViewed, setIsViewed] = useState<boolean>(false)
+
     const [itemPerPage, setItemPerPage] = useState(10)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
@@ -27,11 +31,14 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
 
     const contextBar = useContextBar()
 
-    const supervisors = IndustryApi.Supervisor.useGetSupervisor({
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-        industry: industry?.user?.id,
-    })
+    const supervisors = IndustryApi.Supervisor.useGetSupervisor(
+        {
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+            industry: industry?.user?.id,
+        },
+        { skip: !isViewed }
+    )
 
     const onCancelClicked = () => {
         setModal(null)
@@ -115,75 +122,86 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
         },
     ]
     return (
-        <div className="">
-            {modal}
+        <Waypoint
+            onEnter={() => {
+                setIsViewed(true)
+            }}
+        >
+            <div className="">
+                {modal}
 
-            {/*  */}
-            <Card fullHeight shadowType="profile" noPadding>
-                <div className="px-4 py-3 border-b border-secondary-dark flex justify-between items-center">
-                    <Typography semibold>
-                        <span className="text-[15px]">Supervisor</span>
-                    </Typography>
-                    <div id="add-admin">
-                        <Button
-                            text={'+ Add Supervisor'}
-                            onClick={() => {
-                                contextBar.setTitle('Add Supervisor')
-                                contextBar.show()
-                                contextBar.setContent(
-                                    <AddSupervisor industry={industry} />
-                                )
-                            }}
-                        />
+                {/*  */}
+                <Card fullHeight shadowType="profile" noPadding>
+                    <div className="px-4 py-3 border-b border-secondary-dark flex justify-between items-center">
+                        <Typography semibold>
+                            <span className="text-[15px]">Supervisor</span>
+                        </Typography>
+                        <div id="add-admin">
+                            <Button
+                                text={'+ Add Supervisor'}
+                                onClick={() => {
+                                    contextBar.setTitle('Add Supervisor')
+                                    contextBar.show()
+                                    contextBar.setContent(
+                                        <AddSupervisor industry={industry} />
+                                    )
+                                }}
+                            />
+                        </div>
                     </div>
-                </div>
 
-                <div className="h-80 overflow-auto custom-scrollbar">
-                    {supervisors.isError ? <TechnicalError /> : null}
-                    {supervisors.isLoading ? (
-                        <LoadingAnimation height="h-[60vh]" />
-                    ) : supervisors.data && supervisors.data?.data?.length ? (
-                        <Table columns={columns} data={supervisors.data?.data}>
-                            {({
-                                table,
-                                pagination,
-                                pageSize,
-                                quickActions,
-                            }: any) => {
-                                return (
-                                    <div>
-                                        <div className="px-6 pt-3 pb-1 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage
-                                            )}
-                                            <div className="flex gap-x-2">
-                                                {quickActions}
-                                                {pagination(
-                                                    supervisors.data
-                                                        ?.pagination,
-                                                    setPage
+                    <div className="max-h-80 overflow-auto custom-scrollbar">
+                        {supervisors.isError ? (
+                            <NoData simple text="There is technical issue!" />
+                        ) : null}
+                        {supervisors.isLoading ? (
+                            <LoadingAnimation height="h-[60vh]" />
+                        ) : supervisors.data &&
+                          supervisors.data?.data?.length ? (
+                            <Table
+                                columns={columns}
+                                data={supervisors.data?.data}
+                            >
+                                {({
+                                    table,
+                                    pagination,
+                                    pageSize,
+                                    quickActions,
+                                }: any) => {
+                                    return (
+                                        <div>
+                                            <div className="px-6 pt-3 pb-1 mb-2 flex justify-between">
+                                                {pageSize(
+                                                    itemPerPage,
+                                                    setItemPerPage
                                                 )}
+                                                <div className="flex gap-x-2">
+                                                    {quickActions}
+                                                    {pagination(
+                                                        supervisors.data
+                                                            ?.pagination,
+                                                        setPage
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className="overflow-x-auto remove-scrollbar">
+                                                <div className="px-6 w-full">
+                                                    {table}
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="overflow-x-auto remove-scrollbar">
-                                            <div className="px-6 w-full">
-                                                {table}
-                                            </div>
-                                        </div>
-                                    </div>
-                                )
-                            }}
-                        </Table>
-                    ) : (
-                        <EmptyData
-                            title={'No Contact Persons!'}
-                            description={'You have no contact persons yet'}
-                            height={'50vh'}
-                        />
-                    )}
-                </div>
-            </Card>
-        </div>
+                                    )
+                                }}
+                            </Table>
+                        ) : (
+                            <NoData
+                                simple
+                                text="There is no supervisor for this industry, click on Add Supervisor button to add new Supervisor!"
+                            />
+                        )}
+                    </div>
+                </Card>
+            </div>
+        </Waypoint>
     )
 }
