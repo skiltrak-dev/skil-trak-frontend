@@ -153,8 +153,8 @@ const Login: NextPage = () => {
             {!requested && !rejected && !archived && !blocked && (
                 // <div className="w-4/5 mx-auto flex items-center justify-between">
 
-                <div className="mx-auto max-w-7xl flex flex-col sm:flex-row justify-between ">
-                    <div className="flex flex-col items-center flex-grow mt-8 w-1/2 px-12 ">
+                <div className="mx-auto max-w-7xl flex flex-col sm:flex-row justify-between md:mb-0 mb-10">
+                    <div className="flex flex-col items-center flex-grow mt-8 md:w-1/2 md:px-12 px-4">
                         <div className="w-full mb-8">
                             <Typography variant={'h3'}>
                                 Login To Your Account
@@ -185,8 +185,8 @@ const Login: NextPage = () => {
 
                     <div className="hidden md:block h-48 my-auto w-px bg-gray-300 mx-16"></div>
 
-                    <div className="w-1/2 -mr-32">
-                        <div className="flex md:flex-row flex-col gap-y-3  justify-between gap-x-28 mt-8 ">
+                    <div className="md:w-1/2 md:-mr-32 ">
+                        <div className="flex md:flex-row flex-col gap-y-3 md:items-start items-center  justify-between gap-x-28 mt-8 ">
                             <div className="flex flex-col gap-0.5 whitespace-nowrap">
                                 <Typography variant="h2">
                                     Skiltrak App
@@ -198,8 +198,8 @@ const Login: NextPage = () => {
                                     Download Skiltrak App now!
                                 </Typography>
                             </div>
-                            <div className="flex flex-col gap-1.5 w-full">
-                                <div className="flex items-center gap-x-1.5 w-full">
+                            <div className="flex flex-col md:items-start items-center gap-1.5 w-full">
+                                <div className="flex md:justify-start justify-center items-center gap-x-1.5 w-full">
                                     <div className="w-36">
                                         <Image
                                             src={'/images/app-qr-code.svg'}
