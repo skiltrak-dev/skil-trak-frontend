@@ -206,6 +206,8 @@ const ESign = () => {
         return a.sum - b.sum
     })
 
+    console.log({ customFieldsSelectedId })
+
     useEffect(() => {
         if (
             customFieldsSelectedId >= sortedPositions?.length ||
@@ -214,6 +216,8 @@ const ESign = () => {
             setIsLastSelected(true)
             setSelectedFillDataField(sortedPositions?.[0]?.id)
             scrollToPage(-1, documentsTotalPages?.data?.pageCount - 1, 'end')
+        } else {
+            setIsLastSelected(false)
         }
     }, [customFieldsSelectedId])
 
@@ -486,7 +490,7 @@ const ESign = () => {
                                     )}
                                 </div>
                             </div> */}
-                            <div className="lg:col-span-6 flex flex-col gap-y-3 pl-14 lg:pl-0">
+                            <div className="lg:col-span-6 flex flex-col gap-y-3 pl-0 lg:pl-0">
                                 {/* <div className="flex justify-end items-center gap-x-2">
                                     <input
                                         type={'checkbox'}

@@ -1,6 +1,7 @@
 import { Industry } from '@types'
 import React from 'react'
 import {
+    AddIndustryAnswers,
     IndustryContactPerson,
     IndustryDetail,
     IndustryJobHiring,
@@ -37,7 +38,12 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
             </div>
 
             {/*  */}
-            <ViewIndustryAnswers industryId={industry?.id} />
+            {industry?.approvalReviewQuestionCount &&
+            industry?.approvalReviewQuestionCount > 0 ? (
+                <ViewIndustryAnswers industryId={industry?.id} />
+            ) : (
+                <AddIndustryAnswers industry={industry} />
+            )}
 
             {/*  */}
             <IndustryJobHiring

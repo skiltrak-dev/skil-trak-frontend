@@ -29,11 +29,7 @@ const ForgotPassword: NextPage = () => {
     const methods = useForm({
         mode: 'all',
         resolver: yupResolver(validationSchema),
-        // defaultValues: { ...editValues, body: bodyData },
     })
-    const initialValues = {
-        email: '',
-    }
 
     const onSubmit = async (values: any) => {
         // send reset password email

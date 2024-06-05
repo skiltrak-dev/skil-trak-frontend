@@ -3,15 +3,14 @@
 import { Typography } from '@components/Typography'
 import { Checkbox } from '@components/inputs'
 import { UserRoles } from '@constants'
+import { useNotification } from '@hooks'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { MdDelete } from 'react-icons/md'
+import { DownloadTabs } from './DownloadTabs'
 import { FieldsTypeEnum } from './SidebarData'
-import { CommonApi } from '@queries'
-import { Button } from '@components/buttons'
-import { useRouter } from 'next/router'
-import { useNotification } from '@hooks'
-import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
+import { UploadTabs } from './UploadTabs'
 
 export const Contextbar = ({
     items,
@@ -20,10 +19,13 @@ export const Contextbar = ({
     isTabSelected,
     onHandleScroll,
     setCurrentPage,
+    onUploadTabsData,
     onSetContextBar,
     onSetCoordinates,
     recipients,
+    tabsLength,
 }: {
+    onUploadTabsData: any
     items: any
     content: any
     totalPages: number
@@ -32,6 +34,7 @@ export const Contextbar = ({
     recipients: string[]
     setCurrentPage: (pageNumber: number) => void
     onSetContextBar: (e: any, key: string) => void
+    tabsLength: number
     onSetCoordinates: (content: any, cordinate: any, key: string) => void
 }) => {
     const [inputs, setInputs] = useState([''])
@@ -39,9 +42,6 @@ export const Contextbar = ({
 
     const router = useRouter()
     const { notification } = useNotification()
-
-    const [downloadTabs, downloadTabsResult] =
-        CommonApi.ESign.useDownloadTemplateTabs()
 
     const currentTabContent = items?.find(
         (item: any) => item?.id === content?.id
@@ -109,20 +109,9 @@ export const Contextbar = ({
                 item?.id != content?.id
         )
 
-    const onDownladTabs = () => {
-        downloadTabs(Number(router?.query?.id)).then((res: any) => {
-            if (res?.data) {
-                notification.success({
-                    title: 'Tabs Downloaded',
-                    description: 'Tabs Downloaded Successfully',
-                })
-            }
-        })
-    }
-
     return (
         <>
-            <ShowErrorNotifications result={downloadTabsResult} />
+            {/* <ShowErrorNotifications result={downloadTabsResult} /> */}
             <div className="min-w-[250px] h-screen overflow-auto custom-scrollbar bg-white px-4 py-2">
                 <div className="h-[81%] overflow-auto custom-scrollbar">
                     <div className="text-sm font-medium">
@@ -429,18 +418,13 @@ export const Contextbar = ({
                         </>
                     )}
 
-                    {/* <div className="mt-3">
-                        <Button
-                            text="Download Tabs"
-                            variant="info"
-                            outline
-                            onClick={() => {
-                                onDownladTabs()
-                            }}
-                            loading={downloadTabsResult?.isLoading}
-                            disabled={downloadTabsResult?.isLoading}
-                        />
-                    </div> */}
+                    {tabsLength && tabsLength > 0 ? <DownloadTabs /> : null}
+
+                    <UploadTabs
+                        onFileChange={(rows: any) => {
+                            onUploadTabsData(rows)
+                        }}
+                    />
 
                     {totalPages && (
                         <div className="mt-4">

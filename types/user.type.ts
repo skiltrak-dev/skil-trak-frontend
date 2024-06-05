@@ -175,6 +175,7 @@ export interface Industry extends BaseResponse {
     isHiring: boolean
     subAdmin: SubAdmin[]
     callLog: CallLog[]
+    approvalReviewQuestionCount: number
 }
 
 export interface IndustryBranchesAddressType extends BaseResponse {
