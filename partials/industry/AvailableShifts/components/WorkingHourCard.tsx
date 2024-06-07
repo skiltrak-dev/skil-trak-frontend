@@ -71,8 +71,10 @@ export const WorkingHourCard = ({
     const onAddBreak = () => {
         setModal(
             <AddBreakForm
-                availability={availability}
-                onSubmit={onBreakSubmit}
+                initialValues={{
+                    breakStart: availability?.breakStart,
+                    breakEnd: availability?.breakEnd,
+                }}
                 onCancel={onCancel}
                 setIsBreak={setIsBreak}
                 setBreakStart={setBreakStart}

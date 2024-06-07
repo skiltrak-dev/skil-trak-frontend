@@ -42,7 +42,7 @@ export const AddShiftForm = ({
                 className="mt-2 w-full"
                 onSubmit={methods.handleSubmit(onSubmit)}
             >
-                <div className={'flex flex-col gap-y-2'}>
+                <div className={'flex flex-col'}>
                     <Typography variant={'muted'} color={'text-gray-400'}>
                         Add Shift
                     </Typography>

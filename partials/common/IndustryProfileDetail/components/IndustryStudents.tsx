@@ -198,6 +198,24 @@ export const IndustryStudents = ({ industry }: { industry: Industry }) => {
                     workplace?.industries
                 )
 
+                return workplace ? (
+                    <ProgressCell
+                        studentId={row.original?.id}
+                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                        assigned={workplace?.assignedTo}
+                        appliedIndustry={appliedIndustry}
+                    />
+                ) : industries?.length > 0 ? (
+                    <StudentStatusProgressCell
+                        assigned={
+                            workplace?.assignedTo || row?.original?.subadmin
+                        }
+                        studentId={row.original?.id}
+                        step={studentStatus}
+                        appliedIndustry={appliedIndustry}
+                    />
+                ) : null
+
                 return industries?.length > 0 ? (
                     <StudentStatusProgressCell
                         assigned={

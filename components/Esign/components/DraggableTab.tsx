@@ -171,6 +171,7 @@ export const DraggableTab = ({
                                 fontSize: '10px',
                                 color: item.data?.color,
                             }}
+                            id={`tabs-view-${item?.id}`}
                             className="flex items-center gap-x-1"
                         >
                             {item.data.Icon && <item.data.Icon />}

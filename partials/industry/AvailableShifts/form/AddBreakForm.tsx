@@ -15,14 +15,18 @@ interface FormProps {
 }
 
 export const AddBreakForm = ({
-    edit,
-    result,
     initialValues,
     onCancel,
     setIsBreak,
     setBreakStart,
     setBreakEnd,
-}: any) => {
+}: {
+    initialValues: any
+    onCancel: any
+    setIsBreak: any
+    setBreakStart: any
+    setBreakEnd: any
+}) => {
     const validationSchema = yup.object({
         breakStart: yup.string().required('Start Time is required!'),
         breakEnd: yup.string().required('End Time is required!'),

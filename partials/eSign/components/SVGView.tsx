@@ -88,9 +88,7 @@ export const SVGView = ({
                     `tabs-view-${sortedPositions?.[customFieldsSelectedId]?.id}`
                 ) as HTMLInputElement | null
 
-                console.log({ inputElement, isLastSelected, showStartDocument })
                 if (inputElement && !isLastSelected) {
-                    console.log('IIIINNNN')
                     inputElement.scrollIntoView({
                         behavior: 'smooth',
                         block: 'center',

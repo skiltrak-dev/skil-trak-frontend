@@ -315,13 +315,6 @@ export const InitiateSignStudent = ({
         }
     }, [userIds()])
 
-    console.log({
-        asas: student?.data?.rto,
-        selectedIndustry,
-        selectedCoordinator,
-        student,
-    })
-
     return (
         <>
             <ShowErrorNotifications result={initiateSignResult} />

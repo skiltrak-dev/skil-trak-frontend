@@ -22,9 +22,6 @@ export const AddShiftContext = ({ availability }: { availability: any }) => {
         skip: !availability?.id,
     })
 
-    const [unassignCourse, unassignCourseResult] =
-        AdminApi.Rtos.useUnassignCourses()
-
     useEffect(() => {
         if (addShiftResult.isSuccess) {
             notification.success({
@@ -42,22 +39,6 @@ export const AddShiftContext = ({ availability }: { availability: any }) => {
             })
         }
     }, [addShiftResult])
-
-    useEffect(() => {
-        if (unassignCourseResult.isSuccess) {
-            notification.info({
-                title: 'Courses Unassigned',
-                description: 'Courses have been unassigned to RTO',
-            })
-        }
-
-        if (unassignCourseResult.isError) {
-            notification.error({
-                title: 'Failed To Unassign',
-                description: 'An error occurred while unassign course(s)',
-            })
-        }
-    }, [unassignCourseResult])
 
     const onSubmit = (values: any) => {
         addShift({ workingHours: availability?.id, ...values })

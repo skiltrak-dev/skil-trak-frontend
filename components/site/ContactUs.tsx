@@ -1,15 +1,14 @@
+import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 import { Typography } from '@components/Typography'
+import { Button } from '@components/buttons'
 import { TextArea, TextInput } from '@components/inputs'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useNotification } from '@hooks'
+import { CommonApi } from '@queries'
+import { FormProvider, useForm } from 'react-hook-form'
 import { FaPhoneAlt } from 'react-icons/fa'
 import { MdOutlineAlternateEmail } from 'react-icons/md'
-import { FormProvider, useForm } from 'react-hook-form'
-import { Button } from '@components/buttons'
-import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { CommonApi } from '@queries'
-import { useEffect } from 'react'
-import { useNotification } from '@hooks'
-import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 export const ContactUs = ({ contactUsRef }: any) => {
     const { notification } = useNotification()
     const [sendUsQuery, sendUsQueryResult] = CommonApi.Messages.useContactUs()
@@ -31,16 +30,17 @@ export const ContactUs = ({ contactUsRef }: any) => {
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
-    useEffect(() => {
-        if (sendUsQueryResult.isSuccess) {
-            notification.success({
-                title: 'Query Sent',
-                description: `Your query sent successfully.`,
-            })
-        }
-    }, [sendUsQueryResult.isSuccess])
+
     const onSubmit = (data: any) => {
-        sendUsQuery(data)
+        sendUsQuery(data).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: 'Query Sent',
+                    description: `Your query sent successfully.`,
+                })
+                formMethods.reset()
+            }
+        })
     }
     return (
         <div ref={contactUsRef} className="md:p-24 px-4 py-8">

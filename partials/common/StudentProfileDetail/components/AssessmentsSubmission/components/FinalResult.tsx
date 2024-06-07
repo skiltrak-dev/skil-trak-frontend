@@ -115,7 +115,7 @@ export const FinalResult = ({
                                             : 'text-primaryNew'
                                     }
                                 >
-                                    Result {index + 1}
+                                    Result {result?.totalSubmission}
                                 </Typography>
                             </div>
                         ))}
