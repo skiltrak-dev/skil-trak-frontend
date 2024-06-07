@@ -7,7 +7,6 @@ import {
     Table,
     TableChildrenProps,
     TechnicalError,
-    TruncatedTextWithTooltip,
     Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
@@ -16,14 +15,15 @@ import { FaPhone } from 'react-icons/fa'
 
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useRef, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { MdEmail } from 'react-icons/md'
 
 // hooks
 import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary'
-import { ContactTraineeshipModal } from './modals'
+import { ContactUsQueryModal } from './modals'
+import { ellipsisText } from '@utils'
 
-export const TraineeshipProgramQuery = () => {
+export const ContactUsQuery = () => {
     const router = useRouter()
 
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -35,62 +35,41 @@ export const TraineeshipProgramQuery = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
+    // hooks
+
     const { isLoading, isFetching, data, isError, refetch } =
-        CommonApi.Traineeship.useGetList(
+        CommonApi.WorkBased.useContactUsQueries(
             {
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
             { refetchOnMountOrArgChange: true }
         )
-
     const onCancelModal = () => setModal(null)
 
-    const onContactModal = (traineeship: any) =>
+    const onContactModal = (workBase: any) =>
         setModal(
-            <ContactTraineeshipModal
-                onCancel={onCancelModal}
-                traineeship={traineeship}
-            />
+            <ContactUsQueryModal onCancel={onCancelModal} workBase={workBase} />
         )
 
     const columns: ColumnDef<any>[] = [
         {
-            accessorKey: 'user.name',
+            accessorKey: 'name',
             cell: (info) => {
                 const userDetail = info.row?.original
                 return (
                     <div className="flex items-center gap-x-2 cursor-pointer">
                         <div className="">
                             <ErrorBoundary>
-                                {userDetail?.fullName && (
+                                {info.row?.original?.name && (
                                     <InitialAvatar
-                                        name={userDetail?.fullName}
+                                        name={info.row?.original?.name}
                                     />
                                 )}
                             </ErrorBoundary>
                         </div>
                         <div>
-                            <p className="font-semibold">
-                                {userDetail?.fullName || "N/A"}
-                            </p>
-                            <div className="flex items-center gap-x-2 text-sm">
-                                <FaPhone className="text-xs text-gray-500" />
-                                <Typography
-                                    variant={'label'}
-                                    color={'text-gray-500'}
-                                >
-                                    {userDetail?.phone || "N/A"}
-                                </Typography>
-                            </div>
-                            <div className="font-medium text-xs text-gray-500">
-                                <p className="flex items-center gap-x-1">
-                                    <span>
-                                        <MdEmail />
-                                    </span>
-                                    {userDetail?.email || "N/A"}
-                                </p>
-                            </div>
+                            <p className="font-semibold">{userDetail?.email || "N/A"}</p>
                         </div>
                     </div>
                 )
@@ -98,42 +77,38 @@ export const TraineeshipProgramQuery = () => {
             header: () => <span>User</span>,
         },
         {
-            accessorKey: 'country',
-            header: () => <span>Country</span>,
+            accessorKey: 'subject',
+            header: () => <span>Subject</span>,
         },
         {
-            accessorKey: 'age',
-            header: () => <span>Age</span>,
+            accessorKey: 'message',
+            cell: (info) => {
+                return (
+                    <div
+                        title={info?.row?.original?.message}
+                        className="flex items-center gap-x-2 cursor-pointer"
+                    >
+                        {ellipsisText(info?.row?.original?.message, 50) ||
+                            'N/A'}
+                    </div>
+                )
+            },
+            header: () => <span>Message</span>,
         },
         {
-            accessorKey: 'program',
-            header: () => <span>Program</span>,
-            cell: (info) => (
-                <div className="uppercase text-blue-500 bg-blue-100 border text-xs text-center border-blue-500 rounded-md px-2 py-1">
-                    {info.row?.original?.program || 'N/A'}
-                </div>
-            ),
+            accessorKey: 'createdAt',
+            cell: (info) => {
+                return (
+                    <div className="flex items-center gap-x-2 ">
+                        {(info?.row?.original?.createdAt &&
+                            info?.row?.original?.createdAt?.slice(0, 10)) ||
+                            'NA'}
+                    </div>
+                )
+            },
+            header: () => <span>Created At</span>,
         },
-        {
-            accessorKey: 'qualification',
-            header: () => <span>Qualification</span>,
-            cell: (info) => (
-                <TruncatedTextWithTooltip
-                    text={info.row?.original?.qualification}
-                    maxLength={20}
-                />
-            ),
-        },
-        {
-            accessorKey: 'experience',
-            header: () => <span>Experience</span>,
-            cell: (info) => (
-                <TruncatedTextWithTooltip
-                    text={info.row?.original?.experience}
-                    maxLength={20}
-                />
-            ),
-        },
+
         {
             accessorKey: 'Action',
             header: () => <span>Action</span>,
@@ -157,8 +132,8 @@ export const TraineeshipProgramQuery = () => {
             <div className="flex flex-col gap-y-4 px-4">
                 <div className="flex">
                     <PageHeading
-                        title={'Traineeship Program'}
-                        subtitle={'List of Traineeship Program'}
+                        title={'Contact Us Queries'}
+                        subtitle={'List of Contact Us Queries'}
                     />
                 </div>
                 <Card noPadding>
@@ -228,9 +203,9 @@ export const TraineeshipProgramQuery = () => {
                     ) : (
                         !isError && (
                             <EmptyData
-                                title={'No Traineeship Program!'}
+                                title={'No Contact Us Queries!'}
                                 description={
-                                    'There is no Traineeship Program yet'
+                                    'There is no Contact Us Queries Yet'
                                 }
                                 height={'50vh'}
                             />

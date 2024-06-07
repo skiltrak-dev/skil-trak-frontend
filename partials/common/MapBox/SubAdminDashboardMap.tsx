@@ -17,6 +17,7 @@ import {
     InfoWindow,
     useJsApiLoader,
     InfoBox,
+    OverlayView,
 } from '@react-google-maps/api'
 import { ellipsisText } from '@utils'
 import { SubAdminApi } from '@queries'
@@ -34,11 +35,6 @@ const center = {
     lat: -37.81374,
     lng: 144.963033,
 }
-
-const students = [
-    { id: 1, name: 'Alice', location: { lat: 30.39183, lng: -92.329102 } },
-    { id: 2, name: 'Bob', location: { lat: 34.0522, lng: -118.2437 } },
-]
 
 const customMapStyles = [
     {
@@ -61,7 +57,7 @@ const customMapStyles = [
 const studentClusterStyles = [
     {
         textColor: 'white',
-        url: '/images/icons/student-cluster.svg',
+        url: '/images/icons/student-clusters.svg',
         height: 50,
         width: 50,
     },
@@ -70,7 +66,7 @@ const studentClusterStyles = [
 const industryClusterStyles = [
     {
         textColor: 'white',
-        url: '/images/icons/industry-cluster.svg',
+        url: '/images/icons/industry-clusters.svg',
         height: 50,
         width: 50,
     },
@@ -93,6 +89,11 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
     const [studentId, setStudentId] = useState<any>(null)
     const [industryId, setIndustryId] = useState<any>(null)
     const [showInfoBox, setShowInfoBox] = useState<any>(false)
+    const [visibleMarkers, setVisibleMarkers] = useState<any>([])
+    const [map, setMap] = useState<google.maps.Map | null>(null)
+    // bounds
+    const [mapCenter, setMapCenter] = useState(center)
+    const [mapZoom, setMapZoom] = useState(5)
 
     // useSubAdminMapStudents
     const industryDetails =
@@ -163,12 +164,10 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
         lng: number
         name: string
     }>(null)
-    const [visibleMarkers, setVisibleMarkers] = useState<any>([])
-    const [map, setMap] = useState<google.maps.Map | null>(null)
+
     const onMarkerHover = useCallback((marker: any) => {
         setSelectedMarker(marker)
     }, [])
-
 
     useEffect(() => {
         if (data || industriesList?.data) {
@@ -226,26 +225,56 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
         }
     }, [map, visibleMarkers])
 
+    const handleCountryView = () => {
+        if (map) {
+            map.setCenter(australiaCenter)
+            map.setZoom(4) // Adjust the zoom level as needed
+        }
+    }
+
+    const handleVictoriaView = () => {
+        if (map) {
+            map.setCenter(victoriaCenter)
+            map.setZoom(8) // Adjust the zoom level as needed
+        }
+    }
+
+    // const onBoundChange = useCallback(() => {
+    //     setSelectedBox(null)
+    //     setIndustryId(null)
+    //     setShowInfoBox(false)
+    //     setStudentId('')
+    //     if (!map) return
+
+    //     const bounds = map.getBounds()
+    //     if (!bounds) return
+
+    //     const updatedVisibleMarkers = visibleMarkers.filter((marker: any) => {
+    //         const latLng = new google.maps.LatLng(
+    //             marker.location.lat,
+    //             marker.location.lng
+    //         )
+    //         return bounds.contains(latLng)
+    //     })
+
+    //     setVisibleMarkers(updatedVisibleMarkers)
+    // }, [map])
     const onBoundChange = useCallback(() => {
-        setSelectedBox(null)
-        setIndustryId(null)
-        setShowInfoBox(false)
-        setStudentId('')
-        if (!map) return
-
-        const bounds = map.getBounds()
-        if (!bounds) return
-
-        const updatedVisibleMarkers = visibleMarkers.filter((marker: any) => {
-            const latLng = new google.maps.LatLng(
-                marker.location.lat,
-                marker.location.lng
-            )
-            return bounds.contains(latLng)
-        })
-
-        setVisibleMarkers(updatedVisibleMarkers)
+        if (map) {
+            const newCenter = map.getCenter()
+            const newZoom = map.getZoom()
+            if (newZoom !== undefined && newCenter !== undefined) {
+                setMapCenter({
+                    lat: newCenter.lat(),
+                    lng: newCenter.lng(),
+                })
+            }
+            if (newZoom !== undefined) {
+                setMapZoom(newZoom)
+            }
+        }
     }, [map])
+    console.log('MapCenter', mapCenter)
 
     const onMapLoad = useCallback(
         (map: any) => {
@@ -266,7 +295,6 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
         maxZoom: 15,
     }
 
-    
     const studentClusterOptions = {
         styles: studentClusterStyles,
         grid: 20,
@@ -348,6 +376,7 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                     zoom={5}
                     onLoad={onMapLoad}
                     onUnmount={onMapUnmount}
+                    onBoundsChanged={onBoundChange}
                     options={{ styles: customMapStyles }}
                 >
                     <MarkerClusterer options={studentClusterOptions}>
@@ -588,6 +617,17 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                             </>
                         )}
                     </MarkerClusterer>
+                    <div className="absolute right-2 top-1/3 flex flex-col gap-y-2">
+                        <Button
+                            text="Reset"
+                            variant="info"
+                            onClick={handleCountryView}
+                        />
+                        <Button
+                            text="Save Location"
+                            onClick={handleVictoriaView}
+                        />
+                    </div>
                     {/* {directions && renderPolyline()}
                     {renderDirections()} */}
                 </GoogleMap>
