@@ -128,4 +128,37 @@ export const industryEndpoints = (
         }),
         providesTags: ['Industries'],
     }),
+
+    getIndutryAvailableHours: builder.query<any, number>({
+        query: (id) => `${PREFIX}industry/${id}/working-hours/list`,
+        providesTags: ['Industries'],
+    }),
+    addIndutryAvailableHours: builder.mutation<any, any>({
+        query: ({ body, id }) => ({
+            url: `${PREFIX}industry/${id}/working-hours/add`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['Industries'],
+    }),
+
+    addIndustryShift: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `${PREFIX}available-shift/add`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['Industries', 'AvailableShifts'],
+    }),
+    getIndustryShifts: builder.query<any, number>({
+        query: (id) => `${PREFIX}available-shift/list/${id}`,
+        providesTags: ['AvailableShifts'],
+    }),
+    removeIndustryShift: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}available-shift/remove/${id}`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['Industries', 'AvailableShifts'],
+    }),
 })

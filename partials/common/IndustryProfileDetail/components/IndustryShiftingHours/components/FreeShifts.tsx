@@ -1,48 +1,9 @@
-import React from 'react'
-import { TimingCard } from '../cards'
 import { Typography } from '@components'
+import { FreeShiftCard } from '../cards'
 
-export const FreeShifts = () => {
-    const officeTimings = [
-        {
-            timings: '12:00 PM - 1:00 PM',
-            days: 'Mon',
-            break: 'Break (9 am - 5 pm)',
-        },
-        {
-            timings: '12:00 PM - 1:00 PM',
-            days: 'Tue',
-            break: 'Break (9 am - 5 pm)',
-        },
-        {
-            timings: '12:00 PM - 1:00 PM',
-            days: 'Wed',
-            break: 'Break (9 am - 5 pm)',
-        },
-        {
-            timings: '12:00 PM - 1:00 PM',
-            days: 'Thu',
-            break: 'Break (9 am - 5 pm)',
-        },
-        {
-            timings: '12:00 PM - 1:00 PM',
-            days: 'Fri',
-            break: 'Break (9 am - 5 pm)',
-        },
-        {
-            timings: 'Close',
-            days: 'Sat',
-            break: 'Not Applicable',
-        },
-        {
-            timings: 'Close',
-            days: 'Sun',
-            break: 'Not Applicable',
-        },
-    ]
+export const FreeShifts = ({ workingHoursTime }: { workingHoursTime: any }) => {
     return (
         <div>
-            {' '}
             <div className="px-4 py-3.5 border-b border-secondary-dark">
                 <Typography semibold>
                     <span className="text-[15px]">Free Shifts</span>
@@ -50,17 +11,38 @@ export const FreeShifts = () => {
             </div>
             {/*  */}
             <div className="flex justify-between border-b border-secondary-dark">
-                {officeTimings?.map((timing) => (
-                    <div className="w-full h-10 border-r border-secondary-dark flex justify-center items-center">
-                        <Typography variant="small">{timing?.days}</Typography>
+                {workingHoursTime?.map((timing: any) => (
+                    <div
+                        key={timing?.day}
+                        className="w-full h-10 border-r border-secondary-dark flex justify-center items-center"
+                    >
+                        <Typography variant="small" capitalize>
+                            {timing?.day?.substring(0, 3)}
+                        </Typography>
                     </div>
                 ))}
             </div>
             {/*  */}
             <div className="flex justify-between border-b border-secondary-dark py-2.5">
-                {officeTimings?.map((timing) => (
-                    <div className="w-full h-32 flex justify-center items-center px-2">
-                        <TimingCard timing={timing} />
+                {workingHoursTime?.map((timing: any) => (
+                    <div
+                        key={timing?.day}
+                        className="flex flex-col gap-y-2 w-full"
+                    >
+                        {timing?.shifts && timing?.shifts?.length > 0 ? (
+                            timing?.shifts?.map((shift: any) => (
+                                <div className="w-full h-16 flex justify-center items-center px-1">
+                                    <FreeShiftCard
+                                        timing={timing}
+                                        shift={shift}
+                                    />
+                                </div>
+                            ))
+                        ) : (
+                            <div className="w-full h-16 flex justify-center items-center px-1">
+                                <FreeShiftCard timing={timing} />
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>

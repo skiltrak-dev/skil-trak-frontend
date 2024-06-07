@@ -206,8 +206,6 @@ const ESign = () => {
         return a.sum - b.sum
     })
 
-    console.log({ customFieldsSelectedId })
-
     useEffect(() => {
         if (
             customFieldsSelectedId >= sortedPositions?.length ||

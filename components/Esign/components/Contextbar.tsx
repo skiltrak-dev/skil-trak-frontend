@@ -24,7 +24,9 @@ export const Contextbar = ({
     onSetCoordinates,
     recipients,
     tabsLength,
+    signTabs,
 }: {
+    signTabs: any
     onUploadTabsData: any
     items: any
     content: any
@@ -37,6 +39,7 @@ export const Contextbar = ({
     tabsLength: number
     onSetCoordinates: (content: any, cordinate: any, key: string) => void
 }) => {
+    console.log({ signTabs })
     const [inputs, setInputs] = useState([''])
     const [currentTabId, setCurrentTabId] = useState('')
 
@@ -388,16 +391,6 @@ export const Contextbar = ({
                                 </select>
                             </div>
                             <div className="mt-2 flex items-center gap-x-2">
-                                {/* <input
-                            onChange={(e) => {
-                                onSetContextBar({ content, e }, 'isRequired')
-                            }}
-                            defaultChecked={content?.data?.isRequired}
-                            type="checkbox"
-                            name=""
-                            value={content?.data?.isRequired}
-                            id="isRequired"
-                        /> */}
                                 <Checkbox
                                     name={'isRequired'}
                                     onChange={(e: any) => {
@@ -426,6 +419,29 @@ export const Contextbar = ({
                         }}
                     />
 
+                    <div>
+                        <Typography variant="label">Signers Tab</Typography>
+
+                        <div className="flex flex-col gap-y-2">
+                            {signTabs?.map((sign: any) => (
+                                <div
+                                    key={sign?.id}
+                                    className="w-40 py-1 px-2 rounded"
+                                    style={{
+                                        backgroundColor: sign?.data?.color,
+                                    }}
+                                    onClick={() => {
+                                        onHandleScroll(sign?.id, sign?.page)
+                                    }}
+                                >
+                                    <Typography variant="label">
+                                        {sign?.data?.placeholder}
+                                    </Typography>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
                     {totalPages && (
                         <div className="mt-4">
                             <Typography
@@ -441,7 +457,7 @@ export const Contextbar = ({
                                         key={i}
                                         onClick={() => {
                                             // setCurrentPage(i)
-                                            onHandleScroll(i)
+                                            onHandleScroll(_, i)
                                         }}
                                         className="w-8 h-8 rounded-full bg-success text-white text-xs font-bold flex justify-center items-center cursor-pointer"
                                     >

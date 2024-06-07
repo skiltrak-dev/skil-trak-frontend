@@ -67,8 +67,8 @@ export const Switch = ({
                             onBlur
                         )}
                         {...(value ? { value } : {})}
-                        defaultChecked={defaultChecked}
-                        checked={defaultChecked}
+                        defaultChecked={checked}
+                        checked={checked}
                     />
                     <span className="slider"></span>
                 </label>

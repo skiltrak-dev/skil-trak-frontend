@@ -87,7 +87,7 @@ export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
             <div className="flex flex-col gap-y-6 mb-20 px-2">
                 <PageTitle title="Industry Profile" />
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-3 h-[540px]">
-                    <IndustryShiftingHours />
+                    <IndustryShiftingHours industry={industry} />
                     <div className="h-full">
                         <Notes userId={industry?.user?.id} />
                     </div>

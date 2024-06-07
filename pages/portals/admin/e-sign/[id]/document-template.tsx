@@ -21,7 +21,7 @@ import { useAlert, useNavbar, useNotification } from '@hooks'
 import { ShowNotificationModal, ShowWarningModal } from '@partials'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { uuid } from 'uuidv4'
 
 export default function ESign() {
@@ -43,6 +43,8 @@ export default function ESign() {
     const [showWarning, setShowWarning] = useState<boolean>(false)
 
     const navBar = useNavbar()
+
+    const scrollTargetRef = useRef<any>([])
 
     const router = useRouter()
 
@@ -97,7 +99,7 @@ export default function ESign() {
         }
     }, [])
 
-    const onUpdateTabs = (tabsData: any) => {
+    const onUpdateTabs = (tabsData: any, fileUploadedTabs?: boolean) => {
         const updatedItems = tabsData?.map((tab: any) => {
             const location = tab?.position?.split(',')
             const size = tab?.size?.split(',')
@@ -124,7 +126,7 @@ export default function ESign() {
                     option: tab?.option,
                     isRequired: tab?.required,
                 },
-                saved: true,
+                saved: !fileUploadedTabs ? true : false,
             }
         })
 
@@ -139,7 +141,7 @@ export default function ESign() {
     }, [tabs])
 
     const onUploadTabsData = (tabsData: any) => {
-        const updatedItems = onUpdateTabs(tabsData)
+        const updatedItems = onUpdateTabs(tabsData, true)
 
         setItems((prev: any) => [
             ...prev,
@@ -504,12 +506,35 @@ export default function ESign() {
     // 	};
     // }, []);
 
-    const onHandleScroll = (id: number) => {
-        const detailItem = document.getElementById(`document-template-${id}`)
+    // const onHandleScroll = (id: number) => {
+    //     const detailItem = document.getElementById(`document-template-${id}`)
+    //     if (detailItem) {
+    //         detailItem.scrollIntoView({ behavior: 'smooth' })
+    //     }
+    // }
+
+    const onHandleScroll = (
+        tabId: number,
+        currentPage: number,
+        block?: ScrollLogicalPosition
+    ) => {
+        const targetElement = scrollTargetRef.current[currentPage]
+        const detailItem = document.getElementById(`tabs-view-${tabId}`)
+
         if (detailItem) {
-            detailItem.scrollIntoView({ behavior: 'smooth' })
+            detailItem.scrollIntoView({
+                behavior: 'smooth',
+                block: block || 'center',
+            })
+        } else if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: block || 'center',
+            })
         }
     }
+
+    console.log({ items })
 
     const onSaveTemplate = () => {
         const notRoles = items.filter((item: any) => !item?.data?.role)
@@ -786,6 +811,11 @@ export default function ESign() {
                                             <div
                                                 id={`document-template-${i}`}
                                                 key={i}
+                                                ref={(el: any) =>
+                                                    (scrollTargetRef.current[
+                                                        i
+                                                    ] = el as any)
+                                                }
                                             >
                                                 <div
                                                     onKeyDown={(e: any) => {
@@ -863,6 +893,11 @@ export default function ESign() {
                             totalPages={pagesCount?.data?.pageCount}
                             isTabSelected={isTabSelected}
                             recipients={pagesCount?.data?.recipients}
+                            signTabs={items?.filter(
+                                (item: any) =>
+                                    item?.data?.type ===
+                                    FieldsTypeEnum.Signature
+                            )}
                         />
                     </div>
                 </div>
