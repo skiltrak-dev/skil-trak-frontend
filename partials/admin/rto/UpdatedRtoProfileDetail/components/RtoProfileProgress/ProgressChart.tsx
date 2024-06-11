@@ -3,17 +3,23 @@ import { RtoProfileProgressTypes } from './RtoProfileProgress'
 import { ChartContainer } from './style'
 
 export const ProgressChart = ({
+    height,
     data,
+    pieHole,
+    pieSliceText,
 }: {
+    pieHole?: number
+    height?: string
     data: RtoProfileProgressTypes[]
+    pieSliceText?: 'percentage' | 'value' | 'label' | 'none'
 }) => {
     const options = {
-        pieHole: 0.6,
+        pieHole: pieHole || 0.6,
         is3D: false,
         legend: { position: 'none' },
         chartArea: { width: '60%', height: '90%' },
         colors: data?.map((d: RtoProfileProgressTypes, i: number) => d?.color),
-        // pieSliceText: 'none',
+        pieSliceText: pieSliceText || 'percentage',
         // pieSliceTextStyle: {
         //     fontSize: 30, // Set font size to 30px
         // },
@@ -27,6 +33,7 @@ export const ProgressChart = ({
         ]),
     ]
 
+    console.log({ data })
 
     return (
         <div className="">
@@ -34,7 +41,7 @@ export const ProgressChart = ({
                 <Chart
                     chartType="PieChart"
                     width="100%"
-                    height="250px"
+                    height={height || '250px'}
                     data={updatedData}
                     options={options}
                 />

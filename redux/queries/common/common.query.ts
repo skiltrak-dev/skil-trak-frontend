@@ -234,7 +234,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
                 params: { id },
                 body: { status },
             }),
-            invalidatesTags: ['User'],
+            invalidatesTags: ['User', 'SubAdmins'],
         }),
 
         getUserPassword: build.query<any, number>({

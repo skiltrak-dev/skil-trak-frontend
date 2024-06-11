@@ -121,7 +121,6 @@ export const ActiveRTOSubAdmin = () => {
             <ArchiveModal
                 item={subAdmin}
                 onCancel={() => onModalCancelClicked()}
-                setChangeStatusResult={setChangeStatusResult}
             />
         )
     }

@@ -345,7 +345,7 @@ export const AdminApi = {
         useCountQuery: useSubAdminCountQuery,
         useProfileCount: useSubAdminProfileCountQuery,
         createSubAmin: useCreateSubAdminMutation,
-        useRtoProfile: useSubAdminProfileQuery,
+        useSubadminProfile: useSubAdminProfileQuery,
         useUpdate: useUpdateSubAdminMutation,
         useRemove: useSubadminRemoveMutation,
         useAssociatedWithRto: useAssociatedWithRtoMutation,

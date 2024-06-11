@@ -127,7 +127,6 @@ export const ActiveSubAdmin = () => {
             <ArchiveModal
                 item={subAdmin}
                 onCancel={() => onModalCancelClicked()}
-                setChangeStatusResult={setChangeStatusResult}
             />
         )
     }
