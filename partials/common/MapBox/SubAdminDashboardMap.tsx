@@ -274,7 +274,6 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
             }
         }
     }, [map])
-    console.log('MapCenter', mapCenter)
 
     const onMapLoad = useCallback(
         (map: any) => {

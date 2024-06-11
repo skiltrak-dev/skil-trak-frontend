@@ -39,7 +39,6 @@ export const Contextbar = ({
     tabsLength: number
     onSetCoordinates: (content: any, cordinate: any, key: string) => void
 }) => {
-    console.log({ signTabs })
     const [inputs, setInputs] = useState([''])
     const [currentTabId, setCurrentTabId] = useState('')
 

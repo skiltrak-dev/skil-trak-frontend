@@ -20,8 +20,6 @@ export const IndustryShiftingHours = ({ industry }: { industry: Industry }) => {
         ...initialSchedule.map((day) => ({ ...day })), // shallow copy
     ])
 
-    console.log({ initialSchedule, workingHoursTime, industryAvailableHours })
-
     useEffect(() => {
         if (
             !industryAvailableHours.isLoading &&

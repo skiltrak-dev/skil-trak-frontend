@@ -84,6 +84,13 @@ export const RejectedSubAdmin = () => {
             Icon: FaEye,
         },
         {
+            text: 'New Profile',
+            onClick: (subAdmin: any) => {
+                router.push(`/portals/admin/sub-admin/${subAdmin?.id}/detail`)
+            },
+            Icon: FaEye,
+        },
+        {
             text: 'Edit',
             onClick: (student: any) => {
                 router.push(

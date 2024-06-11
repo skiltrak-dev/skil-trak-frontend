@@ -48,11 +48,14 @@ export const HistoryFilters = ({
 
     return (
         <div className="flex items-start gap-x-2">
-            <TextInput
-                name={'history'}
-                placeholder={'Search History...'}
-                onChange={(e: any) => delayedSearch(e.target.value)}
-            />
+            <div className="min-w-32">
+                <TextInput
+                    name={'history'}
+                    showError={false}
+                    placeholder={'Search History...'}
+                    onChange={(e: any) => delayedSearch(e.target.value)}
+                />
+            </div>
             {router.pathname ===
                 '/portals/admin/sub-admin-as-admin-activities' && (
                 <div className="w-full">
