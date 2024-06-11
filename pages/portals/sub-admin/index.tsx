@@ -756,21 +756,21 @@ const SubAdminDashboard: NextPageWithLayout = () => {
         }
     }, [pendingIndustries?.data?.data])
 
-    const onMapClick = () => {
-        setModal(
-            <GlobalModal>
-                <div className="w-full p-5">
-                    <div
-                        onClick={onCancel}
-                        className="flex justify-end cursor-pointer border-b py-2 mb-2"
-                    >
-                        <IoMdCloseCircle size={20} className="text-red-500" />
-                    </div>
-                    <SubAdminDashboardMap sectorsOptions={sectorsOptions} />
-                </div>
-            </GlobalModal>
-        )
-    }
+    // const onMapClick = () => {
+    //     setModal(
+    //         <GlobalModal>
+    //             <div className="w-full p-5 ">
+    //                 <div
+    //                     onClick={onCancel}
+    //                     className="flex justify-end cursor-pointer border-b py-2 mb-2"
+    //                 >
+    //                     <IoMdCloseCircle size={20} className="text-red-500" />
+    //                 </div>
+    //                 <SubAdminDashboardMap sectorsOptions={sectorsOptions} />
+    //             </div>
+    //         </GlobalModal>
+    //     )
+    // }
 
     return (
         <>
@@ -961,17 +961,17 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             </div>
                         </Card>
                     </div>
-                    <div>
+                    {/* <div>
                         <p
                             onClick={onMapClick}
                             className="text-blue-500 font-medium text-xs underline cursor-pointer"
                         >
                             View Map
                         </p>
-                    </div>
-                    {/* <div className="w-full">
-                        <SubAdminDashboardMap sectorsOptions={sectorsOptions} />
                     </div> */}
+                    <div className="w-full">
+                        <SubAdminDashboardMap sectorsOptions={sectorsOptions} />
+                    </div>
                 </div>
                 <ImportantDocuments
                     coureseRequirementsLink={

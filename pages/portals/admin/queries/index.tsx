@@ -5,12 +5,19 @@ import { ReactElement, useEffect } from 'react'
 
 // hooks
 import { AdminLayout } from '@layouts'
-import { TraineeshipProgramQuery, WorkBasedQuery } from '@partials'
+import {
+    ContactUsQuery,
+    TraineeshipProgramQuery,
+    WorkBasedQuery,
+} from '@partials'
 import { useNavbar } from '@hooks'
 
 const TraineeshipProgram = () => {
     const traineeShipCount = CommonApi.Traineeship.useCount()
     const workBasedCount = CommonApi.WorkBased.useCount()
+    const contactUsQueriesCount = CommonApi.WorkBased.useContactUsQueriesCount()
+
+    // useContactUsQueriesCount
 
     const { setTitle } = useNavbar()
 
@@ -42,6 +49,18 @@ const TraineeshipProgram = () => {
                 loading: workBasedCount?.isLoading,
             },
             element: <WorkBasedQuery />,
+        },
+        {
+            label: 'Contact Us',
+            href: {
+                pathname: 'queries',
+                query: { tab: 'contact-us' },
+            },
+            badge: {
+                text: contactUsQueriesCount?.data,
+                loading: contactUsQueriesCount?.isLoading,
+            },
+            element: <ContactUsQuery />,
         },
     ]
 

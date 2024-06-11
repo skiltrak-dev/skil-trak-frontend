@@ -49,7 +49,7 @@ const customMapStyles = [
 const studentClusterStyles = [
     {
         textColor: 'white',
-        url: '/images/icons/student-cluster.svg',
+        url: '/images/icons/student-clusters.svg',
         height: 50,
         width: 50,
     },
@@ -58,7 +58,7 @@ const studentClusterStyles = [
 const industryClusterStyles = [
     {
         textColor: 'white',
-        url: '/images/icons/industry-cluster.svg',
+        url: '/images/icons/industry-clusters.svg',
         height: 50,
         width: 50,
     },

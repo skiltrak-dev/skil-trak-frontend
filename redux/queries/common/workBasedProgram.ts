@@ -11,8 +11,19 @@ export const workBasedProgramEndpoints = (
         }),
         providesTags: ['WorkBased'],
     }),
+    getContactUsQueries: builder.query<any, any>({
+        query: (params) => ({
+            url: 'website-messages',
+            params,
+        }),
+        providesTags: ['WorkBased'],
+    }),
     getWorkBasedProgramCount: builder.query<any, void>({
         query: () => 'admin/work-based/queries-count',
+        providesTags: ['WorkBased'],
+    }),
+    getContactUsQueriesCount: builder.query<any, void>({
+        query: () => 'website-messages/count',
         providesTags: ['WorkBased'],
     }),
     getWorkBasedProgramAndTraineeshipCount: builder.query<any, void>({
@@ -30,6 +41,13 @@ export const workBasedProgramEndpoints = (
     contactWorkBasedProgram: builder.mutation<any, number>({
         query: (id) => ({
             url: `admin/work-based/query/${id}/read`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['WorkBased'],
+    }),
+    contactContactUsQueries: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `website-messages/${id}/read`,
             method: 'PATCH',
         }),
         invalidatesTags: ['WorkBased'],
