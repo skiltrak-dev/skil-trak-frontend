@@ -15,14 +15,12 @@ export const AddShiftsCB = ({
     const [workingHoursTime, setWorkingHoursTime] = useState<any | null>(
         initialSchedule
     )
-    console.log({ industryAvailableHours })
 
     const [addHours, addHoursResult] = AdminApi.Industries.useAddIndustryHours()
 
     useEffect(() => {
         if (industryAvailableHours) {
             if (industryAvailableHours?.length > 0) {
-                console.log('Khanchu')
                 const tempWorkingHours: any = [...workingHoursTime]
 
                 industryAvailableHours?.forEach((schedule: any) => {
@@ -40,8 +38,6 @@ export const AddShiftsCB = ({
                     tempWorkingHours[dayIndex].breakEnd = schedule.breakEnd
                     tempWorkingHours[dayIndex].shifts = schedule.shifts
                 })
-
-                console.log({ tempWorkingHours })
 
                 setWorkingHoursTime(tempWorkingHours)
                 // setCourseWorkingHours(tempWorkingHours)

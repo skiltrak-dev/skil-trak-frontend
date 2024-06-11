@@ -534,8 +534,6 @@ export default function ESign() {
         }
     }
 
-    console.log({ items })
-
     const onSaveTemplate = () => {
         const notRoles = items.filter((item: any) => !item?.data?.role)
         if (notRoles && notRoles?.length > 0) {

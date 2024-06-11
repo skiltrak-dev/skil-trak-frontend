@@ -11,7 +11,6 @@ export const AddWorkingHoursCard = ({
     availability: any
     onScheduleChange: (values: any) => any
 }) => {
-    console.log({ availabilityavailability: availability })
     const [modal, setModal] = useState<any | null>(null)
     const [isAvailable, setIsAvailable] = useState<boolean>(availability?.dayOn)
 

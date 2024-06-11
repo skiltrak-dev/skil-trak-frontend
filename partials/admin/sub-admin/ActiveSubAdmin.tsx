@@ -149,6 +149,15 @@ export const ActiveSubAdmin = () => {
                 Icon: FaEye,
             },
             {
+                text: 'New Profile',
+                onClick: (subAdmin: any) => {
+                    router.push(
+                        `/portals/admin/sub-admin/${subAdmin?.id}/detail`
+                    )
+                },
+                Icon: FaEye,
+            },
+            {
                 text: 'Assign Courses',
                 onClick: (subAdmin: any) => {
                     contextBar.setTitle('Sectors & Courses')

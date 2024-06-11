@@ -57,7 +57,6 @@ export const UpskillForm = ({
     } else if (selectedCountry === 'Australia') {
         typeOptions = [{ label: 'Placement', value: 'placement' }]
     }
-    console.log('selectedCountry', selectedCountry)
 
     return (
         <div>
