@@ -26,7 +26,6 @@ export const PersonalInfo = ({
     })
 
     const onSubmit = (values: any) => {
-        console.log({ values })
         let questions: {
             question: string
             answer: string | any

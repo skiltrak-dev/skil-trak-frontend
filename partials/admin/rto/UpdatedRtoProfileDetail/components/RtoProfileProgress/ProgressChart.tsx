@@ -33,8 +33,6 @@ export const ProgressChart = ({
         ]),
     ]
 
-    console.log({ data })
-
     return (
         <div className="">
             <ChartContainer>

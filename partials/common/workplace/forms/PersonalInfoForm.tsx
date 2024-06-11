@@ -90,8 +90,6 @@ export const PersonalInfoForm = ({
         },
     })
 
-    console.log('Watch', formMethods.watch())
-
     const onHandleSubmit = (values: any) => {
         // onSubmit(values)
         if (!onLocationClicked) {

@@ -7,7 +7,11 @@ import {
     SubadminReports,
 } from './components'
 import { AdminApi } from '@queries'
-import { Notes } from '@partials/common/StudentProfileDetail/components'
+import {
+    MailsCommunication,
+    Notes,
+} from '@partials/common/StudentProfileDetail/components'
+import { SubadminHistory } from './components/SubadminHistory'
 
 export const SubadminProfileDetail = ({ subadmin }: { subadmin: SubAdmin }) => {
     const subAdminProfileCount = AdminApi.SubAdmins.useProfileCount(
@@ -54,7 +58,18 @@ export const SubadminProfileDetail = ({ subadmin }: { subadmin: SubAdmin }) => {
 
             {/*  */}
             <div>
-                <SubadminReports />
+                <SubadminHistory subadminUserId={subadmin?.user?.id} />
+            </div>
+
+            <div>
+                <SubadminReports subadminUserId={subadmin?.user?.id} />
+            </div>
+
+            {/*  */}
+            <div className="h-[640px] px-2  grid grid-cols-2 gap-x-3">
+                <div className={`!h-[99%] col-span-2`}>
+                    <MailsCommunication user={subadmin?.user} />
+                </div>
             </div>
         </div>
     )

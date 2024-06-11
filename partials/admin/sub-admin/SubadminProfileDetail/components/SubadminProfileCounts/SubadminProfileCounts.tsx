@@ -35,7 +35,7 @@ export const SubadminProfileCounts = ({
         },
         {
             title: 'Industry In Favourite',
-            count: 11,
+            count: subAdminProfileCount?.data?.favoriteIndustries || 0,
             Icon: SiHomeassistantcommunitystore,
             loading: false,
             link: {
@@ -153,32 +153,16 @@ export const SubadminProfileCounts = ({
                 to: '#516D00',
             },
         },
-        {
-            title: 'Agreement Uploaded',
-            count: 11,
-            Icon: CgFileDocument,
-            loading: false,
-            background: {
-                from: '#7E9637',
-                to: '#516D00',
-            },
-        },
     ]
-    const vava = countsData?.length % 3
-    console.log('countsData', countsData?.slice(vava === 0 ? -3 : vava), vava)
+    const coundDataLengthArray = countsData?.map((_, i) => i)
+    const vava = coundDataLengthArray?.length % 3
+    const slicesData = coundDataLengthArray?.slice(vava === 0 ? -3 : -vava)
+
     return (
-        <div className="h-96 overflow-hidden">
-            <div className="mt-[18px] grid grid-cols-3  h-[calc(100%-18px)] gap-x-3.5">
-                {countsData.map((data, i, a) => (
-                    <div
-                        className={`${
-                            i === a?.length - 1 ? '!mb-0 h-fit !pb-0' : ''
-                        }`}
-                    >
-                        <ProfileCountsCard data={data} />
-                    </div>
-                ))}
-            </div>
+        <div className="mt-[18px] grid grid-cols-3  h-[calc(100%-18px)] gap-y-8 gap-x-3.5 justify-between">
+            {countsData.map((data, i, a) => (
+                <ProfileCountsCard data={data} />
+            ))}
         </div>
     )
 }
