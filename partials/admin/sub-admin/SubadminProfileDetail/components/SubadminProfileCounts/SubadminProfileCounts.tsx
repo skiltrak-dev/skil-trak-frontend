@@ -145,7 +145,7 @@ export const SubadminProfileCounts = ({
         },
         {
             title: 'Agreement Uploaded',
-            count: 11,
+            count: subAdminProfileCount?.data?.agreementSigned || 0,
             Icon: CgFileDocument,
             loading: false,
             background: {
