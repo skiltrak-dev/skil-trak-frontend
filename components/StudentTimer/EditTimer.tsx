@@ -73,7 +73,7 @@ export const EditTimer = ({
                             name={'expiryDate'}
                             type={'date'}
                             placeholder={'Password'}
-                            // min={getDate()}
+                            min={getDate()}
                         />
                         <TextArea
                             name={'comment'}

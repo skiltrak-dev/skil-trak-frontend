@@ -17,7 +17,7 @@ const AvailableShifts: NextPageWithLayout = () => {
 
 AvailableShifts.getLayout = (page: ReactElement) => {
     return (
-        <IndustryLayout pageTitle={{ title: 'Available Shifts' }}>
+        <IndustryLayout pageTitle={{ title: 'Trading Hours' }}>
             {page}
         </IndustryLayout>
     )

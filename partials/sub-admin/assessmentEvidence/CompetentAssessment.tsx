@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 import { useColumns } from './hooks'
 
 export const CompetentAssessment = () => {
-    const {columns, modal} = useColumns()
+    const { columns, modal } = useColumns()
     const router = useRouter()
 
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -30,15 +30,15 @@ export const CompetentAssessment = () => {
 
     return (
         <>
-        {modal && modal}
+            {modal && modal}
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length ? (
+                ) : data?.data && data?.data?.length ? (
                     <Table
                         columns={columns}
-                        data={data.data}
+                        data={data?.data}
                         // quickActions={quickActionsElements}
                         enableRowSelection
                     >

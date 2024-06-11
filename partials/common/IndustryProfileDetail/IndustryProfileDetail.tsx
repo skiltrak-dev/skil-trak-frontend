@@ -66,7 +66,7 @@ export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
             contextBar.setContent(null)
             contextBar.hide()
         }
-    }, [])
+    }, [mousePosition])
 
     const handleMouseMove = (event: any) => {
         if (!contextBar.content) {

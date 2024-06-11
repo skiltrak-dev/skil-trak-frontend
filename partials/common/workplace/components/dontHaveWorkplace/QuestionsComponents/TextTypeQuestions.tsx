@@ -46,6 +46,7 @@ export const TextTypeQuestions = ({
                                 placeholder={inp?.placeholder}
                                 required
                                 type={inp?.type as any}
+                                placesSuggetions
                             />
                         ))}
                     </div>
