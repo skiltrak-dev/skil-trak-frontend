@@ -6,7 +6,6 @@ import {
     LoadingAnimation,
     Table,
     TableAction,
-    TableActionOption,
     TechnicalError,
     Typography,
 } from '@components'
@@ -14,16 +13,16 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
+import { UserRoles } from '@constants'
 import { useActionModal } from '@hooks'
 import { AdminApi } from '@queries'
 import { SubAdmin, UserStatus } from '@types'
+import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { AcceptModal, DeleteModal } from './modals'
-import { UserRoles } from '@constants'
-import { getUserCredentials } from '@utils'
 
 export const BlockedSubAdmin = () => {
     const router = useRouter()

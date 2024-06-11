@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Country } from 'country-state-city'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -12,6 +12,7 @@ export const UpskillForm = ({
     result: any
     onSubmit: (values: any) => void
 }) => {
+    const [selectedCountry, setSelectedCountry] = useState('')
     const validationSchema = Yup.object({
         fullName: Yup.string().required('Name is required!'),
         email: Yup.string()
@@ -22,6 +23,7 @@ export const UpskillForm = ({
             .required('Phone is required!'),
         dob: Yup.string().required('DOB is required!'),
         country: Yup.string().required('Country is required!'),
+        program: Yup.string().required('Program is required!'),
         qualification: Yup.string().required('Qualification is required!'),
         experience: Yup.string().required('Experience is required!'),
     })
@@ -41,6 +43,21 @@ export const UpskillForm = ({
         label: country?.name,
         value: country?.name,
     }))
+    let typeOptions: any = []
+    if (selectedCountry === 'Philippines' || selectedCountry === 'Mauritius') {
+        typeOptions = [
+            { label: 'RPL', value: 'rpl' },
+            { label: '407', value: '407' },
+        ]
+    } else if (selectedCountry === 'France') {
+        typeOptions = [
+            { label: 'Internship', value: 'internship' },
+            { label: 'Jobs', value: 'jobs' },
+        ]
+    } else if (selectedCountry === 'Australia') {
+        typeOptions = [{ label: 'Placement', value: 'placement' }]
+    }
+    console.log('selectedCountry', selectedCountry)
 
     return (
         <div>
@@ -91,8 +108,23 @@ export const UpskillForm = ({
                                 options={CountryOptions}
                                 placeholder={'Your Country here...'}
                                 onlyValue
+                                onChange={(e: any) => {
+                                    setSelectedCountry(e)
+                                }}
+                                required
                             />
-
+                            {/* <Select label={'Type'} name={'type'} /> */}
+                            <Select
+                                label={'Program'}
+                                name={'program'}
+                                options={typeOptions}
+                                placeholder={'Select Program...'}
+                                onlyValue
+                                disabled={
+                                    selectedCountry === '' ||
+                                    selectedCountry === undefined
+                                }
+                            />
                             <TextArea
                                 label={
                                     'Do you have any qualifications in the fields we offer?'

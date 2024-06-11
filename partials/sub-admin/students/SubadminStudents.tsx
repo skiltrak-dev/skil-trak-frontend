@@ -1,10 +1,9 @@
 import {
-    NextPageWithLayout,
     SubAdminStudentsFilterType,
-    UserStatus,
+    UserStatus
 } from '@types'
 import debounce from 'lodash/debounce'
-import { ReactElement, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 //components
 import {
@@ -39,7 +38,6 @@ import { SubAdminApi, useGetSubAdminStudentsQuery } from '@queries'
 import { useContextBar } from '@hooks'
 
 //Layouts
-import { SubAdminLayout } from '@layouts'
 import { checkFilteredDataLength, getCountData, getFilterQuery } from '@utils'
 import { useRouter } from 'next/router'
 

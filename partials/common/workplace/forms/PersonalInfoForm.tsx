@@ -76,9 +76,9 @@ export const PersonalInfoForm = ({
                 }
             ),
         ...requiredQuestionsValidation(),
-        preferableLocation: yup
-            .string()
-            .required('Must provide preferableLocation!'),
+        // preferableLocation: yup
+        //     .string()
+        //     .required('Must provide preferableLocation!'),
     })
 
     const formMethods = useForm({
@@ -89,6 +89,8 @@ export const PersonalInfoForm = ({
             ...questionsDefaultValues(personalInfoData?.questions),
         },
     })
+
+    console.log('Watch', formMethods.watch())
 
     const onHandleSubmit = (values: any) => {
         // onSubmit(values)
@@ -133,10 +135,11 @@ export const PersonalInfoForm = ({
                         {/*  */}
                         <PersonalInfoQuestions
                             personalInfoData={personalInfoData}
+                            formValues={formMethods.watch()}
                         />
 
                         <div>
-                            <TextInput
+                            {/* <TextInput
                                 name={'preferableLocation'}
                                 label={
                                     'Where would you want to locate yourself? (Suburb)'
@@ -152,7 +155,7 @@ export const PersonalInfoForm = ({
                                     placesSuggetions: onLocationClicked,
                                     setIsPlaceSelected: setOnLocationClicked,
                                 }}
-                            />
+                            /> */}
 
                             <Button text={'Continue'} submit />
                         </div>

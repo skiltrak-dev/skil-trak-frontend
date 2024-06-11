@@ -93,7 +93,10 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         },
-        { refetchOnMountOrArgChange: true }
+        {
+            refetchOnMountOrArgChange: true,
+            skip: !Object.keys(filter).length,
+        }
     )
 
     const onCancel = () => {

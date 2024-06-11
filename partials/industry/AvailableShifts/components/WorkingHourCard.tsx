@@ -54,7 +54,7 @@ export const WorkingHourCard = ({
     const onAddShift = () => {
         contextBar.setContent(<AddShiftContext availability={availability} />)
         contextBar.show()
-        contextBar.setTitle('Add Shift')
+        contextBar.setTitle('Free Shift')
     }
 
     const onBreakSubmit = (values: any) => {
@@ -199,7 +199,7 @@ export const WorkingHourCard = ({
                         disabled={!isAvailable}
                     />
                     <Button
-                        text={'Add Shift'}
+                        text={'Free Shift'}
                         onClick={onAddShift}
                         disabled={!isAvailable || !availability?.id}
                     />

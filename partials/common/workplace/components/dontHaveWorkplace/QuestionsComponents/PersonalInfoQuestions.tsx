@@ -5,10 +5,13 @@ import { TextAreaQuestions } from './TextAreaQuestions'
 import { DefaultQuestions } from './DefaultQuestions'
 
 export const PersonalInfoQuestions = ({
+    formValues,
     personalInfoData,
 }: {
+    formValues: any
     personalInfoData: any
 }) => {
+    console.log({ formValues })
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-7">
             {questionList?.map((ques, i, list) => {
@@ -34,6 +37,7 @@ export const PersonalInfoQuestions = ({
                         key={i}
                         ques={ques}
                         personalInfoData={personalInfoData}
+                        value={formValues?.[ques?.name]}
                     />
                 )
             })}

@@ -1,4 +1,4 @@
-import { Typography } from '@components'
+import { TextInput, Typography } from '@components'
 import { RequiredStar } from '@components/inputs/components'
 import React from 'react'
 import { WorkplaceQuestionCard } from '../../Questions'
@@ -8,9 +8,11 @@ import { workplaceQuestions } from '../questionListData'
 
 export const DefaultQuestions = ({
     ques,
+    value,
     personalInfoData,
 }: {
     ques: any
+    value: any
     personalInfoData: any
 }) => {
     const formMethods = useFormContext()
@@ -48,6 +50,10 @@ export const DefaultQuestions = ({
                     name={ques?.name}
                 />
             </div>
+
+            {ques?.name === 'currentEmploymentStatus' && value !== 'No' ? (
+                <TextInput name={ques?.name} placeholder={'Provide details.'} />
+            ) : null}
         </div>
     )
 }

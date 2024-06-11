@@ -1,8 +1,8 @@
 import React from 'react'
-import { ProfileCounts } from './ProfileCounts'
-import { RtoProfileProgress } from './RtoProfileProgress'
 import { Card } from '@components'
 import { AdminApi } from '@queries'
+import { ProfileCounts } from './ProfileCounts'
+import { RtoProfileProgress } from './RtoProfileProgress'
 
 export const RtoProfileStatistics = ({ rtoUserId }: { rtoUserId: number }) => {
     const statisticsCount = AdminApi.Rtos.useStatisticsCount(

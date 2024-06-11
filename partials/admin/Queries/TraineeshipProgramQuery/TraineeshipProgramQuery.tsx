@@ -72,7 +72,7 @@ export const TraineeshipProgramQuery = () => {
                         </div>
                         <div>
                             <p className="font-semibold">
-                                {userDetail?.fullName}
+                                {userDetail?.fullName || "N/A"}
                             </p>
                             <div className="flex items-center gap-x-2 text-sm">
                                 <FaPhone className="text-xs text-gray-500" />
@@ -80,7 +80,7 @@ export const TraineeshipProgramQuery = () => {
                                     variant={'label'}
                                     color={'text-gray-500'}
                                 >
-                                    {userDetail?.phone}
+                                    {userDetail?.phone || "N/A"}
                                 </Typography>
                             </div>
                             <div className="font-medium text-xs text-gray-500">
@@ -88,7 +88,7 @@ export const TraineeshipProgramQuery = () => {
                                     <span>
                                         <MdEmail />
                                     </span>
-                                    {userDetail?.email}
+                                    {userDetail?.email || "N/A"}
                                 </p>
                             </div>
                         </div>
@@ -104,6 +104,15 @@ export const TraineeshipProgramQuery = () => {
         {
             accessorKey: 'age',
             header: () => <span>Age</span>,
+        },
+        {
+            accessorKey: 'program',
+            header: () => <span>Program</span>,
+            cell: (info) => (
+                <div className="uppercase text-blue-500 bg-blue-100 border text-xs text-center border-blue-500 rounded-md px-2 py-1">
+                    {info.row?.original?.program || 'N/A'}
+                </div>
+            ),
         },
         {
             accessorKey: 'qualification',

@@ -1,20 +1,16 @@
 import { ActionModal } from '@components'
 import { useAlert, useNotification } from '@hooks'
-import { AdminApi } from '@queries'
-import { SubAdmin, Subscriber } from '@types'
+import { SubAdmin } from '@types'
 import { useEffect } from 'react'
-import { FaBan } from 'react-icons/fa'
 import { IoWarningOutline } from 'react-icons/io5'
 import { useChangeStatus } from '../hooks'
 
 export const ArchiveModal = ({
     item,
     onCancel,
-    setChangeStatusResult,
 }: {
     item: SubAdmin | undefined
     onCancel: Function
-    setChangeStatusResult: any
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()
@@ -23,10 +19,6 @@ export const ArchiveModal = ({
     const onConfirmClicked = async (item: SubAdmin) => {
         await onArchive(item?.user)
     }
-
-    useEffect(() => {
-        setChangeStatusResult(changeStatusResult)
-    }, [changeStatusResult])
 
     useEffect(() => {
         if (changeStatusResult.isSuccess) {

@@ -26,6 +26,7 @@ export const PersonalInfo = ({
     })
 
     const onSubmit = (values: any) => {
+        console.log({ values })
         let questions: {
             question: string
             answer: string | any
@@ -78,7 +79,7 @@ export const PersonalInfo = ({
         setPersonalInfoData({
             // ...values,
             courses: values?.courses?.value,
-            preferableLocation: values?.preferableLocation,
+            preferableLocation: values?.suburb,
             questions,
             // haveTransport: values.haveTransport === 'yes' ? true : false,
             // haveDrivingLicense:

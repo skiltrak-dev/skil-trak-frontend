@@ -234,7 +234,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
                 params: { id },
                 body: { status },
             }),
-            invalidatesTags: ['User'],
+            invalidatesTags: ['User', 'SubAdmins'],
         }),
 
         getUserPassword: build.query<any, number>({
@@ -489,9 +489,12 @@ const {
 
     // ---- WORK BASED ---- //
     useGetWorkBasedProgramQuery,
+    useGetContactUsQueriesQuery,
+    useGetContactUsQueriesCountQuery,
     useAddWorkBasedProgramMutation,
     useGetWorkBasedProgramCountQuery,
     useContactWorkBasedProgramMutation,
+    useContactContactUsQueriesMutation,
     useGetWorkBasedProgramAndTraineeshipCountQuery,
 
     // ---- FEEDBACK ---- //
@@ -731,8 +734,11 @@ export const CommonApi = {
     WorkBased: {
         useCount: useGetWorkBasedProgramCountQuery,
         useWorkBasedList: useGetWorkBasedProgramQuery,
+        useContactUsQueries: useGetContactUsQueriesQuery,
+        useContactUsQueriesCount: useGetContactUsQueriesCountQuery,
         useAddWorkBased: useAddWorkBasedProgramMutation,
         useContactWorkBase: useContactWorkBasedProgramMutation,
+        useContactContactUsQueries: useContactContactUsQueriesMutation,
         useWorkBaseAndTraineeCount:
             useGetWorkBasedProgramAndTraineeshipCountQuery,
     },
