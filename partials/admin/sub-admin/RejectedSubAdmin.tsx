@@ -26,7 +26,6 @@ import { getUserCredentials } from '@utils'
 
 export const RejectedSubAdmin = () => {
     const router = useRouter()
-    const [changeStatusResult, setChangeStatusResult] = useState<any>({})
     const [modal, setModal] = useState<ReactElement | null>(null)
     const role = getUserCredentials()?.role
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -46,27 +45,14 @@ export const RejectedSubAdmin = () => {
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
-    useEffect(() => {
-        if (changeStatusResult.isSuccess) {
-            refetch()
-        }
-    }, [changeStatusResult])
 
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onAcceptClicked = (subAdmin: SubAdmin) => {
-        setModal(
-            <AcceptModal
-                subAdmin={subAdmin}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
+
     const onDeleteClicked = (subAdmin: SubAdmin) => {
         setModal(
             <DeleteModal
-                setChangeStatusResult={setChangeStatusResult}
                 subAdmin={subAdmin}
                 onCancel={() => onModalCancelClicked()}
             />
