@@ -13,7 +13,7 @@ import {
     IndustryBranchesAddress,
     MailsTab,
     NotesTab,
-    Supervisor
+    Supervisor,
 } from '@partials/common'
 import { SubAdminApi, useGetSubAdminIndustryStudentsQuery } from '@queries'
 import { Industry } from '@types'
@@ -67,7 +67,9 @@ export const DetailTabs = ({ industry }: { industry: Industry }) => {
         {
             label: 'Overview',
             href: {
-                pathname: String(industry?.id),
+                pathname: `/portals/sub-admin/users/industries/${String(
+                    industry?.id
+                )}/detail`,
                 query: { tab: 'overview' },
             },
             badge: { text: '05', color: 'text-blue-500' },
@@ -75,28 +77,50 @@ export const DetailTabs = ({ industry }: { industry: Industry }) => {
         },
         {
             label: 'Supervisors',
-            href: { query: { tab: 'supervisors', id: industry?.id } },
+            href: {
+                pathname: `/portals/sub-admin/users/industries/${String(
+                    industry?.id
+                )}/detail`,
+                query: { tab: 'supervisors' },
+            },
             element: <Supervisor industry={industry} />,
         },
         {
             label: 'Required Docs',
-            href: { query: { tab: 'requireddocs', id: industry?.id } },
+            href: {
+                pathname: `/portals/sub-admin/users/industries/${String(
+                    industry?.id
+                )}/detail`,
+                query: { tab: 'requireddocs' },
+            },
             element: <RequiredDocs industry={industry} />,
         },
         {
             label: 'Branches',
-            href: { query: { tab: 'branches', id: industry?.id } },
+            href: {
+                pathname: `/portals/sub-admin/users/industries/${String(
+                    industry?.id
+                )}/detail`,
+                query: { tab: 'branches' },
+            },
             element: <IndustryBranchesAddress industry={industry} />,
         },
         {
             label: 'History',
-            href: { query: { tab: 'history', id: industry?.id } },
+            href: {
+                pathname: `/portals/sub-admin/users/industries/${String(
+                    industry?.id
+                )}/detail`,
+                query: { tab: 'history' },
+            },
             element: <IndustryHistory industry={industry?.user?.id} />,
         },
         {
             label: 'Students',
             href: {
-                pathname: String(industry?.id),
+                pathname: `/portals/sub-admin/users/industries/${String(
+                    industry?.id
+                )}/detail`,
                 query: { tab: 'students' },
             },
             badge: { text: studentCount, color: 'text-error-500' },
@@ -112,7 +136,9 @@ export const DetailTabs = ({ industry }: { industry: Industry }) => {
         {
             label: 'Appointments',
             href: {
-                pathname: String(industry?.id),
+                pathname: `/portals/sub-admin/users/industries/${String(
+                    industry?.id
+                )}/detail`,
                 query: { tab: 'appointments' },
             },
             element: <AppointmentTab userId={industry?.user?.id} />,
@@ -120,7 +146,9 @@ export const DetailTabs = ({ industry }: { industry: Industry }) => {
         {
             label: 'Schedule',
             href: {
-                pathname: String(industry?.id),
+                pathname: `/portals/sub-admin/users/industries/${String(
+                    industry?.id
+                )}/detail`,
                 query: { tab: 'schedule' },
             },
             element: (
@@ -131,18 +159,30 @@ export const DetailTabs = ({ industry }: { industry: Industry }) => {
         },
         {
             label: 'Mails',
-            href: { pathname: String(industry?.id), query: { tab: 'mails' } },
+            href: {
+                pathname: `/portals/sub-admin/users/industries/${String(
+                    industry?.id
+                )}/detail`,
+                query: { tab: 'mails' },
+            },
             element: <MailsTab user={industry?.user} />,
         },
         {
             label: 'Notes',
-            href: { pathname: String(industry?.id), query: { tab: 'notes' } },
+            href: {
+                pathname: `/portals/sub-admin/users/industries/${String(
+                    industry?.id
+                )}/detail`,
+                query: { tab: 'notes' },
+            },
             element: <NotesTab user={industry?.user} />,
         },
         {
             label: 'All Communication',
             href: {
-                pathname: String(industry?.id),
+                pathname: `/portals/sub-admin/users/industries/${String(
+                    industry?.id
+                )}/detail`,
                 query: { tab: 'all-communication' },
             },
             element: <AllCommunicationTab user={industry?.user} />,

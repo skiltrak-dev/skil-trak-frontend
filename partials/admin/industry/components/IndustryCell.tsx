@@ -11,10 +11,7 @@ export const IndustryCell = ({ industry }: { industry: Industry }) => {
     const query = queryToUrl(router.query as QueryType)
 
     return (
-        <Link
-            legacyBehavior
-            href={`/portals/admin/industry/${industry?.id}?tab=students`}
-        >
+        <Link legacyBehavior href={`/portals/admin/industry/${industry?.id}`}>
             <a
                 onClick={() => {
                     sessionStorage.setItem(
