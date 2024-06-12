@@ -29,8 +29,8 @@ export const AddShiftModal = ({
             (res: any) => {
                 if (res?.data) {
                     notification.success({
-                        title: 'Shift Added',
-                        description: 'Shift Added Successfully',
+                        title: 'Free Shifts Added',
+                        description: 'Free Shifts Added Successfully',
                     })
                     onCancel()
                 }
@@ -41,8 +41,8 @@ export const AddShiftModal = ({
         <>
             <ShowErrorNotifications result={addShiftModal} />
             <Modal
-                title={'Add Shift'}
-                subtitle={'Shift Time'}
+                title={'Add Free Shift'}
+                subtitle={'Free Shift Time'}
                 onCancelClick={onCancel}
                 showActions={false}
             >

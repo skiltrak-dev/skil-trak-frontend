@@ -12,7 +12,8 @@ import {
     IndustrySupervisor,
 } from './components'
 import { ProfileAppointments } from '../ProfileAppointments'
-import { PageTitle } from '@components'
+import { Alert, PageTitle } from '@components'
+import moment from 'moment'
 
 export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -86,6 +87,16 @@ export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
         <div>
             <div className="flex flex-col gap-y-6 mb-20 px-2">
                 <PageTitle title="Industry Profile" />
+                {industry?.isSnoozed && (
+                    <Alert
+                        title="Industry Snoozed"
+                        description={`Industry Snoozed till ${moment(
+                            industry?.snoozedDate
+                        ).format('MMM DD YYYY')}`}
+                        variant="warning"
+                        autoDismiss={false}
+                    />
+                )}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-3 h-[540px]">
                     <IndustryShiftingHours industry={industry} />
                     <div className="h-full">

@@ -8,11 +8,9 @@ import { useChangeStatus } from '../hooks'
 export const UnArchiveModal = ({
     subadmin,
     onCancel,
-    setChangeStatusResult,
 }: {
     subadmin: SubAdmin | undefined | null
     onCancel: Function
-    setChangeStatusResult: any
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()
@@ -21,10 +19,6 @@ export const UnArchiveModal = ({
     const onConfirmClicked = async (subadmin: SubAdmin) => {
         await onAccept(subadmin?.user)
     }
-
-    useEffect(() => {
-        setChangeStatusResult(changeStatusResult)
-    }, [changeStatusResult])
 
     useEffect(() => {
         if (changeStatusResult.isSuccess) {

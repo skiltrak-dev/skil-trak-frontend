@@ -23,6 +23,7 @@ export const ContactUs = ({ contactUsRef }: any) => {
             .email('Invalid Email')
             .required('Must provide email'),
         subject: yup.string().required('Must provide Subject'),
+        phone: yup.string().required('Must provide Phone'),
 
         message: yup.string().required('Must provide Message'),
     })
@@ -107,6 +108,11 @@ export const ContactUs = ({ contactUsRef }: any) => {
                                     color="bg-[#F1DBC6] bg-opacity-25"
                                     name="email"
                                     placeholder="Email"
+                                />
+                                <TextInput
+                                    color="bg-[#F1DBC6] bg-opacity-25"
+                                    name="phone"
+                                    placeholder="Phone"
                                 />
                                 <TextInput
                                     color="bg-[#F1DBC6] bg-opacity-25"

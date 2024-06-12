@@ -130,31 +130,33 @@ export const OverallHistory = ({ industry }: { industry: number }) => {
               )
           )} */}
 
-                {isError && <TechnicalError />}
-                {isLoading || isFetching ? (
-                    <LoadingAnimation />
-                ) : data?.data && data?.data?.length > 0 ? (
-                    <div className="h-[480px] overflow-y-auto custom-scrollbar">
-                        {dates?.map((date: Date, i: number) => (
-                            <HistoryDates
-                                history={data?.data}
-                                date={date}
-                                subadmin={industry}
-                                customRangeDate={customRangeDate}
-                                filterType={filterType}
+                <div className="h-[366px] overflow-y-auto custom-scrollbar">
+                    {isError && <TechnicalError />}
+                    {isLoading || isFetching ? (
+                        <LoadingAnimation />
+                    ) : data?.data && data?.data?.length > 0 ? (
+                        <div>
+                            {dates?.map((date: Date, i: number) => (
+                                <HistoryDates
+                                    history={data?.data}
+                                    date={date}
+                                    subadmin={industry}
+                                    customRangeDate={customRangeDate}
+                                    filterType={filterType}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        !isError && (
+                            <EmptyData
+                                title={'No Title were found'}
+                                description={
+                                    'It may be due to you have perform any action yet'
+                                }
                             />
-                        ))}
-                    </div>
-                ) : (
-                    !isError && (
-                        <EmptyData
-                            title={'No Title were found'}
-                            description={
-                                'It may be due to you have perform any action yet'
-                            }
-                        />
-                    )
-                )}
+                        )
+                    )}
+                </div>
             </div>
         </Waypoint>
     )

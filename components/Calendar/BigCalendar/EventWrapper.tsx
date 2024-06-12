@@ -1,11 +1,9 @@
 import { AppointmentViewModal } from '@components/Appointment/AppointmentModal'
 import { Portal } from '@components/Portal'
 import { UserRoles } from '@constants'
-import { ReOpenedAssessment } from '@partials/sub-admin'
 import { Appointment } from '@types'
 import classNames from 'classnames'
 import { ReactElement, useState } from 'react'
-import { GoKebabHorizontal } from 'react-icons/go'
 
 export const EventWrapper = <T extends object>(event: any) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
