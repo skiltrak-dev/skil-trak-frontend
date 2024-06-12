@@ -244,7 +244,7 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
     const handleVictoriaView = () => {
         if (map) {
             map.setCenter(victoriaCenter)
-            map.setZoom(8) // Adjust the zoom level as needed
+            map.setZoom(8) 
         }
     }
     const saveMapView = () => {
@@ -274,7 +274,7 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
             setTimeout(() => {
                 map.setCenter(mapCenter)
                 map.setZoom(mapZoom)
-            }, 500) // Adjust the delay as needed
+            }, 1200) // Adjust the delay as needed
         }
     }, [mapCenter, mapZoom, map])
     // const onBoundChange = useCallback(() => {
@@ -326,7 +326,7 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
             setTimeout(() => {
                 map.setCenter(mapCenter)
                 map.setZoom(mapZoom)
-            }, 500) // Adjust the delay as needed
+            }, 1200) // Adjust the delay as needed
         },
         [mapCenter, mapZoom]
     )

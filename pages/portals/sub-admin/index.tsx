@@ -32,8 +32,6 @@ import { CallBackProps } from 'react-joyride'
 import { IoMdCloseCircle } from 'react-icons/io'
 import { ProgressChart } from '@partials/sub-admin/components'
 
-
-
 const SubAdminDashboard: NextPageWithLayout = () => {
     const status = getUserCredentials()?.status
 
@@ -45,6 +43,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
     const statistics = SubAdminApi.Count.statistics(undefined, {
         skip: status !== UserStatus.Approved,
     })
+    console.log('statistics', statistics?.data)
     const sectorsWithCourses = getSectors(subadminCourses?.data)
     const uniqueSectors = (() => {
         const sectors = subadminCourses?.data?.map((item: any) => item?.sector)
@@ -142,22 +141,20 @@ const SubAdminDashboard: NextPageWithLayout = () => {
         }
 
         const colorPalette = [
+            '#34B53A',
+            '#4339F2',
             '#FF3A29',
             '#02A0FC',
             '#21516A',
-            '#FF33A1',
-            '#F1C40F',
-            '#34B53A',
         ]
 
         // Explicitly map only the require d keys to their titles
         const mapping = [
-            { key: 'rto', title: 'RTO' },
-            { key: 'student', title: 'Student' },
-            { key: 'industry', title: 'Industry' },
-            { key: 'workplaceRequest', title: 'Workplace Request' },
-            { key: 'assessmentEvidence', title: 'Assessment Submissions' },
+            { key: 'placementStarted', title: 'Placement Started' },
+            { key: 'inProcess', title: 'In Progress' },
+            { key: 'awaitingAgreementSigned', title: 'Agreement Pending' },
             { key: 'appointment', title: 'Appointment' },
+            { key: 'dontHaveWorkplace', title: `Don't Have Workplace` },
         ]
         const total = mapping.reduce(
             (sum, item) => sum + (apiData[item.key] ?? 0),
@@ -165,8 +162,8 @@ const SubAdminDashboard: NextPageWithLayout = () => {
         )
 
         return mapping.map((item, index) => ({
-            title: item.title,
-            percent: ((apiData[item.key] ?? 0) / total) * 100, 
+            title: item?.title,
+            percent: ((apiData[item?.key] ?? 0) / total) * 100,
             color: colorPalette[index],
         }))
     }
