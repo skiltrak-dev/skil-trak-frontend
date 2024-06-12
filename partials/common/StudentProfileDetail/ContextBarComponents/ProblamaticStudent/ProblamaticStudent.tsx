@@ -36,12 +36,12 @@ export const ProblamaticStudent = ({
             <ShowErrorNotifications result={problamaticStudentResult} />
             <div className="py-3 border-b border-secondary-dark">
                 <Typography variant="small" medium>
-                    Report
+                    Report to RTO
                 </Typography>
                 <div className="grid grid-cols-5 items-center  mt-2">
                     <div className="col-span-2">
                         <Typography variant="small" normal>
-                            OFF
+                            No
                         </Typography>
                     </div>
                     <div className="col-span-3 grid grid-cols-2">
@@ -58,7 +58,7 @@ export const ProblamaticStudent = ({
                             />
                         </div>
                         <Typography variant="small" normal>
-                            ON
+                            Yes
                         </Typography>
                     </div>
                 </div>

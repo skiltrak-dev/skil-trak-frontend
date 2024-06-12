@@ -17,6 +17,23 @@ export const profileEndpoints = (
         }),
         invalidatesTags: ['SubAdmin'],
     }),
+    saveCoordinatesForMap: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `preferences/map/create`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['Coordinates'],
+    }),
+    getSavedCoordinates: builder.query<any, void>({
+        query: () => {
+            return ({
+                url: `preferences/map/coordinates/get`,
+            })
+        },
+        providesTags: ['Coordinates'],
+    }),
+    // map/get
     getSubAdminMapStudents: builder.query<any, any>({
         query: (params) => {
             return ({
