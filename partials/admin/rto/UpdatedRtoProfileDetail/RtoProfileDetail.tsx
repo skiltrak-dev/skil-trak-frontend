@@ -15,7 +15,7 @@ import {
 export const RtoProfileDetail = ({ rto }: { rto: Rto }) => {
     return (
         <div className="px-2.5 py-5">
-            <RtoProfileTopbar />
+            <RtoProfileTopbar rtoUserId={rto?.user?.id} />
 
             {/*  */}
 

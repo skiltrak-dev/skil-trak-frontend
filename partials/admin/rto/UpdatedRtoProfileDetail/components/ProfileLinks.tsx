@@ -33,7 +33,13 @@ export const ProfileLinks = ({ rto }: { rto: Rto }) => {
             text: 'Edit Profile',
             Icon: RiEditFill,
             onClick: () => {
-                router.push(`/portals/admin/rto/${rto?.id}/edit-profile`)
+                if (role === UserRoles.ADMIN) {
+                    router.push(`/portals/admin/rto/${rto?.id}/edit-profile`)
+                } else if (role === UserRoles.SUBADMIN) {
+                    router.push(
+                        `/portals/sub-admin/users/rtos/${rto?.id}/edit-profile`
+                    )
+                }
             },
         },
         {

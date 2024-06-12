@@ -7,16 +7,18 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { CommonApi } from '@queries'
-import { ReactElement, useState } from 'react'
-import { AddNoteModal } from '../../modals'
-import { NoteCard } from './Card'
 import { useContextBar } from '@hooks'
+import { CommonApi } from '@queries'
+import { Waypoint } from 'react-waypoint'
+import { NoteCard } from './Card'
+import { useState } from 'react'
 
 export const Notes = ({ userId }: { userId: number }) => {
     const contextBar = useContextBar()
 
-    const notes = CommonApi.Notes.useList(userId, { skip: !userId })
+    const [isViewd, setIsViewd] = useState<boolean>(false)
+
+    const notes = CommonApi.Notes.useList(userId, { skip: !userId || !isViewd })
 
     const onAddNote = () => {
         contextBar.setTitle('Add Note')
@@ -26,57 +28,66 @@ export const Notes = ({ userId }: { userId: number }) => {
     }
 
     return (
-        <>
-            <Card noPadding fullHeight>
-                <div className="px-4 py-3.5 flex justify-between items-center border-b border-secondary-dark">
-                    <Typography variant="label" semibold>
-                        Notes
-                    </Typography>
-                    <Button onClick={onAddNote}>Add Note</Button>
-                </div>
+        <Waypoint
+            onEnter={() => {
+                setIsViewd(true)
+            }}
+        >
+            <div className="h-full">
+                <Card noPadding fullHeight>
+                    <div className="px-4 py-3.5 flex justify-between items-center border-b border-secondary-dark">
+                        <Typography variant="label" semibold>
+                            Notes
+                        </Typography>
+                        <Button onClick={onAddNote}>Add Note</Button>
+                    </div>
 
-                <div className="px-4  py-3 box-border">
-                    {notes.isError ? (
-                        <TechnicalError
-                            height="50vh"
-                            description={false}
-                            imageUrl={'/images/icons/common/notesError.png'}
-                        />
-                    ) : null}
-                    <div className="h-[410px] custom-scrollbar overflow-auto">
-                        <div className="flex flex-col gap-y-3">
-                            {notes.isLoading ? (
-                                <div className="flex flex-col items-center justify-center h-60">
-                                    <LoadingAnimation size={60} />
-                                    <Typography variant="label">
-                                        Notes Loading...
-                                    </Typography>
-                                </div>
-                            ) : notes?.data && notes?.data?.length > 0 ? (
-                                [...notes?.data]
-                                    ?.sort(
-                                        (a: any, b: any) =>
-                                            b?.isPinned - a?.isPinned
+                    <div className="px-4  py-3 box-border">
+                        {notes.isError ? (
+                            <TechnicalError
+                                height="50vh"
+                                description={false}
+                                imageUrl={'/images/icons/common/notesError.png'}
+                            />
+                        ) : null}
+                        <div className="h-[410px] custom-scrollbar overflow-auto">
+                            <div className="flex flex-col gap-y-3">
+                                {notes.isLoading ? (
+                                    <div className="flex flex-col items-center justify-center h-60">
+                                        <LoadingAnimation size={60} />
+                                        <Typography variant="label">
+                                            Notes Loading...
+                                        </Typography>
+                                    </div>
+                                ) : notes?.data && notes?.data?.length > 0 ? (
+                                    [...notes?.data]
+                                        ?.sort(
+                                            (a: any, b: any) =>
+                                                b?.isPinned - a?.isPinned
+                                        )
+                                        ?.map((note: any) => (
+                                            <NoteCard
+                                                key={note?.id}
+                                                note={note}
+                                            />
+                                        ))
+                                ) : (
+                                    notes.isSuccess && (
+                                        <EmptyData
+                                            imageUrl={
+                                                '/images/icons/common/notes.png'
+                                            }
+                                            title="No Notes Attached"
+                                            description="Attach a note to view notes here"
+                                            height="40vh"
+                                        />
                                     )
-                                    ?.map((note: any) => (
-                                        <NoteCard key={note?.id} note={note} />
-                                    ))
-                            ) : (
-                                notes.isSuccess && (
-                                    <EmptyData
-                                        imageUrl={
-                                            '/images/icons/common/notes.png'
-                                        }
-                                        title="No Notes Attached"
-                                        description="Attach a note to view notes here"
-                                        height="40vh"
-                                    />
-                                )
-                            )}
+                                )}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </Card>
-        </>
+                </Card>
+            </div>
+        </Waypoint>
     )
 }

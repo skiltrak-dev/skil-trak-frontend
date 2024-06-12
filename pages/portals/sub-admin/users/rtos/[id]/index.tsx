@@ -1,179 +1,127 @@
+import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
+import { useAlert, useContextBar, useNavbar } from '@hooks'
+import { AdminLayout, SubAdminLayout } from '@layouts'
+import { RtoProfileDetail } from '@partials'
+import { ProfileViewContextBar } from '@partials/admin/rto/UpdatedRtoProfileDetail/ProfileViewContextBar'
+import { AdminApi, useGetSubAdminRTODetailQuery } from '@queries'
+import { UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
-// hooks
-import { useContextBar, useNavbar } from '@hooks'
-//Layouts
-import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+const RtoProfile = () => {
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
-//components
-import {
-    BackButton,
-    Button,
-    EmptyData,
-    LoadingAnimation,
-    PageTitle,
-    RtoProfileSidebar,
-    TechnicalError,
-} from '@components'
+    const router = useRouter()
 
-// icons
-import { FaChevronDown, FaFileImport, FaUserGraduate } from 'react-icons/fa'
-// queries
-import { DetailTabs } from '@partials/sub-admin/rto/tabs'
-import { useGetSubAdminRTODetailQuery } from '@queries'
-import { getLink } from '@utils'
+    const navBar = useNavbar()
+    const contextBar = useContextBar()
 
-type Props = {}
+    const { alert: alertMessage, setAlerts, alerts } = useAlert()
 
-const RtoProfile: NextPageWithLayout = (props: Props) => {
-    const pathname = useRouter()
-    const { id } = pathname.query
-    const { setContent, show, hide } = useContextBar()
-
-    const rtoDetail = useGetSubAdminRTODetailQuery(Number(id), {
-        skip: !id,
+    const rtoDetail = useGetSubAdminRTODetailQuery(Number(router.query?.id), {
+        skip: !router.query?.id,
         refetchOnMountOrArgChange: true,
     })
 
-    const navBar = useNavbar()
-
     useEffect(() => {
-        if (rtoDetail?.isSuccess) {
-            setContent(
-                <>
-                    <RtoProfileSidebar
-                        rto={rtoDetail}
-                        loading={rtoDetail?.isLoading}
-                        data={rtoDetail?.data}
-                    />
-                </>
-            )
-            show(false)
-        }
-        return () => {
-            setContent(null)
-            hide()
-        }
-    }, [rtoDetail, setContent])
-
-    useEffect(() => {
+        navBar.setTitle('RTO Detail')
         navBar.setSubTitle(rtoDetail?.data?.user?.name)
+    }, [rtoDetail.data])
+
+    useEffect(() => {
+        if (rtoDetail?.isSuccess && rtoDetail?.data) {
+            const showAlert = () => {
+                switch (rtoDetail?.data?.user?.status) {
+                    case UserStatus.Pending:
+                        alertMessage.warning({
+                            title: 'RTO is Pending',
+                            description: 'RTO is Pending',
+                            autoDismiss: false,
+                        })
+                        break
+                    case UserStatus.Archived:
+                        alertMessage.warning({
+                            title: 'RTO is Archived',
+                            description: 'RTO is Archived',
+                            autoDismiss: false,
+                        })
+                        break
+                    case UserStatus.Rejected:
+                        alertMessage.error({
+                            title: 'RTO is Rejected',
+                            description: 'RTO is Rejected',
+                            autoDismiss: false,
+                        })
+                        break
+                    case UserStatus.Blocked:
+                        alertMessage.error({
+                            title: 'RTO is Blocked',
+                            description: 'RTO is Blocked',
+                            autoDismiss: false,
+                        })
+                        break
+
+                    default:
+                        break
+                }
+            }
+            if (!alerts?.length) {
+                showAlert()
+            }
+        }
+
+        return () => {
+            setAlerts([])
+        }
     }, [rtoDetail])
 
-    const [showDropDown, setShowDropDown] = useState(false)
-    return (
-        <>
-            <div className="flex justify-between items-end mb-4">
-                <div>
-                    <BackButton
-                        text={'RTOs'}
-                        link={`${
-                            getLink('subadmin-rtos') ||
-                            '/portals/sub-admin/users/rtos'
-                        }`}
-                    />
-                    <PageTitle title="RTO Profile" />
-                </div>
-                <div className="flex items-center gap-x-2">
-                    <div className="flex items-center gap-x-3">
-                        <div
-                            className="relative"
-                            onMouseEnter={() => {
-                                if (rtoDetail.isSuccess) {
-                                    setShowDropDown(true)
-                                }
-                            }}
-                            onMouseLeave={() => setShowDropDown(false)}
-                        >
-                            <Button
-                                disabled={
-                                    rtoDetail.isLoading || !rtoDetail.isSuccess
-                                }
-                            >
-                                <span
-                                    id="add-students"
-                                    className="flex items-center gap-x-2"
-                                >
-                                    <span>Add Students</span>
-                                    <FaChevronDown />
-                                </span>
-                            </Button>
+    const handleMouseMove = (event: any) => {
+        if (!contextBar.content) {
+            setMousePosition({ x: event.clientX, y: event.clientY })
+        }
+    }
 
-                            {showDropDown ? (
-                                <ul className="bg-white shadow-xl rounded-xl overflow-hidden absolute">
-                                    <li>
-                                        <button
-                                            onClick={() => {
-                                                pathname.push({
-                                                    pathname: `${rtoDetail?.data?.user?.id}/student-list`,
-                                                    query: { rtoId: id },
-                                                })
-                                            }}
-                                            className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
-                                        >
-                                            <span className="text-gray-500">
-                                                <FaFileImport />
-                                            </span>
-                                            <span className="whitespace-nowrap">
-                                                {' '}
-                                                Import Students
-                                            </span>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button
-                                            onClick={() => {
-                                                pathname.push(
-                                                    `${id}/add-individual-student`
-                                                )
-                                            }}
-                                            className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
-                                        >
-                                            <span className="text-gray-500">
-                                                <FaUserGraduate />
-                                            </span>
-                                            <span> Add Individual</span>
-                                        </button>
-                                    </li>
-                                </ul>
-                            ) : null}
-                        </div>
-                    </div>
-                    <Button
-                        text="Book Appointment"
-                        variant="info"
-                        onClick={() => {
-                            pathname.push({
-                                pathname:
-                                    '/portals/sub-admin/tasks/appointments/create-appointment',
-                                query: { rto: rtoDetail?.data?.user?.id },
-                            })
-                        }}
-                        disabled={!rtoDetail?.isSuccess}
-                    />
-                    {/* <Button text="More" variant="action" /> */}
-                </div>
-            </div>
+    useEffect(() => {
+        window.addEventListener('mousemove', handleMouseMove)
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove)
+        }
+    }, [contextBar])
+
+    useEffect(() => {
+        if (rtoDetail.isSuccess) {
+            contextBar.setContent(
+                <ProfileViewContextBar rto={rtoDetail?.data} />
+            )
+            contextBar.show(false)
+        }
+
+        return () => {
+            contextBar.setContent(null)
+            contextBar.hide()
+        }
+    }, [rtoDetail.data, mousePosition])
+    return (
+        <div>
             {rtoDetail.isError && <TechnicalError />}
             {rtoDetail?.isLoading ? (
-                <LoadingAnimation />
-            ) : rtoDetail?.data ? (
-                <DetailTabs rto={rtoDetail?.data} />
+                <LoadingAnimation height={'h-[70vh]'} />
+            ) : rtoDetail.data ? (
+                <RtoProfileDetail rto={rtoDetail?.data} />
             ) : (
-                !rtoDetail.isError && (
+                !rtoDetail.isError &&
+                rtoDetail.isSuccess && (
                     <EmptyData
                         title={'No RTO Found'}
-                        description={
-                            'No detail were found or you request a wrong user'
-                        }
+                        description={'There is no RTO Detail found'}
                     />
                 )
             )}
-        </>
+        </div>
     )
 }
+
 RtoProfile.getLayout = (page: ReactElement) => {
     return <SubAdminLayout>{page}</SubAdminLayout>
 }

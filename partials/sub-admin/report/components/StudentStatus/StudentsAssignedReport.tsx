@@ -16,6 +16,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { SubAdminReports } from 'types/sub-admin-reports.type'
 import { FilterReport } from '../../FilterReport'
+import { Waypoint } from 'react-waypoint'
 
 type Props = {
     startDate: Date
@@ -34,17 +35,23 @@ export const StudentsAssignedReport = ({
 }: Props) => {
     let end = new Date(endDate)
     end.setDate(end.getDate() + 1)
+    const [isViewd, setIsViewd] = useState<boolean>(false)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
     const { data, isLoading, isError } =
-        SubAdminApi.Reports.useAssignedStudents({
-            userId: subadmin,
-            limit: itemPerPage,
-            skip: itemPerPage * page - itemPerPage,
-            endDate: end.toISOString().slice(0, 10),
-            startDate: startDate.toISOString().slice(0, 10),
-        })
+        SubAdminApi.Reports.useAssignedStudents(
+            {
+                userId: subadmin,
+                limit: itemPerPage,
+                skip: itemPerPage * page - itemPerPage,
+                endDate: end.toISOString().slice(0, 10),
+                startDate: startDate.toISOString().slice(0, 10),
+            },
+            {
+                skip: !isViewd,
+            }
+        )
 
     const columns: ColumnDef<CoordinatorAssignedReport>[] = [
         {
@@ -93,63 +100,77 @@ export const StudentsAssignedReport = ({
     ]
     const count = data?.pagination?.totalResult
     return (
-        <>
-            <div className="flex justify-between">
-                <div className="">
-                    <Typography variant="title" color="text-gray-400">
-                        Students Assigned
-                    </Typography>
-                    <Typography variant="h3">{count || 0}</Typography>
-                </div>
+        <Waypoint
+            onEnter={() => {
+                setIsViewd(true)
+            }}
+        >
+            <div>
+                <div className="flex justify-between">
+                    <div className="">
+                        <Typography variant="title" color="text-gray-400">
+                            Students Assigned
+                        </Typography>
+                        <Typography variant="h3">{count || 0}</Typography>
+                    </div>
 
-                <div className="flex items-center gap-x-4">
-                    <FilterReport
-                        startDate={startDate}
-                        setStartDate={setStartDate}
-                        endDate={endDate}
-                        setEndDate={setEndDate}
-                    />
-                    {/* <ViewFullListReport data={data} columns={columns} /> */}
-                    <ActionButton
-                        onClick={() => {
-                            router.push(
-                                `/portals/sub-admin/report/${SubAdminReports.ASSIGNED_STUDENTS}`
+                    <div className="flex items-center gap-x-4">
+                        <FilterReport
+                            startDate={startDate}
+                            setStartDate={setStartDate}
+                            endDate={endDate}
+                            setEndDate={setEndDate}
+                        />
+                        {/* <ViewFullListReport data={data} columns={columns} /> */}
+                        <ActionButton
+                            onClick={() => {
+                                router.push(
+                                    `/portals/sub-admin/report/${SubAdminReports.ASSIGNED_STUDENTS}`
+                                )
+                            }}
+                        >
+                            View Full List
+                        </ActionButton>
+                    </div>
+                </div>
+                {isError && <TechnicalError />}
+                {isLoading ? (
+                    <LoadingAnimation height="h-[60vh]" />
+                ) : data?.data && data?.data?.length ? (
+                    <Table columns={columns} data={data?.data}>
+                        {({
+                            table,
+                            pagination,
+                            pageSize,
+                            quickActions,
+                        }: any) => {
+                            return (
+                                <div>
+                                    <div className="p-6 mb-2 flex justify-between">
+                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        <div className="flex gap-x-2">
+                                            {/* {quickActions} */}
+                                            {pagination(
+                                                data?.pagination,
+                                                setPage
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="px-6">{table}</div>
+                                </div>
                             )
                         }}
-                    >
-                        View Full List
-                    </ActionButton>
-                </div>
+                    </Table>
+                ) : (
+                    !isError && (
+                        <EmptyData
+                            title={'No Students Assigned Found'}
+                            description={'There is no Assigned Students yet'}
+                            height={'50vh'}
+                        />
+                    )
+                )}
             </div>
-            {isError && <TechnicalError />}
-            {isLoading ? (
-                <LoadingAnimation height="h-[60vh]" />
-            ) : data?.data && data?.data?.length ? (
-                <Table columns={columns} data={data?.data}>
-                    {({ table, pagination, pageSize, quickActions }: any) => {
-                        return (
-                            <div>
-                                <div className="p-6 mb-2 flex justify-between">
-                                    {pageSize(itemPerPage, setItemPerPage)}
-                                    <div className="flex gap-x-2">
-                                        {/* {quickActions} */}
-                                        {pagination(data?.pagination, setPage)}
-                                    </div>
-                                </div>
-                                <div className="px-6">{table}</div>
-                            </div>
-                        )
-                    }}
-                </Table>
-            ) : (
-                !isError && (
-                    <EmptyData
-                        title={'No Students Assigned Found'}
-                        description={'There is no Assigned Students yet'}
-                        height={'50vh'}
-                    />
-                )
-            )}
-        </>
+        </Waypoint>
     )
 }

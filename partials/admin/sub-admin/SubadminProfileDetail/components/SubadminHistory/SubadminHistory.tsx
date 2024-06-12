@@ -14,6 +14,7 @@ import { CommonApi } from '@queries'
 import { FilterType } from '@pages/portals/sub-admin/history'
 import { HistoryDates, HistoryFilters } from '@partials/common'
 import { getCommonDates, removeEmptyValues } from '@utils'
+import { Waypoint } from 'react-waypoint'
 
 export const SubadminHistory = ({
     subadminUserId,
@@ -35,6 +36,7 @@ export const SubadminHistory = ({
     const [targetStr, setTargetStr] = useState<string>('')
     const [searchedValue, setSearchedValue] = useState<string>('')
     const [isCustomRange, setIsCustomRange] = useState<boolean>(false)
+    const [isViewd, setIsViewd] = useState<boolean>(false)
 
     const { data, isError, isLoading, isFetching, isSuccess } =
         CommonApi.RecentActivities.useRecentActivities(
@@ -61,6 +63,7 @@ export const SubadminHistory = ({
                 limit: itemPerPage,
             },
             {
+                skip: !isViewd,
                 refetchOnMountOrArgChange: true,
             }
         )
@@ -132,79 +135,89 @@ export const SubadminHistory = ({
     const dates = getCommonDates(data?.data)
 
     return (
-        <Card fullHeight shadowType="profile" noPadding>
-            <div className="h-full overflow-hidden">
-                <div className="px-4 py-3.5 border-b border-secondary-dark">
-                    <Typography semibold>
-                        <span className="text-[15px]">History</span>
-                    </Typography>
-                </div>
-            </div>
-
-            {/*  */}
-            <div className="p-4">
-                <div className="flex items-center gap-x-6">
-                    <div className="w-full flex items-center gap-x-2">
-                        {figureCardsData?.map((countData, i) => (
-                            <HistoryCountCard
-                                key={i}
-                                countData={countData}
-                                active={countData?.clickText === targetStr}
-                            />
-                        ))}
+        <Waypoint
+            onEnter={() => {
+                setIsViewd(true)
+            }}
+        >
+            <div>
+                <Card fullHeight shadowType="profile" noPadding>
+                    <div className="h-full overflow-hidden">
+                        <div className="px-4 py-3.5 border-b border-secondary-dark">
+                            <Typography semibold>
+                                <span className="text-[15px]">History</span>
+                            </Typography>
+                        </div>
                     </div>
-                    <div>
-                        <HistoryFilters
-                            filterType={filterType}
-                            isCustomRange={isCustomRange}
-                            setFilterType={setFilterType}
-                            customRangeDate={customRangeDate}
-                            setSearchedValue={setSearchedValue}
-                            setIsCustomRange={setIsCustomRange}
-                            setCustomRangeDate={setCustomRangeDate}
-                        />
-                    </div>
-                </div>
 
-                {/*  */}
-                <div className="flex items-center justify-between py-4">
-                    <PageSize
-                        itemPerPage={itemPerPage}
-                        setItemPerPage={setItemPerPage}
-                        records={data?.data?.length}
-                    />
-                    <Pagination
-                        pagination={data?.pagination}
-                        setPage={setPage}
-                    />
-                </div>
-                <div className="h-64 overflow-auto custom-scrollbar">
-                    {isError && (
-                        <NoData text="There is some technical issue!" />
-                    )}
-                    {isLoading || isFetching ? (
-                        <LoadingAnimation size={90} />
-                    ) : data?.data && data?.data?.length > 0 ? (
-                        dates?.map((date: Date, i: number) => (
-                            <HistoryDates
-                                history={data?.data}
-                                date={date}
-                                subadmin={subadminUserId}
-                                customRangeDate={customRangeDate}
-                                filterType={filterType}
+                    {/*  */}
+                    <div className="p-4">
+                        <div className="flex items-center gap-x-6">
+                            <div className="w-full flex items-center gap-x-2">
+                                {figureCardsData?.map((countData, i) => (
+                                    <HistoryCountCard
+                                        key={i}
+                                        countData={countData}
+                                        active={
+                                            countData?.clickText === targetStr
+                                        }
+                                    />
+                                ))}
+                            </div>
+                            <div>
+                                <HistoryFilters
+                                    filterType={filterType}
+                                    isCustomRange={isCustomRange}
+                                    setFilterType={setFilterType}
+                                    customRangeDate={customRangeDate}
+                                    setSearchedValue={setSearchedValue}
+                                    setIsCustomRange={setIsCustomRange}
+                                    setCustomRangeDate={setCustomRangeDate}
+                                />
+                            </div>
+                        </div>
+
+                        {/*  */}
+                        <div className="flex items-center justify-between py-4">
+                            <PageSize
+                                itemPerPage={itemPerPage}
+                                setItemPerPage={setItemPerPage}
+                                records={data?.data?.length}
                             />
-                        ))
-                    ) : (
-                        isSuccess && (
-                            <NoData
-                                text={
-                                    'There is no history found for the admin!'
-                                }
+                            <Pagination
+                                pagination={data?.pagination}
+                                setPage={setPage}
                             />
-                        )
-                    )}
-                </div>
+                        </div>
+                        <div className="h-64 overflow-auto custom-scrollbar">
+                            {isError && (
+                                <NoData text="There is some technical issue!" />
+                            )}
+                            {isLoading || isFetching ? (
+                                <LoadingAnimation size={90} />
+                            ) : data?.data && data?.data?.length > 0 ? (
+                                dates?.map((date: Date, i: number) => (
+                                    <HistoryDates
+                                        history={data?.data}
+                                        date={date}
+                                        subadmin={subadminUserId}
+                                        customRangeDate={customRangeDate}
+                                        filterType={filterType}
+                                    />
+                                ))
+                            ) : (
+                                isSuccess && (
+                                    <NoData
+                                        text={
+                                            'There is no history found for the admin!'
+                                        }
+                                    />
+                                )
+                            )}
+                        </div>
+                    </div>
+                </Card>
             </div>
-        </Card>
+        </Waypoint>
     )
 }

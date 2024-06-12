@@ -31,8 +31,10 @@ export const ProfileCountsCard = ({
                 />
 
                 <div className="flex flex-col gap-y-1.5 items-end justify-end">
-                    <Typography variant="label" light color="text-[#7B809A]">
-                        {data?.title}
+                    <Typography light>
+                        <span className="text-[13px] text-[#7B809A]">
+                            {data?.title}
+                        </span>
                     </Typography>
                     <Typography variant="h3" bold>
                         {data?.loading ? (
