@@ -1,97 +1,74 @@
-import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
-import { useAlert, useContextBar, useNavbar } from '@hooks'
+import {
+    ActionButton,
+    AuthorizedUserComponent,
+    BackButton,
+    Button,
+    EmptyData,
+    LoadingAnimation,
+    RtoProfileSidebar,
+    TechnicalError,
+} from '@components'
+import { useActionModal, useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { RtoProfileDetail } from '@partials'
-import { ProfileViewContextBar } from '@partials/admin/rto/UpdatedRtoProfileDetail/ProfileViewContextBar'
-import { AdminApi } from '@queries'
-import { UserStatus } from '@types'
+import { NextPageWithLayout, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
+import {
+    FaArchive,
+    FaBan,
+    FaChevronDown,
+    FaFileImport,
+    FaUserGraduate,
+} from 'react-icons/fa'
 
-const RtoProfile = () => {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+import { FigureCard } from '@components/sections/subAdmin'
+import { PinnedNotes } from '@partials'
+import { useActionModals } from '@partials/admin/rto/hooks/useActionModals'
+import { DetailTabs } from '@partials/admin/rto/tabs'
+import { AdminApi } from '@queries'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
+const RtoDetail: NextPageWithLayout = () => {
     const router = useRouter()
-
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
-    const { alert: alertMessage, setAlerts, alerts } = useAlert()
+    const {
+        modal,
+        onAcceptClicked,
+        onRejectClicked,
+        onArchiveClicked,
+        onUnArchiveClicked,
+        onUnblockClicked,
+        onDeleteClicked,
+        onBlockClicked,
+    } = useActionModals()
+    const { passwordModal, onViewPassword } = useActionModal()
+    const role = getUserCredentials()?.role
 
     const rto = AdminApi.Rtos.useDetailQuery(Number(router.query.id), {
         skip: !router.query?.id,
         refetchOnMountOrArgChange: true,
     })
-
+    const statisticsCount = AdminApi.Rtos.useStatisticsCount(
+        Number(rto?.data?.user?.id),
+        { skip: !rto?.data?.user?.id }
+    )
     useEffect(() => {
         navBar.setTitle('RTO Detail')
         navBar.setSubTitle(rto?.data?.user?.name)
     }, [rto.data])
 
     useEffect(() => {
-        if (rto?.isSuccess && rto?.data) {
-            const showAlert = () => {
-                switch (rto?.data?.user?.status) {
-                    case UserStatus.Pending:
-                        alertMessage.warning({
-                            title: 'RTO is Pending',
-                            description: 'RTO is Pending',
-                            autoDismiss: false,
-                        })
-                        break
-                    case UserStatus.Archived:
-                        alertMessage.warning({
-                            title: 'RTO is Archived',
-                            description: 'RTO is Archived',
-                            autoDismiss: false,
-                        })
-                        break
-                    case UserStatus.Rejected:
-                        alertMessage.error({
-                            title: 'RTO is Rejected',
-                            description: 'RTO is Rejected',
-                            autoDismiss: false,
-                        })
-                        break
-                    case UserStatus.Blocked:
-                        alertMessage.error({
-                            title: 'RTO is Blocked',
-                            description: 'RTO is Blocked',
-                            autoDismiss: false,
-                        })
-                        break
-
-                    default:
-                        break
-                }
-            }
-            if (!alerts?.length) {
-                showAlert()
-            }
-        }
-
-        return () => {
-            setAlerts([])
-        }
-    }, [rto])
-
-    const handleMouseMove = (event: any) => {
-        if (!contextBar.content) {
-            setMousePosition({ x: event.clientX, y: event.clientY })
-        }
-    }
-
-    useEffect(() => {
-        window.addEventListener('mousemove', handleMouseMove)
-
-        return () => {
-            window.removeEventListener('mousemove', handleMouseMove)
-        }
-    }, [contextBar])
-
-    useEffect(() => {
         if (rto.isSuccess) {
-            contextBar.setContent(<ProfileViewContextBar rto={rto?.data} />)
+            contextBar.setContent(
+                <RtoProfileSidebar
+                    rto={rto}
+                    data={rto?.data}
+                    loading={rto?.isLoading}
+                />
+            )
             contextBar.show(false)
         }
 
@@ -99,14 +76,261 @@ const RtoProfile = () => {
             contextBar.setContent(null)
             contextBar.hide()
         }
-    }, [rto.data, mousePosition])
+    }, [rto.data])
+
+    const [showDropDown, setShowDropDown] = useState(false)
+
+    const statusBaseActions = () => {
+        switch (rto.data?.user?.status) {
+            case UserStatus.Pending:
+                return (
+                    <div className="flex items-center gap-x-2">
+                        <ActionButton
+                            variant={'success'}
+                            Icon={FaArchive}
+                            onClick={() => onAcceptClicked(rto?.data)}
+                        >
+                            Accept
+                        </ActionButton>
+                        <ActionButton
+                            Icon={FaBan}
+                            variant={'error'}
+                            onClick={() => onRejectClicked(rto?.data)}
+                        >
+                            Reject
+                        </ActionButton>
+                    </div>
+                )
+            case UserStatus.Approved:
+                return (
+                    <div className="flex gap-x-2">
+                        <div className="flex items-center gap-x-3">
+                            <div
+                                className="relative"
+                                onMouseEnter={() => setShowDropDown(true)}
+                                onMouseLeave={() => setShowDropDown(false)}
+                            >
+                                <Button>
+                                    <span
+                                        id="add-students"
+                                        className="flex items-center gap-x-2"
+                                    >
+                                        <span>Add Students</span>
+                                        <FaChevronDown />
+                                    </span>
+                                </Button>
+
+                                {showDropDown ? (
+                                    <ul className="bg-white shadow-xl rounded-xl overflow-hidden absolute">
+                                        <li>
+                                            <button
+                                                onClick={() => {
+                                                    router.push(
+                                                        `${rto?.data?.id}/student-list`
+                                                    )
+                                                }}
+                                                className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
+                                            >
+                                                <span className="text-gray-500">
+                                                    <FaFileImport />
+                                                </span>
+                                                <span className="whitespace-nowrap">
+                                                    {' '}
+                                                    Import Students
+                                                </span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                onClick={() => {
+                                                    router.push(
+                                                        `${rto?.data?.id}/add-individual-student`
+                                                    )
+                                                }}
+                                                className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
+                                            >
+                                                <span className="text-gray-500">
+                                                    <FaUserGraduate />
+                                                </span>
+                                                <span> Add Individual</span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                ) : null}
+                            </div>
+                        </div>
+                        {/* <Button
+                            variant="dark"
+                            onClick={() =>
+                                router.push(
+                                    `/portals/admin/rto/${rto?.data?.id}?tab=reports`
+                                )
+                            }
+                        >
+                            Summary Report
+                        </Button> */}
+                        <ActionButton
+                            Icon={FaArchive}
+                            onClick={() => onArchiveClicked(rto?.data)}
+                        >
+                            Archive
+                        </ActionButton>
+                        <ActionButton
+                            Icon={FaBan}
+                            variant={'error'}
+                            onClick={() => onBlockClicked(rto?.data)}
+                        >
+                            Block
+                        </ActionButton>
+                    </div>
+                )
+            case UserStatus.Blocked:
+                return (
+                    <div className="flex items-center gap-x-2">
+                        <ActionButton
+                            Icon={FaArchive}
+                            onClick={() => onUnblockClicked(rto?.data)}
+                        >
+                            Un Block
+                        </ActionButton>
+                        <ActionButton
+                            Icon={FaBan}
+                            variant={'error'}
+                            onClick={() => onDeleteClicked(rto?.data)}
+                        >
+                            Delete
+                        </ActionButton>
+                    </div>
+                )
+            case UserStatus.Rejected:
+                return (
+                    <div className="flex items-center gap-x-2">
+                        <ActionButton
+                            Icon={FaArchive}
+                            onClick={() => onAcceptClicked(rto?.data)}
+                        >
+                            Accept
+                        </ActionButton>
+                        <ActionButton
+                            Icon={FaBan}
+                            variant={'error'}
+                            onClick={() => onDeleteClicked(rto?.data)}
+                        >
+                            Delete
+                        </ActionButton>
+                    </div>
+                )
+            case UserStatus.Archived:
+                return (
+                    <div className="flex items-center gap-x-2">
+                        <ActionButton
+                            Icon={FaArchive}
+                            onClick={() => onUnArchiveClicked(rto?.data)}
+                        >
+                            Un Archive
+                        </ActionButton>
+                        <ActionButton
+                            Icon={FaBan}
+                            variant={'error'}
+                            onClick={() => onDeleteClicked(rto?.data)}
+                        >
+                            Delete
+                        </ActionButton>
+                    </div>
+                )
+
+            default:
+                return
+        }
+    }
+
     return (
-        <div>
+        <>
+            {modal && modal}
+            {passwordModal}
             {rto.isError && <TechnicalError />}
             {rto?.isLoading ? (
                 <LoadingAnimation height={'h-[70vh]'} />
             ) : rto.data ? (
-                <RtoProfileDetail rto={rto?.data} />
+                <div className="p-6 mb-32 flex flex-col gap-y-6">
+                    {/* Action Bar */}
+                    <div className="flex items-center justify-between">
+                        <BackButton
+                            text="RTOs"
+                            link={
+                                sessionStorage.getItem('rto') ||
+                                '/portals/admin/rto?tab=approved&page=1&pageSize=50'
+                            }
+                        />
+                        <div className="flex items-center gap-x-2">
+                            {role === UserRoles.ADMIN && (
+                                <Button
+                                    text={'View Password'}
+                                    onClick={() => {
+                                        onViewPassword({
+                                            user: rto?.data?.user,
+                                        })
+                                    }}
+                                />
+                            )}
+                            <Button
+                                text="Book Appointment"
+                                variant="info"
+                                onClick={() => {
+                                    router.push({
+                                        pathname:
+                                            '/portals/admin/appointment-type/create-appointment',
+                                        query: {
+                                            rto: rto?.data?.user?.id,
+                                        },
+                                    })
+                                }}
+                                disabled={!rto?.isSuccess}
+                            />
+                            {statusBaseActions()}
+                        </div>
+                    </div>
+
+                    <div className="flex gap-x-4">
+                        <FigureCard
+                            imageUrl="/images/icons/students.png"
+                            count={Number(
+                                statisticsCount?.data?.currentStudent
+                            )}
+                            title={'Current Students'}
+                            link={`/portals/admin/student?tab=active&page=1&pageSize=50&status=${UserStatus.Approved}&rtoId=${rto?.data?.id}`}
+                        />
+                        <FigureCard
+                            imageUrl="/images/icons/pending-student.png"
+                            count={Number(
+                                statisticsCount?.data?.pendingStudent
+                            )}
+                            title={'Pending Students'}
+                            link={`/portals/admin/student?tab=active&page=1&pageSize=50&status=${UserStatus.Pending}&rtoId=${rto?.data?.id}`}
+                        />
+                        <FigureCard
+                            imageUrl="/images/icons/industry.png"
+                            count={Number(
+                                statisticsCount?.data?.workplaceRequest
+                            )}
+                            title={'Workplace Requests'}
+                            link={`/portals/admin/workplaces?tab=all-student-provided-workplace&rtoId=${rto?.data?.id}`}
+                        />
+                        <FigureCard
+                            imageUrl="/images/icons/job.png"
+                            count={Number(statisticsCount?.data?.pendingResult)}
+                            title={'Pending Result'}
+                            link={'#'}
+                        />
+                    </div>
+
+                    <PinnedNotes
+                        id={rto?.data?.user?.id}
+                        link={`/portals/admin/rto/${router?.query?.id}?tab=notes`}
+                    />
+
+                    <DetailTabs id={router.query?.id} rto={rto} />
+                </div>
             ) : (
                 !rto.isError &&
                 rto.isSuccess && (
@@ -116,12 +340,12 @@ const RtoProfile = () => {
                     />
                 )
             )}
-        </div>
+        </>
     )
 }
 
-RtoProfile.getLayout = (page: ReactElement) => {
+RtoDetail.getLayout = (page: ReactElement) => {
     return <AdminLayout>{page}</AdminLayout>
 }
 
-export default RtoProfile
+export default RtoDetail
