@@ -69,6 +69,15 @@ export const FavoriteIndustries = () => {
             Icon: FaEye,
         },
         {
+            text: 'Old Profile',
+            onClick: (industry: Industry) => {
+                router.push(
+                    `/portals/sub-admin/users/industries/${industry.id}/detail`
+                )
+            },
+            Icon: FaEye,
+        },
+        {
             text: 'Edit',
             onClick: (industry: Industry) => {
                 router.push(

@@ -4,36 +4,33 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
-    ShowErrorNotifications,
     Table,
     TableAction,
     TableActionOption,
     TechnicalError,
     TruncatedTextWithTooltip,
-    Typography,
     UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
+import { UserRoles } from '@constants'
 import { useActionModal, useNotification } from '@hooks'
-import { AdminApi, commonApi } from '@queries'
+import { AdminApi } from '@queries'
 import { Industry, UserStatus } from '@types'
+import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell, SectorCell } from './components'
 import { useChangeStatus } from './hooks'
 import {
-    AcceptModal,
-    RejectModal,
+    ApproveIndustryWithQuestionsModal,
     MultiAcceptModal,
     MultiRejectModal,
-    ApproveIndustryWithQuestionsModal,
+    RejectModal,
 } from './modals'
-import { getUserCredentials } from '@utils'
-import { UserRoles } from '@constants'
 
 export const PendingIndustry = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -53,7 +50,7 @@ export const PendingIndustry = () => {
     const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
-        search: `status:pending`,
+        search: `status:${UserStatus.Pending}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -112,16 +109,16 @@ export const PendingIndustry = () => {
         {
             text: 'View',
             onClick: (industry: any) => {
-                router.push(
-                    `/portals/admin/industry/${industry.id}?tab=students`
-                )
+                router.push(`/portals/admin/industry/${industry.id}`)
             },
             Icon: FaEye,
         },
         {
-            text: 'New Profile',
+            text: 'Old Profile',
             onClick: (industry: any) =>
-                router.push(`/portals/admin/industry/${industry?.id}/detail`),
+                router.push(
+                    `/portals/admin/industry/${industry?.id}/detail?tab=students`
+                ),
             Icon: FaEye,
         },
         {

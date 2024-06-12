@@ -11,20 +11,18 @@ import {
     LoadingAnimation,
     Table,
     TableAction,
-    TableActionOption,
     TechnicalError,
     Typography,
 } from '@components'
 
-import { SubAdminApi, useGetSubAdminIndustriesQuery } from '@queries'
-import { CallLog, Industry, SubAdmin, UserStatus } from '@types'
-import { IndustryCellInfo } from './components'
-import { AddToFavoriteModal, ArchiveModal, BlockModal } from './modals'
-import { MdBlock, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
+import { useGetSubAdminIndustriesQuery } from '@queries'
+import { Industry, SubAdmin, UserStatus } from '@types'
 import { getUserCredentials, setLink } from '@utils'
-import { RiInboxArchiveFill, RiLockPasswordFill } from 'react-icons/ri'
-import { useActionModal } from '@hooks'
+import { MdBlock, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
+import { RiInboxArchiveFill } from 'react-icons/ri'
+import { IndustryCellInfo } from './components'
 import { BranchCell } from './components/BranchCell'
+import { AddToFavoriteModal, ArchiveModal, BlockModal } from './modals'
 
 export const AllIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -50,9 +48,7 @@ export const AllIndustries = () => {
 
     const id = getUserCredentials()?.id
 
-    const onCancelClicked = () => {
-        setModal(null)
-    }
+    const onCancelClicked = () => setModal(null)
 
     const onAddToFavoriteClicked = (industry: Industry) => {
         setModal(
@@ -73,9 +69,8 @@ export const AllIndustries = () => {
         )
     }
 
-    const isFavorite = (subAdmin: SubAdmin[] | undefined) => {
-        return subAdmin?.find((subadmin: any) => subadmin?.user?.id === id)
-    }
+    const isFavorite = (subAdmin: SubAdmin[] | undefined) =>
+        subAdmin?.find((subadmin: any) => subadmin?.user?.id === id)
 
     const tableActionOptions = (industry: Industry) => {
         const subAdmin = isFavorite(industry?.subAdmin)
@@ -87,6 +82,15 @@ export const AllIndustries = () => {
                         `/portals/sub-admin/users/industries/${industry.id}`
                     )
                     setLink('subadmin-industries', router)
+                },
+                Icon: FaEye,
+            },
+            {
+                text: 'Old Profile',
+                onClick: (industry: Industry) => {
+                    router.push(
+                        `/portals/sub-admin/users/industries/${industry.id}/detail`
+                    )
                 },
                 Icon: FaEye,
             },
