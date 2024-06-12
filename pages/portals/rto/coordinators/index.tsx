@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 // Layouts
 import { RtoLayout } from '@layouts'
-import { NextPageWithLayout, SubAdmin } from '@types'
+import { NextPageWithLayout } from '@types'
 //components
 import { Button, PageTitle, TabNavigation, TabProps } from '@components'
 // queries
@@ -10,7 +10,6 @@ import { RtoApi } from '@queries'
 // Link
 // React icons
 import { useJoyRide, useNotification } from '@hooks'
-import { DeleteModal } from '@partials/admin/sub-admin/modals'
 import {
     AssignedCoordinators,
     MyCoordinators,
@@ -91,15 +90,6 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
 
     const onModalCancelClicked = () => {
         setModal(null)
-    }
-    const onArchivedClicked = (subAdmin: SubAdmin) => {
-        setModal(
-            <DeleteModal
-                subAdmin={subAdmin}
-                onCancel={() => onModalCancelClicked()}
-                setChangeStatusResult={setChangeStatusResult}
-            />
-        )
     }
 
     const tabs: TabProps[] = [

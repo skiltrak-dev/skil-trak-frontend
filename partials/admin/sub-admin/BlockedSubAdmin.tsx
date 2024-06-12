@@ -26,7 +26,6 @@ import { AcceptModal, DeleteModal } from './modals'
 
 export const BlockedSubAdmin = () => {
     const router = useRouter()
-    const [changeStatusResult, setChangeStatusResult] = useState<any>({})
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -47,11 +46,6 @@ export const BlockedSubAdmin = () => {
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
-    useEffect(() => {
-        if (changeStatusResult.isSuccess) {
-            refetch()
-        }
-    }, [changeStatusResult])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -67,7 +61,6 @@ export const BlockedSubAdmin = () => {
     const onDeleteClicked = (subAdmin: SubAdmin) => {
         setModal(
             <DeleteModal
-                setChangeStatusResult={setChangeStatusResult}
                 subAdmin={subAdmin}
                 onCancel={() => onModalCancelClicked()}
             />

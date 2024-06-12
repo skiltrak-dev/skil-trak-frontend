@@ -22,7 +22,6 @@ import { RTOSubAdmin, SubAdmin } from '@types'
 import { useRouter } from 'next/router'
 
 export const SubAdminsTab = ({ rto }: any) => {
-    const [changeStatusResult, setChangeStatusResult] = useState<any>({})
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -35,19 +34,12 @@ export const SubAdminsTab = ({ rto }: any) => {
         limit: itemPerPage,
     })
 
-    useEffect(() => {
-        if (changeStatusResult.isSuccess) {
-            refetch()
-        }
-    }, [changeStatusResult])
-
     const onModalCancelClicked = () => {
         setModal(null)
     }
     const onDeleteClicked = (subAdmin: SubAdmin) => {
         setModal(
             <DeleteModal
-                setChangeStatusResult={setChangeStatusResult}
                 subAdmin={subAdmin}
                 onCancel={() => onModalCancelClicked()}
             />
