@@ -55,7 +55,7 @@ export const WorkBaseTraining = () => {
                             >
                                 <span className="text-[21px]">
                                     Welcome to our Work Based Training (WBT)
-                                    program. involved.
+                                    program involved
                                 </span>
                             </Typography>
                             <Typography

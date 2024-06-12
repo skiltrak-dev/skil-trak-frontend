@@ -34,6 +34,7 @@ const adminTagTypes = [
 
 const subadminTagTypes = [
     'TODO',
+    
     'Setting',
     'SubAdmin',
     'SetSchedule',
@@ -45,6 +46,7 @@ const subadminTagTypes = [
     'SetUnAvailability',
     'SubAdminWorkplace',
     'AssessmentEvidence',
+    'Coordinates',
     'SubAdminIndustries',
 ]
 

@@ -137,6 +137,7 @@ export const {
     // ------ SELF ------ //
     useProfileQuery,
     useGetSubAdminMapStudentsQuery,
+    useGetSavedCoordinatesQuery,
     useGetSubAdminMapStudentDetailQuery,
     useGetSubAdminMapIndustriesQuery,
     useGetSubAdminRtosForMapQuery,
@@ -144,6 +145,7 @@ export const {
     useSubadminCoursesQuery,
     useUpdateSubAdminProfileMutation,
     useChangeSubAdminUserStatusMutation,
+    useSaveCoordinatesForMapMutation,
     // -------- Rtos Listing --------//
     useImportRtosListMutation,
     useGetAllRtosListQuery,
@@ -367,8 +369,10 @@ export const SubAdminApi = {
         useSubAdminStudentSuburbsForMap:
             useGetSubAdminStudentSuburbsForMapQuery,
         useSubadminCourses: useSubadminCoursesQuery,
+        useSavedCoordinates: useGetSavedCoordinatesQuery,
         useUpdateProfile: useUpdateSubAdminProfileMutation,
         changeSubAdminUserStatus: useChangeSubAdminUserStatusMutation,
+        useSaveCoordinatesForMap: useSaveCoordinatesForMapMutation, 
         useImportRtosList: useImportRtosListMutation,
         useRtosStatusChange: useRtosStatusChangeMutation,
         useAddRtoInListing: useAddRtoInListingMutation,
