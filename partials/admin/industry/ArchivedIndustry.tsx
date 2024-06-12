@@ -54,16 +54,16 @@ export const ArchivedIndustry = () => {
         {
             text: 'View',
             onClick: (industry: any) => {
-                router.push(
-                    `/portals/admin/industry/${industry.id}?tab=students`
-                )
+                router.push(`/portals/admin/industry/${industry.id}`)
             },
             Icon: FaEye,
         },
         {
-            text: 'New Profile',
+            text: 'Old Profile',
             onClick: (industry: any) =>
-                router.push(`/portals/admin/industry/${industry?.id}/detail`),
+                router.push(
+                    `/portals/admin/industry/${industry?.id}/detail?tab=students`
+                ),
             Icon: FaEye,
         },
         {

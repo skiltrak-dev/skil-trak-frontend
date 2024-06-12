@@ -56,7 +56,7 @@ export const DetailTabs = ({
         },
         {
             label: 'Appointments',
-            href: { pathname: String(id), query: { tab: 'appointments' } },
+            href: { query: { id, tab: 'appointments' } },
             element: <AppointmentTab userId={industry?.data?.user?.id} />,
         },
         {
