@@ -2,11 +2,15 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { Button, Card, Typography } from '@components'
 import { FaChevronDown, FaFileImport, FaUserGraduate } from 'react-icons/fa'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
-export const RtoProfileTopbar = () => {
+export const RtoProfileTopbar = ({ rtoUserId }: { rtoUserId: number }) => {
     const [showDropDown, setShowDropDown] = useState<boolean>(false)
 
     const router = useRouter()
+
+    const role = getUserCredentials()?.role
 
     return (
         <Card noPadding shadowType="profile">
@@ -40,9 +44,21 @@ export const RtoProfileTopbar = () => {
                                     <li>
                                         <button
                                             onClick={() => {
-                                                router.push(
-                                                    `/portals/admin/rto/${router?.query?.id}/student-list`
-                                                )
+                                                if (role === UserRoles.ADMIN) {
+                                                    router.push(
+                                                        `/portals/admin/rto/${router?.query?.id}/student-list`
+                                                    )
+                                                } else if (
+                                                    role === UserRoles.SUBADMIN
+                                                ) {
+                                                    router.push({
+                                                        pathname: `/portals/sub-admin/users/rtos/${rtoUserId}/student-list`,
+                                                        query: {
+                                                            rtoId: router?.query
+                                                                ?.id,
+                                                        },
+                                                    })
+                                                }
                                             }}
                                             className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
                                         >
@@ -58,9 +74,17 @@ export const RtoProfileTopbar = () => {
                                     <li>
                                         <button
                                             onClick={() => {
-                                                router.push(
-                                                    `/portals/admin/rto/${router?.query?.id}/add-individual-student`
-                                                )
+                                                if (role === UserRoles.ADMIN) {
+                                                    router.push(
+                                                        `/portals/admin/rto/${router?.query?.id}/add-individual-student`
+                                                    )
+                                                } else if (
+                                                    role === UserRoles.SUBADMIN
+                                                ) {
+                                                    router.push(
+                                                        `/portals/sub-admin/users/rtos/${router?.query?.id}/add-individual-student`
+                                                    )
+                                                }
                                             }}
                                             className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
                                         >

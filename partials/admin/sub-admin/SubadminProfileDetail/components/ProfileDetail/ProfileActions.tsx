@@ -1,4 +1,5 @@
 import { Button } from '@components'
+import { useActionModal } from '@hooks'
 import {
     ArchiveModal,
     BlockModal,
@@ -14,6 +15,7 @@ import { FaArchive, FaBan } from 'react-icons/fa'
 
 export const ProfileActions = ({ subadmin }: { subadmin: SubAdmin }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+
     const onModalCancelClicked = () => {
         setModal(null)
     }

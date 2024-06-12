@@ -77,15 +77,11 @@ export const ProfileLinks = ({ industry }: { industry: Industry }) => {
                 : {}),
         },
         {
-            ...(role === UserRoles.ADMIN
-                ? {
-                      text: industry?.isSnoozed ? 'Un-Snooze' : 'Snooze',
-                      Icon: MdSnooze,
-                      onClick: () => {
-                          industry?.isSnoozed ? UnSnoozeModal() : onSnooze()
-                      },
-                  }
-                : {}),
+            text: industry?.isSnoozed ? 'Un-Snooze' : 'Snooze',
+            Icon: MdSnooze,
+            onClick: () => {
+                industry?.isSnoozed ? UnSnoozeModal() : onSnooze()
+            },
         },
     ]
 

@@ -3,6 +3,7 @@ import { CommonApi } from '@queries'
 import { Appointment } from '@types'
 import moment from 'moment'
 import React, { useCallback, useState } from 'react'
+import { Waypoint } from 'react-waypoint'
 
 export const SubadminCalendarViewDetail = ({
     subadminUserId,
@@ -16,6 +17,7 @@ export const SubadminCalendarViewDetail = ({
         start: null,
         end: null,
     })
+    const [isViewd, setIsViewd] = useState<boolean>(false)
 
     const futureAppointments = CommonApi.Appointments.useBookedAppointments(
         {
@@ -26,7 +28,7 @@ export const SubadminCalendarViewDetail = ({
             userId: subadminUserId,
         },
         {
-            skip: !selectedDates?.start || !selectedDates?.end,
+            skip: !selectedDates?.start || !selectedDates?.end || !isViewd,
         }
     )
     const events = futureAppointments?.data?.map((appointment: Appointment) => {
@@ -85,26 +87,34 @@ export const SubadminCalendarViewDetail = ({
     }, [])
 
     return (
-        <Card fullHeight shadowType="profile" noPadding>
-            <div className="h-full overflow-hidden">
-                <div className="px-4 py-3.5 border-b border-secondary-dark">
-                    <Typography semibold>
-                        <span className="text-[15px]">Calendar</span>
-                    </Typography>
-                </div>
-            </div>
+        <Waypoint
+            onEnter={() => {
+                setIsViewd(true)
+            }}
+        >
+            <div>
+                <Card fullHeight shadowType="profile" noPadding>
+                    <div className="h-full overflow-hidden">
+                        <div className="px-4 py-3.5 border-b border-secondary-dark">
+                            <Typography semibold>
+                                <span className="text-[15px]">Calendar</span>
+                            </Typography>
+                        </div>
+                    </div>
 
-            {/*  */}
-            <div className="p-4">
-                <BigCalendar
-                    events={events}
-                    loading={
-                        futureAppointments.isLoading ||
-                        futureAppointments.isFetching
-                    }
-                    onSelectedDate={onSelectedDate}
-                />
+                    {/*  */}
+                    <div className="p-4">
+                        <BigCalendar
+                            events={events}
+                            loading={
+                                futureAppointments.isLoading ||
+                                futureAppointments.isFetching
+                            }
+                            onSelectedDate={onSelectedDate}
+                        />
+                    </div>
+                </Card>
             </div>
-        </Card>
+        </Waypoint>
     )
 }
