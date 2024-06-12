@@ -1,12 +1,17 @@
 import { Typography } from '@components'
 import { UserRoles } from '@constants'
 import { useActionModal } from '@hooks'
+import {
+    SnoozeIndustryModal,
+    UnSnoozeIndustryModal,
+} from '@partials/common/modal'
 import { Industry, Rto } from '@types'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactNode, useState } from 'react'
 import { BsUnlockFill } from 'react-icons/bs'
 import { IoMdEyeOff } from 'react-icons/io'
+import { MdSnooze } from 'react-icons/md'
 import { RiEditFill } from 'react-icons/ri'
 
 export const ProfileLinks = ({ industry }: { industry: Industry }) => {
@@ -15,6 +20,23 @@ export const ProfileLinks = ({ industry }: { industry: Industry }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
 
     const role = getUserCredentials()?.role
+
+    const onCancelModal = () => setModal(null)
+
+    const onSnooze = () => {
+        setModal(
+            <SnoozeIndustryModal onCancel={onCancelModal} industry={industry} />
+        )
+    }
+
+    const UnSnoozeModal = () => {
+        setModal(
+            <UnSnoozeIndustryModal
+                onCancel={onCancelModal}
+                industry={industry}
+            />
+        )
+    }
 
     const profileLinks = [
         {
@@ -27,7 +49,7 @@ export const ProfileLinks = ({ industry }: { industry: Industry }) => {
                     )
                 } else if (role === UserRoles.SUBADMIN) {
                     router.push(
-                        `portals/sub-admin/users/industries/${industry?.id}/edit-profile`
+                        `/portals/sub-admin/users/industries/${industry?.id}/edit-profile`
                     )
                 }
             },
@@ -57,10 +79,10 @@ export const ProfileLinks = ({ industry }: { industry: Industry }) => {
         {
             ...(role === UserRoles.ADMIN
                 ? {
-                      text: 'Snooze',
-                      Icon: IoMdEyeOff,
+                      text: industry?.isSnoozed ? 'Un-Snooze' : 'Snooze',
+                      Icon: MdSnooze,
                       onClick: () => {
-                          onViewPassword(industry)
+                          industry?.isSnoozed ? UnSnoozeModal() : onSnooze()
                       },
                   }
                 : {}),

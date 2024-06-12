@@ -10,62 +10,83 @@ export const SubadminProgress = ({
     subAdminProfileCount: any
 }) => {
     const countsArr = {
-        inProgress: subAdminProfileCount?.data?.inProgress || 10,
-        noWorkPlace: subAdminProfileCount?.data?.noWorkPlace || 10,
-        placementStarted: subAdminProfileCount?.data?.placementStarted || 10,
-        appointmentBooked: subAdminProfileCount?.data?.appointmentBooked || 10,
+        inProgress: subAdminProfileCount?.data?.inProgress || 0,
+        noWorkPlace: subAdminProfileCount?.data?.noWorkPlace || 0,
+        placementStarted: subAdminProfileCount?.data?.placementStarted || 0,
+        appointmentBooked: subAdminProfileCount?.data?.appointmentBooked || 0,
         awaitingAgreementSigned:
-            subAdminProfileCount?.data?.awaitingAgreementSigned || 10,
-        students: Number(subAdminProfileCount?.data?.student) || 10,
-        industries: Number(subAdminProfileCount?.data?.industry) || 10,
-        rtos: Number(subAdminProfileCount?.data?.rto) || 10,
+            subAdminProfileCount?.data?.awaitingAgreementSigned || 0,
+        students: Number(subAdminProfileCount?.data?.student) || 0,
+        industries: Number(subAdminProfileCount?.data?.industry) || 0,
+        rtos: Number(subAdminProfileCount?.data?.rto) || 0,
         workplaceRequests:
-            Number(subAdminProfileCount?.data?.workplaceRequest) || 10,
+            Number(subAdminProfileCount?.data?.workplaceRequest) || 0,
         pendingStudents:
-            Number(subAdminProfileCount?.data?.Pendingstudent) || 10,
-        appointments: Number(subAdminProfileCount?.data?.appointment) || 10,
+            Number(subAdminProfileCount?.data?.Pendingstudent) || 0,
+        appointments: Number(subAdminProfileCount?.data?.appointment) || 0,
+        expiredStudentWorkplace:
+            Number(subAdminProfileCount?.data?.expiredStudentWorkplace) || 0,
+        inProcess: Number(subAdminProfileCount?.data?.inProcess) || 0,
+        appointment: Number(subAdminProfileCount?.data?.appointment) || 0,
+        dontHaveWorkplace:
+            Number(subAdminProfileCount?.data?.dontHaveWorkplace) || 0,
     }
 
-    const addedData = Object.values(countsArr)?.reduce(
+    const countsUpdatedArr = {
+        placementStarted: countsArr?.placementStarted,
+        inProcess: countsArr?.inProcess,
+        dontHaveWorkplace: countsArr?.dontHaveWorkplace,
+        awaitingAgreementSigned: countsArr?.awaitingAgreementSigned,
+        appointment: countsArr?.appointment,
+        expiredStudentWorkplace: countsArr?.expiredStudentWorkplace,
+    }
+
+    const addedData = Object.values(countsUpdatedArr)?.reduce(
         (acum: any, curr: any) => acum + curr,
         0
     )
 
     const percentData = (count: number) =>
-        (((count * 100) / addedData).toFixed(1) || 0) as number
+        count > 0
+            ? ((((count * 100) / addedData).toFixed(1) || 0) as number)
+            : 0
 
     const progressData: RtoProfileProgressTypes[] = [
         {
             title: 'Placement Started',
             color: '#34B53A',
-            percent: percentData(countsArr?.placementStarted),
+            percent: percentData(countsUpdatedArr?.placementStarted),
         },
         {
             title: 'In Progress',
             color: '#4339F2',
-            percent: percentData(countsArr?.inProgress),
+            percent: percentData(countsUpdatedArr?.inProcess),
         },
         {
             title: 'Don’t Have Workplace',
             color: '#21516A',
-            percent: percentData(countsArr?.awaitingAgreementSigned),
+            percent: percentData(countsUpdatedArr?.dontHaveWorkplace),
         },
         {
             title: 'Agreement Pending',
             color: '#FF3A29',
-            percent: percentData(countsArr?.appointmentBooked),
+            percent: percentData(countsUpdatedArr?.awaitingAgreementSigned),
         },
         {
             title: 'Appointments',
             color: '#02A0FC',
-            percent: percentData(countsArr?.noWorkPlace),
+            percent: percentData(countsUpdatedArr?.appointment),
         },
         {
             title: 'Expired Student Workplace',
             color: '#BF0000',
-            percent: percentData(countsArr?.noWorkPlace),
+            percent: percentData(countsUpdatedArr?.expiredStudentWorkplace),
         },
     ]
+
+    console.log({
+        progressData,
+    })
     return (
         <Card fullHeight shadowType="profile" noPadding>
             <div className="h-full overflow-hidden">
@@ -80,7 +101,18 @@ export const SubadminProgress = ({
             <div className="grid grid-cols-4 items-center h-full px-6 py-2">
                 <div>
                     <ProgressChart
-                        data={progressData}
+                        data={
+                            progressData?.reduce((a, c) => a + +c?.percent, 0) >
+                            0
+                                ? progressData
+                                : [
+                                      {
+                                          title: '...',
+                                          color: '#BF0000',
+                                          percent: 100,
+                                      },
+                                  ]
+                        }
                         pieSliceText={'none'}
                         height="170px"
                         pieHole={0.7}

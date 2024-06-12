@@ -69,12 +69,28 @@ export const ContactUsQuery = () => {
                             </ErrorBoundary>
                         </div>
                         <div>
-                            <p className="font-semibold">{userDetail?.email || "N/A"}</p>
+                            <p className="font-semibold">
+                                {userDetail?.email || 'N/A'}
+                            </p>
                         </div>
                     </div>
                 )
             },
             header: () => <span>User</span>,
+        },
+        {
+            accessorKey: 'phone',
+            header: () => <span>Phone</span>,
+            cell: (info) =>
+                info.row.original?.phone ? (
+                    <Typography medium variant="small">
+                        <span className="whitespace-pre">
+                            {info.row.original?.phone}
+                        </span>
+                    </Typography>
+                ) : (
+                    '---'
+                ),
         },
         {
             accessorKey: 'subject',

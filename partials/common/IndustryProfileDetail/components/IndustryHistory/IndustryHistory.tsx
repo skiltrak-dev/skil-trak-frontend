@@ -49,7 +49,7 @@ export const IndustryHistory = ({ industry }: { industry: Industry }) => {
                                 <div className="flex items-center justify-between pr-3 pl-1 py-1.5 border-b border-secondary-dark">
                                     <div>{header}</div>
                                 </div>
-                                <div className="p-4 !h-[calc(633px-70px)] overflow-hidden">
+                                <div className="p-4 !h-[calc(500px-70px)] overflow-hidden">
                                     {element}
                                 </div>
                             </div>

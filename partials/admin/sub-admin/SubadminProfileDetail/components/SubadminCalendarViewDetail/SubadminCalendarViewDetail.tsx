@@ -1,24 +1,88 @@
 import { BigCalendar, CalendarEvent, Card, Typography } from '@components'
-import React from 'react'
+import { CommonApi } from '@queries'
+import { Appointment } from '@types'
+import moment from 'moment'
+import React, { useCallback, useState } from 'react'
 
-export const SubadminCalendarViewDetail = () => {
-    const events: CalendarEvent[] = [
+export const SubadminCalendarViewDetail = ({
+    subadminUserId,
+}: {
+    subadminUserId: number
+}) => {
+    const [selectedDates, setSelectedDates] = useState<{
+        start: Date | null
+        end: Date | null
+    }>({
+        start: null,
+        end: null,
+    })
+
+    const futureAppointments = CommonApi.Appointments.useBookedAppointments(
         {
-            allDay: false,
-            start: new Date('2024-06-26T02:00:15.221Z'),
-            end: new Date('2024-06-27T02:00:15.221Z'),
-            title: 'Appointment',
-            priority: 'high',
-            subTitle: 'Go For It',
+            status: undefined,
+            search: `startDate:${moment(selectedDates?.start).format(
+                'YYYY-MM-DD'
+            )},endDate:${moment(selectedDates?.end).format('YYYY-MM-DD')}`,
+            userId: subadminUserId,
         },
         {
+            skip: !selectedDates?.start || !selectedDates?.end,
+        }
+    )
+    const events = futureAppointments?.data?.map((appointment: Appointment) => {
+        const startTime = new Date(appointment?.date)
+        const endTime = new Date(appointment?.date)
+        const startHours = Number(
+            moment(appointment?.startTime, 'hh:mm:ss').format('HH')
+        )
+        const startMinutes = Number(
+            moment(appointment?.startTime, 'hh:mm:ss').format('mm')
+        )
+        const endHours = Number(
+            moment(appointment?.endTime, 'hh:mm:ss').format('HH')
+        )
+        const endMinutes = Number(
+            moment(appointment?.endTime, 'hh:mm:ss').format('mm')
+        )
+        startTime.setHours(startHours, startMinutes)
+        endTime.setHours(endHours, endMinutes)
+
+        const appointmentUser =
+            appointment['appointmentFor'] || appointment['appointmentBy']
+
+        const getPriority = () => {
+            if (appointmentUser) {
+                switch (appointmentUser['role']) {
+                    case 'student':
+                        return 'high'
+                    case 'rto':
+                        return 'medium'
+                    case 'industry':
+                        return 'low'
+                    default:
+                        return 'high'
+                }
+            }
+
+            return 'high'
+        }
+
+        return {
             allDay: false,
-            end: new Date('2024-06-29T05:00:00.000Z'),
-            start: new Date('2024-06-29T07:00:00.000Z'),
-            title: 'test larger',
-            priority: 'low',
-        },
-    ]
+            start: startTime,
+            end: endTime,
+            title: appointment?.type?.title,
+            priority: getPriority(),
+            subTitle:
+                appointment.appointmentFor?.name ||
+                appointment.appointmentBy?.name,
+            appointment,
+        }
+    })
+
+    const onSelectedDate = useCallback((dates: any) => {
+        setSelectedDates(dates)
+    }, [])
 
     return (
         <Card fullHeight shadowType="profile" noPadding>
@@ -32,7 +96,14 @@ export const SubadminCalendarViewDetail = () => {
 
             {/*  */}
             <div className="p-4">
-                <BigCalendar events={events} />
+                <BigCalendar
+                    events={events}
+                    loading={
+                        futureAppointments.isLoading ||
+                        futureAppointments.isFetching
+                    }
+                    onSelectedDate={onSelectedDate}
+                />
             </div>
         </Card>
     )

@@ -1,4 +1,4 @@
-import { SubAdmin } from '@types'
+import { SubAdmin, UserStatus } from '@types'
 import {
     ProfileDetail,
     SubadminCalendarViewDetail,
@@ -12,6 +12,8 @@ import {
     Notes,
 } from '@partials/common/StudentProfileDetail/components'
 import { SubadminHistory } from './components/SubadminHistory'
+import { useEffect } from 'react'
+import { useAlert } from '@hooks'
 
 export const SubadminProfileDetail = ({ subadmin }: { subadmin: SubAdmin }) => {
     const subAdminProfileCount = AdminApi.SubAdmins.useProfileCount(
@@ -20,6 +22,52 @@ export const SubadminProfileDetail = ({ subadmin }: { subadmin: SubAdmin }) => {
             skip: !subadmin,
         }
     )
+
+    const { alert, setAlerts } = useAlert()
+
+    useEffect(() => {
+        const showAlert = () => {
+            switch (subadmin?.user?.status) {
+                case UserStatus.Pending:
+                    alert.warning({
+                        title: 'Subadmin is Pending',
+                        description: 'Subadmin is Pending',
+                        autoDismiss: false,
+                    })
+                    break
+                case UserStatus.Archived:
+                    alert.warning({
+                        title: 'Subadmin is Archived',
+                        description: 'Subadmin is Archived',
+                        autoDismiss: false,
+                    })
+                    break
+                case UserStatus.Rejected:
+                    alert.error({
+                        title: 'Subadmin is Rejected',
+                        description: 'Subadmin is Rejected',
+                        autoDismiss: false,
+                    })
+                    break
+                case UserStatus.Blocked:
+                    alert.error({
+                        title: 'Subadmin is Blocked',
+                        description: 'Subadmin is Blocked',
+                        autoDismiss: false,
+                    })
+                    break
+
+                default:
+                    break
+            }
+        }
+        showAlert()
+
+        return () => {
+            setAlerts([])
+        }
+    }, [])
+
     return (
         <div className="p-4 flex flex-col gap-y-6">
             <div className="grid grid-cols-3 gap-x-5">
@@ -48,7 +96,9 @@ export const SubadminProfileDetail = ({ subadmin }: { subadmin: SubAdmin }) => {
             <div className=" grid grid-cols-3 gap-x-[18px]">
                 <div className="col-span-2">
                     <div className="w-full">
-                        <SubadminCalendarViewDetail />
+                        <SubadminCalendarViewDetail
+                            subadminUserId={subadmin?.user?.id}
+                        />
                     </div>
                 </div>
                 <div className="h-full">
