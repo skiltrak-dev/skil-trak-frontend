@@ -27,7 +27,6 @@ import { getUserCredentials } from '@utils'
 
 export const ArchivedSubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const [changeStatusResult, setChangeStatusResult] = useState<any>({})
     const router = useRouter()
     const contextBar = useContextBar()
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -50,12 +49,6 @@ export const ArchivedSubAdmin = () => {
         })
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
-    useEffect(() => {
-        if (changeStatusResult.isSuccess) {
-            refetch()
-        }
-    }, [changeStatusResult])
-
     const onEditSubAdmin = (subAdmin: SubAdmin) => {
         contextBar.setContent(<AddSubAdminCB edit subAdmin={subAdmin} />)
         contextBar.setTitle('Edit SubAdmin')
@@ -71,18 +64,13 @@ export const ArchivedSubAdmin = () => {
             <UnArchiveModal
                 subadmin={subAdmin}
                 onCancel={onModalCancelClicked}
-                setChangeStatusResult={setChangeStatusResult}
             />
         )
     }
 
     const onDeleteClicked = (subAdmin: SubAdmin) => {
         setModal(
-            <DeleteModal
-                subAdmin={subAdmin}
-                onCancel={onModalCancelClicked}
-                setChangeStatusResult={setChangeStatusResult}
-            />
+            <DeleteModal subAdmin={subAdmin} onCancel={onModalCancelClicked} />
         )
     }
 
@@ -233,6 +221,7 @@ export const ArchivedSubAdmin = () => {
     return (
         <>
             {modal}
+            {passwordModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Archived Sub Admin'}

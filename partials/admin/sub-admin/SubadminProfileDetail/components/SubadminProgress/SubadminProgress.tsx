@@ -84,9 +84,6 @@ export const SubadminProgress = ({
         },
     ]
 
-    console.log({
-        progressData,
-    })
     return (
         <Card fullHeight shadowType="profile" noPadding>
             <div className="h-full overflow-hidden">

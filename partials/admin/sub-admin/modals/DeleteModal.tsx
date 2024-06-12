@@ -1,10 +1,10 @@
-import { ActionModal, ShowErrorNotifications } from '@components'
-import { useAlert, useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 
 import { SubAdmin } from '@types'
 import { useEffect } from 'react'
+import { useNotification } from '@hooks'
 import { FaTrash } from 'react-icons/fa'
+import { ActionModal, ShowErrorNotifications } from '@components'
 
 export const DeleteModal = ({
     subAdmin,
@@ -13,7 +13,6 @@ export const DeleteModal = ({
     subAdmin: SubAdmin | undefined
     onCancel: Function
 }) => {
-    const { alert } = useAlert()
     const { notification } = useNotification()
     const [remove, removeResult] = AdminApi.SubAdmins.useRemove()
 
