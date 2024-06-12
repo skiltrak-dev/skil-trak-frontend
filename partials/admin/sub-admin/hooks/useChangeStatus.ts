@@ -13,7 +13,10 @@ export const useChangeStatus = () => {
     }
 
     const onReject = async (subAdmin: SubAdmin) => {
-        await changeStatus({ id: subAdmin.id, status: UserStatus.Rejected })
+        await changeStatus({
+            id: subAdmin?.user?.id,
+            status: UserStatus.Rejected,
+        })
     }
 
     const onBlock = async (user: User) => {

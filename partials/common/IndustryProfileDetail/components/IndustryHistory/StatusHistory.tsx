@@ -3,14 +3,11 @@ import {
     LoadingAnimation,
     PageTitle,
     TechnicalError,
+    Typography,
 } from '@components'
-import { BsArrowRight } from 'react-icons/bs'
 export const StatusHistory = ({ industry }: { industry: any }) => {
     return (
-        <div>
-            <div className="flex justify-between items-center">
-                <PageTitle title={'Status History'} />
-            </div>
+        <div className="h-full overflow-auto custom-scrollbar">
             {industry?.isError && <TechnicalError />}
             {industry?.isLoading || industry?.isFetching ? (
                 <LoadingAnimation />
@@ -19,48 +16,82 @@ export const StatusHistory = ({ industry }: { industry: any }) => {
                 <div className="bg-white rounded-md  mt-4 flex flex-col justify-center items-center gap-y-3 gap-x-4">
                     {industry?.user?.statusChangeHistory.map(
                         (history: any, i: number) => (
-                            <div className="flex justify-center items-center gap-x-2.5 shadow-md  p-3">
-                                {/* <div className="w-6 h-[1px] bg-slate-600"></div> */}
-                                <span className="text-xs">Previous Status</span>
-                                <BsArrowRight className="" size={20} />
-
-                                <div>
-                                    <div className="text-sm p-3 flex items-center justify-center rounded-full text-orange-500 bg-orange-100">
-                                        <span className="text-xs capitalize font-semibold text-orange-500">
-                                            {history.previous}
-                                        </span>
+                            <div className="w-full relative flex items-center gap-x-4">
+                                <div className="min-w-4 min-h-4 bg-[#6C6C6C] rounded-full" />
+                                <div className="w-full flex justify-between items-center gap-x-2.5 shadow bg-[#F8FAFC] px-6 py-4 rounded-[10px]">
+                                    {/* <div className="w-6 h-[1px] bg-slate-600"></div> */}
+                                    <div>
+                                        <Typography variant="small">
+                                            Previous Status
+                                        </Typography>
+                                        <Typography
+                                            semibold
+                                            variant="label"
+                                            color={'text-primary'}
+                                            capitalize
+                                        >
+                                            {history?.previous}
+                                        </Typography>
                                     </div>
-                                </div>
-                                <div className="w-6 h-[1px] bg-slate-600"></div>
-                                <span className="text-xs ">Current Status</span>
-                                <BsArrowRight className="" size={20} />
 
-                                <div>
-                                    <div className="text-sm p-3 flex items-center justify-center rounded-full text-green-500 bg-green-100">
-                                        <span className="text-xs capitalize font-semibold text-green-500">
-                                            {history.current}
-                                        </span>
+                                    <div className="flex items-center">
+                                        {'<'}
+                                        {[...Array(8)].map((_) => '-')}
+                                        {'>'}
                                     </div>
-                                </div>
-                                <div className="w-6 h-[1px] bg-slate-600"></div>
-                                <span className="text-xs">Updated At</span>
-                                <BsArrowRight className="" size={20} />
-                                <div>
-                                    <div className="text-sm p-3 flex items-center justify-center rounded-full text-gray-500 bg-gray-100">
-                                        <span className="text-xs font-semibold text-gray-500 whitespace-pre">
+
+                                    <div>
+                                        <Typography variant="small">
+                                            Current Status
+                                        </Typography>
+                                        <Typography
+                                            semibold
+                                            variant="label"
+                                            color={'text-primary'}
+                                            capitalize
+                                        >
+                                            {history?.current}
+                                        </Typography>
+                                    </div>
+
+                                    <div className="flex items-center">
+                                        {'<'}
+                                        {[...Array(8)].map((_) => '-')}
+                                        {'>'}
+                                    </div>
+
+                                    <div>
+                                        <Typography variant="small">
+                                            Updated At
+                                        </Typography>
+                                        <Typography
+                                            semibold
+                                            variant="label"
+                                            color={'text-[#6A798C]'}
+                                            capitalize
+                                        >
                                             {history.updateAt.slice(0, 10)}
-                                        </span>
+                                        </Typography>
                                     </div>
-                                </div>
-                                <div className="w-6 h-[1px] bg-slate-600"></div>
-                                <span className="text-xs">Updated By</span>
-                                <BsArrowRight className="" size={20} />
-                                <div>
-                                    <div className="text-sm p-3 flex items-center gap-x-1 justify-center rounded-full text-red-500 bg-red-100">
-                                        {/* <CiUser size={18} /> */}
-                                        <span className="text-xs font-semibold capitalize text-red-500">
-                                            {history.updateBy}
-                                        </span>
+
+                                    <div className="flex items-center">
+                                        {'<'}
+                                        {[...Array(8)].map((_) => '-')}
+                                        {'>'}
+                                    </div>
+
+                                    <div>
+                                        <Typography variant="small">
+                                            Updated By{' '}
+                                        </Typography>
+                                        <Typography
+                                            semibold
+                                            variant="label"
+                                            color={'text-[#BF0000]'}
+                                            capitalize
+                                        >
+                                            {history?.updateBy}
+                                        </Typography>
                                     </div>
                                 </div>
                             </div>

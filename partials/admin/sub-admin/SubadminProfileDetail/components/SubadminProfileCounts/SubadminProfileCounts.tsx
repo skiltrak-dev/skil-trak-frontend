@@ -74,7 +74,7 @@ export const SubadminProfileCounts = ({
             },
         },
         {
-            title: 'Workplace In Process',
+            title: 'Workplace Request In Process',
             count: subAdminProfileCount?.data?.inProcess || 0,
             Icon: SiHomeassistantcommunitystore,
             loading: false,

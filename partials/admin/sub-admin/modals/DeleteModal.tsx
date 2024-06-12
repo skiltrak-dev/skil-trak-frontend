@@ -9,11 +9,9 @@ import { FaTrash } from 'react-icons/fa'
 export const DeleteModal = ({
     subAdmin,
     onCancel,
-    setChangeStatusResult,
 }: {
     subAdmin: SubAdmin | undefined
     onCancel: Function
-    setChangeStatusResult: any
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()
@@ -22,10 +20,6 @@ export const DeleteModal = ({
     const onConfirmUClicked = async (subAdmin: SubAdmin) => {
         await remove(subAdmin?.user?.id)
     }
-
-    useEffect(() => {
-        setChangeStatusResult(removeResult)
-    }, [removeResult])
 
     useEffect(() => {
         if (removeResult.isSuccess) {

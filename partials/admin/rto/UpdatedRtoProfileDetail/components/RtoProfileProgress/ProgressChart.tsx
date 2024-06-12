@@ -20,6 +20,12 @@ export const ProgressChart = ({
         chartArea: { width: '60%', height: '90%' },
         colors: data?.map((d: RtoProfileProgressTypes, i: number) => d?.color),
         pieSliceText: pieSliceText || 'percentage',
+        // tooltip: false,
+        // tooltip: {
+        //     trigger: 'selection',
+        //     isHtml: true,
+        //     text: '<b>Slice Label</b>',
+        // },
         // pieSliceTextStyle: {
         //     fontSize: 30, // Set font size to 30px
         // },
