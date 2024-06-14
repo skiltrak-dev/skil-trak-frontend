@@ -153,7 +153,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
             { key: 'placementStarted', title: 'Placement Started' },
             { key: 'inProcess', title: 'In Progress' },
             { key: 'awaitingAgreementSigned', title: 'Agreement Pending' },
-            { key: 'appointment', title: 'Appointment' },
+            { key: 'appointmentBooked', title: 'Appointment' },
             { key: 'dontHaveWorkplace', title: `Don't Have Workplace` },
         ]
         const total = mapping.reduce(
@@ -169,6 +169,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
     }
 
     const data = mapApiDataToChartData(statistics?.data)
+    console.log('statistics?.data', statistics?.data)
     return (
         <>
             {modal && modal}
