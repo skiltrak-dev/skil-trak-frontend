@@ -21,6 +21,7 @@ import {
     checkStudentStatus,
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
+    getUserCredentials,
     setLink,
 } from '@utils'
 import { useRouter } from 'next/router'
@@ -43,6 +44,8 @@ import {
 } from '@partials/admin/student/modals'
 import moment from 'moment'
 import { Waypoint } from 'react-waypoint'
+import { UserRoles } from '@constants'
+import { StudentCellInfo as SubadminStudentCellInfo } from '@partials/sub-admin/students'
 
 export const IndustryStudents = ({ industry }: { industry: Industry }) => {
     const [isViewed, setIsViewed] = useState<boolean>(false)
@@ -117,6 +120,8 @@ export const IndustryStudents = ({ industry }: { industry: Industry }) => {
         )
     }
 
+    const role = getUserCredentials()?.role
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
@@ -167,9 +172,12 @@ export const IndustryStudents = ({ industry }: { industry: Industry }) => {
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <StudentCellInfo student={info?.row?.original} />
-            },
+            cell: (info) =>
+                role === UserRoles.ADMIN ? (
+                    <StudentCellInfo student={info?.row?.original} />
+                ) : role === UserRoles.SUBADMIN ? (
+                    <SubadminStudentCellInfo student={info?.row.original} />
+                ) : null,
             header: () => <span>Student</span>,
         },
         {

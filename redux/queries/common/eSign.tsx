@@ -377,4 +377,12 @@ export const eSignEndpoints = (
         }),
         invalidatesTags: ['E-Sign'],
     }),
+
+    toggleReminderEmail: builder.mutation<any, number>({
+        query: (signerId) => ({
+            url: `${PREFIX}/signer/${signerId}/reminder-email/toggle`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['E-Sign'],
+    }),
 })
