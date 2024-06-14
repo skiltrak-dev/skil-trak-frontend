@@ -1,6 +1,12 @@
-import { AuthorizedUserComponent, Tooltip, Typography } from '@components'
+import {
+    AuthorizedUserComponent,
+    Button,
+    Switch,
+    Tooltip,
+    Typography,
+} from '@components'
 import { UserRoles } from '@constants'
-import { EsignDocumentStatus, getUserCredentials } from '@utils'
+import { EsignDocumentStatus, getUserCredentials, isBrowser } from '@utils'
 import moment from 'moment'
 import { ReactNode, useState } from 'react'
 import { MdEmail } from 'react-icons/md'
@@ -8,6 +14,7 @@ import { TiUser } from 'react-icons/ti'
 import { RequestResign, ResendMailModal } from '../modal'
 import { RiMailSendLine } from 'react-icons/ri'
 import { FaSignature } from 'react-icons/fa'
+import { CommonApi } from '@queries'
 
 export const CheckAgreementSignedStatus = ({
     document,
@@ -17,6 +24,9 @@ export const CheckAgreementSignedStatus = ({
     documentSigned: EsignDocumentStatus
 }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
+
+    const [toggleReminderEmail, toggleReminderEmailResult] =
+        CommonApi.ESign.useToggleReminderEmail()
 
     const onCancelClicked = () => setModal(null)
 
@@ -35,22 +45,46 @@ export const CheckAgreementSignedStatus = ({
 
     const role = getUserCredentials()?.role
 
-    console.log({ document })
     return (
         <div>
             {modal}
             <div className="flex justify-center items-center border-2 border-dashed m-3 px-4 py-0.5">
                 <div>
                     <div className="flex flex-col gap-y-1">
-                        <Typography
-                            color="text-muted-dark"
-                            variant="label"
-                            bold
-                        >
-                            {documentSigned === EsignDocumentStatus.SIGNED
-                                ? 'Document Signed'
-                                : 'Awaiting Signature'}
-                        </Typography>
+                        <div className="flex justify-between items-center gap-x-2">
+                            <Typography
+                                color="text-muted-dark"
+                                variant="label"
+                                bold
+                            >
+                                {documentSigned === EsignDocumentStatus.SIGNED
+                                    ? 'Document Signed'
+                                    : 'Awaiting Signature'}
+                            </Typography>
+                            <div className="bg-info px-2 py-0.5 rounded">
+                                <Typography
+                                    variant="small"
+                                    color="text-white"
+                                    bold
+                                    cursorPointer
+                                >
+                                    <span
+                                        onClick={() => {
+                                            if (isBrowser()) {
+                                                window.open(
+                                                    `${process.env.NEXT_PUBLIC_END_POINT}/esign/document/${document?.id}/download`
+                                                )
+                                            }
+                                            // downloadEsignDocument.refetch()
+                                            // setIsDownload(true)
+                                        }}
+                                    >
+                                        Download Documnet
+                                    </span>
+                                </Typography>
+                            </div>
+                        </div>
+
                         <Typography variant="small" color="text-muted-dark">
                             Your document is currently undergoing signature from
                             the necessary parties. Upon completion of the
@@ -64,7 +98,7 @@ export const CheckAgreementSignedStatus = ({
                             className={`grid ${
                                 role === UserRoles.ADMIN ||
                                 role === UserRoles.SUBADMIN
-                                    ? 'grid-cols-5'
+                                    ? 'grid-cols-6'
                                     : 'grid-cols-3'
                             } items-center py-0.5`}
                         >
@@ -103,7 +137,17 @@ export const CheckAgreementSignedStatus = ({
                                     variant="small"
                                     color={'text-muted-dark'}
                                 >
-                                    Resend Mail
+                                    Resend
+                                </Typography>
+                            </AuthorizedUserComponent>
+                            <AuthorizedUserComponent
+                                roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                            >
+                                <Typography
+                                    variant="small"
+                                    color={'text-muted-dark'}
+                                >
+                                    Reminder
                                 </Typography>
                             </AuthorizedUserComponent>
                         </div>
@@ -114,7 +158,7 @@ export const CheckAgreementSignedStatus = ({
                                     className={`grid ${
                                         role === UserRoles.ADMIN ||
                                         role === UserRoles.SUBADMIN
-                                            ? 'grid-cols-5'
+                                            ? 'grid-cols-6'
                                             : 'grid-cols-3'
                                     } border-t-2 border-[#D9D9D9] py-1`}
                                 >
@@ -211,14 +255,47 @@ export const CheckAgreementSignedStatus = ({
                                         <div className="relative group">
                                             <RiMailSendLine
                                                 onClick={() => {
-                                                    onResendMailClicked(
-                                                        signer?.user?.id
-                                                    )
+                                                    if (
+                                                        signer?.status !==
+                                                        EsignDocumentStatus.SIGNED
+                                                    ) {
+                                                        onResendMailClicked(
+                                                            signer?.user?.id
+                                                        )
+                                                    }
                                                 }}
-                                                className=" text-xl text-primary ml-5 cursor-pointer"
+                                                className={`text-xl  ml-5 ${
+                                                    signer?.status !==
+                                                    EsignDocumentStatus.SIGNED
+                                                        ? 'cursor-pointer text-primary'
+                                                        : 'cursor-not-allowed text-muted'
+                                                } `}
                                             />
-                                            <Tooltip>Resend Email</Tooltip>
+                                            <Tooltip>
+                                                {signer?.status !==
+                                                EsignDocumentStatus.SIGNED
+                                                    ? 'Resend Email'
+                                                    : 'Document Signed'}
+                                            </Tooltip>
                                         </div>
+                                    </AuthorizedUserComponent>
+                                    <AuthorizedUserComponent
+                                        roles={[
+                                            UserRoles.ADMIN,
+                                            UserRoles.SUBADMIN,
+                                        ]}
+                                    >
+                                        <Switch
+                                            name="toggleReminderEmail"
+                                            customStyleClass={'profileSwitch'}
+                                            onChange={() => {
+                                                toggleReminderEmail(signer?.id)
+                                            }}
+                                            value={signer?.isReminderEnabled}
+                                            defaultChecked={
+                                                signer?.isReminderEnabled
+                                            }
+                                        />
                                     </AuthorizedUserComponent>
                                 </div>
                             </>

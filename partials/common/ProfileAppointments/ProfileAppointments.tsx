@@ -34,7 +34,7 @@ export const ProfileAppointments = ({
                 setIsEntered(false)
             }}
         >
-            <div>
+            <div className="h-full">
                 <Card fullHeight shadowType="profile" noPadding>
                     <div className="px-4 py-3.5 border-b border-secondary-dark flex justify-between items-center">
                         <Typography semibold>

@@ -23,7 +23,7 @@ export const UsersPendingEsignModal = ({
     return (
         <>
             <GlobalModal>
-                <div className="max-w-4xl relative">
+                <div className="max-w-5xl min-w-full md:min-w-[750px] lg:min-w-[850px] relative">
                     {onCancel ? (
                         <MdCancel
                             onClick={onCancel}
@@ -46,7 +46,7 @@ export const UsersPendingEsignModal = ({
                                 variant="small"
                                 color={'text-[#767F8C]'}
                             >
-                                {documents?.length} Pending Documents Esigns{' '}
+                                {documents?.length} Pending Documents Esigns
                             </Typography>
                         </div>
                     </div>
