@@ -25,7 +25,6 @@ import {
     ReleasedEsignDocuments,
     StudentsEsignDocuments,
 } from './tabs'
-import { ListingEnum } from './enums'
 
 const filterKeys = [
     'templateName',
@@ -170,13 +169,7 @@ export const SubadminESign = () => {
                         loading={false}
                         link="/portals/sub-admin/e-sign?tab=all&page=1&pageSize=50&status=pending"
                     />
-                    <FigureCard
-                        imageUrl="/images/documents/documents.png"
-                        count={count?.data?.pending}
-                        title={'UnSigned Documents'}
-                        loading={false}
-                        // link="admin/rto?tab=approved&page=1&pageSize=50"
-                    />
+
                     <FigureCard
                         imageUrl="/images/documents/allDocuments.png"
                         count={count?.data?.signed}

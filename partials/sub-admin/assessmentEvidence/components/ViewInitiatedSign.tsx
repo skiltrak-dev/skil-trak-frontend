@@ -1,7 +1,7 @@
 import { ActionButton, Button } from '@components'
 import { DocumentsView } from '@hooks'
 import { AssessmentEvidenceDetailType, Folder, Rto } from '@types'
-import { EsignDocumentStatus } from '@utils'
+import { EsignDocumentStatus, isBrowser } from '@utils'
 import { useEffect, useState } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { CancelInitiateSign, InitiateSigningModal } from '../modal'
@@ -105,6 +105,7 @@ export const ViewInitiatedSign = ({
                     >
                         Initiate Another Signing
                     </ActionButton>
+
                     {selectedDocument?.status !==
                         EsignDocumentStatus.SIGNED && (
                         <div className="flex">

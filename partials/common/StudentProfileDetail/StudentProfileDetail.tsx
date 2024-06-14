@@ -25,6 +25,7 @@ import {
     Tickets,
     Workplace,
 } from './components'
+import { ProfileAppointments } from '../ProfileAppointments'
 
 const Schedule = dynamic(() => import('./components/Schedule/Schedule'), {
     ssr: false,
@@ -348,7 +349,30 @@ export const StudentProfileDetail = () => {
                                     : ''
                             } !h-[99%] overflow-hidden`}
                         >
-                            <Appointments user={profile?.data?.user} />
+                            <ProfileAppointments
+                                link={
+                                    role === UserRoles.ADMIN
+                                        ? {
+                                              pathname:
+                                                  '/portals/admin/appointment-type/create-appointment',
+                                              query: {
+                                                  student:
+                                                      profile?.data?.user?.id,
+                                              },
+                                          }
+                                        : role === UserRoles.SUBADMIN
+                                        ? {
+                                              pathname:
+                                                  '/portals/sub-admin/tasks/appointments/create-appointment',
+                                              query: {
+                                                  student:
+                                                      profile?.data?.user?.id,
+                                              },
+                                          }
+                                        : null
+                                }
+                                userId={profile?.data?.user?.id}
+                            />
                         </div>
                         <div
                             id={`student-profile-${ProfileIds.Tickets}`}

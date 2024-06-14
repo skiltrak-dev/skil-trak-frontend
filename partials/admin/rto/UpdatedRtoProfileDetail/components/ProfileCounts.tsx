@@ -9,6 +9,8 @@ import {
 } from 'react-icons/si'
 import { AdminApi } from '@queries'
 import { useRouter } from 'next/router'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 export interface RtoProfileCountDataType {
     title: string
@@ -36,6 +38,8 @@ export const ProfileCounts = ({
 }) => {
     const router = useRouter()
 
+    const role = getUserCredentials()?.role
+
     const countsData: RtoProfileCountDataType[] = [
         {
             title: 'Completed Student',
@@ -43,7 +47,12 @@ export const ProfileCounts = ({
             Icon: HiUserCircle,
             loading: statisticsCount?.isLoading,
             link: {
-                pathname: '/portals/admin/student',
+                pathname:
+                    role === UserRoles.ADMIN
+                        ? '/portals/admin/student'
+                        : role === UserRoles.SUBADMIN
+                        ? '/portals/sub-admin/students'
+                        : '',
                 query: {
                     tab: 'completed',
                     page: 1,
@@ -63,7 +72,12 @@ export const ProfileCounts = ({
             Icon: HiUserCircle,
             loading: statisticsCount?.isLoading,
             link: {
-                pathname: '/portals/admin/student',
+                pathname:
+                    role === UserRoles.ADMIN
+                        ? '/portals/admin/student'
+                        : role === UserRoles.SUBADMIN
+                        ? '/portals/sub-admin/students'
+                        : '',
                 query: {
                     tab: 'archive',
                     page: 1,
@@ -83,7 +97,12 @@ export const ProfileCounts = ({
             Icon: HiUserCircle,
             loading: statisticsCount?.isLoading,
             link: {
-                pathname: '/portals/admin/student',
+                pathname:
+                    role === UserRoles.ADMIN
+                        ? '/portals/admin/student'
+                        : role === UserRoles.SUBADMIN
+                        ? '/portals/sub-admin/students'
+                        : '',
                 query: {
                     tab: 'active',
                     page: 1,
@@ -103,9 +122,14 @@ export const ProfileCounts = ({
             Icon: HiUserCircle,
             loading: statisticsCount?.isLoading,
             link: {
-                pathname: '/portals/admin/student',
+                pathname:
+                    role === UserRoles.ADMIN
+                        ? '/portals/admin/student'
+                        : role === UserRoles.SUBADMIN
+                        ? '/portals/sub-admin/students'
+                        : '',
                 query: {
-                    tab: 'active',
+                    tab: 'pending',
                     page: 1,
                     pageSize: 50,
                     rtoId: Number(router?.query?.id),
@@ -132,6 +156,20 @@ export const ProfileCounts = ({
             count: Number(statisticsCount?.data?.pendingResult),
             Icon: SiSimpleanalytics,
             loading: statisticsCount?.isLoading,
+            link:
+                role === UserRoles.SUBADMIN
+                    ? {
+                          pathname:
+                              '/portals/sub-admin/tasks/assessment-evidence',
+                          query: {
+                              tab: 'pending',
+                              page: 1,
+                              pageSize: 50,
+                              rtoId: Number(router?.query?.id),
+                              result: UserStatus.Pending,
+                          },
+                      }
+                    : undefined,
             background: {
                 from: '#439DEE',
                 to: '#1E78E9',
