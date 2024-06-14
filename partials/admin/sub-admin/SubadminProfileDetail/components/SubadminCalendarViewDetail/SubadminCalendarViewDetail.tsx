@@ -92,7 +92,7 @@ export const SubadminCalendarViewDetail = ({
                 setIsViewd(true)
             }}
         >
-            <div>
+            <div className="h-full">
                 <Card fullHeight shadowType="profile" noPadding>
                     <div className="h-full overflow-hidden">
                         <div className="px-4 py-3.5 border-b border-secondary-dark">

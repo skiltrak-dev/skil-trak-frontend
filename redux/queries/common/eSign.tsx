@@ -361,4 +361,20 @@ export const eSignEndpoints = (
         }),
         providesTags: ['RemoveTemplate-E-Sign'],
     }),
+
+    downloadEsignDocument: builder.query<any, number>({
+        query: (id) => `${PREFIX}/document/${id}/download`,
+        providesTags: ['E-Sign'],
+    }),
+
+    resendEmailToUser: builder.mutation<
+        any,
+        { documentId: number; userId: number }
+    >({
+        query: ({ documentId, userId }) => ({
+            url: `${PREFIX}/document/${documentId}/signer/${userId}/mail-send`,
+            method: 'POST',
+        }),
+        invalidatesTags: ['E-Sign'],
+    }),
 })

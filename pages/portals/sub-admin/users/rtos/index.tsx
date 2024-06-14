@@ -89,6 +89,15 @@ const RTOs: NextPageWithLayout = () => {
             },
             Icon: FaEye,
         },
+        {
+            text: 'Old Profile',
+            onClick: (rto: any) => {
+                router.push(
+                    `/portals/sub-admin/users/rtos/${rto?.id}/detail?tab=overview`
+                )
+            },
+            Icon: FaEye,
+        },
 
         // {
         //     text: 'View Password',
