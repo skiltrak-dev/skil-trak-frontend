@@ -72,6 +72,14 @@ const industryClusterStyles = [
         width: 50,
     },
 ]
+const partnerIndustryClusterStyles = [
+    {
+        textColor: 'white',
+        url: '/images/icons/partnered-industry-cluster.svg',
+        height: 50,
+        width: 50,
+    },
+]
 
 const australiaCenter = { lat: -25.274398, lng: 133.775136 }
 const victoriaCenter = { lat: -37.8136, lng: 144.9631 }
@@ -93,6 +101,7 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
     const [showInfoBox, setShowInfoBox] = useState<any>(false)
     const [visibleMarkers, setVisibleMarkers] = useState<any>([])
     const [map, setMap] = useState<google.maps.Map | null>(null)
+    const [searchInitiated, setSearchInitiated] = useState(false)
     // bounds
     const [mapCenter, setMapCenter] = useState(center)
     const [mapZoom, setMapZoom] = useState(5)
@@ -132,8 +141,8 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
             search: `${JSON.stringify(
                 removeEmptyValues({
                     sectorId: sector,
+                    suburb: location,
                     // rtoId: rto,
-                    // suburb: location,
                     // currentStatus: workplaceType,
                 })
             )
@@ -158,7 +167,14 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
         value: rto.id,
     }))
     const suburbOptions = suburbsList?.data
-        ?.filter((suburb: any) => suburb?.suburb !== 'NA')
+        ?.filter(
+            (suburb: any) =>
+                suburb?.suburb !== 'NA' &&
+                suburb?.suburb !== 'na' &&
+                suburb?.suburb !== 'n/a' &&
+                suburb?.suburb !== 'N/A' &&
+                suburb?.suburb !== ''
+        )
         .map((suburb: any) => ({
             label: ellipsisText(suburb?.suburb, 15),
             value: suburb?.suburb,
@@ -226,6 +242,7 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                 )
             })
             map.fitBounds(bounds)
+            setSearchInitiated(true)
         }
     }, [map, visibleMarkers])
     const savedMap = {
@@ -244,7 +261,7 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
     const handleVictoriaView = () => {
         if (map) {
             map.setCenter(victoriaCenter)
-            map.setZoom(8) 
+            map.setZoom(8)
         }
     }
     const saveMapView = () => {
@@ -263,64 +280,63 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
     }
 
     useEffect(() => {
-        if (savedCoordinates?.data) {
+        if (savedCoordinates?.data && !searchInitiated) {
             setMapCenter(savedMap)
             setMapZoom(Number(savedCoordinates.data.zoom))
         }
     }, [savedCoordinates])
 
     useEffect(() => {
-        if (map) {
+        if (map && !searchInitiated) {
             setTimeout(() => {
                 map.setCenter(mapCenter)
                 map.setZoom(mapZoom)
             }, 1200) // Adjust the delay as needed
         }
     }, [mapCenter, mapZoom, map])
-    // const onBoundChange = useCallback(() => {
-    //     setSelectedBox(null)
-    //     setIndustryId(null)
-    //     setShowInfoBox(false)
-    //     setStudentId('')
-    //     if (!map) return
-
-    //     const bounds = map.getBounds()
-    //     if (!bounds) return
-
-    //     const updatedVisibleMarkers = visibleMarkers.filter((marker: any) => {
-    //         const latLng = new google.maps.LatLng(
-    //             marker.location.lat,
-    //             marker.location.lng
-    //         )
-    //         return bounds.contains(latLng)
-    //     })
-
-    //     setVisibleMarkers(updatedVisibleMarkers)
-    // }, [map])
     const onBoundChange = useCallback(() => {
-        if (map) {
-            const newCenter = map.getCenter()
-            const newZoom = map.getZoom()
-            if (newZoom !== undefined && newCenter !== undefined) {
-                setMapCenter({
-                    lat: newCenter.lat(),
-                    lng: newCenter.lng(),
-                })
-            }
-            if (newZoom !== undefined) {
-                setMapZoom(newZoom)
-            }
-        }
-    }, [map])
+        setSelectedBox(null)
+        setIndustryId(null)
+        setShowInfoBox(false)
+        setStudentId('')
+        if (!map) return
 
-    // const onMapLoad = useCallback(
-    //     (map: any) => {
-    //         setMap(map)
-    //         map.addListener('bounds_changed', onBoundChange)
-    //     },
-    //     [onBoundChange]
-    // )
+        const bounds = map.getBounds()
+        if (!bounds) return
+
+        const updatedVisibleMarkers = visibleMarkers.filter((marker: any) => {
+            const latLng = new google.maps.LatLng(
+                marker.location.lat,
+                marker.location.lng
+            )
+            return bounds.contains(latLng)
+        })
+        setVisibleMarkers(updatedVisibleMarkers)
+    }, [map])
+    // const onBoundChange = useCallback(() => {
+    //     if (map) {
+    //         const newCenter = map.getCenter()
+    //         const newZoom = map.getZoom()
+    //         if (newZoom !== undefined && newCenter !== undefined) {
+    //             setMapCenter({
+    //                 lat: newCenter.lat(),
+    //                 lng: newCenter.lng(),
+    //             })
+    //         }
+    //         if (newZoom !== undefined) {
+    //             setMapZoom(newZoom)
+    //         }
+    //     }
+    // }, [map])
+
     const onMapLoad = useCallback(
+        (map: any) => {
+            setMap(map)
+            map.addListener('bounds_changed', onBoundChange)
+        },
+        [onBoundChange]
+    )
+    const onMapLoadSavedCoordinates = useCallback(
         (map: any) => {
             setMap(map)
             setTimeout(() => {
@@ -352,6 +368,11 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
         grid: 20,
         maxZoom: 15,
     }
+    const partnerIndustryClusterOptions = {
+        styles: partnerIndustryClusterStyles,
+        grid: 20,
+        maxZoom: 15,
+    }
 
     return (
         <div className="w-full flex flex-col gap-y-2.5">
@@ -365,7 +386,13 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                             suburbsList?.isLoading || suburbsList?.isFetching
                         }
                         onChange={(e: any) => {
-                            setLocation(e?.value)
+                            if (e?.value) {
+                                setLocation(e?.value)
+                                setSearchInitiated(true)
+                            } else {
+                                setLocation('')
+                                setSearchInitiated(false)
+                            }
                         }}
                         placeholder="Select Suburb"
                     />
@@ -375,7 +402,13 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                         label={'RTO'}
                         loading={rtosList?.isLoading || rtosList?.isFetching}
                         onChange={(e: any) => {
-                            setRto(e?.value)
+                            if (e?.value) {
+                                setRto(e?.value)
+                                setSearchInitiated(true)
+                            } else {
+                                setRto('')
+                                setSearchInitiated(false)
+                            }
                         }}
                         placeholder="Select RTO"
                     />
@@ -384,7 +417,13 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                         options={sectorsOptions}
                         label={'Sector'}
                         onChange={(e: any) => {
-                            setSector(e?.value)
+                            if (e?.value) {
+                                setSector(e.value)
+                                setSearchInitiated(true)
+                            } else {
+                                setSector('')
+                                setSearchInitiated(false)
+                            }
                         }}
                         placeholder="Select Sector"
                     />
@@ -410,7 +449,13 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                         ]}
                         label={'Workplace Type'}
                         onChange={(e: any) => {
-                            setWorkplaceType(e?.value)
+                            if (e?.value) {
+                                setWorkplaceType(e?.value)
+                                setSearchInitiated(true)
+                            } else {
+                                setWorkplaceType('')
+                                setSearchInitiated(false)
+                            }
                         }}
                         placeholder="Workplace Type"
                     />
@@ -426,7 +471,11 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                         mapContainerStyle={containerStyle}
                         center={center}
                         zoom={5}
-                        onLoad={onMapLoad}
+                        onLoad={
+                            !searchInitiated
+                                ? onMapLoadSavedCoordinates
+                                : onMapLoad
+                        }
                         onUnmount={onMapUnmount}
                         // onBoundsChanged={onBoundChange}
                         options={{ styles: customMapStyles }}
@@ -567,6 +616,7 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                                     {visibleMarkers
                                         ?.filter(
                                             (marker: any) =>
+                                                !marker?.isPartner &&
                                                 marker?.user &&
                                                 marker?.user?.role ===
                                                     'industry'
@@ -582,6 +632,144 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                                                                 ?.role ===
                                                                 'industry'
                                                                 ? '/images/icons/industry-pin-map-pin.png'
+                                                                : '/images/icons/student-red-map-pin.png',
+                                                        scaledSize:
+                                                            new google.maps.Size(
+                                                                29,
+                                                                38
+                                                            ),
+                                                    }}
+                                                    position={marker.location}
+                                                    // label={marker.name}
+                                                    clusterer={clusterer}
+                                                    onMouseOver={(e: any) => {
+                                                        // handleMarkerClick(marker)
+                                                        setStudentId(marker?.id)
+                                                        setIndustryId(
+                                                            marker?.id
+                                                        )
+                                                        setSelectedBox({
+                                                            ...marker,
+                                                            position: {
+                                                                lat: e.latLng.lat(),
+                                                                lng: e.latLng.lng(),
+                                                            },
+                                                        })
+                                                        setShowInfoBox(true)
+                                                    }}
+                                                    onMouseOut={() =>
+                                                        setSelectedMarker(null)
+                                                    }
+                                                    onClick={(e: any) => {
+                                                        // handleMarkerClick(marker)
+                                                        setStudentId(marker?.id)
+                                                        setIndustryId(
+                                                            marker?.id
+                                                        )
+                                                        setSelectedBox({
+                                                            ...marker,
+                                                            position: {
+                                                                lat: e.latLng.lat(),
+                                                                lng: e.latLng.lng(),
+                                                            },
+                                                        })
+                                                        setShowInfoBox(true)
+                                                    }}
+                                                />
+                                                {selectedBox &&
+                                                    showInfoBox &&
+                                                    selectedBox.id ===
+                                                        marker?.id && (
+                                                        <InfoBox
+                                                            position={
+                                                                selectedBox?.position
+                                                            }
+                                                            onCloseClick={() => {
+                                                                setSelectedBox(
+                                                                    null
+                                                                )
+                                                                setShowInfoBox(
+                                                                    false
+                                                                )
+                                                                setStudentId('')
+                                                                setIndustryId(
+                                                                    null
+                                                                )
+                                                            }}
+                                                            options={{
+                                                                closeBoxURL: ``,
+                                                                enableEventPropagation:
+                                                                    true,
+                                                            }}
+                                                        >
+                                                            {marker?.user
+                                                                ?.role &&
+                                                            marker?.user
+                                                                ?.role ===
+                                                                'industry' ? (
+                                                                <IndustryInfoBoxCard
+                                                                    item={
+                                                                        industryDetails
+                                                                    }
+                                                                    selectedBox={
+                                                                        selectedBox
+                                                                    }
+                                                                    industryId={
+                                                                        industryId
+                                                                    }
+                                                                    setSelectedBox={
+                                                                        setSelectedBox
+                                                                    }
+                                                                />
+                                                            ) : (
+                                                                <StudentInfoBoxCard
+                                                                    item={
+                                                                        studentDetails
+                                                                    }
+                                                                    selectedBox={
+                                                                        selectedBox
+                                                                    }
+                                                                    studentId={
+                                                                        studentId
+                                                                    }
+                                                                    setSelectedBox={
+                                                                        setSelectedBox
+                                                                    }
+                                                                />
+                                                            )}
+                                                        </InfoBox>
+                                                    )}
+                                            </div>
+                                        ))}
+                                </>
+                            )}
+                        </MarkerClusterer>
+
+                        {/* isPartner */}
+                        <MarkerClusterer
+                            options={partnerIndustryClusterOptions}
+                        >
+                            {(clusterer) => (
+                                <>
+                                    {visibleMarkers
+                                        ?.filter(
+                                            (marker: any) =>
+                                                marker?.user &&
+                                                marker?.user?.role ===
+                                                    'industry' &&
+                                                marker?.isPartner
+                                        )
+                                        .map((marker: any) => (
+                                            <div key={marker?.id}>
+                                                <Marker
+                                                    icon={{
+                                                        url:
+                                                            marker?.user
+                                                                ?.role &&
+                                                            marker?.user
+                                                                ?.role ===
+                                                                'industry'
+                                                                ? '/images/icons/partnered-industry-marker.png'
                                                                 : '/images/icons/student-red-map-pin.png',
                                                         scaledSize:
                                                             new google.maps.Size(
