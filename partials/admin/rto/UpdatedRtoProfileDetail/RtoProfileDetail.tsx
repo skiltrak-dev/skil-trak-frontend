@@ -11,13 +11,14 @@ import {
     RtoReports,
     RtoSectors,
 } from './components'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 export const RtoProfileDetail = ({ rto }: { rto: Rto }) => {
+    const role = getUserCredentials()?.role
     return (
         <div className="px-2.5 py-5">
             <RtoProfileTopbar rtoUserId={rto?.user?.id} />
-
-            {/*  */}
 
             <RtoProfileStatistics rtoUserId={rto?.user?.id} />
 
@@ -32,14 +33,27 @@ export const RtoProfileDetail = ({ rto }: { rto: Rto }) => {
             {/* Appointments */}
             <div className="mt-5 h-[480px]">
                 <ProfileAppointments
-                    link={{
-                        pathname:
-                            '/portals/admin/appointment-type/create-appointment',
-                        query: {
-                            rto: rto?.user?.id,
-                        },
-                    }}
+                    link={
+                        role === UserRoles.ADMIN
+                            ? {
+                                  pathname:
+                                      '/portals/admin/appointment-type/create-appointment',
+                                  query: {
+                                      rto: rto?.user?.id,
+                                  },
+                              }
+                            : role === UserRoles.SUBADMIN
+                            ? {
+                                  pathname:
+                                      '/portals/sub-admin/tasks/appointments/create-appointment',
+                                  query: {
+                                      rto: rto?.user?.id,
+                                  },
+                              }
+                            : null
+                    }
                     userId={rto?.user?.id}
+                    fullWidth
                 />
             </div>
 

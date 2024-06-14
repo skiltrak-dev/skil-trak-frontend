@@ -37,8 +37,8 @@ export const SubmitAssessmentSubmission = ({
     const onSubmitAssessment = () => {
         submitAssessment({
             body: {
-                notifyCoordinator: false,
-                notifyRto: false,
+                notifyCoordinator: true,
+                notifyRto: true,
             },
             student: student?.user?.id,
             id: selectedCourseId,

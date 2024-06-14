@@ -66,15 +66,11 @@ export const ProfileLinks = ({ industry }: { industry: Industry }) => {
                 : {}),
         },
         {
-            ...(role === UserRoles.ADMIN
-                ? {
-                      text: 'View Password',
-                      Icon: IoMdEyeOff,
-                      onClick: () => {
-                          onViewPassword(industry)
-                      },
-                  }
-                : {}),
+            text: 'View Password',
+            Icon: IoMdEyeOff,
+            onClick: () => {
+                onViewPassword(industry)
+            },
         },
         {
             text: industry?.isSnoozed ? 'Un-Snooze' : 'Snooze',

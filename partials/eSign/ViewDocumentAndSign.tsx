@@ -1,4 +1,6 @@
 import {
+    ActionButton,
+    Button,
     Card,
     EmptyData,
     LoadingAnimation,
@@ -11,7 +13,7 @@ import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import { IoMdArrowDropleftCircle } from 'react-icons/io'
-import { SVGView } from './components'
+import { DownloadEsignDocument, SVGView } from './components'
 import { EsignSignatureModal, FinishSignModal } from './modal'
 import { isBrowser } from '@utils'
 
@@ -423,6 +425,7 @@ export const ViewDocumentAndSign = () => {
     return (
         <div>
             {modal}
+            <DownloadEsignDocument />
             {isSignature && isDocumentLoaded?.isSuccess ? (
                 <EsignSignatureModal
                     tab={selectedSign}
@@ -436,7 +439,6 @@ export const ViewDocumentAndSign = () => {
                     }
                 />
             ) : null}
-
             {!showSignersField && (
                 <div
                     onClick={() => {
@@ -447,7 +449,6 @@ export const ViewDocumentAndSign = () => {
                     <IoMdArrowDropleftCircle size={25} className="opacity-60" />
                 </div>
             )}
-
             {/* {documentsTotalPages.isSuccess && (
                 <div className="flex justify-end items-center">
                     <ActionButton
@@ -462,7 +463,6 @@ export const ViewDocumentAndSign = () => {
                     </ActionButton>
                 </div>
             )} */}
-
             {documentsTotalPages.isError && <TechnicalError />}
             {documentsTotalPages.isLoading ? (
                 <LoadingAnimation />

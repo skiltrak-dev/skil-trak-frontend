@@ -30,7 +30,7 @@ export const DetailTabs = ({ rto }: { rto: Rto }) => {
     const tabs: TabProps[] = [
         {
             label: 'Overview',
-            href: { pathname: String(rto?.id), query: { tab: 'overview' } },
+            href: { query: { id: rto?.id, tab: 'overview' } },
             badge: { text: '05', color: 'text-blue-500' },
             element: (
                 <RtoProfileOverview
@@ -43,20 +43,19 @@ export const DetailTabs = ({ rto }: { rto: Rto }) => {
         {
             label: 'Assessments',
             href: {
-                pathname: String(rto?.id),
-                query: { tab: 'assessments' },
+                query: { id: rto?.id, tab: 'assessments' },
             },
             badge: { text: '', color: 'text-error-500' },
             element: <AssessmentToolsSubAdmin />,
         },
         {
             label: 'Appointments',
-            href: { pathname: String(rto?.id), query: { tab: 'appointments' } },
+            href: { query: { id: rto?.id, tab: 'appointments' } },
             element: <AppointmentTab userId={rto?.user?.id} />,
         },
         {
             label: 'RTO Reports',
-            href: { pathname: String(rto?.id), query: { tab: 'reports' } },
+            href: { query: { id: rto?.id, tab: 'reports' } },
             element: (
                 <RTOReports
                     user={rto?.user}
@@ -67,14 +66,13 @@ export const DetailTabs = ({ rto }: { rto: Rto }) => {
         {
             label: 'Contact Persons',
             href: {
-                pathname: String(rto?.id),
-                query: { tab: 'contact-person' },
+                query: { id: rto?.id, tab: 'contact-person' },
             },
             element: <ContactPersons rto={rto} />,
         },
         {
             label: 'Gallery',
-            href: { pathname: String(rto?.id), query: { tab: 'gallery' } },
+            href: { query: { id: rto?.id, tab: 'gallery' } },
             element: (
                 <div className="mb-5">
                     <RtoStudentsAssessmentGallery />
@@ -83,24 +81,23 @@ export const DetailTabs = ({ rto }: { rto: Rto }) => {
         },
         {
             label: 'Documents',
-            href: { pathname: String(rto?.id), query: { tab: 'documents' } },
+            href: { query: { id: rto?.id, tab: 'documents' } },
             element: <RtoAddDocuments rto={rto} />,
         },
         {
             label: 'Mails',
-            href: { pathname: String(rto?.id), query: { tab: 'mails' } },
+            href: { query: { id: rto?.id, tab: 'mails' } },
             element: <MailsTab user={rto?.user} />,
         },
         {
             label: 'Notes',
-            href: { pathname: String(rto?.id), query: { tab: 'notes' } },
+            href: { query: { id: rto?.id, tab: 'notes' } },
             element: <NotesTab user={rto?.user} />,
         },
         {
             label: 'All Communications',
             href: {
-                pathname: String(rto?.id),
-                query: { tab: 'all-communications' },
+                query: { id: rto?.id, tab: 'all-communications' },
             },
             element: <AllCommunicationTab user={rto?.user} />,
         },

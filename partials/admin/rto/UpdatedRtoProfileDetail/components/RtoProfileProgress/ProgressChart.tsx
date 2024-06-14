@@ -18,7 +18,7 @@ export const ProgressChart = ({
         is3D: false,
         legend: { position: 'none' },
         chartArea: { width: '60%', height: '90%' },
-        colors: data?.map((d: RtoProfileProgressTypes, i: number) => d?.color),
+        colors: data?.map((d: RtoProfileProgressTypes) => d?.color),
         pieSliceText: pieSliceText || 'percentage',
         // tooltip: false,
         // tooltip: {

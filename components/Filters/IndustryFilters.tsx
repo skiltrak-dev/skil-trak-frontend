@@ -63,6 +63,7 @@ export const IndustryFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, name: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="email"
@@ -73,6 +74,7 @@ export const IndustryFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, email: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="suburb"
@@ -82,6 +84,7 @@ export const IndustryFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, suburb: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="state"
@@ -91,6 +94,7 @@ export const IndustryFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, state: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="phone"
@@ -100,6 +104,7 @@ export const IndustryFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, phone: e.target.value })
                     }}
+                    showError={false}
                 />
                 <Select
                     label={'Is Partner'}
@@ -108,6 +113,7 @@ export const IndustryFilters = ({
                     onChange={(e: any) =>
                         onFilterChange({ ...filter, isPartner: e?.value })
                     }
+                    showError={false}
                 />
 
                 <Select
@@ -122,6 +128,7 @@ export const IndustryFilters = ({
                     onChange={(e: any) =>
                         onFilterChange({ ...filter, isHiring: e?.value })
                     }
+                    showError={false}
                 />
 
                 <Select
@@ -138,6 +145,7 @@ export const IndustryFilters = ({
                             status: e?.value as UserStatus,
                         })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     label={'Industry Address'}
@@ -150,6 +158,7 @@ export const IndustryFilters = ({
                             address: e.target.value,
                         })
                     }}
+                    showError={false}
                 />
                 <Select
                     label={'Search by Sectors'}
@@ -166,6 +175,7 @@ export const IndustryFilters = ({
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}
                     onlyValue
+                    showError={false}
                 />
                 <Select
                     label={'Search by Courses'}
@@ -185,6 +195,7 @@ export const IndustryFilters = ({
                         Option: CourseSelectOption,
                     }}
                     formatOptionLabel={formatOptionLabel}
+                    showError={false}
                 />
             </div>
         </>

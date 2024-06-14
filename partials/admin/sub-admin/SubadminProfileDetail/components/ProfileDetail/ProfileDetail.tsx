@@ -10,9 +10,11 @@ export const ProfileDetail = ({ subadmin }: { subadmin: SubAdmin }) => {
     return (
         <Card shadowType="profile" fullHeight>
             <div className="relative">
-                <div className="absolute right-0">
-                    <ProfileLinks subadmin={subadmin} />
-                </div>
+                <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                    <div className="absolute right-0">
+                        <ProfileLinks subadmin={subadmin} />
+                    </div>
+                </AuthorizedUserComponent>
 
                 {/*  */}
                 <div className="w-full flex flex-col items-center gap-x-2 px-4 py-2">
@@ -45,7 +47,10 @@ export const ProfileDetail = ({ subadmin }: { subadmin: SubAdmin }) => {
                         detail={subadmin?.coordinatorId}
                     />
                     <ProfileCard title="Phone" detail={subadmin?.phone} />
-                    <ProfileCard title="Last Login" detail={'2 hours ago'} />
+                    <ProfileCard
+                        title="Address"
+                        detail={subadmin?.addressLine1}
+                    />
                 </div>
 
                 {/*  */}

@@ -1,11 +1,13 @@
-import { AuthorizedUserComponent, Typography } from '@components'
+import { AuthorizedUserComponent, Tooltip, Typography } from '@components'
 import { UserRoles } from '@constants'
 import { EsignDocumentStatus, getUserCredentials } from '@utils'
 import moment from 'moment'
 import { ReactNode, useState } from 'react'
 import { MdEmail } from 'react-icons/md'
 import { TiUser } from 'react-icons/ti'
-import { RequestResign } from '../modal'
+import { RequestResign, ResendMailModal } from '../modal'
+import { RiMailSendLine } from 'react-icons/ri'
+import { FaSignature } from 'react-icons/fa'
 
 export const CheckAgreementSignedStatus = ({
     document,
@@ -21,8 +23,19 @@ export const CheckAgreementSignedStatus = ({
     const onRequestResign = (eSign: any) => {
         setModal(<RequestResign onCancel={onCancelClicked} eSign={eSign} />)
     }
+    const onResendMailClicked = (signerId: number) => {
+        setModal(
+            <ResendMailModal
+                onCancel={onCancelClicked}
+                documentId={document?.id}
+                signerId={signerId}
+            />
+        )
+    }
 
     const role = getUserCredentials()?.role
+
+    console.log({ document })
     return (
         <div>
             {modal}
@@ -51,7 +64,7 @@ export const CheckAgreementSignedStatus = ({
                             className={`grid ${
                                 role === UserRoles.ADMIN ||
                                 role === UserRoles.SUBADMIN
-                                    ? 'grid-cols-4'
+                                    ? 'grid-cols-5'
                                     : 'grid-cols-3'
                             } items-center py-0.5`}
                         >
@@ -83,6 +96,16 @@ export const CheckAgreementSignedStatus = ({
                                     Resign
                                 </Typography>
                             </AuthorizedUserComponent>
+                            <AuthorizedUserComponent
+                                roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                            >
+                                <Typography
+                                    variant="small"
+                                    color={'text-muted-dark'}
+                                >
+                                    Resend Mail
+                                </Typography>
+                            </AuthorizedUserComponent>
                         </div>
 
                         {document?.signers?.map((signer: any, i: number) => (
@@ -91,7 +114,7 @@ export const CheckAgreementSignedStatus = ({
                                     className={`grid ${
                                         role === UserRoles.ADMIN ||
                                         role === UserRoles.SUBADMIN
-                                            ? 'grid-cols-4'
+                                            ? 'grid-cols-5'
                                             : 'grid-cols-3'
                                     } border-t-2 border-[#D9D9D9] py-1`}
                                 >
@@ -157,41 +180,45 @@ export const CheckAgreementSignedStatus = ({
                                             UserRoles.SUBADMIN,
                                         ]}
                                     >
-                                        <Typography
-                                            variant="small"
-                                            color={
+                                        <FaSignature
+                                            className={`text-2xl ${
                                                 signer?.status ===
                                                 EsignDocumentStatus.SIGNED
-                                                    ? 'text-primary'
-                                                    : 'text-muted'
-                                            }
-                                            medium
-                                        >
-                                            <span
-                                                onClick={() => {
-                                                    if (
-                                                        signer?.status ===
-                                                        EsignDocumentStatus.SIGNED
-                                                    ) {
-                                                        onRequestResign({
-                                                            ...signer,
-                                                            template:
-                                                                document?.template,
-                                                            document:
-                                                                document?.id,
-                                                        })
-                                                    }
-                                                }}
-                                                className={`${
+                                                    ? 'text-primary cursor-pointer'
+                                                    : 'text-muted cursor-not-allowed'
+                                            }`}
+                                            onClick={() => {
+                                                if (
                                                     signer?.status ===
                                                     EsignDocumentStatus.SIGNED
-                                                        ? 'cursor-pointer'
-                                                        : 'cursor-not-allowed'
-                                                }`}
-                                            >
-                                                Request Resign
-                                            </span>
-                                        </Typography>
+                                                ) {
+                                                    onRequestResign({
+                                                        ...signer,
+                                                        template:
+                                                            document?.template,
+                                                        document: document?.id,
+                                                    })
+                                                }
+                                            }}
+                                        />
+                                    </AuthorizedUserComponent>
+                                    <AuthorizedUserComponent
+                                        roles={[
+                                            UserRoles.ADMIN,
+                                            UserRoles.SUBADMIN,
+                                        ]}
+                                    >
+                                        <div className="relative group">
+                                            <RiMailSendLine
+                                                onClick={() => {
+                                                    onResendMailClicked(
+                                                        signer?.user?.id
+                                                    )
+                                                }}
+                                                className=" text-xl text-primary ml-5 cursor-pointer"
+                                            />
+                                            <Tooltip>Resend Email</Tooltip>
+                                        </div>
                                     </AuthorizedUserComponent>
                                 </div>
                             </>
