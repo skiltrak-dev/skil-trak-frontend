@@ -37,8 +37,8 @@ export const SubadminProgress = ({
         inProcess: countsArr?.inProcess,
         dontHaveWorkplace: countsArr?.dontHaveWorkplace,
         awaitingAgreementSigned: countsArr?.awaitingAgreementSigned,
-        appointment: countsArr?.appointment,
         expiredStudentWorkplace: countsArr?.expiredStudentWorkplace,
+        appointmentBooked: countsArr?.appointmentBooked,
     }
 
     const addedData = Object.values(countsUpdatedArr)?.reduce(
@@ -75,7 +75,7 @@ export const SubadminProgress = ({
         {
             title: 'Appointments',
             color: '#02A0FC',
-            percent: percentData(countsUpdatedArr?.appointment),
+            percent: percentData(countsUpdatedArr?.appointmentBooked),
         },
         {
             title: 'Expired Student Workplace',

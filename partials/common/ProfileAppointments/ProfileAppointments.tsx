@@ -21,6 +21,7 @@ export const ProfileAppointments = ({
                   [key: string]: string | number
               }
           }
+        | null
 }) => {
     const [isEntered, setIsEntered] = useState<boolean>(false)
     const router = useRouter()
