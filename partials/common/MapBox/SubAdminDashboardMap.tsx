@@ -1,11 +1,12 @@
 // src/components/MapComponent.tsx
-import { Card, Checkbox, Select } from '@components'
-import { useState } from 'react'
+import { Card, Checkbox, Select, TextInput } from '@components'
+import { useEffect, useState } from 'react'
 
 //
 import dynamic from 'next/dynamic'
 import { SuburbInput } from './SuburbInput'
 import { SubAdminApi } from '@queries'
+import { fromAddress, setKey } from 'react-geocode'
 const SubAdminDashboardMapDetail = dynamic(
     () => import('./SubAdminDashboardMapDetail')
 )
@@ -14,8 +15,10 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
     const [sector, setSector] = useState('')
     const [workplaceType, setWorkplaceType] = useState<string | null>(null)
     const [rto, setRto] = useState('')
+    const [suburbLocation, setSuburbLocation] = useState<any>(null)
 
     const [searchInitiated, setSearchInitiated] = useState(false)
+    const [isDelay, setIsDelay] = useState(false)
 
     const rtosList = SubAdminApi.SubAdmin.useSubAdminRtosForMap()
 
@@ -23,6 +26,13 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
         label: rto?.user?.name,
         value: rto.id,
     }))
+
+    useEffect(() => {
+        setKey(process.env.NEXT_PUBLIC_MAP_KEY as string)
+        setTimeout(() => {
+            setIsDelay(true)
+        }, 1000)
+    }, [])
 
     return (
         <div className="w-full flex flex-col gap-y-2.5">
@@ -48,7 +58,47 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                             }}
                             placeholder="Select Suburb"
                         /> */}
-                    <SuburbInput />
+                    <TextInput
+                        label={'Suburb'}
+                        name={'suburb'}
+                        placeholder={'Suburb...'}
+                        validationIcons
+                        required
+                        placesSuggetions
+                        onChange={(e: any) => {
+                            console.log({ eeeee: e?.target?.value })
+                            if (e?.target?.value?.length > 4) {
+                                fromAddress(e?.target?.value)
+                                    .then(({ results }) => {
+                                        console.log('Banka Inner')
+                                        const { lat, lng } =
+                                            results[0].geometry.location
+                                        setSuburbLocation({ lat, lng })
+                                        // console.log({
+                                        //     map,
+                                        //     lat,
+                                        //     lng,
+                                        //     outer: true,
+                                        // })
+                                        // if (map) {
+                                        //     console.log({
+                                        //         map,
+                                        //         lat,
+                                        //         lng,
+                                        //     })
+                                        //     map.setCenter({ lat, lng })
+                                        //     map.setZoom(8)
+                                        // }
+                                        console.log(lat, lng)
+                                    })
+                                    .catch(console.error)
+                            }
+                        }}
+                        // onPlaceSuggetions={{
+                        //     placesSuggetions: onSuburbClicked,
+                        //     setIsPlaceSelected: setOnSuburbClicked,
+                        // }}
+                    />
                     <Select
                         name="rto"
                         options={rtoOptions}
@@ -137,14 +187,19 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
             {/* </form>
             </FormProvider> */}
 
-            <SubAdminDashboardMapDetail
-                rto={rto}
-                sector={sector}
-                // location={location}
-                workplaceType={workplaceType}
-                searchInitiated={searchInitiated}
-                setSearchInitiated={setSearchInitiated}
-            />
+            {isDelay ? (
+                <div>
+                    <SubAdminDashboardMapDetail
+                        rto={rto}
+                        sector={sector}
+                        // location={location}
+                        workplaceType={workplaceType}
+                        suburbLocation={suburbLocation}
+                        searchInitiated={searchInitiated}
+                        setSearchInitiated={setSearchInitiated}
+                    />
+                </div>
+            ) : null}
         </div>
     )
 }

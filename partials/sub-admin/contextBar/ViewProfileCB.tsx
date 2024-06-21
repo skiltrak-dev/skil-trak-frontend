@@ -245,8 +245,8 @@ export const ViewProfileCB = ({ subadmin }: { subadmin: SubAdmin }) => {
 
                     {/*  */}
                     <div>
-                        {sectionsData.map((secData) => (
-                            <Link href={secData?.link}>
+                        {sectionsData.map((secData, i) => (
+                            <Link href={secData?.link} key={i}>
                                 <div className="flex items-center justify-between border-b border-secondary-dark py-2">
                                     <Typography variant="small">
                                         {secData.text}

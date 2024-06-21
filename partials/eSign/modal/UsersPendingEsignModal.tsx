@@ -129,7 +129,10 @@ export const UsersPendingEsignModal = ({
                                     <div className="grid grid-cols-2 lg:grid-cols-1 lg:flex lg:justify-center lg:items-center gap-1.5 ">
                                         {document?.signers?.map(
                                             (signer: any) => (
-                                                <div className="border border-dashed border-[#24556D] rounded-[10px] py-3.5 w-full lg:w-1/4 flex flex-col justify-center items-center gap-y-2">
+                                                <div
+                                                    key={signer?.user?.id}
+                                                    className="border border-dashed border-[#24556D] rounded-[10px] py-3.5 w-full lg:w-1/4 flex flex-col justify-center items-center gap-y-2"
+                                                >
                                                     <Typography
                                                         variant="xxs"
                                                         medium
