@@ -9,6 +9,7 @@ import {
     Card,
     RadioGroup,
     Select,
+    SelectOption,
     ShowErrorNotifications,
     TextInput,
     Tooltip,
@@ -56,6 +57,7 @@ export const StudentProfileForm = ({
     const [sectors, setSectors] = useState<any | null>(null)
     const [courseOptions, setCourseOptions] = useState([])
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
+    const [selectedAge, setSelectedAge] = useState<any>(null)
     const [sectorsValue, setSectorsValue] = useState<any>([
         ...sectorDefaultOptions,
     ])
@@ -251,6 +253,7 @@ export const StudentProfileForm = ({
                     ? 'domestic'
                     : ''
             )
+            setSelectedAge(profile?.data?.age)
         }
     }, [profile])
 
@@ -261,6 +264,7 @@ export const StudentProfileForm = ({
     }, [courseValues])
 
     const onHandleSubmit = (values: any) => {
+        console.log({ values })
         if (!onSuburbClicked) {
             notification.error({
                 title: 'You must select on Suburb Dropdown',
@@ -363,6 +367,13 @@ export const StudentProfileForm = ({
                                     <Select
                                         label={'Select Age'}
                                         name={'age'}
+                                        value={ageOptions?.find(
+                                            (age: SelectOption) =>
+                                                age?.value === selectedAge
+                                        )}
+                                        onChange={(e: any) => {
+                                            setSelectedAge(e)
+                                        }}
                                         options={ageOptions}
                                         placeholder={'Select Age...'}
                                         validationIcons

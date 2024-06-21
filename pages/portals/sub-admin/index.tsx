@@ -4,19 +4,10 @@ import { ReactElement, useEffect, useState } from 'react'
 // layouts
 import { SubAdminLayout } from '@layouts'
 // components
-import {
-    Card,
-    ContextBarLoading,
-    GlobalModal,
-    HelpQuestionSet,
-    LottieAnimation,
-    Modal,
-    NoData,
-} from '@components'
+import { Card, ContextBarLoading, Modal, NoData } from '@components'
 // icons
 import { FaSchool } from 'react-icons/fa'
 // animations
-import { Animations } from '@animations'
 // hooks
 import { useContextBar } from '@hooks'
 import { ViewProfileCB } from '@partials/sub-admin/contextBar'
@@ -26,11 +17,9 @@ import { FigureCardVII } from '@components/sections/subAdmin/components/Cards/Fi
 import { AuthUtils, getSectors, getUserCredentials } from '@utils'
 
 import { ImportantDocuments, SubAdminDashboardMap } from '@partials/common'
+import { ProgressChart } from '@partials/sub-admin/components'
 import { CommonApi, SubAdminApi, useGetSubAdminIndustriesQuery } from '@queries'
 import { useRouter } from 'next/router'
-import { CallBackProps } from 'react-joyride'
-import { IoMdCloseCircle } from 'react-icons/io'
-import { ProgressChart } from '@partials/sub-admin/components'
 
 const SubAdminDashboard: NextPageWithLayout = () => {
     const status = getUserCredentials()?.status
@@ -43,7 +32,6 @@ const SubAdminDashboard: NextPageWithLayout = () => {
     const statistics = SubAdminApi.Count.statistics(undefined, {
         skip: status !== UserStatus.Approved,
     })
-    console.log('statistics', statistics?.data)
     const sectorsWithCourses = getSectors(subadminCourses?.data)
     const uniqueSectors = (() => {
         const sectors = subadminCourses?.data?.map((item: any) => item?.sector)
@@ -169,7 +157,6 @@ const SubAdminDashboard: NextPageWithLayout = () => {
     }
 
     const data = mapApiDataToChartData(statistics?.data)
-    console.log('statistics?.data', statistics?.data)
     return (
         <>
             {modal && modal}
@@ -327,6 +314,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                         </p>
                     </div> */}
                     <div className="w-full">
+                        {/* <SuburbInput /> */}
                         <SubAdminDashboardMap sectorsOptions={sectorsOptions} />
                     </div>
                 </div>

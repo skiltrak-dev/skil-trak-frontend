@@ -10,6 +10,7 @@ import {
     CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
+    StudentStatusProgressCell,
     Table,
     TableAction,
     Typography,
@@ -23,9 +24,17 @@ import { Student } from '@types'
 import { useEffect, useState } from 'react'
 import { ChangeStudentStatusModal } from './modals'
 
-import { SectorCell } from '@partials/admin/student/components'
+import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import { checkListLength, setLink, studentsListWorkplace } from '@utils'
+import {
+    WorkplaceCurrentStatus,
+    checkListLength,
+    checkStudentStatus,
+    checkWorkplaceStatus,
+    getStudentWorkplaceAppliedIndustry,
+    setLink,
+    studentsListWorkplace,
+} from '@utils'
 import moment from 'moment'
 import { IndustryCellInfo } from '../Industries'
 import { RTOCellInfo } from '../rto/components'
@@ -138,9 +147,45 @@ export const CompletedStudents = () => {
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
-            cell: ({ row }) => (
-                <CaseOfficerAssignedStudent student={row.original} />
-            ),
+            cell: ({ row }) => {
+                const student = row.original
+                const workplace = student?.workplace
+                    ?.filter(
+                        (w: any) =>
+                            w?.currentStatus !==
+                            WorkplaceCurrentStatus.Cancelled
+                    )
+                    ?.reduce(
+                        (a: any, b: any) =>
+                            a?.createdAt > b?.createdAt ? a : b,
+                        {
+                            currentStatus: WorkplaceCurrentStatus.NotRequested,
+                        }
+                    )
+
+                const studentStatus = checkStudentStatus(student?.studentStatus)
+                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+                    workplace?.industries
+                )
+
+                return (
+                    <StudentStatusProgressCell
+                        assigned={student?.subadmin}
+                        studentId={student?.id}
+                        step={
+                            workplace?.currentStatus ===
+                            WorkplaceCurrentStatus.Cancelled
+                                ? 4
+                                : studentStatus
+                        }
+                        appliedIndustry={appliedIndustry}
+                        studentProvidedWorkplace={
+                            workplace?.studentProvidedWorkplace ||
+                            workplace?.byExistingAbn
+                        }
+                    />
+                )
+            },
         },
         {
             accessorKey: 'createdAt',
