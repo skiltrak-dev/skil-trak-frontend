@@ -20,11 +20,12 @@ export const ImportIndustriesListWithOTP = () => {
         try {
             const wb = read(e.target.result, { type: 'binary' })
             const sheets = wb.SheetNames
-
+            console.log({ Hello: 'Hello' })
             if (sheets.length) {
                 const rows = utils.sheet_to_json(wb.Sheets[sheets[0]])
                 // onStudentFound && onStudentFound(rows, fileData)
                 setIndustriesCount(rows?.length)
+
                 if (rows?.length < 101) {
                     setIndustries(rows)
                 } else {
@@ -51,6 +52,7 @@ export const ImportIndustriesListWithOTP = () => {
     const onCancel = () => setModal(null)
 
     const onSubmit = () => {
+        console.log({ industries })
         sendVerificationCode({ listing: true }).then((res: any) => {
             if (res?.data) {
                 setModal(

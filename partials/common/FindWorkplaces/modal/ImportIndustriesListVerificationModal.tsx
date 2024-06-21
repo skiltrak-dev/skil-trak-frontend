@@ -23,6 +23,7 @@ export const ImportIndustriesListVerificationModal = ({
     onCancel: () => void
     onSetImportListResult: any
 }) => {
+    console.log({ industries })
     const [compareCode, compareCodeResult] = RtoApi.Students.useCompareCode()
     const [importList, importListResult] =
         CommonApi.FindWorkplace.importIndustriesList()
@@ -39,6 +40,7 @@ export const ImportIndustriesListVerificationModal = ({
     })
 
     const onImportIndustriesList = () => {
+        console.log({ onImportInner: industries })
         importList({
             industries: industries?.map((ind: any) => ({
                 ...ind,
@@ -65,6 +67,7 @@ export const ImportIndustriesListVerificationModal = ({
     const onSubmit = async (otp: any) => {
         compareCode(otp).then((res: any) => {
             if (res?.data) {
+                console.log({ onImportOuter: industries })
                 onImportIndustriesList()
             } else {
                 notification.error({

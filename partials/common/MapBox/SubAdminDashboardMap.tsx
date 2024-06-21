@@ -1,421 +1,36 @@
 // src/components/MapComponent.tsx
-import {
-    Button,
-    Card,
-    Checkbox,
-    LoadingAnimation,
-    NoData,
-    Select,
-} from '@components'
-import { SubAdminApi } from '@queries'
-import {
-    GoogleMap,
-    InfoBox,
-    Marker,
-    MarkerClusterer,
-    useJsApiLoader,
-} from '@react-google-maps/api'
-import { ellipsisText, removeEmptyValues } from '@utils'
-import { useCallback, useEffect, useState } from 'react'
-import { IndustryInfoBoxCard } from './IndustryInfoBoxCard'
-import { StudentInfoBoxCard } from './StudentInfoBoxCard'
+import { Card, Checkbox, Select } from '@components'
+import { useState } from 'react'
 
 //
-import { useForm } from 'react-hook-form'
+import dynamic from 'next/dynamic'
 import { SuburbInput } from './SuburbInput'
+import { SubAdminApi } from '@queries'
+const SubAdminDashboardMapDetail = dynamic(
+    () => import('./SubAdminDashboardMapDetail')
+)
 export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
-    const containerStyle = {
-        width: '100%',
-        height: '389px',
-    }
-
-    const center = {
-        lat: -37.81374,
-        lng: 144.963033,
-    }
-
-    const customMapStyles = [
-        {
-            featureType: 'water',
-
-            elementType: 'geometry.fill',
-
-            stylers: [{ color: '#cde2e8' }],
-        },
-
-        {
-            featureType: 'landscape',
-
-            elementType: 'geometry.fill',
-
-            stylers: [{ color: '#f6f6f6' }],
-        },
-    ]
-
-    const studentClusterStyles = [
-        {
-            textColor: 'white',
-            url: '/images/icons/student-clusters.svg',
-            height: 50,
-            width: 50,
-        },
-    ]
-
-    const industryClusterStyles = [
-        {
-            textColor: 'white',
-            url: '/images/icons/industry-clusters.svg',
-            height: 50,
-            width: 50,
-        },
-    ]
-    const partnerIndustryClusterStyles = [
-        {
-            textColor: 'white',
-            url: '/images/icons/partnered-industry-cluster.svg',
-            height: 50,
-            width: 50,
-        },
-    ]
-
-    const australiaCenter = { lat: -25.274398, lng: 133.775136 }
-    const victoriaCenter = { lat: -37.8136, lng: 144.9631 }
-
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: 'AIzaSyCMEGspm5WHyXte3TN4Lfrkcg9DchsbYEk',
-    })
     // Select fields states
-    const [location, setLocation] = useState('')
-    const [rto, setRto] = useState('')
     const [sector, setSector] = useState('')
     const [workplaceType, setWorkplaceType] = useState<string | null>(null)
+    const [rto, setRto] = useState('')
 
-    const [selectedBox, setSelectedBox] = useState<any>(null)
-    const [studentId, setStudentId] = useState<any>(null)
-    const [industryId, setIndustryId] = useState<any>(null)
-    const [showInfoBox, setShowInfoBox] = useState<any>(false)
-    const [visibleMarkers, setVisibleMarkers] = useState<any>([])
-    const [map, setMap] = useState<google.maps.Map | null>(null)
     const [searchInitiated, setSearchInitiated] = useState(false)
-    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
-    // bounds
-    const [mapCenter, setMapCenter] = useState(center)
-    const [mapZoom, setMapZoom] = useState(5)
-    // useSubAdminMapStudents
-    const industryDetails =
-        SubAdminApi.Workplace.useSubAdminMapSuggestedIndustryDetail(
-            industryId,
-            {
-                skip: !industryId,
-            }
-        )
-    const [saveCoordinates, saveCoordinatesResults] =
-        SubAdminApi.SubAdmin.useSaveCoordinatesForMap()
-    const savedCoordinates = SubAdminApi.SubAdmin.useSavedCoordinates()
-    const { data, isLoading, isError, isFetching } =
-        SubAdminApi.SubAdmin.useSubAdminMapStudents(
-            {
-                search: `${JSON.stringify(
-                    removeEmptyValues({
-                        sectorId: sector,
-                        rtoId: rto,
-                        suburb: location,
-                        currentStatus: workplaceType,
-                    })
-                )
-                    .replaceAll('{', '')
-                    .replaceAll('}', '')
-                    .replaceAll('"', '')
-                    .trim()}`,
-            },
-            {
-                refetchOnMountOrArgChange: true,
-            }
-        )
-
-    const industriesList = SubAdminApi.SubAdmin.useSubAdminMapIndustries(
-        {
-            search: `${JSON.stringify(
-                removeEmptyValues({
-                    sectorId: sector,
-                    suburb: location,
-                    // rtoId: rto,
-                    // currentStatus: workplaceType,
-                })
-            )
-                .replaceAll('{', '')
-                .replaceAll('}', '')
-                .replaceAll('"', '')
-                .trim()}`,
-        },
-        {
-            refetchOnMountOrArgChange: true,
-        }
-    )
-    // useSubAdminMapStudentDetail
-    const studentDetails = SubAdminApi.SubAdmin.useSubAdminMapStudentDetail(
-        studentId,
-        { skip: !studentId }
-    )
     const rtosList = SubAdminApi.SubAdmin.useSubAdminRtosForMap()
-    const suburbsList = SubAdminApi.SubAdmin.useSubAdminStudentSuburbsForMap()
+
     const rtoOptions = rtosList?.data?.map((rto: any) => ({
         label: rto?.user?.name,
         value: rto.id,
     }))
-    const suburbOptions = suburbsList?.data
-        ?.filter(
-            (suburb: any) =>
-                suburb?.suburb !== 'NA' &&
-                suburb?.suburb !== 'na' &&
-                suburb?.suburb !== 'n/a' &&
-                suburb?.suburb !== 'N/A' &&
-                suburb?.suburb !== ''
-        )
-        .map((suburb: any) => ({
-            label: ellipsisText(suburb?.suburb, 15),
-            value: suburb?.suburb,
-        }))
-    const [selectedMarker, setSelectedMarker] = useState<null | {
-        lat: number
-        lng: number
-        name: string
-    }>(null)
-
-    const onMarkerHover = useCallback((marker: any) => {
-        setSelectedMarker(marker)
-    }, [])
-
-    useEffect(() => {
-        // setKey('AIzaSyCMEGspm5WHyXte3TN4Lfrkcg9DchsbYEk')
-
-        if (data || industriesList?.data) {
-            const markers = []
-
-            if (data) {
-                const filteredStudents = data?.filter(
-                    (student: any) =>
-                        student.location && student.location !== 'NA'
-                )
-                const transformedStudents = filteredStudents.map(
-                    (student: any) => {
-                        const [lat, lng] = student.location
-                            .split(',')
-                            .map(Number)
-                        return { ...student, location: { lat, lng } }
-                    }
-                )
-                markers.push(...transformedStudents)
-            }
-
-            if (industriesList?.data) {
-                const filteredIndustries = industriesList?.data?.filter(
-                    (industry: any) =>
-                        industry.location && industry.location !== 'NA'
-                )
-                const transformedIndustries = filteredIndustries?.map(
-                    (industry: any) => {
-                        const [lat, lng] = industry?.location
-                            .split(',')
-                            .map(Number)
-                        return { ...industry, location: { lat, lng } }
-                    }
-                )
-                markers.push(...transformedIndustries)
-            }
-
-            setVisibleMarkers(markers)
-        }
-    }, [data, industriesList?.data])
-
-    //Bounds changes when filter applied
-    useEffect(() => {
-        if (map && visibleMarkers.length > 0) {
-            const bounds = new google.maps.LatLngBounds()
-            visibleMarkers.forEach((marker: any) => {
-                bounds.extend(
-                    new google.maps.LatLng(
-                        marker.location.lat,
-                        marker.location.lng
-                    )
-                )
-            })
-            map.fitBounds(bounds)
-            setSearchInitiated(true)
-        }
-    }, [map, visibleMarkers])
-    const savedMap = {
-        lat: Number(savedCoordinates?.data?.lat),
-        lng: Number(savedCoordinates?.data?.lng),
-        // zoom: savedCoordinates?.data?.zoom,
-    }
-
-    const handleCountryView = () => {
-        if (map) {
-            map.setCenter(australiaCenter)
-            map.setZoom(3)
-        }
-    }
-
-    const handleVictoriaView = () => {
-        if (map) {
-            map.setCenter(victoriaCenter)
-            map.setZoom(8)
-        }
-    }
-    const saveMapView = () => {
-        if (map) {
-            const currentCenter = map.getCenter()
-            const currentZoom = map.getZoom()
-            if (currentCenter && currentZoom !== undefined) {
-                const coordinates = {
-                    lat: currentCenter.lat(),
-                    lng: currentCenter.lng(),
-                    zoom: currentZoom,
-                }
-                saveCoordinates(coordinates)
-            }
-        }
-    }
-
-    useEffect(() => {
-        if (savedCoordinates?.data && !searchInitiated) {
-            setMapCenter(savedMap)
-            setMapZoom(Number(savedCoordinates.data.zoom))
-        }
-    }, [savedCoordinates])
-
-    useEffect(() => {
-        if (map && !searchInitiated) {
-            setTimeout(() => {
-                map.setCenter(mapCenter)
-                map.setZoom(mapZoom)
-            }, 1200) // Adjust the delay as needed
-        }
-    }, [mapCenter, mapZoom, map])
-    const onBoundChange = useCallback(() => {
-        setSelectedBox(null)
-        setIndustryId(null)
-        setShowInfoBox(false)
-        setStudentId('')
-        if (!map) return
-
-        const bounds = map.getBounds()
-        if (!bounds) return
-
-        const updatedVisibleMarkers = visibleMarkers.filter((marker: any) => {
-            const latLng = new google.maps.LatLng(
-                marker.location.lat,
-                marker.location.lng
-            )
-            return bounds.contains(latLng)
-        })
-        setVisibleMarkers(updatedVisibleMarkers)
-    }, [map])
-    // const onBoundChange = useCallback(() => {
-    //     if (map) {
-    //         const newCenter = map.getCenter()
-    //         const newZoom = map.getZoom()
-    //         if (newZoom !== undefined && newCenter !== undefined) {
-    //             setMapCenter({
-    //                 lat: newCenter.lat(),
-    //                 lng: newCenter.lng(),
-    //             })
-    //         }
-    //         if (newZoom !== undefined) {
-    //             setMapZoom(newZoom)
-    //         }
-    //     }
-    // }, [map])
-
-    const onMapLoad = useCallback(
-        (map: any) => {
-            setMap(map)
-            map.addListener('bounds_changed', onBoundChange)
-        },
-        [onBoundChange]
-    )
-    const onMapLoadSavedCoordinates = useCallback(
-        (map: any) => {
-            setMap(map)
-            setTimeout(() => {
-                map.setCenter(mapCenter)
-                map.setZoom(mapZoom)
-            }, 1200) // Adjust the delay as needed
-        },
-        [mapCenter, mapZoom]
-    )
-
-    const onMapUnmount = useCallback(() => {
-        setMap(null)
-    }, [])
-
-    const options = {
-        imagePath:
-            'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
-        grid: 20,
-        maxZoom: 15,
-    }
-
-    const studentClusterOptions = {
-        styles: studentClusterStyles,
-        grid: 20,
-        maxZoom: 15,
-    }
-    const industryClusterOptions = {
-        styles: industryClusterStyles,
-        grid: 20,
-        maxZoom: 15,
-    }
-    const partnerIndustryClusterOptions = {
-        styles: partnerIndustryClusterStyles,
-        grid: 20,
-        maxZoom: 15,
-    }
-
-    const methods = useForm({
-        mode: 'all',
-    })
-
-    const watchData = methods?.watch()
-    console.log({ watchData })
-    // useEffect(() => {
-    //     console.log({ watchData })
-    //     if (watchData?.suburb) {
-    //         fromAddress(watchData?.suburb)
-    //             .then(({ results }) => {
-    //                 const { lat, lng } = results[0].geometry.location
-    //                 console.log({
-    //                     map,
-    //                     lat,
-    //                     lng,
-    //                     outer: true,
-    //                 })
-    //                 if (map) {
-    //                     console.log({
-    //                         map,
-    //                         lat,
-    //                         lng,
-    //                     })
-    //                     map.setCenter({ lat, lng })
-    //                     map.setZoom(8)
-    //                 }
-    //                 console.log(lat, lng)
-    //             })
-    //             .catch(console.error)
-    //     }
-    // }, [watchData])
 
     return (
         <div className="w-full flex flex-col gap-y-2.5">
             {/* <FormProvider {...methods}>
                 <form className="mt-2 w-full"> */}
-            {data ? (
-                <Card noPadding>
-                    <div className="grid grid-cols-4 items-center gap-x-2 w-full px-2.5 pt-2.5">
-                        {/* <Select
+            <Card noPadding>
+                <div className="grid grid-cols-4 items-center gap-x-2 w-full px-2.5 pt-2.5">
+                    {/* <Select
                             name="suburb"
                             options={suburbOptions}
                             label={'Suburb'}
@@ -433,41 +48,39 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                             }}
                             placeholder="Select Suburb"
                         /> */}
-                        <SuburbInput />
-                        <Select
-                            name="rto"
-                            options={rtoOptions}
-                            label={'RTO'}
-                            loading={
-                                rtosList?.isLoading || rtosList?.isFetching
+                    <SuburbInput />
+                    <Select
+                        name="rto"
+                        options={rtoOptions}
+                        label={'RTO'}
+                        loading={rtosList?.isLoading || rtosList?.isFetching}
+                        onChange={(e: any) => {
+                            if (e?.value) {
+                                setRto(e?.value)
+                                setSearchInitiated(true)
+                            } else {
+                                setRto('')
+                                setSearchInitiated(false)
                             }
-                            onChange={(e: any) => {
-                                if (e?.value) {
-                                    setRto(e?.value)
-                                    setSearchInitiated(true)
-                                } else {
-                                    setRto('')
-                                    setSearchInitiated(false)
-                                }
-                            }}
-                            placeholder="Select RTO"
-                        />
-                        <Select
-                            name="sector"
-                            options={sectorsOptions}
-                            label={'Sector'}
-                            onChange={(e: any) => {
-                                if (e?.value) {
-                                    setSector(e.value)
-                                    setSearchInitiated(true)
-                                } else {
-                                    setSector('')
-                                    setSearchInitiated(false)
-                                }
-                            }}
-                            placeholder="Select Sector"
-                        />
-                        {/* <Select
+                        }}
+                        placeholder="Select RTO"
+                    />
+                    <Select
+                        name="sector"
+                        options={sectorsOptions}
+                        label={'Sector'}
+                        onChange={(e: any) => {
+                            if (e?.value) {
+                                setSector(e.value)
+                                setSearchInitiated(true)
+                            } else {
+                                setSector('')
+                                setSearchInitiated(false)
+                            }
+                        }}
+                        placeholder="Select Sector"
+                    />
+                    {/* <Select
                             name="workplaceType"
                             options={[
                                 {
@@ -503,469 +116,35 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                             }}
                             placeholder="Workplace Type"
                         /> */}
-                        <div className="pt-4">
-                            <Checkbox
-                                name="workplaceType"
-                                label={'No Workplace'}
-                                onChange={(e: any) => {
-                                    if (e?.target?.checked) {
-                                        setWorkplaceType('no')
-                                        setSearchInitiated(true)
-                                    } else {
-                                        setWorkplaceType('all')
-                                        setSearchInitiated(false)
-                                    }
-                                }}
-                            />
-                        </div>
+                    <div className="pt-4">
+                        <Checkbox
+                            name="workplaceType"
+                            label={'No Workplace'}
+                            onChange={(e: any) => {
+                                if (e?.target?.checked) {
+                                    setWorkplaceType('no')
+                                    setSearchInitiated(true)
+                                } else {
+                                    setWorkplaceType('all')
+                                    setSearchInitiated(false)
+                                }
+                            }}
+                        />
                     </div>
-                </Card>
-            ) : null}
+                </div>
+            </Card>
 
             {/* </form>
             </FormProvider> */}
 
-            {isError && <NoData text={'Something went Wrong...!'} />}
-            {isLoading || isFetching ? (
-                <LoadingAnimation />
-            ) : visibleMarkers?.length > 0 && !isError && isLoaded ? (
-                <Card>
-                    <GoogleMap
-                        mapContainerStyle={containerStyle}
-                        center={center}
-                        zoom={5}
-                        onLoad={
-                            !searchInitiated
-                                ? onMapLoadSavedCoordinates
-                                : onMapLoad
-                        }
-                        onUnmount={onMapUnmount}
-                        // onBoundsChanged={onBoundChange}
-                        options={{ styles: customMapStyles }}
-                    >
-                        <MarkerClusterer options={studentClusterOptions}>
-                            {(clusterer) => (
-                                <>
-                                    {visibleMarkers
-                                        ?.filter((marker: any) => !marker?.user)
-                                        ?.map((marker: any) => (
-                                            <div key={marker?.id}>
-                                                <Marker
-                                                    icon={{
-                                                        url:
-                                                            marker?.user
-                                                                ?.role &&
-                                                            marker?.user
-                                                                ?.role ===
-                                                                'industry'
-                                                                ? '/images/icons/industry-pin-map-pin.png'
-                                                                : '/images/icons/student-red-map-pin.png',
-                                                        scaledSize:
-                                                            new google.maps.Size(
-                                                                29,
-                                                                38
-                                                            ),
-                                                    }}
-                                                    position={marker?.location}
-                                                    // label={marker.name}
-                                                    clusterer={clusterer}
-                                                    onMouseOver={(e: any) => {
-                                                        // handleMarkerClick(marker)
-                                                        setStudentId(marker?.id)
-                                                        setIndustryId(
-                                                            marker?.id
-                                                        )
-                                                        setSelectedBox({
-                                                            ...marker,
-                                                            position: {
-                                                                lat: e.latLng.lat(),
-                                                                lng: e.latLng.lng(),
-                                                            },
-                                                        })
-                                                        setShowInfoBox(true)
-                                                    }}
-                                                    onMouseOut={() =>
-                                                        setSelectedMarker(null)
-                                                    }
-                                                    onClick={(e: any) => {
-                                                        // handleMarkerClick(marker)
-                                                        setStudentId(marker?.id)
-                                                        setIndustryId(
-                                                            marker?.id
-                                                        )
-                                                        setSelectedBox({
-                                                            ...marker,
-                                                            position: {
-                                                                lat: e.latLng.lat(),
-                                                                lng: e.latLng.lng(),
-                                                            },
-                                                        })
-                                                        setShowInfoBox(true)
-                                                    }}
-                                                />
-                                                {selectedBox &&
-                                                    showInfoBox &&
-                                                    selectedBox.id ===
-                                                        marker?.id && (
-                                                        <InfoBox
-                                                            position={
-                                                                selectedBox?.position
-                                                            }
-                                                            onCloseClick={() => {
-                                                                setSelectedBox(
-                                                                    null
-                                                                )
-                                                                setShowInfoBox(
-                                                                    false
-                                                                )
-                                                                setStudentId('')
-                                                                setIndustryId(
-                                                                    null
-                                                                )
-                                                            }}
-                                                            options={{
-                                                                closeBoxURL: ``,
-                                                                enableEventPropagation:
-                                                                    true,
-                                                            }}
-                                                        >
-                                                            {marker?.user
-                                                                ?.role &&
-                                                            marker?.user
-                                                                ?.role ===
-                                                                'industry' ? (
-                                                                <IndustryInfoBoxCard
-                                                                    item={
-                                                                        industryDetails
-                                                                    }
-                                                                    selectedBox={
-                                                                        selectedBox
-                                                                    }
-                                                                    industryId={
-                                                                        industryId
-                                                                    }
-                                                                    setSelectedBox={
-                                                                        setSelectedBox
-                                                                    }
-                                                                />
-                                                            ) : (
-                                                                <StudentInfoBoxCard
-                                                                    item={
-                                                                        studentDetails
-                                                                    }
-                                                                    selectedBox={
-                                                                        selectedBox
-                                                                    }
-                                                                    studentId={
-                                                                        studentId
-                                                                    }
-                                                                    setSelectedBox={
-                                                                        setSelectedBox
-                                                                    }
-                                                                />
-                                                            )}
-                                                        </InfoBox>
-                                                    )}
-                                            </div>
-                                        ))}
-                                </>
-                            )}
-                        </MarkerClusterer>
-
-                        {/* Industries */}
-                        <MarkerClusterer options={industryClusterOptions}>
-                            {(clusterer) => (
-                                <>
-                                    {visibleMarkers
-                                        ?.filter(
-                                            (marker: any) =>
-                                                !marker?.isPartner &&
-                                                marker?.user &&
-                                                marker?.user?.role ===
-                                                    'industry'
-                                        )
-                                        .map((marker: any) => (
-                                            <div key={marker?.id}>
-                                                <Marker
-                                                    icon={{
-                                                        url:
-                                                            marker?.user
-                                                                ?.role &&
-                                                            marker?.user
-                                                                ?.role ===
-                                                                'industry'
-                                                                ? '/images/icons/industry-pin-map-pin.png'
-                                                                : '/images/icons/student-red-map-pin.png',
-                                                        scaledSize:
-                                                            new google.maps.Size(
-                                                                29,
-                                                                38
-                                                            ),
-                                                    }}
-                                                    position={marker.location}
-                                                    // label={marker.name}
-                                                    clusterer={clusterer}
-                                                    onMouseOver={(e: any) => {
-                                                        // handleMarkerClick(marker)
-                                                        setStudentId(marker?.id)
-                                                        setIndustryId(
-                                                            marker?.id
-                                                        )
-                                                        setSelectedBox({
-                                                            ...marker,
-                                                            position: {
-                                                                lat: e.latLng.lat(),
-                                                                lng: e.latLng.lng(),
-                                                            },
-                                                        })
-                                                        setShowInfoBox(true)
-                                                    }}
-                                                    onMouseOut={() =>
-                                                        setSelectedMarker(null)
-                                                    }
-                                                    onClick={(e: any) => {
-                                                        // handleMarkerClick(marker)
-                                                        setStudentId(marker?.id)
-                                                        setIndustryId(
-                                                            marker?.id
-                                                        )
-                                                        setSelectedBox({
-                                                            ...marker,
-                                                            position: {
-                                                                lat: e.latLng.lat(),
-                                                                lng: e.latLng.lng(),
-                                                            },
-                                                        })
-                                                        setShowInfoBox(true)
-                                                    }}
-                                                />
-                                                {selectedBox &&
-                                                    showInfoBox &&
-                                                    selectedBox.id ===
-                                                        marker?.id && (
-                                                        <InfoBox
-                                                            position={
-                                                                selectedBox?.position
-                                                            }
-                                                            onCloseClick={() => {
-                                                                setSelectedBox(
-                                                                    null
-                                                                )
-                                                                setShowInfoBox(
-                                                                    false
-                                                                )
-                                                                setStudentId('')
-                                                                setIndustryId(
-                                                                    null
-                                                                )
-                                                            }}
-                                                            options={{
-                                                                closeBoxURL: ``,
-                                                                enableEventPropagation:
-                                                                    true,
-                                                            }}
-                                                        >
-                                                            {marker?.user
-                                                                ?.role &&
-                                                            marker?.user
-                                                                ?.role ===
-                                                                'industry' ? (
-                                                                <IndustryInfoBoxCard
-                                                                    item={
-                                                                        industryDetails
-                                                                    }
-                                                                    selectedBox={
-                                                                        selectedBox
-                                                                    }
-                                                                    industryId={
-                                                                        industryId
-                                                                    }
-                                                                    setSelectedBox={
-                                                                        setSelectedBox
-                                                                    }
-                                                                />
-                                                            ) : (
-                                                                <StudentInfoBoxCard
-                                                                    item={
-                                                                        studentDetails
-                                                                    }
-                                                                    selectedBox={
-                                                                        selectedBox
-                                                                    }
-                                                                    studentId={
-                                                                        studentId
-                                                                    }
-                                                                    setSelectedBox={
-                                                                        setSelectedBox
-                                                                    }
-                                                                />
-                                                            )}
-                                                        </InfoBox>
-                                                    )}
-                                            </div>
-                                        ))}
-                                </>
-                            )}
-                        </MarkerClusterer>
-
-                        {/* isPartner */}
-                        <MarkerClusterer
-                            options={partnerIndustryClusterOptions}
-                        >
-                            {(clusterer) => (
-                                <>
-                                    {visibleMarkers
-                                        ?.filter(
-                                            (marker: any) =>
-                                                marker?.user &&
-                                                marker?.user?.role ===
-                                                    'industry' &&
-                                                marker?.isPartner
-                                        )
-                                        .map((marker: any) => (
-                                            <div key={marker?.id}>
-                                                <Marker
-                                                    icon={{
-                                                        url:
-                                                            marker?.user
-                                                                ?.role &&
-                                                            marker?.user
-                                                                ?.role ===
-                                                                'industry'
-                                                                ? '/images/icons/partnered-industry-marker.png'
-                                                                : '/images/icons/student-red-map-pin.png',
-                                                        scaledSize:
-                                                            new google.maps.Size(
-                                                                29,
-                                                                38
-                                                            ),
-                                                    }}
-                                                    position={marker.location}
-                                                    // label={marker.name}
-                                                    clusterer={clusterer}
-                                                    onMouseOver={(e: any) => {
-                                                        // handleMarkerClick(marker)
-                                                        setStudentId(marker?.id)
-                                                        setIndustryId(
-                                                            marker?.id
-                                                        )
-                                                        setSelectedBox({
-                                                            ...marker,
-                                                            position: {
-                                                                lat: e.latLng.lat(),
-                                                                lng: e.latLng.lng(),
-                                                            },
-                                                        })
-                                                        setShowInfoBox(true)
-                                                    }}
-                                                    onMouseOut={() =>
-                                                        setSelectedMarker(null)
-                                                    }
-                                                    onClick={(e: any) => {
-                                                        // handleMarkerClick(marker)
-                                                        setStudentId(marker?.id)
-                                                        setIndustryId(
-                                                            marker?.id
-                                                        )
-                                                        setSelectedBox({
-                                                            ...marker,
-                                                            position: {
-                                                                lat: e.latLng.lat(),
-                                                                lng: e.latLng.lng(),
-                                                            },
-                                                        })
-                                                        setShowInfoBox(true)
-                                                    }}
-                                                />
-                                                {selectedBox &&
-                                                    showInfoBox &&
-                                                    selectedBox.id ===
-                                                        marker?.id && (
-                                                        <InfoBox
-                                                            position={
-                                                                selectedBox?.position
-                                                            }
-                                                            onCloseClick={() => {
-                                                                setSelectedBox(
-                                                                    null
-                                                                )
-                                                                setShowInfoBox(
-                                                                    false
-                                                                )
-                                                                setStudentId('')
-                                                                setIndustryId(
-                                                                    null
-                                                                )
-                                                            }}
-                                                            options={{
-                                                                closeBoxURL: ``,
-                                                                enableEventPropagation:
-                                                                    true,
-                                                            }}
-                                                        >
-                                                            {marker?.user
-                                                                ?.role &&
-                                                            marker?.user
-                                                                ?.role ===
-                                                                'industry' ? (
-                                                                <IndustryInfoBoxCard
-                                                                    item={
-                                                                        industryDetails
-                                                                    }
-                                                                    selectedBox={
-                                                                        selectedBox
-                                                                    }
-                                                                    industryId={
-                                                                        industryId
-                                                                    }
-                                                                    setSelectedBox={
-                                                                        setSelectedBox
-                                                                    }
-                                                                />
-                                                            ) : (
-                                                                <StudentInfoBoxCard
-                                                                    item={
-                                                                        studentDetails
-                                                                    }
-                                                                    selectedBox={
-                                                                        selectedBox
-                                                                    }
-                                                                    studentId={
-                                                                        studentId
-                                                                    }
-                                                                    setSelectedBox={
-                                                                        setSelectedBox
-                                                                    }
-                                                                />
-                                                            )}
-                                                        </InfoBox>
-                                                    )}
-                                            </div>
-                                        ))}
-                                </>
-                            )}
-                        </MarkerClusterer>
-                        <div className="absolute right-2 top-1/3 flex flex-col gap-y-2">
-                            <Button
-                                text="Reset"
-                                variant="info"
-                                onClick={handleCountryView}
-                                // onClick={handleVictoriaView}
-                            />
-                            <Button
-                                text="Save Location"
-                                onClick={saveMapView}
-                            />
-                        </div>
-                        {/* {directions && renderPolyline()}
-                    {renderDirections()} */}
-                    </GoogleMap>
-                </Card>
-            ) : (
-                !isError && (
-                    <NoData text="No students with available location data found to display on the map." />
-                )
-            )}
+            <SubAdminDashboardMapDetail
+                rto={rto}
+                sector={sector}
+                // location={location}
+                workplaceType={workplaceType}
+                searchInitiated={searchInitiated}
+                setSearchInitiated={setSearchInitiated}
+            />
         </div>
     )
 }
