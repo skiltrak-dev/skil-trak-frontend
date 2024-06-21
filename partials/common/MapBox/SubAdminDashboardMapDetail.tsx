@@ -1,12 +1,5 @@
 // src/components/MapComponent.tsx
-import {
-    Button,
-    Card,
-    Checkbox,
-    LoadingAnimation,
-    NoData,
-    Select,
-} from '@components'
+import { Button, Card, LoadingAnimation, NoData } from '@components'
 import { SubAdminApi } from '@queries'
 import {
     GoogleMap,
@@ -21,9 +14,19 @@ import { IndustryInfoBoxCard } from './IndustryInfoBoxCard'
 import { StudentInfoBoxCard } from './StudentInfoBoxCard'
 
 //
-import { useForm } from 'react-hook-form'
-import { SuburbInput } from './SuburbInput'
-export const SubAdminDashboardMapDetail = ({ sectorsOptions }: any) => {
+const SubAdminDashboardMapDetail = ({
+    rto,
+    sector,
+    workplaceType,
+    searchInitiated,
+    setSearchInitiated,
+}: {
+    workplaceType: any
+    sector: any
+    rto: any
+    searchInitiated: any
+    setSearchInitiated: any
+}) => {
     const containerStyle = {
         width: '100%',
         height: '389px',
@@ -87,9 +90,6 @@ export const SubAdminDashboardMapDetail = ({ sectorsOptions }: any) => {
     })
     // Select fields states
     const [location, setLocation] = useState('')
-    const [rto, setRto] = useState('')
-    const [sector, setSector] = useState('')
-    const [workplaceType, setWorkplaceType] = useState<string | null>(null)
 
     const [selectedBox, setSelectedBox] = useState<any>(null)
     const [studentId, setStudentId] = useState<any>(null)
@@ -97,7 +97,6 @@ export const SubAdminDashboardMapDetail = ({ sectorsOptions }: any) => {
     const [showInfoBox, setShowInfoBox] = useState<any>(false)
     const [visibleMarkers, setVisibleMarkers] = useState<any>([])
     const [map, setMap] = useState<google.maps.Map | null>(null)
-    const [searchInitiated, setSearchInitiated] = useState(false)
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
     // bounds
@@ -814,3 +813,5 @@ export const SubAdminDashboardMapDetail = ({ sectorsOptions }: any) => {
         </div>
     )
 }
+
+export default SubAdminDashboardMapDetail

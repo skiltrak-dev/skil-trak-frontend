@@ -1,12 +1,9 @@
 // src/components/MapComponent.tsx
 import { Card, Checkbox, Select } from '@components'
-import { SubAdminApi } from '@queries'
-import { ellipsisText, removeEmptyValues } from '@utils'
-import { useCallback, useEffect, useState } from 'react'
+import { useState } from 'react'
 
 //
 import { useForm } from 'react-hook-form'
-import { SubAdminDashboardMapDetail } from './SubAdminDashboardMapDetail'
 import { SuburbInput } from './SuburbInput'
 export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
     const containerStyle = {
@@ -194,7 +191,7 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
             {/* </form>
             </FormProvider> */}
 
-            <SubAdminDashboardMapDetail />
+            {/* <SubAdminDashboardMapDetail /> */}
         </div>
     )
 }
