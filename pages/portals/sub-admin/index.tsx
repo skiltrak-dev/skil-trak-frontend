@@ -17,9 +17,11 @@ import { FigureCardVII } from '@components/sections/subAdmin/components/Cards/Fi
 import { AuthUtils, getSectors, getUserCredentials } from '@utils'
 
 import { ImportantDocuments, SubAdminDashboardMap } from '@partials/common'
+
 import { ProgressChart } from '@partials/sub-admin/components'
 import { CommonApi, SubAdminApi, useGetSubAdminIndustriesQuery } from '@queries'
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 
 const SubAdminDashboard: NextPageWithLayout = () => {
     const status = getUserCredentials()?.status
@@ -314,7 +316,6 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                         </p>
                     </div> */}
                     <div className="w-full">
-                        {/* <SuburbInput /> */}
                         <SubAdminDashboardMap sectorsOptions={sectorsOptions} />
                     </div>
                 </div>
