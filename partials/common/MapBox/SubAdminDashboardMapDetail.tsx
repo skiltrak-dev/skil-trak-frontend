@@ -18,6 +18,7 @@ const SubAdminDashboardMapDetail = ({
     rto,
     sector,
     workplaceType,
+    suburbLocation,
     searchInitiated,
     setSearchInitiated,
 }: {
@@ -25,6 +26,7 @@ const SubAdminDashboardMapDetail = ({
     sector: any
     rto: any
     searchInitiated: any
+    suburbLocation: any
     setSearchInitiated: any
 }) => {
     const containerStyle = {
@@ -250,6 +252,13 @@ const SubAdminDashboardMapDetail = ({
         lng: Number(savedCoordinates?.data?.lng),
         // zoom: savedCoordinates?.data?.zoom,
     }
+
+    useEffect(() => {
+        if (map && suburbLocation) {
+            map.setCenter(suburbLocation)
+            map.setZoom(18)
+        }
+    }, [suburbLocation])
 
     const handleCountryView = () => {
         if (map) {
