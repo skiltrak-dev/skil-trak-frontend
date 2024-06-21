@@ -96,7 +96,7 @@ export const TextInput = ({
             if (onChange) {
                 onChange({
                     target: {
-                        value: place,
+                        value: place?.formatted_address,
                     },
                 })
             }

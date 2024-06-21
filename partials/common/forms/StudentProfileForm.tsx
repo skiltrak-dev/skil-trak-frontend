@@ -264,7 +264,6 @@ export const StudentProfileForm = ({
     }, [courseValues])
 
     const onHandleSubmit = (values: any) => {
-        console.log({ values })
         if (!onSuburbClicked) {
             notification.error({
                 title: 'You must select on Suburb Dropdown',

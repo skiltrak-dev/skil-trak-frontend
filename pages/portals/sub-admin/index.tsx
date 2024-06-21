@@ -159,6 +159,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
     }
 
     const data = mapApiDataToChartData(statistics?.data)
+
     return (
         <>
             {modal && modal}
@@ -254,7 +255,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                                             return (
                                                 <div
                                                     className="mt-4"
-                                                    key={sector?.id}
+                                                    key={sector}
                                                 >
                                                     <div>
                                                         {/* <p className="text-xs font-medium text-gray-400">
