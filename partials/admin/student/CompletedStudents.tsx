@@ -4,6 +4,7 @@ import {
     CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
+    StudentStatusProgressCell,
     Table,
     TableAction,
     TableChildrenProps,
@@ -155,7 +156,23 @@ export const CompletedStudents = () => {
                     workplace?.industries
                 )
 
-                return <CaseOfficerAssignedStudent student={row.original} />
+                return (
+                    <StudentStatusProgressCell
+                        assigned={student?.subadmin}
+                        studentId={student?.id}
+                        step={
+                            workplace?.currentStatus ===
+                            WorkplaceCurrentStatus.Cancelled
+                                ? 4
+                                : studentStatus
+                        }
+                        appliedIndustry={appliedIndustry}
+                        studentProvidedWorkplace={
+                            workplace?.studentProvidedWorkplace ||
+                            workplace?.byExistingAbn
+                        }
+                    />
+                )
             },
         },
         {
