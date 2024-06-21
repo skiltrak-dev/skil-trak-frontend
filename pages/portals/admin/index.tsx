@@ -52,17 +52,11 @@ const AdminDashboard: NextPageWithLayout = () => {
     const encodedText = encode(textToEncode)
     const encodedText2 = btoa(textToEncode)
 
-    console.log({
-        encodedText: `data:image/png;base64,${encodedText}`,
-        encodedText2,
-    })
-
     const handleConvert = async () => {
         try {
             const canvas = await html2canvas(textRef.current)
             const dataURL = canvas.toDataURL('image/png')
 
-            console.log({ canvas, refrefref: textRef.current, dataURL }) // Specify image format
             // setBase64Image(dataURL)
         } catch (error) {
             console.error('Error converting text to image:', error)

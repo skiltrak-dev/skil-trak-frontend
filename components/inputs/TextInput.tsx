@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { usePlacesWidget } from 'react-google-autocomplete'
 import { useFormContext } from 'react-hook-form'
 
@@ -81,6 +81,7 @@ export const TextInput = ({
     const [passwordType, setPasswordType] = useState<string | null>(
         type || null
     )
+    const [isPlaceSelected, setIsPlaceSelected] = useState<boolean>(false)
     const formContext = useFormContext()
 
     const inputFieldClasses = getTextInputClasses(
@@ -91,6 +92,14 @@ export const TextInput = ({
     const { ref }: any = usePlacesWidget({
         apiKey: process.env.NEXT_PUBLIC_MAP_KEY,
         onPlaceSelected: (place) => {
+            console.log('Hello Boss', place)
+            if (onChange) {
+                onChange({
+                    target: {
+                        value: place,
+                    },
+                })
+            }
             onPlaceSuggetions?.setIsPlaceSelected(true)
         },
         options: {
@@ -100,13 +109,10 @@ export const TextInput = ({
             },
         },
     })
+
     // const { ref: preferableLocationRef, ...rest } = formContext.register(name)
 
     const formRef = formContext && formContext.register(name)
-
-    // useEffect(() => {
-    //     formContext.setFocus(name)
-    // }, [])
 
     return (
         <div className="w-full mb-2">
@@ -153,6 +159,7 @@ export const TextInput = ({
                                   ref: (e: any) => {
                                       formRef && formRef.ref(e)
                                       ref.current = e
+                                      console.log('MAMAMA', e?.value)
                                   },
                               }
                             : {})}

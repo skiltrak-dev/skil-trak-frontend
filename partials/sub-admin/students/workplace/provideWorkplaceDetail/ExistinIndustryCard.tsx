@@ -77,7 +77,7 @@ export const ExistinIndustryCard = ({
                         required
                         options={courseOptions}
                         placeholder={'Select Course...'}
-                        loading={courses.isLoading}
+                        loading={courses?.isLoading}
                         onChange={(e: any) => {
                             setselectedCourse(e?.value)
                         }}

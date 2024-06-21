@@ -45,7 +45,8 @@ export const Checkbox = ({
             >
                 {!loading ? (
                     <input
-                        {...(id ? { id } : {})}
+                        // {...(id ? { id } : {})}
+                        id={`id_${name}`}
                         name={name}
                         type={'checkbox'}
                         disabled={disabled}

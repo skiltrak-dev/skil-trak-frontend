@@ -66,18 +66,19 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
                 } else {
                     setAuthorized(true)
                 }
-            } else {
-                if (!authenticated) {
-                    setAuthorized(false)
-                    router.push('/auth/login')
-                } else if (updatedRoute !== role) {
-                    setAuthorized(false)
-                    router.push(`/portals/${newUrl}`)
-                    // router.push('/404')
-                } else {
-                    setAuthorized(true)
-                }
             }
+            // else {
+            //     if (!authenticated) {
+            //         setAuthorized(false)
+            //         router.push('/auth/login')
+            //     } else if (updatedRoute !== role) {
+            //         setAuthorized(false)
+            //         router.push(`/portals/${newUrl}`)
+            //         // router.push('/404')
+            //     } else {
+            //         setAuthorized(true)
+            //     }
+            // }
         } else {
             if (!authenticated) {
                 setAuthorized(false)
