@@ -134,7 +134,7 @@ export const IndustryBranchesAddress = ({
                     </div>
                 )
             },
-            header: () => <span>Contact Person</span>,
+            header: () => <span>Industry</span>,
         },
         {
             accessorKey: 'address',

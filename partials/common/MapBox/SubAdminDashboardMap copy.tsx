@@ -27,57 +27,6 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
     const [searchInitiated, setSearchInitiated] = useState(false)
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
-    // bounds
-
-    // const onBoundChange = useCallback(() => {
-    //     if (map) {
-    //         const newCenter = map.getCenter()
-    //         const newZoom = map.getZoom()
-    //         if (newZoom !== undefined && newCenter !== undefined) {
-    //             setMapCenter({
-    //                 lat: newCenter.lat(),
-    //                 lng: newCenter.lng(),
-    //             })
-    //         }
-    //         if (newZoom !== undefined) {
-    //             setMapZoom(newZoom)
-    //         }
-    //     }
-    // }, [map])
-
-    const methods = useForm({
-        mode: 'all',
-    })
-
-    const watchData = methods?.watch()
-    console.log({ watchData })
-    // useEffect(() => {
-    //     console.log({ watchData })
-    //     if (watchData?.suburb) {
-    //         fromAddress(watchData?.suburb)
-    //             .then(({ results }) => {
-    //                 const { lat, lng } = results[0].geometry.location
-    //                 console.log({
-    //                     map,
-    //                     lat,
-    //                     lng,
-    //                     outer: true,
-    //                 })
-    //                 if (map) {
-    //                     console.log({
-    //                         map,
-    //                         lat,
-    //                         lng,
-    //                     })
-    //                     map.setCenter({ lat, lng })
-    //                     map.setZoom(8)
-    //                 }
-    //                 console.log(lat, lng)
-    //             })
-    //             .catch(console.error)
-    //     }
-    // }, [watchData])
-
     return (
         <div className="w-full flex flex-col gap-y-2.5">
             {/* <FormProvider {...methods}>

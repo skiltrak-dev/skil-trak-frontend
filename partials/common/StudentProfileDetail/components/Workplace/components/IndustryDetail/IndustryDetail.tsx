@@ -167,11 +167,13 @@ export const IndustryDetail = ({
                                     workplace={workplace}
                                     student={workplace?.student}
                                     appliedIndustry={appliedIndustry}
+                                    courses={workplace?.courses}
                                 />
                             ) : workplace?.byExistingAbn ? (
                                 <StudentProvidedABNActions
                                     workplace={workplace}
                                     student={workplace?.student}
+                                    courses={workplace?.courses}
                                     appliedIndustry={appliedIndustry}
                                 />
                             ) : (

@@ -13,6 +13,63 @@ import { useCallback, useEffect, useState } from 'react'
 import { IndustryInfoBoxCard } from './IndustryInfoBoxCard'
 import { StudentInfoBoxCard } from './StudentInfoBoxCard'
 
+const containerStyle = {
+    width: '100%',
+    height: '389px',
+}
+
+const center = {
+    lat: -37.81374,
+    lng: 144.963033,
+}
+
+const customMapStyles = [
+    {
+        featureType: 'water',
+
+        elementType: 'geometry.fill',
+
+        stylers: [{ color: '#cde2e8' }],
+    },
+
+    {
+        featureType: 'landscape',
+
+        elementType: 'geometry.fill',
+
+        stylers: [{ color: '#f6f6f6' }],
+    },
+]
+
+const studentClusterStyles = [
+    {
+        textColor: 'white',
+        url: '/images/icons/student-clusters.svg',
+        height: 50,
+        width: 50,
+    },
+]
+
+const industryClusterStyles = [
+    {
+        textColor: 'white',
+        url: '/images/icons/industry-clusters.svg',
+        height: 50,
+        width: 50,
+    },
+]
+const partnerIndustryClusterStyles = [
+    {
+        textColor: 'white',
+        url: '/images/icons/partnered-industry-cluster.svg',
+        height: 50,
+        width: 50,
+    },
+]
+
+const australiaCenter = { lat: -25.274398, lng: 133.775136 }
+const victoriaCenter = { lat: -37.8136, lng: 144.9631 }
+
 //
 const SubAdminDashboardMapDetail = ({
     rto,
@@ -29,63 +86,6 @@ const SubAdminDashboardMapDetail = ({
     suburbLocation: any
     setSearchInitiated: any
 }) => {
-    const containerStyle = {
-        width: '100%',
-        height: '389px',
-    }
-
-    const center = {
-        lat: -37.81374,
-        lng: 144.963033,
-    }
-
-    const customMapStyles = [
-        {
-            featureType: 'water',
-
-            elementType: 'geometry.fill',
-
-            stylers: [{ color: '#cde2e8' }],
-        },
-
-        {
-            featureType: 'landscape',
-
-            elementType: 'geometry.fill',
-
-            stylers: [{ color: '#f6f6f6' }],
-        },
-    ]
-
-    const studentClusterStyles = [
-        {
-            textColor: 'white',
-            url: '/images/icons/student-clusters.svg',
-            height: 50,
-            width: 50,
-        },
-    ]
-
-    const industryClusterStyles = [
-        {
-            textColor: 'white',
-            url: '/images/icons/industry-clusters.svg',
-            height: 50,
-            width: 50,
-        },
-    ]
-    const partnerIndustryClusterStyles = [
-        {
-            textColor: 'white',
-            url: '/images/icons/partnered-industry-cluster.svg',
-            height: 50,
-            width: 50,
-        },
-    ]
-
-    const australiaCenter = { lat: -25.274398, lng: 133.775136 }
-    const victoriaCenter = { lat: -37.8136, lng: 144.9631 }
-
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: process.env.NEXT_PUBLIC_MAP_KEY as string,
@@ -115,7 +115,7 @@ const SubAdminDashboardMapDetail = ({
     const [saveCoordinates, saveCoordinatesResults] =
         SubAdminApi.SubAdmin.useSaveCoordinatesForMap()
     const savedCoordinates = SubAdminApi.SubAdmin.useSavedCoordinates()
-    const { data, isLoading, isError, isFetching } =
+    const { data, isLoading, isSuccess, isError, isFetching } =
         SubAdminApi.SubAdmin.useSubAdminMapStudents(
             {
                 search: `${JSON.stringify(
@@ -254,11 +254,13 @@ const SubAdminDashboardMapDetail = ({
     }
 
     useEffect(() => {
-        if (map && suburbLocation) {
-            map.setCenter(suburbLocation)
-            map.setZoom(18)
+        if (map && suburbLocation && isSuccess) {
+            setTimeout(() => {
+                map.setCenter(suburbLocation)
+                map.setZoom(12)
+            }, 400)
         }
-    }, [suburbLocation])
+    }, [suburbLocation, map, data, isSuccess])
 
     const handleCountryView = () => {
         if (map) {
@@ -320,6 +322,7 @@ const SubAdminDashboardMapDetail = ({
             )
             return bounds.contains(latLng)
         })
+
         setVisibleMarkers(updatedVisibleMarkers)
     }, [map])
     // const onBoundChange = useCallback(() => {
@@ -379,13 +382,20 @@ const SubAdminDashboardMapDetail = ({
     return (
         <div className="w-full flex flex-col gap-y-2.5">
             {isError && <NoData text={'Something went Wrong...!'} />}
-            {isLoading || isFetching ? (
+            {isLoading ? (
                 <LoadingAnimation />
             ) : visibleMarkers?.length > 0 && !isError && isLoaded ? (
                 <Card>
                     <GoogleMap
                         mapContainerStyle={containerStyle}
-                        center={center}
+                        center={
+                            map?.getCenter()?.lat() && map?.getCenter()?.lng()
+                                ? {
+                                      lat: Number(map?.getCenter()?.lat()),
+                                      lng: Number(map?.getCenter()?.lng()),
+                                  }
+                                : center
+                        }
                         zoom={5}
                         onLoad={
                             !searchInitiated

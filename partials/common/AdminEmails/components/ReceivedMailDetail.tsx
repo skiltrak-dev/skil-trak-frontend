@@ -36,7 +36,6 @@ export const ReceivedMailDetail = ({ selectedMessage }: Props) => {
     //     }
     // )
 
-
     // useEffect(() => {
     //     setPage(1)
     //     setMailDetail([])
@@ -86,9 +85,9 @@ export const ReceivedMailDetail = ({ selectedMessage }: Props) => {
     const [seenMessage, resultSeenMessage] = CommonApi.Messages.useIsSeen()
     useEffect(() => {
         if (selectedMessage?.id) {
-                if (selectedMessage?.isSeen === false) {
-                    seenMessage(selectedMessage?.id)
-                }
+            if (selectedMessage?.isSeen === false) {
+                seenMessage(selectedMessage?.id)
+            }
         }
     }, [selectedMessage])
     return (
@@ -107,15 +106,20 @@ export const ReceivedMailDetail = ({ selectedMessage }: Props) => {
                             </Typography>
                         </div>
                         <div className="flex items-center gap-x-2">
-                            <InitialAvatar name={selectedMessage?.sender?.name || ""} />
+                            <InitialAvatar
+                                name={selectedMessage?.sender?.name || ''}
+                            />
                             <Typography variant={'subtitle'}>
                                 {selectedMessage?.email}
                             </Typography>
                         </div>
                     </div>
-                    <div className='px-4 py-2'>
-                        {selectedMessage?.message}
-                    </div>
+                    <div
+                        className="px-4 py-2 h-[420px] overflow-auto custom-scrollbar"
+                        dangerouslySetInnerHTML={{
+                            __html: selectedMessage?.message,
+                        }}
+                    />
                 </>
             )}
             {/* <div className="p-4 h-full">
