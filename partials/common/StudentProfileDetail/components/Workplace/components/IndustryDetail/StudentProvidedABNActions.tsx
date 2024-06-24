@@ -2,26 +2,42 @@ import { Button, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
 import { SignAgreement } from '@partials/sub-admin/workplace/components/Industries/components/Actions/components'
 import { ApproveRequestModal } from '@partials/sub-admin/workplace/modals'
-import { useChangeCustomIndustryStatusMutation } from '@queries'
-import { Student, UserStatus } from '@types'
+import { CommonApi, useChangeCustomIndustryStatusMutation } from '@queries'
+import { Course, Student, UserStatus } from '@types'
 import { WorkplaceCurrentStatus } from '@utils'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
+import { InitiateSign } from './components'
+import { AgreementSignedModal } from '../../modals'
 
 export const StudentProvidedABNActions = ({
     student,
     workplace,
     appliedIndustry,
+    courses,
 }: {
     student: Student
     appliedIndustry: WorkplaceWorkIndustriesType
     workplace: any
+    courses: Course[]
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [actionStatus, setActionStatus] = useState<any | string>('')
 
     const { notification } = useNotification()
 
+    const course = courses?.[0]
+
+    const eSignDocument = CommonApi.ESign.useStudentEsignDocument(
+        {
+            std: student?.user?.id,
+            folder: Number(course?.assessmentEvidence?.[0]?.id),
+        },
+        {
+            skip: !course,
+            refetchOnMountOrArgChange: true,
+        }
+    )
     const [changeCustomIndustryStatus, changeCustomIndustryStatusResult] =
         useChangeCustomIndustryStatusMutation()
 
@@ -41,6 +57,15 @@ export const StudentProvidedABNActions = ({
             <ApproveRequestModal
                 appliedIndustryId={appliedIndustry?.id}
                 onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
+    const onChangeStatusToSigned = () => {
+        setModal(
+            <AgreementSignedModal
+                onCancel={onModalCancelClicked}
+                workplaceId={workplace?.id}
             />
         )
     }
@@ -114,13 +139,24 @@ export const StudentProvidedABNActions = ({
 
             {workplace?.currentStatus ===
             WorkplaceCurrentStatus.AwaitingAgreementSigned ? (
-                <div>
-                    <SignAgreement
+                <div className="flex items-center gap-x-2">
+                    <InitiateSign
                         student={student}
-                        courses={workplace?.courses}
-                        studentId={Number(workplace?.student?.id)}
-                        appliedIndustryId={appliedIndustry?.id}
+                        folder={course?.assessmentEvidence?.[0]}
+                        courseId={course?.id}
+                        eSignDocument={eSignDocument}
                     />
+                    <Button
+                        text="Agreement Signed"
+                        onClick={() => onChangeStatusToSigned()}
+                        variant="info"
+                    />
+                    {/* <SignAgreement
+                        student={student}
+                        courses={courses}
+                        studentId={Number(student?.id)}
+                        appliedIndustryId={appliedIndustry?.id}
+                    /> */}
                 </div>
             ) : null}
         </div>

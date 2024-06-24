@@ -7,6 +7,8 @@ import { AiFillDelete } from 'react-icons/ai'
 import { IoMdDocument } from 'react-icons/io'
 import { PulseLoader } from 'react-spinners'
 import { getDocType } from '../../AssessmentFolderDetailX'
+import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
+import { UserRoles } from '@constants'
 
 type AssessmentFolderFileCardProps = {
     file?: any
@@ -46,21 +48,23 @@ export const AssessmentFolderFileCard = ({
                 selected ? 'bg-blue-200' : ''
             }`}
         >
-            {!result?.isSubmitted ? (
-                archiveFileResult.isLoading ? (
-                    <div className="bg-red-500 px-1 rounded-md absolute top-1 right-1 z-30">
-                        <PulseLoader size={3} color={'white'} />
-                    </div>
-                ) : (
-                    <AiFillDelete
-                        className="absolute top-1 right-1 text-red-600 cursor-pointer z-20"
-                        onClick={() => {
-                            archiveFile(file?.id)
-                            // alert('Saad')
-                        }}
-                    />
-                )
-            ) : null}
+            <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                {!result?.isSubmitted ? (
+                    archiveFileResult.isLoading ? (
+                        <div className="bg-red-500 px-1 rounded-md absolute top-1 right-1 z-30">
+                            <PulseLoader size={3} color={'white'} />
+                        </div>
+                    ) : (
+                        <AiFillDelete
+                            className="absolute top-1 right-1 text-red-600 cursor-pointer z-20"
+                            onClick={() => {
+                                archiveFile(file?.id)
+                                // alert('Saad')
+                            }}
+                        />
+                    )
+                ) : null}
+            </AuthorizedUserComponent>
             <div
                 onClick={() => {
                     onClick &&

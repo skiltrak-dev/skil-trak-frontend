@@ -20,24 +20,43 @@ export const AllMailsListCard = ({
     return (
         <div
             onClick={onClick}
-            className={`${selectedMessageId === message?.id && 'bg-blue-100'
-                } flex items-center border-b py-2 px-4 cursor-pointer`}
+            className={`${
+                selectedMessageId === message?.id && 'bg-blue-100'
+            } flex items-center border-b py-2 px-4 cursor-pointer`}
         >
             <div>
                 <InitialAvatar
-                    name={message?.sender?.name || ""}
-                    imageUrl={message?.sender?.avatar || ""}
+                    name={message?.sender?.name || ''}
+                    imageUrl={message?.sender?.avatar || ''}
                 />
             </div>
 
             <div className="flex-grow pl-2">
-                <Typography variant={'subtitle'}>{message?.message.substring(0, 15)}</Typography>
-                <Typography variant={'muted'} color={`${!message?.isSeen ? "text-blue-400" : "text-muted"}`}>
+                <Typography variant={'subtitle'}>
+                    {' '}
+                    {/* <span
+                        dangerouslySetInnerHTML={{
+                            __html: message?.message,
+                        }}
+                    />{' '} */}
+                    {message?.message.substring(0, 15)}
+                </Typography>
+                <Typography
+                    variant={'muted'}
+                    color={`${
+                        !message?.isSeen ? 'text-blue-400' : 'text-muted'
+                    }`}
+                >
                     {message?.sender?.name}
                 </Typography>
             </div>
             <div className="flex flex-col items-end">
-                <Typography variant={'small'} color={`${!message?.isSeen ? "text-blue-400" : "text-muted"}`}>
+                <Typography
+                    variant={'small'}
+                    color={`${
+                        !message?.isSeen ? 'text-blue-400' : 'text-muted'
+                    }`}
+                >
                     {moment(new Date(message?.createdAt)).format('LL')}
                 </Typography>
                 {/* {!message?.isSeen ? (

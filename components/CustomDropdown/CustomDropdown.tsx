@@ -1,5 +1,5 @@
 import { Typography } from '@components'
-import React, { ReactNode, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 import { TiTimes } from 'react-icons/ti'
 import OutsideClickHandler from 'react-outside-click-handler'
