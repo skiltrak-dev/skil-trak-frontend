@@ -16,7 +16,7 @@ import {
     TableAction,
     UserCreatedAt,
 } from '@components'
-import { StudentCellInfo, SubadminStudentIndustries } from './components'
+import { StudentCallLogDetail, StudentCellInfo, SubadminStudentIndustries } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useGetSubAdminMyStudentsQuery } from '@queries'
@@ -152,7 +152,7 @@ export const MyStudents = () => {
             header: () => 'Name',
             accessorKey: 'user',
             cell: ({ row }: any) => {
-                return <StudentCellInfo student={row.original} call />
+                return <StudentCallLogDetail student={row.original} call />
             },
         },
 

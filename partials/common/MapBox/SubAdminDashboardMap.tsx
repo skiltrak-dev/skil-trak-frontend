@@ -3,9 +3,8 @@ import { Card, Checkbox, Select, TextInput } from '@components'
 import { useEffect, useState } from 'react'
 
 //
-import dynamic from 'next/dynamic'
-import { SuburbInput } from './SuburbInput'
 import { SubAdminApi } from '@queries'
+import dynamic from 'next/dynamic'
 import { fromAddress, setKey } from 'react-geocode'
 const SubAdminDashboardMapDetail = dynamic(
     () => import('./SubAdminDashboardMapDetail')
@@ -66,38 +65,16 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                         required
                         placesSuggetions
                         onChange={(e: any) => {
-                            console.log({ eeeee: e?.target?.value })
                             if (e?.target?.value?.length > 4) {
                                 fromAddress(e?.target?.value)
                                     .then(({ results }) => {
-                                        console.log('Banka Inner')
                                         const { lat, lng } =
                                             results[0].geometry.location
                                         setSuburbLocation({ lat, lng })
-                                        // console.log({
-                                        //     map,
-                                        //     lat,
-                                        //     lng,
-                                        //     outer: true,
-                                        // })
-                                        // if (map) {
-                                        //     console.log({
-                                        //         map,
-                                        //         lat,
-                                        //         lng,
-                                        //     })
-                                        //     map.setCenter({ lat, lng })
-                                        //     map.setZoom(8)
-                                        // }
-                                        console.log(lat, lng)
                                     })
                                     .catch(console.error)
                             }
                         }}
-                        // onPlaceSuggetions={{
-                        //     placesSuggetions: onSuburbClicked,
-                        //     setIsPlaceSelected: setOnSuburbClicked,
-                        // }}
                     />
                     <Select
                         name="rto"

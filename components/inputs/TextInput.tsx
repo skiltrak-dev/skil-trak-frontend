@@ -92,7 +92,6 @@ export const TextInput = ({
     const { ref }: any = usePlacesWidget({
         apiKey: process.env.NEXT_PUBLIC_MAP_KEY,
         onPlaceSelected: (place) => {
-            console.log('Hello Boss', place)
             if (onChange) {
                 onChange({
                     target: {
@@ -159,7 +158,6 @@ export const TextInput = ({
                                   ref: (e: any) => {
                                       formRef && formRef.ref(e)
                                       ref.current = e
-                                      console.log('MAMAMA', e?.value)
                                   },
                               }
                             : {})}

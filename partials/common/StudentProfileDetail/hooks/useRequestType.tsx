@@ -119,7 +119,7 @@ export const useRequestType = ({
         )
     }
 
-    const onCancelClicked = () => {
+    const onCancelRequestClicked = () => {
         setModal(
             <CancelWorlplaceModal
                 onCancel={onModalCancelClicked}
@@ -131,7 +131,7 @@ export const useRequestType = ({
     const onChangeStatusToSigned = () => {
         setModal(
             <AgreementSignedModal
-                onCancel={onCancelClicked}
+                onCancel={onModalCancelClicked}
                 workplaceId={workplace?.id}
             />
         )
@@ -244,7 +244,10 @@ export const useRequestType = ({
             secondaryText: 'Checklist Signed',
             color: 'text-success',
             onClick: (isCleared: (bool: boolean) => void) => {
-                if (workplace?.currentStatus === WorkplaceCurrentStatus.AwaitingAgreementSigned) {
+                if (
+                    workplace?.currentStatus ===
+                    WorkplaceCurrentStatus.AwaitingAgreementSigned
+                ) {
                     // notification.info({
                     //     title: 'Agreement Sign',
                     //     description:
@@ -304,7 +307,7 @@ export const useRequestType = ({
             secondaryText: 'Cancelled',
             color: 'text-error',
             onClick: () => {
-                onCancelClicked()
+                onCancelRequestClicked()
             },
             status: WorkplaceCurrentStatus.Cancelled,
             date: appliedIndustry?.cancelledDate,
@@ -372,7 +375,10 @@ export const useRequestType = ({
             color: 'text-info',
             onClick: (isCleared: any) => {
                 isCleared(false)
-                if (workplace?.currentStatus === 'awaitingWorkplaceResponse') {
+                if (
+                    workplace?.currentStatus ===
+                    WorkplaceCurrentStatus.AwaitingWorkplaceResponse
+                ) {
                     notification.info({
                         title: 'Approve or reject the Request',
                         description:
@@ -396,13 +402,17 @@ export const useRequestType = ({
             secondaryText: 'Checklist Signed',
             color: 'text-success',
             onClick: (isCleared: any) => {
-                if (workplace?.currentStatus === 'awaitingAgreementSigned') {
-                    notification.info({
-                        title: 'Agreement Sign',
-                        description:
-                            'Now You can upload the agreement file on th workplace which is provided by student or you can request to student to upload the agreement file',
-                    })
-                    isCleared(false)
+                if (
+                    workplace?.currentStatus ===
+                    WorkplaceCurrentStatus.AwaitingAgreementSigned
+                ) {
+                    // notification.info({
+                    //     title: 'Agreement Sign',
+                    //     description:
+                    //         'Now You can upload the agreement file on th workplace which is provided by student or you can request to student to upload the agreement file',
+                    // })
+                    // isCleared(false)
+                    onChangeStatusToSigned()
                 } else {
                     isCleared(false)
                     notification.error({
@@ -450,7 +460,7 @@ export const useRequestType = ({
             secondaryText: 'Cancelled',
             color: 'text-error',
             onClick: () => {
-                onCancelClicked()
+                onCancelRequestClicked()
             },
             status: 'cancelled',
             date: appliedIndustry?.cancelledDate,
@@ -541,13 +551,17 @@ export const useRequestType = ({
             secondaryText: 'Checklist Signed',
             color: 'text-success',
             onClick: (isCleared: isClearedFunctionType) => {
-                if (workplace?.currentStatus === 'awaitingAgreementSigned') {
-                    notification.info({
-                        title: 'Upload Agrement',
-                        description:
-                            'Upload Agrement on clicking sign agreement button',
-                    })
-                    isCleared(false)
+                if (
+                    workplace?.currentStatus ===
+                    WorkplaceCurrentStatus.AwaitingAgreementSigned
+                ) {
+                    // notification.info({
+                    //     title: 'Upload Agrement',
+                    //     description:
+                    //         'Upload Agrement on clicking sign agreement button',
+                    // })
+                    // isCleared(false)
+                    onChangeStatusToSigned()
                 } else {
                     isCleared(false)
                     notification.info({
@@ -599,7 +613,7 @@ export const useRequestType = ({
             secondaryText: 'Cancelled',
             color: 'text-error',
             onClick: () => {
-                onCancelClicked()
+                onCancelRequestClicked()
             },
             status: 'cancelled',
             date: appliedIndustry?.cancelledDate,
