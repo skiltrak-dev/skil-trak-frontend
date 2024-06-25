@@ -17,7 +17,7 @@ export const getSectors = (courses: Course[]) => {
 
 export const getSectorsDetail = (courses: Course[]) => {
     const uniqueSectorsObject = {}
-    courses.forEach((course) => {
+    courses?.forEach((course) => {
         ;(uniqueSectorsObject as any)[course.sector.id] = course.sector
     })
 

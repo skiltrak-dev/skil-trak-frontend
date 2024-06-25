@@ -22,6 +22,7 @@ import { MdEmail } from 'react-icons/md'
 // hooks
 import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary'
 import { ContactTraineeshipModal } from './modals'
+import moment from 'moment'
 
 export const TraineeshipProgramQuery = () => {
     const router = useRouter()
@@ -72,7 +73,7 @@ export const TraineeshipProgramQuery = () => {
                         </div>
                         <div>
                             <p className="font-semibold">
-                                {userDetail?.fullName || "N/A"}
+                                {userDetail?.fullName || 'N/A'}
                             </p>
                             <div className="flex items-center gap-x-2 text-sm">
                                 <FaPhone className="text-xs text-gray-500" />
@@ -80,7 +81,7 @@ export const TraineeshipProgramQuery = () => {
                                     variant={'label'}
                                     color={'text-gray-500'}
                                 >
-                                    {userDetail?.phone || "N/A"}
+                                    {userDetail?.phone || 'N/A'}
                                 </Typography>
                             </div>
                             <div className="font-medium text-xs text-gray-500">
@@ -88,7 +89,7 @@ export const TraineeshipProgramQuery = () => {
                                     <span>
                                         <MdEmail />
                                     </span>
-                                    {userDetail?.email || "N/A"}
+                                    {userDetail?.email || 'N/A'}
                                 </p>
                             </div>
                         </div>
@@ -132,6 +133,17 @@ export const TraineeshipProgramQuery = () => {
                     text={info.row?.original?.experience}
                     maxLength={20}
                 />
+            ),
+        },
+        {
+            accessorKey: 'createdAt',
+            header: () => <span>Created At</span>,
+            cell: (info) => (
+                <Typography variant="small">
+                    {moment(info.row.original?.createdAt).format(
+                        'Do MMM YYYY, hh:mm:ss a'
+                    )}
+                </Typography>
             ),
         },
         {
