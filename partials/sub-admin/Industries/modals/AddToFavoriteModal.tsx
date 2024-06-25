@@ -24,8 +24,12 @@ export const AddToFavoriteModal = ({
     useEffect(() => {
         if (addToFavoriteResult.isSuccess) {
             notification.success({
-                title: `Request Accepted`,
-                description: `Student "${industry?.user?.name}" has been accepted.`,
+                title: `Favorite`,
+                description: `Industry ${industry?.user?.name}  ${
+                    industry?.subAdmin && industry?.subAdmin?.length > 0
+                        ? 'removed from favorite'
+                        : 'marked as favorite'
+                } .`,
             })
             onCancel()
         }

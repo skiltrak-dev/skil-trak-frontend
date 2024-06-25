@@ -74,6 +74,9 @@ export const AllIndustries = () => {
 
     const tableActionOptions = (industry: Industry) => {
         const subAdmin = isFavorite(industry?.subAdmin)
+
+        console.log({ subAdmin: industry?.subAdmin })
+
         return [
             {
                 text: 'View',
@@ -104,8 +107,16 @@ export const AllIndustries = () => {
                 Icon: FaPencilAlt,
             },
             {
-                text: `${subAdmin ? 'Un Favourite' : 'Add Favourite'}`,
-                color: `${subAdmin ? 'text-error' : 'text-primary'}`,
+                text: `${
+                    industry?.subAdmin && industry?.subAdmin?.length > 0
+                        ? 'Un Favourite'
+                        : 'Add Favourite'
+                }`,
+                color: `${
+                    industry?.subAdmin && industry?.subAdmin?.length > 0
+                        ? 'text-error'
+                        : 'text-primary'
+                }`,
                 onClick: (industry: Industry) =>
                     onAddToFavoriteClicked(industry),
                 Icon: subAdmin ? MdFavorite : MdFavoriteBorder,

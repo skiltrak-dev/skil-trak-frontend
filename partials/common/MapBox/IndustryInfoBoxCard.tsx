@@ -1,5 +1,5 @@
 import { Card, LoadingAnimation, NoData, Typography } from '@components'
-import { ellipsisText } from '@utils'
+import { ellipsisText, getSectorsDetail } from '@utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { AiFillStar } from 'react-icons/ai'
@@ -13,6 +13,10 @@ export const IndustryInfoBoxCard = ({
     setSelectedBox,
     industryId,
 }: any) => {
+    console.log({ selectedBox })
+
+    const sectors = getSectorsDetail(selectedBox?.courses)
+    console.log({ sectors })
     // const url =
     //     selectedBox.photos &&
     //     selectedBox?.photos[0]?.html_attributions?.map((attribution: any) => {
@@ -24,7 +28,7 @@ export const IndustryInfoBoxCard = ({
     // const urlString = url && url[0]
 
     return (
-        <div className='min-w-72'>
+        <div className="min-w-72">
             {item.isError && <NoData text="Something is not right...!" />}
             {item?.isLoading ? (
                 <PulseLoader />
@@ -53,14 +57,31 @@ export const IndustryInfoBoxCard = ({
                                 {ellipsisText(item?.data?.user?.name, 15)}
                             </Typography>
                         </div>
-                        <div className="mt-1">
+
+                        {/*  */}
+                        <div>
+                            <Typography variant="muted" color={'text-gray-400'}>
+                                Sector
+                            </Typography>
+                            {sectors?.map((s: any) => (
+                                <div className="border-b border-gray-200 pb-0.5">
+                                    <Typography variant="xxs">
+                                        {s?.code || 'N/A'}
+                                    </Typography>
+                                    <Typography variant="xs">
+                                        {s?.name || 'N/A'}
+                                    </Typography>
+                                </div>
+                            ))}
+                        </div>
+                        {/* <div className="mt-1">
                             <Typography variant="muted" color={'text-gray-400'}>
                                 Address
                             </Typography>
                             <Typography variant="small">
                                 {item?.data?.addressLine1 || 'N/A'}
                             </Typography>
-                        </div>
+                        </div> */}
                         <div className="flex justify-center mt-1.5">
                             <Link
                                 className="text-blue-400 font-medium text-sm"
