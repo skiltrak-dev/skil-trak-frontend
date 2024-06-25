@@ -7,11 +7,22 @@ import { FaTimes } from 'react-icons/fa'
 import { PulseLoader } from 'react-spinners'
 import StarRatings from 'react-star-ratings'
 
+type IndustryInfoBoxCardProps = {
+    item: any
+    selectedBox: any
+    setSelectedBox: any
+    industryId: any
+    courseId?: any
+    appliedIndustry?: any
+}
+
 export const IndustryInfoBoxCard = ({
     item,
     selectedBox,
     setSelectedBox,
     industryId,
+    courseId,
+    appliedIndustry,
 }: any) => {
     console.log({ selectedBox })
 

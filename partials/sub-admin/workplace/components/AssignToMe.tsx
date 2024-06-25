@@ -135,7 +135,7 @@ export const AssignToMe = ({ workplace, appliedIndustry }: any) => {
                 <div className="flex items-center gap-x-2">
                     <Typography variant={'small'} capitalize>
                         <span
-                            className="font-semibold"
+                            className="font-semibold whitespace-nowrap"
                             title={workplace?.assignedTo?.user?.name}
                         >
                             {ellipsisText(
