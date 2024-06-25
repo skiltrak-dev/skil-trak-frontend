@@ -21,6 +21,7 @@ import { MdEmail } from 'react-icons/md'
 // hooks
 import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary'
 import { ContactWorkBasedModal } from './modals'
+import moment from 'moment'
 
 export const WorkBasedQuery = () => {
     const router = useRouter()
@@ -113,6 +114,17 @@ export const WorkBasedQuery = () => {
         {
             accessorKey: 'institute',
             header: () => <span>Institute</span>,
+        },
+        {
+            accessorKey: 'createdAt',
+            header: () => <span>Created At</span>,
+            cell: (info) => (
+                <Typography variant="small">
+                    {moment(info.row.original?.createdAt).format(
+                        'Do MMM YYYY, hh:mm:ss a'
+                    )}
+                </Typography>
+            ),
         },
         {
             accessorKey: 'Action',

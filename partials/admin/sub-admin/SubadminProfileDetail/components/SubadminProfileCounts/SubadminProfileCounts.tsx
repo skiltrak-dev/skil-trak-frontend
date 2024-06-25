@@ -15,7 +15,7 @@ export const SubadminProfileCounts = ({
     const countsData: RtoProfileCountDataType[] = [
         {
             title: 'My Student',
-            count: subAdminProfileCount?.data?.student || 0,
+            count: subAdminProfileCount?.data?.myStudents || 0,
             Icon: HiUserCircle,
             loading: false,
             link: {

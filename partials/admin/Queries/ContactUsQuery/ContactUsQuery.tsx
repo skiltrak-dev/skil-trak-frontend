@@ -1,4 +1,5 @@
 import {
+    ActionButton,
     Button,
     Card,
     EmptyData,
@@ -22,6 +23,8 @@ import { MdEmail } from 'react-icons/md'
 import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary'
 import { ContactUsQueryModal } from './modals'
 import { ellipsisText } from '@utils'
+import moment from 'moment'
+import { ViewQueriesMessageModal } from '../modals'
 
 export const ContactUsQuery = () => {
     const router = useRouter()
@@ -51,6 +54,16 @@ export const ContactUsQuery = () => {
         setModal(
             <ContactUsQueryModal onCancel={onCancelModal} workBase={workBase} />
         )
+
+    const onViewMessageClicked = (subject: string, message: string) => {
+        setModal(
+            <ViewQueriesMessageModal
+                onCancel={onCancelModal}
+                message={message}
+                subject={subject}
+            />
+        )
+    }
 
     const columns: ColumnDef<any>[] = [
         {
@@ -102,10 +115,22 @@ export const ContactUsQuery = () => {
                 return (
                     <div
                         title={info?.row?.original?.message}
-                        className="flex items-center gap-x-2 cursor-pointer"
+                        className="flex flex-shrink-0 items-center gap-x-2 cursor-pointer"
                     >
-                        {ellipsisText(info?.row?.original?.message, 50) ||
-                            'N/A'}
+                        {/* {ellipsisText(info?.row?.original?.message, 50) ||
+                            'N/A'} */}
+                        <ActionButton
+                            variant="info"
+                            simple
+                            onClick={() => {
+                                onViewMessageClicked(
+                                    info?.row?.original?.subject,
+                                    info?.row?.original?.message
+                                )
+                            }}
+                        >
+                            View Message
+                        </ActionButton>
                     </div>
                 )
             },
@@ -113,16 +138,14 @@ export const ContactUsQuery = () => {
         },
         {
             accessorKey: 'createdAt',
-            cell: (info) => {
-                return (
-                    <div className="flex items-center gap-x-2 ">
-                        {(info?.row?.original?.createdAt &&
-                            info?.row?.original?.createdAt?.slice(0, 10)) ||
-                            'NA'}
-                    </div>
-                )
-            },
             header: () => <span>Created At</span>,
+            cell: (info) => (
+                <Typography variant="small">
+                    {moment(info.row.original?.createdAt).format(
+                        'Do MMM YYYY, hh:mm:ss a'
+                    )}
+                </Typography>
+            ),
         },
 
         {
