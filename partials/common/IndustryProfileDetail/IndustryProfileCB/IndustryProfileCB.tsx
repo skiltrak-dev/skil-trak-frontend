@@ -9,6 +9,7 @@ import {
     IndustryProfileAvatar,
     IndustrySectors,
     IndustryStatus,
+    MakeIndustryPartner,
     ProfileLinks,
     ViewIndustryAnswers,
 } from './components'
@@ -44,6 +45,11 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
             ) : (
                 <AddIndustryAnswers industry={industry} />
             )}
+
+            <MakeIndustryPartner
+                industryId={industry?.id}
+                isPartner={industry?.isPartner}
+            />
 
             {/*  */}
             <IndustryJobHiring

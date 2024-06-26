@@ -31,11 +31,11 @@ export const IndustryJobHiring = ({
             <ShowErrorNotifications result={isHiringResult} />
             <div className="py-4 border-b border-secondary-dark flex justify-between items-center">
                 <Typography variant="small" medium>
-                    Job Hiring :
+                    Hiring :
                 </Typography>
                 <div className="flex items-center gap-x-2">
                     <Typography variant="small" bold color={'text-[#BF0000]'}>
-                        OFF
+                        NO
                     </Typography>
                     <div className="-mb-2">
                         <Switch
@@ -51,7 +51,7 @@ export const IndustryJobHiring = ({
                         />
                     </div>
                     <Typography variant="small" bold>
-                        ON
+                        YES
                     </Typography>
                 </div>
             </div>
