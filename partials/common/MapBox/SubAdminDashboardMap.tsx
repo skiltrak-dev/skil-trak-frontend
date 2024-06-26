@@ -67,10 +67,25 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                         onChange={(e: any) => {
                             if (e?.target?.value?.length > 4) {
                                 fromAddress(e?.target?.value)
-                                    .then(({ results }) => {
+                                    .then(({ results }: any) => {
                                         const { lat, lng } =
                                             results[0].geometry.location
                                         setSuburbLocation({ lat, lng })
+                                        // console.log({
+                                        //     map,
+                                        //     lat,
+                                        //     lng,
+                                        //     outer: true,
+                                        // })
+                                        // if (map) {
+                                        //     console.log({
+                                        //         map,
+                                        //         lat,
+                                        //         lng,
+                                        //     })
+                                        //     map.setCenter({ lat, lng })
+                                        //     map.setZoom(8)
+                                        // }
                                     })
                                     .catch(console.error)
                             }

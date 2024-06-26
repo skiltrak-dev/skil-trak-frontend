@@ -4,7 +4,13 @@ import { SubAdminLayout } from '@layouts'
 // Types
 import { Button, TabNavigation, TabProps } from '@components'
 import { useContextBar } from '@hooks'
-import { AllMails, ReadMail, SendMail, UnReadMail } from '@partials/common'
+import {
+    AllMails,
+    MailsListing,
+    ReadMail,
+    SendMail,
+    UnReadMail,
+} from '@partials/common'
 import { CommonApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
@@ -72,17 +78,21 @@ const SubAdminEmailsNotifications: NextPageWithLayout = () => {
                                 <div className="flex items-center gap-x-2">
                                     <Button
                                         onClick={() => {
-                                            router.push('/portals/sub-admin/notifications/bulk-email')
+                                            router.push(
+                                                '/portals/sub-admin/notifications/bulk-email'
+                                            )
                                         }}
                                         text="Bulk Email"
-                                        variant='info'
+                                        variant="info"
                                     />
                                     <Button
                                         onClick={() => {
-                                            router.push('/portals/sub-admin/email-draft')
+                                            router.push(
+                                                '/portals/sub-admin/email-draft'
+                                            )
                                         }}
                                         text="Email Draft"
-                                        variant='info'
+                                        variant="info"
                                     />
                                     <Button
                                         onClick={() => {
@@ -99,6 +109,8 @@ const SubAdminEmailsNotifications: NextPageWithLayout = () => {
                     )
                 }}
             </TabNavigation>
+
+            {/* <MailsListing /> */}
         </div>
     )
 }

@@ -1,10 +1,10 @@
-import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
-import { AdminLayout } from '@layouts'
-import { SubadminProfileDetail } from '@partials/admin/sub-admin'
 import { AdminApi } from '@queries'
-import { NextPageWithLayout } from '@types'
+import { AdminLayout } from '@layouts'
 import { useRouter } from 'next/router'
 import React, { ReactElement } from 'react'
+import { NextPageWithLayout } from '@types'
+import { SubadminProfileDetail } from '@partials/admin/sub-admin'
+import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 
 const SubadminDetail: NextPageWithLayout = () => {
     const router = useRouter()
@@ -15,6 +15,7 @@ const SubadminDetail: NextPageWithLayout = () => {
             skip: !router.query?.id,
         }
     )
+
     return (
         <div>
             {subadminDetail.isError ? <TechnicalError /> : null}

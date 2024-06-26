@@ -27,6 +27,14 @@ import {
 } from '@partials/sub-admin'
 import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
+import {
+    ActiveWorkplaceRequest,
+    UpdatedCancelledWorkplaces,
+    UpdatedFilteredWorkplaces,
+    UpdatedMyWorkplaces,
+    UpdatedPlacementStartedWorkplaces,
+    UpdatedStudentAddedWorkplaces,
+} from '@partials/sub-admin/workplace/updatedworkplaces'
 
 const filterKeys = [
     'studentId',
@@ -104,13 +112,14 @@ const Workplace: NextPageWithLayout = (props: Props) => {
 
     const tabs: TabProps[] = [
         {
-            label: 'Need Workplaces',
+            label: 'Active Workplace Request',
             href: { pathname: 'workplace', query: { tab: 'all' } },
             badge: {
                 text: count?.data?.all,
                 loading: count?.isLoading,
             },
-            element: <AllWorkplaces />,
+            // element: <AllWorkplaces />,
+            element: <ActiveWorkplaceRequest />,
         },
         // {
         //     label: 'Need Workplaces',
@@ -131,7 +140,8 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 loading: count?.isLoading,
             },
             href: { pathname: 'workplace', query: { tab: 'my-workplaces' } },
-            element: <MyWorkplaces />,
+            // element: <MyWorkplaces />,
+            element: <UpdatedMyWorkplaces />,
         },
         {
             label: 'Placement Started Workplaces',
@@ -143,7 +153,8 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 pathname: 'workplace',
                 query: { tab: 'placement-started-workplaces' },
             },
-            element: <PlacementStartedWorkplaces />,
+            // element: <PlacementStartedWorkplaces />,
+            element: <UpdatedPlacementStartedWorkplaces />,
         },
         {
             label: 'Student Provided Workplace',
@@ -152,7 +163,8 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 loading: count?.isLoading,
             },
             href: { pathname: 'workplace', query: { tab: 'student-added' } },
-            element: <StudentAddedWorkplaces />,
+            // element: <StudentAddedWorkplaces />,
+            element: <UpdatedStudentAddedWorkplaces />,
         },
         {
             label: 'Cancelled Requests',
@@ -161,7 +173,8 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 loading: count?.isLoading,
             },
             href: { pathname: 'workplace', query: { tab: 'cancelled' } },
-            element: <CancelledWorkplaces />,
+            // element: <CancelledWorkplaces />,
+            element: <UpdatedCancelledWorkplaces />,
         },
     ]
 
@@ -193,8 +206,14 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                         <LoadingAnimation />
                     ) : (
                         filteredWorkplaces.isSuccess && (
-                            <FilteredWorkplaces
-                                workplace={filteredWorkplaces}
+                            // <FilteredWorkplaces
+                            //     workplace={filteredWorkplaces}
+                            //     setPage={setPage}
+                            //     setItemPerPage={setItemPerPage}
+                            //     itemPerPage={itemPerPage}
+                            // />
+                            <UpdatedFilteredWorkplaces
+                                subAdminWorkplace={filteredWorkplaces}
                                 setPage={setPage}
                                 setItemPerPage={setItemPerPage}
                                 itemPerPage={itemPerPage}
