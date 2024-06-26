@@ -29,7 +29,7 @@ export const RequestType = ({
     workplace: any
     folders?: any
     appliedIndustry: any
-    isOpen: boolean
+    isOpen?: boolean
 }) => {
     const [modal, setModal] = useState<any>(null)
     const [visibleRequestType, setVisibleRequestType] = useState(false)

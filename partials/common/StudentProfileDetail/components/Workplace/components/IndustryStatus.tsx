@@ -3,6 +3,7 @@ import { useNotification } from '@hooks'
 import { useRequestType } from '@partials/common/StudentProfileDetail/hooks'
 import { WorkplaceCurrentStatus } from '@utils'
 import moment from 'moment'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
 import OutsideClickHandler from 'react-outside-click-handler'
@@ -20,6 +21,7 @@ export const IndustryStatus = ({
     const [selectedRequestType, setSelectedRequestType] = useState<
         number | null
     >(0)
+    const router = useRouter()
 
     const { notification } = useNotification()
 
@@ -59,9 +61,12 @@ export const IndustryStatus = ({
     return (
         <div className="flex flex-col gap-y-1.5">
             {modal}
-            <Typography variant="label" medium>
-                Industry Status
-            </Typography>
+            {router.pathname !== '/portals/sub-admin/tasks/workplace' && (
+                <Typography variant="label" medium>
+                    Industry Status
+                </Typography>
+            )}
+
             <OutsideClickHandler
                 onOutsideClick={() => {
                     setIsOpened(false)
