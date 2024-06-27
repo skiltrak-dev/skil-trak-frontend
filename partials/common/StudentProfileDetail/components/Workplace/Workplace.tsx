@@ -307,7 +307,7 @@ export const Workplace = ({
                                                   )
                                               }}
                                           >
-                                              View Placement Answers
+                                              Coordinators Feedback
                                           </ActionButton>
                                       )
                                     : null}
