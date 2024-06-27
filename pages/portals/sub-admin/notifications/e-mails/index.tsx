@@ -109,8 +109,6 @@ const SubAdminEmailsNotifications: NextPageWithLayout = () => {
                     )
                 }}
             </TabNavigation>
-
-            {/* <MailsListing /> */}
         </div>
     )
 }

@@ -70,6 +70,10 @@ export const mailsEndpoints = (
         },
         providesTags: ['Mails'],
     }),
+    getMailDetail: builder.query<any, any>({
+        query: (id) => `${PREFIX}/detail/${id}`,
+        providesTags: ['Mails'],
+    }),
     sendMessage: builder.mutation({
         query: (body) => ({
             url: `${PREFIX}/send`,
@@ -90,6 +94,21 @@ export const mailsEndpoints = (
     removeDraft: builder.mutation({
         query: (id) => ({
             url: `templates/${id}`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['Mails'],
+    }),
+    removeMail: builder.mutation({
+        query: (id) => ({
+            url: `${PREFIX}/delete/${id}`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['Mails'],
+    }),
+    removeMultipleMail: builder.mutation({
+        query: (body) => ({
+            url: `${PREFIX}/delete/multiple`,
+            body,
             method: 'DELETE',
         }),
         invalidatesTags: ['Mails'],
@@ -138,12 +157,35 @@ export const mailsEndpoints = (
         }),
         invalidatesTags: ['Mails'],
     }),
+    multiplesMailsSeen: builder.mutation({
+        query: (body) => ({
+            url: `${PREFIX}/seen/multiple`,
+            body,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Mails'],
+    }),
     getAllConversations: builder.query<
         any,
         { status?: string | undefined; skip: number; limit: number }
     >({
         query: (params) => ({
             url: `${PREFIX}/conversations/list`,
+            params,
+        }),
+        providesTags: ['Mails'],
+    }),
+    getUsersAllMail: builder.query<
+        any,
+        {
+            status?: string | undefined
+            skip: number
+            limit: number
+            type: 'sender' | 'receiver'
+        }
+    >({
+        query: (params) => ({
+            url: `${PREFIX}/conversations/list/by-type`,
             params,
         }),
         providesTags: ['Mails'],

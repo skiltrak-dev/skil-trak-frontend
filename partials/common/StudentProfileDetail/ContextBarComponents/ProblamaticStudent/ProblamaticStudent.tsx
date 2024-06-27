@@ -36,7 +36,7 @@ export const ProblamaticStudent = ({
             <ShowErrorNotifications result={problamaticStudentResult} />
             <div className="py-3 border-b border-secondary-dark">
                 <Typography variant="small" medium>
-                    Report to RTO
+                    Problematic Student
                 </Typography>
                 <div className="grid grid-cols-5 items-center  mt-2">
                     <div className="col-span-2">

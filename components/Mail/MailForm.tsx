@@ -320,6 +320,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                     options={templateOptions}
                                     placeholder="Select Email Template"
                                     onChange={findTamplates}
+                                    menuPlacement="top"
                                     // loading={courseLoading}
                                     // value={templateValue}
                                     // onChange={(e: any) => {
