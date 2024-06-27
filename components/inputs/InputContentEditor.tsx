@@ -77,12 +77,14 @@ export const InputContentEditor = ({
     content,
     onChange,
     height,
+    showError = true,
 }: {
     name: string
     label?: string
     content?: any
     onChange?: any
     height?: string
+    showError?: boolean
 }) => {
     const methods = useFormContext()
 
@@ -149,7 +151,7 @@ export const InputContentEditor = ({
                     )
                 }}
             />
-            <InputErrorMessage name={name} />
+            {showError ? <InputErrorMessage name={name} /> : null}
         </div>
     )
 }

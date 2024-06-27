@@ -1,10 +1,8 @@
-import { Button, Typography } from '@components'
 import { useRouter } from 'next/router'
-import React from 'react'
 import { CiMail } from 'react-icons/ci'
 import { IoNotificationsOutline } from 'react-icons/io5'
-import { MailsInbox, TabNotification } from './tabs'
 import { TopBar } from './components'
+import { ReceiverMailsInbox, SenderMailsInbox, TabNotification } from './tabs'
 
 export const MailsListing = () => {
     const router = useRouter()
@@ -14,16 +12,25 @@ export const MailsListing = () => {
             text: 'Inbox',
             Icon: CiMail,
             href: {
-                pathname: '/portals/sub-admin/notifications/e-mails',
+                pathname: '/portals/sub-admin/notifications',
                 query: { tab: 'inbox' },
             },
-            component: MailsInbox,
+            component: ReceiverMailsInbox,
+        },
+        {
+            text: 'Sent Mails',
+            Icon: CiMail,
+            href: {
+                pathname: '/portals/sub-admin/notifications',
+                query: { tab: 'sent' },
+            },
+            component: SenderMailsInbox,
         },
         {
             text: 'All Notifications',
             Icon: IoNotificationsOutline,
             href: {
-                pathname: '/portals/sub-admin/notifications/e-mails',
+                pathname: '/portals/sub-admin/notifications',
                 query: { tab: 'notification' },
             },
             component: TabNotification,

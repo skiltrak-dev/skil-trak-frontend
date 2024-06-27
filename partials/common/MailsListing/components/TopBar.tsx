@@ -1,15 +1,25 @@
 import { Button, Typography } from '@components'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useCallback, useState } from 'react'
+import { ComposeMail } from '../tabs'
 
 export const TopBar = ({ mailsTabs }: { mailsTabs: any }) => {
     const router = useRouter()
+
+    const [isComposeMail, setIsComposeMail] = useState<boolean>(false)
+
+    const onCancelComposeMail = useCallback(() => {
+        setIsComposeMail(false)
+    }, [])
+
     return (
         <div className="flex items-center gap-x-12 justify-between bg-white shadow-[inset_0_-1px_0_0_#EDEFF1] px-5">
             <div className="flex items-center gap-x-12">
-                {mailsTabs.map((tab: any) => {
-                    const active = tab?.href?.query?.tab === router?.query?.tab
-                    tab?.href?.query?.tab === router?.query?.tab
+                {mailsTabs.map((tab: any, i: number) => {
+                    const active = router?.query?.tab
+                        ? tab?.href?.query?.tab === router?.query?.tab
+                        : i == 0
+
                     return (
                         <div>
                             <div
@@ -65,12 +75,20 @@ export const TopBar = ({ mailsTabs }: { mailsTabs: any }) => {
                 />
                 <Button
                     onClick={() => {
+                        setIsComposeMail(!isComposeMail)
                         // contextBar.setTitle('Compose Mail')
                         // contextBar.setContent(<SendMail />)
                         // contextBar.show()
                     }}
                     text="Compose"
                 />
+            </div>
+            <div
+                className={`fixed bottom-0 right-20  ${
+                    isComposeMail ? 'block' : 'hidden'
+                }`}
+            >
+                <ComposeMail onCancelComposeMail={onCancelComposeMail} />
             </div>
         </div>
     )
