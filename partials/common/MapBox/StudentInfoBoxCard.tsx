@@ -1,5 +1,5 @@
 import { Card, LoadingAnimation, NoData, Typography } from '@components'
-import { ellipsisText } from '@utils'
+import { ellipsisText, getSectorsDetail } from '@utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaTimes } from 'react-icons/fa'
@@ -11,6 +11,7 @@ export const StudentInfoBoxCard = ({
     setSelectedBox,
     studentId,
 }: any) => {
+    const sectors = getSectorsDetail(selectedBox?.courses)
     return (
         <div className="min-w-64 ">
             {item.isError && <NoData text="Something is not right...!" />}
@@ -44,13 +45,29 @@ export const StudentInfoBoxCard = ({
                                 {ellipsisText(item?.data?.name, 15)}
                             </Typography>
                         </div>
-                        <div className="flex flex-col gap-1 items-center">
+                        {/* <div className="flex flex-col gap-1 items-center">
                             <Typography variant="small" color={'text-gray-400'}>
                                 Student ID
                             </Typography>
                             <Typography variant="small">
                                 {item?.data?.student?.studentId || 'N/A'}
                             </Typography>
+                        </div> */}
+                        <div>
+                            <Typography variant="muted" color={'text-gray-400'}>
+                                Sector
+                            </Typography>
+
+                            {sectors?.map((s: any) => (
+                                <div className="border-b border-gray-200 pb-2 mb-2">
+                                    <Typography variant="xxs">
+                                        {s?.code || 'N/A'}
+                                    </Typography>
+                                    <Typography variant="xs">
+                                        {s?.name || 'N/A'}
+                                    </Typography>
+                                </div>
+                            ))}
                         </div>
                         <div className="flex justify-center">
                             <Link

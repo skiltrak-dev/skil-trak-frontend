@@ -9,6 +9,7 @@ import {
     InfoWindow,
     InfoBox,
     useJsApiLoader,
+    Circle,
 } from '@react-google-maps/api'
 import { SubAdminApi } from '@queries'
 import { Button, NoData, Typography } from '@components'
@@ -19,8 +20,8 @@ import { StudentInfoBoxCard } from './StudentInfoBoxCard'
 import { IoMdCloseCircle } from 'react-icons/io'
 
 const containerStyle = {
-    width: '880px',
-    height: '450px',
+    width: '780px',
+    height: '500px',
 }
 
 const center = {
@@ -113,44 +114,35 @@ export const ViewOnMapIndustriesModal = ({
                 skip: !industryId,
             }
         )
+
+    const workplaceCourseId = workplace?.courses?.[0]?.id
+    const workplaceCourseIndustries =
+        SubAdminApi.Workplace.useWorkplaceCourseIndustries(workplaceCourseId, {
+            skip: !workplaceCourseId,
+        })
     const studentDetails = SubAdminApi.SubAdmin.useSubAdminMapStudentDetail(
         router?.query?.id,
         { skip: !router?.query?.id }
     )
-    // useEffect(() => {
-    //     if (suggestedIndustries) {
-    //         const filteredIndustries = suggestedIndustries?.filter(
-    //             (industry: any) =>
-    //                 industry?.industry?.location &&
-    //                 industry?.industry?.location !== 'NA'
-    //         )
-    //         const transformedStudents = filteredIndustries.map(
-    //             (industry: any) => {
-    //                 const [lat, lng] = industry?.industry?.location
-    //                     .split(',')
-    //                     .map(Number)
-    //                 return { ...industry?.industry, location: { lat, lng } }
-    //             }
-    //         )
-    //         setVisibleMarkers(transformedStudents)
-    //     }
-    // }, [suggestedIndustries])
     useEffect(() => {
-        if (suggestedIndustries || workplace?.student?.location) {
+        if (
+            workplaceCourseIndustries?.data?.length > 0 ||
+            workplace?.student?.location
+        ) {
             const markers = []
 
-            if (suggestedIndustries) {
-                const filteredIndustries = suggestedIndustries?.filter(
-                    (industry: any) =>
-                        industry?.industry?.location &&
-                        industry?.industry?.location !== 'NA'
-                )
-                const transformedIndustries = filteredIndustries.map(
+            if (workplaceCourseIndustries?.data) {
+                const filteredIndustries =
+                    workplaceCourseIndustries?.data?.filter(
+                        (industry: any) =>
+                            industry?.location && industry?.location !== 'NA'
+                    )
+                const transformedIndustries = filteredIndustries?.map(
                     (industry: any) => {
-                        const [lat, lng] = industry?.industry?.location
+                        const [lat, lng] = industry?.location
                             .split(',')
                             .map(Number)
-                        return { ...industry?.industry, location: { lat, lng } }
+                        return { ...industry, location: { lat, lng } }
                     }
                 )
                 markers.push(...transformedIndustries)
@@ -169,7 +161,7 @@ export const ViewOnMapIndustriesModal = ({
 
             setVisibleMarkers(markers)
         }
-    }, [workplace])
+    }, [workplaceCourseIndustries])
 
     // const onBoundChange = useCallback(() => {
     //     setSelectedBox(null)
@@ -270,7 +262,6 @@ export const ViewOnMapIndustriesModal = ({
         }
         return null
     }
-
     const renderPolyline = () => {
         if (directions) {
             const path = directions.routes[0].overview_path.map((p: any) => ({
@@ -307,6 +298,9 @@ export const ViewOnMapIndustriesModal = ({
         grid: 20,
         maxZoom: 15,
     }
+    const studentCenter = visibleMarkers.find(
+        (student: any) => student?.user && student?.user?.role === 'student'
+    )
     return (
         <div className="w-full">
             <div
@@ -318,7 +312,7 @@ export const ViewOnMapIndustriesModal = ({
 
             {visibleMarkers.length > 0 ? (
                 <div className="flex gap-x-3 w-full">
-                    <div className="p-4 w-1/3">
+                    {/* <div className="p-4 w-1/3">
                         <Typography variant="small" semibold>
                             Near by Industries
                         </Typography>
@@ -341,13 +335,17 @@ export const ViewOnMapIndustriesModal = ({
                                 />
                             )}
                         </div>
-                    </div>
+                    </div> */}
                     {isLoaded && (
                         <div className="w-3/4">
                             <GoogleMap
                                 mapContainerStyle={containerStyle}
-                                center={center}
-                                zoom={5}
+                                center={
+                                    Object.keys(studentCenter)?.length
+                                        ? studentCenter?.location
+                                        : center
+                                }
+                                zoom={9}
                                 onLoad={onMapLoad}
                                 onUnmount={onMapUnmount}
                                 options={{ styles: customMapStyles }}
@@ -436,6 +434,28 @@ export const ViewOnMapIndustriesModal = ({
                                                                 )
                                                             }}
                                                         />
+                                                        <Circle
+                                                            center={
+                                                                marker.location
+                                                            }
+                                                            radius={20000}
+                                                            options={{
+                                                                fillColor:
+                                                                    '#AA0000',
+                                                                fillOpacity: 0.2,
+                                                                strokeColor:
+                                                                    '#AA0000',
+                                                                strokeOpacity: 0.7,
+                                                                strokeWeight: 1,
+                                                                clickable:
+                                                                    false,
+                                                                draggable:
+                                                                    false,
+                                                                editable: false,
+                                                                visible: true,
+                                                                zIndex: 1,
+                                                            }}
+                                                        />
                                                         {selectedBox &&
                                                             showInfoBox &&
                                                             selectedBox.id ===
@@ -496,6 +516,19 @@ export const ViewOnMapIndustriesModal = ({
                                                                             }
                                                                             setSelectedBox={
                                                                                 setSelectedBox
+                                                                            }
+                                                                            workplace={
+                                                                                workplace
+                                                                            }
+                                                                            appliedIndustry={
+                                                                                appliedIndustry
+                                                                            }
+                                                                            workplaceMapCard={
+                                                                                true
+                                                                            }
+                                                                            s
+                                                                            onCancel={
+                                                                                onCancel
                                                                             }
                                                                         />
                                                                     )}
@@ -592,6 +625,7 @@ export const ViewOnMapIndustriesModal = ({
                                                                 )
                                                             }}
                                                         />
+
                                                         {selectedBox &&
                                                             showInfoBox &&
                                                             selectedBox.id ===
@@ -653,7 +687,21 @@ export const ViewOnMapIndustriesModal = ({
                                                                             setSelectedBox={
                                                                                 setSelectedBox
                                                                             }
-                                                                            courseId={courseId}
+                                                                            courseId={
+                                                                                courseId
+                                                                            }
+                                                                            workplace={
+                                                                                workplace
+                                                                            }
+                                                                            appliedIndustry={
+                                                                                appliedIndustry
+                                                                            }
+                                                                            workplaceMapCard={
+                                                                                true
+                                                                            }
+                                                                            onCancel={
+                                                                                onCancel
+                                                                            }
                                                                         />
                                                                     )}
                                                                 </InfoBox>
@@ -810,6 +858,18 @@ export const ViewOnMapIndustriesModal = ({
                                                                             setSelectedBox={
                                                                                 setSelectedBox
                                                                             }
+                                                                            workplace={
+                                                                                workplace
+                                                                            }
+                                                                            appliedIndustry={
+                                                                                appliedIndustry
+                                                                            }
+                                                                            workplaceMapCard={
+                                                                                true
+                                                                            }
+                                                                            onCancel={
+                                                                                onCancel
+                                                                            }
                                                                         />
                                                                     )}
                                                                 </InfoBox>
@@ -829,6 +889,7 @@ export const ViewOnMapIndustriesModal = ({
             ) : (
                 <NoData text="No Data found" />
             )}
+            <div className="flex justify-end cursor-pointer border-t p-4 mt-2"></div>
         </div>
     )
 }

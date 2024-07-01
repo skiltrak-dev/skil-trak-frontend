@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { IndustryCard } from './components'
 import { GlobalModal, NoData, Typography } from '@components'
 import { Course } from '@types'
@@ -60,10 +60,16 @@ export const IndustryDetail = ({
                     onCancel={onCancelClicked}
                     workplace={workplace}
                     courseId={course?.id}
+                    appliedIndustry={appliedIndustry}
                 />
             </GlobalModal>
         )
     }
+    // useEffect(() => {
+    //     if (appliedIndustry && suggestedIndustries?.length) {
+    //         onCancelClicked()
+    //     }
+    // }, [appliedIndustry, suggestedIndustries])
 
     return (
         <>
@@ -135,12 +141,12 @@ export const IndustryDetail = ({
                                         + Add Industry
                                     </span>
                                 </Typography>
-                                <button
+                                {/* <button
                                     onClick={onViewOnMap}
                                     className="text-blue-500 underline text-sm whitespace-nowrap"
                                 >
                                     VIEW ON MAP
-                                </button>
+                                </button> */}
                             </>
                         ) : (
                             ''
@@ -148,56 +154,78 @@ export const IndustryDetail = ({
                     </div>
                 </div>
                 <div className="h-[200px] overflow-auto custom-scrollbar flex flex-col gap-y-2 border border-[#6B7280] rounded-md p-2.5 mt-2.5">
-                    {!workplace?.industries?.length ? (
-                        <NoData text="No Industries were found!" />
+                    {!appliedIndustry && suggestedIndustries?.length === 0 ? (
+                        // <div onClick={onViewOnMap}>
+
+                        //     <ViewOnMapIndustriesModal
+                        //         suggestedIndustries={suggestedIndustries}
+                        //         onCancel={onCancelClicked}
+                        //         workplace={workplace}
+                        //         courseId={course?.id}
+                        //     />
+                        // </div>
+                        <button
+                            onClick={onViewOnMap}
+                            className="text-blue-500 underline text-sm whitespace-nowrap"
+                        >
+                            VIEW ON MAP
+                        </button>
                     ) : (
-                        ''
-                    )}
-                    {appliedIndustry && (
                         <>
-                            <IndustryCard
-                                industry={appliedIndustry}
-                                workplace={workplace}
-                                applied
-                                courseId={course?.id}
-                            />
-                            {/*  */}
-                            {workplace.studentProvidedWorkplace ? (
-                                <StudentProvidedActions
-                                    workplace={workplace}
-                                    student={workplace?.student}
-                                    appliedIndustry={appliedIndustry}
-                                    courses={workplace?.courses}
-                                />
-                            ) : workplace?.byExistingAbn ? (
-                                <StudentProvidedABNActions
-                                    workplace={workplace}
-                                    student={workplace?.student}
-                                    courses={workplace?.courses}
-                                    appliedIndustry={appliedIndustry}
-                                />
+                            {!workplace?.industries?.length ? (
+                                <NoData text="No Industries were found!" />
                             ) : (
-                                <Actions
-                                    appliedIndustry={appliedIndustry}
-                                    currentStatus={workplace?.currentStatus}
-                                    student={workplace?.student}
-                                    courses={workplace?.courses}
-                                    workplace={workplace}
-                                />
+                                ''
+                            )}
+                            {appliedIndustry && (
+                                <>
+                                    <IndustryCard
+                                        industry={appliedIndustry}
+                                        workplace={workplace}
+                                        applied
+                                        courseId={course?.id}
+                                    />
+                                    {/*  */}
+                                    {workplace.studentProvidedWorkplace ? (
+                                        <StudentProvidedActions
+                                            workplace={workplace}
+                                            student={workplace?.student}
+                                            appliedIndustry={appliedIndustry}
+                                            courses={workplace?.courses}
+                                        />
+                                    ) : workplace?.byExistingAbn ? (
+                                        <StudentProvidedABNActions
+                                            workplace={workplace}
+                                            student={workplace?.student}
+                                            courses={workplace?.courses}
+                                            appliedIndustry={appliedIndustry}
+                                        />
+                                    ) : (
+                                        <Actions
+                                            appliedIndustry={appliedIndustry}
+                                            currentStatus={
+                                                workplace?.currentStatus
+                                            }
+                                            student={workplace?.student}
+                                            courses={workplace?.courses}
+                                            workplace={workplace}
+                                        />
+                                    )}
+                                </>
+                            )}
+
+                            {suggestedIndustries?.map(
+                                (industry: any, index: number) => (
+                                    <IndustryCard
+                                        key={industry?.id}
+                                        industry={industry}
+                                        workplace={workplace}
+                                        courseId={course?.id}
+                                        appliedIndustry={appliedIndustry}
+                                    />
+                                )
                             )}
                         </>
-                    )}
-
-                    {suggestedIndustries?.map(
-                        (industry: any, index: number) => (
-                            <IndustryCard
-                                key={industry?.id}
-                                industry={industry}
-                                workplace={workplace}
-                                courseId={course?.id}
-                                appliedIndustry={appliedIndustry}
-                            />
-                        )
                     )}
                 </div>
             </div>

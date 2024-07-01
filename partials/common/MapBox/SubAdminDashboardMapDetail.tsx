@@ -230,7 +230,6 @@ const SubAdminDashboardMapDetail = ({
             setVisibleMarkers(markers)
         }
     }, [data, industriesList?.data])
-
     //Bounds changes when filter applied
     useEffect(() => {
         if (map && visibleMarkers.length > 0) {

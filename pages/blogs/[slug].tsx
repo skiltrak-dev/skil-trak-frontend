@@ -117,39 +117,7 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                                                         }
                                                     />
                                                 </div>
-                                                // <AccordionItem
-                                                //     key={index}
-                                                //     className="shadow-md px-5 py-4 w-full "
-                                                //     value={faq?.id}
-                                                //     onClick={() =>
-                                                //         setActiveKey(
-                                                //             (prevActiveKey) =>
-                                                //                 prevActiveKey ===
-                                                //                 faq.id
-                                                //                     ? null
-                                                //                     : faq.id
-                                                //         )
-                                                //     }
-                                                // >
-                                                //     <AccordionTrigger className="mb-2 font-medium text-sm  w-full">
-                                                //         <div className="flex items-center justify-between">
-                                                //             <h3>
-                                                //                 {faq?.question}
-                                                //             </h3>
-                                                //             <div>
-                                                //                 {activeKey ===
-                                                //                 faq?.id ? (
-                                                //                     <FaChevronUp />
-                                                //                 ) : (
-                                                //                     <FaChevronDown />
-                                                //                 )}
-                                                //             </div>
-                                                //         </div>
-                                                //     </AccordionTrigger>
-                                                //     <AccordionContent className="text-sm text-gray-500">
-                                                //         {faq?.answer}
-                                                //     </AccordionContent>
-                                                // </AccordionItem>
+                                                
                                             )
                                         }
                                     )}
