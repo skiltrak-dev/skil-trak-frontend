@@ -1,38 +1,29 @@
 import {
     Button,
     Filter,
-    RtoListingFilter,
     LoadingAnimation,
+    RtoListingFilter,
     SetDetaultQueryFilteres,
     TabNavigation,
     TabProps,
     TechnicalError,
-    NoData,
     Typography,
 } from '@components'
 import { useContextBar } from '@hooks'
 import { SubAdminLayout } from '@layouts'
-import { ActiveIndustries, AddIndustry } from '@partials/common'
-import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
-import {
-    ImportIndustriesList,
-    ImportIndustriesListWithOTP,
-} from '@partials/common/FindWorkplaces/contextBar'
 import {
     ActiveRtosList,
-    ImportRtosListWithOTP,
     AddRtoListing,
     FilteredRtoListing,
+    ImportRtosListWithOTP,
 } from '@partials/sub-admin'
 import { SubAdminApi } from '@queries'
-import { RtoListingFilterTypes, NextPageWithLayout } from '@types'
+import { NextPageWithLayout, RtoListingFilterTypes } from '@types'
 import { checkFilteredDataLength } from '@utils'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
-import { FaIndustry } from 'react-icons/fa'
-import { MdAddBusiness } from 'react-icons/md'
 import { FaSchool } from 'react-icons/fa'
-import { RiSchoolFill } from 'react-icons/ri'
 import { IoWarning } from 'react-icons/io5'
+import { RiSchoolFill } from 'react-icons/ri'
 
 type Props = {}
 const filterKeys = ['businessName', 'address', 'sector', 'email', 'phone']

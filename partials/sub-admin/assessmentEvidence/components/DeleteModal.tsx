@@ -1,4 +1,4 @@
-import { ActionModal } from '@components'
+import { ActionModal, ShowErrorNotifications } from '@components'
 import { useAlert, useNotification } from '@hooks'
 import { SubAdminApi } from '@queries'
 
@@ -16,7 +16,8 @@ export const DeleteModal = ({
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()
-    const [remove, removeResult] = SubAdminApi.AssessmentEvidence.deleteAssessmentEvidence()
+    const [remove, removeResult] =
+        SubAdminApi.AssessmentEvidence.deleteAssessmentEvidence()
 
     const router = useRouter()
 
@@ -26,33 +27,29 @@ export const DeleteModal = ({
 
     useEffect(() => {
         if (removeResult.isSuccess) {
-            alert.error({
+            notification.error({
                 title: `Student Deleted`,
                 description: `Student "${item.student.user.name}" has been deleted.`,
             })
             onCancel()
-            router.push('/portals/sub-admin/tasks/assessment-evidence?tab=archived')
-        }
-        if (removeResult.isError) {
-            notification.error({
-                title: 'Request Failed',
-                description: `Your request for deleting Student was failed`,
-            })
         }
     }, [removeResult])
 
     return (
-        <ActionModal
-            Icon={FaTrash}
-            variant="error"
-            title="Are you sure!"
-            description={`You are about to delete "${item.student.user.name}". Do you wish to continue?`}
-            onConfirm={onConfirmUClicked}
-            onCancel={onCancel}
-            input
-            inputKey={item.student.user.email}
-            actionObject={item}
-            loading={removeResult.isLoading}
-        />
+        <>
+            <ShowErrorNotifications result={removeResult} />
+            <ActionModal
+                Icon={FaTrash}
+                variant="error"
+                title="Are you sure!"
+                description={`You are about to permanent delete "${item?.student?.user?.name}". Do you wish to continue?`}
+                onConfirm={onConfirmUClicked}
+                onCancel={onCancel}
+                input
+                inputKey={item.student.user.email}
+                actionObject={item}
+                loading={removeResult.isLoading}
+            />
+        </>
     )
 }
