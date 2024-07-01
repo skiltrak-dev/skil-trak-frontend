@@ -15,6 +15,7 @@ import {
     useGetWorkplaceFoldersQuery,
     useGetSubAdminStudentWorkplaceDetailQuery,
     useCancelWorkplaceStatusMutation,
+    SubAdminApi,
 } from '@queries'
 import moment from 'moment'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
@@ -28,6 +29,7 @@ import {
     WorkplaceStatusView,
     WorkplaceCoordinators,
     ContactPersonDetail,
+    CancelledWorkplaceTable,
 } from './components'
 import { IndustryDetail } from './components/IndustryDetail'
 import { AddSecondWPCB } from '@partials/sub-admin/students/contextBar'
@@ -67,6 +69,11 @@ export const Workplace = ({
             skip: !studentId,
         }
     )
+    const getCancelledWP = SubAdminApi.Student.getCancelledWP(studentId, {
+        skip:
+            !studentWorkplace?.isSuccess && studentWorkplace?.data?.length > 0,
+    })
+
     const [cancelWorkplace, cancelWorkplaceResult] =
         useCancelWorkplaceStatusMutation()
 
@@ -196,130 +203,156 @@ export const Workplace = ({
                 </div>
 
                 {studentWorkplace?.data &&
-                    studentWorkplace?.data?.length > 1 && (
-                        <div className="border-b border-secondary-dark p-4 flex items-center gap-x-2.5 cursor-pointer">
-                            {studentWorkplace?.data?.map(
-                                (workplace: any, i: number) => (
-                                    <WorkplaceTab
-                                        index={i}
-                                        key={workplace.id}
-                                        active={
-                                            selectedWorkplace?.id ===
-                                            workplace?.id
-                                        }
-                                        onClick={() => {
-                                            setSelectedWorkplace(workplace)
-                                        }}
-                                    />
-                                )
+                studentWorkplace?.data?.length > 0 ? (
+                    <>
+                        {studentWorkplace?.data &&
+                            studentWorkplace?.data?.length > 1 && (
+                                <div className="border-b border-secondary-dark p-4 flex items-center gap-x-2.5 cursor-pointer">
+                                    {studentWorkplace?.data?.map(
+                                        (workplace: any, i: number) => (
+                                            <WorkplaceTab
+                                                index={i}
+                                                key={workplace.id}
+                                                active={
+                                                    selectedWorkplace?.id ===
+                                                    workplace?.id
+                                                }
+                                                onClick={() => {
+                                                    setSelectedWorkplace(
+                                                        workplace
+                                                    )
+                                                }}
+                                            />
+                                        )
+                                    )}
+                                </div>
                             )}
-                        </div>
-                    )}
 
-                {/*  */}
-                {studentWorkplace.isError ? (
-                    <TechnicalError height="h-64" description={false} />
-                ) : null}
-                {studentWorkplace?.isLoading ? (
-                    <div className="flex flex-col items-center justify-center h-60">
-                        <LoadingAnimation size={60} />
-                        <Typography variant="label">
-                            Workplace Loading...
-                        </Typography>
-                    </div>
-                ) : studentWorkplace?.data &&
-                  studentWorkplace?.data?.length > 0 ? (
-                    <div>
-                        <div className="py-2.5 px-4 border-b border-secondary-dark flex justify-between gap-x-4">
-                            <IndustryStatus
-                                folders={folders}
-                                workplace={selectedWorkplace}
-                                appliedIndustry={appliedIndustry}
-                            />
-                            <div className="w-full">
-                                <div className="flex justify-end divide-x-2 mb-1">
-                                    <ContactPersonDetail
+                        {/*  */}
+                        {studentWorkplace.isError ? (
+                            <TechnicalError height="h-64" description={false} />
+                        ) : null}
+                        {studentWorkplace?.isLoading ? (
+                            <div className="flex flex-col items-center justify-center h-60">
+                                <LoadingAnimation size={60} />
+                                <Typography variant="label">
+                                    Workplace Loading...
+                                </Typography>
+                            </div>
+                        ) : studentWorkplace?.data &&
+                          studentWorkplace?.data?.length > 0 ? (
+                            <div>
+                                <div className="py-2.5 px-4 border-b border-secondary-dark flex justify-between gap-x-4">
+                                    <IndustryStatus
+                                        folders={folders}
+                                        workplace={selectedWorkplace}
                                         appliedIndustry={appliedIndustry}
                                     />
-                                    <WorkplaceHistory />
-                                    <div className="">
-                                        <ViewAvailability
-                                            wpId={selectedWorkplace?.id}
+                                    <div className="w-full">
+                                        <div className="flex justify-end divide-x-2 mb-1">
+                                            <ContactPersonDetail
+                                                appliedIndustry={
+                                                    appliedIndustry
+                                                }
+                                            />
+                                            <WorkplaceHistory />
+                                            <div className="">
+                                                <ViewAvailability
+                                                    wpId={selectedWorkplace?.id}
+                                                />
+                                            </div>
+                                        </div>
+                                        <WorkplaceStatusView
+                                            currentStatus={
+                                                selectedWorkplace?.currentStatus
+                                            }
                                         />
                                     </div>
                                 </div>
-                                <WorkplaceStatusView
-                                    currentStatus={
-                                        selectedWorkplace?.currentStatus
-                                    }
-                                />
-                            </div>
-                        </div>
 
-                        {/*  */}
-                        <div className="p-4 grid grid-cols-10 gap-x-3 h-64 border-b border-secondary-dark">
-                            <div className="col-span-3 h-full">
-                                <WorkplaceCoordinators
-                                    appliedIndustryId={appliedIndustry?.id}
-                                    workplace={selectedWorkplace}
-                                />
-                            </div>
-                            <div className="col-span-7 h-full">
-                                <IndustryDetail
-                                    workplace={selectedWorkplace}
-                                    appliedIndustry={appliedIndustry}
-                                    course={course}
-                                />
-                            </div>
-                        </div>
+                                {/*  */}
+                                <div className="p-4 grid grid-cols-10 gap-x-3 h-64 border-b border-secondary-dark">
+                                    <div className="col-span-3 h-full">
+                                        <WorkplaceCoordinators
+                                            appliedIndustryId={
+                                                appliedIndustry?.id
+                                            }
+                                            workplace={selectedWorkplace}
+                                        />
+                                    </div>
+                                    <div className="col-span-7 h-full">
+                                        <IndustryDetail
+                                            workplace={selectedWorkplace}
+                                            appliedIndustry={appliedIndustry}
+                                            course={course}
+                                        />
+                                    </div>
+                                </div>
 
-                        <div className="flex justify-between items-center p-4">
-                            <div className="flex items-center gap-x-2.5">
-                                {WPStatusForCancelButon.includes(
-                                    selectedWorkplace?.currentStatus
-                                ) && (
-                                    <ActionButton
-                                        variant={'error'}
-                                        onClick={async () => {
-                                            await cancelWorkplace(
-                                                Number(selectedWorkplace?.id)
-                                            )
-                                        }}
-                                        loading={
-                                            cancelWorkplaceResult.isLoading
-                                        }
-                                        disabled={
-                                            cancelWorkplaceResult.isLoading
-                                        }
-                                    >
-                                        Cancel Request
-                                    </ActionButton>
-                                )}
-                                {selectedWorkplace
-                                    ? appliedIndustry?.placementStarted &&
-                                      selectedWorkplace?.studentFeedBacks >
-                                          0 && (
-                                          <ActionButton
-                                              variant={'link'}
-                                              onClick={() => {
-                                                  onViewPlacementStartedAnswers(
-                                                      selectedWorkplace?.id
-                                                  )
-                                              }}
-                                          >
-                                              Coordinators Feedback
-                                          </ActionButton>
-                                      )
-                                    : null}
+                                <div className="flex justify-between items-center p-4">
+                                    <div className="flex items-center gap-x-2.5">
+                                        {WPStatusForCancelButon.includes(
+                                            selectedWorkplace?.currentStatus
+                                        ) && (
+                                            <ActionButton
+                                                variant={'error'}
+                                                onClick={async () => {
+                                                    await cancelWorkplace(
+                                                        Number(
+                                                            selectedWorkplace?.id
+                                                        )
+                                                    )
+                                                }}
+                                                loading={
+                                                    cancelWorkplaceResult.isLoading
+                                                }
+                                                disabled={
+                                                    cancelWorkplaceResult.isLoading
+                                                }
+                                            >
+                                                Cancel Request
+                                            </ActionButton>
+                                        )}
+                                        {selectedWorkplace
+                                            ? appliedIndustry?.placementStarted &&
+                                              selectedWorkplace?.studentFeedBacks >
+                                                  0 && (
+                                                  <ActionButton
+                                                      variant={'link'}
+                                                      onClick={() => {
+                                                          onViewPlacementStartedAnswers(
+                                                              selectedWorkplace?.id
+                                                          )
+                                                      }}
+                                                  >
+                                                      Coordinators Feedback
+                                                  </ActionButton>
+                                              )
+                                            : null}
+                                    </div>
+                                    <Typography variant="small" medium>
+                                        Recieved On:{' '}
+                                        {moment(
+                                            selectedWorkplace?.createdAt
+                                        ).format('Do MMM, YYYY')}
+                                    </Typography>
+                                </div>
                             </div>
-                            <Typography variant="small" medium>
-                                Recieved On:{' '}
-                                {moment(selectedWorkplace?.createdAt).format(
-                                    'Do MMM, YYYY'
-                                )}
-                            </Typography>
-                        </div>
-                    </div>
+                        ) : (
+                            studentWorkplace?.isSuccess && (
+                                <EmptyData
+                                    imageUrl={'/images/workplace/icon.png'}
+                                    title="No Workplace Found"
+                                    description="Add a workplace to view workplace here"
+                                    height="40vh"
+                                />
+                            )
+                        )}
+                    </>
+                ) : getCancelledWP?.data && getCancelledWP?.data?.length > 0 ? (
+                    <CancelledWorkplaceTable
+                        cancelledWp={getCancelledWP?.data}
+                    />
                 ) : (
                     studentWorkplace?.isSuccess && (
                         <EmptyData

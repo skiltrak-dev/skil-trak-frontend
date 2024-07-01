@@ -11,7 +11,9 @@ export const CustomDropdown = ({
     options,
     onClear,
     width,
+    textColor,
 }: {
+    textColor?: string
     text: string
     onClear?: (e: any) => void
     title?: string
@@ -45,11 +47,15 @@ export const CustomDropdown = ({
                         onClick={() => {
                             setIsOpened(!isOpened)
                         }}
-                        className={`cursor-pointer border border-secondary-dark rounded-md flex items-center gap-x-2 justify-between px-2 py-2.5 ${
+                        className={`cursor-pointer border border-secondary-dark rounded-md flex items-center gap-x-2 justify-between px-2 py-2.5 bg-gray-100 ${
                             width ? width : 'w-60'
                         }`}
                     >
-                        <Typography variant="xxs" medium>
+                        <Typography
+                            variant="xxs"
+                            medium
+                            {...(textColor ? { color: textColor } : {})}
+                        >
                             {text}
                         </Typography>
                         <div className="flex items-center gap-x-1">
@@ -84,7 +90,12 @@ export const CustomDropdown = ({
                                         false ? 'bg-gray-200' : ''
                                     } hover:bg-gray-200 py-2 border-b border-secondary-dark px-2 cursor-pointer`}
                                 >
-                                    <Typography variant="small">
+                                    <Typography
+                                        variant="small"
+                                        {...(option?.color
+                                            ? { color: option?.color }
+                                            : {})}
+                                    >
                                         {option?.text}
                                     </Typography>
                                 </div>

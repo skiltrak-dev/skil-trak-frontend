@@ -333,6 +333,7 @@ export const CreateAppointments = () => {
                 <Card>
                     <Courses
                         setSelectedCourse={setSelectedCourse}
+                        selectedCourse={selectedCourse}
                         rto={
                             selectedPerson.selectedAppointmentFor ===
                             AppointmentUserEnum.RTO

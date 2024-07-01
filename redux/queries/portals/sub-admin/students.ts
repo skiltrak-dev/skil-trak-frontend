@@ -242,6 +242,11 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['SubAdminStudents'],
     }),
+    getStudentCancelledWP: builder.query<any, any>({
+        query: (id) =>
+            `${PREFIX}/student/${id}/workplace-request/get/cancelled`,
+        providesTags: ['SubAdminStudents'],
+    }),
 
     getStudentCallLog: builder.query<any, number>({
         query: (studentId) => ({

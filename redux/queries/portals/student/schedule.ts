@@ -13,7 +13,7 @@ export const studentsScheduleEndpoints = (
             url: `${PREFIX}/schedule/view`,
             params: { course: courseId, stdUser: userId, workplace },
         }),
-        providesTags: ['StudentSchedule'],
+        providesTags: ['StudentSchedule', 'SubAdminWorkplace'],
     }),
 
     createStudentSchedule: builder.mutation({
@@ -23,7 +23,7 @@ export const studentsScheduleEndpoints = (
             params: { stdUser },
             body,
         }),
-        invalidatesTags: ['StudentSchedule'],
+        invalidatesTags: ['StudentSchedule', 'SubAdminWorkplace'],
     }),
     editStudentSchedule: builder.mutation({
         query: ({ id, stdUser, ...body }) => ({
@@ -32,7 +32,7 @@ export const studentsScheduleEndpoints = (
             params: { stdUser },
             body,
         }),
-        invalidatesTags: ['StudentSchedule'],
+        invalidatesTags: ['StudentSchedule', 'SubAdminWorkplace'],
     }),
     addScheduleNote: builder.mutation<any, any>({
         query: ({ id, ...body }) => ({
