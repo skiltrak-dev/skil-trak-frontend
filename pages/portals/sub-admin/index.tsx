@@ -62,14 +62,19 @@ const SubAdminDashboard: NextPageWithLayout = () => {
     // const joyride = useJoyRide()
     useEffect(() => {
         if (subadmin.isSuccess) {
-            contextBar.setContent(<ViewProfileCB subadmin={subadmin?.data} />)
+            contextBar.setContent(
+                <ViewProfileCB
+                    subadmin={subadmin?.data}
+                    statistics={statistics?.data}
+                />
+            )
             contextBar.show(false)
             return () => {
                 contextBar.setContent(null)
                 contextBar.hide()
             }
         }
-    }, [subadmin])
+    }, [subadmin, statistics])
 
     useEffect(() => {
         if (!credentials) {
@@ -179,10 +184,10 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                                     subadmin?.data?.isAssociatedWithRto
                                         ? statistics?.data
                                               ?.countByRtoCoordinator
-                                        : statistics?.data?.student
+                                        : statistics?.data?.myStudents
                                 }
-                                title={'Students'}
-                                link={'sub-admin/students?tab=all'}
+                                title={'My Students'}
+                                link={'sub-admin/students?tab=my-students'}
                             />
                             <FigureCardVII
                                 imageUrl="/images/figure-card/fig-card-3.svg"

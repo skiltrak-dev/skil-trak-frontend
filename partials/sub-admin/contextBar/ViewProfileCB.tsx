@@ -15,7 +15,13 @@ import { PulseLoader } from 'react-spinners'
 import { SubAdmin, UserStatus } from '@types'
 import { getUserCredentials } from '@utils'
 
-export const ViewProfileCB = ({ subadmin }: { subadmin: SubAdmin }) => {
+export const ViewProfileCB = ({
+    subadmin,
+    statistics,
+}: {
+    statistics: any
+    subadmin: SubAdmin
+}) => {
     const status = getUserCredentials()?.status
     const router = useRouter()
 
@@ -32,13 +38,13 @@ export const ViewProfileCB = ({ subadmin }: { subadmin: SubAdmin }) => {
             link: '/portals/sub-admin/tasks/appointments',
         },
         {
-            text: 'Pending workplace requests (before appointments)',
-            count: todoListCount?.data?.workplace,
+            text: 'Pending workplace requests',
+            count: statistics?.inProcess,
             link: '/portals/sub-admin/tasks/workplace?tab=all&subTab=case-officer-not-assigned',
         },
         {
             text: 'Agreements pending',
-            count: todoListCount?.data?.awaitingAgreementSignedCount,
+            count: statistics?.awaitingAgreementSigned,
             link: '/portals/sub-admin/students?tab=agreement-pending',
         },
         // {

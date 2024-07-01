@@ -1,6 +1,7 @@
 import React, { ReactElement, useCallback, useState } from 'react'
 import { read, utils } from 'xlsx'
-import XLSX from 'xlsx'
+import { Workbook, Worksheet } from 'exceljs'
+import ExcelJS from 'exceljs'
 
 import { useNotification } from '@hooks'
 import { BinaryFileUpload } from '@components/inputs/BinaryFileUpload'
@@ -18,52 +19,48 @@ export const ImportIndustriesListWithOTP = () => {
     const [sendVerificationCode, sendVerificationCodeResult] =
         RtoApi.Students.useSendVerificationCode()
 
-    const onFileChange = (e: any, fileData: any) => {
-        try {
-            const wb = read(e.target.result, { type: 'binary' })
-            const sheets = wb.SheetNames
-            if (sheets.length) {
-                const arrayBuffer = e.target.result
-                processFile(arrayBuffer)
-                // const rows = utils.sheet_to_json(wb.Sheets[sheets[0]])
-                // console.log({ rows })
-                // setIndustriesCount(rows?.length)
-                // if (rows?.length < 101) {
-                //     setIndustries(rows)
-                // } else {
-                //     notification.error({
-                //         title: 'Industries cant upload',
-                //         description:
-                //             "Industries can't upload more then 100 at once!",
-                //         dissmissTimer: 6000,
-                //     })
-                // }
-            }
-        } catch (err) {
+    const onFileChange = async (e: any, fileData: any) => {
+        const validMimeTypes = [
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/vnd.ms-excel',
+        ]
+        if (!validMimeTypes.includes(fileData?.type)) {
             notification.error({
                 title: 'Invalid File',
                 description: 'File should be .csv or .xlsx',
             })
-        }
-    }
+            return
+        } else {
+            const reader = new FileReader()
+            const workbook = new ExcelJS.Workbook()
 
-    const processFile = (arrayBuffer: any) => {
-        const wb = read(arrayBuffer, { type: 'binary' })
-        const sheets = wb.SheetNames
-        if (sheets.length) {
-            const rows = utils.sheet_to_json(wb.Sheets[sheets[0]])
-            console.log({ rows })
-            setIndustriesCount(rows?.length)
-            if (rows?.length < 101) {
-                setIndustries(rows)
-            } else {
-                notification.error({
-                    title: 'Industries cant upload',
-                    description:
-                        "Industries can't upload more then 100 at once!",
-                    dissmissTimer: 6000,
+            reader.onload = async (event: any) => {
+                const buffer = event.target.result
+                await workbook.xlsx.load(buffer)
+
+                const worksheet: any = workbook.getWorksheet(
+                    workbook?.worksheets?.[0]?.name
+                )
+                const rows: any = []
+
+                const headerRow = worksheet.getRow(1)
+                const headers = headerRow.values.slice(1)
+
+                worksheet.eachRow((row: any, rowNumber: any) => {
+                    if (rowNumber > 1) {
+                        // skip header row
+                        const rowObject: any = {}
+                        row.values
+                            .slice(1)
+                            .forEach((cell: any, index: number) => {
+                                rowObject[headers[index]] = cell
+                            })
+                        rows.push(rowObject)
+                    }
                 })
             }
+
+            reader.readAsArrayBuffer(fileData)
         }
     }
 
