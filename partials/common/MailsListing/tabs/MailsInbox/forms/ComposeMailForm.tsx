@@ -96,8 +96,8 @@ export const ComposeMailForm = ({
                         <InputErrorMessage name="message" />
 
                         {/*  */}
-                        <div className="mt-3 flex items-center justify-between">
-                            <div className="w-32">
+                        <div className="mt-3 flex gap-x-3 items-center justify-between">
+                            <div className="min-w-32">
                                 <Button
                                     submit
                                     fullWidth
@@ -106,19 +106,20 @@ export const ComposeMailForm = ({
                                 >
                                     Send
                                 </Button>
-                                <FileUpload
-                                    onChange={(docs: FileList) => {
-                                        setAttachmentFiles((preVal: any) => [
-                                            ...preVal,
-                                            ...docs,
-                                        ])
-                                    }}
-                                    name={'attachment'}
-                                    component={onFileUpload}
-                                    multiple
-                                    limit={Number(1111111111)}
-                                />
                             </div>
+                            <FileUpload
+                                onChange={(docs: FileList) => {
+                                    setAttachmentFiles((preVal: any) => [
+                                        ...preVal,
+                                        ...docs,
+                                    ])
+                                }}
+                                showError={false}
+                                name={'attachment'}
+                                component={onFileUpload}
+                                multiple
+                                limit={Number(1111111111)}
+                            />
                         </div>
                     </div>
                 </form>

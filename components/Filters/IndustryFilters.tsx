@@ -1,4 +1,4 @@
-import { Select, TextInput } from '@components/inputs'
+import { Checkbox, Select, TextInput } from '@components/inputs'
 
 import { StatusOptions } from './StatusOptions'
 
@@ -117,21 +117,6 @@ export const IndustryFilters = ({
                 />
 
                 <Select
-                    label={'Is Hiring'}
-                    name={'isHiring'}
-                    options={[
-                        {
-                            label: 'Is Hiring',
-                            value: true,
-                        },
-                    ]}
-                    onChange={(e: any) =>
-                        onFilterChange({ ...filter, isHiring: e?.value })
-                    }
-                    showError={false}
-                />
-
-                <Select
                     label={'Status'}
                     name={'status'}
                     options={StatusOptions}
@@ -197,6 +182,20 @@ export const IndustryFilters = ({
                     formatOptionLabel={formatOptionLabel}
                     showError={false}
                 />
+
+                <div className={'mt-7'}>
+                    <Checkbox
+                        label={'Hiring'}
+                        name={'isHiring'}
+                        onChange={(e: any) => {
+                            onFilterChange({
+                                ...filter,
+                                isHiring: e?.target?.checked ? true : undefined,
+                            })
+                        }}
+                        showError={false}
+                    />
+                </div>
             </div>
         </>
     )

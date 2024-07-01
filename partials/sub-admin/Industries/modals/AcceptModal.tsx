@@ -1,53 +1,104 @@
-import { ActionModal } from '@components'
-import { useAlert, useNotification } from '@hooks'
-import { Industry, Student } from '@types'
-import { useEffect } from 'react'
-import { HiCheckBadge } from 'react-icons/hi2'
+import React, { useEffect } from 'react'
+import { Industry } from '@types'
+import { AdminApi } from '@queries'
 import { useChangeStatus } from '../hooks'
+import { FormProvider, useForm } from 'react-hook-form'
+import {
+    Button,
+    Modal,
+    ShowErrorNotifications,
+    TextInput,
+    Typography,
+} from '@components'
+import { useNotification } from '@hooks'
+import { industryQuestions } from '@partials/admin/industry/components'
 
 export const AcceptModal = ({
     industry,
     onCancel,
 }: {
     industry: Industry
-    onCancel: Function
+    onCancel: () => void
 }) => {
-    const { alert } = useAlert()
-    const { notification } = useNotification()
+    const [saveQuestions, saveQuestionsResult] =
+        AdminApi.Industries.saveIndustryQuestions()
+
     const { onAccept, changeStatusResult } = useChangeStatus()
 
-    const onConfirmUClicked = async (industry: Industry) => {
-        await onAccept(industry)
-    }
+    const { notification } = useNotification()
+
+    const methods = useForm({
+        mode: 'all',
+    })
 
     useEffect(() => {
         if (changeStatusResult.isSuccess) {
             notification.success({
-                title: `Request Accepted`,
+                title: `Industry Approved`,
                 description: `Industry "${industry?.user?.name}" has been accepted.`,
             })
             onCancel()
         }
-        if (changeStatusResult.isError) {
-            notification.error({
-                title: 'Request Failed',
-                description: `Your request for accepting Industry was failed`,
-            })
-        }
     }, [changeStatusResult])
 
+    const onSubmit = (values: any) => {
+        let questions: {
+            [key: string]: string
+        }[] = []
+        Object.entries(industryQuestions).forEach(([key, value]: any) => {
+            questions.push({
+                question: value,
+                answer: values?.[key],
+            })
+        })
+        saveQuestions({ id: industry?.id, questions }).then((res: any) => {
+            if (res?.data) {
+                onAccept(industry)
+            }
+        })
+    }
     return (
-        <ActionModal
-            Icon={HiCheckBadge}
-            variant="success"
-            title="Are you sure!"
-            description={`You are about to accept <em>"${industry?.user?.name}"<em>. Do you wish to continue?`}
-            onConfirm={onConfirmUClicked}
-            onCancel={onCancel}
-            input
-            inputKey={industry?.user?.email}
-            actionObject={industry}
-            loading={changeStatusResult.isLoading}
-        />
+        <div>
+            <ShowErrorNotifications result={changeStatusResult} />
+            <ShowErrorNotifications result={saveQuestionsResult} />
+            <Modal
+                title="Provide Answers"
+                subtitle="Provide answers for the questions"
+                onConfirmClick={methods.handleSubmit(onSubmit)}
+                onCancelClick={onCancel}
+                loading={
+                    saveQuestionsResult.isLoading ||
+                    changeStatusResult.isLoading
+                }
+            >
+                <div className="w-full px-3 lg:max-w-[950px] max-h-[80vh] lg:max-h-[70vh] overflow-auto custom-scrollbar">
+                    <FormProvider {...methods}>
+                        <form
+                            className="mt-2 w-full"
+                            onSubmit={methods.handleSubmit(onSubmit)}
+                        >
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                {Object.entries(industryQuestions)?.map(
+                                    ([key, value]: any, i: number) => (
+                                        <div className="border-2 border-[#A5A3A9] border-dashed rounded-md  p-2 flex flex-col justify-between gap-y-3">
+                                            <Typography
+                                                variant="small"
+                                                medium
+                                            >{`${i + 1}. ${value}`}</Typography>
+                                            <TextInput
+                                                name={key}
+                                                // label={`${i + 1}. ${value}`}
+                                                showError={false}
+                                                placeholder={key}
+                                            />
+                                        </div>
+                                    )
+                                )}
+                            </div>
+                        </form>
+                    </FormProvider>
+                </div>
+            </Modal>
+        </div>
     )
 }

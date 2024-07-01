@@ -57,6 +57,7 @@ export const IndustryStatus = ({ industry }: { industry: Industry }) => {
                 UserStatus.Rejected,
                 UserStatus.Blocked,
             ],
+            color: 'text-primary',
             onClick: () => {
                 onApproveClicked()
             },
@@ -65,6 +66,7 @@ export const IndustryStatus = ({ industry }: { industry: Industry }) => {
         {
             text: 'Archive',
             includes: [UserStatus.Approved],
+            color: 'text-info-600',
             onClick: () => {
                 onArchiveClicked()
             },
@@ -74,6 +76,7 @@ export const IndustryStatus = ({ industry }: { industry: Industry }) => {
         {
             includes: [UserStatus.Approved],
             text: 'Block',
+            color: 'text-red-600',
             onClick: () => {
                 onBlockClicked()
             },
@@ -83,6 +86,7 @@ export const IndustryStatus = ({ industry }: { industry: Industry }) => {
         {
             text: 'Un Archive',
             includes: [UserStatus.Archived],
+            color: 'text-info-600',
             onClick: () => {
                 onUnArchiveClicked()
             },
@@ -91,6 +95,7 @@ export const IndustryStatus = ({ industry }: { industry: Industry }) => {
         },
         {
             text: 'Un Block',
+            color: 'text-slate-600',
             onClick: () => {
                 onUnblockClicked()
             },
@@ -101,6 +106,7 @@ export const IndustryStatus = ({ industry }: { industry: Industry }) => {
         {
             includes: [UserStatus.Pending],
             text: 'Reject',
+            color: 'text-red-600',
             onClick: () => {
                 onRejectClicked()
             },
@@ -114,6 +120,7 @@ export const IndustryStatus = ({ industry }: { industry: Industry }) => {
                 UserStatus.Rejected,
             ],
             text: 'Delete',
+            color: 'text-red-600',
             onClick: () => {
                 onDeleteClicked()
             },
@@ -128,6 +135,29 @@ export const IndustryStatus = ({ industry }: { industry: Industry }) => {
     const options = dropdownOptions?.filter((option) =>
         option?.includes?.includes(industry?.user?.status)
     )
+
+    const status = [
+        {
+            status: UserStatus.Approved,
+            color: 'text-primary-dark',
+        },
+        {
+            status: UserStatus.Pending,
+            color: 'text-primary',
+        },
+        {
+            status: UserStatus.Rejected,
+            color: 'text-red-600',
+        },
+        {
+            status: UserStatus.Blocked,
+            color: 'text-red-600',
+        },
+        {
+            status: UserStatus.Archived,
+            color: 'text-info-600',
+        },
+    ]
     return (
         <>
             {modal}
@@ -138,6 +168,11 @@ export const IndustryStatus = ({ industry }: { industry: Industry }) => {
                     value={insustryStatus}
                     options={options}
                     text={industry?.user?.status?.toLocaleUpperCase()}
+                    textColor={
+                        status?.find(
+                            (s) => s?.status === industry?.user?.status
+                        )?.color
+                    }
                 />
             </div>
         </>

@@ -37,7 +37,7 @@ export const ActiveWorkplaceRequest = () => {
         },
         { refetchOnMountOrArgChange: true }
     )
-    
+
     useEffect(() => {
         if (
             subAdminWorkplace?.data?.data &&
@@ -85,7 +85,10 @@ export const ActiveWorkplaceRequest = () => {
                         {info?.row?.original?.student?.studentId ?? 'N/A'}
                     </Typography>
                     <Typography variant="small" semibold>
-                        {ellipsisText(info?.row?.original?.student?.user?.name, 16) ?? 'N/A'}
+                        {ellipsisText(
+                            info?.row?.original?.student?.user?.name,
+                            16
+                        ) ?? 'N/A'}
                     </Typography>
                     <Typography variant="small" color="text-gray-500">
                         {info?.row?.original?.student?.addressLine1 ?? 'N/A'}
@@ -117,12 +120,15 @@ export const ActiveWorkplaceRequest = () => {
                     <>
                         {appliedIndustry ? (
                             <>
-                                <Typography variant="small" bold>
-                                    {ellipsisText(
-                                        appliedIndustry?.industry?.user?.name,
-                                        20
-                                    )}
-                                </Typography>
+                                <div className="bg-white px-3 py-1.5 rounded-md border border-[#128C7E]">
+                                    <Typography variant="small" bold>
+                                        {ellipsisText(
+                                            appliedIndustry?.industry?.user
+                                                ?.name,
+                                            30
+                                        )}
+                                    </Typography>
+                                </div>
                                 <Link
                                     href={`/portals/sub-admin/users/industries/${appliedIndustry?.industry?.id}?tab=students`}
                                     className="text-blue-500 text-xs"
@@ -211,7 +217,6 @@ export const ActiveWorkplaceRequest = () => {
         //     },
         // },
     ]
-
 
     return (
         <div>

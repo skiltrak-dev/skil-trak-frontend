@@ -1,5 +1,7 @@
 import React, { ReactElement, useCallback, useState } from 'react'
 import { read, utils } from 'xlsx'
+import XLSX from 'xlsx'
+
 import { useNotification } from '@hooks'
 import { BinaryFileUpload } from '@components/inputs/BinaryFileUpload'
 import { Button, ShowErrorNotifications, Typography } from '@components'
@@ -16,31 +18,52 @@ export const ImportIndustriesListWithOTP = () => {
     const [sendVerificationCode, sendVerificationCodeResult] =
         RtoApi.Students.useSendVerificationCode()
 
-    const onFileChange = async (e: any, fileData: any) => {
+    const onFileChange = (e: any, fileData: any) => {
         try {
             const wb = read(e.target.result, { type: 'binary' })
             const sheets = wb.SheetNames
             if (sheets.length) {
-                const rows = utils.sheet_to_json(wb.Sheets[sheets[0]])
-                // onStudentFound && onStudentFound(rows, fileData)
-                setIndustriesCount(rows?.length)
-
-                if (rows?.length < 101) {
-                    setIndustries(rows)
-                } else {
-                    notification.error({
-                        title: 'Industries cant upload',
-                        description:
-                            "Industries can't upload more then 100 at once!",
-                        dissmissTimer: 6000,
-                    })
-                }
+                const arrayBuffer = e.target.result
+                processFile(arrayBuffer)
+                // const rows = utils.sheet_to_json(wb.Sheets[sheets[0]])
+                // console.log({ rows })
+                // setIndustriesCount(rows?.length)
+                // if (rows?.length < 101) {
+                //     setIndustries(rows)
+                // } else {
+                //     notification.error({
+                //         title: 'Industries cant upload',
+                //         description:
+                //             "Industries can't upload more then 100 at once!",
+                //         dissmissTimer: 6000,
+                //     })
+                // }
             }
         } catch (err) {
             notification.error({
                 title: 'Invalid File',
                 description: 'File should be .csv or .xlsx',
             })
+        }
+    }
+
+    const processFile = (arrayBuffer: any) => {
+        const wb = read(arrayBuffer, { type: 'binary' })
+        const sheets = wb.SheetNames
+        if (sheets.length) {
+            const rows = utils.sheet_to_json(wb.Sheets[sheets[0]])
+            console.log({ rows })
+            setIndustriesCount(rows?.length)
+            if (rows?.length < 101) {
+                setIndustries(rows)
+            } else {
+                notification.error({
+                    title: 'Industries cant upload',
+                    description:
+                        "Industries can't upload more then 100 at once!",
+                    dissmissTimer: 6000,
+                })
+            }
         }
     }
 

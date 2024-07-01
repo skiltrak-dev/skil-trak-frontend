@@ -16,6 +16,7 @@ import {
     AddFeedbackModal,
     AgreementSignedModal,
     CancelWorlplaceModal,
+    ShowScheduleInfoModal,
 } from '../components'
 
 export const useRequestType = ({
@@ -273,20 +274,31 @@ export const useRequestType = ({
             color: 'text-success-dark',
             onClick: (isCleared: (bool: boolean) => void) => {
                 if (
-                    workplace?.currentStatus ===
-                        WorkplaceCurrentStatus.AwaitingAgreementSigned ||
-                    workplace?.currentStatus ===
-                        WorkplaceCurrentStatus.AgreementSigned
+                    workplace?.student?.user?.schedules &&
+                    workplace?.student?.user?.schedules?.length > 0
                 ) {
-                    onPlacementStartedClicked(Number(appliedIndustry?.id))
-                    isCleared(true)
+                    if (
+                        workplace?.currentStatus ===
+                            WorkplaceCurrentStatus.AwaitingAgreementSigned ||
+                        workplace?.currentStatus ===
+                            WorkplaceCurrentStatus.AgreementSigned
+                    ) {
+                        onPlacementStartedClicked(Number(appliedIndustry?.id))
+                        isCleared(true)
+                    } else {
+                        notification.error({
+                            title: 'First Approve the workplace',
+                            description:
+                                'Placement cannot start without approving the workplace',
+                        })
+                        isCleared(false)
+                    }
                 } else {
-                    notification.error({
-                        title: 'First Approve the workplace',
-                        description:
-                            'Placement cannot start without approving the workplace',
-                    })
-                    isCleared(false)
+                    setModal(
+                        <ShowScheduleInfoModal
+                            onCancel={onModalCancelClicked}
+                        />
+                    )
                 }
             },
             status: WorkplaceCurrentStatus.PlacementStarted,
@@ -430,16 +442,27 @@ export const useRequestType = ({
             secondaryText: 'Placement Started',
             color: 'text-success-dark',
             onClick: (isCleared: any) => {
-                if (workplace?.currentStatus === 'AgreementSigned') {
-                    onPlacementStartedClicked(Number(appliedIndustry?.id))
-                    isCleared(true)
+                if (
+                    workplace?.student?.user?.schedules &&
+                    workplace?.student?.user?.schedules?.length > 0
+                ) {
+                    if (workplace?.currentStatus === 'AgreementSigned') {
+                        onPlacementStartedClicked(Number(appliedIndustry?.id))
+                        isCleared(true)
+                    } else {
+                        notification.error({
+                            title: 'First Approve the workplace',
+                            description:
+                                'Placement cannot start without approving the workplace',
+                        })
+                        isCleared(false)
+                    }
                 } else {
-                    notification.error({
-                        title: 'First Approve the workplace',
-                        description:
-                            'Placement cannot start without approving the workplace',
-                    })
-                    isCleared(false)
+                    setModal(
+                        <ShowScheduleInfoModal
+                            onCancel={onModalCancelClicked}
+                        />
+                    )
                 }
             },
             status: 'placementStarted',
@@ -580,19 +603,31 @@ export const useRequestType = ({
             color: 'text-success-dark',
             onClick: (isCleared: isClearedFunctionType) => {
                 if (
-                    workplace?.currentStatus === 'awaitingWorkplaceResponse' ||
-                    workplace?.currentStatus === 'AgreementSigned' ||
-                    workplace?.currentStatus === 'awaitingAgreementSigned'
+                    workplace?.student?.user?.schedules &&
+                    workplace?.student?.user?.schedules?.length > 0
                 ) {
-                    onPlacementStartedClicked(Number(appliedIndustry?.id))
-                    isCleared(true)
+                    if (
+                        workplace?.currentStatus ===
+                            'awaitingWorkplaceResponse' ||
+                        workplace?.currentStatus === 'AgreementSigned' ||
+                        workplace?.currentStatus === 'awaitingAgreementSigned'
+                    ) {
+                        onPlacementStartedClicked(Number(appliedIndustry?.id))
+                        isCleared(true)
+                    } else {
+                        notification.error({
+                            title: 'Forward the request to Industry',
+                            description:
+                                'You Must have to Forward the request to Industry before start placement',
+                        })
+                        isCleared(false)
+                    }
                 } else {
-                    notification.error({
-                        title: 'Forward the request to Industry',
-                        description:
-                            'You Must have to Forward the request to Industry before start placement',
-                    })
-                    isCleared(false)
+                    setModal(
+                        <ShowScheduleInfoModal
+                            onCancel={onModalCancelClicked}
+                        />
+                    )
                 }
             },
             status: 'placementStarted',

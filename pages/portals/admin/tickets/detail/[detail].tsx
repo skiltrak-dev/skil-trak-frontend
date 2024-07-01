@@ -9,15 +9,13 @@ import {
     ShowErrorNotifications,
     TechnicalError,
     Typography,
-    draftToHtmlText
+    draftToHtmlText,
 } from '@components'
 import { UserRoles } from '@constants'
 import { useContextBar, useNavbar, useNotification } from '@hooks'
 import { TicketReplies } from '@partials/admin/Tickets'
 import { ReplyTicketForm } from '@partials/common/Tickets'
-import {
-    TicketDetailHeaderCard
-} from '@partials/common/Tickets/components'
+import { TicketDetailHeaderCard } from '@partials/common/Tickets/components'
 import { CommonApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { ellipsisText, getUserCredentials } from '@utils'
@@ -93,17 +91,18 @@ const Tickets: NextPageWithLayout = () => {
                                     <FaLongArrowAltLeft
                                         className="text-xl cursor-pointer"
                                         onClick={() => {
-                                            if (role === UserRoles.ADMIN) {
-                                                router.push(
-                                                    '/portals/admin/tickets?tab=my-open-tickets'
-                                                )
-                                            } else if (
-                                                role === UserRoles.SUBADMIN
-                                            ) {
-                                                router.push(
-                                                    '/portals/sub-admin/tickets?tab=all-tickets'
-                                                )
-                                            }
+                                            router.back()
+                                            // if (role === UserRoles.ADMIN) {
+                                            //     router.push(
+                                            //         '/portals/admin/tickets?tab=my-open-tickets'
+                                            //     )
+                                            // } else if (
+                                            //     role === UserRoles.SUBADMIN
+                                            // ) {
+                                            //     router.push(
+                                            //         '/portals/sub-admin/tickets?tab=all-tickets'
+                                            //     )
+                                            // }
                                         }}
                                     />
                                     <Typography variant={'subtitle'}>
