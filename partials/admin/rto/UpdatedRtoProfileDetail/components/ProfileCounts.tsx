@@ -7,7 +7,7 @@ import {
     SiHomeassistantcommunitystore,
     SiSimpleanalytics,
 } from 'react-icons/si'
-import { AdminApi } from '@queries'
+import { AdminApi, SubAdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
@@ -39,6 +39,10 @@ export const ProfileCounts = ({
     const router = useRouter()
 
     const role = getUserCredentials()?.role
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: role !== UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+    })
 
     const countsData: RtoProfileCountDataType[] = [
         {
@@ -48,7 +52,7 @@ export const ProfileCounts = ({
             loading: statisticsCount?.isLoading,
             link: {
                 pathname:
-                    role === UserRoles.ADMIN
+                    role === UserRoles.ADMIN || subadmin?.data?.isAdmin
                         ? '/portals/admin/student'
                         : role === UserRoles.SUBADMIN
                         ? '/portals/sub-admin/students'
@@ -73,7 +77,7 @@ export const ProfileCounts = ({
             loading: statisticsCount?.isLoading,
             link: {
                 pathname:
-                    role === UserRoles.ADMIN
+                    role === UserRoles.ADMIN || subadmin?.data?.isAdmin
                         ? '/portals/admin/student'
                         : role === UserRoles.SUBADMIN
                         ? '/portals/sub-admin/students'
@@ -98,7 +102,7 @@ export const ProfileCounts = ({
             loading: statisticsCount?.isLoading,
             link: {
                 pathname:
-                    role === UserRoles.ADMIN
+                    role === UserRoles.ADMIN || subadmin?.data?.isAdmin
                         ? '/portals/admin/student'
                         : role === UserRoles.SUBADMIN
                         ? '/portals/sub-admin/students'
@@ -123,7 +127,7 @@ export const ProfileCounts = ({
             loading: statisticsCount?.isLoading,
             link: {
                 pathname:
-                    role === UserRoles.ADMIN
+                    role === UserRoles.ADMIN || subadmin?.data?.isAdmin
                         ? '/portals/admin/student'
                         : role === UserRoles.SUBADMIN
                         ? '/portals/sub-admin/students'

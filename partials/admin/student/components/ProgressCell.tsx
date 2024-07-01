@@ -74,14 +74,14 @@ const WorkplaceRequestProgress = (appliedIndustry?: any) => {
             date: appliedIndustry?.appointmentBookedDate,
         },
         '7-AgreementPending': {
-            status: 'Agreement & Eligibility',
+            status: 'Agreement & Eligibility Pending',
             description: 'Checklist Pending',
             color: 'text-blue-500',
             image: 'agreement.png',
             date: appliedIndustry?.awaitingAgreementSignedDate,
         },
         '8-AgreementSigned': {
-            status: 'Agreement & Eligibility',
+            status: 'Agreement & Eligibility Signed',
             description: 'Checklist Signed',
             color: 'text-green-500',
             image: 'agreement.png',

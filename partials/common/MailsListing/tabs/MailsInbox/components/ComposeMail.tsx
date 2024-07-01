@@ -39,10 +39,6 @@ export const ComposeMail = ({
         })
         formData.append('type', 'email')
 
-        formData.forEach((value, key) => {
-            console.log(`${key}: ${value}`)
-        })
-
         sendMessage(formData).then((res: any) => {
             if (res?.data) {
                 notification.success({
