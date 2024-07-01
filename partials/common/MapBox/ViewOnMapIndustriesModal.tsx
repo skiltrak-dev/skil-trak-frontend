@@ -298,9 +298,11 @@ export const ViewOnMapIndustriesModal = ({
         grid: 20,
         maxZoom: 15,
     }
-    const studentCenter = visibleMarkers.find(
+    const studentCenter: any = visibleMarkers.find(
         (student: any) => student?.user && student?.user?.role === 'student'
     )
+    console.log('Center', studentCenter?.location)
+    // console.log("position", position)
     return (
         <div className="w-full">
             <div
@@ -341,7 +343,10 @@ export const ViewOnMapIndustriesModal = ({
                             <GoogleMap
                                 mapContainerStyle={containerStyle}
                                 center={
-                                    Object.keys(studentCenter)?.length
+                                    studentCenter &&
+                                    studentCenter?.location &&
+                                    isFinite(studentCenter?.location?.lat) &&
+                                    isFinite(studentCenter?.location?.lng)
                                         ? studentCenter?.location
                                         : center
                                 }
