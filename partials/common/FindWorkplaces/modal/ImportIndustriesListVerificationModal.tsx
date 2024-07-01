@@ -23,6 +23,7 @@ export const ImportIndustriesListVerificationModal = ({
     onCancel: () => void
     onSetImportListResult: any
 }) => {
+    console.log({ industries })
     const [compareCode, compareCodeResult] = RtoApi.Students.useCompareCode()
     const [importList, importListResult] =
         CommonApi.FindWorkplace.importIndustriesList()

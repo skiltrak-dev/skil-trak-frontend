@@ -58,6 +58,7 @@ export const ImportIndustriesListWithOTP = () => {
                         rows.push(rowObject)
                     }
                 })
+                setIndustries(rows)
             }
 
             reader.readAsArrayBuffer(fileData)
