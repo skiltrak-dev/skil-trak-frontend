@@ -75,4 +75,5 @@ export const profileEndpoints = (
         }),
         providesTags: ['SubAdmin'],
     }),
+    
 })

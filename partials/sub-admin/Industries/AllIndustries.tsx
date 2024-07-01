@@ -75,7 +75,6 @@ export const AllIndustries = () => {
     const tableActionOptions = (industry: Industry) => {
         const subAdmin = isFavorite(industry?.subAdmin)
 
-        console.log({ subAdmin: industry?.subAdmin })
 
         return [
             {

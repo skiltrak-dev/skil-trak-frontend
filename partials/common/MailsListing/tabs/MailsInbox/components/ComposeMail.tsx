@@ -22,7 +22,6 @@ export const ComposeMail = ({
     const { notification } = useNotification()
 
     const onSubmit = (values: any) => {
-        console.log({ values })
         const formData = new FormData()
 
         const { attachment, ...rest } = values

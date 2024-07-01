@@ -121,43 +121,8 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                             }
                         }}
                         placeholder="Select Sector"
-                    />
-                    {/* <Select
-                            name="workplaceType"
-                            options={[
-                                {
-                                    label: 'Placement Started',
-                                    value: 'placementStarted',
-                                },
-                                // {
-                                //     label: 'Student Provided',
-                                //     value: 'studentProvided',
-                                // },
-                                {
-                                    label: 'Placement Completed',
-                                    value: 'completed',
-                                },
-                                {
-                                    label: 'Placement Terminated',
-                                    value: 'terminated',
-                                },
-                                {
-                                    label: 'No Workplace',
-                                    value: 'nowp',
-                                },
-                            ]}
-                            label={'Workplace Type'}
-                            onChange={(e: any) => {
-                                if (e?.value) {
-                                    setWorkplaceType(e?.value)
-                                    setSearchInitiated(true)
-                                } else {
-                                    setWorkplaceType('')
-                                    setSearchInitiated(false)
-                                }
-                            }}
-                            placeholder="Workplace Type"
-                        /> */}
+                    /> 
+                    
                     <div className="pt-4">
                         <Checkbox
                             name="workplaceType"
