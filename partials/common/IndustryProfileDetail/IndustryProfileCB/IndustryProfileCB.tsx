@@ -29,13 +29,28 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
             </div>
 
             {/*  */}
-            <div className="mt-2">
-                <Typography semibold>
-                    <span className="text-[15px]"> {industry?.user?.name}</span>
-                </Typography>
-                <Typography variant="xs" color="text-[#6B7280]">
-                    {industry?.user?.email}
-                </Typography>
+            <div className="flex justify-between items-center gap-x-3">
+                <div className="mt-2">
+                    <Typography semibold>
+                        <span className="text-[15px]">
+                            {' '}
+                            {industry?.user?.name}
+                        </span>
+                    </Typography>
+                    <Typography variant="xs" color="text-[#6B7280]">
+                        {industry?.user?.email}
+                    </Typography>
+                </div>
+                {industry?.createdBy ? (
+                    <div className="flex flex-col gap-y-0">
+                        <Typography variant="xxs" color="text-[#6B7280]">
+                            Created By
+                        </Typography>
+                        <Typography medium capitalize variant="label">
+                            {industry?.createdBy?.name}
+                        </Typography>
+                    </div>
+                ) : null}
             </div>
 
             {/*  */}
@@ -45,6 +60,11 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
             ) : (
                 <AddIndustryAnswers industry={industry} />
             )}
+
+            {/*  */}
+            <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                <IndustryStatus industry={industry} />
+            </AuthorizedUserComponent>
 
             <MakeIndustryPartner
                 industryId={industry?.id}
@@ -61,11 +81,6 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
             <IndustryDetail industry={industry} />
             <IndustryContactPerson industry={industry} />
             <IndustryPartner industry={industry} />
-
-            {/*  */}
-            <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
-                <IndustryStatus industry={industry} />
-            </AuthorizedUserComponent>
 
             {/*  */}
             <IndustrySectors courses={industry?.courses} />

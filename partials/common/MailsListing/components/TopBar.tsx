@@ -84,7 +84,7 @@ export const TopBar = ({ mailsTabs }: { mailsTabs: any }) => {
                 />
             </div>
             <div
-                className={`fixed bottom-0 right-20  ${
+                className={`fixed bottom-0 right-20 z-[333]  ${
                     isComposeMail ? 'block' : 'hidden'
                 }`}
             >

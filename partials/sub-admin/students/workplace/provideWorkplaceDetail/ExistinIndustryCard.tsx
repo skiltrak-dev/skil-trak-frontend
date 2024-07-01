@@ -3,6 +3,7 @@ import {
     Card,
     InitialAvatar,
     Select,
+    SelectOption,
     ShowErrorNotifications,
     Typography,
 } from '@components'
@@ -42,6 +43,11 @@ export const ExistinIndustryCard = ({
             setActive((active: number) => active + 1)
         }
     }, [applyForWorkplaceResult])
+    useEffect(() => {
+        if (courses?.data && courses?.data?.length) {
+            setselectedCourse(courses?.data?.[0]?.id)
+        }
+    }, [courses?.data])
 
     const courseOptions =
         courses?.data && courses?.data?.length > 0
@@ -76,6 +82,10 @@ export const ExistinIndustryCard = ({
                         name={'course'}
                         required
                         options={courseOptions}
+                        value={courseOptions?.find(
+                            (course: SelectOption) =>
+                                selectedCourse === course?.value
+                        )}
                         placeholder={'Select Course...'}
                         loading={courses?.isLoading}
                         onChange={(e: any) => {

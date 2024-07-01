@@ -18,16 +18,6 @@ import { SubAdminApi, useGetSubAdminFilteredWorkplacesQuery } from '@queries'
 
 // components
 import {
-    AllWorkplaces,
-    CancelledWorkplaces,
-    FilteredWorkplaces,
-    MyWorkplaces,
-    PlacementStartedWorkplaces,
-    StudentAddedWorkplaces,
-} from '@partials/sub-admin'
-import { checkFilteredDataLength } from '@utils'
-import { useRouter } from 'next/router'
-import {
     ActiveWorkplaceRequest,
     UpdatedCancelledWorkplaces,
     UpdatedFilteredWorkplaces,
@@ -35,6 +25,8 @@ import {
     UpdatedPlacementStartedWorkplaces,
     UpdatedStudentAddedWorkplaces,
 } from '@partials/sub-admin/workplace/updatedworkplaces'
+import { checkFilteredDataLength } from '@utils'
+import { useRouter } from 'next/router'
 
 const filterKeys = [
     'studentId',

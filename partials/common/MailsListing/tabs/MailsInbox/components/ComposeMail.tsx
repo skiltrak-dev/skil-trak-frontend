@@ -55,7 +55,7 @@ export const ComposeMail = ({
     return (
         <>
             <ShowErrorNotifications result={sendMessageResult} />
-            <div className="w-full md:w-[531px] shadow-profiles pb-4">
+            <div className="w-full md:w-[531px] shadow-profiles">
                 <div className="bg-[#FD7A7C] px-4 py-2.5 flex items-center justify-between rounded-t-lg">
                     <Typography variant="label" color="text-white" bold>
                         New Mail
@@ -69,7 +69,7 @@ export const ComposeMail = ({
                 </div>
 
                 {/*  */}
-                <div className="bg-white">
+                <div className="bg-white pb-4">
                     <ComposeMailForm
                         onSubmit={onSubmit}
                         result={sendMessageResult}

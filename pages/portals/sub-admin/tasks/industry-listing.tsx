@@ -13,8 +13,7 @@ import { SubAdminLayout } from '@layouts'
 import { ActiveIndustries, AddIndustry } from '@partials/common'
 import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
 import {
-    ImportIndustriesList,
-    ImportIndustriesListWithOTP,
+    ImportIndustriesListWithOTP
 } from '@partials/common/FindWorkplaces/contextBar'
 import { commonApi } from '@queries'
 import { FindWorkplaceFilter, NextPageWithLayout } from '@types'

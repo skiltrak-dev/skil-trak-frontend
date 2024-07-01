@@ -4,6 +4,7 @@ import { QueryType, queryToUrl } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaHandshake, FaHireAHelper } from 'react-icons/fa'
+import { HiOutlineSpeakerphone } from 'react-icons/hi'
 import { MdEmail, MdPhoneIphone, MdSnooze } from 'react-icons/md'
 
 export const IndustryCell = ({ industry }: { industry: Industry }) => {
@@ -43,7 +44,13 @@ export const IndustryCell = ({ industry }: { industry: Industry }) => {
                             <p className="font-semibold">
                                 {industry?.user?.name}
                             </p>
-                            {industry?.isHiring ? <FaHireAHelper /> : ''}
+                            {industry?.isHiring ? (
+                                <div>
+                                    <HiOutlineSpeakerphone className="text-lg" />
+                                </div>
+                            ) : (
+                                ''
+                            )}
                         </div>
                         {/* snoozedDate */}
                         <div className="font-medium text-xs text-gray-500">
