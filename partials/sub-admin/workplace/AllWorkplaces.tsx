@@ -32,7 +32,6 @@ export const AllWorkplaces = () => {
         setItemPerPage(Number(router.query.pageSize || 30))
     }, [router])
 
-    console.log('workplaces', subAdminWorkplace?.data?.data)
 
     return (
         <div>
