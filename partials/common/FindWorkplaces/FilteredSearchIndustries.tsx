@@ -18,7 +18,7 @@ import { FaEdit } from 'react-icons/fa'
 import { useActionModal, useContextBar } from '@hooks'
 import { IndustryStatus, SubAdmin } from '@types'
 import { useRouter } from 'next/router'
-import { MdBlock, MdDelete, MdOutlineFavorite } from 'react-icons/md'
+import { MdBlock, MdDelete, MdEmail, MdOutlineFavorite } from 'react-icons/md'
 // import { RtoCell, SectorCell, SubAdminCell } from './components'
 // import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
 import { ReactElement, useState } from 'react'
@@ -280,6 +280,15 @@ export const FilteredSearchIndustries = ({
             header: () => <span>Address</span>,
         },
         {
+            accessorKey: 'department',
+            header: () => <span>Department</span>,
+            cell: (info) => (
+                <Typography variant="label" capitalize>
+                    {info.row?.original?.department}
+                </Typography>
+            ),
+        },
+        {
             accessorKey: 'status',
             header: () => <span>Status</span>,
             cell: (info) => {
@@ -309,6 +318,43 @@ export const FilteredSearchIndustries = ({
                     </div>
                 )
             },
+        },
+        {
+            accessorKey: 'createdBy',
+            header: () => <span>Created By</span>,
+            cell: (info) =>
+                info?.row?.original?.createdBy ? (
+                    <div className="flex items-center gap-x-2">
+                        <div className="shadow-inner-image rounded-full relative">
+                            {info?.row?.original?.createdBy?.user?.name && (
+                                <InitialAvatar
+                                    name={info?.row?.original?.createdBy?.name}
+                                    imageUrl={
+                                        info?.row?.original?.createdBy?.name
+                                    }
+                                />
+                            )}
+                        </div>
+                        <div>
+                            <div className="flex items-center gap-x-2">
+                                <p className="font-semibold">
+                                    {info?.row?.original?.createdBy?.name}
+                                </p>
+                            </div>
+
+                            <div className="font-medium text-xs text-gray-500">
+                                <p className="flex items-center gap-x-1">
+                                    <span>
+                                        <MdEmail />
+                                    </span>
+                                    {info?.row?.original?.createdBy?.email}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    '---'
+                ),
         },
         {
             accessorKey: 'createdAt',
