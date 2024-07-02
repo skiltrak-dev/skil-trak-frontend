@@ -53,7 +53,12 @@ export const ImportIndustriesListWithOTP = () => {
                         row.values
                             .slice(1)
                             .forEach((cell: any, index: number) => {
-                                rowObject[headers[index]] = cell
+                                console.log({ cell })
+                                if (headers[index] === 'email') {
+                                    rowObject[headers[index]] = cell?.text
+                                } else {
+                                    rowObject[headers[index]] = cell
+                                }
                             })
                         rows.push(rowObject)
                     }
