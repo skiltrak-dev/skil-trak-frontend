@@ -17,6 +17,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { IndustryStatus, Sector } from '@types'
 import { FormProvider, useForm } from 'react-hook-form'
+import { IndustryListingDepartment } from '../enum'
 
 const FormKeys = {
     BusinessName: 'businessName',
@@ -52,6 +53,9 @@ export const AddIndustry = ({
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
     const [selectedSector, setSelectedSector] = useState<number[] | null>(null)
     const [selectedStatus, setSelectedStatus] = useState<number[] | null>(null)
+    const [selectedDepartment, setSelectedDepartment] = useState<number | null>(
+        null
+    )
     const [selectedCountry, setSelectedCountry] = useState<number[] | null>(
         null
     )
@@ -88,6 +92,7 @@ export const AddIndustry = ({
             .required('This field is required') // Make the array field required
             .min(1, 'At least one number is required'),
         address: yup.string().required('Must provide address'),
+        department: yup.string().required('Must provide Department'),
     })
     const formMethods = useForm({
         mode: 'all',
@@ -107,6 +112,7 @@ export const AddIndustry = ({
                 'note',
                 'region',
                 'country',
+                'department',
             ]
 
             let obj: any = {}
@@ -133,6 +139,7 @@ export const AddIndustry = ({
             setCountryId(industryData?.country?.id)
             setSelectedStates(industryData?.region?.id)
             setSelectedStatus(industryData?.status)
+            setSelectedDepartment(industryData?.department)
         }
     }, [industryData])
 
@@ -279,6 +286,21 @@ export const AddIndustry = ({
                                     onChange={(e: any) => {
                                         setSelectedStatus(e)
                                     }}
+                                    onlyValue
+                                />
+                                <Select
+                                    name={'department'}
+                                    label={'Select Department'}
+                                    options={[
+                                        {
+                                            label: 'Employment',
+                                            value: IndustryListingDepartment.EMPLOYMENT,
+                                        },
+                                        {
+                                            label: 'SOURCING',
+                                            value: IndustryListingDepartment.SOURCING,
+                                        },
+                                    ]}
                                     onlyValue
                                 />
 

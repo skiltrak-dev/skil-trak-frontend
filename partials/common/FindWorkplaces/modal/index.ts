@@ -1,3 +1,4 @@
+export * from './ViewNoteModal'
 export * from './AddToSignupModal'
 export * from './DeleteFutureIndustryModal'
 export * from './DeleteMultiFutureIndustryModal'

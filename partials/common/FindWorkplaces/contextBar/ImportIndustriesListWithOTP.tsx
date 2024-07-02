@@ -5,9 +5,10 @@ import ExcelJS from 'exceljs'
 
 import { useNotification } from '@hooks'
 import { BinaryFileUpload } from '@components/inputs/BinaryFileUpload'
-import { Button, ShowErrorNotifications, Typography } from '@components'
+import { Button, Select, ShowErrorNotifications, Typography } from '@components'
 import { CommonApi, RtoApi } from '@queries'
 import { ImportIndustriesListVerificationModal } from '../modal'
+import { IndustryListingDepartment } from '../enum'
 
 export const ImportIndustriesListWithOTP = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -98,6 +99,20 @@ export const ImportIndustriesListWithOTP = () => {
         <div>
             {modal}
             <ShowErrorNotifications result={sendVerificationCodeResult} />
+            <Select
+                name={'dept'}
+                label={'Select Department'}
+                options={[
+                    {
+                        label: 'Employment',
+                        value: IndustryListingDepartment.EMPLOYMENT,
+                    },
+                    {
+                        label: 'SOURCING',
+                        value: IndustryListingDepartment.SOURCING,
+                    },
+                ]}
+            />
             <BinaryFileUpload
                 name="list"
                 onChange={onFileChange}
