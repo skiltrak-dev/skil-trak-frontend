@@ -140,7 +140,7 @@ export const {
     useGetSavedCoordinatesQuery,
     useGetSubAdminMapStudentDetailQuery,
     useGetSubAdminMapIndustriesQuery,
-    useGetWorkplaceCourseIndustriesQuery,   
+    useGetWorkplaceCourseIndustriesQuery,
     useGetSubAdminRtosForMapQuery,
     useGetSubAdminStudentSuburbsForMapQuery,
     useSubadminCoursesQuery,
@@ -229,6 +229,7 @@ export const {
     useGetSubAdminStudentWorkplaceDetailQuery,
     useUpdateSubAdminCourseDurationMutation,
     useGetSubAdminMyStudentsQuery,
+    useGetSubAdminMyStudentsCallLogQuery,
     useGetRtoCoordinatorStudentsQuery,
     useAssignStudentsToSubAdminMutation,
     useSubAdminRequestIndustryWorkplaceMutation,
@@ -366,7 +367,7 @@ export const SubAdminApi = {
         useProfile: useProfileQuery,
         useSubAdminMapStudentDetail: useGetSubAdminMapStudentDetailQuery,
         useSubAdminMapIndustries: useGetSubAdminMapIndustriesQuery,
-        
+
         useSubAdminRtosForMap: useGetSubAdminRtosForMapQuery,
         useSubAdminMapStudents: useGetSubAdminMapStudentsQuery,
         useSubAdminStudentSuburbsForMap:
@@ -404,6 +405,7 @@ export const SubAdminApi = {
         assignCourse: useSubadminStudentAssignCoursesMutation,
         useMailPassword: useSendPasswordToStudentMailMutation,
         useGetRtoCoordinatorStudents: useGetRtoCoordinatorStudentsQuery,
+        useMysStudentsCallLog: useGetSubAdminMyStudentsCallLogQuery,
         subadminStudentUnassignCourses:
             useSubadminStudentUnassignCoursesMutation,
         getCancelledWP: useGetStudentCancelledWPQuery,
@@ -482,7 +484,7 @@ export const SubAdminApi = {
         useSendMeetingNotification: useSendMeetingNotificationMutation,
         useSubAdminMapSuggestedIndustryDetail:
             useGetSubAdminMapSuggestedIndustryDetailQuery,
-            useWorkplaceCourseIndustries: useGetWorkplaceCourseIndustriesQuery,
+        useWorkplaceCourseIndustries: useGetWorkplaceCourseIndustriesQuery,
     },
 
     Courses: {

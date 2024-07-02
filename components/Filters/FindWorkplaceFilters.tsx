@@ -5,6 +5,7 @@ import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
 import { FindWorkplaceFilter } from '@types'
 import { useEffect, useState } from 'react'
+import { IndustryListingDepartment } from '@partials/common/FindWorkplaces/enum'
 
 interface ItemFilterProps {
     onFilterChange: (values: any) => void
@@ -41,6 +42,21 @@ export const FindWorkplaceFilters = ({
         }
     }, [sectorResponse?.data])
 
+    const departmentOptions = [
+        {
+            label: 'Employment',
+            value: IndustryListingDepartment.EMPLOYMENT,
+        },
+        {
+            label: 'Sourcing',
+            value: IndustryListingDepartment.SOURCING,
+        },
+    ]
+
+    console.log({
+        filter: departmentOptions?.find((p) => p?.value === filter?.department),
+    })
+
     return (
         <>
             <SetQueryFilters<FindWorkplaceFilter> filter={filter} />
@@ -56,6 +72,7 @@ export const FindWorkplaceFilters = ({
                             businessName: e.target.value,
                         })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="email"
@@ -66,6 +83,7 @@ export const FindWorkplaceFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, email: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="phone"
@@ -76,6 +94,7 @@ export const FindWorkplaceFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, phone: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="address"
@@ -86,11 +105,12 @@ export const FindWorkplaceFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, address: e.target.value })
                     }}
+                    showError={false}
                 />
 
                 <Select
                     label={'Sector'}
-                    defaultValue={sectorOptions?.find((p: any) => {
+                    value={sectorOptions?.find((p: any) => {
                         p.value === filter?.sector
                     })}
                     name={'sector'}
@@ -101,8 +121,21 @@ export const FindWorkplaceFilters = ({
                         onSectorChanged(e)
                         onFilterChange({ ...filter, sector: e })
                     }}
+                    showError={false}
                     validationIcons
                     onlyValue
+                />
+                <Select
+                    name={'department'}
+                    label={'Select Department'}
+                    options={departmentOptions}
+                    value={departmentOptions?.find((d: any) => {
+                        d?.value == filter?.department
+                    })}
+                    onChange={(e: SelectOption) => {
+                        onFilterChange({ ...filter, department: e?.value })
+                    }}
+                    showError={false}
                 />
                 {/* <Select
                     label={'Search by is contacted'}

@@ -23,7 +23,13 @@ import { Industry, IndustryStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { FiLogIn } from 'react-icons/fi'
-import { MdBlock, MdDelete, MdOutlineFavorite } from 'react-icons/md'
+import {
+    MdBlock,
+    MdDelete,
+    MdEmail,
+    MdOutlineFavorite,
+    MdPhoneIphone,
+} from 'react-icons/md'
 // import { IndustryCell, SectorCell } from './components'
 // import { BlockModal } from './modals'
 
@@ -40,6 +46,7 @@ import {
     DeleteFutureIndustryModal,
     DeleteMultiFutureIndustryModal,
     ViewIndustryListingNoteModal,
+    ViewNoteModal,
 } from '../modal'
 import { useContextBar } from '@hooks'
 import { AddIndustry } from './AddIndustry'
@@ -162,15 +169,25 @@ export const ActiveIndustries = ({
         contextBar.show(false)
         contextBar.setTitle('Edit Future Industry')
     }
-    const onViewNote = ({ note }: any) => {
-        console.log('info?.row?.original?.note', note)
+    // const onViewNote = ({ note }: any) => {
+    //     console.log('info?.row?.original?.note', note)
+    //     setModal(
+    //         <GlobalModal>
+    //             <ViewIndustryListingNoteModal
+    //                 note={note}
+    //                 onCancel={onModalCancelClicked}
+    //             />
+    //         </GlobalModal>
+    //     )
+    // }
+
+    const onViewNote = (note: string, industryName: string) => {
         setModal(
-            <GlobalModal>
-                <ViewIndustryListingNoteModal
-                    note={note}
-                    onCancel={onModalCancelClicked}
-                />
-            </GlobalModal>
+            <ViewNoteModal
+                onCancel={onModalCancelClicked}
+                note={note}
+                industryName={industryName}
+            />
         )
     }
 
@@ -310,6 +327,15 @@ export const ActiveIndustries = ({
             ),
         },
         {
+            accessorKey: 'department',
+            header: () => <span>Department</span>,
+            cell: (info) => (
+                <Typography variant="label" capitalize>
+                    {info.row?.original?.department}
+                </Typography>
+            ),
+        },
+        {
             accessorKey: 'country.name',
             header: () => <span>Region</span>,
         },
@@ -355,21 +381,20 @@ export const ActiveIndustries = ({
                 return (
                     <>
                         {info?.row?.original?.note !== null ? (
-                            <p
-                                className="text-blue-500 text-xs cursor-pointer hover:underline"
-                                onClick={() =>
-                                    setModal(
-                                        <GlobalModal>
-                                            <ViewIndustryListingNoteModal
-                                                note={info?.row?.original?.note}
-                                                onCancel={onModalCancelClicked}
-                                            />
-                                        </GlobalModal>
-                                    )
-                                }
-                            >
-                                View Note
-                            </p>
+                            <div>
+                                <ActionButton
+                                    variant="info"
+                                    simple
+                                    onClick={() => {
+                                        onViewNote(
+                                            info?.row?.original?.note,
+                                            info?.row?.original?.businessName
+                                        )
+                                    }}
+                                >
+                                    View
+                                </ActionButton>
+                            </div>
                         ) : (
                             <div
                                 className="text-blue-500 text-xs cursor-pointer hover:underline"
@@ -397,6 +422,43 @@ export const ActiveIndustries = ({
             cell: (info) => (
                 <UserCreatedAt createdAt={info.row.original?.createdAt} />
             ),
+        },
+        {
+            accessorKey: 'createdBy',
+            header: () => <span>Created By</span>,
+            cell: (info) =>
+                info?.row?.original?.createdBy ? (
+                    <div className="flex items-center gap-x-2">
+                        <div className="shadow-inner-image rounded-full relative">
+                            {info?.row?.original?.createdBy?.user?.name && (
+                                <InitialAvatar
+                                    name={info?.row?.original?.createdBy?.name}
+                                    imageUrl={
+                                        info?.row?.original?.createdBy?.name
+                                    }
+                                />
+                            )}
+                        </div>
+                        <div>
+                            <div className="flex items-center gap-x-2">
+                                <p className="font-semibold">
+                                    {info?.row?.original?.createdBy?.name}
+                                </p>
+                            </div>
+
+                            <div className="font-medium text-xs text-gray-500">
+                                <p className="flex items-center gap-x-1">
+                                    <span>
+                                        <MdEmail />
+                                    </span>
+                                    {info?.row?.original?.createdBy?.email}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    '---'
+                ),
         },
         {
             accessorKey: 'action',

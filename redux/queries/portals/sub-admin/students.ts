@@ -103,6 +103,10 @@ export const studentsEndpoints = (
         }),
         providesTags: ['SubAdminStudents'],
     }),
+    getSubAdminMyStudentsCallLog: builder.query<any, number>({
+        query: (id) => `call-log/get/student/${id}/last`,
+        providesTags: ['SubAdminStudents'],
+    }),
 
     getRtoCoordinatorStudents: builder.query<any, any>({
         query: (params) => ({

@@ -12,9 +12,7 @@ import { useContextBar } from '@hooks'
 import { SubAdminLayout } from '@layouts'
 import { ActiveIndustries, AddIndustry } from '@partials/common'
 import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
-import {
-    ImportIndustriesListWithOTP
-} from '@partials/common/FindWorkplaces/contextBar'
+import { ImportIndustriesListWithOTP } from '@partials/common/FindWorkplaces/contextBar'
 import { commonApi } from '@queries'
 import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
 import { checkFilteredDataLength } from '@utils'
@@ -22,7 +20,14 @@ import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { FaIndustry } from 'react-icons/fa'
 import { MdAddBusiness } from 'react-icons/md'
 type Props = {}
-const filterKeys = ['businessName', 'address', 'sector', 'email', 'phone']
+const filterKeys = [
+    'phone',
+    'email',
+    'sector',
+    'address',
+    'department',
+    'businessName',
+]
 const IndustryListing: NextPageWithLayout = (props: Props) => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)

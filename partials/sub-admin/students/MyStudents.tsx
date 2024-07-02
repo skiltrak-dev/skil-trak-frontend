@@ -16,7 +16,11 @@ import {
     TableAction,
     UserCreatedAt,
 } from '@components'
-import { StudentCallLogDetail, StudentCellInfo, SubadminStudentIndustries } from './components'
+import {
+    StudentCallLogDetail,
+    StudentCellInfo,
+    SubadminStudentIndustries,
+} from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useGetSubAdminMyStudentsQuery } from '@queries'

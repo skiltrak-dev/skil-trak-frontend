@@ -19,6 +19,7 @@ export const StudentCellInfo = ({
     student: Student
     call?: boolean
 }) => {
+    console.log({ student })
     const router = useRouter()
 
     useScrollIntoView(student) // Scroll into view with scroll ID
