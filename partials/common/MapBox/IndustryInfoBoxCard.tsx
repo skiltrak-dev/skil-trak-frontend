@@ -72,7 +72,7 @@ export const IndustryInfoBoxCard = ({
     return (
         <>
             <ShowErrorNotifications result={addExistingIndustryResult} />
-            <div className="min-w-72">
+            <div className="min-w-80">
                 {item.isError && <NoData text="Something is not right...!" />}
                 {item?.isLoading ? (
                     <PulseLoader />
@@ -87,7 +87,7 @@ export const IndustryInfoBoxCard = ({
                                 className="rounded-full"
                             />
                         </div>
-                        <div className="relative w-64 bg-white px-2.5 py-5 rounded-lg shadow-lg -mt-5">
+                        <div className="relative min-w-72 bg-white px-2.5 py-5 rounded-lg shadow-lg -mt-5">
                             <FaTimes
                                 size={18}
                                 className="cursor-pointer absolute top-2 right-2"
@@ -105,7 +105,7 @@ export const IndustryInfoBoxCard = ({
                                         )}
                                     </Typography>
                                 ) : (
-                                    <div className="flex items-center justify-between border-b pb-2">
+                                    <div className="flex items-center justify-between gap-x-4 border-b pb-2">
                                         <div className="flex flex-col gap-y-1">
                                             <Typography
                                                 variant="muted"
@@ -119,14 +119,12 @@ export const IndustryInfoBoxCard = ({
                                                     15
                                                 )}
                                             </Typography>
+
                                             <Typography variant="muted">
-                                                {ellipsisText(
-                                                    item?.data?.user?.email,
-                                                    20
-                                                )}
+                                                {item?.data?.user?.email}
                                             </Typography>
                                         </div>
-                                        <div className="flex flex-col gap-y-1">
+                                        <div className="flex flex-col gap-y-1 whitespace-nowrap">
                                             <Typography
                                                 variant="muted"
                                                 color={'text-gray-400'}
@@ -141,7 +139,7 @@ export const IndustryInfoBoxCard = ({
                                             </Typography>
                                             <Typography variant="xs">
                                                 {item?.data
-                                                    ?.contactPersonNumber ||
+                                                    ?.contactPersonNumber ??
                                                     'NA'}
                                             </Typography>
                                         </div>
@@ -169,60 +167,59 @@ export const IndustryInfoBoxCard = ({
                                     </div>
                                 ))}
                             </div>
-                            {!workplaceMapCard ? (
+
+                            <div className="flex justify-between items-center gap-x-12">
                                 <div className="flex justify-center mt-1.5">
                                     <Link
-                                        className="text-blue-400 font-medium text-sm"
+                                        className="text-blue-400 text-xs"
                                         href={`/portals/sub-admin/users/industries/${item?.data?.id}?tab=students`}
                                     >
-                                        View Profile
+                                        View
                                     </Link>
                                 </div>
-                            ) : (
-                                <>
-                                    {!appliedIndustry && (
-                                        // !industry?.applied &&
-                                        // industry?.industryResponse !== 'noResponse' &&
-                                        // industry?.industryResponse !== 'rejected' &&
-                                        <Typography
-                                            variant={'xs'}
-                                            color={'text-red-800'}
-                                            center
+
+                                {!appliedIndustry && (
+                                    // !industry?.applied &&
+                                    // industry?.industryResponse !== 'noResponse' &&
+                                    // industry?.industryResponse !== 'rejected' &&
+                                    <Typography
+                                        variant={'xs'}
+                                        color={'text-red-800'}
+                                        center
+                                    >
+                                        <span
+                                            className="cursor-pointer whitespace-pre"
+                                            // onClick={() => {
+                                            //     if (!appliedIndustry) {
+                                            //         applyForWorkplace({
+                                            //             industry:
+                                            //                 industryId,
+                                            //             id: workplace?.id,
+                                            //         })
+                                            //     } else {
+                                            //         notification.error({
+                                            //             title: 'Already Applied',
+                                            //             description:
+                                            //                 'Already Applied to another Industry',
+                                            //         })
+                                            //     }
+                                            // }}
+                                            onClick={() => {
+                                                addExistingIndustry({
+                                                    workplaceId,
+                                                    industryId: industryId,
+                                                })
+                                            }}
                                         >
-                                            <span
-                                                className="cursor-pointer whitespace-pre"
-                                                // onClick={() => {
-                                                //     if (!appliedIndustry) {
-                                                //         applyForWorkplace({
-                                                //             industry:
-                                                //                 industryId,
-                                                //             id: workplace?.id,
-                                                //         })
-                                                //     } else {
-                                                //         notification.error({
-                                                //             title: 'Already Applied',
-                                                //             description:
-                                                //                 'Already Applied to another Industry',
-                                                //         })
-                                                //     }
-                                                // }}
-                                                onClick={() => {
-                                                    addExistingIndustry({
-                                                        workplaceId,
-                                                        industryId: industryId,
-                                                    })
-                                                }}
-                                            >
-                                                {addExistingIndustryResult.isLoading ? (
-                                                    <PulseLoader size={4} />
-                                                ) : (
-                                                    'APPLY HERE'
-                                                )}
-                                            </span>
-                                        </Typography>
-                                    )}
-                                </>
-                            )}
+                                            {addExistingIndustryResult.isLoading ? (
+                                                <PulseLoader size={4} />
+                                            ) : (
+                                                'APPLY HERE'
+                                            )}
+                                        </span>
+                                    </Typography>
+                                )}
+                            </div>
                             {/* <div className="mt-1">
                             <Typography variant="muted" color={'text-gray-400'}>
                                 Address
