@@ -123,7 +123,7 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
                 <div>
                     <UserProfileDetailCard
                         title="Location"
-                        detail={`${profile?.suburb}, ${profile?.state}, ${profile?.addressLine1}`}
+                        detail={`${profile?.addressLine1}, ${profile?.state}  `}
                     />
                 </div>
 

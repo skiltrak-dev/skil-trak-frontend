@@ -3,6 +3,7 @@ import {
     Button,
     Card,
     EmptyData,
+    GlobalModal,
     InitialAvatar,
     LoadingAnimation,
     Table,
@@ -34,9 +35,11 @@ import { DefaultModal } from '../DefaultModal'
 import { DoNotDisturbModal } from '../DoNotDisturbModal'
 import { FavoriteModal } from '../FavoriteModal'
 import {
+    AddIndustryListingNoteModal,
     AddToSignupModal,
     DeleteFutureIndustryModal,
     DeleteMultiFutureIndustryModal,
+    ViewIndustryListingNoteModal,
 } from '../modal'
 import { useContextBar } from '@hooks'
 import { AddIndustry } from './AddIndustry'
@@ -55,6 +58,7 @@ export const ActiveIndustries = ({
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+    const [noteId, setNoteId] = useState(null)
 
     const contextBar = useContextBar()
 
@@ -157,6 +161,17 @@ export const ActiveIndustries = ({
         )
         contextBar.show(false)
         contextBar.setTitle('Edit Future Industry')
+    }
+    const onViewNote = ({ note }: any) => {
+        console.log('info?.row?.original?.note', note)
+        setModal(
+            <GlobalModal>
+                <ViewIndustryListingNoteModal
+                    note={note}
+                    onCancel={onModalCancelClicked}
+                />
+            </GlobalModal>
+        )
     }
 
     const tableActionOptions = (industry: any) => {
@@ -335,7 +350,46 @@ export const ActiveIndustries = ({
         },
         {
             accessorKey: 'note',
-            header: () => <span>Note</span>,
+            header: () => <div>Note</div>,
+            cell: (info) => {
+                return (
+                    <>
+                        {info?.row?.original?.note !== null ? (
+                            <p
+                                className="text-blue-500 text-xs cursor-pointer hover:underline"
+                                onClick={() =>
+                                    setModal(
+                                        <GlobalModal>
+                                            <ViewIndustryListingNoteModal
+                                                note={info?.row?.original?.note}
+                                                onCancel={onModalCancelClicked}
+                                            />
+                                        </GlobalModal>
+                                    )
+                                }
+                            >
+                                View Note
+                            </p>
+                        ) : (
+                            <div
+                                className="text-blue-500 text-xs cursor-pointer hover:underline"
+                                onClick={() => {
+                                    setModal(
+                                        <GlobalModal>
+                                            <AddIndustryListingNoteModal
+                                                onCancel={onModalCancelClicked}
+                                                id={info?.row?.original?.id}
+                                            />
+                                        </GlobalModal>
+                                    )
+                                }}
+                            >
+                                Add Note
+                            </div>
+                        )}
+                    </>
+                )
+            },
         },
         {
             accessorKey: 'createdAt',

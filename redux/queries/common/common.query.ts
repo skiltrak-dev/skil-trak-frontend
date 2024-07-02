@@ -433,6 +433,7 @@ const {
     // ----- FIND WORKPLACE ----- //
     useAddIndustryMutation,
     useAddToSignupMutation,
+    useAddFutureIndustryListingNoteMutation,
     useUpdateIndustryMutation,
     useFindIndustriesCountQuery,
     useGetAllFindWorkplacesQuery,
@@ -685,6 +686,7 @@ export const CommonApi = {
     FindWorkplace: {
         useAddIndustry: useAddIndustryMutation,
         useAddToSignup: useAddToSignupMutation,
+        useAddFutureIndustryListingNote: useAddFutureIndustryListingNoteMutation, 
         useUpdateIndustry: useUpdateIndustryMutation,
         useFindIndustriesCount: useFindIndustriesCountQuery,
         importIndustriesList: useImportIndustriesListMutation,

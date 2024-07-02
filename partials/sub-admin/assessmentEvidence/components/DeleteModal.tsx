@@ -27,29 +27,33 @@ export const DeleteModal = ({
 
     useEffect(() => {
         if (removeResult.isSuccess) {
-            notification.error({
-                title: `Student Deleted`,
-                description: `Student "${item.student.user.name}" has been deleted.`,
+            alert.error({
+                title: `Assessment Submission Deleted`,
+                description: `Assessment Submission of "${item?.student?.user?.name}" has been deleted.`,
             })
             onCancel()
+            // router.push('/portals/sub-admin/tasks/assessment-evidence?tab=archived')
+        }
+        if (removeResult.isError) {
+            notification.error({
+                title: 'Request Failed',
+                description: `Your request for deleting Assessment Submission was failed`,
+            })
         }
     }, [removeResult])
 
     return (
-        <>
-            <ShowErrorNotifications result={removeResult} />
-            <ActionModal
-                Icon={FaTrash}
-                variant="error"
-                title="Are you sure!"
-                description={`You are about to permanent delete "${item?.student?.user?.name}". Do you wish to continue?`}
-                onConfirm={onConfirmUClicked}
-                onCancel={onCancel}
-                input
-                inputKey={item.student.user.email}
-                actionObject={item}
-                loading={removeResult.isLoading}
-            />
-        </>
+        <ActionModal
+            Icon={FaTrash}
+            variant="error"
+            title="Are you sure!"
+            description={`You are about to delete Assessment submission of "${item?.student?.user?.name}". Do you wish to continue?`}
+            onConfirm={onConfirmUClicked}
+            onCancel={onCancel}
+            input
+            inputKey={item.student.user.email}
+            actionObject={item}
+            loading={removeResult.isLoading}
+        />
     )
 }
