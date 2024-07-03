@@ -14,34 +14,27 @@ export const StudentFeedback = () => {
     return (
         <Card noPadding>
             <div className="py-3.5 px-7 flex items-center gap-x-10 border-b border-secondary-dark">
-                {Object.values(SelectedFeedbackEnum).map((feedback) => (
-                    <div
-                        onClick={() => {
-                            setSelectedFeedback(feedback)
-                        }}
-                    >
+                <div className={'grid grid-cols-2 gap-x-3 w-full'}>
+                    {Object.values(SelectedFeedbackEnum).map((feedback) => (
                         <Typography
                             variant="label"
-                            semibold={selectedFeedback === feedback}
-                            color={
-                                selectedFeedback === feedback
-                                    ? 'text-black'
-                                    : 'text-gray-400'
-                            }
+                            semibold
+                            color={'text-black'}
                         >
-                            <span className="cursor-pointer">{feedback}</span>
+                            {feedback}
                         </Typography>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
 
             {/*  */}
-            <div className="p-7">
-                {selectedFeedback === SelectedFeedbackEnum.Coordinators ? (
+            <div className="px-7 grid grid-cols-2 pb-4">
+                <div className="px-3 border-r border-gray-400">
                     <CoordinatorFeedback />
-                ) : selectedFeedback === SelectedFeedbackEnum.Industry ? (
+                </div>
+                <div className="px-3">
                     <IndustryFeedback />
-                ) : null}
+                </div>
             </div>
         </Card>
     )

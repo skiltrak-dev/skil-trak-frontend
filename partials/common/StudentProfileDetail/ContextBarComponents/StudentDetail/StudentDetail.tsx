@@ -6,6 +6,7 @@ import { Student } from '@types'
 import { getGender } from '@utils'
 import moment from 'moment'
 import { ReactElement, useState } from 'react'
+import { State } from 'country-state-city'
 
 import { LatestCallAnswer } from './LatestCallAnswer'
 import { UserProfileDetailCard } from '@partials/common/Cards'
@@ -29,6 +30,12 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
             />
         )
     }
+
+    const stateCodes = State.getStatesOfCountry('AU')?.map(
+        (state) => state?.isoCode
+    )
+
+    console.log({ stateCodes })
     return (
         <div className="mt-5">
             {modal}
@@ -123,7 +130,12 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
                 <div>
                     <UserProfileDetailCard
                         title="Location"
-                        detail={`${profile?.addressLine1}, ${profile?.state}  `}
+                        detail={`${profile?.addressLine1}, ${profile?.suburb
+                            ?.replace(/Australia/i, '')
+                            ?.replace(
+                                new RegExp(stateCodes?.join('|'), 'g'),
+                                ''
+                            )} ${profile?.state}, Australia`}
                     />
                 </div>
 
