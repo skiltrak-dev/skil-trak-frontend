@@ -53,13 +53,13 @@ export const StudentInfoBoxCard = ({
                                 {item?.data?.student?.studentId || 'N/A'}
                             </Typography>
                         </div> */}
-                        <div>
+                        <div className='text-center'>
                             <Typography variant="muted" color={'text-gray-400'}>
                                 Sector
                             </Typography>
 
                             {sectors?.map((s: any) => (
-                                <div className="border-b border-gray-200 pb-2 mb-2">
+                                <div className="">
                                     <Typography variant="xxs">
                                         {s?.code || 'N/A'}
                                     </Typography>
@@ -69,9 +69,9 @@ export const StudentInfoBoxCard = ({
                                 </div>
                             ))}
                         </div>
-                        <div className="flex justify-center">
+                        <div className="flex justify-center mt-1">
                             <Link
-                                className="text-blue-400 text-base"
+                                className="text-blue-400 text-xs"
                                 href={`/portals/sub-admin/students/${studentId}/detail`}
                             >
                                 View Profile
