@@ -301,8 +301,6 @@ export const ViewOnMapIndustriesModal = ({
     const studentCenter: any = visibleMarkers.find(
         (student: any) => student?.user && student?.user?.role === 'student'
     )
-    console.log('Center', studentCenter?.location)
-    // console.log("position", position)
     return (
         <div className="w-full">
             <div

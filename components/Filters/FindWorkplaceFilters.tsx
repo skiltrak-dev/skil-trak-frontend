@@ -53,10 +53,6 @@ export const FindWorkplaceFilters = ({
         },
     ]
 
-    console.log({
-        filter: departmentOptions?.find((p) => p?.value === filter?.department),
-    })
-
     return (
         <>
             <SetQueryFilters<FindWorkplaceFilter> filter={filter} />
