@@ -69,6 +69,7 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
             <MakeIndustryPartner
                 industryId={industry?.id}
                 isPartner={industry?.isPartner}
+                PartneredBy={industry?.PartneredBy}
             />
 
             {/*  */}
@@ -80,7 +81,6 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
             {/*  */}
             <IndustryDetail industry={industry} />
             <IndustryContactPerson industry={industry} />
-            <IndustryPartner industry={industry} />
 
             {/*  */}
             <IndustrySectors courses={industry?.courses} />

@@ -26,7 +26,7 @@ export const Courses = ({
         : []
 
     useEffect(() => {
-        if (courseOptions && courseOptions?.length > 0) {
+        if (courseOptions && courseOptions?.length > 0 && !selectedCourse) {
             setSelectedCourse(courseOptions?.[0]?.value)
         }
     }, [courseOptions])

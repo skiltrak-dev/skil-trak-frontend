@@ -1,6 +1,7 @@
 import { UserRoles } from '@constants'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+import { method } from 'lodash'
 
 const PREFIX = 'subadmin'
 export const subAdminIndustriesEndpoints = (
@@ -9,6 +10,14 @@ export const subAdminIndustriesEndpoints = (
     subadminIndustryStatisticsCount: builder.query<any, number>({
         query: (id) => `${PREFIX}/industry/students/count/${id}`,
         providesTags: ['Industries'],
+    }),
+    addProfileVisitor: builder.query<any, number>({
+        query: (id) => `activity-logger/profile/${id}/add-profile-visitor`,
+        providesTags: ['IndustriesAddProfile'],
+    }),
+    viewProfileVisitor: builder.query<any, number>({
+        query: (id) => `activity-logger/profile/${id}/visitor-get`,
+        providesTags: ['IndustriesAddProfile'],
     }),
 
     getSubadminIndustriesCount: builder.query<any, void>({

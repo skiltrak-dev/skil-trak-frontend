@@ -14,9 +14,14 @@ import {
 import { ProfileAppointments } from '../ProfileAppointments'
 import { Alert, PageTitle } from '@components'
 import moment from 'moment'
+import { SubAdminApi } from '@queries'
 
 export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+
+    SubAdminApi.Industry.useAddProfileVisitor(industry?.user?.id, {
+        skip: !industry,
+    })
 
     const contextBar = useContextBar()
 
