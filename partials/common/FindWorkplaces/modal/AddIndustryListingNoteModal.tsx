@@ -41,12 +41,12 @@ export const AddIndustryListingNoteModal = ({
 
             <div
                 onClick={onCancel}
-                className="flex justify-end cursor-pointer border-b p-2 mb-2"
+                className="flex justify-between cursor-pointer border-b p-2 mb-2"
             >
+                <p>Note</p>
                 <IoMdCloseCircle size={25} className="text-red-500" />
             </div>
             <div className="px-4 py-2">
-                <h1>Note</h1>
                 <TextArea
                     onChange={(e: any) => {
                         setNote(e?.target?.value)
