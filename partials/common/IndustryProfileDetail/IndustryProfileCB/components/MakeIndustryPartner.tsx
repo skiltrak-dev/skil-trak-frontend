@@ -10,11 +10,14 @@ import {
 } from '@components'
 import { AddToPartnerModal } from '@partials/sub-admin/Industries/modals/AddToPartnerModal'
 import { IoInformationCircleSharp } from 'react-icons/io5'
+import { User } from '@types'
 
 export const MakeIndustryPartner = ({
     industryId,
     isPartner,
+    PartneredBy,
 }: {
+    PartneredBy: User
     industryId: number
     isPartner: boolean
 }) => {
@@ -58,12 +61,16 @@ export const MakeIndustryPartner = ({
                     <Typography variant="small" medium>
                         Partner
                     </Typography>
-                    <div className="relative group ">
-                        <IoInformationCircleSharp className="text-lg mt-0.5 text-gray-400 hover:text-gray-600 transition-all" />
-                        <Tooltip position={TooltipPosition.left}>
-                            Updated By :Saad
-                        </Tooltip>
-                    </div>
+                    {PartneredBy ? (
+                        <div className="relative group ">
+                            <IoInformationCircleSharp className="text-lg mt-0.5 text-gray-400 hover:text-gray-600 transition-all" />
+                            <Tooltip position={TooltipPosition.left}>
+                                <span className={'text-xs'}>
+                                    Partnered By : {PartneredBy?.name}
+                                </span>
+                            </Tooltip>
+                        </div>
+                    ) : null}
                 </div>
                 <div className="flex items-center gap-x-2">
                     <Typography variant="small" bold color={'text-[#BF0000]'}>

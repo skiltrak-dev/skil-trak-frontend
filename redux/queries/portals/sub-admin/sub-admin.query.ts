@@ -320,6 +320,8 @@ export const {
     useSubAdminSettingMutation,
 
     // --- INDUSTRIES --- //
+    useAddProfileVisitorQuery,
+    useViewProfileVisitorQuery,
     useSubadminIndustryStatisticsCountQuery,
     useGetSnoozedIndustryQuery,
     useGetSubadminIndustriesCountQuery,
@@ -434,6 +436,8 @@ export const SubAdminApi = {
         useAddToPartner: useAddToPartnerMutation,
         useIndustryCallLog: useIndustryCallLogMutation,
         useGetIndustryCallLog: useGetIndustryCallLogQuery,
+        useAddProfileVisitor: useAddProfileVisitorQuery,
+        useProfileVisitors: useViewProfileVisitorQuery,
         useGetIndustryBranches: useGetIndustryBranchesQuery,
         useIndustryAnsweredCall: useIndustryAnsweredCallMutation,
         useRemoveIndustryBranch: useRemoveIndustryBranchMutation,

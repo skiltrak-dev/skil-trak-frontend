@@ -57,7 +57,7 @@ export const IndustryStatus = ({ industry }: { industry: Industry }) => {
                 UserStatus.Rejected,
                 UserStatus.Blocked,
             ],
-            color: 'text-primary',
+            color: 'text-success-dark',
             onClick: () => {
                 onApproveClicked()
             },
