@@ -15,6 +15,8 @@ export const ImportIndustriesListWithOTP = () => {
     const [importListResult, setImportListResult] = useState<any>(null)
     const [industriesCount, setIndustriesCount] = useState<any>(null)
     const [industries, setIndustries] = useState<any>(null)
+    const [selectedDepartment, setSelectedDepartment] =
+        useState<IndustryListingDepartment | null>(null)
     const { notification } = useNotification()
 
     const [sendVerificationCode, sendVerificationCodeResult] =
@@ -87,6 +89,7 @@ export const ImportIndustriesListWithOTP = () => {
                     <ImportIndustriesListVerificationModal
                         onCancel={onCancel}
                         industries={industries}
+                        selectedDepartment={selectedDepartment}
                         onSetImportListResult={onSetImportListResult}
                     />
                 )
@@ -103,7 +106,7 @@ export const ImportIndustriesListWithOTP = () => {
             {modal}
             <ShowErrorNotifications result={sendVerificationCodeResult} />
             <Select
-                name={'dept'}
+                name={'department'}
                 label={'Select Department'}
                 options={[
                     {
@@ -115,6 +118,10 @@ export const ImportIndustriesListWithOTP = () => {
                         value: IndustryListingDepartment.SOURCING,
                     },
                 ]}
+                onChange={(e: any) => {
+                    setSelectedDepartment(e)
+                }}
+                onlyValue
             />
             <BinaryFileUpload
                 name="list"

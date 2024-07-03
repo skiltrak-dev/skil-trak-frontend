@@ -94,29 +94,28 @@ export const Workplace = ({
 
     const folders = GetFolders(workplaceFolders)
 
-    // const sortedWorkplace =
-    //     studentWorkplace?.data && studentWorkplace?.data?.length > 0
-    //         ? [...studentWorkplace?.data]?.sort(
-    //               (a: any, b: any) => b?.createdAt - a?.createdAt
-    //           )
-    //         : []
+    const sortedWorkplace =
+        studentWorkplace?.data && studentWorkplace?.data?.length > 0
+            ? [...studentWorkplace?.data]?.sort(
+                  (a: any, b: any) =>
+                      Date.parse(a.createdAt) - Date.parse(b.createdAt)
+              )
+            : []
+
+    console.log({ sortedWorkplace })
 
     useEffect(() => {
-        if (
-            studentWorkplace?.data &&
-            studentWorkplace?.isSuccess &&
-            studentWorkplace?.data?.length > 0
-        ) {
-            getWorkplaceLength(studentWorkplace?.data?.length)
+        if (sortedWorkplace && sortedWorkplace?.length > 0) {
+            getWorkplaceLength(sortedWorkplace?.length)
             setSelectedWorkplace(
                 selectedWorkplace
                     ? studentWorkplace?.data?.find(
                           (w: any) => w?.id === selectedWorkplace?.id
                       )
-                    : studentWorkplace?.data?.[0]
+                    : sortedWorkplace?.[0]
             )
         }
-    }, [studentWorkplace])
+    }, [sortedWorkplace])
 
     const onCancelModal = () => setModal(null)
 
@@ -208,7 +207,7 @@ export const Workplace = ({
                         {studentWorkplace?.data &&
                             studentWorkplace?.data?.length > 1 && (
                                 <div className="border-b border-secondary-dark p-4 flex items-center gap-x-2.5 cursor-pointer">
-                                    {studentWorkplace?.data?.map(
+                                    {sortedWorkplace?.map(
                                         (workplace: any, i: number) => (
                                             <WorkplaceTab
                                                 index={i}
