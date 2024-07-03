@@ -11,8 +11,10 @@ import { useRouter } from 'next/router'
 import { ReactNode, useState } from 'react'
 import { BsUnlockFill } from 'react-icons/bs'
 import { IoMdEyeOff } from 'react-icons/io'
+import { IoInformationCircle } from 'react-icons/io5'
 import { MdSnooze } from 'react-icons/md'
 import { RiEditFill } from 'react-icons/ri'
+import { ViewProfileVisitorsModal } from '../../modal'
 
 export const ProfileLinks = ({ industry }: { industry: Industry }) => {
     const router = useRouter()
@@ -34,6 +36,15 @@ export const ProfileLinks = ({ industry }: { industry: Industry }) => {
             <UnSnoozeIndustryModal
                 onCancel={onCancelModal}
                 industry={industry}
+            />
+        )
+    }
+
+    const onViewProfileVisitorsClicked = () => {
+        setModal(
+            <ViewProfileVisitorsModal
+                onCancel={onCancelModal}
+                industryUserId={industry?.user.id}
             />
         )
     }
@@ -77,6 +88,13 @@ export const ProfileLinks = ({ industry }: { industry: Industry }) => {
             Icon: MdSnooze,
             onClick: () => {
                 industry?.isSnoozed ? UnSnoozeModal() : onSnooze()
+            },
+        },
+        {
+            text: 'View Visitors',
+            Icon: IoInformationCircle,
+            onClick: () => {
+                onViewProfileVisitorsClicked()
             },
         },
     ]

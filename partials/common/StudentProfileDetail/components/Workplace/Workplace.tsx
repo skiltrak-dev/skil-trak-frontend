@@ -102,8 +102,6 @@ export const Workplace = ({
               )
             : []
 
-    console.log({ sortedWorkplace })
-
     useEffect(() => {
         if (sortedWorkplace && sortedWorkplace?.length > 0) {
             getWorkplaceLength(sortedWorkplace?.length)

@@ -160,6 +160,7 @@ export interface Industry extends BaseResponse {
     isSnoozed: boolean
     contactPersonNumber: string
     isPartner: boolean
+    PartneredBy: User
     studentCapacity: number | null
     courses: Course[]
     branches: Industry[]
