@@ -178,7 +178,7 @@ export const IndustryInfoBoxCard = ({
                                     </Link>
                                 </div>
 
-                                {!appliedIndustry && (
+                                {!appliedIndustry && workplaceMapCard && (
                                     // !industry?.applied &&
                                     // industry?.industryResponse !== 'noResponse' &&
                                     // industry?.industryResponse !== 'rejected' &&
