@@ -1,8 +1,15 @@
 import { SubAdminApi } from '@queries'
 import { useNotification } from '@hooks'
 import { ReactElement, useState } from 'react'
-import { ShowErrorNotifications, Switch, Typography } from '@components'
+import {
+    ShowErrorNotifications,
+    Switch,
+    Tooltip,
+    TooltipPosition,
+    Typography,
+} from '@components'
 import { AddToPartnerModal } from '@partials/sub-admin/Industries/modals/AddToPartnerModal'
+import { IoInformationCircleSharp } from 'react-icons/io5'
 
 export const MakeIndustryPartner = ({
     industryId,
@@ -47,9 +54,17 @@ export const MakeIndustryPartner = ({
             {modal}
             <ShowErrorNotifications result={addToPartnerResult} />
             <div className="py-4 border-b border-secondary-dark flex justify-between items-center">
-                <Typography variant="small" medium>
-                    Partner :
-                </Typography>
+                <div className="flex items-center gap-x-1">
+                    <Typography variant="small" medium>
+                        Partner
+                    </Typography>
+                    <div className="relative group ">
+                        <IoInformationCircleSharp className="text-lg mt-0.5 text-gray-400 hover:text-gray-600 transition-all" />
+                        <Tooltip position={TooltipPosition.left}>
+                            Updated By :Saad
+                        </Tooltip>
+                    </div>
+                </div>
                 <div className="flex items-center gap-x-2">
                     <Typography variant="small" bold color={'text-[#BF0000]'}>
                         NO

@@ -13,12 +13,15 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { MdCancel } from 'react-icons/md'
 import * as Yup from 'yup'
 import { ShowDuplicatedIndustriesModal } from './ShowDuplicatedIndustriesModal'
+import { IndustryListingDepartment } from '../enum'
 
 export const ImportIndustriesListVerificationModal = ({
     onCancel,
     industries,
     onSetImportListResult,
+    selectedDepartment,
 }: {
+    selectedDepartment: IndustryListingDepartment | null
     industries: any
     onCancel: () => void
     onSetImportListResult: any
@@ -42,6 +45,7 @@ export const ImportIndustriesListVerificationModal = ({
         importList({
             industries: industries?.map((ind: any) => ({
                 ...ind,
+                department: selectedDepartment,
                 email: ind?.email ? ind?.email?.replace(/\r\n\r\n/g, '') : '',
                 region: ind?.states,
                 sector: ind?.sector
