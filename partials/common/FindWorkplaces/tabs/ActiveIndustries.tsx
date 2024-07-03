@@ -170,7 +170,6 @@ export const ActiveIndustries = ({
         contextBar.setTitle('Edit Future Industry')
     }
     // const onViewNote = ({ note }: any) => {
-    //     console.log('info?.row?.original?.note', note)
     //     setModal(
     //         <GlobalModal>
     //             <ViewIndustryListingNoteModal
@@ -380,38 +379,50 @@ export const ActiveIndustries = ({
             cell: (info) => {
                 return (
                     <>
-                        {info?.row?.original?.note !== null ? (
+                        <div className="flex items-center">
+                            {info?.row?.original?.note ? (
+                                <div>
+                                    <ActionButton
+                                        variant="info"
+                                        simple
+                                        onClick={() => {
+                                            onViewNote(
+                                                info?.row?.original?.note,
+                                                info?.row?.original
+                                                    ?.businessName
+                                            )
+                                        }}
+                                    >
+                                        View
+                                    </ActionButton>
+                                </div>
+                            ) : null}
+
                             <div>
                                 <ActionButton
                                     variant="info"
                                     simple
                                     onClick={() => {
-                                        onViewNote(
-                                            info?.row?.original?.note,
-                                            info?.row?.original?.businessName
+                                        setModal(
+                                            <GlobalModal>
+                                                <AddIndustryListingNoteModal
+                                                    onCancel={
+                                                        onModalCancelClicked
+                                                    }
+                                                    id={info?.row?.original?.id}
+                                                    noteData={
+                                                        info?.row?.original
+                                                            ?.note
+                                                    }
+                                                />
+                                            </GlobalModal>
                                         )
                                     }}
                                 >
-                                    View
+                                    {info?.row?.original?.note ? 'Edit' : 'Add'}
                                 </ActionButton>
                             </div>
-                        ) : (
-                            <div
-                                className="text-blue-500 text-xs cursor-pointer hover:underline"
-                                onClick={() => {
-                                    setModal(
-                                        <GlobalModal>
-                                            <AddIndustryListingNoteModal
-                                                onCancel={onModalCancelClicked}
-                                                id={info?.row?.original?.id}
-                                            />
-                                        </GlobalModal>
-                                    )
-                                }}
-                            >
-                                Add Note
-                            </div>
-                        )}
+                        </div>
                     </>
                 )
             },

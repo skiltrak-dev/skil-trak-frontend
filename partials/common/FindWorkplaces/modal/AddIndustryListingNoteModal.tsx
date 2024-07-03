@@ -3,13 +3,22 @@ import { Button, ShowErrorNotifications, TextArea } from '@components'
 import { IoMdCloseCircle } from 'react-icons/io'
 import { CommonApi } from '@queries'
 import { useNotification } from '@hooks'
-export const AddIndustryListingNoteModal = ({ onCancel, id }: any) => {
+export const AddIndustryListingNoteModal = ({
+    onCancel,
+    id,
+    noteData,
+}: any) => {
     const [note, setNote] = useState<string>('')
     const { notification } = useNotification()
-    console.log('id', id)
     // useAddFutureIndustryListingNote
     const [addNote, addNoteResult] =
         CommonApi.FindWorkplace.useAddFutureIndustryListingNote()
+
+    useEffect(() => {
+        if (noteData) {
+            setNote(noteData)
+        }
+    }, [noteData])
 
     useEffect(() => {
         if (addNoteResult.isSuccess) {
@@ -43,10 +52,17 @@ export const AddIndustryListingNoteModal = ({ onCancel, id }: any) => {
                         setNote(e?.target?.value)
                     }}
                     name="note"
+                    value={note}
                     rows={5}
                     placeholder="Enter Note here..."
                 />
-                <Button text={'Add Note'} onClick={onAddNote} />
+                <Button
+                    text={noteData ? 'Edit Note' : 'Add Note'}
+                    onClick={onAddNote}
+                    outline={noteData ? true : false}
+                    loading={addNoteResult?.isLoading}
+                    disabled={addNoteResult?.isLoading}
+                />
             </div>
         </>
     )

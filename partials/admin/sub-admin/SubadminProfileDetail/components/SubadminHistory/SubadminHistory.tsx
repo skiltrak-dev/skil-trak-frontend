@@ -46,7 +46,9 @@ export const SubadminHistory = ({
                     : filterType === FilterType.Range
                     ? {
                           startDate: customRangeDate?.startDate?.toISOString(),
-                          endDate: customRangeDate?.endDate?.toISOString(),
+                          endDate: moment(customRangeDate?.endDate)
+                              .add(1, 'day')
+                              .toISOString(),
                       }
                     : filterType === FilterType['7Days']
                     ? { last7days: undefined }
@@ -63,7 +65,10 @@ export const SubadminHistory = ({
                 limit: itemPerPage,
             },
             {
-                skip: !isViewd,
+                skip:
+                    !isViewd ||
+                    !customRangeDate?.startDate ||
+                    !customRangeDate?.endDate,
                 refetchOnMountOrArgChange: true,
             }
         )
