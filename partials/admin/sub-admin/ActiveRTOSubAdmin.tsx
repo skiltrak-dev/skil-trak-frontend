@@ -28,7 +28,9 @@ import {
     AllowLoginAfterHoursModal,
     ArchiveModal,
     AssignAutoWorkplaceModal,
+    AssociatedWithRTOModal,
     BlockModal,
+    RemoveFromAssociatedRTOModal,
 } from './modals'
 import { UserRoles } from '@constants'
 import { RtoCellInfo } from '../rto/components'
@@ -67,8 +69,8 @@ export const ActiveRTOSubAdmin = () => {
             }
         )
 
-    // const [associatedWithRto, associatedWithRtoResult] =
-    //     AdminApi.SubAdmins.useAssociatedWithRto()
+    const [associatedWithRto, associatedWithRtoResult] =
+        AdminApi.SubAdmins.useAssociatedWithRto()
 
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
@@ -130,6 +132,16 @@ export const ActiveRTOSubAdmin = () => {
         contextBar.setTitle('Edit SubAdmin')
         contextBar.show()
     }
+
+    const onRemoveWithRtoClicked = (subadminId: number) => {
+        setModal(
+            <RemoveFromAssociatedRTOModal
+                subadminId={subadminId}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
     const role = getUserCredentials()?.role
     const tableActionOptions = (subAdmin: any) => {
         return [
@@ -316,24 +328,21 @@ export const ActiveRTOSubAdmin = () => {
             //     </Typography>
             // ),
         },
-        // {
-        //     accessorKey: 'associated',
-        //     header: () => <span>associated</span>,
-        //     cell: (info: any) => {
-        //         return (
-        //             <ActionButton
-        //                 onClick={() => {
-        //                     associatedWithRto({
-        //                         id: info?.row?.original?.id,
-        //                         rtoId: info?.row?.original?.rtos?.[0]?.id,
-        //                     })
-        //                 }}
-        //             >
-        //                 Associated With Rto
-        //             </ActionButton>
-        //         )
-        //     },
-        // },
+        {
+            accessorKey: 'associated',
+            header: () => <span>associated</span>,
+            cell: (info: any) => {
+                return (
+                    <ActionButton
+                        onClick={() => {
+                            onRemoveWithRtoClicked(info?.row?.original?.id)
+                        }}
+                    >
+                        Remove From Rto
+                    </ActionButton>
+                )
+            },
+        },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,

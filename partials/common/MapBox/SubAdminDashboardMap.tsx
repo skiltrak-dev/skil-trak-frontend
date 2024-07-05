@@ -71,21 +71,6 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                                         const { lat, lng } =
                                             results[0].geometry.location
                                         setSuburbLocation({ lat, lng })
-                                        // console.log({
-                                        //     map,
-                                        //     lat,
-                                        //     lng,
-                                        //     outer: true,
-                                        // })
-                                        // if (map) {
-                                        //     console.log({
-                                        //         map,
-                                        //         lat,
-                                        //         lng,
-                                        //     })
-                                        //     map.setCenter({ lat, lng })
-                                        //     map.setZoom(8)
-                                        // }
                                     })
                                     .catch(console.error)
                             }
@@ -121,8 +106,8 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                             }
                         }}
                         placeholder="Select Sector"
-                    /> 
-                    
+                    />
+
                     <div className="pt-4">
                         <Checkbox
                             name="workplaceType"

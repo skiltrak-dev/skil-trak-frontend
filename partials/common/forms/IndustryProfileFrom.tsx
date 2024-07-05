@@ -24,14 +24,13 @@ import { useActionModal, useContextBar, useNotification } from '@hooks'
 import { UserRoles } from '@constants'
 import { AuthApi, CommonApi } from '@queries'
 import { Course } from '@types'
-import { useRouter } from 'next/router'
 import {
     CourseSelectOption,
     formatOptionLabel,
-    isEmailValid,
     onlyNumbersAcceptedInYup,
     removeEmptySpaces,
 } from '@utils'
+import { useRouter } from 'next/router'
 
 const validationSchema = yup.object({
     // Profile Information
@@ -112,8 +111,6 @@ export const IndustryProfileFrom = ({
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
-
-    const formValues = formMethods.watch()
 
     const country = CommonApi.Countries.useCountriesList()
     const { data: states, isLoading: statesLoading } =
@@ -224,8 +221,6 @@ export const IndustryProfileFrom = ({
         chkDefaultOptions && setCourseValues(newCourseOptions)
     }
 
-    useEffect(() => {}, [formMethods, profile])
-
     const statesOption = useMemo(
         () =>
             states?.map((state: any) => ({
@@ -291,21 +286,6 @@ export const IndustryProfileFrom = ({
                     label: c?.title,
                 })),
                 state: profile?.data?.region?.name,
-                ...(profile?.data?.country?.id
-                    ? {
-                          country: countryOptions?.find(
-                              (c: any) =>
-                                  c?.value === profile?.data?.country?.id
-                          ),
-                      }
-                    : {}),
-                ...(profile?.data?.region?.id
-                    ? {
-                          region: statesOption?.find(
-                              (s: any) => s?.value === profile?.data?.region?.id
-                          ),
-                      }
-                    : {}),
                 isPartner: isPartner ? 'yes' : 'no',
             }
             for (const key in values) {
@@ -320,8 +300,7 @@ export const IndustryProfileFrom = ({
             }
             setIsPartner(profile?.data?.isPartner ? 'yes' : 'no')
         }
-    }, [profile, countryOptions, statesOption])
-
+    }, [profile])
 
     const onBlur = (e: any) => {
         const abn = e.target?.value
@@ -572,12 +551,6 @@ export const IndustryProfileFrom = ({
                                         }}
                                     />
 
-                                    {/* <TextInput
-                                        label={'State'}
-                                        name={'state'}
-                                        placeholder={'State...'}
-                                        validationIcons
-                                    /> */}
                                     <Select
                                         name="region"
                                         label={'State'}
