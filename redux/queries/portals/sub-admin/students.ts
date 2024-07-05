@@ -33,6 +33,18 @@ export const studentsEndpoints = (
             'Students',
         ],
     }),
+    getSubAdminSnoozedStudents: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/snoozed/students/list`,
+            params,
+        }),
+        providesTags: [
+            'SubAdminStudents',
+            'BulkUsersDelete',
+            'BulkStatus',
+            'Students',
+        ],
+    }),
     getRtoSubadminStudents: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}/students/list-all`,
@@ -497,6 +509,23 @@ export const studentsEndpoints = (
     problamaticStudent: builder.mutation<any, number>({
         query: (id) => ({
             url: `shared/student/${id}/has-issue/toggle`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Students', 'SubAdminStudents'],
+    }),
+
+    snoozeStudent: builder.mutation<Student, { id: number; date: Date }>({
+        query: ({ id, date }) => ({
+            url: `${PREFIX}/student/snooze/${id}`,
+            method: 'POST',
+            body: { date },
+        }),
+        invalidatesTags: ['Students', 'SubAdminStudents'],
+    }),
+
+    unSnoozeStudent: builder.mutation<Student, number>({
+        query: (id) => ({
+            url: `${PREFIX}/student/reactivate/${id}`,
             method: 'PATCH',
         }),
         invalidatesTags: ['Students', 'SubAdminStudents'],

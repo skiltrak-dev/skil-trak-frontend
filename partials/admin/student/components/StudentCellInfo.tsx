@@ -10,7 +10,7 @@ import { BiMessageRoundedDots } from 'react-icons/bi'
 import { FiPhoneOff } from 'react-icons/fi'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { LuFlagTriangleRight } from 'react-icons/lu'
-import { MdEmail, MdPhone } from 'react-icons/md'
+import { MdEmail, MdPhone, MdSnooze } from 'react-icons/md'
 
 export const StudentCellInfo = ({
     student,
@@ -160,6 +160,9 @@ export const StudentCellInfo = ({
                                 <BiMessageRoundedDots className="text-primary text-lg" />
                                 <Tooltip>Ticket Created</Tooltip>
                             </div>
+                        ) : null}
+                        {student?.isSnoozed ? (
+                            <MdSnooze size={14} className="text-red-500" />
                         ) : null}
                     </div>
                     <div className="font-medium text-xs text-gray-500">

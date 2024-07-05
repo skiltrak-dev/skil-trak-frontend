@@ -10,7 +10,7 @@ import { FaEnvelope, FaPhone } from 'react-icons/fa'
 import { FiPhoneOff } from 'react-icons/fi'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { LuFlagTriangleRight } from 'react-icons/lu'
-import { RiErrorWarningFill } from 'react-icons/ri'
+import { MdSnooze } from 'react-icons/md'
 
 export const StudentCellInfo = ({
     student,
@@ -19,7 +19,6 @@ export const StudentCellInfo = ({
     student: Student
     call?: boolean
 }) => {
-    console.log({ student })
     const router = useRouter()
 
     useScrollIntoView(student) // Scroll into view with scroll ID
@@ -158,6 +157,9 @@ export const StudentCellInfo = ({
                                     <BsTicketDetailed className="text-black text-lg" />
                                     <Tooltip>Ticket Created</Tooltip>
                                 </div>
+                            ) : null}
+                            {student?.isSnoozed ? (
+                                <MdSnooze size={14} className="text-red-500" />
                             ) : null}
                         </div>
                         <div className="flex items-center gap-x-2 text-sm">
