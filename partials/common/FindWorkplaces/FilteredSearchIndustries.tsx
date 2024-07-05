@@ -2,6 +2,7 @@ import {
     ActionButton,
     Card,
     EmptyData,
+    GlobalModal,
     InitialAvatar,
     LoadingAnimation,
     Table,
@@ -29,9 +30,11 @@ import { DefaultModal } from './DefaultModal'
 import { DoNotDisturbModal } from './DoNotDisturbModal'
 import { FavoriteModal } from './FavoriteModal'
 import {
+    AddIndustryListingNoteModal,
     AddToSignupModal,
     DeleteFutureIndustryModal,
     DeleteMultiFutureIndustryModal,
+    ViewNoteModal,
 } from './modal'
 import { checkListLength } from '@utils'
 import Image from 'next/image'
@@ -123,6 +126,16 @@ export const FilteredSearchIndustries = ({
         )
         contextBar.show(false)
         contextBar.setTitle('Edit Future Industry')
+    }
+
+    const onViewNote = (note: string, industryName: string) => {
+        setModal(
+            <ViewNoteModal
+                onCancel={onModalCancelClicked}
+                note={note}
+                industryName={industryName}
+            />
+        )
     }
 
     // const tableActionOptions: TableActionOption[] = [
@@ -316,6 +329,60 @@ export const FilteredSearchIndustries = ({
                             </div>
                         )}
                     </div>
+                )
+            },
+        },
+        {
+            accessorKey: 'note',
+            header: () => <div>Note</div>,
+            cell: (info) => {
+                return (
+                    <>
+                        <div className="flex items-center">
+                            {info?.row?.original?.note ? (
+                                <div>
+                                    <ActionButton
+                                        variant="info"
+                                        simple
+                                        onClick={() => {
+                                            onViewNote(
+                                                info?.row?.original?.note,
+                                                info?.row?.original
+                                                    ?.businessName
+                                            )
+                                        }}
+                                    >
+                                        View
+                                    </ActionButton>
+                                </div>
+                            ) : null}
+
+                            <div>
+                                <ActionButton
+                                    variant="info"
+                                    simple
+                                    onClick={() => {
+                                        setModal(
+                                            <GlobalModal>
+                                                <AddIndustryListingNoteModal
+                                                    onCancel={
+                                                        onModalCancelClicked
+                                                    }
+                                                    id={info?.row?.original?.id}
+                                                    noteData={
+                                                        info?.row?.original
+                                                            ?.note
+                                                    }
+                                                />
+                                            </GlobalModal>
+                                        )
+                                    }}
+                                >
+                                    {info?.row?.original?.note ? 'Edit' : 'Add'}
+                                </ActionButton>
+                            </div>
+                        </div>
+                    </>
                 )
             },
         },
