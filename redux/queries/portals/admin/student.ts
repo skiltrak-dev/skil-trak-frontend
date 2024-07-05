@@ -41,6 +41,16 @@ export const studentEndpoints = (
             'BulkStatus',
         ],
     }),
+    getSnoozedStudents: builder.query<
+        PaginatedResponse<Student>,
+        PaginationValues
+    >({
+        query: (params) => ({
+            url: `${PREFIX}snoozed/students/list`,
+            params,
+        }),
+        providesTags: ['Students'],
+    }),
 
     completedStudents: builder.query<
         PaginatedResponse<Student>,

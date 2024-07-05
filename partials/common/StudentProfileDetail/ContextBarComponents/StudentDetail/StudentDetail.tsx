@@ -35,7 +35,6 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
         (state) => state?.isoCode
     )
 
-    console.log({ stateCodes })
     return (
         <div className="mt-5">
             {modal}

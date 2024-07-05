@@ -8,8 +8,13 @@ import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useState } from 'react'
 import { IoMdEyeOff } from 'react-icons/io'
 import { RiEditFill } from 'react-icons/ri'
-import { MailPasswordModal } from '../modals'
+import {
+    MailPasswordModal,
+    SnoozeStudentModal,
+    UnSnoozeStudentModal,
+} from '../modals'
 import { CiUnlock } from 'react-icons/ci'
+import { MdSnooze } from 'react-icons/md'
 
 export const ProfileLinks = ({ profile }: { profile: Student }) => {
     const router = useRouter()
@@ -28,6 +33,21 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
     const onMailPasswordToStudent = (student: Student) => {
         setModal(
             <MailPasswordModal onCancel={onCancelClicked} student={student} />
+        )
+    }
+
+    const onSnooze = () => {
+        setModal(
+            <SnoozeStudentModal onCancel={onCancelClicked} student={profile} />
+        )
+    }
+
+    const UnSnoozeModal = () => {
+        setModal(
+            <UnSnoozeStudentModal
+                onCancel={onCancelClicked}
+                student={profile}
+            />
         )
     }
 
@@ -74,6 +94,13 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
                         ? `/portals/rto/students/${profile?.id}/edit-student`
                         : '#'
                 )
+            },
+        },
+        {
+            text: profile?.isSnoozed ? 'Un-Snooze' : 'Snooze',
+            Icon: MdSnooze,
+            onClick: () => {
+                profile?.isSnoozed ? UnSnoozeModal() : onSnooze()
             },
         },
     ]

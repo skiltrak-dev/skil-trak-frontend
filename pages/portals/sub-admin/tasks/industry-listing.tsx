@@ -8,12 +8,13 @@ import {
     TabProps,
     TechnicalError,
 } from '@components'
+import { FigureCard } from '@components/sections/subAdmin'
 import { useContextBar } from '@hooks'
 import { SubAdminLayout } from '@layouts'
 import { ActiveIndustries, AddIndustry } from '@partials/common'
 import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
 import { ImportIndustriesListWithOTP } from '@partials/common/FindWorkplaces/contextBar'
-import { commonApi } from '@queries'
+import { CommonApi, commonApi } from '@queries'
 import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
 import { checkFilteredDataLength } from '@utils'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
@@ -48,6 +49,7 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    const count = CommonApi.FindWorkplace.useGetFindWorkplacesCount()
 
     const onSetIndustryData = useCallback((data: any) => {
         setIndustryData(data)
@@ -149,13 +151,47 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
                             <div>
                                 <div className="flex items-end justify-between">
                                     <div className="flex-grow">{header}</div>
-                                    <div className="px-6">
-                                        {/* <Button
-                                            text={'Add Sub Admin'}
-                                            variant={'primary'}
-                                            onClick={onAddSubAdmin}
-                                        /> */}
-                                    </div>
+                                </div>
+                                <div className="flex items-center gap-x-2 mt-3">
+                                    <FigureCard
+                                        count={count?.data?.all}
+                                        loading={count?.isLoading}
+                                        title={'All Industries'}
+                                        imageUrl={
+                                            '/images/icons/allIndustry.png'
+                                        }
+                                    />
+                                    <FigureCard
+                                        count={count?.data?.myAddedIndustries}
+                                        loading={count?.isLoading}
+                                        title={'My Added Industries'}
+                                        imageUrl={
+                                            '/images/icons/allIndustry.png'
+                                        }
+                                    />
+                                    <FigureCard
+                                        count={count?.data?.newlyCreated}
+                                        loading={count?.isLoading}
+                                        title={'Today Added Industries'}
+                                        imageUrl={
+                                            '/images/icons/newlyAdded.png'
+                                        }
+                                    />
+                                    <FigureCard
+                                        count={count?.data?.favourite}
+                                        loading={count?.isLoading}
+                                        title={'Favourite Industries'}
+                                        imageUrl={'/images/icons/favorite.png'}
+                                    />
+
+                                    <FigureCard
+                                        count={count?.data?.doNotDisturb}
+                                        loading={count?.isLoading}
+                                        title={'Do Not Disturb'}
+                                        imageUrl={
+                                            '/images/icons/doNotDisturb.jpg'
+                                        }
+                                    />
                                 </div>
                                 <div className="p-4">{element}</div>
                             </div>

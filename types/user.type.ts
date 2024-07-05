@@ -124,9 +124,10 @@ export interface Student extends BaseResponse {
     assessmentEvidence: any[]
     workplace: IWorkplaceIndustries[]
     callLog: CallLog[]
-
     gender: string
     tickets: any
+    isSnoozed: boolean
+    snoozedDate: Date
 }
 
 interface UserExtend extends User {

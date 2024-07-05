@@ -60,7 +60,10 @@ export const ImportIndustriesListVerificationModal = ({
                 onCancel()
                 notification.success({
                     title: 'Success',
-                    description: 'Industries imported successfully',
+                    description:
+                        res?.data?.message ||
+                        'Industries imported successfully',
+                    dissmissTimer: 6666,
                 })
             }
         })

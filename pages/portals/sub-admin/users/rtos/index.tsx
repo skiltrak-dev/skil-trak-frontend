@@ -156,9 +156,7 @@ const RTOs: NextPageWithLayout = () => {
         {
             header: () => 'Courses',
             accessorKey: 'courses',
-            cell: (info) => {
-                return <SectorCell rto={info.row.original} />
-            },
+            cell: (info) => <SectorCell rto={info.row.original} />,
         },
         {
             header: () => 'Address',

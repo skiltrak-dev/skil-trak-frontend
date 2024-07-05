@@ -1,7 +1,4 @@
-import {
-    SubAdminStudentsFilterType,
-    UserStatus
-} from '@types'
+import { SubAdminStudentsFilterType, UserStatus } from '@types'
 import debounce from 'lodash/debounce'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -28,6 +25,7 @@ import {
     PendingStudents,
     PlacementStartedStudents,
     RejectedStudents,
+    SnoozedStudents,
     UrgentStudents,
 } from '@partials/sub-admin/students'
 
@@ -190,6 +188,18 @@ export const SubadminStudents = () => {
                 query: { tab: 'placement-started-students' },
             },
             element: <PlacementStartedStudents />,
+        },
+        {
+            label: 'Snoozed Students',
+            badge: {
+                text: studentCount?.snoozed,
+                loading: count.isLoading,
+            },
+            href: {
+                pathname: 'students',
+                query: { tab: 'snoozed-students' },
+            },
+            element: <SnoozedStudents />,
         },
         {
             label: 'Rejected',

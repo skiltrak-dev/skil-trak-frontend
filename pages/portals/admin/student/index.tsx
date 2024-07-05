@@ -22,6 +22,7 @@ import {
     FilteredStudents,
     PendingStudent,
     RejectedStudent,
+    SnoozedStudents,
 } from '@partials/admin/student'
 import { AdminApi } from '@queries'
 import { NextPageWithLayout, StudentsFilterType, UserStatus } from '@types'
@@ -180,6 +181,18 @@ const StudentList: NextPageWithLayout = () => {
                 loading: isLoading,
             },
             element: <CompletedStudents />,
+        },
+        {
+            label: 'Snoozed Students',
+            href: {
+                pathname: 'student',
+                query: { tab: 'snoozed-students' },
+            },
+            badge: {
+                text: data?.snoozed,
+                loading: isLoading,
+            },
+            element: <SnoozedStudents />,
         },
         {
             label: 'All Students Report',
