@@ -33,7 +33,6 @@ export const AssociatedWithRTOModal = ({
     }))
 
     const onSubmit = (values: any) => {
-        console.log({ values })
         associatedWithRto({
             id: subadminId,
             rtoId: values?.rto,
@@ -57,7 +56,7 @@ export const AssociatedWithRTOModal = ({
                 <FormProvider {...formMethods}>
                     <form className="flex flex-col gap-y-4">
                         <Select
-                            label={'Courses'}
+                            label={'Select Rto'}
                             name={'rto'}
                             options={rtoOptions}
                             validationIcons
