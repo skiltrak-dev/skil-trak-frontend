@@ -27,8 +27,6 @@ import {
     TextInput,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Course } from '@types'
-import { IoIosArrowRoundBack } from 'react-icons/io'
 
 export const FutureIndustrySignUpForm = ({
     result,

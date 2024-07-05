@@ -104,6 +104,13 @@ export const subAdminEndpoints = (
         }),
         invalidatesTags: ['SubAdmins', 'Rto-Coordinators'],
     }),
+    removeWithRto: builder.mutation<SubAdmin, number>({
+        query: (id) => ({
+            url: `${PREFIX}/coordinator/${id}/working-with-update`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdmins', 'Rto-Coordinators'],
+    }),
 
     subAdminUnAssignCourses: builder.mutation<
         SubAdmin,

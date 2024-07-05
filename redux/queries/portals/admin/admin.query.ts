@@ -210,6 +210,7 @@ const {
     useViewSummaryQuery,
     useSubAdminCountQuery,
     useSubAdminProfileQuery,
+    useRemoveWithRtoMutation,
     useSubadminRemoveMutation,
     useCreateSubAdminMutation,
     useUpdateSubAdminMutation,
@@ -350,6 +351,7 @@ export const AdminApi = {
         useSubadminProfile: useSubAdminProfileQuery,
         useUpdate: useUpdateSubAdminMutation,
         useRemove: useSubadminRemoveMutation,
+        useRemoveWithRto: useRemoveWithRtoMutation,
         useAssociatedWithRto: useAssociatedWithRtoMutation,
         useToggleAutoAssignWorkplace: useToggleAutoWorkplaceAssignmentMutation,
 

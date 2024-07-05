@@ -34,6 +34,7 @@ import {
     AssignAutoWorkplaceModal,
     BlockModal,
     AllowRtoListingModal,
+    AssociatedWithRTOModal,
 } from './modals'
 
 export const ActiveSubAdmin = () => {
@@ -68,6 +69,8 @@ export const ActiveSubAdmin = () => {
             }
         )
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
+    const [associatedWithRto, associatedWithRtoResult] =
+        AdminApi.SubAdmins.useAssociatedWithRto()
 
     useEffect(() => {
         if (changeStatusResult.isSuccess) {
@@ -136,7 +139,18 @@ export const ActiveSubAdmin = () => {
         contextBar.setTitle('Edit SubAdmin')
         contextBar.show()
     }
+
+    const onAssociatedWithRtoClicked = (subadminId: number, rtos: Rto[]) => {
+        setModal(
+            <AssociatedWithRTOModal
+                rtos={rtos}
+                subadminId={subadminId}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
     const role = getUserCredentials()?.role
+
     const tableActionOptions = (subAdmin: any) => {
         return [
             {
@@ -286,6 +300,28 @@ export const ActiveSubAdmin = () => {
                     text={info?.row?.original?.addressLine1}
                 />
             ),
+        },
+        {
+            accessorKey: 'associated',
+            header: () => <span>associated</span>,
+            cell: (info: any) => {
+                return (
+                    <ActionButton
+                        onClick={() => {
+                            // associatedWithRto({
+                            //     id: info?.row?.original?.id,
+                            //     rtoId: info?.row?.original?.rtos?.[0]?.id,
+                            // })
+                            onAssociatedWithRtoClicked(
+                                info?.row?.original?.id,
+                                info?.row?.original?.rtos
+                            )
+                        }}
+                    >
+                        Associated With Rto
+                    </ActionButton>
+                )
+            },
         },
         {
             accessorKey: 'createdBy.role',
