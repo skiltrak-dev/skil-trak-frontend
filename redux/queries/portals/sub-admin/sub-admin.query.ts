@@ -207,6 +207,7 @@ export const {
     // ----- STUDENTS-------//
     useGetSubAdminStudentsQuery,
     useGetRtoSubadminStudentsQuery,
+    useGetSubAdminSnoozedStudentsQuery,
     useGetSubAdminUrgentStudentsQuery,
     useSubadminCompletedStudentsQuery,
     useGetSubAdminTicketStudentsListQuery,
@@ -257,6 +258,8 @@ export const {
     useStudentAnsweredCallMutation,
     useDownloadStudentCSVMutation,
     useFindSuggestedIndustriesQuery,
+    useSnoozeStudentMutation,
+    useUnSnoozeStudentMutation,
 
     // -- COUNT -- //
     useSubadminStatisticsQuery,
@@ -401,6 +404,7 @@ export const SubAdminApi = {
         useCount: useSubAdminStudentCountQuery,
         useList: useGetSubAdminStudentsQuery,
         useRtoSubadminStudentsList: useGetRtoSubadminStudentsQuery,
+        useSnoozedStudents: useGetSubAdminSnoozedStudentsQuery,
         useUrgentStudents: useGetSubAdminUrgentStudentsQuery,
         useCompletedStudents: useSubadminCompletedStudentsQuery,
         useSubAdminStudentList: useGetSubAdminTicketStudentsListQuery,
@@ -431,6 +435,8 @@ export const SubAdminApi = {
         useUpdateCourseStartEndDate: useUpdateCourseStartEndDateMutation,
         useNonContactableStudents: useGetSubAdminNonContactableStudentsQuery,
         useFindSuggestedIndustries: useFindSuggestedIndustriesQuery,
+        useSnoozeStudent: useSnoozeStudentMutation,
+        useUnSnoozeStudent: useUnSnoozeStudentMutation,
     },
     Industry: {
         useAddToPartner: useAddToPartnerMutation,

@@ -20,7 +20,7 @@ export const CaseOfficerAssignedStudent = ({
         ?.filter(
             (w: any) => w?.currentStatus !== WorkplaceCurrentStatus.Cancelled
         )
-        ?.reduce((a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b), {
+        ?.reduce((a: any, b: any) => (b?.createdAt > a?.createdAt ? a : b), {
             currentStatus: WorkplaceCurrentStatus.NotRequested,
         })
     const industries = student?.industries

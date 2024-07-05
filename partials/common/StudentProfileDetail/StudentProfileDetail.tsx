@@ -1,4 +1,5 @@
 import {
+    Alert,
     EmptyData,
     LoadingAnimation,
     PageTitle,
@@ -26,6 +27,7 @@ import {
     Workplace,
 } from './components'
 import { ProfileAppointments } from '../ProfileAppointments'
+import moment from 'moment'
 
 const Schedule = dynamic(() => import('./components/Schedule/Schedule'), {
     ssr: false,
@@ -180,6 +182,16 @@ export const StudentProfileDetail = () => {
 
     return (
         <div>
+            {profile?.data?.isSnoozed && (
+                <Alert
+                    title="Student Snoozed"
+                    description={`Student Snoozed till ${moment(
+                        profile?.data?.snoozedDate
+                    ).format('MMM DD YYYY')}`}
+                    variant="warning"
+                    autoDismiss={false}
+                />
+            )}
             <div className="flex justify-between items-center gap-x-3">
                 <div className="flex items-center gap-x-2.5">
                     <div
