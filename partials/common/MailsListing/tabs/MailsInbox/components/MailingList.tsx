@@ -3,14 +3,17 @@ import { MailListCard } from '../Cards'
 import { MailLoadingSkeleton } from './MailLoadingSkeleton'
 
 export const MailingList = ({
+    sender,
     mailsList,
     onSelectMails,
     selectedMails,
 }: {
+    sender?: boolean
     selectedMails: any
     onSelectMails: (type: string, id?: number) => void
     mailsList: any
 }) => {
+    console.log({ sender })
     return (
         <div className="shadow-[0px_0px_10px_0px_rgba(0,0,0,0.05)]">
             {mailsList?.isLoading || mailsList?.isFetching ? (
@@ -24,7 +27,8 @@ export const MailingList = ({
                     <MailListCard
                         key={mail?.id}
                         mailDetail={mail}
-                        user={mail?.receiver}
+                        user={sender ? mail?.receiver : mail?.sender}
+                        // user={mail?.receiver}
                         onSelectMails={() => {
                             onSelectMails('single', mail?.id)
                         }}

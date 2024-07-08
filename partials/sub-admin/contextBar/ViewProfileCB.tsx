@@ -1,20 +1,19 @@
-import { ActionButton, LoadingAnimation, Typography } from '@components'
-import { SubAdminApi } from '@queries'
 import Image from 'next/image'
+import { SubAdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import { AiFillEdit } from 'react-icons/ai'
+import { IoLocation } from 'react-icons/io5'
 import { BsUnlockFill } from 'react-icons/bs'
 import { FaAddressCard } from 'react-icons/fa'
-import { IoLocation } from 'react-icons/io5'
+import { ActionButton, Typography } from '@components'
 import { MdAdminPanelSettings, MdPhone, MdVerified } from 'react-icons/md'
 
 // hooks
-import { useActionModal } from '@hooks'
 import Link from 'next/link'
-import { PulseLoader } from 'react-spinners'
-import { SubAdmin, UserStatus } from '@types'
+import { useActionModal } from '@hooks'
 import { getUserCredentials } from '@utils'
-
+import { SubAdmin, UserStatus } from '@types'
+import { PulseLoader } from 'react-spinners'
 export const ViewProfileCB = ({
     subadmin,
     statistics,
@@ -22,8 +21,8 @@ export const ViewProfileCB = ({
     statistics: any
     subadmin: SubAdmin
 }) => {
-    const status = getUserCredentials()?.status
     const router = useRouter()
+    const status = getUserCredentials()?.status
 
     const todoListCount = SubAdminApi.Todo.todoListCount(undefined, {
         skip: status !== UserStatus.Approved,

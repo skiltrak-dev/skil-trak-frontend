@@ -34,6 +34,7 @@ export const SenderMailsInbox = () => {
                 pagination={mailsList?.data?.pagination}
             />
             <MailingList
+                sender
                 selectedMails={selectedMails}
                 mailsList={mailsList}
                 onSelectMails={onSelectMails}
