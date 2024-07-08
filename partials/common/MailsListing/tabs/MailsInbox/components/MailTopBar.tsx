@@ -114,7 +114,7 @@ export const MailTopBar = ({
                                         }}
                                         className="cursor-pointer text-xl"
                                     />
-                                    <Tooltip>Real All Selected Mails</Tooltip>
+                                    <Tooltip>Read Selected</Tooltip>
                                 </div>
                                 <div className="relative group">
                                     <MdDelete
@@ -123,7 +123,7 @@ export const MailTopBar = ({
                                         }}
                                         className="cursor-pointer text-xl"
                                     />
-                                    <Tooltip>Delete All Selected Mails</Tooltip>
+                                    <Tooltip>Delete Selected</Tooltip>
                                 </div>
                             </>
                         ) : null}

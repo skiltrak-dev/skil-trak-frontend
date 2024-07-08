@@ -1,15 +1,16 @@
 import {
-    Card,
+    Button,
     EmptyData,
     LoadingAnimation,
     TechnicalError,
-    Typography,
 } from '@components'
 import { SubAdminLayout } from '@layouts'
+import { DetailMailTopbar, TitleAndDate } from '@partials/common'
 import { CommonApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
-import React, { ReactElement, useEffect } from 'react'
+import { ReactElement, useEffect } from 'react'
+import { HiOutlineReply } from 'react-icons/hi'
 
 const EmailDetail: NextPageWithLayout = () => {
     const router = useRouter()
@@ -30,28 +31,34 @@ const EmailDetail: NextPageWithLayout = () => {
 
     return (
         <div>
-            <Card shadowType="profile">
-                {mailDetail.isError ? <TechnicalError /> : null}
-                {mailDetail?.isLoading ? (
-                    <LoadingAnimation height="h-[60vh]" />
-                ) : mailDetail?.data ? (
-                    <div>
-                        <Typography semibold>
-                            Subject : {mailDetail?.data?.subject}
-                        </Typography>
-                        <div>
-                            <Typography variant={'label'}>Message</Typography>
-                            <div
-                                dangerouslySetInnerHTML={{
-                                    __html: mailDetail?.data?.message,
-                                }}
-                            />
-                        </div>
+            {mailDetail.isError ? <TechnicalError /> : null}
+            {mailDetail?.isLoading ? (
+                <LoadingAnimation height="h-[60vh]" />
+            ) : mailDetail?.data ? (
+                <div>
+                    <DetailMailTopbar mailDetail={mailDetail?.data} />
+                    <TitleAndDate mailDetail={mailDetail?.data} />
+                    <div className="p-5 bg-gray-100 border border-gray-400 border-dashed rounded-xl shadow-xl">
+                        <div
+                            className="text-sm"
+                            dangerouslySetInnerHTML={{
+                                __html: mailDetail?.data?.message,
+                            }}
+                        />
                     </div>
-                ) : mailDetail?.isSuccess ? (
-                    <EmptyData />
-                ) : null}
-            </Card>
+
+                    <div className="mt-5 flex justify-end ml-auto">
+                        <Button
+                            rounded
+                            text={'Reply'}
+                            variant="dark"
+                            Icon={HiOutlineReply}
+                        />
+                    </div>
+                </div>
+            ) : mailDetail?.isSuccess ? (
+                <EmptyData />
+            ) : null}
         </div>
     )
 }

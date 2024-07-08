@@ -177,7 +177,7 @@ export const DetailNavbar = () => {
                     </div>
                 </AuthorizedUserComponent> */}
 
-                <OutsideClickHandler
+                {/* <OutsideClickHandler
                     onOutsideClick={() => {
                         setMessagesExpanded(false)
                     }}
@@ -198,7 +198,7 @@ export const DetailNavbar = () => {
                             seenMessage={seenMessage}
                         />
                     </div>
-                </OutsideClickHandler>
+                </OutsideClickHandler> */}
 
                 <OutsideClickHandler
                     onOutsideClick={() => {
