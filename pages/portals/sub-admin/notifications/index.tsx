@@ -9,13 +9,12 @@ import { Animations } from '@animations'
 import {
     Button,
     DisplayPrimaryActions,
-    HelpQuestionSet,
     RtoContextBarData,
     SidebarCalendar,
 } from '@components'
-import { EmailsCard, RecentAppointment, MailsListing } from '@partials/common'
+import { EmailsCard, MailsListing } from '@partials/common'
 // Hooks
-import { useContextBar, useJoyRide } from '@hooks'
+import { useContextBar } from '@hooks'
 
 const Notifications: NextPageWithLayout = () => {
     const { setContent } = useContextBar()

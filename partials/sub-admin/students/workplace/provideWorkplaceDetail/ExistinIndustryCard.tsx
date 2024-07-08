@@ -6,6 +6,7 @@ import {
     SelectOption,
     ShowErrorNotifications,
     Typography,
+    useShowErrorNotification,
 } from '@components'
 import { useEffect, useState } from 'react'
 
@@ -19,11 +20,11 @@ import { Course } from '@types'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
 
 export const ExistinIndustryCard = ({
+    student,
     industry,
     setActive,
-    setWorkplaceData,
     studentId,
-    student,
+    setWorkplaceData,
 }: any) => {
     const [selectedCourse, setselectedCourse] = useState<number | null>(null)
 
@@ -58,9 +59,13 @@ export const ExistinIndustryCard = ({
               }))
             : []
 
+    console.log({ applyForWorkplaceResult: applyForWorkplaceResult?.error })
+
+    const showErrorNotifications = useShowErrorNotification()
+
     return (
         <>
-            <ShowErrorNotifications result={applyForWorkplaceResult} />
+            {/* <ShowErrorNotifications result={applyForWorkplaceResult} /> */}
             <Card>
                 <div className="mb-4">
                     <Typography variant={'subtitle'}>
@@ -123,13 +128,21 @@ export const ExistinIndustryCard = ({
                     <Button
                         variant={'secondary'}
                         text={'Apply Here'}
-                        // disabled={industries?.map((i: any) => i.applied).includes(true)}
                         onClick={async () => {
                             if (selectedCourse) {
                                 await applyForWorkplace({
                                     studentId: student,
                                     IndustryId: industry?.id,
                                     courseId: selectedCourse,
+                                }).then((res: any) => {
+                                    if (res?.error) {
+                                        notification.error({
+                                            title: res?.error?.data?.error,
+                                            description:
+                                                res?.error?.data?.message,
+                                            dissmissTimer: 5555,
+                                        })
+                                    }
                                 })
                             } else {
                                 notification.warning({

@@ -1,8 +1,7 @@
-import { useNotification } from '@hooks'
-import { CommonApi, useRemoveJobMutation } from '@queries'
 import { ActionModal, ShowErrorNotifications } from '@components'
+import { useNotification } from '@hooks'
+import { CommonApi } from '@queries'
 
-import { useEffect } from 'react'
 import { FaTrash } from 'react-icons/fa'
 
 export const DeleteMailModal = ({

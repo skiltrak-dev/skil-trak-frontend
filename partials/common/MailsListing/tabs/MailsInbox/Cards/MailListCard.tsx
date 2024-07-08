@@ -7,6 +7,7 @@ import { useMediaQuery } from 'react-responsive'
 import { MediaQueries } from '@constants'
 import { User } from '@types'
 import { useRouter } from 'next/router'
+import moment from 'moment'
 
 export const MailListCard = ({
     user,
@@ -67,25 +68,57 @@ export const MailListCard = ({
                         }}
                     />
 
-                    <Typography variant="small" bold>
+                    <Typography
+                        variant="small"
+                        bold={mailDetail?.isSeen ? false : true}
+                    >
                         {ellipsisText(mailDetail?.subject, isTablet ? 40 : 16)}
                     </Typography>
                 </div>
                 <div className="w-full flex items-center gap-x-1 relative">
-                    <Typography variant="small" bold>
-                        {user?.name}
-                    </Typography>
-                    <Typography variant="small" bold color="text-[#0000008A]">
-                        -
-                    </Typography>
-                    <Typography variant="small" color="text-[#0000008A]">
-                        {HtmlToPlainText(mailDetail?.message)}
-                    </Typography>
+                    <div className={'w-full flex justify-between items-center'}>
+                        <div className={'flex items-center gap-x-1'}>
+                            <Typography
+                                variant="small"
+                                bold={mailDetail?.isSeen ? false : true}
+                            >
+                                {user?.name}
+                            </Typography>
+                            <Typography
+                                variant="small"
+                                bold
+                                color="text-[#0000008A]"
+                            >
+                                -
+                            </Typography>
+                            <Typography
+                                variant="small"
+                                color="text-[#0000008A]"
+                            >
+                                {HtmlToPlainText(
+                                    ellipsisText(mailDetail?.message, 155)
+                                )}
+                            </Typography>
+                        </div>
+                        <div>
+                            <Typography
+                                variant="small"
+                                color="text-gray-600"
+                                bold={mailDetail?.isSeen ? false : true}
+                            >
+                                <span className={'whitespace-pre'}>
+                                    {moment(mailDetail?.createdAt).format(
+                                        'MMM DD YY hh:mm'
+                                    )}
+                                </span>
+                            </Typography>
+                        </div>
+                    </div>
 
                     {/*  */}
                     <div
-                        className={`overflow-hidden transition-all duration-500 absolute top-1/2 -translate-y-1/2 right-0 h-full pl-3 ${
-                            mouseEntered ? 'max-w-20' : 'max-w-0'
+                        className={` overflow-hidden transition-all duration-500 absolute top-1/2 -translate-y-1/2 right-0 h-full pl-3 ${
+                            mouseEntered ? 'max-w-20 bg-gray-200' : 'max-w-0'
                         }`}
                     >
                         <MdDelete
