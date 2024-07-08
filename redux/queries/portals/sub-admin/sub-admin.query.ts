@@ -140,7 +140,8 @@ export const {
     useGetSavedCoordinatesQuery,
     useGetSubAdminMapStudentDetailQuery,
     useGetSubAdminMapIndustriesQuery,
-    useGetWorkplaceCourseIndustriesQuery,
+    useGetSubAdminMapFutureIndustriesQuery,
+    useGetWorkplaceCourseIndustriesQuery,   
     useGetSubAdminRtosForMapQuery,
     useGetSubAdminStudentSuburbsForMapQuery,
     useSubadminCoursesQuery,
@@ -372,7 +373,7 @@ export const SubAdminApi = {
         useProfile: useProfileQuery,
         useSubAdminMapStudentDetail: useGetSubAdminMapStudentDetailQuery,
         useSubAdminMapIndustries: useGetSubAdminMapIndustriesQuery,
-
+        useSubAdminMapFutureIndustries: useGetSubAdminMapFutureIndustriesQuery,
         useSubAdminRtosForMap: useGetSubAdminRtosForMapQuery,
         useSubAdminMapStudents: useGetSubAdminMapStudentsQuery,
         useSubAdminStudentSuburbsForMap:
