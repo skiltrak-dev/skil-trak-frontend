@@ -52,6 +52,15 @@ export const profileEndpoints = (
         },
         providesTags: ['SubAdmin'],
     }),
+    getSubAdminMapFutureIndustries: builder.query<any, any>({
+        query: (params) => {
+            return ({
+                url: `futureindustries/list/for-map`,
+                params,
+            })
+        },
+        providesTags: ['SubAdmin'],
+    }),
     getSubAdminRtosForMap: builder.query<any, void>({
         query: () => {
             return ({
