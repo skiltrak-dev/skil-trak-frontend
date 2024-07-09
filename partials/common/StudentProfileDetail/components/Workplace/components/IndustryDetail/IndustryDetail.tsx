@@ -22,7 +22,6 @@ export const IndustryDetail = ({
     course: Course
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
-
     const contextBar = useContextBar()
     const { notification } = useNotification()
 

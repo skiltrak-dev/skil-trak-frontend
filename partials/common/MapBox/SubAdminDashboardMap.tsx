@@ -15,6 +15,7 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
     const [workplaceType, setWorkplaceType] = useState<string | null>(null)
     const [rto, setRto] = useState('')
     const [suburbLocation, setSuburbLocation] = useState<any>(null)
+    const [showFutureIndustries, setShowFutureIndustries] = useState(false)
 
     const [searchInitiated, setSearchInitiated] = useState(false)
     const [isDelay, setIsDelay] = useState(false)
@@ -122,6 +123,14 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                                 }
                             }}
                         />
+                        <Checkbox
+                            name={'futureIndustry'}
+                            onChange={() =>
+                                setShowFutureIndustries(!showFutureIndustries)
+                            }
+                            defaultChecked={showFutureIndustries}
+                            label={'Show Future Industries'}
+                        />
                     </div>
                 </div>
             </Card>
@@ -139,6 +148,7 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                         suburbLocation={suburbLocation}
                         searchInitiated={searchInitiated}
                         setSearchInitiated={setSearchInitiated}
+                        showFutureIndustries={showFutureIndustries}
                     />
                 </div>
             ) : null}
