@@ -48,8 +48,8 @@ export const SnoozeStudentModal = ({
                 titleIcon={MdSnooze}
                 showActions={false}
                 onConfirmClick={() => {}}
-                title="Snooze Industry"
-                subtitle="Snooze Industry"
+                title="Snooze Student"
+                subtitle="Snooze Student"
                 onCancelClick={onCancel}
             >
                 <div className="flex w-full items-center gap-x-2">

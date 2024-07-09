@@ -32,26 +32,29 @@ export const Courses = ({
     }, [courseOptions])
 
     return (
-        <div className="max-w-md">
-            <Select
-                name={'course'}
-                required
-                options={courseOptions}
-                value={courseOptions?.find(
-                    (course: SelectOption) => course?.value === selectedCourse
-                )}
-                label={'Select Course'}
-                loading={courses?.isLoading || courses?.isFetching}
-                disabled={courses?.isLoading || courses?.isFetching}
-                onlyValue
-                onChange={(e: OptionType) => {
-                    setSelectedCourse(Number(e))
-                }}
-                components={{
-                    Option: CourseSelectOption,
-                }}
-                formatOptionLabel={formatOptionLabel}
-            />
+        <div className="bg-[#F7910F40] p-4 w-full">
+            <div className="max-w-md ">
+                <Select
+                    name={'course'}
+                    required
+                    options={courseOptions}
+                    value={courseOptions?.find(
+                        (course: SelectOption) =>
+                            course?.value === selectedCourse
+                    )}
+                    label={'Select Course'}
+                    loading={courses?.isLoading || courses?.isFetching}
+                    disabled={courses?.isLoading || courses?.isFetching}
+                    onlyValue
+                    onChange={(e: OptionType) => {
+                        setSelectedCourse(Number(e))
+                    }}
+                    components={{
+                        Option: CourseSelectOption,
+                    }}
+                    formatOptionLabel={formatOptionLabel}
+                />
+            </div>
         </div>
     )
 }

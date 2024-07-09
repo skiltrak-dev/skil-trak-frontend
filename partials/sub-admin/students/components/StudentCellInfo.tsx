@@ -159,7 +159,13 @@ export const StudentCellInfo = ({
                                 </div>
                             ) : null}
                             {student?.isSnoozed ? (
-                                <MdSnooze size={14} className="text-red-500" />
+                                <div className="w-4 h-4 rounded  relative group">
+                                    <MdSnooze
+                                        size={14}
+                                        className="text-red-500"
+                                    />
+                                    <Tooltip>Student Snoozed</Tooltip>
+                                </div>
                             ) : null}
                         </div>
                         <div className="flex items-center gap-x-2 text-sm">

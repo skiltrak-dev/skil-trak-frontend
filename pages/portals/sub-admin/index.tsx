@@ -228,9 +228,9 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                 </div>
 
                 {/* Sector Card */}
-                <div className="flex gap-x-5 w-full">
-                    <div className="w-1/3 h-full">
-                        <Card>
+                <div className="flex gap-x-5 w-full h-[535px] ">
+                    <div className="w-1/3 h-full ">
+                        <Card fullHeight>
                             {/* Card Header */}
                             <div className="flex justify-between items-center">
                                 {/* Icon Title */}
@@ -251,7 +251,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                         </Link> */}
                             </div>
 
-                            <div className="mt-4">
+                            <div className="mt-4 h-[89%] overflow-auto custom-scrollbar">
                                 {subadminCourses?.isLoading ? (
                                     <ContextBarLoading />
                                 ) : subadminCourses?.data?.length > 0 ? (
@@ -321,7 +321,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             View Map
                         </p>
                     </div> */}
-                    <div className="w-full">
+                    <div className="w-full h-full">
                         <SubAdminDashboardMap sectorsOptions={sectorsOptions} />
                     </div>
                 </div>
