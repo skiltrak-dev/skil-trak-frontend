@@ -128,7 +128,11 @@ export const ViewOnMapIndustriesModal = ({
             }
         )
     const futureIndustries =
-        SubAdminApi.SubAdmin.useSubAdminMapFutureIndustries({})
+        SubAdminApi.SubAdmin.useSubAdminMapFutureIndustries({
+            search: `courseId:${courseId}`
+        },{
+            skip: !courseId
+        })
     const workplaceCourseId = workplace?.courses?.[0]?.id
     const workplaceCourseIndustries =
         SubAdminApi.Workplace.useWorkplaceCourseIndustries(workplaceCourseId, {
@@ -338,6 +342,7 @@ export const ViewOnMapIndustriesModal = ({
     const studentCenter: any = visibleMarkers.find(
         (student: any) => student?.user && student?.user?.role === 'student'
     )
+    console.log('visible markers', courseId)
     return (
         <div className="w-full">
             <div className="flex justify-between cursor-pointer border-b p-2 mb-2">
@@ -356,30 +361,6 @@ export const ViewOnMapIndustriesModal = ({
 
             {visibleMarkers.length > 0 ? (
                 <div className="flex gap-x-3 w-full">
-                    {/* <div className="p-4 w-1/3">
-                        <Typography variant="small" semibold>
-                            Near by Industries
-                        </Typography>
-                        <div className="flex flex-col gap-y-1 mt-4">
-                            {suggestedIndustries.length > 0 ? (
-                                suggestedIndustries?.map(
-                                    (industry: any, index: number) => (
-                                        <IndustryCard
-                                            key={industry?.id}
-                                            industry={industry}
-                                            workplace={workplace}
-                                            courseId={courseId}
-                                            appliedIndustry={appliedIndustry}
-                                        />
-                                    )
-                                )
-                            ) : (
-                                <NoData
-                                    text={'No Suggested Industries Found'}
-                                />
-                            )}
-                        </div>
-                    </div> */}
                     {isLoaded && (
                         <div className="w-3/4">
                             <GoogleMap
@@ -946,10 +927,7 @@ export const ViewOnMapIndustriesModal = ({
                                                     ?.filter(
                                                         (marker: any) =>
                                                             marker?.department &&
-                                                            !marker?.user &&
-                                                            marker?.user
-                                                                ?.role !==
-                                                                'student'
+                                                            !marker?.user
                                                     )
                                                     .map((marker: any) => (
                                                         <div key={marker?.id}>
@@ -1033,10 +1011,7 @@ export const ViewOnMapIndustriesModal = ({
                                                                 selectedBox.id ===
                                                                     marker?.id &&
                                                                 marker?.department &&
-                                                                !marker?.user &&
-                                                                marker?.user
-                                                                    ?.role !==
-                                                                    'student' && (
+                                                                !marker?.user && (
                                                                     <InfoBox
                                                                         position={
                                                                             selectedBox?.position
