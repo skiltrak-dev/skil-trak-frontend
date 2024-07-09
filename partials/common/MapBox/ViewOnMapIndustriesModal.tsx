@@ -113,6 +113,7 @@ export const ViewOnMapIndustriesModal = ({
     const [map, setMap] = useState<google.maps.Map | null>(null)
 
     const [selectedBox, setSelectedBox] = useState<any>(null)
+    
     const [industryId, setIndustryId] = useState('')
     const [showInfoBox, setShowInfoBox] = useState<any>(false)
     const [showFutureIndustries, setShowFutureIndustries] = useState(false)
@@ -128,11 +129,14 @@ export const ViewOnMapIndustriesModal = ({
             }
         )
     const futureIndustries =
-        SubAdminApi.SubAdmin.useSubAdminMapFutureIndustries({
-            search: `courseId:${courseId}`
-        },{
-            skip: !courseId
-        })
+        SubAdminApi.SubAdmin.useSubAdminMapFutureIndustries(
+            {
+                search: `courseId:${courseId}`,
+            },
+            {
+                skip: !courseId,
+            }
+        )
     const workplaceCourseId = workplace?.courses?.[0]?.id
     const workplaceCourseIndustries =
         SubAdminApi.Workplace.useWorkplaceCourseIndustries(workplaceCourseId, {
@@ -342,7 +346,6 @@ export const ViewOnMapIndustriesModal = ({
     const studentCenter: any = visibleMarkers.find(
         (student: any) => student?.user && student?.user?.role === 'student'
     )
-    console.log('visible markers', courseId)
     return (
         <div className="w-full">
             <div className="flex justify-between cursor-pointer border-b p-2 mb-2">
@@ -955,15 +958,17 @@ export const ViewOnMapIndustriesModal = ({
                                                                 ) => {
                                                                     // handleMarkerClick(marker)
                                                                     // setStudentId(marker?.id)
-                                                                    setIndustryId(
-                                                                        marker?.id
-                                                                    )
+                                                                    // setIndustryId(
+                                                                    //     marker?.id
+                                                                    // )
                                                                     setFutureIndustryId(
                                                                         marker?.id
                                                                     )
+                                                                   
                                                                     setSelectedBox(
                                                                         {
                                                                             ...marker,
+                                                                            type: 'futureIndustry',
                                                                             position:
                                                                                 {
                                                                                     lat: e.latLng.lat(),
@@ -991,9 +996,12 @@ export const ViewOnMapIndustriesModal = ({
                                                                     setFutureIndustryId(
                                                                         marker?.id
                                                                     )
+                                                                   
+                                                                
                                                                     setSelectedBox(
                                                                         {
                                                                             ...marker,
+                                                                            type: 'futureIndustry',
                                                                             position:
                                                                                 {
                                                                                     lat: e.latLng.lat(),
@@ -1006,9 +1014,9 @@ export const ViewOnMapIndustriesModal = ({
                                                                     )
                                                                 }}
                                                             />
-                                                            {selectedBox &&
+                                                            {selectedBox && selectedBox?.type === "futureIndustry" && 
                                                                 showInfoBox &&
-                                                                selectedBox.id ===
+                                                                selectedBox?.id ===
                                                                     marker?.id &&
                                                                 marker?.department &&
                                                                 !marker?.user && (
