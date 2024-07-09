@@ -12,11 +12,11 @@ export const TitleAndDate = ({ mailDetail }: { mailDetail: any }) => {
     const shortDetail = [
         {
             text: 'from',
-            data: 'abc@skiltrak.com.au',
+            data: mailDetail?.receiver?.name,
         },
         {
             text: 'to',
-            data: 'abc@skiltrak.com.au',
+            data: mailDetail?.sender?.name,
         },
         {
             text: 'date',
@@ -39,7 +39,9 @@ export const TitleAndDate = ({ mailDetail }: { mailDetail: any }) => {
                             </span>
                         </Typography>
                         <Typography variant="small" color={'text-gray-500'}>
-                            {'<'}abc@skiltrak.com.au{'>'}
+                            {'<'}
+                            {mailDetail?.receiver?.email}
+                            {'>'}
                         </Typography>
                     </div>
                     <div>

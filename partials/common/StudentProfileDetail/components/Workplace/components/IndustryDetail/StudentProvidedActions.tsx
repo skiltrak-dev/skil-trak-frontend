@@ -33,7 +33,7 @@ export const StudentProvidedActions = ({
             folder: Number(course?.assessmentEvidence?.[0]?.id),
         },
         {
-            skip: !course,
+            skip: !course || !course?.assessmentEvidence?.length,
             refetchOnMountOrArgChange: true,
         }
     )

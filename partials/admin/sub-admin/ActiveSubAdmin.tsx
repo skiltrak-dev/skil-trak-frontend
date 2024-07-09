@@ -163,7 +163,7 @@ export const ActiveSubAdmin = () => {
                 Icon: FaEye,
             },
             {
-                text: 'New Profile',
+                text: 'Old Profile',
                 onClick: (subAdmin: any) => {
                     router.push(
                         `/portals/admin/sub-admin/${subAdmin?.id}/detail`

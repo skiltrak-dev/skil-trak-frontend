@@ -17,6 +17,8 @@ import {
     useCancelWorkplaceStatusMutation,
     SubAdminApi,
 } from '@queries'
+import ReactStars from 'react-stars'
+
 import moment from 'moment'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import {
@@ -312,18 +314,44 @@ export const Workplace = ({
                                         )}
                                         {selectedWorkplace
                                             ? appliedIndustry?.placementStarted &&
-                                              selectedWorkplace?.studentFeedBacks >
+                                              selectedWorkplace?.studentFeedBack >
                                                   0 && (
-                                                  <ActionButton
-                                                      variant={'link'}
-                                                      onClick={() => {
-                                                          onViewPlacementStartedAnswers(
-                                                              selectedWorkplace?.id
-                                                          )
-                                                      }}
-                                                  >
-                                                      Coordinators Feedback
-                                                  </ActionButton>
+                                                  <>
+                                                      <ActionButton
+                                                          variant={'link'}
+                                                          onClick={() => {
+                                                              onViewPlacementStartedAnswers(
+                                                                  selectedWorkplace?.id
+                                                              )
+                                                          }}
+                                                      >
+                                                          Coordinators Feedback
+                                                      </ActionButton>
+                                                      <div className="flex items-center gap-x-1">
+                                                          <div className="flex items-center gap-x-2">
+                                                              <ReactStars
+                                                                  count={5}
+                                                                  value={
+                                                                      selectedWorkplace
+                                                                          ?.studentFeedBacks?.[0]
+                                                                          ?.rating
+                                                                  }
+                                                                  edit={false}
+                                                                  size={27}
+                                                                  color2={
+                                                                      '#ffd700'
+                                                                  }
+                                                              />
+                                                              <Typography variant="label">
+                                                                  {
+                                                                      selectedWorkplace
+                                                                          ?.studentFeedBacks?.[0]
+                                                                          ?.rating
+                                                                  }
+                                                              </Typography>
+                                                          </div>
+                                                      </div>
+                                                  </>
                                               )
                                             : null}
                                     </div>

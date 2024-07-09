@@ -119,7 +119,7 @@ const Schedule = ({ user, studentId }: { studentId: number; user: User }) => {
                                     Schedule
                                 </Typography>
                             </div>
-                            <div className="flex justify-between px-4 py-3.5">
+                            <div className="flex justify-between px-4 py-2.5">
                                 <div className="flex gap-x-2">
                                     <div className="w-72">
                                         <Select
@@ -143,6 +143,7 @@ const Schedule = ({ user, studentId }: { studentId: number; user: User }) => {
                                             onChange={(e: any) => {
                                                 setSelectedCourse(e)
                                             }}
+                                            showError={false}
                                         />
                                     </div>
                                     <div className="w-72">
@@ -165,6 +166,7 @@ const Schedule = ({ user, studentId }: { studentId: number; user: User }) => {
                                             onChange={(e: any) => {
                                                 setSelectedIndustry(e)
                                             }}
+                                            showError={false}
                                         />
                                     </div>
                                 </div>
@@ -185,13 +187,14 @@ const Schedule = ({ user, studentId }: { studentId: number; user: User }) => {
                             </div>
                             <div className="mt-3">
                                 {schedules.isError && <TechnicalError />}
-                                {schedules?.isLoading ? (
+                                {schedules?.isLoading ||
+                                schedules?.isFetching ? (
                                     <LoadingAnimation />
                                 ) : schedules?.data?.schedule ? (
                                     <>
-                                        <div className="flex gap-x-4 items-center">
+                                        <div className="bg-[#e6f3ff] w-fit px-5 py-2 rounded-md mx-auto flex justify-center items-center gap-x-4">
                                             <div>
-                                                <Typography variant="subtitle">
+                                                <Typography variant="small">
                                                     Start Date
                                                 </Typography>
                                                 <Typography variant="label">
@@ -203,7 +206,7 @@ const Schedule = ({ user, studentId }: { studentId: number; user: User }) => {
                                                 </Typography>
                                             </div>
                                             <div>
-                                                <Typography variant="subtitle">
+                                                <Typography variant="small">
                                                     End Date
                                                 </Typography>
                                                 <Typography variant="label">
@@ -214,7 +217,7 @@ const Schedule = ({ user, studentId }: { studentId: number; user: User }) => {
                                                 </Typography>
                                             </div>
                                             <div>
-                                                <Typography variant="subtitle">
+                                                <Typography variant="small">
                                                     Total Hours
                                                 </Typography>
                                                 <Typography variant="label">

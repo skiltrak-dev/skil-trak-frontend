@@ -13,7 +13,6 @@ export const MailingList = ({
     onSelectMails: (type: string, id?: number) => void
     mailsList: any
 }) => {
-    console.log({ sender })
     return (
         <div className="shadow-[0px_0px_10px_0px_rgba(0,0,0,0.05)]">
             {mailsList?.isLoading || mailsList?.isFetching ? (

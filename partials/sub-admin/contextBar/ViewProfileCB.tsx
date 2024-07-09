@@ -33,13 +33,13 @@ export const ViewProfileCB = ({
     const sectionsData = [
         {
             text: 'Up coming appointments',
-            count: todoListCount?.data?.upCommingAppointments,
-            link: '/portals/sub-admin/tasks/appointments',
+            count: statistics?.appointmentBooked,
+            // link: '/portals/sub-admin/tasks/appointments',
         },
         {
             text: 'Pending workplace requests',
             count: statistics?.inProcess,
-            link: '/portals/sub-admin/tasks/workplace?tab=all&subTab=case-officer-not-assigned',
+            link: '/portals/sub-admin/tasks/workplace?tab=my-workplaces',
         },
         {
             text: 'Agreements pending',
@@ -52,7 +52,7 @@ export const ViewProfileCB = ({
         //     link: '',
         // },
         {
-            text: 'Pending students (same sector and RtO)',
+            text: 'Pending students (same sector and Rto)',
             count: todoListCount?.data?.pendingStudent,
             link: '/portals/sub-admin/students?tab=pending',
         },
@@ -251,7 +251,7 @@ export const ViewProfileCB = ({
                     {/*  */}
                     <div>
                         {sectionsData.map((secData, i) => (
-                            <Link href={secData?.link} key={i}>
+                            <Link href={secData?.link || '#'} key={i}>
                                 <div className="flex items-center justify-between border-b border-secondary-dark py-2">
                                     <Typography variant="small">
                                         {secData.text}
