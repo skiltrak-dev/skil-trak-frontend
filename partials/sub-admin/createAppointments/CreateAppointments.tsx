@@ -256,8 +256,8 @@ export const CreateAppointments = () => {
         <>
             {modal}
             <ShowErrorNotifications result={createAppointmentResult} />
-            <div className="bg-blue-400 rounded-lg px-2 py-2 mb-2">
-                <Typography color={'text-white'} variant={'label'}>
+            <div className="bg-[#F7910F40] rounded-lg px-2 py-2 mb-2">
+                <Typography color={'text-gray-600'} variant={'label'}>
                     Staric (*) fields are required
                 </Typography>
             </div>
@@ -330,7 +330,7 @@ export const CreateAppointments = () => {
                     </div>
                 </Card>
 
-                <Card>
+                <Card noPadding>
                     <Courses
                         setSelectedCourse={setSelectedCourse}
                         selectedCourse={selectedCourse}

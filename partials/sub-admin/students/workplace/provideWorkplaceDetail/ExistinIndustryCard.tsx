@@ -59,8 +59,6 @@ export const ExistinIndustryCard = ({
               }))
             : []
 
-    console.log({ applyForWorkplaceResult: applyForWorkplaceResult?.error })
-
     const showErrorNotifications = useShowErrorNotification()
 
     return (
