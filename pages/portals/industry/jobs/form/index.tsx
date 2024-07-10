@@ -1,16 +1,14 @@
 import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
-import { useContext, useEffect, useState } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 // components
 import {
-    Card,
-    Popup,
     ActionAlert,
     BackButton,
-    ActionAlertType,
+    Card,
+    Popup,
     ShowErrorNotifications,
 } from '@components'
 // import { RightSidebarData } from './components'
@@ -19,17 +17,13 @@ import {
 import { useContextBar, useNotification } from '@hooks'
 
 // query
-import {
-    useAddJobMutation,
-    useUpdateJobMutation,
-    useGetJobDetailQuery,
-} from '@queries'
+import { useAddJobMutation } from '@queries'
 
 // form
 
 // utills
-import { trimString } from '@utils'
 import { JobForm } from '@partials/industry'
+import { trimString } from '@utils'
 
 const AdvertisesNewJob: NextPageWithLayout = () => {
     const router = useRouter()

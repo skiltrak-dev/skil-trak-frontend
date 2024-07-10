@@ -166,7 +166,7 @@ export const EmployeeDetailForm = ({ onVolunteer, employeeDetail }: any) => {
                     </div>
 
                     <div className="mt-2">
-                        <Checkbox name={'isInvite'} label={'Send an invite'} />
+                    <Checkbox name={'isInvite'} label={'Send an invite'} />
                     </div>
 
                     <Button

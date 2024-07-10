@@ -10,7 +10,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 import { InputErrorMessage } from '../components'
 import { Attachment } from '@partials/common/Notifications'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FileUpload } from '@hoc'
 
 export const ComposeMailForm = ({
@@ -43,6 +43,12 @@ export const ComposeMailForm = ({
             ...preVal?.filter((file: File) => file?.lastModified !== fileId),
         ])
     }
+
+    useEffect(() => {
+        if (result?.isSuccess) {
+            methods.reset()
+        }
+    }, [result])
 
     const onFileUpload = ({
         name,
