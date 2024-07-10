@@ -173,9 +173,6 @@ const SubAdminDashboardMapDetail = ({
                 search: `${JSON.stringify(
                     removeEmptyValues({
                         sectorId: sector,
-                        suburb: location,
-                        // rtoId: rto,
-                        // currentStatus: workplaceType,
                     })
                 )
                     .replaceAll('{', '')
@@ -222,8 +219,6 @@ const SubAdminDashboardMapDetail = ({
     }, [])
 
     useEffect(() => {
-        // setKey('AIzaSyCMEGspm5WHyXte3TN4Lfrkcg9DchsbYEk')
-
         if (data || industriesList?.data || futureIndustries?.data) {
             const markers = []
 
@@ -430,6 +425,22 @@ const SubAdminDashboardMapDetail = ({
         grid: 20,
         maxZoom: 15,
     }
+    const pinnedStudentId = localStorage.getItem('pinnedStudentId')
+    console.log('pinnedStudentId', pinnedStudentId)
+    useEffect(() => {
+        if (pinnedStudentId) {
+            // Find the marker with the pinned student ID
+            const pinnedMarker = visibleMarkers.find(
+                (marker: any) => marker.id === pinnedStudentId
+            )
+            if (pinnedMarker) {
+                setStudentId(pinnedMarker.id)
+                setIndustryId(pinnedMarker.id)
+                setSelectedBox(pinnedMarker)
+                setShowInfoBox(true)
+            }
+        }
+    }, [visibleMarkers])
 
     return (
         <div className="w-full flex flex-col gap-y-2.5">
@@ -472,16 +483,15 @@ const SubAdminDashboardMapDetail = ({
                                             <div key={marker?.id}>
                                                 <Marker
                                                     icon={{
-                                                        url:
-                                                            marker?.user
-                                                                ?.role &&
-                                                            marker?.user
-                                                                ?.role ===
-                                                                'industry'
-                                                                ? '/images/icons/industry-pin-map-pin.png'
-                                                                : // : marker?.department
-                                                                  // ? '/images/icons/future-industry-pin.png'
-                                                                  '/images/icons/student-red-map-pin.png',
+                                                        url: pinnedStudentId
+                                                            ? '/images/icons/pinned-student-2.png'
+                                                            : marker?.user
+                                                                  ?.role &&
+                                                              marker?.user
+                                                                  ?.role ===
+                                                                  'industry'
+                                                            ? '/images/icons/industry-pin-map-pin.png'
+                                                            : '/images/icons/student-red-map-pin.png',
                                                         scaledSize:
                                                             new google.maps.Size(
                                                                 29,
@@ -523,6 +533,10 @@ const SubAdminDashboardMapDetail = ({
                                                             },
                                                         })
                                                         setShowInfoBox(true)
+                                                        localStorage.setItem(
+                                                            'pinnedStudentId',
+                                                            marker?.id
+                                                        )
                                                     }}
                                                 />
                                                 {selectedBox &&
