@@ -380,7 +380,7 @@ export const ApprovedStudent = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="px-6 overflow-auto">
+                                        <div className="px-6 overflow-auto custom-scrollbar">
                                             {table}
                                         </div>
                                         {data?.data?.length > 10 && (

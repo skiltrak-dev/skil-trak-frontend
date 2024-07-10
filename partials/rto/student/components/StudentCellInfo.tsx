@@ -2,9 +2,11 @@ import { InitialAvatar, Tooltip, TooltipPosition } from '@components'
 import { Student } from '@types'
 import moment from 'moment'
 import Link from 'next/link'
+import { BiMessageRoundedDots } from 'react-icons/bi'
+import { FiPhoneOff } from 'react-icons/fi'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { LuFlagTriangleRight } from 'react-icons/lu'
-import { MdEmail, MdPhone, MdPhoneIphone } from 'react-icons/md'
+import { MdEmail, MdPhone, MdPhoneIphone, MdSnooze } from 'react-icons/md'
 import { RiErrorWarningFill } from 'react-icons/ri'
 
 export const StudentCellInfo = ({
@@ -44,9 +46,25 @@ export const StudentCellInfo = ({
                 </div>
                 <div>
                     <div className="flex items-center gap-x-2">
-                        <p className="flex items-center gap-x-1 text-xs">
-                            {student?.studentId}
-                        </p>
+                        <div className="flex items-center gap-x-2">
+                            <p className="flex items-center gap-x-1 text-xs">
+                                {student?.studentId}
+                            </p>
+                            {student?.nonContactable && (
+                                <div className="group relative bg-red-600 p-1 rounded-full flex items-center justify-center">
+                                    <FiPhoneOff className="text-white text-[10px]" />
+                                    <Tooltip position={TooltipPosition.left}>
+                                        Not Contactable
+                                    </Tooltip>
+                                </div>
+                            )}
+
+                            {student?.isHighPriority && (
+                                <div className="rounded-md whitespace-nowrap px-1 py-0.5 border border-red-400 text-red-400 text-xs font-medium">
+                                    High Priority
+                                </div>
+                            )}
+                        </div>
                         {call &&
                             isDateExist &&
                             (callLog.isAnswered ? (
@@ -73,12 +91,23 @@ export const StudentCellInfo = ({
                             </div>
                         )}
                     </div>
-                    <p className="font-semibold">
-                        {student?.user?.name}{' '}
-                        {student?.familyName?.toLowerCase() === 'na'
-                            ? ''
-                            : student?.familyName}
-                    </p>
+                    <div className="flex items-center gap-x-1.5">
+                        <p className="font-semibold">
+                            {student?.user?.name}{' '}
+                            {student?.familyName?.toLowerCase() === 'na'
+                                ? ''
+                                : student?.familyName}
+                        </p>
+                        {student?.tickets && student?.tickets?.length > 0 ? (
+                            <div className="w-5 h-5 flex items-center justify-center rounded relative group">
+                                <BiMessageRoundedDots className="text-primary text-lg" />
+                                <Tooltip>Ticket Created</Tooltip>
+                            </div>
+                        ) : null}
+                        {student?.isSnoozed ? (
+                            <MdSnooze size={14} className="text-red-500" />
+                        ) : null}
+                    </div>
                     <div className="font-medium text-xs text-gray-500">
                         <p className="flex items-center gap-x-1">
                             <span>
