@@ -40,6 +40,7 @@ export const FutureIndustryInfoBoxCard = ({
     workplaceMapCard = false,
     onCancel,
 }: FutureIndustryInfoBoxCardProps) => {
+    console.log('sleeeeeee', selectedBox)
     const workplaceId = workplace?.id
     const [applyForWorkplace, applyForWorkplaceResult] =
         useSubAdminApplyStudentWorkplaceMutation()
@@ -121,7 +122,7 @@ export const FutureIndustryInfoBoxCard = ({
                                             </Typography>
 
                                             <Typography variant="muted">
-                                                {item?.data?.user?.email}
+                                                {selectedBox.email}
                                             </Typography>
                                         </div>
                                         <div className="flex flex-col gap-y-1 whitespace-nowrap">
@@ -149,6 +150,14 @@ export const FutureIndustryInfoBoxCard = ({
 
                             {/*  */}
                             <div>
+                                <div className="flex flex-col gap-y-1 my-1.5">
+                                    <Typography variant="muted">
+                                        {selectedBox?.email}
+                                    </Typography>
+                                    <Typography variant="xs">
+                                        {selectedBox?.phone ?? 'NA'}
+                                    </Typography>
+                                </div>
                                 <Typography
                                     variant="muted"
                                     color={'text-gray-400'}
@@ -172,7 +181,7 @@ export const FutureIndustryInfoBoxCard = ({
                                 <div className="flex justify-center mt-1.5">
                                     <Link
                                         className="text-blue-400 text-xs"
-                                        href={`/portals/sub-admin/tasks/industry-listing?tab=all`}
+                                        href={`/portals/sub-admin/tasks/industry-listing?tab=all&page=1&pageSize=50&email=${selectedBox?.email}`}
                                     >
                                         View
                                     </Link>
