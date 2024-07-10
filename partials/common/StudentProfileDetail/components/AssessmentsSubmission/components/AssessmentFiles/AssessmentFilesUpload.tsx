@@ -37,7 +37,6 @@ export const AssessmentFilesUpload = ({
     const onUploadDocs = (docs: any) => {
         const formData = new FormData()
 
-
         const filteredDocs = [...docs]?.filter((doc) => {
             const docSize = doc?.size / 1024 / 1024
             return docSize <= 150

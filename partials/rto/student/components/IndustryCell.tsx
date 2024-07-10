@@ -6,7 +6,10 @@ import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const IndustryCell = ({ industry }: { industry: Industry }) => {
     return (
-        <Link legacyBehavior href={`/portals/rto/industries/mous`}>
+        <Link
+            legacyBehavior
+            href={`/portals/rto/industries/workplaces/${industry?.id}`}
+        >
             <a className="flex items-center gap-x-2">
                 <div className="shadow-inner-image rounded-full relative">
                     {/* TODO Send industry User here */}
