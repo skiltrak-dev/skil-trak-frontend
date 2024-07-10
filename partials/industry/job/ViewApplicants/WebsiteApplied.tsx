@@ -59,28 +59,6 @@ export const WebsiteApplied = () => {
             }
         )
 
-    const TableActionOption = [
-        {
-            text: 'View',
-            Icon: MdEdit,
-            onClick: (job: any) => {
-                router.push(`/portals/industry/jobs/${job.id}`)
-            },
-        },
-        {
-            text: 'Edit',
-            Icon: MdEdit,
-            onClick: (job: any) => {
-                router.push(`/portals/industry/jobs/form/${job.id}`)
-            },
-        },
-        {
-            text: 'Delete',
-            Icon: AiFillDelete,
-            onClick: (job: any) => {},
-        },
-    ]
-
     const Columns: ColumnDef<any>[] = [
         {
             header: () => 'Student',
@@ -157,19 +135,6 @@ export const WebsiteApplied = () => {
                     >
                         View
                     </ActionButton>
-                )
-            },
-        },
-        {
-            header: () => 'Action',
-            accessorKey: 'Action',
-            cell: ({ row }: any) => {
-                return (
-                    <TableAction
-                        text={'More'}
-                        options={TableActionOption}
-                        rowItem={row.original}
-                    />
                 )
             },
         },

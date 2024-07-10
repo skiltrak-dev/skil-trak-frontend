@@ -65,10 +65,7 @@ export const SubadminHistory = ({
                 limit: itemPerPage,
             },
             {
-                skip:
-                    !isViewd ||
-                    !customRangeDate?.startDate ||
-                    !customRangeDate?.endDate,
+                skip: !isViewd,
                 refetchOnMountOrArgChange: true,
             }
         )

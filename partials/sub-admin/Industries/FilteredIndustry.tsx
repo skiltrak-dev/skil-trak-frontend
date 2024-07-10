@@ -14,9 +14,10 @@ import { IndustryCellInfo } from './components'
 //icons
 import { getUserCredentials } from '@utils'
 import { FaEye, FaPencilAlt } from 'react-icons/fa'
-import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
-import { AddToFavoriteModal } from './modals'
+import { MdBlock, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
+import { AddToFavoriteModal, ArchiveModal, BlockModal } from './modals'
 import { SubAdminApi } from '@queries'
+import { RiInboxArchiveFill } from 'react-icons/ri'
 
 export const FilteredIndustry = ({
     industry,
@@ -37,6 +38,18 @@ export const FilteredIndustry = ({
     const id = getUserCredentials()?.id
     const isFavorite = (subAdmin: SubAdmin[] | undefined) => {
         return subAdmin?.find((subadmin: SubAdmin) => subadmin?.user?.id === id)
+    }
+
+    const onCancelClicked = () => setModal(null)
+
+    const onBlockClicked = (industry: Industry) => {
+        setModal(<BlockModal industry={industry} onCancel={onCancelClicked} />)
+    }
+
+    const onArchiveClicked = (industry: Industry) => {
+        setModal(
+            <ArchiveModal industry={industry} onCancel={onCancelClicked} />
+        )
     }
 
     const tableActionOptions = (industry: Industry) => {
@@ -87,11 +100,18 @@ export const FilteredIndustry = ({
                     onAddToFavoriteClicked(industry),
                 Icon: subAdmin ? MdFavorite : MdFavoriteBorder,
             },
-            // {
-            //     text: 'View Password',
-            //     onClick: (industry: Industry) => onViewPassword(industry),
-            //     Icon: RiLockPasswordFill,
-            // },
+            {
+                text: `Block`,
+                color: 'text-error',
+                onClick: (industry: Industry) => onBlockClicked(industry),
+                Icon: MdBlock,
+            },
+            {
+                text: 'Archive',
+                color: 'text-primary',
+                onClick: (industry: Industry) => onArchiveClicked(industry),
+                Icon: RiInboxArchiveFill,
+            },
         ]
     }
     const Columns = [
@@ -158,6 +178,10 @@ export const FilteredIndustry = ({
                     </Typography>
                 )
             },
+        },
+        {
+            header: () => 'Status',
+            accessorKey: 'user.status',
         },
         {
             header: () => 'Action',

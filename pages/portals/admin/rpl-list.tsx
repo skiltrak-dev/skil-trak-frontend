@@ -54,7 +54,7 @@ const RPLList: NextPageWithLayout = (props: Props) => {
         limit: itemPerPage,
     })
     const [markAsRead, markAsReadResult] = AdminApi.Rpl.useRplRead()
-    useEffect(()=>{
+    useEffect(() => {
         markAsRead()
     }, [])
     const onModalCancelClicked = () => {
@@ -260,16 +260,7 @@ const RPLList: NextPageWithLayout = (props: Props) => {
                 <PageHeading
                     title={'RPL List'}
                     subtitle={'List of Requested RPL'}
-                >
-                    {/* {filterAction} */}
-                    {data && data?.data?.length ? (
-                        <Button
-                            text="Export"
-                            variant="action"
-                            Icon={FaFileExport}
-                        />
-                    ) : null}
-                </PageHeading>
+                ></PageHeading>
 
                 <Filter<AppointmentTypeFilterType>
                     component={AppointmentTypeFilters}

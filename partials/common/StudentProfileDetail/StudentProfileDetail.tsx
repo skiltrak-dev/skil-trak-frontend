@@ -11,23 +11,22 @@ import { useAlert, useContextBar } from '@hooks'
 import { SubAdminApi, useGetSubAdminStudentDetailQuery } from '@queries'
 import { StudentStatusEnum, UserStatus } from '@types'
 import { getLink, getUserCredentials } from '@utils'
+import moment from 'moment'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { IoIosArrowRoundBack } from 'react-icons/io'
 import { IoArrowBackOutline } from 'react-icons/io5'
+import { ProfileAppointments } from '../ProfileAppointments'
 import { ProfileViewCB } from './ContextBar'
 import {
-    Appointments,
     AssessmentSubmissions,
     MailsCommunication,
     Notes,
     Tickets,
     Workplace,
 } from './components'
-import { ProfileAppointments } from '../ProfileAppointments'
-import moment from 'moment'
 
 const Schedule = dynamic(() => import('./components/Schedule/Schedule'), {
     ssr: false,
