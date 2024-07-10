@@ -96,6 +96,10 @@ export const RPLForm = () => {
     }
     return (
         <>
+            <BackButton
+                link={'/portals/industry/tasks'}
+                text={'Back To RPL Instructions'}
+            />
             {/* <ShowErrorNotifications result={addRplResult} /> */}
             {iseRPLSaved && (
                 <div className="w-full fixed top-1/2 left-1/3 -translate-y-1/2 z-50">
@@ -123,10 +127,6 @@ export const RPLForm = () => {
                 />
             )}
             <div className={`${isRPLApplied ? 'hidden' : ''}`}>
-                <BackButton
-                    link={'apply-for-rpl'}
-                    text={'Back To RPL Instructions'}
-                />
                 {!addRplResult.isSuccess && (
                     <Card>
                         <FormProvider {...methods}>

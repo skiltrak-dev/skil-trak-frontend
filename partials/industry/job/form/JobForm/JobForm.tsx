@@ -1,18 +1,9 @@
-import { useEffect, useState } from 'react'
-import * as yup from 'yup'
+import { Button, Select, TextArea, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { IndustryApi } from '@queries'
+import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { AuthApi } from '@queries'
-import {
-    TextInput,
-    Select,
-    Typography,
-    TextArea,
-    LoadingAnimation,
-    Button,
-} from '@components'
-import { OptionType, Sector } from '@types'
-import { useNotification } from '@hooks'
+import * as yup from 'yup'
 
 const jobType = [
     {
@@ -36,7 +27,7 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
     const [selectedSector, setSelectedSector] = useState<number[] | null>(null)
     const [sectorOptions, setSectorOptions] = useState<any>([])
     const [selectedJobType, setSelectedJobType] = useState<any>(null)
-    const sectorResponse = AuthApi.useSectors({})
+    const sectorResponse = IndustryApi.Courses.useGetIndustrySectorsQuery()
 
     useEffect(() => {
         if (sectorResponse.data?.length) {
@@ -67,6 +58,9 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
         )
     }, [initialValues])
 
+    const phoneRegExp =
+        /^(\+\d{1,3}[- ]?)?(\(?\d{1,4}\)?[- ]?)?(\d{1,4}[- ]?){1,3}\d$/
+
     const validationSchema = yup.object({
         // Job Validation
         title: yup.string().required('Must provide a meaningful job title'),
@@ -90,11 +84,22 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
             .typeError('Salary to must be a number')
             .min(1, 'Salary to range must be greater than 0')
             .positive("Salary to can't be negative")
-            .required('Please provide salary for your job'),
+            .required('Please provide salary for your job')
+            .when('salaryFrom', (salaryFrom, schema) =>
+                salaryFrom
+                    ? schema.min(
+                          salaryFrom,
+                          'Salary to must be greater than Salary from'
+                      )
+                    : schema
+            ),
         sectors: yup.array().min(1, 'Must select at least 1 sector'),
 
         // Contact Validation
-        phone: yup.string().required('Phone is required field!'),
+        phone: yup
+            .string()
+            .matches(phoneRegExp, 'Phone number is not valid')
+            .required('Phone is required field!'),
         email: yup.string().email('Invalid Email').required('Required!'),
         website: yup.string().required('website is required field!'),
 
@@ -247,7 +252,6 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                                 name={'addressLine1'}
                                 placeholder={'Address Line...'}
                                 validationIcons
-                                placesSuggetions
                                 required
                             />
                         </div>

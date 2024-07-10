@@ -2,7 +2,6 @@ import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
-import { IndustryLayout } from '@layouts'
 import {
     AppointmentUserEnum,
     Course,
@@ -19,10 +18,9 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useNotification } from '@hooks'
 
 // query
-import { UserRoles } from '@constants'
+import { IndustryStudentsLayout } from '@partials/industry'
 import { CommonApi, useIndustryProfileQuery } from '@queries'
 import { getUserCredentials } from '@utils'
-import { IndustryStudentsLayout } from '@partials/industry'
 
 type Props = {}
 
@@ -102,15 +100,12 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
         mode: 'all',
     })
     const onSubmit = (values: any) => {
-        const time = moment(selectedTime, ['h:mm A']).format('HH:mm')
-        let date = selectedDate
-        date?.setDate(date.getDate() + 1)
         createAppointment({
             ...values,
             ...selectedTime,
             coordinator: values?.appointmentFor,
             type,
-            date,
+            date: selectedDate,
         })
     }
 

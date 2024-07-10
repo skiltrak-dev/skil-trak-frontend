@@ -1,4 +1,4 @@
-import { EmptyData } from '@components'
+import { EmptyData, TechnicalError } from '@components'
 import { MailListCard } from '../Cards'
 import { MailLoadingSkeleton } from './MailLoadingSkeleton'
 
@@ -15,6 +15,7 @@ export const MailingList = ({
 }) => {
     return (
         <div className="shadow-[0px_0px_10px_0px_rgba(0,0,0,0.05)]">
+            {mailsList.isError ? <TechnicalError /> : null}
             {mailsList?.isLoading || mailsList?.isFetching ? (
                 <div className="flex flex-col gap-y-0">
                     {[...Array(10)].map((_, i) => (

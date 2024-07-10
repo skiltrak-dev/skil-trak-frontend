@@ -33,10 +33,11 @@ export const ComposeMail = ({
                 formData.append(key, value)
             }
         })
-
-        attachment?.forEach((attched: File) => {
-            formData.append('attachment', attched)
-        })
+        if (attachment && attachment?.length > 0) {
+            attachment?.forEach((attched: File) => {
+                formData.append('attachment', attched)
+            })
+        }
         formData.append('type', 'email')
 
         sendMessage(formData).then((res: any) => {
@@ -45,6 +46,7 @@ export const ComposeMail = ({
                     title: 'Mail Sent',
                     description: 'Mail Sent Successfully',
                 })
+                onCancelComposeMail()
             }
         })
     }

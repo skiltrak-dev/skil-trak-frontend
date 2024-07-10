@@ -271,7 +271,7 @@ export const StudentAssessmentsCourses = ({ profile }: { profile: any }) => {
                             selectedFolder={selectedFolder}
                             onSelectFolder={onSelectFolder}
                         />
-                    </div>  
+                    </div>
                     <div className="col-span-2 h-[inherit]">
                         <div className="h-[84%]">
                             <AssessmentFiles
