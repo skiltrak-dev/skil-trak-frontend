@@ -21,7 +21,16 @@ import { ActionModal, UnAssignSubAdminModal } from '../modals'
 import { HiCheckBadge } from 'react-icons/hi2'
 import { UserRoles } from '@constants'
 
-export const AssignToMe = ({ workplace, appliedIndustry }: any) => {
+type AssignToMeProps = {
+    workplace: any
+    appliedIndustry: any
+    isAdmin?: boolean
+}
+export const AssignToMe = ({
+    workplace,
+    appliedIndustry,
+    isAdmin = false,
+}: AssignToMeProps) => {
     const [assignToMe, assignToMeResult] = useAssignToSubAdminMutation()
     const [modal, setModal] = useState<any | null>(null)
     const [changeCoordinator, setChangeCoordinator] = useState<boolean>(false)
@@ -181,7 +190,7 @@ export const AssignToMe = ({ workplace, appliedIndustry }: any) => {
                     <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
                         <Button
                             variant={'dark'}
-                            text={'ASSIGN TO ME'}
+                            text={isAdmin ? 'ASSIGN TO' : 'ASSIGN TO ME'}
                             onClick={() => {
                                 if (appliedIndustry || true) {
                                     assignToMe({
