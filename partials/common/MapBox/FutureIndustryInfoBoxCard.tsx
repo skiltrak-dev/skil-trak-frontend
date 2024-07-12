@@ -40,7 +40,6 @@ export const FutureIndustryInfoBoxCard = ({
     workplaceMapCard = false,
     onCancel,
 }: FutureIndustryInfoBoxCardProps) => {
-    console.log('sleeeeeee', selectedBox)
     const workplaceId = workplace?.id
     const [applyForWorkplace, applyForWorkplaceResult] =
         useSubAdminApplyStudentWorkplaceMutation()

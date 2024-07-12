@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 //
 import { SubAdminApi } from '@queries'
 import dynamic from 'next/dynamic'
-import { fromAddress, setKey } from 'react-geocode'
+import { fromAddress, geocode, GeocodeOptions, setKey } from 'react-geocode'
 const SubAdminDashboardMapDetail = dynamic(
     () => import('./SubAdminDashboardMapDetail')
 )
@@ -71,6 +71,16 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                                     .then(({ results }: any) => {
                                         const { lat, lng } =
                                             results[0].geometry.location
+                                        geocode('latlng', `${lat},${lng}`, {
+                                            key: process.env
+                                                .NEXT_PUBLIC_MAP_KEY,
+                                        } as GeocodeOptions)
+                                            .then((response) => {
+                                                console.log({ response })
+                                            })
+                                            .catch((error) => {
+                                                console.error({ error })
+                                            })
                                         setSuburbLocation({ lat, lng })
                                     })
                                     .catch(console.error)
