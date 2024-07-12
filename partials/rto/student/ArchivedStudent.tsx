@@ -80,7 +80,6 @@ export const ArchivedStudent = () => {
                 studentId={student?.user?.id}
                 date={student?.expiryDate}
                 onCancel={onModalCancelClicked}
-                changeExpiryData={setChangeExpiryData}
             />
         )
     }

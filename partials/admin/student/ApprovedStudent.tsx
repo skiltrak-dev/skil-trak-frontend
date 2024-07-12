@@ -41,7 +41,6 @@ import moment from 'moment'
 export const ApprovedStudent = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const [refetchStudents, setRefetchStudents] = useState(false)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const listingRef = useRef<any>(null)
@@ -93,12 +92,6 @@ export const ApprovedStudent = () => {
             },
             { refetchOnMountOrArgChange: true }
         )
-
-    useEffect(() => {
-        if (refetchStudents) {
-            refetch()
-        }
-    }, [refetchStudents, data])
 
     const onModalCancelClicked = useCallback(() => {
         setModal(null)

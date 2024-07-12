@@ -302,8 +302,7 @@ export const StudentProfileDetail = () => {
                         >
                             <Workplace
                                 getWorkplaceLength={getWorkplaceLength}
-                                studentId={profile?.data?.id}
-                                studentUserId={profile?.data?.user?.id}
+                                student={profile?.data}
                             />
                         </div>
                         <div

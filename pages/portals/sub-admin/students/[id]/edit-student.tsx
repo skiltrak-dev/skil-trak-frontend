@@ -47,9 +47,28 @@ const EditStudentDetail: NextPageWithLayout = () => {
                 title: 'Profile Updated',
                 description: 'Student Profile Updated',
             })
-            router.back()
+            if (router?.query?.wpType) {
+                switch (router?.query?.wpType) {
+                    case 'provide-workplace-detail':
+                        router.push({
+                            pathname: `/portals/sub-admin/students/${id}/provide-workplace-detail`,
+                            query: { tab: 'abn' },
+                        })
+                        break
+                    case 'request-workplace-detail':
+                        router.push(
+                            `/portals/sub-admin/students/${id}/request-workplace-detail`
+                        )
+                        break
+
+                    default:
+                        break
+                }
+            } else {
+                router.back()
+            }
         }
-    }, [updateDetailResult])
+    }, [updateDetailResult, router])
 
     useEffect(() => {
         contextBar.setContent(null)

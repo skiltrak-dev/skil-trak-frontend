@@ -13,13 +13,12 @@ import {
     StudentExpiryDaysLeft,
     Table,
     TableAction,
-    Typography,
     UserCreatedAt,
 } from '@components'
 import { StudentCellInfo, SubadminStudentIndustries } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { useActionModal, useJoyRide } from '@hooks'
+import { useJoyRide } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
@@ -35,14 +34,8 @@ import {
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import {
-    getStudentWorkplaceAppliedIndustry,
-    setLink,
-    studentsListWorkplace,
-} from '@utils'
-import { RiLockPasswordFill } from 'react-icons/ri'
+import { getStudentWorkplaceAppliedIndustry, setLink } from '@utils'
 import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
-import { IndustryCellInfo } from '../Industries'
 import { RTOCellInfo } from '../rto/components'
 import { InterviewModal } from '../workplace/modals'
 
@@ -50,7 +43,6 @@ export const AllStudents = () => {
     const router = useRouter()
 
     const [mount, setMount] = useState(false)
-    const [refetchStudents, setRefetchStudents] = useState(false)
 
     useEffect(() => {
         if (!mount) {
@@ -92,12 +84,6 @@ export const AllStudents = () => {
             }
         )
 
-    useEffect(() => {
-        if (refetchStudents) {
-            refetch()
-        }
-    }, [refetchStudents, data])
-
     const onModalCancelClicked = () => {
         setModal(null)
     }
@@ -134,7 +120,6 @@ export const AllStudents = () => {
                 studentId={student?.user?.id}
                 date={student?.expiryDate}
                 onCancel={onModalCancelClicked}
-                changeExpiryData={setRefetchStudents}
             />
         )
     }

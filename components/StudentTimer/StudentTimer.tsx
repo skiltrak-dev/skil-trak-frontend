@@ -37,7 +37,6 @@ export const StudentTimer = ({
                 studentId={studentId}
                 date={date}
                 onCancel={onCancelClicked}
-                changeExpiryData={changeExpiryData}
             />
         )
     }
