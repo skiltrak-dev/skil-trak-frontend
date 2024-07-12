@@ -24,7 +24,6 @@ export const CaseOfficerAssignedStudent = ({
             currentStatus: WorkplaceCurrentStatus.NotRequested,
         })
 
-    console.log({ workplace, studentWorkplace: student?.workplace })
     const industries = student?.industries
     const steps = checkWorkplaceStatus(workplace?.currentStatus)
     const studentStatus = checkStudentStatus(student?.studentStatus)

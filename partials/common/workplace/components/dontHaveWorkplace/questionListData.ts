@@ -19,8 +19,6 @@ export const workplaceQuestions = {
         'What are your desired outcomes upon successfully completing the placement? Options include securing',
     [workplaceQuestionsKeys.medicalCondition]:
         'Do you have any medical conditions that may affect your ability to work?',
-    [workplaceQuestionsKeys.workPreference]:
-        'Do you prefer working in a team or independently?',
     [workplaceQuestionsKeys.placementPreferences]:
         'Is there any specific aspect you are seeking in a placement opportunity? (provide details) 100 words*',
     [workplaceQuestionsKeys.awarenessOfUnpaidPlacement]:
@@ -157,13 +155,6 @@ export const questionList = [
         index: 10,
         title: 'Medical Conditions:',
         required: true,
-    },
-    {
-        name: workplaceQuestionsKeys.workPreference,
-        index: 11,
-        title: 'Work Preference:',
-        customAnswers: ['Team', 'Independently'],
-        required: false,
     },
     {
         name: workplaceQuestionsKeys.commutePlan,
