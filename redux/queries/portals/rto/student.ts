@@ -79,6 +79,18 @@ export const studentEndpoints = (
         invalidatesTags: ['Rto-Students'],
     }),
 
+    assignRtoCoordinatorToMultiStudents: builder.mutation<
+        any,
+        { subAdmin: number; body: { ids: number[] } }
+    >({
+        query: ({ subAdmin, body }) => ({
+            url: `${PREFIX}/coordinator/${subAdmin}/students/assign`,
+            body,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Rto-Students'],
+    }),
+
     getRtoStudentsList: builder.query<any, void>({
         query: () => `${PREFIX}/students/names/list`,
         providesTags: ['Rto-Students'],

@@ -8,7 +8,6 @@ export enum workplaceQuestionsKeys {
     relaventExperience = 'relaventExperience',
     placementGoals = 'placementGoals',
     medicalCondition = 'medicalCondition',
-    workPreference = 'workPreference',
     placementPreferences = 'placementPreferences',
     awarenessOfUnpaidPlacement = 'awarenessOfUnpaidPlacement',
     understandingOfDocumentation = 'understandingOfDocumentation',

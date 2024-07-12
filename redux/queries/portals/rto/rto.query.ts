@@ -149,6 +149,7 @@ export const {
     useGetAppointmentsReportQuery,
     useGetReportedStudentsReportQuery,
     useAssignRtoCoordinatorToStudentsMutation,
+    useAssignRtoCoordinatorToMultiStudentsMutation,
     useGetReportDownloadLinkQuery,
     useGetExportStudentListQuery,
 
@@ -197,6 +198,8 @@ export const RtoApi = {
         useAppointmentsReport: useGetAppointmentsReportQuery,
         useReportedStudentsReport: useGetReportedStudentsReportQuery,
         useAssignCoordinatoToStudent: useAssignRtoCoordinatorToStudentsMutation,
+        assignMultiStudentToCoordinator:
+            useAssignRtoCoordinatorToMultiStudentsMutation,
         useReportDownloadLink: useGetReportDownloadLinkQuery,
         useExportStudentList: useGetExportStudentListQuery,
     },

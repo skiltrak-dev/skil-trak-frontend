@@ -36,7 +36,7 @@ import {
 import { IndustryDetail } from './components/IndustryDetail'
 import { AddSecondWPCB } from '@partials/sub-admin/students/contextBar'
 import { useContextBar, useNotification } from '@hooks'
-import { WorkplaceCurrentStatus } from '@utils'
+import { checkStudentProfileCompletion, WorkplaceCurrentStatus } from '@utils'
 import { ViewPlacementStartedAnswersModal, ViewQuestionsModal } from './modals'
 import { WorkplaceQuestionType } from 'redux/queryTypes'
 import { studentProfileKeys } from '@partials/student/components'
@@ -152,26 +152,7 @@ export const Workplace = ({
 
     // const keys = Object.keys(values)
 
-    let totalValues = studentProfileKeys?.length
-    let filledValues = 0
-    studentProfileKeys.forEach((key) => {
-        const keyValue = values[key as keyof typeof values]
-        console.log({ key, keyValue })
-        if (
-            keyValue &&
-            keyValue != 'NA' &&
-            keyValue != 'N/A' &&
-            !Array.isArray(keyValue)
-        ) {
-            filledValues++
-        } else if (Array.isArray(keyValue) && keyValue?.length > 0) {
-            filledValues++
-        }
-    })
-
-    const profileCompletion = Math.floor((filledValues / totalValues) * 100)
-
-    console.log({ profileCompletion })
+    const profileCompletion = checkStudentProfileCompletion(values)
 
     return (
         <>
@@ -227,9 +208,9 @@ export const Workplace = ({
                                             contextBar.show(false)
                                         } else {
                                             notification.warning({
-                                                title: 'Start Placement',
+                                                title: 'Update Previous workplace status',
                                                 description:
-                                                    'Start Placement before adding another workplace',
+                                                    'Update Previous workplace status to PLACEMENT STARTED',
                                             })
                                         }
                                     }}

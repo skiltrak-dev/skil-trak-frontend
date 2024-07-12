@@ -24,7 +24,7 @@ import { getUserCredentials, studentsListWorkplace } from '@utils'
 import { saveAs } from 'file-saver'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
-import { MdBlock } from 'react-icons/md'
+import { MdBlock, MdChangeCircle } from 'react-icons/md'
 import { SectorCell, StudentCellInfo } from './components'
 import { IndustryCell } from './components/IndustryCell'
 import {
@@ -33,6 +33,7 @@ import {
     BlockModal,
     RemoveCoordinator,
 } from './modals'
+import { AssignMultipleCoordinatorModal } from './modals/AssignMultipleCoordinatorModal'
 export const ApprovedStudent = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -143,6 +144,15 @@ export const ApprovedStudent = () => {
         )
     }
 
+    const onAddMultiStudentsCoordinatorClicked = (ids: number[]) => {
+        setModal(
+            <AssignMultipleCoordinatorModal
+                ids={ids}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
     const tableActionOptions = (student: Student) => {
         return [
             {
@@ -150,6 +160,14 @@ export const ApprovedStudent = () => {
                 onClick: (student: Student) =>
                     router.push(
                         `/portals/rto/students/${student.id}?tab=overview`
+                    ),
+                Icon: FaEye,
+            },
+            {
+                text: 'Edit',
+                onClick: (student: Student) =>
+                    router.push(
+                        `portals/rto/students/${student.id}/edit-student`
                     ),
                 Icon: FaEye,
             },
@@ -295,18 +313,52 @@ export const ApprovedStudent = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: Student) => (
+        individual: (student: Student) => (
             <div className="flex gap-x-2">
-                <ActionButton Icon={FaEdit}>Edit</ActionButton>
-                <ActionButton>Sub Admins</ActionButton>
-                <ActionButton Icon={MdBlock} variant="error">
+                <ActionButton
+                    Icon={FaEdit}
+                    onClick={() => {
+                        router.push(
+                            `portals/rto/students/${student?.id}/edit-student`
+                        )
+                    }}
+                >
+                    Edit
+                </ActionButton>
+                <ActionButton
+                    Icon={MdBlock}
+                    onClick={() => {
+                        onBlockClicked(student)
+                    }}
+                    variant="error"
+                >
                     Block
+                </ActionButton>
+                <ActionButton
+                    Icon={MdChangeCircle}
+                    variant="info"
+                    onClick={() => {
+                        onAssignCoordinatorClicked(student)
+                    }}
+                >
+                    {student?.rtoCoordinator
+                        ? 'Change Coordinator'
+                        : 'Assign Coordinator'}
                 </ActionButton>
             </div>
         ),
         common: (ids: Student[]) => (
-            <ActionButton Icon={MdBlock} variant="error">
-                Block
+            <ActionButton
+                Icon={MdChangeCircle}
+                variant="info"
+                onClick={() => {
+                    console.log({ ids })
+                    onAddMultiStudentsCoordinatorClicked(
+                        ids?.map((stu: Student) => stu?.id)
+                    )
+                }}
+            >
+                Add Coordinator
             </ActionButton>
         ),
     }
@@ -355,7 +407,7 @@ export const ApprovedStudent = () => {
                             columns={columns}
                             data={data.data}
                             quickActions={quickActionsElements}
-                            // enableRowSelection
+                            enableRowSelection
                         >
                             {({
                                 table,

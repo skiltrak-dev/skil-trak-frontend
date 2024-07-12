@@ -426,7 +426,6 @@ const SubAdminDashboardMapDetail = ({
         maxZoom: 15,
     }
     const pinnedStudentId = localStorage.getItem('pinnedStudentId')
-    console.log('pinnedStudentId', pinnedStudentId)
     useEffect(() => {
         if (pinnedStudentId) {
             // Find the marker with the pinned student ID
