@@ -23,6 +23,8 @@ export const CaseOfficerAssignedStudent = ({
         ?.reduce((a: any, b: any) => (b?.createdAt > a?.createdAt ? a : b), {
             currentStatus: WorkplaceCurrentStatus.NotRequested,
         })
+
+    console.log({ workplace, studentWorkplace: student?.workplace })
     const industries = student?.industries
     const steps = checkWorkplaceStatus(workplace?.currentStatus)
     const studentStatus = checkStudentStatus(student?.studentStatus)

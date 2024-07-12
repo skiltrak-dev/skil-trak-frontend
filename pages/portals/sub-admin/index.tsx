@@ -21,7 +21,6 @@ import { ImportantDocuments, SubAdminDashboardMap } from '@partials/common'
 import { ProgressChart } from '@partials/sub-admin/components'
 import { CommonApi, SubAdminApi, useGetSubAdminIndustriesQuery } from '@queries'
 import { useRouter } from 'next/router'
-import dynamic from 'next/dynamic'
 
 const SubAdminDashboard: NextPageWithLayout = () => {
     const status = getUserCredentials()?.status

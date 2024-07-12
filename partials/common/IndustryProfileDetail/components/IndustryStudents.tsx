@@ -115,7 +115,6 @@ export const IndustryStudents = ({ industry }: { industry: Industry }) => {
                 studentId={student?.user?.id}
                 date={student?.expiryDate}
                 onCancel={onModalCancelClicked}
-                changeExpiryData={setChangeExpiryData}
             />
         )
     }

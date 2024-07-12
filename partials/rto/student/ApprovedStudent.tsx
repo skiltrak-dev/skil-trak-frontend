@@ -119,7 +119,6 @@ export const ApprovedStudent = () => {
                 studentId={student?.user?.id}
                 date={student?.expiryDate}
                 onCancel={onModalCancelClicked}
-                changeExpiryData={setChangeExpiryData}
             />
         )
     }

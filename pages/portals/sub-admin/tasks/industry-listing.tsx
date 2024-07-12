@@ -24,6 +24,7 @@ type Props = {}
 const filterKeys = [
     'phone',
     'email',
+    'status',
     'sector',
     'address',
     'department',

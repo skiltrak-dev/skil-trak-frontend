@@ -1,6 +1,6 @@
-import { InitialAvatar } from '@components'
-import { Industry } from '@types'
 import Link from 'next/link'
+import { Industry } from '@types'
+import { InitialAvatar } from '@components'
 import { FaHandshake } from 'react-icons/fa'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
