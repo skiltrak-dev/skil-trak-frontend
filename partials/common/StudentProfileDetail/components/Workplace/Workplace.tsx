@@ -35,10 +35,12 @@ import {
 } from './components'
 import { IndustryDetail } from './components/IndustryDetail'
 import { AddSecondWPCB } from '@partials/sub-admin/students/contextBar'
-import { useContextBar } from '@hooks'
+import { useContextBar, useNotification } from '@hooks'
 import { WorkplaceCurrentStatus } from '@utils'
 import { ViewPlacementStartedAnswersModal, ViewQuestionsModal } from './modals'
 import { WorkplaceQuestionType } from 'redux/queryTypes'
+import { studentProfileKeys } from '@partials/student/components'
+import { Student } from '@types'
 
 const WPStatusForCancelButon = [
     WorkplaceCurrentStatus.Applied,
@@ -52,26 +54,29 @@ const WPStatusForCancelButon = [
 ]
 
 export const Workplace = ({
-    studentId,
-    studentUserId,
+    student,
     getWorkplaceLength,
 }: {
     getWorkplaceLength: (length: number) => void
-    studentUserId: number
-    studentId: number
+    student: Student
 }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [selectedWorkplace, setSelectedWorkplace] = useState<any>(null)
 
     const contextBar = useContextBar()
+    const { notification } = useNotification()
 
     const studentWorkplace = useGetSubAdminStudentWorkplaceDetailQuery(
-        studentId,
+        student?.id,
         {
-            skip: !studentId,
+            skip: !student,
         }
     )
-    const getCancelledWP = SubAdminApi.Student.getCancelledWP(studentId, {
+    const courses = SubAdminApi.Student.useCourses(Number(student?.id), {
+        skip: !student?.id,
+        refetchOnMountOrArgChange: true,
+    })
+    const getCancelledWP = SubAdminApi.Student.getCancelledWP(student?.id, {
         skip:
             !studentWorkplace?.isSuccess && studentWorkplace?.data?.length > 0,
     })
@@ -140,6 +145,34 @@ export const Workplace = ({
         )
     }
 
+    const firstWorkplaceCurrentStatus =
+        studentWorkplace?.data?.[0]?.currentStatus
+
+    const values = { ...student, ...student?.user, courses: courses?.data }
+
+    // const keys = Object.keys(values)
+
+    let totalValues = studentProfileKeys?.length
+    let filledValues = 0
+    studentProfileKeys.forEach((key) => {
+        const keyValue = values[key as keyof typeof values]
+        console.log({ key, keyValue })
+        if (
+            keyValue &&
+            keyValue != 'NA' &&
+            keyValue != 'N/A' &&
+            !Array.isArray(keyValue)
+        ) {
+            filledValues++
+        } else if (Array.isArray(keyValue) && keyValue?.length > 0) {
+            filledValues++
+        }
+    })
+
+    const profileCompletion = Math.floor((filledValues / totalValues) * 100)
+
+    console.log({ profileCompletion })
+
     return (
         <>
             {modal}
@@ -179,13 +212,26 @@ export const Workplace = ({
                             <div className="whitespace-pre">
                                 <Button
                                     onClick={() => {
-                                        contextBar.setContent(
-                                            <AddSecondWPCB
-                                                studentId={studentId}
-                                                studentUserId={studentUserId}
-                                            />
-                                        )
-                                        contextBar.show(false)
+                                        if (
+                                            firstWorkplaceCurrentStatus ===
+                                            WorkplaceCurrentStatus.PlacementStarted
+                                        ) {
+                                            contextBar.setContent(
+                                                <AddSecondWPCB
+                                                    studentId={student?.id}
+                                                    studentUserId={
+                                                        student?.user?.id
+                                                    }
+                                                />
+                                            )
+                                            contextBar.show(false)
+                                        } else {
+                                            notification.warning({
+                                                title: 'Start Placement',
+                                                description:
+                                                    'Start Placement before adding another workplace',
+                                            })
+                                        }
                                     }}
                                 >
                                     Add Another Workplace
@@ -195,7 +241,10 @@ export const Workplace = ({
                             <AuthorizedUserComponent
                                 roles={[UserRoles.SUBADMIN]}
                             >
-                                <AddWorkplaceAction id={studentId} />
+                                <AddWorkplaceAction
+                                    id={student?.id}
+                                    profileCompletion={profileCompletion}
+                                />
                             </AuthorizedUserComponent>
                         ) : null}
                     </div>
@@ -254,7 +303,9 @@ export const Workplace = ({
                                                     appliedIndustry
                                                 }
                                             />
-                                            <WorkplaceHistory />
+                                            <WorkplaceHistory
+                                                wpId={selectedWorkplace?.id}
+                                            />
                                             <div className="">
                                                 <ViewAvailability
                                                     wpId={selectedWorkplace?.id}

@@ -3,13 +3,13 @@ import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions
 import {
     Course,
     PaginatedResponse,
+    PaginationValues,
     PaginationWithSearch,
     Rto,
     SubAdmin,
     SubAdminProfileCount,
     SubadminCount,
     SubadminFromType,
-    UserCount,
     ViewSummaryType,
 } from '@types'
 
@@ -56,6 +56,18 @@ export const subAdminEndpoints = (
     subAdminAsAdminList: builder.query<any, void>({
         query: () => ({
             url: `${PREFIX}/can-admin/list`,
+        }),
+        providesTags: ['SubAdmins'],
+    }),
+    subAdminExtendedStudentsList: builder.query<
+        any,
+        PaginationValues & {
+            id: number
+        }
+    >({
+        query: ({ id, ...params }) => ({
+            url: `${PREFIX}/subadmin/${id}/get/extended`,
+            params,
         }),
         providesTags: ['SubAdmins'],
     }),

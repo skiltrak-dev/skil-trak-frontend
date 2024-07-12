@@ -278,8 +278,8 @@ export const ActiveIndustries = ({
                                         <Image
                                             src={'/images/signup.png'}
                                             alt={''}
-                                            width={20}
-                                            height={20}
+                                            width={30}
+                                            height={30}
                                         />
                                         <Tooltip>Signed Up</Tooltip>
                                     </div>

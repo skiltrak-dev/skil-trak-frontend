@@ -22,7 +22,14 @@ import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { MdAddBusiness } from 'react-icons/md'
 
 type Props = {}
-const filterKeys = ['businessName', 'address', 'sector', 'email', 'phone']
+const filterKeys = [
+    'businessName',
+    'address',
+    'sector',
+    'email',
+    'phone',
+    'status',
+]
 const FutureIndustryListing: NextPageWithLayout = (props: Props) => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)

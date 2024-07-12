@@ -2,13 +2,13 @@ import { ActionButton } from '@components'
 import { ViewHistoryModal } from '../../../modals'
 import React, { ReactElement, useState } from 'react'
 
-export const WorkplaceHistory = () => {
+export const WorkplaceHistory = ({ wpId }: { wpId: number }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const onCancelClicked = () => setModal(null)
 
     const onWorkplaceView = () => {
-        setModal(<ViewHistoryModal onCancel={onCancelClicked} />)
+        setModal(<ViewHistoryModal wpId={wpId} onCancel={onCancelClicked} />)
     }
     return (
         <div>

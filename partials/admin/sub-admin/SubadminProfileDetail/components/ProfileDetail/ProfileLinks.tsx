@@ -1,11 +1,18 @@
 import { Typography } from '@components'
 import { useActionModal } from '@hooks'
 import { SubAdmin } from '@types'
+import { ReactElement, useState } from 'react'
 import { BsUnlockFill } from 'react-icons/bs'
 import { IoMdEyeOff } from 'react-icons/io'
+import { PiStudentFill } from 'react-icons/pi'
+import { SubadminStudentsList } from '../SubadminStudentsList'
 
 export const ProfileLinks = ({ subadmin }: { subadmin: SubAdmin }) => {
     const { passwordModal, onViewPassword, onUpdatePassword } = useActionModal()
+
+    const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const onCancelClicked = () => setModal(null)
 
     const profileLinks = [
         {
@@ -22,10 +29,18 @@ export const ProfileLinks = ({ subadmin }: { subadmin: SubAdmin }) => {
                 onViewPassword(subadmin)
             },
         },
+        {
+            text: 'Extended Students',
+            Icon: PiStudentFill,
+            onClick: () => {
+                setModal(<SubadminStudentsList onCancel={onCancelClicked} />)
+            },
+        },
     ]
 
     return (
         <div className="flex flex-col items-end gap-y-2.5">
+            {modal}
             {passwordModal}
             <div className="flex flex-col gap-1.5">
                 {profileLinks.map(

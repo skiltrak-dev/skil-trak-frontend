@@ -3,7 +3,7 @@ import { AuthApi, CommonApi } from '@queries'
 import { SetQueryFilters } from './SetQueryFilters'
 import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
-import { FindWorkplaceFilter } from '@types'
+import { FindWorkplaceFilter, IndustryStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { IndustryListingDepartment } from '@partials/common/FindWorkplaces/enum'
 
@@ -53,10 +53,25 @@ export const FindWorkplaceFilters = ({
         },
     ]
 
+    const statusOptions = [
+        {
+            label: 'Default',
+            value: IndustryStatus.DEFAULT,
+        },
+        {
+            label: 'FAVOURITE',
+            value: IndustryStatus.FAVOURITE,
+        },
+        {
+            label: 'DO NOT DISTURB',
+            value: IndustryStatus.DO_NOT_DISTURB,
+        },
+    ]
+
     return (
         <>
             <SetQueryFilters<FindWorkplaceFilter> filter={filter} />
-            <div className="grid grid-cols-3 gap-x-3">
+            <div className="grid grid-cols-4 gap-x-3">
                 <TextInput
                     name="businessName"
                     label={'Business Name'}
@@ -133,23 +148,20 @@ export const FindWorkplaceFilters = ({
                     }}
                     showError={false}
                 />
-                {/* <Select
-                    label={'Search by is contacted'}
-                    name={'isContacted'}
-                    options={contactedOptions}
-                    placeholder={'Select is contacted or Not...'}
-                    defaultValue={contactedOptions?.find(
-                        (p: any) => p.value === filter?.isContacted
+                <Select
+                    label={'Status'}
+                    name={'status'}
+                    options={statusOptions}
+                    placeholder={'Select Status...'}
+                    value={statusOptions?.find(
+                        (sector: any) => sector?.value === filter?.status
                     )}
+                    validationIcons
                     onChange={(e: any) => {
-                        onFilterChange({
-                            ...filter,
-                            isContacted: e?.value,
-                        })
+                        onFilterChange({ ...filter, status: e })
                     }}
-                    // loading={getCourses.isLoading}
-                    // disabled={getCourses.isLoading}
-                /> */}
+                    onlyValue
+                />
             </div>
         </>
     )

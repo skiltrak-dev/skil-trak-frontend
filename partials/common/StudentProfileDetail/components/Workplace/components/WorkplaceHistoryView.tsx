@@ -11,7 +11,7 @@ import { useRouter } from 'next/router'
 import { FilterType } from 'pages/portals/sub-admin/history'
 import React, { useState } from 'react'
 
-export const WorkplaceHistoryView = () => {
+export const WorkplaceHistoryView = ({ wpId }: { wpId: number }) => {
     const router = useRouter()
 
     const [isCustomRange, setIsCustomRange] = useState<boolean>(false)
@@ -29,9 +29,9 @@ export const WorkplaceHistoryView = () => {
 
     const workplaceHistory = SubAdminApi.Student.studentWorkplaceHistory(
         {
-            student: Number(router.query?.id),
+            student: Number(wpId),
         },
-        { skip: !router.query?.id, refetchOnMountOrArgChange: true }
+        { skip: !wpId, refetchOnMountOrArgChange: true }
     )
 
     const dates = getCommonDates(workplaceHistory?.data)

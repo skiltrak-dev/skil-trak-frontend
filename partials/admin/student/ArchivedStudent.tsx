@@ -244,7 +244,7 @@ export const ArchivedStudent = () => {
             header: () => <span>Progress</span>,
             cell: ({ row }) => {
                 const workplace = row.original.workplace?.reduce(
-                    (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
+                    (a: any, b: any) => (a?.createdAt < b?.createdAt ? a : b),
                     {
                         currentStatus: WorkplaceCurrentStatus.NotRequested,
                     }

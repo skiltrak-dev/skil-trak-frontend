@@ -145,7 +145,7 @@ export const CompletedStudents = () => {
                     )
                     ?.reduce(
                         (a: any, b: any) =>
-                            a?.createdAt > b?.createdAt ? a : b,
+                            a?.createdAt < b?.createdAt ? a : b,
                         {
                             currentStatus: WorkplaceCurrentStatus.NotRequested,
                         }
