@@ -25,6 +25,12 @@ import {
     AssignedRequest,
     CancelledRequests,
     UnAssignedRequest,
+    UpdatedAdminFilteredWorkplace,
+    UpdatedAllRequestedWorkplace,
+    UpdatedAllStudentProvidedWorkplace,
+    UpdatedAssignedRequest,
+    UpdatedCancelledRequests,
+    UpdatedUnAssignedRequest,
 } from '@partials'
 import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
@@ -88,7 +94,8 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 text: count?.data?.studentProvided,
                 loading: count?.isLoading,
             },
-            element: <AllStudentProvidedWorkplace />,
+            // element: <AllStudentProvidedWorkplace />,
+            element: <UpdatedAllStudentProvidedWorkplace />,
         },
         {
             label: 'All Workplace Requests',
@@ -100,7 +107,8 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 text: count?.data?.requested,
                 loading: count?.isLoading,
             },
-            element: <AllRequestedWorkplace />,
+            // element: <AllRequestedWorkplace />,
+            element: <UpdatedAllRequestedWorkplace />,
         },
         {
             label: 'Assigned Requests',
@@ -112,7 +120,8 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 text: count?.data?.assigned,
                 loading: count?.isLoading,
             },
-            element: <AssignedRequest />,
+            // element: <AssignedRequest />,
+            element: <UpdatedAssignedRequest />,
         },
         {
             label: 'Un Assigned Requests',
@@ -124,7 +133,8 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 text: count?.data?.unAssigned,
                 loading: count?.isLoading,
             },
-            element: <UnAssignedRequest />,
+            // element: <UnAssignedRequest />,
+            element: <UpdatedUnAssignedRequest />,
         },
         {
             label: 'Cancelled Workplaces',
@@ -136,7 +146,8 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 text: count?.data?.cancelled,
                 loading: count?.isLoading,
             },
-            element: <CancelledRequests />,
+            // element: <CancelledRequests />,
+            element: <UpdatedCancelledRequests />,
         },
     ]
 
@@ -170,7 +181,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                         </Card>
                     </div>
                 ) : filteredDataLength && filteredWorkplaces.isSuccess ? (
-                    <AdminFilteredWorkplace
+                    <UpdatedAdminFilteredWorkplace
                         setPage={setPage}
                         setItemPerPage={setItemPerPage}
                         workplace={filteredWorkplaces}
