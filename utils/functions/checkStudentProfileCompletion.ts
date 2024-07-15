@@ -17,5 +17,6 @@ export const checkStudentProfileCompletion = (values: any) => {
         }
     })
     const profileCompletion = Math.floor((filledValues / totalValues) * 100)
+    console.log({ profileCompletion })
     return profileCompletion
 }

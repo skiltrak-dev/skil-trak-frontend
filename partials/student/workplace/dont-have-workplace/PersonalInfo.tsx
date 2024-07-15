@@ -66,7 +66,7 @@ export const PersonalInfo = ({
 
         setPersonalInfoData({
             courses: values?.courses?.value,
-            preferableLocation: values?.preferableLocation,
+            preferableLocation: values?.suburb,
             questions,
             // courses: values?.courses?.value,
             // haveTransport: values.haveTransport === 'yes' ? true : false,

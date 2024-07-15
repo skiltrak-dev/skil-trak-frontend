@@ -34,7 +34,8 @@ import {
     useSubAdminCancelStudentWorkplaceRequestMutation,
 } from '@queries'
 import { UserRoles } from '@constants'
-import { WorkplaceCurrentStatus } from '@utils'
+import { checkStudentProfileCompletion, WorkplaceCurrentStatus } from '@utils'
+import { CompleteProfileBeforeWpModal } from '@partials/common/StudentProfileDetail/components'
 
 type Props = {}
 
@@ -45,7 +46,7 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     const [personalInfoData, setPersonalInfoData] = useState({})
     const [industryABN, setIndustryABN] = useState<string | null>(null)
     const [isCancelled, setIsCancelled] = useState<boolean>(false)
-
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const [workplaceData, setWorkplaceData] = useState<any | null>(null)
     const { notification } = useNotification()
 
@@ -61,6 +62,32 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         skip: !id,
         refetchOnMountOrArgChange: true,
     })
+
+    const values = {
+        ...data,
+        ...data?.user,
+        courses: courses?.data,
+    }
+    const profileCompletion = checkStudentProfileCompletion(values)
+
+    console.log({ profileCompletion })
+
+    useEffect(() => {
+        if (
+            profileCompletion &&
+            profileCompletion > 0 &&
+            profileCompletion < 100
+        ) {
+            setModal(
+                <CompleteProfileBeforeWpModal
+                    workplaceType={'provide-workplace-detail?tab=abn'}
+                />
+            )
+        } else if (profileCompletion === 100) {
+            setModal(null)
+        }
+    }, [profileCompletion])
+
     const [findAbn, result] = useFindByAbnWorkplaceMutation()
     const [addWorkplace, addWorkplaceResult] =
         useAddCustomIndustyForWorkplaceMutation()
@@ -186,6 +213,7 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
 
     return (
         <>
+            {modal}
             <PageTitle
                 title="Provide Workplace Detail"
                 backTitle="Student Detail"

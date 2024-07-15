@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 // components
 import {
@@ -8,6 +8,7 @@ import {
     ShowErrorNotifications,
     TechnicalError,
 } from '@components'
+import { checkStudentProfileCompletion } from '@utils'
 
 //Layouts
 import { SubAdminLayout } from '@layouts'
@@ -22,10 +23,14 @@ import {
     useGetSubAdminStudentDetailQuery,
     useUpdateStudentProfileMutation,
 } from '@queries'
+import { CompleteProfileBeforeWpModal } from '@partials/common/StudentProfileDetail/components'
 
 const EditStudentDetail: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const { notification } = useNotification()
+
+    const [modal, setModal] = useState<ReactElement | null>(null)
+    const [showProfileModal, setShowProfileModal] = useState<boolean>(true)
 
     const router = useRouter()
     const { id } = router.query
@@ -35,6 +40,8 @@ const EditStudentDetail: NextPageWithLayout = () => {
         refetchOnMountOrArgChange: true,
     })
 
+    console.log({ student })
+
     const courses = SubAdminApi.Student.useCourses(Number(id), {
         skip: !id,
         refetchOnMountOrArgChange: true,
@@ -42,38 +49,66 @@ const EditStudentDetail: NextPageWithLayout = () => {
     const [updateDetail, updateDetailResult] = useUpdateStudentProfileMutation()
 
     useEffect(() => {
-        if (updateDetailResult.isSuccess) {
+        contextBar.setContent(null)
+        contextBar.hide()
+    }, [])
+
+    useEffect(() => {
+        if (updateDetailResult?.isSuccess) {
             notification.success({
                 title: 'Profile Updated',
                 description: 'Student Profile Updated',
             })
-            if (router?.query?.wpType) {
-                switch (router?.query?.wpType) {
-                    case 'provide-workplace-detail':
-                        router.push({
-                            pathname: `/portals/sub-admin/students/${id}/provide-workplace-detail`,
-                            query: { tab: 'abn' },
-                        })
-                        break
-                    case 'request-workplace-detail':
-                        router.push(
-                            `/portals/sub-admin/students/${id}/request-workplace-detail`
+            setTimeout(() => {
+                if (router?.query?.wpType && student?.isSuccess) {
+                    const values = {
+                        ...student?.data,
+                        ...student?.data?.user,
+                        courses: courses?.data,
+                    }
+                    const profileCompletion =
+                        checkStudentProfileCompletion(values)
+                    if (
+                        profileCompletion &&
+                        profileCompletion > 0 &&
+                        profileCompletion < 100 &&
+                        showProfileModal
+                    ) {
+                        setModal(
+                            <CompleteProfileBeforeWpModal
+                                workplaceType={
+                                    'provide-workplace-detail?tab=abn'
+                                }
+                                onCancel={() => {
+                                    setModal(null)
+                                    setShowProfileModal(false)
+                                }}
+                            />
                         )
-                        break
+                    } else if (profileCompletion === 100) {
+                        switch (router?.query?.wpType) {
+                            case 'provide-workplace-detail':
+                                router.push({
+                                    pathname: `/portals/sub-admin/students/${id}/provide-workplace-detail`,
+                                    query: { tab: 'abn' },
+                                })
+                                break
+                            case 'request-workplace-detail':
+                                router.push(
+                                    `/portals/sub-admin/students/${id}/request-workplace-detail`
+                                )
+                                break
 
-                    default:
-                        break
+                            default:
+                                break
+                        }
+                    }
+                } else {
+                    router.back()
                 }
-            } else {
-                router.back()
-            }
+            }, 600)
         }
-    }, [updateDetailResult, router])
-
-    useEffect(() => {
-        contextBar.setContent(null)
-        contextBar.hide()
-    }, [])
+    }, [updateDetailResult, student, router])
 
     const onSubmit = (values: any) => {
         if (!values?.courses) {
@@ -103,10 +138,15 @@ const EditStudentDetail: NextPageWithLayout = () => {
                     email,
                 },
             },
+        }).then((res: any) => {
+            if (res?.data) {
+                setShowProfileModal(true)
+            }
         })
     }
     return (
         <>
+            {modal}
             <ShowErrorNotifications result={updateDetailResult} />
             {/* <UpdateDetails onSubmit={onSubmit} result={updateDetailResult} /> */}
             <div className="px-4">

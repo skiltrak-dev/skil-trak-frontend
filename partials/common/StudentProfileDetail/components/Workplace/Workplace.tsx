@@ -1,50 +1,47 @@
 import {
+    ActionButton,
+    AuthorizedUserComponent,
+    Button,
     Card,
     EmptyData,
-    Typography,
-    TechnicalError,
     LoadingAnimation,
-    AuthorizedUserComponent,
-    ActionButton,
     ShowErrorNotifications,
-    Button,
+    TechnicalError,
+    Typography,
 } from '@components'
 import { UserRoles } from '@constants'
 import { GetFolders } from '@partials/sub-admin/workplace/hooks'
 import {
-    useGetWorkplaceFoldersQuery,
-    useGetSubAdminStudentWorkplaceDetailQuery,
-    useCancelWorkplaceStatusMutation,
     SubAdminApi,
+    useCancelWorkplaceStatusMutation,
+    useGetSubAdminStudentWorkplaceDetailQuery,
+    useGetWorkplaceFoldersQuery,
 } from '@queries'
 import ReactStars from 'react-stars'
 
+import { useContextBar, useNotification } from '@hooks'
+import { AddSecondWPCB } from '@partials/sub-admin/students/contextBar'
+import { Student } from '@types'
+import { checkStudentProfileCompletion, WorkplaceCurrentStatus } from '@utils'
 import moment from 'moment'
-import { ReactElement, ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import {
-    WorkplaceTab,
-    AgreementView,
+    AddWorkplaceAction,
+    CancelledWorkplaceTable,
+    ContactPersonDetail,
     IndustryStatus,
     ViewAvailability,
-    WorkplaceHistory,
-    AddWorkplaceAction,
-    WorkplaceStatusView,
     WorkplaceCoordinators,
-    ContactPersonDetail,
-    CancelledWorkplaceTable,
+    WorkplaceHistory,
+    WorkplaceStatusView,
+    WorkplaceTab,
 } from './components'
 import { IndustryDetail } from './components/IndustryDetail'
-import { AddSecondWPCB } from '@partials/sub-admin/students/contextBar'
-import { useContextBar, useNotification } from '@hooks'
-import { checkStudentProfileCompletion, WorkplaceCurrentStatus } from '@utils'
 import {
     UpdatePrvWPStatusModal,
     ViewPlacementStartedAnswersModal,
     ViewQuestionsModal,
 } from './modals'
-import { WorkplaceQuestionType } from 'redux/queryTypes'
-import { studentProfileKeys } from '@partials/student/components'
-import { Student } from '@types'
 
 const WPStatusForCancelButon = [
     WorkplaceCurrentStatus.Applied,
@@ -74,6 +71,7 @@ export const Workplace = ({
         student?.id,
         {
             skip: !student,
+            refetchOnMountOrArgChange: true,
         }
     )
     const courses = SubAdminApi.Student.useCourses(Number(student?.id), {

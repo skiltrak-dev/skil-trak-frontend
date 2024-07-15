@@ -22,10 +22,10 @@ const Routes = {
     Tasks: `${PREFIX}/tasks`,
     Students: `${PREFIX}/students/current-students?tab=pending`,
     Supervisors: `${PREFIX}/supervisors`,
-    Jobs: `${PREFIX}/jobs`,
+    Jobs: `${PREFIX}/jobs/advertised-jobs`,
     ESign: `${PREFIX}/students/e-sign`,
     RequestAVolunteer: `${PREFIX}/students/request-a-volunteer`,
-    Notifications: `${PREFIX}/notifications`,
+    Notifications: `${PREFIX}/notifications/e-mails?tab=all-mails`,
     TalentPool: `${PREFIX}/talent-pool`,
 }
 

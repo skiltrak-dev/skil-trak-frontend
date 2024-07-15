@@ -10,7 +10,10 @@ import { UserRoles } from '@constants'
 import { useAlert, useContextBar } from '@hooks'
 import { SubAdminApi, useGetSubAdminStudentDetailQuery } from '@queries'
 import { StudentStatusEnum, UserStatus } from '@types'
-import { getLink, getUserCredentials } from '@utils'
+import {
+    getLink,
+    getUserCredentials
+} from '@utils'
 import moment from 'moment'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
