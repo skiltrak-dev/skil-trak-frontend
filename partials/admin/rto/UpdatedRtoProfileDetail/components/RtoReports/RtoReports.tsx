@@ -126,7 +126,7 @@ export const RtoReports = ({
                         <Button
                             Icon={BsDownload}
                             variant="info"
-                            text="Monthly Report"
+                            text="Range Download Report"
                             onClick={() => {
                                 onViewClicked()
                             }}

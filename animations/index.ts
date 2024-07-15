@@ -85,6 +85,8 @@ import appointmentsSec from './students/appointments-sec.json'
 import submissions from './students/submissions.json'
 import workplace from './students/workplace.json'
 
+import success from './common/success.json'
+
 export const ANIM_ERROR = error
 export const ANIM_PAGE_NOT_FOUND = pageNotFound
 export const Animations = {
@@ -95,6 +97,7 @@ export const Animations = {
         Loading: loading,
         Appointment: appointmentBox,
         UnderConstruction: underConstruction,
+        Success: success,
         Actions: {
             Success: check,
             Info: info,

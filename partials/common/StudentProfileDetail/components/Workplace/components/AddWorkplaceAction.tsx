@@ -17,7 +17,7 @@ export const AddWorkplaceAction = ({
     const workplaceActions = [
         {
             text: 'Provide Workplace Detail',
-            type: 'provide-workplace-detail',
+            type: 'provide-workplace-detail?tab=abn',
             onClick: () => {
                 router.push({
                     pathname: `/portals/sub-admin/students/${id}/provide-workplace-detail`,
