@@ -22,8 +22,8 @@ export const ProblamaticStudent = ({
                     ? 'Remove as Problamatic'
                     : 'Mark As Problamatic',
                 description: hasIssue
-                    ? `Removed Marked ${studentId} As Problamatic`
-                    : `Marked ${studentId} As Problamatic`,
+                    ? `Removed Marked As Problamatic`
+                    : `Marked As Problamatic`,
             })
         }
     }, [problamaticStudentResult])

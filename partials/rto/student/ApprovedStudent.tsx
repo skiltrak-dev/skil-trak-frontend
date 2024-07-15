@@ -352,7 +352,6 @@ export const ApprovedStudent = () => {
                 Icon={MdChangeCircle}
                 variant="info"
                 onClick={() => {
-                    console.log({ ids })
                     onAddMultiStudentsCoordinatorClicked(
                         ids?.map((stu: Student) => stu?.id)
                     )
