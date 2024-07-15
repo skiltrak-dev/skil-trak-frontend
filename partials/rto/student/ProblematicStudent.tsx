@@ -1,31 +1,26 @@
 import {
     ActionButton,
     Card,
-    CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
     StudentExpiryDaysLeft,
     Table,
     TableAction,
     TechnicalError,
-    Typography,
     UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaUserPlus } from 'react-icons/fa'
+import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
 import { RtoApi } from '@queries'
 import { Student } from '@types'
-import { studentsListWorkplace } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { SectorCell, StudentCellInfo } from './components'
-import { IndustryCell } from './components/IndustryCell'
-import { ArchiveModal, AssignCoordinatorModal, BlockModal } from './modals'
 export const ProblematicStudent = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -155,8 +150,8 @@ export const ProblematicStudent = () => {
             {modal && modal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
-                    title={'Approved Students'}
-                    subtitle={'List of Approved Students'}
+                    title={'Problematic Students'}
+                    subtitle={'List of Problematic Students'}
                 ></PageHeading>
 
                 <Card noPadding>
@@ -218,9 +213,9 @@ export const ProblematicStudent = () => {
                     ) : (
                         !isError && (
                             <EmptyData
-                                title={'No Approved Student!'}
+                                title={'No Problematic Student!'}
                                 description={
-                                    'You have not approved any Student request yet'
+                                    'There is no any Problematic Student request yet'
                                 }
                                 height={'50vh'}
                             />
