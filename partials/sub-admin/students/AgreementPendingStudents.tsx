@@ -51,9 +51,18 @@ export const AgreementPendingStudents = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
+    // const { isLoading, isFetching, data, isError } =
+    //     SubAdminApi.Student.placementStartedStudents({
+    //         search: `currentStatus:${WorkplaceCurrentStatus.AwaitingAgreementSigned}`,
+    //         skip: itemPerPage * page - itemPerPage,
+    //         limit: itemPerPage,
+    //     })
+
     const { isLoading, isFetching, data, isError } =
-        SubAdminApi.Student.placementStartedStudents({
-            search: `currentStatus:${WorkplaceCurrentStatus.AwaitingAgreementSigned}`,
+        SubAdminApi.Student.useList({
+            search: `currentStatus:${
+                WorkplaceCurrentStatus.AwaitingAgreementSigned
+            },myStudent:${true}`,
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })

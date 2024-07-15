@@ -11,19 +11,17 @@ type PersonalInfoProps = {
     setActive: any
     setPersonalInfoData: any
     personalInfoData: any
+    courses: any
 }
 
 export const PersonalInfo = ({
     setActive,
     personalInfoData,
     setPersonalInfoData,
+    courses,
 }: PersonalInfoProps) => {
     const router = useRouter()
     const { id } = router.query
-
-    const courses = SubAdminApi.Courses.useStudentCourses(Number(id), {
-        skip: !id,
-    })
 
     const onSubmit = (values: any) => {
         let questions: {

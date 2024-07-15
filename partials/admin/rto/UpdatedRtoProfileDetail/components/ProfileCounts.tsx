@@ -62,7 +62,7 @@ export const ProfileCounts = ({
                     page: 1,
                     pageSize: 50,
                     rtoId: Number(router?.query?.id),
-                    status: UserStatus.Approved,
+                    completed: String(true),
                 },
             },
             background: {

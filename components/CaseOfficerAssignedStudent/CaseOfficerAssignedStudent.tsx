@@ -7,7 +7,11 @@ import {
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
 } from '@utils'
-import React from 'react'
+import React, { ReactElement, useState } from 'react'
+import { AuthorizedUserComponent, Typography } from '@components'
+import { UserRoles } from '@constants'
+import { ViewStatusChangeHistoryModal } from '@partials/admin/student/modals'
+import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
 
 export const CaseOfficerAssignedStudent = ({
     student,
@@ -16,6 +20,7 @@ export const CaseOfficerAssignedStudent = ({
     student: Student
     workplaceFilter?: WorkplaceCurrentStatus
 }) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const workplace = student?.workplace
         ?.filter(
             (w: any) => w?.currentStatus !== WorkplaceCurrentStatus.Cancelled
@@ -31,59 +36,104 @@ export const CaseOfficerAssignedStudent = ({
         workplace?.industries
     )
 
-    return workplaceFilter ? (
-        <ProgressCell
-            appliedIndustry={appliedIndustry}
-            studentId={student?.id}
-            assigned={student?.subadmin}
-            step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
-            studentProvidedWorkplace={
-                workplace?.studentProvidedWorkplace || workplace?.byExistingAbn
-            }
-        />
-    ) : student?.workplace && student?.workplace?.length > 0 ? (
-        <ProgressCell
-            appliedIndustry={appliedIndustry}
-            studentId={student?.id}
-            assigned={student?.subadmin}
-            step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
-            studentProvidedWorkplace={
-                workplace?.studentProvidedWorkplace || workplace?.byExistingAbn
-            }
-        />
-    ) : industries?.length > 0 ? (
-        <StudentStatusProgressCell
-            assigned={student?.subadmin}
-            studentId={student?.id}
-            step={
-                workplace?.currentStatus === WorkplaceCurrentStatus.Cancelled
-                    ? 4
-                    : studentStatus
-            }
-            appliedIndustry={appliedIndustry}
-            studentProvidedWorkplace={
-                workplace?.studentProvidedWorkplace || workplace?.byExistingAbn
-            }
-        />
-    ) : student?.subadmin ? (
-        <ProgressCell
-            appliedIndustry={appliedIndustry}
-            studentId={student?.id}
-            step={3}
-            assigned={student?.subadmin}
-            studentProvidedWorkplace={
-                workplace?.studentProvidedWorkplace || workplace?.byExistingAbn
-            }
-        />
-    ) : (
-        <ProgressCell
-            appliedIndustry={appliedIndustry}
-            studentId={student?.id}
-            step={1}
-            assigned={student?.subadmin}
-            studentProvidedWorkplace={
-                workplace?.studentProvidedWorkplace || workplace?.byExistingAbn
-            }
-        />
+    const onCancelModal = () => setModal(null)
+
+    console.log({
+        workplaceworkplaceworkplaceworkplace: Object.keys(workplace)?.filter(
+            (s) => s !== 'currentStatus'
+        ),
+        workplace,
+        appliedIndustry,
+    })
+
+    return (
+        <div>
+            {modal}
+            {workplaceFilter ? (
+                <ProgressCell
+                    appliedIndustry={appliedIndustry}
+                    studentId={student?.id}
+                    assigned={student?.subadmin}
+                    step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                    studentProvidedWorkplace={
+                        workplace?.studentProvidedWorkplace ||
+                        workplace?.byExistingAbn
+                    }
+                />
+            ) : student?.workplace && student?.workplace?.length > 0 ? (
+                <ProgressCell
+                    appliedIndustry={appliedIndustry}
+                    studentId={student?.id}
+                    assigned={student?.subadmin}
+                    step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                    studentProvidedWorkplace={
+                        workplace?.studentProvidedWorkplace ||
+                        workplace?.byExistingAbn
+                    }
+                />
+            ) : industries?.length > 0 ? (
+                <StudentStatusProgressCell
+                    assigned={student?.subadmin}
+                    studentId={student?.id}
+                    step={
+                        workplace?.currentStatus ===
+                        WorkplaceCurrentStatus.Cancelled
+                            ? 4
+                            : studentStatus
+                    }
+                    appliedIndustry={appliedIndustry}
+                    studentProvidedWorkplace={
+                        workplace?.studentProvidedWorkplace ||
+                        workplace?.byExistingAbn
+                    }
+                />
+            ) : student?.subadmin ? (
+                <ProgressCell
+                    appliedIndustry={appliedIndustry}
+                    studentId={student?.id}
+                    step={3}
+                    assigned={student?.subadmin}
+                    studentProvidedWorkplace={
+                        workplace?.studentProvidedWorkplace ||
+                        workplace?.byExistingAbn
+                    }
+                />
+            ) : (
+                <ProgressCell
+                    appliedIndustry={appliedIndustry}
+                    studentId={student?.id}
+                    step={1}
+                    assigned={student?.subadmin}
+                    studentProvidedWorkplace={
+                        workplace?.studentProvidedWorkplace ||
+                        workplace?.byExistingAbn
+                    }
+                />
+            )}
+            {Object.keys(workplace)?.filter((s) => s !== 'currentStatus')
+                ?.length > 0 ? (
+                <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                    <div
+                        className={
+                            'bg-indigo-300 px-2 py-0.5 rounded-md mt-1 w-fit ml-auto cursor-pointer'
+                        }
+                        onClick={() => {
+                            setModal(
+                                <ViewStatusChangeHistoryModal
+                                    onCancel={onCancelModal}
+                                    appliedIndustry={
+                                        appliedIndustry as WorkplaceWorkIndustriesType
+                                    }
+                                />
+                            )
+                        }}
+                    >
+                        <Typography variant={'xs'}>
+                            View Status History
+                        </Typography>
+                    </div>
+                </AuthorizedUserComponent>
+            ) : null}
+        </div>
     )
 }

@@ -240,7 +240,7 @@ export const studentsEndpoints = (
             method: 'POST',
             body,
         }),
-        invalidatesTags: ['SubAdminStudents'],
+        invalidatesTags: ['SubAdminStudentssss'],
     }),
 
     subAdminRequestIndustryWorkplace: builder.mutation<any, any>({

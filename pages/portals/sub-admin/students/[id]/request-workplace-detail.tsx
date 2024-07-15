@@ -18,10 +18,12 @@ import {
 } from '@partials/sub-admin/students'
 import {
     useGetSubAdminStudentDetailQuery,
+    SubAdminApi,
     useGetSubAdminStudentWorkplaceQuery,
 } from '@queries'
 import { useRouter } from 'next/router'
-import { WorkplaceCurrentStatus } from '@utils'
+import { WorkplaceCurrentStatus, checkStudentProfileCompletion } from '@utils'
+import { CompleteProfileBeforeWpModal } from '@partials/common/StudentProfileDetail/components'
 
 type Props = {}
 
@@ -30,6 +32,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     const [personalInfoData, setPersonalInfoData] = useState({})
     const [availabilities, setAvailabilities] = useState<any | null>(Array())
     const [isCancelled, setIsCancelled] = useState<boolean>(false)
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const router = useRouter()
     const { id } = router.query
@@ -43,6 +46,36 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         skip: !id,
         refetchOnMountOrArgChange: true,
     })
+    const student = useGetSubAdminStudentDetailQuery(Number(id), {
+        skip: !id,
+        refetchOnMountOrArgChange: true,
+    })
+
+    const courses = SubAdminApi.Student.useCourses(Number(id), {
+        skip: !id,
+        refetchOnMountOrArgChange: true,
+    })
+
+    const values = {
+        ...student?.data,
+        ...student?.data?.user,
+        courses: courses?.data,
+    }
+    const profileCompletion = checkStudentProfileCompletion(values)
+
+    useEffect(() => {
+        if (
+            profileCompletion &&
+            profileCompletion > 0 &&
+            profileCompletion < 100
+        ) {
+            setModal(
+                <CompleteProfileBeforeWpModal
+                    workplaceType={'request-workplace-detail'}
+                />
+            )
+        }
+    }, [profileCompletion])
 
     // useEffect(() => {
     //     if (
@@ -106,6 +139,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
 
     return (
         <>
+            {modal}
             <PageTitle
                 title="Request Workplace Detail"
                 backTitle="Student Detail"
@@ -138,6 +172,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                                         setPersonalInfoData={
                                             setPersonalInfoData
                                         }
+                                        courses={courses}
                                         personalInfoData={personalInfoData}
                                     />
                                 )}
