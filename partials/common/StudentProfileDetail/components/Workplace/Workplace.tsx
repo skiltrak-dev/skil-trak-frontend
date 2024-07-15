@@ -37,7 +37,11 @@ import { IndustryDetail } from './components/IndustryDetail'
 import { AddSecondWPCB } from '@partials/sub-admin/students/contextBar'
 import { useContextBar, useNotification } from '@hooks'
 import { checkStudentProfileCompletion, WorkplaceCurrentStatus } from '@utils'
-import { ViewPlacementStartedAnswersModal, ViewQuestionsModal } from './modals'
+import {
+    UpdatePrvWPStatusModal,
+    ViewPlacementStartedAnswersModal,
+    ViewQuestionsModal,
+} from './modals'
 import { WorkplaceQuestionType } from 'redux/queryTypes'
 import { studentProfileKeys } from '@partials/student/components'
 import { Student } from '@types'
@@ -207,11 +211,13 @@ export const Workplace = ({
                                             )
                                             contextBar.show(false)
                                         } else {
-                                            notification.warning({
-                                                title: 'Update Previous workplace status',
-                                                description:
-                                                    'Update Previous workplace status to PLACEMENT STARTED',
-                                            })
+                                            setModal(
+                                                <UpdatePrvWPStatusModal
+                                                    onCancel={() => {
+                                                        onCancelModal()
+                                                    }}
+                                                />
+                                            )
                                         }
                                     }}
                                 >
