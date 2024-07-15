@@ -167,10 +167,6 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
         },
         {
             label: 'Problematic Student',
-            badge: {
-                text: count?.data?.completed,
-                loading: count.isLoading,
-            },
             href: { pathname: 'students', query: { tab: 'problem' } },
             element: <ProblematicStudent />,
         },
