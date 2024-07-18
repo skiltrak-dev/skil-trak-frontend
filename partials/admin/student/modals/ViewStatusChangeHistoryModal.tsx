@@ -33,7 +33,7 @@ export const ViewStatusChangeHistoryModal = ({
         },
         {
             text: 'Agreement and Eligibility Pending',
-            type: appliedIndustry?.awaitingAgreementSigned,
+            type: appliedIndustry?.awaitingAgreementSignedDate,
         },
         {
             text: 'Agreement Signed',
@@ -64,12 +64,7 @@ export const ViewStatusChangeHistoryModal = ({
 
                     // Calculate the difference in days
                     const difference = date2.diff(date1, 'days')
-                    console.log(
-                        'list?.[i - 1]?.type',
-                        list?.[i - 1]?.type,
-                        wpStatus?.type,
-                        difference
-                    )
+
                     return (
                         <div
                             className={
@@ -79,8 +74,8 @@ export const ViewStatusChangeHistoryModal = ({
                             <Typography variant={'small'} medium>
                                 {wpStatus?.text}
                             </Typography>
-                            <Typography variant={'small'}>
-                                {difference ? difference : '0'} Days Difference
+                            <Typography variant={'small'} bold={difference > 0}>
+                                {difference ? difference : '0'} Days
                             </Typography>
                         </div>
                     )

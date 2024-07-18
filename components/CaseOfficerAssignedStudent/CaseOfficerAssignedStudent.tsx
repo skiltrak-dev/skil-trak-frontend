@@ -38,13 +38,7 @@ export const CaseOfficerAssignedStudent = ({
 
     const onCancelModal = () => setModal(null)
 
-    console.log({
-        workplaceworkplaceworkplaceworkplace: Object.keys(workplace)?.filter(
-            (s) => s !== 'currentStatus'
-        ),
-        workplace,
-        appliedIndustry,
-    })
+    console.log({ workplace })
 
     return (
         <div>
@@ -110,9 +104,10 @@ export const CaseOfficerAssignedStudent = ({
                     }
                 />
             )}
-            {Object.keys(workplace)?.filter((s) => s !== 'currentStatus')
-                ?.length > 0 ? (
-                <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+            <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                {workplace &&
+                Object.keys(workplace)?.filter((s) => s !== 'currentStatus')
+                    ?.length > 0 ? (
                     <div
                         className={
                             'bg-indigo-300 px-2 py-0.5 rounded-md mt-1 w-fit ml-auto cursor-pointer'
@@ -132,8 +127,8 @@ export const CaseOfficerAssignedStudent = ({
                             View Status History
                         </Typography>
                     </div>
-                </AuthorizedUserComponent>
-            ) : null}
+                ) : null}
+            </AuthorizedUserComponent>
         </div>
     )
 }

@@ -40,8 +40,6 @@ const EditStudentDetail: NextPageWithLayout = () => {
         refetchOnMountOrArgChange: true,
     })
 
-    console.log({ student })
-
     const courses = SubAdminApi.Student.useCourses(Number(id), {
         skip: !id,
         refetchOnMountOrArgChange: true,
