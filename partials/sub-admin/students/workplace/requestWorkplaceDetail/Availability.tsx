@@ -41,7 +41,6 @@ export const Availability = ({
             generalAvailabilities: daysAvailability,
         }).then((res: any) => {
             if (res?.data) {
-                console.log('Bankaaa Success!!!!')
                 setModal(<WorkplaceCreatedModal onCancel={onCancelModal} />)
                 // setActive((active: number) => active + 1)
             }

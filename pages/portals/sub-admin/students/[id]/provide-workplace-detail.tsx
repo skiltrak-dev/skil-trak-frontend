@@ -70,8 +70,6 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     }
     const profileCompletion = checkStudentProfileCompletion(values)
 
-    console.log({ profileCompletion })
-
     useEffect(() => {
         if (
             profileCompletion &&
