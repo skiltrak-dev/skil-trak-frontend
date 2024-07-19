@@ -1,23 +1,11 @@
 // components
-import {
-    Card,
-    EmptyData,
-    LoadingAnimation,
-    PageSize,
-    Pagination,
-    Table,
-    TechnicalError,
-    Typography,
-    UserCreatedAt,
-} from '@components'
-import { PageHeading } from '@components/headings'
+import { Card, EmptyData, Table, Typography, UserCreatedAt } from '@components'
 
 // queries
-import { AdminWorkplaceRequest } from '../components'
-import { UpdatedWorkplaceRequest } from './components'
+import { ColumnDef } from '@tanstack/react-table'
 import { ellipsisText } from '@utils'
 import Link from 'next/link'
-import { ColumnDef } from '@tanstack/react-table'
+import { StudentWorkplaceCellInfo, UpdatedWorkplaceRequest } from './components'
 
 export const UpdatedAdminFilteredWorkplace = ({
     setPage,
@@ -35,26 +23,9 @@ export const UpdatedAdminFilteredWorkplace = ({
             header: () => 'Student',
             accessorKey: 'student',
             cell: (info) => (
-                <div>
-                    <Typography variant="muted" color="text-gray-700">
-                        {info?.row?.original?.student?.studentId ?? 'N/A'}
-                    </Typography>
-                    <Typography variant="small" semibold>
-                        {ellipsisText(
-                            info?.row?.original?.student?.user?.name,
-                            16
-                        ) ?? 'N/A'}
-                    </Typography>
-                    <Typography variant="small" color="text-gray-500">
-                        {info?.row?.original?.student?.addressLine1 ?? 'N/A'}
-                    </Typography>
-                    <Link
-                        href={`/portals/admin/student/${info?.row?.original?.student?.id}/detail`}
-                        className="text-blue-500 text-xs"
-                    >
-                        View Details
-                    </Link>
-                </div>
+                <StudentWorkplaceCellInfo
+                    student={info?.row?.original?.student}
+                />
             ),
         },
         {

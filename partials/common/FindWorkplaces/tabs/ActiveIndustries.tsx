@@ -23,17 +23,12 @@ import { Industry, IndustryStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { FiLogIn } from 'react-icons/fi'
-import {
-    MdBlock,
-    MdDelete,
-    MdEmail,
-    MdOutlineFavorite,
-    MdPhoneIphone,
-} from 'react-icons/md'
+import { MdBlock, MdDelete, MdEmail, MdOutlineFavorite } from 'react-icons/md'
 // import { IndustryCell, SectorCell } from './components'
 // import { BlockModal } from './modals'
 
 // hooks
+import { useContextBar } from '@hooks'
 import Image from 'next/image'
 import { AiFillCheckCircle, AiFillWarning } from 'react-icons/ai'
 import { BiPencil } from 'react-icons/bi'
@@ -45,16 +40,12 @@ import {
     AddToSignupModal,
     DeleteFutureIndustryModal,
     DeleteMultiFutureIndustryModal,
-    ViewIndustryListingNoteModal,
     ViewNoteModal,
 } from '../modal'
-import { useContextBar } from '@hooks'
-import { AddIndustry } from './AddIndustry'
-import { ImportIndustriesList } from '../contextBar'
-import { ellipsisText } from '@utils'
-import { MultipleFavoriteModal } from '../MultipleFavoriteModal'
-import { MultipleDoNotDisturbModal } from '../MultipleDoNotDisturbModal'
 import { MultipleDefaultModal } from '../MultipleDefaultModal'
+import { MultipleDoNotDisturbModal } from '../MultipleDoNotDisturbModal'
+import { MultipleFavoriteModal } from '../MultipleFavoriteModal'
+import { AddIndustry } from './AddIndustry'
 
 export const ActiveIndustries = ({
     onSetIndustryData,
@@ -75,11 +66,16 @@ export const ActiveIndustries = ({
     }, [router])
 
     const { isLoading, data, isError } =
-        CommonApi.FindWorkplace.useGetAllFindWorkplaces({
-            search: '',
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+        CommonApi.FindWorkplace.useGetAllFindWorkplaces(
+            {
+                search: '',
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: true,
+            }
+        )
 
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
@@ -231,7 +227,7 @@ export const ActiveIndustries = ({
                         JSON.stringify(industry)
                     )
                     router.push(
-                        `/portals/admin/future-industries/signup-future-industry`
+                        `/portals/sub-admin/tasks/industry-listing/signup-future-industry`
                     )
                 },
                 Icon: FiLogIn,

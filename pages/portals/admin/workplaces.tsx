@@ -19,12 +19,6 @@ import { AdminApi } from '@queries'
 import { LoadingAnimation, TechnicalError } from '@components'
 import { useNavbar } from '@hooks'
 import {
-    AdminFilteredWorkplace,
-    AllRequestedWorkplace,
-    AllStudentProvidedWorkplace,
-    AssignedRequest,
-    CancelledRequests,
-    UnAssignedRequest,
     UpdatedAdminFilteredWorkplace,
     UpdatedAllRequestedWorkplace,
     UpdatedAllStudentProvidedWorkplace,

@@ -249,6 +249,14 @@ export const commonApi = emptySplitApi.injectEndpoints({
             }),
         }),
 
+        registerByFutureIndustry: build.mutation<any, any>({
+            query: (body) => ({
+                url: `industries/create/by-listing`,
+                method: 'POST',
+                body,
+            }),
+        }),
+
         ...rtosEndpoints(build),
         ...draftEndpoints(build),
         ...notesEndpoints(build),
@@ -274,6 +282,8 @@ export const commonApi = emptySplitApi.injectEndpoints({
 })
 
 const {
+    useRegisterByFutureIndustryMutation,
+
     useGetUserPasswordQuery,
 
     usePerFormAcivityOnLogoutMutation,
@@ -559,6 +569,7 @@ export const CommonApi = {
         getAdvertisedJobDetail: useGetAdvertisedJobDetailQuery,
         addBranchesAddress: useAddIndustryBranchesAddressMutation,
         useUpdateIndustryBranch: useUpdateIndustryBranchAddressMutation,
+        useRegisterByFutureIndustry: useRegisterByFutureIndustryMutation,
         useRemoveIndustryBranch: useRemoveIndustryBranchAddressMutation,
         bulkEmailSubadminIndustries: useGetBulkEmailSubadminIndustriesQuery,
     },
@@ -686,7 +697,8 @@ export const CommonApi = {
     FindWorkplace: {
         useAddIndustry: useAddIndustryMutation,
         useAddToSignup: useAddToSignupMutation,
-        useAddFutureIndustryListingNote: useAddFutureIndustryListingNoteMutation, 
+        useAddFutureIndustryListingNote:
+            useAddFutureIndustryListingNoteMutation,
         useUpdateIndustry: useUpdateIndustryMutation,
         useFindIndustriesCount: useFindIndustriesCountQuery,
         importIndustriesList: useImportIndustriesListMutation,
