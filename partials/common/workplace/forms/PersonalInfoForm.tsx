@@ -133,7 +133,7 @@ export const PersonalInfoForm = ({
                         {/*  */}
                         <PersonalInfoQuestions
                             personalInfoData={personalInfoData}
-                            formValues={formMethods.watch()}
+                            formMethods={formMethods}
                         />
 
                         <div>

@@ -38,6 +38,7 @@ import {
 } from './components'
 import { IndustryDetail } from './components/IndustryDetail'
 import {
+    CancelWorkplaceModal,
     UpdatePrvWPStatusModal,
     ViewPlacementStartedAnswersModal,
     ViewQuestionsModal,
@@ -155,6 +156,15 @@ export const Workplace = ({
     // const keys = Object.keys(values)
 
     const profileCompletion = checkStudentProfileCompletion(values)
+
+    const onCancelWPClicked = () => {
+        setModal(
+            <CancelWorkplaceModal
+                onCancel={onCancelModal}
+                selectedWorkplace={selectedWorkplace}
+            />
+        )
+    }
 
     return (
         <>
@@ -332,11 +342,12 @@ export const Workplace = ({
                                             <ActionButton
                                                 variant={'error'}
                                                 onClick={async () => {
-                                                    await cancelWorkplace(
-                                                        Number(
-                                                            selectedWorkplace?.id
-                                                        )
-                                                    )
+                                                    onCancelWPClicked()
+                                                    // await cancelWorkplace(
+                                                    //     Number(
+                                                    //         selectedWorkplace?.id
+                                                    //     )
+                                                    // )
                                                 }}
                                                 loading={
                                                     cancelWorkplaceResult.isLoading

@@ -27,16 +27,16 @@ export const WorkplaceCreatedModal = ({
                     {/* <GiCheckMark className="text-success-dark text-8xl" /> */}
                     <div className="mx-auto">
                         <Typography center semibold>
-                            Workplace request generated Successfully
+                            Workplace Request Successfully Generated
                         </Typography>
                     </div>
                 </div>
                 <div>
                     <Typography center>
                         <span className="text-[15px] leading-4 text-center">
-                            Workplace request Successfully generated we do have
-                            available in area one of our case oficer get beck to
-                            you asap
+                            We have successfully processed your workplace
+                            request. A case officer will be assigned to your
+                            case promptly to assist you further.
                         </span>
                     </Typography>
                 </div>

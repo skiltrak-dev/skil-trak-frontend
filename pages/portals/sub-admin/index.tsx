@@ -200,7 +200,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                                 count={statistics?.data?.workplaceRequest}
                                 title={'Workplace Requests'}
                                 link={
-                                    'sub-admin/tasks/workplace?tab=all&subTab=case-officer-not-assigned'
+                                    'sub-admin/tasks/workplace?tab=my-workplaces'
                                 }
                             />
                             <FigureCardVII

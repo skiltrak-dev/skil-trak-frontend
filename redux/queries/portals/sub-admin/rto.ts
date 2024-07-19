@@ -25,6 +25,10 @@ export const subAdminRtoEndpoints = (
         query: (id) => `${PREFIX}/rto/profile/${id}`,
         providesTags: ['SubAdminRtos'],
     }),
+    getSubAdminRTOStatistics: builder.query<any, number>({
+        query: (id) => `${PREFIX}/rto/${id}/dashboard/count`,
+        providesTags: ['SubAdminRtos'],
+    }),
     getSubAdminRtosStudents: builder.query<
         any,
         { id: number; skip: number; limit: number }
