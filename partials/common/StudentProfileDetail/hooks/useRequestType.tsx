@@ -1,21 +1,20 @@
-import React, { ReactElement, useState } from 'react'
+import { useNotification } from '@hooks'
 import {
     ApproveRequestModal,
     CompleteWorkplaceModal,
     ForwardModal,
     InterviewModal,
     MeetingModal,
-    PlacementStartedModal,
     TerminateWorkplaceModal,
 } from '@partials/sub-admin/workplace/modals'
-import { WorkplaceCurrentStatus } from '@utils'
-import { useNotification } from '@hooks'
 import { isClearedFunctionType } from '@partials/sub-admin/workplace/studentProvidedComponents/RequestTypeAbn'
 import { UserStatus } from '@types'
+import { WorkplaceCurrentStatus } from '@utils'
+import { ReactElement, useState } from 'react'
 import {
     AddFeedbackModal,
     AgreementSignedModal,
-    CancelWorlplaceModal,
+    CancelWorkplaceModal,
     ShowScheduleInfoModal,
 } from '../components'
 
@@ -122,7 +121,7 @@ export const useRequestType = ({
 
     const onCancelRequestClicked = () => {
         setModal(
-            <CancelWorlplaceModal
+            <CancelWorkplaceModal
                 onCancel={onModalCancelClicked}
                 workplaceId={workplace?.id}
             />

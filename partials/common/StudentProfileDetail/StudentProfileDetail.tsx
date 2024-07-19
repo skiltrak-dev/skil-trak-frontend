@@ -10,10 +10,7 @@ import { UserRoles } from '@constants'
 import { useAlert, useContextBar } from '@hooks'
 import { SubAdminApi, useGetSubAdminStudentDetailQuery } from '@queries'
 import { StudentStatusEnum, UserStatus } from '@types'
-import {
-    getLink,
-    getUserCredentials
-} from '@utils'
+import { getLink, getUserCredentials } from '@utils'
 import moment from 'moment'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
@@ -201,7 +198,7 @@ export const StudentProfileDetail = () => {
                             'shadow-site rounded-[10px] px-2.5 bg-white group max-w-max transition-all text-xs flex justify-start items-center py-2.5 text-muted hover:text-muted-dark cursor-pointer'
                         }
                         onClick={() => {
-                            role === UserRoles.ADMIN
+                            role === UserRoles.ADMIN || subadmin?.data?.isAdmin
                                 ? router.push(
                                       `/${getLink('student')}` ||
                                           'portals/admin/student?tab=active&page=1&pageSize=50'

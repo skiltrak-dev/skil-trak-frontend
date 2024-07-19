@@ -159,12 +159,16 @@ export const workplaceEndpoints = (
         }),
         providesTags: ['SubAdminWorkplace'],
     }),
-    cancelWorkplaceStatus: builder.mutation<any, number>({
-        query: (id) => ({
+    cancelWorkplaceStatus: builder.mutation<
+        any,
+        { id: number; comment: string }
+    >({
+        query: ({ id, ...body }) => ({
             url: `${PREFIX}student/workplace/update/${id}`,
+            body,
             method: 'PATCH',
         }),
-        invalidatesTags: ['SubAdminWorkplace'],
+        invalidatesTags: ['SubAdminWorkplace', 'Notes'],
     }),
     updateWorkplaceStatus: builder.mutation<
         any,

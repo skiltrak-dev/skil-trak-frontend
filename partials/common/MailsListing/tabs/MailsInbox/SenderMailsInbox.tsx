@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { MailTopBar, MailingList } from './components'
+import { MailTitle, MailTopBar, MailingList } from './components'
 import { CommonApi } from '@queries'
 import { useFunctions } from '../hooks'
 
@@ -33,6 +33,7 @@ export const SenderMailsInbox = () => {
                 onSelectMails={onSelectMails}
                 pagination={mailsList?.data?.pagination}
             />
+            <MailTitle mailFrom={'To'} />
             <MailingList
                 sender
                 selectedMails={selectedMails}

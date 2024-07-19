@@ -1,3 +1,4 @@
+export * from './MailTitle'
 export * from './MailTopBar'
 export * from './MailingList'
 export * from './ComposeMail'

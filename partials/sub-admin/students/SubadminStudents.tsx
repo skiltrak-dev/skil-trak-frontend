@@ -50,6 +50,7 @@ const filterKeys = [
     'suburb',
     'status',
     'courseId',
+    'completed',
     'studentId',
     'industryId',
     'currentStatus',

@@ -17,7 +17,7 @@ export const CancelWorlplaceModal = ({
         useCancelWorkplaceStatusMutation()
 
     const onConfirmUClicked = async (id: number) => {
-        await cancelWorkplace(id)
+        await cancelWorkplace({ id, comment: '' })
     }
 
     useEffect(() => {
