@@ -202,7 +202,7 @@ const Login: NextPage = () => {
                                 <div className="flex md:justify-start justify-center items-center gap-x-1.5 w-full">
                                     <div className="w-36">
                                         <Image
-                                            src={'/images/app-qr-code.svg'}
+                                            src={'/images/skiltrak_IOS.svg'}
                                             alt="Skiltrak App"
                                             width={206}
                                             height={206}
