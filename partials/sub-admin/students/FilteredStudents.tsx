@@ -36,6 +36,7 @@ import {
     BlockModal,
     ChangeStudentStatusModal,
 } from './modals'
+import { RTOCellInfo } from '../rto/components'
 
 export const FilteredStudents = ({
     filter,
@@ -170,20 +171,9 @@ export const FilteredStudents = ({
             },
         },
         {
-            header: () => 'RTO Name',
+            header: () => 'RTO',
             accessorKey: 'rto',
-            cell({ row }) {
-                const { rto } = row.original
-
-                return (
-                    <div className="flex gap-x-2 items-center">
-                        {rto?.user?.name && (
-                            <InitialAvatar name={rto?.user?.name} small />
-                        )}
-                        {rto.user.name}
-                    </div>
-                )
-            },
+            cell: ({ row }: any) => <RTOCellInfo rto={row.original?.rto} />,
         },
         {
             accessorKey: 'industry',

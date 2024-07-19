@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { MailTopBar, MailingList } from './components'
+import { MailTitle, MailTopBar, MailingList } from './components'
 import { CommonApi } from '@queries'
 import { useFunctions } from '../hooks'
+import { Typography } from '@components'
 
 export const ReceiverMailsInbox = () => {
     const [itemPerPage, setItemPerPage] = useState(20)
@@ -33,6 +34,7 @@ export const ReceiverMailsInbox = () => {
                 onSelectMails={onSelectMails}
                 pagination={mailsList?.data?.pagination}
             />
+            <MailTitle mailFrom={'From'} />
             <MailingList
                 selectedMails={selectedMails}
                 mailsList={mailsList}

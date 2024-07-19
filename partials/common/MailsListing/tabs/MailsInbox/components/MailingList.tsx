@@ -1,4 +1,4 @@
-import { EmptyData, TechnicalError } from '@components'
+import { EmptyData, TechnicalError, Typography } from '@components'
 import { MailListCard } from '../Cards'
 import { MailLoadingSkeleton } from './MailLoadingSkeleton'
 

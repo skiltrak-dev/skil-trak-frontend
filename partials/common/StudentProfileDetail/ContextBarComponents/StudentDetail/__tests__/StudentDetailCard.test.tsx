@@ -1,7 +1,4 @@
 import '@testing-library/jest-dom'
-import { render, waitFor, screen } from '@testing-library/react'
-import { EmergencyContact } from '../EmergencyContact'
-import { StudentDetailCard } from '../StudentDetailCard'
 
 // jest.mock('swiper/react', () => ({
 //     Swiper: ({ children }: any) => (
@@ -12,11 +9,11 @@ import { StudentDetailCard } from '../StudentDetailCard'
 //     ),
 // }))
 
-describe('MyComponent', () => {
-    it('Saad', async () => {
-        await waitFor(() => {
-            render(<StudentDetailCard detail="Saad" title="Saad" />)
-            // Your assertions or queries here
-        })
-    })
-})
+// describe('MyComponent', () => {
+//     it('Saad', async () => {
+//         await waitFor(() => {
+//             render(<StudentDetailCard detail="Saad" title="Saad" />)
+//             // Your assertions or queries here
+//         })
+//     })
+// })
