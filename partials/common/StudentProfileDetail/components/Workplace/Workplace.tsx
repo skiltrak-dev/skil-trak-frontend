@@ -161,7 +161,7 @@ export const Workplace = ({
         setModal(
             <CancelWorkplaceModal
                 onCancel={onCancelModal}
-                selectedWorkplace={selectedWorkplace}
+                workplaceId={selectedWorkplace?.id}
             />
         )
     }

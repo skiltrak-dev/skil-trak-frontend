@@ -15,9 +15,9 @@ interface onSubmitType {
 
 export const CancelWorkplaceModal = ({
     onCancel,
-    selectedWorkplace,
+    workplaceId,
 }: {
-    selectedWorkplace: any
+    workplaceId: number
     onCancel: Function
 }) => {
     const { notification } = useNotification()
@@ -46,7 +46,7 @@ export const CancelWorkplaceModal = ({
 
     const onSubmit = (values: onSubmitType) => {
         cancelWorkplace({
-            id: Number(selectedWorkplace?.id),
+            id: Number(workplaceId),
             comment: values?.note,
         })
     }

@@ -31,14 +31,17 @@ import {
     useGetWorkplaceFoldersQuery,
 } from '@queries'
 import { Course } from '@types'
-import { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { Waypoint } from 'react-waypoint'
 
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
 import Link from 'next/link'
 import { UserRoles } from '@constants'
 import { BsDot } from 'react-icons/bs'
-import { IndustryStatus } from '@partials/common/StudentProfileDetail/components'
+import {
+    CancelWorkplaceModal,
+    IndustryStatus,
+} from '@partials/common/StudentProfileDetail/components'
 import { GetFolders } from '../../hooks'
 import { AssignToMe } from '../../components'
 
@@ -65,6 +68,7 @@ export const UpdatedWorkplaceRequest = ({
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
     const [course, setCourse] = useState<any | null>(null)
     const [onEnterWorkplace, setOnEnterWorkplace] = useState<boolean>(false)
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [isOpened, setIsOpened] = useState<boolean>(false)
     const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -113,50 +117,64 @@ export const UpdatedWorkplaceRequest = ({
               }))
             : []
 
-    const role = getUserCredentials()?.role
+    const onCancelWorkplaceClicked = () => {
+        setModal(
+            <CancelWorkplaceModal
+                onCancel={() => {
+                    setModal(null)
+                }}
+                workplaceId={workplace?.id}
+            />
+        )
+    }
 
     return (
-        <Waypoint
-            onEnter={() => setOnEnterWorkplace(true)}
-            onLeave={() => setOnEnterWorkplace(false)}
-        >
-            <div>
-                <ShowErrorNotifications result={cancelWorkplaceResult} />
+        <>
+            {modal}
+            <Waypoint
+                onEnter={() => setOnEnterWorkplace(true)}
+                onLeave={() => setOnEnterWorkplace(false)}
+            >
                 <div>
-                    {assignToMe && !cancelRequest ? (
-                        <AssignToMe
-                            workplace={workplace}
-                            appliedIndustry={appliedIndustry}
-                        />
-                    ) : cancelRequest ? (
-                        WPStatusForCancelButon.includes(
-                            workplace?.currentStatus
-                        ) && (
-                            <div className="mt-3">
-                                <ActionButton
-                                    variant={'error'}
-                                    onClick={async () => {
-                                        await cancelWorkplace(
-                                            Number(workplace?.id)
-                                        )
-                                    }}
-                                    loading={cancelWorkplaceResult.isLoading}
-                                    disabled={cancelWorkplaceResult.isLoading}
-                                >
-                                    Cancel Request
-                                </ActionButton>
-                            </div>
-                        )
-                    ) : (
-                        <IndustryStatus
-                            folders={folders}
-                            workplace={workplace}
-                            appliedIndustry={appliedIndustry}
-                            // isOpen={isOpen}
-                        />
-                    )}
+                    <ShowErrorNotifications result={cancelWorkplaceResult} />
+                    <div>
+                        {assignToMe && !cancelRequest ? (
+                            <AssignToMe
+                                workplace={workplace}
+                                appliedIndustry={appliedIndustry}
+                            />
+                        ) : cancelRequest ? (
+                            WPStatusForCancelButon.includes(
+                                workplace?.currentStatus
+                            ) && (
+                                <div className="mt-3">
+                                    <ActionButton
+                                        variant={'error'}
+                                        onClick={async () => {
+                                            onCancelWorkplaceClicked()
+                                        }}
+                                        loading={
+                                            cancelWorkplaceResult.isLoading
+                                        }
+                                        disabled={
+                                            cancelWorkplaceResult.isLoading
+                                        }
+                                    >
+                                        Cancel Request
+                                    </ActionButton>
+                                </div>
+                            )
+                        ) : (
+                            <IndustryStatus
+                                folders={folders}
+                                workplace={workplace}
+                                appliedIndustry={appliedIndustry}
+                                // isOpen={isOpen}
+                            />
+                        )}
+                    </div>
                 </div>
-            </div>
-        </Waypoint>
+            </Waypoint>
+        </>
     )
 }
