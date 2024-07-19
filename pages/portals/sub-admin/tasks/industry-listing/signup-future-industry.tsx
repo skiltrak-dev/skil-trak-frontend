@@ -1,11 +1,11 @@
 import { ReactElement } from 'react'
-import { AdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
-import { FutureIndustrySignUpForm } from '@partials/common'
-import { AdminApi, CommonApi } from '@queries'
 import { useRouter } from 'next/router'
+import { SubAdminLayout } from '@layouts'
+import { FutureIndustrySignUpForm } from '@partials/common'
 import { ShowErrorNotifications } from '@components'
+import { CommonApi } from '@queries'
 import { useNotification } from '@hooks'
+import { NextPageWithLayout } from '@types'
 
 const SignUpFutureIndustryPage: NextPageWithLayout = () => {
     const router = useRouter()
@@ -28,7 +28,7 @@ const SignUpFutureIndustryPage: NextPageWithLayout = () => {
                     description: 'Industry Signed Up Successfully',
                 })
                 router.push(
-                    '/portals/admin/future-industries?tab=all&page=1&pageSize=50'
+                    `/portals/sub-admin/tasks/industry-listing?tab=all&page=1&pageSize=50`
                 )
             }
         })
@@ -45,7 +45,7 @@ const SignUpFutureIndustryPage: NextPageWithLayout = () => {
 }
 
 SignUpFutureIndustryPage.getLayout = (page: ReactElement) => {
-    return <AdminLayout>{page}</AdminLayout>
+    return <SubAdminLayout>{page}</SubAdminLayout>
 }
 
 export default SignUpFutureIndustryPage

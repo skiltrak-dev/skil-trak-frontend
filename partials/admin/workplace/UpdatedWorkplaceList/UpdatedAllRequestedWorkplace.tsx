@@ -17,7 +17,7 @@ import { AdminApi } from '@queries'
 
 import { useRouter } from 'next/router'
 import { AdminWorkplaceRequest } from '../components'
-import { UpdatedWorkplaceRequest } from './components'
+import { StudentWorkplaceCellInfo, UpdatedWorkplaceRequest } from './components'
 import { ColumnDef } from '@tanstack/react-table'
 import { ellipsisText } from '@utils'
 import Link from 'next/link'
@@ -48,26 +48,9 @@ export const UpdatedAllRequestedWorkplace = () => {
             header: () => 'Student',
             accessorKey: 'student',
             cell: (info) => (
-                <div>
-                    <Typography variant="muted" color="text-gray-700">
-                        {info?.row?.original?.student?.studentId ?? 'N/A'}
-                    </Typography>
-                    <Typography variant="small" semibold>
-                        {ellipsisText(
-                            info?.row?.original?.student?.user?.name,
-                            16
-                        ) ?? 'N/A'}
-                    </Typography>
-                    <Typography variant="small" color="text-gray-500">
-                        {info?.row?.original?.student?.addressLine1 ?? 'N/A'}
-                    </Typography>
-                    <Link
-                        href={`/portals/admin/student/${info?.row?.original?.student?.id}/detail`}
-                        className="text-blue-500 text-xs"
-                    >
-                        View Details
-                    </Link>
-                </div>
+                <StudentWorkplaceCellInfo
+                    student={info?.row?.original?.student}
+                />
             ),
         },
         {

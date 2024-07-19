@@ -1,27 +1,23 @@
 // components
 import {
-    TechnicalError,
-    LoadingAnimation,
-    EmptyData,
-    PageSize,
-    Pagination,
-    UserCreatedAt,
-    Typography,
-    Table,
     Card,
+    EmptyData,
+    LoadingAnimation,
+    Table,
+    TechnicalError,
+    Typography,
+    UserCreatedAt,
 } from '@components'
 
 // queries
 import { AdminApi } from '@queries'
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-import { IWorkplaceIndustries } from 'redux/queryTypes'
-import { AdminWorkplaceRequest } from '../components'
-import { UpdatedWorkplaceRequest } from './components'
-import Link from 'next/link'
-import { ellipsisText } from '@utils'
 import { ColumnDef } from '@tanstack/react-table'
+import { ellipsisText } from '@utils'
+import Link from 'next/link'
+import { StudentWorkplaceCellInfo, UpdatedWorkplaceRequest } from './components'
 
 export const UpdatedAllStudentProvidedWorkplace = () => {
     const router = useRouter()
@@ -49,26 +45,9 @@ export const UpdatedAllStudentProvidedWorkplace = () => {
             header: () => 'Student',
             accessorKey: 'student',
             cell: (info) => (
-                <div>
-                    <Typography variant="muted" color="text-gray-700">
-                        {info?.row?.original?.student?.studentId ?? 'N/A'}
-                    </Typography>
-                    <Typography variant="small" semibold>
-                        {ellipsisText(
-                            info?.row?.original?.student?.user?.name,
-                            16
-                        ) ?? 'N/A'}
-                    </Typography>
-                    <Typography variant="small" color="text-gray-500">
-                        {info?.row?.original?.student?.addressLine1 ?? 'N/A'}
-                    </Typography>
-                    <Link
-                        href={`/portals/admin/student/${info?.row?.original?.student?.id}/detail`}
-                        className="text-blue-500 text-xs"
-                    >
-                        View Details
-                    </Link>
-                </div>
+                <StudentWorkplaceCellInfo
+                    student={info?.row?.original?.student}
+                />
             ),
         },
         {
