@@ -601,3 +601,27 @@ img {
     height: 100vh;
     width: 100%;
 }
+
+/* Our story */
+.skiltrak-is-working-with-bg{
+    background-image: url('/images/our-story/bg-boxes.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 637px;
+    width: 100%;
+}
+
+.border-gradient{
+    background: radial-gradient(circle at 100% 100%, #ffffff 0, #ffffff 3px, transparent 3px) 0% 0%/8px 8px no-repeat,
+            radial-gradient(circle at 0 100%, #ffffff 0, #ffffff 3px, transparent 3px) 100% 0%/8px 8px no-repeat,
+            radial-gradient(circle at 100% 0, #ffffff 0, #ffffff 3px, transparent 3px) 0% 100%/8px 8px no-repeat,
+            radial-gradient(circle at 0 0, #ffffff 0, #ffffff 3px, transparent 3px) 100% 100%/8px 8px no-repeat,
+            linear-gradient(#ffffff, #ffffff) 50% 50%/calc(100% - 4px) calc(100% - 7px) no-repeat,
+            linear-gradient(#ffffff, #ffffff) 50% 50%/calc(100% - 7px) calc(100% - 4px) no-repeat,
+            linear-gradient(90deg, #f6910f 0%, #24536B 100%);
+    border-radius: 8px;
+    padding: 2px;
+    box-sizing: border-box;
+}
+
