@@ -1,20 +1,16 @@
 import { ActionModal } from '@components'
 import { useAlert, useNotification } from '@hooks'
+import { AdminApi } from '@queries'
 import { SubAdmin } from '@types'
 import { useEffect } from 'react'
-import { FaBan } from 'react-icons/fa'
-import { useChangeStatus } from '../hooks'
 import { MdOutlineAssignmentReturn } from 'react-icons/md'
-import { AdminApi } from '@queries'
 
 export const AssignAutoWorkplaceModal = ({
     subAdmin,
     onCancel,
-    setChangeStatusResult,
 }: {
     subAdmin: SubAdmin
     onCancel: Function
-    setChangeStatusResult: any
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()
@@ -24,9 +20,7 @@ export const AssignAutoWorkplaceModal = ({
     const onConfirmClicked = async (subAdmin: SubAdmin) => {
         await autoAssignWorkplace(subAdmin?.id)
     }
-    useEffect(() => {
-        setChangeStatusResult(resultAutoAssignWorkplace)
-    }, [resultAutoAssignWorkplace])
+
     useEffect(() => {
         if (resultAutoAssignWorkplace?.isSuccess) {
             alert.error({

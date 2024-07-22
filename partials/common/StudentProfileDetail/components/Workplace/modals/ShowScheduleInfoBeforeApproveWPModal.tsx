@@ -1,14 +1,26 @@
-import { GlobalModal, Typography } from '@components'
 import { MdCancel } from 'react-icons/md'
+import {
+    Button,
+    GlobalModal,
+    ShowErrorNotifications,
+    Typography,
+} from '@components'
 import { PiWarningOctagonThin } from 'react-icons/pi'
+import { useUpdateWorkplaceStatusMutation } from '@queries'
+import { UserStatus } from '@types'
 
-export const ShowScheduleInfoModal = ({
+export const ShowScheduleInfoBeforeApproveWPModal = ({
     onCancel,
+    appliedIndustryId,
 }: {
+    appliedIndustryId: number
     onCancel: () => void
 }) => {
+    const [updateStatus, updateStatusResult] =
+        useUpdateWorkplaceStatusMutation()
     return (
         <GlobalModal>
+            <ShowErrorNotifications result={updateStatusResult} />
             <div className="max-w-2xl p-5 relative flex flex-col gap-y-2 py-10">
                 <MdCancel
                     onClick={onCancel}
@@ -18,10 +30,7 @@ export const ShowScheduleInfoModal = ({
                     <PiWarningOctagonThin className="text-primary text-8xl" />
                     <div className="mx-auto">
                         <Typography center semibold>
-                            Add Schedule before changing status to{' '}
-                            <span className="text-success">
-                                "START PLACEMENT"
-                            </span>
+                            Add Schedule before approve Industry
                         </Typography>
                     </div>
                 </div>
@@ -35,6 +44,25 @@ export const ShowScheduleInfoModal = ({
                             placement.
                         </span>
                     </Typography>
+                </div>
+
+                <div className="flex items-center justify-center gap-x-5">
+                    <Button
+                        text="Not Yet"
+                        loading={updateStatusResult.isLoading}
+                        disabled={updateStatusResult.isLoading}
+                        onClick={() => {
+                            updateStatus({
+                                id: Number(appliedIndustryId),
+                                response: UserStatus.Approved,
+                            }).then((res: any) => {
+                                if (res?.data) {
+                                    onCancel()
+                                }
+                            })
+                        }}
+                    />
+                    <Button text="OK" />
                 </div>
             </div>
         </GlobalModal>

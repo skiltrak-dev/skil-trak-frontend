@@ -193,15 +193,15 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                             placeholder={'Salary To...'}
                             validationIcons
                         />
-
-                        <TextArea
-                            label={'Job Description'}
-                            name={'description'}
-                            placeholder={'Job Description'}
-                            validationIcons
-                            required
-                        />
                     </div>
+                    <TextArea
+                        label={'Job Description'}
+                        name={'description'}
+                        placeholder={'Job Description'}
+                        validationIcons
+                        required
+                        rows={8}
+                    />
                 </div>
 
                 <div className="md:mb-8">

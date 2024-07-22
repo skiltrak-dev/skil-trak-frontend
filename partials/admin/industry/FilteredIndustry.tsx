@@ -265,6 +265,15 @@ export const FilteredIndustry = ({
         {
             accessorKey: 'channel',
             header: () => <span>Created By</span>,
+            cell: (info) => (
+                <div>
+                    {info?.row?.original?.createdBy !== null ? (
+                        <p>{info?.row?.original?.createdBy?.name}</p>
+                    ) : (
+                        <p>{info?.row?.original?.channel}</p>
+                    )}
+                </div>
+            ),
         },
         {
             accessorKey: 'createdAt',

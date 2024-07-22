@@ -53,6 +53,13 @@ export const adminApi = emptySplitApi.injectEndpoints({
             }),
             invalidatesTags: ['AllowRtoListing', 'SubAdmins'],
         }),
+        allowIndustryListing: build.mutation<any, number>({
+            query: (id) => ({
+                url: `admin/subadmin/${id}/allow-industry/listing`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['AllowRtoListing', 'SubAdmins'],
+        }),
 
         ...rtoEndpoints(build),
         ...jobEndpoints(build),
@@ -83,6 +90,7 @@ const {
     useUpdateAdminProfileMutation,
 
     useAllowRtoListingMutation,
+    useAllowIndustryListingMutation,
 
     // Blogs
     useCreateBlogMutation,
@@ -211,6 +219,7 @@ const {
     useSubAdminsFilterListQuery,
     useSubAdminProfileCountQuery,
     useAssociatedWithRtoMutation,
+    useSubadminWorkplaceListQuery,
     useSubAdminExtendedStudentsListQuery,
     useToggleAutoWorkplaceAssignmentMutation,
 
@@ -283,6 +292,7 @@ export const AdminApi = {
         useUpdateProfile: useUpdateAdminProfileMutation,
         useSectorsStudentsCount: useSectorsStudentsCountQuery,
         useAllowRtoListing: useAllowRtoListingMutation,
+        allowIndustryListing: useAllowIndustryListingMutation,
     },
     Rtos: {
         useCountQuery: useRtoCountQuery,
@@ -348,6 +358,7 @@ export const AdminApi = {
         useAssociatedWithRto: useAssociatedWithRtoMutation,
         useToggleAutoAssignWorkplace: useToggleAutoWorkplaceAssignmentMutation,
         subadminExtendedStudents: useSubAdminExtendedStudentsListQuery,
+        useSubadminWorkplaceList: useSubadminWorkplaceListQuery,
 
         useCourses: useSubAdminCoursesQuery,
         useAssignCourses: useSubAdminAssignCoursesMutation,

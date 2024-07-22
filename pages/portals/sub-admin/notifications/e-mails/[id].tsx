@@ -1,19 +1,26 @@
 import {
     Button,
+    draftToHtmlText,
     EmptyData,
     LoadingAnimation,
     TechnicalError,
 } from '@components'
 import { SubAdminLayout } from '@layouts'
-import { DetailMailTopbar, TitleAndDate } from '@partials/common'
+import {
+    DetailMailTopbar,
+    ReplyEmailForm,
+    TitleAndDate,
+} from '@partials/common'
 import { CommonApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { HiOutlineReply } from 'react-icons/hi'
 
 const EmailDetail: NextPageWithLayout = () => {
     const router = useRouter()
+
+    const [isReply, setIsReply] = useState(false)
 
     const mailDetail = CommonApi.Messages.useMailDetail(
         Number(router?.query?.id),
@@ -28,6 +35,12 @@ const EmailDetail: NextPageWithLayout = () => {
             isSeen(router?.query?.id)
         }
     }, [router?.query, mailDetail?.data])
+
+    const onReplySubmit = (values: any) => {
+        const reply = draftToHtmlText(values?.reply)
+        console.log({ reply })
+        setIsReply(false)
+    }
 
     return (
         <div>
@@ -47,14 +60,28 @@ const EmailDetail: NextPageWithLayout = () => {
                         />
                     </div>
 
-                    <div className="mt-5 flex justify-end ml-auto">
-                        <Button
-                            rounded
-                            text={'Reply'}
-                            variant="dark"
-                            Icon={HiOutlineReply}
-                        />
-                    </div>
+                    {!isReply ? (
+                        <div className="mt-5 flex justify-end ml-auto">
+                            <Button
+                                rounded
+                                text={'Reply'}
+                                variant="dark"
+                                Icon={HiOutlineReply}
+                                onClick={() => {
+                                    setIsReply(!isReply)
+                                }}
+                            />
+                        </div>
+                    ) : null}
+
+                    {isReply ? (
+                        <div>
+                            <ReplyEmailForm
+                                onSubmit={onReplySubmit}
+                                result={{}}
+                            />
+                        </div>
+                    ) : null}
                 </div>
             ) : mailDetail?.isSuccess ? (
                 <EmptyData />

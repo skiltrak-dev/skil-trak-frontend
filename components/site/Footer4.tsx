@@ -62,7 +62,7 @@ export const Footer4 = () => {
                             <IoLocationOutline className="text-[#F6910F]" />
                         </div>
                         <div className="cursor-pointer text-sm font-medium text-[#AEAEAE]">
-                            152 Elizabeth st, Melbourne VIC 3000
+                            27/101 Collins street Melbourne
                         </div>
                     </div>
                     <a

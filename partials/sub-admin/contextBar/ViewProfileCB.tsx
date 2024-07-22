@@ -42,7 +42,7 @@ export const ViewProfileCB = ({
             link: '/portals/sub-admin/tasks/workplace?tab=my-workplaces',
         },
         {
-            text: 'Agreements pending',
+            text: 'My Agreements Pending',
             count: statistics?.awaitingAgreementSigned,
             link: '/portals/sub-admin/students?tab=agreement-pending',
         },

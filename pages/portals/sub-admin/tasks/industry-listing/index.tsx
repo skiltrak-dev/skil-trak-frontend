@@ -7,6 +7,7 @@ import {
     TabNavigation,
     TabProps,
     TechnicalError,
+    Typography,
 } from '@components'
 import { FigureCard } from '@components/sections/subAdmin'
 import { useContextBar } from '@hooks'
@@ -14,11 +15,12 @@ import { SubAdminLayout } from '@layouts'
 import { ActiveIndustries, AddIndustry } from '@partials/common'
 import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
 import { ImportIndustriesListWithOTP } from '@partials/common/FindWorkplaces/contextBar'
-import { CommonApi, commonApi } from '@queries'
+import { CommonApi, commonApi, SubAdminApi } from '@queries'
 import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
 import { checkFilteredDataLength } from '@utils'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { FaIndustry } from 'react-icons/fa'
+import { IoWarning } from 'react-icons/io5'
 import { MdAddBusiness } from 'react-icons/md'
 type Props = {}
 const filterKeys = [
@@ -40,7 +42,7 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
     )
     const [industryData, setIndustryData] = useState<any>(null)
 
-    // const { isLoading, data, isError } = commonApi.useFindIndustriesCountQuery()
+    const profile = SubAdminApi.SubAdmin.useProfile()
     const filteredIndustries = commonApi.useGetAllFindWorkplacesQuery({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
@@ -94,114 +96,164 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
         contextBar.setTitle('Upload Industries')
     }
     return (
-        <div>
-            <SetDetaultQueryFilteres<FindWorkplaceFilter>
-                filterKeys={filterKeys}
-                setFilter={setFilter}
-            />
-            <div className="flex justify-end gap-x-2 mt-4 mr-6">
-                {filterAction}{' '}
-                <Button
-                    text={'Upload Industries'}
-                    variant="dark"
-                    Icon={MdAddBusiness}
-                    onClick={() => {
-                        onUploadIndustries()
-                    }}
-                />
-                <Button
-                    text={'Add Industry'}
-                    variant="dark"
-                    Icon={FaIndustry}
-                    onClick={() => {
-                        onAddIndustry()
-                    }}
-                />
-            </div>
-            <Filter<FindWorkplaceFilter>
-                component={FindWorkplaceFilters}
-                initialValues={filter}
-                setFilterAction={setFilterAction}
-                setFilter={setFilter}
-                filterKeys={filterKeys}
-            />
-            {filteredDataLength && filteredIndustries.isError && (
-                <TechnicalError />
-            )}
-            {filteredDataLength ? (
-                filteredIndustries.isLoading ? (
-                    <LoadingAnimation />
-                ) : (
-                    filteredIndustries.isSuccess && (
-                        <FilteredSearchIndustries
-                            setPage={setPage}
-                            itemPerPage={itemPerPage}
-                            industries={filteredIndustries}
-                            setItemPerPage={setItemPerPage}
-                            onSetIndustryData={(data: any) => {
-                                onSetIndustryData(data)
+        <>
+            {profile?.data && profile?.data?.allowIndustryListing ? (
+                <div>
+                    <SetDetaultQueryFilteres<FindWorkplaceFilter>
+                        filterKeys={filterKeys}
+                        setFilter={setFilter}
+                    />
+                    <div className="flex justify-end gap-x-2 mt-4 mr-6">
+                        {filterAction}{' '}
+                        <Button
+                            text={'Upload Industries'}
+                            variant="dark"
+                            Icon={MdAddBusiness}
+                            onClick={() => {
+                                onUploadIndustries()
                             }}
                         />
-                    )
-                )
-            ) : null}
-            {!filteredDataLength && (
-                <TabNavigation tabs={tabs}>
-                    {({ header, element }: any) => {
-                        return (
-                            <div>
-                                <div className="flex items-end justify-between">
-                                    <div className="flex-grow">{header}</div>
-                                </div>
-                                <div className="flex items-center gap-x-2 mt-3">
-                                    <FigureCard
-                                        count={count?.data?.all}
-                                        loading={count?.isLoading}
-                                        title={'All Industries'}
-                                        imageUrl={
-                                            '/images/icons/allIndustry.png'
-                                        }
-                                    />
-                                    <FigureCard
-                                        count={count?.data?.myAddedIndustries}
-                                        loading={count?.isLoading}
-                                        title={'My Added Industries'}
-                                        imageUrl={
-                                            '/images/icons/allIndustry.png'
-                                        }
-                                    />
-                                    <FigureCard
-                                        count={count?.data?.newlyCreated}
-                                        loading={count?.isLoading}
-                                        title={'Today Added Industries'}
-                                        imageUrl={
-                                            '/images/icons/newlyAdded.png'
-                                        }
-                                    />
-                                    <FigureCard
-                                        count={count?.data?.favourite}
-                                        loading={count?.isLoading}
-                                        title={'Favourite Industries'}
-                                        imageUrl={'/images/icons/favorite.png'}
-                                    />
-
-                                    <FigureCard
-                                        count={count?.data?.doNotDisturb}
-                                        loading={count?.isLoading}
-                                        title={'Do Not Disturb'}
-                                        imageUrl={
-                                            '/images/icons/doNotDisturb.jpg'
-                                        }
-                                    />
-                                </div>
-                                <div className="p-4">{element}</div>
-                            </div>
+                        <Button
+                            text={'Add Industry'}
+                            variant="dark"
+                            Icon={FaIndustry}
+                            onClick={() => {
+                                onAddIndustry()
+                            }}
+                        />
+                    </div>
+                    <Filter<FindWorkplaceFilter>
+                        component={FindWorkplaceFilters}
+                        initialValues={filter}
+                        setFilterAction={setFilterAction}
+                        setFilter={setFilter}
+                        filterKeys={filterKeys}
+                    />
+                    {filteredDataLength && filteredIndustries.isError && (
+                        <TechnicalError />
+                    )}
+                    {filteredDataLength ? (
+                        filteredIndustries.isLoading ? (
+                            <LoadingAnimation />
+                        ) : (
+                            filteredIndustries.isSuccess && (
+                                <FilteredSearchIndustries
+                                    setPage={setPage}
+                                    itemPerPage={itemPerPage}
+                                    industries={filteredIndustries}
+                                    setItemPerPage={setItemPerPage}
+                                    onSetIndustryData={(data: any) => {
+                                        onSetIndustryData(data)
+                                    }}
+                                />
+                            )
                         )
-                    }}
-                </TabNavigation>
+                    ) : null}
+                    {!filteredDataLength && (
+                        <TabNavigation tabs={tabs}>
+                            {({ header, element }: any) => {
+                                return (
+                                    <div>
+                                        <div className="flex items-end justify-between">
+                                            <div className="flex-grow">
+                                                {header}
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-x-2 mt-3">
+                                            <FigureCard
+                                                count={count?.data?.all}
+                                                loading={count?.isLoading}
+                                                title={'All Industries'}
+                                                imageUrl={
+                                                    '/images/icons/allIndustry.png'
+                                                }
+                                            />
+                                            <FigureCard
+                                                count={
+                                                    count?.data
+                                                        ?.myAddedIndustries
+                                                }
+                                                loading={count?.isLoading}
+                                                title={'My Added Industries'}
+                                                imageUrl={
+                                                    '/images/icons/allIndustry.png'
+                                                }
+                                            />
+                                            <FigureCard
+                                                count={count?.data?.signedUp}
+                                                loading={count?.isLoading}
+                                                title={'Signed Up Industries'}
+                                                imageUrl={
+                                                    '/images/icons/signedUpIndustry.png'
+                                                }
+                                                onClick={() => {
+                                                    // setTarget('call made to  student')
+                                                }}
+                                            />
+                                            <FigureCard
+                                                count={
+                                                    count?.data?.newlyCreated
+                                                }
+                                                loading={count?.isLoading}
+                                                title={'Today Added Industries'}
+                                                imageUrl={
+                                                    '/images/icons/newlyAdded.png'
+                                                }
+                                            />
+                                            <FigureCard
+                                                count={count?.data?.favourite}
+                                                loading={count?.isLoading}
+                                                title={'Favourite Industries'}
+                                                imageUrl={
+                                                    '/images/icons/favorite.png'
+                                                }
+                                            />
+
+                                            <FigureCard
+                                                count={
+                                                    count?.data?.doNotDisturb
+                                                }
+                                                loading={count?.isLoading}
+                                                title={'Do Not Disturb'}
+                                                imageUrl={
+                                                    '/images/icons/doNotDisturb.jpg'
+                                                }
+                                            />
+                                        </div>
+                                        <div className="p-4">{element}</div>
+                                    </div>
+                                )
+                            }}
+                        </TabNavigation>
+                    )}
+                    {/* <SearchLocation /> */}
+                </div>
+            ) : (
+                <div className="flex flex-col justify-center items-center gap-y-4 p-14 bg-white border-2 border-dashed rounded-lg">
+                    <div>
+                        <IoWarning className="text-yellow-500" size={70} />
+                    </div>
+                    <div className="px-48 text-center">
+                        <Typography
+                            variant="body"
+                            semibold
+                            color="text-gray-400"
+                            center
+                        >
+                            The creation of Industry Listings requires prior
+                            approval from an administrator. To expedite
+                            processing, please submit your request to{' '}
+                            <a
+                                href={`mailto:admin@skiltrak.com.au`}
+                                className="italic font-thin text-blue-400"
+                            >
+                                admin@skiltrak.com.au
+                            </a>
+                        </Typography>
+                    </div>
+                </div>
             )}
-            {/* <SearchLocation /> */}
-        </div>
+        </>
     )
 }
 IndustryListing.getLayout = (page: ReactElement) => {

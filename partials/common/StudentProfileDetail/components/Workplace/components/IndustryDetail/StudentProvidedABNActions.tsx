@@ -8,7 +8,7 @@ import { WorkplaceCurrentStatus } from '@utils'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
 import { InitiateSign } from './components'
-import { AgreementSignedModal } from '../../modals'
+import { AgreementSignedModal, ShowScheduleInfoModal } from '../../modals'
 
 export const StudentProvidedABNActions = ({
     student,
@@ -93,19 +93,30 @@ export const StudentProvidedABNActions = ({
                         text={'Approve Industry'}
                         onClick={() => {
                             setActionStatus(UserStatus.Approved)
-                            if (workplace?.assignedTo) {
-                                changeCustomIndustryStatus({
-                                    industryId:
-                                        appliedIndustry?.industry?.user?.id,
-                                    workplaceId: workplace?.id,
-                                    status: UserStatus.Approved,
-                                })
+                            if (
+                                workplace?.student?.user?.schedules &&
+                                workplace?.student?.user?.schedules?.length > 0
+                            ) {
+                                if (workplace?.assignedTo) {
+                                    changeCustomIndustryStatus({
+                                        industryId:
+                                            appliedIndustry?.industry?.user?.id,
+                                        workplaceId: workplace?.id,
+                                        status: UserStatus.Approved,
+                                    })
+                                } else {
+                                    notification.error({
+                                        title: 'Changing Status Failed',
+                                        description:
+                                            'You can,t change the status without assigning Workplace',
+                                    })
+                                }
                             } else {
-                                notification.error({
-                                    title: 'Changing Status Failed',
-                                    description:
-                                        'You can,t change the status without assigning Workplace',
-                                })
+                                setModal(
+                                    <ShowScheduleInfoModal
+                                        onCancel={onModalCancelClicked}
+                                    />
+                                )
                             }
                         }}
                         loading={changeCustomIndustryStatusResult.isLoading}

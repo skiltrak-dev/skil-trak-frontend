@@ -10,11 +10,9 @@ import { CommonApi } from '@queries'
 export const AllowAsAdminModal = ({
     subAdmin,
     onCancel,
-    setChangeStatusResult,
 }: {
     subAdmin: SubAdmin
     onCancel: Function
-    setChangeStatusResult: any
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()
@@ -23,9 +21,7 @@ export const AllowAsAdminModal = ({
     const onConfirmClicked = async (subAdmin: SubAdmin) => {
         await canAdmin(subAdmin?.id)
     }
-    useEffect(() => {
-        setChangeStatusResult(resultCanAdmin)
-    }, [resultCanAdmin])
+
     useEffect(() => {
         if (resultCanAdmin?.isSuccess) {
             alert.error({
