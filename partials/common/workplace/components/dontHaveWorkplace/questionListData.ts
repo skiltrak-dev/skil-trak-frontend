@@ -48,8 +48,7 @@ export const questionList = [
                 name: 'zip',
                 label: 'Post Code',
                 type: 'text',
-                placeholder:
-                    'Where would you want to locate your self? (Suburb)',
+                placeholder: 'Post Code',
             },
         ],
         fullWidth: true,
@@ -158,20 +157,20 @@ export const questionList = [
     },
     {
         name: workplaceQuestionsKeys.commutePlan,
-        index: 12,
+        index: 11,
         title: 'Commute Plan:',
         customAnswers: ['My Own', 'Public transportation?'],
         required: true,
     },
     {
         name: workplaceQuestionsKeys.awarenessOfUnpaidPlacement,
-        index: 13,
+        index: 12,
         title: 'Awareness of Unpaid Placement:',
         required: true,
     },
     {
         name: workplaceQuestionsKeys.understandingOfDocumentation,
-        index: 14,
+        index: 13,
         title: 'Understanding of Documentation:',
         required: true,
     },

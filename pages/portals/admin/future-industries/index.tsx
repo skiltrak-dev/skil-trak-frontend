@@ -17,7 +17,6 @@ import { ImportIndustriesList } from '@partials/common/FindWorkplaces/contextBar
 import { CommonApi } from '@queries'
 import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
 import { checkFilteredDataLength } from '@utils'
-import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { MdAddBusiness } from 'react-icons/md'
 
@@ -178,6 +177,17 @@ const FutureIndustryListing: NextPageWithLayout = (props: Props) => {
                                         title={'Today Added Industries'}
                                         imageUrl={
                                             '/images/icons/newlyAdded.png'
+                                        }
+                                        onClick={() => {
+                                            // setTarget('call made to  student')
+                                        }}
+                                    />
+                                    <FigureCard
+                                        count={count?.data?.signedUp}
+                                        loading={count?.isLoading}
+                                        title={'Signed Up Industries'}
+                                        imageUrl={
+                                            '/images/icons/signedUpIndustry.png'
                                         }
                                         onClick={() => {
                                             // setTarget('call made to  student')

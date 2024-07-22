@@ -74,23 +74,10 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                     workplaceType={'request-workplace-detail'}
                 />
             )
+        } else if (profileCompletion === 100) {
+            setModal(null)
         }
     }, [profileCompletion])
-
-    // useEffect(() => {
-    //     if (
-    //         workplace?.data &&
-    //         workplace.isSuccess &&
-    //         workplace?.data?.length > 0
-    //     ) {
-    //         if (workplace?.data[0]?.currentStatus === 'placementStarted')
-    //             setActive(4)
-    //         else setActive(3)
-    //     }
-    //     // else if (!workplace?.data?.length) {
-    //     //     setActive(1)
-    //     // }
-    // }, [workplace])
 
     useEffect(() => {
         if (

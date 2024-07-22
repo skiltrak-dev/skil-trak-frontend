@@ -14,6 +14,7 @@ import { MdCancel } from 'react-icons/md'
 import * as Yup from 'yup'
 import { ShowDuplicatedIndustriesModal } from './ShowDuplicatedIndustriesModal'
 import { IndustryListingDepartment } from '../enum'
+import { saveAs } from 'file-saver'
 
 export const ImportIndustriesListVerificationModal = ({
     onCancel,

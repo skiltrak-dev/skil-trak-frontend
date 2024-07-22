@@ -113,7 +113,6 @@ export const IndustrySelection = ({
             {appliedIndustry && (
                 <>
                     <AppliedIndustry
-                        workplaceCancelRequest={workplaceCancelRequest}
                         appliedIndustry={appliedIndustry}
                         setIndustrySelection={setIndustrySelection}
                         status={workplaceIndustries?.currentStatus}
@@ -145,40 +144,51 @@ export const IndustrySelection = ({
                             )
                         })}
                     </div>
-
-                    {!appliedIndustry && workplaceCancelRequest()}
                 </Card>
             ) : (
                 !appliedIndustry && (
                     <Card>
-                        <div className="px-5 py-12 border border-dashed rounded-lg">
+                        <div className="flex flex-col gap-y-3 px-5 py-12 border border-dashed rounded-lg">
                             <Typography
-                                variant={'body'}
+                                variant={'subtitle'}
                                 color={'text-gray-600'}
-                                center
                             >
-                                Thank you for submitting your request. It has
-                                been forwarded to our placement team. One of our
-                                coordinators will reach out to you with
-                                workplace details within 48 hours. Feel free to
-                                contact us at{' '}
-                                <span className="font-bold">0393636378</span> or
-                                via email at{' '}
-                                <span className="font-bold">
-                                    info@skiltrak.com.au
-                                </span>{' '}
-                                if you have any questions.
-                                {/* Unfortunately! No industry is available with
-                                your provided criteria, but one of{' '}
-                                <span className="font-bold">
-                                    our coordinator will soon get in touch with
-                                    you
-                                </span>{' '}
-                                to help you out. */}
+                                Thank you for submitting your Workplace Request!
                             </Typography>
+                            <Typography
+                                variant={'label'}
+                                color={'text-gray-600'}
+                            >
+                                Your request has been successfully received. Our
+                                placement team will now review your information.
+                                One of our coordinators will reach out to you
+                                with workplace details within 48 hours.
+                                regarding your workplace placement.
+                            </Typography>
+                            <div>
+                                <Typography
+                                    variant={'label'}
+                                    color={'text-gray-600'}
+                                >
+                                    If you have any immediate questions, feel
+                                    free to reach out to us at:
+                                </Typography>
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-gray-600'}
+                                    semibold
+                                >
+                                    Phone: 0393636378
+                                </Typography>
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-gray-600'}
+                                    semibold
+                                >
+                                    Email: info@skiltrak.com.au
+                                </Typography>
+                            </div>
                         </div>
-
-                        {workplaceCancelRequest()}
                     </Card>
                 )
             )}

@@ -35,11 +35,11 @@ import {
     BlockModal,
     AllowRtoListingModal,
     AssociatedWithRTOModal,
+    AllowIndustryListingModal,
 } from './modals'
 
 export const ActiveSubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const [changeStatusResult, setChangeStatusResult] = useState<any>({})
     const router = useRouter()
 
     const contextBar = useContextBar()
@@ -54,7 +54,6 @@ export const ActiveSubAdmin = () => {
 
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
-
     const { isLoading, isFetching, data, isError, refetch } =
         AdminApi.SubAdmins.useListQuery(
             {
@@ -69,14 +68,6 @@ export const ActiveSubAdmin = () => {
             }
         )
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
-    const [associatedWithRto, associatedWithRtoResult] =
-        AdminApi.SubAdmins.useAssociatedWithRto()
-
-    useEffect(() => {
-        if (changeStatusResult.isSuccess) {
-            refetch()
-        }
-    }, [changeStatusResult])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -102,7 +93,6 @@ export const ActiveSubAdmin = () => {
         setModal(
             <AllowAsAdminModal
                 subAdmin={subAdmin}
-                setChangeStatusResult={setChangeStatusResult}
                 onCancel={() => onModalCancelClicked()}
             />
         )
@@ -111,7 +101,14 @@ export const ActiveSubAdmin = () => {
         setModal(
             <AllowRtoListingModal
                 subAdmin={subAdmin}
-                setChangeStatusResult={setChangeStatusResult}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+    const onAllowIndustryListingClicked = (subAdmin: SubAdmin) => {
+        setModal(
+            <AllowIndustryListingModal
+                subAdmin={subAdmin}
                 onCancel={() => onModalCancelClicked()}
             />
         )
@@ -120,7 +117,6 @@ export const ActiveSubAdmin = () => {
         setModal(
             <AssignAutoWorkplaceModal
                 subAdmin={subAdmin}
-                setChangeStatusResult={setChangeStatusResult}
                 onCancel={() => onModalCancelClicked()}
             />
         )
@@ -214,6 +210,20 @@ export const ActiveSubAdmin = () => {
                           }`,
                           onClick: (subAdmin: SubAdmin) =>
                               onAllowRtoListingClicked(subAdmin),
+                          Icon: FaSchool,
+                      }
+                    : {}),
+            },
+            {
+                ...(role === UserRoles.ADMIN
+                    ? {
+                          text: `${
+                              !subAdmin?.allowIndustryListing
+                                  ? 'Allow Industry Listing'
+                                  : 'Remove Industry Listing'
+                          }`,
+                          onClick: (subAdmin: SubAdmin) =>
+                              onAllowIndustryListingClicked(subAdmin),
                           Icon: FaSchool,
                       }
                     : {}),

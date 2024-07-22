@@ -22,6 +22,8 @@ import {
     Card,
     LoadingAnimation,
     ActionButton,
+    SetDetaultQueryFilteres,
+    Badge,
 } from '@components'
 import { JobsFilter } from './components'
 
@@ -41,7 +43,7 @@ import { JobCell } from './components'
 import { useJoyRide } from '@hooks'
 import { IoMdEye } from 'react-icons/io'
 
-const Colors = getThemeColors()
+const filterKeys = ['title', 'type']
 
 export const AdvertisedJobsContainer = () => {
     const router = useRouter()
@@ -53,20 +55,18 @@ export const AdvertisedJobsContainer = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     // query
-    const { data, isLoading, isError } = useGetIndustryJobsQuery({
-        search: `${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
-        sort: '-title',
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { data, isLoading, isFetching, isError, isSuccess } =
+        useGetIndustryJobsQuery({
+            search: `${JSON.stringify(filter)
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
-    const onModalCancelClicked = () => {
-        setModal(null)
-    }
+    const onModalCancelClicked = () => setModal(null)
 
     const onDeleteClicked = (job: any) => {
         setModal(
@@ -100,9 +100,7 @@ export const AdvertisedJobsContainer = () => {
         {
             header: () => 'Job Detail',
             accessorKey: 'title',
-            cell: ({ row }: any) => {
-                return <JobCell job={row.original} />
-            },
+            cell: ({ row }: any) => <JobCell job={row.original} />,
         },
         {
             header: () => 'Type',
@@ -111,13 +109,13 @@ export const AdvertisedJobsContainer = () => {
                 const { employmentType } = row.original
                 switch (employmentType) {
                     case 'fullTime':
-                        return 'Full Time'
+                        return <Badge text="Full Time" variant="success" />
 
                     case 'partTime':
-                        return 'Part Time'
+                        return <Badge text="Part Time" variant="success" />
 
                     default:
-                        return 'Temporary'
+                        return <Badge text="Temporary" variant="success" />
                 }
             },
         },
@@ -172,11 +170,6 @@ export const AdvertisedJobsContainer = () => {
         },
     ]
 
-    const filterInitialValues = {
-        title: '',
-        type: '',
-        status: '',
-    }
     // ADD STUDENT JOY RIDE - START
     const joyride = useJoyRide()
     useEffect(() => {
@@ -189,6 +182,10 @@ export const AdvertisedJobsContainer = () => {
     // ADD STUDENT JOY RIDE - END
     return (
         <div>
+            <SetDetaultQueryFilteres
+                filterKeys={filterKeys}
+                setFilter={setFilter}
+            />
             {modal}
             <div className="flex flex-col md:flex-row md:justify-between md:items-center pb-4">
                 <BackButton
@@ -216,6 +213,7 @@ export const AdvertisedJobsContainer = () => {
                 setFilter={setFilter}
                 setFilterAction={setFilterActionButton}
                 initialValues={filter}
+                filterKeys={filterKeys}
             />
 
             {/* Showing Alert on Any Action */}
@@ -227,12 +225,12 @@ export const AdvertisedJobsContainer = () => {
             </div>
             <Card noPadding>
                 {isError && <TechnicalError />}
-                {isLoading ? (
+                {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length ? (
+                ) : data?.data && data?.data.length && isSuccess ? (
                     <Table
                         columns={Columns}
-                        data={data.data}
+                        data={data?.data}
                         // quickActions={quickActionsElements}
                         enableRowSelection
                     >
@@ -264,7 +262,7 @@ export const AdvertisedJobsContainer = () => {
                         }}
                     </Table>
                 ) : (
-                    !isError && (
+                    isSuccess && (
                         <EmptyData
                             title={'No Advertsed Job!'}
                             description={'You have not advertsed any Job yet'}

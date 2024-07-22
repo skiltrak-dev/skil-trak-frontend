@@ -51,8 +51,14 @@ export const DefaultQuestions = ({
                 />
             </div>
 
-            {ques?.name === 'currentEmploymentStatus' && value !== 'No' ? (
-                <TextInput name={ques?.name} placeholder={'Provide details.'} />
+            {(ques?.name === workplaceQuestionsKeys.currentEmploymentStatus ||
+                ques?.name === workplaceQuestionsKeys.medicalCondition) &&
+            value !== 'No' ? (
+                <TextInput
+                    label={'Provide Details'}
+                    name={ques?.name}
+                    placeholder={'Provide details.'}
+                />
             ) : null}
         </div>
     )

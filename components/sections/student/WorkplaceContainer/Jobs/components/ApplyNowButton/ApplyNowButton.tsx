@@ -4,6 +4,7 @@ import { useSaveJobMutation } from '@queries'
 import { ApplyJobModal } from '../ApplyJobModal'
 import { ReactNode, useEffect, useState } from 'react'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
+import { PulseLoader } from 'react-spinners'
 
 type Props = {
     onClick?: any
@@ -61,13 +62,17 @@ export const ApplyNowButton = ({ job, onClick, savedJob, id }: Props) => {
                             : 'bg-white border'
                     } rounded cursor-pointer`}
                 >
-                    <AiFillHeart
-                        className={`${
-                            job?.students?.length > 0
-                                ? 'text-white'
-                                : 'text-red-600'
-                        }`}
-                    />
+                    {saveHobResult.isLoading ? (
+                        <PulseLoader size={3} />
+                    ) : (
+                        <AiFillHeart
+                            className={`${
+                                job?.students?.length > 0
+                                    ? 'text-white'
+                                    : 'text-red-600'
+                            }`}
+                        />
+                    )}
                 </div>
                 <div
                     className={`${

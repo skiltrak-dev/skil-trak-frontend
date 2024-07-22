@@ -224,9 +224,6 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                                         UserStatus.Approved) ||
                                 workplaceData?.byExistingAbn ? (
                                     <AppliedIndustry
-                                        workplaceCancelRequest={
-                                            workplaceCancelRequest
-                                        }
                                         appliedIndustry={
                                             workplaceData?.industries[0]
                                         }
