@@ -24,6 +24,10 @@ export interface RtoProfileCountDataType {
             [key: string]: string | number
         }
     }
+    customDetail?: {
+        text: string
+        onClick?: Function
+    }
 }
 
 export interface Background {

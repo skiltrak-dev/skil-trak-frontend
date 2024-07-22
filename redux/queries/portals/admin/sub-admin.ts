@@ -71,8 +71,23 @@ export const subAdminEndpoints = (
         }),
         providesTags: ['SubAdmins'],
     }),
+
     subAdminProfile: builder.query<SubAdmin, number>({
         query: (id) => `${PREFIX}/subadmin/profile/${id}`,
+        providesTags: ['SubAdmins'],
+    }),
+
+    subadminWorkplaceList: builder.query<
+        any,
+        PaginationValues & {
+            id: number
+            status?: string
+        }
+    >({
+        query: ({ id, ...params }) => ({
+            url: `${PREFIX}/subadmin/${id}/workplace-request/list`,
+            params,
+        }),
         providesTags: ['SubAdmins'],
     }),
 

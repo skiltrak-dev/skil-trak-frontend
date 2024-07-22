@@ -10,7 +10,11 @@ import { Course, Student, UserStatus } from '@types'
 import { WorkplaceCurrentStatus } from '@utils'
 import { SignAgreement } from '@partials/sub-admin/workplace/components/Industries/components/Actions/components'
 import { InitiateSign } from './components'
-import { AgreementSignedModal } from '../../modals'
+import {
+    AgreementSignedModal,
+    ShowScheduleInfoBeforeApproveWPModal,
+    ShowScheduleInfoModal,
+} from '../../modals'
 
 export const Actions = ({
     workplace,
@@ -49,12 +53,24 @@ export const Actions = ({
     const onModalCancelClicked = () => setModal(null)
 
     const onApproveModal = () => {
-        setModal(
-            <ApproveRequestModal
-                appliedIndustryId={appliedIndustry?.id}
-                onCancel={onModalCancelClicked}
-            />
-        )
+        if (
+            workplace?.student?.user?.schedules &&
+            workplace?.student?.user?.schedules?.length > 0
+        ) {
+            setModal(
+                <ApproveRequestModal
+                    appliedIndustryId={appliedIndustry?.id}
+                    onCancel={onModalCancelClicked}
+                />
+            )
+        } else {
+            setModal(
+                <ShowScheduleInfoBeforeApproveWPModal
+                    onCancel={onModalCancelClicked}
+                    appliedIndustryId={appliedIndustry?.id}
+                />
+            )
+        }
     }
 
     const onChangeStatusToSigned = () => {

@@ -7,7 +7,6 @@ type Props = {
     getNextStep: any
     appliedIndustry: any
     workplaceRequest: any
-    workplaceCancelRequest: Function
     status: any
 }
 
@@ -15,7 +14,6 @@ export const AppliedIndustryCard = ({
     getNextStep,
     appliedIndustry,
     workplaceRequest,
-    workplaceCancelRequest,
     status,
 }: Props) => {
     return (
@@ -95,8 +93,6 @@ export const AppliedIndustryCard = ({
 
                         <div className="mt-3 md:mt-0">{getNextStep()}</div>
                     </div>
-
-                    {workplaceCancelRequest(true)}
                 </div>
             </Card>
         </div>

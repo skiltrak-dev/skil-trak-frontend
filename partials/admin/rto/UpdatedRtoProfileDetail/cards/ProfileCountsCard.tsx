@@ -44,6 +44,25 @@ export const ProfileCountsCard = ({
                         )}
                     </Typography>
                 </div>
+
+                {/*  */}
+                <div
+                    className="absolute bottom-3"
+                    onClick={(e: any) => {
+                        if (data?.customDetail?.onClick) {
+                            data?.customDetail?.onClick(e)
+                        }
+                    }}
+                >
+                    <Typography
+                        variant="small"
+                        color="text-gray-500"
+                        cursorPointer
+                        underline
+                    >
+                        {data?.customDetail?.text}
+                    </Typography>
+                </div>
             </div>
         </Card>
     )

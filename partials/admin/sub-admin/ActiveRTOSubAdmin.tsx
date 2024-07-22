@@ -104,7 +104,6 @@ export const ActiveRTOSubAdmin = () => {
         setModal(
             <AllowAsAdminModal
                 subAdmin={subAdmin}
-                setChangeStatusResult={setChangeStatusResult}
                 onCancel={() => onModalCancelClicked()}
             />
         )
@@ -113,7 +112,6 @@ export const ActiveRTOSubAdmin = () => {
         setModal(
             <AssignAutoWorkplaceModal
                 subAdmin={subAdmin}
-                setChangeStatusResult={setChangeStatusResult}
                 onCancel={() => onModalCancelClicked()}
             />
         )

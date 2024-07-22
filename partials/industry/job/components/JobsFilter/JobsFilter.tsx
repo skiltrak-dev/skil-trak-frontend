@@ -2,6 +2,7 @@ import React from 'react'
 
 // components
 import { TextInput, Select } from '@components'
+import { SetQueryFilters } from '@components/Filters/SetQueryFilters'
 export const JobsFilter = ({ onFilterChange, filter }: any) => {
     const StatusOptions = [{ label: 'Pending', value: 'pending' }]
 
@@ -12,23 +13,28 @@ export const JobsFilter = ({ onFilterChange, filter }: any) => {
     ]
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 py-2">
-            <TextInput
-                label={'Title'}
-                name={'title'}
-                placeholder={'Search By Job Title'}
-                onChange={(e: any) => {
-                    onFilterChange({ ...filter, title: e.target.value })
-                }}
-            />
-            <Select
-                label={'Type'}
-                name={'type'}
-                onChange={(e: any) => {
-                    onFilterChange({ ...filter, type: e.value })
-                }}
-                options={JobTypeOptions}
-            />
-        </div>
+        <>
+            <SetQueryFilters filter={filter} />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 py-2">
+                <TextInput
+                    label={'Title'}
+                    name={'title'}
+                    placeholder={'Search By Job Title'}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, title: e.target.value })
+                    }}
+                    showError={false}
+                />
+                <Select
+                    label={'Type'}
+                    name={'type'}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, type: e.value })
+                    }}
+                    options={JobTypeOptions}
+                    showError={false}
+                />
+            </div>
+        </>
     )
 }

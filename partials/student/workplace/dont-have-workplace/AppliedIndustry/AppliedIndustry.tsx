@@ -24,7 +24,6 @@ type Props = {
     workplaceRequest: any
     studentAdded?: boolean
     setIndustrySelection?: any
-    workplaceCancelRequest: any
 }
 
 export const AppliedIndustry = ({
@@ -34,7 +33,6 @@ export const AppliedIndustry = ({
     appliedIndustry,
     workplaceRequest,
     setIndustrySelection,
-    workplaceCancelRequest,
 }: Props) => {
     const getNextStep = () => {
         switch (status) {
@@ -79,7 +77,6 @@ export const AppliedIndustry = ({
             getNextStep={getNextStep}
             appliedIndustry={appliedIndustry}
             workplaceRequest={workplaceRequest}
-            workplaceCancelRequest={workplaceCancelRequest}
             status={status}
         />
     )

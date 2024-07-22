@@ -157,6 +157,19 @@ export const Approved = () => {
                 </div>
             ),
         },
+        // {
+        //     accessorKey: 're',
+        //     header: () => <span>Required Hours</span>,
+        //     cell: (info) => (
+        //         <div className="w-32">
+        //             <div className="border-2 border-[#bf0000] bg-[#bf000010] rounded-full p-2 w-fit">
+        //                 <Typography variant="xs" medium>
+        //                     20 hours
+        //                 </Typography>
+        //             </div>
+        //         </div>
+        //     ),
+        // },
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,

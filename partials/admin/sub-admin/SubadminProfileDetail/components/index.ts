@@ -1,3 +1,4 @@
+export * from './Workplace'
 export * from './ProfileDetail'
 export * from './SubadminReports'
 export * from './SubadminProgress'

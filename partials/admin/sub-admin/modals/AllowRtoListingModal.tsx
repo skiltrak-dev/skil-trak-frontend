@@ -1,21 +1,15 @@
 import { ActionModal } from '@components'
 import { useAlert, useNotification } from '@hooks'
+import { AdminApi } from '@queries'
 import { SubAdmin } from '@types'
 import { useEffect } from 'react'
-import { FaBan } from 'react-icons/fa'
-import { useChangeStatus } from '../hooks'
-import { MdAdminPanelSettings } from 'react-icons/md'
 import { FaSchool } from 'react-icons/fa'
-import { AdminApi } from '@queries'
-
 export const AllowRtoListingModal = ({
     subAdmin,
     onCancel,
-    setChangeStatusResult,
 }: {
     subAdmin: SubAdmin
     onCancel: Function
-    setChangeStatusResult: any
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()
@@ -25,9 +19,7 @@ export const AllowRtoListingModal = ({
     const onConfirmClicked = async (subAdmin: SubAdmin) => {
         await allowRtoListing(subAdmin?.id)
     }
-    useEffect(() => {
-        setChangeStatusResult(allowRtoListingResult)
-    }, [allowRtoListingResult])
+
     useEffect(() => {
         if (allowRtoListingResult?.isSuccess) {
             alert.error({
