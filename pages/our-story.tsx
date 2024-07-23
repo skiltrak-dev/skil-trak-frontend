@@ -1,6 +1,12 @@
 import { Typography } from '@components'
 import { SiteLayout } from '@layouts'
 import { Carousel } from '@partials/common'
+import {
+    OurStoryIndustrySection,
+    OurStoryInternationalVentureSection,
+    OurStoryRtoSection,
+    OurStoryStudentSection,
+} from '@partials/frontPages'
 import { NextPageWithLayout } from '@types'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -93,8 +99,11 @@ const OurStory: NextPageWithLayout = () => {
                             speed={35}
                         >
                             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(
-                                (item: any) => (
-                                    <div className="flex items-center">
+                                (item: any, index: any) => (
+                                    <div
+                                        key={index}
+                                        className="flex items-center"
+                                    >
                                         <Typography
                                             variant="body"
                                             semibold
@@ -118,8 +127,11 @@ const OurStory: NextPageWithLayout = () => {
                             speed={35}
                         >
                             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(
-                                (item: any) => (
-                                    <div className="flex items-center">
+                                (item: any, index: any) => (
+                                    <div
+                                        key={index}
+                                        className="flex items-center"
+                                    >
                                         <Typography
                                             variant="body"
                                             semibold
@@ -141,8 +153,11 @@ const OurStory: NextPageWithLayout = () => {
                             speed={35}
                         >
                             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(
-                                (item: any) => (
-                                    <div className="flex items-center">
+                                (item: any, index: any) => (
+                                    <div
+                                        key={index}
+                                        className="flex items-center"
+                                    >
                                         <Typography
                                             variant="body"
                                             semibold
@@ -166,8 +181,11 @@ const OurStory: NextPageWithLayout = () => {
                             speed={35}
                         >
                             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(
-                                (item: any) => (
-                                    <div className="flex items-center">
+                                (item: any, index: any) => (
+                                    <div
+                                        key={index}
+                                        className="flex items-center"
+                                    >
                                         <Typography
                                             variant="body"
                                             semibold
@@ -266,12 +284,48 @@ const OurStory: NextPageWithLayout = () => {
             </div>
 
             {/* Our LMS */}
-            <div>
+            <div className="max-w-7xl mx-auto mb-20">
                 {' '}
                 <Typography variant="h2" medium center>
                     Our LMS
                 </Typography>
+                <div className="mt-5 flex items-center gap-x-7">
+                    <div className="flex items-center gap-x-5 relative">
+                        <Image
+                            src="/images/our-story/our-lms-1.png"
+                            alt="LMS"
+                            width={434}
+                            height={380}
+                        />
+                        <Image
+                            src="/images/our-story/our-lms-2.png"
+                            alt="LMS"
+                            width={350}
+                            height={436}
+                        />
+                        <div className="absolute top-20 left-52 w-full h-full flex items-center justify-center">
+                            <Image
+                                src="/images/our-story/our-lms-3.png"
+                                alt="LMS"
+                                width={500}
+                                height={137}
+                            />
+                        </div>
+                    </div>
+                    <Image
+                        src="/images/our-story/our-lms-4.png"
+                        alt="LMS"
+                        width={434}
+                        height={380}
+                    />
+                </div>
             </div>
+
+            {/* RTO */}
+            <OurStoryRtoSection />
+            <OurStoryIndustrySection />
+            <OurStoryStudentSection />
+            <OurStoryInternationalVentureSection />
         </>
     )
 }

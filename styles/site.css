@@ -625,3 +625,60 @@ img {
     box-sizing: border-box;
 }
 
+.gradient-bg{
+    background-image: url('/images/our-story/gradient-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 800px;
+    width: 100%;
+}
+
+.philippines-bg {
+    background-image: url('/images/our-story/countries/philippines.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 207px;
+    width: 100%;
+  }
+.france-bg {
+    background-image: url('/images/our-story/countries/france.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 207px;
+    width: 100%;
+    }
+
+.mauritius-bg {
+    background-image: url('/images/our-story/countries/mauritius.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 207px;
+    width: 100%;
+    }
+/* seychelles */
+.seychelles-bg {
+    background-image: url('/images/our-story/countries/seychelles.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 207px;
+    width: 100%;
+    }
+.country-name{
+    -webkit-text-stroke-width: 1.5px;
+    -webkit-text-stroke-color: #FFF;
+    color: transparent;
+    font-family: 'Poppins', sans-serif;
+    font-size: 58px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 63.675px; /* Matching line height in px */
+    letter-spacing: 0; /* Adjust if Figma has letter-spacing */
+    word-spacing: 0; /* Adjust if Figma has word-spacing */
+    text-transform: none;
+     /* Adjust if Figma has text-transform */
+}
