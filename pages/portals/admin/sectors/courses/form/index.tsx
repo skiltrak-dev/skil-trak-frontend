@@ -1,12 +1,18 @@
 import { ReactElement, useEffect, useState } from 'react'
 
-import { BackButton, Card, Popup, draftToHtmlText } from '@components'
+import {
+    BackButton,
+    Card,
+    Popup,
+    ShowErrorNotifications,
+    draftToHtmlText,
+} from '@components'
 import { PageHeading } from '@components/headings'
 import { useAlert, useNavbar, useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { CourseForm } from '@partials/admin/sector/form'
 import { AdminApi } from '@queries'
-import { Course, NextPageWithLayout, Sector } from '@types'
+import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 
 const CourseAddPage: NextPageWithLayout = () => {
@@ -40,40 +46,36 @@ const CourseAddPage: NextPageWithLayout = () => {
                     description: 'A new course has been created',
                 })
             }
-
-            if (addResult.isError) {
-                notification.error({
-                    title: 'Failed to add course',
-                    description: 'New course add failed',
-                })
-            }
         }
     }, [addResult])
 
     return (
-        <div className="p-6 flex flex-col gap-y-4 mb-32">
-            <BackButton text="Courses" />
-            <PageHeading
-                title={'Add Course'}
-                subtitle={`You are creating a course`}
-            ></PageHeading>
-            <Card>
-                {addResult.isLoading || addResult.isSuccess ? (
-                    <Popup
-                        title="Submitting..."
-                        subtitle="You will be redirected on submission"
-                        variant="info"
-                    />
-                ) : (
-                    <CourseForm
-                        result={addResult}
-                        onSubmit={onSubmit}
-                        requirementFile={requirementFile}
-                        setRequirementFile={setRequirementFile}
-                    />
-                )}
-            </Card>
-        </div>
+        <>
+            <ShowErrorNotifications result={addResult} />
+            <div className="p-6 flex flex-col gap-y-4 mb-32">
+                <BackButton text="Courses" />
+                <PageHeading
+                    title={'Add Course'}
+                    subtitle={`You are creating a course`}
+                ></PageHeading>
+                <Card>
+                    {addResult.isLoading || addResult.isSuccess ? (
+                        <Popup
+                            title="Submitting..."
+                            subtitle="You will be redirected on submission"
+                            variant="info"
+                        />
+                    ) : (
+                        <CourseForm
+                            result={addResult}
+                            onSubmit={onSubmit}
+                            requirementFile={requirementFile}
+                            setRequirementFile={setRequirementFile}
+                        />
+                    )}
+                </Card>
+            </div>
+        </>
     )
 }
 

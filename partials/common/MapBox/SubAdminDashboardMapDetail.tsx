@@ -1,6 +1,6 @@
 // src/components/MapComponent.tsx
 import { Button, Card, LoadingAnimation, NoData } from '@components'
-import { SubAdminApi } from '@queries'
+import { CommonApi, SubAdminApi } from '@queries'
 import {
     GoogleMap,
     InfoBox,
@@ -167,23 +167,22 @@ const SubAdminDashboardMapDetail = ({
             refetchOnMountOrArgChange: true,
         }
     )
-    const futureIndustries =
-        SubAdminApi.SubAdmin.useSubAdminMapFutureIndustries(
-            {
-                search: `${JSON.stringify(
-                    removeEmptyValues({
-                        sectorId: sector,
-                    })
-                )
-                    .replaceAll('{', '')
-                    .replaceAll('}', '')
-                    .replaceAll('"', '')
-                    .trim()}`,
-            },
-            {
-                refetchOnMountOrArgChange: true,
-            }
-        )
+    const futureIndustries = CommonApi.FindWorkplace.mapFutureIndustries(
+        {
+            search: `${JSON.stringify(
+                removeEmptyValues({
+                    sectorId: sector,
+                })
+            )
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
+        },
+        {
+            refetchOnMountOrArgChange: true,
+        }
+    )
     // useSubAdminMapStudentDetail
     const studentDetails = SubAdminApi.SubAdmin.useSubAdminMapStudentDetail(
         studentId,

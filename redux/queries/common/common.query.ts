@@ -443,15 +443,16 @@ const {
     // ----- FIND WORKPLACE ----- //
     useAddIndustryMutation,
     useAddToSignupMutation,
-    useAddFutureIndustryListingNoteMutation,
     useUpdateIndustryMutation,
     useFindIndustriesCountQuery,
     useGetAllFindWorkplacesQuery,
+    useGetMapFutureIndustriesQuery,
     useGetFindWorkplacesCountQuery,
     useImportIndustriesListMutation,
     useRemoveFutureIndustryMutation,
     useIndustriesStatusChangeMutation,
     useRemoveMultiFutureIndustryMutation,
+    useAddFutureIndustryListingNoteMutation,
     useMultipleIndustriesStatusChangeMutation,
 
     // Impersonation
@@ -701,6 +702,7 @@ export const CommonApi = {
             useAddFutureIndustryListingNoteMutation,
         useUpdateIndustry: useUpdateIndustryMutation,
         useFindIndustriesCount: useFindIndustriesCountQuery,
+        mapFutureIndustries: useGetMapFutureIndustriesQuery,
         importIndustriesList: useImportIndustriesListMutation,
         useGetAllFindWorkplaces: useGetAllFindWorkplacesQuery,
         useGetFindWorkplacesCount: useGetFindWorkplacesCountQuery,
