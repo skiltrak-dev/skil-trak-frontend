@@ -54,7 +54,7 @@ export const ProfileLinks = ({ rto }: { rto: Rto }) => {
                 : {}),
         },
         {
-            ...(role === UserRoles.ADMIN || role === UserRoles.RTO
+            ...(role === UserRoles.ADMIN
                 ? {
                       text: 'View Password',
                       Icon: IoMdEyeOff,

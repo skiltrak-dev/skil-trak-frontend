@@ -1,6 +1,12 @@
 import { ReactElement, useEffect, useState } from 'react'
 
-import { BackButton, Card, LoadingAnimation, Popup } from '@components'
+import {
+    BackButton,
+    Card,
+    LoadingAnimation,
+    Popup,
+    ShowErrorNotifications,
+} from '@components'
 import { PageHeading } from '@components/headings'
 import { useAlert, useNavbar, useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
@@ -52,48 +58,44 @@ const StateEditPage: NextPageWithLayout = () => {
                     description: `Course '${data?.title}' has been updated`,
                 })
             }
-
-            if (updateResult.isError) {
-                notification.error({
-                    title: 'Failed to update course',
-                    description: 'New course add failed',
-                })
-            }
         }
     }, [updateResult])
 
     return (
-        <div className="p-6 flex flex-col gap-y-4">
-            <BackButton text="Courses" />
-            <PageHeading
-                title="Edit Course"
-                subtitle={`You are editing a course`}
-            ></PageHeading>
-            <Card>
-                {data && !isLoading ? (
-                    updateResult.isLoading || updateResult.isSuccess ? (
-                        <Popup
-                            title="Updating..."
-                            subtitle="You will be redirected on submission"
-                            variant="info"
-                        />
+        <>
+            <ShowErrorNotifications result={updateResult} />
+            <div className="p-6 flex flex-col gap-y-4">
+                <BackButton text="Courses" />
+                <PageHeading
+                    title="Edit Course"
+                    subtitle={`You are editing a course`}
+                ></PageHeading>
+                <Card>
+                    {data && !isLoading ? (
+                        updateResult.isLoading || updateResult.isSuccess ? (
+                            <Popup
+                                title="Updating..."
+                                subtitle="You will be redirected on submission"
+                                variant="info"
+                            />
+                        ) : (
+                            <CourseForm
+                                edit
+                                onSubmit={onSubmit}
+                                initialValues={data}
+                                result={updateResult}
+                                requirementFile={
+                                    requirementFile || data?.requirements
+                                }
+                                setRequirementFile={setRequirementFile}
+                            />
+                        )
                     ) : (
-                        <CourseForm
-                            edit
-                            onSubmit={onSubmit}
-                            initialValues={data}
-                            result={updateResult}
-                            requirementFile={
-                                requirementFile || data?.requirements
-                            }
-                            setRequirementFile={setRequirementFile}
-                        />
-                    )
-                ) : (
-                    <LoadingAnimation />
-                )}
-            </Card>
-        </div>
+                        <LoadingAnimation />
+                    )}
+                </Card>
+            </div>
+        </>
     )
 }
 

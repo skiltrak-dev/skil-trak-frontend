@@ -74,14 +74,14 @@ const EmailDetail: NextPageWithLayout = () => {
                         </div>
                     ) : null}
 
-                    {isReply ? (
+                    {/* {isReply ? (
                         <div>
                             <ReplyEmailForm
                                 onSubmit={onReplySubmit}
                                 result={{}}
                             />
                         </div>
-                    ) : null}
+                    ) : null} */}
                 </div>
             ) : mailDetail?.isSuccess ? (
                 <EmptyData />

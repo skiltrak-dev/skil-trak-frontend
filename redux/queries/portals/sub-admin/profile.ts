@@ -26,54 +26,42 @@ export const profileEndpoints = (
         invalidatesTags: ['Coordinates'],
     }),
     getSavedCoordinates: builder.query<any, void>({
-        query: () => {
-            return ({
-                url: `preferences/map/coordinates/get`,
-            })
-        },
+        query: () => `preferences/map/coordinates/get`,
         providesTags: ['Coordinates'],
     }),
     // map/get
     getSubAdminMapStudents: builder.query<any, any>({
         query: (params) => {
-            return ({
+            return {
                 url: `${PREFIX}/students/list/for-map`,
                 params,
-            })
+            }
         },
         providesTags: ['SubAdmin'],
     }),
     getSubAdminMapIndustries: builder.query<any, any>({
         query: (params) => {
-            return ({
+            return {
                 url: `${PREFIX}/industries/list/for-map`,
                 params,
-            })
+            }
         },
         providesTags: ['SubAdmin'],
     }),
-    getSubAdminMapFutureIndustries: builder.query<any, any>({
-        query: (params) => {
-            return ({
-                url: `futureindustries/list/for-map`,
-                params,
-            })
-        },
-        providesTags: ['SubAdmin'],
-    }),
+
     getSubAdminRtosForMap: builder.query<any, void>({
         query: () => {
-            return ({
+            return {
                 url: `${PREFIX}/rtos/list/for-map`,
-            })
+            }
         },
         providesTags: ['SubAdmin'],
     }),
     getSubAdminStudentSuburbsForMap: builder.query<any, void>({
         query: () => {
-            return ({
+            return {
                 url: `${PREFIX}/students/suburb/for-map`,
-            })
+            }
         },
         providesTags: ['SubAdmin'],
     }),
@@ -84,5 +72,4 @@ export const profileEndpoints = (
         }),
         providesTags: ['SubAdmin'],
     }),
-    
 })

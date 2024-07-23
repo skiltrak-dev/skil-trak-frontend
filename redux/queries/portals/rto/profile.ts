@@ -1,5 +1,6 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+import { PaginatedResponse, PaginationValues, Student } from '@types'
 
 const PREFIX = 'rtos/'
 export const profileEndpoints = (
@@ -17,5 +18,19 @@ export const profileEndpoints = (
             body,
         }),
         invalidatesTags: ['RTO'],
+    }),
+    rtoDashboardStudentsLogsList: builder.query<
+        PaginatedResponse<Student>,
+        PaginationValues
+    >({
+        query: (params) => ({
+            url: `${PREFIX}students/list-all`,
+            params,
+        }),
+        providesTags: ['RTOS', 'Avatar', 'Profile'],
+    }),
+    getRtoMapIndustries: builder.query<any, void>({
+        query: () => `${PREFIX}industries/list/for-map`,
+        providesTags: ['SubAdmin'],
     }),
 })
