@@ -74,7 +74,9 @@ export const {
 
     // ------ SELF ------ //
     useRtoMyProfileQuery,
+    useRtoDashboardStudentsLogsListQuery,
     useDashboardQuery,
+    useGetRtoMapIndustriesQuery,
     useUpdateRTOProfileMutation,
 
     // ------ Contact Persons ------ //
@@ -168,8 +170,10 @@ export const RtoApi = {
     },
     Rto: {
         useProfile: useRtoMyProfileQuery,
+        rtoStudentLogs: useRtoDashboardStudentsLogsListQuery,
         useContactPersons: useContactPersonsQuery,
         useDashboard: useDashboardQuery,
+        rtoMapIndustries: useGetRtoMapIndustriesQuery,
         useUpdateProfile: useUpdateRTOProfileMutation,
         useAddContactPerson: useAddContactPersonMutation,
         useRemoveContactPerson: useRemoveContactPersonMutation,

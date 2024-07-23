@@ -19,6 +19,7 @@ import { useRouter } from 'next/router'
 import { FaSchool } from 'react-icons/fa'
 import { CallBackProps } from 'react-joyride'
 import { ImportantDocuments } from '@partials/rto/components'
+import { RtoDashboard } from '@partials/rto'
 
 const RTODashboard: NextPageWithLayout = () => {
     const contextBar = useContextBar()
@@ -558,17 +559,6 @@ const RTODashboard: NextPageWithLayout = () => {
             },
         },
     ]
-    // Pa$$w0rd!
-    useEffect(() => {
-        contextBar.setContent(<ViewProfileCB />)
-        contextBar.show(false)
-
-        return () => {
-            contextBar.setContent(null)
-            contextBar.hide()
-            contextBar.setTitle('')
-        }
-    }, [])
 
     useEffect(() => {
         if (!credentials) {
@@ -578,13 +568,15 @@ const RTODashboard: NextPageWithLayout = () => {
         }
     }, [credentials])
 
+    return <RtoDashboard rto={rto} />
+
     return (
         <div className="flex flex-col gap-y-6 pb-8">
             {/* Status Check */}
             {/* <CheckStatus /> */}
             {/* Figure Cards */}
             <div className="flex flex-col gap-y-4">
-                <div className="flex gap-x-4">
+                {/* <div className="flex gap-x-4">
                     <FigureCard
                         imageUrl="/images/icons/students.png"
                         count={count?.data?.currentStudent}
@@ -609,7 +601,7 @@ const RTODashboard: NextPageWithLayout = () => {
                         title={'Pending Result'}
                         link={'/portals/rto/students?tab=active'}
                     />
-                </div>
+                </div> */}
             </div>
             {/* Question Section */}
             <section className="bg-[#D6F4FF] w-full p-4 rounded-2xl relative overflow-hidden">

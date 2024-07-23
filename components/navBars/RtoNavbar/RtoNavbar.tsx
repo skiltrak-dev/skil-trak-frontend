@@ -56,14 +56,14 @@ export const RtoNavbar = () => {
             inActiveClasses: 'text-slate-700',
             id: 'industries',
         },
-        {
-            link: Routes.Tasks,
-            text: 'Tasks',
-            Icon: FaClipboardList,
-            activeClasses: 'bg-orange-100 text-orange-700',
-            inActiveClasses: 'text-slate-700',
-            id: 'tasks',
-        },
+        // {
+        //     link: Routes.Tasks,
+        //     text: 'Tasks',
+        //     Icon: FaClipboardList,
+        //     activeClasses: 'bg-orange-100 text-orange-700',
+        //     inActiveClasses: 'text-slate-700',
+        //     id: 'tasks',
+        // },
         {
             link: Routes.Coordinators,
             text: 'Coordinators',

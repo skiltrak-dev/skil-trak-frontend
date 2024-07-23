@@ -24,6 +24,15 @@ export const findWorkplaceEndpoints = (
         }),
         providesTags: ['Industries'],
     }),
+    getMapFutureIndustries: builder.query<any, any>({
+        query: (params) => {
+            return {
+                url: `futureindustries/list/for-map`,
+                params,
+            }
+        },
+        providesTags: ['SubAdmin'],
+    }),
     industriesStatusChange: builder.mutation<
         Industry,
         { id: number; status: string }
@@ -54,7 +63,7 @@ export const findWorkplaceEndpoints = (
         invalidatesTags: ['Industries'],
     }),
     addFutureIndustryListingNote: builder.mutation<any, any>({
-        query: ({id, body}) => ({
+        query: ({ id, body }) => ({
             url: `${PREFIX}/${id}/note/add`,
             method: 'POST',
             body,

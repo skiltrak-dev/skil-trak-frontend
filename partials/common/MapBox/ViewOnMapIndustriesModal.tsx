@@ -1,25 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { Checkbox, NoData } from '@components'
+import { CommonApi, SubAdminApi } from '@queries'
 import {
+    Circle,
     GoogleMap,
-    LoadScript,
+    InfoBox,
     Marker,
     MarkerClusterer,
     Polyline,
-    DirectionsService,
-    InfoWindow,
-    InfoBox,
     useJsApiLoader,
-    Circle,
 } from '@react-google-maps/api'
-import { SubAdminApi } from '@queries'
-import { Button, Checkbox, NoData, Typography } from '@components'
-import { IndustryCard } from '../StudentProfileDetail/components/Workplace/components/IndustryDetail/components'
-import { IndustryInfoBoxCard } from './IndustryInfoBoxCard'
 import { useRouter } from 'next/router'
-import { StudentInfoBoxCard } from './StudentInfoBoxCard'
+import { useCallback, useEffect, useState } from 'react'
 import { IoMdCloseCircle } from 'react-icons/io'
-import { removeEmptyValues } from '@utils'
 import { FutureIndustryInfoBoxCard } from './FutureIndustryInfoBoxCard'
+import { IndustryInfoBoxCard } from './IndustryInfoBoxCard'
+import { StudentInfoBoxCard } from './StudentInfoBoxCard'
 
 const containerStyle = {
     width: '780px',
@@ -113,7 +108,7 @@ export const ViewOnMapIndustriesModal = ({
     const [map, setMap] = useState<google.maps.Map | null>(null)
 
     const [selectedBox, setSelectedBox] = useState<any>(null)
-    
+
     const [industryId, setIndustryId] = useState('')
     const [showInfoBox, setShowInfoBox] = useState<any>(false)
     const [showFutureIndustries, setShowFutureIndustries] = useState(false)
@@ -128,15 +123,14 @@ export const ViewOnMapIndustriesModal = ({
                 skip: !industryId,
             }
         )
-    const futureIndustries =
-        SubAdminApi.SubAdmin.useSubAdminMapFutureIndustries(
-            {
-                search: `courseId:${courseId}`,
-            },
-            {
-                skip: !courseId,
-            }
-        )
+    const futureIndustries = CommonApi.FindWorkplace.mapFutureIndustries(
+        {
+            search: `courseId:${courseId}`,
+        },
+        {
+            skip: !courseId,
+        }
+    )
     const workplaceCourseId = workplace?.courses?.[0]?.id
     const workplaceCourseIndustries =
         SubAdminApi.Workplace.useWorkplaceCourseIndustries(workplaceCourseId, {
@@ -964,7 +958,7 @@ export const ViewOnMapIndustriesModal = ({
                                                                     setFutureIndustryId(
                                                                         marker?.id
                                                                     )
-                                                                   
+
                                                                     setSelectedBox(
                                                                         {
                                                                             ...marker,
@@ -996,8 +990,7 @@ export const ViewOnMapIndustriesModal = ({
                                                                     setFutureIndustryId(
                                                                         marker?.id
                                                                     )
-                                                                   
-                                                                
+
                                                                     setSelectedBox(
                                                                         {
                                                                             ...marker,
@@ -1014,7 +1007,9 @@ export const ViewOnMapIndustriesModal = ({
                                                                     )
                                                                 }}
                                                             />
-                                                            {selectedBox && selectedBox?.type === "futureIndustry" && 
+                                                            {selectedBox &&
+                                                                selectedBox?.type ===
+                                                                    'futureIndustry' &&
                                                                 showInfoBox &&
                                                                 selectedBox?.id ===
                                                                     marker?.id &&
