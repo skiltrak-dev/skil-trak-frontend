@@ -13,7 +13,7 @@ export const Carousel = ({ items }: any) => {
     }
 
     return (
-        <div className="relative w-full ">
+        <div className="relative w-full hidden md:block">
             <div className="flex w-full items-center gap-x-24 mt-4">
                 <div className="w-1/2 flex flex-col items-end p-4 ">
                     <div className="h-72 pl-28">
@@ -24,7 +24,7 @@ export const Carousel = ({ items }: any) => {
                             {items[activeIndex]?.description}
                         </p>
                     </div>
-                   
+
                     <div className="flex items-center justify-center mt-4 space-x-4 border-b border-t py-4 w-full remove-scrollbar overflow-x-auto snap-x">
                         <div className="flex space-x-2 snap-mandatory">
                             {items?.map((item: any, index: number) => (

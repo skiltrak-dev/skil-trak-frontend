@@ -630,7 +630,25 @@ img {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    height: 800px;
+    height: 720px;
+    width: 100%;
+}
+@media only screen and (max-width: 600px) {
+    .gradient-bg {
+        background-image: url('/images/our-story/gradient-bg-mobile.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 777px;
+    width: 100%;
+    }
+}
+.gradient-bg-app-section{
+    background-image: url('/images/our-story/gradient-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 527px;
     width: 100%;
 }
 
@@ -642,6 +660,11 @@ img {
     height: 207px;
     width: 100%;
   }
+  @media only screen and (max-width: 600px) {
+    .philippines-bg {
+        height: 62px;
+    }
+}
 .france-bg {
     background-image: url('/images/our-story/countries/france.png');
     background-repeat: no-repeat;
@@ -649,6 +672,11 @@ img {
     background-position: center;
     height: 207px;
     width: 100%;
+    }
+    @media only screen and (max-width: 600px) {
+        .france-bg {
+            height: 62px;
+        }
     }
 
 .mauritius-bg {
@@ -659,6 +687,11 @@ img {
     height: 207px;
     width: 100%;
     }
+    @media only screen and (max-width: 600px) {
+        .mauritius-bg {
+            height: 62px;
+        }
+    }
 /* seychelles */
 .seychelles-bg {
     background-image: url('/images/our-story/countries/seychelles.png');
@@ -667,6 +700,11 @@ img {
     background-position: center;
     height: 207px;
     width: 100%;
+    }
+    @media only screen and (max-width: 600px) {
+        .seychelles-bg {
+            height: 62px;
+        }
     }
 .country-name{
     -webkit-text-stroke-width: 1.5px;
@@ -681,4 +719,10 @@ img {
     word-spacing: 0; /* Adjust if Figma has word-spacing */
     text-transform: none;
      /* Adjust if Figma has text-transform */
+}
+@media only screen and (max-width: 600px) {
+    .country-name {
+        font-size: 30px; 
+        line-height: 30px; 
+    }
 }
