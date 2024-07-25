@@ -8,7 +8,7 @@ import {
     Typography,
 } from '@components'
 import { getSectors } from '@utils'
-import { RtoDashboardCourses } from '../component'
+import { UpdatedCourseList } from '@partials/common'
 
 export const ProfileViewContextBar = ({ rto }: { rto: Rto }) => {
     const sectorsWithCourses = getSectors(rto?.courses)
@@ -77,7 +77,7 @@ export const ProfileViewContextBar = ({ rto }: { rto: Rto }) => {
             </div>
 
             {/*  */}
-            <RtoDashboardCourses sectorsWithCourses={sectorsWithCourses} />
+            <UpdatedCourseList sectorsWithCourses={sectorsWithCourses} />
         </div>
     )
 }

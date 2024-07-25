@@ -20,7 +20,7 @@ import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
 import { RtoApi, useGetRtoStudentsQuery } from '@queries'
 import { Student, UserStatus } from '@types'
-import { getUserCredentials, studentsListWorkplace } from '@utils'
+import { getUserCredentials, isBrowser, studentsListWorkplace } from '@utils'
 import { saveAs } from 'file-saver'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
@@ -365,35 +365,24 @@ export const ApprovedStudent = () => {
     return (
         <>
             {modal && modal}
-            <div className="flex flex-col gap-y-4 mb-32">
+            <div className="flex flex-col gap-y-3 mb-32">
                 <PageHeading
                     title={'Approved Students'}
                     subtitle={'List of Approved Students'}
                 >
-                    {data && data?.data.length ? (
-                        <>
-                            {/* <Button
-                                text="Export"
-                                variant="action"
-                                Icon={FaFileExport}
-                                onClick={handleDownloadExcel}
-                                loading={exportList?.isLoading}
-                                disabled={exportList?.isLoading}
-                            /> */}
-                            <a
-                                href={`${process.env.NEXT_PUBLIC_END_POINT}/rtos/students-list/download/${userId}?status=active
-                        `}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                {' '}
-                                <Button
-                                    text={'Export'}
-                                    variant={'action'}
-                                    Icon={FaFileExport}
-                                />
-                            </a>
-                        </>
+                    {data?.data && data?.data.length ? (
+                        <Button
+                            text={'Export'}
+                            variant={'action'}
+                            Icon={FaFileExport}
+                            onClick={() => {
+                                if (isBrowser()) {
+                                    window.open(
+                                        `${process.env.NEXT_PUBLIC_END_POINT}/rtos/students-list/download/${userId}?status=active`
+                                    )
+                                }
+                            }}
+                        />
                     ) : null}
                 </PageHeading>
 

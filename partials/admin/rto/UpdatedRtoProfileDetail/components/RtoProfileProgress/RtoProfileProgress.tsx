@@ -52,14 +52,14 @@ export const RtoProfileProgress = ({
             percent: percentData(countsArr?.appointmentBooked),
         },
         {
-            title: 'Don’t Have Workplace',
+            title: 'Students with no workplaces',
             color: '#21516A',
             percent: percentData(countsArr?.noWorkPlace),
         },
     ]
 
     return (
-        <div >
+        <div>
             <div>
                 <Typography semibold center>
                     <span className="text-[15px]">Progress</span>

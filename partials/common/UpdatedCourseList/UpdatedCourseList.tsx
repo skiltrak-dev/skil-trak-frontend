@@ -10,7 +10,7 @@ import { useNotification } from '@hooks'
 import { Course } from '@types'
 import { CourseList } from './CourseList'
 
-export const RtoDashboardCourses = ({
+export const UpdatedCourseList = ({
     sectorsWithCourses,
 }: {
     sectorsWithCourses: any
