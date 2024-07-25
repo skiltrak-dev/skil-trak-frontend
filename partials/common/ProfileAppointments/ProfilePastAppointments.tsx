@@ -9,10 +9,12 @@ export const ProfilePastAppointments = ({
     userId,
     fullWidth,
     isEntered,
+    short,
 }: {
-    fullWidth: boolean | undefined
-    userId: number
+    fullWidth?: boolean | undefined
+    userId?: number
     isEntered: boolean
+    short?: boolean
 }) => {
     const pastAppointments = CommonApi.Appointments.useBookedAppointments(
         {
@@ -51,13 +53,17 @@ export const ProfilePastAppointments = ({
                                     type={AppointmentTypeEnum.Past}
                                     key={appointment?.id}
                                     appointment={appointment}
+                                    short={short}
                                 />
                             )
                         )}
                     </div>
                 ) : (
                     pastAppointments.isSuccess && (
-                        <NoData text="There is no past appointments" />
+                        <NoData
+                            simple={short}
+                            text="There is no past appointments"
+                        />
                     )
                 )}
             </div>

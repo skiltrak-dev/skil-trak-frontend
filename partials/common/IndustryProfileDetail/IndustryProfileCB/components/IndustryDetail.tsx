@@ -58,24 +58,30 @@ export const IndustryDetail = ({ industry }: { industry: Industry }) => {
                     <UserProfileDetailCard
                         border={false}
                         title="Phone Number"
-                        detail={industry?.phoneNumber}
+                        detail={
+                            industry?.isSnoozed ? '---' : industry?.phoneNumber
+                        }
                         onClick={() => {
-                            navigator.clipboard.writeText(industry?.phoneNumber)
-                            callLog({
-                                industry: industry?.id,
-                                receiver: UserRoles.INDUSTRY,
-                            }).then((res: any) => {
-                                if (res?.data) {
-                                    notification.success({
-                                        title: 'Called Industry',
-                                        description: `Called Industry with Name: ${industry?.user?.name}`,
-                                    })
-                                }
-                            })
-                            notification.success({
-                                title: 'Copied',
-                                description: 'Phone Number Copied',
-                            })
+                            if (!industry?.isSnoozed) {
+                                navigator.clipboard.writeText(
+                                    industry?.phoneNumber
+                                )
+                                callLog({
+                                    industry: industry?.id,
+                                    receiver: UserRoles.INDUSTRY,
+                                }).then((res: any) => {
+                                    if (res?.data) {
+                                        notification.success({
+                                            title: 'Called Industry',
+                                            description: `Called Industry with Name: ${industry?.user?.name}`,
+                                        })
+                                    }
+                                })
+                                notification.success({
+                                    title: 'Copied',
+                                    description: 'Phone Number Copied',
+                                })
+                            }
                         }}
                     >
                         <div

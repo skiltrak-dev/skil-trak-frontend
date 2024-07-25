@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import { IndustryCard } from './components'
 import { GlobalModal, NoData, Typography } from '@components'
-import { Course } from '@types'
+import { Course, Student } from '@types'
 import { WorkplaceCurrentStatus } from '@utils'
 import { ViewMoreIndustriesModal } from '@partials/sub-admin/workplace/modals'
 import { useContextBar, useNotification } from '@hooks'
@@ -11,13 +11,14 @@ import { StudentProvidedActions } from './StudentProvidedActions'
 import { StudentProvidedABNActions } from './StudentProvidedABNActions'
 import { AgreementView } from '../AgreementView'
 import { ViewOnMapIndustriesModal } from '@partials/common/MapBox'
+import { IWorkplaceIndustries } from 'redux/queryTypes'
 
 export const IndustryDetail = ({
     workplace,
     appliedIndustry,
     course,
 }: {
-    workplace: any
+    workplace: IWorkplaceIndustries
     appliedIndustry: any
     course: Course
 }) => {
@@ -35,18 +36,20 @@ export const IndustryDetail = ({
         setModal(
             <ViewMoreIndustriesModal
                 onCancel={onCancelClicked}
-                workplaceId={workplace?.id}
+                workplaceId={Number(workplace?.id)}
                 title={'View More Industries'}
                 subtitle={'View More Industries'}
-                suggestedIndustriesIds={suggestedIndustries
-                    ?.filter(
-                        (industry: any) =>
-                            industry?.industryResponse !==
-                                WorkplaceCurrentStatus.Rejected &&
-                            industry?.industryResponse !==
-                                WorkplaceCurrentStatus.NoResponse
-                    )
-                    ?.map((ind: any) => ind?.industry?.id)}
+                suggestedIndustriesIds={
+                    suggestedIndustries
+                        ?.filter(
+                            (industry: any) =>
+                                industry?.industryResponse !==
+                                    WorkplaceCurrentStatus.Rejected &&
+                                industry?.industryResponse !==
+                                    WorkplaceCurrentStatus.NoResponse
+                        )
+                        ?.map((ind: any) => ind?.industry?.id) as number[]
+                }
             />
         )
     }
@@ -84,7 +87,9 @@ export const IndustryDetail = ({
                         {appliedIndustry?.AgreementSigned && (
                             <AgreementView workplace={workplace} />
                         )}
-                        {!appliedIndustry ? (
+                        {!appliedIndustry &&
+                        !workplace?.byExistingAbn &&
+                        !workplace?.studentProvidedWorkplace ? (
                             <>
                                 <Typography
                                     variant={'small'}
@@ -188,15 +193,23 @@ export const IndustryDetail = ({
                                     {workplace.studentProvidedWorkplace ? (
                                         <StudentProvidedActions
                                             workplace={workplace}
-                                            student={workplace?.student}
+                                            student={
+                                                workplace?.student as Student
+                                            }
                                             appliedIndustry={appliedIndustry}
-                                            courses={workplace?.courses}
+                                            courses={
+                                                workplace?.courses as Course[]
+                                            }
                                         />
                                     ) : workplace?.byExistingAbn ? (
                                         <StudentProvidedABNActions
                                             workplace={workplace}
-                                            student={workplace?.student}
-                                            courses={workplace?.courses}
+                                            student={
+                                                workplace?.student as Student
+                                            }
+                                            courses={
+                                                workplace?.courses as Course[]
+                                            }
                                             appliedIndustry={appliedIndustry}
                                         />
                                     ) : (
@@ -205,8 +218,12 @@ export const IndustryDetail = ({
                                             currentStatus={
                                                 workplace?.currentStatus
                                             }
-                                            student={workplace?.student}
-                                            courses={workplace?.courses}
+                                            student={
+                                                workplace?.student as Student
+                                            }
+                                            courses={
+                                                workplace?.courses as Course[]
+                                            }
                                             workplace={workplace}
                                         />
                                     )}

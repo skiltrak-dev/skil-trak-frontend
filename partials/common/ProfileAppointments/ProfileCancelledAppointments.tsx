@@ -8,10 +8,12 @@ export const ProfileCancelledAppointments = ({
     isEntered,
     userId,
     fullWidth,
+    short,
 }: {
-    fullWidth: boolean | undefined
-    userId: number
+    fullWidth?: boolean | undefined
+    userId?: number
     isEntered: boolean
+    short?: boolean
 }) => {
     const cancelledAppointments = CommonApi.Appointments.useBookedAppointments(
         {
@@ -49,13 +51,17 @@ export const ProfileCancelledAppointments = ({
                                     type={AppointmentTypeEnum.Cancelled}
                                     key={appointment?.id}
                                     appointment={appointment}
+                                    short={short}
                                 />
                             )
                         )}
                     </div>
                 ) : (
                     cancelledAppointments.isSuccess && (
-                        <NoData text="There is no cancelled appointments" />
+                        <NoData
+                            simple={short}
+                            text="There is no cancelled appointments"
+                        />
                     )
                 )}
             </div>
