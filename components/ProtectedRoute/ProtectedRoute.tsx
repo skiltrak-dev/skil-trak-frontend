@@ -1,6 +1,6 @@
 import { UserRoles } from '@constants'
 import { SubAdminApi } from '@queries'
-import { AuthUtils } from '@utils'
+import { AuthUtils, isBrowser } from '@utils'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -29,6 +29,9 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
             if (subadmin?.data && subadmin.isSuccess) {
                 if (!authenticated) {
                     setAuthorized(false)
+                    if (isBrowser()) {
+                        localStorage.setItem('autoLogoutPath', router?.asPath)
+                    }
                     router.push('/auth/login')
                 }
                 // else if (subadmin.isLoading || subadmin.isFetching) {
@@ -82,6 +85,9 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
         } else {
             if (!authenticated) {
                 setAuthorized(false)
+                if (isBrowser()) {
+                    localStorage.setItem('autoLogoutPath', router?.asPath)
+                }
                 router.push('/auth/login')
             } else if (updatedRoute !== role) {
                 setAuthorized(false)

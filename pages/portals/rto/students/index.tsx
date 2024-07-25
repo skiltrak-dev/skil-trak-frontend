@@ -203,7 +203,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                     filterKeys={filterKeys}
                     setFilter={setFilter}
                 />
-                <div className="flex items-end justify-between mb-6">
+                <div className="flex items-center justify-between">
                     <PageTitle title="Students" backTitle="Users" />
 
                     <div className="flex items-center gap-x-3">
@@ -278,7 +278,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
 
                 <div>
                     <div className="px-4">
-                        <div className="flex justify-end gap-x-2 mb-2">
+                        <div className="flex justify-end gap-x-2">
                             <div className="w-60">
                                 <TextInput
                                     name={'name'}
@@ -288,6 +288,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                                         setStudentNameValue(e.target.value)
                                         delayedNameSearch(e.target.value)
                                     }}
+                                    showError={false}
                                 />
                             </div>
                             <div>
@@ -299,6 +300,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                                         setStudentIdValue(e.target.value)
                                         delayedSearch(e.target.value)
                                     }}
+                                    showError={false}
                                 />
                             </div>
                             <div className="flex-shrink-0">{filterAction}</div>

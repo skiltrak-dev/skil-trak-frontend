@@ -1,6 +1,5 @@
 export * from './ProfileCounts'
 export * from './RtoDashboardMap'
-export * from './RtoDashboardCourses'
 export * from './RtoDashboardStudents'
 export * from './RtoImportantDocuments'
 export * from './RtoDashboardStatistics'
