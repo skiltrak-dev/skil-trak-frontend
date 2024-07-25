@@ -2,11 +2,17 @@ import { Typography } from '@components'
 import { SiteLayout } from '@layouts'
 import { Carousel } from '@partials/common'
 import {
+    GoogleReviewCard,
     OurStoryIndustrySection,
     OurStoryInternationalVentureSection,
+    OurStoryLetsCollaborateSection,
+    OurStoryLmsSection,
+    OurStoryMapSection,
     OurStoryRtoSection,
+    OurStorySkiltrakAppSection,
     OurStoryStudentSection,
 } from '@partials/frontPages'
+import OurPartners from '@partials/frontPages/home2/OurPartners/OurPartners'
 import { NextPageWithLayout } from '@types'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -40,43 +46,28 @@ const items = [
         description: `SkilTrak is your premier destination for tailored employment and placement services in Australia. At SkilTrak, we specialise in providing employment in top-notch industries to individual candidates as well as students affiliated with our partnered Registered Training Organisations (RTOs).`,
         image: '/images/our-story/commercial-cookery.png',
     },
-    // {
-    //     title: 'Slide 6',
-    //     description: `SkilTrak is your premier destination for tailored employment and placement services in Australia. At SkilTrak, we specialise in providing employment in top-notch industries to individual candidates as well as students affiliated with our partnered Registered Training Organisations (RTOs).`,
-    //     image: '/images/our-story/commercial-cookery.png',
-    // },
-    // {
-    //     title: 'Slide 7',
-    //     description: `SkilTrak is your premier destination for tailored employment and placement services in Australia. At SkilTrak, we specialise in providing employment in top-notch industries to individual candidates as well as students affiliated with our partnered Registered Training Organisations (RTOs).`,
-    //     image: '/images/our-story/commercial-cookery.png',
-    // },
-    // {
-    //     title: 'Slide 8',
-    //     description: `SkilTrak is your premier destination for tailored employment and placement services in Australia. At SkilTrak, we specialise in providing employment in top-notch industries to individual candidates as well as students affiliated with our partnered Registered Training Organisations (RTOs).`,
-    //     image: '/images/our-story/commercial-cookery.png',
-    // },
 ]
 
 const OurStory: NextPageWithLayout = () => {
     return (
         <>
             {/* Welcome Card */}
-            <div className="bg-[#F7A619] mx-auto max-w-7xl flex flex-col justify-center items-center p-12 rounded-b-md">
-                <h2 className="text-white text-center text-4xl font-extrabold leading-normal [text-shadow:_0px_7px_14px_rgba(0_0_0_/_0.25)]">
+            <div className="bg-[#F7A619] mx-auto max-w-7xl flex flex-col justify-center items-center p-4     md:p-12 rounded-b-md">
+                <h2 className="text-white text-center text-xl md:text-4xl font-extrabold leading-normal [text-shadow:_0px_7px_14px_rgba(0_0_0_/_0.25)]">
                     Welcome to SkilTrak
                 </h2>
-                <p className="text-white font-medium text-lg">
+                <p className="text-white font-medium text-base md:text-lg">
                     Your Ideal ally in career support
                 </p>
-                <div className="flex items-center w-[544px] bg-white gap-x-5 justify-center py-2.5 px-8 rounded-lg shadow-md mt-7">
+                <div className="flex items-center md:w-[544px] bg-white gap-x-2.5 md:gap-x-5 justify-center py-2.5 px-8 rounded-lg shadow-md mt-7">
                     <Typography variant="muted" color="text-[#21506A]">
                         1000+ students
                     </Typography>
-                    <span className="w-[1px] h-3 bg-[#21506A]"></span>
+                    <span className="w-[1px] h-5 md:h-3 bg-[#21506A]"></span>
                     <Typography variant="muted" color="text-[#21506A]">
                         3000+ industry partners
                     </Typography>
-                    <span className="w-[2px] h-3 bg-[#21506A]"></span>
+                    <span className="w-[2px] h-5 md:h-3 bg-[#21506A]"></span>
                     <Typography variant="muted" color="text-[#21506A]">
                         6 years of experience
                     </Typography>
@@ -221,54 +212,94 @@ const OurStory: NextPageWithLayout = () => {
                         />
                     </div>
                     <div className="h-6 w-[1px] border-dashed border-[#24536B] border"></div>
-                    <div className="h-[1px] w-[80%] mx-auto border-dashed border-[#24536B] border"></div>
-                    <div className="flex items-center justify-between w-full">
+                    <div className="h-[1px] w-[80%] mx-auto border-dashed border-[#24536B] border md:block hidden"></div>
+                    <div className="flex flex-col md:flex-row items-center justify-center md:justify-between w-full">
                         <div className="flex flex-col items-center">
                             <div className="h-6 w-[1px] border-dashed border-[#24536B] border"></div>
-                            <div className="bg-white rounded-lg w-[255px] h-24 p-3 border-gradient border-2 flex flex-col items-center justify-center">
+                            <div className="bg-white rounded-lg w-32 h-14 md:w-[255px] md:h-24 p-3 border-gradient border-2 flex flex-col items-center justify-center">
                                 <Image
                                     src={'/images/our-story/rto.svg'}
                                     alt="Logo"
                                     width={35}
                                     height={35}
+                                    className="hidden md:block"
                                 />
-                                RTO’s
+                                <Image
+                                    src={'/images/our-story/rto.svg'}
+                                    alt="Logo"
+                                    width={20}
+                                    height={20}
+                                    className="block md:hidden"
+                                />
+                                <p className="m-0 p-0 md:text-base whitespace-nowrap text-xs">
+                                    RTO’s
+                                </p>
                             </div>
                         </div>
                         <div className="flex flex-col items-center">
                             <div className="h-6 w-[1px] border-dashed border-[#24536B] border"></div>
-                            <div className="bg-white rounded-lg w-[255px] h-24 p-3 border-gradient border-2 flex flex-col items-center justify-center">
+                            <div className="bg-white rounded-lg w-32 h-14 md:w-[255px] md:h-24 p-3 border-gradient border-2 flex flex-col items-center justify-center">
                                 <Image
                                     src={'/images/our-story/industry.svg'}
                                     alt="Logo"
                                     width={35}
                                     height={35}
+                                    className="hidden md:block"
                                 />
-                                Industries
+                                <Image
+                                    src={'/images/our-story/industry.svg'}
+                                    alt="Logo"
+                                    width={20}
+                                    height={20}
+                                    className="block md:hidden"
+                                />
+                                <p className="m-0 p-0 md:text-base whitespace-nowrap text-xs">
+                                    Industries
+                                </p>
                             </div>
                         </div>
                         <div className="flex flex-col items-center">
                             <div className="h-6 w-[1px] border-dashed border-[#24536B] border"></div>
-                            <div className="bg-white rounded-lg w-[255px] h-24 p-3 border-gradient border-2 flex flex-col items-center justify-center">
+                            <div className="bg-white rounded-lg w-32 h-14 md:w-[255px] md:h-24 p-3 border-gradient border-2 flex flex-col items-center justify-center">
                                 <Image
                                     src={'/images/our-story/student.svg'}
                                     alt="Logo"
                                     width={35}
                                     height={35}
+                                    className="hidden md:block"
                                 />
-                                Students
+                                <Image
+                                    src={'/images/our-story/student.svg'}
+                                    alt="Logo"
+                                    width={20}
+                                    height={20}
+                                    className="block md:hidden"
+                                />
+                                <p className="m-0 p-0 md:text-base whitespace-nowrap text-xs">
+                                    Students
+                                </p>
                             </div>
                         </div>
                         <div className="flex flex-col items-center">
                             <div className="h-6 w-[1px] border-dashed border-[#24536B] border"></div>
-                            <div className="bg-white rounded-lg w-[255px] h-24 p-3 border-gradient border-2 flex flex-col items-center justify-center">
+                            <div className="bg-white rounded-lg w-40 h-16 md:w-[255px] md:h-24 p-3 border-gradient border-2 flex flex-col items-center justify-center">
                                 <Image
                                     src={'/images/our-story/handshake.svg'}
                                     alt="Logo"
                                     width={35}
                                     height={35}
+                                    className="hidden md:block"
                                 />
-                                International Ventures
+                                <Image
+                                    src={'/images/our-story/handshake.svg'}
+                                    alt="Logo"
+                                    width={35}
+                                    height={35}
+                                    className="block md:hidden"
+                                />
+                                <p className="m-0 p-0 md:text-base whitespace-nowrap text-xs">
+                                    International Ventures
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -276,7 +307,7 @@ const OurStory: NextPageWithLayout = () => {
                 <div className="flex justify-center items-center mt-11">
                     <Link
                         href="/auth/signup"
-                        className=" text-white font-bold bg-orange-400 rounded-xl px-4 py-2 uppercase"
+                        className=" text-white md:text-white md:text-base text-xs font-medium bg-orange-400 rounded-lg px-4 py-2 uppercase"
                     >
                         sign up to your desire portal
                     </Link>
@@ -284,48 +315,30 @@ const OurStory: NextPageWithLayout = () => {
             </div>
 
             {/* Our LMS */}
-            <div className="max-w-7xl mx-auto mb-20">
-                {' '}
-                <Typography variant="h2" medium center>
-                    Our LMS
-                </Typography>
-                <div className="mt-5 flex items-center gap-x-7">
-                    <div className="flex items-center gap-x-5 relative">
-                        <Image
-                            src="/images/our-story/our-lms-1.png"
-                            alt="LMS"
-                            width={434}
-                            height={380}
-                        />
-                        <Image
-                            src="/images/our-story/our-lms-2.png"
-                            alt="LMS"
-                            width={350}
-                            height={436}
-                        />
-                        <div className="absolute top-20 left-52 w-full h-full flex items-center justify-center">
-                            <Image
-                                src="/images/our-story/our-lms-3.png"
-                                alt="LMS"
-                                width={500}
-                                height={137}
-                            />
-                        </div>
-                    </div>
-                    <Image
-                        src="/images/our-story/our-lms-4.png"
-                        alt="LMS"
-                        width={434}
-                        height={380}
-                    />
-                </div>
-            </div>
+            <OurStoryLmsSection />
 
             {/* RTO */}
+
             <OurStoryRtoSection />
             <OurStoryIndustrySection />
             <OurStoryStudentSection />
+
             <OurStoryInternationalVentureSection />
+            <OurStoryMapSection />
+            <OurPartners />
+
+            <div className="bg-[#EB8329] py-[72px] mt-5 px-4">
+                <Typography variant="title" color="text-white" center>
+                    HEAR FROM THOSE WHO'VE EXPERIENCED EXCELLENCE
+                </Typography>
+            </div>
+            <div className="flex items-center justify-between flex-col md:flex-row gap-4 mx-auto max-w-7xl my-8 px-4 md:px-0 md:my-16">
+                <GoogleReviewCard />
+                <GoogleReviewCard />
+                <GoogleReviewCard />
+            </div>
+            <OurStorySkiltrakAppSection />
+            <OurStoryLetsCollaborateSection />
         </>
     )
 }

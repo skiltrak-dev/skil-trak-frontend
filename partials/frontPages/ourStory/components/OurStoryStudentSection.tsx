@@ -33,10 +33,10 @@ export const OurStoryStudentSection = () => {
     return (
         <>
             <div className="gradient-bg">
-                <div className="mx-auto max-w-7xl py-16">
-                    <div className="flex justify-between gap-x-44">
+                <div className="mx-auto max-w-7xl md:py-16 py-4 px-4">
+                    <div className="flex justify-between gap-x-44 flex-col md:flex-row md:items-start items-center">
                         <div className="flex flex-col gap-y-5">
-                            <div className="">
+                            <div className="md:mt-0 mt-6">
                                 <Typography variant="h2" color="text-[#24556D]">
                                     Student
                                 </Typography>
@@ -51,7 +51,7 @@ export const OurStoryStudentSection = () => {
                                 prospects with SkilTrak's suite of tools
                                 designed to support you every step of the way.
                             </Typography>
-                            <div className="relative mt-11">
+                            <div className="relative mt-11 md:block hidden">
                                 <Image
                                     src="/images/our-story/rto-1.png"
                                     alt="feature-icon"
@@ -81,7 +81,7 @@ export const OurStoryStudentSection = () => {
                             <Typography variant="title" color="text-[#24556D]">
                                 Features
                             </Typography>
-                            <div className="grid grid-cols-2 gap-y-12 gap-x-24 mt-8">
+                            <div className="grid grid-cols-2 gap-y-5 md:gap-y-12 gap-x-10 md:gap-x-24 mt-4 md:mt-8">
                                 {items?.map((item: any) => (
                                     <div>
                                         <div className="size-10 bg-white mb-4 rounded-lg flex items-center justify-center">
@@ -104,10 +104,10 @@ export const OurStoryStudentSection = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex justify-center items-center mt-36">
+                    <div className="flex justify-center items-center mt-12 md:mt-36">
                         <Link
                             href="/auth/signup"
-                            className=" text-white font-bold bg-orange-400 rounded-xl px-4 py-2 uppercase"
+                            className=" text-white md:text-white md:text-base text-xs font-medium bg-orange-400 rounded-lg px-4 py-2 uppercase"
                         >
                             sign up to your desire portal
                         </Link>
