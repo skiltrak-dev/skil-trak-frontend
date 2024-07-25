@@ -7,15 +7,16 @@ export const ServiceCard = ({ data }: { data: ServiceCardType }) => {
     const router = useRouter()
     return (
         <div
-            className="rounded-[10px] w-48 h-full"
+            className="rounded-[10px] w-full h-full"
             style={{
                 background: `
         linear-gradient(
           rgba(0, 0, 0, 0.5), 
           rgba(0, 0, 0, 0.5)
         ), 
-        url(${data?.image}) no-repeat  
+        url(${data?.image}) no-repeat
       `,
+                backgroundSize: 'cover',
             }}
         >
             <div className="flex flex-col items-center justify-center h-full">

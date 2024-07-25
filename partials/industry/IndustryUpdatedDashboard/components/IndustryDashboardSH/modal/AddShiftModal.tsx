@@ -8,8 +8,7 @@ import {
 import { useNotification } from '@hooks'
 import { ShiftCard } from '@partials/industry/AvailableShifts/components'
 import { AddShiftForm } from '@partials/industry/AvailableShifts/form'
-import { AdminApi } from '@queries'
-import React from 'react'
+import { useAddShiftMutation, useGetShiftsQuery } from '@queries'
 
 export const AddShiftModal = ({
     availability,
@@ -20,10 +19,10 @@ export const AddShiftModal = ({
 }) => {
     const { notification } = useNotification()
 
-    const shifts = AdminApi.Industries.useGetIndustryShifts(availability?.id, {
+    const shifts = useGetShiftsQuery(availability?.id, {
         skip: !availability?.id,
     })
-    const [addShifts, addShiftModal] = AdminApi.Industries.useAddIndustryShift()
+    const [addShifts, addShiftModal] = useAddShiftMutation()
     const onSubmit = (values: any) => {
         addShifts({ workingHours: availability?.id, ...values }).then(
             (res: any) => {

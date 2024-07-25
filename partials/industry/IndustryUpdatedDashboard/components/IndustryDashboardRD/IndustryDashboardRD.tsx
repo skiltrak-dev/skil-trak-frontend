@@ -35,13 +35,13 @@ export const IndustryDashboardRD = () => {
     const filteredCourse = data?.find((c: Course) => c?.id === selectedCourse)
 
     return (
-        <div className="bg-[#E5F4FD] rounded-[10px]">
+        <div className="bg-[#E5F4FD] rounded-[10px] h-full overflow-auto custom-scrollbar">
             <div className="px-4 py-3 flex justify-between items-center border-b border-secondary-dark">
                 <Typography semibold>
                     <span className="text-[15px]">Required Documents</span>
                 </Typography>
             </div>
-            <div className="h-[422px] overflow-auto custom-scrollbar px-3.5 py-2.5">
+            <div className="overflow-auto custom-scrollbar px-3.5 py-2.5">
                 {isError && <TechnicalError />}
 
                 <div className=" border-b border-secondary-dark pb-3">

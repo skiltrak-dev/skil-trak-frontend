@@ -10,15 +10,9 @@ export const FreeShiftCard = ({
     timing: any
 }) => {
     return (
-        <div
-            className={`${
-                shift
-                    ? 'border-[#337E8980] bg-[#337e8910]'
-                    : 'border-[#BF000080] bg-[#BF00001A]'
-            } border rounded h-full w-full `}
-        >
+        <div className={`rounded h-full w-full `}>
             {shift ? (
-                <div className="flex flex-col justify-center items-center h-full border-b border-secondary-dark">
+                <div className="flex flex-col justify-center items-center h-full">
                     <Typography
                         bold
                         center
