@@ -77,7 +77,10 @@ export const ProfileViewContextBar = ({ rto }: { rto: Rto }) => {
             </div>
 
             {/*  */}
-            <UpdatedCourseList sectorsWithCourses={sectorsWithCourses} />
+            <UpdatedCourseList
+                sectorsWithCourses={sectorsWithCourses}
+                editCourseHours
+            />
         </div>
     )
 }

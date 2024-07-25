@@ -26,7 +26,12 @@ export const ContextBar = () => {
     })
 
     return !contextBar.off ? (
-        <div className={classes}>
+        <div
+            className={classes}
+            style={{
+                background: contextBar?.bgColor || 'white',
+            }}
+        >
             <div className="flex flex-col gap-y-4">
                 {contextBar.title ? (
                     <div className="flex justify-between items-center">
