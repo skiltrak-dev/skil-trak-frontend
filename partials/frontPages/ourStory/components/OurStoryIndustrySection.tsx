@@ -28,13 +28,18 @@ export const OurStoryIndustrySection = () => {
     return (
         <>
             <div className="gradient-bg">
-                <div className="mx-auto max-w-7xl py-16">
-                    <div className="flex justify-between gap-x-44">
+                <div className="mx-auto max-w-7xl md:py-16 py-0 px-4">
+                    <div className="flex justify-between  gap-x-44 flex-col md:flex-row md:items-start items-center">
                         <div>
-                            <Typography variant="title" color="text-[#24556D]">
-                                Features
-                            </Typography>
-                            <div className="grid grid-cols-1 gap-y-8 mt-8">
+                            <div className='md:mt-0 mt-5'>
+                                <Typography
+                                    variant="title"
+                                    color="text-[#24556D]"
+                                >
+                                    Features
+                                </Typography>
+                            </div>
+                            <div className="grid grid-cols-1 gap-y-5 md:gap-y-8 mt-8">
                                 {items?.map((item: any) => (
                                     <div>
                                         <div className="size-10 bg-white mb-4 rounded-lg flex items-center justify-center">
@@ -57,7 +62,7 @@ export const OurStoryIndustrySection = () => {
                             </div>
                         </div>
                         <div className="">
-                            <div className="mt-16 flex flex-col gap-y-5">
+                            <div className="md:mt-16 mt-4 flex flex-col gap-y-5">
                                 <Typography variant="h2" color="text-[#24556D]">
                                     Industries
                                 </Typography>
@@ -77,7 +82,7 @@ export const OurStoryIndustrySection = () => {
                                     individuals through our talent pool and
                                     other specialized programs.
                                 </Typography>
-                                <div className="relative mt-11">
+                                <div className="relative mt-11 hidden md:block">
                                     <Image
                                         src="/images/our-story/industry-1.png"
                                         alt="feature-icon"

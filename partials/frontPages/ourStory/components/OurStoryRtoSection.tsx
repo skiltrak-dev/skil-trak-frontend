@@ -40,10 +40,10 @@ export const OurStoryRtoSection = () => {
     return (
         <>
             <div className="gradient-bg">
-                <div className="mx-auto max-w-7xl py-16">
-                    <div className="flex justify-between gap-x-44">
+                <div className="mx-auto max-w-7xl md:py-16 py-0 px-4">
+                    <div className="flex justify-between gap-x-44 flex-col md:flex-row md:items-start items-center">
                         <div className="flex flex-col gap-y-5">
-                            <div className="">
+                            <div className="md:mt-0 mt-8">
                                 <Typography variant="h2" color="text-[#24556D]">
                                     RTO
                                 </Typography>
@@ -61,7 +61,7 @@ export const OurStoryRtoSection = () => {
                                 your Registered Training Organization's
                                 operations.
                             </Typography>
-                            <div className="relative mt-11">
+                            <div className="relative mt-11 hidden md:block">
                                 <Image
                                     src="/images/our-story/rto-1.png"
                                     alt="feature-icon"
@@ -91,7 +91,7 @@ export const OurStoryRtoSection = () => {
                             <Typography variant="title" color="text-[#24556D]">
                                 Features
                             </Typography>
-                            <div className="grid grid-cols-2 gap-y-12 gap-x-24 mt-8">
+                            <div className="grid grid-cols-2 md:gap-y-12 gap-y-5 gap-x-10 md:gap-x-24 mt-4 md:mt-8">
                                 {items?.map((item: any) => (
                                     <div>
                                         <div className="size-10 bg-white mb-4 rounded-lg flex items-center justify-center">

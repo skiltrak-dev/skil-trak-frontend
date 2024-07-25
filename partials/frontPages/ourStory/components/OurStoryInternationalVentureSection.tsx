@@ -4,8 +4,8 @@ import React from 'react'
 
 export const OurStoryInternationalVentureSection = () => {
     return (
-        <div className="mx-auto max-w-7xl mt-[70px]">
-            <div className="px-64">
+        <div className="mx-auto max-w-7xl mt-12 md:mt-[70px]">
+            <div className="md:px-64 px-4">
                 <Typography variant="h2" medium center>
                     SkilTrak International Ventures
                 </Typography>
@@ -40,20 +40,55 @@ export const OurStoryInternationalVentureSection = () => {
                     </Typography>
                 </div>
             </div>
-            <div className="philippines-bg relative">
-                <div className="flex items-center justify-between gap-x-60 absolute top-1/3 left-[20%]">
-                    <p className="country-name">Philippines.</p>
-                    <div className="bg-gradient-to-r from-[#24536B] to-[#46A2D1] px-5 py-1.5 border border-white rounded-[10px]">
-                        <Typography variant="muted" color="text-white" center>
-                            407 Sponsorship Visa
-                        </Typography>
+            <div className="flex flex-col md:gap-y-4 gap-y-1 justify-center items-center px-4">
+                <div className="philippines-bg relative">
+                    <div className="flex items-center justify-between gap-x-72 absolute top-1/3 left-8 md:left-[20%]">
+                        <p className="country-name">Philippines.</p>
+                        <div className="md:inline-block hidden bg-gradient-to-r from-[#24536B] to-[#46A2D1] px-5 py-1.5 border border-white rounded-[10px]">
+                            <Typography variant="xs" color="text-white" center>
+                                407 Sponsorship Visa
+                            </Typography>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="france-bg relative">
-                <div className="flex items-center justify-between gap-x-60 absolute top-1/4 left-[20%]">
-                    <div className="flex flex-col gap-y-2">
-                        <div className="bg-gradient-to-r from-[#24536B] to-[#46A2D1] px-5 py-1.5 border border-white rounded-[10px]">
+                <div className="france-bg relative">
+                    <div className="flex items-center justify-between gap-x-72 absolute top-1/4 left-1/2 md:left-[20%]">
+                        <div className="md:flex hidden flex-col gap-y-2">
+                            <div className=" bg-gradient-to-r from-[#24536B] to-[#46A2D1] px-5 py-1.5 border border-white rounded-[10px]">
+                                <Typography
+                                    variant="muted"
+                                    color="text-white"
+                                    center
+                                >
+                                    407 Sponsorship Visa
+                                </Typography>
+                            </div>
+                            <div className="bg-gradient-to-r from-[#24536B] to-[#46A2D1] px-5 py-1.5 border border-white rounded-[10px]">
+                                <Typography
+                                    variant="muted"
+                                    color="text-white"
+                                    center
+                                >
+                                    Working Holiday Visa ( WHV )
+                                </Typography>
+                            </div>
+                            <div className="bg-gradient-to-r from-[#24536B] to-[#46A2D1] px-5 py-1.5 border border-white rounded-[10px]">
+                                <Typography
+                                    variant="muted"
+                                    color="text-white"
+                                    center
+                                >
+                                    Paid & Unpaid Placement
+                                </Typography>
+                            </div>
+                        </div>
+                        <p className="country-name">France</p>
+                    </div>
+                </div>
+                <div className="mauritius-bg relative">
+                    <div className="flex items-center justify-between gap-x-72 absolute top-1/3 left-8 md:left-[20%]">
+                        <p className="country-name">Mauritius</p>
+                        <div className="md:inline-block hidden bg-gradient-to-r from-[#24536B] to-[#46A2D1] px-5 py-1.5 border border-white rounded-[10px]">
                             <Typography
                                 variant="muted"
                                 color="text-white"
@@ -62,52 +97,23 @@ export const OurStoryInternationalVentureSection = () => {
                                 407 Sponsorship Visa
                             </Typography>
                         </div>
-                        <div className="bg-gradient-to-r from-[#24536B] to-[#46A2D1] px-5 py-1.5 border border-white rounded-[10px]">
-                            <Typography
-                                variant="muted"
-                                color="text-white"
-                                center
-                            >
-                                Working Holiday Visa ( WHV )
-                            </Typography>
-                        </div>
-                        <div className="bg-gradient-to-r from-[#24536B] to-[#46A2D1] px-5 py-1.5 border border-white rounded-[10px]">
-                            <Typography
-                                variant="muted"
-                                color="text-white"
-                                center
-                            >
-                                Paid & Unpaid Placement
-                            </Typography>
-                        </div>
-                    </div>
-                    <p className="country-name">France</p>
-                </div>
-            </div>
-            <div className="mauritius-bg relative">
-                <div className="flex items-center justify-between gap-x-60 absolute top-1/3 left-[20%]">
-                    <p className="country-name">Mauritius</p>
-                    <div className="bg-gradient-to-r from-[#24536B] to-[#46A2D1] px-5 py-1.5 border border-white rounded-[10px]">
-                        <Typography variant="muted" color="text-white" center>
-                            407 Sponsorship Visa
-                        </Typography>
                     </div>
                 </div>
-            </div>
-            <div className="seychelles-bg relative">
-                <div className="flex items-center justify-between gap-x-36 absolute top-1/3 left-[20%]">
-                    <div className="flex flex-col gap-y-2">
-                        <div className="bg-gradient-to-r from-[#24536B] to-[#46A2D1] px-5 py-1.5 border border-white rounded-[10px]">
-                            <Typography
-                                variant="muted"
-                                color="text-white"
-                                center
-                            >
-                                407 Visa Program For Commercial Cookery
-                            </Typography>
+                <div className="seychelles-bg relative">
+                    <div className="flex items-center justify-between gap-x-40 absolute top-1/3 left-1/2 md:left-[20%]">
+                        <div className="md:flex hidden flex-col gap-y-2">
+                            <div className="bg-gradient-to-r from-[#24536B] to-[#46A2D1] px-5 py-1.5 border border-white rounded-[10px]">
+                                <Typography
+                                    variant="muted"
+                                    color="text-white"
+                                    center
+                                >
+                                    407 Visa Program For Commercial Cookery
+                                </Typography>
+                            </div>
                         </div>
+                        <p className="country-name">Seychelles</p>
                     </div>
-                    <p className="country-name">Seychelles</p>
                 </div>
             </div>
         </div>
