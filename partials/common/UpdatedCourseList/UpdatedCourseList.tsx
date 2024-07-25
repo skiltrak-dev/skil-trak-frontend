@@ -12,7 +12,9 @@ import { CourseList } from './CourseList'
 
 export const UpdatedCourseList = ({
     sectorsWithCourses,
+    editCourseHours,
 }: {
+    editCourseHours?: boolean
     sectorsWithCourses: any
 }) => {
     const [editCourse, setEditCourse] = useState<boolean>(false)
@@ -69,7 +71,7 @@ export const UpdatedCourseList = ({
                     <Typography variant={'label'} medium>
                         Eligible Sectors
                     </Typography>
-                    {!editCourse && (
+                    {!editCourse && editCourseHours && (
                         <div
                             className="text-xs bg-blue-300 rounded-md text-blue-900 px-2 py-0.5 cursor-pointer w-fit ml-auto"
                             onClick={() => {

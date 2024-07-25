@@ -1,4 +1,5 @@
 import {
+    Badge,
     Card,
     LoadingAnimation,
     NoData,
@@ -96,7 +97,18 @@ export const IndustryInfoBoxCard = ({
                                 }}
                             />
                             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-full w-0 h-0 border-b-8 border-b-white border-x-8 border-x-transparent"></div>
+
                             <div className="mt-2">
+                                <div>
+                                    {item?.data?.isSnoozed ? (
+                                        <Badge
+                                            variant="success"
+                                            text="Industry Snoozed"
+                                        />
+                                    ) : (
+                                        ''
+                                    )}
+                                </div>
                                 {!workplaceMapCard ? (
                                     <Typography variant="title">
                                         {ellipsisText(

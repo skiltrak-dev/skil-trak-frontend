@@ -38,7 +38,7 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
                         </span>
                     </Typography>
                     <Typography variant="xs" color="text-[#6B7280]">
-                        {industry?.user?.email}
+                        {industry?.isSnoozed ? '---' : industry?.user?.email}
                     </Typography>
                 </div>
                 {industry?.createdBy ? (

@@ -1,17 +1,35 @@
-import React from 'react'
-import { ImportantDocuments } from '@partials/common'
-import { Supervisor } from '@partials/common'
-import { useIndustryProfileQuery } from '@queries'
+import { useContextBar } from '@hooks'
+import { ImportantDocuments, Supervisor } from '@partials/common'
 import { IndustryLocations } from '@partials/common/IndustryProfileDetail/components'
+import { useIndustryProfileQuery } from '@queries'
+import { useEffect } from 'react'
 import {
     IndustryDashboardRD,
     IndustryDashboardStudents,
     IndustryServices,
     IndustryShiftingHours,
 } from './components'
+import { IndustryDashboardCB } from './IndustryDashboardCB'
 
 export const IndustryUpdatedDashboard = () => {
-    const { data } = useIndustryProfileQuery()
+    const industry = useIndustryProfileQuery()
+
+    const contextBar = useContextBar()
+
+    useEffect(() => {
+        if (industry?.isSuccess) {
+            contextBar.setContent(
+                <IndustryDashboardCB industry={industry?.data} />
+            )
+            contextBar.setBgColor('#F7F1E3')
+            contextBar.show(false)
+        }
+        return () => {
+            contextBar.setContent(null)
+            contextBar.hide()
+        }
+    }, [industry])
+
     return (
         <div className="flex flex-col gap-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-3.5 h-[490px] overflow-hidden">
@@ -34,9 +52,9 @@ export const IndustryUpdatedDashboard = () => {
                     '/portals/industry/course-requirements'
                 }
             />
-            <Supervisor industry={data} />
+            <Supervisor industry={industry?.data} />
             <div>
-                <IndustryLocations industry={data} />
+                <IndustryLocations industry={industry?.data} />
             </div>
         </div>
     )

@@ -16,7 +16,9 @@ export const ProfileAppointmentsCard = ({
     type,
     upcomming,
     appointment,
+    short,
 }: {
+    short?: boolean
     type: AppointmentTypeEnum
     upcomming?: boolean
     appointment: Appointment
@@ -96,7 +98,11 @@ export const ProfileAppointmentsCard = ({
                                     ? 'Coordinator'
                                     : appointment?.appointmentFor?.role}
                             </Typography>
-                            <Typography normal color={barTextClasses}>
+                            <Typography
+                                variant={short ? 'label' : 'body'}
+                                normal
+                                color={barTextClasses}
+                            >
                                 {appointment?.appointmentFor?.name}
                             </Typography>
                         </div>
@@ -123,7 +129,11 @@ export const ProfileAppointmentsCard = ({
                                               : 'coordinator'
                                       ]?.role}
                             </Typography>
-                            <Typography normal color={barTextClasses}>
+                            <Typography
+                                normal
+                                color={barTextClasses}
+                                variant={short ? 'label' : 'body'}
+                            >
                                 <TruncatedTextWithTooltip
                                     text={
                                         appointment?.[
@@ -143,18 +153,24 @@ export const ProfileAppointmentsCard = ({
                         </div>
                     </div>
 
-                    <div
-                        className={`w-[104px] h-6 rounded ${typeBgClasses} flex justify-center items-center`}
-                    >
-                        <Typography bold variant="xxs" color="text-white">
-                            {type}
-                        </Typography>
-                    </div>
+                    {!short ? (
+                        <div
+                            className={`w-[104px] h-6 rounded ${typeBgClasses} flex justify-center items-center`}
+                        >
+                            <Typography bold variant="xxs" color="text-white">
+                                {type}
+                            </Typography>
+                        </div>
+                    ) : null}
                 </div>
 
                 {/*  */}
                 <div className="mt-3.5 grid grid-cols-3 gap-x-1.5">
-                    <div className="flex flex-col gap-y-2 col-span-2">
+                    <div
+                        className={`flex flex-col gap-y-2 ${
+                            short ? 'col-span-3' : 'col-span-2'
+                        } `}
+                    >
                         <div
                             className={`flex items-center gap-x-2.5 ${barBgClasses} py-1 px-2.5 rounded`}
                         >
@@ -210,30 +226,32 @@ export const ProfileAppointmentsCard = ({
                     </div>
 
                     {/*  */}
-                    <div
-                        className={`flex flex-col items-center justify-center gap-y-2.5 ${barBgClasses}`}
-                    >
-                        <Image
-                            src={
-                                type === AppointmentTypeEnum.Past ||
-                                type === AppointmentTypeEnum.Cancelled
-                                    ? '/images/appointments/lightVideoConference.svg'
-                                    : '/images/appointments/darkVideoConference.svg'
-                            }
-                            alt={'Upcoming Appointments'}
-                            width={40}
-                            height={40}
-                        />
-                        <Typography
-                            variant="badge"
-                            color={barTextClasses}
-                            normal
-                            capitalize
-                            center
+                    {!short ? (
+                        <div
+                            className={`flex flex-col items-center justify-center gap-y-2.5 ${barBgClasses}`}
                         >
-                            {appointment?.type?.title}
-                        </Typography>
-                    </div>
+                            <Image
+                                src={
+                                    type === AppointmentTypeEnum.Past ||
+                                    type === AppointmentTypeEnum.Cancelled
+                                        ? '/images/appointments/lightVideoConference.svg'
+                                        : '/images/appointments/darkVideoConference.svg'
+                                }
+                                alt={'Upcoming Appointments'}
+                                width={40}
+                                height={40}
+                            />
+                            <Typography
+                                variant="badge"
+                                color={barTextClasses}
+                                normal
+                                capitalize
+                                center
+                            >
+                                {appointment?.type?.title}
+                            </Typography>
+                        </div>
+                    ) : null}
                 </div>
 
                 {/*  */}

@@ -9,10 +9,12 @@ export const ProfileUpcommingAppointments = ({
     userId,
     isEntered,
     fullWidth,
+    short,
 }: {
-    userId: number
-    fullWidth: boolean | undefined
+    userId?: number
+    fullWidth?: boolean | undefined
     isEntered: boolean
+    short?: boolean
 }) => {
     const futureAppointments = CommonApi.Appointments.useBookedAppointments(
         {
@@ -51,13 +53,17 @@ export const ProfileUpcommingAppointments = ({
                                     key={appointment?.id}
                                     appointment={appointment}
                                     upcomming
+                                    short={short}
                                 />
                             )
                         )}
                     </div>
                 ) : (
                     futureAppointments.isSuccess && (
-                        <NoData text="There is no upcomming appointments" />
+                        <NoData
+                            simple={short}
+                            text="There is no upcomming appointments"
+                        />
                     )
                 )}
             </div>

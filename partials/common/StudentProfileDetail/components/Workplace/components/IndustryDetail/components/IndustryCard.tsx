@@ -16,10 +16,9 @@ import { PulseLoader } from 'react-spinners'
 
 import { UserRoles } from '@constants'
 import { AddIndustryCB } from '@partials/sub-admin/workplace/contextBar'
-import {
-    RemoveIndustryModal
-} from '@partials/sub-admin/workplace/modals'
+import { RemoveIndustryModal } from '@partials/sub-admin/workplace/modals'
 import { getUserCredentials } from '@utils'
+import { IWorkplaceIndustries } from 'redux/queryTypes'
 
 export const IndustryCard = ({
     industry,
@@ -27,7 +26,13 @@ export const IndustryCard = ({
     workplace,
     applied,
     courseId,
-}: any) => {
+}: {
+    industry: any
+    appliedIndustry?: any
+    workplace: IWorkplaceIndustries
+    applied?: boolean
+    courseId: number
+}) => {
     const [modal, setModal] = useState<any | null>(null)
     const [applyForWorkplace, applyForWorkplaceResult] =
         useSubAdminApplyStudentWorkplaceMutation()
@@ -66,7 +71,7 @@ export const IndustryCard = ({
             <RemoveIndustryModal
                 industry={industry}
                 onCancel={onCancelClicked}
-                studentId={workplace?.student?.id}
+                studentId={Number(workplace?.student?.id)}
             />
         )
     }
@@ -119,17 +124,21 @@ export const IndustryCard = ({
                         </div>
                     </Link>
                     <div className="flex items-center gap-x-2 ml-auto">
-                        {applied && (
-                            <div className="flex justify-end gap-x-2 top-0 right-0">
-                                <ActionButton
-                                    rounded
-                                    Icon={MdDelete}
-                                    variant={'error'}
-                                    onClick={() => onDeleteIndustry(industry)}
-                                    title="Delete Industry"
-                                />
-                            </div>
-                        )}
+                        {applied &&
+                            !workplace?.byExistingAbn &&
+                            !workplace?.studentProvidedWorkplace && (
+                                <div className="flex justify-end gap-x-2 top-0 right-0">
+                                    <ActionButton
+                                        rounded
+                                        Icon={MdDelete}
+                                        variant={'error'}
+                                        onClick={() =>
+                                            onDeleteIndustry(industry)
+                                        }
+                                        title="Delete Industry"
+                                    />
+                                </div>
+                            )}
                         {industry?.applied &&
                             industry?.industryResponse !== 'noResponse' &&
                             industry?.industryResponse !== 'rejected' && (
@@ -182,7 +191,7 @@ export const IndustryCard = ({
                                             if (!appliedIndustry) {
                                                 applyForWorkplace({
                                                     industry: industry?.id,
-                                                    id: workplace?.id,
+                                                    id: Number(workplace?.id),
                                                 })
                                             } else {
                                                 notification.error({
