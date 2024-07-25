@@ -38,7 +38,7 @@ export const ProfileAppointments = ({
                 <Card fullHeight shadowType="profile" noPadding>
                     <div className="px-4 py-3.5 border-b border-secondary-dark flex justify-between items-center">
                         <Typography semibold>
-                            <span className="text-[15px]">Appiontment</span>
+                            <span className="text-[15px]">Appointment</span>
                         </Typography>
                         <Button
                             text="Book Appointment"

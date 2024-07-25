@@ -91,7 +91,7 @@ export const IndustryDetail = ({
                                     color={'text-info'}
                                 >
                                     <span
-                                        className="font-semibold cursor-pointer"
+                                        className="font-semibold cursor-pointer whitespace-pre"
                                         onClick={() => {
                                             if (!appliedIndustry) {
                                                 onViewMoreIndustries()
@@ -112,7 +112,7 @@ export const IndustryDetail = ({
                                     color={'text-info'}
                                 >
                                     <span
-                                        className="font-semibold cursor-pointer"
+                                        className="font-semibold cursor-pointer whitespace-pre"
                                         onClick={() => {
                                             if (!appliedIndustry) {
                                                 contextBar.setContent(
