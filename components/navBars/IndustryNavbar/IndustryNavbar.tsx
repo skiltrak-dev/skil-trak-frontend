@@ -1,19 +1,13 @@
 import classNames from 'classnames'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { Desktop, Mobile } from '@components/Responsive'
-import { FaClipboardList, FaFileSignature } from 'react-icons/fa'
-import { HiInformationCircle, HiUsers } from 'react-icons/hi'
-import {
-    MdEmail,
-    MdNotifications,
-    MdSpaceDashboard,
-    MdWork,
-} from 'react-icons/md'
-import { NavLinkItem } from '../NavLinkItem'
-import { LiaCertificateSolid } from 'react-icons/lia'
 import { IndustryApi } from '@queries'
+import { FaClipboardList, FaFileSignature } from 'react-icons/fa'
+import { HiUsers } from 'react-icons/hi'
+import { LiaCertificateSolid } from 'react-icons/lia'
+import { MdEmail, MdSpaceDashboard, MdWork } from 'react-icons/md'
+import { NavLinkItem } from '../NavLinkItem'
 
 const PREFIX = '/portals/industry'
 
@@ -70,22 +64,22 @@ export const IndustryNavbar = () => {
             inActiveClasses: 'text-slate-700',
             id: 'jobs',
         },
-        {
-            link: Routes.Jobs,
-            text: 'Jobs',
-            Icon: MdWork,
-            activeClasses: 'bg-green-100 text-green-700',
-            inActiveClasses: 'text-slate-700',
-            id: 'jobs',
-        },
-        {
-            link: Routes.TalentPool,
-            text: 'Talent Pool',
-            Icon: LiaCertificateSolid,
-            activeClasses: 'bg-blue-100 text-blue-700',
-            inActiveClasses: 'text-slate-700',
-            count: talentPoolProfileCount?.data,
-        },
+        // {
+        //     link: Routes.Jobs,
+        //     text: 'Jobs',
+        //     Icon: MdWork,
+        //     activeClasses: 'bg-green-100 text-green-700',
+        //     inActiveClasses: 'text-slate-700',
+        //     id: 'jobs',
+        // },
+        // {
+        //     link: Routes.TalentPool,
+        //     text: 'Talent Pool',
+        //     Icon: LiaCertificateSolid,
+        //     activeClasses: 'bg-blue-100 text-blue-700',
+        //     inActiveClasses: 'text-slate-700',
+        //     count: talentPoolProfileCount?.data,
+        // },
         {
             link: Routes.ESign,
             text: 'E Sign',
@@ -93,14 +87,14 @@ export const IndustryNavbar = () => {
             activeClasses: 'text-slate-700',
             inActiveClasses: 'hover:bg-green-100 hover:text-green-700',
         },
-        {
-            link: Routes.RequestAVolunteer,
-            text: 'Request a Volunteer',
-            Icon: FaClipboardList,
-            activeClasses: 'text-slate-700',
-            inActiveClasses: 'hover:bg-orange-100 hover:text-orange-700',
-            id: 'students',
-        },
+        // {
+        //     link: Routes.RequestAVolunteer,
+        //     text: 'Request a Volunteer',
+        //     Icon: FaClipboardList,
+        //     activeClasses: 'text-slate-700',
+        //     inActiveClasses: 'hover:bg-orange-100 hover:text-orange-700',
+        //     id: 'students',
+        // },
         {
             link: Routes.Notifications,
             text: 'Messages',

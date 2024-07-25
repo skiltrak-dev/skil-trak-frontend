@@ -1,22 +1,20 @@
 import moment from 'moment'
-import { AdminApi } from '@queries'
+import { AdminApi, useAddWorkingHoursMutation } from '@queries'
 import { useEffect, useState } from 'react'
 import { AddWorkingHoursCard } from '../cards'
 import { initialSchedule } from '@partials/industry/AvailableShifts/components'
 import { Button, ShowErrorNotifications } from '@components'
 
 export const AddShiftsCB = ({
-    industryUserId,
     industryAvailableHours,
 }: {
-    industryUserId: number
     industryAvailableHours: any
 }) => {
     const [workingHoursTime, setWorkingHoursTime] = useState<any | null>(
         initialSchedule
     )
 
-    const [addHours, addHoursResult] = AdminApi.Industries.useAddIndustryHours()
+    const [addHours, addHoursResult] = useAddWorkingHoursMutation()
 
     useEffect(() => {
         if (industryAvailableHours) {
@@ -68,10 +66,7 @@ export const AddShiftsCB = ({
 
     const onAddWorkingHours = () => {
         addHours({
-            body: {
-                days: workingHoursTime?.filter((s: any) => s.dayOn),
-            },
-            id: industryUserId,
+            days: workingHoursTime?.filter((s: any) => s.dayOn),
         })
     }
     return (

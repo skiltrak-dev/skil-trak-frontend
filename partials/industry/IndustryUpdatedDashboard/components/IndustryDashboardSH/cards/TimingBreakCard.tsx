@@ -2,39 +2,47 @@ import { Typography } from '@components'
 import moment from 'moment'
 import React from 'react'
 
-export const TimingCard = ({ timing }: { timing: any }) => {
+export const TimingBreakCard = ({ timing }: { timing: any }) => {
     return (
-        <div className={`border-r border-b border-white h-full w-full `}>
+        <div className={`border-r border-white h-full w-full `}>
             {timing?.dayOn ? (
                 <>
-                    <div className="h-full flex flex-col justify-center items-center">
+                    <div className="flex flex-col justify-center items-center h-full">
                         <Typography
-                            bold
                             center
-                            color="text-[#128C7E]"
+                            color="text-[#7A7C7E]"
                             variant={'xxs'}
                         >
-                            {moment(timing?.openingTime, 'h:mm').format(
-                                'hh:mm a'
-                            )}
+                            Break
                         </Typography>
                         <Typography
-                            bold
                             center
-                            color="text-[#128C7E]"
+                            color="text-[#7A7C7E]"
+                            variant={'xxs'}
+                        >
+                            {timing?.breakStart
+                                ? moment(timing?.breakStart, 'hh:mm').format(
+                                      'hh:mm a'
+                                  )
+                                : '--'}
+                        </Typography>
+                        <Typography
+                            center
+                            color="text-[#7A7C7E]"
                             variant={'xxs'}
                         >
                             /
                         </Typography>
                         <Typography
-                            bold
                             center
-                            color="text-[#128C7E]"
+                            color="text-[#7A7C7E]"
                             variant={'xxs'}
                         >
-                            {moment(timing?.closingTime, 'h:mm').format(
-                                'hh:mm a'
-                            )}
+                            {timing?.breakEnd
+                                ? moment(timing?.breakEnd, 'hh:mm').format(
+                                      'hh:mm a'
+                                  )
+                                : '--'}
                         </Typography>
                     </div>
                 </>

@@ -6,7 +6,7 @@ import { IndustryDashboardContainer } from '@components/sections'
 import { IndustryUpdatedDashboard } from '@partials/industry'
 
 const IndustryDashboard: NextPageWithLayout = () => {
-    // return <IndustryUpdatedDashboard />
+    return <IndustryUpdatedDashboard />
     return (
         <div>
             <IndustryDashboardContainer />
