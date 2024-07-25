@@ -1,23 +1,15 @@
-import {
-    Card,
-    LoadingAnimation,
-    NoData,
-    ShowErrorNotifications,
-    Typography,
-} from '@components'
+import { NoData, ShowErrorNotifications, Typography } from '@components'
 import { useNotification } from '@hooks'
 import {
-    useSubAdminApplyStudentWorkplaceMutation,
     useAddExistingIndustriesMutation,
+    useSubAdminApplyStudentWorkplaceMutation,
 } from '@queries'
-import { ellipsisText, getSectorsDetail } from '@utils'
+import { ellipsisText } from '@utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect } from 'react'
-import { AiFillStar } from 'react-icons/ai'
 import { FaTimes } from 'react-icons/fa'
 import { PulseLoader } from 'react-spinners'
-import StarRatings from 'react-star-ratings'
 
 type FutureIndustryInfoBoxCardProps = {
     item: any
