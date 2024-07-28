@@ -4,7 +4,10 @@ import { FcGoogle } from 'react-icons/fc'
 import { RiStarSFill } from 'react-icons/ri'
 export const GoogleReviewCard = () => {
     return (
-        <div className="bg-white shadow-xl rounded-lg flex flex-col gap-y-8 justify-center items-center p-8">
+        <div
+            
+            className="bg-white shadow-xl rounded-lg flex flex-col gap-y-8 justify-center items-center p-8"
+        >
             <div className="flex flex-col justify-center items-center gap-y-2">
                 <FcGoogle size={30} />
                 <div className="flex items-center justify-center gap-x-1">
