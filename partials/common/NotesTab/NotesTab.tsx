@@ -17,7 +17,7 @@ export const NotesTab = ({ user }: { user: any }) => {
 
     const router = useRouter()
 
-    const notes = CommonApi.Notes.useList(user?.id, { skip: !user })
+    const notes = CommonApi.Notes.useList({ id: user?.id }, { skip: !user })
 
     useEffect(() => {
         if (selectedNoteId && notes?.data && notes?.data?.length) {

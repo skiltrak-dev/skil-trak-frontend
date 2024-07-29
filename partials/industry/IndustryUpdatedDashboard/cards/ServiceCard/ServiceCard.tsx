@@ -2,17 +2,20 @@ import { Typography } from '@components'
 import React from 'react'
 import { ServiceCardType } from './service.type'
 import { useRouter } from 'next/router'
+import { useMediaQuery } from 'react-responsive'
+import { MediaQueries } from '@constants'
 
 export const ServiceCard = ({ data }: { data: ServiceCardType }) => {
+    const isMobile = useMediaQuery(MediaQueries.Mobile)
     const router = useRouter()
     return (
         <div
-            className="rounded-[10px] w-full h-full"
+            className="rounded-[10px] w-full h-40 xl:h-full"
             style={{
                 background: `
         linear-gradient(
-          rgba(0, 0, 0, 0.5), 
-          rgba(0, 0, 0, 0.5)
+          rgba(0, 0, 0, 0.15), 
+          rgba(0, 0, 0, 0.15)
         ), 
         url(${data?.image}) no-repeat
       `,

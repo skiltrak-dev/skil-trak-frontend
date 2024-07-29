@@ -184,10 +184,36 @@ export const Approved = () => {
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
 
                 const wpStatus = [
-                    WorkplaceCurrentStatus.PlacementStarted,
                     WorkplaceCurrentStatus.Completed,
                     WorkplaceCurrentStatus.Terminated,
                 ]
+
+                return (
+                    <div>
+                        {row.original?.currentStatus ? (
+                            <ProgressCell
+                                appliedIndustry={appliedIndustry}
+                                studentId={row.original?.student?.id}
+                                step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                            />
+                        ) : wpStatus.includes(row.original?.currentStatus) ? (
+                            <StudentStatusProgressCell
+                                assigned={
+                                    workplace?.assignedTo ||
+                                    row.original?.student?.subadmin
+                                }
+                                studentId={row.original?.student?.id}
+                                step={
+                                    workplace?.currentStatus ===
+                                    WorkplaceCurrentStatus.Cancelled
+                                        ? 4
+                                        : studentStatus
+                                }
+                                appliedIndustry={appliedIndustry}
+                            />
+                        ) : null}
+                    </div>
+                )
 
                 return wpStatus.includes(row.original?.currentStatus) ? (
                     <StudentStatusProgressCell

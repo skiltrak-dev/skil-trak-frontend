@@ -22,37 +22,37 @@ export interface AdminWorkplaceCount {
 
 export interface WorkplaceWorkIndustriesType {
     AgreementSigned: boolean
-    AgreementSignedDate: string
+    AgreementSignedDate: Date
     distance: number
     accepted: boolean
     applied: boolean
-    appliedDate: string
+    appliedDate: Date
     appointmentBooked: boolean
-    appointmentBookedDate: string
+    appointmentBookedDate: Date
     awaitingAgreementSigned: boolean
-    awaitingAgreementSignedDate: string
+    awaitingAgreementSignedDate: Date
     awaitingWorkplaceResponse: boolean
-    awaitingWorkplaceResponseDate: string
+    awaitingWorkplaceResponseDate: Date
     cancelled: boolean
-    cancelledDate: string
+    cancelledDate: Date
     caseOfficerAssigned: boolean
-    caseOfficerAssignedDate: string
-    createdAt: string
+    caseOfficerAssignedDate: Date
+    createdAt: Date
     id: number
     industryCheck: boolean
-    industryCheckDate: string
+    industryCheckDate: Date
     industryResponse: string
-    industryResponseDate: string
+    industryResponseDate: Date
     interview: boolean
-    interviewDate: string
+    interviewDate: Date
     isActive: boolean
     isCompleted: boolean
-    isCompletedDate: string
+    isCompletedDate: Date
     placementStarted: boolean
-    placementStartedDate: string
+    placementStartedDate: Date
     terminated: boolean
-    terminatedDate: string
-    updatedAt: string
+    terminatedDate: Date
+    updatedAt: Date
     industry: Industry
 }
 

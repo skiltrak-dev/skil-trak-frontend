@@ -84,7 +84,11 @@ export const UpdatedCourseList = ({
                 </div>
 
                 {sectorsWithCourses ? (
-                    <div className={'flex flex-col gap-y-4 mt-5'}>
+                    <div
+                        className={
+                            'max-h-96 overflow-auto custom-scrollbar flex flex-col gap-y-4 mt-5'
+                        }
+                    >
                         {Object.keys(sectorsWithCourses).map((sector) => {
                             return (
                                 <div>

@@ -43,6 +43,8 @@ import {
     ViewPlacementStartedAnswersModal,
     ViewQuestionsModal,
 } from './modals'
+import { ForwardModal } from '@partials/sub-admin/workplace/modals'
+import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
 
 const WPStatusForCancelButon = [
     WorkplaceCurrentStatus.Applied,
@@ -87,9 +89,8 @@ export const Workplace = ({
     const [cancelWorkplace, cancelWorkplaceResult] =
         useCancelWorkplaceStatusMutation()
 
-    const appliedIndustry = selectedWorkplace?.industries?.find(
-        (i: any) => i.applied
-    )
+    const appliedIndustry: WorkplaceWorkIndustriesType =
+        selectedWorkplace?.industries?.find((i: any) => i.applied)
 
     const course = selectedWorkplace?.courses?.find((c: any) => c)
 
@@ -124,6 +125,27 @@ export const Workplace = ({
             )
         }
     }, [sortedWorkplace])
+
+    useEffect(() => {
+        if (
+            selectedWorkplace &&
+            appliedIndustry &&
+            !appliedIndustry?.awaitingWorkplaceResponseDate &&
+            selectedWorkplace?.assignedTo &&
+            !selectedWorkplace?.studentProvidedWorkplace
+        ) {
+            const onForwardClicked = () => {
+                setModal(
+                    <ForwardModal
+                        industry={appliedIndustry}
+                        workplaceId={selectedWorkplace?.id}
+                        onCancel={() => onCancelModal()}
+                    />
+                )
+            }
+            onForwardClicked()
+        }
+    }, [selectedWorkplace, appliedIndustry])
 
     const onCancelModal = () => setModal(null)
 

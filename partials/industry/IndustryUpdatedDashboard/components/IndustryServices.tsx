@@ -5,13 +5,13 @@ import { ServiceCard, ServiceCardType } from '../cards'
 export const IndustryServices = () => {
     const serviceData: ServiceCardType[] = [
         {
-            image: '/images/industry/jobs.png',
+            image: '/images/industry/requestVolunteer.png',
             link: '/portals/industry/students/request-a-volunteer',
             linkText: 'More Details',
             title: 'Request a volunteer',
         },
         {
-            image: '/images/industry/jobs.png',
+            image: '/images/industry/talentPool.png',
             title: 'Talent Pool',
             linkText: 'More Details',
             link: '/portals/industry/talent-pool',

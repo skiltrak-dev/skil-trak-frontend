@@ -24,6 +24,7 @@ import {
 import { useRouter } from 'next/router'
 import { WorkplaceCurrentStatus, checkStudentProfileCompletion } from '@utils'
 import { CompleteProfileBeforeWpModal } from '@partials/common/StudentProfileDetail/components'
+import { AlreadyWPCreatedModal } from '@partials/sub-admin/students/workplace/requestWorkplaceDetail/modal'
 
 type Props = {}
 
@@ -38,15 +39,11 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     const { id } = router.query
 
     // query
-    const { data, isLoading, isError, isSuccess } =
-        useGetSubAdminStudentDetailQuery(Number(id), {
-            skip: !id,
-        })
-    const workplace = useGetSubAdminStudentWorkplaceQuery(Number(id), {
+    const student = useGetSubAdminStudentDetailQuery(Number(id), {
         skip: !id,
         refetchOnMountOrArgChange: true,
     })
-    const student = useGetSubAdminStudentDetailQuery(Number(id), {
+    const workplace = useGetSubAdminStudentWorkplaceQuery(Number(id), {
         skip: !id,
         refetchOnMountOrArgChange: true,
     })
@@ -65,6 +62,12 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
 
     useEffect(() => {
         if (
+            workplace.data &&
+            workplace.isSuccess &&
+            workplace.data.length > 1
+        ) {
+            setModal(<AlreadyWPCreatedModal />)
+        } else if (
             profileCompletion &&
             profileCompletion > 0 &&
             profileCompletion < 100
@@ -79,27 +82,27 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         }
     }, [profileCompletion])
 
-    useEffect(() => {
-        if (
-            workplace.data &&
-            workplace.isSuccess &&
-            workplace.data.length > 0
-        ) {
-            if (workplace.data[0].currentStatus === 'placementStarted') {
-                setActive(4)
-            } else if (
-                workplace?.data?.filter(
-                    (w: any) =>
-                        w?.currentStatus !== WorkplaceCurrentStatus.Completed &&
-                        w?.currentStatus !==
-                            WorkplaceCurrentStatus.Terminated &&
-                        w?.currentStatus !== WorkplaceCurrentStatus.Rejected
-                )?.length > 0
-            ) {
-                setActive(3)
-            }
-        }
-    }, [workplace.data])
+    // useEffect(() => {
+    //     if (
+    //         workplace.data &&
+    //         workplace.isSuccess &&
+    //         workplace.data.length > 0
+    //     ) {
+    //         if (workplace.data[0].currentStatus === 'placementStarted') {
+    //             setActive(4)
+    //         } else if (
+    //             workplace?.data?.filter(
+    //                 (w: any) =>
+    //                     w?.currentStatus !== WorkplaceCurrentStatus.Completed &&
+    //                     w?.currentStatus !==
+    //                         WorkplaceCurrentStatus.Terminated &&
+    //                     w?.currentStatus !== WorkplaceCurrentStatus.Rejected
+    //             )?.length > 0
+    //         ) {
+    //             setActive(3)
+    //         }
+    //     }
+    // }, [workplace.data])
 
     const StepIndicatorOptions = [
         {
@@ -168,7 +171,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                                     <Availability
                                         setActive={setActive}
                                         personalInfoData={personalInfoData}
-                                        userId={Number(data?.user?.id)}
+                                        userId={Number(student?.data?.user?.id)}
                                         setAvailabilities={setAvailabilities}
                                         availabilities={availabilities}
                                     />
@@ -178,7 +181,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                                     <IndustrySelection
                                         setActive={setActive}
                                         workplace={workplace}
-                                        userId={Number(data?.user?.id)}
+                                        userId={Number(student?.data?.user?.id)}
                                         setIsCancelled={(e: any) => {
                                             setIsCancelled(e)
                                         }}

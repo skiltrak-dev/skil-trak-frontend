@@ -111,7 +111,7 @@ export const IndustryCurrentStudents = () => {
                     id={`student-profile-${ProfileIds.Notes}`}
                     className={`${activeBorder(ProfileIds.Notes)} h-[inherit]`}
                 >
-                    <Notes userId={profile?.data?.student?.user?.id} />
+                    <Notes userId={profile?.data?.student?.user?.id} isPinned />
                 </div>
             </div>
             <StudentSchedule

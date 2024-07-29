@@ -1,10 +1,18 @@
-import { Button, Select, ShowErrorNotifications, Typography } from '@components'
+import {
+    AuthorizedUserComponent,
+    Button,
+    Select,
+    ShowErrorNotifications,
+    Typography,
+} from '@components'
 import { useContextBar, useNotification } from '@hooks'
 import { useShowExistingIndustriesQuery, SubAdminApi } from '@queries'
 import { Course } from '@types'
 import React, { useEffect, useState } from 'react'
 import { AddSecondWorkplaceForm } from '../form'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
+import { UserRoles } from '@constants'
+import { AddWorkplaceAction } from '@partials/common/StudentProfileDetail/components'
 
 export const AddSecondWPCB = ({
     studentId,
@@ -69,17 +77,28 @@ export const AddSecondWPCB = ({
     return (
         <div>
             <ShowErrorNotifications result={addSecondWorkplaceResult} />
-            <div
-                onClick={() => {
-                    setIsAddCustomIndustry(!isAddCustomIndustry)
-                }}
-                className="cursor-pointer flex justify-end font-bold"
-            >
-                <Typography color={'text-link'} variant={'small'}>
-                    {isAddCustomIndustry
-                        ? 'Select From Existing'
-                        : '+ Add Custom Industry'}
-                </Typography>
+            <div className={'flex justify-between items-center mb-3'}>
+                <div>
+                    <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                        <AddWorkplaceAction
+                            id={studentId}
+                            profileCompletion={100}
+                            text={'Search Workplace'}
+                        />
+                    </AuthorizedUserComponent>
+                </div>
+                <div
+                    onClick={() => {
+                        setIsAddCustomIndustry(!isAddCustomIndustry)
+                    }}
+                    className="cursor-pointer flex justify-end font-bold"
+                >
+                    <Typography color={'text-link'} variant={'small'}>
+                        {isAddCustomIndustry
+                            ? 'Select From Existing'
+                            : '+ Add Custom Industry'}
+                    </Typography>
+                </div>
             </div>
             {!isAddCustomIndustry ? (
                 <div className="flex flex-col gap-y-2">
