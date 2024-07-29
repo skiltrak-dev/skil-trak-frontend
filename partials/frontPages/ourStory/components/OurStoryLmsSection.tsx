@@ -17,6 +17,7 @@ export const OurStoryLmsSection = () => {
                         width={434}
                         height={380}
                         className="hidden md:block"
+                        data-aos="fade-right"
                     />
                     <Image
                         src="/images/our-story/our-lms-1.png"
@@ -24,6 +25,7 @@ export const OurStoryLmsSection = () => {
                         width={128}
                         height={100}
                         className="md:hidden block"
+                        
                     />
                     <Image
                         src="/images/our-story/our-lms-2.png"
@@ -31,6 +33,7 @@ export const OurStoryLmsSection = () => {
                         width={350}
                         height={436}
                         className="hidden md:block"
+                        data-aos="fade-left"
                     />
                     <Image
                         src="/images/our-story/our-lms-2.png"
@@ -38,6 +41,7 @@ export const OurStoryLmsSection = () => {
                         width={103}
                         height={120}
                         className="block md:hidden"
+                       
                     />
                     <div className="absolute md:top-20 top-[4rem] left-28 md:left-52 w-full h-full flex items-center justify-center">
                         <Image
@@ -46,6 +50,7 @@ export const OurStoryLmsSection = () => {
                             width={500}
                             height={137}
                             className="hidden md:block"
+                            data-aos="fade-right"
                         />
                         <Image
                             src="/images/our-story/our-lms-3.png"
@@ -62,6 +67,7 @@ export const OurStoryLmsSection = () => {
                     width={434}
                     height={380}
                     className="hidden md:block"
+                    data-aos="fade-left"
                 />
                 <Image
                     src="/images/our-story/our-lms-4.png"

@@ -173,6 +173,7 @@ export const FutureIndustryInfoBoxCard = ({
                                     <Link
                                         className="text-blue-400 text-xs"
                                         href={`/portals/sub-admin/tasks/industry-listing?tab=all&page=1&pageSize=50&email=${selectedBox?.email}`}
+                                        target="_blank"
                                     >
                                         View
                                     </Link>

@@ -19,11 +19,11 @@ export const ForwardModal = ({
     industry: any
     onCancel: Function
     workplaceId: number
-    folders: any
+    folders?: any
 }) => {
     const [isDocsUploaded, setIsDocsUploaded] = useState<boolean | null>(null)
     const [missingDocuments, setMissingDocuments] = useState<any | null>(null)
-    
+
     const contextBar = useContextBar()
 
     // hooks
@@ -34,7 +34,7 @@ export const ForwardModal = ({
         useForwardWorkplaceToIndustryMutation()
 
     useEffect(() => {
-        if (folders && folders?.length) {
+        if (folders && folders?.length > 0) {
             setIsDocsUploaded(folders?.every((f: any) => f.uploaded))
             setMissingDocuments(
                 folders

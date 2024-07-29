@@ -8,7 +8,7 @@ import {
     Typography,
     useShowErrorNotification,
 } from '@components'
-import { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 // query
 import { useNotification } from '@hooks'
@@ -18,6 +18,7 @@ import {
 } from '@queries'
 import { Course } from '@types'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
+import { WorkplaceCreatedModal } from '../requestWorkplaceDetail/modal'
 
 export const ExistinIndustryCard = ({
     student,
@@ -26,6 +27,7 @@ export const ExistinIndustryCard = ({
     studentId,
     setWorkplaceData,
 }: any) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const [selectedCourse, setselectedCourse] = useState<number | null>(null)
 
     const [applyForWorkplace, applyForWorkplaceResult] =
@@ -61,8 +63,11 @@ export const ExistinIndustryCard = ({
 
     const showErrorNotifications = useShowErrorNotification()
 
+    const onCancelModal = () => setModal(null)
+
     return (
         <>
+            {modal}
             {/* <ShowErrorNotifications result={applyForWorkplaceResult} /> */}
             <Card>
                 <div className="mb-4">
@@ -133,6 +138,7 @@ export const ExistinIndustryCard = ({
                                     IndustryId: industry?.id,
                                     courseId: selectedCourse,
                                 }).then((res: any) => {
+                                    console.log({ res })
                                     if (res?.error) {
                                         notification.error({
                                             title: res?.error?.data?.error,
@@ -140,6 +146,15 @@ export const ExistinIndustryCard = ({
                                                 res?.error?.data?.message,
                                             dissmissTimer: 5555,
                                         })
+                                    }
+                                    if (res?.data) {
+                                        console.log('Hello')
+                                        setModal(
+                                            <WorkplaceCreatedModal
+                                                onCancel={onCancelModal}
+                                            />
+                                        )
+                                        // setActive((active: number) => active + 1)
                                     }
                                 })
                             } else {

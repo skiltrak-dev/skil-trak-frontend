@@ -8,28 +8,29 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
 import { CommonApi, RtoApi } from '@queries'
-import { ReactElement, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { MdCancel } from 'react-icons/md'
 import * as Yup from 'yup'
-import { ShowDuplicatedIndustriesModal } from './ShowDuplicatedIndustriesModal'
 import { IndustryListingDepartment } from '../enum'
-import { saveAs } from 'file-saver'
 
 export const ImportIndustriesListVerificationModal = ({
     onCancel,
     industries,
     onSetImportListResult,
     selectedDepartment,
+    selectedType,
 }: {
     selectedDepartment: IndustryListingDepartment | null
     industries: any
     onCancel: () => void
     onSetImportListResult: any
+    selectedType: string
 }) => {
     const [compareCode, compareCodeResult] = RtoApi.Students.useCompareCode()
     const [importList, importListResult] =
         CommonApi.FindWorkplace.importIndustriesList()
+    const [importListWithoutEmail, importListWithoutEmailResult] =
+        CommonApi.FindWorkplace.importListWithoutEmail()
 
     const { notification } = useNotification()
 
@@ -43,31 +44,60 @@ export const ImportIndustriesListVerificationModal = ({
     })
 
     const onImportIndustriesList = () => {
-        importList({
-            industries: industries?.map((ind: any) => ({
-                ...ind,
-                department: selectedDepartment,
-                email: ind?.email ? ind?.email?.replace(/\r\n\r\n/g, '') : '',
-                region: ind?.states,
-                sector: ind?.sector
-                    ? String(ind?.sector)
-                          ?.split(',')
-                          ?.map((s: any) => Number(s))
-                    : null,
-            })),
-        }).then((res: any) => {
-            if (res?.data) {
-                onSetImportListResult(res?.data)
-                onCancel()
-                notification.success({
-                    title: 'Success',
-                    description:
-                        res?.data?.message ||
-                        'Industries imported successfully',
-                    dissmissTimer: 6666,
-                })
-            }
-        })
+        if (selectedType === 'withEmail') {
+            importList({
+                industries: industries?.map((ind: any) => ({
+                    ...ind,
+                    department: selectedDepartment,
+                    email: ind?.email
+                        ? ind?.email?.replace(/\r\n\r\n/g, '')
+                        : '',
+                    region: ind?.states,
+                    sector: ind?.sector
+                        ? String(ind?.sector)
+                              ?.split(',')
+                              ?.map((s: any) => Number(s))
+                        : null,
+                })),
+            }).then((res: any) => {
+                if (res?.data) {
+                    onSetImportListResult(res?.data)
+                    onCancel()
+                    notification.success({
+                        title: 'Success',
+                        description:
+                            res?.data?.message ||
+                            'Industries imported successfully',
+                        dissmissTimer: 6666,
+                    })
+                }
+            })
+        } else if (selectedType === 'withoutEmail') {
+            importListWithoutEmail({
+                industries: industries?.map((ind: any) => ({
+                    ...ind,
+                    department: selectedDepartment,
+                    region: ind?.states,
+                    sector: ind?.sector
+                        ? String(ind?.sector)
+                              ?.split(',')
+                              ?.map((s: any) => Number(s))
+                        : null,
+                })),
+            }).then((res: any) => {
+                if (res?.data) {
+                    onSetImportListResult(res?.data)
+                    onCancel()
+                    notification.success({
+                        title: 'Success',
+                        description:
+                            res?.data?.message ||
+                            'Industries imported successfully',
+                        dissmissTimer: 6666,
+                    })
+                }
+            })
+        }
     }
 
     const onSubmit = async (otp: any) => {
@@ -86,6 +116,8 @@ export const ImportIndustriesListVerificationModal = ({
         <GlobalModal>
             <ShowErrorNotifications result={importListResult} />
             <ShowErrorNotifications result={compareCodeResult} />
+            <ShowErrorNotifications result={importListWithoutEmailResult} />
+
             <div className="relative max-w-[500px] py-8 px-3">
                 <MdCancel
                     onClick={onCancel}

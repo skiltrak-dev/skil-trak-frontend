@@ -13,12 +13,21 @@ import { Waypoint } from 'react-waypoint'
 import { NoteCard } from './Card'
 import { useState } from 'react'
 
-export const Notes = ({ userId }: { userId: number }) => {
+export const Notes = ({
+    userId,
+    isPinned,
+}: {
+    userId: number
+    isPinned?: boolean
+}) => {
     const contextBar = useContextBar()
 
     const [isViewd, setIsViewd] = useState<boolean>(false)
 
-    const notes = CommonApi.Notes.useList(userId, { skip: !userId || !isViewd })
+    const notes = CommonApi.Notes.useList(
+        { id: userId, isPinned },
+        { skip: !userId || !isViewd }
+    )
 
     const onAddNote = () => {
         contextBar.setTitle('Add Note')

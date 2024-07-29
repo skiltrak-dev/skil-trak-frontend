@@ -3,9 +3,10 @@ import Image from 'next/image'
 import React from 'react'
 
 export const OurStoryInternationalVentureSection = () => {
+
     return (
-        <div className="mx-auto max-w-7xl mt-12 md:mt-[70px]">
-            <div className="md:px-64 px-4">
+        <div className="mx-auto max-w-7xl mt-12 mb-5 md:mt-[70px]">
+            <div className="md:px-64 px-4" data-aos="fade-up">
                 <Typography variant="h2" medium center>
                     SkilTrak International Ventures
                 </Typography>
@@ -41,19 +42,22 @@ export const OurStoryInternationalVentureSection = () => {
                 </div>
             </div>
             <div className="flex flex-col md:gap-y-4 gap-y-1 justify-center items-center px-4">
-                <div className="philippines-bg relative">
+                <div
+                    className="group philippines-bg relative"
+                    data-aos="fade-right"
+                >
                     <div className="flex items-center justify-between gap-x-72 absolute top-1/3 left-8 md:left-[20%]">
-                        <p className="country-name">Philippines.</p>
-                        <div className="md:inline-block hidden bg-gradient-to-r from-[#24536B] to-[#46A2D1] px-5 py-1.5 border border-white rounded-[10px]">
+                        <p className="country-name">Philippines</p>
+                        <div className="md:inline-block hidden opacity-0 group-hover:opacity-100 group-hover:duration-700 group-hover:transition-all  bg-gradient-to-r from-[#24536B] to-[#46A2D1] px-5 py-1.5 border border-white rounded-[10px]">
                             <Typography variant="xs" color="text-white" center>
                                 407 Sponsorship Visa
                             </Typography>
                         </div>
                     </div>
                 </div>
-                <div className="france-bg relative">
+                <div className="group france-bg relative" data-aos="fade-left">
                     <div className="flex items-center justify-between gap-x-72 absolute top-1/4 left-1/2 md:left-[20%]">
-                        <div className="md:flex hidden flex-col gap-y-2">
+                        <div className="md:flex hidden flex-col gap-y-2 opacity-0 group-hover:opacity-100 group-hover:duration-700 group-hover:transition-all">
                             <div className=" bg-gradient-to-r from-[#24536B] to-[#46A2D1] px-5 py-1.5 border border-white rounded-[10px]">
                                 <Typography
                                     variant="muted"
@@ -85,10 +89,13 @@ export const OurStoryInternationalVentureSection = () => {
                         <p className="country-name">France</p>
                     </div>
                 </div>
-                <div className="mauritius-bg relative">
+                <div
+                    className="group mauritius-bg relative"
+                    data-aos="fade-right"
+                >
                     <div className="flex items-center justify-between gap-x-72 absolute top-1/3 left-8 md:left-[20%]">
                         <p className="country-name">Mauritius</p>
-                        <div className="md:inline-block hidden bg-gradient-to-r from-[#24536B] to-[#46A2D1] px-5 py-1.5 border border-white rounded-[10px]">
+                        <div className="md:inline-block hidden opacity-0 group-hover:opacity-100 group-hover:duration-700 group-hover:transition-all bg-gradient-to-r from-[#24536B] to-[#46A2D1] px-5 py-1.5 border border-white rounded-[10px]">
                             <Typography
                                 variant="muted"
                                 color="text-white"
@@ -99,9 +106,12 @@ export const OurStoryInternationalVentureSection = () => {
                         </div>
                     </div>
                 </div>
-                <div className="seychelles-bg relative">
+                <div
+                    className="group seychelles-bg relative"
+                    data-aos="fade-left"
+                >
                     <div className="flex items-center justify-between gap-x-40 absolute top-1/3 left-1/2 md:left-[20%]">
-                        <div className="md:flex hidden flex-col gap-y-2">
+                        <div className="md:flex hidden opacity-0 group-hover:opacity-100 group-hover:duration-700 group-hover:transition-all flex-col gap-y-2">
                             <div className="bg-gradient-to-r from-[#24536B] to-[#46A2D1] px-5 py-1.5 border border-white rounded-[10px]">
                                 <Typography
                                     variant="muted"

@@ -1,26 +1,36 @@
-import React, { ReactElement, useCallback, useState } from 'react'
-import { read, utils } from 'xlsx'
-import { Workbook, Worksheet } from 'exceljs'
 import ExcelJS from 'exceljs'
+import { ReactElement, useCallback, useState } from 'react'
+import * as Yup from 'yup'
 
-import { useNotification } from '@hooks'
-import { BinaryFileUpload } from '@components/inputs/BinaryFileUpload'
 import { Button, Select, ShowErrorNotifications, Typography } from '@components'
-import { CommonApi, RtoApi } from '@queries'
-import { ImportIndustriesListVerificationModal } from '../modal'
+import { BinaryFileUpload } from '@components/inputs/BinaryFileUpload'
+import { useNotification } from '@hooks'
+import { RtoApi } from '@queries'
 import { IndustryListingDepartment } from '../enum'
+import { ImportIndustriesListVerificationModal } from '../modal'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+
+const validationSchema = Yup.object({
+    department: Yup.string().required('Department is required!'),
+    type: Yup.string().required('Type is required!'),
+})
 
 export const ImportIndustriesListWithOTP = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [importListResult, setImportListResult] = useState<any>(null)
     const [industriesCount, setIndustriesCount] = useState<any>(null)
     const [industries, setIndustries] = useState<any>(null)
-    const [selectedDepartment, setSelectedDepartment] =
-        useState<IndustryListingDepartment | null>(null)
+
     const { notification } = useNotification()
 
     const [sendVerificationCode, sendVerificationCodeResult] =
         RtoApi.Students.useSendVerificationCode()
+
+    const methods = useForm({
+        resolver: yupResolver(validationSchema),
+        mode: 'all',
+    })
 
     const onFileChange = async (e: any, fileData: any) => {
         const validMimeTypes = [
@@ -82,14 +92,15 @@ export const ImportIndustriesListWithOTP = () => {
 
     const onCancel = () => setModal(null)
 
-    const onSubmit = () => {
+    const onSubmit = (values: any) => {
         sendVerificationCode({ listing: true }).then((res: any) => {
             if (res?.data) {
                 setModal(
                     <ImportIndustriesListVerificationModal
                         onCancel={onCancel}
                         industries={industries}
-                        selectedDepartment={selectedDepartment}
+                        selectedDepartment={values?.department}
+                        selectedType={values?.type}
                         onSetImportListResult={onSetImportListResult}
                     />
                 )
@@ -105,42 +116,61 @@ export const ImportIndustriesListWithOTP = () => {
         <div>
             {modal}
             <ShowErrorNotifications result={sendVerificationCodeResult} />
-            <Select
-                name={'department'}
-                label={'Select Department'}
-                options={[
-                    {
-                        label: 'Employment',
-                        value: IndustryListingDepartment.EMPLOYMENT,
-                    },
-                    {
-                        label: 'SOURCING',
-                        value: IndustryListingDepartment.SOURCING,
-                    },
-                ]}
-                onChange={(e: any) => {
-                    setSelectedDepartment(e)
-                }}
-                onlyValue
-            />
-            <BinaryFileUpload
-                name="list"
-                onChange={onFileChange}
-                fileAsObject={false}
-                // result={importListResult}
-                // acceptTypes={['.xlsx, .csv']}
-            />
-            <div className="flex items-center justify-end mt-2">
-                <Button
-                    text={'Upload'}
-                    onClick={onSubmit}
-                    loading={sendVerificationCodeResult.isLoading}
-                    disabled={
-                        sendVerificationCodeResult.isLoading ||
-                        industriesCount > 100
-                    }
-                />
-            </div>
+            <FormProvider {...methods}>
+                <form
+                    className="mt-2 w-full"
+                    onSubmit={methods.handleSubmit(onSubmit)}
+                >
+                    <Select
+                        name={'department'}
+                        label={'Select Department'}
+                        options={[
+                            {
+                                label: 'Employment',
+                                value: IndustryListingDepartment.EMPLOYMENT,
+                            },
+                            {
+                                label: 'SOURCING',
+                                value: IndustryListingDepartment.SOURCING,
+                            },
+                        ]}
+                        onlyValue
+                    />
+                    <Select
+                        name={'type'}
+                        label={'Select Type'}
+                        options={[
+                            {
+                                label: 'With Email',
+                                value: 'withEmail',
+                            },
+                            {
+                                label: 'Without Email',
+                                value: 'withoutEmail',
+                            },
+                        ]}
+                        onlyValue
+                    />
+                    <BinaryFileUpload
+                        name="list"
+                        onChange={onFileChange}
+                        fileAsObject={false}
+                        // result={importListResult}
+                        // acceptTypes={['.xlsx, .csv']}
+                    />
+                    <div className="flex items-center justify-end mt-2">
+                        <Button
+                            text={'Upload'}
+                            submit
+                            loading={sendVerificationCodeResult.isLoading}
+                            disabled={
+                                sendVerificationCodeResult.isLoading ||
+                                industriesCount > 100
+                            }
+                        />
+                    </div>
+                </form>
+            </FormProvider>
 
             <div className="mt-5">
                 {importListResult?.errorMails &&

@@ -15,12 +15,10 @@ import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout, Student, UserStatus } from '@types'
 
 // query
+import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
-import {
-    AddCustomIndustryForm,
-    FindWorkplace,
-    FindWorkplaceForm,
-} from '@partials/common'
+import { AddCustomIndustryForm, FindWorkplace } from '@partials/common'
+import { CompleteProfileBeforeWpModal } from '@partials/common/StudentProfileDetail/components'
 import {
     ExistinIndustryCard,
     IndustrySelection,
@@ -33,9 +31,8 @@ import {
     useGetSubAdminStudentWorkplaceQuery,
     useSubAdminCancelStudentWorkplaceRequestMutation,
 } from '@queries'
-import { UserRoles } from '@constants'
 import { checkStudentProfileCompletion, WorkplaceCurrentStatus } from '@utils'
-import { CompleteProfileBeforeWpModal } from '@partials/common/StudentProfileDetail/components'
+import { AlreadyWPCreatedModal } from '@partials/sub-admin/students/workplace/requestWorkplaceDetail/modal'
 
 type Props = {}
 
@@ -72,6 +69,12 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
 
     useEffect(() => {
         if (
+            workplace.data &&
+            workplace.isSuccess &&
+            workplace.data.length > 1
+        ) {
+            setModal(<AlreadyWPCreatedModal />)
+        } else if (
             profileCompletion &&
             profileCompletion > 0 &&
             profileCompletion < 100
@@ -84,7 +87,7 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         } else if (profileCompletion === 100) {
             setModal(null)
         }
-    }, [profileCompletion])
+    }, [profileCompletion, workplace])
 
     const [findAbn, result] = useFindByAbnWorkplaceMutation()
     const [addWorkplace, addWorkplaceResult] =
@@ -99,28 +102,28 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         }
     }, [addWorkplaceResult])
 
-    useEffect(() => {
-        if (
-            workplace.isSuccess &&
-            workplace?.data &&
-            workplace?.data?.length > 0
-        ) {
-            if (workplace.data[0].currentStatus === 'placementStarted') {
-                setActive(4)
-            } else if (
-                workplace?.data?.filter(
-                    (w: any) =>
-                        w?.currentStatus !== WorkplaceCurrentStatus.Completed &&
-                        w?.currentStatus !==
-                            WorkplaceCurrentStatus.Terminated &&
-                        w?.currentStatus !== WorkplaceCurrentStatus.Rejected
-                )?.length > 0
-            ) {
-                setActive(3)
-            }
-            setWorkplaceData(workplace?.data)
-        }
-    }, [workplace])
+    // useEffect(() => {
+    //     if (
+    //         workplace.isSuccess &&
+    //         workplace?.data &&
+    //         workplace?.data?.length > 0
+    //     ) {
+    //         if (workplace.data[0].currentStatus === 'placementStarted') {
+    //             setActive(4)
+    //         } else if (
+    //             workplace?.data?.filter(
+    //                 (w: any) =>
+    //                     w?.currentStatus !== WorkplaceCurrentStatus.Completed &&
+    //                     w?.currentStatus !==
+    //                         WorkplaceCurrentStatus.Terminated &&
+    //                     w?.currentStatus !== WorkplaceCurrentStatus.Rejected
+    //             )?.length > 0
+    //         ) {
+    //             setActive(3)
+    //         }
+    //         setWorkplaceData(workplace?.data)
+    //     }
+    // }, [workplace])
 
     useEffect(() => {
         if (!result.data && result.isSuccess) {
@@ -217,7 +220,7 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                 backTitle="Student Detail"
             />
             <div className="mt-10">
-                {workplace?.isLoading || workplace?.isFetching ? (
+                {workplace?.isLoading ? (
                     <LoadingAnimation />
                 ) : (
                     <div className="flex gap-x-5 w-full">
@@ -267,7 +270,7 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
 
                             {active === 3 && (
                                 <>
-                                    {workplaceData[0]?.industryStatus ===
+                                    {workplaceData?.[0]?.industryStatus ===
                                     UserStatus.Approved ? (
                                         <IndustrySelection
                                             setActive={setActive}

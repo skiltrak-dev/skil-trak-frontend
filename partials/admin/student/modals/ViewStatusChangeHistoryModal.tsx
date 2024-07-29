@@ -13,43 +13,43 @@ export const ViewStatusChangeHistoryModal = ({
     const WorkplaceStatus = [
         {
             text: 'Request Sent',
-            type: appliedIndustry?.applied,
+            date: appliedIndustry?.appliedDate,
         },
         {
             text: 'Coordinator Assigned',
-            type: appliedIndustry?.caseOfficerAssignedDate,
+            date: appliedIndustry?.caseOfficerAssignedDate,
         },
         {
             text: 'Interview',
-            type: appliedIndustry?.interviewDate,
+            date: appliedIndustry?.interviewDate,
         },
         {
             text: 'Meeting',
-            type: appliedIndustry?.appointmentBookedDate,
+            date: appliedIndustry?.appointmentBookedDate,
         },
         {
             text: 'Awaiting Workplace Responce',
-            type: appliedIndustry?.awaitingWorkplaceResponseDate,
+            date: appliedIndustry?.awaitingWorkplaceResponseDate,
         },
         {
             text: 'Agreement and Eligibility Pending',
-            type: appliedIndustry?.awaitingAgreementSignedDate,
+            date: appliedIndustry?.awaitingAgreementSignedDate,
         },
         {
             text: 'Agreement Signed',
-            type: appliedIndustry?.AgreementSignedDate,
+            date: appliedIndustry?.AgreementSignedDate,
         },
         {
             text: 'Placement Started',
-            type: appliedIndustry?.placementStartedDate,
+            date: appliedIndustry?.placementStartedDate,
         },
         {
             text: 'Placement Completed',
-            type: appliedIndustry?.isCompleted,
+            date: appliedIndustry?.isCompletedDate,
         },
     ]
 
-    const updatedStatus = WorkplaceStatus?.filter((wpStatus) => wpStatus?.type)
+    const updatedStatus = WorkplaceStatus?.filter((wpStatus) => wpStatus?.date)
     return (
         <Modal
             title="Status Change History"
@@ -59,8 +59,8 @@ export const ViewStatusChangeHistoryModal = ({
         >
             <div className={'flex flex-col gap-y-1.5'}>
                 {updatedStatus?.map((wpStatus, i, list) => {
-                    const date1 = moment(list?.[i - 1]?.type as any)
-                    const date2 = moment(wpStatus?.type as any)
+                    const date1 = moment(list?.[i - 1]?.date as any)
+                    const date2 = moment(wpStatus?.date as any)
 
                     // Calculate the difference in days
                     const difference = date2.diff(date1, 'days')
@@ -75,7 +75,8 @@ export const ViewStatusChangeHistoryModal = ({
                                 {wpStatus?.text}
                             </Typography>
                             <Typography variant={'small'} bold={difference > 0}>
-                                {difference ? difference : '0'} Days
+                                {/* {difference ? difference : '0'} Days */}
+                                {moment(wpStatus?.date).format('MMM DD, YYYY')}
                             </Typography>
                         </div>
                     )

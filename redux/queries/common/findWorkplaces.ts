@@ -111,4 +111,12 @@ export const findWorkplaceEndpoints = (
         }),
         invalidatesTags: ['Industries'],
     }),
+    importIndustriesWithoutEmailList: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `${PREFIX}/bulk/create/without-email`,
+            body,
+            method: 'POST',
+        }),
+        invalidatesTags: ['Industries'],
+    }),
 })

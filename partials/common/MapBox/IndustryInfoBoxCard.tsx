@@ -7,6 +7,7 @@ import {
     Typography,
 } from '@components'
 import { useNotification } from '@hooks'
+import { ForwardModal } from '@partials/sub-admin/workplace/modals'
 import {
     useSubAdminApplyStudentWorkplaceMutation,
     useAddExistingIndustriesMutation,
@@ -14,7 +15,7 @@ import {
 import { ellipsisText, getSectorsDetail } from '@utils'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { AiFillStar } from 'react-icons/ai'
 import { FaTimes } from 'react-icons/fa'
 import { PulseLoader } from 'react-spinners'
@@ -42,6 +43,9 @@ export const IndustryInfoBoxCard = ({
     onCancel,
 }: any) => {
     const workplaceId = workplace?.id
+
+    const [modal, setModal] = useState<ReactElement | null>(null)
+
     const [applyForWorkplace, applyForWorkplaceResult] =
         useSubAdminApplyStudentWorkplaceMutation()
     // apply for industry
@@ -51,12 +55,15 @@ export const IndustryInfoBoxCard = ({
 
     const { notification } = useNotification()
 
+    const onModalCancelClicked = () => setModal(null)
+
     useEffect(() => {
         if (addExistingIndustryResult.isSuccess) {
             notification.success({
                 title: 'Industry Added Successfully',
                 description: 'Industry Added Successfully',
             })
+
             onCancel()
         }
     }, [addExistingIndustryResult])
@@ -72,6 +79,7 @@ export const IndustryInfoBoxCard = ({
 
     return (
         <>
+            {modal}
             <ShowErrorNotifications result={addExistingIndustryResult} />
             <div className="min-w-80">
                 {item.isError && <NoData text="Something is not right...!" />}

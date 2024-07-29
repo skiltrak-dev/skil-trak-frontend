@@ -256,6 +256,26 @@ export const commonApi = emptySplitApi.injectEndpoints({
                 body,
             }),
         }),
+        // Sit map industries
+        getSiteMapIndustries: build.query<any, any>({
+            query: (params) => {
+                return {
+                    url: `industries/home-page/list`,
+                    params,
+                }
+            },
+            providesTags: ['Industries'],
+        }),
+        // Site map students
+        getSubAdminMapStudents: build.query<any, any>({
+            query: (params) => {
+                return {
+                    url: `/students/list/for-map`,
+                    params,
+                }
+            },
+            providesTags: ['Students'],
+        }),
 
         ...rtosEndpoints(build),
         ...draftEndpoints(build),
@@ -293,6 +313,9 @@ const {
     useContactUsMutation,
 
     useGetSerchedPlacesQuery,
+    // Site MAP 
+    useGetSiteMapIndustriesQuery,
+    useGetSubAdminMapStudentsQuery,
     // ---- EXPIRY DATE ---- //
     useUpdateExpiryDateMutation,
 
@@ -454,6 +477,7 @@ const {
     useRemoveMultiFutureIndustryMutation,
     useAddFutureIndustryListingNoteMutation,
     useMultipleIndustriesStatusChangeMutation,
+    useImportIndustriesWithoutEmailListMutation,
 
     // Impersonation
     useImpersonationToggleMutation,
@@ -710,6 +734,7 @@ export const CommonApi = {
         useRemoveFutureIndustryMutation: useRemoveFutureIndustryMutation,
         useRemoveMultiFutureIndustry: useRemoveMultiFutureIndustryMutation,
         useMultipleStatusChange: useMultipleIndustriesStatusChangeMutation,
+        importListWithoutEmail: useImportIndustriesWithoutEmailListMutation,
     },
     Impersonation: {
         useImpersonationToggle: useImpersonationToggleMutation,

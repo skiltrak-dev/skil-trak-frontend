@@ -6,7 +6,7 @@ import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
 // hooks
-import { useActionModal, useContextBar, useNavbar } from '@hooks'
+import { useContextBar, useNavbar } from '@hooks'
 //components
 import {
     Alert,
@@ -27,9 +27,7 @@ import { DetailTabs } from '@partials/sub-admin/Industries/tabs'
 import { SubAdminApi, useGetSubAdminIndustriesProfileQuery } from '@queries'
 import { getLink } from '@utils'
 
-type Props = {}
-
-const IndustriesProfile: NextPageWithLayout = (props: Props) => {
+const IndustriesProfile: NextPageWithLayout = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [isMouseMove, setIsMouseMove] = useState<any>(null)
 
@@ -37,8 +35,6 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
 
     const pathname = useRouter()
     const { id } = pathname.query
-
-    const { passwordModal, onViewPassword } = useActionModal()
 
     const navBar = useNavbar()
 
@@ -100,7 +96,6 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
     return (
         <>
             {modal}
-            {passwordModal}
 
             {isError && <TechnicalError />}
             {isLoading ? (
@@ -127,12 +122,6 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
                             <PageTitle title="Industry Profile" />
                         </div>
                         <div className="flex items-center gap-x-2">
-                            {/* <Button
-                                text={'View Password'}
-                                onClick={() => {
-                                    onViewPassword({ user: data?.user })
-                                }}
-                            /> */}
                             <Button
                                 text="Book Appointment"
                                 variant="info"

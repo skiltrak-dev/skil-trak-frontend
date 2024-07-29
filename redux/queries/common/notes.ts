@@ -11,8 +11,11 @@ export const notesEndpoints = (
         providesTags: ['Notes', 'AllCommunications'],
     }),
 
-    notes: builder.query<Note[], any>({
-        query: (id) => `${PREFIX}/${id}`,
+    notes: builder.query<Note[], { id: number; isPinned?: boolean }>({
+        query: ({ id, ...params }) => ({
+            url: `${PREFIX}/${id}`,
+            params,
+        }),
         providesTags: ['Notes', 'AllCommunications'],
     }),
 

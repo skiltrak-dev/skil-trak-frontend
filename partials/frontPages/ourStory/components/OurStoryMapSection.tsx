@@ -2,30 +2,19 @@ import { Select, TextInput, Typography } from '@components'
 import React, { useState } from 'react'
 import { fromAddress, geocode, GeocodeOptions, setKey } from 'react-geocode'
 import { MapView } from './MapView'
+import { AuthApi } from '@queries'
 
 export const OurStoryMapSection = () => {
     const [suburbLocation, setSuburbLocation] = useState<any>(null)
     const [searchInitiated, setSearchInitiated] = useState(false)
     const [sector, setSector] = useState('')
 
-    const sectorsOptions = [
-        {
-            label: 'Melbourne',
-            value: 'melbourne',
-        },
-        {
-            label: 'Sydney',
-            value: 'sydney',
-        },
-        {
-            label: 'Brisbane',
-            value: 'brisbane',
-        },
-        {
-            label: 'Adelaide',
-            value: 'adelaide',
-        },
-    ]
+    const getSectors = AuthApi.useSectors({})
+    const sectorsOptions = getSectors?.data?.map((sector: any) => ({
+        label: sector?.name,
+        value: sector?.id,
+    }))
+
     return (
         <div className="md:mt-20 mt-12 max-w-7xl mx-auto mb-12 md:mb-14 px-4">
             <Typography variant="h2" medium center>

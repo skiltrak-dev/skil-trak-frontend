@@ -1,6 +1,6 @@
 // src/components/MapComponent.tsx
 import { Button, Card, LoadingAnimation, NoData } from '@components'
-import { CommonApi, SubAdminApi } from '@queries'
+import { commonApi, SubAdminApi } from '@queries'
 import {
     GoogleMap,
     InfoBox,
@@ -110,18 +110,12 @@ export const MapView = ({
     const [mapCenter, setMapCenter] = useState(center)
     const [mapZoom, setMapZoom] = useState(5)
     // useSubAdminMapStudents
-    const industryDetails =
-        SubAdminApi.Workplace.useSubAdminMapSuggestedIndustryDetail(
-            industryId,
-            {
-                skip: !industryId,
-            }
-        )
+
     const [saveCoordinates, saveCoordinatesResults] =
         SubAdminApi.SubAdmin.useSaveCoordinatesForMap()
     const savedCoordinates = SubAdminApi.SubAdmin.useSavedCoordinates()
     const { data, isLoading, isSuccess, isError, isFetching } =
-        SubAdminApi.SubAdmin.useSubAdminMapStudents(
+        commonApi.useGetSubAdminMapStudentsQuery(
             {
                 search: `${JSON.stringify(
                     removeEmptyValues({
@@ -139,7 +133,7 @@ export const MapView = ({
             }
         )
 
-    const industriesList = SubAdminApi.SubAdmin.useSubAdminMapIndustries(
+    const industriesList = commonApi.useGetSiteMapIndustriesQuery(
         {
             search: `${JSON.stringify(
                 removeEmptyValues({
@@ -158,7 +152,9 @@ export const MapView = ({
             refetchOnMountOrArgChange: true,
         }
     )
-    const futureIndustries = CommonApi.FindWorkplace.mapFutureIndustries(
+    console.log('industriesList', industriesList?.data)
+
+    const futureIndustries = commonApi.useGetSiteMapIndustriesQuery(
         {
             search: `${JSON.stringify(
                 removeEmptyValues({
@@ -175,10 +171,7 @@ export const MapView = ({
         }
     )
     // useSubAdminMapStudentDetail
-    const studentDetails = SubAdminApi.SubAdmin.useSubAdminMapStudentDetail(
-        studentId,
-        { skip: !studentId }
-    )
+
     const rtosList = SubAdminApi.SubAdmin.useSubAdminRtosForMap()
     const suburbsList = SubAdminApi.SubAdmin.useSubAdminStudentSuburbsForMap()
     const rtoOptions = rtosList?.data?.map((rto: any) => ({
@@ -418,10 +411,14 @@ export const MapView = ({
 
     return (
         <div className="w-full flex flex-col gap-y-2.5">
-            {isError && <NoData text={'Something went Wrong...!'} />}
-            {isLoading ? (
+            {industriesList.isError && (
+                <NoData text={'Something went Wrong...!'} />
+            )}
+            {industriesList.isLoading ? (
                 <LoadingAnimation />
-            ) : visibleMarkers?.length > 0 && !isError && isLoaded ? (
+            ) : visibleMarkers?.length > 0 &&
+              !industriesList.isError &&
+              isLoaded ? (
                 <Card>
                     <GoogleMap
                         mapContainerStyle={containerStyle}
@@ -443,7 +440,7 @@ export const MapView = ({
                         // onBoundsChanged={onBoundChange}
                         options={{ styles: customMapStyles }}
                     >
-                        <MarkerClusterer options={studentClusterOptions}>
+                        {/* <MarkerClusterer options={studentClusterOptions}>
                             {(clusterer) => (
                                 <>
                                     {visibleMarkers
@@ -479,51 +476,40 @@ export const MapView = ({
                                         ))}
                                 </>
                             )}
-                        </MarkerClusterer>
+                        </MarkerClusterer> */}
 
                         {/* Industries */}
                         <MarkerClusterer options={industryClusterOptions}>
                             {(clusterer) => (
                                 <>
-                                    {visibleMarkers
-                                        ?.filter(
-                                            (marker: any) =>
-                                                !marker?.isPartner &&
-                                                marker?.user &&
-                                                !marker?.department &&
-                                                marker?.user?.role ===
-                                                    'industry'
-                                        )
-                                        .map((marker: any) => (
-                                            <div key={marker?.id}>
-                                                <Marker
-                                                    icon={{
-                                                        url:
-                                                            marker?.user
-                                                                ?.role &&
-                                                            marker?.user
-                                                                ?.role ===
-                                                                'industry'
-                                                                ? '/images/icons/industry-pin-map-pin.png'
-                                                                : '/images/icons/student-red-map-pin.png',
-                                                        scaledSize:
-                                                            new google.maps.Size(
-                                                                29,
-                                                                38
-                                                            ),
-                                                    }}
-                                                    position={marker.location}
-                                                    // label={marker.name}
-                                                    clusterer={clusterer}
-                                                />
-                                            </div>
-                                        ))}
+                                    {visibleMarkers.map((marker: any) => (
+                                        <div key={marker?.id}>
+                                            <Marker
+                                                icon={{
+                                                    url:
+                                                        marker?.user?.role &&
+                                                        marker?.user?.role ===
+                                                            'industry'
+                                                            ? '/images/icons/industry-pin-map-pin.png'
+                                                            : '/images/icons/student-red-map-pin.png',
+                                                    scaledSize:
+                                                        new google.maps.Size(
+                                                            29,
+                                                            38
+                                                        ),
+                                                }}
+                                                position={marker.location}
+                                                // label={marker.name}
+                                                clusterer={clusterer}
+                                            />
+                                        </div>
+                                    ))}
                                 </>
                             )}
                         </MarkerClusterer>
 
                         {/* isPartner */}
-                        <MarkerClusterer
+                        {/* <MarkerClusterer
                             options={partnerIndustryClusterOptions}
                         >
                             {(clusterer) => (
@@ -563,7 +549,7 @@ export const MapView = ({
                                         ))}
                                 </>
                             )}
-                        </MarkerClusterer>
+                        </MarkerClusterer> */}
                         {/* futureIndustryClusterOptions */}
                         {/* {showFutureIndustries && (
                             <MarkerClusterer
@@ -704,7 +690,7 @@ export const MapView = ({
                     </GoogleMap>
                 </Card>
             ) : (
-                !isError && (
+                !industriesList.isError && (
                     <NoData text="No students with available location data found to display on the map." />
                 )
             )}

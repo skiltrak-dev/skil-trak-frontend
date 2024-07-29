@@ -10,8 +10,8 @@ export const ApplyForRPL = ({ short }: any) => {
     return (
         <div>
             <Card shadowType="profile">
-                <div className="flex flex-col gap-y-[11px]">
-                    <div className="grid grid-cols-5">
+                <div className="flex flex-col  gap-y-[11px]">
+                    <div className="grid grid-cols-5 gap-x-2">
                         <div className="col-span-2">
                             <Image
                                 src="/images/content/rpl.jpg"
