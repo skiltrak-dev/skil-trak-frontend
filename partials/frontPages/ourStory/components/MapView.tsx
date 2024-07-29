@@ -1,6 +1,6 @@
 // src/components/MapComponent.tsx
 import { Button, Card, LoadingAnimation, NoData } from '@components'
-import { commonApi, SubAdminApi } from '@queries'
+import { CommonApi, commonApi, SubAdminApi } from '@queries'
 import {
     GoogleMap,
     InfoBox,
@@ -111,27 +111,25 @@ export const MapView = ({
     const [mapZoom, setMapZoom] = useState(5)
     // useSubAdminMapStudents
 
-    const [saveCoordinates, saveCoordinatesResults] =
-        SubAdminApi.SubAdmin.useSaveCoordinatesForMap()
+    const [saveCoordinates] = SubAdminApi.SubAdmin.useSaveCoordinatesForMap()
     const savedCoordinates = SubAdminApi.SubAdmin.useSavedCoordinates()
-    const { data, isLoading, isSuccess, isError, isFetching } =
-        commonApi.useGetSubAdminMapStudentsQuery(
-            {
-                search: `${JSON.stringify(
-                    removeEmptyValues({
-                        sectorId: sector,
-                        suburb: location,
-                    })
-                )
-                    .replaceAll('{', '')
-                    .replaceAll('}', '')
-                    .replaceAll('"', '')
-                    .trim()}`,
-            },
-            {
-                refetchOnMountOrArgChange: true,
-            }
-        )
+    const { data, isSuccess } = CommonApi.SearchPlaces.studentsMap(
+        {
+            search: `${JSON.stringify(
+                removeEmptyValues({
+                    sectorId: sector,
+                    suburb: location,
+                })
+            )
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
+        },
+        {
+            refetchOnMountOrArgChange: true,
+        }
+    )
 
     const industriesList = commonApi.useGetSiteMapIndustriesQuery(
         {
@@ -139,8 +137,6 @@ export const MapView = ({
                 removeEmptyValues({
                     sectorId: sector,
                     suburb: location,
-                    // rtoId: rto,
-                    // currentStatus: workplaceType,
                 })
             )
                 .replaceAll('{', '')

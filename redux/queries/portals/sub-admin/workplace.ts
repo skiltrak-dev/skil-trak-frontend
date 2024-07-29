@@ -46,14 +46,15 @@ export const workplaceEndpoints = (
     }),
     assignToSubAdmin: builder.mutation<
         any,
-        { industry: number; id: number; subAdmin?: number }
+        { industry: number; id: number; subAdmin?: number; comment: string }
     >({
-        query: (params) => ({
+        query: ({ comment, ...params }) => ({
             url: `${PREFIX}assign-workplace-request`,
             params,
+            body: { comment },
             method: 'PATCH',
         }),
-        invalidatesTags: ['SubAdminWorkplace'],
+        invalidatesTags: ['SubAdminWorkplace', 'Notes'],
     }),
     usAssignSubAdmin: builder.mutation<any, number>({
         query: (workplaceId) => ({

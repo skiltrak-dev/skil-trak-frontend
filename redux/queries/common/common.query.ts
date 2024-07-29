@@ -267,7 +267,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
             providesTags: ['Industries'],
         }),
         // Site map students
-        getSubAdminMapStudents: build.query<any, any>({
+        getStudentsSubAdminMap: build.query<any, any>({
             query: (params) => {
                 return {
                     url: `/students/list/for-map`,
@@ -313,9 +313,9 @@ const {
     useContactUsMutation,
 
     useGetSerchedPlacesQuery,
-    // Site MAP 
+    // Site MAP
     useGetSiteMapIndustriesQuery,
-    useGetSubAdminMapStudentsQuery,
+    useGetStudentsSubAdminMapQuery,
     // ---- EXPIRY DATE ---- //
     useUpdateExpiryDateMutation,
 
@@ -558,6 +558,7 @@ export const CommonApi = {
     },
     SearchPlaces: {
         useGetSerchedPlaces: useGetSerchedPlacesQuery,
+        studentsMap: useGetStudentsSubAdminMapQuery,
     },
     Download: {
         downloadAssessmentTool: useDownloadAssessmentToolQuery,

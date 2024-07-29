@@ -59,6 +59,7 @@ export enum IndustryStatus {
     DEFAULT = 'default',
     FAVOURITE = 'favourite',
     DO_NOT_DISTURB = 'doNotDisturb',
+    BLOCKED = 'blocked',
 }
 export enum RtoStatus {
     DEFAULT = 'default',

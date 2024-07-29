@@ -2,7 +2,6 @@ import { Typography } from '@components'
 import { FreeShiftCard } from '../cards'
 
 export const FreeShifts = ({ timing }: { timing: any }) => {
-    console.log({ shifts: timing?.shifts })
     return (
         <div className="w-full">
             {/*  */}

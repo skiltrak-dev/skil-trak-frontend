@@ -11,7 +11,6 @@ const adminTagTypes = [
     'RPL',
     'Jobs',
     'RTOS',
-    'Notes',
     'Folders',
     'Profile',
     'Message',
@@ -34,7 +33,7 @@ const adminTagTypes = [
 
 const subadminTagTypes = [
     'TODO',
-    
+
     'Setting',
     'SubAdmin',
     'SetSchedule',
@@ -132,13 +131,12 @@ const commonTagTypes = [
 ]
 
 const managementTypes = [
-    "KpiReportDocument",
+    'KpiReportDocument',
     'KpiReportList',
     'TeamManagement',
     'KpiProgress',
-    "TeamMembers",
-    'RemoveTeam'
-    
+    'TeamMembers',
+    'RemoveTeam',
 ]
 export const emptySplitApi = createApi({
     reducerPath: 'allApis',
