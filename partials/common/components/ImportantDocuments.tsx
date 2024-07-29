@@ -33,7 +33,8 @@ export const ImportantDocuments = ({
     })
 
     const containerClasses = classNames({
-        'grid grid-cols-2 gap-4 md:flex md:gap-x-4': !sidebar,
+        'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 lg:flex md:gap-x-4':
+            !sidebar,
         'flex flex-col gap-y-2': sidebar,
     })
 

@@ -12,7 +12,11 @@ import {
 import { FigureCard } from '@components/sections/subAdmin'
 import { useContextBar } from '@hooks'
 import { SubAdminLayout } from '@layouts'
-import { ActiveIndustries, AddIndustry } from '@partials/common'
+import {
+    ActiveIndustries,
+    WithoutEmailListing,
+    AddIndustry,
+} from '@partials/common'
 import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
 import { ImportIndustriesListWithOTP } from '@partials/common/FindWorkplaces/contextBar'
 import { CommonApi, commonApi, SubAdminApi } from '@queries'
@@ -65,7 +69,25 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
                 pathname: 'industry-listing',
                 query: { tab: 'all', page: 1, pageSize: 50 },
             },
+            badge: {
+                text: count?.data?.all,
+                loading: count?.isLoading,
+            },
             element: <ActiveIndustries onSetIndustryData={onSetIndustryData} />,
+        },
+        {
+            label: 'No Email',
+            href: {
+                pathname: 'industry-listing',
+                query: { tab: 'without-email', page: 1, pageSize: 50 },
+            },
+            badge: {
+                text: count?.data?.noEmail,
+                loading: count?.isLoading,
+            },
+            element: (
+                <WithoutEmailListing onSetIndustryData={onSetIndustryData} />
+            ),
         },
     ]
     const filteredDataLength = checkFilteredDataLength(filter)

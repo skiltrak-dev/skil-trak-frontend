@@ -92,7 +92,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
             element: <UpdatedAllStudentProvidedWorkplace />,
         },
         {
-            label: 'All Workplace Requests',
+            label: 'Student Need Workplace',
             href: {
                 pathname: 'workplaces',
                 query: { tab: 'all-requested-workplace' },

@@ -11,16 +11,19 @@ import { StudentProvidedActions } from './StudentProvidedActions'
 import { StudentProvidedABNActions } from './StudentProvidedABNActions'
 import { AgreementView } from '../AgreementView'
 import { ViewOnMapIndustriesModal } from '@partials/common/MapBox'
-import { IWorkplaceIndustries } from 'redux/queryTypes'
+import {
+    IWorkplaceIndustries,
+    WorkplaceWorkIndustriesType,
+} from 'redux/queryTypes'
 
 export const IndustryDetail = ({
+    course,
     workplace,
     appliedIndustry,
-    course,
 }: {
-    workplace: IWorkplaceIndustries
-    appliedIndustry: any
     course: Course
+    workplace: IWorkplaceIndustries
+    appliedIndustry: WorkplaceWorkIndustriesType
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const contextBar = useContextBar()

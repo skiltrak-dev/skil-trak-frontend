@@ -151,27 +151,31 @@ export const IndustryDashboardStudents = () => {
                     WorkplaceCurrentStatus.Terminated,
                 ]
 
-                return wpStatus.includes(row.original?.currentStatus) ? (
-                    <StudentStatusProgressCell
-                        assigned={
-                            workplace?.assignedTo ||
-                            row.original?.student?.subadmin
-                        }
-                        studentId={row.original?.student?.id}
-                        step={
-                            workplace?.currentStatus ===
-                            WorkplaceCurrentStatus.Cancelled
-                                ? 4
-                                : studentStatus
-                        }
-                        appliedIndustry={appliedIndustry}
-                    />
-                ) : (
-                    <ProgressCell
-                        appliedIndustry={appliedIndustry}
-                        studentId={row.original?.student?.id}
-                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
-                    />
+                return (
+                    <div>
+                        {row.original?.currentStatus ? (
+                            <ProgressCell
+                                appliedIndustry={appliedIndustry}
+                                studentId={row.original?.student?.id}
+                                step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                            />
+                        ) : wpStatus.includes(row.original?.currentStatus) ? (
+                            <StudentStatusProgressCell
+                                assigned={
+                                    workplace?.assignedTo ||
+                                    row.original?.student?.subadmin
+                                }
+                                studentId={row.original?.student?.id}
+                                step={
+                                    workplace?.currentStatus ===
+                                    WorkplaceCurrentStatus.Cancelled
+                                        ? 4
+                                        : studentStatus
+                                }
+                                appliedIndustry={appliedIndustry}
+                            />
+                        ) : null}
+                    </div>
                 )
             },
         },

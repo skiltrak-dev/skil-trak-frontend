@@ -34,9 +34,10 @@ import {
 } from './modals'
 
 // hooks
-import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { useActionModal } from '@hooks'
+
 import moment from 'moment'
+import { EditTimer } from '@components/StudentTimer/EditTimer'
 
 export const ApprovedStudent = () => {
     const router = useRouter()

@@ -6,10 +6,12 @@ import { CompleteProfileBeforeWpModal } from '../modals'
 
 export const AddWorkplaceAction = ({
     id,
+    text,
     profileCompletion,
 }: {
-    profileCompletion: number
     id: number
+    text?: string
+    profileCompletion: number
 }) => {
     const router = useRouter()
     const [addWorkplace, setAddWorkplace] = useState<boolean>(false)
@@ -51,7 +53,7 @@ export const AddWorkplaceAction = ({
             {modal}
             <div className="relative">
                 <Button
-                    text="Add Workplace"
+                    text={text || 'Add Workplace'}
                     onClick={() => {
                         if (id)
                             setAddWorkplace((workplace: boolean) => !workplace)
