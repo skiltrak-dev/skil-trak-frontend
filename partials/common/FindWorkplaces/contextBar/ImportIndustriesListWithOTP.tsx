@@ -141,11 +141,11 @@ export const ImportIndustriesListWithOTP = () => {
                         label={'Select Type'}
                         options={[
                             {
-                                label: 'With Email',
+                                label: 'Listing With Email',
                                 value: 'withEmail',
                             },
                             {
-                                label: 'Without Email',
+                                label: 'Listing Without Email',
                                 value: 'withoutEmail',
                             },
                         ]}

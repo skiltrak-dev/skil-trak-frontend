@@ -54,16 +54,13 @@ export const TextTypeQuestions = ({
                                 type={inp?.type as any}
                                 placesSuggetions
                                 onChange={(e: any) => {
-                                    console.log('IIII', inp?.name)
                                     if (inp?.name === 'suburb') {
                                         if (e?.target?.value?.length > 4) {
-                                            console.log('BEERUUUUUU')
                                             fromAddress(e?.target?.value)
                                                 .then(({ results }: any) => {
                                                     const { lat, lng } =
                                                         results[0].geometry
                                                             .location
-                                                    console.log({ lat, lng })
                                                     geocode(
                                                         'latlng',
                                                         `${lat},${lng}`,
@@ -73,10 +70,6 @@ export const TextTypeQuestions = ({
                                                         } as GeocodeOptions
                                                     )
                                                         .then((response) => {
-                                                            console.log({
-                                                                response,
-                                                            })
-
                                                             const addressComponents =
                                                                 response
                                                                     .results[0]
@@ -92,10 +85,7 @@ export const TextTypeQuestions = ({
                                                                         'zip',
                                                                         component.long_name
                                                                     )
-                                                                    console.log(
-                                                                        'ABABABAooo',
-                                                                        component.long_name
-                                                                    )
+
                                                                     break
                                                                 }
                                                             }

@@ -38,7 +38,6 @@ const EmailDetail: NextPageWithLayout = () => {
 
     const onReplySubmit = (values: any) => {
         const reply = draftToHtmlText(values?.reply)
-        console.log({ reply })
         setIsReply(false)
     }
 
