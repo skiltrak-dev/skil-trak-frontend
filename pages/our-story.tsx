@@ -1,81 +1,22 @@
 import { Typography } from '@components'
 import { SiteLayout } from '@layouts'
-import { Carousel } from '@partials/common'
 import {
     GoogleReviewCard,
-    OurStoryIndustrySection,
     OurStoryInternationalVentureSection,
     OurStoryLetsCollaborateSection,
     OurStoryLmsSection,
     OurStoryMapSection,
-    OurStoryRtoSection,
+    OurStoryProfilesSections,
     OurStorySkiltrakAppSection,
     OurStorySkiltrakIsWorkingWithSection,
-    OurStoryStudentSection,
+    Services,
+    WhoAreWe,
 } from '@partials/frontPages'
 import OurPartners from '@partials/frontPages/home2/OurPartners/OurPartners'
 import { NextPageWithLayout } from '@types'
-import Image from 'next/image'
-import Link from 'next/link'
-import { ReactElement, useEffect, useRef } from 'react'
-import Marquee from 'react-fast-marquee'
-
-import { motion, useTransform, useScroll } from 'framer-motion'
-import { useMediaQuery } from 'react-responsive'
-
-const items = [
-    {
-        title: 'Mental Health',
-        description: `SkilTrak is your premier destination for tailored employment and placement services in Australia. At SkilTrak, we specialise in providing employment in top-notch industries to individual candidates as well as students affiliated with our partnered Registered Training Organisations (RTOs).
-        With a steadfast commitment to aligning your aspirations with industry demands, we offer an extensive array of sectors spanning various fields of interest. Our recent successes have seen a surge in employment and placements in sectors such as`,
-        image: '/images/our-story/mental-health.png',
-    },
-    {
-        title: 'Disability Support',
-        description: `SkilTrak is your premier destination for tailored employment and placement services in Australia. At SkilTrak, we specialise in providing employment in top-notch industries to individual candidates as well as students affiliated with our partnered Registered Training Organisations (RTOs).`,
-        image: '/images/our-story/disability.png',
-    },
-    {
-        title: 'Hospitality',
-        description: `SkilTrak is your premier destination for tailored employment and placement services in Australia. At SkilTrak, we specialise in providing employment in top-notch industries to individual candidates as well as students affiliated with our partnered Registered Training Organisations (RTOs).`,
-        image: '/images/our-story/hospitality.png',
-    },
-    {
-        title: 'Commercial Cookery',
-        description: `SkilTrak is your premier destination for tailored employment and placement services in Australia. At SkilTrak, we specialise in providing employment in top-notch industries to individual candidates as well as students affiliated with our partnered Registered Training Organisations (RTOs).`,
-        image: '/images/our-story/commercial-cookery.png',
-    },
-    {
-        title: 'Allied Health Assistance',
-        image: '/images/our-story/allied-health-care.jpg',
-    },
-    {
-        title: 'School Based Education Support',
-        image: '/images/our-story/school-based-education-support.jpg',
-    },
-    {
-        title: 'Cleaning Operations',
-        image: '/images/our-story/cleaning-operations.jpg',
-    },
-    {
-        title: 'Business to Business Sales',
-        image: '/images/our-story/business-to-business-sales.jpg',
-    },
-    {
-        title: 'Supply Chain Operations (Warehousing Operations)',
-        image: '/images/our-story/warehouse-operations.jpg',
-    },
-]
+import { ReactElement } from 'react'
 
 const OurStory: NextPageWithLayout = () => {
-    const isMobile = useMediaQuery({ maxWidth: 768 })
-    const targetRef = useRef(null)
-    const { scrollYProgress } = useScroll({
-        target: targetRef,
-    })
-
-    const x = useTransform(scrollYProgress, [0, 1], ['0%', '-200%'])
-
     return (
         <>
             {/* Welcome Card */}
@@ -102,125 +43,11 @@ const OurStory: NextPageWithLayout = () => {
             </div>
 
             {/* Sectors Carousal  */}
-            <Carousel items={items} />
+            <WhoAreWe />
+            {/* <Carousel items={items} /> */}
 
             {/* Services */}
-            <div className="mt-10">
-                <Typography variant="h2" center>
-                    SERVICES
-                </Typography>
-                <div className="mt-4">
-                    <div className="bg-gradient-to-r from-[#893D00] to-[#F7A619] py-2">
-                        <Marquee
-                            className="w-full py-2 flex items-center gap-x-9"
-                            direction={'left'}
-                            speed={35}
-                        >
-                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(
-                                (item: any, index: any) => (
-                                    <div
-                                        key={index}
-                                        className="flex items-center"
-                                    >
-                                        <Typography
-                                            variant="body"
-                                            semibold
-                                            color="text-white"
-                                            center
-                                            uppercase
-                                        >
-                                            Work Based Training
-                                        </Typography>
-                                        <div className="w-[2px] h-9 bg-white mx-9"></div>
-                                    </div>
-                                )
-                            )}
-                        </Marquee>
-                    </div>
-
-                    <div className="bg-gradient-to-r from-[#000000] to-[#666666] py-2">
-                        <Marquee
-                            className="w-full py-2 flex items-center gap-x-9"
-                            direction={'right'}
-                            speed={35}
-                        >
-                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(
-                                (item: any, index: any) => (
-                                    <div
-                                        key={index}
-                                        className="flex items-center"
-                                    >
-                                        <Typography
-                                            variant="body"
-                                            semibold
-                                            color="text-white"
-                                            center
-                                            uppercase
-                                        >
-                                            TALENT POOL
-                                        </Typography>
-                                        <div className="w-[2px] h-9 bg-white mx-9"></div>
-                                    </div>
-                                )
-                            )}
-                        </Marquee>
-                    </div>
-                    <div className="bg-gradient-to-r from-[#666666] to-[#0D3958] py-2">
-                        <Marquee
-                            className="w-full py-2 flex items-center gap-x-9"
-                            speed={35}
-                        >
-                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(
-                                (item: any, index: any) => (
-                                    <div
-                                        key={index}
-                                        className="flex items-center"
-                                    >
-                                        <Typography
-                                            variant="body"
-                                            semibold
-                                            color="text-white"
-                                            center
-                                            uppercase
-                                        >
-                                            Employment Hub
-                                        </Typography>
-                                        <div className="w-[2px] h-9 bg-white mx-9"></div>
-                                    </div>
-                                )
-                            )}
-                        </Marquee>
-                    </div>
-
-                    <div className="bg-gradient-to-r from-[#F7A619] to-[#893D00] py-2">
-                        <Marquee
-                            className="w-full py-2 flex items-center gap-x-9"
-                            direction={'right'}
-                            speed={35}
-                        >
-                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(
-                                (item: any, index: any) => (
-                                    <div
-                                        key={index}
-                                        className="flex items-center"
-                                    >
-                                        <Typography
-                                            variant="body"
-                                            semibold
-                                            color="text-white"
-                                            uppercase
-                                            center
-                                        >
-                                            Upskill Traineeship Program
-                                        </Typography>
-                                        <div className="w-[2px] h-9 bg-white mx-9"></div>
-                                    </div>
-                                )
-                            )}
-                        </Marquee>
-                    </div>
-                </div>
-            </div>
+            <Services />
 
             {/* Skiltrak is working with */}
             <OurStorySkiltrakIsWorkingWithSection />
@@ -229,47 +56,8 @@ const OurStory: NextPageWithLayout = () => {
             <OurStoryLmsSection />
 
             {/* RTO */}
-            {isMobile ? (
-                <>
-                    <OurStoryRtoSection />
-                    <OurStoryIndustrySection />
-                    <OurStoryStudentSection />
-                </>
-            ) : (
-                <section ref={targetRef} className="relative h-[300vh]">
-                    <div className="sticky top-5 flex h-screen items-center overflow-hidden">
-                        <motion.div
-                            style={{ x }}
-                            className="flex flex-nowrap w-full"
-                        >
-                            <motion.div
-                                className="min-w-full flex-shrink-0"
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.8 }}
-                            >
-                                <OurStoryRtoSection />
-                            </motion.div>
-                            <motion.div
-                                className="min-w-full flex-shrink-0"
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.8 }}
-                            >
-                                <OurStoryIndustrySection />
-                            </motion.div>
-                            <motion.div
-                                className="min-w-full flex-shrink-0"
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.8 }}
-                            >
-                                <OurStoryStudentSection />
-                            </motion.div>
-                        </motion.div>
-                    </div>
-                </section>
-            )}
+            <OurStoryProfilesSections />
+
             <OurStoryMapSection />
 
             <OurPartners />
@@ -281,9 +69,9 @@ const OurStory: NextPageWithLayout = () => {
                 </Typography>
             </div>
             <div className="flex items-center justify-between flex-col md:flex-row gap-4 mx-auto max-w-7xl my-8 px-4 md:px-0 md:my-16">
-                <GoogleReviewCard />
-                <GoogleReviewCard />
-                <GoogleReviewCard />
+                {[...Array(3)].map((_, i) => (
+                    <GoogleReviewCard key={i} />
+                ))}
             </div>
             <OurStorySkiltrakAppSection />
             <OurStoryLetsCollaborateSection />

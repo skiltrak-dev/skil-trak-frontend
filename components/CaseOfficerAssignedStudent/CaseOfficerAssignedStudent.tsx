@@ -38,8 +38,6 @@ export const CaseOfficerAssignedStudent = ({
 
     const onCancelModal = () => setModal(null)
 
-    console.log({ workplace })
-
     return (
         <div>
             {modal}

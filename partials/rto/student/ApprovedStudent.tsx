@@ -1,16 +1,16 @@
 import {
-    ActionButton,
-    Button,
     Card,
-    CaseOfficerAssignedStudent,
+    Table,
+    Button,
     EmptyData,
+    Typography,
+    TableAction,
+    ActionButton,
+    UserCreatedAt,
+    TechnicalError,
     LoadingAnimation,
     StudentExpiryDaysLeft,
-    Table,
-    TableAction,
-    TechnicalError,
-    Typography,
-    UserCreatedAt,
+    CaseOfficerAssignedStudent,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'

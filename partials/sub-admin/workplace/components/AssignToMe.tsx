@@ -20,6 +20,7 @@ import {
 import { ActionModal, UnAssignSubAdminModal } from '../modals'
 import { HiCheckBadge } from 'react-icons/hi2'
 import { UserRoles } from '@constants'
+import { CoordinatorChangeModal } from '@partials/common/StudentProfileDetail/components'
 
 type AssignToMeProps = {
     workplace: any
@@ -87,6 +88,17 @@ export const AssignToMe = ({
         value: subAdmin?.user?.id,
     }))
 
+    const onChangeCoordinator = (subadminId?: number) => {
+        setModal(
+            <CoordinatorChangeModal
+                onCancel={onCancelClicked}
+                appliedIndustryId={appliedIndustry?.id}
+                subadminId={subadminId}
+                workplaceId={workplace?.id}
+            />
+        )
+    }
+
     return (
         <div>
             {modal && modal}
@@ -111,11 +123,7 @@ export const AssignToMe = ({
                                 assignToMeResult.isLoading
                             }
                             onChange={(e: any) => {
-                                assignToMe({
-                                    industry: appliedIndustry?.id,
-                                    id: workplace?.id,
-                                    subAdmin: Number(e?.value),
-                                })
+                                onChangeCoordinator(Number(e?.value))
                             }}
                         />
                     </div>
@@ -179,11 +187,7 @@ export const AssignToMe = ({
                                 assignToMeResult.isLoading
                             }
                             onChange={(e: any) => {
-                                assignToMe({
-                                    industry: appliedIndustry?.id,
-                                    id: workplace?.id,
-                                    subAdmin: Number(e?.value),
-                                })
+                                onChangeCoordinator(Number(e?.value))
                             }}
                         />
                     </AuthorizedUserComponent>
@@ -192,11 +196,8 @@ export const AssignToMe = ({
                             variant={'dark'}
                             text={isAdmin ? 'ASSIGN TO' : 'ASSIGN TO ME'}
                             onClick={() => {
-                                if (appliedIndustry || true) {
-                                    assignToMe({
-                                        industry: appliedIndustry?.id,
-                                        id: workplace?.id,
-                                    })
+                                if (appliedIndustry) {
+                                    onChangeCoordinator()
                                 } else {
                                     notification.error({
                                         title: 'First Apply To Industry',

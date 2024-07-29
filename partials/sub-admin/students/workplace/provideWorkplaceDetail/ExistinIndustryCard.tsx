@@ -138,7 +138,6 @@ export const ExistinIndustryCard = ({
                                     IndustryId: industry?.id,
                                     courseId: selectedCourse,
                                 }).then((res: any) => {
-                                    console.log({ res })
                                     if (res?.error) {
                                         notification.error({
                                             title: res?.error?.data?.error,
@@ -148,7 +147,6 @@ export const ExistinIndustryCard = ({
                                         })
                                     }
                                     if (res?.data) {
-                                        console.log('Hello')
                                         setModal(
                                             <WorkplaceCreatedModal
                                                 onCancel={onCancelModal}

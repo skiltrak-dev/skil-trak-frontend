@@ -106,11 +106,7 @@ export const studentEndpoints = (
         providesTags: ['Students', 'SubAdminStudents'],
     }),
     getRtoStudentProfile: builder.query<any, any>({
-        query: (id) => {
-            return {
-                url: `${PREFIX}/student/profile/${id}`,
-            }
-        },
+        query: (id) => `${PREFIX}/student/profile/${id}`,
         providesTags: ['Rto-Students'],
     }),
     removeRTOStudent: builder.mutation<any, any | null>({

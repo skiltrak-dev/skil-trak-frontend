@@ -1,5 +1,6 @@
 import {
     ActionButton,
+    Badge,
     Button,
     Card,
     EmptyData,
@@ -38,6 +39,7 @@ import { FavoriteModal } from '../FavoriteModal'
 import {
     AddIndustryListingNoteModal,
     AddToSignupModal,
+    BlockIndustryListingModal,
     DeleteFutureIndustryModal,
     DeleteMultiFutureIndustryModal,
     ViewNoteModal,
@@ -99,6 +101,16 @@ export const ActiveIndustries = ({
             />
         )
     }
+
+    const onBlockClicked = (industry: Industry) => {
+        setModal(
+            <BlockIndustryListingModal
+                industry={industry}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     const onFavoriteClicked = (industry: Industry) => {
         setModal(
             <FavoriteModal
@@ -216,6 +228,12 @@ export const ActiveIndustries = ({
                 text: 'Do Not Disturb',
                 onClick: (industry: Industry) =>
                     onDoNotDisturbClicked(industry),
+                Icon: AiFillWarning,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+            {
+                text: 'Block Industry',
+                onClick: (industry: Industry) => onBlockClicked(industry),
                 Icon: AiFillWarning,
                 color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
             },
@@ -342,31 +360,17 @@ export const ActiveIndustries = ({
             accessorKey: 'status',
             header: () => <span>Status</span>,
             cell: (info) => {
-                return (
-                    <div>
-                        {info.row.original.status ===
-                        IndustryStatus.FAVOURITE ? (
-                            <div className="rounded-lg flex items-center gap-x-2">
-                                <p className="text-green-500 font-semibold">
-                                    Favorite
-                                </p>
-                                <MdOutlineFavorite className="text-green-500" />
-                            </div>
-                        ) : info.row.original.status ===
-                          IndustryStatus.DO_NOT_DISTURB ? (
-                            <div className="rounded-lg flex items-center gap-x-2">
-                                <p className="text-red-500 font-semibold">
-                                    Do Not Disturb
-                                </p>
-                                <AiFillWarning className="text-red-500 text-lg" />
-                            </div>
-                        ) : (
-                            <div className="flex items-center gap-x-2">
-                                ----
-                            </div>
-                        )}
-                    </div>
-                )
+                switch (info.row.original.status) {
+                    case IndustryStatus.FAVOURITE:
+                        return <Badge variant="success" text="Favorite" />
+                    case IndustryStatus.DO_NOT_DISTURB:
+                        return <Badge variant="error" text="Do Not Disturb" />
+                    case IndustryStatus.BLOCKED:
+                        return <Badge variant="success" text="Blocked" />
+
+                    default:
+                        return '---'
+                }
             },
         },
         {

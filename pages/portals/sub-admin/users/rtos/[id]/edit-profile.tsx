@@ -9,11 +9,6 @@ import { RTOProfileEditForm } from '@partials/common'
 import { useContextBar, useNotification } from '@hooks'
 import { RtoApi, useGetSubAdminRTODetailQuery } from '@queries'
 
-//components
-
-// icons
-// queries
-
 type Props = {}
 
 const EditRTOProfile: NextPageWithLayout = (props: Props) => {
