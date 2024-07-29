@@ -10,45 +10,72 @@ import {
     OurStoryMapSection,
     OurStoryRtoSection,
     OurStorySkiltrakAppSection,
+    OurStorySkiltrakIsWorkingWithSection,
     OurStoryStudentSection,
 } from '@partials/frontPages'
 import OurPartners from '@partials/frontPages/home2/OurPartners/OurPartners'
 import { NextPageWithLayout } from '@types'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ReactElement } from 'react'
+import { ReactElement, useEffect, useRef } from 'react'
 import Marquee from 'react-fast-marquee'
+
+import { motion, useTransform, useScroll } from 'framer-motion'
+import { useMediaQuery } from 'react-responsive'
 
 const items = [
     {
-        title: 'Slide 1',
+        title: 'Mental Health',
         description: `SkilTrak is your premier destination for tailored employment and placement services in Australia. At SkilTrak, we specialise in providing employment in top-notch industries to individual candidates as well as students affiliated with our partnered Registered Training Organisations (RTOs).
         With a steadfast commitment to aligning your aspirations with industry demands, we offer an extensive array of sectors spanning various fields of interest. Our recent successes have seen a surge in employment and placements in sectors such as`,
         image: '/images/our-story/mental-health.png',
     },
     {
-        title: 'Slide 2',
+        title: 'Disability Support',
         description: `SkilTrak is your premier destination for tailored employment and placement services in Australia. At SkilTrak, we specialise in providing employment in top-notch industries to individual candidates as well as students affiliated with our partnered Registered Training Organisations (RTOs).`,
         image: '/images/our-story/disability.png',
     },
     {
-        title: 'Slide 3',
+        title: 'Hospitality',
         description: `SkilTrak is your premier destination for tailored employment and placement services in Australia. At SkilTrak, we specialise in providing employment in top-notch industries to individual candidates as well as students affiliated with our partnered Registered Training Organisations (RTOs).`,
         image: '/images/our-story/hospitality.png',
     },
     {
-        title: 'Slide 4',
+        title: 'Commercial Cookery',
         description: `SkilTrak is your premier destination for tailored employment and placement services in Australia. At SkilTrak, we specialise in providing employment in top-notch industries to individual candidates as well as students affiliated with our partnered Registered Training Organisations (RTOs).`,
         image: '/images/our-story/commercial-cookery.png',
     },
     {
-        title: 'Slide 5',
-        description: `SkilTrak is your premier destination for tailored employment and placement services in Australia. At SkilTrak, we specialise in providing employment in top-notch industries to individual candidates as well as students affiliated with our partnered Registered Training Organisations (RTOs).`,
-        image: '/images/our-story/commercial-cookery.png',
+        title: 'Allied Health Assistance',
+        image: '/images/our-story/allied-health-care.jpg',
+    },
+    {
+        title: 'School Based Education Support',
+        image: '/images/our-story/school-based-education-support.jpg',
+    },
+    {
+        title: 'Cleaning Operations',
+        image: '/images/our-story/cleaning-operations.jpg',
+    },
+    {
+        title: 'Business to Business Sales',
+        image: '/images/our-story/business-to-business-sales.jpg',
+    },
+    {
+        title: 'Supply Chain Operations (Warehousing Operations)',
+        image: '/images/our-story/warehouse-operations.jpg',
     },
 ]
 
 const OurStory: NextPageWithLayout = () => {
+    const isMobile = useMediaQuery({ maxWidth: 768 })
+    const targetRef = useRef(null)
+    const { scrollYProgress } = useScroll({
+        target: targetRef,
+    })
+
+    const x = useTransform(scrollYProgress, [0, 1], ['0%', '-200%'])
+
     return (
         <>
             {/* Welcome Card */}
@@ -196,139 +223,60 @@ const OurStory: NextPageWithLayout = () => {
             </div>
 
             {/* Skiltrak is working with */}
-            <div className="skiltrak-is-working-with-bg">
-                <div className="pt-16">
-                    <Typography variant="h2" medium center>
-                        Skiltrak Is Working With
-                    </Typography>
-                </div>
-                <div className="flex flex-col items-center justify-center mx-auto max-w-7xl mt-9">
-                    <div className="bg-white rounded-lg p-3 border-gradient border-2">
-                        <Image
-                            src={'/images/our-story/skiltrak-logo.svg'}
-                            alt="Logo"
-                            width={162}
-                            height={48}
-                        />
-                    </div>
-                    <div className="h-6 w-[1px] border-dashed border-[#24536B] border"></div>
-                    <div className="h-[1px] w-[80%] mx-auto border-dashed border-[#24536B] border md:block hidden"></div>
-                    <div className="flex flex-col md:flex-row items-center justify-center md:justify-between w-full">
-                        <div className="flex flex-col items-center">
-                            <div className="h-6 w-[1px] border-dashed border-[#24536B] border"></div>
-                            <div className="bg-white rounded-lg w-32 h-14 md:w-[255px] md:h-24 p-3 border-gradient border-2 flex flex-col items-center justify-center">
-                                <Image
-                                    src={'/images/our-story/rto.svg'}
-                                    alt="Logo"
-                                    width={35}
-                                    height={35}
-                                    className="hidden md:block"
-                                />
-                                <Image
-                                    src={'/images/our-story/rto.svg'}
-                                    alt="Logo"
-                                    width={20}
-                                    height={20}
-                                    className="block md:hidden"
-                                />
-                                <p className="m-0 p-0 md:text-base whitespace-nowrap text-xs">
-                                    RTO’s
-                                </p>
-                            </div>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <div className="h-6 w-[1px] border-dashed border-[#24536B] border"></div>
-                            <div className="bg-white rounded-lg w-32 h-14 md:w-[255px] md:h-24 p-3 border-gradient border-2 flex flex-col items-center justify-center">
-                                <Image
-                                    src={'/images/our-story/industry.svg'}
-                                    alt="Logo"
-                                    width={35}
-                                    height={35}
-                                    className="hidden md:block"
-                                />
-                                <Image
-                                    src={'/images/our-story/industry.svg'}
-                                    alt="Logo"
-                                    width={20}
-                                    height={20}
-                                    className="block md:hidden"
-                                />
-                                <p className="m-0 p-0 md:text-base whitespace-nowrap text-xs">
-                                    Industries
-                                </p>
-                            </div>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <div className="h-6 w-[1px] border-dashed border-[#24536B] border"></div>
-                            <div className="bg-white rounded-lg w-32 h-14 md:w-[255px] md:h-24 p-3 border-gradient border-2 flex flex-col items-center justify-center">
-                                <Image
-                                    src={'/images/our-story/student.svg'}
-                                    alt="Logo"
-                                    width={35}
-                                    height={35}
-                                    className="hidden md:block"
-                                />
-                                <Image
-                                    src={'/images/our-story/student.svg'}
-                                    alt="Logo"
-                                    width={20}
-                                    height={20}
-                                    className="block md:hidden"
-                                />
-                                <p className="m-0 p-0 md:text-base whitespace-nowrap text-xs">
-                                    Students
-                                </p>
-                            </div>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <div className="h-6 w-[1px] border-dashed border-[#24536B] border"></div>
-                            <div className="bg-white rounded-lg w-40 h-16 md:w-[255px] md:h-24 p-3 border-gradient border-2 flex flex-col items-center justify-center">
-                                <Image
-                                    src={'/images/our-story/handshake.svg'}
-                                    alt="Logo"
-                                    width={35}
-                                    height={35}
-                                    className="hidden md:block"
-                                />
-                                <Image
-                                    src={'/images/our-story/handshake.svg'}
-                                    alt="Logo"
-                                    width={35}
-                                    height={35}
-                                    className="block md:hidden"
-                                />
-                                <p className="m-0 p-0 md:text-base whitespace-nowrap text-xs">
-                                    International Ventures
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="flex justify-center items-center mt-11">
-                    <Link
-                        href="/auth/signup"
-                        className=" text-white md:text-white md:text-base text-xs font-medium bg-orange-400 rounded-lg px-4 py-2 uppercase"
-                    >
-                        sign up to your desire portal
-                    </Link>
-                </div>
-            </div>
+            <OurStorySkiltrakIsWorkingWithSection />
 
             {/* Our LMS */}
             <OurStoryLmsSection />
 
             {/* RTO */}
-
-            <OurStoryRtoSection />
-            <OurStoryIndustrySection />
-            <OurStoryStudentSection />
-
-            <OurStoryInternationalVentureSection />
+            {isMobile ? (
+                <>
+                    <OurStoryRtoSection />
+                    <OurStoryIndustrySection />
+                    <OurStoryStudentSection />
+                </>
+            ) : (
+                <section ref={targetRef} className="relative h-[300vh]">
+                    <div className="sticky top-5 flex h-screen items-center overflow-hidden">
+                        <motion.div
+                            style={{ x }}
+                            className="flex flex-nowrap w-full"
+                        >
+                            <motion.div
+                                className="min-w-full flex-shrink-0"
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.8 }}
+                            >
+                                <OurStoryRtoSection />
+                            </motion.div>
+                            <motion.div
+                                className="min-w-full flex-shrink-0"
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.8 }}
+                            >
+                                <OurStoryIndustrySection />
+                            </motion.div>
+                            <motion.div
+                                className="min-w-full flex-shrink-0"
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.8 }}
+                            >
+                                <OurStoryStudentSection />
+                            </motion.div>
+                        </motion.div>
+                    </div>
+                </section>
+            )}
             <OurStoryMapSection />
+
             <OurPartners />
+            <OurStoryInternationalVentureSection />
 
             <div className="bg-[#EB8329] py-[72px] mt-5 px-4">
-                <Typography variant="title" color="text-white" center>
+                <Typography variant="h4" color="text-white" center>
                     HEAR FROM THOSE WHO'VE EXPERIENCED EXCELLENCE
                 </Typography>
             </div>

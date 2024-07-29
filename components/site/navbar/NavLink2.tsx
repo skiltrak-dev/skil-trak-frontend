@@ -57,13 +57,21 @@ export const NavLink2 = ({
                 //     external={external}
                 // />
                 <div className="lg:inline-block hidden">
-                    <Button
+                    {/* <Button
                         text={text}
                         variant="primary"
                         onClick={() => {
                             router.push('/auth/login')
                         }}
-                    />
+                    /> */}
+                    <Link
+                        className={
+                            'bg-primary text-white hover:bg-primary-dark border-transparent ring-primary-light font-medium uppercase transition-all duration-300 border px-4 py-2 shadow focus:outline-none focus:ring-4 rounded-md'
+                        }
+                        href={to}
+                    >
+                        {text}
+                    </Link>
                 </div>
             )
         } else if (external) {
