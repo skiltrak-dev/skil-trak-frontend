@@ -21,6 +21,7 @@ const Routes = {
     RequestAVolunteer: `${PREFIX}/students/request-a-volunteer`,
     Notifications: `${PREFIX}/notifications/e-mails?tab=all-mails`,
     TalentPool: `${PREFIX}/talent-pool`,
+    Schedule: `${PREFIX}/tasks/add-a-schedule`,
 }
 
 export const IndustryNavbar = () => {
@@ -40,14 +41,14 @@ export const IndustryNavbar = () => {
             activeClasses: 'bg-indigo-100 text-indigo-700',
             inActiveClasses: 'text-slate-700',
         },
-        {
-            link: Routes.Tasks,
-            text: 'Tasks',
-            Icon: HiUsers,
-            activeClasses: 'bg-green-100 text-accent-700',
-            inActiveClasses: 'text-slate-700',
-            id: 'tasks',
-        },
+        // {
+        //     link: Routes.Tasks,
+        //     text: 'Tasks',
+        //     Icon: HiUsers,
+        //     activeClasses: 'bg-green-100 text-accent-700',
+        //     inActiveClasses: 'text-slate-700',
+        //     id: 'tasks',
+        // },
         {
             link: Routes.Students,
             text: 'Students',
@@ -56,14 +57,14 @@ export const IndustryNavbar = () => {
             inActiveClasses: 'text-slate-700',
             id: 'students',
         },
-        {
-            link: Routes.Supervisors,
-            text: 'Supervisors',
-            Icon: MdWork,
-            activeClasses: 'bg-green-100 text-green-700',
-            inActiveClasses: 'text-slate-700',
-            id: 'jobs',
-        },
+        // {
+        //     link: Routes.Supervisors,
+        //     text: 'Supervisors',
+        //     Icon: MdWork,
+        //     activeClasses: 'bg-green-100 text-green-700',
+        //     inActiveClasses: 'text-slate-700',
+        //     id: 'jobs',
+        // },
         // {
         //     link: Routes.Jobs,
         //     text: 'Jobs',
@@ -83,6 +84,13 @@ export const IndustryNavbar = () => {
         {
             link: Routes.ESign,
             text: 'E Sign',
+            Icon: FaFileSignature,
+            activeClasses: 'text-slate-700',
+            inActiveClasses: 'hover:bg-green-100 hover:text-green-700',
+        },
+        {
+            link: Routes.Schedule,
+            text: 'Schedule',
             Icon: FaFileSignature,
             activeClasses: 'text-slate-700',
             inActiveClasses: 'hover:bg-green-100 hover:text-green-700',

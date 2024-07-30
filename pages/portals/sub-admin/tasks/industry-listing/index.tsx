@@ -28,6 +28,7 @@ import { IoWarning } from 'react-icons/io5'
 import { MdAddBusiness } from 'react-icons/md'
 type Props = {}
 const filterKeys = [
+    'id',
     'phone',
     'email',
     'status',
@@ -76,10 +77,10 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
             element: <ActiveIndustries onSetIndustryData={onSetIndustryData} />,
         },
         {
-            label: 'No Email',
+            label: 'Partial Listing',
             href: {
                 pathname: 'industry-listing',
-                query: { tab: 'without-email', page: 1, pageSize: 50 },
+                query: { tab: 'partial-listing', page: 1, pageSize: 50 },
             },
             badge: {
                 text: count?.data?.noEmail,

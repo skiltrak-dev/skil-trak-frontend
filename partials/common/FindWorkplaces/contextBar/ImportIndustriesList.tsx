@@ -1,9 +1,18 @@
-import React, { useState } from 'react'
-import { read, utils } from 'xlsx'
-import { useNotification } from '@hooks'
+import { Button, Select, ShowErrorNotifications, Typography } from '@components'
 import { BinaryFileUpload } from '@components/inputs/BinaryFileUpload'
-import { Button, ShowErrorNotifications, Typography } from '@components'
+import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
+import { useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { read, utils } from 'xlsx'
+import { IndustryListingDepartment } from '../enum'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as Yup from 'yup'
+
+const validationSchema = Yup.object({
+    department: Yup.string().required('Department is required!'),
+    type: Yup.string().required('Type is required!'),
+})
 
 export const ImportIndustriesList = () => {
     const [industries, setIndustries] = useState<any>(null)
@@ -11,6 +20,11 @@ export const ImportIndustriesList = () => {
 
     const [importList, importListResult] =
         CommonApi.FindWorkplace.importIndustriesList()
+
+    const methods = useForm({
+        resolver: yupResolver(validationSchema),
+        mode: 'all',
+    })
 
     const onFileChange = async (e: any, fileData: any) => {
         try {
@@ -59,21 +73,58 @@ export const ImportIndustriesList = () => {
     return (
         <div>
             <ShowErrorNotifications result={importListResult} />
-            <BinaryFileUpload
-                name="list"
-                onChange={onFileChange}
-                fileAsObject={false}
-                result={importListResult}
-                // acceptTypes={['.xlsx, .csv']}
-            />
-            <div className="flex items-center justify-end mt-2">
-                <Button
-                    text={'Upload'}
-                    onClick={onSubmit}
-                    loading={importListResult.isLoading}
-                    disabled={importListResult.isLoading}
-                />
-            </div>
+            <FormProvider {...methods}>
+                <form
+                    className="mt-2 w-full"
+                    onSubmit={methods.handleSubmit(onSubmit)}
+                >
+                    <Select
+                        name={'department'}
+                        label={'Select Department'}
+                        options={[
+                            {
+                                label: 'Employment',
+                                value: IndustryListingDepartment.EMPLOYMENT,
+                            },
+                            {
+                                label: 'SOURCING',
+                                value: IndustryListingDepartment.SOURCING,
+                            },
+                        ]}
+                        onlyValue
+                    />
+                    <Select
+                        name={'type'}
+                        label={'Select Type'}
+                        options={[
+                            {
+                                label: 'Listing With Email',
+                                value: 'withEmail',
+                            },
+                            {
+                                label: 'Listing Without Email',
+                                value: 'withoutEmail',
+                            },
+                        ]}
+                        onlyValue
+                    />
+                    <BinaryFileUpload
+                        name="list"
+                        onChange={onFileChange}
+                        fileAsObject={false}
+                        result={importListResult}
+                        // acceptTypes={['.xlsx, .csv']}
+                    />
+                    <div className="flex items-center justify-end mt-2">
+                        <Button
+                            text={'Upload'}
+                            submit
+                            loading={importListResult.isLoading}
+                            disabled={importListResult.isLoading}
+                        />
+                    </div>
+                </form>
+            </FormProvider>
 
             <div className="mt-5">
                 {importListResult?.data?.errorMails &&

@@ -40,9 +40,7 @@ export const ProfileLinks = ({ rto }: { rto: Rto }) => {
                         `/portals/sub-admin/users/rtos/${rto?.id}/edit-profile`
                     )
                 } else if (role === UserRoles.RTO) {
-                    router.push(
-                        `/portals/sub-admin/users/rtos/${rto?.id}/edit-profile`
-                    )
+                    router.push(`/portals/rto/my-profile`)
                 }
             },
         },

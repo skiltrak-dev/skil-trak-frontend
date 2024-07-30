@@ -172,7 +172,15 @@ export const FutureIndustryInfoBoxCard = ({
                                 <div className="flex justify-center mt-1.5">
                                     <Link
                                         className="text-blue-400 text-xs"
-                                        href={`/portals/sub-admin/tasks/industry-listing?tab=all&page=1&pageSize=50&email=${selectedBox?.email}`}
+                                        href={`/portals/sub-admin/tasks/industry-listing?tab=all&page=1&pageSize=50&${
+                                            selectedBox?.email
+                                                ? 'email'
+                                                : 'phone'
+                                        }=${
+                                            selectedBox?.email
+                                                ? selectedBox?.email
+                                                : selectedBox?.phone
+                                        }`}
                                         target="_blank"
                                     >
                                         View

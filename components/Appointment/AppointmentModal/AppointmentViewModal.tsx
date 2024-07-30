@@ -39,7 +39,6 @@ export const AppointmentViewModal = ({
     onCancel: () => void
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const [addNote, setAddNote] = useState('')
 
     const appointment = CommonApi.Appointments.appointmentDetail(id, {
         skip: !id,
@@ -50,6 +49,8 @@ export const AppointmentViewModal = ({
     const { notification } = useNotification()
 
     const userId = getUserCredentials()?.id
+    const role = getUserCredentials()?.role
+
     const appointmentWith =
         appointment?.data?.appointmentBy?.id === userId
             ? 'appointmentFor'
@@ -256,7 +257,9 @@ export const AppointmentViewModal = ({
                                                                             appointment
                                                                                 ?.data
                                                                                 ?.date
-                                                                        )
+                                                                        ) ||
+                                                                        role ===
+                                                                            UserRoles.ADMIN
                                                                     ) {
                                                                         onCancelAppointment()
                                                                     } else {

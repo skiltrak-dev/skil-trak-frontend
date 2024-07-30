@@ -128,12 +128,11 @@ export const FilteredSearchIndustries = ({
         contextBar.setTitle('Edit Future Industry')
     }
 
-    const onViewNote = (note: string, industryName: string) => {
+    const onViewNote = (industry: any) => {
         setModal(
             <ViewNoteModal
                 onCancel={onModalCancelClicked}
-                note={note}
-                industryName={industryName}
+                industry={industry}
             />
         )
     }
@@ -345,11 +344,7 @@ export const FilteredSearchIndustries = ({
                                         variant="info"
                                         simple
                                         onClick={() => {
-                                            onViewNote(
-                                                info?.row?.original?.note,
-                                                info?.row?.original
-                                                    ?.businessName
-                                            )
+                                            onViewNote(info?.row?.original)
                                         }}
                                     >
                                         View

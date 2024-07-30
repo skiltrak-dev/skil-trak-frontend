@@ -1,25 +1,15 @@
-import {
-    Badge,
-    Card,
-    LoadingAnimation,
-    NoData,
-    ShowErrorNotifications,
-    Typography,
-} from '@components'
+import { Badge, NoData, ShowErrorNotifications, Typography } from '@components'
 import { useNotification } from '@hooks'
-import { ForwardModal } from '@partials/sub-admin/workplace/modals'
 import {
-    useSubAdminApplyStudentWorkplaceMutation,
     useAddExistingIndustriesMutation,
+    useSubAdminApplyStudentWorkplaceMutation,
 } from '@queries'
 import { ellipsisText, getSectorsDetail } from '@utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ReactElement, useEffect, useState } from 'react'
-import { AiFillStar } from 'react-icons/ai'
 import { FaTimes } from 'react-icons/fa'
 import { PulseLoader } from 'react-spinners'
-import StarRatings from 'react-star-ratings'
 
 type IndustryInfoBoxCardProps = {
     item: any
@@ -67,15 +57,6 @@ export const IndustryInfoBoxCard = ({
             onCancel()
         }
     }, [addExistingIndustryResult])
-    // const url =
-    //     selectedBox.photos &&
-    //     selectedBox?.photos[0]?.html_attributions?.map((attribution: any) => {
-    //         const anchorTagRegex =
-    //             /<a[^>]+href=["']([^"']+)["'][^>]*>(.*?)<\/a>/i
-    //         const match = attribution.match(anchorTagRegex)
-    //         return match ? match[1] : null
-    //     })
-    // const urlString = url && url[0]
 
     return (
         <>
@@ -241,22 +222,6 @@ export const IndustryInfoBoxCard = ({
                                     </Typography>
                                 )}
                             </div>
-                            {/* <div className="mt-1">
-                            <Typography variant="muted" color={'text-gray-400'}>
-                                Address
-                            </Typography>
-                            <Typography variant="small">
-                                {item?.data?.addressLine1 || 'N/A'}
-                            </Typography>
-                        </div> */}
-                            {/* <div className="flex justify-center mt-1.5">
-                                <Link
-                                    className="text-blue-400 font-medium text-sm"
-                                    href={`/portals/sub-admin/users/industries/${item?.data?.id}?tab=students`}
-                                >
-                                    View Profile
-                                </Link>
-                            </div> */}
                         </div>
                     </>
                 )}

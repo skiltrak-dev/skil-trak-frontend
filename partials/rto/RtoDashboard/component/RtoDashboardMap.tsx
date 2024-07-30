@@ -9,6 +9,7 @@ import {
 import { Typography } from '@components'
 import { UserRoles } from '@constants'
 import { RtoApi, CommonApi } from '@queries'
+import { fromAddress, geocode, GeocodeOptions, setKey } from 'react-geocode'
 
 const containerStyle = {
     width: '100%',
@@ -78,9 +79,31 @@ const futureIndustryClusterOptions = {
     grid: 20,
     maxZoom: 15,
 }
-export const RtoDashboardMap = () => {
+
+setKey(process.env.NEXT_PUBLIC_MAP_KEY as string)
+export const RtoDashboardMap = ({ address }: { address: string }) => {
     const [map, setMap] = useState<google.maps.Map | null>(null)
     const [visibleMarkers, setVisibleMarkers] = useState<any>([])
+
+    useEffect(() => {
+        // Function to get latitude and longitude from address
+        const getLatLngFromAddress = async () => {
+            try {
+                const response = await fromAddress(address)
+
+                const { lat, lng } = response.results[0].geometry.location
+                if (map) {
+                    map.setCenter({ lat, lng })
+                    map.setZoom(13)
+                }
+            } catch (error) {
+                console.error('Error getting lat/lng from address:', error)
+            }
+        }
+
+        // Call the function to fetch lat/lng
+        getLatLngFromAddress()
+    }, [address, map])
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -149,6 +172,7 @@ export const RtoDashboardMap = () => {
     }, [industries])
     return (
         <div className={'flex flex-col gap-y-1 h-full'}>
+            {/* {JSON.stringify(abc())} */}
             <Typography center variant="label" semibold>
                 Industries On Skiltrak Data Base According Your Courses
             </Typography>
