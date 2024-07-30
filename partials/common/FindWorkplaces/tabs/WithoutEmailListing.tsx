@@ -165,23 +165,12 @@ export const WithoutEmailListing = ({
         contextBar.show(false)
         contextBar.setTitle('Edit Future Industry')
     }
-    // const onViewNote = ({ note }: any) => {
-    //     setModal(
-    //         <GlobalModal>
-    //             <ViewIndustryListingNoteModal
-    //                 note={note}
-    //                 onCancel={onModalCancelClicked}
-    //             />
-    //         </GlobalModal>
-    //     )
-    // }
 
-    const onViewNote = (note: string, industryName: string) => {
+    const onViewNote = (industry: any) => {
         setModal(
             <ViewNoteModal
                 onCancel={onModalCancelClicked}
-                note={note}
-                industryName={industryName}
+                industry={industry}
             />
         )
     }
@@ -382,11 +371,7 @@ export const WithoutEmailListing = ({
                                         variant="info"
                                         simple
                                         onClick={() => {
-                                            onViewNote(
-                                                info?.row?.original?.note,
-                                                info?.row?.original
-                                                    ?.businessName
-                                            )
+                                            onViewNote(info?.row?.original)
                                         }}
                                     >
                                         View
@@ -544,8 +529,8 @@ export const WithoutEmailListing = ({
             {modal && modal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
-                    title={'No Email Industries'}
-                    subtitle={'List of No Email Industries'}
+                    title={'Partial Listing'}
+                    subtitle={'List of Partial Listing'}
                 >
                     {data && data?.data?.length ? (
                         <Button

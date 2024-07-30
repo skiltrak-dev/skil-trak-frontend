@@ -33,7 +33,9 @@ export const RtoDashboard = ({ rto }: { rto: Rto }) => {
                 <div className="flex flex-col col-span-7">
                     <div className="flex-grow">
                         <div className="h-full">
-                            <RtoDashboardMap />
+                            <RtoDashboardMap
+                                address={`${rto?.addressLine1} ${rto?.suburb}}`}
+                            />
                         </div>
                     </div>
                 </div>

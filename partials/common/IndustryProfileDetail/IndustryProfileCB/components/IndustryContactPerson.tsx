@@ -34,7 +34,7 @@ export const IndustryContactPerson = ({ industry }: { industry: Industry }) => {
                         onClick={() => {
                             if (!industry?.isSnoozed) {
                                 navigator.clipboard.writeText(
-                                    industry?.phoneNumber
+                                    industry?.contactPersonNumber
                                 )
                                 callLog({
                                     industry: industry?.id,
