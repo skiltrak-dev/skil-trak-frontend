@@ -32,7 +32,6 @@ export const StudentSchedule = ({
         workplace: workplace?.id,
     })
 
-
     return (
         <div>
             {addSchedule ? (
@@ -45,9 +44,9 @@ export const StudentSchedule = ({
                     workplace={workplace?.industries?.[0]?.industry}
                 />
             ) : (
-                <div className="mt-3">
-                    <div className="flex justify-between items-center mb-2">
-                        <div className="w-64">
+                <div className="">
+                    <div className="flex justify-between items-center mb-2 py-4 border-b border-secondary-dark">
+                        <div className="w-64 px-4">
                             <Typography variant="small">Course</Typography>
                             <div className="flex flex-col border rounded py-2 px-1">
                                 <Typography variant="small">
@@ -58,17 +57,20 @@ export const StudentSchedule = ({
                                 </Typography>
                             </div>
                         </div>
-                        <Button
-                            text={
-                                schedules?.data && schedules?.data?.schedule
-                                    ? 'Edit Schedule'
-                                    : 'Add Schedule'
-                            }
-                            variant={'info'}
-                            onClick={() => {
-                                setAddSchedule(true)
-                            }}
-                        />
+                        <div className="px-4">
+                            {' '}
+                            <Button
+                                text={
+                                    schedules?.data && schedules?.data?.schedule
+                                        ? 'Edit Schedule'
+                                        : 'Add Schedule'
+                                }
+                                variant={'info'}
+                                onClick={() => {
+                                    setAddSchedule(true)
+                                }}
+                            />
+                        </div>
                     </div>
                     <Card>
                         {schedules.isError && <TechnicalError />}

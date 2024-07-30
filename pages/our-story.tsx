@@ -11,8 +11,10 @@ import {
     OurStorySkiltrakIsWorkingWithSection,
     Services,
     WhoAreWe,
+    OurStoryStudentSection,
 } from '@partials/frontPages'
 import OurPartners from '@partials/frontPages/home2/OurPartners/OurPartners'
+import { OurTrustedPartner } from '@partials/frontPages/ourStory/components/OurTrustedPartner'
 import { NextPageWithLayout } from '@types'
 import { ReactElement } from 'react'
 
@@ -61,6 +63,9 @@ const OurStory: NextPageWithLayout = () => {
             <OurStoryMapSection />
 
             <OurPartners />
+            <div className="mt-12">
+                <OurTrustedPartner />
+            </div>
             <OurStoryInternationalVentureSection />
 
             <div className="bg-[#EB8329] py-[72px] mt-5 px-4">
