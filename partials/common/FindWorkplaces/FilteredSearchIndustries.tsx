@@ -14,9 +14,9 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit } from 'react-icons/fa'
+import { FaEdit, FaRegCopy } from 'react-icons/fa'
 
-import { useActionModal, useContextBar } from '@hooks'
+import { useActionModal, useContextBar, useNotification } from '@hooks'
 import { IndustryStatus, SubAdmin } from '@types'
 import { useRouter } from 'next/router'
 import { MdBlock, MdDelete, MdEmail, MdOutlineFavorite } from 'react-icons/md'
@@ -34,6 +34,7 @@ import {
     AddToSignupModal,
     DeleteFutureIndustryModal,
     DeleteMultiFutureIndustryModal,
+    IndustryListingCallModal,
     ViewNoteModal,
 } from './modal'
 import { checkListLength } from '@utils'
@@ -57,6 +58,8 @@ export const FilteredSearchIndustries = ({
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const contextBar = useContextBar()
+
+    const { notification } = useNotification()
 
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
@@ -186,6 +189,16 @@ export const FilteredSearchIndustries = ({
     //     },
     // ]
 
+    const onPhoneClicked = (id: number, note: string) => {
+        setModal(
+            <IndustryListingCallModal
+                note={note}
+                id={id}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
     const tableActionOptions = (industry: any) => {
         const stored = localStorage.setItem(
             'signup-data',
@@ -286,6 +299,41 @@ export const FilteredSearchIndustries = ({
         {
             accessorKey: 'phone',
             header: () => <span>Phone</span>,
+            cell: (info) => (
+                <div className="group flex items-center gap-x-1">
+                    <div
+                        className="whitespace-pre  "
+                        onClick={() => {
+                            onPhoneClicked(
+                                info?.row?.original?.id,
+                                info?.row?.original?.note
+                            )
+                        }}
+                    >
+                        <Typography variant="label" cursorPointer>
+                            {info?.row?.original?.phone}
+                        </Typography>
+                    </div>
+                    <div className="hidden group-hover:block cursor-pointer ">
+                        <div className="group relative">
+                            <FaRegCopy
+                                onClick={() => {
+                                    navigator.clipboard.writeText(
+                                        info?.row?.original?.phone
+                                    )
+                                    notification.success({
+                                        title: 'Copies',
+                                        description: 'Phone Number Copied',
+                                    })
+                                }}
+                                className="text-gray-500"
+                                size={18}
+                            />
+                            {/* <Tooltip>Copy Phone Number</Tooltip> */}
+                        </div>
+                    </div>
+                </div>
+            ),
         },
         {
             accessorKey: 'address',

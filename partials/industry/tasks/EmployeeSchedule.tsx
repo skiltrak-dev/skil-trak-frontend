@@ -115,27 +115,14 @@ export const EmployeeSchedule = () => {
                 return `${row?.original?.email}`
             },
         },
-        {
-            header: () => 'Type',
-            accessorKey: 'type',
-            disableFilters: true,
-            cell: () => {
-                return `meeting`
-            },
-        },
+
         {
             header: () => 'Date',
             accessorKey: 'createdAt',
             cell: ({ row }: any) => {
-                return moment(row.original.createdAt).format('DD-MM-yyyy')
-            },
-        },
-        {
-            header: () => 'Time',
-            accessorKey: 'time',
-            disableFilters: true,
-            cell: ({ row }: any) => {
-                return moment(row.original.createdAt).format('hh:mm a')
+                return moment(row.original.createdAt).format(
+                    'DD-MM-yyyy [at] hh:mm a'
+                )
             },
         },
         {
