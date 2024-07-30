@@ -42,12 +42,14 @@ import {
     BlockIndustryListingModal,
     DeleteFutureIndustryModal,
     DeleteMultiFutureIndustryModal,
+    IndustryListingCallModal,
     ViewNoteModal,
 } from '../modal'
 import { MultipleDefaultModal } from '../MultipleDefaultModal'
 import { MultipleDoNotDisturbModal } from '../MultipleDoNotDisturbModal'
 import { MultipleFavoriteModal } from '../MultipleFavoriteModal'
 import { AddIndustry } from './AddIndustry'
+import { IndustryListingCellInfo } from '../components'
 
 export const ActiveIndustries = ({
     onSetIndustryData,
@@ -188,12 +190,21 @@ export const ActiveIndustries = ({
     //     )
     // }
 
-    const onViewNote = (note: string, industryName: string) => {
+    const onViewNote = (industry: any) => {
         setModal(
             <ViewNoteModal
                 onCancel={onModalCancelClicked}
+                industry={industry}
+            />
+        )
+    }
+
+    const onPhoneClicked = (id: number, note: string) => {
+        setModal(
+            <IndustryListingCallModal
                 note={note}
-                industryName={industryName}
+                id={id}
+                onCancel={onModalCancelClicked}
             />
         )
     }
@@ -276,61 +287,31 @@ export const ActiveIndustries = ({
                     ?.map((e: any) => e?.listing_email)
                     ?.includes(info?.row?.original?.email)
                 return (
-                    <div className={`flex items-center gap-x-1.5`}>
-                        {info?.row?.original?.businessName && (
-                            <InitialAvatar
-                                name={info?.row?.original?.businessName}
-                            />
-                        )}
-                        <div className="flex flex-col gap-y-1">
-                            <div className="flex items-center gap-x-2">
-                                <Typography variant={'label'}>
-                                    {info?.row?.original?.businessName}
-                                </Typography>
-                                {info.row.original?.signedUp && (
-                                    <div className="relative group">
-                                        <Image
-                                            src={'/images/signup.png'}
-                                            alt={''}
-                                            width={30}
-                                            height={30}
-                                        />
-                                        <Tooltip>Signed Up</Tooltip>
-                                    </div>
-                                )}
-                            </div>
-                            {/* <Highlighter
-                                highlightClassName="YourHighlightClass"
-                                searchWords={
-                                    isDuplicated
-                                        ? [info?.row?.original?.email]
-                                        : ['']
-                                }
-                                autoEscape={true}
-                                textToHighlight={info?.row?.original?.email}
-                            /> */}
-                            <div
-                                className={` relative group ${
-                                    isDuplicated ? 'bg-gray-300' : ''
-                                } px-1.5 rounded-md`}
-                            >
-                                <TruncatedTextWithTooltip
-                                    text={info.row.original?.email}
-                                    maxLength={20}
-                                />
-
-                                {isDuplicated ? (
-                                    <Tooltip>Duplicated Found</Tooltip>
-                                ) : null}
-                            </div>
-                        </div>
-                    </div>
+                    <IndustryListingCellInfo
+                        industryListing={info?.row?.original}
+                        isDuplicated={isDuplicated}
+                    />
                 )
             },
         },
         {
             accessorKey: 'phone',
             header: () => <span>Phone</span>,
+            cell: (info) => (
+                <div
+                    className="whitespace-pre"
+                    onClick={() => {
+                        onPhoneClicked(
+                            info?.row?.original?.id,
+                            info?.row?.original?.note
+                        )
+                    }}
+                >
+                    <Typography variant="label" cursorPointer>
+                        {info?.row?.original?.phone}
+                    </Typography>
+                </div>
+            ),
         },
         {
             accessorKey: 'address',
@@ -386,11 +367,7 @@ export const ActiveIndustries = ({
                                         variant="info"
                                         simple
                                         onClick={() => {
-                                            onViewNote(
-                                                info?.row?.original?.note,
-                                                info?.row?.original
-                                                    ?.businessName
-                                            )
+                                            onViewNote(info?.row?.original)
                                         }}
                                     >
                                         View

@@ -1,6 +1,4 @@
 import {
-    ActionButton,
-    EmptyData,
     InitialAvatar,
     LoadingAnimation,
     NoData,
@@ -9,14 +7,10 @@ import {
     Typography,
 } from '@components'
 
+import { UserRoles } from '@constants'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import React, { useState } from 'react'
-import { FilterReport } from '../../FilterReport'
-import { CourseDot } from '@partials/rto/student/components'
-import { Course, ReportOptionsEnum } from '@types'
 import { getUserCredentials } from '@utils'
-import { UserRoles } from '@constants'
 
 type Props = {
     rtoUser?: number
