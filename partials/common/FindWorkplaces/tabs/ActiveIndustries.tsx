@@ -17,7 +17,7 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaFileExport } from 'react-icons/fa'
+import { FaEdit, FaFileExport, FaRegCopy } from 'react-icons/fa'
 
 import { CommonApi, commonApi } from '@queries'
 import { Industry, IndustryStatus } from '@types'
@@ -29,7 +29,7 @@ import { MdBlock, MdDelete, MdEmail, MdOutlineFavorite } from 'react-icons/md'
 // import { BlockModal } from './modals'
 
 // hooks
-import { useContextBar } from '@hooks'
+import { useContextBar, useNotification } from '@hooks'
 import Image from 'next/image'
 import { AiFillCheckCircle, AiFillWarning } from 'react-icons/ai'
 import { BiPencil } from 'react-icons/bi'
@@ -63,6 +63,8 @@ export const ActiveIndustries = ({
     const [noteId, setNoteId] = useState(null)
 
     const contextBar = useContextBar()
+
+    const { notification } = useNotification()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -298,18 +300,38 @@ export const ActiveIndustries = ({
             accessorKey: 'phone',
             header: () => <span>Phone</span>,
             cell: (info) => (
-                <div
-                    className="whitespace-pre"
-                    onClick={() => {
-                        onPhoneClicked(
-                            info?.row?.original?.id,
-                            info?.row?.original?.note
-                        )
-                    }}
-                >
-                    <Typography variant="label" cursorPointer>
-                        {info?.row?.original?.phone}
-                    </Typography>
+                <div className="group flex items-center gap-x-1">
+                    <div
+                        className="whitespace-pre  "
+                        onClick={() => {
+                            onPhoneClicked(
+                                info?.row?.original?.id,
+                                info?.row?.original?.note
+                            )
+                        }}
+                    >
+                        <Typography variant="label" cursorPointer>
+                            {info?.row?.original?.phone}
+                        </Typography>
+                    </div>
+                    <div className="hidden group-hover:block cursor-pointer ">
+                        <div className="group relative">
+                            <FaRegCopy
+                                onClick={() => {
+                                    navigator.clipboard.writeText(
+                                        info?.row?.original?.phone
+                                    )
+                                    notification.success({
+                                        title: 'Copies',
+                                        description: 'Phone Number Copied',
+                                    })
+                                }}
+                                className="text-gray-500"
+                                size={18}
+                            />
+                            {/* <Tooltip>Copy Phone Number</Tooltip> */}
+                        </div>
+                    </div>
                 </div>
             ),
         },

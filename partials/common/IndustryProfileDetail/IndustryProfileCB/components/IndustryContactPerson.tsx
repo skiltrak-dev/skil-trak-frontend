@@ -49,7 +49,7 @@ export const IndustryContactPerson = ({ industry }: { industry: Industry }) => {
                                 })
                                 notification.success({
                                     title: 'Copied',
-                                    description: 'Phone Number Copied',
+                                    description: 'Contact Person Number Copied',
                                 })
                             }
                         }}

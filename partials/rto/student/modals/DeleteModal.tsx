@@ -1,5 +1,5 @@
-import { ActionModal } from '@components'
-import { useAlert, useNotification } from '@hooks'
+import { ActionModal, ShowErrorNotifications } from '@components'
+import { useNotification } from '@hooks'
 import { useRemoveRTOStudentMutation } from '@queries'
 
 import { Student } from '@types'
@@ -13,41 +13,36 @@ export const DeleteModal = ({
     item: Student
     onCancel: Function
 }) => {
-    const { alert } = useAlert()
     const { notification } = useNotification()
     const [remove, removeResult] = useRemoveRTOStudentMutation()
 
     const onConfirmUClicked = async (item: Student) => {
-        await remove(item.id)
+        await remove(item?.user?.id).then((res: any) => {
+            if (res?.data) {
+                notification.error({
+                    title: `Student Deleted`,
+                    description: `Student "${item.user.name}" has been deleted.`,
+                })
+                onCancel()
+            }
+        })
     }
 
-    useEffect(() => {
-        if (removeResult.isSuccess) {
-            alert.error({
-                title: `Student Deleted`,
-                description: `Student "${item.user.name}" has been deleted.`,
-            })
-            onCancel()
-        }
-        if (removeResult.isError) {
-            notification.error({
-                title: 'Request Failed',
-                description: `Your request for deleting Student was failed`,
-            })
-        }
-    }, [removeResult])
-
     return (
-        <ActionModal
-            Icon={FaTrash}
-            variant="error"
-            title="Are you sure!"
-            description={`You are about to delete "${item.user.name}". Do you wish to continue?`}
-            onConfirm={onConfirmUClicked}
-            onCancel={onCancel}
-            input
-            inputKey={item.user.email}
-            actionObject={item}
-        />
+        <>
+            <ShowErrorNotifications result={removeResult} />
+            <ActionModal
+                Icon={FaTrash}
+                variant="error"
+                title="Are you sure!"
+                description={`You are about to delete "${item.user.name}". Do you wish to continue?`}
+                onConfirm={onConfirmUClicked}
+                onCancel={onCancel}
+                input
+                inputKey={item.user.email}
+                actionObject={item}
+                loading={removeResult?.isLoading}
+            />
+        </>
     )
 }
