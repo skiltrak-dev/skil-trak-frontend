@@ -246,8 +246,8 @@ export const CompletedStudents = () => {
             {modal && modal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
-                    title={'Approved Students'}
-                    subtitle={'List of Approved Students'}
+                    title={'Completed Students'}
+                    subtitle={'List of Completed Students'}
                 >
                     {data && data?.data.length ? (
                         <>
