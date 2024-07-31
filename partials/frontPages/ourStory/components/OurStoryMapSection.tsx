@@ -10,7 +10,7 @@ export const OurStoryMapSection = () => {
     const [searchedLocationCoordinates, setSearchedLocationCoordinates] =
         useState<any>(null)
     const [sector, setSector] = useState('')
-    console.log('searchedLocationCoordinates', searchedLocationCoordinates)
+    // console.log('searchedLocationCoordinates', searchedLocationCoordinates)
 
     const getSectors = AuthApi.useSectors({})
     const sectorsOptions = getSectors?.data?.map((sector: any) => ({
@@ -24,7 +24,7 @@ export const OurStoryMapSection = () => {
                 <Typography variant="h2" medium center>
                     See our wide range of industry partners
                 </Typography>
-                <div className="px-32 py-4">
+                <div className="md:px-32 px-4 py-2 md:py-4">
                     <Typography variant="body" center>
                         Our customized map features enables to locate all
                         nearest industries within the given 20km radius of the

@@ -9,7 +9,7 @@ export const OurStoryLmsSection = () => {
             <Typography variant="h2" medium center>
                 Our LMS
             </Typography>
-            <div className="mt-5 flex items-center gap-x-7">
+            <div className="mt-5 flex items-center gap-x-7 md:px-0 px-4">
                 <div className="flex items-center gap-x-5 relative">
                     <Image
                         src="/images/our-story/our-lms-1.png"

@@ -651,6 +651,16 @@ img {
     height: 527px;
     width: 100%;
 }
+@media only screen and (max-width: 600px) {
+    .gradient-bg-app-section {
+        background-image: url('/images/our-story/skiltrak-app-mobile-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 777px;
+    width: 100%;
+    }
+}
 
 .philippines-bg {
     background-image: url('/images/our-story/countries/philippines.png');
