@@ -7,7 +7,10 @@ import { AuthApi } from '@queries'
 export const OurStoryMapSection = () => {
     const [suburbLocation, setSuburbLocation] = useState<any>(null)
     const [searchInitiated, setSearchInitiated] = useState(false)
+    const [searchedLocationCoordinates, setSearchedLocationCoordinates] =
+        useState<any>(null)
     const [sector, setSector] = useState('')
+    console.log('searchedLocationCoordinates', searchedLocationCoordinates)
 
     const getSectors = AuthApi.useSectors({})
     const sectorsOptions = getSectors?.data?.map((sector: any) => ({
@@ -17,9 +20,19 @@ export const OurStoryMapSection = () => {
 
     return (
         <div className="md:mt-20 mt-12 max-w-7xl mx-auto mb-12 md:mb-14 px-4">
-            <Typography variant="h2" medium center>
-                See our wide range of industry partners
-            </Typography>
+            <div className="flex flex-col items-center justify-center gap-y-2">
+                <Typography variant="h2" medium center>
+                    See our wide range of industry partners
+                </Typography>
+                <div className="px-32 py-4">
+                    <Typography variant="body" center>
+                        Our customized map features enables to locate all
+                        nearest industries within the given 20km radius of the
+                        provided student location. Select a specific region and
+                        see how this works.
+                    </Typography>
+                </div>
+            </div>
             <div className="flex items-center flex-col md:flex-row gap-x-2.5 mt-4 w-full">
                 <div className="md:w-1/2 w-full">
                     <TextInput
@@ -29,11 +42,18 @@ export const OurStoryMapSection = () => {
                         validationIcons
                         placesSuggetions
                         onChange={(e: any) => {
+                            console.log('e?.target?.value', e?.target?.value)
                             if (e?.target?.value?.length > 4) {
                                 fromAddress(e?.target?.value)
                                     .then(({ results }: any) => {
+                                        console.log('results', results)
                                         const { lat, lng } =
                                             results[0].geometry.location
+                                        setSearchedLocationCoordinates({
+                                            lat,
+                                            lng,
+                                        })
+
                                         geocode('latlng', `${lat},${lng}`, {
                                             key: process.env
                                                 .NEXT_PUBLIC_MAP_KEY,

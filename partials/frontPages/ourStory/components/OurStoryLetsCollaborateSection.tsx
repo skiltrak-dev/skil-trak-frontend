@@ -25,16 +25,28 @@ export const OurStoryLetsCollaborateSection = () => {
                 </div>
             </div>
             <div className="bg-orange-400 h-[0.5px] w-full"></div>
-            <div className="mt-10 flex items-center justify-center flex-col md:flex-row gap-y-2 gap-x-1 mb-12">
-                <Typography variant="small" color="text-blue-400">
-                    Our Website is fully Secured with
-                </Typography>
-                <Image
-                    src={'/images/our-story/digital-ocean.svg'}
-                    alt="letsCollaborate"
-                    width={197}
-                    height={42}
-                />
+            <div className="mt-10 flex items-center justify-center flex-col md:flex-row gap-y-2 gap-x-3 mb-12">
+                <a
+                    href="https://www.digitalocean.com/security"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <Typography variant="body" color="text-blue-400">
+                        Our Website is fully Secured with
+                    </Typography>
+                </a>
+                <a
+                    href="https://www.digitalocean.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <Image
+                        src={'/images/our-story/digital-ocean.svg'}
+                        alt="letsCollaborate"
+                        width={197}
+                        height={42}
+                    />
+                </a>
             </div>
         </div>
     )

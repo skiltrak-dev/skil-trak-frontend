@@ -72,7 +72,7 @@ export const OurStoryLmsSection = () => {
                 <Image
                     src="/images/our-story/our-lms-4.png"
                     alt="LMS"
-                    width={128}
+                    width={120}
                     height={100}
                     className="block md:hidden"
                 />
