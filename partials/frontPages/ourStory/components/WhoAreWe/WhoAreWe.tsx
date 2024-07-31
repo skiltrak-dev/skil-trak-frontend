@@ -10,15 +10,15 @@ export const WhoAreWe = () => {
     const totalItems = whoAreWeItems?.length
 
     const prevSlide = () => {
-        if (activeIndex > 0) {
-            setActiveIndex(activeIndex - 1)
-        }
+        setActiveIndex(
+            activeIndex === 0 ? whoAreWeItems.length - 1 : activeIndex - 1
+        )
     }
 
     const nextSlide = () => {
-        if (activeIndex < totalItems - 1) {
-            setActiveIndex(activeIndex + 1)
-        }
+        setActiveIndex(
+            activeIndex === whoAreWeItems.length - 1 ? 0 : activeIndex + 1
+        )
     }
 
     useEffect(() => {
@@ -58,7 +58,7 @@ export const WhoAreWe = () => {
                             {whoAreWeItems?.map((item: any, index: number) => (
                                 <motion.div
                                     key={index}
-                                    className={`w-[212px] h-48 p-1.5 bg-white shadow-md rounded-md cursor-pointer snap-start ${
+                                    className={`w-[212px] h-52 p-1.5 bg-white shadow-md rounded-md cursor-pointer snap-start ${
                                         index % totalItems === activeIndex
                                             ? 'border-2 border-[#F6910F]'
                                             : ''
@@ -77,7 +77,7 @@ export const WhoAreWe = () => {
                                         alt={item?.title}
                                         className="w-[202px] h-36 rounded-sm object-cover"
                                     />
-                                    <p className="text-sm text-center font-medium text-[#25566B] mt-2.5">
+                                    <p className="text-sm text-center whitespace-pre-wrap font-medium text-[#25566B] mt-2.5">
                                         {item?.title}
                                     </p>
                                 </motion.div>
@@ -91,7 +91,7 @@ export const WhoAreWe = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.8 }}
                     transition={{ duration: 0.5 }}
-                    className="p-2.5 w-[558px] h-[518px] text-center rounded-md shadow-md bg-white"
+                    className="p-2.5 w-[558px] h-[516px] text-center rounded-md shadow-md bg-white"
                 >
                     <img
                         src={whoAreWeItems[activeIndex]?.image}
@@ -106,22 +106,16 @@ export const WhoAreWe = () => {
             <div className="">
                 <button
                     onClick={prevSlide}
-                    className={`${
-                        activeIndex === 0 ? 'bg-gray-300' : 'bg-orange-400'
-                    } p-2 rounded-sm absolute left-12 bottom-[20%]`}
-                    disabled={activeIndex === 0}
+                    className={`bg-orange-400 p-2 rounded-sm absolute left-12 bottom-[20%]`}
+                    // disabled={activeIndex === 0}
                 >
                     <MdKeyboardArrowLeft className="text-white" />
                 </button>
                 <div className="border-b border-t h-[14.1rem] py-4 flex justify-center items-center absolute right-12 bottom-4">
                     <button
                         onClick={nextSlide}
-                        className={`${
-                            activeIndex === totalItems - 1
-                                ? 'bg-gray-300'
-                                : 'bg-orange-400'
-                        }  p-2 rounded-sm `}
-                        disabled={activeIndex === totalItems - 1}
+                        className={`bg-orange-400 p-2 rounded-sm `}
+                        // disabled={activeIndex === totalItems - 1}
                     >
                         <MdKeyboardArrowRight className="text-white" />
                     </button>

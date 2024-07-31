@@ -96,7 +96,7 @@ export const StudentStatus = ({
         <>
             {modal}
             <ShowErrorNotifications result={changeCurrentStatusResult} />
-            <div className="border-y border-[#E6E6E6] py-3 mt-3.5">
+            <div className=" py-3 mt-3.5">
                 <Typography variant="small" medium>
                     Student Status
                 </Typography>

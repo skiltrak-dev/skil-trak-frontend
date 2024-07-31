@@ -5,6 +5,7 @@ import {
     Tooltip,
     Typography,
     UserCreatedAt,
+    UpdatedUserCreatedAt,
 } from '@components'
 import { useNotification } from '@hooks'
 import { SubAdminApi } from '@queries'
@@ -53,26 +54,46 @@ export const CallLogDetail = ({ callLog }: { callLog: CallLog }) => {
                         Call made {callLog.isAnswered !== null ? 'and' : ''}
                     </Typography>
 
-                    {callLog?.isAnswered ? (
+                    {/* {callLog?.isAnswered ? (
                         <Badge text="Answered" size="sm" variant="success" />
                     ) : callLog?.isAnswered === false ? (
                         <Badge text="Not Answered" size="sm" variant="error" />
                     ) : (
                         <></>
-                    )}
+                    )} */}
                 </div>
 
                 <div className="mx-auto">
-                    <UserCreatedAt createdAt={callLog?.createdAt} />
+                    <UpdatedUserCreatedAt createdAt={callLog?.createdAt} />
                 </div>
                 <div className="flex justify-end items-center gap-x-2">
                     {callLog?.isAnswered ? (
-                        <div className="group relative p-1.5 rounded-full bg-success">
-                            <ImPhone className="text-white text-xs" />
+                        // <div className="group relative p-1.5 rounded-full bg-success">
+                        //     <ImPhone className="text-white text-xs" />
+                        // </div>
+                        <div className="px-3 py-2 bg-green-200 rounded-md">
+                            <Typography
+                                variant="small"
+                                medium
+                                color="text-green-500"
+                                uppercase
+                            >
+                                Answered
+                            </Typography>
                         </div>
                     ) : callLog?.isAnswered === false ? (
-                        <div className="group relative p-1.5 rounded-full bg-red-500">
-                            <ImPhoneHangUp className="text-white text-xs" />
+                        // <div className="group relative p-1.5 rounded-full bg-red-500">
+                        //     <ImPhoneHangUp className="text-white text-xs" />
+                        // </div>
+                        <div className="px-3 py-2 bg-red-200 rounded-md">
+                            <Typography
+                                variant="small"
+                                medium
+                                color="text-red-500"
+                                uppercase
+                            >
+                                Not Answered
+                            </Typography>
                         </div>
                     ) : (
                         <>
