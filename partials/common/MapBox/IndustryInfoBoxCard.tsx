@@ -174,7 +174,6 @@ export const IndustryInfoBoxCard = ({
                                     <Link
                                         className="text-blue-400 text-xs"
                                         href={`/portals/sub-admin/users/industries/${item?.data?.id}?tab=students`}
-                                        target="_blank"
                                     >
                                         View
                                     </Link>

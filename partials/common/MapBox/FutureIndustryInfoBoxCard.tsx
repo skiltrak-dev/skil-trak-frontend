@@ -181,7 +181,6 @@ export const FutureIndustryInfoBoxCard = ({
                                                 ? selectedBox?.email
                                                 : selectedBox?.phone
                                         }`}
-                                        target="_blank"
                                     >
                                         View
                                     </Link>

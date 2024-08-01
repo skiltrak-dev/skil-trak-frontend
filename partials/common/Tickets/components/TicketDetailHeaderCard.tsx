@@ -1,24 +1,18 @@
 import {
     AuthorizedUserComponent,
     Button,
-    Card,
     Portal,
     Typography,
 } from '@components'
-import React, { ReactElement, useState } from 'react'
-import { BsArrowLeft, BsDot } from 'react-icons/bs'
-import { TicketUser } from './TicketUser'
-import { ellipsisText, getUserCredentials } from '@utils'
-import moment from 'moment'
-import { TicketStatus } from 'pages/portals/admin/tickets'
 import { UserRoles } from '@constants'
-import { CloseTicketModal } from '@partials/admin/Tickets'
-import { FaLongArrowAltLeft } from 'react-icons/fa'
-import { useRouter } from 'next/router'
-import { StudentCellInfo as SubadminStudentCellInfo } from '@partials/sub-admin/students'
-import { StudentCellInfo as RtoStudentCellInfo } from '@partials/rto/student/components'
 import { StudentCellInfo } from '@partials/admin/student/components'
+import { CloseTicketModal } from '@partials/admin/Tickets'
+import { StudentCellInfo as RtoStudentCellInfo } from '@partials/rto/student/components'
+import { StudentCellInfo as SubadminStudentCellInfo } from '@partials/sub-admin/students'
 import { ForwardTicket } from '@partials/sub-admin/Tickets'
+import { getUserCredentials } from '@utils'
+import { ReactElement, useState } from 'react'
+import { TicketUser } from './TicketUser'
 
 export const TicketDetailHeaderCard = ({
     ticket,

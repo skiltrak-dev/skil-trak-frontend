@@ -10,11 +10,11 @@ import {
 import { PageHeading } from '@components/headings'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
-import { TicketStatus } from 'pages/portals/admin/tickets'
 import { useState } from 'react'
 import { BsFillTicketDetailedFill } from 'react-icons/bs'
 import { useSubadminTicketsColumns } from './hooks'
 import moment from 'moment'
+import { TicketStatus } from '@partials/common/Tickets'
 
 export const ClosedTickets = () => {
     const [itemPerPage, setItemPerPage] = useState(50)

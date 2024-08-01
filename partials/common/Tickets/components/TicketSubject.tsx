@@ -4,8 +4,8 @@ import { SubAdminApi } from '@queries'
 import { ellipsisText, getUserCredentials } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
-import { TicketStatus } from 'pages/portals/admin/tickets'
 import React from 'react'
+import { TicketStatus } from '../enum'
 
 export const TicketSubject = ({ ticket }: { ticket: any }) => {
     const role = getUserCredentials()?.role

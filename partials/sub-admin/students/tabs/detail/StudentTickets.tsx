@@ -9,16 +9,15 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
+import { CloseTicketModal } from '@partials/admin/Tickets'
+import { TicketSubject, TicketUser } from '@partials/common/Tickets/components'
 import { CommonApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import React, { ReactElement, useState } from 'react'
-import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
+import { Student } from '@types'
 import moment from 'moment'
 import { useRouter } from 'next/router'
-import { TicketSubject, TicketUser } from '@partials/common/Tickets/components'
-import { TicketStatus } from 'pages/portals/admin/tickets'
-import { CloseTicketModal } from '@partials/admin/Tickets'
-import { Student } from '@types'
+import { ReactElement, useState } from 'react'
+import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
 
 export const StudentTickets = ({ student }: { student: Student }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)

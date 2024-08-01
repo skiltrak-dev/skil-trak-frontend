@@ -30,12 +30,6 @@ enum TicketType {
     AllTickets = 'all-tickets',
 }
 
-export enum TicketStatus {
-    OPEN = 'open',
-    CLOSED = 'close',
-    REOPENED = 'reopened',
-}
-
 const Tickets: NextPageWithLayout = () => {
     const router = useRouter()
     const { setTitle } = useNavbar()

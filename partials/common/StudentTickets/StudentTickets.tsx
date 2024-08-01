@@ -16,8 +16,8 @@ import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { TicketSubject, TicketUser } from '@partials/common/Tickets/components'
-import { TicketStatus } from 'pages/portals/admin/tickets'
 import { CloseTicketModal } from '@partials/admin/Tickets'
+import { TicketStatus } from '../Tickets'
 
 export const StudentTickets = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
