@@ -31,7 +31,7 @@ export const OurStoryLetsCollaborateSection = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    <Typography variant="body" color="text-blue-400">
+                    <Typography variant="body" color="text-blue-400" semibold>
                         Our Website is fully Secured with
                     </Typography>
                 </a>

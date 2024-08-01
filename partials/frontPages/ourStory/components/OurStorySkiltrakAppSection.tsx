@@ -9,7 +9,7 @@ export const OurStorySkiltrakAppSection = () => {
             <div className="mx-auto max-w-7xl ">
                 <div className="flex items-center justify-between gap-8 flex-col md:flex-row">
                     <div>
-                        <div className="flex flex-col gap-0.5 whitespace-nowrap">
+                        <div className="flex flex-col gap-0.5 whitespace-nowrap mt-8 md:mt-0">
                             <Typography variant="h2">Skiltrak App</Typography>
                             <Typography variant="label" italic>
                                 Exclusive access for students:
@@ -18,7 +18,7 @@ export const OurStorySkiltrakAppSection = () => {
                                 Download Skiltrak App now!
                             </Typography>
                         </div>
-                        <div className="flex items-center gap-x-4 mt-6">
+                        <div className="flex items-center gap-x-4 mt-8 md:mt-6">
                             <Link className="cursor-pointer" href="#">
                                 <div>
                                     <Image
@@ -68,13 +68,20 @@ export const OurStorySkiltrakAppSection = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="md:mt-16 mt-0 ">
+                    <div className="md:mt-16 mt-20 ">
                         <Image
                             src={'/images/our-story/mobile-screens.png'}
                             alt="Twitter"
                             width={535}
                             height={572}
-                            className=""
+                            className="hidden md:block"
+                        />
+                        <Image
+                            src={'/images/our-story/mobile-screens.png'}
+                            alt="Twitter"
+                            width={535}
+                            height={572}
+                            className="block md:hidden"
                         />
                     </div>
                     <div>
