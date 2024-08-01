@@ -40,7 +40,7 @@ export const OurTrustedPartner = () => {
     ]
     return (
         <div className="py-5 md:border-y  border-secondary-dark">
-            <div className="max-w-[1135px] flex flex-col md:flex-row items-center">
+            <div className="max-w-[1135px] flex flex-col-reverse  md:flex-row items-center">
                 <div className="px-9 w-full border-y md:border-y-0 py-4 md:py-0">
                     <div className="w-full items-center justify-between gap-y-12 md:gap-y-10 mx-auto">
                         <OurPartnerStyleContainer>
@@ -54,7 +54,7 @@ export const OurTrustedPartner = () => {
                                         key={index}
                                         className="!flex !items-center !mr-0"
                                     >
-                                        <div className="py-1.5 px-2.5 flex justify-center items-center min-w-[130px] max-w-[131px] h-16 shadow-[0px_4px_34px_0px_rgba(177,177,177,0.25)] rounded-[10px]">
+                                        <div className="py-1.5 px-2.5 flex justify-center gap-x-12 mx-4 md:mx-0 items-center min-w-[130px] max-w-[131px] h-16 shadow-[0px_4px_34px_0px_rgba(177,177,177,0.25)] rounded-[10px]">
                                             <Image
                                                 key={index}
                                                 className="w-full h-full object-contain"
@@ -66,7 +66,7 @@ export const OurTrustedPartner = () => {
                                                 priority
                                             />
                                         </div>
-                                        <div className="border border-dashed border-primary w-20" />
+                                        <div className="border border-dashed border-primary w-20 md:block hidden" />
                                     </div>
                                 ))}
                             </Marquee>
@@ -75,7 +75,9 @@ export const OurTrustedPartner = () => {
                 </div>
                 <div className="px-9 py-3 md:border-l border-secondary-dark">
                     <Typography variant={isMobile ? 'title' : 'h2'}>
-                        <span className="whitespace-pre">Our Trusted Partners</span>
+                        <span className="whitespace-pre">
+                            Our Trusted Partners
+                        </span>
                     </Typography>
                 </div>
             </div>
