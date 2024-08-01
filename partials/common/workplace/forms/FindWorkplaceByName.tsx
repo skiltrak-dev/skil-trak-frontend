@@ -6,25 +6,23 @@ import {
     NoData,
     Select,
     ShowErrorNotifications,
-    TechnicalError,
     TextInput,
     Typography,
 } from '@components'
 import { useNotification } from '@hooks'
-import { ExistinIndustryCard } from '@partials/sub-admin/students'
 import {
     SubAdminApi,
     useApplyWorkplaceOnExistingIndustryMutation,
 } from '@queries'
 import { Course, Industry, Student } from '@types'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
+import debounce from 'lodash/debounce'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import { ImPhone } from 'react-icons/im'
 import { IoLocation } from 'react-icons/io5'
 import { MdEmail } from 'react-icons/md'
 import OutsideClickHandler from 'react-outside-click-handler'
-import debounce from 'lodash/debounce'
 
 export const FindWorkplaceByName = ({
     setWorkplaceData,

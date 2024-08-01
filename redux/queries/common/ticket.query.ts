@@ -1,7 +1,7 @@
+import { TicketStatus } from '@partials/common/Tickets'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 import { PaginatedResponse, PaginationWithSearch } from '@types'
-import { TicketStatus } from 'pages/portals/admin/tickets'
 
 const PREFIX = 'tickets'
 export const ticketEndpoints = (

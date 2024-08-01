@@ -1,4 +1,5 @@
 import {
+    BackButton,
     Button,
     Card,
     InitialAvatar,
@@ -19,6 +20,7 @@ import {
 import { Course } from '@types'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
 import { WorkplaceCreatedModal } from '../requestWorkplaceDetail/modal'
+import { IndustryCard } from './IndustryCard'
 
 export const ExistinIndustryCard = ({
     student,
@@ -37,8 +39,6 @@ export const ExistinIndustryCard = ({
         skip: !studentId,
         refetchOnMountOrArgChange: true,
     })
-
-    const { notification } = useNotification()
 
     useEffect(() => {
         if (applyForWorkplaceResult.isSuccess) {
@@ -69,6 +69,11 @@ export const ExistinIndustryCard = ({
         <>
             {modal}
             {/* <ShowErrorNotifications result={applyForWorkplaceResult} /> */}
+            <BackButton
+                onClick={() => {
+                    setActive(1)
+                }}
+            />
             <Card>
                 <div className="mb-4">
                     <Typography variant={'subtitle'}>
@@ -106,65 +111,26 @@ export const ExistinIndustryCard = ({
                     />
                 </div>
 
-                <div className="-mt-2 bg-secondary-dark py-2 px-4 rounded-lg flex justify-between items-center">
-                    <div className="flex items-center gap-x-2">
-                        {industry?.user?.name && (
-                            <InitialAvatar
-                                name={industry?.user?.name}
-                                imageUrl={industry?.user?.avatar}
-                                large
-                            />
-                        )}
-                        <div>
-                            {/* <Typography variant={'muted'} color={'gray'}>
-                        5km away
-                    </Typography> */}
-                            <Typography variant={'label'}>
-                                {industry?.user?.name}
-                            </Typography>
-                            <Typography variant={'muted'} color={'gray'}>
-                                {industry?.addressLine1},{' '}
-                                {industry?.addressLine2}
-                            </Typography>
-                        </div>
-                    </div>
-                    <Button
-                        variant={'secondary'}
-                        text={'Apply Here'}
-                        onClick={async () => {
-                            if (selectedCourse) {
-                                await applyForWorkplace({
-                                    studentId: student,
-                                    IndustryId: industry?.id,
-                                    courseId: selectedCourse,
-                                }).then((res: any) => {
-                                    if (res?.error) {
-                                        notification.error({
-                                            title: res?.error?.data?.error,
-                                            description:
-                                                res?.error?.data?.message,
-                                            dissmissTimer: 5555,
-                                        })
-                                    }
-                                    if (res?.data) {
-                                        setModal(
-                                            <WorkplaceCreatedModal
-                                                onCancel={onCancelModal}
-                                            />
-                                        )
-                                        // setActive((active: number) => active + 1)
-                                    }
-                                })
-                            } else {
-                                notification.warning({
-                                    title: 'Course Required',
-                                    description: 'Course Must be selected',
-                                })
-                            }
-                        }}
-                        loading={applyForWorkplaceResult.isLoading}
-                        disabled={applyForWorkplaceResult.isLoading}
+                <div className="flex flex-col gap-y-2">
+                    <IndustryCard
+                        industry={industry}
+                        student={student}
+                        selectedCourse={Number(selectedCourse)}
                     />
+
+                    {industry?.locations?.map((location: any) => (
+                        <IndustryCard
+                            industry={{
+                                ...location,
+                                id: industry?.id,
+                                locationId: location?.id,
+                                addressLine1: location?.address,
+                                user: industry?.user,
+                            }}
+                            student={student}
+                            selectedCourse={Number(selectedCourse)}
+                        />
+                    ))}
                 </div>
             </Card>
         </>

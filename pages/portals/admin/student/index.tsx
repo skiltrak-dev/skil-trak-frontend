@@ -23,6 +23,7 @@ import {
     PendingStudent,
     RejectedStudent,
     SnoozedStudents,
+    UnAssignedStudent,
 } from '@partials/admin/student'
 import { AdminApi } from '@queries'
 import { NextPageWithLayout, StudentsFilterType, UserStatus } from '@types'
@@ -194,6 +195,18 @@ const StudentList: NextPageWithLayout = () => {
                 loading: isLoading,
             },
             element: <SnoozedStudents />,
+        },
+        {
+            label: 'UnAssigned Students',
+            href: {
+                pathname: 'student',
+                query: { tab: 'unassigned-students' },
+            },
+            badge: {
+                text: data?.snoozed,
+                loading: isLoading,
+            },
+            element: <UnAssignedStudent />,
         },
         {
             label: 'All Students Report',

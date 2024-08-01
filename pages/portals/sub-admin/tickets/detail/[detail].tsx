@@ -12,13 +12,12 @@ import {
     draftToHtmlText,
 } from '@components'
 import { useContextBar, useNavbar, useNotification } from '@hooks'
-import { ReplyTicketForm } from '@partials/common/Tickets'
+import { ReplyTicketForm, TicketStatus } from '@partials/common/Tickets'
 import { TicketDetailHeaderCard } from '@partials/common/Tickets/components'
 import { TicketReplies } from '@partials/sub-admin/Tickets'
 import { CommonApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
-import { TicketStatus } from 'pages/portals/admin/tickets'
 import { useDispatch } from 'react-redux'
 import { ellipsisText, getUserCredentials } from '@utils'
 import { FaLongArrowAltLeft } from 'react-icons/fa'
@@ -132,7 +131,8 @@ const TicketDetail: NextPageWithLayout = () => {
                                                 ticketDetail?.data?.status ===
                                                 TicketStatus.OPEN
                                                     ? 'bg-success'
-                                                    : ticketDetail?.data?.status ===
+                                                    : ticketDetail?.data
+                                                          ?.status ===
                                                       TicketStatus.CLOSED
                                                     ? 'bg-red-700'
                                                     : 'bg-error'
@@ -149,7 +149,7 @@ const TicketDetail: NextPageWithLayout = () => {
                                                 Ticket was{' '}
                                                 {ticketDetail?.data?.status ===
                                                     TicketStatus.OPEN ||
-                                                    ticketDetail?.data?.status ===
+                                                ticketDetail?.data?.status ===
                                                     TicketStatus.REOPENED
                                                     ? 'opened'
                                                     : 'closed'}{' '}
@@ -160,14 +160,16 @@ const TicketDetail: NextPageWithLayout = () => {
                                         <div className="rounded-full bg-gray-200 uppercase text-black px-2 whitespace-pre text-xs">
                                             {ticketDetail?.data?.status ===
                                             TicketStatus.OPEN
-                                                ? ticketDetail?.data?.createdBy?.role ===
-                                                  UserRoles.ADMIN
+                                                ? ticketDetail?.data?.createdBy
+                                                      ?.role === UserRoles.ADMIN
                                                     ? 'Admin'
-                                                    : ticketDetail?.data?.createdBy?.name
-                                                : ticketDetail?.data?.closedBy?.role ===
-                                                  UserRoles.ADMIN
+                                                    : ticketDetail?.data
+                                                          ?.createdBy?.name
+                                                : ticketDetail?.data?.closedBy
+                                                      ?.role === UserRoles.ADMIN
                                                 ? 'Admin'
-                                                : ticketDetail?.data?.closedBy?.name}
+                                                : ticketDetail?.data?.closedBy
+                                                      ?.name}
                                         </div>
                                     </div>
                                     <Typography
@@ -176,7 +178,8 @@ const TicketDetail: NextPageWithLayout = () => {
                                     >
                                         On{' '}
                                         {moment(
-                                            ticketDetail?.data?.status === TicketStatus.OPEN
+                                            ticketDetail?.data?.status ===
+                                                TicketStatus.OPEN
                                                 ? ticketDetail?.data?.createdAt
                                                 : ticketDetail?.data?.closedAt
                                         ).format(

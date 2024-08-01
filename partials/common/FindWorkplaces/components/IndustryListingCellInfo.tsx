@@ -6,6 +6,7 @@ import {
 } from '@components'
 import Image from 'next/image'
 import { PiPhoneCallDuotone } from 'react-icons/pi'
+import { CopyData } from './CopyData'
 
 export const IndustryListingCellInfo = ({
     industryListing,
@@ -21,9 +22,15 @@ export const IndustryListingCellInfo = ({
             )}
             <div className="flex flex-col gap-y-1">
                 <div className="flex items-center gap-x-2">
-                    <Typography variant={'label'}>
-                        {industryListing?.businessName}
-                    </Typography>
+                    <div className="group flex items-center gap-x-1">
+                        <Typography variant={'label'}>
+                            {industryListing?.businessName}
+                        </Typography>
+                        <CopyData
+                            text={industryListing?.businessName}
+                            type={'Industry Name'}
+                        />
+                    </div>
                     {industryListing?.signedUp && (
                         <div className="relative group">
                             <Image

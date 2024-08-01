@@ -6,14 +6,13 @@ import {
     RtoNavbar,
 } from '@components'
 import { useAlert, useContextBar, useJoyRide } from '@hooks'
-import { UserStatus } from '@types'
+import { UsersPendingEsignModal } from '@partials'
+import { CommonApi } from '@queries'
 import { AuthUtils, EsignDocumentStatus } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
-import { CommonApi } from '@queries'
-import { UsersPendingEsignModal, ViewUsersForEsignModal } from '@partials'
 interface RtoLayoutProps {
     pageTitle?: PageTitleProps
     children: ReactNode
@@ -57,6 +56,15 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
         }
     )
 
+    const otherAllUserSigned = pendingDocuments?.data?.filter(
+        (agreement: any) => {
+            const allSigned = agreement.signers
+                ?.filter((signer: any) => signer?.user?.role !== 'rto')
+                ?.every((signer: any) => signer.status === 'signed')
+            return allSigned
+        }
+    )
+
     const status = AuthUtils.getUserCredentials()?.status
 
     // useEffect(() => {
@@ -78,18 +86,22 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
     }, [])
 
     useEffect(() => {
-        if (pendingDocuments.isSuccess) {
-            const route = `/portals/student/assessments/e-sign/${pendingDocuments?.data?.[0]?.id}`
+        if (
+            pendingDocuments.isSuccess &&
+            otherAllUserSigned &&
+            otherAllUserSigned?.length > 0
+        ) {
+            const route = `/portals/student/assessments/e-sign/${otherAllUserSigned?.[0]?.id}`
 
             if (
-                pendingDocuments?.data &&
+                otherAllUserSigned &&
                 viewAgreementModal === 0 &&
-                pendingDocuments?.data?.length > 0 &&
+                otherAllUserSigned?.length > 0 &&
                 router?.pathname !== `/portals/rto/tasks/e-sign/[id]`
             ) {
                 setModal(
                     <UsersPendingEsignModal
-                        documents={pendingDocuments?.data}
+                        documents={otherAllUserSigned}
                         onClick={() => router.push(route)}
                         route="/portals/rto/tasks/e-sign"
                         onCancel={() => {
