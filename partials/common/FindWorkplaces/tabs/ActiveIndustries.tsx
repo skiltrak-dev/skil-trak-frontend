@@ -1,5 +1,6 @@
 import {
     ActionButton,
+    AuthorizedUserComponent,
     Badge,
     Button,
     Card,
@@ -49,7 +50,10 @@ import { MultipleDefaultModal } from '../MultipleDefaultModal'
 import { MultipleDoNotDisturbModal } from '../MultipleDoNotDisturbModal'
 import { MultipleFavoriteModal } from '../MultipleFavoriteModal'
 import { AddIndustry } from './AddIndustry'
-import { IndustryListingCellInfo } from '../components'
+import { AddressCell, CopyData, IndustryListingCellInfo } from '../components'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
+import { PhoneNumberCell } from '../components'
 
 export const ActiveIndustries = ({
     onSetIndustryData,
@@ -201,15 +205,7 @@ export const ActiveIndustries = ({
         )
     }
 
-    const onPhoneClicked = (id: number, note: string) => {
-        setModal(
-            <IndustryListingCallModal
-                note={note}
-                id={id}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
+    const role = getUserCredentials()?.role
 
     const tableActionOptions = (industry: any) => {
         const stored = localStorage.setItem(
@@ -271,11 +267,15 @@ export const ActiveIndustries = ({
                 Icon: BiPencil,
             },
             {
-                text: 'Delete',
-                onClick: (futureIndustry: any) => {
-                    onDeleteFutureIndustry(futureIndustry)
-                },
-                Icon: MdDelete,
+                ...(role === UserRoles.ADMIN
+                    ? {
+                          text: 'Delete',
+                          onClick: (futureIndustry: any) => {
+                              onDeleteFutureIndustry(futureIndustry)
+                          },
+                          Icon: MdDelete,
+                      }
+                    : {}),
             },
         ]
     }
@@ -299,47 +299,22 @@ export const ActiveIndustries = ({
         {
             accessorKey: 'phone',
             header: () => <span>Phone</span>,
-            cell: (info) => (
-                <div className="group flex items-center gap-x-1">
-                    <div
-                        className="whitespace-pre  "
-                        onClick={() => {
-                            onPhoneClicked(
-                                info?.row?.original?.id,
-                                info?.row?.original?.note
-                            )
-                        }}
-                    >
-                        <Typography variant="label" cursorPointer>
-                            {info?.row?.original?.phone}
-                        </Typography>
-                    </div>
-                    <div className="hidden group-hover:block cursor-pointer ">
-                        <div className="group relative">
-                            <FaRegCopy
-                                onClick={() => {
-                                    navigator.clipboard.writeText(
-                                        info?.row?.original?.phone
-                                    )
-                                    notification.success({
-                                        title: 'Copies',
-                                        description: 'Phone Number Copied',
-                                    })
-                                }}
-                                className="text-gray-500"
-                                size={18}
-                            />
-                            {/* <Tooltip>Copy Phone Number</Tooltip> */}
-                        </div>
-                    </div>
-                </div>
-            ),
+            cell: (info) => {
+                const listing = info.row.original
+                return (
+                    <PhoneNumberCell
+                        id={listing?.id}
+                        note={listing?.note}
+                        phoneNumber={listing?.phone}
+                    />
+                )
+            },
         },
         {
             accessorKey: 'address',
             header: () => <span>Address</span>,
             cell: (info) => (
-                <TruncatedTextWithTooltip text={info.row.original?.address} />
+                <AddressCell address={info.row.original?.address} />
             ),
         },
         {
@@ -527,17 +502,19 @@ export const ActiveIndustries = ({
                 >
                     Favorite
                 </ActionButton>
-                <ActionButton
-                    onClick={() => {
-                        const arrayOfIds = ids.map((id: any) => id?.id)
-                        onDeleteMultiFutureIndustry(arrayOfIds)
-                        // bulkAction({ ids: arrayOfIds, status: 'blocked' })
-                    }}
-                    Icon={MdDelete}
-                    variant="error"
-                >
-                    Delete
-                </ActionButton>
+                <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                    <ActionButton
+                        onClick={() => {
+                            const arrayOfIds = ids.map((id: any) => id?.id)
+                            onDeleteMultiFutureIndustry(arrayOfIds)
+                            // bulkAction({ ids: arrayOfIds, status: 'blocked' })
+                        }}
+                        Icon={MdDelete}
+                        variant="error"
+                    >
+                        Delete
+                    </ActionButton>
+                </AuthorizedUserComponent>
             </div>
         ),
     }

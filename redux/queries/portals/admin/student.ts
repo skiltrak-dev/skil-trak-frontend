@@ -63,6 +63,17 @@ export const studentEndpoints = (
         providesTags: ['Students', 'SubAdminStudents'],
     }),
 
+    getUnassignedStudents: builder.query<
+        PaginatedResponse<Student>,
+        PaginationValues
+    >({
+        query: (params) => ({
+            url: `${PREFIX}students/list/un-assigned`,
+            params,
+        }),
+        providesTags: ['Students', 'SubAdminStudents'],
+    }),
+
     filteredStudents: builder.query<
         PaginatedResponse<Student>,
         PaginationWithSearch

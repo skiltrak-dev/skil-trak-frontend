@@ -6,9 +6,9 @@ import {
     TechnicalError,
 } from '@components'
 import { CommonApi } from '@queries'
-import { TicketStatus } from 'pages/portals/admin/tickets'
 import { useState } from 'react'
 import { useTicketsColumns } from './hooks'
+import { TicketStatus } from '@partials/common/Tickets'
 
 export const MyOpenTickets = () => {
     const [itemPerPage, setItemPerPage] = useState(50)

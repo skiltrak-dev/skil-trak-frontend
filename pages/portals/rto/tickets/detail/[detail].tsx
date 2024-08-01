@@ -11,13 +11,12 @@ import {
     draftToHtmlText,
 } from '@components'
 import { useNavbar, useNotification } from '@hooks'
-import { ReplyTicketForm } from '@partials/common/Tickets'
+import { ReplyTicketForm, TicketStatus } from '@partials/common/Tickets'
 import { TicketDetailHeaderCard } from '@partials/common/Tickets/components'
 import { TicketReplies } from '@partials/sub-admin/Tickets'
 import { CommonApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
-import { TicketStatus } from 'pages/portals/admin/tickets'
 import { useDispatch } from 'react-redux'
 
 const TicketDetail: NextPageWithLayout = () => {

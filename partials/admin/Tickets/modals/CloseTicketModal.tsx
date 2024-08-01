@@ -1,7 +1,7 @@
 import { ActionModal, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
+import { TicketStatus } from '@partials/common/Tickets'
 import { CommonApi } from '@queries'
-import { TicketStatus } from 'pages/portals/admin/tickets'
 import { useEffect } from 'react'
 import { FaBan } from 'react-icons/fa'
 

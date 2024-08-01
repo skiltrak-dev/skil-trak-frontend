@@ -37,9 +37,15 @@ import {
     IndustryListingCallModal,
     ViewNoteModal,
 } from './modal'
-import { checkListLength } from '@utils'
+import { checkListLength, getUserCredentials } from '@utils'
 import Image from 'next/image'
 import { AddIndustry } from './tabs'
+import { UserRoles } from '@constants'
+import {
+    AddressCell,
+    IndustryListingCellInfo,
+    PhoneNumberCell,
+} from './components'
 
 export const FilteredSearchIndustries = ({
     industries,
@@ -199,6 +205,8 @@ export const FilteredSearchIndustries = ({
         )
     }
 
+    const role = getUserCredentials()?.role
+
     const tableActionOptions = (industry: any) => {
         const stored = localStorage.setItem(
             'signup-data',
@@ -250,11 +258,15 @@ export const FilteredSearchIndustries = ({
                 Icon: BiPencil,
             },
             {
-                text: 'Delete',
-                onClick: (futureIndustry: any) => {
-                    onDeleteFutureIndustry(futureIndustry)
-                },
-                Icon: MdDelete,
+                ...(role === UserRoles.ADMIN
+                    ? {
+                          text: 'Delete',
+                          onClick: (futureIndustry: any) => {
+                              onDeleteFutureIndustry(futureIndustry)
+                          },
+                          Icon: MdDelete,
+                      }
+                    : {}),
             },
         ]
     }
@@ -264,80 +276,37 @@ export const FilteredSearchIndustries = ({
             accessorKey: 'businessName',
             header: () => <span>Name</span>,
             cell: (info) => {
+                const isDuplicated = industries?.data?.dupicatedListing
+                    ?.map((e: any) => e?.listing_email)
+                    ?.includes(info?.row?.original?.email)
                 return (
-                    <div className="flex items-center gap-x-1.5">
-                        {info?.row?.original?.businessName && (
-                            <InitialAvatar
-                                name={info?.row?.original?.businessName}
-                            />
-                        )}
-                        <div className="flex flex-col gap-y-1">
-                            <div className="flex items-center gap-x-2">
-                                <Typography variant={'label'}>
-                                    {info?.row?.original?.businessName}
-                                </Typography>
-                                {info.row.original?.signedUp && (
-                                    <div className="relative group">
-                                        <Image
-                                            src={'/images/signup.png'}
-                                            alt={''}
-                                            width={20}
-                                            height={20}
-                                        />
-                                        <Tooltip>Signed Up</Tooltip>
-                                    </div>
-                                )}
-                            </div>
-                            <Typography variant={'label'}>
-                                {info?.row?.original?.email}
-                            </Typography>
-                        </div>
-                    </div>
+                    <IndustryListingCellInfo
+                        industryListing={info?.row?.original}
+                        isDuplicated={isDuplicated}
+                    />
                 )
             },
         },
         {
             accessorKey: 'phone',
             header: () => <span>Phone</span>,
-            cell: (info) => (
-                <div className="group flex items-center gap-x-1">
-                    <div
-                        className="whitespace-pre  "
-                        onClick={() => {
-                            onPhoneClicked(
-                                info?.row?.original?.id,
-                                info?.row?.original?.note
-                            )
-                        }}
-                    >
-                        <Typography variant="label" cursorPointer>
-                            {info?.row?.original?.phone}
-                        </Typography>
-                    </div>
-                    <div className="hidden group-hover:block cursor-pointer ">
-                        <div className="group relative">
-                            <FaRegCopy
-                                onClick={() => {
-                                    navigator.clipboard.writeText(
-                                        info?.row?.original?.phone
-                                    )
-                                    notification.success({
-                                        title: 'Copies',
-                                        description: 'Phone Number Copied',
-                                    })
-                                }}
-                                className="text-gray-500"
-                                size={18}
-                            />
-                            {/* <Tooltip>Copy Phone Number</Tooltip> */}
-                        </div>
-                    </div>
-                </div>
-            ),
+            cell: (info) => {
+                const listing = info.row.original
+                return (
+                    <PhoneNumberCell
+                        id={listing?.id}
+                        note={listing?.note}
+                        phoneNumber={listing?.phone}
+                    />
+                )
+            },
         },
         {
             accessorKey: 'address',
             header: () => <span>Address</span>,
+            cell: (info) => (
+                <AddressCell address={info.row.original?.address} />
+            ),
         },
         {
             accessorKey: 'department',
@@ -553,7 +522,9 @@ export const FilteredSearchIndustries = ({
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="px-6">{table}</div>
+                                        <div className="px-6 overflow-auto custom-scrollbar">
+                                            {table}
+                                        </div>
                                     </div>
                                 )
                             }}

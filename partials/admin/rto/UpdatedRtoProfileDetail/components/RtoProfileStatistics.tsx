@@ -8,6 +8,11 @@ import { getUserCredentials } from '@utils'
 
 export const RtoProfileStatistics = ({ rtoUserId }: { rtoUserId: number }) => {
     const role = getUserCredentials()?.role
+
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: role === UserRoles.ADMIN,
+    })
+
     const statisticsCount = AdminApi.Rtos.useStatisticsCount(
         Number(rtoUserId),
         { skip: !rtoUserId }
@@ -24,7 +29,8 @@ export const RtoProfileStatistics = ({ rtoUserId }: { rtoUserId: number }) => {
                     <div className="h-full">
                         <ProfileCounts
                             statisticsCount={
-                                role === UserRoles.SUBADMIN
+                                role === UserRoles.SUBADMIN &&
+                                !subadmin?.data?.isAdmin
                                     ? subadminStatisticsCount
                                     : statisticsCount
                             }
@@ -37,7 +43,8 @@ export const RtoProfileStatistics = ({ rtoUserId }: { rtoUserId: number }) => {
                     <Card shadowType="profile" fullHeight>
                         <RtoProfileProgress
                             statisticsCount={
-                                role === UserRoles.SUBADMIN
+                                role === UserRoles.SUBADMIN &&
+                                !subadmin?.data?.isAdmin
                                     ? subadminStatisticsCount
                                     : statisticsCount
                             }

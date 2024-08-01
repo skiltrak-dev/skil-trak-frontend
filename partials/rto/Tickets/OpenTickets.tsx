@@ -13,11 +13,11 @@ import { CommonApi, SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import moment from 'moment'
 import { useRouter } from 'next/router'
-import { TicketStatus } from 'pages/portals/admin/tickets'
 import { useState } from 'react'
 import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
 import { BsFillEyeFill } from 'react-icons/bs'
 import { StudentCellInfo } from '../student/components'
+import { TicketStatus } from '@partials/common/Tickets'
 
 export const OpenTickets = () => {
     const [itemPerPage, setItemPerPage] = useState(50)

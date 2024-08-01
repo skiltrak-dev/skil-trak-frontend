@@ -9,9 +9,9 @@ import {
 import { CommonApi } from '@queries'
 import moment from 'moment'
 import { useRouter } from 'next/router'
-import { TicketStatus } from 'pages/portals/admin/tickets'
 import { useState } from 'react'
 import { useTicketsColumns } from './hooks'
+import { TicketStatus } from '@partials/common/Tickets'
 
 export const MyClosedTickets = () => {
     const [itemPerPage, setItemPerPage] = useState(50)

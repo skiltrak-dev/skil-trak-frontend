@@ -17,14 +17,7 @@ import {
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 
-// hooks
-//components
-
-// icons
-
-type Props = {}
-
-const EditIndustriesProfile: NextPageWithLayout = (props: Props) => {
+const EditIndustriesProfile: NextPageWithLayout = () => {
     const router = useRouter()
     const { id } = router.query
     const profile = useGetSubAdminIndustriesProfileQuery(Number(id), {

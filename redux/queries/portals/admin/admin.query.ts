@@ -146,6 +146,7 @@ const {
     useStudentProfileQuery,
     useCompletedStudentsQuery,
     useGetSnoozedStudentsQuery,
+    useGetUnassignedStudentsQuery,
     useStudentStatusChangeMutation,
     useStudentRemoveMutation,
 
@@ -334,6 +335,7 @@ export const AdminApi = {
         useSnoozedStudents: useGetSnoozedStudentsQuery,
         useCompletedStudents: useCompletedStudentsQuery,
         useChangeStatusMutation: useStudentStatusChangeMutation,
+        useUnAssignedStudentsList: useGetUnassignedStudentsQuery,
 
         useFilteredStudents: useFilteredStudentsQuery,
 

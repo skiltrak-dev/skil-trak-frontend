@@ -1,12 +1,15 @@
-import { Card, Typography } from '@components'
+import { Button, Card, Typography } from '@components'
 import { ProfileCancelledAppointments } from '@partials/common/ProfileAppointments/ProfileCancelledAppointments'
 import { ProfilePastAppointments } from '@partials/common/ProfileAppointments/ProfilePastAppointments'
 import { ProfileUpcommingAppointments } from '@partials/common/ProfileAppointments/ProfileUpcommingAppointments'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { Waypoint } from 'react-waypoint'
 
 export const IndustryDashboardAppointments = () => {
     const [isEntered, setIsEntered] = useState<boolean>(false)
+
+    const router = useRouter()
     return (
         <Waypoint
             onEnter={() => {
@@ -23,6 +26,17 @@ export const IndustryDashboardAppointments = () => {
                         <Typography semibold>
                             <span className="text-[15px]">Appointment</span>
                         </Typography>
+
+                        <button
+                            onClick={() => {
+                                router.push(
+                                    `/portals/industry/students/appointments/book-appointments`
+                                )
+                            }}
+                            className="text-xs bg-primary hover:bg-primary-dark transition-all rounded px-2 py-1 font-medium text-white"
+                        >
+                            Book Appointment
+                        </button>
                     </div>
 
                     {/*  */}

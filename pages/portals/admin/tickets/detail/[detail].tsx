@@ -14,7 +14,7 @@ import {
 import { UserRoles } from '@constants'
 import { useContextBar, useNavbar, useNotification } from '@hooks'
 import { TicketReplies } from '@partials/admin/Tickets'
-import { ReplyTicketForm } from '@partials/common/Tickets'
+import { ReplyTicketForm, TicketStatus } from '@partials/common/Tickets'
 import { TicketDetailHeaderCard } from '@partials/common/Tickets/components'
 import { CommonApi } from '@queries'
 import { NextPageWithLayout } from '@types'
@@ -22,7 +22,6 @@ import { ellipsisText, getUserCredentials } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { FaLongArrowAltLeft } from 'react-icons/fa'
-import { TicketStatus } from '../index'
 
 const Tickets: NextPageWithLayout = () => {
     const contextBar = useContextBar()
