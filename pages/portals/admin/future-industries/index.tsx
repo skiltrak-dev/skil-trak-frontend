@@ -14,6 +14,7 @@ import { AdminLayout } from '@layouts'
 import {
     ActiveIndustries,
     AddIndustry,
+    BlockedIndustries,
     WithoutEmailListing,
 } from '@partials/common'
 import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
@@ -89,6 +90,20 @@ const FutureIndustryListing: NextPageWithLayout = (props: Props) => {
             },
             element: (
                 <WithoutEmailListing onSetIndustryData={onSetIndustryData} />
+            ),
+        },
+        {
+            label: 'Blocked Listing',
+            href: {
+                pathname: 'future-industries',
+                query: { tab: 'blocked-listing', page: 1, pageSize: 50 },
+            },
+            badge: {
+                text: count?.data?.blocked,
+                loading: count?.isLoading,
+            },
+            element: (
+                <BlockedIndustries onSetIndustryData={onSetIndustryData} />
             ),
         },
     ]
