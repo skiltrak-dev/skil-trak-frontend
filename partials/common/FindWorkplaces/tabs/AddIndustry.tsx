@@ -7,13 +7,7 @@ import { useContextBar, useNotification } from '@hooks'
 import { AuthApi, CommonApi } from '@queries'
 import { SignUpUtils, isEmailValid } from '@utils'
 
-import {
-    Button,
-    Select,
-    ShowErrorNotifications,
-    TextArea,
-    TextInput,
-} from '@components'
+import { Button, Select, ShowErrorNotifications, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { IndustryStatus, Sector } from '@types'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -27,7 +21,6 @@ const FormKeys = {
     Address: 'address',
     Website: 'website',
     Status: 'status',
-    Note: 'note',
 }
 
 export const AddIndustry = ({
@@ -109,7 +102,6 @@ export const AddIndustry = ({
                 'address',
                 'website',
                 'status',
-                'note',
                 'region',
                 'country',
                 'department',
@@ -369,13 +361,6 @@ export const AddIndustry = ({
                                     name={FormKeys.Website}
                                     placeholder={'Website Url...'}
                                     validationIcons
-                                />
-
-                                <TextArea
-                                    name={'note'}
-                                    label={'Add Note'}
-                                    placeholder={'Add Note here'}
-                                    rows={6}
                                 />
                             </div>
                         </div>

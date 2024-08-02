@@ -4,7 +4,6 @@ import {
     Button,
     Card,
     EmptyData,
-    GlobalModal,
     InitialAvatar,
     LoadingAnimation,
     Table,
@@ -17,7 +16,7 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaFileExport, FaRegCopy } from 'react-icons/fa'
+import { FaEdit, FaFileExport } from 'react-icons/fa'
 
 import { CommonApi, commonApi } from '@queries'
 import { Industry, IndustryStatus } from '@types'
@@ -29,28 +28,26 @@ import { MdBlock, MdDelete, MdEmail, MdOutlineFavorite } from 'react-icons/md'
 // import { BlockModal } from './modals'
 
 // hooks
+import { UserRoles } from '@constants'
 import { useContextBar, useNotification } from '@hooks'
+import { getUserCredentials } from '@utils'
 import Image from 'next/image'
 import { AiFillCheckCircle, AiFillWarning } from 'react-icons/ai'
 import { BiPencil } from 'react-icons/bi'
+import { AddressCell, PhoneNumberCell } from '../components'
 import { DefaultModal } from '../DefaultModal'
 import { DoNotDisturbModal } from '../DoNotDisturbModal'
 import { FavoriteModal } from '../FavoriteModal'
 import {
-    AddIndustryListingNoteModal,
     AddToSignupModal,
     DeleteFutureIndustryModal,
     DeleteMultiFutureIndustryModal,
-    IndustryListingCallModal,
     ViewNoteModal,
 } from '../modal'
 import { MultipleDefaultModal } from '../MultipleDefaultModal'
 import { MultipleDoNotDisturbModal } from '../MultipleDoNotDisturbModal'
 import { MultipleFavoriteModal } from '../MultipleFavoriteModal'
 import { AddIndustry } from './AddIndustry'
-import { getUserCredentials } from '@utils'
-import { UserRoles } from '@constants'
-import { AddressCell, PhoneNumberCell } from '../components'
 
 export const WithoutEmailListing = ({
     onSetIndustryData,
@@ -178,16 +175,6 @@ export const WithoutEmailListing = ({
             <ViewNoteModal
                 onCancel={onModalCancelClicked}
                 industry={industry}
-            />
-        )
-    }
-
-    const onPhoneClicked = (id: number, note: string) => {
-        setModal(
-            <IndustryListingCallModal
-                note={note}
-                id={id}
-                onCancel={onModalCancelClicked}
             />
         )
     }
@@ -411,31 +398,6 @@ export const WithoutEmailListing = ({
                                     </ActionButton>
                                 </div>
                             ) : null}
-
-                            <div>
-                                <ActionButton
-                                    variant="info"
-                                    simple
-                                    onClick={() => {
-                                        setModal(
-                                            <GlobalModal>
-                                                <AddIndustryListingNoteModal
-                                                    onCancel={
-                                                        onModalCancelClicked
-                                                    }
-                                                    id={info?.row?.original?.id}
-                                                    noteData={
-                                                        info?.row?.original
-                                                            ?.note
-                                                    }
-                                                />
-                                            </GlobalModal>
-                                        )
-                                    }}
-                                >
-                                    {info?.row?.original?.note ? 'Edit' : 'Add'}
-                                </ActionButton>
-                            </div>
                         </div>
                     </>
                 )

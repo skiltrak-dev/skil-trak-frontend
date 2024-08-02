@@ -2,50 +2,43 @@ import {
     ActionButton,
     Card,
     EmptyData,
-    GlobalModal,
     InitialAvatar,
     LoadingAnimation,
     Table,
     TableAction,
-    TableActionOption,
-    Tooltip,
     Typography,
     UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaRegCopy } from 'react-icons/fa'
+import { FaEdit } from 'react-icons/fa'
 
-import { useActionModal, useContextBar, useNotification } from '@hooks'
+import { useContextBar } from '@hooks'
 import { IndustryStatus, SubAdmin } from '@types'
 import { useRouter } from 'next/router'
 import { MdBlock, MdDelete, MdEmail, MdOutlineFavorite } from 'react-icons/md'
 // import { RtoCell, SectorCell, SubAdminCell } from './components'
 // import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 import { ReactElement, useState } from 'react'
 import { AiFillCheckCircle, AiFillWarning } from 'react-icons/ai'
 import { BiPencil } from 'react-icons/bi'
 import { FiLogIn } from 'react-icons/fi'
-import { DefaultModal } from './DefaultModal'
-import { DoNotDisturbModal } from './DoNotDisturbModal'
-import { FavoriteModal } from './FavoriteModal'
-import {
-    AddIndustryListingNoteModal,
-    AddToSignupModal,
-    DeleteFutureIndustryModal,
-    DeleteMultiFutureIndustryModal,
-    IndustryListingCallModal,
-    ViewNoteModal,
-} from './modal'
-import { checkListLength, getUserCredentials } from '@utils'
-import Image from 'next/image'
-import { AddIndustry } from './tabs'
-import { UserRoles } from '@constants'
 import {
     AddressCell,
     IndustryListingCellInfo,
     PhoneNumberCell,
 } from './components'
+import { DefaultModal } from './DefaultModal'
+import { DoNotDisturbModal } from './DoNotDisturbModal'
+import { FavoriteModal } from './FavoriteModal'
+import {
+    AddToSignupModal,
+    DeleteFutureIndustryModal,
+    ViewNoteModal,
+} from './modal'
+import { AddIndustry } from './tabs'
 
 export const FilteredSearchIndustries = ({
     industries,
@@ -64,11 +57,6 @@ export const FilteredSearchIndustries = ({
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const contextBar = useContextBar()
-
-    const { notification } = useNotification()
-
-    // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
 
     const onModalCancelClicked = () => setModal(null)
 
@@ -106,15 +94,6 @@ export const FilteredSearchIndustries = ({
         )
     }
 
-    const onDeleteMultiFutureIndustry = (industry: any) => {
-        setModal(
-            <DeleteMultiFutureIndustryModal
-                futureIndustries={industry}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
     const onAddToSignupClicked = (industry: any) => {
         setModal(
             <AddToSignupModal
@@ -142,65 +121,6 @@ export const FilteredSearchIndustries = ({
             <ViewNoteModal
                 onCancel={onModalCancelClicked}
                 industry={industry}
-            />
-        )
-    }
-
-    // const tableActionOptions: TableActionOption[] = [
-    //     {
-    //         text: 'Add to Signup',
-    //         onClick: (industry: any) => onAddToSignupClicked(industry),
-    //         Icon: AiFillCheckCircle,
-    //         color: `'text-green-500 hover:bg-green-100 hover:border-green-200'`,
-    //     },
-    //     {
-    //         text: 'Default',
-    //         onClick: (industry: any) => onDefaultClicked(industry),
-    //         Icon: AiFillCheckCircle,
-    //         color: `'text-green-500 hover:bg-green-100 hover:border-green-200'`,
-    //     },
-    //     {
-    //         text: 'Favorite',
-    //         onClick: (industry: any) => onFavoriteClicked(industry),
-    //         Icon: MdOutlineFavorite,
-    //         color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
-    //     },
-    //     {
-    //         text: 'Do Not Disturb',
-    //         onClick: (industry: any) => onDoNotDisturbClicked(industry),
-    //         Icon: AiFillWarning,
-    //         color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-    //     },
-    //     {
-    //         text: 'SignUp',
-    //         onClick: (industry: any) => {
-    //             localStorage.setItem('signup-data', JSON.stringify(industry))
-    //             router.push(`/auth/signup/industry?step=account-info`)
-    //         },
-    //         Icon: FiLogIn,
-    //     },
-    //     {
-    //         text: 'Edit',
-    //         onClick: (futureIndustry: any) => {
-    //             onSetIndustryData(futureIndustry)
-    //         },
-    //         Icon: BiPencil,
-    //     },
-    //     {
-    //         text: 'Delete',
-    //         onClick: (futureIndustry: any) => {
-    //             onDeleteFutureIndustry(futureIndustry)
-    //         },
-    //         Icon: MdDelete,
-    //     },
-    // ]
-
-    const onPhoneClicked = (id: number, note: string) => {
-        setModal(
-            <IndustryListingCallModal
-                note={note}
-                id={id}
-                onCancel={onModalCancelClicked}
             />
         )
     }
@@ -368,31 +288,6 @@ export const FilteredSearchIndustries = ({
                                     </ActionButton>
                                 </div>
                             ) : null}
-
-                            <div>
-                                <ActionButton
-                                    variant="info"
-                                    simple
-                                    onClick={() => {
-                                        setModal(
-                                            <GlobalModal>
-                                                <AddIndustryListingNoteModal
-                                                    onCancel={
-                                                        onModalCancelClicked
-                                                    }
-                                                    id={info?.row?.original?.id}
-                                                    noteData={
-                                                        info?.row?.original
-                                                            ?.note
-                                                    }
-                                                />
-                                            </GlobalModal>
-                                        )
-                                    }}
-                                >
-                                    {info?.row?.original?.note ? 'Edit' : 'Add'}
-                                </ActionButton>
-                            </div>
                         </div>
                     </>
                 )
@@ -478,7 +373,6 @@ export const FilteredSearchIndustries = ({
     return (
         <>
             {modal}
-            {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 p-4">
                 <PageHeading
                     title={'Filtered Industries'}

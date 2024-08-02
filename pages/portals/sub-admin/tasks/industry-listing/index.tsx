@@ -22,6 +22,7 @@ import { ImportIndustriesListWithOTP } from '@partials/common/FindWorkplaces/con
 import { CommonApi, commonApi, SubAdminApi } from '@queries'
 import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
 import { checkFilteredDataLength } from '@utils'
+import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { FaIndustry } from 'react-icons/fa'
 import { IoWarning } from 'react-icons/io5'
@@ -34,6 +35,7 @@ const filterKeys = [
     'status',
     'sector',
     'address',
+    'myListing',
     'department',
     'businessName',
 ]
@@ -46,6 +48,8 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
         {} as FindWorkplaceFilter
     )
     const [industryData, setIndustryData] = useState<any>(null)
+
+    const router = useRouter()
 
     const profile = SubAdminApi.SubAdmin.useProfile()
     const filteredIndustries = commonApi.useGetAllFindWorkplacesQuery({
@@ -201,6 +205,7 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
                                                 imageUrl={
                                                     '/images/icons/allIndustry.png'
                                                 }
+                                                link="/portals/sub-admin/tasks/industry-listing?tab=all&myListing=true"
                                             />
                                             <FigureCard
                                                 count={count?.data?.signedUp}

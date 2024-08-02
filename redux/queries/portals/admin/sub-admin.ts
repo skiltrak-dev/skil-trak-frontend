@@ -199,9 +199,16 @@ export const subAdminEndpoints = (
     }),
     toggleAutoWorkplaceAssignment: builder.mutation<any, number>({
         query: (id) => ({
-            url: `admin/auto-assignment/${id}`,
+            url: `${PREFIX}/auto-assignment/${id}`,
             method: 'PATCH',
         }),
         invalidatesTags: ['AutoAssignWorkplace'],
+    }),
+    toggleSubadminPlacement: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/toggle-listing/remove-on-placement-started/${id}`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdmins'],
     }),
 })

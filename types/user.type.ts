@@ -149,6 +149,7 @@ export interface SubAdmin extends BaseResponse {
     canAdmin: boolean
     rtos: Rto[]
     associatedRto: Rto
+    removeOnPlacementStart: boolean
 }
 
 export interface Industry extends BaseResponse {

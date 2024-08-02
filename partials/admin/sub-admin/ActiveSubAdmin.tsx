@@ -1,41 +1,42 @@
 import {
-    Card,
-    Table,
-    EmptyData,
-    Typography,
-    TableAction,
     ActionButton,
-    TechnicalError,
+    Card,
+    EmptyData,
     LoadingAnimation,
+    Table,
+    TableAction,
+    TechnicalError,
     TruncatedTextWithTooltip,
+    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { UserRoles } from '@constants'
-import { useRouter } from 'next/router'
-import { FaSchool } from 'react-icons/fa'
-import { BsArchiveFill } from 'react-icons/bs'
-import { AdminApi, commonApi } from '@queries'
-import { RtoCellInfo } from '../rto/components'
-import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal, useContextBar } from '@hooks'
+import { AdminApi, commonApi } from '@queries'
 import { Rto, SubAdmin, User, UserStatus } from '@types'
-import { ReactElement, useEffect, useState } from 'react'
 import { checkListLength, getUserCredentials } from '@utils'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
+import { BsArchiveFill } from 'react-icons/bs'
+import { FaSchool } from 'react-icons/fa'
+import { MdAdminPanelSettings, MdOutlineAssignmentReturn } from 'react-icons/md'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { RtoCellInfo } from '../rto/components'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
-import { MdAdminPanelSettings, MdOutlineAssignmentReturn } from 'react-icons/md'
 import {
     AllowAsAdminModal,
+    AllowIndustryListingModal,
     AllowLoginAfterHoursModal,
+    AllowPlacementModal,
+    AllowRtoListingModal,
     ArchiveModal,
     AssignAutoWorkplaceModal,
-    BlockModal,
-    AllowRtoListingModal,
     AssociatedWithRTOModal,
-    AllowIndustryListingModal,
+    BlockModal,
 } from './modals'
 
 export const ActiveSubAdmin = () => {
@@ -84,6 +85,14 @@ export const ActiveSubAdmin = () => {
     const onAllowLoginAfterHoursModalClicked = (subAdmin: SubAdmin) => {
         setModal(
             <AllowLoginAfterHoursModal
+                subAdmin={subAdmin}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+    const onAllowPlacementModalClicked = (subAdmin: SubAdmin) => {
+        setModal(
+            <AllowPlacementModal
                 subAdmin={subAdmin}
                 onCancel={() => onModalCancelClicked()}
             />
@@ -250,6 +259,18 @@ export const ActiveSubAdmin = () => {
                               : 'Allow Login',
                           onClick: (subAdmin: SubAdmin) =>
                               onAllowLoginAfterHoursModalClicked(subAdmin),
+                          Icon: MdAdminPanelSettings,
+                      }
+                    : {}),
+            },
+            {
+                ...(role === UserRoles.ADMIN
+                    ? {
+                          text: subAdmin?.removeOnPlacementStart
+                              ? 'Remove Placement'
+                              : 'Allow Placement',
+                          onClick: (subAdmin: SubAdmin) =>
+                              onAllowPlacementModalClicked(subAdmin),
                           Icon: MdAdminPanelSettings,
                       }
                     : {}),

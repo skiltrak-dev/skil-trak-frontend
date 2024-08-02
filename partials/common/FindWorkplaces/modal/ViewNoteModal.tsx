@@ -1,7 +1,14 @@
-import { Typography } from '@components'
+import {
+    InitialAvatar,
+    LoadingAnimation,
+    NoData,
+    Typography,
+} from '@components'
+import { CommonApi } from '@queries'
 import moment from 'moment'
 import { CiStickyNote } from 'react-icons/ci'
 import { MdCancel } from 'react-icons/md'
+import { ListingNoteCard } from '../components'
 
 export const ViewNoteModal = ({
     industry,
@@ -10,6 +17,7 @@ export const ViewNoteModal = ({
     onCancel: () => void
     industry: any
 }) => {
+    const notes = CommonApi.FindWorkplace.viewListingNoew(industry?.id)
     const noteDetailData = [
         {
             text: 'Industry Name',
@@ -26,7 +34,7 @@ export const ViewNoteModal = ({
     ]
     return (
         <div className="fixed z-30 bg-black/25 backdrop-blur-sm w-full h-full top-0 left-0 flex items-center justify-center">
-            <div className="relative w-full md:w-3/4 lg:w-[500px]  bg-white p-6 shadow-2xl rounded-2xl">
+            <div className="relative w-full md:w-3/4 lg:w-[600px]  bg-gray-200 p-6 shadow-2xl rounded-2xl">
                 <MdCancel
                     onClick={onCancel}
                     className="absolute top-3 right-3 transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
@@ -37,7 +45,7 @@ export const ViewNoteModal = ({
                     </div>
 
                     {/*  */}
-                    <div className="flex justify-between items-center gap-x-1.5">
+                    {/* <div className="flex justify-between items-center gap-x-1.5">
                         {noteDetailData?.map((noteData) => (
                             <div
                                 className={
@@ -55,15 +63,31 @@ export const ViewNoteModal = ({
                                 </Typography>
                             </div>
                         ))}
-                    </div>
+                    </div> */}
 
                     {/*  */}
-                    <div
-                        className="rounded-md p-4 h-full lg:min-h-[20vh] lg:max-h-[70vh] font-light text-[13px] overflow-auto custom-scrollbar bg-[#FEF6E6] text-gray-500"
-                        dangerouslySetInnerHTML={{
-                            __html: industry?.note,
-                        }}
-                    ></div>
+
+                    {notes?.isLoading ? (
+                        <LoadingAnimation />
+                    ) : notes?.data && notes?.data?.length > 0 ? (
+                        <div className="flex flex-col gap-y-2 max-h-[50vh] overflow-auto px-2">
+                            {industry?.note ? (
+                                <ListingNoteCard
+                                    note={{
+                                        ...industry,
+                                        comment: industry?.note,
+                                    }}
+                                />
+                            ) : null}
+                            {notes?.data?.map((note: any) => (
+                                <ListingNoteCard key={note?.id} note={note} />
+                            ))}
+                        </div>
+                    ) : notes?.isSuccess ? (
+                        <div className="bg-gray-100">
+                            <NoData text="No Note were added" />
+                        </div>
+                    ) : null}
                 </div>
             </div>
         </div>

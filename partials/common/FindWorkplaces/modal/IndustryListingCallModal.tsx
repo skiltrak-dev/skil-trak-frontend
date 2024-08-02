@@ -30,11 +30,10 @@ export const IndustryListingCallModal = ({
     const { notification } = useNotification()
 
     const validationSchema = Yup.object({
-        note: Yup.string().required('Note is required'),
+        comment: Yup.string().required('Note is required'),
     })
     const methods = useForm<onSubmitType>({
         resolver: yupResolver(validationSchema),
-        defaultValues: { note },
         mode: 'all',
     })
 
@@ -66,7 +65,7 @@ export const IndustryListingCallModal = ({
                     <FormProvider {...methods}>
                         <form className="mt-2 w-full">
                             <TextArea
-                                name={'note'}
+                                name={'comment'}
                                 placeholder={'Add Note'}
                                 showError={false}
                                 rows={7}
