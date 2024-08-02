@@ -34,7 +34,13 @@ import { getUserCredentials } from '@utils'
 import Image from 'next/image'
 import { AiFillCheckCircle, AiFillWarning } from 'react-icons/ai'
 import { BiPencil } from 'react-icons/bi'
-import { AddressCell, PhoneNumberCell } from '../components'
+import {
+    AddressCell,
+    IndustryListingCellInfo,
+    IndustryListingStatus,
+    ListingCreatedBy,
+    PhoneNumberCell,
+} from '../components'
 import { DefaultModal } from '../DefaultModal'
 import { DoNotDisturbModal } from '../DoNotDisturbModal'
 import { FavoriteModal } from '../FavoriteModal'
@@ -257,55 +263,10 @@ export const WithoutEmailListing = ({
                     ?.map((e: any) => e?.listing_email)
                     ?.includes(info?.row?.original?.email)
                 return (
-                    <div className={`flex items-center gap-x-1.5`}>
-                        {info?.row?.original?.businessName && (
-                            <InitialAvatar
-                                name={info?.row?.original?.businessName}
-                            />
-                        )}
-                        <div className="flex flex-col gap-y-1">
-                            <div className="flex items-center gap-x-2">
-                                <Typography variant={'label'}>
-                                    {info?.row?.original?.businessName}
-                                </Typography>
-                                {info.row.original?.signedUp && (
-                                    <div className="relative group">
-                                        <Image
-                                            src={'/images/signup.png'}
-                                            alt={''}
-                                            width={30}
-                                            height={30}
-                                        />
-                                        <Tooltip>Signed Up</Tooltip>
-                                    </div>
-                                )}
-                            </div>
-                            {/* <Highlighter
-                                highlightClassName="YourHighlightClass"
-                                searchWords={
-                                    isDuplicated
-                                        ? [info?.row?.original?.email]
-                                        : ['']
-                                }
-                                autoEscape={true}
-                                textToHighlight={info?.row?.original?.email}
-                            /> */}
-                            <div
-                                className={` relative group ${
-                                    isDuplicated ? 'bg-gray-300' : ''
-                                } px-1.5 rounded-md`}
-                            >
-                                <TruncatedTextWithTooltip
-                                    text={info.row.original?.email}
-                                    maxLength={20}
-                                />
-
-                                {isDuplicated ? (
-                                    <Tooltip>Duplicated Found</Tooltip>
-                                ) : null}
-                            </div>
-                        </div>
-                    </div>
+                    <IndustryListingCellInfo
+                        industryListing={info?.row?.original}
+                        isDuplicated={isDuplicated}
+                    />
                 )
             },
         },
@@ -350,58 +311,24 @@ export const WithoutEmailListing = ({
         {
             accessorKey: 'status',
             header: () => <span>Status</span>,
-            cell: (info) => {
-                return (
-                    <div>
-                        {info.row.original.status ===
-                        IndustryStatus.FAVOURITE ? (
-                            <div className="rounded-lg flex items-center gap-x-2">
-                                <p className="text-green-500 font-semibold">
-                                    Favorite
-                                </p>
-                                <MdOutlineFavorite className="text-green-500" />
-                            </div>
-                        ) : info.row.original.status ===
-                          IndustryStatus.DO_NOT_DISTURB ? (
-                            <div className="rounded-lg flex items-center gap-x-2">
-                                <p className="text-red-500 font-semibold">
-                                    Do Not Disturb
-                                </p>
-                                <AiFillWarning className="text-red-500 text-lg" />
-                            </div>
-                        ) : (
-                            <div className="flex items-center gap-x-2">
-                                ----
-                            </div>
-                        )}
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <IndustryListingStatus status={info.row.original?.staus} />
+            ),
         },
         {
             accessorKey: 'note',
             header: () => <div>Note</div>,
-            cell: (info) => {
-                return (
-                    <>
-                        <div className="flex items-center">
-                            {info?.row?.original?.note ? (
-                                <div>
-                                    <ActionButton
-                                        variant="info"
-                                        simple
-                                        onClick={() => {
-                                            onViewNote(info?.row?.original)
-                                        }}
-                                    >
-                                        View
-                                    </ActionButton>
-                                </div>
-                            ) : null}
-                        </div>
-                    </>
-                )
-            },
+            cell: (info) => (
+                <ActionButton
+                    variant="info"
+                    simple
+                    onClick={() => {
+                        onViewNote(info?.row?.original)
+                    }}
+                >
+                    View
+                </ActionButton>
+            ),
         },
         {
             accessorKey: 'createdAt',
@@ -413,39 +340,9 @@ export const WithoutEmailListing = ({
         {
             accessorKey: 'createdBy',
             header: () => <span>Created By</span>,
-            cell: (info) =>
-                info?.row?.original?.createdBy ? (
-                    <div className="flex items-center gap-x-2">
-                        <div className="shadow-inner-image rounded-full relative">
-                            {info?.row?.original?.createdBy?.user?.name && (
-                                <InitialAvatar
-                                    name={info?.row?.original?.createdBy?.name}
-                                    imageUrl={
-                                        info?.row?.original?.createdBy?.name
-                                    }
-                                />
-                            )}
-                        </div>
-                        <div>
-                            <div className="flex items-center gap-x-2">
-                                <p className="font-semibold">
-                                    {info?.row?.original?.createdBy?.name}
-                                </p>
-                            </div>
-
-                            <div className="font-medium text-xs text-gray-500">
-                                <p className="flex items-center gap-x-1">
-                                    <span>
-                                        <MdEmail />
-                                    </span>
-                                    {info?.row?.original?.createdBy?.email}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    '---'
-                ),
+            cell: (info) => (
+                <ListingCreatedBy createdBy={info.row.original?.createdBy} />
+            ),
         },
         {
             accessorKey: 'action',
