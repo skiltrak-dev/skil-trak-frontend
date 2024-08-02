@@ -1,8 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Button, ShowErrorNotifications, TextArea } from '@components'
 import { IoMdCloseCircle } from 'react-icons/io'
-import { CommonApi } from '@queries'
-import { useNotification } from '@hooks'
 export const ViewIndustryListingNoteModal = ({ onCancel, note }: any) => {
     return (
         <>

@@ -1,4 +1,4 @@
-import { Select, TextInput } from '@components/inputs'
+import { Checkbox, Select, TextInput } from '@components/inputs'
 import { AuthApi, CommonApi } from '@queries'
 import { SetQueryFilters } from './SetQueryFilters'
 import { StatusOptions } from './StatusOptions'
@@ -161,6 +161,19 @@ export const FindWorkplaceFilters = ({
                         onFilterChange({ ...filter, status: e })
                     }}
                     onlyValue
+                />
+
+                <Checkbox
+                    name="myListing"
+                    label={'My Listing'}
+                    value={Boolean(filter?.myListing)}
+                    defaultChecked={filter?.myListing}
+                    onChange={(e: any) => {
+                        onFilterChange({
+                            ...filter,
+                            myListing: e?.target?.checked,
+                        })
+                    }}
                 />
             </div>
         </>

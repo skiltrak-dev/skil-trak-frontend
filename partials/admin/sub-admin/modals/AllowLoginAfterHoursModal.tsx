@@ -32,11 +32,6 @@ export const AllowLoginAfterHoursModal = ({
         })
     }
 
-    useEffect(() => {
-        if (canLoginResult?.isSuccess) {
-        }
-    }, [canLoginResult])
-
     return (
         <>
             <ShowErrorNotifications result={canLoginResult} />

@@ -64,11 +64,15 @@ export const findWorkplaceEndpoints = (
     }),
     addFutureIndustryListingNote: builder.mutation<any, any>({
         query: ({ id, body }) => ({
-            url: `${PREFIX}/${id}/note/add`,
+            url: `${PREFIX}/${id}/note-add`,
             method: 'POST',
             body,
         }),
         invalidatesTags: ['Industries'],
+    }),
+    viewListingNote: builder.query<any, number>({
+        query: (id) => `${PREFIX}/${id}/notes/list-all`,
+        providesTags: ['Industries'],
     }),
     addIndustry: builder.mutation<any, any>({
         query: (body) => ({
