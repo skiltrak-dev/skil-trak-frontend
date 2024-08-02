@@ -17,6 +17,7 @@ import {
 } from '@components'
 
 // utils
+import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
 import { Course, StudentStatusEnum } from '@types'
@@ -24,12 +25,13 @@ import {
     CourseSelectOption,
     ageOptions,
     formatOptionLabel,
+    getLatLng,
+    getPostalCode,
     getUserCredentials,
     onlyAlphabets,
 } from '@utils'
 import { IoInformationCircle } from 'react-icons/io5'
 import { UpdateDateModal } from '../StudentProfileDetail/modals'
-import { UserRoles } from '@constants'
 
 export const StudentProfileForm = ({
     profile,
@@ -663,8 +665,53 @@ export const StudentProfileForm = ({
                                         validationIcons
                                         required
                                         placesSuggetions
-                                        onChange={() => {
+                                        onChange={async (e: any) => {
                                             setOnSuburbClicked(false)
+                                            if (e?.target?.value?.length > 4) {
+                                                const latLng = await getLatLng(
+                                                    e?.target?.value
+                                                )
+                                                // getPostalCode(latLng).then(
+                                                //     (res: any) => {
+                                                //         formMethods.setValue(
+                                                //             'zipCode',
+                                                //             res
+                                                //         )
+                                                //         console.log({ res })
+                                                //     }
+                                                // )
+                                                try {
+                                                    const latLng =
+                                                        await getLatLng(
+                                                            e?.target?.value
+                                                        )
+                                                    const postalCode =
+                                                        await getPostalCode(
+                                                            latLng
+                                                        )
+
+                                                    if (postalCode) {
+                                                        formMethods.setValue(
+                                                            'zipCode',
+                                                            postalCode
+                                                        )
+                                                    }
+                                                } catch (error) {
+                                                    console.error(
+                                                        'Error fetching postal code:',
+                                                        error
+                                                    )
+                                                }
+                                                // const postalCode =
+                                                //     await getPostalCode(latLng)
+
+                                                // if (postalCode) {
+                                                //     formMethods.setValue(
+                                                //         'zipCode',
+                                                //         postalCode
+                                                //     )
+                                                // }
+                                            }
                                         }}
                                         onPlaceSuggetions={{
                                             placesSuggetions: onSuburbClicked,

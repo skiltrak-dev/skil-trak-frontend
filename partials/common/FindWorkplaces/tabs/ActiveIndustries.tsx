@@ -4,6 +4,7 @@ import {
     Badge,
     Button,
     Card,
+    draftToHtmlText,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
@@ -35,6 +36,8 @@ import { BiPencil } from 'react-icons/bi'
 import {
     AddressCell,
     IndustryListingCellInfo,
+    IndustryListingStatus,
+    ListingCreatedBy,
     PhoneNumberCell,
 } from '../components'
 import { DefaultModal } from '../DefaultModal'
@@ -334,19 +337,9 @@ export const ActiveIndustries = ({
         {
             accessorKey: 'status',
             header: () => <span>Status</span>,
-            cell: (info) => {
-                switch (info.row.original.status) {
-                    case IndustryStatus.FAVOURITE:
-                        return <Badge variant="success" text="Favorite" />
-                    case IndustryStatus.DO_NOT_DISTURB:
-                        return <Badge variant="error" text="Do Not Disturb" />
-                    case IndustryStatus.BLOCKED:
-                        return <Badge variant="success" text="Blocked" />
-
-                    default:
-                        return '---'
-                }
-            },
+            cell: (info) => (
+                <IndustryListingStatus status={info.row.original?.staus} />
+            ),
         },
         {
             accessorKey: 'note',
@@ -373,39 +366,9 @@ export const ActiveIndustries = ({
         {
             accessorKey: 'createdBy',
             header: () => <span>Created By</span>,
-            cell: (info) =>
-                info?.row?.original?.createdBy ? (
-                    <div className="flex items-center gap-x-2">
-                        <div className="shadow-inner-image rounded-full relative">
-                            {info?.row?.original?.createdBy?.user?.name && (
-                                <InitialAvatar
-                                    name={info?.row?.original?.createdBy?.name}
-                                    imageUrl={
-                                        info?.row?.original?.createdBy?.name
-                                    }
-                                />
-                            )}
-                        </div>
-                        <div>
-                            <div className="flex items-center gap-x-2">
-                                <p className="font-semibold">
-                                    {info?.row?.original?.createdBy?.name}
-                                </p>
-                            </div>
-
-                            <div className="font-medium text-xs text-gray-500">
-                                <p className="flex items-center gap-x-1">
-                                    <span>
-                                        <MdEmail />
-                                    </span>
-                                    {info?.row?.original?.createdBy?.email}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    '---'
-                ),
+            cell: (info) => (
+                <ListingCreatedBy createdBy={info.row.original?.createdBy} />
+            ),
         },
         {
             accessorKey: 'action',

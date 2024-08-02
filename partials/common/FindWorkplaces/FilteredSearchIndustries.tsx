@@ -2,7 +2,6 @@ import {
     ActionButton,
     Card,
     EmptyData,
-    InitialAvatar,
     LoadingAnimation,
     Table,
     TableAction,
@@ -14,11 +13,10 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit } from 'react-icons/fa'
 
 import { useContextBar } from '@hooks'
-import { IndustryStatus, SubAdmin } from '@types'
+import { SubAdmin } from '@types'
 import { useRouter } from 'next/router'
-import { MdBlock, MdDelete, MdEmail, MdOutlineFavorite } from 'react-icons/md'
-// import { RtoCell, SectorCell, SubAdminCell } from './components'
-// import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
+import { MdBlock, MdDelete, MdOutlineFavorite } from 'react-icons/md'
+
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
 import { ReactElement, useState } from 'react'
@@ -28,6 +26,8 @@ import { FiLogIn } from 'react-icons/fi'
 import {
     AddressCell,
     IndustryListingCellInfo,
+    IndustryListingStatus,
+    ListingCreatedBy,
     PhoneNumberCell,
 } from './components'
 import { DefaultModal } from './DefaultModal'
@@ -240,95 +240,31 @@ export const FilteredSearchIndustries = ({
         {
             accessorKey: 'status',
             header: () => <span>Status</span>,
-            cell: (info) => {
-                return (
-                    <div>
-                        {info.row.original.status ===
-                        IndustryStatus.FAVOURITE ? (
-                            <div className="rounded-lg flex items-center gap-x-2">
-                                <p className="text-green-500 font-semibold">
-                                    Favorite
-                                </p>
-                                <MdOutlineFavorite className="text-green-500" />
-                            </div>
-                        ) : info.row.original.status ===
-                          IndustryStatus.DO_NOT_DISTURB ? (
-                            <div className="rounded-lg flex items-center gap-x-2">
-                                <p className="text-red-500 font-semibold">
-                                    Do Not Disturb
-                                </p>
-                                <AiFillWarning className="text-red-500 text-lg" />
-                            </div>
-                        ) : (
-                            <div className="flex items-center gap-x-2">
-                                ----
-                            </div>
-                        )}
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <IndustryListingStatus status={info.row.original?.staus} />
+            ),
         },
         {
             accessorKey: 'note',
             header: () => <div>Note</div>,
-            cell: (info) => {
-                return (
-                    <>
-                        <div className="flex items-center">
-                            {info?.row?.original?.note ? (
-                                <div>
-                                    <ActionButton
-                                        variant="info"
-                                        simple
-                                        onClick={() => {
-                                            onViewNote(info?.row?.original)
-                                        }}
-                                    >
-                                        View
-                                    </ActionButton>
-                                </div>
-                            ) : null}
-                        </div>
-                    </>
-                )
-            },
+            cell: (info) => (
+                <ActionButton
+                    variant="info"
+                    simple
+                    onClick={() => {
+                        onViewNote(info?.row?.original)
+                    }}
+                >
+                    View
+                </ActionButton>
+            ),
         },
         {
             accessorKey: 'createdBy',
             header: () => <span>Created By</span>,
-            cell: (info) =>
-                info?.row?.original?.createdBy ? (
-                    <div className="flex items-center gap-x-2">
-                        <div className="shadow-inner-image rounded-full relative">
-                            {info?.row?.original?.createdBy?.user?.name && (
-                                <InitialAvatar
-                                    name={info?.row?.original?.createdBy?.name}
-                                    imageUrl={
-                                        info?.row?.original?.createdBy?.name
-                                    }
-                                />
-                            )}
-                        </div>
-                        <div>
-                            <div className="flex items-center gap-x-2">
-                                <p className="font-semibold">
-                                    {info?.row?.original?.createdBy?.name}
-                                </p>
-                            </div>
-
-                            <div className="font-medium text-xs text-gray-500">
-                                <p className="flex items-center gap-x-1">
-                                    <span>
-                                        <MdEmail />
-                                    </span>
-                                    {info?.row?.original?.createdBy?.email}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    '---'
-                ),
+            cell: (info) => (
+                <ListingCreatedBy createdBy={info.row.original?.createdBy} />
+            ),
         },
         {
             accessorKey: 'createdAt',

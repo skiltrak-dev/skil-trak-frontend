@@ -1,4 +1,5 @@
 import {
+    draftToHtmlText,
     InitialAvatar,
     LoadingAnimation,
     NoData,
@@ -32,6 +33,10 @@ export const ViewNoteModal = ({
             data: moment(industry?.contactedAt).format('MMM DD, YYYY'),
         },
     ]
+
+    // const abc = industry?.note
+    // const abcde = draftToHtmlText(abc as any)
+    // console.log({ abcde })
     return (
         <div className="fixed z-30 bg-black/25 backdrop-blur-sm w-full h-full top-0 left-0 flex items-center justify-center">
             <div className="relative w-full md:w-3/4 lg:w-[600px]  bg-gray-200 p-6 shadow-2xl rounded-2xl">
@@ -69,7 +74,7 @@ export const ViewNoteModal = ({
 
                     {notes?.isLoading ? (
                         <LoadingAnimation />
-                    ) : notes?.data && notes?.data?.length > 0 ? (
+                    ) : (
                         <div className="flex flex-col gap-y-2 max-h-[50vh] overflow-auto px-2">
                             {industry?.note ? (
                                 <ListingNoteCard
@@ -79,15 +84,20 @@ export const ViewNoteModal = ({
                                     }}
                                 />
                             ) : null}
-                            {notes?.data?.map((note: any) => (
-                                <ListingNoteCard key={note?.id} note={note} />
-                            ))}
+                            {notes?.data && notes?.data?.length > 0 ? (
+                                notes?.data?.map((note: any) => (
+                                    <ListingNoteCard
+                                        key={note?.id}
+                                        note={note}
+                                    />
+                                ))
+                            ) : notes?.isSuccess ? (
+                                <div className="bg-gray-100">
+                                    <NoData text="No Note were added" />
+                                </div>
+                            ) : null}
                         </div>
-                    ) : notes?.isSuccess ? (
-                        <div className="bg-gray-100">
-                            <NoData text="No Note were added" />
-                        </div>
-                    ) : null}
+                    )}
                 </div>
             </div>
         </div>
