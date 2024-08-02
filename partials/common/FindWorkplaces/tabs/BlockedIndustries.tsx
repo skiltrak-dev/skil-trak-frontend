@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react'
 // hooks
 import { useColumns } from '../hooks'
 
-export const ActiveIndustries = ({
+export const BlockedIndustries = ({
     onSetIndustryData,
 }: {
     onSetIndustryData: (val: any) => void
@@ -31,7 +31,7 @@ export const ActiveIndustries = ({
     const { isLoading, data, isError } =
         CommonApi.FindWorkplace.useGetAllFindWorkplaces(
             {
-                search: '',
+                search: 'status:blocked',
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
@@ -47,11 +47,11 @@ export const ActiveIndustries = ({
 
     return (
         <>
-            {modal}
+            {modal && modal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
-                    title={'All Industries'}
-                    subtitle={'List of all Industries'}
+                    title={'Blocked Industries'}
+                    subtitle={'List of Blocked Industries'}
                 ></PageHeading>
 
                 <Card noPadding>

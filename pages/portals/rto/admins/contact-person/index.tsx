@@ -4,7 +4,6 @@ import {
     Button,
     Card,
     EmptyData,
-    HelpQuestionSet,
     InitialAvatar,
     LoadingAnimation,
     Table,
@@ -12,33 +11,24 @@ import {
     TableActionOption,
     Typography,
 } from '@components'
+import { useContextBar, useJoyRide } from '@hooks'
 import { RtoLayout } from '@layouts'
-import { AdminApi, RtoApi } from '@queries'
+import { AddAdminCB, DeleteModal } from '@partials/rto'
+import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { NextPageWithLayout } from '@types'
-import { useRouter } from 'next/router'
 import { FaEdit, FaTrash } from 'react-icons/fa'
-import { useContextBar, useJoyRide } from '@hooks'
-import { AddAdminCB, DeleteModal } from '@partials/rto'
 
 type Props = {}
 
 const RtoContactPersons: NextPageWithLayout = (props: Props) => {
-    const router = useRouter()
-
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const contextBar = useContextBar()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
 
     const { isLoading, data } = RtoApi.Rto.useContactPersons({
-        search: `${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -52,44 +42,6 @@ const RtoContactPersons: NextPageWithLayout = (props: Props) => {
         }
     }, [])
     // ADD ADMIN JOY RIDE - END
-
-    const RelatedQuestions = [
-        {
-            text: `I have a workplace. What next?`,
-            link: '#',
-        },
-        {
-            text: `I don't have a workplace. What should I do?`,
-            link: '#',
-        },
-        {
-            text: `I want to book an appointment`,
-            link: '#',
-        },
-        {
-            text: `I want to look for a job`,
-            link: '#',
-        },
-    ]
-
-    const OtherQuestions = [
-        {
-            text: `I have a workplace. What next?`,
-            link: '#',
-        },
-        {
-            text: `I don't have a workplace. What should I do?`,
-            link: '#',
-        },
-        {
-            text: `I want to book an appointment`,
-            link: '#',
-        },
-        {
-            text: `I want to look for a job`,
-            link: '#',
-        },
-    ]
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -226,20 +178,6 @@ const RtoContactPersons: NextPageWithLayout = (props: Props) => {
                     />
                 )}
             </Card>
-
-            <div className="mt-6 flex justify-between">
-                {/* Related Questions */}
-                <HelpQuestionSet
-                    title={'What you want to do here?'}
-                    questions={RelatedQuestions}
-                />
-
-                {/* Other Questions */}
-                <HelpQuestionSet
-                    title={'What else you want to do?'}
-                    questions={OtherQuestions}
-                />
-            </div>
         </>
     )
 }
