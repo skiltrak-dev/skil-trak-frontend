@@ -221,6 +221,7 @@ const {
     useSubAdminProfileCountQuery,
     useAssociatedWithRtoMutation,
     useSubadminWorkplaceListQuery,
+    useToggleSubadminPlacementMutation,
     useSubAdminExtendedStudentsListQuery,
     useToggleAutoWorkplaceAssignmentMutation,
 
@@ -358,9 +359,10 @@ export const AdminApi = {
         useRemove: useSubadminRemoveMutation,
         useRemoveWithRto: useRemoveWithRtoMutation,
         useAssociatedWithRto: useAssociatedWithRtoMutation,
-        useToggleAutoAssignWorkplace: useToggleAutoWorkplaceAssignmentMutation,
-        subadminExtendedStudents: useSubAdminExtendedStudentsListQuery,
         useSubadminWorkplaceList: useSubadminWorkplaceListQuery,
+        useToggleSubadminPlacement: useToggleSubadminPlacementMutation,
+        subadminExtendedStudents: useSubAdminExtendedStudentsListQuery,
+        useToggleAutoAssignWorkplace: useToggleAutoWorkplaceAssignmentMutation,
 
         useCourses: useSubAdminCoursesQuery,
         useAssignCourses: useSubAdminAssignCoursesMutation,

@@ -75,7 +75,6 @@ export const AllCommunicationTab = ({ user }: { user: any }) => {
                                         <div className="border-l-4 border-gray-700 ml-8 overflow-x-auto custom-scrollbar">
                                             {allCommunications.data.map(
                                                 (item: any, i: number) => {
-                                                    console.log({ item })
                                                     if (
                                                         date ==
                                                         getDate(
