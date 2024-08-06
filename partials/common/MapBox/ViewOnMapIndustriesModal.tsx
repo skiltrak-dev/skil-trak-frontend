@@ -351,7 +351,7 @@ export const ViewOnMapIndustriesModal = ({
                         setShowFutureIndustries(!showFutureIndustries)
                     }
                     defaultChecked={showFutureIndustries}
-                    label={'Show Future Industries'}
+                    label={'Show Industry Listing'}
                 />
                 <div onClick={onCancel}>
                     <IoMdCloseCircle size={25} className="text-red-500" />

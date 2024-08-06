@@ -102,6 +102,13 @@ export const useIndustryListingActions = (
     const tableActionOptions = (industry: any) => {
         return [
             {
+                text: 'Edit',
+                onClick: (futureIndustry: any) => {
+                    onEditIndustry(futureIndustry)
+                },
+                Icon: BiPencil,
+            },
+            {
                 text: 'Default',
                 onClick: (industry: any) => onDefaultClicked(industry),
                 Icon: AiFillCheckCircle,
@@ -149,13 +156,6 @@ export const useIndustryListingActions = (
                     )
                 },
                 Icon: FiLogIn,
-            },
-            {
-                text: 'Edit',
-                onClick: (futureIndustry: any) => {
-                    onEditIndustry(futureIndustry)
-                },
-                Icon: BiPencil,
             },
             {
                 ...(role === UserRoles.ADMIN

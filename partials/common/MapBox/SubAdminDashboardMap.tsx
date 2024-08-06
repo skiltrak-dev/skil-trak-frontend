@@ -139,7 +139,7 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                                 setShowFutureIndustries(!showFutureIndustries)
                             }
                             defaultChecked={showFutureIndustries}
-                            label={'Show Future Industries'}
+                            label={'Show Industry Listing'}
                         />
                     </div>
                 </div>

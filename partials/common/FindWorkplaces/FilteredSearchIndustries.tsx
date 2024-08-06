@@ -16,7 +16,7 @@ export const FilteredSearchIndustries = ({
     setItemPerPage: any
     onSetIndustryData: (val: any) => void
 }) => {
-    const { columns, modal, quickActionsElements } = useColumns({
+    const { columns, modal, actionsModal, quickActionsElements } = useColumns({
         data: industries?.data,
         onSetIndustryData,
     })
@@ -24,6 +24,7 @@ export const FilteredSearchIndustries = ({
     return (
         <>
             {modal}
+            {actionsModal}
             <div className="flex flex-col gap-y-4 p-4">
                 <PageHeading
                     title={'Filtered Industries'}
