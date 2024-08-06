@@ -6,26 +6,26 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { UserRoles } from '@constants'
-import { useAlert, useContextBar } from '@hooks'
-import { SubAdminApi, useGetSubAdminStudentDetailQuery } from '@queries'
-import { StudentStatusEnum, UserStatus } from '@types'
-import { getLink, getUserCredentials } from '@utils'
 import moment from 'moment'
 import dynamic from 'next/dynamic'
+import { UserRoles } from '@constants'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
+import { useEffect, useState } from 'react'
+import { ProfileViewCB } from './ContextBar'
+import { useAlert, useContextBar } from '@hooks'
+import { StudentStatusEnum, UserStatus } from '@types'
+import { getLink, getUserCredentials } from '@utils'
 import { IoIosArrowRoundBack } from 'react-icons/io'
 import { IoArrowBackOutline } from 'react-icons/io5'
 import { ProfileAppointments } from '../ProfileAppointments'
-import { ProfileViewCB } from './ContextBar'
+import { SubAdminApi, useGetSubAdminStudentDetailQuery } from '@queries'
 import {
-    AssessmentSubmissions,
-    MailsCommunication,
     Notes,
     Tickets,
     Workplace,
+    MailsCommunication,
+    AssessmentSubmissions,
 } from './components'
 
 const Schedule = dynamic(() => import('./components/Schedule/Schedule'), {

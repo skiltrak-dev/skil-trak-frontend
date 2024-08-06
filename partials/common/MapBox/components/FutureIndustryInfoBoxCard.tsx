@@ -1,15 +1,13 @@
 import { NoData, ShowErrorNotifications, Typography } from '@components'
-import { useNotification } from '@hooks'
-import {
-    useAddExistingIndustriesMutation,
-    useSubAdminApplyStudentWorkplaceMutation,
-} from '@queries'
+import { useContextBar, useNotification } from '@hooks'
+import { useAddExistingIndustriesMutation } from '@queries'
 import { ellipsisText } from '@utils'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useEffect } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { PulseLoader } from 'react-spinners'
+import { IndustryListingCB } from '../contextBar'
+import { CopyInfoData } from './CopyInfoData'
 
 type FutureIndustryInfoBoxCardProps = {
     item: any
@@ -33,8 +31,9 @@ export const FutureIndustryInfoBoxCard = ({
     onCancel,
 }: FutureIndustryInfoBoxCardProps) => {
     const workplaceId = workplace?.id
-    const [applyForWorkplace, applyForWorkplaceResult] =
-        useSubAdminApplyStudentWorkplaceMutation()
+
+    const contextBar = useContextBar()
+
     // apply for industry
     const [addExistingIndustry, addExistingIndustryResult] =
         useAddExistingIndustriesMutation()
@@ -51,15 +50,12 @@ export const FutureIndustryInfoBoxCard = ({
             onCancel()
         }
     }, [addExistingIndustryResult])
-    // const url =
-    //     selectedBox.photos &&
-    //     selectedBox?.photos[0]?.html_attributions?.map((attribution: any) => {
-    //         const anchorTagRegex =
-    //             /<a[^>]+href=["']([^"']+)["'][^>]*>(.*?)<\/a>/i
-    //         const match = attribution.match(anchorTagRegex)
-    //         return match ? match[1] : null
-    //     })
-    // const urlString = url && url[0]
+
+    const onViewIndustryListinDetail = () => {
+        contextBar.show(false)
+        contextBar.setContent(<IndustryListingCB id={selectedBox?.id} />)
+        contextBar.setTitle('Industry Listing Details')
+    }
 
     return (
         <>
@@ -90,12 +86,19 @@ export const FutureIndustryInfoBoxCard = ({
                             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-full w-0 h-0 border-b-8 border-b-white border-x-8 border-x-transparent"></div>
                             <div className="mt-2">
                                 {!workplaceMapCard ? (
-                                    <Typography variant="title">
-                                        {ellipsisText(
-                                            selectedBox?.businessName ?? 'NA',
-                                            25
-                                        )}
-                                    </Typography>
+                                    <div className="relative group w-fit">
+                                        <Typography variant="title">
+                                            {ellipsisText(
+                                                selectedBox?.businessName ??
+                                                    'NA',
+                                                25
+                                            )}
+                                        </Typography>
+                                        <CopyInfoData
+                                            text={selectedBox?.businessName}
+                                            type={'Business Name'}
+                                        />
+                                    </div>
                                 ) : (
                                     <div className="flex items-center justify-between gap-x-4 border-b pb-2">
                                         <div className="flex flex-col gap-y-1">
@@ -105,16 +108,35 @@ export const FutureIndustryInfoBoxCard = ({
                                             >
                                                 Industry
                                             </Typography>
-                                            <Typography variant="muted">
-                                                {ellipsisText(
-                                                    item?.data?.user?.name,
-                                                    15
-                                                )}
-                                            </Typography>
 
-                                            <Typography variant="muted">
-                                                {selectedBox.email}
-                                            </Typography>
+                                            <div className="relative group w-fit">
+                                                <Typography variant="muted">
+                                                    {ellipsisText(
+                                                        item?.data?.user?.name,
+                                                        15
+                                                    )}
+                                                </Typography>
+
+                                                {/*  */}
+                                                <CopyInfoData
+                                                    text={
+                                                        item?.data?.user?.name
+                                                    }
+                                                    type={'Name'}
+                                                />
+                                            </div>
+
+                                            <div className="relative group w-fit">
+                                                <Typography variant="muted">
+                                                    {selectedBox?.email}
+                                                </Typography>
+
+                                                {/*  */}
+                                                <CopyInfoData
+                                                    text={selectedBox?.email}
+                                                    type={'Email'}
+                                                />
+                                            </div>
                                         </div>
                                         <div className="flex flex-col gap-y-1 whitespace-nowrap">
                                             <Typography
@@ -129,11 +151,25 @@ export const FutureIndustryInfoBoxCard = ({
                                                     15
                                                 ) ?? 'NA'}
                                             </Typography>
-                                            <Typography variant="xs">
-                                                {item?.data
-                                                    ?.contactPersonNumber ??
-                                                    'NA'}
-                                            </Typography>
+
+                                            <div className="relative group w-fit">
+                                                <Typography variant="xs">
+                                                    {item?.data
+                                                        ?.contactPersonNumber ??
+                                                        'NA'}
+                                                </Typography>
+
+                                                {/*  */}
+                                                <CopyInfoData
+                                                    text={
+                                                        item?.data
+                                                            ?.contactPersonNumber
+                                                    }
+                                                    type={
+                                                        'Contact Person Number'
+                                                    }
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 )}
@@ -142,12 +178,30 @@ export const FutureIndustryInfoBoxCard = ({
                             {/*  */}
                             <div>
                                 <div className="flex flex-col gap-y-1 my-1.5">
-                                    <Typography variant="muted">
-                                        {selectedBox?.email}
-                                    </Typography>
-                                    <Typography variant="xs">
-                                        {selectedBox?.phone ?? 'NA'}
-                                    </Typography>
+                                    <div className="relative group w-fit">
+                                        <Typography variant="muted">
+                                            {selectedBox?.email}
+                                        </Typography>
+
+                                        {/*  */}
+                                        <CopyInfoData
+                                            text={selectedBox?.email}
+                                            type={'Email'}
+                                        />
+                                    </div>
+                                    <div className="relative group w-fit">
+                                        <Typography variant="xs">
+                                            {selectedBox?.phone ?? 'NA'}
+                                        </Typography>
+
+                                        {/*  */}
+                                        <div className="py-1">
+                                            <CopyInfoData
+                                                text={selectedBox?.phone}
+                                                type={'Phone Number'}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                                 <Typography
                                     variant="muted"
@@ -170,7 +224,7 @@ export const FutureIndustryInfoBoxCard = ({
 
                             <div className="flex justify-between items-center gap-x-12">
                                 <div className="flex justify-center mt-1.5">
-                                    <Link
+                                    {/* <Link
                                         className="text-blue-400 text-xs"
                                         href={`/portals/sub-admin/tasks/industry-listing?tab=all&page=1&pageSize=50&${
                                             selectedBox?.email
@@ -183,7 +237,20 @@ export const FutureIndustryInfoBoxCard = ({
                                         }`}
                                     >
                                         View
-                                    </Link>
+                                    </Link> */}
+                                    <div
+                                        onClick={() => {
+                                            onViewIndustryListinDetail()
+                                        }}
+                                    >
+                                        <Typography
+                                            variant="small"
+                                            color="text-info"
+                                            cursorPointer
+                                        >
+                                            View
+                                        </Typography>
+                                    </div>
                                 </div>
 
                                 {!appliedIndustry && workplaceMapCard && (
@@ -228,22 +295,6 @@ export const FutureIndustryInfoBoxCard = ({
                                     </Typography>
                                 )}
                             </div>
-                            {/* <div className="mt-1">
-                            <Typography variant="muted" color={'text-gray-400'}>
-                                Address
-                            </Typography>
-                            <Typography variant="small">
-                                {item?.data?.addressLine1 || 'N/A'}
-                            </Typography>
-                        </div> */}
-                            {/* <div className="flex justify-center mt-1.5">
-                                <Link
-                                    className="text-blue-400 font-medium text-sm"
-                                    href={`/portals/sub-admin/users/industries/${item?.data?.id}?tab=students`}
-                                >
-                                    View Profile
-                                </Link>
-                            </div> */}
                         </div>
                     </>
                 )}

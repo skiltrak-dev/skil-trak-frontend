@@ -50,25 +50,6 @@ export const ViewNoteModal = ({
                     </div>
 
                     {/*  */}
-                    {/* <div className="flex justify-between items-center gap-x-1.5">
-                        {noteDetailData?.map((noteData) => (
-                            <div
-                                className={
-                                    'w-full border border-[#6B7280] rounded-md px-2.5 py-1.5'
-                                }
-                            >
-                                <span className="text-[9px] text-[#979797] m-0 p-0">
-                                    {noteData?.text}
-                                </span>
-                                <Typography
-                                    variant={'xxs'}
-                                    color={'text-[#374151]'}
-                                >
-                                    {noteData?.data}
-                                </Typography>
-                            </div>
-                        ))}
-                    </div> */}
 
                     {/*  */}
 
@@ -76,14 +57,6 @@ export const ViewNoteModal = ({
                         <LoadingAnimation />
                     ) : (
                         <div className="flex flex-col gap-y-2 max-h-[50vh] overflow-auto px-2">
-                            {industry?.note ? (
-                                <ListingNoteCard
-                                    note={{
-                                        ...industry,
-                                        comment: industry?.note,
-                                    }}
-                                />
-                            ) : null}
                             {notes?.data && notes?.data?.length > 0 ? (
                                 notes?.data?.map((note: any) => (
                                     <ListingNoteCard
@@ -95,6 +68,14 @@ export const ViewNoteModal = ({
                                 <div className="bg-gray-100">
                                     <NoData text="No Note were added" />
                                 </div>
+                            ) : null}
+                            {industry?.note ? (
+                                <ListingNoteCard
+                                    note={{
+                                        ...industry,
+                                        comment: industry?.note,
+                                    }}
+                                />
                             ) : null}
                         </div>
                     )}

@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FaTimes } from 'react-icons/fa'
 import { PulseLoader } from 'react-spinners'
+import { CopyInfoData } from './CopyInfoData'
 
 export const StudentInfoBoxCard = ({
     item,
@@ -40,10 +41,15 @@ export const StudentInfoBoxCard = ({
                             }}
                         />
                         <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-full w-0 h-0 border-b-8 border-b-white border-x-8 border-x-transparent"></div>
-                        <div className="mt-2">
+
+                        <div className="relative group w-fit mt-2">
                             <Typography variant="title">
                                 {ellipsisText(item?.data?.name, 15)}
                             </Typography>
+                            <CopyInfoData
+                                text={item?.data?.name}
+                                type={'Business Name'}
+                            />
                         </div>
                         {/* <div className="flex flex-col gap-1 items-center">
                             <Typography variant="small" color={'text-gray-400'}>
@@ -53,7 +59,7 @@ export const StudentInfoBoxCard = ({
                                 {item?.data?.student?.studentId || 'N/A'}
                             </Typography>
                         </div> */}
-                        <div className='text-center'>
+                        <div className="text-center">
                             <Typography variant="muted" color={'text-gray-400'}>
                                 Sector
                             </Typography>

@@ -105,17 +105,20 @@ export const WithoutEmailListing = ({
                                             {table}
                                         </div>
                                     </div>
-                                    {data?.data?.length > 10 && (
-                                        <div className="p-6 mb-2 flex justify-between">
+                                    {data?.paginatedResults?.data?.length >
+                                        10 && (
+                                        <div className="px-6 py-2 mb-2 flex justify-between">
                                             {pageSize(
                                                 itemPerPage,
                                                 setItemPerPage,
-                                                data?.data?.length
+                                                data?.paginatedResults?.data
+                                                    ?.length
                                             )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
                                                 {pagination(
-                                                    data?.pagination,
+                                                    data?.paginatedResults
+                                                        ?.pagination,
                                                     setPage
                                                 )}
                                             </div>

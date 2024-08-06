@@ -3,22 +3,31 @@ import { useEffect, useState } from 'react'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 import { TiTimes } from 'react-icons/ti'
 import OutsideClickHandler from 'react-outside-click-handler'
+import { CustomDropdownPositionEnum } from './dropdown.enum'
 
 export const CustomDropdown = ({
+    data,
     title,
     value,
     text,
     options,
     onClear,
     width,
+    position,
     textColor,
 }: {
+    position?: CustomDropdownPositionEnum
+    data?: any
     textColor?: string
     text: string
     onClear?: (e: any) => void
     title?: string
     value?: any
-    options: any
+    options: {
+        onClick: (val: any) => void
+        color?: string
+        text: string
+    }[]
     width?: string
 }) => {
     const [isOpened, setIsOpened] = useState<boolean>(false)
@@ -70,7 +79,13 @@ export const CustomDropdown = ({
                         </div>
                     </div>
                     <div
-                        className={`absolute top-full left-0 w-full shadow-md transition-all duration-500 bg-white overflow-auto custom-scrollbar ${
+                        className={`absolute ${
+                            position === CustomDropdownPositionEnum.bottom
+                                ? 'bottom-full'
+                                : position === CustomDropdownPositionEnum.top
+                                ? 'top-full'
+                                : 'top-full'
+                        }  left-0 w-full shadow-md transition-all duration-500 bg-white overflow-auto custom-scrollbar ${
                             isOpened ? 'max-h-52' : 'max-h-0'
                         }`}
                     >
@@ -83,7 +98,7 @@ export const CustomDropdown = ({
                                 <div
                                     key={i}
                                     onClick={() => {
-                                        option.onClick(option)
+                                        option.onClick(data)
                                         setSelectedData(option)
                                     }}
                                     className={`${
@@ -100,7 +115,6 @@ export const CustomDropdown = ({
                                     </Typography>
                                 </div>
                             ))}
-                            {/* {dropDown()} */}
                         </div>
                     </div>
                 </div>

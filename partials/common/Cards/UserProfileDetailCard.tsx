@@ -21,9 +21,9 @@ export const UserProfileDetailCard = ({
                     onClick()
                 }
             }}
-            className={`${onClick ? 'cursor-pointer' : ''} ${
+            className={`${onClick ? 'cursor-pointer hover:bg-gray-100' : ''} ${
                 border ? 'border border-[#6B728050] rounded-md' : ''
-            } w-full px-2.5 py-1.5  flex justify-between items-center`}
+            } w-full px-2.5 py-1.5  flex justify-between items-center bg-white transition-all`}
         >
             <div className="">
                 <Typography normal variant="xxs" color="text-[#979797] block">

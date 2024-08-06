@@ -28,6 +28,8 @@ const SubAdminDashboard: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const [credentials, setCredentials] = useState<any>(null)
     const [modal, setModal] = useState<any | null>(null)
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+
     const subadminCourses = CommonApi.Courses.subadminCoursesList()
     const subadmin = SubAdminApi.SubAdmin.useProfile()
     const statistics = SubAdminApi.Count.statistics(undefined, {
@@ -73,7 +75,21 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                 contextBar.hide()
             }
         }
-    }, [subadmin, statistics])
+    }, [subadmin, statistics, mousePosition])
+
+    const handleMouseMove = (event: any) => {
+        if (!contextBar.content) {
+            setMousePosition({ x: event.clientX, y: event.clientY })
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener('mousemove', handleMouseMove)
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove)
+        }
+    }, [contextBar])
 
     useEffect(() => {
         if (!credentials) {

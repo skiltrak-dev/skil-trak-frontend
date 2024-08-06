@@ -1,33 +1,31 @@
 import {
-    ActionButton,
     Card,
-    LoadingAnimation,
     NoData,
-    ShowErrorNotifications,
     Typography,
+    ActionButton,
+    LoadingAnimation,
+    ShowErrorNotifications,
 } from '@components'
+import { useNotification } from '@hooks'
 import {
     Avatar,
     RtoDetail,
-    StudentExpireTime,
     UpdatedStudentExpiryTime,
 } from '@partials/common/StudentProfileDetail/ContextBarComponents'
-import { Student, UserStatus } from '@types'
-import React from 'react'
-import {
-    EmergencyContact,
-    StudentFeedBack,
-    StudentDetail,
-    StudentRelatedInfo,
-    StudentReport,
-    StudentStatus,
-} from '../ContextBarComponents'
 import { useWorkplaceActionsMutation } from '@queries'
+import { UserStatus } from '@types'
 import {
     WorkplaceCurrentStatus,
     getStudentWorkplaceAppliedIndustry,
 } from '@utils'
-import { useNotification } from '@hooks'
+import {
+    EmergencyContact,
+    StudentDetail,
+    StudentFeedBack,
+    StudentRelatedInfo,
+    StudentReport,
+    StudentStatus,
+} from '../ContextBarComponents'
 
 export const IndustryStudentProfileDetail = ({ data }: { data: any }) => {
     const profile = data?.data
@@ -153,10 +151,6 @@ export const IndustryStudentProfileDetail = ({ data }: { data: any }) => {
                     </div>
                 </div>
             )}
-
-            {/* User */}
-
-            {/*  */}
         </Card>
     )
 }

@@ -22,12 +22,6 @@ export const IndustryCurrentStudents = () => {
     const router = useRouter()
     const [selectedId, setSelectedId] = useState<string>('')
 
-    const [isAssessment, setIsAssessment] = useState<AssessmentEnum>(
-        AssessmentEnum['Student Submissions']
-    )
-
-    const contextBar = useContextBar()
-
     const profile = IndustryApi.Workplace.useWorkplaceDetail(
         Number(router.query.id),
         { skip: !router.query.id }
@@ -130,7 +124,6 @@ export const IndustryCurrentStudents = () => {
                             : ''
                     } h-[inherit] w-1/2`}
                 >
-                    {/* <Appointments user={profile?.data?.user} /> */}
                     <ProfileAppointments
                         userId={profile?.data?.student?.user?.id}
                         link={'/portals/industry/students/appointments'}

@@ -70,6 +70,27 @@ export const FilteredSearchIndustries = ({
                                         <div className="px-6 overflow-auto custom-scrollbar">
                                             {table}
                                         </div>
+                                        {industries?.data?.paginatedResults
+                                            ?.data?.length > 10 && (
+                                            <div className="px-6 py-2 mb-2 flex justify-between">
+                                                {pageSize(
+                                                    itemPerPage,
+                                                    setItemPerPage,
+                                                    industries?.data
+                                                        ?.paginatedResults?.data
+                                                        ?.length
+                                                )}
+                                                <div className="flex gap-x-2">
+                                                    {quickActions}
+                                                    {pagination(
+                                                        industries?.data
+                                                            ?.paginatedResults
+                                                            ?.pagination,
+                                                        setPage
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 )
                             }}

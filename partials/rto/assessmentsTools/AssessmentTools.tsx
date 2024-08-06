@@ -1,5 +1,4 @@
 import { UserStatus } from '@types'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -133,13 +132,7 @@ export const AssessmentsToolsContainer = () => {
     return (
         <div>
             <ShowErrorNotifications result={removeResult} />
-            <div className="mb-2">
-                <Typography variant="muted" color="text-gray-400">
-                    *You can access all your assessment tools by clicking on
-                    download button for your placement unit you are currently
-                    enrolled in.
-                </Typography>
-            </div>
+
             <Card noPadding>
                 <div className="flex">
                     <div className="w-[25%] border-r">
@@ -227,18 +220,6 @@ export const AssessmentsToolsContainer = () => {
                     </div>
                 </div>
             </Card>
-            <div className="mt-6">
-                <Typography variant="label" color="text-black">
-                    What you want to do here?
-                </Typography>
-            </div>
-            <div>
-                <Typography variant="label" color="text-blue-500">
-                    <Link legacyBehavior href="#">
-                        I want to access my assessment tool for enrolled course
-                    </Link>
-                </Typography>
-            </div>
         </div>
     )
 }

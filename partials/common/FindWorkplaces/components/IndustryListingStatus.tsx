@@ -6,7 +6,6 @@ export const IndustryListingStatus = ({
 }: {
     status: IndustryStatus
 }) => {
-    console.log({ status })
     switch (status) {
         case IndustryStatus.FAVOURITE:
             return <Badge variant="success" text="Favorite" />
