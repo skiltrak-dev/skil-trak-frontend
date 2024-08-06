@@ -1,6 +1,7 @@
 import { Packages } from '@types'
 import classNames from 'classnames'
 import { BsFillCheckCircleFill } from 'react-icons/bs'
+import { IoIosArrowDown } from 'react-icons/io'
 
 export const PackageItem = ({
     pkg,
@@ -18,24 +19,30 @@ export const PackageItem = ({
         'border-indigo-500': selected,
     })
     return (
-        <div className={classes} onClick={() => onClick && onClick()}>
-            {selected ? (
-                <div className="transition-all duration-300 absolute top-1 right-1 text-indigo-500 group-hover:text-white">
-                    <BsFillCheckCircleFill />
-                </div>
-            ) : null}
+        <div
+            className={`relative px-3 py-4 bg-white cursor-pointer ${
+                selected ? 'border-t rounded-t-lg' : 'rounded-lg shadow-md border'
+            }`}
+            onClick={() => onClick && onClick()}
+        >
+            <div
+                className={`transition-all duration-300 absolute top-5 right-3  ${
+                    selected ? 'bg-indigo-500' : 'bg-white'
+                } border shadow-sm rounded-md p-1.5`}
+            >
+                <IoIosArrowDown
+                    className={`${
+                        selected ? 'rotate-180 text-white' : 'rotate-0 text-gray-500'
+                    } transition-all duration-300`}
+                />
+            </div>
 
-            <p className="transition-all duration-300 text-xs text-gray-500 font-medium group-hover:text-indigo-300">
+            <p className="transition-all duration-300 text-lg text-primaryNew font-bold">
                 {pkg?.name}
             </p>
-            <div className="flex items-center justify-between">
-                <p className="transition-all duration-300 text-sm group-hover:text-indigo-100">
-                    {pkg?.name}
-                </p>
-                <p className="transition-all duration-300 text-xs text-gray-400 capitalize group-hover:text-indigo-900">
-                    {pkg?.billingType}
-                </p>
-            </div>
+            <p className="transition-all duration-300 text-sm capitalize text-primaryNew">
+                {pkg?.billingType}
+            </p>
         </div>
     )
 }

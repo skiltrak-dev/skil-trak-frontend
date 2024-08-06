@@ -1,3 +1,5 @@
+import { Card } from '@components/cards'
+import { Typography } from '@components/Typography'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 // import { PortalLinksStyles } from "./style";
@@ -15,20 +17,25 @@ export const PortalSelectButton = ({
     onMouseEnter,
 }: PortalSelectButtonProps) => {
     return (
-        <Link legacyBehavior href={link}>
-            <a
-                className={`group transition-all text-center text-lg h-20 w-60 font-bold flex justify-start items-center px-4 py-2 border border-primary rounded-lg text-black hover:text-white hover:bg-primary`}
-                onMouseEnter={() => {
-                    onMouseEnter()
-                }}
-            >
-                <img
-                    src={Icon}
-                    alt=""
-                    className="filter group-hover:grayscale group-hover:saturate-100 group-hover:brightness-200 mr-8"
-                />
-                {children}
-            </a>
-        </Link>
+        <Card>
+            <div className="flex flex-col justify-center items-center gap-y-5 h-48 w-60">
+                <div>
+                    <img src={Icon} alt="" className="" />
+                </div>
+                <Typography variant={'h4'} color="text-[#24556D]" center>
+                    {children}
+                </Typography>
+                <Link legacyBehavior href={link}>
+                    <a
+                        className={`group transition-all text-center text-sm font-semibold flex justify-center items-center px-4 py-2 rounded-lg text-white bg-primary`}
+                        onMouseEnter={() => {
+                            onMouseEnter()
+                        }}
+                    >
+                        Choose
+                    </a>
+                </Link>
+            </div>
+        </Card>
     )
 }

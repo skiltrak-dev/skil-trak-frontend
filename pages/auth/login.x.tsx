@@ -150,7 +150,7 @@ const Login: NextPage = () => {
             {rejected && <AccountStatus status={UserStatus.Rejected} />}
             {archived && <AccountStatus status={UserStatus.Archived} />}
             {blocked && <AccountStatus status={UserStatus.Blocked} />}
-
+            <AuthNavbar type={'log-in'} />
             <Head>
                 <title>Login</title>
                 <meta
@@ -161,102 +161,12 @@ const Login: NextPage = () => {
             </Head>
             {!requested && !rejected && !archived && !blocked && (
                 // <div className="w-4/5 mx-auto flex items-center justify-between">
-                <div className="flex flex-col-reverse md:flex-row gap-y-6 md:items-center gap-x-6 w-full ">
-                    <div className="signup-bg overflow-hidden  w-full md:w-1/2">
-                        {/* QR CODE */}
-                        <div className="flex flex-col items-center justify-center gap-1.5 w-full mt-8">
-                            <div className="flex justify-center items-center gap-x-1.5 w-full">
-                                <div className="w-36">
-                                    <Image
-                                        src={'/images/skiltrak_IOS.svg'}
-                                        alt="Skiltrak App"
-                                        width={200}
-                                        height={200}
-                                        sizes="100vw"
-                                        className="object-contain"
-                                    />
-                                </div>
-                                <div className="w-36">
-                                    <Image
-                                        src={'/images/scan-qr-code-text.svg'}
-                                        alt="Skiltrak App"
-                                        width={200}
-                                        height={100}
-                                        className="object-contain"
-                                    />
-                                </div>
-                            </div>
-                        </div>
 
-                        {/* PLAY BUTTON */}
-                        <div className="flex items-center justify-center gap-x-4 mt-8 md:mt-6">
-                            <Link className="cursor-pointer" href="#">
-                                <div>
-                                    <Image
-                                        src={'/images/google-play-button.svg'}
-                                        alt="Skiltrak App"
-                                        width={106}
-                                        height={34}
-                                    />
-                                </div>
-                            </Link>
-                            <Link
-                                className="cursor-pointer"
-                                href="https://apps.apple.com/pk/app/skiltrak/id6479631404"
-                            >
-                                <div>
-                                    <Image
-                                        src={'/images/download-btn.svg'}
-                                        alt="Skiltrak App"
-                                        width={106}
-                                        height={34}
-                                    />
-                                </div>
-                            </Link>
-                        </div>
-
-                        <div className="flex flex-col items-center gap-0.5 whitespace-nowrap mt-9">
-                            <Typography variant="h4">Skiltrak App</Typography>
-                            <Typography variant="label" italic>
-                                Exclusive access for students:
-                            </Typography>
-                            <Typography variant="label" bold italic>
-                                Download Skiltrak App now!
-                            </Typography>
-                        </div>
-
-                        <div className="mt-8 flex justify-center ">
-                            <Image
-                                src={'/images/our-story/mobile-screens.png'}
-                                alt="Twitter"
-                                width={535}
-                                height={500}
-                                className="hidden md:block"
-                            />
-                            <Image
-                                src={'/images/our-story/mobile-screens.png'}
-                                alt="Twitter"
-                                width={535}
-                                height={500}
-                                className="block md:hidden"
-                            />
-                        </div>
-                    </div>
-                    <div className="flex flex-col flex-grow mt-8 md:w-1/2 md:px-12 px-4">
-                        <Link href={'/'} className="mb-10">
-                            <Image
-                                src="/images/auth/skiltrak-logo.png"
-                                alt="logo"
-                                width={201}
-                                height={60}
-                            />
-                        </Link>
+                <div className="mx-auto max-w-7xl flex flex-col sm:flex-row justify-between md:mb-0 mb-10">
+                    <div className="flex flex-col items-center flex-grow mt-8 md:w-1/2 md:px-12 px-4">
                         <div className="w-full mb-8">
                             <Typography variant={'h3'}>
-                                Welcome Back !
-                            </Typography>
-                            <Typography variant={'small'}>
-                                Log In to your account
+                                Login To Your Account
                             </Typography>
                         </div>
 
@@ -270,7 +180,7 @@ const Login: NextPage = () => {
 
                         {!loginResult.isLoading || !loginResult.isSuccess ? (
                             <div className="mt-16">
-                                <Typography variant="small" medium>
+                                <Typography variant="muted">
                                     Don&apos;t have account?{' '}
                                     <Link legacyBehavior href="/auth/signup">
                                         <a className="text-link">
@@ -281,8 +191,76 @@ const Login: NextPage = () => {
                             </div>
                         ) : null}
                     </div>
+
+                    <div className="hidden md:block h-48 my-auto w-px bg-gray-300 mx-16"></div>
+
+                    <div className="md:w-1/2 md:-mr-32 ">
+                        <div className="flex md:flex-row flex-col gap-y-3 md:items-start items-center  justify-between gap-x-28 mt-8 ">
+                            <div className="flex flex-col gap-0.5 whitespace-nowrap">
+                                <Typography variant="h2">
+                                    Skiltrak App
+                                </Typography>
+                                <Typography variant="label">
+                                    Exclusive access for students:
+                                </Typography>
+                                <Typography variant="label" bold>
+                                    Download Skiltrak App now!
+                                </Typography>
+                            </div>
+                            <div className="flex flex-col md:items-start items-center gap-1.5 w-full">
+                                <div className="flex md:justify-start justify-center items-center gap-x-1.5 w-full">
+                                    <div className="w-36">
+                                        <Image
+                                            src={'/images/skiltrak_IOS.svg'}
+                                            alt="Skiltrak App"
+                                            width={206}
+                                            height={206}
+                                            sizes="100vw"
+                                            className="object-contain"
+                                        />
+                                    </div>
+                                    <div className="w-36">
+                                        <Image
+                                            src={
+                                                '/images/scan-qr-code-text.svg'
+                                            }
+                                            alt="Skiltrak App"
+                                            width={204}
+                                            height={110}
+                                            className="object-contain"
+                                        />
+                                    </div>
+                                </div>
+                                <Link
+                                    className="cursor-pointer"
+                                    href="https://apps.apple.com/pk/app/skiltrak/id6479631404"
+                                >
+                                    <div>
+                                        <Image
+                                            src={'/images/download-btn.svg'}
+                                            alt="Skiltrak App"
+                                            width={106}
+                                            height={34}
+                                        />
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="hidden md:block absolute right-0 bottom-0">
+                        <Image
+                            src="/images/skiltrak-app.svg"
+                            alt="Skiltrak App"
+                            width={550}
+                            height={550}
+                            className="w-auto h-full object-cover"
+                        />
+                    </div>
                 </div>
             )}
+            <div className="w-full fixed bottom-0 left-0">
+                <Footer />
+            </div>
         </>
     )
 }

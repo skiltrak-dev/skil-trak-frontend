@@ -163,7 +163,7 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                 onSubmit={formMethods.handleSubmit(onSubmit)}
             >
                 {/* Personal Information */}
-                <div className="flex gap-x-16 border-t py-4">
+                <div className="flex gap-x-16 border-t py-4 ">
                     <div className="w-2/6">
                         <Typography
                             variant={'subtitle'}

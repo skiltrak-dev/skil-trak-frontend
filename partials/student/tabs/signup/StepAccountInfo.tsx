@@ -13,11 +13,11 @@ export const StepAccountInfo = () => {
             ...values,
         })
 
-        router.push({ query: { step: 'notification-method' } })
+        router.push({ query: { step: 'review-info' } })
     }
 
     return (
-        <div className="w-full mt-4 pb-10">
+        <div className="w-full mt-4 pb-10 md:px-0 px-4">
             <StudentSignUpForm onSubmit={onSubmit} />
         </div>
     )
