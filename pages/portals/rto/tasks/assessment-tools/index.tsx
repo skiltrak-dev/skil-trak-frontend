@@ -4,21 +4,12 @@ import { RtoLayout } from '@layouts'
 // Types
 import { NextPageWithLayout } from '@types'
 // Components
-import { Typography } from '@components'
-// React Icons
 
 // Queries
-import { useUpdateAssessmentToolArchiveMutation } from '@queries'
 import { AssessmentsToolsContainer } from '@partials/rto'
 
-type Props = {}
-
-const RtoAssessmentTools: NextPageWithLayout = (props: Props) => {
-    return (
-        <>
-            <AssessmentsToolsContainer />
-        </>
-    )
+const RtoAssessmentTools: NextPageWithLayout = () => {
+    return <AssessmentsToolsContainer />
 }
 RtoAssessmentTools.getLayout = (page: ReactElement) => {
     return (

@@ -42,6 +42,7 @@ export const ProfileOptionButton = ({
                         credentials?.avatar ||
                         'https://images.unsplash.com/photo-1493030233192-040fe1b18799?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80'
                     }
+                    className="object-cover w-full h-full"
                     alt=""
                 />
             </div>

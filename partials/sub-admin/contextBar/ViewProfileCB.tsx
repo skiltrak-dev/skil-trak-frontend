@@ -104,13 +104,16 @@ export const ViewProfileCB = ({
                             />
                         </div>
                         {subadmin?.user.avatar ? (
-                            <Image
-                                src={subadmin?.user.avatar}
-                                width={100}
-                                height={100}
-                                alt=""
-                                className="rounded-full shadow-inner-image"
-                            />
+                            <div className="w-[100px] h-[100px]">
+                                <Image
+                                    src={subadmin?.user.avatar}
+                                    width={0}
+                                    height={0}
+                                    sizes="100vh 100vw"
+                                    alt=""
+                                    className="w-full h-full rounded-full object-cover shadow-inner-image"
+                                />
+                            </div>
                         ) : (
                             <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
                                 <span className="text-4xl text-gray-300">
@@ -120,7 +123,7 @@ export const ViewProfileCB = ({
                         )}
                         <div
                             className={`${
-                                subadmin?.user.avatar
+                                subadmin?.user?.avatar
                                     ? 'w-[100px] h-[100px]'
                                     : 'w-24 h-24'
                             } absolute top-0 w-[100px] h-[100px] bg-transparent rounded-full shadow-inner-image`}

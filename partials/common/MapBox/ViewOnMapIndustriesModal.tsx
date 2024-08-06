@@ -10,11 +10,13 @@ import {
     useJsApiLoader,
 } from '@react-google-maps/api'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState } from 'react'
 import { IoMdCloseCircle } from 'react-icons/io'
-import { FutureIndustryInfoBoxCard } from './FutureIndustryInfoBoxCard'
-import { IndustryInfoBoxCard } from './IndustryInfoBoxCard'
-import { StudentInfoBoxCard } from './StudentInfoBoxCard'
+import { useCallback, useEffect, useState } from 'react'
+import {
+    StudentInfoBoxCard,
+    IndustryInfoBoxCard,
+    FutureIndustryInfoBoxCard,
+} from './components'
 
 const containerStyle = {
     width: '780px',

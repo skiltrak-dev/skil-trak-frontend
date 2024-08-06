@@ -10,9 +10,11 @@ import {
 } from '@react-google-maps/api'
 import { ellipsisText, removeEmptyValues } from '@utils'
 import { useCallback, useEffect, useState } from 'react'
-import { IndustryInfoBoxCard } from './IndustryInfoBoxCard'
-import { StudentInfoBoxCard } from './StudentInfoBoxCard'
-import { FutureIndustryInfoBoxCard } from './FutureIndustryInfoBoxCard'
+import {
+    StudentInfoBoxCard,
+    IndustryInfoBoxCard,
+    FutureIndustryInfoBoxCard,
+} from './components'
 
 const containerStyle = {
     width: '100%',
