@@ -211,7 +211,10 @@ export const FutureIndustryInfoBoxCard = ({
                                 </Typography>
 
                                 {sectors?.map((s: any) => (
-                                    <div className="border-b border-gray-200 pb-2 mb-2">
+                                    <div
+                                        key={s?.id}
+                                        className="border-b border-gray-200 pb-2 mb-2"
+                                    >
                                         {/* <Typography variant="xxs">
                                             {s?.code || 'N/A'}
                                         </Typography> */}

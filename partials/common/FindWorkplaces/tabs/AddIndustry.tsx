@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
-import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
+import _debounce from 'lodash/debounce'
 
 import { useContextBar, useNotification } from '@hooks'
 import { AuthApi, CommonApi } from '@queries'
@@ -9,7 +9,7 @@ import { SignUpUtils, isEmailValid } from '@utils'
 
 import { Button, Select, ShowErrorNotifications, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { IndustryStatus, Sector } from '@types'
+import { IndustryStatus, OptionType, Sector } from '@types'
 import { FormProvider, useForm } from 'react-hook-form'
 import { IndustryListingDepartment } from '../enum'
 
@@ -30,6 +30,7 @@ export const AddIndustry = ({
     industryData: any
     onSetIndustryData: () => void
 }) => {
+    console.log({ industryData })
     const { notification } = useNotification()
     const [countryId, setCountryId] = useState(null)
     const contextBar = useContextBar()
@@ -207,6 +208,17 @@ export const AddIndustry = ({
         },
     ]
 
+    const departmentOptions = [
+        {
+            label: 'Employment',
+            value: IndustryListingDepartment.EMPLOYMENT,
+        },
+        {
+            label: 'SOURCING',
+            value: IndustryListingDepartment.SOURCING,
+        },
+    ]
+
     const onSubmit = (values: any) => {
         SignUpUtils.setValuesToStorage(values)
         if (industryData) {
@@ -283,16 +295,11 @@ export const AddIndustry = ({
                                 <Select
                                     name={'department'}
                                     label={'Select Department'}
-                                    options={[
-                                        {
-                                            label: 'Employment',
-                                            value: IndustryListingDepartment.EMPLOYMENT,
-                                        },
-                                        {
-                                            label: 'SOURCING',
-                                            value: IndustryListingDepartment.SOURCING,
-                                        },
-                                    ]}
+                                    options={departmentOptions}
+                                    value={departmentOptions?.find(
+                                        (dept: OptionType) =>
+                                            dept?.value === selectedDepartment
+                                    )}
                                     onlyValue
                                 />
 

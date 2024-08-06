@@ -14,6 +14,8 @@ export const UserProfileDetailCard = ({
     border?: boolean
     children?: ReactNode
 }) => {
+    console.log({ detail })
+    const abc = <p>Saad</p>
     return (
         <div
             onClick={() => {
@@ -31,7 +33,11 @@ export const UserProfileDetailCard = ({
                 </Typography>
 
                 <Typography variant="xs" color="text-[#374151]">
-                    {detail || '---'}
+                    <span
+                        dangerouslySetInnerHTML={{
+                            __html: detail || '---',
+                        }}
+                    />
                 </Typography>
             </div>
             {children && <div>{children}</div>}

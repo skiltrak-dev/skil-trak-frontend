@@ -40,14 +40,15 @@ export const BlockedIndustries = ({
             }
         )
 
-    const { columns, modal, quickActionsElements } = useColumns({
+    const { columns, modal, actionsModal, quickActionsElements } = useColumns({
         data,
         onSetIndustryData,
     })
 
     return (
         <>
-            {modal && modal}
+            {modal}
+            {actionsModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Blocked Industries'}
