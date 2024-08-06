@@ -14,7 +14,7 @@ import {
 } from '@partials/common/FindWorkplaces'
 import { useIndustryListingActions } from '@partials/common/FindWorkplaces/hooks/useIndustryListingActions'
 import { CommonApi } from '@queries'
-import { IndustryStatus } from '@types'
+import { IndustryStatus, Sector } from '@types'
 import { ReactElement, useState } from 'react'
 
 export const IndustryListingCB = ({ id }: { id: number }) => {
@@ -59,26 +59,26 @@ export const IndustryListingCB = ({ id }: { id: number }) => {
 
     const actions = tableActionOptions(detail?.data)
 
-    const filteredActions = actions
-        ?.filter((a: any) => a?.text !== 'Edit')
-        ?.map((a: any) => {
-            let detail = { ...a }
-            delete detail.Icon
+    const filteredActions = actions?.map((a: any) => {
+        let detail = { ...a }
+        delete detail.Icon
 
-            return detail
-        })
+        return detail
+    })
+
+    console.log({ detail })
 
     const listingStatus = (status: string) => {
         switch (status) {
             case IndustryStatus.FAVOURITE:
-                return 'Favorite'
+                return '<p class="bg-green-100 text-green-500 rounded-sm px-2 py-0.5 text-[10px]">Favorite</p>'
             case IndustryStatus.DO_NOT_DISTURB:
-                return 'Do Not Disturb'
+                return '<p class="bg-red-100 text-red-500 rounded-sm px-2 py-0.5 text-[10px]">Do Not Disturb</p>'
             case IndustryStatus.BLOCKED:
-                return 'Blocked'
+                return '<p class="bg-red-100 text-red-500 rounded-sm px-2 py-0.5 text-[10px]">Blocked</p>'
 
             default:
-                return '---'
+                return '<p>---</p>'
         }
     }
 
@@ -121,12 +121,13 @@ export const IndustryListingCB = ({ id }: { id: number }) => {
                                 detail={detail?.data?.department}
                             />
                             <UserProfileDetailCard
-                                title="Region"
-                                detail={detail?.data?.region}
+                                title="Country"
+                                detail={detail?.data?.country?.name}
                             />
+
                             <UserProfileDetailCard
                                 title="State"
-                                detail={detail?.data?.state}
+                                detail={detail?.data?.region?.name}
                             />
                             <UserProfileDetailCard
                                 title="Status"
@@ -139,6 +140,17 @@ export const IndustryListingCB = ({ id }: { id: number }) => {
                             onClick={() => {
                                 onCopyInfo(detail?.data?.address, 'Address')
                             }}
+                        />
+                        <UserProfileDetailCard
+                            title="Sector"
+                            detail={detail?.data?.sector
+                                ?.map(
+                                    (sec: Sector) =>
+                                        `<span class="bg-green-100 text-green-500 rounded-sm px-2 py-0.5 text-[10px]">
+                                        ${sec?.name}
+                                    </span>`
+                                )
+                                ?.join(' , ')}
                         />
 
                         {/*  */}

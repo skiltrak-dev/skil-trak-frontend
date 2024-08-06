@@ -42,20 +42,6 @@ const PrimaryLinks = [
     // },
 ]
 
-const WorkplaceQuestions = [
-    {
-        text: `Where can I view Student's workplaces?`,
-        link: '#',
-    },
-]
-
-const MoUQuestions = [
-    {
-        text: `Where can I view MoUs`,
-        link: '#',
-    },
-]
-
 const RtoIndustries: NextPageWithLayout = () => {
     const contextBar = useContextBar()
 
@@ -79,7 +65,7 @@ const RtoIndustries: NextPageWithLayout = () => {
                 </div>
 
                 {/* Special Cards */}
-                <div className="w-3/5 flex flex-col justify-center space-y-2">
+                <div className="w-3/5 flex flex-col space-y-2">
                     <div className="flex flex-col gap-y-4">
                         <div className="flex gap-x-4">
                             <FigureCard
@@ -96,27 +82,6 @@ const RtoIndustries: NextPageWithLayout = () => {
                             />
                         </div>
                     </div>
-
-                    <QuestionCard>
-                        <>
-                            <div className="flex flex-col gap-y-2">
-                                <HelpQuestionSet
-                                    title={'Workplaces'}
-                                    questions={WorkplaceQuestions}
-                                />
-
-                                {/* <HelpQuestionSet
-                                    title={'Memorandum Of Understanding'}
-                                    questions={Mou}
-                                /> */}
-                            </div>
-
-                            <HelpQuestionSet
-                                title={'Memorandum Of Understanding'}
-                                questions={MoUQuestions}
-                            />
-                        </>
-                    </QuestionCard>
                 </div>
             </div>
 

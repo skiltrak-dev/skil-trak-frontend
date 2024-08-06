@@ -13,7 +13,7 @@ const PREFIX = '/portals/rto'
 const Routes = {
     Dashboard: `${PREFIX}`,
     Students: `${PREFIX}/students?tab=active`,
-    Admins: `${PREFIX}/admins`,
+    ContactPerson: `${PREFIX}/admins/contact-person`,
     Industries: `${PREFIX}/industries`,
     Tasks: `${PREFIX}/tasks`,
     Coordinators: `${PREFIX}/coordinators?tab=my-coordinators`,
@@ -41,8 +41,8 @@ export const RtoNavbar = () => {
             id: 'students',
         },
         {
-            link: Routes.Admins,
-            text: 'Admins',
+            link: Routes.ContactPerson,
+            text: 'Contact Person',
             Icon: RiAdminLine,
             activeClasses: 'bg-blue-100 text-blue-700',
             inActiveClasses: 'text-slate-700',

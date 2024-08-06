@@ -26,12 +26,17 @@ import {
     ListingCreatedBy,
     PhoneNumberCell,
 } from '../components'
-import { DeleteMultiFutureIndustryModal, ViewNoteModal } from '../modal'
+import {
+    BlockIndustryListingModal,
+    DeleteMultiFutureIndustryModal,
+    ViewNoteModal,
+} from '../modal'
 import { MultipleBlockModal } from '../MultipleBlockModal'
 import { MultipleDefaultModal } from '../MultipleDefaultModal'
 import { MultipleDoNotDisturbModal } from '../MultipleDoNotDisturbModal'
 import { MultipleFavoriteModal } from '../MultipleFavoriteModal'
 import { useIndustryListingActions } from './useIndustryListingActions'
+import { AddIndustry } from '../tabs'
 
 export const useColumns = ({
     data,
@@ -92,6 +97,30 @@ export const useColumns = ({
                 industry={industry}
             />
         )
+    }
+
+    const onBlockClicked = (industry: any) => {
+        setModal(
+            <BlockIndustryListingModal
+                industry={industry}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onEditIndustry = (industryData: any) => {
+        contextBar.setContent(
+            <AddIndustry
+                industryData={industryData}
+                onSetIndustryData={() => {
+                    if (onSetIndustryData) {
+                        onSetIndustryData(null)
+                    }
+                }}
+            />
+        )
+        contextBar.show(false)
+        contextBar.setTitle('Edit Future Industry')
     }
 
     const columns: ColumnDef<any>[] = [
@@ -232,10 +261,23 @@ export const useColumns = ({
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: Industry) => (
+        individual: (industry: any) => (
             <div className="flex gap-x-2">
-                <ActionButton Icon={FaEdit}>Edit</ActionButton>
-                <ActionButton Icon={MdBlock} variant="error">
+                <ActionButton
+                    Icon={FaEdit}
+                    onClick={() => {
+                        onEditIndustry(industry)
+                    }}
+                >
+                    Edit
+                </ActionButton>
+                <ActionButton
+                    Icon={MdBlock}
+                    variant="error"
+                    onClick={() => {
+                        onBlockClicked(industry)
+                    }}
+                >
                     Block
                 </ActionButton>
             </div>

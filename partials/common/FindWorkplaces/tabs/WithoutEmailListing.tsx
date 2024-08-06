@@ -44,7 +44,7 @@ export const WithoutEmailListing = ({
             }
         )
 
-    const { columns, modal, quickActionsElements } = useColumns({
+    const { columns, modal, actionsModal, quickActionsElements } = useColumns({
         data,
         onSetIndustryData,
     })
@@ -52,6 +52,7 @@ export const WithoutEmailListing = ({
     return (
         <>
             {modal}
+            {actionsModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Partial Listing'}
