@@ -4,12 +4,12 @@ import * as Yup from 'yup'
 
 import { Button, Select, ShowErrorNotifications, Typography } from '@components'
 import { BinaryFileUpload } from '@components/inputs/BinaryFileUpload'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
 import { RtoApi } from '@queries'
+import { FormProvider, useForm } from 'react-hook-form'
 import { IndustryListingDepartment } from '../enum'
 import { ImportIndustriesListVerificationModal } from '../modal'
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 
 const validationSchema = Yup.object({
     department: Yup.string().required('Department is required!'),

@@ -1,20 +1,18 @@
 import { Button, ShowErrorNotifications } from '@components'
+import { ApproveRequestModal } from '@partials/sub-admin/workplace/modals'
 import {
     CommonApi,
     useIndustryResponseMutation,
     useUpdateWorkplaceStatusMutation,
 } from '@queries'
-import { ApproveRequestModal } from '@partials/sub-admin/workplace/modals'
-import React, { ReactElement, useState } from 'react'
 import { Course, Student, UserStatus } from '@types'
 import { WorkplaceCurrentStatus } from '@utils'
-import { SignAgreement } from '@partials/sub-admin/workplace/components/Industries/components/Actions/components'
-import { InitiateSign } from './components'
+import { ReactElement, useState } from 'react'
 import {
     AgreementSignedModal,
     ShowScheduleInfoBeforeApproveWPModal,
-    ShowScheduleInfoModal,
 } from '../../modals'
+import { InitiateSign } from './components'
 
 export const Actions = ({
     workplace,

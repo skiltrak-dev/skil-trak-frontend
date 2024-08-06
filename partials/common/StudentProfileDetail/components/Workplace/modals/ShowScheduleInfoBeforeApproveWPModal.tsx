@@ -62,7 +62,12 @@ export const ShowScheduleInfoBeforeApproveWPModal = ({
                             })
                         }}
                     />
-                    <Button text="OK" />
+                    <Button
+                        text="OK"
+                        onClick={() => {
+                            onCancel()
+                        }}
+                    />
                 </div>
             </div>
         </GlobalModal>

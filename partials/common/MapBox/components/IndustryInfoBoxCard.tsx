@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { ReactElement, useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { PulseLoader } from 'react-spinners'
+import { CopyInfoData } from './CopyInfoData'
 
 type IndustryInfoBoxCardProps = {
     item: any
@@ -99,12 +100,20 @@ export const IndustryInfoBoxCard = ({
                                     )}
                                 </div>
                                 {!workplaceMapCard ? (
-                                    <Typography variant="title">
-                                        {ellipsisText(
-                                            item?.data?.user?.name,
-                                            15
-                                        )}
-                                    </Typography>
+                                    <div className="relative group w-fit">
+                                        <Typography variant="title">
+                                            {ellipsisText(
+                                                item?.data?.user?.name,
+                                                15
+                                            )}
+                                        </Typography>
+
+                                        {/*  */}
+                                        <CopyInfoData
+                                            text={item?.data?.user?.name}
+                                            type={'Name'}
+                                        />
+                                    </div>
                                 ) : (
                                     <div className="flex items-center justify-between gap-x-4 border-b pb-2">
                                         <div className="flex flex-col gap-y-1">
@@ -114,16 +123,36 @@ export const IndustryInfoBoxCard = ({
                                             >
                                                 Industry
                                             </Typography>
-                                            <Typography variant="muted">
-                                                {ellipsisText(
-                                                    item?.data?.user?.name,
-                                                    15
-                                                )}
-                                            </Typography>
 
-                                            <Typography variant="muted">
-                                                {item?.data?.user?.email}
-                                            </Typography>
+                                            <div className="relative group w-fit">
+                                                <Typography variant="muted">
+                                                    {ellipsisText(
+                                                        item?.data?.user?.name,
+                                                        15
+                                                    )}
+                                                </Typography>
+
+                                                {/*  */}
+                                                <CopyInfoData
+                                                    text={
+                                                        item?.data?.user?.name
+                                                    }
+                                                    type={'Name'}
+                                                />
+                                            </div>
+                                            <div className="relative group w-fit">
+                                                <Typography variant="muted">
+                                                    {item?.data?.user?.email}
+                                                </Typography>
+
+                                                {/*  */}
+                                                <CopyInfoData
+                                                    text={
+                                                        item?.data?.user?.email
+                                                    }
+                                                    type={'Email'}
+                                                />
+                                            </div>
                                         </div>
                                         <div className="flex flex-col gap-y-1 whitespace-nowrap">
                                             <Typography
@@ -138,11 +167,25 @@ export const IndustryInfoBoxCard = ({
                                                     15
                                                 ) ?? 'NA'}
                                             </Typography>
-                                            <Typography variant="xs">
-                                                {item?.data
-                                                    ?.contactPersonNumber ??
-                                                    'NA'}
-                                            </Typography>
+
+                                            <div className="relative group w-fit">
+                                                <Typography variant="xs">
+                                                    {item?.data
+                                                        ?.contactPersonNumber ??
+                                                        'NA'}
+                                                </Typography>
+
+                                                {/*  */}
+                                                <CopyInfoData
+                                                    text={
+                                                        item?.data
+                                                            ?.contactPersonNumber
+                                                    }
+                                                    type={
+                                                        'Contact Person Number'
+                                                    }
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 )}

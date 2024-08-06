@@ -18,6 +18,10 @@ export const findWorkplaceEndpoints = (
         query: () => `${PREFIX}/count`,
         providesTags: ['Industries'],
     }),
+    getFutureIndustryDetail: builder.query<any, number>({
+        query: (id) => `${PREFIX}/${id}/detail`,
+        providesTags: ['Industries'],
+    }),
     findIndustriesCount: builder.query<any, void>({
         query: () => ({
             url: `industries/count`,
@@ -25,12 +29,10 @@ export const findWorkplaceEndpoints = (
         providesTags: ['Industries'],
     }),
     getMapFutureIndustries: builder.query<any, any>({
-        query: (params) => {
-            return {
-                url: `futureindustries/list/for-map`,
-                params,
-            }
-        },
+        query: (params) => ({
+            url: `${PREFIX}/list/for-map`,
+            params,
+        }),
         providesTags: ['SubAdmin'],
     }),
     industriesStatusChange: builder.mutation<

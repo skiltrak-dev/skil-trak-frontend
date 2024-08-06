@@ -5,13 +5,13 @@ import {
     SnoozeIndustryModal,
     UnSnoozeIndustryModal,
 } from '@partials/common/modal'
-import { Industry, Rto } from '@types'
+import { Industry } from '@types'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactNode, useState } from 'react'
 import { BsUnlockFill } from 'react-icons/bs'
 import { IoMdEyeOff } from 'react-icons/io'
-import { IoInformationCircle } from 'react-icons/io5'
+import { IoFootstepsSharp } from 'react-icons/io5'
 import { MdSnooze } from 'react-icons/md'
 import { RiEditFill } from 'react-icons/ri'
 import { ViewProfileVisitorsModal } from '../../modal'
@@ -92,7 +92,7 @@ export const ProfileLinks = ({ industry }: { industry: Industry }) => {
         },
         {
             text: 'View Visitors',
-            Icon: IoInformationCircle,
+            Icon: IoFootstepsSharp,
             onClick: () => {
                 onViewProfileVisitorsClicked()
             },

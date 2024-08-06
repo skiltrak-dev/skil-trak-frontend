@@ -1,40 +1,24 @@
-import React from 'react'
-
 import {
     ActionButton,
     AuthorizedUserComponent,
-    Badge,
-    Button,
-    Card,
-    draftToHtmlText,
-    EmptyData,
-    InitialAvatar,
-    LoadingAnimation,
-    Table,
+    CustomDropdown,
     TableAction,
-    TechnicalError,
     Typography,
     UserCreatedAt,
 } from '@components'
-import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaFileExport } from 'react-icons/fa'
+import { FaEdit } from 'react-icons/fa'
 
-import { CommonApi, commonApi } from '@queries'
-import { Industry, IndustryStatus } from '@types'
+import { Industry } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
-import { FiLogIn } from 'react-icons/fi'
-import { MdBlock, MdDelete, MdEmail, MdOutlineFavorite } from 'react-icons/md'
+import { ReactElement, useState } from 'react'
+import { MdBlock, MdDelete } from 'react-icons/md'
 // import { IndustryCell, SectorCell } from './components'
 // import { BlockModal } from './modals'
 
 // hooks
 import { UserRoles } from '@constants'
-import { useContextBar, useNotification } from '@hooks'
-import { getUserCredentials } from '@utils'
-import { AiFillCheckCircle, AiFillWarning } from 'react-icons/ai'
-import { BiPencil } from 'react-icons/bi'
+import { useContextBar } from '@hooks'
 import {
     AddressCell,
     IndustryListingCellInfo,
@@ -42,20 +26,12 @@ import {
     ListingCreatedBy,
     PhoneNumberCell,
 } from '../components'
-import { DefaultModal } from '../DefaultModal'
-import { DoNotDisturbModal } from '../DoNotDisturbModal'
-import { FavoriteModal } from '../FavoriteModal'
-import {
-    ViewNoteModal,
-    AddToSignupModal,
-    BlockIndustryListingModal,
-    DeleteFutureIndustryModal,
-    DeleteMultiFutureIndustryModal,
-} from '../modal'
+import { DeleteMultiFutureIndustryModal, ViewNoteModal } from '../modal'
+import { MultipleBlockModal } from '../MultipleBlockModal'
 import { MultipleDefaultModal } from '../MultipleDefaultModal'
 import { MultipleDoNotDisturbModal } from '../MultipleDoNotDisturbModal'
 import { MultipleFavoriteModal } from '../MultipleFavoriteModal'
-import { AddIndustry } from '../tabs'
+import { useIndustryListingActions } from './useIndustryListingActions'
 
 export const useColumns = ({
     data,
@@ -66,56 +42,15 @@ export const useColumns = ({
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
+    const { actionsModal, tableActionOptions } =
+        useIndustryListingActions(onSetIndustryData)
+
     const router = useRouter()
 
     const contextBar = useContextBar()
 
     const onModalCancelClicked = () => {
         setModal(null)
-    }
-
-    const onDoNotDisturbClicked = (industry: Industry) => {
-        setModal(
-            <DoNotDisturbModal
-                industry={industry}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-    const onDefaultClicked = (industry: Industry) => {
-        setModal(
-            <DefaultModal
-                industry={industry}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
-    const onBlockClicked = (industry: Industry) => {
-        setModal(
-            <BlockIndustryListingModal
-                industry={industry}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
-    const onFavoriteClicked = (industry: Industry) => {
-        setModal(
-            <FavoriteModal
-                industry={industry}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
-    const onDeleteFutureIndustry = (industry: any) => {
-        setModal(
-            <DeleteFutureIndustryModal
-                futureIndustry={industry}
-                onCancel={onModalCancelClicked}
-            />
-        )
     }
 
     const onDeleteMultiFutureIndustry = (industry: any) => {
@@ -144,38 +79,11 @@ export const useColumns = ({
             <MultipleDefaultModal ids={ids} onCancel={onModalCancelClicked} />
         )
     }
-
-    const onAddToSignupClicked = (industry: any) => {
+    const onMultipleBlockedClicked = (ids: any) => {
         setModal(
-            <AddToSignupModal
-                industry={industry}
-                onCancel={onModalCancelClicked}
-            />
+            <MultipleBlockModal ids={ids} onCancel={onModalCancelClicked} />
         )
     }
-
-    const onEditIndustry = (industryData: any) => {
-        contextBar.setContent(
-            <AddIndustry
-                industryData={industryData}
-                onSetIndustryData={() => {
-                    onSetIndustryData(null)
-                }}
-            />
-        )
-        contextBar.show(false)
-        contextBar.setTitle('Edit Future Industry')
-    }
-    // const onViewNote = ({ note }: any) => {
-    //     setModal(
-    //         <GlobalModal>
-    //             <ViewIndustryListingNoteModal
-    //                 note={note}
-    //                 onCancel={onModalCancelClicked}
-    //             />
-    //         </GlobalModal>
-    //     )
-    // }
 
     const onViewNote = (industry: any) => {
         setModal(
@@ -186,80 +94,6 @@ export const useColumns = ({
         )
     }
 
-    const role = getUserCredentials()?.role
-
-    const tableActionOptions = (industry: any) => {
-        const stored = localStorage.setItem(
-            'signup-data',
-            JSON.stringify(industry)
-        )
-        return [
-            {
-                text: 'Default',
-                onClick: (industry: Industry) => onDefaultClicked(industry),
-                Icon: AiFillCheckCircle,
-                color: `'text-green-500 hover:bg-green-100 hover:border-green-200'`,
-            },
-            {
-                text: industry?.signedUp
-                    ? 'Remove From Signup'
-                    : 'Add to Signup',
-                onClick: (industry: any) => onAddToSignupClicked(industry),
-                Icon: AiFillCheckCircle,
-                color: `'text-green-500 hover:bg-green-100 hover:border-green-200'`,
-            },
-            {
-                text: 'Favorite',
-                onClick: (industry: Industry) => onFavoriteClicked(industry),
-                Icon: MdOutlineFavorite,
-                color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
-            },
-            {
-                text: 'Do Not Disturb',
-                onClick: (industry: Industry) =>
-                    onDoNotDisturbClicked(industry),
-                Icon: AiFillWarning,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: 'Block Industry',
-                onClick: (industry: Industry) => onBlockClicked(industry),
-                Icon: AiFillWarning,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: 'SignUp',
-                onClick: (industry: any) => {
-                    localStorage.setItem(
-                        'signup-data',
-                        JSON.stringify(industry)
-                    )
-                    router.push(
-                        `/portals/sub-admin/tasks/industry-listing/signup-future-industry`
-                    )
-                },
-                Icon: FiLogIn,
-            },
-            {
-                text: 'Edit',
-                onClick: (futureIndustry: any) => {
-                    onEditIndustry(futureIndustry)
-                },
-                Icon: BiPencil,
-            },
-            {
-                ...(role === UserRoles.ADMIN
-                    ? {
-                          text: 'Delete',
-                          onClick: (futureIndustry: any) => {
-                              onDeleteFutureIndustry(futureIndustry)
-                          },
-                          Icon: MdDelete,
-                      }
-                    : {}),
-            },
-        ]
-    }
     const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'businessName',
@@ -365,6 +199,37 @@ export const useColumns = ({
         },
     ]
 
+    const statusDataOptions = (ids: number[]) => [
+        {
+            onClick: () => {
+                onMultipleDefaultClicked(ids)
+            },
+            text: 'Default',
+            color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
+        },
+        {
+            onClick: () => {
+                onMultipleDoNotDisturbClick(ids)
+            },
+            text: 'Do Not Disturb',
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            onClick: () => {
+                onMultipleFavoriteClicked(ids)
+            },
+            text: 'Favorite',
+            color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
+        },
+        {
+            onClick: () => {
+                onMultipleBlockedClicked(ids)
+            },
+            text: 'Block',
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+    ]
+
     const quickActionsElements = {
         id: 'id',
         individual: (id: Industry) => (
@@ -375,54 +240,29 @@ export const useColumns = ({
                 </ActionButton>
             </div>
         ),
-        common: (ids: Industry[]) => (
-            <div className="flex items-center gap-x-2">
-                <ActionButton
-                    onClick={() => {
-                        const arrayOfIds = ids.map((id: any) => id?.id)
-                        onMultipleDefaultClicked(arrayOfIds)
-                    }}
-                    Icon={MdDelete}
-                    variant="light"
-                >
-                    Default
-                </ActionButton>
-                <ActionButton
-                    onClick={() => {
-                        const arrayOfIds = ids.map((id: any) => id?.id)
-                        onMultipleDoNotDisturbClick(arrayOfIds)
-                    }}
-                    Icon={AiFillWarning}
-                    variant="error"
-                >
-                    Do Not Disturb
-                </ActionButton>
-                <ActionButton
-                    onClick={() => {
-                        const arrayOfIds = ids.map((id: any) => id?.id)
-                        onMultipleFavoriteClicked(arrayOfIds)
-                    }}
-                    Icon={MdOutlineFavorite}
-                    variant="success"
-                >
-                    Favorite
-                </ActionButton>
-                <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
-                    <ActionButton
-                        onClick={() => {
-                            const arrayOfIds = ids.map((id: any) => id?.id)
-                            onDeleteMultiFutureIndustry(arrayOfIds)
-                            // bulkAction({ ids: arrayOfIds, status: 'blocked' })
-                        }}
-                        Icon={MdDelete}
-                        variant="error"
-                    >
-                        Delete
-                    </ActionButton>
-                </AuthorizedUserComponent>
-            </div>
-        ),
+        common: (ids: Industry[]) => {
+            const arrayOfIds = ids.map((id: any) => id?.id)
+            const options = statusDataOptions(arrayOfIds)
+            return (
+                <div className="flex items-center gap-x-2">
+                    <CustomDropdown options={options} text="Change Status" />
+                    <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                        <ActionButton
+                            onClick={() => {
+                                const arrayOfIds = ids.map((id: any) => id?.id)
+                                onDeleteMultiFutureIndustry(arrayOfIds)
+                                // bulkAction({ ids: arrayOfIds, status: 'blocked' })
+                            }}
+                            Icon={MdDelete}
+                            variant="error"
+                        >
+                            Delete
+                        </ActionButton>
+                    </AuthorizedUserComponent>
+                </div>
+            )
+        },
     }
 
-    return { columns, modal, quickActionsElements }
+    return { columns, modal, actionsModal, quickActionsElements }
 }

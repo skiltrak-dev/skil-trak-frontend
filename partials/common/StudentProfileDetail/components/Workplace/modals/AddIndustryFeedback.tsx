@@ -1,11 +1,11 @@
-import { GlobalModal, Typography } from '@components'
-import { useNotification } from '@hooks'
-import { CommonApi } from '@queries'
-import { Course } from '@types'
 import Image from 'next/image'
+import { Course } from '@types'
+import { CommonApi } from '@queries'
+import { useNotification } from '@hooks'
 import { MdCancel } from 'react-icons/md'
 import { StudentFeedbackType } from '../enum'
 import { AddIndustryFeedbackForm } from '../forms'
+import { GlobalModal, Typography } from '@components'
 
 export const industryFeedbackQuestions = {
     conducive:
