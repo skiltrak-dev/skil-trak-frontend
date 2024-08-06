@@ -14,6 +14,7 @@ import {
 
 import { StepForm } from '@partials/rto/tabs'
 import { useState } from 'react'
+import Head from 'next/head'
 
 const FormSteps: IndicatorStep[] = [
     {
@@ -55,12 +56,20 @@ const RtoSignUp: NextPage = () => {
     }
 
     return (
-        <AuthLayout type="sign-up">
-            <div className="max-w-screen-xl mx-auto my-5 px-2 xl:px-0">
-                <BackButton />
+        <>
+            <Head>
+                <title>RTO Sign Up</title>
+                <meta
+                    name="description"
+                    content="Sign up as a RTO"
+                    key="desc"
+                />
+            </Head>
+            <div className="md:pr-5 pr-0 ">
+                {/* <BackButton /> */}
 
-                <div>
-                    <Typography variant={'h3'}>
+                {/* <div className="">
+                    <Typography variant={'h1'} color="text-[#255168]">
                         Create Your RTO Account
                     </Typography>
                     <AuthBreadCrumb
@@ -76,11 +85,11 @@ const RtoSignUp: NextPage = () => {
                             },
                         ]}
                     />
-                </div>
+                </div> */}
 
                 <StepForm />
             </div>
-        </AuthLayout>
+        </>
     )
 }
 

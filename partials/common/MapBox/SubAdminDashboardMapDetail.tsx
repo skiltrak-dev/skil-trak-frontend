@@ -483,15 +483,14 @@ const SubAdminDashboardMapDetail = ({
                                             <div key={marker?.id}>
                                                 <Marker
                                                     icon={{
-                                                        url: pinnedStudentId
-                                                            ? '/images/icons/pinned-student-2.png'
-                                                            : marker?.user
-                                                                  ?.role &&
-                                                              marker?.user
-                                                                  ?.role ===
-                                                                  'industry'
-                                                            ? '/images/icons/industry-pin-map-pin.png'
-                                                            : '/images/icons/student-red-map-pin.png',
+                                                        url:
+                                                            marker?.user
+                                                                ?.role &&
+                                                            marker?.user
+                                                                ?.role ===
+                                                                'industry'
+                                                                ? '/images/icons/industry-pin-map-pin.png'
+                                                                : '/images/icons/student-red-map-pin.png',
                                                         scaledSize:
                                                             new google.maps.Size(
                                                                 29,

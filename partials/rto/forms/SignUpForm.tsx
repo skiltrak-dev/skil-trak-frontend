@@ -231,21 +231,17 @@ export const RtoSignUpForm = ({
                 onSubmit={formMethods.handleSubmit(onHandleSubmit)}
             >
                 {/* Personal Information */}
-                <div className="flex flex-col lg:flex-row gap-x-16 border-t py-4">
-                    <div className="w-full lg:w-2/6">
-                        <Typography
-                            variant={'subtitle'}
-                            color={'text-gray-500'}
-                        >
-                            RTO Information
-                        </Typography>
-                        <p className="text-gray-400 text-sm leading-6">
-                            Your information is required to make things clear
-                            and transparent
-                        </p>
-                    </div>
-
-                    <div className="w-full lg:w-4/6">
+                <div className="w-full">
+                    <Typography variant={'subtitle'} color={'text-gray-500'}>
+                        RTO Information
+                    </Typography>
+                    <p className="text-gray-400 text-sm leading-6">
+                        Your information is required to make things clear and
+                        transparent
+                    </p>
+                </div>
+                <div className=" border-t py-4">
+                    <div className="w-full">
                         <TextInput
                             label={'Name'}
                             name={'name'}
@@ -284,20 +280,16 @@ export const RtoSignUpForm = ({
                 </div>
 
                 {/* Sector Information */}
+                <div className="w-full">
+                    <Typography variant={'subtitle'} color={'text-gray-500'}>
+                        Sector Information
+                    </Typography>
+                    <p className="text-gray-400 text-sm leading-6">
+                        Select your eligible sectors, and related courses.
+                    </p>
+                </div>
                 <div className="flex flex-col lg:flex-row gap-x-16 border-t py-4">
-                    <div className="w-full lg:w-2/6">
-                        <Typography
-                            variant={'subtitle'}
-                            color={'text-gray-500'}
-                        >
-                            Sector Information
-                        </Typography>
-                        <p className="text-gray-400 text-sm leading-6">
-                            Select your eligible sectors, and related courses.
-                        </p>
-                    </div>
-
-                    <div className="w-full lg:w-4/6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2 gap-4">
+                    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2 gap-4">
                         <div>
                             <Select
                                 label={'Sector'}
@@ -343,20 +335,16 @@ export const RtoSignUpForm = ({
                 </div>
 
                 {/* Profile Information */}
+                <div className="w-full">
+                    <Typography variant={'subtitle'} color={'text-gray-500'}>
+                        Profile Information
+                    </Typography>
+                    <p className="text-gray-400 text-sm leading-6">
+                        This will be your information used as account login.
+                    </p>
+                </div>
                 <div className="flex flex-col lg:flex-row gap-x-16 border-t py-4">
-                    <div className="w-full lg:w-2/6">
-                        <Typography
-                            variant={'subtitle'}
-                            color={'text-gray-500'}
-                        >
-                            Profile Information
-                        </Typography>
-                        <p className="text-gray-400 text-sm leading-6">
-                            This will be your information used as account login.
-                        </p>
-                    </div>
-
-                    <div className="w-full lg:w-4/6">
+                    <div className="w-full">
                         <TextInput
                             label={'Email'}
                             name={'email'}
@@ -391,21 +379,16 @@ export const RtoSignUpForm = ({
                 </div>
 
                 {/* Address Information */}
+                <div className="w-full">
+                    <Typography variant={'subtitle'} color={'text-gray-500'}>
+                        Address Information
+                    </Typography>
+                    <p className="text-gray-400 text-sm leading-6">
+                        This will help us to find out about your nearby sites
+                    </p>
+                </div>
                 <div className="flex flex-col lg:flex-row gap-x-16 border-t lg:py-4 pt-4 lg:pt-0">
-                    <div className="w-full lg:w-2/6">
-                        <Typography
-                            variant={'subtitle'}
-                            color={'text-gray-500'}
-                        >
-                            Address Information
-                        </Typography>
-                        <p className="text-gray-400 text-sm leading-6">
-                            This will help us to find out about your nearby
-                            sites
-                        </p>
-                    </div>
-
-                    <div className="w-full lg:w-4/6">
+                    <div className="w-full">
                         <div className="grid grid-cols-1 gap-x-8">
                             <TextInput
                                 label={'Address Line 1'}
@@ -416,7 +399,7 @@ export const RtoSignUpForm = ({
                             />
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8">
                             <TextInput
                                 label={'Suburb'}
                                 name={'suburb'}
@@ -449,7 +432,7 @@ export const RtoSignUpForm = ({
                     </div>
                 </div>
 
-                <div className="w-full lg:w-4/6 lg:ml-auto lg:pl-12">
+                <div className="w-full">
                     <div className="mb-6">
                         <Checkbox
                             name={'agreedWithPrivacyPolicy'}
