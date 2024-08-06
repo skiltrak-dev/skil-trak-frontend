@@ -40,7 +40,7 @@ export const OurTrustedPartner = () => {
     ]
     return (
         <div className="py-5 md:border-y  border-secondary-dark">
-            <div className="max-w-[1135px] flex flex-col-reverse  md:flex-row items-center">
+            <div className="max-w-[1100px] flex flex-col-reverse  md:flex-row items-center">
                 <div className="px-9 w-full border-y md:border-y-0 py-4 md:py-0">
                     <div className="w-full items-center justify-between gap-y-12 md:gap-y-10 mx-auto">
                         <OurPartnerStyleContainer>

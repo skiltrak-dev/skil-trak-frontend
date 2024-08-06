@@ -1,6 +1,8 @@
 import { Typography } from '@components'
 import { MdCheckCircle } from 'react-icons/md'
 import Lottie from 'react-lottie'
+import { IoIosCheckmark } from 'react-icons/io'
+import Image from 'next/image'
 
 type Props = {
     text: any
@@ -24,28 +26,38 @@ export const OnBoardingLink = ({
         animationData: animation,
     }
 
-    const iconClass = `text-3xl text-primary ${
-        selected ? 'opacity-100' : 'opacity-0'
+    const iconClass = `text-2xl ${
+        selected
+            ? 'opacity-100 text-white bg-teal-500 rounded-lg'
+            : 'opacity-100 text-gray-400 bg-white border rounded-lg '
     } `
-    const checkIconClass = vertical ? `absolute top-2 right-2` : `relative`
+    const checkIconClass = vertical ? `absolute top-5 right-4` : `relative`
 
     return (
         <div
             onClick={() => onClick(value)}
             className={`flex ${
-                vertical ? 'flex-col relative' : 'h-16'
-            } items-center p-2 shadow-2 rounded-lg w-full cursor-pointer border ${
-                selected ? 'border-primary' : 'border-transparent'
-            }`}
+                vertical
+                    ? 'flex-col relative justify-center items-center'
+                    : 'h-16'
+            } items-center w-full cursor-pointer border ${
+                selected ? 'border-teal-600' : 'border-transparent'
+            } bg-white rounded-lg shadow-md px-14 py-6 `}
         >
             <div>
-                <Lottie options={animationOptions} height={90} width={90} />
+                <Image
+                    src={`${animation}`}
+                    alt="Icons"
+                    height={40}
+                    width={40}
+                    className="mb-2.5"
+                />
             </div>
-            <Typography variant={'subtitle'} color={'info'}>
+            <Typography variant={'subtitle'} color={'info'} center>
                 {text}
             </Typography>
             <div className={`${checkIconClass} ${iconClass}`}>
-                <MdCheckCircle />
+                <IoIosCheckmark />
             </div>
         </div>
     )

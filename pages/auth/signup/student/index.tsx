@@ -9,11 +9,12 @@ import {
     AuthBreadCrumb,
     BackButton,
     IndicatorStep,
-    Typography
+    Typography,
 } from '@components'
 
 import { StepForm } from '@partials/student/tabs'
 import { useState } from 'react'
+import Head from 'next/head'
 
 const FormSteps: IndicatorStep[] = [
     {
@@ -52,12 +53,20 @@ const StudentSignUp: NextPage = () => {
     }
 
     return (
-        <AuthLayout type="sign-up">
-            <div className="max-w-screen-xl mx-auto my-5 px-2 xl:px-0">
-                <BackButton />
+        <>
+            <Head>
+                <title>Student Sign Up</title>
+                <meta
+                    name="description"
+                    content="Sign up as a Student on the platform"
+                    key="desc"
+                />
+            </Head>
+            <div className="md:pr-5 pr-0">
+                {/* <BackButton />
 
                 <div>
-                    <Typography variant={'h3'}>
+                    <Typography variant={'h1'}>
                         Create Your Student Account
                     </Typography>
                     <AuthBreadCrumb
@@ -73,11 +82,11 @@ const StudentSignUp: NextPage = () => {
                             },
                         ]}
                     />
-                </div>
+                </div> */}
 
                 <StepForm />
             </div>
-        </AuthLayout>
+        </>
     )
 }
 

@@ -736,3 +736,34 @@ img {
         line-height: 30px; 
     }
 }
+
+.signup-bg{
+    background-image: url('/images/auth/signup-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+    .signup-bg {
+       height: 362px;
+    }
+}
+
+.choose-portal-type-bg{
+    background-image: url('/images/auth/signup-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+    .choose-portal-type-bg {
+       height: 100%;
+       padding: 20px 0;
+    }
+}

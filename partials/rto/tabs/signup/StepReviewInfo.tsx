@@ -1,4 +1,5 @@
-import { Button, Typography } from '@components'
+import { Button, Card, Typography } from '@components'
+import { InfoboxCard } from '@partials/common'
 import { PackageView } from '@partials/rto/components'
 import { OptionType, RtoFormData } from '@types'
 import { SignUpUtils } from '@utils'
@@ -35,7 +36,7 @@ export const StepReviewInfo = () => {
 
             <div>
                 <div className="w-full pb-10 lg:pr-10">
-                    <div className="flex flex-col md:flex-row gap-x-6">
+                    <div className="flex flex-col">
                         {/* RTO Information */}
                         <div className="flex-grow">
                             <div className="border-b border-secondary-dark mt-8">
@@ -46,9 +47,10 @@ export const StepReviewInfo = () => {
                                     RTO Information
                                 </Typography>
                             </div>
+                            <Card>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:max-w-lg mt-4">
-                                <div>
+                                <InfoboxCard>
                                     <Typography
                                         variant={'muted'}
                                         color={'text-gray-500'}
@@ -58,9 +60,9 @@ export const StepReviewInfo = () => {
                                     <Typography variant={'label'}>
                                         {formData.name || ''}
                                     </Typography>
-                                </div>
+                                </InfoboxCard>
 
-                                <div>
+                                <InfoboxCard>
                                     <Typography
                                         variant={'muted'}
                                         color={'text-gray-500'}
@@ -70,8 +72,8 @@ export const StepReviewInfo = () => {
                                     <Typography variant={'label'}>
                                         {formData.abn || ''}
                                     </Typography>
-                                </div>
-                                <div>
+                                </InfoboxCard>
+                                <InfoboxCard>
                                     <Typography
                                         variant={'muted'}
                                         color={'text-gray-500'}
@@ -81,8 +83,8 @@ export const StepReviewInfo = () => {
                                     <Typography variant={'label'}>
                                         {formData.rtoCode || ''}
                                     </Typography>
-                                </div>
-                                <div>
+                                </InfoboxCard>
+                                <InfoboxCard>
                                     <Typography
                                         variant={'muted'}
                                         color={'text-gray-500'}
@@ -92,8 +94,10 @@ export const StepReviewInfo = () => {
                                     <Typography variant={'label'}>
                                         {formData.phone || ''}
                                     </Typography>
-                                </div>
+                                </InfoboxCard>
                             </div>
+                            </Card>
+
                         </div>
 
                         {/* Profile Information */}
@@ -106,20 +110,21 @@ export const StepReviewInfo = () => {
                                     Profile Information
                                 </Typography>
                             </div>
-
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full md:max-w-lg mt-4">
-                                <div>
-                                    <Typography
-                                        variant={'muted'}
-                                        color={'text-gray-500'}
-                                    >
-                                        E-Mail
-                                    </Typography>
-                                    <Typography variant={'label'}>
-                                        {formData.email || ''}
-                                    </Typography>
+                            <Card>
+                                <div className=" mt-4">
+                                    <InfoboxCard>
+                                        <Typography
+                                            variant={'muted'}
+                                            color={'text-gray-500'}
+                                        >
+                                            E-Mail
+                                        </Typography>
+                                        <Typography variant={'label'}>
+                                            {formData.email || ''}
+                                        </Typography>
+                                    </InfoboxCard>
                                 </div>
-                            </div>
+                            </Card>
                         </div>
                     </div>
 
@@ -133,10 +138,11 @@ export const StepReviewInfo = () => {
                                 Your Package
                             </Typography>
                         </div>
-
-                        <div className="w-full mt-4 border px-4 py-4 rounded-xl">
-                            <PackageView pkg={formData.package} />
-                        </div>
+                        <Card>
+                            <div className="w-full mt-4 border px-4 py-4 rounded-xl">
+                                <PackageView pkg={formData.package} />
+                            </div>
+                        </Card>
                     </div>
 
                     {/* Sector Info */}
@@ -149,8 +155,8 @@ export const StepReviewInfo = () => {
                                 Sector Information
                             </Typography>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full mt-4">
-                            <div className="flex flex-col">
+                        <div className="flex flex-col gap-y-5 w-full mt-4">
+                            <Card>
                                 <div className="mb-1">
                                     <Typography
                                         variant={'muted'}
@@ -159,19 +165,26 @@ export const StepReviewInfo = () => {
                                         Sector(s)
                                     </Typography>
                                 </div>
-
-                                {formData.sectors?.map((sector: OptionType) => (
-                                    <div
-                                        className="border-t pt-1"
-                                        key={Number(sector.value)}
-                                    >
-                                        <Typography variant={'label'}>
-                                            {sector.label}
-                                        </Typography>
-                                    </div>
-                                ))}
-                            </div>
-                            <div>
+                                <div className="flex flex-col gap-y-1 mb-5">
+                                    {formData.sectors?.map(
+                                        (sector: OptionType) => (
+                                            <InfoboxCard>
+                                                <div
+                                                    className=""
+                                                    key={Number(sector.value)}
+                                                >
+                                                    <Typography
+                                                        variant={'label'}
+                                                    >
+                                                        {sector.label}
+                                                    </Typography>
+                                                </div>
+                                            </InfoboxCard>
+                                        )
+                                    )}
+                                </div>
+                            </Card>
+                            <Card>
                                 <div className="mb-1">
                                     <Typography
                                         variant={'muted'}
@@ -180,18 +193,25 @@ export const StepReviewInfo = () => {
                                         Course(s)
                                     </Typography>
                                 </div>
-
-                                {formData.courses?.map((course: OptionType) => (
-                                    <div
-                                        className="border-t pt-1"
-                                        key={Number(course.value)}
-                                    >
-                                        <Typography variant={'label'}>
-                                            {course.label}
-                                        </Typography>
-                                    </div>
-                                ))}
-                            </div>
+                                <div className="flex flex-col gap-y-1">
+                                    {formData.courses?.map(
+                                        (course: OptionType) => (
+                                            <InfoboxCard>
+                                                <div
+                                                    className=""
+                                                    key={Number(course.value)}
+                                                >
+                                                    <Typography
+                                                        variant={'label'}
+                                                    >
+                                                        {course.label}
+                                                    </Typography>
+                                                </div>
+                                            </InfoboxCard>
+                                        )
+                                    )}
+                                </div>
+                            </Card>
                         </div>
                     </div>
 
@@ -205,9 +225,10 @@ export const StepReviewInfo = () => {
                                 Address Information
                             </Typography>
                         </div>
+                        <Card>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full md:max-w-lg mt-4">
-                            <div>
+                            <InfoboxCard>
                                 <Typography
                                     variant={'muted'}
                                     color={'text-gray-500'}
@@ -217,9 +238,9 @@ export const StepReviewInfo = () => {
                                 <Typography variant={'label'}>
                                     {formData.addressLine1 || '-'}
                                 </Typography>
-                            </div>
+                            </InfoboxCard>
 
-                            <div>
+                            <InfoboxCard>
                                 <Typography
                                     variant={'muted'}
                                     color={'text-gray-500'}
@@ -229,9 +250,9 @@ export const StepReviewInfo = () => {
                                 <Typography variant={'label'}>
                                     {formData.addressLine2 || '-'}
                                 </Typography>
-                            </div>
+                            </InfoboxCard>
 
-                            <div>
+                            <InfoboxCard>
                                 <Typography
                                     variant={'muted'}
                                     color={'text-gray-500'}
@@ -241,9 +262,9 @@ export const StepReviewInfo = () => {
                                 <Typography variant={'label'}>
                                     {formData.state || '-'}
                                 </Typography>
-                            </div>
+                            </InfoboxCard>
 
-                            <div>
+                            <InfoboxCard>
                                 <Typography
                                     variant={'muted'}
                                     color={'text-gray-500'}
@@ -253,9 +274,9 @@ export const StepReviewInfo = () => {
                                 <Typography variant={'label'}>
                                     {formData.suburb || '-'}
                                 </Typography>
-                            </div>
+                            </InfoboxCard>
 
-                            <div>
+                            <InfoboxCard>
                                 <Typography
                                     variant={'muted'}
                                     color={'text-gray-500'}
@@ -265,8 +286,10 @@ export const StepReviewInfo = () => {
                                 <Typography variant={'label'}>
                                     {formData.zipCode || '-'}
                                 </Typography>
-                            </div>
+                            </InfoboxCard>
                         </div>
+                        </Card>
+
                     </div>
 
                     {/* Actions */}

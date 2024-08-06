@@ -1,13 +1,17 @@
 import {
+    BackButton,
     IndicatorChildrenPropType,
     IndicatorStep,
     StepIndicator,
+    Typography,
 } from '@components'
 import { useRouter } from 'next/router'
 import { StepAccountInfo } from './StepAccountInfo'
 import { StepCreate } from './StepCreate'
 import { StepNotificationMethod } from './StepNotificationMethod'
 import { StepReviewInfo } from './StepReviewInfo'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export const StepForm = () => {
     const router = useRouter()
@@ -20,12 +24,12 @@ export const StepForm = () => {
             query: 'account-info',
             element: <StepAccountInfo />,
         },
-        {
-            label: 'Notification Method',
-            visited: false,
-            query: 'notification-method',
-            element: <StepNotificationMethod />,
-        },
+        // {
+        //     label: 'Notification Method',
+        //     visited: false,
+        //     query: 'notification-method',
+        //     element: <StepNotificationMethod />,
+        // },
         {
             label: 'Review Info',
             visited: false,
@@ -53,9 +57,39 @@ export const StepForm = () => {
                 >
                     {({ steps, element }: IndicatorChildrenPropType) => {
                         return (
-                            <div>
-                                <div>{steps}</div>
-                                <div className="mt-6">{element}</div>
+                            <div className="flex flex-col md:flex-row md:flex-grow md:justify-between gap-x-16 w-full">
+                                <div className="signup-bg md:pl-28 md:pt-24 pl-4 pt-4 md:fixed md:-left-10 md:top-0 md:w-1/2">
+                                    <BackButton />
+                                    <div className="">
+                                        <Link href={'/'}>
+                                            <Image
+                                                src="/images/auth/skiltrak-logo.png"
+                                                alt="logo"
+                                                width={201}
+                                                height={60}
+                                            />
+                                        </Link>
+                                        <div className="my-9">
+                                            <Typography
+                                                variant={'body'}
+                                                color="text-[#255168]"
+                                                italic
+                                            >
+                                                Sign Up To
+                                            </Typography>
+                                            <Typography
+                                                variant={'h1'}
+                                                color="text-[#255168]"
+                                            >
+                                                Student Portal
+                                            </Typography>
+                                        </div>
+                                    </div>
+                                    {steps}
+                                </div>
+                                <div className="mt-6 w-full md:w-1/2 md:ml-auto">
+                                    {element}
+                                </div>
                             </div>
                         )
                     }}

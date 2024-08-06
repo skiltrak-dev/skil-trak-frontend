@@ -75,6 +75,24 @@ export const authApi = createApi({
             }),
         }),
 
+        forgotPassword: builder.mutation<any, any>({
+            query: (body) => ({
+                url: `${PREFIX}forgot-password`,
+                method: 'POST',
+                body,
+            })
+        }),
+        resetPassword: builder.mutation<any, any>({
+            query: ({body, token}) => {
+                return ({
+                    url: `${PREFIX}reset-password`,
+                    method: 'POST',
+                    body,
+                    params:{token}
+                })
+            }
+        }),
+
         checkAbn: builder.mutation<any, any>({
             query: (body) => ({
                 url: `industries/abn/validate`,
@@ -99,6 +117,8 @@ const {
     useGetSectorsQuery,
     useCheckStatusMutation,
     useCheckEmailMutation,
+    useForgotPasswordMutation,
+    useResetPasswordMutation,
     useRegisterIndustryMutation,
     useRegisterRtoMutation,
     useRegisterStudentMutation,
@@ -120,6 +140,8 @@ export const AuthApi = {
     useRegisterRto: useRegisterRtoMutation,
     useRegisterStudent: useRegisterStudentMutation,
     useRtos: useGetRtosQuery,
+    useForgotPassword: useForgotPasswordMutation,
+    useResetPassword: useResetPasswordMutation,
 
     useAbn: useCheckAbnMutation,
 }

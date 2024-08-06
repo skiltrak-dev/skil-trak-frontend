@@ -1,4 +1,5 @@
-import { Button, Typography } from '@components'
+import { Button, Card, Typography } from '@components'
+import { InfoboxCard } from '@partials/common'
 import { PackageView } from '@partials/rto/components'
 import { OptionType, RtoFormData } from '@types'
 import { SignUpUtils } from '@utils'
@@ -35,8 +36,8 @@ export const StepReviewInfo = () => {
 
             <div>
                 <div className="w-full pb-10 lg:pr-10">
-                    <div className="flex flex-col md:flex-row gap-x-6">
-                        {/* RTO Information */}
+                    <div className="flex flex-col gap-y-5">
+                        {/* Industry Information */}
                         <div className="flex-grow">
                             <div className="border-b border-secondary-dark mt-8">
                                 <Typography
@@ -48,7 +49,7 @@ export const StepReviewInfo = () => {
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:max-w-lg mt-4">
-                                <div>
+                                <InfoboxCard>
                                     <Typography
                                         variant={'muted'}
                                         color={'text-gray-500'}
@@ -56,11 +57,11 @@ export const StepReviewInfo = () => {
                                         Name
                                     </Typography>
                                     <Typography variant={'label'}>
-                                        {formData.name || ''}
+                                        {formData?.name || ''}
                                     </Typography>
-                                </div>
+                                </InfoboxCard>
 
-                                <div>
+                                <InfoboxCard>
                                     <Typography
                                         variant={'muted'}
                                         color={'text-gray-500'}
@@ -70,7 +71,7 @@ export const StepReviewInfo = () => {
                                     <Typography variant={'label'}>
                                         {formData.abn || ''}
                                     </Typography>
-                                </div>
+                                </InfoboxCard>
                                 {/* <div>
                                     <Typography
                                         variant={'muted'}
@@ -82,7 +83,7 @@ export const StepReviewInfo = () => {
                                         {formData.code || ''}
                                     </Typography>
                                 </div> */}
-                                <div>
+                                <InfoboxCard>
                                     <Typography
                                         variant={'muted'}
                                         color={'text-gray-500'}
@@ -92,8 +93,8 @@ export const StepReviewInfo = () => {
                                     <Typography variant={'label'}>
                                         {formData.phoneNumber || ''}
                                     </Typography>
-                                </div>
-                                <div>
+                                </InfoboxCard>
+                                <InfoboxCard>
                                     <Typography
                                         variant={'muted'}
                                         color={'text-gray-500'}
@@ -103,7 +104,7 @@ export const StepReviewInfo = () => {
                                     <Typography variant={'label'}>
                                         {formData.studentCapacity || ''}
                                     </Typography>
-                                </div>
+                                </InfoboxCard>
                             </div>
                         </div>
 
@@ -119,7 +120,7 @@ export const StepReviewInfo = () => {
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full md:max-w-lg mt-4">
-                                <div>
+                                <InfoboxCard>
                                     <Typography
                                         variant={'muted'}
                                         color={'text-gray-500'}
@@ -129,7 +130,7 @@ export const StepReviewInfo = () => {
                                     <Typography variant={'label'}>
                                         {formData.email || ''}
                                     </Typography>
-                                </div>
+                                </InfoboxCard>
                             </div>
                         </div>
                     </div>
@@ -159,49 +160,71 @@ export const StepReviewInfo = () => {
                                 Sector Information
                             </Typography>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full mt-4">
-                            <div className="flex flex-col">
-                                <div className="mb-1">
-                                    <Typography
-                                        variant={'muted'}
-                                        color={'text-gray-500'}
-                                    >
-                                        Sector(s)
-                                    </Typography>
-                                </div>
-
-                                {formData.sectors?.map((sector: OptionType) => (
-                                    <div
-                                        className="border-t pt-1"
-                                        key={Number(sector.value)}
-                                    >
-                                        <Typography variant={'label'}>
-                                            {sector.label}
+                        <div className="flex flex-col gap-y-5 w-full mt-4">
+                            <Card>
+                                <div className="flex flex-col">
+                                    <div className="mb-1">
+                                        <Typography
+                                            variant={'muted'}
+                                            color={'text-gray-500'}
+                                        >
+                                            Sector(s)
                                         </Typography>
                                     </div>
-                                ))}
-                            </div>
-                            <div>
-                                <div className="mb-1">
-                                    <Typography
-                                        variant={'muted'}
-                                        color={'text-gray-500'}
-                                    >
-                                        Course(s)
-                                    </Typography>
+                                    <div className="flex flex-col gap-y-1">
+                                        {formData.sectors?.map(
+                                            (sector: OptionType) => (
+                                                <InfoboxCard>
+                                                    <div
+                                                        className=""
+                                                        key={Number(
+                                                            sector.value
+                                                        )}
+                                                    >
+                                                        <Typography
+                                                            variant={'label'}
+                                                        >
+                                                            {sector.label}
+                                                        </Typography>
+                                                    </div>
+                                                </InfoboxCard>
+                                            )
+                                        )}
+                                    </div>
                                 </div>
-
-                                {formData.courses?.map((course: OptionType) => (
-                                    <div
-                                        className="border-t pt-1"
-                                        key={Number(course.value)}
-                                    >
-                                        <Typography variant={'label'}>
-                                            {course.label}
+                            </Card>
+                            <Card>
+                                <div>
+                                    <div className="mb-1">
+                                        <Typography
+                                            variant={'muted'}
+                                            color={'text-gray-500'}
+                                        >
+                                            Course(s)
                                         </Typography>
                                     </div>
-                                ))}
-                            </div>
+                                    <div className="flex flex-col gap-y-1">
+                                        {formData.courses?.map(
+                                            (course: OptionType) => (
+                                                <InfoboxCard>
+                                                    <div
+                                                        className=""
+                                                        key={Number(
+                                                            course.value
+                                                        )}
+                                                    >
+                                                        <Typography
+                                                            variant={'label'}
+                                                        >
+                                                            {course.label}
+                                                        </Typography>
+                                                    </div>
+                                                </InfoboxCard>
+                                            )
+                                        )}
+                                    </div>
+                                </div>
+                            </Card>
                         </div>
                     </div>
 
@@ -215,68 +238,69 @@ export const StepReviewInfo = () => {
                                 Address Information
                             </Typography>
                         </div>
+                        <Card>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full md:max-w-lg mt-4">
+                                <InfoboxCard>
+                                    <Typography
+                                        variant={'muted'}
+                                        color={'text-gray-500'}
+                                    >
+                                        Address Line 1
+                                    </Typography>
+                                    <Typography variant={'label'}>
+                                        {formData.addressLine1 || '-'}
+                                    </Typography>
+                                </InfoboxCard>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full md:max-w-lg mt-4">
-                            <div>
-                                <Typography
-                                    variant={'muted'}
-                                    color={'text-gray-500'}
-                                >
-                                    Address Line 1
-                                </Typography>
-                                <Typography variant={'label'}>
-                                    {formData.addressLine1 || '-'}
-                                </Typography>
-                            </div>
+                                <InfoboxCard>
+                                    <Typography
+                                        variant={'muted'}
+                                        color={'text-gray-500'}
+                                    >
+                                        Country
+                                    </Typography>
+                                    <Typography variant={'label'}>
+                                        {formData?.country?.label || '-'}
+                                    </Typography>
+                                </InfoboxCard>
 
-                            <div>
-                                <Typography
-                                    variant={'muted'}
-                                    color={'text-gray-500'}
-                                >
-                                    Country
-                                </Typography>
-                                <Typography variant={'label'}>
-                                    {formData?.country?.label || '-'}
-                                </Typography>
-                            </div>
+                                <InfoboxCard>
+                                    <Typography
+                                        variant={'muted'}
+                                        color={'text-gray-500'}
+                                    >
+                                        State
+                                    </Typography>
+                                    <Typography variant={'label'}>
+                                        {formData?.region?.label || '-'}
+                                    </Typography>
+                                </InfoboxCard>
 
-                            <div>
-                                <Typography
-                                    variant={'muted'}
-                                    color={'text-gray-500'}
-                                >
-                                    State
-                                </Typography>
-                                <Typography variant={'label'}>
-                                    {formData?.region?.label || '-'}
-                                </Typography>
-                            </div>
+                                <InfoboxCard>
+                                    <Typography
+                                        variant={'muted'}
+                                        color={'text-gray-500'}
+                                    >
+                                        Suburb
+                                    </Typography>
+                                    <Typography variant={'label'}>
+                                        {formData.suburb || '-'}
+                                    </Typography>
+                                </InfoboxCard>
 
-                            <div>
-                                <Typography
-                                    variant={'muted'}
-                                    color={'text-gray-500'}
-                                >
-                                    Suburb
-                                </Typography>
-                                <Typography variant={'label'}>
-                                    {formData.suburb || '-'}
-                                </Typography>
+                                <InfoboxCard>
+                                    <Typography
+                                        variant={'muted'}
+                                        color={'text-gray-500'}
+                                    >
+                                        Zip Code
+                                    </Typography>
+                                    <Typography variant={'label'}>
+                                        {formData.zipCode || '-'}
+                                    </Typography>
+                                </InfoboxCard>
                             </div>
-
-                            <div>
-                                <Typography
-                                    variant={'muted'}
-                                    color={'text-gray-500'}
-                                >
-                                    Zip Code
-                                </Typography>
-                                <Typography variant={'label'}>
-                                    {formData.zipCode || '-'}
-                                </Typography>
-                            </div>
-                        </div>
+                        </Card>
                     </div>
 
                     {/* Actions */}

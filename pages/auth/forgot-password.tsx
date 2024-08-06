@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 
 import * as Yup from 'yup'
 
@@ -10,129 +10,155 @@ import { AuthLayout } from '@layouts'
 import {
     BackButton,
     Button,
+    Card,
+    DisplayNotifications,
+    GlobalModal,
     LottieAnimation,
+    ShowErrorNotifications,
     TextInput,
     Typography,
 } from '@components'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import Link from 'next/link'
+import Image from 'next/image'
+import { AuthApi } from '@queries'
+import { EmailNotExistsModal, PasswordSentModal } from '@partials/auth'
 
 const ForgotPassword: NextPage = () => {
     const router = useRouter()
-
     const [emailSent, setEmailSent] = useState(false)
+
+    const [modal, setModal] = useState<ReactNode | null>(null)
+    const [forgotPassword, forgotPasswordResult] = AuthApi.useForgotPassword()
+    const [emailExists, emailExistsResult] = AuthApi.useEmailCheck()
+
     const validationSchema = Yup.object({
         email: Yup.string()
             .email('Invalid Email')
             .required('Email is required!'),
     })
+
     const methods = useForm({
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
 
-    const onSubmit = async (values: any) => {
-        // send reset password email
-        setEmailSent(true)
-    }
-
     const onBackToLogin = () => {
         router.push('/auth/login')
     }
+    const onCloseModal = () => {
+        setModal(null)
+    }
+    const onPasswordSent = (email: string) => {
+        setModal(
+            <GlobalModal>
+                <PasswordSentModal
+                    email={email}
+                    onBackToLogin={onBackToLogin}
+                />
+            </GlobalModal>
+        )
+    }
+    const onEmailNotExists = () => {
+        setModal(
+            <GlobalModal>
+                <EmailNotExistsModal onCloseModal={onCloseModal} />
+            </GlobalModal>
+        )
+    }
+    const onSubmit = async (values: any) => {
+        const checkEmail: any = await emailExists({ email: values?.email })
+
+        if (checkEmail?.data?.exists) {
+            await forgotPassword({ email: values?.email })
+            setEmailSent(true)
+            onPasswordSent(values?.email)
+        } else {
+            // setModalVisible(true)
+            onEmailNotExists()
+        }
+    }
 
     return (
-        <AuthLayout type="log-in">
-            <div className="h-[80vh] flex justify-center items-center">
-                {!emailSent ? (
-                    <div className="w-3/5 mx-auto flex items-center justify-between">
-                        <div className="flex flex-col items-center flex-grow">
-                            <div className="w-full mb-8">
-                                <BackButton />
-                                <Typography variant={'h3'}>
+        <>
+            {modal && modal}
+            <ShowErrorNotifications result={forgotPasswordResult} />
+            <div className="flex flex-col justify-center items-center choose-portal-type-bg">
+                <div className="mx-auto flex items-center justify-between">
+                    <div className="flex flex-col justify-center items-center">
+                        <div className="w-full mb-8 flex flex-col justify-center items-center">
+                            <BackButton />
+                            <Link href={'/'}>
+                                <Image
+                                    src="/images/auth/skiltrak-logo.png"
+                                    alt="logo"
+                                    width={201}
+                                    height={60}
+                                />
+                            </Link>
+
+                            <div className="mt-5">
+                                <Typography
+                                    variant={'h3'}
+                                    color={'text-primaryNew'}
+                                    center
+                                >
                                     Forgot Password?
                                 </Typography>
                             </div>
-
-                            <Typography>
-                                Please enter your email, you use to login in our
-                                system, so we can send you a password reset
-                                link.
-                            </Typography>
-
-                            <FormProvider {...methods}>
-                                <form
-                                    className="mt-2 w-full"
-                                    onSubmit={methods.handleSubmit(onSubmit)}
-                                >
-                                    <div className="">
-                                        <TextInput
-                                            label={'Email'}
-                                            name={'email'}
-                                            type={'email'}
-                                            placeholder={'Your Email Here...'}
-                                            validationIcons
-                                            required
-                                        />
-                                    </div>
-
-                                    <div className="mt-4 flex items-center justify-between">
-                                        <Button
-                                            submit
-                                            loading={false}
-                                            text={'Send Password'}
-                                        />
-                                    </div>
-                                </form>
-                            </FormProvider>
                         </div>
 
-                        <div className="h-48 w-px bg-gray-300 mx-8"></div>
-
-                        <div>
-                            <LottieAnimation
-                                height={400}
-                                width={350}
-                                animation={Animations.Auth.Login.ForgotPassword}
-                            />
-                        </div>
-                    </div>
-                ) : (
-                    <div className="flex flex-col items-center w-2/5">
-                        <LottieAnimation
-                            height={240}
-                            width={180}
-                            loop={false}
-                            animation={Animations.Common.EmailSent}
-                        />
-
-                        <div className="mt-2">
-                            <Typography variant="h3" center>
-                                Password Reset Link Sent
+                        <div className="w-1/2 md:mb-5">
+                            <Typography color={'text-primaryNew'} center italic>
+                                This feature is exclusively for students. Please
+                                enter the email address you use to log in to the
+                                SkilTrak Portal, and we will send your
+                                credentials to your email.
                             </Typography>
                         </div>
 
-                        <div className="mt-2">
-                            <Typography center>
-                                We have sent you the password reset link to
-                                provided email that is <b>this@gmail.com</b>.
-                                Please check your email for further
-                                instructions.
-                            </Typography>
-                        </div>
-
-                        <div className="mt-16">
-                            <Button
-                                variant="secondary"
-                                outline
-                                onClick={onBackToLogin}
+                        <FormProvider {...methods}>
+                            <form
+                                className="mt-2  w-1/2"
+                                onSubmit={methods.handleSubmit(onSubmit)}
                             >
-                                Back To Login
-                            </Button>
+                                <Card>
+                                    <TextInput
+                                        label={'Email'}
+                                        name={'email'}
+                                        type={'email'}
+                                        placeholder={'Your Email Here...'}
+                                        validationIcons
+                                        required
+                                    />
+                                </Card>
+
+                                <div className="mt-6 flex items-center justify-center">
+                                    <Button
+                                        submit
+                                        loading={forgotPasswordResult.isLoading}
+                                        text={'Send Password'}
+                                        disabled={
+                                            forgotPasswordResult.isLoading
+                                        }
+                                    />
+                                </div>
+                            </form>
+                        </FormProvider>
+                        <div className="md:mt-16 mt-0 flex justify-center">
+                            <Typography variant="body">
+                                Already have account?{' '}
+                                <Link legacyBehavior href="/auth/login">
+                                    <a className="text-link">Please Login</a>
+                                </Link>
+                            </Typography>
                         </div>
                     </div>
-                )}
+                </div>
             </div>
-        </AuthLayout>
+            <DisplayNotifications />
+        </>
     )
 }
 
