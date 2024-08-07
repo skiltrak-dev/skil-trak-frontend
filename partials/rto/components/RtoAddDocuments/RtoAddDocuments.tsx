@@ -7,11 +7,14 @@ import { Rto } from '@types'
 import { Legal } from '../Legal'
 import { PlacementInfo } from '../PlacementInfo'
 import { getUserCredentials } from '@utils'
+import { useNotification } from '@hooks'
 
 export const RtoAddDocuments = ({ rto }: { rto?: Rto }) => {
     const getDocuments = RtoApi.RtoDocument.useGetRtoDocuments(
         Number(rto?.user?.id)
     )
+
+    const { notification } = useNotification()
 
     const [addDocument, addDocumentResult] =
         RtoApi.RtoDocument.useAddRtoDocuments()
@@ -32,7 +35,14 @@ export const RtoAddDocuments = ({ rto }: { rto?: Rto }) => {
         const role = getUserCredentials()?.role
         role !== UserRoles.RTO && values.append('userId', rto?.user?.id)
 
-        addDocument(values)
+        addDocument(values).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: 'Document Added',
+                    description: 'Document Added Successfully!',
+                })
+            }
+        })
     }
 
     const rtoDoc = (data: any) =>

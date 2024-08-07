@@ -267,8 +267,8 @@ export const ActiveSubAdmin = () => {
                 ...(role === UserRoles.ADMIN
                     ? {
                           text: subAdmin?.removeOnPlacementStart
-                              ? 'Remove Placement'
-                              : 'Allow Placement',
+                              ? 'Allow Student on Placement'
+                              : 'Remove Student on Placement',
                           onClick: (subAdmin: SubAdmin) =>
                               onAllowPlacementModalClicked(subAdmin),
                           Icon: MdAdminPanelSettings,
