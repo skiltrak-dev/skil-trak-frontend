@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { SubAdminApi } from '@queries'
 import dynamic from 'next/dynamic'
 import { fromAddress, geocode, GeocodeOptions, setKey } from 'react-geocode'
+import { useContextBar } from '@hooks'
 const SubAdminDashboardMapDetail = dynamic(
     () => import('./SubAdminDashboardMapDetail')
 )
@@ -16,6 +17,8 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
     const [rto, setRto] = useState('')
     const [suburbLocation, setSuburbLocation] = useState<any>(null)
     const [showFutureIndustries, setShowFutureIndustries] = useState(false)
+
+    const contextBar = useContextBar()
 
     const [searchInitiated, setSearchInitiated] = useState(false)
     const [isDelay, setIsDelay] = useState(false)
@@ -32,6 +35,12 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
         setTimeout(() => {
             setIsDelay(true)
         }, 1000)
+
+        return () => {
+            contextBar.setContent(null)
+            contextBar.hide()
+            contextBar.setTitle('')
+        }
     }, [])
 
     return (
