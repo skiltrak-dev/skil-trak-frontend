@@ -130,7 +130,7 @@ export const ViewOnMapIndustriesModal = ({
             search: `courseId:${courseId}`,
         },
         {
-            skip: !courseId,
+            skip: !courseId || !showFutureIndustries,
         }
     )
     const workplaceCourseId = workplace?.courses?.[0]?.id

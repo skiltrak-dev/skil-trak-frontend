@@ -1,5 +1,5 @@
 import { Badge, NoData, ShowErrorNotifications, Typography } from '@components'
-import { useNotification } from '@hooks'
+import { useContextBar, useNotification } from '@hooks'
 import {
     useAddExistingIndustriesMutation,
     useSubAdminApplyStudentWorkplaceMutation,
@@ -11,6 +11,8 @@ import { ReactElement, useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { PulseLoader } from 'react-spinners'
 import { CopyInfoData } from './CopyInfoData'
+import { ShowIndustryNotesAndTHModal } from '@partials/common/StudentProfileDetail/components'
+import { IndustryDetailCB } from '../contextBar'
 
 type IndustryInfoBoxCardProps = {
     item: any
@@ -37,6 +39,8 @@ export const IndustryInfoBoxCard = ({
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
+    const contextBar = useContextBar()
+
     const [applyForWorkplace, applyForWorkplaceResult] =
         useSubAdminApplyStudentWorkplaceMutation()
     // apply for industry
@@ -44,20 +48,35 @@ export const IndustryInfoBoxCard = ({
         useAddExistingIndustriesMutation()
     const sectors = getSectorsDetail(selectedBox?.courses)
 
-    const { notification } = useNotification()
-
     const onModalCancelClicked = () => setModal(null)
 
-    useEffect(() => {
-        if (addExistingIndustryResult.isSuccess) {
-            notification.success({
-                title: 'Industry Added Successfully',
-                description: 'Industry Added Successfully',
-            })
+    const onApplyIndustryModal = () => {
+        setModal(
+            <ShowIndustryNotesAndTHModal
+                industryUserId={item?.data?.user?.id}
+                industryUserName={item?.data?.user?.name}
+                industryId={industryId}
+                workplaceId={workplaceId}
+                onCancel={(cancel?: boolean) => {
+                    onModalCancelClicked()
+                    if (cancel) {
+                        onCancel()
+                    }
+                }}
+            />
+        )
+    }
 
-            onCancel()
-        }
-    }, [addExistingIndustryResult])
+    const onViewIndustryDetail = () => {
+        contextBar.show(false)
+        contextBar.setContent(
+            <IndustryDetailCB
+                id={selectedBox?.id}
+                industryUserId={item?.data?.user?.id}
+            />
+        )
+        contextBar.setTitle('Industry Details')
+    }
 
     return (
         <>
@@ -213,13 +232,26 @@ export const IndustryInfoBoxCard = ({
                             </div>
 
                             <div className="flex justify-between items-center gap-x-12">
-                                <div className="flex justify-center mt-1.5">
+                                {/* <div className="flex justify-center mt-1.5">
                                     <Link
                                         className="text-blue-400 text-xs"
                                         href={`/portals/sub-admin/users/industries/${item?.data?.id}?tab=students`}
                                     >
                                         View
                                     </Link>
+                                </div> */}
+                                <div
+                                    onClick={() => {
+                                        onViewIndustryDetail()
+                                    }}
+                                >
+                                    <Typography
+                                        variant="small"
+                                        color="text-info"
+                                        cursorPointer
+                                    >
+                                        View
+                                    </Typography>
                                 </div>
 
                                 {!appliedIndustry && workplaceMapCard && (
@@ -249,10 +281,11 @@ export const IndustryInfoBoxCard = ({
                                             //     }
                                             // }}
                                             onClick={() => {
-                                                addExistingIndustry({
-                                                    workplaceId,
-                                                    industryId: industryId,
-                                                })
+                                                onApplyIndustryModal()
+                                                // addExistingIndustry({
+                                                //     workplaceId,
+                                                //     industryId: industryId,
+                                                // })
                                             }}
                                         >
                                             {addExistingIndustryResult.isLoading ? (

@@ -66,8 +66,6 @@ export const IndustryListingCB = ({ id }: { id: number }) => {
         return detail
     })
 
-    console.log({ detail })
-
     const listingStatus = (status: string) => {
         switch (status) {
             case IndustryStatus.FAVOURITE:

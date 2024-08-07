@@ -61,7 +61,7 @@ export const UpdatedAllStudentProvidedWorkplace = () => {
             accessorKey: 'industry',
             header: () => <span>Workplace Name</span>,
             cell: (info) => {
-                const appliedIndustry = info?.row?.original?.industries.find(
+                const appliedIndustry = info?.row?.original?.industries?.find(
                     (industry: any) => industry?.applied
                 )
                 return (
@@ -149,29 +149,6 @@ export const UpdatedAllStudentProvidedWorkplace = () => {
                 <UserCreatedAt createdAt={row.original?.createdAt} />
             ),
         },
-        // {
-        //     accessorKey: 'cancel',
-        //     header: () => <span>Action</span>,
-        //     cell: ({ row }: any) => (
-        //         <UpdatedWorkplaceRequest
-        //             workplace={row?.original}
-        //             cancelRequest={true}
-        //         />
-        //     ),
-        // },
-        // {
-        //     header: () => 'Action',
-        //     accessorKey: 'Action',
-        //     cell: ({ row }) => {
-        //         const tableActionOption = tableActionOptions(row.original)
-        //         return (
-        //             <TableAction
-        //                 options={tableActionOption}
-        //                 rowItem={row.original}
-        //             />
-        //         )
-        //     },
-        // },
     ]
 
     return (
