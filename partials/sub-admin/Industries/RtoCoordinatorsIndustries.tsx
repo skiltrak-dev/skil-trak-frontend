@@ -113,12 +113,10 @@ export const RtoCoordinatorsIndustries = () => {
                 {isError && <TechnicalError />}
                 {isLoading ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length > 0 ? (
+                ) : data && data?.data?.length > 0 ? (
                     <Table
                         columns={Columns?.filter((c: any) => c?.header) as any}
-                        data={data.data}
-                        // quickActions={quickActionsElements}
-                        enableRowSelection
+                        data={data?.data}
                     >
                         {({
                             table,
@@ -132,7 +130,7 @@ export const RtoCoordinatorsIndustries = () => {
                                         {pageSize(
                                             itemPerPage,
                                             setItemPerPage,
-                                            data?.data.length
+                                            data?.data?.length
                                         )}
                                         <div className="flex gap-x-2">
                                             {quickActions}

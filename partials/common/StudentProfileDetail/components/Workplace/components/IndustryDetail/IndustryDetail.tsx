@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import { IndustryCard } from './components'
-import { GlobalModal, NoData, Typography } from '@components'
+import { GlobalModal, NoData, Portal, Typography } from '@components'
 import { Course, Student } from '@types'
 import { WorkplaceCurrentStatus } from '@utils'
 import { ViewMoreIndustriesModal } from '@partials/sub-admin/workplace/modals'
@@ -57,17 +57,28 @@ export const IndustryDetail = ({
         )
     }
 
+    console.log({ isVisible: contextBar.isVisible })
+
     const onViewOnMap = () => {
         setModal(
-            <GlobalModal>
-                <ViewOnMapIndustriesModal
-                    suggestedIndustries={suggestedIndustries}
-                    onCancel={onCancelClicked}
-                    workplace={workplace}
-                    courseId={course?.id}
-                    appliedIndustry={appliedIndustry}
-                />
-            </GlobalModal>
+            <div
+                className={`bg-[#00000050] ${
+                    contextBar.isVisible ? 'w-[calc(100%-321px)]' : 'w-full'
+                } h-screen flex items-center justify-center fixed top-0 left-0 px-2 z-40`}
+            >
+                <div
+                    className="bg-white rounded-2xl modal-animation flex flex-col justify-between shadow-md w-full md:w-auto md:min-w-[450px]"
+                    style={{ zIndex: 111 }}
+                >
+                    <ViewOnMapIndustriesModal
+                        workplace={workplace}
+                        courseId={course?.id}
+                        onCancel={onCancelClicked}
+                        appliedIndustry={appliedIndustry}
+                        suggestedIndustries={suggestedIndustries}
+                    />
+                </div>
+            </div>
         )
     }
     // useEffect(() => {

@@ -19,6 +19,7 @@ import { SubAdminApi } from '@queries'
 export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
+    // its incresing the views of profile
     SubAdminApi.Industry.useAddProfileVisitor(industry?.user?.id, {
         skip: !industry,
     })
@@ -103,7 +104,9 @@ export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
                     />
                 )}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-3 h-[540px]">
-                    <IndustryShiftingHours industry={industry} />
+                    <IndustryShiftingHours
+                        industryUserId={industry?.user?.id}
+                    />
                     <div className="h-full">
                         <Notes userId={industry?.user?.id} />
                     </div>

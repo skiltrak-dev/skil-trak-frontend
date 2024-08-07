@@ -1,10 +1,10 @@
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { SubAdminLayout } from '@layouts'
 import { IndustryProfileDetail } from '@partials/common'
-import { useGetSubAdminIndustriesProfileQuery } from '@queries'
+import { SubAdminApi, useGetSubAdminIndustriesProfileQuery } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 const IndustryDetail: NextPageWithLayout = () => {
     const router = useRouter()
@@ -15,6 +15,18 @@ const IndustryDetail: NextPageWithLayout = () => {
             refetchOnMountOrArgChange: true,
         }
     )
+    const profile = SubAdminApi.SubAdmin.useProfile()
+
+    useEffect(() => {
+        if (
+            profile?.data?.isAssociatedWithRto &&
+            profile?.isSuccess &&
+            profile?.data
+        ) {
+            router.back()
+        }
+    }, [profile])
+
     return (
         <div>
             {industry.isError && <TechnicalError />}
