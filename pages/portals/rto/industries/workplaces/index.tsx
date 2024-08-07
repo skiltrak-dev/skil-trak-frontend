@@ -8,7 +8,6 @@ import {
     Card,
     EmptyData,
     Filter,
-    HelpQuestionSet,
     InitialAvatar,
     LoadingAnimation,
     PageTitle,
@@ -24,10 +23,10 @@ import Link from 'next/link'
 import { useGetRTOWorkplacesQuery } from '@queries'
 // Next Image
 import { ColumnDef } from '@tanstack/react-table'
-import { useRouter } from 'next/router'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { FaFileExport } from 'react-icons/fa'
 import { getUserCredentials } from '@utils'
+import { useRouter } from 'next/router'
+import { FaFileExport } from 'react-icons/fa'
+import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 type Props = {}
 
@@ -66,44 +65,6 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const RelatedQuestions = [
-        {
-            text: `I have a workplace. What next?`,
-            link: '#',
-        },
-        {
-            text: `I don't have a workplace. What should I do?`,
-            link: '#',
-        },
-        {
-            text: `I want to book an appointment`,
-            link: '#',
-        },
-        {
-            text: `I want to look for a job`,
-            link: '#',
-        },
-    ]
-
-    const OtherQuestions = [
-        {
-            text: `I have a workplace. What next?`,
-            link: '#',
-        },
-        {
-            text: `I don't have a workplace. What should I do?`,
-            link: '#',
-        },
-        {
-            text: `I want to book an appointment`,
-            link: '#',
-        },
-        {
-            text: `I want to look for a job`,
-            link: '#',
-        },
-    ]
-    
     const columns: ColumnDef<any>[] = [
         {
             header: () => 'Industry Name',
@@ -278,19 +239,6 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
                     )
                 )}
             </Card>
-            <div className="mt-6 flex justify-between">
-                {/* Related Questions */}
-                <HelpQuestionSet
-                    title={'What you want to do here?'}
-                    questions={RelatedQuestions}
-                />
-
-                {/* Other Questions */}
-                <HelpQuestionSet
-                    title={'What else you want to do?'}
-                    questions={OtherQuestions}
-                />
-            </div>
         </>
     )
 }

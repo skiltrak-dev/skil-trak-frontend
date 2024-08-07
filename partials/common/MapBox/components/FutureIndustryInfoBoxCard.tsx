@@ -1,4 +1,4 @@
-import { NoData, ShowErrorNotifications, Typography } from '@components'
+import { NoData, Portal, ShowErrorNotifications, Typography } from '@components'
 import { useContextBar, useNotification } from '@hooks'
 import { useAddExistingIndustriesMutation } from '@queries'
 import { ellipsisText } from '@utils'
@@ -51,7 +51,7 @@ export const FutureIndustryInfoBoxCard = ({
         }
     }, [addExistingIndustryResult])
 
-    const onViewIndustryListinDetail = () => {
+    const onViewIndustryListingDetail = () => {
         contextBar.show(false)
         contextBar.setContent(<IndustryListingCB id={selectedBox?.id} />)
         contextBar.setTitle('Industry Listing Details')
@@ -243,7 +243,7 @@ export const FutureIndustryInfoBoxCard = ({
                                     </Link> */}
                                     <div
                                         onClick={() => {
-                                            onViewIndustryListinDetail()
+                                            onViewIndustryListingDetail()
                                         }}
                                     >
                                         <Typography

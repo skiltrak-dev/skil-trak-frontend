@@ -1,19 +1,24 @@
-import { Button, Card, LoadingAnimation, NoData, Typography } from '@components'
-import React, { useEffect, useState } from 'react'
-import { FreeShifts, TradingHours } from './components'
-import { Waypoint } from 'react-waypoint'
-import { useContextBar } from '@hooks'
-import { AddShiftsCB } from './contextBar'
-import { Industry } from '@types'
 import { AdminApi } from '@queries'
+import { useContextBar } from '@hooks'
+import { Waypoint } from 'react-waypoint'
+import { AddShiftsCB } from './contextBar'
+import { useEffect, useState } from 'react'
+import { FreeShifts, TradingHours } from './components'
+import { Button, Card, LoadingAnimation, NoData, Typography } from '@components'
 import { initialSchedule } from '@partials/industry/AvailableShifts/components'
 
-export const IndustryShiftingHours = ({ industry }: { industry: Industry }) => {
+export const IndustryShiftingHours = ({
+    industryUserId,
+    showTitle = true,
+}: {
+    showTitle?: boolean
+    industryUserId: number
+}) => {
     const contextBar = useContextBar()
 
     const industryAvailableHours =
-        AdminApi.Industries.useIndustryAvailableHours(industry?.user?.id, {
-            skip: !industry,
+        AdminApi.Industries.useIndustryAvailableHours(industryUserId, {
+            skip: !industryUserId,
         })
 
     const [workingHoursTime, setWorkingHoursTime] = useState<any | null>([
@@ -54,33 +59,35 @@ export const IndustryShiftingHours = ({ industry }: { industry: Industry }) => {
         <Waypoint onEnter={() => {}}>
             <div>
                 <Card fullHeight shadowType="profile" noPadding>
-                    <div className="px-4 py-3.5 border-b border-secondary-dark flex justify-between items-center">
-                        <Typography semibold>
-                            <span className="text-[15px]">Overview</span>
-                        </Typography>
+                    {showTitle ? (
+                        <div className="px-4 py-3.5 border-b border-secondary-dark flex justify-between items-center">
+                            <Typography semibold>
+                                <span className="text-[15px]">Overview</span>
+                            </Typography>
 
-                        <Button
-                            text={
-                                industryAvailableHours?.data &&
-                                industryAvailableHours?.data?.length > 0
-                                    ? 'Edit Shifts'
-                                    : 'Add Shifts'
-                            }
-                            onClick={() => {
-                                contextBar.show(false)
-                                contextBar.setTitle('Add Shifts')
-                                contextBar.setContent(
-                                    <AddShiftsCB
-                                        industryAvailableHours={
-                                            industryAvailableHours?.data
-                                        }
-                                        industryUserId={industry?.user?.id}
-                                    />
-                                )
-                            }}
-                            disabled={!industryAvailableHours?.isSuccess}
-                        />
-                    </div>
+                            <Button
+                                text={
+                                    industryAvailableHours?.data &&
+                                    industryAvailableHours?.data?.length > 0
+                                        ? 'Edit Shifts'
+                                        : 'Add Shifts'
+                                }
+                                onClick={() => {
+                                    contextBar.show(false)
+                                    contextBar.setTitle('Add Shifts')
+                                    contextBar.setContent(
+                                        <AddShiftsCB
+                                            industryAvailableHours={
+                                                industryAvailableHours?.data
+                                            }
+                                            industryUserId={industryUserId}
+                                        />
+                                    )
+                                }}
+                                disabled={!industryAvailableHours?.isSuccess}
+                            />
+                        </div>
+                    ) : null}
 
                     {/*  */}
 

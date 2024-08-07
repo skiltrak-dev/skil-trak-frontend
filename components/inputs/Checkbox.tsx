@@ -10,6 +10,7 @@ import { getMethodsForInput } from '@utils'
 import { useFormContext } from 'react-hook-form'
 import { ClipLoader } from 'react-spinners'
 import { InputProps } from './InputPropType'
+import { ReactElement } from 'react'
 
 export type CheckboxProps = InputProps & {
     defaultChecked?: boolean
@@ -41,7 +42,7 @@ export const Checkbox = ({
         <>
             <label
                 htmlFor={`id_${name}`}
-                className="flex items-center gap-x-2.5 text-sm"
+                className="flex items-center gap-x-2.5 text-[13px]"
             >
                 {!loading ? (
                     <input
@@ -68,7 +69,12 @@ export const Checkbox = ({
                 )}
 
                 <div className="flex">
-                    <p className="text-sm">{label}</p>
+                    <p
+                        className="text-sm"
+                        dangerouslySetInnerHTML={{
+                            __html: label as ReactElement,
+                        }}
+                    />
                     {required && <RequiredStar />}
                 </div>
 
