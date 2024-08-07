@@ -1,3 +1,4 @@
+import { Typography } from '@components/Typography'
 import { ReactElement, useState } from 'react'
 import { FaChevronDown } from 'react-icons/fa'
 
@@ -105,7 +106,7 @@ export const TableAction = ({
                                         </span>
                                     )}
                                     <div
-                                        className="break-all"
+                                        className="break-all relative group"
                                         style={{
                                             overflow: 'hidden',
                                             whiteSpace: 'nowrap',

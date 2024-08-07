@@ -79,7 +79,14 @@ export const ShowIndustryNotesAndTHModal = ({
                         onChange={(e: any) => {
                             setIsChecked(e?.target?.checked)
                         }}
-                        label={`I hereby confirm that I have thoroughly reviewed and understood all pinned notes and the official trading hours of <strong>${industryUserName}</strong>.`}
+                        label={
+                            <>
+                                I hereby confirm that I have thoroughly reviewed
+                                and understood all pinned notes and the official
+                                trading hours of{' '}
+                                <strong>{industryUserName}</strong>.
+                            </>
+                        }
                         showError={false}
                     />
                     <div className={'flex items-center gap-x-4  '}>

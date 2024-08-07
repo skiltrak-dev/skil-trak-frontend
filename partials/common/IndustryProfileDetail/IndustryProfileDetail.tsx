@@ -15,6 +15,8 @@ import { ProfileAppointments } from '../ProfileAppointments'
 import { Alert, PageTitle } from '@components'
 import moment from 'moment'
 import { SubAdminApi } from '@queries'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -89,6 +91,8 @@ export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
         }
     }, [contextBar])
 
+    const role = getUserCredentials()?.role
+
     return (
         <div>
             <div className="flex flex-col gap-y-6 mb-20 px-2">
@@ -133,13 +137,25 @@ export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
                     <IndustryRequiredDocuments industry={industry} />
                     <div className="h-full">
                         <ProfileAppointments
-                            link={{
-                                pathname:
-                                    '/portals/admin/appointment-type/create-appointment',
-                                query: {
-                                    industry: industry?.user?.id,
-                                },
-                            }}
+                            link={
+                                role === UserRoles.ADMIN
+                                    ? {
+                                          pathname:
+                                              '/portals/admin/appointment-type/create-appointment',
+                                          query: {
+                                              industry: industry?.user?.id,
+                                          },
+                                      }
+                                    : role === UserRoles.SUBADMIN
+                                    ? {
+                                          pathname:
+                                              '/portals/sub-admin/tasks/appointments/create-appointment',
+                                          query: {
+                                              industry: industry?.user?.id,
+                                          },
+                                      }
+                                    : null
+                            }
                             userId={industry?.user?.id}
                         />
                     </div>

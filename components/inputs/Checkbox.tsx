@@ -71,10 +71,12 @@ export const Checkbox = ({
                 <div className="flex">
                     <p
                         className="text-sm"
-                        dangerouslySetInnerHTML={{
-                            __html: label as ReactElement,
-                        }}
-                    />
+                        // dangerouslySetInnerHTML={{
+                        //     __html: label as ReactElement,
+                        // }}
+                    >
+                        {label}
+                    </p>
                     {required && <RequiredStar />}
                 </div>
 
