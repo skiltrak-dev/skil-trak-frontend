@@ -30,7 +30,6 @@ export const AddIndustry = ({
     industryData: any
     onSetIndustryData: () => void
 }) => {
-    console.log({ industryData })
     const { notification } = useNotification()
     const [countryId, setCountryId] = useState(null)
     const contextBar = useContextBar()

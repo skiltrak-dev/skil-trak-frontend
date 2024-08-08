@@ -42,11 +42,9 @@ export const OurStoryMapSection = () => {
                         validationIcons
                         placesSuggetions
                         onChange={(e: any) => {
-                            console.log('e?.target?.value', e?.target?.value)
                             if (e?.target?.value?.length > 4) {
                                 fromAddress(e?.target?.value)
                                     .then(({ results }: any) => {
-                                        console.log('results', results)
                                         const { lat, lng } =
                                             results[0].geometry.location
                                         setSearchedLocationCoordinates({

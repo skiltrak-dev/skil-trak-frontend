@@ -3,7 +3,7 @@ import React from 'react'
 
 export const Info = () => {
     return (
-        <div className="h-72 pl-28">
+        <div className="h-72 pl-28 ">
             <h1 className="text-3xl font-bold mb-2.5">
                 {/* {items[activeIndex]?.title} */}
                 Who are we
@@ -14,7 +14,8 @@ export const Info = () => {
                 placement services in Australia. At SkilTrak, we specialise in
                 providing employment in top-notch industries to individual
                 candidates as well as students affiliated with our partnered
-                Registered Training Organisations (RTOs).
+                Registered Training Organisations{' '}
+                <strong className="text-primaryNew">(RTOs)</strong>.
             </Typography>
             <div className="mt-5">
                 <Typography variant={'body'} color="text-[#25566B]">

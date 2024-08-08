@@ -12,7 +12,6 @@ export const BlockIndustryListingModal = ({
     industry: any
     onCancel: Function
 }) => {
-    console.log({ industry })
     const { notification } = useNotification()
 
     const [changeStatus, changeStatusResult] =
