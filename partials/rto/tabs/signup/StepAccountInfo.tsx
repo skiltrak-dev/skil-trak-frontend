@@ -8,7 +8,6 @@ export const StepAccountInfo = () => {
     const router = useRouter()
 
     const onSubmit = (values: RtoFormData) => {
-        console.log('values', values)
         SignUpUtils.setValuesToStorage<RtoFormData>({
             ...values,
         })

@@ -61,26 +61,26 @@ export const OurStoryRtoSection = () => {
                                 your Registered Training Organization's
                                 operations.
                             </Typography>
-                            <div className="relative mt-11 hidden md:block">
+                            <div className="relative hidden md:block">
                                 <Image
                                     src="/images/our-story/rto-1.png"
                                     alt="feature-icon"
-                                    width={334}
+                                    width={434}
                                     height={211}
                                 />
-                                <div className="absolute top-20 right-20">
+                                <div className="absolute top-16 right-10">
                                     <Image
                                         src="/images/our-story/rto-2.png"
                                         alt="feature-icon"
-                                        width={244}
+                                        width={344}
                                         height={77}
                                     />
                                 </div>
-                                <div className="absolute top-[63%] right-24">
+                                <div className="absolute top-[60%] right-12">
                                     <Image
                                         src="/images/our-story/rto-3.png"
                                         alt="feature-icon"
-                                        width={386}
+                                        width={486}
                                         height={173}
                                     />
                                 </div>

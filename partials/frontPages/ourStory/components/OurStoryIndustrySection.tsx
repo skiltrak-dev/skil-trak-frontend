@@ -62,7 +62,7 @@ export const OurStoryIndustrySection = () => {
                             </div>
                         </div>
                         <div className="">
-                            <div className="md:mt-16 mt-4 flex flex-col gap-y-5">
+                            <div className="md:mt-4 mt-4 flex flex-col gap-y-5">
                                 <Typography variant="h2" color="text-[#24556D]">
                                     Industries
                                 </Typography>
@@ -82,26 +82,26 @@ export const OurStoryIndustrySection = () => {
                                     individuals through our talent pool and
                                     other specialized programs.
                                 </Typography>
-                                <div className="relative mt-11 hidden md:block">
+                                <div className="relative hidden md:block">
                                     <Image
                                         src="/images/our-story/industry-1.png"
                                         alt="feature-icon"
-                                        width={342}
+                                        width={542}
                                         height={215}
                                     />
-                                    <div className="absolute top-36 left-60 z-20">
+                                    <div className="absolute top-28 right-10 z-20">
                                         <Image
                                             src="/images/our-story/industry-2.png"
                                             alt="feature-icon"
-                                            width={258}
+                                            width={340}
                                             height={87}
                                         />
                                     </div>
-                                    <div className="absolute top-[80%] right-36 z-10">
+                                    <div className="absolute top-[60%] -right-36 z-10">
                                         <Image
                                             src="/images/our-story/industry-3.png"
                                             alt="feature-icon"
-                                            width={342}
+                                            width={442}
                                             height={153}
                                         />
                                     </div>

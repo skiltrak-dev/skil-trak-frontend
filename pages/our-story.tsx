@@ -20,6 +20,27 @@ import Head from 'next/head'
 import { ReactElement } from 'react'
 
 const OurStory: NextPageWithLayout = () => {
+    const googleReviews = [
+        {
+            name: 'Vikashni Mudaliar',
+            review: 'Had a great Guidance from my coordinator Lucas. He made my work easier in guiding me on how I can complete my WBT sessions and even helped in understanding on how to fill my log books.Thank you Sir for your help.',
+            rating: 5,
+            link: 'https://maps.app.goo.gl/eDJjfCVBFf7EbsJV6',
+        },
+        {
+            name: 'Sourabh Jaglan',
+            review: `Aaron Valcy was incredibly helpful with my placement process. Their guidance and support made everything much easier for me. I'm grateful for their assistance and would recommend their services to any student in need of placement help.`,
+            rating: 5,
+            link: 'https://maps.app.goo.gl/e6K9sepJ9c3URa787',
+        },
+        {
+            name: 'Harpreet Kaur',
+            review: `Skill track is a good company and skill track gave me  great guidance for my WBT . Maria Cruiz helped me alot for my Wbt . I had great experience with skill track and with Maria Cruiz !!. Thankyou team kindly.`,
+            rating: 5,
+            link: 'https://maps.app.goo.gl/1Q2vtH8y1Mggqo1z8',
+        },
+    ]
+    
     return (
         <>
             <Head>
@@ -99,8 +120,14 @@ const OurStory: NextPageWithLayout = () => {
                 </Typography>
             </div>
             <div className="flex items-center justify-between flex-col md:flex-row gap-4 mx-auto max-w-7xl my-8 px-4 md:px-0 md:my-16">
-                {[...Array(3)].map((_, i) => (
-                    <GoogleReviewCard key={i} />
+                {googleReviews?.map((review, i) => (
+                    <GoogleReviewCard
+                        review={review?.review}
+                        name={review?.name}
+                        rating={review?.rating}
+                        link={review?.link}
+                        key={i}
+                    />
                 ))}
             </div>
             <OurStorySkiltrakAppSection />
