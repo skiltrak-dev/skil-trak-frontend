@@ -2,33 +2,41 @@ import { Typography } from '@components'
 import React from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { RiStarSFill } from 'react-icons/ri'
-export const GoogleReviewCard = () => {
+import StarRatings from 'react-star-ratings'
+export const GoogleReviewCard = ({ review, name, rating, link }: any) => {
     return (
-        <div className="bg-white shadow-xl rounded-lg flex flex-col gap-y-8 justify-center items-center p-8">
+        <div className="bg-white shadow-xl rounded-lg flex flex-col max-h-72 gap-y-6 justify-center items-center p-8">
             <div className="flex flex-col justify-center items-center gap-y-2">
-                <FcGoogle size={30} />
+                <FcGoogle size={35} />
                 <div className="flex items-center justify-center gap-x-1">
-                    <RiStarSFill size={25} className="text-yellow-400" />
-                    <RiStarSFill size={25} className="text-yellow-400" />
-                    <RiStarSFill size={25} className="text-yellow-400" />
-                    <RiStarSFill size={25} className="text-yellow-400" />
-                    <RiStarSFill size={25} className="text-yellow-400" />
+                    <StarRatings
+                        rating={rating}
+                        starRatedColor="orange"
+                        numberOfStars={5}
+                        name="rating"
+                        starDimension="20px"
+                        starSpacing="1px"
+                    />
                 </div>
             </div>
             <div>
-                <Typography variant="body" center>
-                    From: Sophia Jenkins
+                <Typography
+                    variant="body"
+                    color="text-primaryNew"
+                    semibold
+                    center
+                >
+                    {name}
                 </Typography>
-                <Typography variant="body" color="text-blue-400" center>
-                    See it on Google
-                </Typography>
+                <a href={`${link}`} target="_blank" rel="noreferrer">
+                    <Typography variant="body" color="text-link" center>
+                        See it on Google
+                    </Typography>
+                </a>
             </div>
             <div>
                 <Typography variant="small" center>
-                    Et eligendi expedita. Accusantium qui est eius nemo eaque
-                    dolore necessitatibus voluptatem. Ut accusamus provident
-                    beatae dolorum amet. Omnis sapiente aut saepe aliquam
-                    doloribus eaque. Iure sit sed animi molestiae impedit.
+                    {review}
                 </Typography>
             </div>
         </div>

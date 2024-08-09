@@ -24,7 +24,17 @@ export const WhoAreWe = () => {
     useEffect(() => {
         const isAtStart = activeIndex === 0
 
-        const xPosition = isAtStart ? 1 * 650 : -activeIndex * itemWidth
+        const xPosition = isAtStart
+            ? 1 * 650
+            : activeIndex === 1
+            ? activeIndex * 420
+            : activeIndex === 2
+            ? activeIndex * 95
+            : activeIndex === 3
+            ? activeIndex * 1
+            : activeIndex === 4
+            ? activeIndex * 0
+            : -activeIndex * itemWidth
 
         controls.start({
             x: xPosition,

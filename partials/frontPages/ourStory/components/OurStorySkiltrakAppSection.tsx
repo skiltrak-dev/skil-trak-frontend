@@ -95,7 +95,7 @@ export const OurStorySkiltrakAppSection = () => {
                                 rel="noopener noreferrer"
                             >
                                 <Image
-                                    src={'/images/our-story/twitter-icon.svg'}
+                                    src={'/images/our-story/linkedin-icon.svg'}
                                     alt="Twitter"
                                     width={32}
                                     height={32}
