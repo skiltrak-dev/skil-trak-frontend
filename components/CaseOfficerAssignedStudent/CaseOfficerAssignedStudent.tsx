@@ -51,12 +51,8 @@ export const CaseOfficerAssignedStudent = ({
 
     const onCancelModal = () => setModal(null)
 
-    console.log({ secondWorkplace })
-
     const checkKeysLength = (wp: any) =>
         Object.keys(wp)?.filter((s) => s !== 'currentStatus')?.length > 0
-
-    console.log({ appliedIndustry })
 
     return (
         <div className="w-[280px]">
@@ -137,7 +133,7 @@ export const CaseOfficerAssignedStudent = ({
                     </div>
                 ) : null}
 
-                <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                {/* <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                     {workplace &&
                     checkKeysLength(workplace) &&
                     appliedIndustry ? (
@@ -161,7 +157,7 @@ export const CaseOfficerAssignedStudent = ({
                             </Typography>
                         </div>
                     ) : null}
-                </AuthorizedUserComponent>
+                </AuthorizedUserComponent> */}
             </div>
         </div>
     )
