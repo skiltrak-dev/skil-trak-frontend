@@ -12,9 +12,10 @@ import {
     RtoContextBarData,
     SidebarCalendar,
 } from '@components'
-import { EmailsCard, MailsListing } from '@partials/common'
+import { EmailsCard } from '@partials/common'
 // Hooks
 import { useContextBar } from '@hooks'
+import { MailsListing } from '@partials/common/MailsListing'
 
 const Notifications: NextPageWithLayout = () => {
     const { setContent } = useContextBar()

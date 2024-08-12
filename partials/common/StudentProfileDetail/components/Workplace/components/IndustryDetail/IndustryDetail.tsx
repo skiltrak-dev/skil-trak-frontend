@@ -26,6 +26,7 @@ export const IndustryDetail = ({
     appliedIndustry: WorkplaceWorkIndustriesType
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [showMap, setShowMap] = useState<boolean>(false)
     const contextBar = useContextBar()
     const { notification } = useNotification()
 
@@ -171,7 +172,7 @@ export const IndustryDetail = ({
                         )}
                     </div>
                 </div>
-                <div className="h-[200px] overflow-auto custom-scrollbar flex flex-col gap-y-2 border border-[#6B7280] rounded-md p-2.5 mt-2.5">
+                <div className="h-48 overflow-auto custom-scrollbar flex flex-col gap-y-2 border border-[#6B7280] rounded-md  mt-2.5">
                     {!appliedIndustry && suggestedIndustries?.length === 0 ? (
                         // <div onClick={onViewOnMap}>
 
@@ -182,14 +183,40 @@ export const IndustryDetail = ({
                         //         courseId={course?.id}
                         //     />
                         // </div>
-                        <button
-                            onClick={onViewOnMap}
-                            className="text-blue-500 underline text-sm whitespace-nowrap"
-                        >
-                            VIEW ON MAP
-                        </button>
+                        // <button
+                        //     onClick={onViewOnMap}
+                        //     className="text-blue-500 underline text-sm whitespace-nowrap"
+                        // >
+                        //     VIEW ON MAP
+                        // </button>
+                        <div className="relative w-full h-full">
+                            {!showMap ? (
+                                <div className="px-4 absolute top-0 left-0 w-full h-full bg-[#00000095] flex flex-col gap-y-1.5 justify-center">
+                                    <Typography
+                                        variant="small"
+                                        color={'text-white'}
+                                        center
+                                    >
+                                        Click here to view nearby industries on
+                                        the map, facilitating your search for
+                                        potential workplaces to apply for
+                                        student.
+                                    </Typography>
+                                    <p
+                                        className={
+                                            'underline text-white text-center text-[15px] cursor-pointer'
+                                        }
+                                        onClick={() => {
+                                            onViewOnMap()
+                                        }}
+                                    >
+                                        VIEW MAP
+                                    </p>
+                                </div>
+                            ) : null}
+                        </div>
                     ) : (
-                        <>
+                        <div className="p-2.5">
                             {!workplace?.industries?.length ? (
                                 <NoData text="No Industries were found!" />
                             ) : (
@@ -255,7 +282,7 @@ export const IndustryDetail = ({
                                     />
                                 )
                             )}
-                        </>
+                        </div>
                     )}
                 </div>
             </div>

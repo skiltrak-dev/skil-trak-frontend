@@ -1,5 +1,6 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+import { PaginatedResponse, PaginationValues } from '@types'
 
 const PREFIX = 'subadmin/'
 export const workplaceEndpoints = (
@@ -160,6 +161,16 @@ export const workplaceEndpoints = (
         }),
         providesTags: ['SubAdminWorkplace'],
     }),
+    subadminWpCancellationRequestsList: builder.query<
+        PaginatedResponse<any>,
+        PaginationValues
+    >({
+        query: (params) => ({
+            url: `${PREFIX}get/workplace-cancelation/requests/list`,
+            params,
+        }),
+        providesTags: ['SubAdminWorkplace'],
+    }),
     cancelWorkplaceStatus: builder.mutation<
         any,
         { id: number; comment: string }
@@ -171,6 +182,18 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['SubAdminWorkplace', 'Notes'],
     }),
+    cancelRequestWorkplace: builder.mutation<
+        any,
+        { id: number; comment: string }
+    >({
+        query: ({ id, comment }) => ({
+            url: `${PREFIX}workplace-request/${id}/request-for-cancel`,
+            body: { comment },
+            method: 'POST',
+        }),
+        invalidatesTags: ['SubAdminWorkplace'],
+    }),
+
     updateWorkplaceStatus: builder.mutation<
         any,
         { id: number; response: string }
@@ -182,6 +205,7 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['SubAdminWorkplace'],
     }),
+
     subAdminApplyStudentWorkplace: builder.mutation<
         any,
         { industry: number; id: number }

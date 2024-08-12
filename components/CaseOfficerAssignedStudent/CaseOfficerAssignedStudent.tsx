@@ -21,6 +21,8 @@ export const CaseOfficerAssignedStudent = ({
     workplaceFilter?: WorkplaceCurrentStatus
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [isSecondWorkplace, setIsSecondWorkplace] = useState<boolean>(false)
+
     const workplace = student?.workplace
         ?.filter(
             (w: any) => w?.currentStatus !== WorkplaceCurrentStatus.Cancelled
@@ -29,17 +31,35 @@ export const CaseOfficerAssignedStudent = ({
             currentStatus: WorkplaceCurrentStatus.NotRequested,
         })
 
+    const secondWorkplace = student?.workplace
+        ?.filter((w: any) => w?.id !== workplace?.id)
+        ?.filter(
+            (w: any) => w?.currentStatus !== WorkplaceCurrentStatus.Cancelled
+        )
+        ?.reduce((a: any, b: any) => (b?.createdAt > a?.createdAt ? a : b), {
+            currentStatus: WorkplaceCurrentStatus.NotRequested,
+        })
+
+    const updatedWorkplace = isSecondWorkplace ? secondWorkplace : workplace
+
     const industries = student?.industries
-    const steps = checkWorkplaceStatus(workplace?.currentStatus)
+    const steps = checkWorkplaceStatus(updatedWorkplace?.currentStatus)
     const studentStatus = checkStudentStatus(student?.studentStatus)
     const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-        workplace?.industries
+        updatedWorkplace?.industries
     )
 
     const onCancelModal = () => setModal(null)
 
+    console.log({ secondWorkplace })
+
+    const checkKeysLength = (wp: any) =>
+        Object.keys(wp)?.filter((s) => s !== 'currentStatus')?.length > 0
+
+    console.log({ appliedIndustry })
+
     return (
-        <div>
+        <div className="w-[280px]">
             {modal}
             {workplaceFilter ? (
                 <ProgressCell
@@ -48,8 +68,8 @@ export const CaseOfficerAssignedStudent = ({
                     assigned={student?.subadmin}
                     step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     studentProvidedWorkplace={
-                        workplace?.studentProvidedWorkplace ||
-                        workplace?.byExistingAbn
+                        updatedWorkplace?.studentProvidedWorkplace ||
+                        updatedWorkplace?.byExistingAbn
                     }
                 />
             ) : student?.workplace && student?.workplace?.length > 0 ? (
@@ -59,8 +79,8 @@ export const CaseOfficerAssignedStudent = ({
                     assigned={student?.subadmin}
                     step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     studentProvidedWorkplace={
-                        workplace?.studentProvidedWorkplace ||
-                        workplace?.byExistingAbn
+                        updatedWorkplace?.studentProvidedWorkplace ||
+                        updatedWorkplace?.byExistingAbn
                     }
                 />
             ) : industries?.length > 0 ? (
@@ -75,8 +95,8 @@ export const CaseOfficerAssignedStudent = ({
                     }
                     appliedIndustry={appliedIndustry}
                     studentProvidedWorkplace={
-                        workplace?.studentProvidedWorkplace ||
-                        workplace?.byExistingAbn
+                        updatedWorkplace?.studentProvidedWorkplace ||
+                        updatedWorkplace?.byExistingAbn
                     }
                 />
             ) : student?.subadmin ? (
@@ -86,8 +106,8 @@ export const CaseOfficerAssignedStudent = ({
                     step={3}
                     assigned={student?.subadmin}
                     studentProvidedWorkplace={
-                        workplace?.studentProvidedWorkplace ||
-                        workplace?.byExistingAbn
+                        updatedWorkplace?.studentProvidedWorkplace ||
+                        updatedWorkplace?.byExistingAbn
                     }
                 />
             ) : (
@@ -97,36 +117,52 @@ export const CaseOfficerAssignedStudent = ({
                     step={1}
                     assigned={student?.subadmin}
                     studentProvidedWorkplace={
-                        workplace?.studentProvidedWorkplace ||
-                        workplace?.byExistingAbn
+                        updatedWorkplace?.studentProvidedWorkplace ||
+                        updatedWorkplace?.byExistingAbn
                     }
                 />
             )}
-            <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
-                {workplace &&
-                Object.keys(workplace)?.filter((s) => s !== 'currentStatus')
-                    ?.length > 0 ? (
+            <div className="flex items-center justify-between gap-x-2 mt-1">
+                {secondWorkplace && checkKeysLength(secondWorkplace) ? (
                     <div
-                        className={
-                            'bg-indigo-300 px-2 py-0.5 rounded-md mt-1 w-fit ml-auto cursor-pointer'
-                        }
+                        className="bg-indigo-300 px-2 py-0.5 rounded-md cursor-pointer"
                         onClick={() => {
-                            setModal(
-                                <ViewStatusChangeHistoryModal
-                                    onCancel={onCancelModal}
-                                    appliedIndustry={
-                                        appliedIndustry as WorkplaceWorkIndustriesType
-                                    }
-                                />
-                            )
+                            setIsSecondWorkplace(!isSecondWorkplace)
                         }}
                     >
                         <Typography variant={'xs'}>
-                            View Status History
+                            View {isSecondWorkplace ? 'First' : 'Second'}{' '}
+                            Workplace
                         </Typography>
                     </div>
                 ) : null}
-            </AuthorizedUserComponent>
+
+                <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                    {workplace &&
+                    checkKeysLength(workplace) &&
+                    appliedIndustry ? (
+                        <div
+                            className={
+                                'bg-indigo-300 px-2 py-0.5 rounded-md  w-fit ml-auto cursor-pointer'
+                            }
+                            onClick={() => {
+                                setModal(
+                                    <ViewStatusChangeHistoryModal
+                                        onCancel={onCancelModal}
+                                        appliedIndustry={
+                                            appliedIndustry as WorkplaceWorkIndustriesType
+                                        }
+                                    />
+                                )
+                            }}
+                        >
+                            <Typography variant={'xs'}>
+                                View Status History
+                            </Typography>
+                        </div>
+                    ) : null}
+                </AuthorizedUserComponent>
+            </div>
         </div>
     )
 }

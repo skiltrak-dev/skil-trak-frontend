@@ -222,6 +222,7 @@ const {
     useAssociatedWithRtoMutation,
     useSubadminWorkplaceListQuery,
     useToggleSubadminPlacementMutation,
+    useToggleWPCancelationRequestMutation,
     useSubAdminExtendedStudentsListQuery,
     useToggleAutoWorkplaceAssignmentMutation,
 
@@ -243,8 +244,10 @@ const {
     useAssignedWorkplaceMutation,
     useUnAssignedWorkplaceListQuery,
     useAllRequestedWorkplaceListQuery,
+    useWpCancellationRequestsListQuery,
     useGetSubadminForAssignWorkplaceQuery,
     useAllStudentProvidedWorkplaceListQuery,
+    useChangeStatusForWPCancelationRequestMutation,
 
     // ------ FOLDERS ------ //
     useFolderAddMutation,
@@ -361,6 +364,7 @@ export const AdminApi = {
         useAssociatedWithRto: useAssociatedWithRtoMutation,
         useSubadminWorkplaceList: useSubadminWorkplaceListQuery,
         useToggleSubadminPlacement: useToggleSubadminPlacementMutation,
+        toggleWPCancelationReq: useToggleWPCancelationRequestMutation,
         subadminExtendedStudents: useSubAdminExtendedStudentsListQuery,
         useToggleAutoAssignWorkplace: useToggleAutoWorkplaceAssignmentMutation,
 
@@ -378,13 +382,16 @@ export const AdminApi = {
         assignCourse: useAssignCourseMutation,
         useListQuery: useUnAssignedSubAdminsQuery,
         cancelledWorkplaces: useCancelledWorkplacesQuery,
-        useUnAssignedWorkplace: useUnAssignedWorkplaceListQuery,
         useWorkplaceMutation: useAssignedWorkplaceMutation,
         useAssignedWorkplace: useAssignedRequestListQuery,
-        useRequestedWorkplace: useAllRequestedWorkplaceListQuery,
-        useStudentProvidedWorkplace: useAllStudentProvidedWorkplaceListQuery,
         useFilteredWorkplaces: useFilteredWorkplacesQuery,
+        useUnAssignedWorkplace: useUnAssignedWorkplaceListQuery,
+        useRequestedWorkplace: useAllRequestedWorkplaceListQuery,
+        wpCancelationRequestsList: useWpCancellationRequestsListQuery,
         subadminForAssignWorkplace: useGetSubadminForAssignWorkplaceQuery,
+        useStudentProvidedWorkplace: useAllStudentProvidedWorkplaceListQuery,
+        changeStatusCancelationReq:
+            useChangeStatusForWPCancelationRequestMutation,
     },
 
     Industries: {

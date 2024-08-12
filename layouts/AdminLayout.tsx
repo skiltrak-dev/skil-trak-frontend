@@ -138,6 +138,11 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             Icon: MdHomeWork,
         },
         {
+            text: 'WP Cancelation Requests',
+            path: getRoutePath('/cancelled-workplace-requests'),
+            Icon: MdHomeWork,
+        },
+        {
             text: 'Industry Listing',
             path: getRoutePath('/future-industries?tab=all&page=1&pageSize=50'),
             Icon: MdFindInPage,

@@ -286,8 +286,8 @@ export const StudentProfileDetail = () => {
                                 ? 'grid-cols-1 gap-3'
                                 : `grid-cols-5  ${
                                       workplaceLength > 1
-                                          ? 'h-[580px]'
-                                          : 'h-[510px]'
+                                          ? 'h-[570px]'
+                                          : 'h-[500px]'
                                   } `
                         }  px-2 gap-x-3`}
                     >

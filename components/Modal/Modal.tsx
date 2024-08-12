@@ -51,7 +51,7 @@ export const Modal = ({
                         <Typography variant={'title'}>{title}</Typography>
                         {TitleIcon && <TitleIcon className="text-info" />}
                     </div>
-                    <Typography variant={'subtitle'} color={'text-muted'}>
+                    <Typography variant={'label'} color={'text-muted'}>
                         {subtitle}
                     </Typography>
                 </div>

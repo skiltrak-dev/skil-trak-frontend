@@ -29,6 +29,7 @@ import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
 import {
     AllowAsAdminModal,
+    AllowCancelationWPModal,
     AllowIndustryListingModal,
     AllowLoginAfterHoursModal,
     AllowPlacementModal,
@@ -93,6 +94,14 @@ export const ActiveSubAdmin = () => {
     const onAllowPlacementModalClicked = (subAdmin: SubAdmin) => {
         setModal(
             <AllowPlacementModal
+                subAdmin={subAdmin}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+    const onAllowCancelationModalClicked = (subAdmin: SubAdmin) => {
+        setModal(
+            <AllowCancelationWPModal
                 subAdmin={subAdmin}
                 onCancel={() => onModalCancelClicked()}
             />
@@ -271,6 +280,18 @@ export const ActiveSubAdmin = () => {
                               : 'Remove Student on Placement',
                           onClick: (subAdmin: SubAdmin) =>
                               onAllowPlacementModalClicked(subAdmin),
+                          Icon: MdAdminPanelSettings,
+                      }
+                    : {}),
+            },
+            {
+                ...(role === UserRoles.ADMIN
+                    ? {
+                          text: subAdmin?.canCancelWorkPlaceRequest
+                              ? 'Remove Cancelation WP'
+                              : 'Allow Cancelation WP',
+                          onClick: (subAdmin: SubAdmin) =>
+                              onAllowCancelationModalClicked(subAdmin),
                           Icon: MdAdminPanelSettings,
                       }
                     : {}),

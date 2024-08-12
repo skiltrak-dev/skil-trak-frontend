@@ -1,7 +1,8 @@
-import { Button, Typography } from '@components'
+import { AuthorizedUserComponent, Button, Typography } from '@components'
 import { useRouter } from 'next/router'
 import React, { useCallback, useState } from 'react'
 import { ComposeMail } from '../tabs'
+import { UserRoles } from '@constants'
 
 export const TopBar = ({ mailsTabs }: { mailsTabs: any }) => {
     const router = useRouter()
@@ -57,22 +58,26 @@ export const TopBar = ({ mailsTabs }: { mailsTabs: any }) => {
             </div>
 
             <div className="flex items-center gap-x-2.5">
-                <Button
-                    onClick={() => {
-                        router.push(
-                            '/portals/sub-admin/notifications/bulk-email'
-                        )
-                    }}
-                    text="Bulk Email"
-                    variant="info"
-                />
-                <Button
-                    onClick={() => {
-                        router.push('/portals/sub-admin/email-draft')
-                    }}
-                    text="Email Draft"
-                    variant="info"
-                />
+                <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                    <>
+                        <Button
+                            onClick={() => {
+                                router.push(
+                                    '/portals/sub-admin/notifications/bulk-email'
+                                )
+                            }}
+                            text="Bulk Email"
+                            variant="info"
+                        />
+                        <Button
+                            onClick={() => {
+                                router.push('/portals/sub-admin/email-draft')
+                            }}
+                            text="Email Draft"
+                            variant="info"
+                        />
+                    </>
+                </AuthorizedUserComponent>
                 <Button
                     onClick={() => {
                         setIsComposeMail(!isComposeMail)

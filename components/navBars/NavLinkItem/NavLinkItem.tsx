@@ -17,7 +17,7 @@ export const NavLinkItem = ({ nav, PREFIX }: { PREFIX: string; nav: any }) => {
     const defaultClasses =
         'transition-all duration-300 px-2.5 py-2  flex flex-col md:flex-row gap-x-2 items-center rounded-md'
     return (
-        <li className="relative">
+        <li className="relative ">
             <Link legacyBehavior href={nav.link}>
                 <a
                     className={`${
@@ -29,11 +29,13 @@ export const NavLinkItem = ({ nav, PREFIX }: { PREFIX: string; nav: any }) => {
                     } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
                 >
                     <span>
-                        <nav.Icon size={isMobile ? 24 : 14} />
+                        <nav.Icon size={isMobile || nav?.mini ? 24 : 14} />
                     </span>
-                    <span className="text-xs 2xl:text-[13] font-semibold whitespace-pre">
-                        {nav.text}
-                    </span>
+                    {nav?.text ? (
+                        <span className="text-xs 2xl:text-[13] font-semibold whitespace-pre">
+                            {nav?.text}
+                        </span>
+                    ) : null}
                 </a>
             </Link>
             {nav?.count > 0 && (
