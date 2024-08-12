@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 // components
 import {
     Card,
+    NoData,
     Select,
     SelectOption,
     TechnicalError,
@@ -42,7 +43,7 @@ export const IndustryDashboardRD = () => {
                 </Typography>
             </div>
             <div className="overflow-auto custom-scrollbar px-3.5 py-2.5">
-                {isError && <TechnicalError />}
+                {isError && <NoData text="There is some technical issue" />}
 
                 <div className=" border-b border-secondary-dark pb-3">
                     <div className="w-full">
