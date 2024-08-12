@@ -44,12 +44,15 @@ const Schedule = ({ user, studentId }: { studentId: number; user: User }) => {
 
     const schedules = StudentApi.Schedule.useGetStudentSchedule(
         {
-            courseId: Number(selectedCourse),
             userId: user?.id,
+            courseId: Number(selectedCourse),
             workplace: Number(selectedIndustry),
         },
+        // {
+        //     skip: !selectedCourse || !selectedIndustry || !isEntered,
+        // }
         {
-            skip: !selectedCourse || !selectedIndustry || !isEntered,
+            skip: true,
         }
     )
 
@@ -94,8 +97,19 @@ const Schedule = ({ user, studentId }: { studentId: number; user: User }) => {
                 setIsEntered(false)
             }}
         >
-            <div>
+            <div className="relative">
                 <ShowErrorNotifications result={schedules} />
+                <div className="z-50 absolute top-0 left-0 w-full h-full bg-[#00000080]">
+                    <div className="w-full h-full flex justify-center items-start mt-24">
+                        <div className="bg-white p-10 rounded-lg w-3/4">
+                            <Typography variant="subtitle" center>
+                                Our technical department is currently addressing
+                                a technical issue. We appreciate your patience
+                                as we work to resolve this matter
+                            </Typography>
+                        </div>
+                    </div>
+                </div>
                 {addSchedule ? (
                     <AddSchedule
                         user={user}
