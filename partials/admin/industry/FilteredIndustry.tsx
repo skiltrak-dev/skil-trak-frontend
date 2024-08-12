@@ -235,6 +235,10 @@ export const FilteredIndustry = ({
             },
         },
         {
+            accessorKey: 'studentCount',
+            header: () => <span>Students</span>,
+        },
+        {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
             cell: (info) => {

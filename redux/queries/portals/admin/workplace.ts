@@ -1,3 +1,4 @@
+import { CancelationRequestEnum } from '@partials/common/WpCancelationRequest/enum'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 import {
@@ -73,6 +74,16 @@ export const workplaceEndpoints = (
         }),
         providesTags: ['Workplaces'],
     }),
+    wpCancellationRequestsList: builder.query<
+        PaginatedResponse<any>,
+        PaginationValues
+    >({
+        query: (params) => ({
+            url: `${PREFIX}/get/workplace-cancelation/requests/list`,
+            params,
+        }),
+        providesTags: ['Workplaces'],
+    }),
     cancelledWorkplaces: builder.query<
         PaginatedResponse<IWorkplaceIndustries>,
         PaginationValues
@@ -107,5 +118,17 @@ export const workplaceEndpoints = (
     getSubadminForAssignWorkplace: builder.query<SubAdmin[], void>({
         query: () => `${PREFIX}/subadmin/workplace/list`,
         providesTags: ['Workplaces'],
+    }),
+
+    changeStatusForWPCancelationRequest: builder.mutation<
+        PaginatedResponse<IWorkplaceIndustries>,
+        { id: number; status: CancelationRequestEnum }
+    >({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}/workplace-cancelation-request/${id}/update`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['Workplaces'],
     }),
 })

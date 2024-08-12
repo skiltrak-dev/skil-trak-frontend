@@ -1,0 +1,277 @@
+import {
+    ActionButton,
+    Badge,
+    Button,
+    Card,
+    EmptyData,
+    InitialAvatar,
+    LoadingAnimation,
+    Table,
+    TechnicalError,
+    Typography,
+} from '@components'
+import { PageHeading } from '@components/headings'
+import { ColumnDef } from '@tanstack/react-table'
+
+import { AdminApi, SubAdminApi } from '@queries'
+import { getUserCredentials } from '@utils'
+import moment from 'moment'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
+import { MdEmail } from 'react-icons/md'
+import { StudentCellInfo } from '../../admin/student/components'
+import { CancelationRequestEnum } from './enum'
+import {
+    ApproveRequestModal,
+    RejectRequestModal,
+    ViewWpRequestNoteModal,
+} from './modals'
+
+export const WpCancelationRequestSA = () => {
+    const router = useRouter()
+    const [modal, setModal] = useState<ReactElement | null>(null)
+    const [filterAction, setFilterAction] = useState(null)
+    const [itemPerPage, setItemPerPage] = useState(50)
+    const [page, setPage] = useState(1)
+    const [filter, setFilter] = useState({})
+    const role = getUserCredentials()?.role
+
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
+    }, [router])
+
+    // hooks
+
+    const { isLoading, isFetching, data, isError } =
+        SubAdminApi.Workplace.subadminCancelationRequest({
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
+
+    const onCancelClicked = () => setModal(null)
+
+    const onViewNoteClicked = (note: string) => {
+        setModal(
+            <ViewWpRequestNoteModal note={note} onCancel={onCancelClicked} />
+        )
+    }
+    const onApproveRequestClicked = (wpRequest: any) => {
+        setModal(
+            <ApproveRequestModal
+                wpRequest={wpRequest}
+                onCancel={onCancelClicked}
+            />
+        )
+    }
+    const onRejectRequestClicked = (wpRequest: any) => {
+        setModal(
+            <RejectRequestModal
+                wpRequest={wpRequest}
+                onCancel={onCancelClicked}
+            />
+        )
+    }
+
+    const columns: ColumnDef<any>[] = [
+        {
+            accessorKey: 'student',
+            header: () => <span>Student</span>,
+            cell: (info) => (
+                <StudentCellInfo
+                    student={info.row.original?.workplaceRequest?.student}
+                />
+            ),
+        },
+        {
+            accessorKey: 'cancelledBy',
+            header: () => <span>Cancelled By</span>,
+            cell: (info) => {
+                return (
+                    <a className="flex items-center gap-x-2">
+                        <div className="shadow-inner-image rounded-full">
+                            {info.row.original?.requestedBy?.name && (
+                                <InitialAvatar
+                                    name={info.row.original?.requestedBy?.name}
+                                    imageUrl={
+                                        info.row.original?.requestedBy?.avatar
+                                    }
+                                />
+                            )}
+                        </div>
+                        <div>
+                            <p className={`font-semibold`}>
+                                {info.row.original?.requestedBy?.name}
+                            </p>
+                            <div className="font-medium text-xs text-gray-500">
+                                <p className="flex items-center gap-x-1">
+                                    <span>
+                                        <MdEmail />
+                                    </span>
+                                    {info.row.original?.requestedBy?.email}
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                )
+            },
+        },
+        {
+            accessorKey: 'currentStatus',
+            header: () => (
+                <span className="whitespace-pre">Workplace Status</span>
+            ),
+            cell: (info) => (
+                <Badge
+                    variant="success"
+                    text={info.row.original?.workplaceRequest?.currentStatus}
+                />
+            ),
+        },
+        {
+            accessorKey: 'status',
+            header: () => (
+                <span className="whitespace-pre">Canelation Status</span>
+            ),
+            cell: (info) => (
+                <Badge
+                    variant={
+                        info.row.original?.status ===
+                        CancelationRequestEnum.Rejected
+                            ? 'error'
+                            : 'success'
+                    }
+                    text={info.row.original?.status}
+                />
+            ),
+        },
+        {
+            accessorKey: 'comment',
+            header: () => <span>Comment</span>,
+            cell: (info) => (
+                <ActionButton
+                    onClick={() => {
+                        onViewNoteClicked(info.row.original?.comment)
+                    }}
+                    variant="info"
+                    simple
+                >
+                    View Comment
+                </ActionButton>
+            ),
+        },
+        {
+            accessorKey: 'createdAt',
+            header: () => <span>Created At</span>,
+            cell: (info) => {
+                return (
+                    <>
+                        <Typography variant={'small'} color={'text-gray-600'}>
+                            <span className="font-semibold whitespace-pre">
+                                {moment(info?.row?.original?.createdAt).format(
+                                    'Do MMM YYYY'
+                                )}
+                            </span>
+                        </Typography>
+                        <Typography variant={'small'} color={'text-gray-600'}>
+                            <span className="font-semibold whitespace-pre">
+                                {moment(info?.row?.original?.createdAt).format(
+                                    'hh:mm:ss a'
+                                )}
+                            </span>
+                        </Typography>
+                    </>
+                )
+            },
+        },
+        {
+            accessorKey: 'actions',
+            header: () => <span>Actions</span>,
+            cell: (info) => (
+                <div className="flex items-center gap-x-2">
+                    <Button
+                        disabled={
+                            info.row.original?.status !==
+                            CancelationRequestEnum.Pending
+                        }
+                        text={'Reject'}
+                        onClick={() => {
+                            onRejectRequestClicked(info.row.original)
+                        }}
+                    />
+                    <Button
+                        text={'Approve'}
+                        disabled={
+                            info.row.original?.status !==
+                            CancelationRequestEnum.Pending
+                        }
+                        onClick={() => {
+                            onApproveRequestClicked(info.row.original)
+                        }}
+                    />
+                </div>
+            ),
+        },
+    ]
+
+    return (
+        <>
+            {modal}
+            <div className="flex flex-col gap-y-4 mb-32 px-4">
+                <PageHeading
+                    title={'Workplace Cancellation Requests'}
+                    subtitle={'List of Workplace Cancellation Requests'}
+                />
+
+                <Card noPadding>
+                    {isError && <TechnicalError />}
+                    {isLoading || isFetching ? (
+                        <LoadingAnimation height="h-[60vh]" />
+                    ) : data && data?.data.length ? (
+                        <Table columns={columns} data={data.data}>
+                            {({
+                                table,
+                                pagination,
+                                pageSize,
+                                quickActions,
+                            }: any) => {
+                                return (
+                                    <div>
+                                        <div className="p-6 mb-2 flex justify-between">
+                                            {pageSize(
+                                                itemPerPage,
+                                                setItemPerPage,
+                                                data?.data?.length
+                                            )}
+                                            <div className="flex gap-x-2">
+                                                {quickActions}
+                                                {pagination(
+                                                    data?.pagination,
+                                                    setPage
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div
+                                            className="px-6 overflow-auto remove-scrollbar"
+                                            id={'studentScrollId'}
+                                        >
+                                            {table}
+                                        </div>
+                                    </div>
+                                )
+                            }}
+                        </Table>
+                    ) : (
+                        !isError && (
+                            <EmptyData
+                                title={'No Blocked Students!'}
+                                description={'You have not blocked Student yet'}
+                                height={'50vh'}
+                            />
+                        )
+                    )}
+                </Card>
+            </div>
+        </>
+    )
+}

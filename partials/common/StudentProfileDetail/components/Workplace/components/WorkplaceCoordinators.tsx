@@ -40,7 +40,7 @@ export const WorkplaceCoordinators = ({
             <Typography variant="small" capitalize semibold>
                 coordinator
             </Typography>
-            <div className="h-[200px] border border-[#6B7280] rounded-md p-2.5 mt-2.5 flex flex-col justify-center items-center gap-y-1.5">
+            <div className="h-48 border border-[#6B7280] rounded-md p-2.5 mt-2.5 flex flex-col items-center gap-y-1.5">
                 <div className="bg-primaryNew p-3 rounded-lg w-full">
                     <Typography variant="xxs" normal color="text-white">
                         Assigned Coordinator

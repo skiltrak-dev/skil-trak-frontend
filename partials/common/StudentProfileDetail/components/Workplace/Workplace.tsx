@@ -40,6 +40,7 @@ import { IndustryDetail } from './components/IndustryDetail'
 import {
     CancelWorkplaceModal,
     UpdatePrvWPStatusModal,
+    CancelWorkplaceRequestModal,
     ViewPlacementStartedAnswersModal,
     ViewQuestionsModal,
 } from './modals'
@@ -187,6 +188,14 @@ export const Workplace = ({
             />
         )
     }
+    const onCancelWPRequestClicked = () => {
+        setModal(
+            <CancelWorkplaceRequestModal
+                onCancel={onCancelModal}
+                workplaceId={selectedWorkplace?.id}
+            />
+        )
+    }
 
     return (
         <>
@@ -307,14 +316,14 @@ export const Workplace = ({
                         ) : studentWorkplace?.data &&
                           studentWorkplace?.data?.length > 0 ? (
                             <div>
-                                <div className="py-2.5 px-4 border-b border-secondary-dark flex justify-between gap-x-4">
+                                <div className="pt-2.5 pb-1 px-4 border-b border-secondary-dark flex justify-between gap-x-4">
                                     <IndustryStatus
                                         folders={folders}
                                         workplace={selectedWorkplace}
                                         appliedIndustry={appliedIndustry}
                                     />
                                     <div className="w-full">
-                                        <div className="flex justify-end divide-x-2 mb-1">
+                                        <div className="flex justify-end divide-x-2 ">
                                             <ContactPersonDetail
                                                 appliedIndustry={
                                                     appliedIndustry
@@ -334,11 +343,34 @@ export const Workplace = ({
                                                 selectedWorkplace?.currentStatus
                                             }
                                         />
+                                        <div className="flex items-center gap-x-2">
+                                            <Typography variant="xs" semibold>
+                                                Course :{' '}
+                                            </Typography>
+                                            <div>
+                                                <Typography variant="xs">
+                                                    {
+                                                        selectedWorkplace
+                                                            ?.courses?.[0]?.code
+                                                    }
+                                                </Typography>
+                                                <Typography
+                                                    variant="small"
+                                                    semibold
+                                                >
+                                                    {
+                                                        selectedWorkplace
+                                                            ?.courses?.[0]
+                                                            ?.title
+                                                    }
+                                                </Typography>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
                                 {/*  */}
-                                <div className="p-4 grid grid-cols-10 gap-x-3 h-64 border-b border-secondary-dark">
+                                <div className="p-4 grid grid-cols-10 gap-x-3 border-b border-secondary-dark">
                                     <div className="col-span-3 h-full">
                                         <WorkplaceCoordinators
                                             appliedIndustryId={
@@ -361,25 +393,57 @@ export const Workplace = ({
                                         {WPStatusForCancelButon.includes(
                                             selectedWorkplace?.currentStatus
                                         ) && (
-                                            <ActionButton
-                                                variant={'error'}
-                                                onClick={async () => {
-                                                    onCancelWPClicked()
-                                                    // await cancelWorkplace(
-                                                    //     Number(
-                                                    //         selectedWorkplace?.id
-                                                    //     )
-                                                    // )
-                                                }}
-                                                loading={
-                                                    cancelWorkplaceResult.isLoading
-                                                }
-                                                disabled={
-                                                    cancelWorkplaceResult.isLoading
-                                                }
-                                            >
-                                                Cancel Request
-                                            </ActionButton>
+                                            <>
+                                                <AuthorizedUserComponent
+                                                    roles={[
+                                                        UserRoles.ADMIN,
+                                                        UserRoles.RTO,
+                                                    ]}
+                                                >
+                                                    <ActionButton
+                                                        variant={'error'}
+                                                        onClick={async () => {
+                                                            onCancelWPClicked()
+                                                            // await cancelWorkplace(
+                                                            //     Number(
+                                                            //         selectedWorkplace?.id
+                                                            //     )
+                                                            // )
+                                                        }}
+                                                        loading={
+                                                            cancelWorkplaceResult.isLoading
+                                                        }
+                                                        disabled={
+                                                            cancelWorkplaceResult.isLoading
+                                                        }
+                                                    >
+                                                        Cancel Request
+                                                    </ActionButton>
+                                                </AuthorizedUserComponent>
+                                                <AuthorizedUserComponent
+                                                    roles={[UserRoles.SUBADMIN]}
+                                                >
+                                                    <ActionButton
+                                                        variant={'error'}
+                                                        onClick={async () => {
+                                                            onCancelWPRequestClicked()
+                                                            // await cancelWorkplace(
+                                                            //     Number(
+                                                            //         selectedWorkplace?.id
+                                                            //     )
+                                                            // )
+                                                        }}
+                                                        loading={
+                                                            cancelWorkplaceResult.isLoading
+                                                        }
+                                                        disabled={
+                                                            cancelWorkplaceResult.isLoading
+                                                        }
+                                                    >
+                                                        Cancel Request
+                                                    </ActionButton>
+                                                </AuthorizedUserComponent>
+                                            </>
                                         )}
                                         {selectedWorkplace
                                             ? appliedIndustry?.placementStarted &&

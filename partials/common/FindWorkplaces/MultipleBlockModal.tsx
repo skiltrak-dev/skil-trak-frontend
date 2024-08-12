@@ -25,7 +25,7 @@ export const MultipleBlockModal = ({
     useEffect(() => {
         if (changeStatusResult.isSuccess) {
             notification.error({
-                title: `Blockes`,
+                title: `Blocked`,
                 description: `Industries have been Blocked.`,
             })
             onCancel()

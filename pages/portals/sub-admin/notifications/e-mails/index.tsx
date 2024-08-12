@@ -4,14 +4,7 @@ import { SubAdminLayout } from '@layouts'
 // Types
 import { Button, TabNavigation, TabProps } from '@components'
 import { useContextBar } from '@hooks'
-import {
-    AllMails,
-    MailsListing,
-    ReadMail,
-    SendMail,
-    UnReadMail,
-} from '@partials/common'
-import { CommonApi } from '@queries'
+import { AllMails, SendMail } from '@partials/common'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 
@@ -19,8 +12,6 @@ const SubAdminEmailsNotifications: NextPageWithLayout = () => {
     const router = useRouter()
     const [selectedMessage, setSelectedMessage] = useState<any>(null)
     const contextBar = useContextBar()
-
-    const [seenMessage, resultSeenMessage] = CommonApi.Messages.useIsSeen()
 
     const tabs: TabProps[] = [
         {

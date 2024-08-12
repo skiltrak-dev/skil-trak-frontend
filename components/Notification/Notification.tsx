@@ -102,7 +102,7 @@ export const Notification = ({
         <div
             className={`${
                 !dismissing ? 'slide-in' : 'slide-out'
-            } bg-white w-72 md:w-[350px] h-20 md:h-24 shadow-lg hover:shadow-xl rounded-2xl overflow-hidden flex relative z-50`}
+            } bg-white w-72 md:w-[365px] min-h-20 md:min-h-24 shadow-lg hover:shadow-xl rounded-2xl overflow-hidden flex relative z-50`}
             style={{ zIndex: 99999 }}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
@@ -113,7 +113,7 @@ export const Notification = ({
             />
 
             <div
-                className={`px-5 md:px-6 h-full flex justify-center items-center ${
+                className={`px-5 md:px-6 h-[inherit] flex justify-center items-center ${
                     (theme as any)[variant].icon.bg
                 }`}
             >

@@ -171,6 +171,8 @@ export const {
     useAgrementSignMutation,
     useViewMoreIndustriesQuery,
     useChangeStatustoSignedMutation,
+    useCancelRequestWorkplaceMutation,
+    useSubadminWpCancellationRequestsListQuery,
     useGetSubAdminMapSuggestedIndustryDetailQuery,
 
     useGetStudentWorkplaceAnswersQuery,
@@ -492,6 +494,8 @@ export const SubAdminApi = {
         useShowExistingIndustriesQuery,
         useAddExistingIndustriesMutation,
         useChangeCustomIndustryStatusMutation,
+        useCancelRequestWP: useCancelRequestWorkplaceMutation,
+        subadminCancelationRequest: useSubadminWpCancellationRequestsListQuery,
         useSendMeetingNotification: useSendMeetingNotificationMutation,
         useSubAdminMapSuggestedIndustryDetail:
             useGetSubAdminMapSuggestedIndustryDetailQuery,

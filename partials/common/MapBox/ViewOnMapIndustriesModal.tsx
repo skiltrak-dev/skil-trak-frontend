@@ -17,6 +17,7 @@ import {
     IndustryInfoBoxCard,
     FutureIndustryInfoBoxCard,
 } from './components'
+import { MdCancel } from 'react-icons/md'
 
 const containerStyle = {
     width: '780px',
@@ -197,25 +198,6 @@ export const ViewOnMapIndustriesModal = ({
         }
     }, [workplaceCourseIndustries, futureIndustries?.data])
 
-    // const onBoundChange = useCallback(() => {
-    //     setSelectedBox(null)
-    //     setShowInfoBox(false)
-    //     setIndustryId('')
-    //     if (!map) return
-
-    //     const bounds = map.getBounds()
-    //     if (!bounds) return
-
-    //     const updatedVisibleMarkers = visibleMarkers.filter((marker: any) => {
-    //         const latLng = new google.maps.LatLng(
-    //             marker.location.lat,
-    //             marker.location.lng
-    //         )
-    //         return bounds.contains(latLng)
-    //     })
-
-    //     setVisibleMarkers(updatedVisibleMarkers)
-    // }, [map])
     const onBoundChange = useCallback(() => {
         setFutureIndustryId(null)
         if (!map) return
@@ -343,8 +325,8 @@ export const ViewOnMapIndustriesModal = ({
         (student: any) => student?.user && student?.user?.role === 'student'
     )
     return (
-        <div className="w-full">
-            <div className="flex justify-between cursor-pointer border-b p-2 mb-2">
+        <div className="w-full h-full overflow-hidden">
+            <div className="flex justify-between cursor-pointer border-b py-0.5 px-2 mb-2">
                 <Checkbox
                     name={'futureIndustry'}
                     onChange={() =>
@@ -353,9 +335,10 @@ export const ViewOnMapIndustriesModal = ({
                     defaultChecked={showFutureIndustries}
                     label={'Show Industry Listing'}
                 />
-                <div onClick={onCancel}>
-                    <IoMdCloseCircle size={25} className="text-red-500" />
-                </div>
+                <MdCancel
+                    onClick={onCancel}
+                    className="transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
+                />
             </div>
 
             {visibleMarkers.length > 0 ? (
