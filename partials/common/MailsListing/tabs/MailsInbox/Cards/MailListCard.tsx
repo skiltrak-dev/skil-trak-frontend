@@ -2,9 +2,14 @@ import { Checkbox, Typography } from '@components'
 import React, { ReactElement, useState } from 'react'
 import { MdDelete } from 'react-icons/md'
 import { DeleteMailModal } from '../modals'
-import { HtmlToPlainText, ellipsisText, htmltotext } from '@utils'
+import {
+    HtmlToPlainText,
+    ellipsisText,
+    getUserCredentials,
+    htmltotext,
+} from '@utils'
 import { useMediaQuery } from 'react-responsive'
-import { MediaQueries } from '@constants'
+import { MediaQueries, UserRoles } from '@constants'
 import { User } from '@types'
 import { useRouter } from 'next/router'
 import moment from 'moment'
@@ -34,6 +39,27 @@ export const MailListCard = ({
             <DeleteMailModal onCancel={onCancelClicked} mail={mailDetail} />
         )
     }
+
+    const role = getUserCredentials()?.role
+
+    const roleUrl = () => {
+        switch (role) {
+            case UserRoles.SUBADMIN:
+                router.push(
+                    `/portals/sub-admin/notifications/e-mails/${mailDetail?.id}`
+                )
+                break
+
+            case UserRoles.INDUSTRY:
+                router.push(
+                    `/portals/industry/notifications/e-mails/${mailDetail?.id}`
+                )
+                break
+
+            default:
+                break
+        }
+    }
     return (
         <>
             {modal}
@@ -47,9 +73,7 @@ export const MailListCard = ({
                 onClick={(e: any) => {
                     if (e.target.tagName !== 'INPUT') {
                         e.stopPropagation()
-                        router.push(
-                            `/portals/sub-admin/notifications/e-mails/${mailDetail?.id}`
-                        )
+                        roleUrl()
                     }
                 }}
                 className={`flex flex-col lg:flex-row lg:items-center gap-2 py-2.5 px-3 ${

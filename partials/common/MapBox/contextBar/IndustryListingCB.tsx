@@ -15,6 +15,7 @@ import {
 import { useIndustryListingActions } from '@partials/common/FindWorkplaces/hooks/useIndustryListingActions'
 import { CommonApi } from '@queries'
 import { IndustryStatus, Sector } from '@types'
+import moment from 'moment'
 import { ReactElement, useState } from 'react'
 
 export const IndustryListingCB = ({ id }: { id: number }) => {
@@ -79,6 +80,7 @@ export const IndustryListingCB = ({ id }: { id: number }) => {
                 return '<p>---</p>'
         }
     }
+    console.log({ createdBy: detail?.data })
 
     return (
         <>
@@ -130,6 +132,16 @@ export const IndustryListingCB = ({ id }: { id: number }) => {
                             <UserProfileDetailCard
                                 title="Status"
                                 detail={listingStatus(detail?.data?.status)}
+                            />
+                            <UserProfileDetailCard
+                                title="Created By"
+                                detail={detail?.data?.createdBy?.name}
+                            />
+                            <UserProfileDetailCard
+                                title="Created At"
+                                detail={moment(detail?.data?.createdAt).format(
+                                    'MMM DD, YYYY'
+                                )}
                             />
                         </div>
                         <UserProfileDetailCard

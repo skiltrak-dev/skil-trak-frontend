@@ -33,7 +33,6 @@ export const Notes = ({
         contextBar.setTitle('Add Note')
         contextBar.setContent(<CreateNote receiverId={Number(userId)} />)
         contextBar.show(false)
-        // setModal(<AddNoteModal userId={userId} onCancel={onCancel} />)
     }
 
     return (
@@ -51,7 +50,7 @@ export const Notes = ({
                         <Button onClick={onAddNote}>Add Note</Button>
                     </div>
 
-                    <div className="px-4  py-3 box-border">
+                    <div className="px-4 py-3 box-border">
                         {notes.isError ? (
                             <TechnicalError
                                 height="50vh"

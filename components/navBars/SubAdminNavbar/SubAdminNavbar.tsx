@@ -13,6 +13,7 @@ import { MdEmail, MdNotifications, MdSpaceDashboard } from 'react-icons/md'
 import { NavLinkItem } from '../NavLinkItem'
 import { Typography } from '@components/Typography'
 import { LiaCertificateSolid } from 'react-icons/lia'
+import { IoMdSettings } from 'react-icons/io'
 
 const PREFIX = '/portals/sub-admin'
 const Routes = {
@@ -20,6 +21,7 @@ const Routes = {
     Students: `${PREFIX}/students?tab=all`,
     Users: `${PREFIX}/users`,
     Tasks: `${PREFIX}/tasks`,
+    WPCancelationReq: `${PREFIX}/cancelled-workplace-requests`,
     ESignature: `${PREFIX}/e-signature`,
     Notification: `${PREFIX}/notifications`,
     Settings: `${PREFIX}/setting`,
@@ -67,19 +69,20 @@ export const SubAdminNavbar = () => {
             inActiveClasses: 'text-slate-700',
         },
         {
+            link: Routes.WPCancelationReq,
+            text: 'WP Cancelation Requests',
+            Icon: FaClipboardList,
+            activeClasses: 'bg-orange-100 text-orange-700',
+            inActiveClasses: 'text-slate-700',
+        },
+        {
             link: Routes.Notification,
             text: 'Mails',
             Icon: MdEmail,
             activeClasses: 'bg-blue-100 text-blue-700',
             inActiveClasses: 'text-slate-700',
         },
-        {
-            link: Routes.History,
-            text: 'History',
-            Icon: FaHistory,
-            activeClasses: 'bg-green-100 text-green-700',
-            inActiveClasses: 'text-slate-700',
-        },
+
         {
             link: Routes.ESign,
             text: 'E-Sign',
@@ -88,13 +91,7 @@ export const SubAdminNavbar = () => {
             inActiveClasses: 'text-slate-700',
             count: pendingDocsCount?.data,
         },
-        {
-            link: Routes.VolunteerRequest,
-            text: 'Volunteer Requests',
-            Icon: FaClipboardList,
-            activeClasses: 'bg-orange-100 text-orange-700',
-            inActiveClasses: 'text-slate-700',
-        },
+
         {
             link: Routes.TalentPool,
             text: 'Talent Pool',
@@ -114,10 +111,10 @@ export const SubAdminNavbar = () => {
         },
         {
             link: Routes.Settings,
-            text: 'Settings',
-            Icon: MdNotifications,
+            Icon: IoMdSettings,
             activeClasses: 'bg-blue-100 text-blue-700',
             inActiveClasses: 'text-slate-700',
+            mini: true,
         },
     ]
 
@@ -128,7 +125,7 @@ export const SubAdminNavbar = () => {
                     <NavLinkItem key={i} nav={nav} PREFIX={PREFIX} />
                 ))}
             </ul>
-            <ul className="flex gap-x-2 py-4">
+            <ul className="flex gap-x-2 items-center py-4">
                 {additionalMenuItems.map((nav, i) => (
                     <NavLinkItem key={i} nav={nav} PREFIX={PREFIX} />
                 ))}

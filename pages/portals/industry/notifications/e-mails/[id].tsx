@@ -1,4 +1,4 @@
-import { SubAdminLayout } from '@layouts'
+import { IndustryLayout } from '@layouts'
 import { MailDetail } from '@partials/common/MailsListing'
 import { NextPageWithLayout } from '@types'
 import { ReactElement } from 'react'
@@ -9,9 +9,9 @@ const EmailDetail: NextPageWithLayout = () => {
 
 EmailDetail.getLayout = (page: ReactElement) => {
     return (
-        <SubAdminLayout pageTitle={{ title: 'Mail Detail' }}>
+        <IndustryLayout pageTitle={{ title: 'Mail Detail' }}>
             {page}
-        </SubAdminLayout>
+        </IndustryLayout>
     )
 }
 
