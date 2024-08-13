@@ -23,14 +23,12 @@ import { SubAdminApi, useGetSubAdminStudentDetailQuery } from '@queries'
 import {
     Notes,
     Tickets,
+    Schedule,
     Workplace,
     MailsCommunication,
     AssessmentSubmissions,
 } from './components'
 
-const Schedule = dynamic(() => import('./components/Schedule/Schedule'), {
-    ssr: false,
-})
 export const StudentProfileDetail = () => {
     const contextBar = useContextBar()
     const [selectedId, setSelectedId] = useState<string>('')

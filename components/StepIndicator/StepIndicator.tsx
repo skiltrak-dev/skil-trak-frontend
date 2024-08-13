@@ -38,7 +38,6 @@ export const StepIndicator = ({
     const stepIndex = steps.findIndex(
         (step) => step.label === currentStep.label
     )
-    console.log('stepIndex', stepIndex)
 
     const stepIndicatorClasses = classNames({
         'w-full flex gap-x-2 py-4 mt-2 overflow-scroll remove-scrollbar': true,

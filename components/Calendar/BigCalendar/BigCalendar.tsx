@@ -9,6 +9,8 @@ import { TimeSlotWrapper } from './TimeSlotWrapper'
 import { WeekHeaderWrapper } from './WeekHeaderWrapper'
 import { CalendarStyles } from './style'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { currentWeekDates } from '@utils'
+import { CalendarView } from '../enum'
 
 const localizer = momentLocalizer(moment)
 
@@ -20,32 +22,6 @@ export interface CalendarEvent {
     start: Date
     end: Date
     allDay?: boolean
-}
-
-enum CalendarView {
-    Month = 'month',
-    Week = 'week',
-    Day = 'day',
-    Agenda = 'agenda',
-}
-
-const currentWeekDates = () => {
-    const weekDays = moment()
-
-    // Get the start of the current week (Sunday)
-    const startOfWeek = weekDays.clone().startOf('week')
-
-    // Initialize an array to store the dates from Sunday to Saturday
-    const datesOfWeek = []
-
-    // Loop through each day of the week (Sunday to Saturday)
-    for (let i = 0; i < 7; i++) {
-        // Add the current date to the array
-        datesOfWeek.push(startOfWeek.clone().add(i, 'days'))
-    }
-
-    // Format and display the dates
-    return datesOfWeek
 }
 
 export const BigCalendar = ({

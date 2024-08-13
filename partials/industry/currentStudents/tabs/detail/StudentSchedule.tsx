@@ -6,13 +6,13 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
+import { ScheduleTimetable } from '@partials/common/StudentProfileDetail/components/Schedule/components'
 import { IndustryApi } from '@queries'
 import { Course, Student } from '@types'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { AddSchedule } from '../../components'
-import { ScheduleCalendar } from '@partials/student/Schedule'
 
 export const StudentSchedule = ({
     workplace,
@@ -26,14 +26,33 @@ export const StudentSchedule = ({
     const router = useRouter()
     const [addSchedule, setAddSchedule] = useState<boolean>(false)
 
-    const schedules = IndustryApi.Workplace.useStudentSchedule({
-        courseId: course?.id,
-        studentUserId: student?.user?.id,
-        workplace: workplace?.id,
-    })
+    const schedules = IndustryApi.Workplace.useStudentSchedule(
+        {
+            courseId: course?.id,
+            studentUserId: student?.user?.id,
+            workplace: workplace?.id,
+        },
+        {
+            skip: !course?.id || !student?.user?.id,
+        }
+        // {
+        //     skip: true,
+        // }
+    )
 
     return (
-        <div>
+        <div className="relative h-full">
+            {/* <div className="z-50 absolute top-0 left-0 w-full h-full bg-[#00000080]">
+                <div className="w-full h-full flex justify-center items-start mt-24">
+                    <div className="bg-white p-10 rounded-lg w-3/4">
+                        <Typography variant="subtitle" center>
+                            Our technical department is currently addressing a
+                            technical issue. We appreciate your patience as we
+                            work to resolve this matter
+                        </Typography>
+                    </div>
+                </div>
+            </div> */}
             {addSchedule ? (
                 <AddSchedule
                     user={student?.user}
@@ -111,7 +130,14 @@ export const StudentSchedule = ({
                                         </Typography>
                                     </div>
                                 </div>
-                                <ScheduleCalendar
+
+                                <ScheduleTimetable
+                                    scheduleCourse={
+                                        schedules?.data?.schedule?.course
+                                    }
+                                    scheduleId={schedules?.data?.schedule?.id}
+                                />
+                                {/* <ScheduleCalendar
                                     events={[
                                         ...schedules?.data?.schedule?.timeTables?.map(
                                             (c: any) => {
@@ -152,7 +178,7 @@ export const StudentSchedule = ({
                                             }
                                         ),
                                     ]}
-                                />
+                                /> */}
                             </>
                         ) : (
                             schedules?.isSuccess && <EmptyData />

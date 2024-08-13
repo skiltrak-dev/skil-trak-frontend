@@ -1,17 +1,11 @@
-import { useContextBar } from '@hooks'
+import { Card } from '@components'
+import { ProfileAppointments } from '@partials/common'
+import { Notes } from '@partials/common/StudentProfileDetail/components'
 import { IndustryApi } from '@queries'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { IndustryStudentProfileCB } from './ContextBar'
+import { useState } from 'react'
 import { StudentSchedule } from '../currentStudents/tabs/detail/StudentSchedule'
-import {
-    Appointments,
-    Notes,
-} from '@partials/common/StudentProfileDetail/components'
 import { IndustryStudentProfileDetail, StudentAssessments } from './components'
-import { Card, Typography } from '@components'
-import { IndustryResponse } from './components'
-import { ProfileAppointments } from '@partials/common'
 
 enum AssessmentEnum {
     'Student Submissions' = 'assessment',
@@ -105,8 +99,8 @@ export const IndustryCurrentStudents = () => {
                     <Notes userId={profile?.data?.student?.user?.id} />
                 </div>
             </div>
-            <div className="flex items-start gap-x-5 w-full">
-                <div className="w-1/2">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 w-full">
+                <div className="lg:col-span-2">
                     <Card noPadding>
                         <StudentSchedule
                             workplace={profile?.data}
@@ -122,7 +116,7 @@ export const IndustryCurrentStudents = () => {
                         selectedId === ProfileIds.Appointments
                             ? 'border-2 border-primary'
                             : ''
-                    } h-[inherit] w-1/2`}
+                    } h-[inherit] `}
                 >
                     <ProfileAppointments
                         userId={profile?.data?.student?.user?.id}

@@ -80,7 +80,6 @@ export const IndustryListingCB = ({ id }: { id: number }) => {
                 return '<p>---</p>'
         }
     }
-    console.log({ createdBy: detail?.data })
 
     return (
         <>
