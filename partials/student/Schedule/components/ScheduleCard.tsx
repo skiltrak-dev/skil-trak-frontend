@@ -10,9 +10,17 @@ export const ScheduleCard = ({
     setScheduleTime: any
     onScheduleChange: any
 }) => {
+    const [isChanged, setIsChanged] = useState<boolean>(false)
     const [isAvailable, setIsAvailable] = useState<boolean>(time?.isActive)
     const [openingTime, setOpeningTime] = useState<any>(time?.openingTime)
     const [closingTime, setClosingTime] = useState<any>(time?.closingTime)
+
+    useEffect(() => {
+        console.log({ timetimetimetimetime: time })
+        setIsAvailable(time?.isActive)
+        setOpeningTime(time?.openingTime)
+        setClosingTime(time?.closingTime)
+    }, [time])
 
     useEffect(() => {
         onScheduleChange({
@@ -22,6 +30,8 @@ export const ScheduleCard = ({
             isActive: isAvailable,
         })
     }, [isAvailable, openingTime, closingTime])
+
+    console.log({ isAvailable, openingTime, closingTime })
     return (
         <div className="bg-gray-100 rounded-lg px-6 grid grid-cols-3 items-center">
             <Typography variant={'label'} capitalize>
@@ -33,6 +43,7 @@ export const ScheduleCard = ({
                     label={'Available'}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
                         setIsAvailable(e.target.checked)
+                        setIsChanged(true)
                         // onChange({})
                         // setScheduleTime((preVal: any) =>
                         //     !e.target.checked
@@ -45,7 +56,8 @@ export const ScheduleCard = ({
                     // {...(availability?.isActive
                     //     ? { defaultChecked: availability?.isActive }
                     //     : {})}
-                    defaultChecked={isAvailable}
+                    value={isChanged ? isAvailable : time?.isActive}
+                    defaultChecked={isChanged ? isAvailable : time?.isActive}
                 />
             </div>
             <div className="flex items-end gap-x-2.5">
@@ -53,29 +65,31 @@ export const ScheduleCard = ({
                     label={'Starting Time'}
                     type={'time'}
                     name={'openingTime'}
-                    disabled={!isAvailable}
+                    disabled={isChanged ? !isAvailable : !time?.isActive}
                     onChange={(e: any) => {
                         setOpeningTime(e.target.value)
+                        setIsChanged(true)
                         // onChange(e)
                     }}
                     // {...(availability?.openingTime
                     //     ? { value: availability?.openingTime }
                     //     : {})}
-                    value={openingTime}
+                    value={isChanged ? openingTime : time?.openingTime}
                 />
                 <TextInput
                     label={'Closing Time'}
                     type={'time'}
                     name={'closingTime'}
-                    disabled={!isAvailable}
+                    disabled={isChanged ? !isAvailable : !time?.isActive}
                     onChange={(e: any) => {
                         setClosingTime(e.target.value)
+                        setIsChanged(true)
                         // onChange(e)
                     }}
                     // {...(availability?.closingTime
                     //     ? { value: availability?.closingTime }
                     //     : {})}
-                    value={closingTime}
+                    value={isChanged ? closingTime : time?.closingTime}
                 />
             </div>
         </div>

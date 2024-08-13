@@ -10,7 +10,6 @@ export const OurStoryMapSection = () => {
     const [searchedLocationCoordinates, setSearchedLocationCoordinates] =
         useState<any>(null)
     const [sector, setSector] = useState('')
-    // console.log('searchedLocationCoordinates', searchedLocationCoordinates)
 
     const getSectors = AuthApi.useSectors({})
     const sectorsOptions = getSectors?.data?.map((sector: any) => ({

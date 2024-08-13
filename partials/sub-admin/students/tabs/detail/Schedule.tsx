@@ -8,7 +8,7 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { ScheduleCalendar } from '@partials/student/Schedule'
+import { ScheduleTimetable } from '@partials/common/StudentProfileDetail/components/Schedule/components'
 import {
     StudentApi,
     SubAdminApi,
@@ -210,7 +210,16 @@ export const Schedule = ({
                                         </div>
                                     </div>
 
-                                    <ScheduleCalendar
+                                    <ScheduleTimetable
+                                        scheduleCourse={
+                                            schedules?.data?.schedule?.course
+                                        }
+                                        scheduleId={
+                                            schedules?.data?.schedule?.id
+                                        }
+                                    />
+
+                                    {/* <ScheduleCalendar
                                         events={[
                                             ...schedules?.data?.schedule?.timeTables?.map(
                                                 (c: any) => {
@@ -254,7 +263,7 @@ export const Schedule = ({
                                                 }
                                             ),
                                         ]}
-                                    />
+                                    /> */}
                                 </>
                             ) : (
                                 <EmptyData />

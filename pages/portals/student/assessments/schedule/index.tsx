@@ -9,10 +9,10 @@ import {
     Select,
     ShowErrorNotifications,
     TechnicalError,
-    Typography
+    Typography,
 } from '@components'
 import { StudentLayout } from '@layouts'
-import { ScheduleCalendar } from '@partials/student/Schedule'
+import { ScheduleTimetable } from '@partials/common/StudentProfileDetail/components/Schedule/components'
 import {
     StudentApi,
     useGetStudentCoursesQuery,
@@ -230,7 +230,14 @@ const Schedule: NextPageWithLayout = (props: Props) => {
                                 </div>
                             </div>
 
-                            <ScheduleCalendar
+                            <ScheduleTimetable
+                                scheduleCourse={
+                                    schedules?.data?.schedule?.course
+                                }
+                                scheduleId={schedules?.data?.schedule?.id}
+                            />
+
+                            {/* <ScheduleCalendar
                                 events={[
                                     ...schedules?.data?.schedule?.timeTables?.map(
                                         (c: any) => {
@@ -269,7 +276,7 @@ const Schedule: NextPageWithLayout = (props: Props) => {
                                         }
                                     ),
                                 ]}
-                            />
+                            /> */}
                         </>
                     ) : (
                         <EmptyData />

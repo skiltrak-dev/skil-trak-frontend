@@ -58,8 +58,6 @@ export const IndustryDetail = ({
         )
     }
 
-    console.log({ isVisible: contextBar.isVisible })
-
     const onViewOnMap = () => {
         setModal(
             <div

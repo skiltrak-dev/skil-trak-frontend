@@ -9,6 +9,7 @@ import { DetailTabs, IndustryStudentsLayout } from '@partials/industry'
 import { Actions } from '@partials/industry/currentStudents/components/Actions'
 import { IndustryApi } from '@queries'
 import { useRouter } from 'next/router'
+import { IndustryLayout } from '@layouts'
 
 const StudentDetail: NextPageWithLayout = () => {
     const router = useRouter()
@@ -51,9 +52,9 @@ const StudentDetail: NextPageWithLayout = () => {
 
 StudentDetail.getLayout = (page: ReactElement) => {
     return (
-        <IndustryStudentsLayout pageTitle={{ title: 'Student Detail' }}>
+        <IndustryLayout pageTitle={{ title: 'Student Detail' }}>
             {page}
-        </IndustryStudentsLayout>
+        </IndustryLayout>
     )
 }
 

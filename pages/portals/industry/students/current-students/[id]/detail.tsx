@@ -4,10 +4,9 @@ import { NextPageWithLayout } from '@types'
 
 // query
 import { useContextBar } from '@hooks'
-import { IndustryStudentsLayout } from '@partials/industry'
-import { IndustryApi } from '@queries'
-import { useRouter } from 'next/router'
+import { IndustryLayout } from '@layouts'
 import { IndustryCurrentStudents } from '@partials/industry/NewCurrentStudent'
+import { useRouter } from 'next/router'
 
 const StudentDetail: NextPageWithLayout = () => {
     const router = useRouter()
@@ -22,9 +21,9 @@ const StudentDetail: NextPageWithLayout = () => {
 
 StudentDetail.getLayout = (page: ReactElement) => {
     return (
-        <IndustryStudentsLayout pageTitle={{ title: 'Student Detail' }}>
+        <IndustryLayout pageTitle={{ title: 'Student Detail' }}>
             {page}
-        </IndustryStudentsLayout>
+        </IndustryLayout>
     )
 }
 

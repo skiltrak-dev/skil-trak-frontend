@@ -11,7 +11,6 @@ export const AllowCancelationWPModal = ({
     subAdmin: SubAdmin
     onCancel: Function
 }) => {
-    console.log({ subAdmin })
     const { notification } = useNotification()
     const [allowWpCancelationReq, allowWpCancelationReqResult] =
         AdminApi.SubAdmins.toggleWPCancelationReq()

@@ -35,9 +35,6 @@ export const ViewNoteModal = ({
         },
     ]
 
-    // const abc = industry?.note
-    // const abcde = draftToHtmlText(abc as any)
-    // console.log({ abcde })
     return (
         <Portal>
             <div className="fixed z-[99999999] bg-black/25 backdrop-blur-sm w-full h-full top-0 left-0 flex items-center justify-center">

@@ -95,6 +95,7 @@ export const {
     useCancelScheduleShiftMutation,
     useEditStudentScheduleMutation,
     useCreateStudentScheduleMutation,
+    useGetStudentScheduleTimeSlotsQuery,
 
     // ----- DOCUMENTS ----- //
     useGetStudentDocumentsQuery,
@@ -173,6 +174,7 @@ export const StudentApi = {
         useCancelSchedule: useCancelScheduleShiftMutation,
         useGetStudentSchedule: useGetStudentScheduleQuery,
         useCreateStudentSchedule: useCreateStudentScheduleMutation,
+        scheduleTimeSlots: useGetStudentScheduleTimeSlotsQuery,
         useEditStudentSchedule: useEditStudentScheduleMutation,
         useRescheduleShift: useRescheduleShiftMutation,
     },
@@ -198,5 +200,4 @@ export const StudentApi = {
         useReadIndustryRequest: useReadIndustryRequestMutation,
         useTalentPoolCount: useGetTalentPoolConnectionRequestCountQuery,
     },
-    
 }

@@ -1,19 +1,15 @@
 import { useRouter } from 'next/router'
 
 import { CommonApi } from '@queries'
-import { getUserCredentials, isActiveRoute } from '@utils'
 import {
     FaClipboardList,
     FaFileSignature,
-    FaHistory,
     FaUserGraduate,
 } from 'react-icons/fa'
 import { HiDocumentReport, HiUsers } from 'react-icons/hi'
-import { MdEmail, MdNotifications, MdSpaceDashboard } from 'react-icons/md'
-import { NavLinkItem } from '../NavLinkItem'
-import { Typography } from '@components/Typography'
-import { LiaCertificateSolid } from 'react-icons/lia'
 import { IoMdSettings } from 'react-icons/io'
+import { MdEmail, MdSpaceDashboard } from 'react-icons/md'
+import { NavLinkItem } from '../NavLinkItem'
 
 const PREFIX = '/portals/sub-admin'
 const Routes = {
@@ -91,14 +87,6 @@ export const SubAdminNavbar = () => {
             inActiveClasses: 'text-slate-700',
             count: pendingDocsCount?.data,
         },
-
-        {
-            link: Routes.TalentPool,
-            text: 'Talent Pool',
-            Icon: LiaCertificateSolid,
-            activeClasses: 'bg-orange-100 text-orange-700',
-            inActiveClasses: 'text-slate-700',
-        },
     ]
 
     const additionalMenuItems = [
@@ -120,7 +108,7 @@ export const SubAdminNavbar = () => {
 
     return (
         <div className="flex justify-between items-center">
-            <ul className="flex gap-x-2 py-4">
+            <ul className="flex gap-x-2 py-4 w-[763px] overflow-auto custom-scrollbar">
                 {navBarData.map((nav, i) => (
                     <NavLinkItem key={i} nav={nav} PREFIX={PREFIX} />
                 ))}

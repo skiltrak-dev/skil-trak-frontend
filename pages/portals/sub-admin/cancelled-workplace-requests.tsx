@@ -9,14 +9,6 @@ import { IoWarning } from 'react-icons/io5'
 
 const CancelledWorkplaceRequests: NextPageWithLayout = () => {
     const profile = SubAdminApi.SubAdmin.useProfile()
-    console.log(
-        'profile',
-        profile?.isLoading
-            ? 'loading'
-            : profile?.data?.canCancelWorkPlaceRequest
-            ? 'Banka'
-            : 'Empty'
-    )
 
     return (
         <div>
