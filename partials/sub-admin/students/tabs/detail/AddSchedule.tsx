@@ -1,9 +1,6 @@
-import { BackButton } from '@components'
 import { AddScheduleContainer } from '@partials/common'
 import { useStudentAssessmentCoursesQuery } from '@queries'
 import { Course, User } from '@types'
-import { useRouter } from 'next/router'
-import React from 'react'
 import { IoIosArrowRoundBack } from 'react-icons/io'
 
 export const AddSchedule = ({

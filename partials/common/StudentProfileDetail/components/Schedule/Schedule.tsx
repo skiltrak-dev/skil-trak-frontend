@@ -19,10 +19,16 @@ import { CourseSelectOption, formatOptionLabel } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
-import { AddSchedule } from './components'
+import { AddSchedule, ScheduleTimetable } from './components'
 import { Waypoint } from 'react-waypoint'
 
-const Schedule = ({ user, studentId }: { studentId: number; user: User }) => {
+export const Schedule = ({
+    user,
+    studentId,
+}: {
+    studentId: number
+    user: User
+}) => {
     const [isEntered, setIsEntered] = useState<boolean>(false)
     const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
     const [selectedIndustry, setSelectedIndustry] = useState<number | null>(
@@ -48,12 +54,12 @@ const Schedule = ({ user, studentId }: { studentId: number; user: User }) => {
             courseId: Number(selectedCourse),
             workplace: Number(selectedIndustry),
         },
-        // {
-        //     skip: !selectedCourse || !selectedIndustry || !isEntered,
-        // }
         {
-            skip: true,
+            skip: !selectedCourse || !selectedIndustry || !isEntered,
         }
+        // {
+        //     skip: true,
+        // }
     )
 
     const industriesOptions = useMemo(
@@ -99,7 +105,7 @@ const Schedule = ({ user, studentId }: { studentId: number; user: User }) => {
         >
             <div className="relative">
                 <ShowErrorNotifications result={schedules} />
-                <div className="z-50 absolute top-0 left-0 w-full h-full bg-[#00000080]">
+                {/* <div className="z-50 absolute top-0 left-0 w-full h-full bg-[#00000080]">
                     <div className="w-full h-full flex justify-center items-start mt-24">
                         <div className="bg-white p-10 rounded-lg w-3/4">
                             <Typography variant="subtitle" center>
@@ -109,7 +115,7 @@ const Schedule = ({ user, studentId }: { studentId: number; user: User }) => {
                             </Typography>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 {addSchedule ? (
                     <AddSchedule
                         user={user}
@@ -244,53 +250,14 @@ const Schedule = ({ user, studentId }: { studentId: number; user: User }) => {
                                             </div>
                                         </div>
 
-                                        <ScheduleCalendar
-                                            events={[
-                                                ...schedules?.data?.schedule?.timeTables?.map(
-                                                    (c: any) => {
-                                                        const [
-                                                            year,
-                                                            month,
-                                                            day,
-                                                        ] = moment(c?.date)
-                                                            .format(
-                                                                'YYYY-MM-DD'
-                                                            )
-                                                            .split('-')
-                                                            .map(Number)
-                                                        const [hour, minute] =
-                                                            c?.openingTime
-                                                                .split(':')
-                                                                .map(Number)
-                                                        const [
-                                                            closingHour,
-                                                            closingMinute,
-                                                        ] = c?.closingTime
-                                                            .split(':')
-                                                            .map(Number)
-
-                                                        return {
-                                                            start: new Date(
-                                                                year,
-                                                                month - 1,
-                                                                day,
-                                                                hour,
-                                                                minute
-                                                            ),
-                                                            end: new Date(
-                                                                year,
-                                                                month - 1,
-                                                                day,
-                                                                closingHour,
-                                                                closingMinute
-                                                            ),
-                                                            course: schedules
-                                                                ?.data?.course,
-                                                            schedule: c,
-                                                        }
-                                                    }
-                                                ),
-                                            ]}
+                                        <ScheduleTimetable
+                                            scheduleCourse={
+                                                schedules?.data?.schedule
+                                                    ?.course
+                                            }
+                                            scheduleId={
+                                                schedules?.data?.schedule?.id
+                                            }
                                         />
                                     </>
                                 ) : (
@@ -304,5 +271,3 @@ const Schedule = ({ user, studentId }: { studentId: number; user: User }) => {
         </Waypoint>
     )
 }
-
-export default Schedule

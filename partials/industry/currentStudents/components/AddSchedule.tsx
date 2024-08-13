@@ -10,7 +10,7 @@ import {
 } from '@components'
 import { useNotification } from '@hooks'
 import { ScheduleCard } from '@partials/student/Schedule'
-import { IndustryApi } from '@queries'
+import { IndustryApi, StudentApi } from '@queries'
 import { Course, Industry, User } from '@types'
 import moment from 'moment'
 import { useRouter } from 'next/router'
@@ -31,7 +31,6 @@ export const AddSchedule = ({
 }) => {
     const [selectedHours, setSelectedHours] = useState<number | null>(null)
     const router = useRouter()
-
 
     useEffect(() => {
         if (course) {
@@ -117,6 +116,22 @@ export const AddSchedule = ({
             skip: !course || !workplace || !user,
         }
     )
+    const timeSlots = StudentApi.Schedule.scheduleTimeSlots(
+        {
+            scheduleId: schedules?.data?.schedule?.id,
+            search: `startDate:${moment(
+                schedules?.data?.schedule?.startDate
+            ).format('YYYY-MM-DD')},endDate:${moment(
+                schedules?.data?.schedule?.startDate
+            )
+                .add(8, 'days')
+                .format('YYYY-MM-DD')}`,
+        },
+        {
+            skip: !schedules?.isSuccess,
+            refetchOnMountOrArgChange: true,
+        }
+    )
 
     // const findUniqueDays = () => {
     //     const uniqueDays = {}
@@ -156,8 +171,12 @@ export const AddSchedule = ({
             const uniqueDays = {}
             const result = []
 
-            if (schedules?.data) {
-                for (const item of schedules?.data?.schedule?.timeTables) {
+            if (
+                schedules?.data &&
+                timeSlots?.data &&
+                timeSlots?.data?.length > 0
+            ) {
+                for (const item of timeSlots?.data) {
                     if (!uniqueDays[item.day as keyof typeof uniqueDays]) {
                         ;(uniqueDays as any)[item.day] = true
                         result.push(item)
@@ -348,9 +367,9 @@ export const AddSchedule = ({
                     </div>
                 </div>
 
-                {schedules.isLoading ? (
+                {timeSlots.isLoading || timeSlots?.isFetching ? (
                     <LoadingAnimation />
-                ) : schedules?.isSuccess && isUpdated ? (
+                ) : timeSlots?.isSuccess && isUpdated ? (
                     <>
                         <Typography variant={'small'}>
                             Select Time {'&'} Days
@@ -388,8 +407,14 @@ export const AddSchedule = ({
                               }
                             : {})}
                         onClick={() => onSubmit()}
-                        loading={createScheduleResult.isLoading}
-                        disabled={createScheduleResult.isLoading}
+                        loading={
+                            createScheduleResult.isLoading ||
+                            editScheduleResult?.isLoading
+                        }
+                        disabled={
+                            createScheduleResult.isLoading ||
+                            editScheduleResult?.isLoading
+                        }
                     />
                     {createScheduleResult.isSuccess ||
                     editScheduleResult.isSuccess ? (

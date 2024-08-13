@@ -15,6 +15,16 @@ export const studentsScheduleEndpoints = (
         }),
         providesTags: ['StudentSchedule', 'SubAdminWorkplace'],
     }),
+    getStudentScheduleTimeSlots: builder.query<
+        any,
+        { scheduleId: number; search: string }
+    >({
+        query: ({ scheduleId, ...params }) => ({
+            url: `${PREFIX}/schedule/${scheduleId}/slots/view`,
+            params,
+        }),
+        providesTags: ['StudentSchedule', 'SubAdminWorkplace'],
+    }),
 
     createStudentSchedule: builder.mutation({
         query: ({ stdUser, ...body }) => ({

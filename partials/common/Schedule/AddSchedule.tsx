@@ -15,8 +15,6 @@ import { Course, Industry, User } from '@types'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 
-type Props = {}
-
 export const AddScheduleContainer = ({
     user,
     course,
@@ -98,6 +96,7 @@ export const AddScheduleContainer = ({
     const [availabilities, setAvailabilities] = useState<any | null>(
         initialSchedule
     )
+    console.log({ scheduleTime })
     const [isUpdated, setIsUpdated] = useState<boolean>(false)
 
     const [createSchedule, createScheduleResult] =
@@ -113,6 +112,22 @@ export const AddScheduleContainer = ({
         },
         {
             skip: !course,
+        }
+    )
+    const timeSlots = StudentApi.Schedule.scheduleTimeSlots(
+        {
+            scheduleId: schedules?.data?.schedule?.id,
+            search: `startDate:${moment(
+                schedules?.data?.schedule?.startDate
+            ).format('YYYY-MM-DD')},endDate:${moment(
+                schedules?.data?.schedule?.startDate
+            )
+                .add(8, 'days')
+                .format('YYYY-MM-DD')}`,
+        },
+        {
+            skip: !schedules?.isSuccess,
+            refetchOnMountOrArgChange: true,
         }
     )
 
@@ -170,8 +185,12 @@ export const AddScheduleContainer = ({
             const uniqueDays = {}
             const result = []
 
-            if (schedules?.data) {
-                for (const item of schedules?.data?.schedule?.timeTables) {
+            if (
+                schedules?.data &&
+                timeSlots?.data &&
+                timeSlots?.data?.length > 0
+            ) {
+                for (const item of timeSlots?.data) {
                     if (!uniqueDays[item.day as keyof typeof uniqueDays]) {
                         ;(uniqueDays as any)[item.day] = true
                         result.push(item)
@@ -203,13 +222,15 @@ export const AddScheduleContainer = ({
             }
             setIsUpdated(true)
         }
-    }, [schedules])
+    }, [schedules, timeSlots])
 
     const onScheduleChange = (schedule: any) => {
         const tempSchedule: any = [...scheduleTime]
         const dayIndex = tempSchedule.findIndex(
             (d: any) => d.name === schedule.name
         )
+
+        console.log({ schedule })
 
         tempSchedule[dayIndex].openingTime = moment(schedule.openingTime, [
             'h:mm:ss A',
@@ -352,9 +373,9 @@ export const AddScheduleContainer = ({
                     </div>
                 </div>
 
-                {schedules.isLoading ? (
+                {timeSlots.isLoading || timeSlots?.isFetching ? (
                     <LoadingAnimation />
-                ) : schedules?.isSuccess && isUpdated ? (
+                ) : timeSlots?.isSuccess && isUpdated ? (
                     <>
                         <Typography variant={'small'}>
                             Select Time {'&'} Days
@@ -392,8 +413,14 @@ export const AddScheduleContainer = ({
                               }
                             : {})}
                         onClick={() => onSubmit()}
-                        loading={createScheduleResult.isLoading}
-                        disabled={createScheduleResult.isLoading}
+                        loading={
+                            createScheduleResult.isLoading ||
+                            editScheduleResult.isLoading
+                        }
+                        disabled={
+                            createScheduleResult.isLoading ||
+                            editScheduleResult.isLoading
+                        }
                     />
                     {createScheduleResult.isSuccess ||
                     editScheduleResult.isSuccess ? (

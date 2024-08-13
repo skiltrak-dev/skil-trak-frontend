@@ -677,7 +677,6 @@ export const StudentProfileForm = ({
                                                 //             'zipCode',
                                                 //             res
                                                 //         )
-                                                //         console.log({ res })
                                                 //     }
                                                 // )
                                                 try {

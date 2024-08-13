@@ -1,28 +1,13 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement } from 'react'
 
-import {
-    Button,
-    CalendarEvent,
-    Card,
-    LoadingAnimation,
-    Select,
-    ShowErrorNotifications,
-    TextInput,
-    Typography,
-} from '@components'
 import { StudentLayout } from '@layouts'
+import { AddScheduleContainer } from '@partials/common'
 import {
-    StudentApi,
     useGetStudentCoursesQuery,
     useGetWorkplaceIndustriesQuery,
 } from '@queries'
 import { Course, NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
-import { ScheduleCard } from '@partials/student/Schedule'
-import moment from 'moment'
-import { CourseSelectOption, formatOptionLabel } from '@utils'
-import { useNotification } from '@hooks'
-import { AddScheduleContainer } from '@partials/common'
 
 type Props = {}
 

@@ -8,7 +8,9 @@ import { EventWrapper } from './EventWrapper'
 import { TimeSlotWrapper } from './TimeSlotWrapper'
 import { WeekHeaderWrapper } from './WeekHeaderWrapper'
 import { CalendarStyles } from './style'
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { currentMonthDates, currentWeekDates } from '@utils'
+import { CalendarView } from '@components/Calendar/enum'
 
 const localizer = momentLocalizer(moment)
 
@@ -25,10 +27,23 @@ export interface CalendarEvent {
 export const ScheduleCalendar = ({
     events,
     loading,
+    onSelectedDate,
 }: {
-    events: any
+    events: CalendarEvent[]
     loading?: boolean
+    onSelectedDate?: ({ start, end }: any) => void | undefined
 }) => {
+    const monthDays = currentMonthDates()
+    const dates = {
+        start: monthDays?.[0]?.toDate(),
+        end: monthDays?.[monthDays?.length - 1]?.toDate(),
+    }
+
+    const defaultView = CalendarView.Month
+    const calendarRef = useRef<any>(null)
+    const [calanderView, setCalanderView] = useState<CalendarView>(defaultView)
+    const [rangeDates, setRangeDates] = useState<any>(dates)
+
     const today = new Date()
     const min = new Date(
         today.getFullYear(),
@@ -47,6 +62,32 @@ export const ScheduleCalendar = ({
         59
     )
 
+    const calanderViewType = useMemo(() => calanderView, [calanderView])
+
+    const onCalanderViewType = useCallback((view: CalendarView) => {
+        setCalanderView(view)
+    }, [])
+
+    useEffect(() => {
+        const onRangeChange = () => {
+            if (onSelectedDate) {
+                if (calanderViewType === CalendarView.Day) {
+                    onSelectedDate({
+                        start: rangeDates?.start || rangeDates?.[0],
+                        end: rangeDates?.end || rangeDates?.[0],
+                    })
+                } else if (calanderViewType === CalendarView.Week) {
+                    onSelectedDate({
+                        start: rangeDates?.[0],
+                        end: rangeDates?.[rangeDates?.length - 1],
+                    })
+                } else if (calanderViewType === CalendarView.Month) {
+                    onSelectedDate(rangeDates)
+                }
+            }
+        }
+        onRangeChange()
+    }, [calanderView, rangeDates])
 
     return (
         <CalendarStyles>
@@ -58,7 +99,7 @@ export const ScheduleCalendar = ({
             <Calendar
                 localizer={localizer}
                 events={events || []}
-                defaultView="month"
+                defaultView={defaultView}
                 startAccessor="start"
                 endAccessor="end"
                 style={{ height: 500 }}
@@ -70,6 +111,13 @@ export const ScheduleCalendar = ({
                 }}
                 min={min}
                 max={max}
+                onView={(view: any) => {
+                    // onCalanderViewType(view)
+                    setCalanderView(view)
+                }}
+                onRangeChange={(e: any) => {
+                    setRangeDates(e)
+                }}
             />
         </CalendarStyles>
     )

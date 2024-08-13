@@ -30,6 +30,7 @@ import { ProfileOptionButton } from './components/profileOption/ProfileOptionBut
 import { useSocketListener } from '@hooks'
 import { NavLinkItem } from '../NavLinkItem'
 import { FaClipboardList, FaHistory } from 'react-icons/fa'
+import { LiaCertificateSolid } from 'react-icons/lia'
 export const DetailNavbar = () => {
     const router = useRouter()
 
@@ -72,6 +73,40 @@ export const DetailNavbar = () => {
         (notification: any) => !notification?.isRead
     )
     const count = unreadNotifications?.length
+
+    const subadminLinkPrefix = '/portals/sub-admin'
+
+    const subadminLinks = [
+        {
+            link: `${subadminLinkPrefix}/volunteer-requests?tab=pending`,
+            text: 'Volunteer Requests',
+            Icon: FaClipboardList,
+            activeClasses: 'bg-orange-100 text-orange-700',
+            inActiveClasses: 'text-slate-700',
+        },
+        {
+            link: `${subadminLinkPrefix}/talent-pool`,
+            text: 'Talent Pool',
+            Icon: LiaCertificateSolid,
+            activeClasses: 'bg-orange-100 text-orange-700',
+            inActiveClasses: 'text-slate-700',
+        },
+        {
+            link: `${subadminLinkPrefix}/history`,
+            text: 'History',
+            Icon: FaHistory,
+            activeClasses: 'bg-green-100 text-green-700',
+            inActiveClasses: 'text-slate-700',
+        },
+        {
+            link: `${subadminLinkPrefix}/tickets?tab=all-tickets`,
+            text: 'Tickets',
+            Icon: BsFillTicketDetailedFill,
+            activeClasses: 'bg-green-100 text-green-700',
+            inActiveClasses: 'text-slate-700',
+            count: ticketCount?.data,
+        },
+    ]
 
     return (
         <div className="w-full z-50 px-2 md:px-8 py-2 bg-white border-b border-secondary-dark flex justify-between items-center">
@@ -128,37 +163,13 @@ export const DetailNavbar = () => {
                 </AuthorizedUserComponent>
                 <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
                     <ul className="list-none flex gap-x-2">
-                        <NavLinkItem
-                            nav={{
-                                link: '/portals/sub-admin/volunteer-requests?tab=pending',
-                                text: 'Volunteer Requests',
-                                Icon: FaClipboardList,
-                                activeClasses: 'bg-orange-100 text-orange-700',
-                                inActiveClasses: 'text-slate-700',
-                            }}
-                            PREFIX={'/portals/sub-admin'}
-                        />
-                        <NavLinkItem
-                            nav={{
-                                link: '/portals/sub-admin/history',
-                                text: 'History',
-                                Icon: FaHistory,
-                                activeClasses: 'bg-green-100 text-green-700',
-                                inActiveClasses: 'text-slate-700',
-                            }}
-                            PREFIX={'/portals/sub-admin'}
-                        />
-                        <NavLinkItem
-                            nav={{
-                                link: '/portals/sub-admin/tickets?tab=all-tickets',
-                                text: 'Tickets',
-                                Icon: BsFillTicketDetailedFill,
-                                activeClasses: 'bg-green-100 text-green-700',
-                                inActiveClasses: 'text-slate-700',
-                                count: ticketCount?.data,
-                            }}
-                            PREFIX={'/portals/sub-admin'}
-                        />
+                        {subadminLinks?.map((linksData, i) => (
+                            <NavLinkItem
+                                key={i}
+                                nav={linksData}
+                                PREFIX={subadminLinkPrefix}
+                            />
+                        ))}
                     </ul>
                 </AuthorizedUserComponent>
                 {/* <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
