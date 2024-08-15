@@ -511,21 +511,25 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['Students', 'SubAdminStudents'],
     }),
-    problamaticStudent: builder.mutation<any, number>({
-        query: (id) => ({
-            url: `shared/student/${id}/has-issue/toggle`,
+    problamaticStudent: builder.mutation<
+        any,
+        { studentId: number; comment?: string }
+    >({
+        query: ({ studentId, ...body }) => ({
+            url: `shared/student/${studentId}/has-issue/toggle`,
             method: 'PATCH',
+            body,
         }),
-        invalidatesTags: ['Students', 'SubAdminStudents'],
+        invalidatesTags: ['Students', 'SubAdminStudents', 'Notes'],
     }),
 
     snoozeStudent: builder.mutation<Student, { id: number; date: Date }>({
-        query: ({ id, date }) => ({
+        query: ({ id, ...body }) => ({
             url: `${PREFIX}/student/snooze/${id}`,
             method: 'POST',
-            body: { date },
+            body,
         }),
-        invalidatesTags: ['Students', 'SubAdminStudents'],
+        invalidatesTags: ['Students', 'SubAdminStudents', 'Notes'],
     }),
 
     unSnoozeStudent: builder.mutation<Student, number>({
