@@ -54,20 +54,20 @@ const validationSchema = yup.object({
 
     courses: yup.array().min(1, 'Must select at least 1 course'),
 
-    country: yup
-        .object({
-            label: yup.string().required('Required '),
-            value: yup.number().required('Required '),
-        })
-        .typeError('Must provide country')
-        .required('Must provide country'),
-    region: yup
-        .object({
-            label: yup.string().required('Required '),
-            value: yup.number().required('Required '),
-        })
-        .typeError('Must provide country')
-        .required('Must provide country'),
+    // country: yup
+    //     .object({
+    //         label: yup.string().required('Required '),
+    //         value: yup.number().required('Required '),
+    //     })
+    //     .typeError('Must provide country')
+    //     .required('Must provide country'),
+    // region: yup
+    //     .object({
+    //         label: yup.string().required('Required '),
+    //         value: yup.number().required('Required '),
+    //     })
+    //     .typeError('Must provide country')
+    //     .required('Must provide country'),
 
     // Contact Person Information
     contactPerson: yup.string().required(),

@@ -1,7 +1,8 @@
 import { CommonApi, SubAdminApi } from '@queries'
 import { ShowErrorNotifications, Switch, Typography } from '@components'
-import React, { useEffect } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { useNotification } from '@hooks'
+import { FlagStudentModal } from '../../modals'
 
 export const ProblamaticStudent = ({
     studentId,
@@ -10,6 +11,7 @@ export const ProblamaticStudent = ({
     hasIssue: boolean
     studentId: number
 }) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const [problamaticStudent, problamaticStudentResult] =
         SubAdminApi.Student.useProblamaticStudent()
 
@@ -18,25 +20,26 @@ export const ProblamaticStudent = ({
     useEffect(() => {
         if (problamaticStudentResult.isSuccess) {
             notification.success({
-                title: hasIssue
-                    ? 'Remove as Problamatic'
-                    : 'Mark As Problamatic',
+                title: hasIssue ? 'Remove as Flaged' : 'Mark As Flaged',
                 description: hasIssue
-                    ? `Removed Marked As Problamatic`
-                    : `Marked As Problamatic`,
+                    ? `Removed Marked As Flaged`
+                    : `Marked As Flaged`,
             })
         }
     }, [problamaticStudentResult])
 
+    const onCancel = () => setModal(null)
+
     const onMakeProblamatic = () => {
-        problamaticStudent(studentId)
+        setModal(<FlagStudentModal onCancel={onCancel} studentId={studentId} />)
     }
     return (
         <>
+            {modal}
             <ShowErrorNotifications result={problamaticStudentResult} />
             <div className="py-3 border-b border-secondary-dark">
                 <Typography variant="small" medium>
-                    Problematic Student
+                    Flagged Student
                 </Typography>
                 <div className="grid grid-cols-5 items-center  mt-2">
                     <div className="col-span-2">
@@ -50,7 +53,9 @@ export const ProblamaticStudent = ({
                                 name="priority"
                                 customStyleClass={'profileSwitch'}
                                 onChange={() => {
-                                    onMakeProblamatic()
+                                    hasIssue
+                                        ? problamaticStudent({ studentId })
+                                        : onMakeProblamatic()
                                 }}
                                 defaultChecked={hasIssue}
                                 loading={problamaticStudentResult.isLoading}

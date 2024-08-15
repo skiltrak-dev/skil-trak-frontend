@@ -116,7 +116,7 @@ export const StudentCellInfo = ({
                                 <div className="group relative">
                                     <LuFlagTriangleRight className="text-red-600 text-xl" />
                                     <Tooltip position={TooltipPosition.left}>
-                                        Problamatic Issue
+                                        Flagged Issue
                                     </Tooltip>
                                 </div>
                             )}

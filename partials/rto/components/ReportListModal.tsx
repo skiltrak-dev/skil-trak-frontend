@@ -81,7 +81,7 @@ export const ReportListModal = ({
         <>
             <ShowErrorNotifications result={downloadAsPdf} />
             <div className="bg-[#00000050] w-full h-screen flex items-center justify-center fixed top-0 left-0 z-40">
-                <div className="bg-white  h-[60vh] overflow-auto custom-scrollbar rounded-2xl flex flex-col items-center gap-y-2 shadow-xl min-w-[450px] px-4 py-4">
+                <div className="bg-white  h-52 overflow-auto custom-scrollbar rounded-2xl flex flex-col items-center gap-y-2 shadow-xl min-w-[450px] px-4 py-4">
                     {downloadAsPdf?.isLoading ? (
                         <DownloadLoader />
                     ) : (
@@ -102,10 +102,6 @@ export const ReportListModal = ({
                                             name="startDate"
                                             label={'Start Date'}
                                             onChange={handleStartDateChange}
-                                            disabled={
-                                                filterReports?.value ===
-                                                'monthly'
-                                            }
                                             type="date"
                                         />
                                     </div>
@@ -115,15 +111,11 @@ export const ReportListModal = ({
                                             name="endDate"
                                             label={'End Date'}
                                             onChange={handleEndDateChange}
-                                            disabled={
-                                                filterReports?.value ===
-                                                'monthly'
-                                            }
                                             type="date"
                                         />
                                     </div>
                                 </div>
-                                <div className="w-full">
+                                {/* <div className="w-full">
                                     <Select
                                         name="filter"
                                         label="Select filter"
@@ -134,7 +126,7 @@ export const ReportListModal = ({
                                             setFilterReports(e)
                                         }}
                                     />
-                                </div>
+                                </div> */}
                             </div>
                             <div className="flex gap-x-4 items-center justify-end mt-auto">
                                 <div className="flex items-center gap-x-2">
