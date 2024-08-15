@@ -393,68 +393,71 @@ export const Workplace = ({
                                     <div className="flex items-center gap-x-2.5">
                                         {WPStatusForCancelButon.includes(
                                             selectedWorkplace?.currentStatus
-                                        ) &&
-                                        !selectedWorkplace?.cancelledRequests
-                                            ?.length ? (
-                                            <>
-                                                <AuthorizedUserComponent
-                                                    roles={[
-                                                        UserRoles.ADMIN,
-                                                        UserRoles.RTO,
-                                                    ]}
-                                                >
-                                                    <ActionButton
-                                                        variant={'error'}
-                                                        onClick={async () => {
-                                                            onCancelWPClicked()
-                                                            // await cancelWorkplace(
-                                                            //     Number(
-                                                            //         selectedWorkplace?.id
-                                                            //     )
-                                                            // )
-                                                        }}
-                                                        loading={
-                                                            cancelWorkplaceResult.isLoading
-                                                        }
-                                                        disabled={
-                                                            cancelWorkplaceResult.isLoading
-                                                        }
+                                        ) ? (
+                                            !selectedWorkplace
+                                                ?.cancelledRequests?.length ? (
+                                                <>
+                                                    <AuthorizedUserComponent
+                                                        roles={[
+                                                            UserRoles.ADMIN,
+                                                            UserRoles.RTO,
+                                                        ]}
                                                     >
-                                                        Cancel Request
-                                                    </ActionButton>
-                                                </AuthorizedUserComponent>
-                                                <AuthorizedUserComponent
-                                                    roles={[UserRoles.SUBADMIN]}
-                                                >
-                                                    <ActionButton
-                                                        variant={'error'}
-                                                        onClick={async () => {
-                                                            onCancelWPRequestClicked()
-                                                            // await cancelWorkplace(
-                                                            //     Number(
-                                                            //         selectedWorkplace?.id
-                                                            //     )
-                                                            // )
-                                                        }}
-                                                        loading={
-                                                            cancelWorkplaceResult.isLoading
-                                                        }
-                                                        disabled={
-                                                            cancelWorkplaceResult.isLoading
-                                                        }
+                                                        <ActionButton
+                                                            variant={'error'}
+                                                            onClick={async () => {
+                                                                onCancelWPClicked()
+                                                                // await cancelWorkplace(
+                                                                //     Number(
+                                                                //         selectedWorkplace?.id
+                                                                //     )
+                                                                // )
+                                                            }}
+                                                            loading={
+                                                                cancelWorkplaceResult.isLoading
+                                                            }
+                                                            disabled={
+                                                                cancelWorkplaceResult.isLoading
+                                                            }
+                                                        >
+                                                            Cancel Request
+                                                        </ActionButton>
+                                                    </AuthorizedUserComponent>
+                                                    <AuthorizedUserComponent
+                                                        roles={[
+                                                            UserRoles.SUBADMIN,
+                                                        ]}
                                                     >
-                                                        Cancel Request
-                                                    </ActionButton>
-                                                </AuthorizedUserComponent>
-                                            </>
-                                        ) : (
-                                            <div className="w-56">
-                                                <Badge
-                                                    variant="warning"
-                                                    text="WP Cancelation Request Sent to Admin, wait for approvel!"
-                                                />
-                                            </div>
-                                        )}
+                                                        <ActionButton
+                                                            variant={'error'}
+                                                            onClick={async () => {
+                                                                onCancelWPRequestClicked()
+                                                                // await cancelWorkplace(
+                                                                //     Number(
+                                                                //         selectedWorkplace?.id
+                                                                //     )
+                                                                // )
+                                                            }}
+                                                            loading={
+                                                                cancelWorkplaceResult.isLoading
+                                                            }
+                                                            disabled={
+                                                                cancelWorkplaceResult.isLoading
+                                                            }
+                                                        >
+                                                            Cancel Request
+                                                        </ActionButton>
+                                                    </AuthorizedUserComponent>
+                                                </>
+                                            ) : (
+                                                <div className="w-56">
+                                                    <Badge
+                                                        variant="warning"
+                                                        text="WP Cancelation Request Sent to Admin, wait for approvel!"
+                                                    />
+                                                </div>
+                                            )
+                                        ) : null}
                                         {selectedWorkplace
                                             ? appliedIndustry?.placementStarted &&
                                               selectedWorkplace?.studentFeedBack >

@@ -21,8 +21,6 @@ export const studentProfileKeys = [
     'age',
     'emergencyPerson',
     'emergencyPersonPhone',
-    'suburb',
-    'state',
     'zipCode',
     'addressLine1',
     'courses',
