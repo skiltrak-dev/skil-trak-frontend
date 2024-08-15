@@ -66,7 +66,8 @@ export const WorkplaceCoordinators = ({
                             }
                             disabled={
                                 subadmins?.isLoading ||
-                                assignToMeResult.isLoading
+                                assignToMeResult.isLoading ||
+                                workplace?.cancelledRequests?.length > 0
                             }
                             onChange={(e: any) => {
                                 onChangeCoordinator(e?.value)

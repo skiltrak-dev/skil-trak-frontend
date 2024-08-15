@@ -96,7 +96,6 @@ export const AddScheduleContainer = ({
     const [availabilities, setAvailabilities] = useState<any | null>(
         initialSchedule
     )
-    console.log({ scheduleTime })
     const [isUpdated, setIsUpdated] = useState<boolean>(false)
 
     const [createSchedule, createScheduleResult] =
@@ -229,8 +228,6 @@ export const AddScheduleContainer = ({
         const dayIndex = tempSchedule.findIndex(
             (d: any) => d.name === schedule.name
         )
-
-        console.log({ schedule })
 
         tempSchedule[dayIndex].openingTime = moment(schedule.openingTime, [
             'h:mm:ss A',

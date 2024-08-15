@@ -32,6 +32,7 @@ export const CancelWorkplaceRequestModal = ({
                 title: 'Workplace Cancelled Request Sent',
                 description:
                     'Your request has been submitted to the SkilTrak Admin Once approved, the workplace request will be canceled.',
+                position: 'bottomleft',
             })
             onCancel()
         }
