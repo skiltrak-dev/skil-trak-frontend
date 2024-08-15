@@ -16,7 +16,6 @@ export const ScheduleCard = ({
     const [closingTime, setClosingTime] = useState<any>(time?.closingTime)
 
     useEffect(() => {
-        console.log({ timetimetimetimetime: time })
         setIsAvailable(time?.isActive)
         setOpeningTime(time?.openingTime)
         setClosingTime(time?.closingTime)
@@ -31,7 +30,6 @@ export const ScheduleCard = ({
         })
     }, [isAvailable, openingTime, closingTime])
 
-    console.log({ isAvailable, openingTime, closingTime })
     return (
         <div className="bg-gray-100 rounded-lg px-6 grid grid-cols-3 items-center">
             <Typography variant={'label'} capitalize>

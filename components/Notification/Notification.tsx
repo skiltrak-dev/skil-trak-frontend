@@ -10,6 +10,7 @@ import { Typography } from '../Typography'
 import { useNotification } from '@hooks'
 
 import { theme } from './theme'
+import { NotificationPosition } from './notification.enum'
 
 export const NotificationType = {
     default: 'default',
@@ -34,6 +35,13 @@ interface SubAction {
     onClick: Function
 }
 
+const positionOptions = [
+    'topleft',
+    'bottomleft',
+    'topright',
+    'bottomright',
+] as const
+
 export interface NotificationProps {
     id?: number
     title: string
@@ -46,19 +54,20 @@ export interface NotificationProps {
     avatar?: string
     dissmissTimer?: number
     uniqueId?: number
+    position?: (typeof positionOptions)[number]
 }
 
 export const Notification = ({
     id,
+    icon,
     title,
+    avatar,
     description,
+    dissmissTimer,
     primaryAction,
     secondaryAction,
     autoDismiss = true,
     variant = VariantOptions[0],
-    icon,
-    avatar,
-    dissmissTimer,
 }: NotificationProps) => {
     const { dismiss } = useNotification()
 
