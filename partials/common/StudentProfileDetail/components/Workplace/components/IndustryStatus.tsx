@@ -1,12 +1,12 @@
+import moment from 'moment'
 import { Typography } from '@components'
 import { useNotification } from '@hooks'
-import { useRequestType } from '@partials/common/StudentProfileDetail/hooks'
-import { WorkplaceCurrentStatus } from '@utils'
-import moment from 'moment'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import { WorkplaceCurrentStatus } from '@utils'
 import { IoIosArrowDown } from 'react-icons/io'
 import OutsideClickHandler from 'react-outside-click-handler'
+import { useRequestType } from '@partials/common/StudentProfileDetail/hooks'
 
 export const IndustryStatus = ({
     folders,
