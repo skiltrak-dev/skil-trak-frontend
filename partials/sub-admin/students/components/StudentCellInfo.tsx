@@ -101,7 +101,7 @@ export const StudentCellInfo = ({
                                             <Tooltip
                                                 position={TooltipPosition.left}
                                             >
-                                                Problamatic Issue
+                                                Flagged Issue
                                             </Tooltip>
                                         </div>
                                     )}

@@ -1,10 +1,12 @@
-import { Button, Modal, ShowErrorNotifications, TextInput } from '@components'
+import { Modal, ShowErrorNotifications, TextArea, TextInput } from '@components'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
-import { CommonApi, SubAdminApi } from '@queries'
+import { SubAdminApi } from '@queries'
 import { Student } from '@types'
 import { getDate } from '@utils'
-import { useEffect, useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 import { MdSnooze } from 'react-icons/md'
+import * as Yup from 'yup'
 
 export const SnoozeStudentModal = ({
     onCancel,
@@ -13,71 +15,79 @@ export const SnoozeStudentModal = ({
     student: Student
     onCancel: () => void
 }) => {
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null)
     const [snoozeStudent, snoozeStudentResult] =
         SubAdminApi.Student.useSnoozeStudent()
 
     const { notification } = useNotification()
 
-    useEffect(() => {
-        if (snoozeStudentResult.isSuccess) {
-            notification.success({
-                title: 'Student Snoozed',
-                description: 'Student Snoozed Successfully',
-            })
-            onCancel()
-        }
-    }, [snoozeStudentResult])
+    const validationSchema = Yup.object({
+        date: Yup.string().required('Date is required!'),
+        comment: Yup.string().required('Please provide the note'),
+    })
 
-    const onChange = (date: Date) => {
-        setSelectedDate(date)
-    }
+    const methods = useForm({
+        resolver: yupResolver(validationSchema),
+        mode: 'all',
+    })
 
-    const onSubmit = () => {
-        if (selectedDate) {
-            snoozeStudent({
-                id: student?.id,
-                date: selectedDate,
-            })
-        }
+    const onSubmit = (values: any) => {
+        snoozeStudent({
+            id: student?.id,
+            ...values,
+        }).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: 'Student Snoozed',
+                    description: 'Student Snoozed Successfully',
+                })
+                onCancel()
+            }
+        })
     }
     return (
         <>
             <ShowErrorNotifications result={snoozeStudentResult} />
             <Modal
                 titleIcon={MdSnooze}
-                showActions={false}
-                onConfirmClick={() => {}}
                 title="Snooze Student"
-                subtitle="Snooze Student"
                 onCancelClick={onCancel}
+                subtitle="Snooze Student"
+                loading={snoozeStudentResult.isLoading}
+                onConfirmClick={methods.handleSubmit(onSubmit)}
             >
-                <div className="flex w-full items-center gap-x-2">
-                    <div className="w-full">
+                <FormProvider {...methods}>
+                    <form className="w-full">
                         <TextInput
                             label={'Enter Snoozing Date'}
-                            name={'endDate'}
+                            name={'date'}
                             placeholder="Enter Snoozing End Date"
                             type={'date'}
-                            onChange={(e: any) => {
-                                onChange(e.target?.value)
-                            }}
+                            // onChange={(e: any) => {
+                            //     onChange(e.target?.value)
+                            // }}
                             min={getDate()}
                         />
-                    </div>
-                    <Button
-                        // Icon={AiFillCheckCircle}
-                        text={'Snooze'}
-                        onClick={() => {
-                            onSubmit()
-                        }}
-                        variant="info"
-                        loading={snoozeStudentResult.isLoading}
-                        disabled={
-                            snoozeStudentResult.isLoading || !selectedDate
-                        }
-                    />
-                </div>
+                        <TextArea
+                            label={'Provide Note Please'}
+                            required
+                            name={'comment'}
+                            placeholder={'reason...'}
+                            rows={5}
+                        />
+                        {/* <Button
+                            // Icon={AiFillCheckCircle}
+                            text={'Snooze'}
+                            onClick={() => {
+                                onSubmit()
+                            }}
+                            variant="info"
+                            loading={snoozeStudentResult.isLoading}
+                            disabled={
+                                snoozeStudentResult.isLoading || !selectedDate
+                            }
+                        /> */}
+                    </form>
+                </FormProvider>
             </Modal>
         </>
     )
