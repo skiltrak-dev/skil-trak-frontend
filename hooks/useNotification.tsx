@@ -49,6 +49,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
         avatar,
         dissmissTimer,
         uniqueId = 0,
+        position = 'bottomright',
     }: NotificationProps) => {
         setNotification((prevNotifications: NotificationProps[]) => [
             ...prevNotifications,
@@ -68,6 +69,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
                         dissmissTimer={dissmissTimer}
                     />
                 ),
+                position,
             },
         ])
 

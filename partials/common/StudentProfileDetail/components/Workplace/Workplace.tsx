@@ -1,6 +1,7 @@
 import {
     ActionButton,
     AuthorizedUserComponent,
+    Badge,
     Button,
     Card,
     EmptyData,
@@ -392,7 +393,9 @@ export const Workplace = ({
                                     <div className="flex items-center gap-x-2.5">
                                         {WPStatusForCancelButon.includes(
                                             selectedWorkplace?.currentStatus
-                                        ) && (
+                                        ) &&
+                                        !selectedWorkplace?.cancelledRequests
+                                            ?.length ? (
                                             <>
                                                 <AuthorizedUserComponent
                                                     roles={[
@@ -444,6 +447,13 @@ export const Workplace = ({
                                                     </ActionButton>
                                                 </AuthorizedUserComponent>
                                             </>
+                                        ) : (
+                                            <div className="w-56">
+                                                <Badge
+                                                    variant="warning"
+                                                    text="WP Cancelation Request Sent to Admin, wait for approvel!"
+                                                />
+                                            </div>
                                         )}
                                         {selectedWorkplace
                                             ? appliedIndustry?.placementStarted &&

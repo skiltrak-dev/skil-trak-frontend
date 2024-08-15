@@ -4,16 +4,15 @@ import { NextPageWithLayout, OptionType } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 
-import { IndustryProfileFrom } from '@partials/common'
-import { AdminApi, RtoApi, useUpdateIndustryProfileMutation } from '@queries'
-import { useState } from 'react'
 import {
     EmptyData,
     LoadingAnimation,
-    SelectOption,
     ShowErrorNotifications,
     TechnicalError,
 } from '@components'
+import { IndustryProfileFrom } from '@partials/common'
+import { AdminApi, useUpdateIndustryProfileMutation } from '@queries'
+import { useState } from 'react'
 
 const EditRto: NextPageWithLayout = () => {
     const [formData, setFormData] = useState<any>('')

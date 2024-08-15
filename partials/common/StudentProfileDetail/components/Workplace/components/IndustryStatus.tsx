@@ -75,25 +75,38 @@ export const IndustryStatus = ({
                 <div className="w-40 mt-2 relative">
                     <div
                         onClick={() => {
-                            if (workplace?.assignedTo) {
-                                if (
-                                    !appliedIndustry?.terminated &&
-                                    !appliedIndustry?.isCompleted &&
-                                    !appliedIndustry?.cancelled
-                                ) {
-                                    setIsOpened(!isOpened)
+                            if (
+                                workplace?.cancelledRequests &&
+                                workplace?.cancelledRequests?.length > 0
+                            ) {
+                                notification.warning({
+                                    title: 'Workplace Cancelation Request Sent !',
+                                    description:
+                                        'Workplace Cancelation Request already sent to the admin!',
+                                    dissmissTimer: 6666,
+                                    position: 'bottomleft',
+                                })
+                            } else if (true) {
+                                if (workplace?.assignedTo) {
+                                    if (
+                                        !appliedIndustry?.terminated &&
+                                        !appliedIndustry?.isCompleted &&
+                                        !appliedIndustry?.cancelled
+                                    ) {
+                                        setIsOpened(!isOpened)
+                                    } else {
+                                        notification.warning({
+                                            title: 'Action cant perform',
+                                            description: 'Action cant perform',
+                                        })
+                                    }
                                 } else {
                                     notification.warning({
-                                        title: 'Action cant perform',
-                                        description: 'Action cant perform',
+                                        title: 'Assign the workplace',
+                                        description:
+                                            'Assign the workplace before changing status',
                                     })
                                 }
-                            } else {
-                                notification.warning({
-                                    title: 'Assign the workplace',
-                                    description:
-                                        'Assign the workplace before changing status',
-                                })
                             }
                         }}
                         className={`${

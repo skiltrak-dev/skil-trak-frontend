@@ -27,6 +27,8 @@ import { Course } from '@types'
 import {
     CourseSelectOption,
     formatOptionLabel,
+    getLatLng,
+    getPostalCode,
     onlyNumbersAcceptedInYup,
     removeEmptySpaces,
 } from '@utils'
@@ -74,8 +76,8 @@ const validationSchema = yup.object({
 
     // Address Information
     addressLine1: yup.string().required('Must provide address'),
-    state: yup.string().required('Must provide name of state'),
-    suburb: yup.string().required('Must provide suburb name'),
+    // state: yup.string().required('Must provide name of state'),
+    // suburb: yup.string().required('Must provide suburb name'),
     zipCode: yup.string().required('Must provide zip code for your state'),
 })
 
@@ -511,15 +513,53 @@ export const IndustryProfileFrom = ({
                             </div>
 
                             <div className="w-4/6">
-                                <div className="grid grid-cols-2 gap-x-8">
+                                <div className="grid grid-cols-3 gap-x-8">
+                                    <div className="col-span-2">
+                                        <TextInput
+                                            label={'Address Line 1'}
+                                            name={'addressLine1'}
+                                            placeholder={
+                                                'Your Address Line 1...'
+                                            }
+                                            validationIcons
+                                            placesSuggetions
+                                            onChange={async (e: any) => {
+                                                if (
+                                                    e?.target?.value?.length > 4
+                                                ) {
+                                                    try {
+                                                        const latLng =
+                                                            await getLatLng(
+                                                                e?.target?.value
+                                                            )
+                                                        const postalCode =
+                                                            await getPostalCode(
+                                                                latLng
+                                                            )
+
+                                                        if (postalCode) {
+                                                            formMethods.setValue(
+                                                                'zipCode',
+                                                                postalCode
+                                                            )
+                                                        }
+                                                    } catch (error) {
+                                                        console.error(
+                                                            'Error fetching postal code:',
+                                                            error
+                                                        )
+                                                    }
+                                                }
+                                            }}
+                                        />
+                                    </div>
                                     <TextInput
-                                        label={'Address Line 1'}
-                                        name={'addressLine1'}
-                                        placeholder={'Your Address Line 1...'}
+                                        label={'Zip Code'}
+                                        name={'zipCode'}
+                                        placeholder={'Zip Code...'}
                                         validationIcons
-                                        placesSuggetions
                                     />
-                                    <Select
+                                    {/* <Select
                                         name="country"
                                         label={'Country'}
                                         options={countryOptions}
@@ -531,11 +571,11 @@ export const IndustryProfileFrom = ({
                                             setCountryId(e?.value)
                                         }}
                                         validationIcons
-                                    />
+                                    /> */}
                                 </div>
 
                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">
-                                    <TextInput
+                                    {/* <TextInput
                                         label={'Suburb'}
                                         name={'suburb'}
                                         placeholder={'Suburb...'}
@@ -549,9 +589,9 @@ export const IndustryProfileFrom = ({
                                             setIsPlaceSelected:
                                                 setOnSuburbClicked,
                                         }}
-                                    />
+                                    /> */}
 
-                                    <Select
+                                    {/* <Select
                                         name="region"
                                         label={'State'}
                                         options={statesOption}
@@ -569,14 +609,14 @@ export const IndustryProfileFrom = ({
                                         disabled={!countryId}
                                         // onlyValue
                                         validationIcons
-                                    />
+                                    /> */}
 
-                                    <TextInput
+                                    {/* <TextInput
                                         label={'Zip Code'}
                                         name={'zipCode'}
                                         placeholder={'Zip Code...'}
                                         validationIcons
-                                    />
+                                    /> */}
                                 </div>
 
                                 <AuthorizedUserComponent

@@ -54,6 +54,47 @@ export const CaseOfficerAssignedStudent = ({
     const checkKeysLength = (wp: any) =>
         Object.keys(wp)?.filter((s) => s !== 'currentStatus')?.length > 0
 
+    const WorkplaceStatus = [
+        {
+            text: 'Request Sent',
+            date: appliedIndustry?.appliedDate,
+        },
+        {
+            text: 'Coordinator Assigned',
+            date: appliedIndustry?.caseOfficerAssignedDate,
+        },
+        {
+            text: 'Interview',
+            date: appliedIndustry?.interviewDate,
+        },
+        {
+            text: 'Meeting',
+            date: appliedIndustry?.appointmentBookedDate,
+        },
+        {
+            text: 'Awaiting Workplace Responce',
+            date: appliedIndustry?.awaitingWorkplaceResponseDate,
+        },
+        {
+            text: 'Agreement and Eligibility Pending',
+            date: appliedIndustry?.awaitingAgreementSignedDate,
+        },
+        {
+            text: 'Agreement Signed',
+            date: appliedIndustry?.AgreementSignedDate,
+        },
+        {
+            text: 'Placement Started',
+            date: appliedIndustry?.placementStartedDate,
+        },
+        {
+            text: 'Placement Completed',
+            date: appliedIndustry?.isCompletedDate,
+        },
+    ]
+
+    const updatedStatus = WorkplaceStatus?.filter((wpStatus) => wpStatus?.date)
+
     return (
         <div className="w-[280px]">
             {modal}
@@ -133,10 +174,11 @@ export const CaseOfficerAssignedStudent = ({
                     </div>
                 ) : null}
 
-                {/* <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                     {workplace &&
                     checkKeysLength(workplace) &&
-                    appliedIndustry ? (
+                    appliedIndustry &&
+                    updatedStatus?.length > 0 ? (
                         <div
                             className={
                                 'bg-indigo-300 px-2 py-0.5 rounded-md  w-fit ml-auto cursor-pointer'
@@ -145,9 +187,7 @@ export const CaseOfficerAssignedStudent = ({
                                 setModal(
                                     <ViewStatusChangeHistoryModal
                                         onCancel={onCancelModal}
-                                        appliedIndustry={
-                                            appliedIndustry as WorkplaceWorkIndustriesType
-                                        }
+                                        updatedStatus={updatedStatus}
                                     />
                                 )
                             }}
@@ -157,7 +197,7 @@ export const CaseOfficerAssignedStudent = ({
                             </Typography>
                         </div>
                     ) : null}
-                </AuthorizedUserComponent> */}
+                </AuthorizedUserComponent>
             </div>
         </div>
     )
