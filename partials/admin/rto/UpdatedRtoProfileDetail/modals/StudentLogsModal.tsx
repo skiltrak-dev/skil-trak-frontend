@@ -167,9 +167,7 @@ export const StudentLogsModal = ({ onCancel }: { onCancel: () => void }) => {
                             </RtoProfileTable>
                         </div>
                     ) : (
-                        !isError && (
-                            <NoData text="No Not Contactable Students Found" />
-                        )
+                        !isError && <NoData text="No New Students Found!" />
                     )}
                 </div>
             </div>

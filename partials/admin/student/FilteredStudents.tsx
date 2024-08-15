@@ -30,6 +30,7 @@ import {
     AcceptModal,
     ArchiveModal,
     BlockModal,
+    BlockMultiStudentsModal,
     ChangeStatusModal,
     DeleteModal,
     RejectModal,
@@ -111,6 +112,15 @@ export const FilteredStudents = ({
             <ChangeStatusModal
                 student={student}
                 onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
+    const onBlockMultiStudents = (student: Student[]) => {
+        setModal(
+            <BlockMultiStudentsModal
+                onCancel={onModalCancelClicked}
+                student={student}
             />
         )
     }
@@ -343,8 +353,14 @@ export const FilteredStudents = ({
                 </ActionButton>
             </div>
         ),
-        common: (ids: Student[]) => (
-            <ActionButton Icon={MdBlock} variant="error">
+        common: (student: Student[]) => (
+            <ActionButton
+                onClick={() => {
+                    onBlockMultiStudents(student)
+                }}
+                Icon={MdBlock}
+                variant="error"
+            >
                 Block
             </ActionButton>
         ),

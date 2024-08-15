@@ -7,8 +7,8 @@ export const useChangeStatus = () => {
     const [bulkAction, resultBulkAction] =
         CommonApi.changeUserStatus.useChangeStatus()
 
-    const onBlockMultiStudents = (studentIds: number[]) => {
-        bulkAction({ ids: studentIds, status: UserStatus.Blocked })
+    const onBlockMultiStudents = async (studentIds: number[]) => {
+        return await bulkAction({ ids: studentIds, status: UserStatus.Blocked })
     }
 
     const onAccept = async (student: Student) => {

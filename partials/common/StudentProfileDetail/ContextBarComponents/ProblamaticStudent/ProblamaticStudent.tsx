@@ -58,6 +58,7 @@ export const ProblamaticStudent = ({
                                         : onMakeProblamatic()
                                 }}
                                 defaultChecked={hasIssue}
+                                value={hasIssue}
                                 loading={problamaticStudentResult.isLoading}
                                 disabled={problamaticStudentResult.isLoading}
                             />

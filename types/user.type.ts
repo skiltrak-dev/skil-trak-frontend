@@ -151,6 +151,9 @@ export interface SubAdmin extends BaseResponse {
     associatedRto: Rto
     removeOnPlacementStart: boolean
     canCancelWorkPlaceRequest: boolean
+    allowRtoListing: boolean
+    allowIndustryListing: boolean
+    allowAutoAssignment: boolean
 }
 
 export interface Industry extends BaseResponse {
