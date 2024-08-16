@@ -1,8 +1,8 @@
 import {
-    GlobalModal,
-    ShowErrorNotifications,
-    Switch,
     Typography,
+    GlobalModal,
+    PermissionCard,
+    ShowErrorNotifications,
 } from '@components'
 import { SubAdmin } from '@types'
 import { FaSchool } from 'react-icons/fa'
@@ -41,51 +41,49 @@ export const AllowPermissionModal = ({
     const permissions = [
         {
             text: 'Allow Rto Listing',
-            onClick: (subAdmin: SubAdmin) => onAllowRtoListingClicked(subAdmin),
+            onClick: () => onAllowRtoListingClicked(subadmin),
             toggle: subadmin?.allowRtoListing,
             isLoading: allowRtoListingResult.isLoading,
             Icon: FaSchool,
         },
         {
             text: 'Allow Industry Listing',
-            onClick: (subAdmin: SubAdmin) =>
-                onAllowIndustryListingClicked(subAdmin),
+            onClick: () => onAllowIndustryListingClicked(subadmin),
             toggle: subadmin?.allowIndustryListing,
             isLoading: allowIndustryListingResult.isLoading,
             Icon: FaSchool,
         },
         {
             text: 'Allow as Admin',
-            onClick: (subAdmin: SubAdmin) => onAllowAsAdminClicked(subAdmin),
+            onClick: () => onAllowAsAdminClicked(subadmin),
             toggle: subadmin?.canAdmin,
             isLoading: resultCanAdmin.isLoading,
             Icon: MdAdminPanelSettings,
         },
         {
             text: 'Allow Login',
-            onClick: (subAdmin: SubAdmin) => onAllowLoginClicked(subAdmin),
+            onClick: () => onAllowLoginClicked(subadmin),
             toggle: subadmin?.user?.after_hours_access,
             isLoading: canLoginResult.isLoading,
             Icon: MdAdminPanelSettings,
         },
         {
             text: 'Allow Student on Placement',
-            onClick: (subAdmin: SubAdmin) => onAllowPlacementClicked(subAdmin),
+            onClick: () => onAllowPlacementClicked(subadmin),
             toggle: subadmin?.removeOnPlacementStart,
             isLoading: allowPlacementResult.isLoading,
             Icon: MdAdminPanelSettings,
         },
         {
             text: 'Allow Cancelation Workplace',
-            onClick: (subAdmin: SubAdmin) =>
-                onAllowWpCancelationClicked(subAdmin),
+            onClick: () => onAllowWpCancelationClicked(subadmin),
             toggle: subadmin?.canCancelWorkPlaceRequest,
             isLoading: allowWpCancelationReqResult.isLoading,
             Icon: MdAdminPanelSettings,
         },
         {
             text: 'Allow Auto Assignment',
-            onClick: (subAdmin: SubAdmin) => onAutoAssignClicked(subAdmin),
+            onClick: () => onAutoAssignClicked(subadmin),
             toggle: subadmin?.allowAutoAssignment,
             isLoading: resultAutoAssignWorkplace.isLoading,
             Icon: MdOutlineAssignmentReturn,
@@ -110,33 +108,11 @@ export const AllowPermissionModal = ({
 
                         {/*  */}
                         <div className="flex flex-col gap-y-2.5 px-5 pb-5">
-                            {permissions?.map((permission: any) => (
-                                <div className="flex items-center justify-between px-3 py-2 rounded-md border border-[#6B728060]">
-                                    <Typography variant="xs" medium>
-                                        {permission?.text}
-                                    </Typography>
-                                    <div className="flex items-center gap-x-3.5">
-                                        <Typography variant="small" normal>
-                                            No
-                                        </Typography>
-
-                                        <Switch
-                                            name="priority"
-                                            customStyleClass={'profileSwitch'}
-                                            onChange={() => {
-                                                permission?.onClick(subadmin)
-                                            }}
-                                            defaultChecked={permission?.toggle}
-                                            value={permission?.toggle}
-                                            loading={permission?.isLoading}
-                                            disabled={permission?.isLoading}
-                                        />
-
-                                        <Typography variant="small" normal>
-                                            Yes
-                                        </Typography>
-                                    </div>
-                                </div>
+                            {permissions?.map((permission: any, i: number) => (
+                                <PermissionCard
+                                    key={i}
+                                    permission={permission}
+                                />
                             ))}
                         </div>
                     </div>

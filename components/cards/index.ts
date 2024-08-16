@@ -1,4 +1,5 @@
 export * from './Card'
 export * from './DocumentCard'
-export * from './ImportantDocument'
 export * from './QuestionCard'
+export * from './PermissionCard'
+export * from './ImportantDocument'

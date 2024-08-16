@@ -50,7 +50,7 @@ export const usePermission = () => {
         setResult(resultCanAdmin)
         await canAdmin(subAdmin?.id).then((res: any) => {
             if (res?.data) {
-                notification.error({
+                notification.success({
                     title: `subAdmin Allowed As Admin`,
                     description: `subAdmin "${subAdmin?.user?.name}" has been Allowed as Admin.`,
                 })
