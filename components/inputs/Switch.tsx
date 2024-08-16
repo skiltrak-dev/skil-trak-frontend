@@ -81,7 +81,7 @@ export const Switch = ({
                     >
                         <ClipLoader
                             size={14}
-                            color={checked ? 'black' : 'white'}
+                            color={checked ? 'black' : 'gray'}
                         />
                     </div>
                 )}

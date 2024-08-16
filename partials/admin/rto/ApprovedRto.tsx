@@ -18,10 +18,11 @@ import { Rto, UserStatus } from '@types'
 import { checkListLength, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
-import { MdBlock, MdOutlineUpdate } from 'react-icons/md'
+import { MdBlock, MdIncompleteCircle, MdOutlineUpdate } from 'react-icons/md'
 import { RtoCellInfo, SectorCell } from './components'
 import { ViewSubAdminsCB } from './contextBar'
 import {
+    AllowAutoCompleteModal,
     AllowUpdationModal,
     ArchiveModal,
     BlockModal,
@@ -84,6 +85,15 @@ export const ApprovedRto = () => {
         )
     }
 
+    const onAllowAutoComplete = (rto: Rto) => {
+        setModal(
+            <AllowAutoCompleteModal
+                rto={rto}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     const contextBar = useContextBar()
     const onViewSubAdminsClicked = (rto: Rto) => {
         contextBar.setTitle('Sub Admins')
@@ -132,6 +142,17 @@ export const ApprovedRto = () => {
                           : `Allow Updation`,
                       onClick: (rto: Rto) => onAllowUpdation(rto),
                       Icon: MdOutlineUpdate,
+                  }
+                : {}),
+        },
+        {
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: rto?.allowAutoComplete
+                          ? 'Remove Auto Complete'
+                          : `Allowe Auto Complete`,
+                      onClick: (rto: Rto) => onAllowAutoComplete(rto),
+                      Icon: MdIncompleteCircle,
                   }
                 : {}),
         },

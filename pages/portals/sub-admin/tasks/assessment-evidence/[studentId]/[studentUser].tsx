@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 //Layouts
 import { SubAdminStudentProfile } from '@components'
@@ -14,7 +14,6 @@ type Props = {}
 const AssessmentEvidenceDetails: NextPageWithLayout = (props: Props) => {
     const pathname = useRouter()
     const { studentId, studentUser } = pathname.query
-    
 
     const navBar = useNavbar()
     const contextBar = useContextBar()
@@ -26,10 +25,7 @@ const AssessmentEvidenceDetails: NextPageWithLayout = (props: Props) => {
     useEffect(() => {
         if (student.isSuccess && student.data) {
             contextBar.setContent(
-                <SubAdminStudentProfile
-                    student={student.data}
-                   
-                />
+                <SubAdminStudentProfile student={student.data} />
             )
             contextBar.show(false)
             navBar.setSubTitle(student.data?.user?.name)
@@ -39,7 +35,6 @@ const AssessmentEvidenceDetails: NextPageWithLayout = (props: Props) => {
             contextBar.hide()
         }
     }, [student])
-   
 
     useEffect(() => {
         setTimeout(() => {

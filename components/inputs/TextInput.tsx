@@ -102,7 +102,7 @@ export const TextInput = ({
             onPlaceSuggetions?.setIsPlaceSelected(true)
         },
         options: {
-            // types: ['(suburbs)'],
+            types: ['address'],
             componentRestrictions: {
                 country: 'au',
             },

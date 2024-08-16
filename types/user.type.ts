@@ -85,6 +85,7 @@ export interface Rto extends BaseResponse {
     addressLine2: string
     zipCode: string
     allowUpdate: boolean
+    allowAutoComplete: boolean
     user: User
     package: Packages
     courses: Course[]
