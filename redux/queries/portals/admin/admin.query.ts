@@ -111,12 +111,13 @@ const {
 
     // ------ RTO ------ //
     useRtoCountQuery,
-    useRtoStatisticsCountQuery,
     useRtosQuery,
-    useRtosApprovedQuery,
     useRtoDetailQuery,
+    useRtosApprovedQuery,
     useRtoRemoveMutation,
+    useRtoAutoCompleteMutation,
     useAllowUpdationMutation,
+    useRtoStatisticsCountQuery,
     useRtoStatusChangeMutation,
     useRtoStudentsLogsListQuery,
     useRtoCreateAssessmentToolsMutation,
@@ -308,6 +309,7 @@ export const AdminApi = {
         useChangeStatusMutation: useRtoStatusChangeMutation,
         useRtoStudentsLogsList: useRtoStudentsLogsListQuery,
         useRemove: useRtoRemoveMutation,
+        rtoAutoComplete: useRtoAutoCompleteMutation,
         useCreateAssessmentTools: useRtoCreateAssessmentToolsMutation,
         useAllowUpdation: useAllowUpdationMutation,
         useUpdateAssessmentTools: useRtoUpdateAssessmentToolsMutation,
