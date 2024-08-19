@@ -31,8 +31,8 @@ export const UpdateIndustryListingNoteModal = ({
     useEffect(() => {
         if (addNoteResult.isSuccess) {
             notification.success({
-                title: `Note added`,
-                description: `note added successfully`,
+                title: `Note updated`,
+                description: `Note updated successfully`,
             })
             onCancel(false)
         }
