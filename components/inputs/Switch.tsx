@@ -9,7 +9,7 @@ import { ClipLoader } from 'react-spinners'
 
 export type SwitchProps = InputProps & {
     defaultChecked?: boolean
-    customStyleClass?: string
+    customStyleClass?: 'profileSwitch'
 }
 
 export const Switch = ({

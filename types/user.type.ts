@@ -2,6 +2,7 @@ import { Course, Packages } from '@types'
 import { BaseResponse } from './base.type'
 import { Note } from './note.type'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
+import { ReportingType } from '@partials/admin/rto/enum'
 
 export enum StudentStatusEnum {
     ACTIVE = 'active',
@@ -86,6 +87,8 @@ export interface Rto extends BaseResponse {
     zipCode: string
     allowUpdate: boolean
     allowAutoComplete: boolean
+    allowAutoReport: boolean
+    reportType: ReportingType
     user: User
     package: Packages
     courses: Course[]

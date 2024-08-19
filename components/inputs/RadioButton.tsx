@@ -45,23 +45,30 @@ export const RadioButton = ({
                 className="flex items-center gap-x-2.5 text-sm"
             >
                 {!loading ? (
-                    <input
-                        // {...(id ? { id } : {})}
-                        id={`id_${name}${value}`}
-                        name={name}
-                        type={'radio'}
-                        disabled={disabled}
-                        {...getMethodsForInput(
-                            name,
-                            formContext,
-                            rules,
-                            onChange,
-                            onBlur
+                    <div className="relative">
+                        <input
+                            // {...(id ? { id } : {})}
+                            id={`id_${name}${value}`}
+                            name={name}
+                            type={'radio'}
+                            disabled={disabled}
+                            {...getMethodsForInput(
+                                name,
+                                formContext,
+                                rules,
+                                onChange,
+                                onBlur
+                            )}
+                            {...(value ? { value } : {})}
+                            {...(defaultChecked
+                                ? { checked: defaultChecked }
+                                : {})}
+                            // defaultChecked={defaultChecked}
+                        />
+                        {disabled && (
+                            <div className="absolute top-0 left-0 w-full h-full rounded-full bg-[#e9ecef]"></div>
                         )}
-                        {...(value ? { value } : {})}
-                        {...(defaultChecked ? { checked: defaultChecked } : {})}
-                        // defaultChecked={defaultChecked}
-                    />
+                    </div>
                 ) : (
                     <div className="w-[22px] h-[22px] flex items-center justify-center">
                         <ClipLoader size={16} />
