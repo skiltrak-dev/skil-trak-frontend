@@ -5,14 +5,13 @@ import {
     StepIndicator,
     Typography,
 } from '@components'
+import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { StepAccountInfo } from './StepAccountInfo'
 import { StepCreate } from './StepCreate'
-import { StepNotificationMethod } from './StepNotificationMethod'
 import { StepOnBoarding } from './StepOnBoarding'
 import { StepReviewInfo } from './StepReviewInfo'
-import Image from 'next/image'
-import Link from 'next/link'
 
 export const StepForm = () => {
     const router = useRouter()
@@ -94,7 +93,9 @@ export const StepForm = () => {
                                     </div>
                                     {steps}
                                 </div>
-                                <div className="mt-6 w-full md:w-1/2 md:ml-auto">{element}</div>
+                                <div className="mt-6 w-full md:w-1/2 md:ml-auto">
+                                    {element}
+                                </div>
                             </div>
                         )
                     }}

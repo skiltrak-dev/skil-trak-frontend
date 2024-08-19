@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
 import { UserRoles } from '@constants'
-import { AuthLayout } from '@layouts'
+import { AuthLayout, SimpleLayout } from '@layouts'
 import { SignUpUtils } from '@utils'
 
 import {
@@ -13,8 +13,9 @@ import {
 } from '@components'
 
 import { StepForm } from '@partials/industry/tabs'
-import { useState } from 'react'
+import { ReactElement, useState } from 'react'
 import Head from 'next/head'
+import { NextPageWithLayout } from '@types'
 
 const FormSteps: IndicatorStep[] = [
     {
@@ -36,7 +37,7 @@ const FormSteps: IndicatorStep[] = [
     },
 ]
 
-const IndustrySignUp: NextPage = () => {
+const IndustrySignUp: NextPageWithLayout = () => {
     const router = useRouter()
 
     const [currentStep, setCurrentStep] = useState<IndicatorStep>(FormSteps[0])
@@ -86,6 +87,10 @@ const IndustrySignUp: NextPage = () => {
             </div>
         </>
     )
+}
+
+IndustrySignUp.getLayout = (page: ReactElement) => {
+    return <SimpleLayout>{page}</SimpleLayout>
 }
 
 export default IndustrySignUp

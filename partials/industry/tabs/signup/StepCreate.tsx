@@ -17,11 +17,12 @@ export const StepCreate = () => {
             if (formData) {
                 const values = {
                     ...formData,
-                    courses: formData.courses?.map((c: OptionType) => c.value),
-                    sectors: formData.sectors?.map((s: OptionType) => s.value),
+                    courses: formData.courses?.map((c: OptionType) => c?.value),
+                    sectors: formData.sectors?.map((s: OptionType) => s?.value),
                     country: formData?.country?.value,
                     region: formData?.region?.value,
                     role: UserRoles.INDUSTRY,
+                    isAddressUpdated: true,
                 }
 
                 await register(values)
