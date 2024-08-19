@@ -1,6 +1,5 @@
 import { ReactElement, useEffect } from 'react'
 
-import { Card, EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { ManagementLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -10,6 +9,7 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import 'react-quill/dist/quill.snow.css'
 import { BlogContextBar } from '@partials/management/blog'
+import { Card, EmptyData, LoadingAnimation, TechnicalError } from '@components'
 // import { TextEditor } from '@partials'
 
 const EditBlog: NextPageWithLayout = () => {
