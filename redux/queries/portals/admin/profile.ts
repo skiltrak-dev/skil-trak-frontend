@@ -18,4 +18,11 @@ export const profileEndpoints = (
         }),
         invalidatesTags: ['Profile'],
     }),
+    getDashboardChartCounts: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/count/for-graph`,
+            params,
+        }),
+        providesTags: ['Profile'],
+    })
 })

@@ -153,7 +153,6 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     // const submitForm = (values: any) => {
     //     signUpStudent(values)
     //     // setActive((active: number) => active + 1)
-
     // }
 
     return (

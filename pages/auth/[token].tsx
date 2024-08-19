@@ -22,6 +22,7 @@ import Image from 'next/image'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AuthApi } from '@queries'
+import Head from 'next/head'
 
 const ResetPassword: NextPage = () => {
     const router = useRouter()
@@ -65,6 +66,14 @@ const ResetPassword: NextPage = () => {
     return (
         <>
             <ShowErrorNotifications result={resetPasswordResult} />
+            <Head>
+                <title>Reset Password</title>
+                <meta
+                    name="description"
+                    content="Login in to your account to access your dashboard"
+                    key="desc"
+                />
+            </Head>
             <div className="flex justify-center items-center choose-portal-type-bg">
                 <div className="mx-auto flex items-center justify-between">
                     <div className="flex flex-col flex-grow">

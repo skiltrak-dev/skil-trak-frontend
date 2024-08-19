@@ -2,6 +2,7 @@ import { DisplayNotifications } from '@components'
 import { Footer4 } from '@components/site'
 import { Navbar2 } from '@components/site/navbar'
 import TawkMessengerReact from '@tawk.to/tawk-messenger-react'
+import Head from 'next/head'
 import { useRef } from 'react'
 
 export const SiteLayout = ({ children, title }: any) => {
@@ -13,7 +14,10 @@ export const SiteLayout = ({ children, title }: any) => {
 
     return (
         <div>
-            <title>{`${title || 'Home'}`}</title>
+            <Head>
+                <title>{`${title || 'Home'}`}</title>
+                <meta name="description" content="SkilTrak" key="desc" />
+            </Head>
             <Navbar2 />
             <DisplayNotifications />
             <main>{children}</main>

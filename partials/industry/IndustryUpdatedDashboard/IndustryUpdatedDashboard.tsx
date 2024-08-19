@@ -12,6 +12,7 @@ import {
 import { IndustryDashboardCB } from './IndustryDashboardCB'
 import { useMediaQuery } from 'react-responsive'
 import { MediaQueries } from '@constants'
+import { Typography } from '@components'
 
 export const IndustryUpdatedDashboard = () => {
     const industry = useIndustryProfileQuery()
@@ -78,6 +79,7 @@ export const IndustryUpdatedDashboard = () => {
                     '/portals/industry/course-requirements'
                 }
             />
+            
             <Supervisor industry={industry?.data} />
             <div>
                 <IndustryLocations industry={industry?.data} />

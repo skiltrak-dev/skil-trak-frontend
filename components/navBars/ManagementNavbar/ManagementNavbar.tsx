@@ -1,10 +1,12 @@
 import { Typography } from '@components/Typography'
 import Image from 'next/image'
 import { useState } from 'react'
-import { LogoutDropDown } from './components'
+import { LogoutDropDown, ManagementNavLink } from './components'
 import OutsideClickHandler from 'react-outside-click-handler'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { linksData } from './linksData'
+import { getUserCredentials } from '@utils'
 
 type ManagementNavbarProps = {
     // handleTabChange: any
@@ -19,7 +21,7 @@ export const ManagementNavbar = ({
     isExpanded,
 }: ManagementNavbarProps) => {
     const router = useRouter()
-
+    const user = getUserCredentials()
     return (
         <div className="bg-white  rounded-lg px-5 py-4">
             <div className="flex items-center justify-between container mx-auto">
@@ -33,70 +35,16 @@ export const ManagementNavbar = ({
                         />
                     </div>
                     <div className="flex gap-x-10">
-                        <Link
-                            href={'/portals/management/dashboard'}
-                            // onClick={() => handleTabChange('checkKpi')}
-                        >
-                            <Typography
-                                variant="small"
-                                color={
-                                    router.pathname ===
-                                        '/portals/management/dashboard' ||
-                                    router.pathname ===
-                                        '/portals/management/dashboard/[id]'
-                                        ? 'text-primaryNew'
-                                        : 'text-gray-400'
-                                }
-                                bold={
-                                    router.pathname ===
-                                        '/portals/management/dashboard' ||
-                                    router.pathname ===
-                                        '/portals/management/dashboard/[id]'
-                                } // Ternary operator for bold
-                            >
-                                Dashboard
-                            </Typography>
-                        </Link>
-                        {/* <Link
-                            href={'/portals/management/check-kpi'}
-                            // onClick={() => handleTabChange('checkKpi')}
-                        >
-                            <Typography
-                                variant="small"
-                                color={
-                                    router.pathname ===
-                                    '/portals/management/check-kpi'
-                                        ? 'text-primaryNew'
-                                        : 'text-gray-400'
-                                }
-                                bold={
-                                    router.pathname ===
-                                    '/portals/management/check-kpi'
-                                }
-                            >
-                                Check KPI
-                            </Typography>
-                        </Link> */}
-                        <Link
-                            href={'/portals/management/student-list'}
-                            // onClick={() => handleTabChange('studentList')}
-                        >
-                            <Typography
-                                variant="small"
-                                color={
-                                    router.pathname ===
-                                    '/portals/management/student-list'
-                                        ? 'text-primaryNew'
-                                        : 'text-gray-400'
-                                }
-                                bold={
-                                    router.pathname ===
-                                    '/portals/management/student-list'
-                                }
-                            >
-                                Student List
-                            </Typography>
-                        </Link>
+                        {linksData
+                            .filter((link) => link.visible) // Filter links based on visibility
+                            .map((link, index) => (
+                                <ManagementNavLink
+                                    key={index}
+                                    href={link.href}
+                                    label={link.label}
+                                    activePaths={link.activePaths}
+                                />
+                            ))}
                     </div>
                 </div>
                 <div>

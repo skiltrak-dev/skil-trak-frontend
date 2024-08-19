@@ -194,10 +194,13 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
                                 }}
                             </Table>
                         ) : (
-                            <NoData
-                                simple
-                                text="There is no supervisor for this industry, click on Add Supervisor button to add new Supervisor!"
-                            />
+                            <div className="text-center p-8">
+                                <NoData
+                                
+                                    simple
+                                    text="With SkilTrak's Supervisor feature, you can assign your industry's designated representative by providing their phone number, email, and contact details. Your appointed manager will act on behalf of your industry, ensuring seamless communication and collaboration with SkilTrak."
+                                />
+                            </div>
                         )}
                     </div>
                 </Card>

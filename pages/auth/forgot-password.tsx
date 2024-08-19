@@ -24,6 +24,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { AuthApi } from '@queries'
 import { EmailNotExistsModal, PasswordSentModal } from '@partials/auth'
+import Head from 'next/head'
 
 const ForgotPassword: NextPage = () => {
     const router = useRouter()
@@ -73,7 +74,9 @@ const ForgotPassword: NextPage = () => {
         if (checkEmail?.data?.exists) {
             await forgotPassword({ email: values?.email })
             setEmailSent(true)
-            onPasswordSent(values?.email)
+            if (forgotPasswordResult.isSuccess) {
+                onPasswordSent(values?.email)
+            }
         } else {
             // setModalVisible(true)
             onEmailNotExists()
@@ -84,7 +87,15 @@ const ForgotPassword: NextPage = () => {
         <>
             {modal && modal}
             <ShowErrorNotifications result={forgotPasswordResult} />
-            <div className="flex flex-col justify-center items-center choose-portal-type-bg">
+            <Head>
+                <title>Forgot Password</title>
+                <meta
+                    name="description"
+                    content="Login in to your account to access your dashboard"
+                    key="desc"
+                />
+            </Head>
+            <div className="flex flex-col justify-center items-center h-screen choose-portal-type-bg">
                 <div className="mx-auto flex items-center justify-between">
                     <div className="flex flex-col justify-center items-center">
                         <div className="w-full mb-8 flex flex-col justify-center items-center">
@@ -109,7 +120,7 @@ const ForgotPassword: NextPage = () => {
                             </div>
                         </div>
 
-                        <div className="w-1/2 md:mb-5">
+                        <div className="md:w-1/2 px-4 md:px-0 md:mb-5">
                             <Typography color={'text-primaryNew'} center italic>
                                 This feature is exclusively for students. Please
                                 enter the email address you use to log in to the
@@ -120,7 +131,7 @@ const ForgotPassword: NextPage = () => {
 
                         <FormProvider {...methods}>
                             <form
-                                className="mt-2  w-1/2"
+                                className="mt-2 w-full px-4 md:px-0 md:w-1/2"
                                 onSubmit={methods.handleSubmit(onSubmit)}
                             >
                                 <Card>

@@ -15,7 +15,6 @@ export const ManagementLayout = ({ children }: { children: ReactNode }) => {
                     setIsExpanded={setIsExpanded}
                     isExpanded={isExpanded}
                 />
-
                 {children}
             </div>
         </ManagementProtectedRoute>

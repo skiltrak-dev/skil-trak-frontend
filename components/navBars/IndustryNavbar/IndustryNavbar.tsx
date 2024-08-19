@@ -17,7 +17,7 @@ const Routes = {
     Students: `${PREFIX}/students/current-students?tab=pending`,
     Supervisors: `${PREFIX}/supervisors`,
     Jobs: `${PREFIX}/jobs/advertised-jobs`,
-    ESign: `${PREFIX}/students/e-sign`,
+    ESign: `${PREFIX}/e-sign`,
     RequestAVolunteer: `${PREFIX}/students/request-a-volunteer`,
     Notifications: `${PREFIX}/notifications/e-mails?tab=all-mails`,
     TalentPool: `${PREFIX}/talent-pool`,
