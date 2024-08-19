@@ -983,6 +983,7 @@ export const IndustryDashboardContainer = () => {
                         }
                     />
                 </Desktop>
+                
 
                 {/* Others */}
                 <div className="w-full">

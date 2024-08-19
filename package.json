@@ -3,8 +3,8 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "next dev",
-        "build": "next build",
+        "dev": "set NODE_OPTIONS=--max-old-space-size=4096 && next dev",
+        "build": "set NODE_OPTIONS=--max-old-space-size=4096 && next build",
         "start": "next start",
         "lint": "next lint --no-cache",
         "test:watch": "jest --watch"
@@ -69,6 +69,7 @@
         "framer-motion": "^11.0.12",
         "gapi": "^0.0.3",
         "google-map-react": "^2.2.1",
+        "gsap": "3.6.1",
         "html-to-draftjs": "1.4",
         "html2canvas": "^1.4.1",
         "immutability-helper": "^3.1.1",
@@ -139,6 +140,7 @@
         "react-tooltip": "^5.26.2",
         "react-use-error-boundary": "^3.0.0",
         "react-waypoint": "^10.3.0",
+        "recharts": "^2.12.7",
         "socket.io-client": "^4.5.4",
         "styled-components": "^5.3.5",
         "swiper": "^11.0.7",
