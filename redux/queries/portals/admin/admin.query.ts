@@ -88,6 +88,7 @@ const {
     useGetProfileQuery,
     useSectorsStudentsCountQuery,
     useUpdateAdminProfileMutation,
+    useGetDashboardChartCountsQuery,
 
     useAllowRtoListingMutation,
     useAllowIndustryListingMutation,
@@ -299,6 +300,7 @@ export const AdminApi = {
         useSectorsStudentsCount: useSectorsStudentsCountQuery,
         useAllowRtoListing: useAllowRtoListingMutation,
         allowIndustryListing: useAllowIndustryListingMutation,
+        useDashboardChartCounts: useGetDashboardChartCountsQuery, 
     },
     Rtos: {
         useCountQuery: useRtoCountQuery,

@@ -12,15 +12,22 @@ export const LogoutDropDown = ({ isExpanded, setIsExpanded }: any) => {
     const dispatch = useDispatch()
     const toggleClick = () => setIsExpanded(!isExpanded)
     const user = getUserCredentials()
-
     return (
         <div
             onClick={toggleClick}
             className="flex items-center gap-x-3 relative cursor-pointer"
         >
-            <LogoutAvatar name={'Operation Manager'} />
+            <LogoutAvatar
+                name={`${
+                    user?.role === 'marketing'
+                        ? 'Marketing SEO'
+                        : 'Operation Manager'
+                }`}
+            />
             <Typography variant={'body'} medium color="text-primaryNew">
-                Management
+                {user?.role === 'marketing'
+                    ? 'Marketing SEO'
+                    : 'Operation Manager'}
             </Typography>
             {isExpanded ? <IoIosArrowUp /> : <IoIosArrowDown />}
             <div

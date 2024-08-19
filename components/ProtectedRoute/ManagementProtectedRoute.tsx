@@ -13,11 +13,18 @@ export const ManagementProtectedRoute = ({
     const router = useRouter()
     const role = AuthUtils.getUserCredentials()?.role
     const authenticated = AuthUtils.isAuthenticated()
-
-    const pathename = router.pathname
-    const assessRole = pathename ? pathename?.split('/')[2] : ''
+    const pathname = router.pathname
+    const assessRole = pathname ? pathname?.split('/')[2] : ''
     const updatedRoute =
-        assessRole === 'management' ? UserRoles.MANAGER : assessRole
+        assessRole === 'management'
+            ? role === UserRoles.MANAGER
+                ? UserRoles.MANAGER
+                : role === UserRoles.MARKETING
+                ? UserRoles.MARKETING
+                : assessRole
+            : assessRole
+
+
     useEffect(() => {
         if (!authenticated) {
             setAuthorized(false)

@@ -23,6 +23,10 @@ const Login: NextPage = () => {
     const nextDestination = (role: string) => {
         if (role === UserRoles.MANAGER) {
             router.push('/portals/management/dashboard') // Assuming '/portals/manager' is the correct destination
+        } else if (role === UserRoles.MARKETING) {
+            router.push(
+                '/portals/management/blogs?tab=published&page=1&pageSize=50'
+            )
         } else {
             // Handle other roles or default behavior as needed
             console.warn(`Unhandled role: ${role}`) // Or implement appropriate logic
