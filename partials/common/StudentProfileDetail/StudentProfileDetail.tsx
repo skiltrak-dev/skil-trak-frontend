@@ -67,12 +67,14 @@ export const StudentProfileDetail = () => {
 
     const { alert: alertMessage, setAlerts, alerts } = useAlert()
 
+    const role = getUserCredentials()?.role
+
     const profile = useGetSubAdminStudentDetailQuery(Number(router.query?.id), {
         skip: !router.query?.id,
         refetchOnMountOrArgChange: true,
     })
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
-        skip: !UserRoles.SUBADMIN,
+        skip: role !== UserRoles.SUBADMIN,
         refetchOnMountOrArgChange: true,
         refetchOnFocus: true,
     })
@@ -168,8 +170,6 @@ export const StudentProfileDetail = () => {
 
     const activeBorder = (key: ProfileIds) =>
         selectedId === key ? 'border-2 border-primary rounded-xl' : ''
-
-    const role = getUserCredentials()?.role
 
     const getWorkplaceLength = (length: number) => {
         if (length) {

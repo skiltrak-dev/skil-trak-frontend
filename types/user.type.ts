@@ -133,6 +133,7 @@ export interface Student extends BaseResponse {
     tickets: any
     isSnoozed: boolean
     snoozedDate: Date
+    isAddressUpdated: boolean
 }
 
 interface UserExtend extends User {
