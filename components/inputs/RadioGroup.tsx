@@ -90,6 +90,7 @@ export const RadioGroup = ({
                         onChange={(e: any) => {
                             onChange && onChange(e)
                         }}
+                        disabled={disabled}
                     />
                 ))}
             </div>

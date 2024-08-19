@@ -129,12 +129,13 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
                 <div>
                     <UserProfileDetailCard
                         title="Location"
-                        detail={`${profile?.addressLine1}, ${profile?.suburb
-                            ?.replace(/Australia/i, '')
-                            ?.replace(
-                                new RegExp(stateCodes?.join('|'), 'g'),
-                                ''
-                            )} ${profile?.state}, Australia`}
+                        detail={`${profile?.addressLine1}`}
+                        // detail={`${profile?.addressLine1}, ${profile?.suburb
+                        //     ?.replace(/Australia/i, '')
+                        //     ?.replace(
+                        //         new RegExp(stateCodes?.join('|'), 'g'),
+                        //         ''
+                        //     )} ${profile?.state}, Australia`}
                     />
                 </div>
 

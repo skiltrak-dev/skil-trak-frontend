@@ -1,6 +1,6 @@
+import React from 'react'
 import { Switch } from '@components/inputs'
 import { Typography } from '@components/Typography'
-import React from 'react'
 
 export const PermissionCard = ({ permission }: { permission: any }) => {
     return (
