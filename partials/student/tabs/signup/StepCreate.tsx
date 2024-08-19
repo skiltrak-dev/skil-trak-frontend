@@ -31,6 +31,7 @@ export const StepCreate = () => {
                         (s: OptionType) => s?.value
                     ),
                     role: UserRoles.STUDENT,
+                    isAddressUpdated: true,
                 }
 
                 await register(values as StudentFormQueryType)

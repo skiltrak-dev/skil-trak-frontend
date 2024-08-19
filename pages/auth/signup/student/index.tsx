@@ -2,19 +2,15 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
 import { UserRoles } from '@constants'
-import { AuthLayout } from '@layouts'
 import { SignUpUtils } from '@utils'
 
-import {
-    AuthBreadCrumb,
-    BackButton,
-    IndicatorStep,
-    Typography,
-} from '@components'
+import { IndicatorStep } from '@components'
 
 import { StepForm } from '@partials/student/tabs'
-import { useState } from 'react'
 import Head from 'next/head'
+import { ReactElement, useState } from 'react'
+import { SimpleLayout } from '@layouts'
+import { NextPageWithLayout } from '@types'
 
 const FormSteps: IndicatorStep[] = [
     {
@@ -37,7 +33,7 @@ const FormSteps: IndicatorStep[] = [
     },
 ]
 
-const StudentSignUp: NextPage = () => {
+const StudentSignUp: NextPageWithLayout = () => {
     const router = useRouter()
 
     const [currentStep, setCurrentStep] = useState<IndicatorStep>(FormSteps[0])
@@ -88,6 +84,10 @@ const StudentSignUp: NextPage = () => {
             </div>
         </>
     )
+}
+
+StudentSignUp.getLayout = (page: ReactElement) => {
+    return <SimpleLayout>{page}</SimpleLayout>
 }
 
 export default StudentSignUp

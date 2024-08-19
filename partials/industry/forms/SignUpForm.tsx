@@ -12,6 +12,8 @@ import {
     CourseSelectOption,
     SignUpUtils,
     formatOptionLabel,
+    getLatLng,
+    getPostalCode,
     isEmailValid,
     onlyAlphabets,
     onlyNumbersAcceptedInYup,
@@ -151,20 +153,20 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         sectors: yup.array().min(1, 'Must select at least 1 sector').required(),
         courses: yup.array().min(1, 'Must select at least 1 course').required(),
         // country and state
-        country: yup
-            .object({
-                label: yup.string().required('Required '),
-                value: yup.number().required('Required '),
-            })
-            .typeError('Must provide country')
-            .required('Must provide country'),
-        region: yup
-            .object({
-                label: yup.string().required('Required '),
-                value: yup.number().required('Required '),
-            })
-            .typeError('Must provide country')
-            .required('Must provide country'),
+        // country: yup
+        //     .object({
+        //         label: yup.string().required('Required '),
+        //         value: yup.number().required('Required '),
+        //     })
+        //     .typeError('Must provide country')
+        //     .required('Must provide country'),
+        // region: yup
+        //     .object({
+        //         label: yup.string().required('Required '),
+        //         value: yup.number().required('Required '),
+        //     })
+        //     .typeError('Must provide country')
+        //     .required('Must provide country'),
 
         // Contact Person Information
         contactPerson: yup
@@ -175,8 +177,8 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
         // Address Information
         addressLine1: yup.string().required('Must provide address'),
-        state: yup.string().required('Must provide name of state'),
-        suburb: yup.string().required('Must provide suburb name'),
+        // state: yup.string().required('Must provide name of state'),
+        // suburb: yup.string().required('Must provide suburb name'),
         zipCode: yup.string().required('Must provide zip code for your state'),
 
         agreedWithPrivacyPolicy: yup
@@ -272,8 +274,8 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const onHandleSubmit = (values: any) => {
         if (!onSuburbClicked) {
             notification.error({
-                title: 'You must select on Suburb Dropdown',
-                description: 'You must select on Suburb Dropdown',
+                title: 'You must select on Address Dropdown',
+                description: 'You must select on Address Dropdown',
             })
         } else if (onSuburbClicked) {
             onSubmit(values)
@@ -474,17 +476,53 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                         This will help us to find out about your nearby sites
                     </p>
                 </div>
-                <div className="flex flex-col lg:flex-row gap-x-16 border-t lg:py-4 pt-4 lg:pt-0">
+                <div className="flex flex-col lg:flex-row gap-x-16 border-t pt-4 lg:pt-0">
                     <div className="w-full mt-4">
-                        <div className="grid grid-cols-2 gap-x-8">
+                        <div className="grid grid-cols-4 gap-x-3">
+                            <div className="col-span-3">
+                                <TextInput
+                                    label={'Address Line 1'}
+                                    name={'addressLine1'}
+                                    placeholder={'Your Address Line 1...'}
+                                    validationIcons
+                                    placesSuggetions
+                                    onChange={async (e: any) => {
+                                        setOnSuburbClicked(false)
+                                        if (e?.target?.value?.length > 4) {
+                                            try {
+                                                const latLng = await getLatLng(
+                                                    e?.target?.value
+                                                )
+                                                const postalCode =
+                                                    await getPostalCode(latLng)
+
+                                                if (postalCode) {
+                                                    formMethods.setValue(
+                                                        'zipCode',
+                                                        postalCode
+                                                    )
+                                                }
+                                            } catch (error) {
+                                                console.error(
+                                                    'Error fetching postal code:',
+                                                    error
+                                                )
+                                            }
+                                        }
+                                    }}
+                                    onPlaceSuggetions={{
+                                        placesSuggetions: onSuburbClicked,
+                                        setIsPlaceSelected: setOnSuburbClicked,
+                                    }}
+                                />
+                            </div>
                             <TextInput
-                                label={'Address Line 1'}
-                                name={'addressLine1'}
-                                placeholder={'Your Address Line 1...'}
+                                label={'Zip Code'}
+                                name={'zipCode'}
+                                placeholder={'Zip Code...'}
                                 validationIcons
-                                placesSuggetions
                             />
-                            <Select
+                            {/* <Select
                                 name="country"
                                 label={'Country'}
                                 options={
@@ -502,11 +540,11 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 )}
                                 // onlyValue
                                 validationIcons
-                            />
+                            /> */}
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">
-                            <TextInput
+                            {/* <TextInput
                                 label={'Suburb'}
                                 name={'suburb'}
                                 placeholder={'Suburb...'}
@@ -520,9 +558,9 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                     placesSuggetions: onSuburbClicked,
                                     setIsPlaceSelected: setOnSuburbClicked,
                                 }}
-                            />
+                            /> */}
 
-                            <Select
+                            {/* <Select
                                 name="region"
                                 label={'State'}
                                 options={states?.map((state: any) => ({
@@ -541,14 +579,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                     (state: OptionType) =>
                                         state?.value === onStateSelect
                                 )}
-                            />
-
-                            <TextInput
-                                label={'Zip Code'}
-                                name={'zipCode'}
-                                placeholder={'Zip Code...'}
-                                validationIcons
-                            />
+                            /> */}
                         </div>
                     </div>
                 </div>
