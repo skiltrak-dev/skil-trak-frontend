@@ -23,6 +23,7 @@ import { RtoCellInfo, SectorCell } from './components'
 import { ViewSubAdminsCB } from './contextBar'
 import {
     AllowAutoCompleteModal,
+    AllowPermissionsModal,
     AllowUpdationModal,
     ArchiveModal,
     BlockModal,
@@ -94,6 +95,15 @@ export const ApprovedRto = () => {
         )
     }
 
+    const onAllowPermissions = (rto: Rto) => {
+        setModal(
+            <AllowPermissionsModal
+                rto={rto}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     const contextBar = useContextBar()
     const onViewSubAdminsClicked = (rto: Rto) => {
         contextBar.setTitle('Sub Admins')
@@ -152,6 +162,15 @@ export const ApprovedRto = () => {
                           ? 'Remove Auto Complete'
                           : `Allowe Auto Complete`,
                       onClick: (rto: Rto) => onAllowAutoComplete(rto),
+                      Icon: MdIncompleteCircle,
+                  }
+                : {}),
+        },
+        {
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'Permissions',
+                      onClick: (rto: Rto) => onAllowPermissions(rto),
                       Icon: MdIncompleteCircle,
                   }
                 : {}),

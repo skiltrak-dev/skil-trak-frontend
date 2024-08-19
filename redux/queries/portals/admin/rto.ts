@@ -1,3 +1,4 @@
+import { ReportingType } from '@partials/admin/rto/enum'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
@@ -268,6 +269,18 @@ export const rtoEndpoints = (
         query: (id) => ({
             url: `${PREFIX}/rto/${id}/toggle/auto-complete`,
             method: 'PATCH',
+        }),
+        invalidatesTags: ['RTOS'],
+    }),
+
+    rtoAllowPermissions: builder.mutation<
+        any,
+        { id: number; allowAutoReport: boolean; reportType: ReportingType }
+    >({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}/rto/${id}/auto-reporting/update`,
+            method: 'PATCH',
+            body,
         }),
         invalidatesTags: ['RTOS'],
     }),

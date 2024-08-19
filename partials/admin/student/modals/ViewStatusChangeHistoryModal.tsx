@@ -36,7 +36,7 @@ export const ViewStatusChangeHistoryModal = ({
                             </Typography>
                             <Typography variant={'small'} bold>
                                 {moment(wpStatus?.date).format(
-                                    'MMM DD, YYYY [at] hh:mm a'
+                                    'MMM DD, YYYY [at] hh:mm:ss a'
                                 )}
                             </Typography>
                         </div>
