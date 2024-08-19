@@ -106,6 +106,7 @@ export const IndustryProfileFrom = ({
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
     const [countryId, setCountryId] = useState(null)
     const [stateId, setStateId] = useState(null)
+    const [isAddressUpdated, setIsAddressUpdated] = useState<boolean>(false)
 
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
@@ -300,6 +301,7 @@ export const IndustryProfileFrom = ({
             if (profile?.data?.region?.id) {
                 setStateId(profile?.data?.region?.id)
             }
+            setIsAddressUpdated(profile?.data?.isAddressUpdated)
             setIsPartner(profile?.data?.isPartner ? 'yes' : 'no')
         }
     }, [profile])
@@ -323,6 +325,7 @@ export const IndustryProfileFrom = ({
                     isPartner === 'yes' ? values?.studentCapacity : 0,
                 region: values?.region?.value,
                 country: countryId,
+                isAddressUpdated,
             })
         }
     }
@@ -536,6 +539,10 @@ export const IndustryProfileFrom = ({
                                                             await getPostalCode(
                                                                 latLng
                                                             )
+
+                                                        setIsAddressUpdated(
+                                                            true
+                                                        )
 
                                                         if (postalCode) {
                                                             formMethods.setValue(

@@ -190,6 +190,7 @@ export interface Industry extends BaseResponse {
     subAdmin: SubAdmin[]
     callLog: CallLog[]
     approvalReviewQuestionCount: number
+    isAddressUpdated: boolean
 }
 
 export interface IndustryBranchesAddressType extends BaseResponse {

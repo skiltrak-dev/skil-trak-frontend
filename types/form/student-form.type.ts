@@ -20,6 +20,7 @@ export interface StudentFormType {
     zipCode: string
     agreedWithPrivacyPolicy: boolean
     role: string
+    isAddressUpdated: boolean
 }
 
 export type StudentFormQueryType = StudentFormType & {

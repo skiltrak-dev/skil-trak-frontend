@@ -105,10 +105,14 @@ export const IndustryDetail = ({ industry }: { industry: Industry }) => {
                 <div>
                     <UserProfileDetailCard
                         title="Location"
-                        detail={industry?.addressLine1}
-                        // detail={` ${industry?.addressLine1},' '
-                        // ${industry?.suburb?.replace(/Australia/i, '')}
-                        // ${industry?.state}, Australia`}
+                        // detail={industry?.addressLine1}
+                        detail={
+                            industry?.isAddressUpdated
+                                ? industry?.addressLine1
+                                : ` ${industry?.addressLine1},' '
+                        ${industry?.suburb?.replace(/Australia/i, '')}
+                        ${industry?.state}, Australia`
+                        }
                     />
                 </div>
             </div>
