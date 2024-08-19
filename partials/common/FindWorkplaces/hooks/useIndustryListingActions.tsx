@@ -17,6 +17,7 @@ import {
     DeleteFutureIndustryModal,
 } from '../modal'
 import { AddIndustry } from '../tabs'
+import { Portal } from '@components'
 
 export const useIndustryListingActions = (
     onSetIndustryData?: (val: any) => void
@@ -31,10 +32,12 @@ export const useIndustryListingActions = (
 
     const onAddToSignupClicked = (industry: any) => {
         setModal(
-            <AddToSignupModal
-                industry={industry}
-                onCancel={onModalCancelClicked}
-            />
+            <Portal>
+                <AddToSignupModal
+                    industry={industry}
+                    onCancel={onModalCancelClicked}
+                />
+            </Portal>
         )
     }
 
@@ -55,45 +58,55 @@ export const useIndustryListingActions = (
 
     const onDoNotDisturbClicked = (industry: any) => {
         setModal(
-            <DoNotDisturbModal
-                industry={industry}
-                onCancel={() => onModalCancelClicked()}
-            />
+            <Portal>
+                <DoNotDisturbModal
+                    industry={industry}
+                    onCancel={() => onModalCancelClicked()}
+                />
+            </Portal>
         )
     }
     const onDefaultClicked = (industry: any) => {
         setModal(
-            <DefaultModal
-                industry={industry}
-                onCancel={() => onModalCancelClicked()}
-            />
+            <Portal>
+                <DefaultModal
+                    industry={industry}
+                    onCancel={() => onModalCancelClicked()}
+                />
+            </Portal>
         )
     }
 
     const onBlockClicked = (industry: any) => {
         setModal(
-            <BlockIndustryListingModal
-                industry={industry}
-                onCancel={() => onModalCancelClicked()}
-            />
+            <Portal>
+                <BlockIndustryListingModal
+                    industry={industry}
+                    onCancel={() => onModalCancelClicked()}
+                />
+            </Portal>
         )
     }
 
     const onFavoriteClicked = (industry: any) => {
         setModal(
-            <FavoriteModal
-                industry={industry}
-                onCancel={() => onModalCancelClicked()}
-            />
+            <Portal>
+                <FavoriteModal
+                    industry={industry}
+                    onCancel={() => onModalCancelClicked()}
+                />
+            </Portal>
         )
     }
 
     const onDeleteFutureIndustry = (industry: any) => {
         setModal(
-            <DeleteFutureIndustryModal
-                futureIndustry={industry}
-                onCancel={onModalCancelClicked}
-            />
+            <Portal>
+                <DeleteFutureIndustryModal
+                    futureIndustry={industry}
+                    onCancel={onModalCancelClicked}
+                />
+            </Portal>
         )
     }
 

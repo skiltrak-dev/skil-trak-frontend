@@ -25,10 +25,10 @@ export const IndustryDetail = ({
     workplace: IWorkplaceIndustries
     appliedIndustry: WorkplaceWorkIndustriesType
 }) => {
-    const [modal, setModal] = useState<ReactElement | null>(null)
-    const [showMap, setShowMap] = useState<boolean>(false)
     const contextBar = useContextBar()
     const { notification } = useNotification()
+    const [showMap, setShowMap] = useState<boolean>(false)
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const suggestedIndustries = workplace?.industries?.filter(
         (i: any) => !i.applied

@@ -60,6 +60,7 @@ export const StudentProfileForm = ({
     const [courseOptions, setCourseOptions] = useState([])
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
     const [selectedAge, setSelectedAge] = useState<any>(null)
+    const [isAddressUpdated, setIsAddressUpdated] = useState<boolean>(false)
     const [sectorsValue, setSectorsValue] = useState<any>([
         ...sectorDefaultOptions,
     ])
@@ -256,6 +257,7 @@ export const StudentProfileForm = ({
                     : ''
             )
             setSelectedAge(profile?.data?.age)
+            setIsAddressUpdated(profile?.data?.isAddressUpdated)
         }
     }, [profile])
 
@@ -266,13 +268,14 @@ export const StudentProfileForm = ({
     }, [courseValues])
 
     const onHandleSubmit = (values: any) => {
+        console.log({ onSuburbClicked, isAddressUpdated })
         if (!onSuburbClicked) {
             notification.error({
-                title: 'You must select on Suburb Dropdown',
-                description: 'You must select on Suburb Dropdown',
+                title: 'You must select on Address Dropdown',
+                description: 'You must select on Address Dropdown',
             })
         } else if (onSuburbClicked) {
-            onSubmit(values)
+            onSubmit({ ...values, isAddressUpdated })
         }
     }
 
@@ -657,7 +660,14 @@ export const StudentProfileForm = ({
                                             validationIcons
                                             required
                                             placesSuggetions
+                                            onPlaceSuggetions={{
+                                                placesSuggetions:
+                                                    onSuburbClicked,
+                                                setIsPlaceSelected:
+                                                    setOnSuburbClicked,
+                                            }}
                                             onChange={async (e: any) => {
+                                                setOnSuburbClicked(false)
                                                 if (
                                                     e?.target?.value?.length > 4
                                                 ) {
@@ -670,6 +680,10 @@ export const StudentProfileForm = ({
                                                             await getPostalCode(
                                                                 latLng
                                                             )
+
+                                                        setIsAddressUpdated(
+                                                            true
+                                                        )
 
                                                         if (postalCode) {
                                                             formMethods.setValue(
