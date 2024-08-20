@@ -21,17 +21,13 @@ export const ManagementLayout = ({ children }: { children: ReactNode }) => {
     // into the manager's domain, they'll be promptly
     // redirected to their rightful place with a virtual slap🫲!
     useEffect(() => {
-        if (role !== UserRoles.MANAGER) {
+        const isBlogPage = router.pathname.startsWith(URLS.BLOGS)
+        if (role !== UserRoles.MANAGER && !isBlogPage) {
             router.push(`${URLS.BLOGS}?tab=published&page=1&pageSize=50`)
-        } else if (
-            role === UserRoles.MANAGER &&
-            router.pathname === URLS.BLOGS
-        ) {
+        } else if (role === UserRoles.MANAGER && isBlogPage) {
             router.push(URLS.DASHBOARD)
         }
     }, [role, router.pathname])
-
-   
 
     return (
         <ManagementProtectedRoute>
