@@ -67,6 +67,9 @@ export const FindWorkplaceFilters = ({
             value: IndustryStatus.DO_NOT_DISTURB,
         },
     ]
+    console.log({
+        filter: departmentOptions?.find((p) => p?.value === filter?.department),
+    })
 
     return (
         <>

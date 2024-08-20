@@ -13,10 +13,15 @@ export const FolderCard = ({
     onClick: () => void
     folder: AssessmentEvidenceDetailType
 }) => {
-    const response: StudentResponseType | null =
+    const response: StudentResponseType | null | undefined =
         folder?.studentResponse && folder?.studentResponse?.length > 0
-            ? folder?.studentResponse?.[0]
+            ? folder?.studentResponse?.find((item) => item.files.length > 0)
             : null
+
+    // const response: StudentResponseType | null =
+    //     folder?.studentResponse && folder?.studentResponse?.length > 0
+    //         ? folder?.studentResponse?.[0]
+    //         : null
 
     const getStatusBadge = () => {
         switch (response?.status) {
