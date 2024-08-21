@@ -1,6 +1,5 @@
 import {
     AlertProvider,
-    AutoLogoutProvider,
     ContextBarProvider,
     DownloadAssessmentProvider,
     HeaderWrapperProvider,
@@ -9,7 +8,7 @@ import {
     NetworkProvider,
     NoteScrollProvider,
     NotificationProvider,
-    SocketListenerProvider,
+    SocketListenerProvider
 } from '@hooks'
 import { Theme, applyTheme, getCurrentTheme } from '@theme'
 import type { AppProps } from 'next/app'
@@ -87,11 +86,13 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                                                         <Socket>
                                                             <NetworkProvider>
                                                                 <HeadWrapper>
+                                                                    {/* <LogoutAfterHours> */}
                                                                     {getLayout(
                                                                         <Component
                                                                             {...pageProps}
                                                                         />
                                                                     )}
+                                                                    {/* </LogoutAfterHours> */}
                                                                 </HeadWrapper>
                                                             </NetworkProvider>
                                                         </Socket>

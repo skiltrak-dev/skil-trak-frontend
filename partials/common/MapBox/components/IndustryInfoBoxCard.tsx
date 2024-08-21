@@ -1,18 +1,27 @@
-import { Badge, NoData, ShowErrorNotifications, Typography } from '@components'
-import { useContextBar, useNotification } from '@hooks'
+import {
+    Badge,
+    NoData,
+    ShowErrorNotifications,
+    Tooltip,
+    TooltipPosition,
+    Typography,
+} from '@components'
+import { useContextBar } from '@hooks'
+import { IndustryPlacementStatus } from '@partials/common/IndustryProfileDetail'
+import { ShowIndustryNotesAndTHModal } from '@partials/common/StudentProfileDetail/components'
 import {
     useAddExistingIndustriesMutation,
     useSubAdminApplyStudentWorkplaceMutation,
 } from '@queries'
 import { ellipsisText, getSectorsDetail } from '@utils'
 import Image from 'next/image'
-import Link from 'next/link'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useState } from 'react'
+import { BsSignStop } from 'react-icons/bs'
 import { FaTimes } from 'react-icons/fa'
+import { FcApproval } from 'react-icons/fc'
 import { PulseLoader } from 'react-spinners'
-import { CopyInfoData } from './CopyInfoData'
-import { ShowIndustryNotesAndTHModal } from '@partials/common/StudentProfileDetail/components'
 import { IndustryDetailCB } from '../contextBar'
+import { CopyInfoData } from './CopyInfoData'
 
 type IndustryInfoBoxCardProps = {
     item: any
@@ -78,6 +87,8 @@ export const IndustryInfoBoxCard = ({
         contextBar.setTitle('Industry Details')
     }
 
+    console.log({ selectedBox })
+
     return (
         <>
             {modal}
@@ -88,14 +99,45 @@ export const IndustryInfoBoxCard = ({
                     <PulseLoader />
                 ) : (
                     <>
-                        <div className="w-10 rounded-full h-10 relative z-50 border border-gray-200 ml-3">
-                            <Image
-                                src={'/images/icons/avatars/std-boy.png'}
-                                alt={'avatar'}
-                                width={40}
-                                height={40}
-                                className="rounded-full"
-                            />
+                        <div className={'flex items-end relative z-50'}>
+                            <div className="bg-white mt-2 relative z-50 w-12 rounded-full h-12 border border-gray-400 ml-3 p-1">
+                                <Image
+                                    src={'/images/icons/avatars/std-boy.png'}
+                                    alt={'avatar'}
+                                    width={40}
+                                    height={40}
+                                    className="rounded-full"
+                                />
+                                <div className="absolute -top-2 -right-2 ">
+                                    {selectedBox?.placementStatus ===
+                                    IndustryPlacementStatus.ACCEPTING_STUDENTS ? (
+                                        <div className="relative group cursor-pointer">
+                                            <FcApproval size={24} />
+
+                                            <Tooltip
+                                                position={TooltipPosition.left}
+                                            >
+                                                Accepting Students
+                                            </Tooltip>
+                                        </div>
+                                    ) : (
+                                        <div className="relative group cursor-pointer">
+                                            <div className="bg-white rounded-full">
+                                                <BsSignStop
+                                                    size={24}
+                                                    className="text-red-500"
+                                                />
+                                            </div>
+
+                                            <Tooltip
+                                                position={TooltipPosition.left}
+                                            >
+                                                Not Taking Students
+                                            </Tooltip>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
                         </div>
                         <div className="relative min-w-72 bg-white px-2.5 py-5 rounded-lg shadow-lg -mt-5">
                             <FaTimes

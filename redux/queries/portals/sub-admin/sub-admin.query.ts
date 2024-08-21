@@ -344,6 +344,7 @@ export const {
     useMakeIndustryHeadquarterMutation,
     useGetIndustryBranchesQuery,
     useRemoveIndustryBranchMutation,
+    useChangeIndustryStudentsAcceptingStatusMutation,
 
     // --- REPORTS --- //
     useGetAssignedStudentsReportQuery,
@@ -449,6 +450,8 @@ export const SubAdminApi = {
         useGetIndustryBranches: useGetIndustryBranchesQuery,
         useIndustryAnsweredCall: useIndustryAnsweredCallMutation,
         useRemoveIndustryBranch: useRemoveIndustryBranchMutation,
+        changeIndustryAcceptingStatus:
+            useChangeIndustryStudentsAcceptingStatusMutation,
         useStatusticsCount: useSubadminIndustryStatisticsCountQuery,
         useMakeIndustryHeadquarter: useMakeIndustryHeadquarterMutation,
         useRtoCoordinatorsIndustries: useGetRtoCoordinatorsIndustryQuery,

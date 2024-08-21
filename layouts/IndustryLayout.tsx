@@ -96,7 +96,7 @@ export const IndustryLayout = ({
                 pendingDocuments?.data &&
                 viewAgreementModal === 0 &&
                 pendingDocuments?.data?.length > 0 &&
-                router?.pathname !== `/portals/industry/students/e-sign/[id]`
+                router?.pathname !== `/portals/industry/e-sign/[id]`
             ) {
                 setModal(
                     <UsersPendingEsignModal
