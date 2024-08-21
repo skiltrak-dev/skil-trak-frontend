@@ -102,7 +102,7 @@ export const IndustryLayout = ({
                     <UsersPendingEsignModal
                         documents={pendingDocuments?.data}
                         onClick={() => router.push(route)}
-                        route="/portals/industry/students/e-sign"
+                        route="/portals/industry/e-sign"
                         onCancel={() => {
                             setViewAgreementModal((view: number) =>
                                 Number(view + 1)
