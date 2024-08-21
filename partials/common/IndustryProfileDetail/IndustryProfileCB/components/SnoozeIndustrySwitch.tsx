@@ -5,7 +5,7 @@ import { ReactElement, useState } from 'react'
 import { SnoozeIndustryModal } from '@partials/common/modal'
 import { ShowErrorNotifications, Switch, Typography } from '@components'
 
-export const SnoozeIndustry = ({
+export const SnoozeIndustrySwitch = ({
     industry,
     industryId,
 }: {

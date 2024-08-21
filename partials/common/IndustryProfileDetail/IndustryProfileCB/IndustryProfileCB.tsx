@@ -11,7 +11,7 @@ import {
     IndustryStatus,
     MakeIndustryPartner,
     ProfileLinks,
-    SnoozeIndustry,
+    SnoozeIndustrySwitch,
     ViewIndustryAnswers,
 } from './components'
 import { ActionButton, AuthorizedUserComponent, Typography } from '@components'
@@ -89,13 +89,15 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
                 <IndustryStatus industry={industry} />
             </AuthorizedUserComponent>
 
-            <SnoozeIndustry industry={industry} industryId={industry?.id} />
+            <SnoozeIndustrySwitch
+                industry={industry}
+                industryId={industry?.id}
+            />
             <MakeIndustryPartner
                 industryId={industry?.id}
                 isPartner={industry?.isPartner}
                 PartneredBy={industry?.PartneredBy}
             />
-
             {/*  */}
             <IndustryJobHiring
                 industryUserId={industry?.user?.id}
