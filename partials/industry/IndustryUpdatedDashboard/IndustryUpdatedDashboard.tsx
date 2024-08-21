@@ -1,18 +1,17 @@
 import { useContextBar } from '@hooks'
-import { ImportantDocuments, Supervisor } from '@partials/common'
-import { IndustryLocations } from '@partials/common/IndustryProfileDetail/components'
-import { useIndustryProfileQuery } from '@queries'
+import { MediaQueries } from '@constants'
 import { useEffect, useState } from 'react'
+import { useMediaQuery } from 'react-responsive'
+import { useIndustryProfileQuery } from '@queries'
 import {
-    IndustryDashboardRD,
-    IndustryDashboardStudents,
     IndustryServices,
+    IndustryDashboardRD,
     IndustryShiftingHours,
+    IndustryDashboardStudents,
 } from './components'
 import { IndustryDashboardCB } from './IndustryDashboardCB'
-import { useMediaQuery } from 'react-responsive'
-import { MediaQueries } from '@constants'
-import { Typography } from '@components'
+import { ImportantDocuments, Supervisor } from '@partials/common'
+import { IndustryLocations } from '@partials/common/IndustryProfileDetail/components'
 
 export const IndustryUpdatedDashboard = () => {
     const industry = useIndustryProfileQuery()
@@ -79,7 +78,7 @@ export const IndustryUpdatedDashboard = () => {
                     '/portals/industry/course-requirements'
                 }
             />
-            
+
             <Supervisor industry={industry?.data} />
             <div>
                 <IndustryLocations industry={industry?.data} />

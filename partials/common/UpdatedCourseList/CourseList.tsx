@@ -26,6 +26,8 @@ export const CourseList = ({
         })
     }, [])
 
+    console.log({ courses })
+
     return (
         <div className="flex flex-col gap-y-2.5 mt-2">
             {courses?.map((c: Course) => (

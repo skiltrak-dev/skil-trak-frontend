@@ -22,7 +22,7 @@ export const SignersStatus = ({ selectedFolder }: { selectedFolder: any }) => {
             return `/portals/rto/tasks/e-sign/${id}`
         }
         if (role === UserRoles.INDUSTRY) {
-            return `/portals/industry/students/e-sign/${id}`
+            return `/portals/industry/e-sign/${id}`
         }
         if (role === UserRoles.STUDENT) {
             return `/portals/student/assessments/e-sign/${id}`
