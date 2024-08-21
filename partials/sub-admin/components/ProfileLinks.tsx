@@ -1,47 +1,33 @@
 import { Typography } from '@components'
-import { IndustryPlacementStatus } from '@partials/common/IndustryProfileDetail'
-import { AcceptingStudentModal } from '@partials/common/IndustryProfileDetail/modal'
-import { Industry } from '@types'
+import { useActionModal } from '@hooks'
+import { SubAdmin } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useState } from 'react'
-import { RiEditFill } from 'react-icons/ri'
+import { AiFillEdit } from 'react-icons/ai'
+import { BsUnlockFill } from 'react-icons/bs'
 
-export const ProfileLinks = ({ industry }: { industry: Industry }) => {
-    const [modal, setModal] = useState<ReactElement | null>(null)
-
+export const ProfileLinks = ({ subadmin }: { subadmin: SubAdmin }) => {
     const router = useRouter()
 
-    const onCancelModal = () => setModal(null)
-
-    const onAcceptingStudentsClicked = () => {
-        setModal(
-            <AcceptingStudentModal
-                industry={industry}
-                onCancel={onCancelModal}
-            />
-        )
-    }
+    const { onUpdatePassword, passwordModal } = useActionModal()
 
     const profileLinks = [
         {
-            text: 'View Profile',
-            Icon: RiEditFill,
+            text: 'Edit Profile',
+            Icon: AiFillEdit,
             onClick: () => {
-                router.push(
-                    `/portals/sub-admin/users/industries/${industry?.id}`
-                )
+                router.push('/portals/sub-admin/my-profile')
             },
         },
         {
-            text: 'Placement Status',
-            Icon: RiEditFill,
-            onClick: () => onAcceptingStudentsClicked(),
+            text: 'Edit Password',
+            Icon: BsUnlockFill,
+            onClick: () => onUpdatePassword(subadmin),
         },
     ]
 
     return (
         <>
-            {modal}
+            {passwordModal}
             <div className="flex flex-col items-end gap-y-2.5">
                 <div className="flex flex-col gap-1.5">
                     {profileLinks.map(

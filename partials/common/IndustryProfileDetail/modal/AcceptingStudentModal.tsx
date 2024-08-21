@@ -81,7 +81,6 @@ export const AcceptingStudentModal = ({
                         <Select
                             onlyValue
                             name="status"
-                            label={'Change Status'}
                             value={statusOptions?.find(
                                 (status: OptionType) =>
                                     status?.value === selectedStatus
@@ -90,6 +89,7 @@ export const AcceptingStudentModal = ({
                                 setSelectedStatus(e)
                             }}
                             options={statusOptions}
+                            showError={false}
                         />
                     </form>
                 </FormProvider>

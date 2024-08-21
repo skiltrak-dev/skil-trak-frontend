@@ -16,7 +16,11 @@ import { FigureCardVII } from '@components/sections/subAdmin/components/Cards/Fi
 
 import { AuthUtils, getSectors, getUserCredentials } from '@utils'
 
-import { ImportantDocuments, SubAdminDashboardMap } from '@partials/common'
+import {
+    ImportantDocuments,
+    SubAdminDashboardMap,
+    UpdatedCourseList,
+} from '@partials/common'
 
 import { ProgressChart } from '@partials/sub-admin/components'
 import { CommonApi, SubAdminApi, useGetSubAdminIndustriesQuery } from '@queries'
@@ -220,7 +224,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                                 }
                             />
                             <FigureCardVII
-                                imageUrl="/images/icons/pending-student.png"
+                                imageUrl="/images/figure-card/fig-card-5.svg"
                                 count={statistics?.data?.assessmentEvidence}
                                 title={'Assessment Submissions'}
                                 link={
@@ -228,7 +232,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                                 }
                             />
                             <FigureCardVII
-                                imageUrl="/images/icons/appointments.png"
+                                imageUrl="/images/figure-card/fig-card-6.svg"
                                 count={statistics?.data?.appointment}
                                 title={'Appointments'}
                                 link={'sub-admin/tasks/appointments'}
@@ -243,8 +247,8 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                 </div>
 
                 {/* Sector Card */}
-                <div className="flex gap-x-5 w-full h-[535px] ">
-                    <div className="w-1/3 h-full ">
+                <div className="flex gap-x-4 w-full h-[535px] ">
+                    <div className="w-2/5 h-full ">
                         <Card fullHeight>
                             {/* Card Header */}
                             <div className="flex justify-between items-center">
@@ -270,56 +274,9 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                                 {subadminCourses?.isLoading ? (
                                     <ContextBarLoading />
                                 ) : subadminCourses?.data?.length > 0 ? (
-                                    Object.keys(sectorsWithCourses).map(
-                                        (sector: any) => {
-                                            return (
-                                                <div
-                                                    className="mt-4"
-                                                    key={sector}
-                                                >
-                                                    <div>
-                                                        {/* <p className="text-xs font-medium text-gray-400">
-                                                Sector
-                                            </p> */}
-                                                        <p className="text-sm font-semibold">
-                                                            {sector}
-                                                        </p>
-                                                    </div>
-
-                                                    {(
-                                                        sectorsWithCourses as any
-                                                    )[sector].map(
-                                                        (
-                                                            c: Course,
-                                                            i: number
-                                                        ) => (
-                                                            <div
-                                                                className="flex flex-col gap-y-4 ml-4"
-                                                                key={i}
-                                                            >
-                                                                <div className="border-l-4 border-green-600 px-2">
-                                                                    <div>
-                                                                        <p className="text-xs font-medium text-gray-400">
-                                                                            {
-                                                                                c.code
-                                                                            }
-                                                                        </p>
-                                                                        <p className="text-sm">
-                                                                            {
-                                                                                c.title
-                                                                            }
-                                                                        </p>
-                                                                    </div>
-
-                                                                    {/* <Badge text="Active" /> */}
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                    )}
-                                                </div>
-                                            )
-                                        }
-                                    )
+                                    <UpdatedCourseList
+                                        sectorsWithCourses={sectorsWithCourses}
+                                    />
                                 ) : (
                                     <div className="w-full">
                                         <NoData text={'No Courses Assigned'} />

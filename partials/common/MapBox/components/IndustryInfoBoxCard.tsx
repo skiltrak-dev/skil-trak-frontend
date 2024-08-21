@@ -22,6 +22,7 @@ import { FcApproval } from 'react-icons/fc'
 import { PulseLoader } from 'react-spinners'
 import { IndustryDetailCB } from '../contextBar'
 import { CopyInfoData } from './CopyInfoData'
+import { RxCross2 } from 'react-icons/rx'
 
 type IndustryInfoBoxCardProps = {
     item: any
@@ -50,8 +51,6 @@ export const IndustryInfoBoxCard = ({
 
     const contextBar = useContextBar()
 
-    const [applyForWorkplace, applyForWorkplaceResult] =
-        useSubAdminApplyStudentWorkplaceMutation()
     // apply for industry
     const [addExistingIndustry, addExistingIndustryResult] =
         useAddExistingIndustriesMutation()
@@ -87,8 +86,6 @@ export const IndustryInfoBoxCard = ({
         contextBar.setTitle('Industry Details')
     }
 
-    console.log({ selectedBox })
-
     return (
         <>
             {modal}
@@ -108,35 +105,6 @@ export const IndustryInfoBoxCard = ({
                                     height={40}
                                     className="rounded-full"
                                 />
-                                <div className="absolute -top-2 -right-2 ">
-                                    {selectedBox?.placementStatus ===
-                                    IndustryPlacementStatus.ACCEPTING_STUDENTS ? (
-                                        <div className="relative group cursor-pointer">
-                                            <FcApproval size={24} />
-
-                                            <Tooltip
-                                                position={TooltipPosition.left}
-                                            >
-                                                Accepting Students
-                                            </Tooltip>
-                                        </div>
-                                    ) : (
-                                        <div className="relative group cursor-pointer">
-                                            <div className="bg-white rounded-full">
-                                                <BsSignStop
-                                                    size={24}
-                                                    className="text-red-500"
-                                                />
-                                            </div>
-
-                                            <Tooltip
-                                                position={TooltipPosition.left}
-                                            >
-                                                Not Taking Students
-                                            </Tooltip>
-                                        </div>
-                                    )}
-                                </div>
                             </div>
                         </div>
                         <div className="relative min-w-72 bg-white px-2.5 py-5 rounded-lg shadow-lg -mt-5">
