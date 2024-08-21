@@ -15,6 +15,8 @@ import {
     IndustryInfoBoxCard,
     FutureIndustryInfoBoxCard,
 } from './components'
+import { Industry } from '@types'
+import { IndustryPlacementStatus } from '../IndustryProfileDetail'
 
 const containerStyle = {
     width: '100%',
@@ -489,7 +491,13 @@ const SubAdminDashboardMapDetail = ({
                                                             marker?.user
                                                                 ?.role ===
                                                                 'industry'
-                                                                ? '/images/icons/industry-pin-map-pin.png'
+                                                                ? marker?.placementStatus ===
+                                                                  IndustryPlacementStatus.ACCEPTING_STUDENTS
+                                                                    ? '/images/icons/industry-pin-map-pin-check.png'
+                                                                    : marker?.placementStatus ===
+                                                                      IndustryPlacementStatus.NOT_ACCEPTING_STUDENTS
+                                                                    ? '/images/icons/industry-pin-map-pin-uncheck.png'
+                                                                    : '/images/icons/industry-pin-map-pin.png'
                                                                 : '/images/icons/student-red-map-pin.png',
                                                         scaledSize:
                                                             new google.maps.Size(
@@ -631,7 +639,13 @@ const SubAdminDashboardMapDetail = ({
                                                             marker?.user
                                                                 ?.role ===
                                                                 'industry'
-                                                                ? '/images/icons/industry-pin-map-pin.png'
+                                                                ? marker?.placementStatus ===
+                                                                  IndustryPlacementStatus.ACCEPTING_STUDENTS
+                                                                    ? '/images/icons/industry-pin-map-pin-check.png'
+                                                                    : marker?.placementStatus ===
+                                                                      IndustryPlacementStatus.NOT_ACCEPTING_STUDENTS
+                                                                    ? '/images/icons/industry-pin-map-pin-uncheck.png'
+                                                                    : '/images/icons/industry-pin-map-pin.png'
                                                                 : '/images/icons/student-red-map-pin.png',
                                                         scaledSize:
                                                             new google.maps.Size(
@@ -770,7 +784,13 @@ const SubAdminDashboardMapDetail = ({
                                                             marker?.user
                                                                 ?.role ===
                                                                 'industry'
-                                                                ? '/images/icons/partnered-industry-marker.png'
+                                                                ? marker?.placementStatus ===
+                                                                  IndustryPlacementStatus.ACCEPTING_STUDENTS
+                                                                    ? '/images/icons/partnered-industry-marker-check.png'
+                                                                    : marker?.placementStatus ===
+                                                                      IndustryPlacementStatus.NOT_ACCEPTING_STUDENTS
+                                                                    ? '/images/icons/partnered-industry-marker-uncheck.png'
+                                                                    : '/images/icons/partnered-industry-marker.png'
                                                                 : '/images/icons/student-red-map-pin.png',
                                                         scaledSize:
                                                             new google.maps.Size(

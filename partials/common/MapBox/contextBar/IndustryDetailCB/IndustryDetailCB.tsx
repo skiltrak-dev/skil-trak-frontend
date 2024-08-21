@@ -9,6 +9,8 @@ import {
 import { ProfileLinks } from './components'
 import { ActionButton, Typography } from '@components'
 import { AddNoteModal, ViewNoteModal } from './modal'
+import { UpdatedCourseList } from '@partials/common/UpdatedCourseList'
+import { getSectors } from '@utils'
 
 export const IndustryDetailCB = ({
     id,
@@ -24,6 +26,8 @@ export const IndustryDetailCB = ({
         refetchOnMountOrArgChange: true,
     })
     const profile = SubAdminApi.SubAdmin.useProfile()
+
+    const sectorsWithCourses = getSectors(industry?.data?.courses)
 
     // profile?.data?.isAssociatedWithRto
 
@@ -60,7 +64,6 @@ export const IndustryDetailCB = ({
                     <ProfileLinks industry={industry?.data} />
                 ) : null}
             </div>
-
             {/*  */}
             <div className="flex justify-between items-center gap-x-3">
                 <div className="mt-2">
@@ -77,13 +80,10 @@ export const IndustryDetailCB = ({
                     </Typography>
                 </div>
             </div>
-
             {/*  */}
             <IndustryDetail industry={industry?.data} />
             <IndustryContactPerson industry={industry?.data} />
-
             {/*  */}
-
             {/*  */}
             {!profile?.data?.isAssociatedWithRto ? (
                 <div className="flex items-center gap-x-2 py-3">
@@ -110,9 +110,9 @@ export const IndustryDetailCB = ({
                     </div>
                 </div>
             ) : null}
-
-            {/*  */}
-            <IndustrySectors courses={industry?.data?.courses} />
+            {/*  */}{' '}
+            <UpdatedCourseList sectorsWithCourses={sectorsWithCourses} />
+            {/* <IndustrySectors courses={industry?.data?.courses} /> */}
         </div>
     )
 }
