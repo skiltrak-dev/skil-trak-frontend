@@ -1,5 +1,5 @@
 import { Industry } from '@types'
-import React from 'react'
+import React, { ReactNode, useState } from 'react'
 import {
     AddIndustryAnswers,
     IndustryContactPerson,
@@ -11,14 +11,29 @@ import {
     IndustryStatus,
     MakeIndustryPartner,
     ProfileLinks,
+    SnoozeIndustry,
     ViewIndustryAnswers,
 } from './components'
-import { AuthorizedUserComponent, Typography } from '@components'
+import { ActionButton, AuthorizedUserComponent, Typography } from '@components'
 import { UserRoles } from '@constants'
+import { ViewProfileVisitorsModal } from '../modal'
 
 export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
+    const [modal, setModal] = useState<ReactNode | null>(null)
+
+    const onCancelModal = () => setModal(null)
+
+    const onViewProfileVisitorsClicked = () => {
+        setModal(
+            <ViewProfileVisitorsModal
+                onCancel={onCancelModal}
+                industryUserId={industry?.user.id}
+            />
+        )
+    }
     return (
         <div>
+            {modal}
             <div className="flex justify-between items-center">
                 <div>
                     <IndustryProfileAvatar
@@ -54,18 +69,27 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
             </div>
 
             {/*  */}
-            {industry?.approvalReviewQuestionCount &&
-            industry?.approvalReviewQuestionCount > 0 ? (
-                <ViewIndustryAnswers industryId={industry?.id} />
-            ) : (
-                <AddIndustryAnswers industry={industry} />
-            )}
+            <div className="flex items-center justify-between">
+                {industry?.approvalReviewQuestionCount &&
+                industry?.approvalReviewQuestionCount > 0 ? (
+                    <ViewIndustryAnswers industryId={industry?.id} />
+                ) : (
+                    <AddIndustryAnswers industry={industry} />
+                )}
+                <div
+                    onClick={onViewProfileVisitorsClicked}
+                    className="cursor-pointer text-[11px] py-2 px-1 text-info hover:bg-gray-200"
+                >
+                    View Visitors
+                </div>
+            </div>
 
             {/*  */}
             <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                 <IndustryStatus industry={industry} />
             </AuthorizedUserComponent>
 
+            <SnoozeIndustry industry={industry} industryId={industry?.id} />
             <MakeIndustryPartner
                 industryId={industry?.id}
                 isPartner={industry?.isPartner}

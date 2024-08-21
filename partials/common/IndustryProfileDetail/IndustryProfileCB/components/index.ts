@@ -1,6 +1,7 @@
 export * from './ProfileLinks'
 export * from './IndustryStatus'
 export * from './IndustryDetail'
+export * from './SnoozeIndustry'
 export * from './IndustryPartner'
 export * from './IndustrySectors'
 export * from './IndustryJobHiring'

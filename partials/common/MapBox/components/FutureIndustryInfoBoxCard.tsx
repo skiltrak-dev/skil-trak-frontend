@@ -1,6 +1,7 @@
-import { NoData, Portal, ShowErrorNotifications, Typography } from '@components'
+import { Badge, NoData, ShowErrorNotifications, Typography } from '@components'
 import { useContextBar, useNotification } from '@hooks'
 import { useAddExistingIndustriesMutation } from '@queries'
+import { IndustryStatus } from '@types'
 import { ellipsisText } from '@utils'
 import Image from 'next/image'
 import { useEffect } from 'react'
@@ -57,6 +58,22 @@ export const FutureIndustryInfoBoxCard = ({
         contextBar.setTitle('Industry Listing Details')
     }
 
+    const statusData = () => {
+        switch (selectedBox?.status) {
+            case IndustryStatus.FAVOURITE:
+                return <Badge variant="success" text={selectedBox?.status} />
+            case IndustryStatus.DO_NOT_DISTURB:
+                return <Badge variant="error" text={selectedBox?.status} />
+            case IndustryStatus.BLOCKED:
+                return <Badge variant="error" text={selectedBox?.status} />
+            case IndustryStatus.DEFAULT:
+                return <Badge variant="info" text={selectedBox?.status} />
+
+            default:
+                return <p>---</p>
+        }
+    }
+
     return (
         <>
             <ShowErrorNotifications result={addExistingIndustryResult} />
@@ -86,18 +103,21 @@ export const FutureIndustryInfoBoxCard = ({
                             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-full w-0 h-0 border-b-8 border-b-white border-x-8 border-x-transparent"></div>
                             <div className="mt-2">
                                 {!workplaceMapCard ? (
-                                    <div className="relative group w-fit">
-                                        <Typography variant="title">
-                                            {ellipsisText(
-                                                selectedBox?.businessName ??
-                                                    'NA',
-                                                25
-                                            )}
-                                        </Typography>
-                                        <CopyInfoData
-                                            text={selectedBox?.businessName}
-                                            type={'Business Name'}
-                                        />
+                                    <div className="flex items-center gap-x-2">
+                                        <div className="relative group w-fit">
+                                            <Typography variant="title">
+                                                {ellipsisText(
+                                                    selectedBox?.businessName ??
+                                                        'NA',
+                                                    25
+                                                )}
+                                            </Typography>
+                                            <CopyInfoData
+                                                text={selectedBox?.businessName}
+                                                type={'Business Name'}
+                                            />
+                                        </div>
+                                        {statusData()}
                                     </div>
                                 ) : (
                                     <div className="flex items-center justify-between gap-x-4 border-b pb-2">
