@@ -1,7 +1,7 @@
 import { UserRoles } from '@constants'
+import { IndustryPlacementStatus } from '@partials/common'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { method } from 'lodash'
 
 const PREFIX = 'subadmin'
 export const subAdminIndustriesEndpoints = (
@@ -149,5 +149,18 @@ export const subAdminIndustriesEndpoints = (
             params,
         }),
         providesTags: ['SubAdminIndustries'],
+    }),
+
+    //
+    changeIndustryStudentsAcceptingStatus: builder.mutation<
+        any,
+        { id: number; status: IndustryPlacementStatus }
+    >({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}/industry/${id}/update/placement-status`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['SubAdminIndustries', 'SubAdmin'],
     }),
 })

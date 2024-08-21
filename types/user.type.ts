@@ -3,6 +3,7 @@ import { BaseResponse } from './base.type'
 import { Note } from './note.type'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
 import { ReportingType } from '@partials/admin/rto/enum'
+import { IndustryPlacementStatus } from '@partials/common'
 
 export enum StudentStatusEnum {
     ACTIVE = 'active',
@@ -191,6 +192,7 @@ export interface Industry extends BaseResponse {
     callLog: CallLog[]
     approvalReviewQuestionCount: number
     isAddressUpdated: boolean
+    placementStatus: IndustryPlacementStatus
 }
 
 export interface IndustryBranchesAddressType extends BaseResponse {

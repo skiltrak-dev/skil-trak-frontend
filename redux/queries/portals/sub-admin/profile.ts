@@ -46,7 +46,7 @@ export const profileEndpoints = (
                 params,
             }
         },
-        providesTags: ['SubAdmin'],
+        providesTags: ['SubAdmin', 'SubAdminIndustries'],
     }),
 
     getSubAdminRtosForMap: builder.query<any, void>({

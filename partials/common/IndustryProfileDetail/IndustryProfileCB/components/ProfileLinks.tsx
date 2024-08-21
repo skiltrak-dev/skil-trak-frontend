@@ -1,20 +1,14 @@
 import { Typography } from '@components'
 import { UserRoles } from '@constants'
 import { useActionModal } from '@hooks'
-import {
-    SnoozeIndustryModal,
-    UnSnoozeIndustryModal,
-} from '@partials/common/modal'
 import { Industry } from '@types'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactNode, useState } from 'react'
 import { BsUnlockFill } from 'react-icons/bs'
 import { IoMdEyeOff } from 'react-icons/io'
-import { IoFootstepsSharp } from 'react-icons/io5'
-import { MdSnooze } from 'react-icons/md'
 import { RiEditFill } from 'react-icons/ri'
-import { ViewProfileVisitorsModal } from '../../modal'
+import { AcceptingStudentModal } from '../../modal'
 
 export const ProfileLinks = ({ industry }: { industry: Industry }) => {
     const router = useRouter()
@@ -24,30 +18,6 @@ export const ProfileLinks = ({ industry }: { industry: Industry }) => {
     const role = getUserCredentials()?.role
 
     const onCancelModal = () => setModal(null)
-
-    const onSnooze = () => {
-        setModal(
-            <SnoozeIndustryModal onCancel={onCancelModal} industry={industry} />
-        )
-    }
-
-    const UnSnoozeModal = () => {
-        setModal(
-            <UnSnoozeIndustryModal
-                onCancel={onCancelModal}
-                industry={industry}
-            />
-        )
-    }
-
-    const onViewProfileVisitorsClicked = () => {
-        setModal(
-            <ViewProfileVisitorsModal
-                onCancel={onCancelModal}
-                industryUserId={industry?.user.id}
-            />
-        )
-    }
 
     const profileLinks = [
         {
@@ -84,17 +54,15 @@ export const ProfileLinks = ({ industry }: { industry: Industry }) => {
             },
         },
         {
-            text: industry?.isSnoozed ? 'Un-Snooze' : 'Snooze',
-            Icon: MdSnooze,
+            text: 'Placement Status',
+            Icon: RiEditFill,
             onClick: () => {
-                industry?.isSnoozed ? UnSnoozeModal() : onSnooze()
-            },
-        },
-        {
-            text: 'View Visitors',
-            Icon: IoFootstepsSharp,
-            onClick: () => {
-                onViewProfileVisitorsClicked()
+                setModal(
+                    <AcceptingStudentModal
+                        industry={industry}
+                        onCancel={onCancelModal}
+                    />
+                )
             },
         },
     ]
