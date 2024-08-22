@@ -278,7 +278,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                 description: 'You must select on Address Dropdown',
             })
         } else if (onSuburbClicked) {
-            onSubmit(values)
+            onSubmit({ ...values, suburb: 'NA', state: 'NA' })
         }
     }
 

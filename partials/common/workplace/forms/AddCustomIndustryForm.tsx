@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 import _debounce from 'lodash/debounce'
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
@@ -11,6 +11,8 @@ import { AuthApi } from '@queries'
 import {
     CourseSelectOption,
     formatOptionLabel,
+    getLatLng,
+    getPostalCode,
     isEmailValid,
     onlyAlphabets,
     onlyNumbersAcceptedInYup,
@@ -27,7 +29,7 @@ import {
     TextInput,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Course } from '@types'
+import { Course, IndustryFormType, ProvideIndustryDetail } from '@types'
 import { IoIosArrowRoundBack } from 'react-icons/io'
 
 export const AddCustomIndustryForm = ({
@@ -41,7 +43,7 @@ export const AddCustomIndustryForm = ({
     setWorkplaceData?: any
     result: any
     industryABN: string | null
-    onSubmit: any
+    onSubmit: SubmitHandler<ProvideIndustryDetail>
     setActive: any
     courses: Course[]
 }) => {
@@ -97,8 +99,8 @@ export const AddCustomIndustryForm = ({
 
         // Address Information
         addressLine1: yup.string().required('Must provide address'),
-        state: yup.string().required('Must provide name of state'),
-        suburb: yup.string().required('Must provide suburb name'),
+        // state: yup.string().required('Must provide name of state'),
+        // suburb: yup.string().required('Must provide suburb name'),
         zipCode: yup.string().required('Must provide zip code for your state'),
 
         agreedWithPrivacyPolicy: yup
@@ -125,9 +127,9 @@ export const AddCustomIndustryForm = ({
         router.push('/auth/signup/review-signup-info')
     }
 
-    const formMethods = useForm({
+    const formMethods = useForm<ProvideIndustryDetail>({
         mode: 'all',
-        defaultValues: { abn: industryABN },
+        defaultValues: { abn: Number(industryABN) },
         resolver: yupResolver(validationSchema),
     })
 
@@ -136,14 +138,19 @@ export const AddCustomIndustryForm = ({
         removeEmptySpaces(formMethods, abn)
     }
 
-    const onHandleSubmit = (values: any) => {
+    const onHandleSubmit = (values: ProvideIndustryDetail) => {
         if (!onSuburbClicked) {
             notification.error({
                 title: 'You must select on Suburb Dropdown',
                 description: 'You must select on Suburb Dropdown',
             })
         } else if (onSuburbClicked) {
-            onSubmit(values)
+            onSubmit({
+                ...values,
+                state: 'NA',
+                suburb: 'NA',
+                isAddressUpdated: true,
+            })
         }
     }
 
@@ -253,17 +260,62 @@ export const AddCustomIndustryForm = ({
                             {/* Address Information */}
 
                             <div>
-                                <div className="grid grid-cols-1 gap-x-8">
+                                <div className="grid grid-cols-4 gap-x-8">
+                                    <div className="col-span-3">
+                                        <TextInput
+                                            label={'Address Line 1'}
+                                            name={'addressLine1'}
+                                            placeholder={
+                                                'Your Address Line 1...'
+                                            }
+                                            validationIcons
+                                            placesSuggetions
+                                            onChange={async (e: any) => {
+                                                setOnSuburbClicked(false)
+                                                if (
+                                                    e?.target?.value?.length > 4
+                                                ) {
+                                                    try {
+                                                        const latLng =
+                                                            await getLatLng(
+                                                                e?.target?.value
+                                                            )
+                                                        const postalCode =
+                                                            await getPostalCode(
+                                                                latLng
+                                                            )
+
+                                                        if (postalCode) {
+                                                            formMethods.setValue(
+                                                                'zipCode',
+                                                                postalCode
+                                                            )
+                                                        }
+                                                    } catch (error) {
+                                                        console.error(
+                                                            'Error fetching postal code:',
+                                                            error
+                                                        )
+                                                    }
+                                                }
+                                            }}
+                                            onPlaceSuggetions={{
+                                                placesSuggetions:
+                                                    onSuburbClicked,
+                                                setIsPlaceSelected:
+                                                    setOnSuburbClicked,
+                                            }}
+                                        />
+                                    </div>
                                     <TextInput
-                                        label={'Address Line 1'}
-                                        name={'addressLine1'}
-                                        placeholder={'Your Address Line 1...'}
+                                        label={'Zip Code'}
+                                        name={'zipCode'}
+                                        placeholder={'Zip Code...'}
                                         validationIcons
-                                        placesSuggetions
                                     />
                                 </div>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">
+                                {/* <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">
                                     <TextInput
                                         label={'Suburb'}
                                         name={'suburb'}
@@ -286,14 +338,7 @@ export const AddCustomIndustryForm = ({
                                         placeholder={'State...'}
                                         validationIcons
                                     />
-
-                                    <TextInput
-                                        label={'Zip Code'}
-                                        name={'zipCode'}
-                                        placeholder={'Zip Code...'}
-                                        validationIcons
-                                    />
-                                </div>
+                                </div> */}
                             </div>
 
                             <div className="">

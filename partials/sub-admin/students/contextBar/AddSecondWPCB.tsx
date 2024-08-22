@@ -22,16 +22,13 @@ export const AddSecondWPCB = ({
     studentUserId: number
 }) => {
     const [isAddCustomIndustry, setIsAddCustomIndustry] = useState(false)
-    const [customIndustriesOptions, setCustomIndustriesOptions] = useState<
-        any | null
-    >([])
-    const [selectedCustomIndustry, setSelectedCustomIndustry] = useState(false)
+
     const [selectedValues, setSelectedValues] = useState({
         industryId: -1,
         courseId: -1,
     })
     const { notification } = useNotification()
-    const { setTitle, hide, setContent } = useContextBar()
+    const { setTitle } = useContextBar()
 
     const courses = SubAdminApi.Student.useCourses(studentId, {
         skip: !studentId,
@@ -71,9 +68,7 @@ export const AddSecondWPCB = ({
             [name]: e?.value,
         }))
     }
-    const onSubmit = () => {
-        addSecondWorkplace({ ...selectedValues, studentId })
-    }
+    const onSubmit = () => addSecondWorkplace({ ...selectedValues, studentId })
     return (
         <div>
             <ShowErrorNotifications result={addSecondWorkplaceResult} />
@@ -139,6 +134,7 @@ export const AddSecondWPCB = ({
                 </div>
             ) : (
                 <AddSecondWorkplaceForm
+                    courseOptions={courseOptions}
                     studentId={studentId}
                     studentUserId={studentUserId}
                 />

@@ -1,6 +1,6 @@
 import { Typography } from '@components'
 import { WorkplaceCurrentStatus } from '@utils'
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 export const WorkplaceStatusView = ({
     currentStatus,
@@ -20,7 +20,7 @@ export const WorkplaceStatusView = ({
                 {Object.entries(WorkplaceCurrentStatus)
                     .slice(0, 9)
                     .map(([key, value], index) => (
-                        <>
+                        <Fragment key={key}>
                             <div
                                 className={`h-2 rounded-sm ${
                                     findStatusIndex >= index
@@ -35,7 +35,7 @@ export const WorkplaceStatusView = ({
                             >
                                 <span className="text-[10px]">{key}</span>
                             </ReactTooltip>
-                        </>
+                        </Fragment>
                     ))}
             </div>
         </div>
