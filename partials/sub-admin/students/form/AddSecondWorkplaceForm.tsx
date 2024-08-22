@@ -6,6 +6,8 @@ import _debounce from 'lodash/debounce'
 import {
     CourseSelectOption,
     formatOptionLabel,
+    getLatLng,
+    getPostalCode,
     isEmailValid,
     onlyNumbersAcceptedInYup,
     removeEmptySpaces,
@@ -15,18 +17,18 @@ import { AuthApi, SubAdminApi } from '@queries'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useContextBar, useNotification } from '@hooks'
 import { UserRoles } from '@constants'
+import { OptionType, ProvideIndustryDetail } from '@types'
 
 export const AddSecondWorkplaceForm = ({
     studentId,
     studentUserId,
+    courseOptions,
 }: {
     studentId: number
     studentUserId: number
+    courseOptions: OptionType[]
 }) => {
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
-    const [sectorOptions, setSectorOptions] = useState([])
-    const [courseOptions, setCourseOptions] = useState([])
-    const [courseLoading, setCourseLoading] = useState(false)
 
     const contextBar = useContextBar()
 
@@ -62,34 +64,6 @@ export const AddSecondWorkplaceForm = ({
         }
     }, [addWorkplaceIndustryResult])
 
-    useEffect(() => {
-        if (sectorResponse.data?.length) {
-            const options = sectorResponse.data?.map((sector: any) => ({
-                label: sector.name,
-                value: sector.id,
-            }))
-            setSectorOptions(options)
-        }
-    }, [sectorResponse?.data])
-
-    const onSectorChanged = (sectors: any) => {
-        setCourseLoading(true)
-
-        const sectorExisting = sectorResponse?.data?.find(
-            (sector: any) => sector.id === sectors?.value
-        )
-        const newCourseOptions: any = []
-        sectorExisting?.courses?.map((course: any) =>
-            newCourseOptions.push({
-                item: course,
-                value: course.id,
-                label: course.title,
-            })
-        )
-        setCourseOptions(newCourseOptions)
-        setCourseLoading(false)
-    }
-
     const validationSchema = yup.object({
         // Profile Information
         name: yup.string().required('Must provide your name'),
@@ -105,7 +79,7 @@ export const AddSecondWorkplaceForm = ({
 
         // Sector Information
         // sectors: yup.object().nullable(true).required(),
-        course: yup.number().required(),
+        courses: yup.number().required(),
 
         // Contact Person Information
         contactPerson: yup.string().required(),
@@ -114,11 +88,11 @@ export const AddSecondWorkplaceForm = ({
 
         // Address Information
         addressLine1: yup.string().required('Must provide address'),
-        state: yup.string().required('Must provide name of state'),
-        suburb: yup.string().required('Must provide suburb name'),
+        // state: yup.string().required('Must provide name of state'),
+        // suburb: yup.string().required('Must provide suburb name'),
         zipCode: yup.string().required('Must provide zip code for your state'),
     })
-    const formMethods = useForm({
+    const formMethods = useForm<ProvideIndustryDetail>({
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
@@ -128,19 +102,21 @@ export const AddSecondWorkplaceForm = ({
         removeEmptySpaces(formMethods, abn)
     }
 
-    const onHandleSubmit = (values: any) => {
+    const onHandleSubmit = (values: ProvideIndustryDetail) => {
         if (!onSuburbClicked) {
             notification.error({
-                title: 'You must select on Suburb Dropdown',
-                description: 'You must select on Suburb Dropdown',
+                title: 'You must select on Address Dropdown',
+                description: 'You must select on Address Dropdown',
             })
         } else if (onSuburbClicked) {
             addWorkplaceIndustry({
                 ...values,
-                courses: [values?.course],
                 role: UserRoles.INDUSTRY,
                 studentId: studentUserId,
-                password: 'N/A',
+                courses: [Number(values?.courses)],
+                isAddressUpdated: true,
+                suburb: 'NA',
+                state: 'NA',
             })
         }
     }
@@ -199,22 +175,12 @@ export const AddSecondWorkplaceForm = ({
                     />
 
                     {/* Sector Information */}
-                    <Select
-                        label={'Sector'}
-                        name={'sectors'}
-                        options={sectorOptions}
-                        placeholder={'Select Sectors...'}
-                        loading={sectorResponse.isLoading}
-                        onChange={onSectorChanged}
-                        validationIcons
-                    />
 
                     <Select
                         label={'Courses'}
-                        name={'course'}
+                        name={'courses'}
                         defaultValue={courseOptions}
                         options={courseOptions}
-                        loading={courseLoading}
                         onlyValue
                         components={{
                             Option: CourseSelectOption,
@@ -242,28 +208,35 @@ export const AddSecondWorkplaceForm = ({
                         placeholder={'Your Address Line 1...'}
                         validationIcons
                         placesSuggetions
-                    />
+                        onChange={async (e: any) => {
+                            setOnSuburbClicked(false)
+                            if (e?.target?.value?.length > 4) {
+                                try {
+                                    const latLng = await getLatLng(
+                                        e?.target?.value
+                                    )
+                                    const postalCode = await getPostalCode(
+                                        latLng
+                                    )
 
-                    <TextInput
-                        label={'Suburb'}
-                        name={'suburb'}
-                        placeholder={'Suburb...'}
-                        validationIcons
-                        placesSuggetions
-                        // onChange={() => {
-                        //     setOnSuburbClicked(false)
-                        // }}
-                        // onPlaceSuggetions={{
-                        //     placesSuggetions: onSuburbClicked,
-                        //     setIsPlaceSelected: setOnSuburbClicked,
-                        // }}
-                    />
-
-                    <TextInput
-                        label={'State'}
-                        name={'state'}
-                        placeholder={'State...'}
-                        validationIcons
+                                    if (postalCode) {
+                                        formMethods.setValue(
+                                            'zipCode',
+                                            postalCode
+                                        )
+                                    }
+                                } catch (error) {
+                                    console.error(
+                                        'Error fetching postal code:',
+                                        error
+                                    )
+                                }
+                            }
+                        }}
+                        onPlaceSuggetions={{
+                            placesSuggetions: onSuburbClicked,
+                            setIsPlaceSelected: setOnSuburbClicked,
+                        }}
                     />
 
                     <TextInput

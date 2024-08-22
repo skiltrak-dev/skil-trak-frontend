@@ -6,7 +6,6 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
-    ShowErrorNotifications,
     TechnicalError,
     Typography,
 } from '@components'
@@ -14,18 +13,19 @@ import { UserRoles } from '@constants'
 import { GetFolders } from '@partials/sub-admin/workplace/hooks'
 import {
     SubAdminApi,
-    useCancelWorkplaceStatusMutation,
     useGetSubAdminStudentWorkplaceDetailQuery,
     useGetWorkplaceFoldersQuery,
 } from '@queries'
 import ReactStars from 'react-stars'
 
-import { useContextBar, useNotification } from '@hooks'
+import { useContextBar } from '@hooks'
 import { AddSecondWPCB } from '@partials/sub-admin/students/contextBar'
+import { ForwardModal } from '@partials/sub-admin/workplace/modals'
 import { Student } from '@types'
 import { checkStudentProfileCompletion, WorkplaceCurrentStatus } from '@utils'
 import moment from 'moment'
 import { ReactNode, useEffect, useState } from 'react'
+import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
 import {
     AddWorkplaceAction,
     CancelledWorkplaceTable,
@@ -40,23 +40,21 @@ import {
 import { IndustryDetail } from './components/IndustryDetail'
 import {
     CancelWorkplaceModal,
-    UpdatePrvWPStatusModal,
     CancelWorkplaceRequestModal,
+    UpdatePrvWPStatusModal,
     ViewPlacementStartedAnswersModal,
     ViewQuestionsModal,
 } from './modals'
-import { ForwardModal } from '@partials/sub-admin/workplace/modals'
-import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
 
 const WPStatusForCancelButon = [
     WorkplaceCurrentStatus.Applied,
-    WorkplaceCurrentStatus.CaseOfficerAssigned,
-    WorkplaceCurrentStatus.Interview,
-    WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
-    WorkplaceCurrentStatus.AppointmentBooked,
-    WorkplaceCurrentStatus.AwaitingAgreementSigned,
-    WorkplaceCurrentStatus.NoResponse,
     WorkplaceCurrentStatus.Rejected,
+    WorkplaceCurrentStatus.Interview,
+    WorkplaceCurrentStatus.NoResponse,
+    WorkplaceCurrentStatus.AppointmentBooked,
+    WorkplaceCurrentStatus.CaseOfficerAssigned,
+    WorkplaceCurrentStatus.AwaitingAgreementSigned,
+    WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
 ]
 
 export const Workplace = ({
@@ -70,7 +68,6 @@ export const Workplace = ({
     const [selectedWorkplace, setSelectedWorkplace] = useState<any>(null)
 
     const contextBar = useContextBar()
-    const { notification } = useNotification()
 
     const studentWorkplace = useGetSubAdminStudentWorkplaceDetailQuery(
         student?.id,
@@ -87,9 +84,6 @@ export const Workplace = ({
         skip:
             !studentWorkplace?.isSuccess && studentWorkplace?.data?.length > 0,
     })
-
-    const [cancelWorkplace, cancelWorkplaceResult] =
-        useCancelWorkplaceStatusMutation()
 
     const appliedIndustry: WorkplaceWorkIndustriesType =
         selectedWorkplace?.industries?.find((i: any) => i.applied)
@@ -201,7 +195,6 @@ export const Workplace = ({
     return (
         <>
             {modal}
-            <ShowErrorNotifications result={cancelWorkplaceResult} />
             <Card noPadding fullHeight>
                 <div className="px-4 py-3.5 flex justify-between items-center border-b border-secondary-dark">
                     <Typography variant="label" semibold>
@@ -413,12 +406,6 @@ export const Workplace = ({
                                                                 //     )
                                                                 // )
                                                             }}
-                                                            loading={
-                                                                cancelWorkplaceResult.isLoading
-                                                            }
-                                                            disabled={
-                                                                cancelWorkplaceResult.isLoading
-                                                            }
                                                         >
                                                             Cancel Request
                                                         </ActionButton>
@@ -438,12 +425,6 @@ export const Workplace = ({
                                                                 //     )
                                                                 // )
                                                             }}
-                                                            loading={
-                                                                cancelWorkplaceResult.isLoading
-                                                            }
-                                                            disabled={
-                                                                cancelWorkplaceResult.isLoading
-                                                            }
                                                         >
                                                             Cancel Request
                                                         </ActionButton>

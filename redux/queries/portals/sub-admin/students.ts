@@ -3,6 +3,7 @@ import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions
 import {
     PaginatedResponse,
     PaginationValues,
+    ProvideIndustryDetail,
     Student,
     StudentStatusEnum,
     UserStatus,
@@ -484,7 +485,12 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['Students', 'SubAdminStudents'],
     }),
-    addCustomSecondWorkplace: builder.mutation<any, any>({
+    addCustomSecondWorkplace: builder.mutation<
+        any,
+        ProvideIndustryDetail & {
+            studentId: number
+        }
+    >({
         query: ({ studentId, ...body }) => ({
             url: `subadmin/add-another/workplace/${studentId}`,
             method: 'POST',

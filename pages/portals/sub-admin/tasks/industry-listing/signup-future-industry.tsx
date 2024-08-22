@@ -6,6 +6,7 @@ import { ShowErrorNotifications } from '@components'
 import { CommonApi } from '@queries'
 import { useNotification } from '@hooks'
 import { NextPageWithLayout } from '@types'
+import { UserRoles } from '@constants'
 
 const SignUpFutureIndustryPage: NextPageWithLayout = () => {
     const router = useRouter()
@@ -18,7 +19,7 @@ const SignUpFutureIndustryPage: NextPageWithLayout = () => {
     const onSubmit = (values: any) => {
         register({
             ...values,
-            role: 'industry',
+            role: UserRoles.INDUSTRY,
             sectors: values.sectors.map((s: any) => s.value),
             courses: values.courses.map((c: any) => c.value),
         }).then((res: any) => {

@@ -1,17 +1,17 @@
 import {
     Button,
-    DisplayAlerts,
-    GlobalModal,
     PageTitle,
-    PageTitleProps,
-    PaymentModal,
-    RedirectUnApprovedUsers,
-    StudentNavbar,
+    GlobalModal,
     StudentTimer,
+    PaymentModal,
+    StudentNavbar,
+    DisplayAlerts,
+    PageTitleProps,
+    RedirectUnApprovedUsers,
 } from '@components'
 
 import { useAlert, useJoyRide } from '@hooks'
-import { UsersPendingEsignModal, ViewUsersForEsignModal } from '@partials'
+import { UsersPendingEsignModal } from '@partials'
 import { ProfileModal } from '@partials/student/Profile/modal/ProfileModal'
 import {
     StudentContextBar,

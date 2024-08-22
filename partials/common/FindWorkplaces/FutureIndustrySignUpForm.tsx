@@ -11,6 +11,8 @@ import { AuthApi, CommonApi } from '@queries'
 import {
     CourseSelectOption,
     formatOptionLabel,
+    getLatLng,
+    getPostalCode,
     isEmailValid,
     onlyAlphabets,
     onlyNumbersAcceptedInYup,
@@ -148,8 +150,8 @@ export const FutureIndustrySignUpForm = ({
 
         // Address Information
         addressLine1: yup.string().required('Must provide address'),
-        state: yup.string().required('Must provide name of state'),
-        suburb: yup.string().required('Must provide suburb name'),
+        // state: yup.string().required('Must provide name of state'),
+        // suburb: yup.string().required('Must provide suburb name'),
         zipCode: yup.string().required('Must provide zip code for your state'),
 
         agreedWithPrivacyPolicy: yup
@@ -248,11 +250,16 @@ export const FutureIndustrySignUpForm = ({
     const onHandleSubmit = (values: any) => {
         if (!onSuburbClicked) {
             notification.error({
-                title: 'You must select on Suburb Dropdown',
-                description: 'You must select on Suburb Dropdown',
+                title: 'You must select on Address Dropdown',
+                description: 'You must select on Address Dropdown',
             })
         } else if (onSuburbClicked) {
-            onSubmit(values)
+            onSubmit({
+                ...values,
+                state: 'NA',
+                suburb: 'NA',
+                isAddressUpdated: true,
+            })
         }
     }
 
@@ -384,7 +391,7 @@ export const FutureIndustrySignUpForm = ({
                         {/* Address Information */}
 
                         <div>
-                            <div className="grid grid-cols-2 gap-x-8">
+                            {/* <div className="grid grid-cols-2 gap-x-8">
                                 <Select
                                     name="country"
                                     label={'Country'}
@@ -409,18 +416,77 @@ export const FutureIndustrySignUpForm = ({
                                     disabled={!countryId}
                                     onlyValue
                                 />
-                            </div>
-                            <div className="grid grid-cols-1 gap-x-8">
+                            </div> */}
+                            <div className="grid grid-cols-4 gap-x-3">
+                                <div className="col-span-3">
+                                    <TextInput
+                                        label={'Address Line 1'}
+                                        name={'addressLine1'}
+                                        placeholder={'Your Address Line 1...'}
+                                        validationIcons
+                                        placesSuggetions
+                                        onChange={async (e: any) => {
+                                            setOnSuburbClicked(false)
+                                            if (e?.target?.value?.length > 4) {
+                                                try {
+                                                    const latLng =
+                                                        await getLatLng(
+                                                            e?.target?.value
+                                                        )
+                                                    const postalCode =
+                                                        await getPostalCode(
+                                                            latLng
+                                                        )
+
+                                                    if (postalCode) {
+                                                        formMethods.setValue(
+                                                            'zipCode',
+                                                            postalCode
+                                                        )
+                                                    }
+                                                } catch (error) {
+                                                    console.error(
+                                                        'Error fetching postal code:',
+                                                        error
+                                                    )
+                                                }
+                                            }
+                                        }}
+                                        onPlaceSuggetions={{
+                                            placesSuggetions: onSuburbClicked,
+                                            setIsPlaceSelected:
+                                                setOnSuburbClicked,
+                                        }}
+                                    />
+                                </div>
                                 <TextInput
-                                    label={'Address Line 1'}
-                                    name={'addressLine1'}
-                                    placeholder={'Your Address Line 1...'}
+                                    label={'Zip Code'}
+                                    name={'zipCode'}
+                                    placeholder={'Zip Code...'}
                                     validationIcons
-                                    placesSuggetions
                                 />
+                                {/* <Select
+                                name="country"
+                                label={'Country'}
+                                options={
+                                    country?.data?.map((country: any) => ({
+                                        label: country.name,
+                                        value: country.id,
+                                    })) || []
+                                }
+                                loading={country.isLoading}
+                                onChange={(e: any) => {
+                                    setCountryId(e?.value)
+                                }}
+                                value={country?.data?.find(
+                                    (c: OptionType) => c?.value === countryId
+                                )}
+                                // onlyValue
+                                validationIcons
+                            /> */}
                             </div>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">
+                            {/* <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">
                                 <TextInput
                                     label={'Suburb'}
                                     name={'suburb'}
@@ -449,7 +515,7 @@ export const FutureIndustrySignUpForm = ({
                                     placeholder={'Zip Code...'}
                                     validationIcons
                                 />
-                            </div>
+                            </div> */}
                         </div>
 
                         <div className="">
