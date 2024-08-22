@@ -12,7 +12,12 @@ import {
 } from '@components'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout, Student, UserStatus } from '@types'
+import {
+    NextPageWithLayout,
+    ProvideIndustryDetail,
+    Student,
+    UserStatus,
+} from '@types'
 
 // query
 import { UserRoles } from '@constants'
@@ -23,6 +28,7 @@ import {
     ExistinIndustryCard,
     IndustrySelection,
 } from '@partials/sub-admin/students'
+import { AlreadyWPCreatedModal } from '@partials/sub-admin/students/workplace/requestWorkplaceDetail/modal'
 import {
     SubAdminApi,
     useAddCustomIndustyForWorkplaceMutation,
@@ -31,8 +37,7 @@ import {
     useGetSubAdminStudentWorkplaceQuery,
     useSubAdminCancelStudentWorkplaceRequestMutation,
 } from '@queries'
-import { checkStudentProfileCompletion, WorkplaceCurrentStatus } from '@utils'
-import { AlreadyWPCreatedModal } from '@partials/sub-admin/students/workplace/requestWorkplaceDetail/modal'
+import { checkStudentProfileCompletion } from '@utils'
 
 type Props = {}
 
@@ -200,7 +205,7 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         // setActive((active: number) => active + 1)
     }
 
-    const onIndustryAdd = (values: any) => {
+    const onIndustryAdd = (values: ProvideIndustryDetail) => {
         addWorkplace({
             id: data?.user?.id,
             body: {
