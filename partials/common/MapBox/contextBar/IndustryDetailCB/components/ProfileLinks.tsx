@@ -35,7 +35,9 @@ export const ProfileLinks = ({ industry }: { industry: Industry }) => {
         {
             text: 'Placement Status',
             Icon: RiEditFill,
-            onClick: () => onAcceptingStudentsClicked(),
+            onClick: () => {
+                onAcceptingStudentsClicked()
+            },
         },
     ]
 

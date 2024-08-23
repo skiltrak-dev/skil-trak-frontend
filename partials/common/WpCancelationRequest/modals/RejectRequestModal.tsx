@@ -22,7 +22,6 @@ export const RejectRequestModal = ({
             id: wpRequest?.id,
             status: CancelationRequestEnum.Rejected,
         }).then((res: any) => {
-            console.log({ res })
             if (res?.data) {
                 notification.success({
                     title: `Request Rejected`,

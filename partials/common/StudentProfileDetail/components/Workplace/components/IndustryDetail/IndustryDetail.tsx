@@ -100,11 +100,29 @@ export const IndustryDetail = ({
                         {appliedIndustry?.AgreementSigned && (
                             <AgreementView workplace={workplace} />
                         )}
+                        <Typography variant={'small'} color={'text-info'}>
+                            <span
+                                className="font-semibold cursor-pointer whitespace-pre"
+                                onClick={() => {
+                                    if (!appliedIndustry) {
+                                        onViewMoreIndustries()
+                                    } else {
+                                        notification.warning({
+                                            title: 'Already Applied',
+                                            description:
+                                                'Student have already applied to industry',
+                                        })
+                                    }
+                                }}
+                            >
+                                View Contacted Industry
+                            </span>
+                        </Typography>
                         {!appliedIndustry &&
                         !workplace?.byExistingAbn &&
                         !workplace?.studentProvidedWorkplace ? (
                             <>
-                                <Typography
+                                {/* <Typography
                                     variant={'small'}
                                     color={'text-info'}
                                 >
@@ -124,7 +142,7 @@ export const IndustryDetail = ({
                                     >
                                         View More Industry
                                     </span>
-                                </Typography>
+                                </Typography> */}
                                 <Typography
                                     variant={'small'}
                                     color={'text-info'}

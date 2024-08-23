@@ -6,9 +6,21 @@ import { useContextBar } from '@hooks'
 import classNames from 'classnames'
 import { Typography } from '@components'
 import { FaTimes } from 'react-icons/fa'
+import { useMediaQuery } from 'react-responsive'
+import { MediaQueries } from '@constants'
+import { useEffect } from 'react'
 
 export const ContextBar = () => {
+    const isTablet = useMediaQuery(MediaQueries.Tablet)
     const contextBar = useContextBar()
+
+    useEffect(() => {
+        if (isTablet) {
+            contextBar.hide()
+        } else {
+            contextBar.show(false)
+        }
+    }, [isTablet])
 
     const classes = classNames({
         fixed: contextBar.fixed,

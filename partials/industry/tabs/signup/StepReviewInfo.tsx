@@ -245,46 +245,10 @@ export const StepReviewInfo = () => {
                                         variant={'muted'}
                                         color={'text-gray-500'}
                                     >
-                                        Address Line 1
+                                        Address
                                     </Typography>
                                     <Typography variant={'label'}>
                                         {formData.addressLine1 || '-'}
-                                    </Typography>
-                                </InfoboxCard>
-
-                                <InfoboxCard>
-                                    <Typography
-                                        variant={'muted'}
-                                        color={'text-gray-500'}
-                                    >
-                                        Country
-                                    </Typography>
-                                    <Typography variant={'label'}>
-                                        {formData?.country?.label || '-'}
-                                    </Typography>
-                                </InfoboxCard>
-
-                                <InfoboxCard>
-                                    <Typography
-                                        variant={'muted'}
-                                        color={'text-gray-500'}
-                                    >
-                                        State
-                                    </Typography>
-                                    <Typography variant={'label'}>
-                                        {formData?.region?.label || '-'}
-                                    </Typography>
-                                </InfoboxCard>
-
-                                <InfoboxCard>
-                                    <Typography
-                                        variant={'muted'}
-                                        color={'text-gray-500'}
-                                    >
-                                        Suburb
-                                    </Typography>
-                                    <Typography variant={'label'}>
-                                        {formData.suburb || '-'}
                                     </Typography>
                                 </InfoboxCard>
 

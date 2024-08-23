@@ -189,8 +189,8 @@ export const StudentProfileDetail = () => {
                     autoDismiss={false}
                 />
             )}
-            <div className="flex justify-between items-center gap-x-3">
-                <div className="flex items-center gap-x-2.5">
+            <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-y-2 gap-x-3">
+                <div className="flex  items-center gap-x-2.5">
                     <div
                         className={
                             'shadow-site rounded-[10px] px-2.5 bg-white group max-w-max transition-all text-xs flex justify-start items-center py-2.5 text-muted hover:text-muted-dark cursor-pointer'
@@ -260,8 +260,8 @@ export const StudentProfileDetail = () => {
                             setQuickSearch(true)
                         }}
                         className={`${
-                            role !== UserRoles.ADMIN ? '-mr-9' : ''
-                        } flex items-center gap-x-4 bg-white rounded-l-[10px] py-2 px-5 shadow-md cursor-pointer`}
+                            role !== UserRoles.ADMIN ? 'lg:-mr-9' : ''
+                        } flex justify-end ml-auto w-fit items-center gap-x-4 bg-white rounded-l-[10px] py-2 px-5 shadow-md cursor-pointer`}
                     >
                         <IoIosArrowRoundBack />
                         <Typography variant="label" color="block">
@@ -277,15 +277,15 @@ export const StudentProfileDetail = () => {
             {profile.isLoading ? (
                 <LoadingAnimation />
             ) : profile?.data && profile?.isSuccess ? (
-                <div className="flex flex-col gap-y-5 mt-8 mb-20 px-2">
+                <div className="flex flex-col gap-y-5 mt-8 mb-20 px-0 lg:px-2">
                     <div
-                        className={` grid ${
+                        className={`grid grid-cols-1 h-auto ${
                             role === UserRoles.ADMIN || subadmin?.data?.isAdmin
-                                ? 'grid-cols-1 gap-3'
-                                : `grid-cols-5  ${
+                                ? 'xl:grid-cols-1 gap-3'
+                                : `xl:grid-cols-5  ${
                                       workplaceLength > 1
-                                          ? 'h-[570px]'
-                                          : 'h-[500px]'
+                                          ? 'xl:h-[570px]'
+                                          : 'xl:h-[500px]'
                                   } `
                         }  px-2 gap-x-3`}
                     >
@@ -293,8 +293,8 @@ export const StudentProfileDetail = () => {
                             className={`${
                                 role === UserRoles.ADMIN ||
                                 subadmin?.data?.isAdmin
-                                    ? 'col-span-1'
-                                    : 'col-span-3'
+                                    ? 'xl:col-span-1'
+                                    : 'xl:col-span-3'
                             } h-[99%]  ${activeBorder(ProfileIds.Workplace)}`}
                             id={`student-profile-${ProfileIds.Workplace}`}
                         >
@@ -307,8 +307,8 @@ export const StudentProfileDetail = () => {
                             className={`${
                                 role === UserRoles.ADMIN ||
                                 subadmin?.data?.isAdmin
-                                    ? 'col-span-1'
-                                    : 'col-span-2'
+                                    ? 'xl:col-span-1'
+                                    : 'xl:col-span-2'
                             } h-[99%] ${activeBorder(ProfileIds.Notes)}`}
                             id={`student-profile-${ProfileIds.Notes}`}
                         >
@@ -347,7 +347,7 @@ export const StudentProfileDetail = () => {
                         </div> */}
                     </div>
                     <div
-                        className={`h-[600px] px-3  grid grid-cols-2 gap-x-3 `}
+                        className={`h-[600px] px-3 grid grid-cols-1 xl:grid-cols-2 gap-y-5 gap-x-3 `}
                     >
                         <div
                             id={`student-profile-${ProfileIds.Appointments} `}

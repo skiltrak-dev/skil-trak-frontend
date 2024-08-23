@@ -105,17 +105,7 @@ export const Schedule = ({
         >
             <div className="relative">
                 <ShowErrorNotifications result={schedules} />
-                {/* <div className="z-50 absolute top-0 left-0 w-full h-full bg-[#00000080]">
-                    <div className="w-full h-full flex justify-center items-start mt-24">
-                        <div className="bg-white p-10 rounded-lg w-3/4">
-                            <Typography variant="subtitle" center>
-                                Our technical department is currently addressing
-                                a technical issue. We appreciate your patience
-                                as we work to resolve this matter
-                            </Typography>
-                        </div>
-                    </div>
-                </div> */}
+
                 {addSchedule ? (
                     <AddSchedule
                         user={user}
@@ -139,8 +129,8 @@ export const Schedule = ({
                                     Schedule
                                 </Typography>
                             </div>
-                            <div className="flex justify-between px-4 py-2.5">
-                                <div className="flex gap-x-2">
+                            <div className="flex flex-col-reverse xl:flex-row justify-between px-4 py-2.5">
+                                <div className="flex flex-col md:flex-row gap-x-2">
                                     <div className="w-72">
                                         <Select
                                             label={'Courses'}
@@ -191,7 +181,7 @@ export const Schedule = ({
                                     </div>
                                 </div>
 
-                                <div className="mt-1">
+                                <div className="mt-1 ml-auto">
                                     <Button
                                         text={
                                             schedules?.data?.schedule

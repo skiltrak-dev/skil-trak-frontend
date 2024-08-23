@@ -8,7 +8,7 @@ import {
     MarkerClusterer,
     useJsApiLoader,
 } from '@react-google-maps/api'
-import { ellipsisText, removeEmptyValues } from '@utils'
+import { ellipsisText, isBrowser, removeEmptyValues } from '@utils'
 import { useCallback, useEffect, useState } from 'react'
 import {
     StudentInfoBoxCard,
@@ -83,7 +83,6 @@ const futureIndustryClusterStyles = [
 const australiaCenter = { lat: -25.274398, lng: 133.775136 }
 const victoriaCenter = { lat: -37.8136, lng: 144.9631 }
 
-//
 const SubAdminDashboardMapDetail = ({
     rto,
     sector,
@@ -171,6 +170,7 @@ const SubAdminDashboardMapDetail = ({
             refetchOnMountOrArgChange: true,
         }
     )
+
     const futureIndustries = CommonApi.FindWorkplace.mapFutureIndustries(
         {
             search: `${JSON.stringify(
@@ -220,6 +220,17 @@ const SubAdminDashboardMapDetail = ({
     const onMarkerHover = useCallback((marker: any) => {
         setSelectedMarker(marker)
     }, [])
+
+    useEffect(() => {
+        if (industriesList?.isSuccess) {
+            if (selectedBox) {
+                setTimeout(() => {
+                    map?.setCenter(selectedBox?.location)
+                    map?.setZoom(11)
+                }, 600)
+            }
+        }
+    }, [industriesList, selectedBox])
 
     useEffect(() => {
         if (data || industriesList?.data || futureIndustries?.data) {
@@ -313,12 +324,6 @@ const SubAdminDashboardMapDetail = ({
         }
     }
 
-    const handleVictoriaView = () => {
-        if (map) {
-            map.setCenter(victoriaCenter)
-            map.setZoom(8)
-        }
-    }
     const saveMapView = () => {
         if (map) {
             const currentCenter = map.getCenter()
@@ -390,6 +395,7 @@ const SubAdminDashboardMapDetail = ({
         (map: any) => {
             setMap(map)
             map.addListener('bounds_changed', onBoundChange)
+            map.addListener('idle', () => {})
         },
         [onBoundChange]
     )
@@ -400,6 +406,8 @@ const SubAdminDashboardMapDetail = ({
                 map.setCenter(mapCenter)
                 map.setZoom(mapZoom)
             }, 3000) // Adjust the delay as needed
+
+            map.addListener('idle', () => {})
         },
         [mapCenter, mapZoom]
     )

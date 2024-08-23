@@ -1,4 +1,7 @@
-import { VariantOptions } from '@components/Notification'
+import {
+    NotificationPositionOptions,
+    VariantOptions,
+} from '@components/Notification'
 import { useNotification } from '@hooks'
 import React, { useRef } from 'react'
 
@@ -9,8 +12,10 @@ export const useShowErrorNotification = () => {
 
     const showErrorNotifications = async (
         result: any,
-        variant?: (typeof VariantOptions)[number]
+        variant?: (typeof VariantOptions)[number],
+        position?: (typeof NotificationPositionOptions)[number]
     ) => {
+        console.log({ position })
         if (result?.isError) {
             const errorTitle = result.error?.data?.error
             if (errorTitle && Array.isArray(result.error?.data?.message)) {
@@ -21,6 +26,7 @@ export const useShowErrorNotification = () => {
                         description: msg,
                         autoDismiss: true,
                         dissmissTimer: 4500,
+                        position,
                     })
                 }
             } else {
@@ -31,6 +37,7 @@ export const useShowErrorNotification = () => {
                         'Please check your network connection',
                     autoDismiss: true,
                     dissmissTimer: 4500,
+                    position,
                 })
             }
         }

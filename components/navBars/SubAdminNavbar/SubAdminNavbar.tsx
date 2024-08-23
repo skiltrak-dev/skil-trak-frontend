@@ -108,7 +108,7 @@ export const SubAdminNavbar = () => {
 
     return (
         <div className="flex justify-between items-center">
-            <ul className="flex gap-x-2 py-4 w-[770px] overflow-auto custom-scrollbar">
+            <ul className="flex gap-x-2 py-4 w-[780px] overflow-auto custom-scrollbar">
                 {navBarData.map((nav, i) => (
                     <NavLinkItem key={i} nav={nav} PREFIX={PREFIX} />
                 ))}
