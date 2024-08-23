@@ -1,11 +1,13 @@
+import { AuthorizedUserComponent, Typography } from '@components'
+import { UserRoles } from '@constants'
 import { Industry } from '@types'
-import React, { ReactNode, useState } from 'react'
+import { ReactNode, useState } from 'react'
+import { ViewProfileVisitorsModal } from '../modal'
 import {
     AddIndustryAnswers,
     IndustryContactPerson,
     IndustryDetail,
     IndustryJobHiring,
-    IndustryPartner,
     IndustryProfileAvatar,
     IndustrySectors,
     IndustryStatus,
@@ -14,9 +16,6 @@ import {
     SnoozeIndustrySwitch,
     ViewIndustryAnswers,
 } from './components'
-import { ActionButton, AuthorizedUserComponent, Typography } from '@components'
-import { UserRoles } from '@constants'
-import { ViewProfileVisitorsModal } from '../modal'
 
 export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)

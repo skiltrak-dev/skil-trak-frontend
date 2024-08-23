@@ -205,7 +205,7 @@ export const Courses = ({
 
     return (
         <div>
-            <div className="grid grid-cols-3">
+            <div className="grid grid-cols-1 lg:grid-cols-3">
                 <div className="border-r border-secondary-dark px-4 py-2.5">
                     <Typography variant="small" medium>
                         Sectors
@@ -284,7 +284,7 @@ export const Courses = ({
                         </SliderStyleContainer>
                     </div>
                 </div>
-                <div className="col-span-2 px-4 py-2.5">
+                <div className="lg:col-span-2 px-4 py-2.5">
                     <Typography variant="small" medium>
                         Courses
                     </Typography>
@@ -361,13 +361,13 @@ export const Courses = ({
             {/*  */}
 
             <div
-                className={`border-y border-secondary-dark ${
+                className={`border-y border-secondary-dark h-auto ${
                     eSignDocument?.data && eSignDocument?.data?.length > 0
-                        ? 'h-[520px]'
-                        : 'h-[400px]'
+                        ? 'lg:h-[520px]'
+                        : 'lg:h-[400px]'
                 }  overflow-hidden`}
             >
-                <div className="grid grid-cols-3 h-[inherit]">
+                <div className="grid grid-cols-1 lg:grid-cols-3 h-[inherit]">
                     <div className="py-4 border-r h-[inherit]">
                         <AssessmentsFolders
                             student={student}
@@ -377,8 +377,8 @@ export const Courses = ({
                             onSelectFolder={onSelectFolder}
                         />
                     </div>
-                    <div className="col-span-2 h-[inherit]">
-                        <div className="h-[80%]">
+                    <div className="lg:col-span-2 h-[inherit]">
+                        <div className="h-auto lg:h-[80%]">
                             <AssessmentFiles
                                 selectedFolder={selectedFolder}
                                 course={selectedCourse}

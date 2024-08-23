@@ -29,8 +29,6 @@ export const IndustryDetailCB = ({
 
     const sectorsWithCourses = getSectors(industry?.data?.courses)
 
-    // profile?.data?.isAssociatedWithRto
-
     const onCancelClicked = () => setModal(null)
 
     const onCreateNoteClicked = () => {
@@ -60,9 +58,7 @@ export const IndustryDetailCB = ({
                         avatar={industry?.data?.user?.avatar as string}
                     />
                 </div>
-                {!profile?.data?.isAssociatedWithRto ? (
-                    <ProfileLinks industry={industry?.data} />
-                ) : null}
+                <ProfileLinks industry={industry?.data} />
             </div>
             {/*  */}
             <div className="flex justify-between items-center gap-x-3">

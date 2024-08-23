@@ -35,7 +35,7 @@ interface SubAction {
     onClick: Function
 }
 
-const positionOptions = [
+export const NotificationPositionOptions = [
     'topleft',
     'bottomleft',
     'topright',
@@ -54,7 +54,7 @@ export interface NotificationProps {
     avatar?: string
     dissmissTimer?: number
     uniqueId?: number
-    position?: (typeof positionOptions)[number]
+    position?: (typeof NotificationPositionOptions)[number]
 }
 
 export const Notification = ({

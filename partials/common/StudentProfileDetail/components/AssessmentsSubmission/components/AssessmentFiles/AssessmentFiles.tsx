@@ -121,8 +121,26 @@ export const AssessmentFiles = ({
                             onWheel={handleWheel}
                         >
                             <Swiper
-                                slidesPerView={6}
-                                spaceBetween={10}
+                                // slidesPerView={6}
+                                breakpoints={{
+                                    // when window width is >= 640px
+                                    640: {
+                                        slidesPerView: 2,
+                                        spaceBetween: 10,
+                                        centeredSlides: false,
+                                    },
+                                    350: {
+                                        slidesPerView: 1,
+                                        spaceBetween: 10,
+                                        centeredSlides: false,
+                                    },
+                                    // when window width is >= 768px
+                                    1024: {
+                                        slidesPerView: 6,
+                                        spaceBetween: 10,
+                                        centeredSlides: false,
+                                    },
+                                }}
                                 slidesPerGroup={6}
                                 pagination={{
                                     clickable: true,

@@ -306,10 +306,7 @@ export const workplaceEndpoints = (
         providesTags: ['SubAdminWorkplace'],
     }),
     getWorkplaceCourseIndustries: builder.query<any, any>({
-        query: (id) => ({
-            url: `subadmin/course/${id}/detail`,
-            // params,
-        }),
-        providesTags: ['SubAdminWorkplace'],
+        query: (id) => `subadmin/course/${id}/list/industries`,
+        providesTags: ['SubAdminWorkplace', 'SubAdminIndustries'],
     }),
 })

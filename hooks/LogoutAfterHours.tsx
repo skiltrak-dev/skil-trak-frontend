@@ -16,7 +16,5 @@ export const LogoutAfterHours = ({ children }: { children: any }) => {
         }
     }, [melbourneTime, pathname])
 
-    console.log({ melbourneTime })
-
     return <div>{children}</div>
 }

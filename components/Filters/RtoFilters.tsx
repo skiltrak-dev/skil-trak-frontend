@@ -31,6 +31,7 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, name: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="email"
@@ -41,6 +42,7 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, email: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="rtoCode"
@@ -50,6 +52,7 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, rtoCode: e.target.value })
                     }}
+                    showError={false}
                 />
                 <Select
                     label={'Status'}
@@ -65,6 +68,7 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                             status: e?.value as UserStatus,
                         })
                     }}
+                    showError={false}
                 />
                 <Select
                     label={'Search by Courses'}
@@ -84,6 +88,7 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                         Option: CourseSelectOption,
                     }}
                     formatOptionLabel={formatOptionLabel}
+                    showError={false}
                 />
             </div>
         </>

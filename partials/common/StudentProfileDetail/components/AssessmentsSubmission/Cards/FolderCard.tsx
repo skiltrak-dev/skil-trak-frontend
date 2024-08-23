@@ -20,8 +20,6 @@ export const FolderCard = ({
               ) || folder?.studentResponse?.[0]
             : null
 
-    console.log({ response })
-
     // const response: StudentResponseType | null =
     //     folder?.studentResponse && folder?.studentResponse?.length > 0
     //         ? folder?.studentResponse?.[0]

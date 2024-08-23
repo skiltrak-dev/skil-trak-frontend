@@ -268,7 +268,6 @@ export const StudentProfileForm = ({
     }, [courseValues])
 
     const onHandleSubmit = (values: any) => {
-        console.log({ onSuburbClicked, isAddressUpdated })
         if (!onSuburbClicked) {
             notification.error({
                 title: 'You must select on Address Dropdown',

@@ -32,8 +32,6 @@ export const AcceptingStudentModal = ({
         },
     })
 
-    console.log({ industry })
-
     const onSubmit = async (values: any) => {
         const data = {
             id: Number(industry?.id),

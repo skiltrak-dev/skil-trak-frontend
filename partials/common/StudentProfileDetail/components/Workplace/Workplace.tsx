@@ -310,7 +310,7 @@ export const Workplace = ({
                         ) : studentWorkplace?.data &&
                           studentWorkplace?.data?.length > 0 ? (
                             <div>
-                                <div className="pt-2.5 pb-1 px-4 border-b border-secondary-dark flex justify-between gap-x-4">
+                                <div className="pt-2.5 pb-1 px-4 border-b border-secondary-dark flex flex-col lg:flex-row justify-between gap-x-4">
                                     <IndustryStatus
                                         folders={folders}
                                         workplace={selectedWorkplace}
@@ -364,8 +364,8 @@ export const Workplace = ({
                                 </div>
 
                                 {/*  */}
-                                <div className="p-4 grid grid-cols-10 gap-x-3 border-b border-secondary-dark">
-                                    <div className="col-span-3 h-full">
+                                <div className="p-4 grid grid-cols-1 lg:grid-cols-10 gap-y-4 gap-x-3 border-b border-secondary-dark">
+                                    <div className="lg:col-span-3 h-full">
                                         <WorkplaceCoordinators
                                             appliedIndustryId={
                                                 appliedIndustry?.id
@@ -373,7 +373,7 @@ export const Workplace = ({
                                             workplace={selectedWorkplace}
                                         />
                                     </div>
-                                    <div className="col-span-7 h-full">
+                                    <div className="lg:col-span-7 h-full">
                                         <IndustryDetail
                                             workplace={selectedWorkplace}
                                             appliedIndustry={appliedIndustry}

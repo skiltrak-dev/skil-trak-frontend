@@ -15,7 +15,17 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
 
     const [statusChange, statusChangeResult] = CommonApi.Notes.useStatusChange()
     const togglePin = async () => {
-        await statusChange(note.id)
+        const res: any = await statusChange(note.id)
+        if (res?.data) {
+            console.log({ res })
+            notification.success({
+                title: `Note ${res?.data?.isPinned ? 'Pinned' : 'Un-Pinned'}`,
+                description: `Note ${
+                    res?.data?.isPinned ? 'Pinned' : 'Un-Pinned'
+                } Successfully`,
+                position: 'topright',
+            })
+        }
     }
 
     const [isDeleting, setDeleting] = useState(false)
@@ -36,7 +46,10 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
     return (
         <>
             <ShowErrorNotifications result={removeResult} />
-            <ShowErrorNotifications result={statusChangeResult} />
+            <ShowErrorNotifications
+                position="topright"
+                result={statusChangeResult}
+            />
             <div
                 id={`pinned-notes-${note?.id}`}
                 className={`relative w-full ${

@@ -13,7 +13,7 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
         skip: role !== UserRoles.SUBADMIN,
         refetchOnMountOrArgChange: true,
-        refetchOnFocus: true,
+        // refetchOnFocus: true,
     })
 
     const pathename = router.pathname
