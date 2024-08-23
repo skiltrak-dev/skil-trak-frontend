@@ -47,6 +47,14 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
                     <UserProfileDetailCard
                         title="Student ID"
                         detail={profile?.studentId}
+                        onClick={() => {
+                            navigator.clipboard.writeText(profile?.studentId)
+
+                            notification.success({
+                                title: 'Copied',
+                                description: 'Student Id Copied',
+                            })
+                        }}
                     />
                     <UserProfileDetailCard
                         title="Student Batch"

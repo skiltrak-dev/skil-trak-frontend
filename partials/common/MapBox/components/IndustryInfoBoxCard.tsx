@@ -1,28 +1,14 @@
-import {
-    Badge,
-    NoData,
-    ShowErrorNotifications,
-    Tooltip,
-    TooltipPosition,
-    Typography,
-} from '@components'
+import { Badge, NoData, ShowErrorNotifications, Typography } from '@components'
 import { useContextBar } from '@hooks'
-import { IndustryPlacementStatus } from '@partials/common/IndustryProfileDetail'
 import { ShowIndustryNotesAndTHModal } from '@partials/common/StudentProfileDetail/components'
-import {
-    useAddExistingIndustriesMutation,
-    useSubAdminApplyStudentWorkplaceMutation,
-} from '@queries'
+import { useAddExistingIndustriesMutation } from '@queries'
 import { ellipsisText, getSectorsDetail } from '@utils'
 import Image from 'next/image'
 import { ReactElement, useState } from 'react'
-import { BsSignStop } from 'react-icons/bs'
 import { FaTimes } from 'react-icons/fa'
-import { FcApproval } from 'react-icons/fc'
 import { PulseLoader } from 'react-spinners'
 import { IndustryDetailCB } from '../contextBar'
 import { CopyInfoData } from './CopyInfoData'
-import { RxCross2 } from 'react-icons/rx'
 
 type IndustryInfoBoxCardProps = {
     item: any

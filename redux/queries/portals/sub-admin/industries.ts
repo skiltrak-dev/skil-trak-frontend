@@ -161,6 +161,6 @@ export const subAdminIndustriesEndpoints = (
             method: 'PATCH',
             body,
         }),
-        invalidatesTags: ['SubAdminIndustries', 'SubAdmin'],
+        invalidatesTags: ['SubAdminIndustries'],
     }),
 })

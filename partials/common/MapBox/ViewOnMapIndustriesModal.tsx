@@ -143,6 +143,7 @@ export const ViewOnMapIndustriesModal = ({
         router?.query?.id,
         { skip: !router?.query?.id }
     )
+
     useEffect(() => {
         if (
             workplaceCourseIndustries?.data?.length > 0 ||
@@ -325,7 +326,7 @@ export const ViewOnMapIndustriesModal = ({
         (student: any) => student?.user && student?.user?.role === 'student'
     )
     return (
-        <div className="w-full h-full overflow-hidden">
+        <div className="w-full h-[80vh] lg:h-full overflow-hidden">
             <div className="flex justify-between cursor-pointer border-b py-0.5 px-2 mb-2">
                 <Checkbox
                     name={'futureIndustry'}
@@ -544,7 +545,6 @@ export const ViewOnMapIndustriesModal = ({
                                                                             workplaceMapCard={
                                                                                 true
                                                                             }
-                                                                            s
                                                                             onCancel={
                                                                                 onCancel
                                                                             }

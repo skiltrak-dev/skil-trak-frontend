@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
-import { useNotification } from '@hooks'
+import { useAddressToPostCode, useNotification } from '@hooks'
 import { AuthApi, CommonApi } from '@queries'
 import {
     CourseSelectOption,
@@ -24,6 +24,36 @@ import { Button, Checkbox, Select, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 import { OptionType } from '@types'
+
+const AddressFieldInput = ({
+    placesSuggetions,
+    onChange,
+}: {
+    onChange?: () => void
+    placesSuggetions?: {
+        placesSuggetions: boolean
+        setIsPlaceSelected: (value: boolean) => void
+    }
+}) => {
+    const { onAddressToPostcodeClicked } = useAddressToPostCode()
+    return (
+        <TextInput
+            label={'Address Line 1'}
+            name={'addressLine1'}
+            placeholder={'Your Address Line 1...'}
+            validationIcons
+            placesSuggetions
+            onChange={async (e: any) => {
+                if (onChange) {
+                    onChange()
+                }
+
+                onAddressToPostcodeClicked(e.target?.value)
+            }}
+            onPlaceSuggetions={placesSuggetions}
+        />
+    )
+}
 
 export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const router = useRouter()
@@ -236,6 +266,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
+
     const selectedRowDataString = localStorage?.getItem('signup-data')
     useEffect(() => {
         const selectedRowData = selectedRowDataString
@@ -480,39 +511,13 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                     <div className="w-full mt-4">
                         <div className="grid grid-cols-4 gap-x-3">
                             <div className="col-span-3">
-                                <TextInput
-                                    label={'Address Line 1'}
-                                    name={'addressLine1'}
-                                    placeholder={'Your Address Line 1...'}
-                                    validationIcons
-                                    placesSuggetions
-                                    onChange={async (e: any) => {
-                                        setOnSuburbClicked(false)
-                                        if (e?.target?.value?.length > 4) {
-                                            try {
-                                                const latLng = await getLatLng(
-                                                    e?.target?.value
-                                                )
-                                                const postalCode =
-                                                    await getPostalCode(latLng)
-
-                                                if (postalCode) {
-                                                    formMethods.setValue(
-                                                        'zipCode',
-                                                        postalCode
-                                                    )
-                                                }
-                                            } catch (error) {
-                                                console.error(
-                                                    'Error fetching postal code:',
-                                                    error
-                                                )
-                                            }
-                                        }
-                                    }}
-                                    onPlaceSuggetions={{
+                                <AddressFieldInput
+                                    placesSuggetions={{
                                         placesSuggetions: onSuburbClicked,
                                         setIsPlaceSelected: setOnSuburbClicked,
+                                    }}
+                                    onChange={() => {
+                                        setOnSuburbClicked(false)
                                     }}
                                 />
                             </div>
