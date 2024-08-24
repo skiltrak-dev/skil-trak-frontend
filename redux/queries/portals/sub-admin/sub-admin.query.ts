@@ -1,4 +1,4 @@
-import { UserStatus } from '@types'
+import { SubAdmin, UserStatus } from '@types'
 import { notesEndpoints } from './notes'
 import { subAdminReports } from './reports'
 import { subAdminRtoEndpoints } from './rto'
@@ -35,7 +35,7 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
 
     // ---------- Sub Admin ENDPOINTS ---------- //
     endpoints: (build) => ({
-        profile: build.query<any, void>({
+        profile: build.query<SubAdmin, void>({
             query: () => `subadmin/me/profile`,
             providesTags: ['SubAdmin'],
         }),

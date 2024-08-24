@@ -29,6 +29,22 @@ export const AllowPermissionModal = ({
         allowPlacementResult,
         allowWpCancelationReqResult,
         resultAutoAssignWorkplace,
+        resultCanAccessBlogs,
+        resultCanAccessQueries,
+        resultCanAccessRPL,
+        resultCanAccessTalentPool,
+        resultCanDownloadReport,
+        resultCanViewIndustryDetail,
+        resultCanViewStudentDetail,
+        resultCanViewRTODetail,
+        onCanAccessBlogsClicked,
+        onCanAccessQueriesClicked,
+        onCanAccessRPLClicked,
+        onCanAccessTalentPoolClicked,
+        onCanReportDownloadClicked,
+        onCanViewIndustryDetailClicked,
+        onCanViewRTODetailClicked,
+        onCanViewStudentDetailClicked,
         onAllowRtoListingClicked,
         onAllowIndustryListingClicked,
         onAllowAsAdminClicked,
@@ -88,6 +104,62 @@ export const AllowPermissionModal = ({
             isLoading: resultAutoAssignWorkplace.isLoading,
             Icon: MdOutlineAssignmentReturn,
         },
+        {
+            text: 'Can Access RTO Profile',
+            onClick: () => onCanViewRTODetailClicked(subadmin),
+            toggle: subadmin?.canAccessRtoProfile,
+            isLoading: resultCanViewRTODetail.isLoading,
+            Icon: MdOutlineAssignmentReturn,
+        },
+        {
+            text: 'Can Download Report',
+            onClick: () => onCanReportDownloadClicked(subadmin),
+            toggle: subadmin?.canDownloadReport,
+            isLoading: resultCanDownloadReport.isLoading,
+            Icon: MdOutlineAssignmentReturn,
+        },
+        {
+            text: 'Can View Student Detail',
+            onClick: () => onCanViewStudentDetailClicked(subadmin),
+            toggle: subadmin?.canViewStudentDetails,
+            isLoading: resultCanViewStudentDetail.isLoading,
+            Icon: MdOutlineAssignmentReturn,
+        },
+        {
+            text: 'Can View Industry Detail',
+            onClick: () => onCanViewIndustryDetailClicked(subadmin),
+            toggle: subadmin?.canViewIndustryDetails,
+            isLoading: resultCanViewIndustryDetail.isLoading,
+            Icon: MdOutlineAssignmentReturn,
+        },
+        {
+            text: 'Can Access RPL Detail',
+            onClick: () => onCanAccessRPLClicked(subadmin),
+            toggle: subadmin?.canAccessRtoProfile,
+            isLoading: resultCanAccessRPL.isLoading,
+            Icon: MdOutlineAssignmentReturn,
+        },
+        {
+            text: 'Can Access Talent Pool',
+            onClick: () => onCanAccessTalentPoolClicked(subadmin),
+            toggle: subadmin?.canAccessTalentPool,
+            isLoading: resultCanAccessTalentPool.isLoading,
+            Icon: MdOutlineAssignmentReturn,
+        },
+        {
+            text: 'Can Access Queries',
+            onClick: () => onCanAccessQueriesClicked(subadmin),
+            toggle: subadmin?.canAccessQueries,
+            isLoading: resultCanAccessQueries.isLoading,
+            Icon: MdOutlineAssignmentReturn,
+        },
+        {
+            text: 'Can Access Blogs',
+            onClick: () => onCanAccessBlogsClicked(subadmin),
+            toggle: subadmin?.canAccessBlogs,
+            isLoading: resultCanAccessBlogs.isLoading,
+            Icon: MdOutlineAssignmentReturn,
+        },
     ]
     return (
         <>
@@ -107,7 +179,7 @@ export const AllowPermissionModal = ({
                         </div>
 
                         {/*  */}
-                        <div className="flex flex-col gap-y-2.5 px-5 pb-5">
+                        <div className="flex flex-col gap-y-2.5 px-5 pb-5 h-[70vh] lg:h-[450px] overflow-auto custom-scrollbar">
                             {permissions?.map((permission: any, i: number) => (
                                 <PermissionCard
                                     key={i}

@@ -22,6 +22,126 @@ export const usePermission = () => {
     const [autoAssignWorkplace, resultAutoAssignWorkplace] =
         AdminApi.SubAdmins.useToggleAutoAssignWorkplace()
 
+    const [canAccessBlogs, resultCanAccessBlogs] =
+        AdminApi.SubAdmins.useCanAccessBlogs()
+
+    const [canAccessQueries, resultCanAccessQueries] =
+        AdminApi.SubAdmins.useCanAccessQueries()
+
+    const [canAccessRPL, resultCanAccessRPL] =
+        AdminApi.SubAdmins.useCanAccessRPLDetail()
+
+    const [canAccessTalentPool, resultCanAccessTalentPool] =
+        AdminApi.SubAdmins.useCanAccessTalentPool()
+
+    const [canDownloadReport, resultCanDownloadReport] =
+        AdminApi.SubAdmins.useCanDownloadReport()
+
+    const [canViewIndustryDetail, resultCanViewIndustryDetail] =
+        AdminApi.SubAdmins.useCanViewIndustryDetail()
+
+    const [canViewStudentDetail, resultCanViewStudentDetail] =
+        AdminApi.SubAdmins.useCanViewStudentDetail()
+
+    const [canViewRTODetail, resultCanViewRTODetail] =
+        AdminApi.SubAdmins.useAccessRtoProfile()
+
+    const onCanViewRTODetailClicked = (subAdmin: SubAdmin) => {
+        setResult(resultCanViewRTODetail)
+        canViewRTODetail(subAdmin?.id).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: `Status Changed`,
+                    description: `subAdmin "${subAdmin?.user?.name}" Changed Status For View RTO Detail.`,
+                })
+            }
+        })
+    }
+
+    const onCanViewStudentDetailClicked = (subAdmin: SubAdmin) => {
+        setResult(resultCanViewStudentDetail)
+        canViewStudentDetail(subAdmin?.id).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: `Status Changed`,
+                    description: `subAdmin "${subAdmin?.user?.name}" Changed Status For View Student Detail.`,
+                })
+            }
+        })
+    }
+
+    const onCanViewIndustryDetailClicked = (subAdmin: SubAdmin) => {
+        setResult(resultCanViewIndustryDetail)
+        canViewIndustryDetail(subAdmin?.id).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: `Status Changed`,
+                    description: `subAdmin "${subAdmin?.user?.name}" Changed Status For View Industry Detail.`,
+                })
+            }
+        })
+    }
+
+    const onCanReportDownloadClicked = (subAdmin: SubAdmin) => {
+        setResult(resultCanDownloadReport)
+        canDownloadReport(subAdmin?.id).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: `Status Changed`,
+                    description: `subAdmin "${subAdmin?.user?.name}" Changed Status For Report Download.`,
+                })
+            }
+        })
+    }
+
+    const onCanAccessTalentPoolClicked = (subAdmin: SubAdmin) => {
+        setResult(resultCanAccessTalentPool)
+        canAccessTalentPool(subAdmin?.id).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: `Status Changed`,
+                    description: `subAdmin "${subAdmin?.user?.name}" Changed Status For Talent Pool.`,
+                })
+            }
+        })
+    }
+
+    const onCanAccessRPLClicked = (subAdmin: SubAdmin) => {
+        setResult(resultCanAccessRPL)
+        canAccessRPL(subAdmin?.id).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: `Status Changed`,
+                    description: `subAdmin "${subAdmin?.user?.name}" Change Status For RPL.`,
+                })
+            }
+        })
+    }
+
+    const onCanAccessQueriesClicked = (subAdmin: SubAdmin) => {
+        setResult(resultCanAccessQueries)
+        canAccessQueries(subAdmin?.id).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: `Status Changed`,
+                    description: `subAdmin "${subAdmin?.user?.name}" Change Status For Queries.`,
+                })
+            }
+        })
+    }
+
+    const onCanAccessBlogsClicked = (subAdmin: SubAdmin) => {
+        setResult(resultCanAccessBlogs)
+        canAccessBlogs(subAdmin?.id).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: `Status Changed`,
+                    description: `subAdmin "${subAdmin?.user?.name}" Change Status For Blogs.`,
+                })
+            }
+        })
+    }
+
     const onAllowRtoListingClicked = (subAdmin: SubAdmin) => {
         setResult(allowRtoListingResult)
         allowRtoListing(subAdmin?.id).then((res: any) => {
@@ -137,6 +257,14 @@ export const usePermission = () => {
         onAllowPlacementClicked,
         onAllowWpCancelationClicked,
         onAutoAssignClicked,
+        onCanViewRTODetailClicked,
+        onCanViewStudentDetailClicked,
+        onCanViewIndustryDetailClicked,
+        onCanReportDownloadClicked,
+        onCanAccessTalentPoolClicked,
+        onCanAccessRPLClicked,
+        onCanAccessQueriesClicked,
+        onCanAccessBlogsClicked,
         result,
         allowRtoListingResult,
         allowIndustryListingResult,
@@ -145,6 +273,14 @@ export const usePermission = () => {
         allowPlacementResult,
         allowWpCancelationReqResult,
         resultAutoAssignWorkplace,
+        resultCanAccessBlogs,
+        resultCanAccessQueries,
+        resultCanAccessRPL,
+        resultCanAccessTalentPool,
+        resultCanDownloadReport,
+        resultCanViewIndustryDetail,
+        resultCanViewStudentDetail,
+        resultCanViewRTODetail,
         isLoading,
     }
 }

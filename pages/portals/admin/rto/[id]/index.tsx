@@ -1,10 +1,12 @@
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
+import { UserRoles } from '@constants'
 import { useAlert, useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { RtoProfileDetail } from '@partials'
 import { ProfileViewContextBar } from '@partials/admin/rto/UpdatedRtoProfileDetail/ProfileViewContextBar'
-import { AdminApi } from '@queries'
+import { AdminApi, SubAdminApi } from '@queries'
 import { UserStatus } from '@types'
+import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
@@ -18,9 +20,16 @@ const RtoProfile = () => {
 
     const { alert: alertMessage, setAlerts, alerts } = useAlert()
 
+    const role = getUserCredentials()?.role
+
     const rto = AdminApi.Rtos.useDetailQuery(Number(router.query.id), {
         skip: !router.query?.id,
         refetchOnMountOrArgChange: true,
+    })
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: role !== UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+        // refetchOnFocus: true,
     })
 
     useEffect(() => {
