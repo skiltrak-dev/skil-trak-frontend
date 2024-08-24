@@ -153,6 +153,7 @@ export interface SubAdmin extends BaseResponse {
     createdBy: UserExtend
     isAssociatedWithRto: boolean
     canAdmin: boolean
+    isAdmin: boolean
     rtos: Rto[]
     associatedRto: Rto
     removeOnPlacementStart: boolean
@@ -160,6 +161,14 @@ export interface SubAdmin extends BaseResponse {
     allowRtoListing: boolean
     allowIndustryListing: boolean
     allowAutoAssignment: boolean
+    canAccessRtoProfile: boolean
+    canDownloadReport: boolean
+    canViewStudentDetails: boolean
+    canViewIndustryDetails: boolean
+    canAccessRpl: boolean
+    canAccessTalentPool: boolean
+    canAccessQueries: boolean
+    canAccessBlogs: boolean
 }
 
 export interface Industry extends BaseResponse {

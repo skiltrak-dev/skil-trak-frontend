@@ -21,26 +21,17 @@ import { checkListLength, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { BsArchiveFill } from 'react-icons/bs'
-import { FaSchool } from 'react-icons/fa'
-import { MdAdminPanelSettings, MdOutlineAssignmentReturn } from 'react-icons/md'
+import { PiCellSignalLowFill } from 'react-icons/pi'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { RtoCellInfo } from '../rto/components'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
-import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
+import { AddSubAdminCB } from './contextBar'
 import {
-    AllowAsAdminModal,
-    AllowCancelationWPModal,
-    AllowIndustryListingModal,
-    AllowLoginAfterHoursModal,
     AllowPermissionModal,
-    AllowPlacementModal,
-    AllowRtoListingModal,
     ArchiveModal,
-    AssignAutoWorkplaceModal,
     AssociatedWithRTOModal,
     BlockModal,
 } from './modals'
-import { PiCellSignalLowFill } from 'react-icons/pi'
 
 export const ActiveSubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -85,62 +76,6 @@ export const ActiveSubAdmin = () => {
         )
     }
 
-    const onAllowLoginAfterHoursModalClicked = (subAdmin: SubAdmin) => {
-        setModal(
-            <AllowLoginAfterHoursModal
-                subAdmin={subAdmin}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-    const onAllowPlacementModalClicked = (subAdmin: SubAdmin) => {
-        setModal(
-            <AllowPlacementModal
-                subAdmin={subAdmin}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-    const onAllowCancelationModalClicked = (subAdmin: SubAdmin) => {
-        setModal(
-            <AllowCancelationWPModal
-                subAdmin={subAdmin}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-    const onMakeAsAdminClicked = (subAdmin: SubAdmin) => {
-        setModal(
-            <AllowAsAdminModal
-                subAdmin={subAdmin}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-    const onAllowRtoListingClicked = (subAdmin: SubAdmin) => {
-        setModal(
-            <AllowRtoListingModal
-                subAdmin={subAdmin}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-    const onAllowIndustryListingClicked = (subAdmin: SubAdmin) => {
-        setModal(
-            <AllowIndustryListingModal
-                subAdmin={subAdmin}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-    const onAutoAssignWorkplace = (subAdmin: SubAdmin) => {
-        setModal(
-            <AssignAutoWorkplaceModal
-                subAdmin={subAdmin}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
     const onArchivedClicked = (subAdmin: SubAdmin) => {
         setModal(
             <ArchiveModal

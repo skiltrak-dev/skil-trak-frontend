@@ -18,7 +18,9 @@ export const ContextBar = () => {
         if (isTablet) {
             contextBar.hide()
         } else {
-            contextBar.show(false)
+            if (contextBar?.content) {
+                contextBar.show(contextBar?.fixed)
+            }
         }
     }, [isTablet])
 
@@ -51,7 +53,7 @@ export const ContextBar = () => {
                             {contextBar.title}
                         </Typography>
                         <button
-                            className="text-lg"
+                            className="text-lg relative z-50"
                             onClick={() => {
                                 contextBar.hide()
                                 contextBar.setContent(null)

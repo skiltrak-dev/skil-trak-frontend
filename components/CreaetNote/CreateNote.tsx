@@ -33,6 +33,7 @@ import {
     Select,
     ShowErrorNotifications,
     TextInput,
+    Typography,
 } from '@components'
 
 // query
@@ -42,10 +43,12 @@ import { useNotification } from '@hooks'
 import ClickAwayListener from 'react-click-away-listener'
 import { useRouter } from 'next/router'
 import { OptionType } from '@types'
+import { HtmlToPlainText } from '@utils'
 
 interface onSubmitType {
     title: string
     body: EditorState
+    isPinned: boolean
 }
 export const CreateNote = ({
     action,
@@ -166,6 +169,15 @@ export const CreateNote = ({
         }
     }, [templateValue, template])
 
+    const noteBodyWordsCount = HtmlToPlainText(
+        draftToHtmlText(methods?.watch()?.body)
+    )
+        ?.trim()
+        ?.replace(/\s+/g, ' ')
+        ?.split(' ')?.length
+
+    const isBodyGreaterThen30 = noteBodyWordsCount > 30
+
     const onSubmit = (values: onSubmitType) => {
         setIsSendDraft(false)
         if (editing) {
@@ -176,7 +188,12 @@ export const CreateNote = ({
                 //     convertToRaw(values?.body.getCurrentContent())
                 // )
                 const body = draftToHtmlText(values?.body)
-                createNote({ ...values, body, postedFor: receiverId })
+                createNote({
+                    ...values,
+                    body,
+                    isPinned: isBodyGreaterThen30 ? false : values?.isPinned,
+                    postedFor: receiverId,
+                })
             } else {
                 notification.error({
                     title: 'Message is Required',
@@ -217,6 +234,14 @@ export const CreateNote = ({
                                     }}
                                 />
 
+                                <div className="flex justify-between items-center">
+                                    <Typography variant="label">
+                                        Message
+                                    </Typography>
+                                    <Typography variant="small">
+                                        Words Count: {noteBodyWordsCount}
+                                    </Typography>
+                                </div>
                                 <ClickAwayListener
                                     onClickAway={(e: any) => {
                                         if (
@@ -233,7 +258,6 @@ export const CreateNote = ({
                                     <div className="mb-3">
                                         <InputContentEditor
                                             name={'body'}
-                                            label={'Message'}
                                             onChange={(e: any) => {
                                                 const note = draftToHtmlText(e)
                                                 setNoteContent(note)
@@ -254,6 +278,7 @@ export const CreateNote = ({
                                     <Checkbox
                                         name={'isPinned'}
                                         label={'Pinned'}
+                                        disabled={isBodyGreaterThen30}
                                     />
                                 </div>
 

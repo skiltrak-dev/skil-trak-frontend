@@ -38,8 +38,9 @@ import {
     MdVolunteerActivism,
 } from 'react-icons/md'
 import { RiShieldUserFill, RiVoiceRecognitionLine } from 'react-icons/ri'
-import { AdminApi, CommonApi } from '@queries'
+import { AdminApi, CommonApi, SubAdminApi } from '@queries'
 import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 export type RouteNavLinkCountType = {
     loading: boolean
@@ -53,17 +54,51 @@ export type RouteNavLink = {
     text?: string
     placement?: 'before' | 'after'
     count?: RouteNavLinkCountType
+    visible?: boolean
 }
 
 const getRoutePath = (path: string) => `/portals/admin${path}`
+
+const getBasePath = `/portals/industry`
+
+// Redirect Urls When not approved
+const urlsData = {
+    canAccessTalentPool: getRoutePath('/talent-pool?tab=all'),
+    canAccessRpl: getRoutePath('/rpl-list'),
+    canAccessQueries: getRoutePath('/queries?tab=traineeship'),
+    canAccessBlogs: getRoutePath('/blogs?tab=published&page=1&pageSize=50'),
+}
+
+// const redirectUrls = urls?.map((url: string) => `${getBasePath}${url}`)
 
 export const AdminLayout = ({ children }: { children: ReactNode }) => {
     const router = useRouter()
     const childrenRef = useRef<any>(null)
 
+    const role = getUserCredentials()?.role
+
     const queriesCount = CommonApi.WorkBased.useWorkBaseAndTraineeCount()
     const rplCount = AdminApi.Rpl.useRplCount()
     const volunteerCount = AdminApi.Volunteer.useVolunteerCount()
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: role !== UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+        // refetchOnFocus: true,
+    })
+
+    const urls = () => {
+        let updatedUrl = []
+        if (subadmin?.data && subadmin?.isSuccess) {
+            Object.entries(urlsData as any)?.forEach(([key, value]: any) => {
+                console.log({ key: subadmin?.data?.[key], value })
+                if ((subadmin?.data as any)?.[key]) {
+                    updatedUrl.push((urlsData as any)?.[key])
+                }
+            })
+        }
+    }
+
+    console.log('Saad', urls())
 
     useEffect(() => {
         const handleRouteChange = () => {
@@ -85,7 +120,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
         }
     }, [router])
 
-    const routes: RouteNavLink[] = [
+    const routesData: RouteNavLink[] = [
         {
             text: 'Dashboard',
             Icon: MdSpaceDashboard,
@@ -129,6 +164,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             text: 'Talent Pool',
             path: getRoutePath('/talent-pool?tab=all'),
             Icon: LiaCertificateSolid,
+            visible: subadmin?.data?.canAccessTalentPool,
         },
         {
             text: 'Workplace Request',
@@ -170,6 +206,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
                 loading: rplCount?.isLoading,
                 text: rplCount?.data,
             },
+            visible: subadmin?.data?.canAccessRpl,
         },
         {
             text: 'Volunteer Request',
@@ -189,6 +226,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             text: 'Blogs',
             path: getRoutePath('/blogs?tab=published&page=1&pageSize=50'),
             Icon: BiLogoBlogger,
+            visible: subadmin?.data?.canAccessBlogs,
         },
         {
             text: 'Subscribers',
@@ -218,6 +256,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
                 loading: queriesCount?.isLoading,
                 text: queriesCount?.data,
             },
+            visible: subadmin?.data?.canAccessQueries,
         },
         {
             text: 'Sub-Admin As Admin Activities',
@@ -260,6 +299,11 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             Icon: FaFileInvoiceDollar,
         },
     ]
+
+    const routes = routesData?.filter((route) => route?.visible !== false)
+
+    console.log({ routes })
+
     return (
         <ProtectedRoute>
             <div className="flex w-full h-screen overflow-hidden bg-layout">
