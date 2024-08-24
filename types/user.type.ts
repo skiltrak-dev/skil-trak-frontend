@@ -169,6 +169,9 @@ export interface SubAdmin extends BaseResponse {
     canAccessTalentPool: boolean
     canAccessQueries: boolean
     canAccessBlogs: boolean
+    receiveStudentAssessment: boolean
+    receiveWorkplaceRequest: boolean
+    canBookAppointments: boolean
 }
 
 export interface Industry extends BaseResponse {

@@ -1,54 +1,14 @@
-import React, { useState } from 'react'
-import { AdminApi, CommonApi } from '@queries'
-import { SubAdmin } from '@types'
 import { useNotification } from '@hooks'
+import { SubAdmin } from '@types'
+import { usePermissionQueries } from './usePermissionQueries'
 
 export const usePermission = () => {
     const { notification } = useNotification()
 
-    const [result, setResult] = useState<any>(null)
-
-    const [allowRtoListing, allowRtoListingResult] =
-        AdminApi.Admin.useAllowRtoListing()
-
-    const [allowIndustryListing, allowIndustryListingResult] =
-        AdminApi.Admin.allowIndustryListing()
-    const [canAdmin, resultCanAdmin] = CommonApi.Impersonation.useAllowAsAdmin()
-    const [canLogin, canLoginResult] = CommonApi.AllowLogin.useAllowAsLogin()
-    const [allowPlacement, allowPlacementResult] =
-        AdminApi.SubAdmins.useToggleSubadminPlacement()
-    const [allowWpCancelationReq, allowWpCancelationReqResult] =
-        AdminApi.SubAdmins.toggleWPCancelationReq()
-    const [autoAssignWorkplace, resultAutoAssignWorkplace] =
-        AdminApi.SubAdmins.useToggleAutoAssignWorkplace()
-
-    const [canAccessBlogs, resultCanAccessBlogs] =
-        AdminApi.SubAdmins.useCanAccessBlogs()
-
-    const [canAccessQueries, resultCanAccessQueries] =
-        AdminApi.SubAdmins.useCanAccessQueries()
-
-    const [canAccessRPL, resultCanAccessRPL] =
-        AdminApi.SubAdmins.useCanAccessRPLDetail()
-
-    const [canAccessTalentPool, resultCanAccessTalentPool] =
-        AdminApi.SubAdmins.useCanAccessTalentPool()
-
-    const [canDownloadReport, resultCanDownloadReport] =
-        AdminApi.SubAdmins.useCanDownloadReport()
-
-    const [canViewIndustryDetail, resultCanViewIndustryDetail] =
-        AdminApi.SubAdmins.useCanViewIndustryDetail()
-
-    const [canViewStudentDetail, resultCanViewStudentDetail] =
-        AdminApi.SubAdmins.useCanViewStudentDetail()
-
-    const [canViewRTODetail, resultCanViewRTODetail] =
-        AdminApi.SubAdmins.useAccessRtoProfile()
+    const { queries, results } = usePermissionQueries()
 
     const onCanViewRTODetailClicked = (subAdmin: SubAdmin) => {
-        setResult(resultCanViewRTODetail)
-        canViewRTODetail(subAdmin?.id).then((res: any) => {
+        queries.canViewRTODetail(subAdmin?.id).then((res: any) => {
             if (res?.data) {
                 notification.success({
                     title: `Status Changed`,
@@ -59,8 +19,7 @@ export const usePermission = () => {
     }
 
     const onCanViewStudentDetailClicked = (subAdmin: SubAdmin) => {
-        setResult(resultCanViewStudentDetail)
-        canViewStudentDetail(subAdmin?.id).then((res: any) => {
+        queries.canViewStudentDetail(subAdmin?.id).then((res: any) => {
             if (res?.data) {
                 notification.success({
                     title: `Status Changed`,
@@ -71,8 +30,7 @@ export const usePermission = () => {
     }
 
     const onCanViewIndustryDetailClicked = (subAdmin: SubAdmin) => {
-        setResult(resultCanViewIndustryDetail)
-        canViewIndustryDetail(subAdmin?.id).then((res: any) => {
+        queries.canViewIndustryDetail(subAdmin?.id).then((res: any) => {
             if (res?.data) {
                 notification.success({
                     title: `Status Changed`,
@@ -83,8 +41,7 @@ export const usePermission = () => {
     }
 
     const onCanReportDownloadClicked = (subAdmin: SubAdmin) => {
-        setResult(resultCanDownloadReport)
-        canDownloadReport(subAdmin?.id).then((res: any) => {
+        queries.canDownloadReport(subAdmin?.id).then((res: any) => {
             if (res?.data) {
                 notification.success({
                     title: `Status Changed`,
@@ -95,8 +52,7 @@ export const usePermission = () => {
     }
 
     const onCanAccessTalentPoolClicked = (subAdmin: SubAdmin) => {
-        setResult(resultCanAccessTalentPool)
-        canAccessTalentPool(subAdmin?.id).then((res: any) => {
+        queries.canAccessTalentPool(subAdmin?.id).then((res: any) => {
             if (res?.data) {
                 notification.success({
                     title: `Status Changed`,
@@ -107,8 +63,7 @@ export const usePermission = () => {
     }
 
     const onCanAccessRPLClicked = (subAdmin: SubAdmin) => {
-        setResult(resultCanAccessRPL)
-        canAccessRPL(subAdmin?.id).then((res: any) => {
+        queries.canAccessRPL(subAdmin?.id).then((res: any) => {
             if (res?.data) {
                 notification.success({
                     title: `Status Changed`,
@@ -119,8 +74,7 @@ export const usePermission = () => {
     }
 
     const onCanAccessQueriesClicked = (subAdmin: SubAdmin) => {
-        setResult(resultCanAccessQueries)
-        canAccessQueries(subAdmin?.id).then((res: any) => {
+        queries.canAccessQueries(subAdmin?.id).then((res: any) => {
             if (res?.data) {
                 notification.success({
                     title: `Status Changed`,
@@ -131,8 +85,7 @@ export const usePermission = () => {
     }
 
     const onCanAccessBlogsClicked = (subAdmin: SubAdmin) => {
-        setResult(resultCanAccessBlogs)
-        canAccessBlogs(subAdmin?.id).then((res: any) => {
+        queries.canAccessBlogs(subAdmin?.id).then((res: any) => {
             if (res?.data) {
                 notification.success({
                     title: `Status Changed`,
@@ -143,8 +96,7 @@ export const usePermission = () => {
     }
 
     const onAllowRtoListingClicked = (subAdmin: SubAdmin) => {
-        setResult(allowRtoListingResult)
-        allowRtoListing(subAdmin?.id).then((res: any) => {
+        queries.allowRtoListing(subAdmin?.id).then((res: any) => {
             if (res?.data) {
                 notification.error({
                     title: `subAdmin Allowed for Rto Listing`,
@@ -154,9 +106,8 @@ export const usePermission = () => {
         })
     }
 
-    const onAllowIndustryListingClicked = async (subAdmin: SubAdmin) => {
-        setResult(allowIndustryListingResult)
-        await allowIndustryListing(subAdmin?.id).then((res: any) => {
+    const onAllowIndustryListingClicked = (subAdmin: SubAdmin) => {
+        queries.allowIndustryListing(subAdmin?.id).then((res: any) => {
             if (res?.data) {
                 notification.error({
                     title: `subAdmin Allowed for Industry Listing`,
@@ -166,9 +117,8 @@ export const usePermission = () => {
         })
     }
 
-    const onAllowAsAdminClicked = async (subAdmin: SubAdmin) => {
-        setResult(resultCanAdmin)
-        await canAdmin(subAdmin?.id).then((res: any) => {
+    const onAllowAsAdminClicked = (subAdmin: SubAdmin) => {
+        queries.canAdmin(subAdmin?.id).then((res: any) => {
             if (res?.data) {
                 notification.success({
                     title: `subAdmin Allowed As Admin`,
@@ -178,9 +128,8 @@ export const usePermission = () => {
         })
     }
 
-    const onAllowLoginClicked = async (subAdmin: SubAdmin) => {
-        setResult(canLoginResult)
-        await canLogin(subAdmin?.user?.id).then((res: any) => {
+    const onAllowLoginClicked = (subAdmin: SubAdmin) => {
+        queries.canLogin(subAdmin?.user?.id).then((res: any) => {
             if (res?.data) {
                 notification.success({
                     title: `subAdmin Allowed As Admin`,
@@ -196,9 +145,8 @@ export const usePermission = () => {
         })
     }
 
-    const onAllowPlacementClicked = async (subAdmin: SubAdmin) => {
-        setResult(allowPlacementResult)
-        await allowPlacement(subAdmin?.id).then((res: any) => {
+    const onAllowPlacementClicked = (subAdmin: SubAdmin) => {
+        queries.allowPlacement(subAdmin?.id).then((res: any) => {
             if (res?.data) {
                 notification.success({
                     title: subAdmin?.removeOnPlacementStart
@@ -212,9 +160,8 @@ export const usePermission = () => {
         })
     }
 
-    const onAllowWpCancelationClicked = async (subAdmin: SubAdmin) => {
-        setResult(allowWpCancelationReqResult)
-        await allowWpCancelationReq(subAdmin?.id).then((res: any) => {
+    const onAllowWpCancelationClicked = (subAdmin: SubAdmin) => {
+        queries.allowWpCancelationReq(subAdmin?.id).then((res: any) => {
             if (res?.data) {
                 notification.success({
                     title: subAdmin?.canCancelWorkPlaceRequest
@@ -228,9 +175,8 @@ export const usePermission = () => {
         })
     }
 
-    const onAutoAssignClicked = async (subAdmin: SubAdmin) => {
-        setResult(resultAutoAssignWorkplace)
-        await autoAssignWorkplace(subAdmin?.id).then((res: any) => {
+    const onAutoAssignClicked = (subAdmin: SubAdmin) => {
+        queries.autoAssignWorkplace(subAdmin?.id).then((res: any) => {
             if (res?.data) {
                 notification.error({
                     title: `subAdmin Allowed to Auto Assign Workplace`,
@@ -240,47 +186,24 @@ export const usePermission = () => {
         })
     }
 
-    const isLoading =
-        allowRtoListingResult.isLoading ||
-        allowIndustryListingResult.isLoading ||
-        resultCanAdmin.isLoading ||
-        canLoginResult.isLoading ||
-        allowPlacementResult.isLoading ||
-        allowWpCancelationReqResult.isLoading ||
-        resultAutoAssignWorkplace.isLoading
-
     return {
-        onAllowRtoListingClicked,
-        onAllowIndustryListingClicked,
-        onAllowAsAdminClicked,
-        onAllowLoginClicked,
-        onAllowPlacementClicked,
-        onAllowWpCancelationClicked,
-        onAutoAssignClicked,
-        onCanViewRTODetailClicked,
-        onCanViewStudentDetailClicked,
-        onCanViewIndustryDetailClicked,
-        onCanReportDownloadClicked,
-        onCanAccessTalentPoolClicked,
-        onCanAccessRPLClicked,
-        onCanAccessQueriesClicked,
-        onCanAccessBlogsClicked,
-        result,
-        allowRtoListingResult,
-        allowIndustryListingResult,
-        resultCanAdmin,
-        canLoginResult,
-        allowPlacementResult,
-        allowWpCancelationReqResult,
-        resultAutoAssignWorkplace,
-        resultCanAccessBlogs,
-        resultCanAccessQueries,
-        resultCanAccessRPL,
-        resultCanAccessTalentPool,
-        resultCanDownloadReport,
-        resultCanViewIndustryDetail,
-        resultCanViewStudentDetail,
-        resultCanViewRTODetail,
-        isLoading,
+        results,
+        Actions: {
+            onAllowRtoListingClicked,
+            onAllowIndustryListingClicked,
+            onAllowAsAdminClicked,
+            onAllowLoginClicked,
+            onAllowPlacementClicked,
+            onAllowWpCancelationClicked,
+            onAutoAssignClicked,
+            onCanViewRTODetailClicked,
+            onCanViewStudentDetailClicked,
+            onCanViewIndustryDetailClicked,
+            onCanReportDownloadClicked,
+            onCanAccessTalentPoolClicked,
+            onCanAccessRPLClicked,
+            onCanAccessQueriesClicked,
+            onCanAccessBlogsClicked,
+        },
     }
 }
