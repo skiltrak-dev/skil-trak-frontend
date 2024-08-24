@@ -18,6 +18,7 @@ import {
 import { ReactElement, useEffect, useState } from 'react'
 import { SwitchToAdminModal } from '../SwitchToAdminModal'
 import { signOut } from 'next-auth/react'
+import { SubAdmin } from '@types'
 
 export const ProfileOptionsDropDown = ({
     expanded,
@@ -33,10 +34,10 @@ export const ProfileOptionsDropDown = ({
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onSwitchToAdminModalClicked = (subAdmin: any) => {
+    const onSwitchToAdminModalClicked = (subAdmin: SubAdmin) => {
         setModal(
             <SwitchToAdminModal
-                subAdmin={data}
+                subAdmin={subAdmin}
                 onCancel={() => onModalCancelClicked()}
             />
         )
