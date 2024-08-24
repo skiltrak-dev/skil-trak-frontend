@@ -90,7 +90,6 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
         let updatedUrl = []
         if (subadmin?.data && subadmin?.isSuccess) {
             Object.entries(urlsData as any)?.forEach(([key, value]: any) => {
-                console.log({ key: subadmin?.data?.[key], value })
                 if ((subadmin?.data as any)?.[key]) {
                     updatedUrl.push((urlsData as any)?.[key])
                 }
