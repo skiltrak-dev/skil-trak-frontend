@@ -211,6 +211,14 @@ const {
     useSubscribeMutation,
 
     // ------ SUB ADMINS ------ //
+    useToggleCanAccessRTOProfileMutation,
+    useToggleCanDownloadReportMutation,
+    useToggleCanViewStudentDetailMutation,
+    useToggleCanViewIndustryDetailMutation,
+    useToggleCanAccessRPLDetailMutation,
+    useToggleCanAccessTalentPoolMutation,
+    useToggleCanAccessQueriesMutation,
+    useToggleCanAccessBlogsMutation,
     useSubAdminsQuery,
     useViewSummaryQuery,
     useSubAdminCountQuery,
@@ -301,7 +309,7 @@ export const AdminApi = {
         useSectorsStudentsCount: useSectorsStudentsCountQuery,
         useAllowRtoListing: useAllowRtoListingMutation,
         allowIndustryListing: useAllowIndustryListingMutation,
-        useDashboardChartCounts: useGetDashboardChartCountsQuery, 
+        useDashboardChartCounts: useGetDashboardChartCountsQuery,
     },
     Rtos: {
         useCountQuery: useRtoCountQuery,
@@ -358,6 +366,14 @@ export const AdminApi = {
 
     SubAdmins: {
         useListQuery: useSubAdminsQuery,
+        useAccessRtoProfile: useToggleCanAccessRTOProfileMutation,
+        useCanDownloadReport: useToggleCanDownloadReportMutation,
+        useCanViewStudentDetail: useToggleCanViewStudentDetailMutation,
+        useCanViewIndustryDetail: useToggleCanViewIndustryDetailMutation,
+        useCanAccessRPLDetail: useToggleCanAccessRPLDetailMutation,
+        useCanAccessTalentPool: useToggleCanAccessTalentPoolMutation,
+        useCanAccessQueries: useToggleCanAccessQueriesMutation,
+        useCanAccessBlogs: useToggleCanAccessBlogsMutation,
         useSubAdminAsAdminList: useSubAdminAsAdminListQuery,
         useSubAdminsFilterList: useSubAdminsFilterListQuery,
         useCountQuery: useSubAdminCountQuery,
