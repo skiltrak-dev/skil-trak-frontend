@@ -1,4 +1,5 @@
-import { InitialAvatar } from '@components'
+import { HideRestrictedData, InitialAvatar } from '@components'
+import { UserRoles } from '@constants'
 import { Rto } from '@types'
 import { QueryType, queryToUrl } from '@utils'
 import Link from 'next/link'
@@ -29,20 +30,25 @@ export const RtoCellInfo = ({ rto, short }: { rto: Rto; short?: boolean }) => {
                         {rto?.user?.name}
                     </p>
                     <div className="font-medium text-xs text-gray-500">
-                        <p className="flex items-center gap-x-1">
-                            <span>
-                                <MdEmail />
-                            </span>
-                            {rto?.user?.email}
-                        </p>
-                        {!short && (
+                        <HideRestrictedData type={UserRoles.RTO}>
                             <p className="flex items-center gap-x-1">
                                 <span>
-                                    <MdPhoneIphone />
+                                    <MdEmail />
                                 </span>
-                                {rto?.phone}
+                                {rto?.user?.email}
                             </p>
-                        )}
+                        </HideRestrictedData>
+
+                        <HideRestrictedData type={UserRoles.RTO}>
+                            {!short && (
+                                <p className="flex items-center gap-x-1">
+                                    <span>
+                                        <MdPhoneIphone />
+                                    </span>
+                                    {rto?.phone}
+                                </p>
+                            )}
+                        </HideRestrictedData>
                     </div>
                 </div>
             </a>

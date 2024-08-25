@@ -34,6 +34,7 @@ export * from './CaseOfficerAssignedStudent'
 export * from './AuthorizedUserComponent'
 export * from './StudentExpiryDaysLeft'
 export * from './CustomDropdown'
+export * from './HideRestrictedData'
 
 export * from './ErrorBoundary'
 
