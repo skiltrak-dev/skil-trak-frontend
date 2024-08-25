@@ -121,31 +121,6 @@ export const ActiveSubAdmin = () => {
                 },
                 Icon: FaEye,
             },
-            // {
-            //     text: 'Old Profile',
-            //     onClick: (subAdmin: any) => {
-            //         router.push(
-            //             `/portals/admin/sub-admin/${subAdmin?.id}/detail`
-            //         )
-            //     },
-            //     Icon: FaEye,
-            // },
-            // {
-            //     text: 'Assign Courses',
-            //     onClick: (subAdmin: any) => {
-            //         contextBar.setTitle('Sectors & Courses')
-            //         contextBar.setContent(<ViewSectorsCB subAdmin={subAdmin} />)
-            //         contextBar.show()
-            //     },
-            // },
-            // {
-            //     text: 'Assign RTO',
-            //     onClick: (subAdmin: any) => {
-            //         contextBar.setTitle('Assigned RTOs')
-            //         contextBar.setContent(<ViewRtosCB subAdmin={subAdmin} />)
-            //         contextBar.show()
-            //     },
-            // },
             {
                 text: 'Edit',
                 onClick: (subadmin: SubAdmin) => {
@@ -173,94 +148,6 @@ export const ActiveSubAdmin = () => {
                       }
                     : {}),
             },
-            // {
-            //     ...(role === UserRoles.ADMIN
-            //         ? {
-            //               text: `${
-            //                   !subAdmin?.allowRtoListing
-            //                       ? 'Allow Rto Listing'
-            //                       : 'Remove Rto Listing'
-            //               }`,
-            //               onClick: (subAdmin: SubAdmin) =>
-            //                   onAllowRtoListingClicked(subAdmin),
-            //               Icon: FaSchool,
-            //           }
-            //         : {}),
-            // },
-            // {
-            //     ...(role === UserRoles.ADMIN
-            //         ? {
-            //               text: `${
-            //                   !subAdmin?.allowIndustryListing
-            //                       ? 'Allow Industry Listing'
-            //                       : 'Remove Industry Listing'
-            //               }`,
-            //               onClick: (subAdmin: SubAdmin) =>
-            //                   onAllowIndustryListingClicked(subAdmin),
-            //               Icon: FaSchool,
-            //           }
-            //         : {}),
-            // },
-            // {
-            //     ...(role === UserRoles.ADMIN
-            //         ? {
-            //               text: `${
-            //                   !subAdmin?.canAdmin
-            //                       ? 'Allow as Admin'
-            //                       : 'Remove As Admin'
-            //               }`,
-            //               onClick: (subAdmin: SubAdmin) =>
-            //                   onMakeAsAdminClicked(subAdmin),
-            //               Icon: MdAdminPanelSettings,
-            //           }
-            //         : {}),
-            // },
-            // {
-            //     ...(role === UserRoles.ADMIN
-            //         ? {
-            //               text: subAdmin?.user?.after_hours_access
-            //                   ? 'Remove Login'
-            //                   : 'Allow Login',
-            //               onClick: (subAdmin: SubAdmin) =>
-            //                   onAllowLoginAfterHoursModalClicked(subAdmin),
-            //               Icon: MdAdminPanelSettings,
-            //           }
-            //         : {}),
-            // },
-            // {
-            //     ...(role === UserRoles.ADMIN
-            //         ? {
-            //               text: subAdmin?.removeOnPlacementStart
-            //                   ? 'Allow Student on Placement'
-            //                   : 'Remove Student on Placement',
-            //               onClick: (subAdmin: SubAdmin) =>
-            //                   onAllowPlacementModalClicked(subAdmin),
-            //               Icon: MdAdminPanelSettings,
-            //           }
-            //         : {}),
-            // },
-            // {
-            //     ...(role === UserRoles.ADMIN
-            //         ? {
-            //               text: subAdmin?.canCancelWorkPlaceRequest
-            //                   ? 'Remove Cancelation WP'
-            //                   : 'Allow Cancelation WP',
-            //               onClick: (subAdmin: SubAdmin) =>
-            //                   onAllowCancelationModalClicked(subAdmin),
-            //               Icon: MdAdminPanelSettings,
-            //           }
-            //         : {}),
-            // },
-            // {
-            //     text: `${
-            //         !subAdmin?.allowAutoAssignment
-            //             ? 'Allow Auto Assignment'
-            //             : 'Remove Auto Assignment'
-            //     }`,
-            //     onClick: (subAdmin: SubAdmin) =>
-            //         onAutoAssignWorkplace(subAdmin),
-            //     Icon: MdOutlineAssignmentReturn,
-            // },
             {
                 text: 'Block',
                 onClick: (subAdmin: SubAdmin) => onBlockedClicked(subAdmin),
@@ -315,10 +202,6 @@ export const ActiveSubAdmin = () => {
                 return (
                     <ActionButton
                         onClick={() => {
-                            // associatedWithRto({
-                            //     id: info?.row?.original?.id,
-                            //     rtoId: info?.row?.original?.rtos?.[0]?.id,
-                            // })
                             onAssociatedWithRtoClicked(
                                 info?.row?.original?.id,
                                 info?.row?.original?.rtos
@@ -378,13 +261,6 @@ export const ActiveSubAdmin = () => {
                         </span>
                     </Typography>
                 ),
-            // cell: (info) => (
-            //     <Typography variant={'small'} uppercase>
-            //         <span className="font-semibold">
-            //             {info.row.original?.createdBy?.role}
-            //         </span>
-            //     </Typography>
-            // ),
         },
         {
             accessorKey: 'action',

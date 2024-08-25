@@ -1,5 +1,11 @@
-import { InitialAvatar, Tooltip, TooltipPosition } from '@components'
+import {
+    HideRestrictedData,
+    InitialAvatar,
+    Tooltip,
+    TooltipPosition,
+} from '@components'
 import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary'
+import { UserRoles } from '@constants'
 import { useScrollIntoView } from '@hooks'
 import { Student } from '@types'
 import { QueryType, isBrowser, queryToUrl, setLink } from '@utils'
@@ -169,20 +175,24 @@ export const StudentCellInfo = ({
                         ) : null}
                     </div>
                     <div className="font-medium text-xs text-gray-500">
-                        <p className="flex items-center gap-x-1">
-                            <span>
-                                <MdEmail />
-                            </span>
-                            {student?.user?.email}
-                        </p>
+                        <HideRestrictedData type={UserRoles.STUDENT}>
+                            <p className="flex items-center gap-x-1">
+                                <span>
+                                    <MdEmail />
+                                </span>
+                                {student?.user?.email}
+                            </p>
+                        </HideRestrictedData>
                     </div>
                     <div className="font-medium text-xs text-gray-500">
-                        <p className="flex items-center gap-x-1">
-                            <span>
-                                <MdPhone />
-                            </span>
-                            {student?.phone}
-                        </p>
+                        <HideRestrictedData type={UserRoles.STUDENT}>
+                            <p className="flex items-center gap-x-1">
+                                <span>
+                                    <MdPhone />
+                                </span>
+                                {student?.phone}
+                            </p>
+                        </HideRestrictedData>
                     </div>
                 </div>
             </a>

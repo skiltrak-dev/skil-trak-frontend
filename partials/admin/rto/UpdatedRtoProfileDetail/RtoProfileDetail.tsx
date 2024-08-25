@@ -3,7 +3,7 @@ import {
     MailsCommunication,
     Notes,
 } from '@partials/common/StudentProfileDetail/components'
-import { Rto } from '@types'
+import { Rto, SubAdmin } from '@types'
 import {
     RtoAssessmentTools,
     RtoProfileStatistics,
@@ -13,14 +13,22 @@ import {
 } from './components'
 import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
+import { SubAdminApi } from '@queries'
 
 export const RtoProfileDetail = ({ rto }: { rto: Rto }) => {
     const role = getUserCredentials()?.role
+
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: role === UserRoles.ADMIN,
+    })
     return (
         <div className="px-2.5 py-5">
             <RtoProfileTopbar rtoUserId={rto?.user?.id} />
 
-            <RtoProfileStatistics rtoUserId={rto?.user?.id} />
+            <RtoProfileStatistics
+                rtoUserId={rto?.user?.id}
+                subadmin={subadmin}
+            />
 
             {/* Sector */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-3 mt-5 h-[506px]">
@@ -69,6 +77,7 @@ export const RtoProfileDetail = ({ rto }: { rto: Rto }) => {
             <div className="mt-5 h-[405px]">
                 <RtoReports
                     user={rto?.user}
+                    subadmin={subadmin?.data as SubAdmin}
                     createdAt={rto?.createdAt as Date}
                 />
             </div>
