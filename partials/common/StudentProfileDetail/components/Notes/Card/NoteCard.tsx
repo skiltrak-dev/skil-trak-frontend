@@ -17,7 +17,6 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
     const togglePin = async () => {
         const res: any = await statusChange(note.id)
         if (res?.data) {
-            console.log({ res })
             notification.success({
                 title: `Note ${res?.data?.isPinned ? 'Pinned' : 'Un-Pinned'}`,
                 description: `Note ${

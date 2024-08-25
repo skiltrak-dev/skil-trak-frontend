@@ -1,4 +1,8 @@
-import { AuthorizedUserComponent, Typography } from '@components'
+import {
+    AuthorizedUserComponent,
+    HideRestrictedData,
+    Typography,
+} from '@components'
 import { UserRoles } from '@constants'
 import { Rto } from '@types'
 import { getUserCredentials } from '@utils'
@@ -47,9 +51,11 @@ export const RtoDetail = ({ rto }: { rto: Rto }) => {
                     <Typography variant="small" semibold>
                         {rto?.user?.name}
                     </Typography>
-                    <Typography variant="xs" normal>
-                        {rto?.user?.email}
-                    </Typography>
+                    <HideRestrictedData type={UserRoles.STUDENT}>
+                        <Typography variant="xs" normal>
+                            {rto?.user?.email}
+                        </Typography>
+                    </HideRestrictedData>
                 </div>
 
                 {/*  */}
@@ -58,17 +64,21 @@ export const RtoDetail = ({ rto }: { rto: Rto }) => {
                         <Typography variant="xxs" color="text-[#979797]">
                             RTO Phone Number
                         </Typography>
-                        <Typography variant="xs" normal>
-                            {rto?.phone}
-                        </Typography>
+                        <HideRestrictedData type={UserRoles.STUDENT}>
+                            <Typography variant="xs" normal>
+                                {rto?.phone}
+                            </Typography>
+                        </HideRestrictedData>
                     </div>
                     <div>
                         <Typography variant="xxs" color="text-[#979797]">
                             Contact Person Number
                         </Typography>
-                        <Typography variant="xs" normal>
-                            {rto?.phone}
-                        </Typography>
+                        <HideRestrictedData type={UserRoles.STUDENT}>
+                            <Typography variant="xs" normal>
+                                {rto?.phone}
+                            </Typography>
+                        </HideRestrictedData>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,8 @@
-import { Typography } from '@components'
+import { Typography, useRestrictedData } from '@components'
 import { Student } from '@types'
 import React from 'react'
 import { StudentDetailCard } from './StudentDetailCard'
+import { UserRoles } from '@constants'
 
 export const EmergencyContact = ({ profile }: { profile: Student }) => {
     return (
@@ -18,7 +19,10 @@ export const EmergencyContact = ({ profile }: { profile: Student }) => {
                     />
                     <StudentDetailCard
                         title="Phone"
-                        detail={profile?.emergencyPersonPhone}
+                        detail={useRestrictedData(
+                            profile?.emergencyPersonPhone,
+                            UserRoles.STUDENT
+                        )}
                     />
                 </div>
             </div>

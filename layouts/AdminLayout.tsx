@@ -7,6 +7,7 @@ import {
     DisplayAlerts,
     DisplayNotifications,
     ProtectedRoute,
+    RedirectRestrictedUsers,
     SideBar,
 } from '@components'
 import { IconType } from 'react-icons'
@@ -57,19 +58,20 @@ export type RouteNavLink = {
     visible?: boolean
 }
 
-const getRoutePath = (path: string) => `/portals/admin${path}`
-
-const getBasePath = `/portals/industry`
+const getBasePath = `/portals/admin`
+const getRoutePath = (path: string) => `${getBasePath}${path}`
 
 // Redirect Urls When not approved
 const urlsData = {
-    canAccessTalentPool: getRoutePath('/talent-pool?tab=all'),
+    canAccessTalentPool: getRoutePath('/talent-pool'),
     canAccessRpl: getRoutePath('/rpl-list'),
-    canAccessQueries: getRoutePath('/queries?tab=traineeship'),
-    canAccessBlogs: getRoutePath('/blogs?tab=published&page=1&pageSize=50'),
+    canAccessQueries: getRoutePath('/queries'),
+    canAccessBlogs: getRoutePath('/blogs'),
+    canAccessRtoProfile: [
+        getRoutePath('/rto/[id]'),
+        getRoutePath('/rto/[id]/detail'),
+    ],
 }
-
-// const redirectUrls = urls?.map((url: string) => `${getBasePath}${url}`)
 
 export const AdminLayout = ({ children }: { children: ReactNode }) => {
     const router = useRouter()
@@ -87,17 +89,20 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
     })
 
     const urls = () => {
-        let updatedUrl = []
+        let updatedUrl: string[] = []
         if (subadmin?.data && subadmin?.isSuccess) {
             Object.entries(urlsData as any)?.forEach(([key, value]: any) => {
-                if ((subadmin?.data as any)?.[key]) {
-                    updatedUrl.push((urlsData as any)?.[key])
+                if (!(subadmin?.data as any)?.[key]) {
+                    if (Array.isArray((urlsData as any)?.[key])) {
+                        updatedUrl.push(...(urlsData as any)?.[key])
+                    } else {
+                        updatedUrl.push((urlsData as any)?.[key])
+                    }
                 }
             })
         }
+        return updatedUrl
     }
-
-    console.log('Saad', urls())
 
     useEffect(() => {
         const handleRouteChange = () => {
@@ -301,31 +306,36 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
 
     const routes = routesData?.filter((route) => route?.visible !== false)
 
-    console.log({ routes })
-
     return (
-        <ProtectedRoute>
-            <div className="flex w-full h-screen overflow-hidden bg-layout">
-                <SideBar portalType={UserRoles.ADMIN} routes={routes} />
-                {/* <div className="flex-grow flex flex-col justify-between"> */}
-                <div className="flex-grow w-[calc(100vh-224px)]  justify-between">
-                    <div className="border-b bg-white">
-                        <AdminNavbar />
-                    </div>
-                    <div className="flex h-full bg-[#F8FAFC]">
-                        <div
-                            className={`h-full overflow-scroll remove-scrollbar w-full relative`}
-                            ref={childrenRef}
-                        >
-                            <DisplayAlerts />
-                            <DisplayNotifications />
-                            {/* <div className="w-full mb-28 py-3">{children}</div> */}
-                            <div className="w-full mb-28 py-1">{children}</div>
+        <RedirectRestrictedUsers
+            getRoutePath={getBasePath}
+            redirectUrls={urls()}
+        >
+            <ProtectedRoute>
+                <div className="flex w-full h-screen overflow-hidden bg-layout">
+                    <SideBar portalType={UserRoles.ADMIN} routes={routes} />
+                    {/* <div className="flex-grow flex flex-col justify-between"> */}
+                    <div className="flex-grow w-[calc(100vh-224px)]  justify-between">
+                        <div className="border-b bg-white">
+                            <AdminNavbar />
                         </div>
-                        <ContextBar />
+                        <div className="flex h-full bg-[#F8FAFC]">
+                            <div
+                                className={`h-full overflow-scroll remove-scrollbar w-full relative`}
+                                ref={childrenRef}
+                            >
+                                <DisplayAlerts />
+                                <DisplayNotifications />
+                                {/* <div className="w-full mb-28 py-3">{children}</div> */}
+                                <div className="w-full mb-28 py-1">
+                                    {children}
+                                </div>
+                            </div>
+                            <ContextBar />
+                        </div>
                     </div>
                 </div>
-            </div>
-        </ProtectedRoute>
+            </ProtectedRoute>
+        </RedirectRestrictedUsers>
     )
 }

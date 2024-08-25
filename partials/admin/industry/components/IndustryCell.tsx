@@ -1,4 +1,5 @@
-import { InitialAvatar } from '@components'
+import { HideRestrictedData, InitialAvatar } from '@components'
+import { UserRoles } from '@constants'
 import { Industry } from '@types'
 import { QueryType, queryToUrl } from '@utils'
 import Link from 'next/link'
@@ -54,18 +55,23 @@ export const IndustryCell = ({ industry }: { industry: Industry }) => {
                         </div>
                         {/* snoozedDate */}
                         <div className="font-medium text-xs text-gray-500">
-                            <p className="flex items-center gap-x-1">
-                                <span>
-                                    <MdEmail />
-                                </span>
-                                {industry?.user?.email}
-                            </p>
-                            <p className="flex items-center gap-x-1">
-                                <span>
-                                    <MdPhoneIphone />
-                                </span>
-                                {industry?.phoneNumber}
-                            </p>
+                            <HideRestrictedData type={UserRoles.INDUSTRY}>
+                                <p className="flex items-center gap-x-1">
+                                    <span>
+                                        <MdEmail />
+                                    </span>
+                                    {industry?.user?.email}
+                                </p>
+                            </HideRestrictedData>
+
+                            <HideRestrictedData type={UserRoles.INDUSTRY}>
+                                <p className="flex items-center gap-x-1">
+                                    <span>
+                                        <MdPhoneIphone />
+                                    </span>
+                                    {industry?.phoneNumber}
+                                </p>
+                            </HideRestrictedData>
                         </div>
                     </div>
                 </div>

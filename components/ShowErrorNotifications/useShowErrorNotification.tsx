@@ -15,7 +15,6 @@ export const useShowErrorNotification = () => {
         variant?: (typeof VariantOptions)[number],
         position?: (typeof NotificationPositionOptions)[number]
     ) => {
-        console.log({ position })
         if (result?.isError) {
             const errorTitle = result.error?.data?.error
             if (errorTitle && Array.isArray(result.error?.data?.message)) {

@@ -1,4 +1,9 @@
-import { AuthorizedUserComponent, StudentAvatar, Typography } from '@components'
+import {
+    AuthorizedUserComponent,
+    HideRestrictedData,
+    StudentAvatar,
+    Typography,
+} from '@components'
 import { UserRoles } from '@constants'
 import { Student } from '@types'
 import {
@@ -40,9 +45,11 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                             {profile?.user?.name} {profile?.familyName}
                         </span>
                     </Typography>
-                    <Typography variant="xs" color="text-[#6B7280]">
-                        {profile?.user?.email}
-                    </Typography>
+                    <HideRestrictedData type={UserRoles.STUDENT}>
+                        <Typography variant="xs" color="text-[#6B7280]">
+                            {profile?.user?.email}
+                        </Typography>
+                    </HideRestrictedData>
                 </div>
                 <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
                     <AssignToMeStudent student={profile} />

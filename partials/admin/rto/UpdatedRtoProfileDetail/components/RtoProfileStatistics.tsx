@@ -6,12 +6,14 @@ import { RtoProfileProgress } from './RtoProfileProgress'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
 
-export const RtoProfileStatistics = ({ rtoUserId }: { rtoUserId: number }) => {
+export const RtoProfileStatistics = ({
+    rtoUserId,
+    subadmin,
+}: {
+    subadmin: any
+    rtoUserId: number
+}) => {
     const role = getUserCredentials()?.role
-
-    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
-        skip: role === UserRoles.ADMIN,
-    })
 
     const statisticsCount = AdminApi.Rtos.useStatisticsCount(
         Number(rtoUserId),

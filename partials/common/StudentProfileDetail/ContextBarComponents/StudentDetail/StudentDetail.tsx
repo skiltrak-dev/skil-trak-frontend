@@ -1,4 +1,4 @@
-import { Typography } from '@components'
+import { Typography, useIsRestricted, useRestrictedData } from '@components'
 import { useNotification } from '@hooks'
 import { CallLogsModal } from '@partials/sub-admin/students/modals'
 import { SubAdminApi } from '@queries'
@@ -10,10 +10,13 @@ import { State } from 'country-state-city'
 
 import { LatestCallAnswer } from './LatestCallAnswer'
 import { UserProfileDetailCard } from '@partials/common/Cards'
+import { UserRoles } from '@constants'
 
 export const StudentDetail = ({ profile }: { profile: Student }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     // const [callType, setCallType] = useState<string>(CallType.Answer)
+
+    const canAccess = useIsRestricted(UserRoles.STUDENT)
 
     const { notification } = useNotification()
 
@@ -65,23 +68,28 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
                     <UserProfileDetailCard
                         border={false}
                         title="Phone Number"
-                        detail={profile?.phone}
+                        detail={useRestrictedData(
+                            profile?.phone,
+                            UserRoles.STUDENT
+                        )}
                         onClick={() => {
-                            navigator.clipboard.writeText(profile?.phone)
-                            callLog({
-                                student: profile?.id,
-                            }).then((res: any) => {
-                                if (res?.data) {
-                                    notification.success({
-                                        title: 'Called Student',
-                                        description: `Called Student with Id: ${profile.studentId}`,
-                                    })
-                                }
-                            })
-                            notification.success({
-                                title: 'Copied',
-                                description: 'Phone Number Copied',
-                            })
+                            if (canAccess) {
+                                navigator.clipboard.writeText(profile?.phone)
+                                callLog({
+                                    student: profile?.id,
+                                }).then((res: any) => {
+                                    if (res?.data) {
+                                        notification.success({
+                                            title: 'Called Student',
+                                            description: `Called Student with Id: ${profile.studentId}`,
+                                        })
+                                    }
+                                })
+                                notification.success({
+                                    title: 'Copied',
+                                    description: 'Phone Number Copied',
+                                })
+                            }
                         }}
                     >
                         <div
