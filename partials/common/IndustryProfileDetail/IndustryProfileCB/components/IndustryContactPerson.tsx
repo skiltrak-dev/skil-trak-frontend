@@ -1,4 +1,4 @@
-import { Typography } from '@components'
+import { Typography, useIsRestricted, useRestrictedData } from '@components'
 import { UserProfileDetailCard } from '@partials/common/Cards'
 import { Industry } from '@types'
 import React from 'react'
@@ -8,6 +8,8 @@ import { UserRoles } from '@constants'
 
 export const IndustryContactPerson = ({ industry }: { industry: Industry }) => {
     const [callLog, callLogResult] = SubAdminApi.Industry.useIndustryCallLog()
+
+    const canAssessData = useIsRestricted(UserRoles.INDUSTRY)
 
     const { notification } = useNotification()
 
@@ -26,13 +28,14 @@ export const IndustryContactPerson = ({ industry }: { industry: Industry }) => {
                     />
                     <UserProfileDetailCard
                         title="Phone"
-                        detail={
+                        detail={useRestrictedData(
                             industry?.isSnoozed
                                 ? '---'
-                                : industry?.contactPersonNumber
-                        }
+                                : industry?.contactPersonNumber,
+                            UserRoles.INDUSTRY
+                        )}
                         onClick={() => {
-                            if (!industry?.isSnoozed) {
+                            if (!industry?.isSnoozed && canAssessData) {
                                 navigator.clipboard.writeText(
                                     industry?.contactPersonNumber
                                 )

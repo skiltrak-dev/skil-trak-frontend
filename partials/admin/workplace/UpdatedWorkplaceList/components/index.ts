@@ -1,2 +1,5 @@
+export * from './IndustryDetail'
+export * from './RtoWorkplaceCell'
+export * from './CourseWorkplaceCell'
 export * from './UpdatedWorkplaceRequest'
 export * from './StudentWorkplaceCellInfo'

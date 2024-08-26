@@ -27,6 +27,8 @@ import moment from 'moment'
 import { IoMdCloseCircle } from 'react-icons/io'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { VolunteerRequestEnum } from './enum'
+import { VolunteerIndustryCellInfo } from './components'
+import { useColumns } from './hooks'
 
 export const ApprovedRequests = () => {
     const navBar = useNavbar()
@@ -60,88 +62,7 @@ export const ApprovedRequests = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
-        {
-            text: 'Close',
-            onClick: (volunteer: any) => {
-                onCancelRequest(volunteer)
-            },
-            Icon: IoMdCloseCircle,
-        },
-    ]
-
-    const columns: ColumnDef<any>[] = [
-        {
-            header: () => <span>Name</span>,
-            accessorKey: 'jobDescription',
-            cell: (info) => {
-                const {
-                    phoneNumber,
-                    user: { name, email, avatar },
-                } = info?.row?.original?.industry || {}
-                return (
-                    <a className="flex items-center gap-x-2">
-                        <InitialAvatar name={name} imageUrl={avatar} />
-                        <div>
-                            <p className="font-semibold">{name}</p>
-                            <div className="font-medium text-xs text-gray-500">
-                                <p className="flex items-center gap-x-1">
-                                    <span>
-                                        <MdEmail />
-                                    </span>
-                                    {email}
-                                </p>
-                                <p className="flex items-center gap-x-1">
-                                    <span>
-                                        <MdPhoneIphone />
-                                    </span>
-                                    {phoneNumber}
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                )
-            },
-        },
-        {
-            header: () => <span>ABN</span>,
-            accessorKey: 'industry.abn',
-            cell: (info) => info.getValue(),
-        },
-        {
-            header: () => <span>Course</span>,
-            accessorKey: 'course',
-            cell: (info) => (
-                <div>
-                    <Typography variant={'small'} color={'text-gray-500'}>
-                        {info.row.original?.course?.code}{' '}
-                    </Typography>
-                    <Typography variant="label" color={'text-gray-800'}>
-                        {info.row.original?.course?.title}{' '}
-                    </Typography>
-                </div>
-            ),
-        },
-        {
-            header: () => <span>Address</span>,
-            accessorKey: 'industry.addressLine1',
-            cell: (info) =>
-                `${info?.row?.original?.industry?.addressLine1 || 'N/A'}, ${
-                    info?.row?.original?.industry?.addressLine2 || ''
-                }`,
-        },
-        {
-            header: () => <span>Created At</span>,
-            accessorKey: 'industry.addressLine1',
-            cell: (info) => (
-                <Typography variant="small" medium color={'text-gray-800'}>
-                    {moment(info?.row?.original?.createdAt).format(
-                        'Do MMMM, YYYY'
-                    )}
-                </Typography>
-            ),
-        },
-    ]
+    const columns = useColumns()
 
     return (
         <div>
