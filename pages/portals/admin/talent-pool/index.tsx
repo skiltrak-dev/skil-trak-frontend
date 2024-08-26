@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 
-import { TabNavigation, TabProps, Typography } from '@components'
-import { useContextBar, useNavbar } from '@hooks'
+import { TabProps, Typography } from '@components'
+import { useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import {
     FilteredTalentPoolRequests,
@@ -14,8 +14,8 @@ import {
 } from '@partials/admin/talent-pool'
 import { AdminApi, AuthApi } from '@queries'
 import { NextPageWithLayout, OptionType } from '@types'
+import { TalentPoolProfileStatus } from '@utils'
 import { useRouter } from 'next/router'
-import { TalentPoolProfileStatus, TalentPoolStatusEnum } from '@utils'
 
 const tabs: TabProps[] = [
     {
@@ -72,7 +72,7 @@ const TalentPoolList: NextPageWithLayout = () => {
     const [page, setPage] = useState(1)
     const [readTalentPoolCount, readTalentPoolCountResult] =
         AdminApi.TalentPool.useReadTalentPoolProfilesCount()
-        
+
     const talentPool = AdminApi.TalentPool.useTalentPoolRequests(
         {
             search: `${JSON.stringify({

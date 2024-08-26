@@ -1,7 +1,12 @@
 import React, { ReactElement, useState } from 'react'
 import { Industry } from '@types'
 import { UserRoles } from '@constants'
-import { ShowErrorNotifications, Typography } from '@components'
+import {
+    ShowErrorNotifications,
+    Typography,
+    useIsRestricted,
+    useRestrictedData,
+} from '@components'
 import { useNotification } from '@hooks'
 import { UserProfileDetailCard } from '@partials/common/Cards'
 import { SubAdminApi } from '@queries'
@@ -11,6 +16,8 @@ import moment from 'moment'
 export const IndustryDetail = ({ industry }: { industry: Industry }) => {
     const { notification } = useNotification()
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const canAssessData = useIsRestricted(UserRoles.INDUSTRY)
 
     const [callLog, callLogResult] = SubAdminApi.Industry.useIndustryCallLog()
 
@@ -38,13 +45,18 @@ export const IndustryDetail = ({ industry }: { industry: Industry }) => {
                 <div className="flex items-center gap-x-[5px]">
                     <UserProfileDetailCard
                         title="ABN"
-                        detail={industry?.abn}
+                        detail={useRestrictedData(
+                            industry?.abn,
+                            UserRoles.INDUSTRY
+                        )}
                         onClick={() => {
-                            navigator.clipboard.writeText(industry?.abn)
-                            notification.success({
-                                title: 'Copied',
-                                description: 'ABN Copied',
-                            })
+                            if (canAssessData) {
+                                navigator.clipboard.writeText(industry?.abn)
+                                notification.success({
+                                    title: 'Copied',
+                                    description: 'ABN Copied',
+                                })
+                            }
                         }}
                     />
                     <UserProfileDetailCard
@@ -58,29 +70,32 @@ export const IndustryDetail = ({ industry }: { industry: Industry }) => {
                     <UserProfileDetailCard
                         border={false}
                         title="Phone Number"
-                        detail={
-                            industry?.isSnoozed ? '---' : industry?.phoneNumber
-                        }
+                        detail={useRestrictedData(
+                            industry?.isSnoozed ? '---' : industry?.phoneNumber,
+                            UserRoles.INDUSTRY
+                        )}
                         onClick={() => {
-                            if (!industry?.isSnoozed) {
-                                navigator.clipboard.writeText(
-                                    industry?.phoneNumber
-                                )
-                                callLog({
-                                    industry: industry?.id,
-                                    receiver: UserRoles.INDUSTRY,
-                                }).then((res: any) => {
-                                    if (res?.data) {
-                                        notification.success({
-                                            title: 'Called Industry',
-                                            description: `Called Industry with Name: ${industry?.user?.name}`,
-                                        })
-                                    }
-                                })
-                                notification.success({
-                                    title: 'Copied',
-                                    description: 'Phone Number Copied',
-                                })
+                            if (canAssessData) {
+                                if (!industry?.isSnoozed) {
+                                    navigator.clipboard.writeText(
+                                        industry?.phoneNumber
+                                    )
+                                    callLog({
+                                        industry: industry?.id,
+                                        receiver: UserRoles.INDUSTRY,
+                                    }).then((res: any) => {
+                                        if (res?.data) {
+                                            notification.success({
+                                                title: 'Called Industry',
+                                                description: `Called Industry with Name: ${industry?.user?.name}`,
+                                            })
+                                        }
+                                    })
+                                    notification.success({
+                                        title: 'Copied',
+                                        description: 'Phone Number Copied',
+                                    })
+                                }
                             }
                         }}
                     >

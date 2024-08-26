@@ -66,11 +66,13 @@ const urlsData = {
     canAccessTalentPool: getRoutePath('/talent-pool'),
     canAccessRpl: getRoutePath('/rpl-list'),
     canAccessQueries: getRoutePath('/queries'),
-    canAccessBlogs: getRoutePath('/blogs'),
     canAccessRtoProfile: [
         getRoutePath('/rto/[id]'),
         getRoutePath('/rto/[id]/detail'),
     ],
+    allowIndustryListing: getRoutePath('/future-industries'),
+    canCancelWorkPlaceRequest: getRoutePath('/cancelled-workplace-requests'),
+    canAccessBlogs: [getRoutePath('/blogs'), getRoutePath('/blogs/add-blog')],
 }
 
 export const AdminLayout = ({ children }: { children: ReactNode }) => {
@@ -181,11 +183,13 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             text: 'WP Cancelation Requests',
             path: getRoutePath('/cancelled-workplace-requests'),
             Icon: MdHomeWork,
+            visible: subadmin?.data?.canCancelWorkPlaceRequest,
         },
         {
             text: 'Industry Listing',
             path: getRoutePath('/future-industries?tab=all&page=1&pageSize=50'),
             Icon: MdFindInPage,
+            visible: subadmin?.data?.allowIndustryListing,
         },
         {
             text: 'Sectors',
