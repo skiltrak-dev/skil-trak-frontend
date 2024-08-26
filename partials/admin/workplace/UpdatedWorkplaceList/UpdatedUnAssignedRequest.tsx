@@ -1,25 +1,28 @@
 import { useEffect, useState } from 'react'
 // components
 import {
-    TechnicalError,
-    LoadingAnimation,
-    EmptyData,
-    PageSize,
-    Pagination,
-    UserCreatedAt,
-    Typography,
-    Table,
     Card,
+    EmptyData,
+    LoadingAnimation,
+    Table,
+    TechnicalError,
+    Typography,
+    UserCreatedAt,
 } from '@components'
 
 // queries
 import { AdminApi } from '@queries'
-import { AdminWorkplaceRequest } from '../components'
-import { useRouter } from 'next/router'
-import { StudentWorkplaceCellInfo, UpdatedWorkplaceRequest } from './components'
+import { ColumnDef } from '@tanstack/react-table'
 import { ellipsisText } from '@utils'
 import Link from 'next/link'
-import { ColumnDef } from '@tanstack/react-table'
+import { useRouter } from 'next/router'
+import {
+    CourseWorkplaceCell,
+    RtoWorkplaceCell,
+    StudentWorkplaceCellInfo,
+    UpdatedWorkplaceRequest,
+} from './components'
+import { useColumns } from './hooks'
 
 export const UpdatedUnAssignedRequest = () => {
     const router = useRouter()
@@ -42,139 +45,7 @@ export const UpdatedUnAssignedRequest = () => {
         setItemPerPage(Number(router.query.pageSize || 30))
     }, [router])
 
-    const Columns: ColumnDef<any>[] = [
-        {
-            header: () => 'Student',
-            accessorKey: 'student',
-            cell: (info) => (
-                <StudentWorkplaceCellInfo
-                    student={info?.row?.original?.student}
-                />
-            ),
-        },
-        {
-            header: () => 'Industry Status',
-            accessorKey: 'status',
-            cell: ({ row }: any) => (
-                <UpdatedWorkplaceRequest workplace={row?.original} />
-            ),
-        },
-        {
-            accessorKey: 'industry',
-            header: () => <span>Workplace Name</span>,
-            cell: (info) => {
-                const appliedIndustry = info?.row?.original?.industries.find(
-                    (industry: any) => industry?.applied
-                )
-                return (
-                    <>
-                        {appliedIndustry ? (
-                            <>
-                                <div
-                                    title={
-                                        appliedIndustry?.industry?.user?.name
-                                    }
-                                    className="bg-white px-3 py-1.5 rounded-md border border-[#128C7E]"
-                                >
-                                    <Typography variant="small" bold>
-                                        {ellipsisText(
-                                            appliedIndustry?.industry?.user
-                                                ?.name,
-                                            30
-                                        )}
-                                    </Typography>
-                                </div>
-                                <Link
-                                    href={`/portals/admin/industry/${appliedIndustry?.industry?.id}`}
-                                    className="text-blue-500 text-xs"
-                                >
-                                    View Details
-                                </Link>
-                            </>
-                        ) : (
-                            <Typography variant="small" semibold>
-                                N/A
-                            </Typography>
-                        )}
-                    </>
-                )
-            },
-        },
-        {
-            header: () => 'RTO',
-            accessorKey: 'rto',
-            cell: ({ row }: any) => (
-                <>
-                    <Typography variant="small" semibold>
-                        {row?.original?.student?.rto?.user?.name ?? 'N/A'}
-                    </Typography>
-                    <Typography variant="small" color="text-gray-500">
-                        {row?.original?.student?.rto?.user?.email ?? 'N/A'}
-                    </Typography>
-                </>
-            ),
-        },
-        {
-            header: () => 'Course',
-            accessorKey: 'course',
-            cell: ({ row }: any) => (
-                <div
-                    title={row?.original?.courses[0]?.title}
-                    className="flex items-center gap-x-2 cursor-pointer"
-                >
-                    <Typography variant="small" medium>
-                        {row?.original?.courses[0]?.code ?? 'N/A'}
-                    </Typography>
-                    -
-                    <Typography variant="small" medium>
-                        {ellipsisText(row?.original?.courses[0]?.title, 15) ??
-                            'N/A'}
-                    </Typography>
-                </div>
-            ),
-        },
-        {
-            header: () => 'Coordinator',
-            accessorKey: 'coordinator',
-            cell: ({ row }: any) => (
-                <UpdatedWorkplaceRequest
-                    workplace={row?.original}
-                    assignToMe={true}
-                />
-            ),
-        },
-
-        {
-            accessorKey: 'createdAt',
-            header: () => <span>Created At</span>,
-            cell: ({ row }: any) => (
-                <UserCreatedAt createdAt={row.original?.createdAt} />
-            ),
-        },
-        // {
-        //     accessorKey: 'cancel',
-        //     header: () => <span>Action</span>,
-        //     cell: ({ row }: any) => (
-        //         <UpdatedWorkplaceRequest
-        //             workplace={row?.original}
-        //             cancelRequest={true}
-        //         />
-        //     ),
-        // },
-        // {
-        //     header: () => 'Action',
-        //     accessorKey: 'Action',
-        //     cell: ({ row }) => {
-        //         const tableActionOption = tableActionOptions(row.original)
-        //         return (
-        //             <TableAction
-        //                 options={tableActionOption}
-        //                 rowItem={row.original}
-        //             />
-        //         )
-        //     },
-        // },
-    ]
+    const Columns = useColumns()
 
     return (
         <div>

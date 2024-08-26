@@ -1,19 +1,11 @@
-import { NextPageWithLayout } from '@types'
+import { Card, EmptyData, LoadingAnimation, TechnicalError } from '@components'
+import { PageHeading } from '@components/headings'
 import { AdminLayout } from '@layouts'
 import { TalentPoolStudentProfile } from '@partials/student/talentPool'
-import { ReactElement, useEffect } from 'react'
-import {
-    Card,
-    EmptyData,
-    LoadingAnimation,
-    TechnicalError,
-    Typography,
-} from '@components'
 import { AdminApi } from '@queries'
-import Link from 'next/link'
+import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
-import { isBrowser } from '@utils'
-import { PageHeading } from '@components/headings'
+import { ReactElement } from 'react'
 
 const Profile: NextPageWithLayout = () => {
     const router = useRouter()

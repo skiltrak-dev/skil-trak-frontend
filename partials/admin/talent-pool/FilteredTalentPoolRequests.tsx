@@ -1,6 +1,7 @@
 import {
     Badge,
     EmptyData,
+    HideRestrictedData,
     InitialAvatar,
     LoadingAnimation,
     Table,
@@ -17,6 +18,7 @@ import { MdDelete } from 'react-icons/md'
 import { TalentPoolNotification } from '@partials/common/TalentPool'
 import { TalentPoolStatusEnum, isBrowser } from '@utils'
 import { ApprovedModal, DeleteProfileModal } from './modals'
+import { UserRoles } from '@constants'
 
 export const FilteredTalentPoolRequests = ({
     talentPoolData,
@@ -118,22 +120,26 @@ export const FilteredTalentPoolRequests = ({
             accessorKey: 'email',
             header: () => <span>Email</span>,
             cell: (info) => (
-                <div className="">
-                    <Typography variant="small" medium>
-                        {info?.row?.original?.student?.user?.email || 'N/A'}
-                    </Typography>
-                </div>
+                <HideRestrictedData type={UserRoles.STUDENT}>
+                    <div className="">
+                        <Typography variant="small" medium>
+                            {info?.row?.original?.student?.user?.email || 'N/A'}
+                        </Typography>
+                    </div>
+                </HideRestrictedData>
             ),
         },
         {
             accessorKey: 'phone',
             header: () => <span>Phone</span>,
             cell: (info) => (
-                <div className="">
-                    <Typography variant="small" medium>
-                        {info?.row?.original?.student?.phone || 'N/A'}
-                    </Typography>
-                </div>
+                <HideRestrictedData type={UserRoles.STUDENT}>
+                    <div className="">
+                        <Typography variant="small" medium>
+                            {info?.row?.original?.student?.phone || 'N/A'}
+                        </Typography>
+                    </div>
+                </HideRestrictedData>
             ),
         },
         {

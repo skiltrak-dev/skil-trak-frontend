@@ -1,4 +1,8 @@
-import { AuthorizedUserComponent, Typography } from '@components'
+import {
+    AuthorizedUserComponent,
+    HideRestrictedData,
+    Typography,
+} from '@components'
 import { UserRoles } from '@constants'
 import { Industry } from '@types'
 import { ReactNode, useState } from 'react'
@@ -47,13 +51,16 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
                 <div className="mt-2">
                     <Typography semibold>
                         <span className="text-[15px]">
-                            {' '}
                             {industry?.user?.name}
                         </span>
                     </Typography>
-                    <Typography variant="xs" color="text-[#6B7280]">
-                        {industry?.isSnoozed ? '---' : industry?.user?.email}
-                    </Typography>
+                    <HideRestrictedData type={UserRoles.INDUSTRY}>
+                        <Typography variant="xs" color="text-[#6B7280]">
+                            {industry?.isSnoozed
+                                ? '---'
+                                : industry?.user?.email}
+                        </Typography>
+                    </HideRestrictedData>
                 </div>
                 {industry?.createdBy ? (
                     <div className="flex flex-col gap-y-0">

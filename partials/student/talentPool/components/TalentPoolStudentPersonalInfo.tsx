@@ -1,4 +1,5 @@
-import { StudentAvatar, Typography } from '@components'
+import { HideRestrictedData, StudentAvatar, Typography } from '@components'
+import { UserRoles } from '@constants'
 import { getGender } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -85,18 +86,22 @@ export const TalentPoolStudentPersonalInfo = ({ data }: { data: any }) => {
                                 <Typography variant="muted" color="text-white">
                                     Email
                                 </Typography>
-                                <Typography variant="xs" color="text-white">
-                                    {data?.student?.user?.email}
-                                </Typography>
+                                <HideRestrictedData type={UserRoles.STUDENT}>
+                                    <Typography variant="xs" color="text-white">
+                                        {data?.student?.user?.email}
+                                    </Typography>
+                                </HideRestrictedData>
                             </div>
                             {/* Phone */}
                             <div className="bg-[#286788]  rounded-md py-1.5 px-2.5">
                                 <Typography variant="muted" color="text-white">
                                     Phone Number
                                 </Typography>
-                                <Typography variant="xs" color="text-white">
-                                    {data?.student?.phone}
-                                </Typography>
+                                <HideRestrictedData type={UserRoles.STUDENT}>
+                                    <Typography variant="xs" color="text-white">
+                                        {data?.student?.phone}
+                                    </Typography>
+                                </HideRestrictedData>
                             </div>
                             {/* Student Type */}
                             <div className="bg-[#286788]  rounded-md py-1.5 px-2.5">
