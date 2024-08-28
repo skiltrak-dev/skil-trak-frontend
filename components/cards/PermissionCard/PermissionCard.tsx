@@ -4,15 +4,11 @@ import { Typography } from '@components/Typography'
 
 export const PermissionCard = ({ permission }: { permission: any }) => {
     return (
-        <div className="flex items-center justify-between px-3 py-2 rounded-md border border-[#6B728060]">
+        <div className="flex items-center justify-between px-3  rounded-md border-b border-[#6B728060]">
             <Typography variant="xs" medium>
                 {permission?.text}
             </Typography>
             <div className="flex items-center gap-x-3.5">
-                <Typography variant="small" normal>
-                    OFF
-                </Typography>
-
                 <Switch
                     name="priority"
                     customStyleClass={'profileSwitch'}
@@ -24,10 +20,6 @@ export const PermissionCard = ({ permission }: { permission: any }) => {
                     loading={permission?.isLoading}
                     disabled={permission?.isLoading}
                 />
-
-                <Typography variant="small" normal>
-                    ON
-                </Typography>
             </div>
         </div>
     )

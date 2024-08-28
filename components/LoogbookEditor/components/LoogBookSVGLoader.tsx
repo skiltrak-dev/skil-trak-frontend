@@ -1,9 +1,7 @@
-'use client'
-
-import { useEffect, useRef, useState } from 'react'
-import { DraggableTab } from './DraggableTab'
-
-import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
+import { CommonApi } from '@queries'
+import React, { useEffect, useRef, useState } from 'react'
+import Skeleton from 'react-loading-skeleton'
+import { Waypoint } from 'react-waypoint'
 import {
     DndContext,
     KeyboardSensor,
@@ -12,110 +10,43 @@ import {
     useSensor,
     useSensors,
 } from '@dnd-kit/core'
-import { CommonApi } from '@queries'
-import { useRouter } from 'next/router'
-import Skeleton from 'react-loading-skeleton'
-import { Waypoint } from 'react-waypoint'
-import { CursorCoordinates } from './CursorCoordinates'
-
-const DynamicSvgLoader = ({
+import { LogbookDraggableTab } from './LogbookDraggableTab'
+import { CursorCoordinates } from '@components/Esign'
+export const LoogBookSVGLoader = ({
+    size,
     items,
     tabsError,
-    size,
-    page,
-    onItemSelected,
+    pageNumber,
     onItemMove,
-    onItemLocationChanged,
+    onItemRemove,
     onItemResize,
     onItemResized,
-    onItemRemove,
-    pageNumber,
+    onItemSelected,
     setTabDropCoordinates,
+    onItemLocationChanged,
 }: {
-    tabsError: any
-    size: any
-    pageNumber: number
-    setTabDropCoordinates: (coordinates: { x: number; y: number }) => void
-    items: any
-    // path: string
-    page: number
-    onItemSelected: any
     onItemMove: any
     onItemLocationChanged: any
-    onItemResize: any
-    onItemResized: any
-    onItemRemove: any
+    setTabDropCoordinates: (coordinates: { x: number; y: number }) => void
+    tabsError: any
+    onItemResize: (item: any) => void
+    onItemRemove: (item: any) => void
+    onItemResized: (item: any) => void
+    onItemSelected: (item: any, selected: boolean) => void
+    items: any
+    size: any
+    pageNumber: number
 }) => {
-    const router = useRouter()
-
-    const [svgContent, setSvgContent] = useState('')
-    const [submitError, setSubmitError] = useState<any>(null)
-    const [viewport, setViewport] = useState<string | null>('')
-    const [width, setWidth] = useState<string | null>('')
-    const [height, setHeight] = useState<string | null>('')
-    const [timerId, setTimerId] = useState<any>(null)
     const [loadSvg, setLoadSvg] = useState(false)
+    const [timerId, setTimerId] = useState<any>(null)
+    const [viewport, setViewport] = useState<string | null>('')
+    const [svgContent, setSvgContent] = useState('')
 
-    const template = CommonApi.ESign.useEsignTemplate(
-        { id: Number(router.query?.id), pageNumber: pageNumber - 1 },
-        {
-            skip: !router.query?.id || !loadSvg,
-            // refetchOnMountOrArgChange: true,
-        }
-    )
+    const dimensionRef = useRef<any>()
 
-    const path = template?.data?.data?.[0]
-
-    const pageItems = items.filter((item: any) => item.page === pageNumber - 1)
-
-    useEffect(() => {
-        return () => {
-            if (timerId) {
-                clearTimeout(timerId)
-            }
-        }
-    }, [timerId])
-
-    useEffect(() => {
-        const fetchSvg = async () => {
-            try {
-                const response = await fetch(path) // Adjust the path based on your setup
-                const svgText = await response.text()
-                setSvgContent(svgText)
-            } catch (error) {
-                console.error('Error fetching SVG:', error)
-            }
-        }
-
-        const parser = new DOMParser()
-        const xmlDoc = parser.parseFromString(path, 'image/svg+xml')
-
-        const root = xmlDoc.documentElement
-        const svgViewport = root.getAttribute('viewBox')
-        const svgWidth = root.getAttribute('width')
-        const svgHeight = root.getAttribute('height')
-
-        setViewport(svgViewport)
-        setWidth(svgWidth)
-        setHeight(svgHeight)
-
-        if (!svgContent) {
-            setSvgContent(
-                path
-                    ?.replace(/width="([\d.]+)pt"/, 'width="$1"')
-                    .replace(/height="([\d.]+)pt"/, 'height="$1"')
-            )
-        }
-    }, [path])
-
-    const handleSvgClick = (event: any) => {
-        const dataViewName = event.target.getAttribute('data-view-name')
-        if (dataViewName !== 'tab') onItemSelected(null, false)
-    }
-
-    const id = `drop-target-${pageNumber}`
-    const { setNodeRef } = useDroppable({
-        id: pageNumber - 1,
+    const template = CommonApi.ESign.useEsignTemplate({
+        id: 119,
+        pageNumber: pageNumber - 1,
     })
 
     const sensors = useSensors(
@@ -125,7 +56,37 @@ const DynamicSvgLoader = ({
         useSensor(KeyboardSensor, {})
     )
 
-    const dimensionRef = useRef<any>()
+    const { setNodeRef } = useDroppable({
+        id: pageNumber - 1,
+    })
+
+    useEffect(() => {
+        return () => {
+            if (timerId) {
+                clearTimeout(timerId)
+            }
+        }
+    }, [timerId])
+
+    const path = template?.data?.data?.[0]
+
+    useEffect(() => {
+        const parser = new DOMParser()
+        const xmlDoc = parser.parseFromString(path, 'image/svg+xml')
+
+        const root = xmlDoc.documentElement
+        const svgViewport = root.getAttribute('viewBox')
+
+        setViewport(svgViewport)
+
+        if (!svgContent) {
+            setSvgContent(
+                path
+                    ?.replace(/width="([\d.]+)pt"/, 'width="$1"')
+                    .replace(/height="([\d.]+)pt"/, 'height="$1"')
+            )
+        }
+    }, [path])
 
     const handleEnter = () => {
         if (timerId) {
@@ -139,9 +100,9 @@ const DynamicSvgLoader = ({
 
         setTimerId(id)
     }
-
     return (
-        <>
+        <div>
+            {' '}
             <Waypoint
                 onEnter={handleEnter}
                 onLeave={() => {
@@ -154,15 +115,6 @@ const DynamicSvgLoader = ({
                 <div>
                     {template?.data ? (
                         <div>
-                            {submitError && (
-                                <ShowErrorNotifications
-                                    result={{
-                                        isError: true,
-                                        error: submitError,
-                                    }}
-                                />
-                            )}
-
                             <div ref={dimensionRef} className="relative">
                                 {dimensionRef.current && (
                                     <CursorCoordinates
@@ -194,14 +146,14 @@ const DynamicSvgLoader = ({
                                             height="100%"
                                             viewBox={String(viewport)}
                                             // dangerouslySetInnerHTML={{ __html: svgContent }}
-                                            onClick={handleSvgClick}
+                                            onClick={() => {}}
                                         >
                                             <g>
                                                 {/* <g
-                            dangerouslySetInnerHTML={{
-                                __html: svgContent,
-                            }}
-                        /> */}
+                dangerouslySetInnerHTML={{
+                    __html: svgContent,
+                }}
+            /> */}
 
                                                 <image
                                                     href={`data:image/svg+xml,${encodeURIComponent(
@@ -209,13 +161,13 @@ const DynamicSvgLoader = ({
                                                     )}`}
                                                 />
 
-                                                {pageItems &&
-                                                    pageItems.map(
+                                                {items &&
+                                                    items.map(
                                                         (
                                                             item: any,
                                                             i: number
                                                         ) => (
-                                                            <DraggableTab
+                                                            <LogbookDraggableTab
                                                                 item={item}
                                                                 key={i}
                                                                 viewport={
@@ -236,7 +188,7 @@ const DynamicSvgLoader = ({
                                                                 tabsError={
                                                                     tabsError
                                                                 }
-                                                            ></DraggableTab>
+                                                            ></LogbookDraggableTab>
                                                         )
                                                     )}
                                             </g>
@@ -255,8 +207,6 @@ const DynamicSvgLoader = ({
                     )}
                 </div>
             </Waypoint>
-        </>
+        </div>
     )
 }
-
-export default DynamicSvgLoader
