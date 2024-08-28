@@ -13,7 +13,6 @@ import {
 import { Contextbar, Sidebar } from '@components/Esign'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import DynamicSvgLoader from '@components/Esign/components/SvgLoader'
-import { NotificationMessage } from '@components/NotificationMessage'
 import { UserRoles } from '@constants'
 import { DndContext, DragOverlay } from '@dnd-kit/core'
 import { restrictToWindowEdges } from '@dnd-kit/modifiers'
@@ -68,6 +67,7 @@ export default function ESign() {
             // refetchOnMountOrArgChange: true,
         }
     )
+
     const pagesCount = CommonApi.ESign.useTamplatePagesCount(
         Number(router.query?.id),
         {
@@ -622,6 +622,7 @@ export default function ESign() {
     const signers = items
         ?.filter((a: any) => a?.data?.type === FieldsTypeEnum.Signature)
         ?.map((a: any) => a?.data?.role)
+
     const isIcluded = pagesCount?.data?.recipients?.every((a: any) =>
         signers?.includes(a)
     )

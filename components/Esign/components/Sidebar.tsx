@@ -1,13 +1,12 @@
 'use client'
 
+import { BackButton } from '@components/buttons'
+import { Typography } from '@components/Typography'
+import { useState } from 'react'
 import { BiRename } from 'react-icons/bi'
+import { MdKeyboardArrowDown } from 'react-icons/md'
 import { DraggableInput } from './DraggableInput'
 import { FieldsTypeEnum, SideBarFieldsData } from './SidebarData'
-import { SidebarOptions } from './SidebarOptions'
-import { Typography } from '@components/Typography'
-import { MdKeyboardArrowDown } from 'react-icons/md'
-import { useState } from 'react'
-import { BackButton } from '@components/buttons'
 
 export const ColorPreset = {
     student: '#f59e0b',

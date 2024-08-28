@@ -1,0 +1,80 @@
+import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
+import { UserRoles } from '@constants'
+import React from 'react'
+import { AiOutlineUser } from 'react-icons/ai'
+import { MdDriveFileRenameOutline } from 'react-icons/md'
+import { LoogBookDraggableInput } from './LoogBookDraggableInput'
+import { BiRename } from 'react-icons/bi'
+
+export const LoogbookSidebar = ({
+    setDraggableData,
+}: {
+    setDraggableData: any
+}) => {
+    const ColorPreset = {
+        student: '#f59e0b',
+        rto: '#3b82f6',
+        industry: '#10b981',
+        coordinator: '',
+        standard: '',
+    }
+    const sidebarData = [
+        {
+            text: 'Text Field',
+            id: 'input-student-id',
+            color: ColorPreset.student,
+            placeholder: 'Student Id',
+            preDefined: true,
+            type: FieldsTypeEnum.Text,
+            column: 'studentId',
+            role: UserRoles.STUDENT,
+            Icon: MdDriveFileRenameOutline,
+        },
+        {
+            text: 'Signature',
+            id: 'input-student-signature',
+            color: ColorPreset.student,
+            placeholder: 'Student name',
+            preDefined: true,
+            type: FieldsTypeEnum.Signature,
+            column: 'name',
+            Icon: AiOutlineUser,
+            role: UserRoles.STUDENT,
+        },
+        {
+            text: 'Checkbox',
+            id: 'input-student-checkbox',
+            color: ColorPreset.student,
+            placeholder: 'Student name',
+            preDefined: true,
+            type: FieldsTypeEnum.Checkbox,
+            column: 'name',
+            Icon: AiOutlineUser,
+            role: UserRoles.STUDENT,
+        },
+    ]
+    return (
+        <div>
+            {' '}
+            {sidebarData?.map((item: any, index: number) => (
+                <LoogBookDraggableInput
+                    setDraggableData={setDraggableData}
+                    key={index}
+                    text={item?.text}
+                    id={item?.id}
+                    data={{
+                        color: item?.color,
+                        placeholder: item?.placeholder,
+                        preDefined: item?.preDefined,
+                        type: item?.type,
+                        column: item?.column,
+                        role: item?.role,
+                        isCustom: item?.isCustom,
+                        // dataLabel: 'studentName',
+                    }}
+                    Icon={item?.Icon || BiRename}
+                />
+            ))}
+        </div>
+    )
+}

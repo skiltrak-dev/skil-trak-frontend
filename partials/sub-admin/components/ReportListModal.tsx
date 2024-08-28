@@ -8,7 +8,6 @@ import { saveAs } from 'file-saver'
 import { DownloadLoader } from './DownloadLoader'
 
 export const ReportListModal = ({ onClose, subadmin }: any) => {
-    
     const [filterReports, setFilterReports] = useState({
         label: 'Monthly',
         value: 'monthly',
@@ -19,7 +18,6 @@ export const ReportListModal = ({ onClose, subadmin }: any) => {
 
     const userId = subadmin || getUserCredentials()?.id
     const subAdminName = getUserCredentials()?.name
-
 
     const downloadAsPdf = SubAdminApi.Reports.useDownloadLink(
         {
@@ -37,6 +35,7 @@ export const ReportListModal = ({ onClose, subadmin }: any) => {
             saveAs(blob, subAdminName)
             setIsPdfDownload(false)
             onClose()
+            setIsPdfDownload(false)
         }
     }, [downloadAsPdf?.data, downloadAsPdf?.isSuccess, onClose])
 
@@ -68,7 +67,7 @@ export const ReportListModal = ({ onClose, subadmin }: any) => {
         <>
             <ShowErrorNotifications result={downloadAsPdf} />
             <div className="bg-[#00000050] w-full h-screen flex items-center justify-center fixed top-0 left-0 z-40">
-                <div className="bg-white  h-[60vh] overflow-auto custom-scrollbar rounded-2xl flex flex-col items-center gap-y-2 shadow-xl min-w-[450px] px-4 py-4">
+                <div className="bg-white  h-72 overflow-auto custom-scrollbar rounded-2xl flex flex-col items-center gap-y-2 shadow-xl min-w-[450px] px-4 py-4">
                     {downloadAsPdf?.isLoading ? (
                         <DownloadLoader />
                     ) : (
@@ -82,6 +81,18 @@ export const ReportListModal = ({ onClose, subadmin }: any) => {
                                 />
                             </div>
                             <div className="flex flex-col items-start mr-auto">
+                                <div className="w-full">
+                                    <Select
+                                        name="filter"
+                                        label="Select filter"
+                                        options={filterOptions}
+                                        placeholder="Select reports filter by"
+                                        value={filterReports}
+                                        onChange={(e: any) => {
+                                            setFilterReports(e)
+                                        }}
+                                    />
+                                </div>
                                 <div className="flex gap-x-2">
                                     <div>
                                         <TextInput
@@ -94,6 +105,7 @@ export const ReportListModal = ({ onClose, subadmin }: any) => {
                                                 'monthly'
                                             }
                                             type="date"
+                                            showError={false}
                                         />
                                     </div>
                                     <div>
@@ -107,20 +119,9 @@ export const ReportListModal = ({ onClose, subadmin }: any) => {
                                                 'monthly'
                                             }
                                             type="date"
+                                            showError={false}
                                         />
                                     </div>
-                                </div>
-                                <div className="w-full">
-                                    <Select
-                                        name="filter"
-                                        label="Select filter"
-                                        options={filterOptions}
-                                        placeholder="Select reports filter by"
-                                        value={filterReports}
-                                        onChange={(e: any) => {
-                                            setFilterReports(e)
-                                        }}
-                                    />
                                 </div>
                             </div>
                             <div className="flex gap-x-4 items-center justify-end mt-auto">
