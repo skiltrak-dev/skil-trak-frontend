@@ -38,7 +38,7 @@ export const AllowPermissionModal = ({
                         </div>
 
                         {/*  */}
-                        <div className="flex flex-col gap-y-2.5 px-5 pb-5 h-[70vh] lg:h-[400px] xl:h-[450px] overflow-auto custom-scrollbar">
+                        <div className="flex flex-col gap-y-2 px-5 pb-5 h-[70vh] lg:h-[400px] xl:h-[450px] overflow-auto custom-scrollbar">
                             {permissions?.map((permission: any, i: number) => (
                                 <PermissionCard
                                     key={i}

@@ -175,24 +175,24 @@ export const StudentCellInfo = ({
                         ) : null}
                     </div>
                     <div className="font-medium text-xs text-gray-500">
-                        <HideRestrictedData type={UserRoles.STUDENT}>
-                            <p className="flex items-center gap-x-1">
-                                <span>
-                                    <MdEmail />
-                                </span>
+                        <p className="flex items-center gap-x-1">
+                            <span>
+                                <MdEmail />
+                            </span>
+                            <HideRestrictedData type={UserRoles.STUDENT}>
                                 {student?.user?.email}
-                            </p>
-                        </HideRestrictedData>
+                            </HideRestrictedData>
+                        </p>
                     </div>
                     <div className="font-medium text-xs text-gray-500">
-                        <HideRestrictedData type={UserRoles.STUDENT}>
-                            <p className="flex items-center gap-x-1">
-                                <span>
-                                    <MdPhone />
-                                </span>
+                        <p className="flex items-center gap-x-1">
+                            <span>
+                                <MdPhone />
+                            </span>
+                            <HideRestrictedData type={UserRoles.STUDENT}>
                                 {student?.phone}
-                            </p>
-                        </HideRestrictedData>
+                            </HideRestrictedData>
+                        </p>
                     </div>
                 </div>
             </a>

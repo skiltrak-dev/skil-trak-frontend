@@ -61,7 +61,7 @@ export type RouteNavLink = {
 const getBasePath = `/portals/admin`
 const getRoutePath = (path: string) => `${getBasePath}${path}`
 
-// Redirect Urls When not approved
+// Redirect Restricted Urls
 const urlsData = {
     canAccessTalentPool: getRoutePath('/talent-pool'),
     canAccessRpl: getRoutePath('/rpl-list'),
@@ -93,7 +93,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
     const urls = () => {
         let updatedUrl: string[] = []
         if (subadmin?.data && subadmin?.isSuccess) {
-            Object.entries(urlsData as any)?.forEach(([key, value]: any) => {
+            Object.keys(urlsData as any)?.forEach((key: any) => {
                 if (!(subadmin?.data as any)?.[key]) {
                     if (Array.isArray((urlsData as any)?.[key])) {
                         updatedUrl.push(...(urlsData as any)?.[key])

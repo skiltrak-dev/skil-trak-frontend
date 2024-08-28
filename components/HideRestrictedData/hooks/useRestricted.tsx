@@ -24,7 +24,11 @@ export const useRestricted = (type: string) => {
     }
 
     const key = checkType()
-    const canAccess = key ? subadmin?.data?.[key] : false
 
-    return canAccess || role === UserRoles.ADMIN
+    if (role === UserRoles.SUBADMIN && subadmin?.data?.isAdmin) {
+        const canAccess = key ? subadmin?.data?.[key] : false
+        return canAccess
+    }
+
+    return true
 }

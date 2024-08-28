@@ -1,21 +1,18 @@
 import {
-    ActionButton,
-    Button,
     Card,
     EmptyData,
     LoadingAnimation,
     TechnicalError,
-    Typography,
+    Typography
 } from '@components'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
-import { useAlert, useNotification } from '@hooks'
+import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import { IoMdArrowDropleftCircle } from 'react-icons/io'
 import { DownloadEsignDocument, SVGView } from './components'
 import { EsignSignatureModal, FinishSignModal } from './modal'
-import { isBrowser } from '@utils'
 
 export const ViewDocumentAndSign = () => {
     const router = useRouter()

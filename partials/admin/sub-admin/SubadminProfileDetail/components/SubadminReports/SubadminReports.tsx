@@ -1,4 +1,4 @@
-import { Card, Typography } from '@components'
+import { Button, Card, Typography } from '@components'
 import {
     ActiveStudentsReport,
     ActiveStudentsWithoutWorkplacesReport,
@@ -16,10 +16,15 @@ import {
 import { ReactElement, useState } from 'react'
 import { SubAdminReports } from 'types/sub-admin-reports.type'
 import { ReportType } from './ReportType'
+import { IoMdDownload } from 'react-icons/io'
+import { ReportListModal } from '@partials/sub-admin/components/ReportListModal'
+import { SubAdmin } from '@types'
 
 export const SubadminReports = ({
+    subadmin,
     subadminUserId,
 }: {
+    subadmin: SubAdmin
     subadminUserId: number
 }) => {
     const weekEnd = new Date()
@@ -142,26 +147,51 @@ export const SubadminReports = ({
         // })
         setReportType(e)
     }
+
+    const onClose = () => setModal(null)
+
+    const onViewClicked = () => {
+        setModal(
+            <ReportListModal
+                onClose={() => onClose()}
+                subadmin={subadminUserId}
+            />
+        )
+    }
     return (
-        <Card fullHeight shadowType="profile" noPadding>
-            <div className="h-full overflow-hidden">
-                <div className="px-4 py-3.5 flex justify-between items-center border-b border-secondary-dark">
-                    <Typography semibold>
-                        <span className="text-[15px]">Reports</span>
-                    </Typography>
-                    <div>
-                        <ReportType
-                            reportType={reportType}
-                            onReportChange={onReportChange}
-                        />
+        <>
+            {modal}
+            <Card fullHeight shadowType="profile" noPadding>
+                <div className="h-full overflow-hidden">
+                    <div className="px-4 py-3.5 flex justify-between items-center border-b border-secondary-dark">
+                        <Typography semibold>
+                            <span className="text-[15px]">Reports</span>
+                        </Typography>
+                        <div className="flex items-center gap-x-2">
+                            <ReportType
+                                reportType={reportType}
+                                onReportChange={onReportChange}
+                            />
+                            <Button
+                                onClick={() => {
+                                    onViewClicked()
+                                }}
+                                variant="dark"
+                            >
+                                <span className="flex items-center gap-x-2">
+                                    <IoMdDownload size={18} />
+                                    <span>Download</span>
+                                </span>
+                            </Button>
+                        </div>
+                    </div>
+
+                    {/*  */}
+                    <div className="p-4 h-80 overflow-auto custom-scrollbar">
+                        {reports()}
                     </div>
                 </div>
-
-                {/*  */}
-                <div className="p-4 h-80 overflow-auto custom-scrollbar">
-                    {reports()}
-                </div>
-            </div>
-        </Card>
+            </Card>
+        </>
     )
 }

@@ -46,7 +46,6 @@ export const RTOMOUDetail = () => {
                     id,
                 })
             } else {
-                // Create Mou
                 if (content) {
                     await createMou({
                         rtoSignature: dataURL,

@@ -36,6 +36,8 @@ export * from './StudentExpiryDaysLeft'
 export * from './CustomDropdown'
 export * from './HideRestrictedData'
 
+export * from './LoogbookEditor'
+
 export * from './ErrorBoundary'
 
 // export * from './Pagination'

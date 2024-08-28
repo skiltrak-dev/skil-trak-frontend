@@ -17,13 +17,13 @@ export const ProfilePriority = ({
 
     useEffect(() => {
         if (makeAsHighPriorityResult.isSuccess) {
-            notification.success({
+            notification[isHighPriority ? 'warning' : 'success']({
                 title: isHighPriority
-                    ? 'Remove Mark As High Priority'
+                    ? 'Remove from High Priority'
                     : 'Mark As High Priority',
                 description: isHighPriority
-                    ? `Removed Marked ${studentId} As High Priority`
-                    : `Marked ${studentId} As High Priority`,
+                    ? `Removed from High Priority`
+                    : `Marked As High Priority`,
             })
         }
     }, [makeAsHighPriorityResult])

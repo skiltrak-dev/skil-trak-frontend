@@ -87,7 +87,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
         {
             text: 'Can Access RPL Detail',
             onClick: () => Actions?.onCanAccessRPLClicked(subadmin),
-            toggle: subadmin?.canAccessRtoProfile,
+            toggle: subadmin?.canAccessRpl,
             isLoading: results?.resultCanAccessRPL.isLoading,
             Icon: MdOutlineAssignmentReturn,
         },
@@ -115,5 +115,6 @@ export const usePermissionData = (subadmin: SubAdmin) => {
     ]
 
     const responses = Object.values(results)
+
     return { permissions, responses }
 }
