@@ -17,7 +17,10 @@ export const usePermissionQueries = () => {
 
     const [canAccessBlogs, resultCanAccessBlogs] =
         AdminApi.SubAdmins.useCanAccessBlogs()
-
+    const [canAccessSubAdmin, resultCanAccessSubAdmin] =
+        AdminApi.SubAdmins.useToggleCanAccessSubAdmins()
+    const [canAddStudents, resultCanAddStudents] =
+        AdminApi.SubAdmins.useCanAddStudents()
     const [canAccessQueries, resultCanAccessQueries] =
         AdminApi.SubAdmins.useCanAccessQueries()
 
@@ -48,6 +51,7 @@ export const usePermissionQueries = () => {
             allowWpCancelationReq,
             autoAssignWorkplace,
             canAccessBlogs,
+            canAccessSubAdmin,
             canAccessQueries,
             canAccessRPL,
             canAccessTalentPool,
@@ -55,6 +59,7 @@ export const usePermissionQueries = () => {
             canViewIndustryDetail,
             canViewStudentDetail,
             canViewRTODetail,
+            canAddStudents,
         },
         results: {
             allowRtoListingResult,
@@ -72,6 +77,8 @@ export const usePermissionQueries = () => {
             resultCanViewIndustryDetail,
             resultCanViewStudentDetail,
             resultCanViewRTODetail,
+            resultCanAccessSubAdmin,
+            resultCanAddStudents,
         },
     }
 }

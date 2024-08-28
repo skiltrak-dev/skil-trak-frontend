@@ -2,6 +2,7 @@ import { ReactElement, useEffect, useRef, useState } from 'react'
 import { encode } from 'base-64'
 
 import {
+    Card,
     LoadingAnimation,
     NoData,
     SectorCourseStudentCount,
@@ -19,6 +20,7 @@ import { useMediaQuery } from 'react-responsive'
 import StackGrid, { transitions } from 'react-stack-grid'
 import moment from 'moment-timezone'
 import html2canvas from 'html2canvas'
+import { ProgressLineChart } from '@partials/common'
 
 const { scaleDown } = transitions
 
@@ -33,6 +35,7 @@ const AdminDashboard: NextPageWithLayout = () => {
     const credentials = AuthUtils.getUserCredentials()
     const stats = AdminApi.Admin.useCount()
     const sectorsStudentsCount = AdminApi.Admin.useSectorsStudentsCount()
+    
 
     useEffect(() => {
         navBar.setTitle('Admin Dashboard')
@@ -63,6 +66,92 @@ const AdminDashboard: NextPageWithLayout = () => {
             // Handle conversion errors gracefully (e.g., display error message)
         }
     }
+    const initialData = [
+        {
+            name: 'January',
+            studentsAdded: 49,
+            workplaceRequests: 30,
+            studentsPlaced: 24,
+            studentsExpired: 4,
+        },
+        {
+            name: 'February',
+            studentsAdded: 51,
+            workplaceRequests: 40,
+            studentsPlaced: 19,
+            studentsExpired: 1,
+        },
+        {
+            name: 'March',
+            studentsAdded: 44,
+            workplaceRequests: 27,
+            studentsPlaced: 15,
+            studentsExpired: 6,
+        },
+        {
+            name: 'April',
+            studentsAdded: 28,
+            workplaceRequests: 36,
+            studentsPlaced: 6,
+            studentsExpired: 5,
+        },
+        {
+            name: 'May',
+            studentsAdded: 60,
+            workplaceRequests: 10,
+            studentsPlaced: 24,
+            studentsExpired: 5,
+        },
+        {
+            name: 'June',
+            studentsAdded: 29,
+            workplaceRequests: 30,
+            studentsPlaced: 9,
+            studentsExpired: 0,
+        },
+        {
+            name: 'July',
+            studentsAdded: 50,
+            workplaceRequests: 22,
+            studentsPlaced: 12,
+            studentsExpired: 9,
+        },
+        {
+            name: 'August',
+            studentsAdded: 49,
+            workplaceRequests: 11,
+            studentsPlaced: 14,
+            studentsExpired: 0,
+        },
+        {
+            name: 'September',
+            studentsAdded: 23,
+            workplaceRequests: 19,
+            studentsPlaced: 23,
+            studentsExpired: 6,
+        },
+        {
+            name: 'October',
+            studentsAdded: 29,
+            workplaceRequests: 27,
+            studentsPlaced: 5,
+            studentsExpired: 1,
+        },
+        {
+            name: 'November',
+            studentsAdded: 31,
+            workplaceRequests: 21,
+            studentsPlaced: 9,
+            studentsExpired: 9,
+        },
+        {
+            name: 'December',
+            studentsAdded: 32,
+            workplaceRequests: 34,
+            studentsPlaced: 10,
+            studentsExpired: 1,
+        },
+    ]
 
     return (
         <div className="flex flex-col gap-y-6 pb-8 px-6 pt-6 ">
@@ -162,7 +251,9 @@ const AdminDashboard: NextPageWithLayout = () => {
                     /> */}
                 </div>
             </div>
-
+            
+                <ProgressLineChart  />
+            
             <div>
                 <Typography>
                     <span className="font-semibold">Sectors & Courses</span>
