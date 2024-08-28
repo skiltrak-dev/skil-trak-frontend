@@ -73,6 +73,11 @@ const urlsData = {
     allowIndustryListing: getRoutePath('/future-industries'),
     canCancelWorkPlaceRequest: getRoutePath('/cancelled-workplace-requests'),
     canAccessBlogs: [getRoutePath('/blogs'), getRoutePath('/blogs/add-blog')],
+    canAccessSubadmin: [
+        getRoutePath('/sub-admin'),
+        getRoutePath('/sub-admin/[id]'),
+        getRoutePath('/sub-admin/[id]/detail'),
+    ],
 }
 
 export const AdminLayout = ({ children }: { children: ReactNode }) => {
@@ -105,7 +110,6 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
         }
         return updatedUrl
     }
-
     useEffect(() => {
         const handleRouteChange = () => {
             if (childrenRef.current) {
@@ -158,6 +162,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             text: 'Sub-Admin',
             path: getRoutePath('/sub-admin?tab=active&page=1&pageSize=50'),
             Icon: RiShieldUserFill,
+            visible: subadmin?.data?.canAccessSubadmin,
         },
         {
             type: 'divider',

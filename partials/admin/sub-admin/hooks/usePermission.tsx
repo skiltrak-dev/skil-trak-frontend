@@ -95,6 +95,16 @@ export const usePermission = () => {
         })
     }
 
+    const onCanAccessSubAdminClicked = (subAdmin: SubAdmin) => {
+        queries.canAccessSubAdmin(subAdmin?.id).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: `Status Changed`,
+                    description: `subAdmin "${subAdmin?.user?.name}" Change Status For SubAdmins.`,
+                })
+            }
+        })
+    }
     const onAllowRtoListingClicked = (subAdmin: SubAdmin) => {
         queries.allowRtoListing(subAdmin?.id).then((res: any) => {
             if (res?.data) {
@@ -186,6 +196,21 @@ export const usePermission = () => {
         })
     }
 
+    const onCanAddStudentsClicked = (subAdmin: SubAdmin) => {
+        queries.canAddStudents(subAdmin?.id).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: subAdmin.canAddStudents
+                        ? `SubAdmin Allowed to Add Students`
+                        : `SubAdmin removed to Add Students`,
+                    description: subAdmin.canAddStudents
+                        ? `subAdmin "${subAdmin?.user?.name}" has been Allowed to Add Students`
+                        : `subAdmin "${subAdmin?.user?.name}" has been Removed to Add Students`,
+                })
+            }
+        })
+    }
+
     return {
         results,
         Actions: {
@@ -204,6 +229,8 @@ export const usePermission = () => {
             onCanAccessRPLClicked,
             onCanAccessQueriesClicked,
             onCanAccessBlogsClicked,
+            onCanAccessSubAdminClicked,
+            onCanAddStudentsClicked,
         },
     }
 }

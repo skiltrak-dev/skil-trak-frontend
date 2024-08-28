@@ -5,7 +5,7 @@ import { RiStarSFill } from 'react-icons/ri'
 import StarRatings from 'react-star-ratings'
 export const GoogleReviewCard = ({ review, name, rating, link }: any) => {
     return (
-        <div className="bg-white shadow-xl rounded-lg flex flex-col max-h-72 gap-y-6 justify-center items-center p-8">
+        <div className="bg-white shadow-xl rounded-lg flex flex-col max-h-72 gap-y-6 justify-center m-2 items-center p-8">
             <div className="flex flex-col justify-center items-center gap-y-2">
                 <FcGoogle size={35} />
                 <div className="flex items-center justify-center gap-x-1">

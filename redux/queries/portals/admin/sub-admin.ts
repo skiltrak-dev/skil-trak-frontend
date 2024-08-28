@@ -282,4 +282,18 @@ export const subAdminEndpoints = (
         }),
         invalidatesTags: ['SubAdmins'],
     }),
+    toggleCanAccessSubAdmins: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/subadmin/${id}/can-view-subadmin/toggle`,
+            method: 'PATCH',
+    }),
+    invalidatesTags: ['SubAdmins'],
+    }),
+    toggleCanAddStudents: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/subadmin/${id}/can-add-students/toggle`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdmins'],
+    })
 })

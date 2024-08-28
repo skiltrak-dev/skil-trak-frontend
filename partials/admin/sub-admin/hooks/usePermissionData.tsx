@@ -112,6 +112,20 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             isLoading: results?.resultCanAccessBlogs.isLoading,
             Icon: MdOutlineAssignmentReturn,
         },
+        {
+            text: 'Can Access SubAdmin',
+            onClick: () => Actions?.onCanAccessSubAdminClicked(subadmin),
+            toggle: subadmin?.canAccessSubadmin,
+            isLoading: results?.resultCanAccessSubAdmin.isLoading,
+            Icon: MdOutlineAssignmentReturn,
+        },
+        {
+            text: 'Can Add Students',
+            onClick: () => Actions.onCanAddStudentsClicked(subadmin),
+            toggle: subadmin?.canAddStudents,
+            isLoading: results?.resultCanAddStudents.isLoading,
+            Icon: MdOutlineAssignmentReturn,
+        },
     ]
 
     const responses = Object.values(results)

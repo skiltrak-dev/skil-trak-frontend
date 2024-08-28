@@ -2,7 +2,7 @@ import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { useAlert, useContextBar, useNavbar } from '@hooks'
 import { SubAdminLayout } from '@layouts'
 import { RtoProfileDetail } from '@partials'
-import { useGetSubAdminRTODetailQuery } from '@queries'
+import { SubAdminApi, useGetSubAdminRTODetailQuery } from '@queries'
 import { UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
@@ -22,7 +22,7 @@ const RtoProfile = () => {
         skip: !router.query?.id,
         refetchOnMountOrArgChange: true,
     })
-
+    
     useEffect(() => {
         navBar.setTitle('RTO Detail')
         navBar.setSubTitle(rtoDetail?.data?.user?.name)
