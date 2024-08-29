@@ -1,7 +1,7 @@
 import { EmptyData } from '@components/ActionAnimations'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 import { CommonApi } from '@queries'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { LoogBookSVGLoader } from './components'
 import { DndContext, DragOverlay } from '@dnd-kit/core'
 import { restrictToWindowEdges } from '@dnd-kit/modifiers'
@@ -12,6 +12,10 @@ import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 export const LoogbookEditor = () => {
     const [draggableData, setDraggableData] = useState<any>()
     const [tabDropCoordinates, setTabDropCoordinates] = useState<any>(null)
+    const [currentPage, setCurrentPage] = useState<any>(0)
+
+    const scrollContainerRef = useRef<HTMLDivElement>(null)
+
     const [items, setItems] = useState<any>([
         {
             id: 4350,
@@ -94,6 +98,26 @@ export const LoogbookEditor = () => {
     const [tabsError, setTabsError] = useState<any>(null)
 
     const pagesCount = CommonApi.ESign.useTamplatePagesCount(119)
+
+    const handleScroll = () => {
+        const container = scrollContainerRef.current
+        if (container) {
+            const scrollTop = container.scrollTop
+            const containerHeight = container.clientHeight
+
+            // Determine the page currently in view
+            const pageIndex = Math.floor(scrollTop / containerHeight)
+            setCurrentPage(pageIndex)
+        }
+    }
+
+    useEffect(() => {
+        const container = scrollContainerRef.current
+        if (container) {
+            container.addEventListener('scroll', handleScroll)
+            return () => container.removeEventListener('scroll', handleScroll)
+        }
+    }, [scrollContainerRef.current])
 
     const handleDragEnd = (data: any) => {
         const newLocX = tabDropCoordinates?.x
@@ -207,8 +231,6 @@ export const LoogbookEditor = () => {
     }
 
     const onItemMove = (eventData: any) => {
-        console.log('Heee aaaa')
-
         const [a, b, width, height] = tabDropCoordinates?.viewPortData
 
         const item = eventData.active.data.current
@@ -313,80 +335,126 @@ export const LoogbookEditor = () => {
         }
     }
 
+    const onChangedLocation = (item: any) => {
+        const existingItem = items?.find((x: any) => x?.id === item?.id)
+        const updatedList = items.filter((x: any) => x?.id !== item?.id)
+        if (existingItem) {
+            setItems([...updatedList, item])
+        }
+    }
+
     const onItemRemove = (item: any) => {
         setContextBar(null)
-        const existingItem = items.find((x: any) => x.id === contextBar?.id)
+        const existingItem = items.find((x: any) => x.id === item?.id)
         if (existingItem) {
-            const updatedList = items.filter(
-                (x: any) => x.id !== contextBar?.id
-            )
+            const updatedList = items.filter((x: any) => x.id !== item?.id)
             setItems(updatedList)
         }
     }
 
+    console.log({ currentPage })
+
     return (
         <div className="bg-gray-300 flex justify-center w-full h-screen">
-            <DndContext
+            {/* <DndContext
                 modifiers={[restrictToWindowEdges]}
                 onDragEnd={handleDragEnd}
-            >
-                <DragOverlay>
-                    {draggableData ? (
-                        <div>
-                            <button className="flex items-center gap-2 p-2 hover:bg-gray-100 w-full rounded-md">
-                                <span
-                                    className="text-xs p-2 rounded-md border"
-                                    style={{
-                                        backgroundColor: `${draggableData?.color}26`,
-                                        borderColor: draggableData?.color,
-                                        color: draggableData?.color,
-                                    }}
-                                >
-                                    <draggableData.Icon />
-                                </span>
-                                <p className="text-sm">{draggableData?.text}</p>
-                            </button>
-                        </div>
-                    ) : null}
-                </DragOverlay>
-                <div>
-                    <LoogbookSidebar setDraggableData={setDraggableData} />
-                </div>
-                {pagesCount?.isLoading ? (
-                    <LoadingAnimation />
-                ) : pagesCount?.data ? (
-                    <div className=" w-[600px] h-[85vh] border-4 border-blue-400 rounded-lg overflow-auto custom-scrollbar flex flex-col gap-y-2">
-                        {pagesCount?.data?.size?.map((item: any, i: number) => (
-                            <div key={i} className="bg-white">
-                                <LoogBookSVGLoader
-                                    onItemLocationChanged={
-                                        onItemLocationChanged
-                                    }
-                                    onItemMove={onItemMove}
-                                    tabsError={tabsError}
-                                    setTabDropCoordinates={(coordinates: {
-                                        x: number
-                                        y: number
-                                    }) => {
-                                        setTabDropCoordinates(coordinates)
-                                    }}
-                                    size={item}
-                                    items={items.filter(
-                                        (item: any) => item?.page === i
-                                    )}
-                                    pageNumber={i + 1}
-                                    onItemRemove={onItemRemove}
-                                    onItemResize={onItemResize}
-                                    onItemResized={onItemResized}
-                                    onItemSelected={onItemSelected}
-                                />
-                            </div>
-                        ))}
+            > */}
+            {/* <DragOverlay>
+                {draggableData ? (
+                    <div>
+                        <button className="flex items-center gap-2 p-2 hover:bg-gray-100 w-full rounded-md">
+                            <span
+                                className="text-xs p-2 rounded-md border"
+                                style={{
+                                    backgroundColor: `${draggableData?.color}26`,
+                                    borderColor: draggableData?.color,
+                                    color: draggableData?.color,
+                                }}
+                            >
+                                <draggableData.Icon />
+                            </span>
+                            <p className="text-sm">{draggableData?.text}</p>
+                        </button>
                     </div>
-                ) : pagesCount?.isSuccess ? (
-                    <EmptyData />
                 ) : null}
-            </DndContext>
+            </DragOverlay> */}
+            <div>
+                <LoogbookSidebar
+                    setData={(e: any) => {
+                        const newId = uuid()
+                        setDraggableData(e)
+                        setItems([
+                            ...items,
+                            {
+                                id: newId,
+                                page: currentPage,
+                                location: {
+                                    x: 0,
+                                    y: 0,
+                                    page: currentPage,
+                                },
+                                size: {
+                                    width: 200,
+                                    height: 200,
+                                },
+                                data: {
+                                    role: 'industry',
+                                    type: 'text',
+                                    color: '#10b981',
+                                    dataLabel: 'input-industry-address',
+                                    column: 'addressLine1',
+                                    isCustom: false,
+                                    placeholder: 'Industry Address',
+                                    option: '',
+                                    isRequired: false,
+                                },
+                                saved: false,
+                            },
+                        ])
+                    }}
+                    setDraggableData={setDraggableData}
+                />
+            </div>
+            {pagesCount?.isLoading ? (
+                <LoadingAnimation />
+            ) : pagesCount?.data ? (
+                <div
+                    ref={scrollContainerRef}
+                    className="w-[600px] h-[85vh] border-4 border-blue-400 rounded-lg overflow-auto custom-scrollbar flex flex-col gap-y-2"
+                >
+                    {pagesCount?.data?.size?.map((item: any, i: number) => (
+                        <div key={i} className="bg-white">
+                            <LoogBookSVGLoader
+                                onPageCoordinatesUpdate={(e: any) => {}}
+                                setCurrentPage={setCurrentPage}
+                                onItemLocationChanged={onItemLocationChanged}
+                                onChangedLocation={onChangedLocation}
+                                onItemMove={onItemMove}
+                                tabsError={tabsError}
+                                setTabDropCoordinates={(coordinates: {
+                                    x: number
+                                    y: number
+                                }) => {
+                                    setTabDropCoordinates(coordinates)
+                                }}
+                                size={item}
+                                items={items.filter(
+                                    (item: any) => item?.page === i
+                                )}
+                                pageNumber={i + 1}
+                                onItemRemove={onItemRemove}
+                                onItemResize={onItemResize}
+                                onItemResized={onItemResized}
+                                onItemSelected={onItemSelected}
+                            />
+                        </div>
+                    ))}
+                </div>
+            ) : pagesCount?.isSuccess ? (
+                <EmptyData />
+            ) : null}
+            {/* </DndContext> */}
         </div>
     )
 }

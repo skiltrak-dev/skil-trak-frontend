@@ -1,12 +1,11 @@
-import { UserRoles } from '@constants'
 import { ReactNode } from 'react'
 import { useRestrictedData } from './hooks'
-
+import { RestrictedDataTypes } from './types'
 export const HideRestrictedData = ({
     children,
     type,
 }: {
-    type: UserRoles
+    type: RestrictedDataTypes
     children: ReactNode
 }) => {
     return useRestrictedData(children, type)
