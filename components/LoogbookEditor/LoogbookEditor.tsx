@@ -733,9 +733,6 @@ export const LoogbookEditor = () => {
                                     page: number,
                                     yPosition: number
                                 ) => {
-                                    console.log(
-                                        `Outerrrrrrrrrrr Page ${page} top offset: ${yPosition}px`
-                                    )
                                     // setCurrentPageY(yPosition)
                                 }}
                                 setCurrentPage={() => {
