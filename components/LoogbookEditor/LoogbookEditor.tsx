@@ -1,18 +1,22 @@
 import { EmptyData } from '@components/ActionAnimations'
+import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 import { CommonApi } from '@queries'
-import React, { useEffect, useRef, useState } from 'react'
-import { LoogBookSVGLoader } from './components'
-import { DndContext, DragOverlay } from '@dnd-kit/core'
-import { restrictToWindowEdges } from '@dnd-kit/modifiers'
-import { LoogbookSidebar } from './components'
+import { useEffect, useRef, useState } from 'react'
 import { uuid } from 'uuidv4'
-import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
+import { LoogbookSidebar, LoogBookSVGLoader } from './components'
 
 export const LoogbookEditor = () => {
     const [draggableData, setDraggableData] = useState<any>()
     const [tabDropCoordinates, setTabDropCoordinates] = useState<any>(null)
     const [currentPage, setCurrentPage] = useState<any>(0)
+    const [currentPageY, setCurrentPageY] = useState<number>(0)
+    const [pageVisiblePercentages, setPageVisiblePercentages] = useState<{
+        [key: number]: number
+    }>({})
+    const [pageTopOffsets, setPageTopOffsets] = useState<{
+        [key: number]: number
+    }>({})
 
     const scrollContainerRef = useRef<HTMLDivElement>(null)
 
@@ -97,19 +101,81 @@ export const LoogbookEditor = () => {
     const [lastSelectedItem, setLastSelectedItem] = useState<any>()
     const [tabsError, setTabsError] = useState<any>(null)
 
-    const pagesCount = CommonApi.ESign.useTamplatePagesCount(119)
+    const pagesCount = CommonApi.ESign.useTamplatePagesCount(242)
 
-    const handleScroll = () => {
-        const container = scrollContainerRef.current
-        if (container) {
-            const scrollTop = container.scrollTop
-            const containerHeight = container.clientHeight
+    console.log({ currentPageY })
 
-            // Determine the page currently in view
-            const pageIndex = Math.floor(scrollTop / containerHeight)
-            setCurrentPage(pageIndex)
-        }
-    }
+    // const handleScroll = () => {
+    //     const container = scrollContainerRef.current
+    //     if (container && pagesCount.data) {
+    //         const scrollTop = container.scrollTop
+    //         let accumulatedHeight = 0
+    //         let currentPageIndex = 0
+
+    //         for (let i = 0; i < pagesCount.data.size.length; i++) {
+    //             const pageHeight = pagesCount.data.size[i].height
+    //             if (scrollTop < accumulatedHeight + pageHeight) {
+    //                 currentPageIndex = i
+    //                 break
+    //             }
+    //             accumulatedHeight += pageHeight
+    //         }
+
+    //         const currentPageTop = scrollTop - accumulatedHeight
+    //         setCurrentPage(currentPageIndex)
+    //         setCurrentPageY(currentPageTop)
+    //         console.log({
+    //             currentPageIndex,
+    //             currentPageTopcurrentPageTopcurrentPageTopcurrentPageTop:
+    //                 currentPageTop,
+    //         })
+    //     }
+    // }
+
+    // const handleScroll = () => {
+    //     const container = scrollContainerRef.current
+    //     if (container && pagesCount.data) {
+    //         const scrollTop = container.scrollTop
+    //         const containerHeight = container.clientHeight
+    //         let accumulatedHeight = 0
+    //         let currentPageIndex = 0
+
+    //         for (let i = 0; i < pagesCount.data.size.length; i++) {
+    //             const pageHeight = pagesCount.data.size[i].height
+    //             accumulatedHeight += pageHeight
+
+    //             const nextPageThreshold = accumulatedHeight - pageHeight * 0.5 // 50% of the page height
+
+    //             // Check if the scrollTop has reached the threshold for the next page
+    //             if (
+    //                 scrollTop < nextPageThreshold ||
+    //                 i === pagesCount.data.size.length - 1
+    //             ) {
+    //                 currentPageIndex = i
+    //                 break
+    //             }
+    //         }
+
+    //         const previousPagesHeight =
+    //             accumulatedHeight -
+    //             pagesCount.data.size[currentPageIndex].height
+
+    //         // Calculate the currentPageTop correctly
+    //         const currentPageTop = Math.max(0, scrollTop - previousPagesHeight) // Ensure non-negative value
+
+    //         setCurrentPage(currentPageIndex)
+    //         setCurrentPageY(currentPageTop)
+
+    //         console.log({
+    //             currentPageIndex,
+    //             currentPageTop,
+    //             scrollTop,
+    //             accumulatedHeight,
+    //             containerHeight,
+    //             previousPagesHeight,
+    //         })
+    //     }
+    // }
 
     useEffect(() => {
         const container = scrollContainerRef.current
@@ -117,7 +183,275 @@ export const LoogbookEditor = () => {
             container.addEventListener('scroll', handleScroll)
             return () => container.removeEventListener('scroll', handleScroll)
         }
-    }, [scrollContainerRef.current])
+    }, [scrollContainerRef.current, pagesCount.data])
+
+    const handleScroll = () => {
+        const container = scrollContainerRef.current
+        if (container && pagesCount.data) {
+            const scrollTop = container.scrollTop
+            let accumulatedHeight = 0
+            let currentPageIndex = 0
+
+            // for (let i = 0; i < pagesCount.data.size.length; i++) {
+            //     const pageHeight = pagesCount.data.size[i].height
+            //     accumulatedHeight += pageHeight
+            //     console.log({ iiiiiiiiiiiii: i, accumulatedHeight })
+            // }
+
+            // Loop through each page to find the current page index
+            for (let i = 0; i < pagesCount.data.size.length; i++) {
+                const pageHeight = (pagesCount.data.size[i].height * 96) / 100
+                accumulatedHeight += pageHeight
+                console.log({
+                    scrollTop,
+                    accumulatedHeightaccumulatedHeight: accumulatedHeight,
+                    i,
+                })
+
+                // Check if the scrollTop is within the current accumulated height range
+                if (scrollTop < accumulatedHeight) {
+                    currentPageIndex = i
+                    break
+                }
+
+                // Ensure we capture the last page if we're at the end of the loop
+                if (i === pagesCount.data.size.length - 1) {
+                    currentPageIndex = i // Set to the last page index
+                }
+            }
+
+            // Calculate the total height of all previous pages
+            const previousPagesHeight =
+                accumulatedHeight -
+                pagesCount.data.size[currentPageIndex].height
+
+            // Calculate the current Y position relative to the top of the current page
+            const currentPageTop = scrollTop - previousPagesHeight
+
+            // Set states
+            setCurrentPage(currentPageIndex)
+            setCurrentPageY(currentPageTop)
+
+            // Debugging information
+            console.log({
+                scrollTop,
+                currentPageIndex,
+                currentPageTop,
+                accumulatedHeight,
+                previousPagesHeight,
+            })
+        }
+    }
+
+    // const handleScroll = () => {
+    //     const container = scrollContainerRef.current
+    //     if (container && pagesCount.data) {
+    //         const scrollTop = container.scrollTop
+    //         const containerHeight = container.clientHeight
+
+    //         let accumulatedHeight = 0
+    //         let currentPageIndex = 0
+
+    //         for (let i = 0; i < pagesCount.data.size.length; i++) {
+    //             const pageHeight = pagesCount.data.size[i].height
+    //             accumulatedHeight += pageHeight
+
+    //             const nextPageThreshold = accumulatedHeight - pageHeight * 0.5 // 50% of the page height
+
+    //             // Check if the scrollTop has reached the threshold for the next page
+    //             if (
+    //                 scrollTop < nextPageThreshold ||
+    //                 i === pagesCount.data.size.length - 1
+    //             ) {
+    //                 currentPageIndex = i
+    //                 break
+    //             }
+    //         }
+
+    //         const previousPagesHeight =
+    //             accumulatedHeight -
+    //             pagesCount.data.size[currentPageIndex].height
+    //         const currentPageTop = scrollTop - previousPagesHeight
+
+    //         console.log({ scrollTop, currentPageIndex })
+
+    //         setCurrentPage(currentPageIndex)
+    //         setCurrentPageY(currentPageTop)
+
+    //         console.log({
+    //             currentPageIndex,
+    //             currentPageTop,
+    //             scrollTop,
+    //             accumulatedHeight,
+    //             containerHeight,
+    //         })
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     const container = scrollContainerRef.current
+    //     if (container) {
+    //         container.addEventListener('scroll', handleScroll)
+    //         return () => container.removeEventListener('scroll', handleScroll)
+    //     }
+    // }, [scrollContainerRef.current, pagesCount.data])
+
+    // const handleScroll = () => {
+    //     const container = scrollContainerRef.current
+    //     if (container && pagesCount.data) {
+    //         const scrollTop = container.scrollTop
+    //         let accumulatedHeight = 0
+    //         let currentPageIndex = 0
+    //         const tolerance = 5 // A small buffer to handle minor discrepancies
+
+    //         for (let i = 0; i < pagesCount.data.size.length; i++) {
+    //             const pageHeight = pagesCount.data.size[i].height
+    //             accumulatedHeight += pageHeight
+
+    //             if (
+    //                 scrollTop + tolerance < accumulatedHeight ||
+    //                 i === pagesCount.data.size.length - 1
+    //             ) {
+    //                 currentPageIndex = i
+    //                 break
+    //             }
+    //         }
+
+    //         const previousPagesHeight =
+    //             accumulatedHeight -
+    //             pagesCount.data.size[currentPageIndex].height
+    //         const currentPageTop = scrollTop - previousPagesHeight
+
+    //         setCurrentPage(currentPageIndex)
+    //         setCurrentPageY(currentPageTop)
+
+    //         console.log({
+    //             currentPageIndex,
+    //             currentPageTop,
+    //             scrollTop,
+    //             accumulatedHeight,
+    //         })
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     const container = scrollContainerRef.current
+    //     if (container) {
+    //         container.addEventListener('scroll', handleScroll)
+    //         return () => container.removeEventListener('scroll', handleScroll)
+    //     }
+    // }, [scrollContainerRef.current, pagesCount.data])
+
+    // const handleScroll = () => {
+    //     const container = scrollContainerRef.current
+    //     if (container && pagesCount.data) {
+    //         const scrollTop = container.scrollTop
+    //         let accumulatedHeight = 0
+    //         let currentPageIndex = 0
+
+    //         for (let i = 0; i < pagesCount.data.size.length; i++) {
+    //             const pageHeight = pagesCount.data.size[i].height
+    //             accumulatedHeight += pageHeight
+    //             if (
+    //                 scrollTop < accumulatedHeight ||
+    //                 i === pagesCount.data.size.length - 1
+    //             ) {
+    //                 currentPageIndex = i
+    //                 break
+    //             }
+    //         }
+
+    //         const previousPagesHeight =
+    //             accumulatedHeight -
+    //             pagesCount.data.size[currentPageIndex].height
+    //         const currentPageTop = scrollTop - previousPagesHeight
+    //         setCurrentPage(currentPageIndex)
+    //         setCurrentPageY(currentPageTop)
+    //         console.log({
+    //             currentPageIndex,
+    //             currentPageTop,
+    //             scrollTop,
+    //             accumulatedHeight,
+    //         })
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     const container = scrollContainerRef.current
+    //     if (container) {
+    //         container.addEventListener('scroll', handleScroll)
+    //         return () => container.removeEventListener('scroll', handleScroll)
+    //     }
+    // }, [scrollContainerRef.current, pagesCount.data])
+
+    // const handleScroll = () => {
+    //     const container = scrollContainerRef.current
+    //     if (container) {
+    //         const scrollTop = container.scrollTop
+    //         const containerHeight = container.clientHeight
+    //         const totalHeight = container.scrollHeight
+
+    //         // Calculate visible percentages for all pages
+    //         const newPageVisiblePercentages: { [key: number]: number } = {}
+    //         pagesCount.data.size.forEach((item: any, index: number) => {
+    //             const pageStart = index * containerHeight
+    //             const pageEnd = pageStart + containerHeight
+    //             const visibleStart = Math.max(pageStart, scrollTop)
+    //             const visibleEnd = Math.min(
+    //                 pageEnd,
+    //                 scrollTop + containerHeight
+    //             )
+    //             const visibleHeight = Math.max(0, visibleEnd - visibleStart)
+    //             const visiblePercentage =
+    //                 (visibleHeight / containerHeight) * 100
+    //             newPageVisiblePercentages[index] = visiblePercentage
+    //         })
+
+    //         setPageVisiblePercentages(newPageVisiblePercentages)
+    //     }
+    // }
+
+    // const handleScroll = () => {
+    //     const container = scrollContainerRef.current
+    //     if (container) {
+    //         const scrollTop = container.scrollTop
+    //         const containerHeight = container.clientHeight
+
+    //         // Calculate top offsets for all pages
+    //         const newPageTopOffsets: { [key: number]: number } = {}
+    //         pagesCount.data.size.forEach((item: any, index: number) => {
+    //             const pageStart = index * containerHeight
+    //             const pageTopOffset = Math.max(0, scrollTop - pageStart)
+    //             newPageTopOffsets[index] = pageTopOffset
+    //         })
+
+    //         setPageTopOffsets(newPageTopOffsets)
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     const container = scrollContainerRef.current
+    //     if (container) {
+    //         container.addEventListener('scroll', handleScroll)
+    //         return () => container.removeEventListener('scroll', handleScroll)
+    //     }
+    // }, [scrollContainerRef.current, pagesCount.data])
+
+    // const getPageTopOffset = (pageNumber: number) => {
+    //     const visiblePercentage = pageVisiblePercentages[pageNumber] || 0
+    //     return 100 - visiblePercentage
+    // }
+
+    const getPageTopOffset = (pageNumber: number) =>
+        pageTopOffsets[pageNumber] || 0
+
+    // useEffect(() => {
+    //     const container = scrollContainerRef.current
+    //     if (container) {
+    //         container.addEventListener('scroll', handleScroll)
+    //         return () => container.removeEventListener('scroll', handleScroll)
+    //     }
+    // }, [scrollContainerRef.current])
 
     const handleDragEnd = (data: any) => {
         const newLocX = tabDropCoordinates?.x
@@ -354,32 +688,13 @@ export const LoogbookEditor = () => {
 
     console.log({ currentPage })
 
+    console.log('HEEEE', (currentPageY * 100) / pagesCount.data.size[0].height)
+
     return (
         <div className="bg-gray-300 flex justify-center w-full h-screen">
-            {/* <DndContext
-                modifiers={[restrictToWindowEdges]}
-                onDragEnd={handleDragEnd}
-            > */}
-            {/* <DragOverlay>
-                {draggableData ? (
-                    <div>
-                        <button className="flex items-center gap-2 p-2 hover:bg-gray-100 w-full rounded-md">
-                            <span
-                                className="text-xs p-2 rounded-md border"
-                                style={{
-                                    backgroundColor: `${draggableData?.color}26`,
-                                    borderColor: draggableData?.color,
-                                    color: draggableData?.color,
-                                }}
-                            >
-                                <draggableData.Icon />
-                            </span>
-                            <p className="text-sm">{draggableData?.text}</p>
-                        </button>
-                    </div>
-                ) : null}
-            </DragOverlay> */}
             <div>
+                <p>{`currentPage ${currentPage}`}</p>{' '}
+                <p>{`currentPageY ${currentPageY}`}</p>
                 <LoogbookSidebar
                     setData={(e: any) => {
                         const newId = uuid()
@@ -388,11 +703,26 @@ export const LoogbookEditor = () => {
                             ...items,
                             {
                                 id: newId,
-                                page: currentPage,
+                                page:
+                                    (currentPageY * 100) /
+                                        pagesCount.data.size[0].height >
+                                    88
+                                        ? currentPage + 1
+                                        : currentPage,
                                 location: {
                                     x: 0,
-                                    y: 0,
-                                    page: currentPage,
+                                    page:
+                                        (currentPageY * 100) /
+                                            pagesCount.data.size[0].height >
+                                        88
+                                            ? currentPage + 1
+                                            : currentPage,
+                                    y:
+                                        (currentPageY * 100) /
+                                            pagesCount.data.size[0].height >
+                                        88
+                                            ? 30
+                                            : (currentPageY * 96) / 100,
                                 },
                                 size: {
                                     width: 200,
@@ -426,8 +756,19 @@ export const LoogbookEditor = () => {
                     {pagesCount?.data?.size?.map((item: any, i: number) => (
                         <div key={i} className="bg-white">
                             <LoogBookSVGLoader
-                                onPageCoordinatesUpdate={(e: any) => {}}
-                                setCurrentPage={setCurrentPage}
+                                pageTopOffset={getPageTopOffset(i)}
+                                onPageCoordinatesUpdate={(
+                                    page: number,
+                                    yPosition: number
+                                ) => {
+                                    console.log(
+                                        `Outerrrrrrrrrrr Page ${page} top offset: ${yPosition}px`
+                                    )
+                                    // setCurrentPageY(yPosition)
+                                }}
+                                setCurrentPage={() => {
+                                    // setCurrentPage()
+                                }}
                                 onItemLocationChanged={onItemLocationChanged}
                                 onChangedLocation={onChangedLocation}
                                 onItemMove={onItemMove}
@@ -443,6 +784,7 @@ export const LoogbookEditor = () => {
                                     (item: any) => item?.page === i
                                 )}
                                 pageNumber={i + 1}
+                                currentPageY={currentPageY}
                                 onItemRemove={onItemRemove}
                                 onItemResize={onItemResize}
                                 onItemResized={onItemResized}
@@ -454,7 +796,6 @@ export const LoogbookEditor = () => {
             ) : pagesCount?.isSuccess ? (
                 <EmptyData />
             ) : null}
-            {/* </DndContext> */}
         </div>
     )
 }

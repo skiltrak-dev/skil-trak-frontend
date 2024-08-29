@@ -29,7 +29,11 @@ export const LoogBookSVGLoader = ({
     onItemMove,
     onItemRemove,
     onPageCoordinatesUpdate,
+    pageTopOffset,
+    currentPageY,
 }: {
+    pageTopOffset: number
+    currentPageY: number
     size: any
     items: any[]
     tabsError: any
@@ -50,10 +54,13 @@ export const LoogBookSVGLoader = ({
     const dimensionRef = useRef<HTMLDivElement>(null)
     const pageRef = useRef<HTMLDivElement>(null) // Ref for the page container
     const [pageCoordinates, setPageCoordinates] = useState<any>({})
-    const [currentPage, setCurrentPageState] = useState<number | null>(null)
+
+    // const onPageCoordinatesUpdate = (pageIndex: number, yPosition: number) => {
+    //     setCurrentPageY(yPosition) // Update the Y position of the current page
+    // }
 
     const template = CommonApi.ESign.useEsignTemplate({
-        id: 119,
+        id: 242,
         pageNumber: pageNumber - 1,
     })
 
@@ -96,28 +103,41 @@ export const LoogBookSVGLoader = ({
         }))
 
         setPageCoordinates(coordinates)
-        onPageCoordinatesUpdate(pageNumber, coordinates) // Notify parent with the coordinates
+        // Notify parent with the coordinates
     }, [items, pageNumber])
+
+    console.log({ template })
+
+    useEffect(() => {
+        if (pageRef.current) {
+            const pageHeight = pageRef.current.getBoundingClientRect().height
+            // Use pageHeight for further calculations
+            console.log({ pageHeight })
+        }
+    }, [currentPageY, template])
 
     const handleVisibilityChange = useCallback(
         (entries: any) => {
             entries.forEach((entry: any) => {
                 if (entry.isIntersecting) {
-                    // Determine the page index from data attribute
                     const pageIndex = parseInt(
                         entry.target.getAttribute('data-page-index') || '0',
                         10
                     )
-                    setCurrentPage(pageIndex)
+                    setCurrentPage(pageIndex) // Update parent state
+                    // console.log(
+                    //     `Page ${pageNumber} top offset: ${pageTopOffset}%`
+                    // )
+                    onPageCoordinatesUpdate(pageIndex, pageTopOffset)
                 }
             })
         },
-        [setCurrentPage]
+        [pageNumber, setCurrentPage, pageTopOffset] // Add dependency here
     )
 
     useEffect(() => {
         const observer = new IntersectionObserver(handleVisibilityChange, {
-            threshold: [0.5], // Adjust threshold as needed
+            threshold: [0.5],
         })
 
         if (pageRef.current) {
@@ -130,16 +150,6 @@ export const LoogBookSVGLoader = ({
             }
         }
     }, [handleVisibilityChange])
-
-    // useEffect(() => {
-    //     // Log current page
-    //     console.log(
-    //         `Current Page: ${
-    //             currentPage !== null ? `Page ${currentPage + 1}` : 'None'
-    //         }`
-    //     )
-    //     setCurrentPage(pageNumber - 1) // Adjust to zero-based index
-    // }, [currentPage, pageNumber])
 
     const handleEnter = () => {
         // setCurrentPage(pageNumber - 1)
