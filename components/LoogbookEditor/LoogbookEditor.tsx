@@ -667,7 +667,9 @@ export const LoogbookEditor = () => {
     }
 
     const checkPageIndexY =
-        (currentPageY * 100) / pagesCount.data.size[0].height > 88
+        pagesCount?.isSuccess && pagesCount?.data
+            ? (currentPageY * 100) / pagesCount?.data?.size?.[0]?.height > 88
+            : false
 
     return (
         <div className="bg-gray-300 flex justify-center w-full h-screen">
@@ -731,9 +733,6 @@ export const LoogbookEditor = () => {
                                     page: number,
                                     yPosition: number
                                 ) => {
-                                    console.log(
-                                        `Outerrrrrrrrrrr Page ${page} top offset: ${yPosition}px`
-                                    )
                                     // setCurrentPageY(yPosition)
                                 }}
                                 setCurrentPage={() => {
