@@ -11,6 +11,7 @@ interface IDraggableInput {
     data: InputData
     Icon: any
     text: string
+    onClick: any
     setDraggableData: (data: InputData) => void
 }
 
@@ -19,6 +20,7 @@ export const LoogBookDraggableInput = ({
     data,
     Icon,
     text,
+    onClick,
     setDraggableData,
 }: IDraggableInput) => {
     const dimRef = useRef<any>()
@@ -59,6 +61,7 @@ export const LoogBookDraggableInput = ({
                 style={style}
                 {...listeners}
                 {...attributes}
+                onClick={onClick}
             >
                 {/* <span className="bg-blue-100 text-xs p-2 rounded-md border border-blue-400 text-blue-800"> */}
                 <span
