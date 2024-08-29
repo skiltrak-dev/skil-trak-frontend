@@ -6,8 +6,6 @@ import { SubAdmin } from '@types'
 export const usePermissionData = (subadmin: SubAdmin) => {
     const { Actions, results } = usePermission()
 
-    console.log({ subadmin })
-
     const permissions = [
         {
             text: 'Allow Rto Listing',
