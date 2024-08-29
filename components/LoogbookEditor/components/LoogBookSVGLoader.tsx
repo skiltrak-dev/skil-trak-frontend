@@ -106,13 +106,10 @@ export const LoogBookSVGLoader = ({
         // Notify parent with the coordinates
     }, [items, pageNumber])
 
-    console.log({ template })
-
     useEffect(() => {
         if (pageRef.current) {
             const pageHeight = pageRef.current.getBoundingClientRect().height
             // Use pageHeight for further calculations
-            console.log({ pageHeight })
         }
     }, [currentPageY, template])
 
