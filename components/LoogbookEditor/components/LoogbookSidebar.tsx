@@ -1,14 +1,16 @@
-import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
-import { UserRoles } from '@constants'
 import React from 'react'
+import { UserRoles } from '@constants'
+import { BiRename } from 'react-icons/bi'
 import { AiOutlineUser } from 'react-icons/ai'
 import { MdDriveFileRenameOutline } from 'react-icons/md'
 import { LoogBookDraggableInput } from './LoogBookDraggableInput'
-import { BiRename } from 'react-icons/bi'
+import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 
 export const LoogbookSidebar = ({
+    setData,
     setDraggableData,
 }: {
+    setData: any
     setDraggableData: any
 }) => {
     const ColorPreset = {
@@ -55,10 +57,10 @@ export const LoogbookSidebar = ({
     ]
     return (
         <div>
-            {' '}
             {sidebarData?.map((item: any, index: number) => (
                 <LoogBookDraggableInput
                     setDraggableData={setDraggableData}
+                    onClick={setData}
                     key={index}
                     text={item?.text}
                     id={item?.id}
@@ -70,7 +72,6 @@ export const LoogbookSidebar = ({
                         column: item?.column,
                         role: item?.role,
                         isCustom: item?.isCustom,
-                        // dataLabel: 'studentName',
                     }}
                     Icon={item?.Icon || BiRename}
                 />
