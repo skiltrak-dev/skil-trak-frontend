@@ -103,8 +103,6 @@ export const LoogbookEditor = () => {
 
     const pagesCount = CommonApi.ESign.useTamplatePagesCount(242)
 
-    console.log({ currentPageY })
-
     // const handleScroll = () => {
     //     const container = scrollContainerRef.current
     //     if (container && pagesCount.data) {
@@ -192,21 +190,10 @@ export const LoogbookEditor = () => {
             let accumulatedHeight = 0
             let currentPageIndex = 0
 
-            // for (let i = 0; i < pagesCount.data.size.length; i++) {
-            //     const pageHeight = pagesCount.data.size[i].height
-            //     accumulatedHeight += pageHeight
-            //     console.log({ iiiiiiiiiiiii: i, accumulatedHeight })
-            // }
-
             // Loop through each page to find the current page index
             for (let i = 0; i < pagesCount.data.size.length; i++) {
                 const pageHeight = (pagesCount.data.size[i].height * 96) / 100
                 accumulatedHeight += pageHeight
-                console.log({
-                    scrollTop,
-                    accumulatedHeightaccumulatedHeight: accumulatedHeight,
-                    i,
-                })
 
                 // Check if the scrollTop is within the current accumulated height range
                 if (scrollTop < accumulatedHeight) {
@@ -233,13 +220,6 @@ export const LoogbookEditor = () => {
             setCurrentPageY(currentPageTop)
 
             // Debugging information
-            console.log({
-                scrollTop,
-                currentPageIndex,
-                currentPageTop,
-                accumulatedHeight,
-                previousPagesHeight,
-            })
         }
     }
 
@@ -686,9 +666,8 @@ export const LoogbookEditor = () => {
         }
     }
 
-    console.log({ currentPage })
-
-    console.log('HEEEE', (currentPageY * 100) / pagesCount.data.size[0].height)
+    const checkPageIndexY =
+        (currentPageY * 100) / pagesCount.data.size[0].height > 88
 
     return (
         <div className="bg-gray-300 flex justify-center w-full h-screen">
@@ -703,26 +682,17 @@ export const LoogbookEditor = () => {
                             ...items,
                             {
                                 id: newId,
-                                page:
-                                    (currentPageY * 100) /
-                                        pagesCount.data.size[0].height >
-                                    88
-                                        ? currentPage + 1
-                                        : currentPage,
+                                page: checkPageIndexY
+                                    ? currentPage + 1
+                                    : currentPage,
                                 location: {
                                     x: 0,
-                                    page:
-                                        (currentPageY * 100) /
-                                            pagesCount.data.size[0].height >
-                                        88
-                                            ? currentPage + 1
-                                            : currentPage,
-                                    y:
-                                        (currentPageY * 100) /
-                                            pagesCount.data.size[0].height >
-                                        88
-                                            ? 30
-                                            : (currentPageY * 96) / 100,
+                                    page: checkPageIndexY
+                                        ? currentPage + 1
+                                        : currentPage,
+                                    y: checkPageIndexY
+                                        ? 30
+                                        : (currentPageY * 96) / 100,
                                 },
                                 size: {
                                     width: 200,
