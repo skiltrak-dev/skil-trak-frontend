@@ -44,7 +44,7 @@ export const ProgressChart = ({ data }: { data: any[] }) => {
                             <p className="text-sm">{item?.title}</p>
                         </div>
                         <p className="text-sm" style={{ color: item?.color }}>
-                            {item?.percent.toFixed(1)}%
+                            {item?.percent ? item?.percent.toFixed(1) : 0}%
                         </p>
                     </div>
                 ))}
