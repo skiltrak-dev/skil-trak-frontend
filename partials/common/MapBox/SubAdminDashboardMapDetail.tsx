@@ -221,16 +221,16 @@ const SubAdminDashboardMapDetail = ({
         setSelectedMarker(marker)
     }, [])
 
-    useEffect(() => {
-        if (industriesList?.isSuccess) {
-            if (selectedBox) {
-                setTimeout(() => {
-                    map?.setCenter(selectedBox?.location)
-                    map?.setZoom(11)
-                }, 600)
-            }
-        }
-    }, [industriesList, selectedBox])
+    // useEffect(() => {
+    //     if (industriesList?.isSuccess) {
+    //         if (selectedBox) {
+    //             setTimeout(() => {
+    //                 map?.setCenter(selectedBox?.location)
+    //                 map?.setZoom(11)
+    //             }, 600)
+    //         }
+    //     }
+    // }, [industriesList, selectedBox])
 
     useEffect(() => {
         if (data || industriesList?.data || futureIndustries?.data) {
