@@ -53,12 +53,12 @@ export const ProgressLineChart = () => {
         'December',
     ]
     const initialData = chartCount?.data
-        ? Object.keys(chartCount?.data)?.map((month) => ({
+        ? Object.entries(chartCount?.data)?.map(([month, value]: any) => ({
               name: month,
-              studentsAdded: chartCount?.data[month].studentsAdded,
-              workplaceRequests: chartCount?.data[month].workplaceRequests,
-              studentsPlaced: chartCount?.data[month].studentsPlaced,
-              studentsExpired: chartCount?.data[month].studentsExpired,
+              studentsAdded: value?.studentsAdded,
+              workplaceRequests: value?.workplaceRequests,
+              studentsPlaced: value?.studentsPlaced,
+              studentsExpired: value?.studentsExpired,
           }))
         : []
     initialData?.sort(
@@ -96,39 +96,43 @@ export const ProgressLineChart = () => {
                 <div className="text-nowrap">
                     <Typography variant="h3">Statistics</Typography>
                 </div>
-                <div className="flex items-center justify-end w-full gap-x-4 ">
-                    <Select
-                        // label={'Search By Rto'}
-                        name={'rtoId'}
-                        // value={rtoOptions?.find(
-                        //     (rto: OptionType) => rto.value === Number(filter?.rtoId)
-                        // )}
-                        options={rtoOptions}
-                        placeholder={'Select By Rto...'}
-                        onChange={(e: any) => {
-                            setRtoId(e?.value)
-                        }}
-                        showError={false}
-                        loading={getRtos.isLoading}
-                        disabled={getRtos.isLoading}
-                    />
-                    <Select
-                        // label={'Search by Sector'}
-                        name={'sectorId'}
-                        options={sectorOptions}
-                        placeholder={'Select Sector...'}
-                        // value={sectorOptions?.find(
-                        //     (sector: SelectOption) =>
-                        //         sector.value === Number(filter?.sectorId)
-                        // )}
-                        onChange={(e: any) => {
-                            setSectorId(e?.value)
-                        }}
-                        showError={false}
-                        loading={sectorResponse.isLoading}
-                        disabled={sectorResponse.isLoading}
-                    />
-                    <div className="mt-4">
+                <div className="flex items-center justify-end w-full gap-x-2 xl:gap-x-4">
+                    <div className="w-44 lg:w-48 xl:w-64">
+                        <Select
+                            // label={'Search By Rto'}
+                            name={'rtoId'}
+                            // value={rtoOptions?.find(
+                            //     (rto: OptionType) => rto.value === Number(filter?.rtoId)
+                            // )}
+                            options={rtoOptions}
+                            placeholder={'Select By Rto...'}
+                            onChange={(e: any) => {
+                                setRtoId(e?.value)
+                            }}
+                            showError={false}
+                            loading={getRtos.isLoading}
+                            disabled={getRtos.isLoading}
+                        />
+                    </div>
+                    <div className="w-44 lg:w-48 xl:w-64">
+                        <Select
+                            // label={'Search by Sector'}
+                            name={'sectorId'}
+                            options={sectorOptions}
+                            placeholder={'Select Sector...'}
+                            // value={sectorOptions?.find(
+                            //     (sector: SelectOption) =>
+                            //         sector.value === Number(filter?.sectorId)
+                            // )}
+                            onChange={(e: any) => {
+                                setSectorId(e?.value)
+                            }}
+                            showError={false}
+                            loading={sectorResponse.isLoading}
+                            disabled={sectorResponse.isLoading}
+                        />
+                    </div>
+                    <div className="mt-4 w-44 lg:w-48 xl:w-64">
                         <Select
                             // label={'Search by Year'}
                             name={'year'}

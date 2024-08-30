@@ -37,7 +37,8 @@ import {
     useGetSubAdminStudentWorkplaceQuery,
     useSubAdminCancelStudentWorkplaceRequestMutation,
 } from '@queries'
-import { checkStudentProfileCompletion } from '@utils'
+import { checkStudentProfileCompletion, WorkplaceCurrentStatus } from '@utils'
+import { IWorkplaceIndustries } from 'redux/queryTypes'
 
 type Props = {}
 
@@ -76,7 +77,10 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         if (
             workplace.data &&
             workplace.isSuccess &&
-            workplace.data.length > 1
+            workplace?.data?.filter(
+                (wp: IWorkplaceIndustries) =>
+                    wp?.currentStatus !== WorkplaceCurrentStatus.Completed
+            )?.length > 1
         ) {
             setModal(<AlreadyWPCreatedModal />)
         } else if (
