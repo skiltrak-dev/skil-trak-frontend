@@ -25,6 +25,7 @@ import { useRouter } from 'next/router'
 import { WorkplaceCurrentStatus, checkStudentProfileCompletion } from '@utils'
 import { CompleteProfileBeforeWpModal } from '@partials/common/StudentProfileDetail/components'
 import { AlreadyWPCreatedModal } from '@partials/sub-admin/students/workplace/requestWorkplaceDetail/modal'
+import { IWorkplaceIndustries } from 'redux/queryTypes'
 
 type Props = {}
 
@@ -64,7 +65,10 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         if (
             workplace.data &&
             workplace.isSuccess &&
-            workplace.data.length > 1
+            workplace?.data?.filter(
+                (wp: IWorkplaceIndustries) =>
+                    wp?.currentStatus !== WorkplaceCurrentStatus.Completed
+            )?.length > 1
         ) {
             setModal(<AlreadyWPCreatedModal />)
         } else if (

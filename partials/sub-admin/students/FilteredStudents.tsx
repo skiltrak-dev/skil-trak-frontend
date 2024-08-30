@@ -2,7 +2,6 @@ import {
     ActionButton,
     Card,
     EmptyData,
-    InitialAvatar,
     LoadingAnimation,
     StudentExpiryDaysLeft,
     Table,
@@ -27,7 +26,7 @@ import { ReactElement, useState } from 'react'
 import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
 import { MdBlock } from 'react-icons/md'
 import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
-import { IndustryCellInfo } from '../Industries'
+import { RTOCellInfo } from '../rto/components'
 import { InterviewModal } from '../workplace/modals'
 import { StudentCellInfo, SubadminStudentIndustries } from './components'
 import {
@@ -36,7 +35,6 @@ import {
     BlockModal,
     ChangeStudentStatusModal,
 } from './modals'
-import { RTOCellInfo } from '../rto/components'
 
 export const FilteredStudents = ({
     filter,
@@ -248,12 +246,6 @@ export const FilteredStudents = ({
                     />
                 )
             },
-            // cell: ({ row }) => (
-            //     <CaseOfficerAssignedStudent
-            //         student={row.original}
-            //         workplaceFilter={filter?.currentStatus}
-            //     />
-            // ),
         },
         {
             accessorKey: 'user.status',
