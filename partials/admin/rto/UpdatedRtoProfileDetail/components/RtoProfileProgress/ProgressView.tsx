@@ -27,7 +27,10 @@ export const ProgressView = ({
                         color: progress?.color,
                     }}
                 >
-                    {progress?.percent}%
+                    {progress?.percent && typeof progress?.percent === 'number'
+                        ? progress?.percent?.toFixed(1)
+                        : 0}
+                    %
                 </span>
             </Typography>
         </div>

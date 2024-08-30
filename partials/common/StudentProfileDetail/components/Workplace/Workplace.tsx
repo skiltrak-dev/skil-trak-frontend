@@ -25,7 +25,10 @@ import { Student } from '@types'
 import { checkStudentProfileCompletion, WorkplaceCurrentStatus } from '@utils'
 import moment from 'moment'
 import { ReactNode, useEffect, useState } from 'react'
-import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
+import {
+    IWorkplaceIndustries,
+    WorkplaceWorkIndustriesType,
+} from 'redux/queryTypes'
 import {
     AddWorkplaceAction,
     CancelledWorkplaceTable,
@@ -166,8 +169,12 @@ export const Workplace = ({
         )
     }
 
-    const firstWorkplaceCurrentStatus =
-        studentWorkplace?.data?.[0]?.currentStatus
+    const ignoreCompletedWP = studentWorkplace?.data?.filter(
+        (wp: IWorkplaceIndustries) =>
+            wp?.currentStatus !== WorkplaceCurrentStatus.Completed
+    )
+
+    const firstWorkplaceCurrentStatus = ignoreCompletedWP?.[0]?.currentStatus
 
     const values = { ...student, ...student?.user, courses: courses?.data }
 
@@ -226,7 +233,11 @@ export const Workplace = ({
                               )
                             : null}
                         {studentWorkplace?.data &&
-                        studentWorkplace?.data?.length === 1 ? (
+                        studentWorkplace?.data?.filter(
+                            (wp: IWorkplaceIndustries) =>
+                                wp?.currentStatus !==
+                                WorkplaceCurrentStatus.Completed
+                        )?.length === 1 ? (
                             <div className="whitespace-pre">
                                 <Button
                                     onClick={() => {
