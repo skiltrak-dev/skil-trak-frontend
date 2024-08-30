@@ -30,11 +30,11 @@ export const RtoReviewCard = ({
 }: any) => {
     return (
         <>
-            <div className="w-full flex gap-x-10 max-h-[675px] bg-white rounded-xl shadow-lg">
-                <div className="w-1/2 flex">
-                    <div className="w-[375px] relative p-16 rounded-l-xl bg-primaryNew">
-                        <div className="flex flex-col gap-y-24">
-                            <div className="flex flex-col gap-y-5">
+            <div className="w-full flex flex-col md:flex-row gap-y-1 gap-x-10 max-h-[675px] bg-white rounded-xl shadow-lg">
+                <div className="md:w-1/2 flex flex-col md:flex-row">
+                    <div className="md:w-[375px] relative p-8 md:p-16 md:rounded-t-none rounded-t-xl md:rounded-l-xl bg-primaryNew">
+                        <div className="flex flex-col gap-y-5 md:gap-y-24">
+                            <div className="flex flex-col gap-y-2 md:gap-y-5">
                                 <Typography
                                     variant="h2"
                                     color="text-white"
@@ -47,8 +47,10 @@ export const RtoReviewCard = ({
                                 </Typography>
                             </div>
 
-                            <div className=''>
-                                <DoubleQuoteIcon />
+                            <div className="">
+                                <div className="hidden md:block">
+                                    <DoubleQuoteIcon />
+                                </div>
                                 <Typography
                                     variant="h1"
                                     color="text-white"
@@ -62,7 +64,7 @@ export const RtoReviewCard = ({
                             </div>
                         </div>
                     </div>
-                    <div className="shadow-lg">
+                    <div className="shadow-lg md:block hidden">
                         <Image
                             src={`/images/our-story/${imageUrl}`}
                             alt=""
@@ -73,8 +75,8 @@ export const RtoReviewCard = ({
                         />
                     </div>
                 </div>
-                <div className="flex flex-col gap-y-4 p-5 w-1/2">
-                    <div className="flex justify-end">
+                <div className="flex flex-col md:gap-y-4 p-3 md:p-5 md:w-1/2">
+                    <div className="md:flex hidden justify-end">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="178"
@@ -92,7 +94,7 @@ export const RtoReviewCard = ({
                             </g>
                         </svg>
                     </div>
-                    <div className="px-16">
+                    <div className="md:px-5 px-0">
                         <Typography variant="body">{review}</Typography>
                     </div>
                 </div>
