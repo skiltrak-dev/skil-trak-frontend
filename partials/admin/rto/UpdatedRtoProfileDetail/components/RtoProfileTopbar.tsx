@@ -11,7 +11,6 @@ export const RtoProfileTopbar = ({ rtoUserId }: { rtoUserId: number }) => {
     const router = useRouter()
 
     const role = getUserCredentials()?.role
-    const subadmin = SubAdminApi.SubAdmin.useProfile()
     return (
         <Card noPadding shadowType="profile">
             <div className="flex justify-between items-center py-3 px-3.5">
