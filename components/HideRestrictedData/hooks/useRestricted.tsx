@@ -8,7 +8,7 @@ export const useRestricted = (type: RestrictedDataTypes) => {
 
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
         skip: role !== UserRoles.SUBADMIN,
-        refetchOnMountOrArgChange: true,
+        // refetchOnMountOrArgChange: true,
     })
 
     const checkType = () => {
