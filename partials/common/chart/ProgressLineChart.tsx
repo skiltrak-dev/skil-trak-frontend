@@ -1,4 +1,4 @@
-import { Card, Select } from '@components'
+import { Card, Select, Typography } from '@components'
 import React, { useMemo, useState } from 'react'
 import {
     LineChart,
@@ -92,52 +92,57 @@ export const ProgressLineChart = () => {
 
     return (
         <Card noPadding>
-            <div className="flex items-center justify-end w-full gap-x-4 px-8 py-4">
-                <Select
-                    label={'Search By Rto'}
-                    name={'rtoId'}
-                    // value={rtoOptions?.find(
-                    //     (rto: OptionType) => rto.value === Number(filter?.rtoId)
-                    // )}
-                    options={rtoOptions}
-                    placeholder={'Select Search By Rto...'}
-                    onChange={(e: any) => {
-                        setRtoId(e?.value)
-                    }}
-                    showError={false}
-                    loading={getRtos.isLoading}
-                    disabled={getRtos.isLoading}
-                />
-                <Select
-                    label={'Search by Sector'}
-                    name={'sectorId'}
-                    options={sectorOptions}
-                    placeholder={'Select Sector...'}
-                    // value={sectorOptions?.find(
-                    //     (sector: SelectOption) =>
-                    //         sector.value === Number(filter?.sectorId)
-                    // )}
-                    onChange={(e: any) => {
-                        setSectorId(e?.value)
-                    }}
-                    showError={false}
-                    loading={sectorResponse.isLoading}
-                    disabled={sectorResponse.isLoading}
-                />
-                <div className='mt-4'>
+            <div className="px-8 py-4 flex justify-between items-center">
+                <div className="text-nowrap">
+                    <Typography variant="h3">Statistics</Typography>
+                </div>
+                <div className="flex items-center justify-end w-full gap-x-4 ">
                     <Select
-                        label={'Search by Year'}
-                        name={'year'}
-                        options={yearOptions}
-                        placeholder={'Select Year...'}
+                        // label={'Search By Rto'}
+                        name={'rtoId'}
+                        // value={rtoOptions?.find(
+                        //     (rto: OptionType) => rto.value === Number(filter?.rtoId)
+                        // )}
+                        options={rtoOptions}
+                        placeholder={'Select By Rto...'}
                         onChange={(e: any) => {
-                            setYear(e?.value)
+                            setRtoId(e?.value)
                         }}
-                        // value={yearOptions.find((y) => y.value === year)}
+                        showError={false}
+                        loading={getRtos.isLoading}
+                        disabled={getRtos.isLoading}
                     />
+                    <Select
+                        // label={'Search by Sector'}
+                        name={'sectorId'}
+                        options={sectorOptions}
+                        placeholder={'Select Sector...'}
+                        // value={sectorOptions?.find(
+                        //     (sector: SelectOption) =>
+                        //         sector.value === Number(filter?.sectorId)
+                        // )}
+                        onChange={(e: any) => {
+                            setSectorId(e?.value)
+                        }}
+                        showError={false}
+                        loading={sectorResponse.isLoading}
+                        disabled={sectorResponse.isLoading}
+                    />
+                    <div className="mt-4">
+                        <Select
+                            // label={'Search by Year'}
+                            name={'year'}
+                            options={yearOptions}
+                            placeholder={'Select Year...'}
+                            onChange={(e: any) => {
+                                setYear(e?.value)
+                            }}
+                            value={yearOptions.find((y) => y.value === year)}
+                        />
+                    </div>
                 </div>
             </div>
-            <ResponsiveContainer width="100%" height={500}>
+            <ResponsiveContainer width="100%" height={300}>
                 <LineChart
                     data={initialData}
                     margin={{

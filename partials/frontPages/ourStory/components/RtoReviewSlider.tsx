@@ -18,15 +18,16 @@ const rtoReviews = [
         continuing this valuable partnership.`,
     },
     {
-        rtoName: 'Marcus Sellen',
-        instituteName: 'Hader Institute of Education',
-        imageUrl: 'rto-ceo.png',
-        review: `Partnering with SkilTrak has been exceptional. The team, from Julie to Quandeel, 
-        consistently demonstrates professionalism, efficiency, and a commitment to our success. 
-        Their intuitive, user-friendly system makes coordinating work placements seamless, greatly 
-        benefiting our team and learners. Ourstaff and students enjoy working with SkilTrak, and 
-        their dedication to quality service is evident in every interaction. We look forward to 
-        continuing this valuable partnership.`,
+        rtoName: 'Kon Kanellopoulos',
+        instituteName: '(Operations Manager) ITHEA',
+        imageUrl: 'rto-op.png',
+        review: `Working with Skiltrak for the past 5 months has been seamless for ITHEA. 
+        The entire team, from directors to account managers, has been supportive, accommodating 
+        our needs and effectively connecting our students with employers. Their management of student 
+        files during work placements and weekly meetings to resolve issues have been invaluable, 
+        allowing our trainers to focus more on teaching. Skiltrak’s system also lets us monitor student 
+        progress and ensure they are in the correct work sector. We highly recommend Skiltrak to other 
+        organizations seeking similar support, and we look forward to continuing our partnership.`,
     },
 ]
 
@@ -39,6 +40,7 @@ export const RtoReviewSlider = () => {
         'border border-secondary absolute top-1/2 -mt-2 z-10 cursor-pointer bg-orange-400 text-white shadow-md rounded-md hover:scale-150 transition-all hover:opacity-100 w-5 h-5 flex justify-center items-center'
     const disabledClasses =
         'opacity-50 hover:opacity-50 hover:cursor-not-allowed'
+
     return (
         <div className="mx-auto max-w-7xl my-20">
             <div className="swiper-container w-full relative">
@@ -46,6 +48,20 @@ export const RtoReviewSlider = () => {
                     slidesPerView={1}
                     spaceBetween={10}
                     slidesPerGroup={1}
+                    breakpoints={{
+                        640: {
+                            slidesPerView: 1,
+                            spaceBetween: 10,
+                        },
+                        768: {
+                            slidesPerView: 1,
+                            spaceBetween: 20,
+                        },
+                        1024: {
+                            slidesPerView: 1,
+                            spaceBetween: 30,
+                        },
+                    }}
                     pagination={{
                         clickable: true,
                     }}

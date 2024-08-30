@@ -58,9 +58,32 @@ export const GoogleReviewSlider = () => {
                 centeredSlides
                 autoplay={{ delay: 3000 }}
                 direction={'horizontal'}
-                slidesPerView={3}
+                // slidesPerView={3}
                 spaceBetween={0}
                 speed={1000}
+                breakpoints={{
+                    320: {
+                        slidesPerView: 1,
+                        spaceBetween: 20
+                      },
+                      // when window width is >= 480px
+                      480: {
+                        slidesPerView: 1,
+                        spaceBetween: 30
+                      },
+                    640: {
+                        slidesPerView: 1,
+                        spaceBetween: 10,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                        spaceBetween: 30,
+                    },
+                }}
                 modules={[Autoplay, Pagination]}
                 // className=""
                 // observeParents
