@@ -31,17 +31,7 @@ export const LoogbookSidebar = ({
             column: 'studentId',
             role: UserRoles.STUDENT,
             Icon: MdDriveFileRenameOutline,
-        },
-        {
-            text: 'Signature',
-            id: 'input-student-signature',
-            color: ColorPreset.student,
-            placeholder: 'Student name',
-            preDefined: true,
-            type: FieldsTypeEnum.Signature,
-            column: 'name',
-            Icon: AiOutlineUser,
-            role: UserRoles.STUDENT,
+            img: '/images/logbook/text-editor.png',
         },
         {
             text: 'Checkbox',
@@ -53,10 +43,35 @@ export const LoogbookSidebar = ({
             column: 'name',
             Icon: AiOutlineUser,
             role: UserRoles.STUDENT,
+            img: '/images/logbook/check.png',
+        },
+        {
+            text: 'Date',
+            id: 'input-student-checkbox',
+            color: ColorPreset.student,
+            placeholder: 'Student name',
+            preDefined: true,
+            type: FieldsTypeEnum.Date,
+            column: 'name',
+            Icon: AiOutlineUser,
+            role: UserRoles.STUDENT,
+            img: '/images/logbook/calenadar.png',
+        },
+        {
+            text: 'Signature',
+            id: 'input-student-signature',
+            color: ColorPreset.student,
+            placeholder: 'Student name',
+            preDefined: true,
+            type: FieldsTypeEnum.Signature,
+            column: 'name',
+            Icon: AiOutlineUser,
+            role: UserRoles.STUDENT,
+            img: '/images/logbook/agreement.png',
         },
     ]
     return (
-        <div>
+        <div className="px-3 flex flex-col gap-y-2.5 mt-3.5">
             {sidebarData?.map((item: any, index: number) => (
                 <LoogBookDraggableInput
                     setDraggableData={setDraggableData}
@@ -72,6 +87,7 @@ export const LoogbookSidebar = ({
                         column: item?.column,
                         role: item?.role,
                         isCustom: item?.isCustom,
+                        img: item?.img,
                     }}
                     Icon={item?.Icon || BiRename}
                 />

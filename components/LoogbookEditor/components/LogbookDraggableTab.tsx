@@ -3,11 +3,15 @@ import { Button } from '@components/buttons'
 import { TextInput } from '@components/inputs'
 import { useEffect, useRef, useState } from 'react'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
+import { TextField } from './Fields'
+import { AiOutlineDelete } from 'react-icons/ai'
+import { RiFileCopy2Line } from 'react-icons/ri'
 
 export const LogbookDraggableTab = ({
     item,
     viewport,
     onResize,
+    onPasteTab,
     onRemove,
     tabsError,
     onResized,
@@ -15,7 +19,6 @@ export const LogbookDraggableTab = ({
     onChangedLocation,
 }: any) => {
     const [selectedIIII, setSelectedIIII] = useState<any>({})
-    const [show, setShow] = useState<boolean>(false)
 
     const handleClick = (e: any) => {
         e?.stopPropagation()
@@ -34,7 +37,6 @@ export const LogbookDraggableTab = ({
     }, [item])
 
     const handleMouseDown = (e: any) => {
-        setShow(true)
         e?.stopPropagation()
         setDragging(true)
 
@@ -137,24 +139,27 @@ export const LogbookDraggableTab = ({
                     id={`tabs-view-${item?.id}`}
                     className="flex flex-col justify-center gap-x-1"
                 >
-                    {show ? (
-                        <div
+                    <div
+                        style={{ pointerEvents: 'auto' }} // Ensure this div can receive pointer events
+                        className="bg-white rounded shadow-lg h-6 w-full absolute -top-0 left-0 cursor-pointer flex items-center"
+                    >
+                        <RiFileCopy2Line
                             onClick={(e: any) => {
                                 e.stopPropagation() // Stop the click from propagating to parent elements
-
+                                onPasteTab(item)
+                            }}
+                            size={17}
+                        />
+                        <AiOutlineDelete
+                            onClick={(e: any) => {
+                                e.stopPropagation() // Stop the click from propagating to parent elements
                                 onRemove(item)
                             }}
-                            style={{ pointerEvents: 'auto' }} // Ensure this div can receive pointer events
-                            className="bg-black w-full absolute top-0 left-0 cursor-pointer"
-                        >
-                            Saad
-                        </div>
-                    ) : null}
-                    <div className="mt-4 relative top-0 left-0 z-50 px-4 bg-white">
-                        <Button onClick={handleClick}>Sign</Button>
+                            size={17}
+                        />
                     </div>
-                    <div className="relative top-0 left-0 z-50 px-4 bg-white">
-                        <TextInput name="Saad" showError={false} />
+                    <div className="mt-8 relative top-0 left-0 z-50 px-4 bg-white">
+                        <TextField />
                     </div>
                 </div>
             </foreignObject>
@@ -272,7 +277,7 @@ export const LogbookDraggableTab = ({
                             id={`tabs-view-${item?.id}`}
                             className="flex flex-col justify-center gap-x-1"
                         >
-                            {show ? <div className="bg-black">Saad</div> : null}
+                            <div className="bg-black">Saad</div>
                             {/* <div className="relative top-0 left-0 z-50 p-4 bg-white">
                                 <Button onClick={handleClick}>Sign</Button>
                             </div> */}
@@ -298,11 +303,10 @@ export const LogbookDraggableTab = ({
                             id={`tabs-view-${item?.id}`}
                             className="flex items-center gap-x-1"
                         >
-                            {show ? (
-                                <div className="bg-black relative -top-10 -left-10">
-                                    Saad
-                                </div>
-                            ) : null}
+                            <div className="bg-black relative -top-10 -left-10">
+                                Saad
+                            </div>
+
                             <div className="relative top-0 left-0 z-50 p-4 bg-white">
                                 <Button onClick={handleClick}>Sign</Button>
                             </div>

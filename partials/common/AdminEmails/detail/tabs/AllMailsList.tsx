@@ -1,7 +1,7 @@
 // queries
 import { NoData } from '@components'
 import { CommonApi } from '@queries'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
 import { PulseLoader } from 'react-spinners'
 import { AllMailsListCard, ReceivedMessaging } from '../../components'
@@ -13,17 +13,17 @@ export const AllMailsList = ({
     setSelectedMessage: any
     selectedMessage: any
 }) => {
-    const [itemPerPage, setItemPerPage] = useState(20)
+    const itemPerPage = 20
     const [page, setPage] = useState(1)
     const [hasNext, setHasNext] = useState(true)
 
-    const [allMails, setAllMails] = useState<any>([])
-
-    const { data, isLoading, isError, isFetching, isSuccess } =
+    const { data, isError, isFetching, isSuccess } =
         CommonApi.Messages.useAllMailsList({
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
+
+    console.log({ data })
     useEffect(() => {
         if (data?.pagination && isSuccess) {
             setHasNext(data?.pagination?.hasNext)
@@ -32,37 +32,18 @@ export const AllMailsList = ({
             setHasNext(false)
         }
     }, [data, isSuccess, isError])
-    useEffect(() => {
-        if (
-            !isFetching &&
-            !isLoading &&
-            isSuccess &&
-            data?.data &&
-            data?.data?.length > 0
-        ) {
-            setAllMails([...allMails, ...data?.data])
-        }
-    }, [data, isSuccess])
 
-    const fetchMoreData = () => {
-        setTimeout(() => {
-            // setItemPerPage(
-            //     data?.data?.length > 0 ? data?.data?.length + 20 : 20
-            // )
-            setPage(
-                allMails?.length > 0
-                    ? Math.floor(allMails?.length / itemPerPage) + 1
-                    : 1
-            )
-        }, 1500)
-        // setLimit(40)
-    }
+    const loadMore = useCallback(() => {
+        if (!isFetching && !isError && hasNext) {
+            setPage((prevPage) => prevPage + 1)
+        }
+    }, [isFetching, isError, hasNext])
 
     return (
         <ReceivedMessaging selectedMessage={selectedMessage}>
             <InfiniteScroll
                 pageStart={0}
-                loadMore={fetchMoreData}
+                loadMore={loadMore}
                 hasMore={hasNext}
                 useWindow={false}
                 loader={
@@ -71,19 +52,19 @@ export const AllMailsList = ({
                     </div>
                 }
             >
-                {allMails && allMails?.length > 0
-                    ? allMails?.map((message: any) => (
-                        <AllMailsListCard
-                            key={message?.id}
-                            message={message}
-                            selectedMessageId={selectedMessage?.id}
-                            onClick={() => {
-                                setSelectedMessage(message)
-                            }}
-                        />
-                    ))
+                {data?.data && data?.data?.length > 0
+                    ? data?.data?.map((message: any) => (
+                          <AllMailsListCard
+                              key={message?.id}
+                              message={message}
+                              selectedMessageId={selectedMessage?.id}
+                              onClick={() => {
+                                  setSelectedMessage(message)
+                              }}
+                          />
+                      ))
                     : !isError &&
-                    isSuccess && <NoData text={'There is no mails'} />}
+                      isSuccess && <NoData text={'There is no mails'} />}
                 {isError && (
                     <NoData
                         text={

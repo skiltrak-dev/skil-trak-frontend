@@ -209,6 +209,23 @@ export const mailsEndpoints = (
             params,
         }),
         providesTags: ['Mails'],
+        serializeQueryArgs: ({ endpointName }) => {
+            return endpointName
+        },
+        transformResponse: (responseData) => responseData,
+        merge: (currentCache, newData) => {
+            if (!currentCache) {
+                console.log('again')
+                return newData
+            }
+            return {
+                data: [...currentCache?.data, ...newData?.data],
+                pagination: newData?.pagination,
+            }
+        },
+        forceRefetch({ currentArg, previousArg }) {
+            return currentArg !== previousArg
+        },
     }),
     getAllSentMailsList: builder.query<
         any,

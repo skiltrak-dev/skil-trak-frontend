@@ -5,11 +5,15 @@ import { CommonApi } from '@queries'
 import { useEffect, useRef, useState } from 'react'
 import { uuid } from 'uuidv4'
 import { LoogbookSidebar, LoogBookSVGLoader } from './components'
+import { Typography } from '@components/Typography'
+import { Button } from '@components/buttons'
 
 export const LoogbookEditor = () => {
     const [draggableData, setDraggableData] = useState<any>()
     const [tabDropCoordinates, setTabDropCoordinates] = useState<any>(null)
     const [currentPage, setCurrentPage] = useState<any>(0)
+    const [isPageScrolled, setIsPageScrolled] = useState<boolean>(false)
+    const [renderedPagesHeight, setRenderedPagesHeight] = useState<number[]>([])
     const [currentPageY, setCurrentPageY] = useState<number>(0)
     const [pageVisiblePercentages, setPageVisiblePercentages] = useState<{
         [key: number]: number
@@ -17,91 +21,16 @@ export const LoogbookEditor = () => {
     const [pageTopOffsets, setPageTopOffsets] = useState<{
         [key: number]: number
     }>({})
+    const [pastedTabsCount, setPastedTabsCount] = useState<number>(1)
 
     const scrollContainerRef = useRef<HTMLDivElement>(null)
 
-    const [items, setItems] = useState<any>([
-        {
-            id: 4350,
-            page: 0,
-            location: {
-                x: 264.6262127436466,
-                y: 395.4725564326463,
-                page: 0,
-            },
-            size: {
-                width: 200,
-                height: 200,
-            },
-            data: {
-                role: 'industry',
-                type: 'text',
-                color: '#10b981',
-                dataLabel: 'input-industry-name',
-                column: 'name',
-                isCustom: false,
-                placeholder: 'Industry Name',
-                option: '',
-                isRequired: false,
-            },
-            saved: true,
-        },
-        {
-            id: 4351,
-            page: 0,
-            location: {
-                x: 262.56207943318026,
-                y: 414.0110675599251,
-                page: 0,
-            },
-            size: {
-                width: 200,
-                height: 200,
-            },
-            data: {
-                role: 'industry',
-                type: 'text',
-                color: '#10b981',
-                dataLabel: 'input-industry-abn',
-                column: 'abn',
-                isCustom: false,
-                placeholder: 'Industry ABN',
-                option: '',
-                isRequired: false,
-            },
-            saved: true,
-        },
-        {
-            id: 4352,
-            page: 0,
-            location: {
-                x: 161.01742751560886,
-                y: 230.9861109673488,
-                page: 0,
-            },
-            size: {
-                width: 200,
-                height: 200,
-            },
-            data: {
-                role: 'industry',
-                type: 'text',
-                color: '#10b981',
-                dataLabel: 'input-industry-address',
-                column: 'addressLine1',
-                isCustom: false,
-                placeholder: 'Industry Address',
-                option: '',
-                isRequired: false,
-            },
-            saved: true,
-        },
-    ])
+    const [items, setItems] = useState<any>([])
     const [contextBar, setContextBar] = useState<any>()
     const [lastSelectedItem, setLastSelectedItem] = useState<any>()
     const [tabsError, setTabsError] = useState<any>(null)
 
-    const pagesCount = CommonApi.ESign.useTamplatePagesCount(242)
+    const pagesCount = CommonApi.ESign.useTamplatePagesCount(160)
 
     // const handleScroll = () => {
     //     const container = scrollContainerRef.current
@@ -181,19 +110,39 @@ export const LoogbookEditor = () => {
             container.addEventListener('scroll', handleScroll)
             return () => container.removeEventListener('scroll', handleScroll)
         }
-    }, [scrollContainerRef.current, pagesCount.data])
+    }, [scrollContainerRef.current, renderedPagesHeight, pagesCount.data])
 
     const handleScroll = () => {
         const container = scrollContainerRef.current
         if (container && pagesCount.data) {
+            setIsPageScrolled(true)
             const scrollTop = container.scrollTop
             let accumulatedHeight = 0
             let currentPageIndex = 0
 
             // Loop through each page to find the current page index
             for (let i = 0; i < pagesCount.data.size.length; i++) {
-                const pageHeight = (pagesCount.data.size[i].height * 96) / 100
-                accumulatedHeight += pageHeight
+                // const pageHeight = (pagesCount.data.size[i].height * 96) / 100
+                // const pageHeight = pagesCount.data.size[i].height
+                const pageHeight = renderedPagesHeight[i]
+                console.log({
+                    renderedPagesHeightrenderedPagesHeightrenderedPagesHeight:
+                        renderedPagesHeight,
+                })
+                // const pageHeight =
+                //     (renderedPagesHeight[i] * 100) /
+                //     pagesCount.data.size[i].height
+
+                if (accumulatedHeight > 0) {
+                    accumulatedHeight += pageHeight + 8
+                } else {
+                    accumulatedHeight += pageHeight
+                }
+                console.log({
+                    pageHeightpageHeightpageHeight: pageHeight,
+                    scrollTop,
+                    accumulatedHeight,
+                })
 
                 // Check if the scrollTop is within the current accumulated height range
                 if (scrollTop < accumulatedHeight) {
@@ -209,8 +158,7 @@ export const LoogbookEditor = () => {
 
             // Calculate the total height of all previous pages
             const previousPagesHeight =
-                accumulatedHeight -
-                pagesCount.data.size[currentPageIndex].height
+                accumulatedHeight - renderedPagesHeight[currentPageIndex]
 
             // Calculate the current Y position relative to the top of the current page
             const currentPageTop = scrollTop - previousPagesHeight
@@ -671,100 +619,176 @@ export const LoogbookEditor = () => {
             ? (currentPageY * 100) / pagesCount?.data?.size?.[0]?.height > 88
             : false
 
+    console.log({ items })
+
+    const onPasteTab = (item: any) => {
+        const newId = uuid()
+        const updatedCopiedText = {
+            ...item,
+            saved: false,
+            id: newId,
+            selected: true,
+            location: {
+                ...item?.location,
+                // x: item?.location?.x + pastedTabsCount * 10,
+                y: item?.location?.y + pastedTabsCount * 12,
+            },
+            parent: {
+                ...item?.parent,
+                left: item?.over?.rect.left + pastedTabsCount * 10,
+                top: item?.over?.rect.top + pastedTabsCount * 10,
+            },
+        }
+
+        // Apply the copied data if available
+        if (updatedCopiedText) {
+            // You may need to adjust the logic based on your data structure
+            // For example, you might want to update specific properties of the current item
+            // or create a new item with the copied data
+
+            setItems([
+                ...items?.map((item: any) => ({
+                    ...item,
+                    selected: false,
+                })),
+                updatedCopiedText,
+            ])
+
+            setLastSelectedItem(updatedCopiedText)
+            setContextBar(updatedCopiedText)
+            setPastedTabsCount(pastedTabsCount + 1)
+
+            // Update the state or perform any necessary actions with the updated item
+            // For demonstration purposes, let's log the updated item
+        }
+    }
+
     return (
-        <div className="bg-gray-300 flex justify-center w-full h-screen">
-            <div>
-                <p>{`currentPage ${currentPage}`}</p>{' '}
-                <p>{`currentPageY ${currentPageY}`}</p>
-                <LoogbookSidebar
-                    setData={(e: any) => {
-                        const newId = uuid()
-                        setDraggableData(e)
-                        setItems([
-                            ...items,
-                            {
-                                id: newId,
-                                page: checkPageIndexY
-                                    ? currentPage + 1
-                                    : currentPage,
-                                location: {
-                                    x: 0,
-                                    page: checkPageIndexY
-                                        ? currentPage + 1
-                                        : currentPage,
-                                    y: checkPageIndexY
-                                        ? 30
-                                        : (currentPageY * 96) / 100,
-                                },
-                                size: {
-                                    width: 200,
-                                    height: 200,
-                                },
-                                data: {
-                                    role: 'industry',
-                                    type: 'text',
-                                    color: '#10b981',
-                                    dataLabel: 'input-industry-address',
-                                    column: 'addressLine1',
-                                    isCustom: false,
-                                    placeholder: 'Industry Address',
-                                    option: '',
-                                    isRequired: false,
-                                },
-                                saved: false,
-                            },
-                        ])
-                    }}
-                    setDraggableData={setDraggableData}
-                />
-            </div>
-            {pagesCount?.isLoading ? (
-                <LoadingAnimation />
-            ) : pagesCount?.data ? (
-                <div
-                    ref={scrollContainerRef}
-                    className="w-[600px] h-[85vh] border-4 border-blue-400 rounded-lg overflow-auto custom-scrollbar flex flex-col gap-y-2"
-                >
-                    {pagesCount?.data?.size?.map((item: any, i: number) => (
-                        <div key={i} className="bg-white">
-                            <LoogBookSVGLoader
-                                pageTopOffset={getPageTopOffset(i)}
-                                onPageCoordinatesUpdate={(
-                                    page: number,
-                                    yPosition: number
-                                ) => {
-                                    // setCurrentPageY(yPosition)
-                                }}
-                                setCurrentPage={() => {
-                                    // setCurrentPage()
-                                }}
-                                onItemLocationChanged={onItemLocationChanged}
-                                onChangedLocation={onChangedLocation}
-                                onItemMove={onItemMove}
-                                tabsError={tabsError}
-                                setTabDropCoordinates={(coordinates: {
-                                    x: number
-                                    y: number
-                                }) => {
-                                    setTabDropCoordinates(coordinates)
-                                }}
-                                size={item}
-                                items={items.filter(
-                                    (item: any) => item?.page === i
-                                )}
-                                pageNumber={i + 1}
-                                currentPageY={currentPageY}
-                                onItemRemove={onItemRemove}
-                                onItemResize={onItemResize}
-                                onItemResized={onItemResized}
-                                onItemSelected={onItemSelected}
-                            />
-                        </div>
-                    ))}
+        <div className="w-full h-screen flex justify-center items-center bg-[#00000010]">
+            <div className="bg-white flex justify-center items-center flex-col w-full max-w-5xl border rounded-md">
+                <div className="w-full py-3.5 px-4">
+                    <Typography variant="h4">Logbook</Typography>
                 </div>
-            ) : pagesCount?.isSuccess ? (
-                <EmptyData />
-            ) : null}
+                <div
+                    className={
+                        'px-5 justify-center bg-[#F0F0F0] w-full py-4 grid grid-cols-10 gap-x-5'
+                    }
+                >
+                    {pagesCount?.isLoading ? (
+                        <div className="col-span-4">
+                            <LoadingAnimation />
+                        </div>
+                    ) : pagesCount?.data ? (
+                        <div
+                            ref={scrollContainerRef}
+                            className="col-span-7 w-full h-[85vh] border-4 border-blue-400 rounded-lg overflow-auto custom-scrollbar flex flex-col gap-y-2"
+                        >
+                            {pagesCount?.data?.size?.map(
+                                (item: any, i: number) => (
+                                    <div key={i} className="bg-white">
+                                        <LoogBookSVGLoader
+                                            pageTopOffset={getPageTopOffset(i)}
+                                            onPageCoordinatesUpdate={(
+                                                page: number,
+                                                yPosition: number
+                                            ) => {
+                                                // setCurrentPageY(yPosition)
+                                            }}
+                                            isPageScrolled={isPageScrolled}
+                                            setCurrentPage={() => {
+                                                // setCurrentPage()
+                                            }}
+                                            setRenderedPagesHeight={
+                                                setRenderedPagesHeight
+                                            }
+                                            onItemLocationChanged={
+                                                onItemLocationChanged
+                                            }
+                                            onChangedLocation={
+                                                onChangedLocation
+                                            }
+                                            onItemMove={onItemMove}
+                                            tabsError={tabsError}
+                                            setTabDropCoordinates={(coordinates: {
+                                                x: number
+                                                y: number
+                                            }) => {
+                                                setTabDropCoordinates(
+                                                    coordinates
+                                                )
+                                            }}
+                                            size={item}
+                                            items={items.filter(
+                                                (item: any) => item?.page === i
+                                            )}
+                                            pageNumber={i + 1}
+                                            currentPageY={currentPageY}
+                                            onItemRemove={onItemRemove}
+                                            onItemResize={onItemResize}
+                                            onItemResized={onItemResized}
+                                            onItemSelected={onItemSelected}
+                                            onPasteTab={onPasteTab}
+                                        />
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    ) : pagesCount?.isSuccess ? (
+                        <EmptyData />
+                    ) : null}
+                    <div className="col-span-3 bg-white rounded-md shadow h-full relative">
+                        <div className="py-2.5 border-b border-secondary-dark">
+                            <Typography variant="label" center block>
+                                Logbook Editor
+                            </Typography>
+                        </div>
+                        <LoogbookSidebar
+                            setData={(e: any) => {
+                                const newId = uuid()
+                                setDraggableData(e)
+                                setItems([
+                                    ...items,
+                                    {
+                                        id: newId,
+                                        page: checkPageIndexY
+                                            ? currentPage + 1
+                                            : currentPage,
+                                        location: {
+                                            x: 0,
+                                            page: checkPageIndexY
+                                                ? currentPage + 1
+                                                : currentPage,
+                                            y: checkPageIndexY
+                                                ? 30
+                                                : currentPageY,
+                                        },
+                                        size: {
+                                            width: 200,
+                                            height: 200,
+                                        },
+                                        data: {
+                                            role: 'industry',
+                                            type: 'text',
+                                            color: '#10b981',
+                                            dataLabel: 'input-industry-address',
+                                            column: 'addressLine1',
+                                            isCustom: false,
+                                            placeholder: 'Industry Address',
+                                            option: '',
+                                            isRequired: false,
+                                        },
+                                        saved: false,
+                                    },
+                                ])
+                            }}
+                            setDraggableData={setDraggableData}
+                        />
+                        <div className="absolute bottom-0 w-full py-2.5 flex items-end justify-center  border-t border-secondary-dark">
+                            <Button text="FINISH & SAVE" />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

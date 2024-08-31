@@ -1,18 +1,9 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react'
-import { Waypoint } from 'react-waypoint'
-import {
-    DndContext,
-    useDroppable,
-    useSensors,
-    useSensor,
-    PointerSensor,
-    KeyboardSensor,
-} from '@dnd-kit/core'
-import { LogbookDraggableTab } from './LogbookDraggableTab'
 import { CursorCoordinates } from '@components/Esign'
-import debounce from 'lodash/debounce'
 import { CommonApi } from '@queries'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
+import { Waypoint } from 'react-waypoint'
+import { LogbookDraggableTab } from './LogbookDraggableTab'
 
 export const LoogBookSVGLoader = ({
     size,
@@ -28,10 +19,16 @@ export const LoogBookSVGLoader = ({
     setTabDropCoordinates,
     onItemMove,
     onItemRemove,
+    isPageScrolled,
     onPageCoordinatesUpdate,
     pageTopOffset,
     currentPageY,
+    setRenderedPagesHeight,
+    onPasteTab,
 }: {
+    onPasteTab: (item: any) => void
+    setRenderedPagesHeight: any
+    isPageScrolled: boolean
     pageTopOffset: number
     currentPageY: number
     size: any
@@ -60,19 +57,8 @@ export const LoogBookSVGLoader = ({
     // }
 
     const template = CommonApi.ESign.useEsignTemplate({
-        id: 242,
+        id: 160,
         pageNumber: pageNumber - 1,
-    })
-
-    const sensors = useSensors(
-        useSensor(PointerSensor, {
-            activationConstraint: { delay: 5, tolerance: 5 },
-        }),
-        useSensor(KeyboardSensor, {})
-    )
-
-    const { setNodeRef } = useDroppable({
-        id: pageNumber - 1,
     })
 
     useEffect(() => {
@@ -107,11 +93,22 @@ export const LoogBookSVGLoader = ({
     }, [items, pageNumber])
 
     useEffect(() => {
-        if (pageRef.current) {
+        if (
+            pageRef.current &&
+            isPageScrolled &&
+            template?.isSuccess &&
+            svgContent
+        ) {
             const pageHeight = pageRef.current.getBoundingClientRect().height
             // Use pageHeight for further calculations
+            setRenderedPagesHeight((prevVal: number[]) => {
+                let updatedVal = [...prevVal]
+                updatedVal[template?.data?.currentPage] = pageHeight
+
+                return updatedVal
+            })
         }
-    }, [currentPageY, template])
+    }, [currentPageY, template, isPageScrolled, svgContent])
 
     const handleVisibilityChange = useCallback(
         (entries: any) => {
@@ -126,6 +123,12 @@ export const LoogBookSVGLoader = ({
                     //     `Page ${pageNumber} top offset: ${pageTopOffset}%`
                     // )
                     onPageCoordinatesUpdate(pageIndex, pageTopOffset)
+                    if (
+                        entry.intersectionRatio < 1 &&
+                        entry.intersectionRatio > 0
+                    ) {
+                        console.log('Component is partially scrolled into view')
+                    }
                 }
             })
         },
@@ -148,9 +151,7 @@ export const LoogBookSVGLoader = ({
         }
     }, [handleVisibilityChange])
 
-    const handleEnter = () => {
-        // setCurrentPage(pageNumber - 1)
-    }
+    const handleEnter = () => {}
 
     return (
         <div
@@ -158,12 +159,7 @@ export const LoogBookSVGLoader = ({
             className="page-container"
             data-page-index={pageNumber - 1}
         >
-            <Waypoint
-                onEnter={handleEnter}
-                onLeave={() => {
-                    // setCurrentPage(pageNumber - 1)
-                }}
-            >
+            <Waypoint onEnter={handleEnter} onLeave={() => {}}>
                 <div>
                     {template?.data ? (
                         <div ref={dimensionRef} className="relative">
@@ -176,56 +172,39 @@ export const LoogBookSVGLoader = ({
                                     }
                                 />
                             )}
-                            <DndContext
-                                sensors={sensors}
-                                onDragEnd={(eventData) =>
-                                    onItemLocationChanged(eventData)
-                                }
-                                onDragMove={(eventData) =>
-                                    onItemMove(eventData)
-                                }
-                            >
-                                <div
-                                    ref={setNodeRef}
-                                    className="w-full mx-auto"
+
+                            <div className="w-full mx-auto">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="100%"
+                                    height="100%"
+                                    viewBox={String(viewport)}
                                 >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="100%"
-                                        height="100%"
-                                        viewBox={String(viewport)}
-                                    >
-                                        <g>
-                                            <image
-                                                href={`data:image/svg+xml,${encodeURIComponent(
-                                                    svgContent
-                                                )}`}
+                                    <g>
+                                        <image
+                                            href={`data:image/svg+xml,${encodeURIComponent(
+                                                svgContent
+                                            )}`}
+                                        />
+                                        {items.map((item: any, i: number) => (
+                                            <LogbookDraggableTab
+                                                item={item}
+                                                key={i}
+                                                onPasteTab={onPasteTab}
+                                                onChangedLocation={
+                                                    onChangedLocation
+                                                }
+                                                viewport={viewport}
+                                                onResize={onItemResize}
+                                                onResized={onItemResized}
+                                                onItemSelected={onItemSelected}
+                                                onRemove={onItemRemove}
+                                                tabsError={tabsError}
                                             />
-                                            {items.map(
-                                                (item: any, i: number) => (
-                                                    <LogbookDraggableTab
-                                                        item={item}
-                                                        key={i}
-                                                        onChangedLocation={
-                                                            onChangedLocation
-                                                        }
-                                                        viewport={viewport}
-                                                        onResize={onItemResize}
-                                                        onResized={
-                                                            onItemResized
-                                                        }
-                                                        onItemSelected={
-                                                            onItemSelected
-                                                        }
-                                                        onRemove={onItemRemove}
-                                                        tabsError={tabsError}
-                                                    />
-                                                )
-                                            )}
-                                        </g>
-                                    </svg>
-                                </div>
-                            </DndContext>
+                                        ))}
+                                    </g>
+                                </svg>
+                            </div>
                         </div>
                     ) : (
                         <Skeleton
