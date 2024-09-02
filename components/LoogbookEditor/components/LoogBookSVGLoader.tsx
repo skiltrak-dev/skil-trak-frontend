@@ -50,7 +50,6 @@ export const LoogBookSVGLoader = ({
     const [viewport, setViewport] = useState<string | null>('')
     const dimensionRef = useRef<HTMLDivElement>(null)
     const pageRef = useRef<HTMLDivElement>(null) // Ref for the page container
-    const [pageCoordinates, setPageCoordinates] = useState<any>({})
 
     // const onPageCoordinatesUpdate = (pageIndex: number, yPosition: number) => {
     //     setCurrentPageY(yPosition) // Update the Y position of the current page
@@ -79,20 +78,6 @@ export const LoogBookSVGLoader = ({
     }, [template?.data?.data, pageNumber])
 
     useEffect(() => {
-        // Calculate the coordinates of items on the current page
-        const coordinates = items.map((item) => ({
-            id: item.id,
-            x: item.location.x,
-            y: item.location.y,
-            width: item.size.width,
-            height: item.size.height,
-        }))
-
-        setPageCoordinates(coordinates)
-        // Notify parent with the coordinates
-    }, [items, pageNumber])
-
-    useEffect(() => {
         if (
             pageRef.current &&
             isPageScrolled &&
@@ -100,7 +85,6 @@ export const LoogBookSVGLoader = ({
             svgContent
         ) {
             const pageHeight = pageRef.current.getBoundingClientRect().height
-            // Use pageHeight for further calculations
             setRenderedPagesHeight((prevVal: number[]) => {
                 let updatedVal = [...prevVal]
                 updatedVal[template?.data?.currentPage] = pageHeight

@@ -8,7 +8,7 @@ import {
     NetworkProvider,
     NoteScrollProvider,
     NotificationProvider,
-    SocketListenerProvider
+    SocketListenerProvider,
 } from '@hooks'
 import { Theme, applyTheme, getCurrentTheme } from '@theme'
 import type { AppProps } from 'next/app'
@@ -36,6 +36,7 @@ import 'swiper/css/free-mode'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
+import { SessionProvider } from 'next-auth/react'
 
 //test
 import { GoogleAnalyticsScript } from '@scripts'
@@ -72,41 +73,43 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         <>
             <GoogleAnalyticsScript />
             <Provider store={store}>
-                {/* <AutoLogoutProvider> */}
-                <ErrorBoundaryContext>
-                    <JoyRideProvider>
-                        <NoteScrollProvider>
-                            <DownloadAssessmentProvider>
-                                <AlertProvider>
-                                    <NotificationProvider>
-                                        <NavbarProvider>
-                                            <ContextBarProvider>
-                                                <HeaderWrapperProvider>
-                                                    <SocketListenerProvider>
-                                                        <Socket>
-                                                            <NetworkProvider>
-                                                                <HeadWrapper>
-                                                                    {/* <LogoutAfterHours> */}
-                                                                    {getLayout(
-                                                                        <Component
-                                                                            {...pageProps}
-                                                                        />
-                                                                    )}
-                                                                    {/* </LogoutAfterHours> */}
-                                                                </HeadWrapper>
-                                                            </NetworkProvider>
-                                                        </Socket>
-                                                    </SocketListenerProvider>
-                                                </HeaderWrapperProvider>
-                                            </ContextBarProvider>
-                                        </NavbarProvider>
-                                    </NotificationProvider>
-                                </AlertProvider>
-                            </DownloadAssessmentProvider>
-                        </NoteScrollProvider>
-                    </JoyRideProvider>
-                </ErrorBoundaryContext>
-                {/* </AutoLogoutProvider> */}
+                <SessionProvider session={pageProps?.session}>
+                    {/* <AutoLogoutProvider> */}
+                    <ErrorBoundaryContext>
+                        <JoyRideProvider>
+                            <NoteScrollProvider>
+                                <DownloadAssessmentProvider>
+                                    <AlertProvider>
+                                        <NotificationProvider>
+                                            <NavbarProvider>
+                                                <ContextBarProvider>
+                                                    <HeaderWrapperProvider>
+                                                        <SocketListenerProvider>
+                                                            <Socket>
+                                                                <NetworkProvider>
+                                                                    <HeadWrapper>
+                                                                        {/* <LogoutAfterHours> */}
+                                                                        {getLayout(
+                                                                            <Component
+                                                                                {...pageProps}
+                                                                            />
+                                                                        )}
+                                                                        {/* </LogoutAfterHours> */}
+                                                                    </HeadWrapper>
+                                                                </NetworkProvider>
+                                                            </Socket>
+                                                        </SocketListenerProvider>
+                                                    </HeaderWrapperProvider>
+                                                </ContextBarProvider>
+                                            </NavbarProvider>
+                                        </NotificationProvider>
+                                    </AlertProvider>
+                                </DownloadAssessmentProvider>
+                            </NoteScrollProvider>
+                        </JoyRideProvider>
+                    </ErrorBoundaryContext>
+                    {/* </AutoLogoutProvider> */}
+                </SessionProvider>
             </Provider>
         </>
     )

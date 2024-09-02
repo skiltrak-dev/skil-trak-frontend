@@ -209,13 +209,10 @@ export const mailsEndpoints = (
             params,
         }),
         providesTags: ['Mails'],
-        serializeQueryArgs: ({ endpointName }) => {
-            return endpointName
-        },
+        serializeQueryArgs: ({ endpointName }) => endpointName,
         transformResponse: (responseData) => responseData,
         merge: (currentCache, newData) => {
             if (!currentCache) {
-                console.log('again')
                 return newData
             }
             return {

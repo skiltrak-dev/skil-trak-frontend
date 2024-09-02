@@ -274,7 +274,12 @@ export const StudentProfileForm = ({
                 description: 'You must select on Address Dropdown',
             })
         } else if (onSuburbClicked) {
-            onSubmit({ ...values, isAddressUpdated })
+            onSubmit({
+                ...values,
+                state: 'N/A',
+                suburb: 'N/A',
+                isAddressUpdated,
+            })
         }
     }
 
