@@ -1,7 +1,7 @@
 // queries
 import { NoData } from '@components'
 import { CommonApi } from '@queries'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
 import { PulseLoader } from 'react-spinners'
 import { AllMailsListCard, ReceivedMessaging } from '../../components'
@@ -15,7 +15,6 @@ export const AllMailsList = ({
 }) => {
     const itemPerPage = 20
     const [page, setPage] = useState(1)
-    const [hasNext, setHasNext] = useState(true)
 
     const { data, isError, isFetching, isSuccess } =
         CommonApi.Messages.useAllMailsList({
@@ -23,28 +22,23 @@ export const AllMailsList = ({
             limit: itemPerPage,
         })
 
-    console.log({ data })
-    useEffect(() => {
-        if (data?.pagination && isSuccess) {
-            setHasNext(data?.pagination?.hasNext)
-        }
-        if (isError) {
-            setHasNext(false)
-        }
-    }, [data, isSuccess, isError])
-
     const loadMore = useCallback(() => {
-        if (!isFetching && !isError && hasNext) {
-            setPage((prevPage) => prevPage + 1)
+        if (
+            !isFetching &&
+            isSuccess &&
+            !isError &&
+            data?.pagination?.currentPage
+        ) {
+            setPage(data?.pagination?.currentPage + 1)
         }
-    }, [isFetching, isError, hasNext])
+    }, [isSuccess, isFetching, isError, data?.pagination?.currentPage])
 
     return (
         <ReceivedMessaging selectedMessage={selectedMessage}>
             <InfiniteScroll
                 pageStart={0}
                 loadMore={loadMore}
-                hasMore={hasNext}
+                hasMore={isError ? false : data?.pagination?.hasNext || false}
                 useWindow={false}
                 loader={
                     <div className="py-6 flex items-center justify-center">

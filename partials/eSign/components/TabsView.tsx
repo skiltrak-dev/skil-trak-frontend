@@ -50,7 +50,6 @@ export const TabsView = ({
     return (
         <>
             <ShowErrorNotifications result={updateSignDateResult} />
-
             {customFieldsData &&
                 customFieldsData?.length > 0 &&
                 customFieldsData?.map((s: any, i: any) => {
