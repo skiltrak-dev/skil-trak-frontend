@@ -2,15 +2,20 @@ import { EmptyData } from '@components/ActionAnimations'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 import { CommonApi } from '@queries'
-import { useEffect, useRef, useState } from 'react'
+import { ReactNode, useEffect, useRef, useState } from 'react'
 import { uuid } from 'uuidv4'
-import { LoogbookSidebar, LoogBookSVGLoader } from './components'
+import {
+    LogbookSignature,
+    LoogbookSidebar,
+    LoogBookSVGLoader,
+} from './components'
 import { Typography } from '@components/Typography'
 import { Button } from '@components/buttons'
 
 export const LoogbookEditor = () => {
     const [draggableData, setDraggableData] = useState<any>()
     const [tabDropCoordinates, setTabDropCoordinates] = useState<any>(null)
+    const [modal, setModal] = useState<ReactNode | null>(null)
     const [currentPage, setCurrentPage] = useState<any>(0)
     const [isPageScrolled, setIsPageScrolled] = useState<boolean>(false)
     const [renderedPagesHeight, setRenderedPagesHeight] = useState<number[]>([])
@@ -22,6 +27,7 @@ export const LoogbookEditor = () => {
         [key: number]: number
     }>({})
     const [pastedTabsCount, setPastedTabsCount] = useState<number>(1)
+    const ref = useRef<any>()
 
     const scrollContainerRef = useRef<HTMLDivElement>(null)
 
@@ -630,13 +636,12 @@ export const LoogbookEditor = () => {
             selected: true,
             location: {
                 ...item?.location,
-                // x: item?.location?.x + pastedTabsCount * 10,
                 y: item?.location?.y + pastedTabsCount * 12,
             },
             parent: {
                 ...item?.parent,
-                left: item?.over?.rect.left + pastedTabsCount * 10,
-                top: item?.over?.rect.top + pastedTabsCount * 10,
+                left: item?.over?.rect.left + 10,
+                top: item?.over?.rect.top + 10,
             },
         }
 
@@ -663,132 +668,199 @@ export const LoogbookEditor = () => {
         }
     }
 
+    const onSubmitSign = () => {
+        var dataURL = ref?.current?.toDataURL('image/svg+xml')
+        if (!ref?.current?.isEmpty()) {
+            const newId = uuid()
+            setItems([
+                ...items,
+                {
+                    id: newId,
+                    page: checkPageIndexY ? currentPage + 1 : currentPage,
+                    location: {
+                        x: 0,
+                        page: checkPageIndexY ? currentPage + 1 : currentPage,
+                        y: checkPageIndexY ? 30 : currentPageY,
+                    },
+                    size: {
+                        width: 200,
+                        height: 130,
+                    },
+                    data: {
+                        role: 'industry',
+                        type: FieldsTypeEnum.Signature,
+                        color: '#10b981',
+                        dataLabel: 'input-industry-address',
+                        column: 'addressLine1',
+                        isCustom: false,
+                        placeholder: 'Industry Address',
+                        option: '',
+                        isRequired: false,
+                        fieldValue: dataURL,
+                    },
+                    saved: false,
+                },
+            ])
+            setModal(null)
+        }
+    }
     return (
-        <div className="w-full h-screen flex justify-center items-center bg-[#00000010]">
-            <div className="bg-white flex justify-center items-center flex-col w-full max-w-5xl border rounded-md">
-                <div className="w-full py-3.5 px-4">
-                    <Typography variant="h4">Logbook</Typography>
-                </div>
-                <div
-                    className={
-                        'px-5 justify-center bg-[#F0F0F0] w-full py-4 grid grid-cols-10 gap-x-5'
-                    }
-                >
-                    {pagesCount?.isLoading ? (
-                        <div className="col-span-4">
-                            <LoadingAnimation />
-                        </div>
-                    ) : pagesCount?.data ? (
-                        <div
-                            ref={scrollContainerRef}
-                            className="col-span-7 w-full h-[85vh] border-4 border-blue-400 rounded-lg overflow-auto custom-scrollbar flex flex-col gap-y-2"
-                        >
-                            {pagesCount?.data?.size?.map(
-                                (item: any, i: number) => (
-                                    <div key={i} className="bg-white">
-                                        <LoogBookSVGLoader
-                                            pageTopOffset={getPageTopOffset(i)}
-                                            onPageCoordinatesUpdate={(
-                                                page: number,
-                                                yPosition: number
-                                            ) => {
-                                                // setCurrentPageY(yPosition)
-                                            }}
-                                            isPageScrolled={isPageScrolled}
-                                            setCurrentPage={() => {
-                                                // setCurrentPage()
-                                            }}
-                                            setRenderedPagesHeight={
-                                                setRenderedPagesHeight
-                                            }
-                                            onItemLocationChanged={
-                                                onItemLocationChanged
-                                            }
-                                            onChangedLocation={
-                                                onChangedLocation
-                                            }
-                                            onItemMove={onItemMove}
-                                            tabsError={tabsError}
-                                            setTabDropCoordinates={(coordinates: {
-                                                x: number
-                                                y: number
-                                            }) => {
-                                                setTabDropCoordinates(
-                                                    coordinates
-                                                )
-                                            }}
-                                            size={item}
-                                            items={items.filter(
-                                                (item: any) => item?.page === i
-                                            )}
-                                            pageNumber={i + 1}
-                                            currentPageY={currentPageY}
-                                            onItemRemove={onItemRemove}
-                                            onItemResize={onItemResize}
-                                            onItemResized={onItemResized}
-                                            onItemSelected={onItemSelected}
-                                            onPasteTab={onPasteTab}
-                                        />
+        <>
+            <div className="w-full h-screen flex justify-center items-center bg-[#00000010]">
+                <div className="bg-white flex justify-center items-center flex-col w-full max-w-5xl border rounded-md">
+                    <div className="w-full py-3.5 px-4">
+                        <Typography variant="h4">Logbook</Typography>
+                    </div>
+                    <div
+                        className={
+                            ' min-h-[480px] px-5 justify-center bg-[#F0F0F0] w-full py-4 grid grid-cols-10 gap-x-5'
+                        }
+                    >
+                        {pagesCount?.isLoading ? (
+                            <div className="col-span-7">
+                                <LoadingAnimation />
+                            </div>
+                        ) : pagesCount?.data ? (
+                            <div className="relative col-span-7">
+                                <div
+                                    ref={scrollContainerRef}
+                                    className="w-full h-[85vh] border-4 border-blue-400 rounded-lg overflow-auto custom-scrollbar flex flex-col gap-y-2"
+                                >
+                                    <div className="absolute top-20 left-0 z-50  w-full flex justify-center">
+                                        <div className="w-2/3">{modal}</div>
                                     </div>
-                                )
-                            )}
-                        </div>
-                    ) : pagesCount?.isSuccess ? (
-                        <EmptyData />
-                    ) : null}
-                    <div className="col-span-3 bg-white rounded-md shadow h-full relative">
-                        <div className="py-2.5 border-b border-secondary-dark">
-                            <Typography variant="label" center block>
-                                Logbook Editor
-                            </Typography>
-                        </div>
-                        <LoogbookSidebar
-                            setData={(e: any) => {
-                                const newId = uuid()
-                                setDraggableData(e)
-                                setItems([
-                                    ...items,
-                                    {
-                                        id: newId,
-                                        page: checkPageIndexY
-                                            ? currentPage + 1
-                                            : currentPage,
-                                        location: {
-                                            x: 0,
-                                            page: checkPageIndexY
-                                                ? currentPage + 1
-                                                : currentPage,
-                                            y: checkPageIndexY
-                                                ? 30
-                                                : currentPageY,
-                                        },
-                                        size: {
-                                            width: 200,
-                                            height: 200,
-                                        },
-                                        data: {
-                                            role: 'industry',
-                                            type: 'text',
-                                            color: '#10b981',
-                                            dataLabel: 'input-industry-address',
-                                            column: 'addressLine1',
-                                            isCustom: false,
-                                            placeholder: 'Industry Address',
-                                            option: '',
-                                            isRequired: false,
-                                        },
-                                        saved: false,
-                                    },
-                                ])
-                            }}
-                            setDraggableData={setDraggableData}
-                        />
-                        <div className="absolute bottom-0 w-full py-2.5 flex items-end justify-center  border-t border-secondary-dark">
-                            <Button text="FINISH & SAVE" />
+                                    {pagesCount?.data?.size?.map(
+                                        (item: any, i: number) => (
+                                            <div key={i} className="bg-white">
+                                                <LoogBookSVGLoader
+                                                    pageTopOffset={getPageTopOffset(
+                                                        i
+                                                    )}
+                                                    onPageCoordinatesUpdate={(
+                                                        page: number,
+                                                        yPosition: number
+                                                    ) => {
+                                                        // setCurrentPageY(yPosition)
+                                                    }}
+                                                    isPageScrolled={
+                                                        isPageScrolled
+                                                    }
+                                                    setCurrentPage={() => {
+                                                        // setCurrentPage()
+                                                    }}
+                                                    setRenderedPagesHeight={
+                                                        setRenderedPagesHeight
+                                                    }
+                                                    onItemLocationChanged={
+                                                        onItemLocationChanged
+                                                    }
+                                                    onChangedLocation={
+                                                        onChangedLocation
+                                                    }
+                                                    onItemMove={onItemMove}
+                                                    tabsError={tabsError}
+                                                    setTabDropCoordinates={(coordinates: {
+                                                        x: number
+                                                        y: number
+                                                    }) => {
+                                                        setTabDropCoordinates(
+                                                            coordinates
+                                                        )
+                                                    }}
+                                                    size={item}
+                                                    items={items.filter(
+                                                        (item: any) =>
+                                                            item?.page === i
+                                                    )}
+                                                    pageNumber={i + 1}
+                                                    currentPageY={currentPageY}
+                                                    onItemRemove={onItemRemove}
+                                                    onItemResize={onItemResize}
+                                                    onItemResized={
+                                                        onItemResized
+                                                    }
+                                                    onItemSelected={
+                                                        onItemSelected
+                                                    }
+                                                    onPasteTab={onPasteTab}
+                                                />
+                                            </div>
+                                        )
+                                    )}
+                                </div>
+                            </div>
+                        ) : pagesCount?.isSuccess ? (
+                            <EmptyData />
+                        ) : null}
+                        <div className="col-span-3 bg-white rounded-md shadow h-full relative">
+                            <div className="py-2.5 border-b border-secondary-dark">
+                                <Typography variant="label" center block>
+                                    Logbook Editor
+                                </Typography>
+                            </div>
+                            <LoogbookSidebar
+                                setData={(item: any) => {
+                                    console.log({ item })
+                                    const newId = uuid()
+                                    setDraggableData(item)
+                                    if (
+                                        item?.type === FieldsTypeEnum.Signature
+                                    ) {
+                                        setModal(
+                                            <LogbookSignature
+                                                ref={ref}
+                                                onSubmitSign={onSubmitSign}
+                                            />
+                                        )
+                                    } else {
+                                        setItems([
+                                            ...items,
+                                            {
+                                                id: newId,
+                                                page: checkPageIndexY
+                                                    ? currentPage + 1
+                                                    : currentPage,
+                                                location: {
+                                                    x: 0,
+                                                    page: checkPageIndexY
+                                                        ? currentPage + 1
+                                                        : currentPage,
+                                                    y: checkPageIndexY
+                                                        ? 30
+                                                        : currentPageY,
+                                                },
+                                                size: {
+                                                    width: 200,
+                                                    height: 80,
+                                                },
+                                                data: {
+                                                    role: 'industry',
+                                                    type: item?.type,
+                                                    color: '#10b981',
+                                                    dataLabel:
+                                                        'input-industry-address',
+                                                    column: 'addressLine1',
+                                                    isCustom: false,
+                                                    placeholder:
+                                                        'Industry Address',
+                                                    option: '',
+                                                    isRequired: false,
+                                                    fieldValue: '',
+                                                },
+                                                saved: false,
+                                            },
+                                        ])
+                                    }
+                                }}
+                                setDraggableData={setDraggableData}
+                            />
+                            <div className="absolute bottom-0 w-full py-2.5 flex items-end justify-center  border-t border-secondary-dark">
+                                <Button text="FINISH & SAVE" />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }

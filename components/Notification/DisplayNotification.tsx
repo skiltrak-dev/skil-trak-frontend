@@ -46,6 +46,10 @@ export const DisplayNotifications = () => {
                         const classes =
                             NotificationClasses[key as NotificationPosition]
 
+                        if (!values?.length) {
+                            return null
+                        }
+
                         return (
                             <div
                                 key={key}

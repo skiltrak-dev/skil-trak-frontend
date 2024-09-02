@@ -75,7 +75,9 @@ export const LoogbookSidebar = ({
             {sidebarData?.map((item: any, index: number) => (
                 <LoogBookDraggableInput
                     setDraggableData={setDraggableData}
-                    onClick={setData}
+                    onClick={() => {
+                        setData(item)
+                    }}
                     key={index}
                     text={item?.text}
                     id={item?.id}

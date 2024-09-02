@@ -1,11 +1,12 @@
-import { UserRoles } from '@constants'
 import { Button } from '@components/buttons'
-import { TextInput } from '@components/inputs'
-import { useEffect, useRef, useState } from 'react'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
-import { TextField } from './Fields'
-import { AiOutlineDelete } from 'react-icons/ai'
-import { RiFileCopy2Line } from 'react-icons/ri'
+import { Typography } from '@components/Typography'
+import { UserRoles } from '@constants'
+import Image from 'next/image'
+import { useEffect, useRef, useState } from 'react'
+import { CiSquareCheck } from 'react-icons/ci'
+import { RiDeleteBinLine, RiFileCopy2Line } from 'react-icons/ri'
+import { LogbookCheckBox, LogBookDateField, LogbookTextField } from './Fields'
 
 export const LogbookDraggableTab = ({
     item,
@@ -115,7 +116,9 @@ export const LogbookDraggableTab = ({
                     onRemove(item)
                 }
             }}
-            style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
+            style={{
+                transform: `translate(${position.x}px, ${position.y}px)`,
+            }}
             onMouseDown={handleMouseDown}
         >
             <foreignObject
@@ -141,26 +144,85 @@ export const LogbookDraggableTab = ({
                 >
                     <div
                         style={{ pointerEvents: 'auto' }} // Ensure this div can receive pointer events
-                        className="bg-white rounded shadow-lg h-6 w-full absolute -top-0 left-0 cursor-pointer flex items-center"
+                        className="bg-white rounded shadow-xl border border-gray-200 absolute -top-0 left-0 cursor-pointer flex items-center"
                     >
-                        <RiFileCopy2Line
-                            onClick={(e: any) => {
-                                e.stopPropagation() // Stop the click from propagating to parent elements
-                                onPasteTab(item)
-                            }}
-                            size={17}
-                        />
-                        <AiOutlineDelete
-                            onClick={(e: any) => {
-                                e.stopPropagation() // Stop the click from propagating to parent elements
-                                onRemove(item)
-                            }}
-                            size={17}
-                        />
+                        <div className="p-1.5 border-l border-secondary-dark flex items-center gap-x-2">
+                            <Typography variant="badge" color="text-black">
+                                12 px
+                            </Typography>
+                            <div className="flex flex-col gap-y-0.5">
+                                <div>
+                                    <Image
+                                        width={8}
+                                        height={8}
+                                        alt="Up Arrow"
+                                        src={'/images/logbook/up-arrow.svg'}
+                                    />
+                                </div>
+                                <div>
+                                    <Image
+                                        width={8}
+                                        height={8}
+                                        alt="Up Arrow"
+                                        src={'/images/logbook/down-arrow.svg'}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="p-1.5 border-l border-secondary-dark">
+                            <RiFileCopy2Line
+                                onClick={(e: any) => {
+                                    e.stopPropagation() // Stop the click from propagating to parent elements
+                                    onPasteTab(item)
+                                }}
+                                className="text-black"
+                                size={19}
+                            />
+                        </div>
+                        <div className="p-1.5 border-l border-secondary-dark">
+                            <RiDeleteBinLine
+                                onClick={(e: any) => {
+                                    e.stopPropagation() // Stop the click from propagating to parent elements
+                                    onRemove(item)
+                                }}
+                                className="text-black"
+                                size={19}
+                            />
+                        </div>
+                        <div className="p-1.5 border-l border-secondary-dark">
+                            <CiSquareCheck
+                                onClick={(e: any) => {}}
+                                className="text-black"
+                                size={19}
+                            />
+                        </div>
                     </div>
-                    <div className="mt-8 relative top-0 left-0 z-50 px-4 bg-white">
-                        <TextField />
-                    </div>
+                    {item?.data?.type === FieldsTypeEnum.Text ? (
+                        <div className="mt-10 relative  top-0 left-0 z-50 bg-white w-full">
+                            <LogbookTextField />
+                        </div>
+                    ) : null}
+                    {item?.data?.type === FieldsTypeEnum.Date ? (
+                        <div className="mt-10 relative  top-0 left-0 z-50 bg-white w-full ">
+                            <LogBookDateField />
+                        </div>
+                    ) : null}
+                    {item?.data?.type === FieldsTypeEnum.Checkbox ? (
+                        <div className="mt-10 relative  top-0 left-0 z-50 w-10 ml-1 pb-1">
+                            <LogbookCheckBox />
+                        </div>
+                    ) : null}
+                    {item?.data?.type === FieldsTypeEnum.Signature ? (
+                        <div className="mt-10 relative  top-0 left-0 z-50 w-full h-full ">
+                            <Image
+                                src={item?.data?.fieldValue}
+                                alt={''}
+                                width={200}
+                                height={100}
+                                className="border rounded-md border-secondary-dark bg-white"
+                            />
+                        </div>
+                    ) : null}
                 </div>
             </foreignObject>
         </g>
