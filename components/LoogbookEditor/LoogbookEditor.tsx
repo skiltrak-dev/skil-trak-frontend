@@ -614,8 +614,11 @@ export const LoogbookEditor = () => {
     const onItemRemove = (item: any) => {
         setContextBar(null)
         const existingItem = items.find((x: any) => x.id === item?.id)
+
         if (existingItem) {
-            const updatedList = items.filter((x: any) => x.id !== item?.id)
+            const updatedList = items.filter(
+                (x: any) => x.id !== existingItem?.id
+            )
             setItems(updatedList)
         }
     }
@@ -628,20 +631,17 @@ export const LoogbookEditor = () => {
     console.log({ items })
 
     const onPasteTab = (item: any) => {
+        console.log({ itemitemitemitem: item })
         const newId = uuid()
         const updatedCopiedText = {
             ...item,
+            data: { ...item?.data, fieldValue: items?.length },
             saved: false,
             id: newId,
             selected: true,
             location: {
                 ...item?.location,
                 y: item?.location?.y + pastedTabsCount * 12,
-            },
-            parent: {
-                ...item?.parent,
-                left: item?.over?.rect.left + 10,
-                top: item?.over?.rect.top + 10,
             },
         }
 
@@ -845,7 +845,7 @@ export const LoogbookEditor = () => {
                                                         'Industry Address',
                                                     option: '',
                                                     isRequired: false,
-                                                    fieldValue: '',
+                                                    fieldValue: items?.length,
                                                 },
                                                 saved: false,
                                             },

@@ -1,7 +1,7 @@
-import jwt from 'jwt-decode'
-import { isBrowser } from './browser-supported'
 import { UserStatus } from '@types'
-import { UserRoles } from '@constants'
+import jwt from 'jwt-decode'
+import { getSession } from 'next-auth/react'
+import { isBrowser } from './browser-supported'
 const KEYS = {
     TOKEN: 'user-token',
     REFRESHTOKEN: 'refresh-token',
@@ -17,6 +17,26 @@ type UserCredentials = {
     avatar: string | null
     name: string
 }
+let sessionData: any = null
+// ;(function initSession() {
+//     if (isBrowser()) {
+//         getSession().then((session) => {
+//             sessionData = session
+//         })
+//     }
+// })()
+
+const updateSessionData = async () => {
+    if (isBrowser()) {
+        const session = await getSession()
+        sessionData = session
+        return session
+    }
+    return null
+}
+
+// Initial session fetch
+updateSessionData()
 
 export const setToken = (token: string) => {
     if (isBrowser()) {
@@ -68,6 +88,7 @@ export const getRefreshTokenFromSession = () => {
 const token = () => getToken() || getTokenFromSession()
 const refreshToken = () => getRefreshToken() || getRefreshTokenFromSession()
 export const getUserCredentials: any = () => {
+    // updateSessionData()
     const tokenData = token()
     if (tokenData) {
         return jwt(tokenData)
@@ -76,6 +97,8 @@ export const getUserCredentials: any = () => {
 }
 
 export const isAuthenticated = () => {
+    // updateSessionData()
+    // console.log({ sessionData })
     const tokenData = token()
     return tokenData !== null
 }
