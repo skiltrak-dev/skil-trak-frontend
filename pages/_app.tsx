@@ -72,8 +72,8 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
     return (
         <>
             <GoogleAnalyticsScript />
-            <Provider store={store}>
-                <SessionProvider session={pageProps?.session}>
+            <SessionProvider session={pageProps?.session}>
+                <Provider store={store}>
                     {/* <AutoLogoutProvider> */}
                     <ErrorBoundaryContext>
                         <JoyRideProvider>
@@ -109,8 +109,8 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                         </JoyRideProvider>
                     </ErrorBoundaryContext>
                     {/* </AutoLogoutProvider> */}
-                </SessionProvider>
-            </Provider>
+                </Provider>
+            </SessionProvider>
         </>
     )
 }

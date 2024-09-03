@@ -52,7 +52,7 @@ export const TextTypeQuestions = ({
                                 placeholder={inp?.placeholder}
                                 required
                                 type={inp?.type as any}
-                                placesSuggetions
+                                placesSuggetions={inp?.name === 'suburb'}
                                 onChange={(e: any) => {
                                     if (inp?.name === 'suburb') {
                                         if (e?.target?.value?.length > 4) {
