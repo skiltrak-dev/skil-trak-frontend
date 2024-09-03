@@ -172,8 +172,8 @@ export const LoogBookSVGLoader = ({
                                         />
                                         {items.map((item: any, i: number) => (
                                             <LogbookDraggableTab
+                                                key={item?.id}
                                                 item={item}
-                                                key={i}
                                                 onPasteTab={onPasteTab}
                                                 onChangedLocation={
                                                     onChangedLocation
