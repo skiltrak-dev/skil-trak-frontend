@@ -18,13 +18,6 @@ type UserCredentials = {
     name: string
 }
 let sessionData: any = null
-// ;(function initSession() {
-//     if (isBrowser()) {
-//         getSession().then((session) => {
-//             sessionData = session
-//         })
-//     }
-// })()
 
 const updateSessionData = async () => {
     if (isBrowser()) {
@@ -90,7 +83,9 @@ const refreshToken = () => getRefreshToken() || getRefreshTokenFromSession()
 export const getUserCredentials: any = () => {
     // updateSessionData()
     const tokenData = token()
+    // const tokenData = sessionData
     if (tokenData) {
+        // return tokenData
         return jwt(tokenData)
     }
     return null
@@ -98,7 +93,7 @@ export const getUserCredentials: any = () => {
 
 export const isAuthenticated = () => {
     // updateSessionData()
-    // console.log({ sessionData })
+    // return !!sessionData?.accessToken
     const tokenData = token()
     return tokenData !== null
 }
