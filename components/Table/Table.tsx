@@ -58,6 +58,9 @@ interface TableProps<Type> {
     enableRowSelection?: boolean
     pagination?: boolean
     pageSize?: boolean
+    awaitingAgreementBeyondSevenDays?: any
+    findCallLogsUnanswered?: any
+    findExpiringInNext45Days?: any
 }
 
 export const Table = <Type,>({
@@ -68,7 +71,36 @@ export const Table = <Type,>({
     enableRowSelection,
     pagination = true,
     pageSize = true,
+    awaitingAgreementBeyondSevenDays,
+    findCallLogsUnanswered,
+    findExpiringInNext45Days,
 }: TableProps<Type>) => {
+    //======================== Blinking rows ===========================
+    const getTdClassNames = (row: any) => {
+        const isUnanswered = findCallLogsUnanswered
+            ?.map((student: any) => student?.id)
+            ?.includes(row?.original?.id)
+        const awaitingAgreements = awaitingAgreementBeyondSevenDays
+            ?.map((student: any) => student?.id)
+            ?.includes(row?.original?.id)
+        const expiringInNext45Days = findExpiringInNext45Days
+            ?.map((student: any) => student?.id)
+            ?.includes(row?.original?.id)
+
+        const status = row?.original?.user?.status
+
+        return [
+            isUnanswered ? 'blink-green' : '',
+            awaitingAgreements ? 'blink' : '',
+            expiringInNext45Days ? 'blink-yellow' : '',
+            status === UserStatus.Blocked || status === UserStatus.Rejected
+                ? '!bg-error-light'
+                : status === UserStatus.Pending
+                ? '!bg-primary-light'
+                : '!bg-[#f5f5f5]',
+        ].join(' ')
+    }
+    //==================== END =============================================
     // Table Columns
     const router = useRouter()
     const tableColumns = useMemo<ColumnDef<Type>[]>(
@@ -247,25 +279,14 @@ export const Table = <Type,>({
                     {table.getRowModel().rows.map((row: any, idx: number) => {
                         return (
                             <React.Fragment key={row.id}>
-                                <tr className={`table-row`}>
+                                <tr className={`table-row content`}>
                                     {row
                                         .getVisibleCells()
                                         .map((cell: any, idx: number) => (
                                             <td
-                                                className={`${
-                                                    row?.original?.user
-                                                        ?.status ===
-                                                        UserStatus.Blocked ||
-                                                    row?.original?.user
-                                                        ?.status ===
-                                                        UserStatus.Rejected
-                                                        ? '!bg-error-light'
-                                                        : row?.original?.user
-                                                              ?.status ===
-                                                          UserStatus.Pending
-                                                        ? '!bg-primary-light'
-                                                        : '!bg-[#f5f5f5]'
-                                                }`}
+                                                className={`${getTdClassNames(
+                                                    row
+                                                )}`}
                                                 key={cell.id}
                                                 {...(idx === 0 &&
                                                 enableRowSelection
@@ -274,7 +295,6 @@ export const Table = <Type,>({
                                                           style: {
                                                               width: '40px',
                                                               minWidth: '40px',
-                                                              maxWidth: '40px',
                                                               wordBreak:
                                                                   'break-all',
                                                           },
@@ -301,6 +321,27 @@ export const Table = <Type,>({
                                                         cell.getContext()
                                                     )}
                                                 </div>
+                                                {/* {hasMatchingIndustry &&
+                                                    hasMatchingIndustry.length && (
+                                                        <span
+                                                            className={`!w-full !h-24 z-10 top-0 left-0 absolute  ${
+                                                                hasMatchingIndustry
+                                                                    .map(
+                                                                        (
+                                                                            data: any
+                                                                        ) =>
+                                                                            data?.id
+                                                                    )
+                                                                    .includes(
+                                                                        row
+                                                                            ?.original
+                                                                            ?.id
+                                                                    )
+                                                                    ? 'blink !bg-red-400'
+                                                                    : ''
+                                                            }`}
+                                                        ></span>
+                                                    )} */}
                                             </td>
                                         ))}
                                 </tr>
