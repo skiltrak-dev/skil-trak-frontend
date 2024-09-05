@@ -9,7 +9,6 @@ export const LogbookSignature = forwardRef(
         const onClear = () => {
             ref?.current?.clear()
         }
-        console.log('ref?.current', ref?.current)
         return (
             <div className="w-full ml-auto p-2.5 bg-white shadow-profiles flex flex-col gap-y-1.5">
                 <Typography variant="small" center medium>

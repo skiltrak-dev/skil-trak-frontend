@@ -1,53 +1,139 @@
-import { Button, TextInput } from '@components'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { ReactElement, useEffect, useState } from 'react'
+
+import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { FormEvent, ReactElement } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
-import * as Yup from 'yup'
-import { signIn, useSession } from 'next-auth/react'
-import { isAuthenticated, isBrowser } from '@utils'
-import { SiteLayout } from '@layouts'
 
-export default function SignIn() {
+import {
+    AccountStatus,
+    LoginForm,
+    Typography
+} from '@components'
+
+import { UserRoles } from '@constants'
+import { AuthApi } from '@queries'
+import { LoginCredentials, StatusType, UserStatus } from '@types'
+import { AuthUtils, isBrowser } from '@utils'
+import { signIn, useSession } from 'next-auth/react'
+import Head from 'next/head'
+import Image from 'next/image'
+
+const Login: NextPage = () => {
     const router = useRouter()
-    const data = useSession()
+
+    const [login, loginResult] = AuthApi.useLogin()
+
+    const [modal, setModal] = useState<ReactElement | null>(null)
+    const data: any = useSession()
 
     console.log({ data })
 
-    if (isBrowser()) {
-        localStorage.setItem('data', String(data))
+    const [requested, setRequested] = useState(false)
+    const [rejected, setRejected] = useState(false)
+    const [archived, setArchived] = useState(false)
+    const [blocked, setBlocked] = useState(false)
+    const [rememberLogin, setRememberLogin] = useState<boolean>(false)
+    const [autoLogoutUrl, setAutoLogoutUrl] = useState<{
+        url: URL | null
+        role: string | null | undefined
+    }>({
+        url: null,
+        role: '',
+    })
+
+    const chkRoleAndUrl = (role: string) =>
+        autoLogoutUrl.url && autoLogoutUrl.role === role
+
+    const nextDestination = (role: string) => {
+        switch (role) {
+            case UserRoles.ADMIN:
+                chkRoleAndUrl(role)
+                    ? router.push(autoLogoutUrl.url as URL)
+                    : router.push('/portals/admin')
+                break
+            case UserRoles.INDUSTRY:
+                chkRoleAndUrl(role)
+                    ? router.push(autoLogoutUrl.url as URL)
+                    : router.push('/portals/industry')
+                break
+            case UserRoles.RTO:
+                chkRoleAndUrl(role)
+                    ? router.push(autoLogoutUrl.url as URL)
+                    : router.push('/portals/rto')
+                break
+            case UserRoles.STUDENT:
+                chkRoleAndUrl(role)
+                    ? router.push(autoLogoutUrl.url as URL)
+                    : router.push('/portals/student')
+                break
+            case UserRoles.SUBADMIN:
+                chkRoleAndUrl(role)
+                    ? router.push(autoLogoutUrl.url as URL)
+                    : router.push('/portals/sub-admin')
+                break
+        }
     }
 
-    const isSSS = isAuthenticated()
+    const onLogin = (status: StatusType, role: UserRoles) => {
+        switch (status) {
+            case UserStatus.Pending:
+                setRequested(true)
+                break
+            case UserStatus.Archived:
+                // setArchived(true)
+                nextDestination(role)
+                break
+            case UserStatus.Blocked:
+                setBlocked(true)
+                break
+            case UserStatus.Rejected:
+                setRejected(true)
+                break
+            case UserStatus.Approved:
+                nextDestination(role)
+                break
+        }
+    }
+    // useEffect(() => {
+    //     if (loginResult.isSuccess) {
+    //         if (loginResult.data) {
+    //             if (rememberLogin) {
+    //                 AuthUtils.setToken(loginResult.data.access_token)
+    //                 AuthUtils.setRefreshToken(loginResult.data.refreshToken)
+    //                 if (isBrowser()) {
+    //                     localStorage.setItem('rememberMe', 'true')
+    //                 }
+    //             } else {
+    //                 AuthUtils.setTokenToSession(loginResult.data.access_token)
+    //                 AuthUtils.setRefreshTokenToSessionStorage(
+    //                     loginResult.data.refreshToken
+    //                 )
+    //             }
 
-    const validationSchema = Yup.object({
-        email: Yup.string()
-            .email('Invalid Email')
-            .required('Email is required!'),
-        password: Yup.string().required('Password is required'),
-    })
+    //             onLogin(loginResult.data.status, loginResult.data?.role)
+    //         }
+    //     }
+    // }, [loginResult.isSuccess])
 
-    const methods = useForm({
-        resolver: yupResolver(validationSchema),
-        mode: 'all',
-    })
+    useEffect(() => {
+        if (data?.data) onLogin(data?.data?.status, data?.data?.role)
+    }, [data?.data])
 
-    const handleSubmit = async (values: any, event: FormEvent) => {
+    const handleSubmit = async (values: LoginCredentials, event: any) => {
+        console.log({ values, event })
         event.preventDefault()
+
         try {
             const result = await signIn('credentials', {
                 ...values,
                 redirect: false,
             })
-
-            console.log({ result })
-
+            // console.log({ result })
             if (result?.error) {
-                console.error('Sign in failed:', result.error)
+                const error = JSON.parse(result.error)
+                console.error('Sign in failed: ', error)
                 // Handle error (e.g., show error message to user)
-            } else {
-                router.push('/portals/admin')
+            } else if (result?.ok) {
             }
         } catch (error) {
             console.error('Sign in error:', error)
@@ -55,62 +141,175 @@ export default function SignIn() {
         }
     }
 
-    // if (status === 'loading') {
-    //     return <div>Loading...</div>
-    // }
+    const onSubmit = async (values: LoginCredentials, event: any) => {
+        if (isBrowser()) {
+            const autoLogoutUrl = localStorage.getItem('autoLogoutPath')
+            const role = autoLogoutUrl?.split('/')[2]
+            setAutoLogoutUrl({
+                url: localStorage.getItem('autoLogoutPath') as any,
+                role: role === 'sub-admin' ? UserRoles.SUBADMIN : role,
+            })
+        }
 
-    // if (session) {
-    //     router.push('/dashboard')
-    //     return null
-    // }
+        AuthUtils.logout()
+        setRememberLogin(values?.remember as boolean)
+        handleSubmit(values, event)
+        // await login(values).then((res: any) => {
+        //     if (res?.error?.data?.error === 'ahle') {
+        //         setModal(
+        //             <LoginErrorAfterHoursModal
+        //                 onCancel={() => {
+        //                     setModal(null)
+        //                 }}
+        //                 error={res?.error?.data}
+        //             />
+        //         )
+        //     }
+        // })
+    }
 
     return (
-        <FormProvider {...methods}>
-            <form
-                className="mt-2 w-full"
-                onSubmit={(event) => {
-                    methods.handleSubmit((values) =>
-                        handleSubmit(values, event)
-                    )(event)
-                }}
-            >
-                <div className="">
-                    <TextInput
-                        label="Email"
-                        name="email"
-                        type="email"
-                        placeholder="Your Email Here..."
-                        validationIcons
-                        required
-                    />
+        <>
+            {modal}
+            {requested && <AccountStatus status={UserStatus.Pending} />}
+            {rejected && <AccountStatus status={UserStatus.Rejected} />}
+            {archived && <AccountStatus status={UserStatus.Archived} />}
+            {blocked && <AccountStatus status={UserStatus.Blocked} />}
 
-                    <TextInput
-                        label="Password"
-                        name="password"
-                        type="password"
-                        placeholder="Your Password Here..."
-                        validationIcons
-                        required
-                    />
-                </div>
+            <Head>
+                <title>Login</title>
+                <meta
+                    name="description"
+                    content="Login in to your account to access your dashboard"
+                    key="desc"
+                />
+            </Head>
+            {!requested && !rejected && !archived && !blocked && (
+                // <div className="w-4/5 mx-auto flex items-center justify-between">
+                <div className="flex flex-col-reverse md:flex-row gap-y-6 md:items-center gap-x-6 w-full ">
+                    <div className="signup-bg overflow-hidden  w-full md:w-1/2">
+                        {/* QR CODE */}
+                        <div className="flex flex-col items-center justify-center gap-1.5 w-full mt-8">
+                            <div className="flex justify-center items-center gap-x-1.5 w-full">
+                                <div className="w-36">
+                                    <Image
+                                        src={'/images/skiltrak_IOS.svg'}
+                                        alt="Skiltrak App"
+                                        width={200}
+                                        height={200}
+                                        sizes="100vw"
+                                        className="object-contain"
+                                    />
+                                </div>
+                                <div className="w-36">
+                                    <Image
+                                        src={'/images/scan-qr-code-text.svg'}
+                                        alt="Skiltrak App"
+                                        width={200}
+                                        height={100}
+                                        className="object-contain"
+                                    />
+                                </div>
+                            </div>
+                        </div>
 
-                <div className="mt-4 flex items-center justify-between">
-                    <Button
-                        submit
-                        // loading={status == 'loading'}
-                        // disabled={
-                        //     !methods.formState.isValid ||
-                        //     !methods.formState.isDirty
-                        // }
-                    >
-                        Login
-                    </Button>
+                        {/* PLAY BUTTON */}
+                        <div className="flex items-center justify-center gap-x-4 mt-8 md:mt-6">
+                            <Link className="cursor-pointer" href="#">
+                                <div>
+                                    <Image
+                                        src={'/images/google-play-button.svg'}
+                                        alt="Skiltrak App"
+                                        width={106}
+                                        height={34}
+                                    />
+                                </div>
+                            </Link>
+                            <Link
+                                className="cursor-pointer"
+                                href="https://apps.apple.com/pk/app/skiltrak/id6479631404"
+                            >
+                                <div>
+                                    <Image
+                                        src={'/images/download-btn.svg'}
+                                        alt="Skiltrak App"
+                                        width={106}
+                                        height={34}
+                                    />
+                                </div>
+                            </Link>
+                        </div>
+
+                        <div className="flex flex-col items-center gap-0.5 whitespace-nowrap mt-9">
+                            <Typography variant="h4">Skiltrak App</Typography>
+                            <Typography variant="label" italic>
+                                Exclusive access for students:
+                            </Typography>
+                            <Typography variant="label" bold italic>
+                                Download Skiltrak App now!
+                            </Typography>
+                        </div>
+
+                        <div className="mt-8 flex justify-center ">
+                            <Image
+                                src={'/images/our-story/mobile-screens.png'}
+                                alt="Twitter"
+                                width={535}
+                                height={500}
+                                className="hidden md:block"
+                            />
+                            <Image
+                                src={'/images/our-story/mobile-screens.png'}
+                                alt="Twitter"
+                                width={535}
+                                height={500}
+                                className="block md:hidden"
+                            />
+                        </div>
+                    </div>
+                    <div className="flex flex-col flex-grow mt-8 md:w-1/2 md:px-12 px-4">
+                        <Link href={'/'} className="mb-10">
+                            <Image
+                                src="/images/auth/skiltrak-logo.png"
+                                alt="logo"
+                                width={201}
+                                height={60}
+                            />
+                        </Link>
+                        <div className="w-full mb-8">
+                            <Typography variant={'h3'}>
+                                Welcome Back !
+                            </Typography>
+                            <Typography variant={'small'}>
+                                Log In to your account
+                            </Typography>
+                        </div>
+
+                        {loginResult.isError && (
+                            <p className="text-sm text-error w-full border border-error px-2 py-1 rounded shadow text-center">
+                                Invalid Email or Password
+                            </p>
+                        )}
+
+                        <LoginForm onSubmit={onSubmit} result={loginResult} />
+
+                        {!loginResult.isLoading || !loginResult.isSuccess ? (
+                            <div className="mt-16">
+                                <Typography variant="small" medium>
+                                    Don&apos;t have account?{' '}
+                                    <Link legacyBehavior href="/auth/signup">
+                                        <a className="text-link">
+                                            Please Create Account
+                                        </a>
+                                    </Link>
+                                </Typography>
+                            </div>
+                        ) : null}
+                    </div>
                 </div>
-            </form>
-        </FormProvider>
+            )}
+        </>
     )
 }
 
-SignIn.getLayout = (page: ReactElement) => {
-    return <SiteLayout>{page}</SiteLayout>
-}
+export default Login

@@ -19,6 +19,7 @@ import { Navigation } from 'swiper/modules'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 import { SliderStyleContainer } from '../../styles'
 import { UserRoles } from '@constants'
+import { useAssessmentDocumentsView } from '../../hooks'
 
 export const AssessmentFiles = ({
     course,
@@ -34,7 +35,7 @@ export const AssessmentFiles = ({
     selectedFolder: AssessmentEvidenceDetailType | null
 }) => {
     const [selected, setSelected] = useState<any>(null)
-    const { onFileClicked, documentsViewModal } = DocumentsView()
+    const { onFileClicked, documentsViewModal } = useAssessmentDocumentsView()
 
     const navigationPrevRef = useRef(null)
     const navigationNextRef = useRef(null)

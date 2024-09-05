@@ -36,6 +36,11 @@ export const LoginForm = ({
         <FormProvider {...methods}>
             <form
                 className="mt-2 w-full"
+                // onSubmit={(e: any) => {
+                //     methods.handleSubmit((values) => {
+                //         onSubmit(values, e)
+                //     })(e)
+                // }}
                 onSubmit={methods.handleSubmit(onSubmit)}
             >
                 <div className="">

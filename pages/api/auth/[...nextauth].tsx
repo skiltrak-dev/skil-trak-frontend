@@ -23,7 +23,6 @@ interface Token {
 const REFRESH_TOKEN_THRESHOLD = 60 // seconds
 
 const refreshAccessToken = async (token: Token): Promise<Token> => {
-    console.log('Callled Called', token)
     try {
         const response = await axios.post(
             `${process.env.NEXT_PUBLIC_END_POINT}/auth/refresh/token`,
@@ -34,8 +33,6 @@ const refreshAccessToken = async (token: Token): Promise<Token> => {
                 },
             }
         )
-
-        console.log({ responseresponseresponse: response?.data })
 
         if (!response.data.access_token) {
             throw new Error('Failed to refresh access token')
@@ -94,10 +91,10 @@ export const authOptions: NextAuthOptions = {
                             }
                             return null
                         }
-                        console.log('TTTTTTT', getUserCredentials())
                         return {
                             id: response.data.id,
                             role: response.data.role,
+                            status: response.data.status,
                             name: response.data.name,
                             email: response.data.email,
                             accessToken: response.data.access_token,
@@ -107,9 +104,9 @@ export const authOptions: NextAuthOptions = {
                         }
                     }
                     return null
-                } catch (error) {
-                    console.error('Login error:', error)
-                    return null
+                } catch (error: any) {
+                    console.error('Login error:', error?.response?.data)
+                    throw new Error(JSON.stringify(error?.response?.data))
                 }
             },
         }),
@@ -118,7 +115,7 @@ export const authOptions: NextAuthOptions = {
         async jwt({ token, user, account }: any) {
             // Initial sign in
             if (account && user) {
-                console.log('Account')
+                return user
                 return {
                     accessToken: user.accessToken,
                     accessTokenExpires: user.accessTokenExpires,
@@ -127,20 +124,22 @@ export const authOptions: NextAuthOptions = {
                 }
             }
 
-            // Return previous token if the access token has not expired yet
-            if (
-                Date.now() <
-                token.accessTokenExpires - REFRESH_TOKEN_THRESHOLD * 1000
-            ) {
-                console.log('Token System')
-                return token
-            }
+            return token
 
-            // Access token has expired or will expire soon, try to update it
-            console.log('Outer Token')
-            return await refreshAccessToken(token)
+            // Return previous token if the access token has not expired yet
+            // if (
+            //     Date.now() <
+            //     token.accessTokenExpires - REFRESH_TOKEN_THRESHOLD * 1000
+            // ) {
+            //     return token
+            // }
+
+            // // Access token has expired or will expire soon, try to update it
+            // return await refreshAccessToken(token)
         },
         async session({ session, token }: any) {
+            session = token
+            return session
             session.user = token.user as User
             session.accessToken = token.accessToken
             session.error = token.error
@@ -148,7 +147,8 @@ export const authOptions: NextAuthOptions = {
         },
     },
     pages: {
-        signIn: '/portals/admin',
+        // signIn: '/portals/admin',
+        signOut: '/auth/login',
     },
     session: {
         strategy: 'jwt',
