@@ -103,16 +103,8 @@ export const LoogBookSVGLoader = ({
                         10
                     )
                     setCurrentPage(pageIndex) // Update parent state
-                    // console.log(
-                    //     `Page ${pageNumber} top offset: ${pageTopOffset}%`
-                    // )
+
                     onPageCoordinatesUpdate(pageIndex, pageTopOffset)
-                    if (
-                        entry.intersectionRatio < 1 &&
-                        entry.intersectionRatio > 0
-                    ) {
-                        console.log('Component is partially scrolled into view')
-                    }
                 }
             })
         },

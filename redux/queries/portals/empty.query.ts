@@ -1,6 +1,7 @@
 // Or from '@reduxjs/toolkit/query' if not using the auto-generated hooks
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AuthUtils } from '@utils'
+import { getSession } from 'next-auth/react'
 
 // initialize an empty api service that we'll inject endpoints into later as needed
 
@@ -142,13 +143,18 @@ export const emptySplitApi = createApi({
     reducerPath: 'allApis',
     baseQuery: fetchBaseQuery({
         baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
-        prepareHeaders: (headers, { getState }) => {
+        prepareHeaders: async (headers, { getState }) => {
             // const token = AuthUtils.getToken()
             const token = AuthUtils.token()
+
+            // const session: any = await getSession()
 
             if (token) {
                 headers.set('authorization', `Bearer ${token}`)
             }
+            // if (session?.accessToken) {
+            //     headers.set('authorization', `Bearer ${session?.accessToken}`)
+            // }
             return headers
         },
     }),

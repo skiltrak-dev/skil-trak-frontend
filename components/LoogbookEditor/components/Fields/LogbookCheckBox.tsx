@@ -3,7 +3,6 @@ import { useState } from 'react'
 
 export const LogbookCheckBox = () => {
     const [first, setfirst] = useState(false)
-    console.log({ first })
 
     return (
         <input
