@@ -49,7 +49,7 @@ export const PdfDocumentView = ({
                         <span className="text-[15px]">{filename}</span>
                     </Typography>
                     <div className="flex items-center gap-x-2.5">
-                        <Button
+                        {/* <Button
                             text="Edit Document"
                             variant="info"
                             onClick={() => {
@@ -57,7 +57,7 @@ export const PdfDocumentView = ({
                                     onCancelButtonClick(true)
                                 }
                             }}
-                        />
+                        /> */}
                         <Button
                             text="Download Document"
                             onClick={() => {
