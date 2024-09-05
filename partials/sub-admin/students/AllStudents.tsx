@@ -38,6 +38,7 @@ import { getStudentWorkplaceAppliedIndustry, setLink } from '@utils'
 import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
 import { RTOCellInfo } from '../rto/components'
 import { InterviewModal } from '../workplace/modals'
+import moment from 'moment'
 
 export const AllStudents = () => {
     const router = useRouter()
@@ -83,6 +84,83 @@ export const AllStudents = () => {
                 refetchOnMountOrArgChange: true,
             }
         )
+
+    // ================= Blinking/Flashing rows of students ================
+    const findCallLogsUnanswered = data?.data?.filter((student: any) => {
+        const unansweredCalls = student?.callLog?.filter((call: any) => {
+            if (call.isAnswered === null) {
+                const callDate = new Date(call?.createdAt)
+                const currentDate = new Date()
+                const timeDiff = currentDate.getTime() - callDate.getTime()
+                const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24))
+
+                return daysDiff >= 7
+            }
+            return false
+        })
+        return (
+            !student?.isHighPriority &&
+            !student?.isSnoozed &&
+            !student?.nonContactable &&
+            unansweredCalls.length > 0
+        )
+    })
+    const findExpiringInNext45Days = data?.data?.filter((student: any) => {
+        const expiryDate = new Date(student.expiryDate)
+        const currentDate = new Date()
+        const timeDiff = expiryDate.getTime() - currentDate.getTime()
+        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24))
+
+        return (
+            !student?.isHighPriority &&
+            !student?.isSnoozed &&
+            !student?.nonContactable &&
+            student?.workplace?.length === 0 &&
+            daysDiff <= 45 &&
+            daysDiff >= 0
+        )
+    })
+
+    const filterAwaitingAgreementBeyondSevenDays = data?.data?.filter(
+        (student: any) => {
+            return (
+                !student?.isHighPriority &&
+                !student?.isSnoozed &&
+                !student?.nonContactable &&
+                student?.workplace?.some((workplace: any) => {
+                    const industriesExist = workplace?.industries?.length > 0
+                    return (
+                        industriesExist &&
+                        workplace?.industries?.some((industry: any) => {
+                            const applied = industry?.applied === true
+                            const agreementNotSigned =
+                                industry?.AgreementSigned === false
+                            const agreementDateNull =
+                                industry?.AgreementSignedDate === null
+                            const awaitingAgreement =
+                                industry?.awaitingAgreementSigned === true
+                            const isMoreThanSevenDays =
+                                moment().diff(
+                                    moment(
+                                        industry?.awaitingAgreementSignedDate
+                                    ),
+                                    'days'
+                                ) > 8
+                            return (
+                                applied &&
+                                agreementNotSigned &&
+                                agreementDateNull &&
+                                awaitingAgreement &&
+                                isMoreThanSevenDays
+                            )
+                        })
+                    )
+                })
+            )
+        }
+    )
+
+    // ============================= END ====================================
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -300,6 +378,11 @@ export const AllStudents = () => {
                         columns={Columns}
                         data={data.data}
                         enableRowSelection
+                        awaitingAgreementBeyondSevenDays={
+                            filterAwaitingAgreementBeyondSevenDays
+                        }
+                        findCallLogsUnanswered={findCallLogsUnanswered}
+                        findExpiringInNext45Days={findExpiringInNext45Days}
                     >
                         {({
                             table,

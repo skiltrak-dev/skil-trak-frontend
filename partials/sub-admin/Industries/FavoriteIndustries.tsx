@@ -44,6 +44,8 @@ export const FavoriteIndustries = () => {
         limit: itemPerPage,
     })
 
+    
+
     const onCancelClicked = () => {
         setModal(null)
     }

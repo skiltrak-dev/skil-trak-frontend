@@ -40,6 +40,16 @@ export const ActiveIndustries = ({
             }
         )
 
+    const notContactedMoreThan7Days = data?.paginatedResults?.data?.filter(
+        (industry: any) => {
+            const created = new Date(industry?.createdAt)
+            const currentDate = new Date()
+            const timeDiff = currentDate.getTime() - created.getTime()
+            const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24))
+            return industry?.status === 'favourite' && daysDiff >= 7
+        }
+    )
+
     const { columns, modal, actionsModal, quickActionsElements } = useColumns({
         data,
         onSetIndustryData,
@@ -66,6 +76,7 @@ export const ActiveIndustries = ({
                             data={data?.paginatedResults?.data}
                             quickActions={quickActionsElements}
                             enableRowSelection
+                            findCallLogsUnanswered={notContactedMoreThan7Days}
                         >
                             {({
                                 table,
