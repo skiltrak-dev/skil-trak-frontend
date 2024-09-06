@@ -33,6 +33,7 @@ export type SelectProps = {
     formatOptionLabel?: any
     showError?: boolean
     shadow?: string
+    onInputChange?: (e: any) => void
 } & InputProps
 
 export const Select = forwardRef(
@@ -50,6 +51,7 @@ export const Select = forwardRef(
             value,
             rules,
             onChange,
+            onInputChange,
             onBlur,
 
             helpText,
@@ -207,9 +209,10 @@ export const Select = forwardRef(
                     placeholder={placeholder}
                     isClearable={value !== ''}
                     defaultValue={defaultValue}
-                    className={`basic-single w-full ${shadow}`}
+                    onInputChange={onInputChange}
                     formatOptionLabel={formatOptionLabel}
                     {...(components ? { components } : {})}
+                    className={`basic-single w-full ${shadow}`}
                     {...(menuPlacement ? { menuPlacement } : {})}
                 />
             )
