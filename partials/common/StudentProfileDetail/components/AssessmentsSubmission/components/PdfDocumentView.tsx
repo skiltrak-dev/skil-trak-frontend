@@ -16,6 +16,7 @@ interface PdfViewModalProps {
     downloadUrl: string
     extension?: string
     filename: string
+    file: any
 }
 
 export const PdfDocumentView = ({
@@ -23,6 +24,7 @@ export const PdfDocumentView = ({
     url,
     onCancelButtonClick,
     downloadUrl,
+    file,
     extension,
 }: PdfViewModalProps) => {
     const [totalPages, setTotalPages] = useState(0)
@@ -54,7 +56,7 @@ export const PdfDocumentView = ({
                             variant="info"
                             onClick={() => {
                                 if (onCancelButtonClick) {
-                                    onCancelButtonClick(true)
+                                    onCancelButtonClick(file)
                                 }
                             }}
                         /> */}

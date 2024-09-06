@@ -205,9 +205,7 @@ export const MyStudents = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: ({ row }: any) => {
-                return <SectorCell student={row.original} />
-            },
+            cell: ({ row }: any) => <SectorCell student={row.original} />,
         },
         {
             accessorKey: 'expiry',

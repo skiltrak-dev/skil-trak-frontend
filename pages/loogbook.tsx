@@ -4,7 +4,7 @@ import { LoogbookEditor } from '@components'
 const Loogbook: NextPage = () => {
     return (
         <div>
-            <LoogbookEditor />
+            <LoogbookEditor file={{}} />
         </div>
     )
 }

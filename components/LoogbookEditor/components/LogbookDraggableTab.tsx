@@ -1,12 +1,14 @@
-import { Button } from '@components/buttons'
-import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
-import { Typography } from '@components/Typography'
-import { UserRoles } from '@constants'
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
+import { UserRoles } from '@constants'
+import { Button } from '@components/buttons'
 import { CiSquareCheck } from 'react-icons/ci'
+import { useEffect, useRef, useState } from 'react'
+import { Typography } from '@components/Typography'
 import { RiDeleteBinLine, RiFileCopy2Line } from 'react-icons/ri'
+import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import { LogbookCheckBox, LogBookDateField, LogbookTextField } from './Fields'
+import { useNotification } from '@hooks'
+import moment from 'moment'
 
 export const LogbookDraggableTab = ({
     item,
@@ -17,9 +19,13 @@ export const LogbookDraggableTab = ({
     tabsError,
     onResized,
     onItemSelected,
+    onEditingClicked,
     onChangedLocation,
+    onChangeItemsData,
 }: any) => {
     const [selectedIIII, setSelectedIIII] = useState<any>({})
+
+    const { notification } = useNotification()
 
     const handleClick = (e: any) => {
         e?.stopPropagation()
@@ -54,6 +60,7 @@ export const LogbookDraggableTab = ({
         const handleMouseMove = (e: any) => {
             e?.stopPropagation()
             e.preventDefault()
+
             if (dragging) {
                 const newPosition = {
                     x: e.clientX - offset.current.x,
@@ -73,6 +80,9 @@ export const LogbookDraggableTab = ({
                 })
                 setDragging(false)
             }
+            // if (!item?.isEditing) {
+            //     onEditingClicked()
+            // }
         }
 
         if (dragging) {
@@ -102,6 +112,13 @@ export const LogbookDraggableTab = ({
             setIsTabError(false)
         }
     }, [item?.data?.role, tabsError])
+
+    const onChangeItems = (value: any) => {
+        onChangeItemsData({
+            data: value,
+            id: item?.id,
+        })
+    }
 
     return (
         <g
@@ -142,80 +159,122 @@ export const LogbookDraggableTab = ({
                     id={`tabs-view-${item?.id}`}
                     className="flex flex-col justify-center gap-x-1"
                 >
-                    <div
-                        style={{ pointerEvents: 'auto' }} // Ensure this div can receive pointer events
-                        className="bg-white rounded shadow-xl border border-gray-200 absolute -top-0 left-0 cursor-pointer flex items-center"
-                    >
-                        <div className="p-1.5 border-l border-secondary-dark flex items-center gap-x-2">
-                            <Typography variant="badge" color="text-black">
-                                12 px
-                            </Typography>
-                            <div className="flex flex-col gap-y-0.5">
-                                <div>
-                                    <Image
-                                        width={8}
-                                        height={8}
-                                        alt="Up Arrow"
-                                        src={'/images/logbook/up-arrow.svg'}
-                                    />
+                    {item?.isEditing ? (
+                        <div
+                            style={{ pointerEvents: 'auto' }} // Ensure this div can receive pointer events
+                            className="bg-white rounded shadow-xl border border-gray-200 absolute -top-0 left-0 cursor-pointer flex items-center"
+                        >
+                            {/* <div className="p-1.5 border-l border-secondary-dark flex items-center gap-x-2">
+                                <Typography variant="badge" color="text-black">
+                                    12 px
+                                </Typography>
+                                <div className="flex flex-col gap-y-0.5">
+                                    <div>
+                                        <Image
+                                            width={8}
+                                            height={8}
+                                            alt="Up Arrow"
+                                            src={'/images/logbook/up-arrow.svg'}
+                                        />
+                                    </div>
+                                    <div>
+                                        <Image
+                                            width={8}
+                                            height={8}
+                                            alt="Up Arrow"
+                                            src={
+                                                '/images/logbook/down-arrow.svg'
+                                            }
+                                        />
+                                    </div>
                                 </div>
-                                <div>
-                                    <Image
-                                        width={8}
-                                        height={8}
-                                        alt="Up Arrow"
-                                        src={'/images/logbook/down-arrow.svg'}
-                                    />
-                                </div>
+                            </div> */}
+                            <div className="p-1.5 border-l border-secondary-dark">
+                                <RiFileCopy2Line
+                                    onClick={(e: any) => {
+                                        e.stopPropagation() // Stop the click from propagating to parent elements
+                                        onPasteTab(item)
+                                    }}
+                                    className="text-black"
+                                    size={19}
+                                />
                             </div>
+                            <div className="p-1.5 border-l border-secondary-dark">
+                                <RiDeleteBinLine
+                                    onClick={(e: any) => {
+                                        e.stopPropagation() // Stop the click from propagating to parent elements
+                                        onRemove(item)
+                                    }}
+                                    className="text-black"
+                                    size={19}
+                                />
+                            </div>
+                            {/* <div className="p-1.5 border-l border-secondary-dark">
+                                <CiSquareCheck
+                                    onClick={(e: any) => {
+                                        if (item?.fieldValue) {
+                                            onEditingClicked()
+                                        } else {
+                                            notification.warning({
+                                                title: 'Fill The Data',
+                                                description:
+                                                    'Please fill the field',
+                                            })
+                                        }
+                                    }}
+                                    className="text-black"
+                                    size={19}
+                                />
+                            </div> */}
                         </div>
-                        <div className="p-1.5 border-l border-secondary-dark">
-                            <RiFileCopy2Line
-                                onClick={(e: any) => {
-                                    e.stopPropagation() // Stop the click from propagating to parent elements
-                                    onPasteTab(item)
-                                }}
-                                className="text-black"
-                                size={19}
-                            />
-                        </div>
-                        <div className="p-1.5 border-l border-secondary-dark">
-                            <RiDeleteBinLine
-                                onClick={(e: any) => {
-                                    e.stopPropagation() // Stop the click from propagating to parent elements
-                                    onRemove(item)
-                                }}
-                                className="text-black"
-                                size={19}
-                            />
-                        </div>
-                        <div className="p-1.5 border-l border-secondary-dark">
-                            <CiSquareCheck
-                                onClick={(e: any) => {}}
-                                className="text-black"
-                                size={19}
-                            />
-                        </div>
-                    </div>
-                    {item?.data?.type === FieldsTypeEnum.Text ? (
+                    ) : null}
+                    {item?.type === FieldsTypeEnum.Text ? (
                         <div className="mt-10 relative  top-0 left-0 z-50 bg-white w-full">
-                            <LogbookTextField />
+                            {item?.fieldValue && !item?.isEditing ? (
+                                <Typography variant="small">
+                                    {item?.fieldValue}
+                                </Typography>
+                            ) : (
+                                <LogbookTextField
+                                    onChange={(e: any) => {
+                                        onChangeItems(e?.target?.value)
+                                    }}
+                                    value={item?.fieldValue}
+                                />
+                            )}
                         </div>
                     ) : null}
-                    {item?.data?.type === FieldsTypeEnum.Date ? (
+                    {item?.type === FieldsTypeEnum.Date ? (
                         <div className="mt-10 relative  top-0 left-0 z-50 bg-white w-full ">
-                            <LogBookDateField />
+                            {item?.fieldValue && !item?.isEditing ? (
+                                <Typography variant="small">
+                                    {moment(item?.fieldValue).format(
+                                        'DD/MM/YYY'
+                                    )}
+                                </Typography>
+                            ) : (
+                                <LogBookDateField
+                                    onChange={(e: any) => {
+                                        onChangeItems(e?.target?.value)
+                                    }}
+                                    value={item?.fieldValue}
+                                />
+                            )}
                         </div>
                     ) : null}
-                    {item?.data?.type === FieldsTypeEnum.Checkbox ? (
+                    {item?.type === FieldsTypeEnum.Checkbox ? (
                         <div className="mt-10 relative  top-0 left-0 z-50 w-10 ml-1 pb-1">
-                            <LogbookCheckBox />
+                            <LogbookCheckBox
+                                onChange={(e: any) => {
+                                    onChangeItems(e?.target?.checked)
+                                }}
+                            />
                         </div>
                     ) : null}
-                    {item?.data?.type === FieldsTypeEnum.Signature ? (
+                    {item?.type === FieldsTypeEnum.Signature ? (
                         <div className="mt-10 relative  top-0 left-0 z-50 w-full h-full ">
                             <Image
-                                src={item?.data?.fieldValue}
+                                src={item?.fieldValue}
                                 alt={''}
                                 width={200}
                                 height={100}

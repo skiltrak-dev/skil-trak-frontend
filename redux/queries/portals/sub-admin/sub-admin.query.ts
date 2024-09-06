@@ -15,6 +15,7 @@ import { subAdminAppointmentspoints } from './appointments'
 import { setUnavailabilityEndpoints } from './setUnavailability'
 import { assessmentEvidenceEndpoints } from './assessmentEvidence'
 import { talentPoolEndpoints } from './talentPool'
+import { studentsLogbookEndpoints } from './logbookSign'
 export const subAdminApi = emptySplitApi.injectEndpoints({
     // export const subAdminApi = createApi({
     //     reducerPath: 'subAdminApi',
@@ -122,6 +123,7 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
         ...workplaceEndpoints(build),
         ...setScheduleEndpoints(build),
         ...subAdminRtoEndpoints(build),
+        ...studentsLogbookEndpoints(build),
         ...subAdminSettingEndpoints(build),
         ...setUnavailabilityEndpoints(build),
         ...subadminVolunteerEndpoints(build),
@@ -262,6 +264,11 @@ export const {
     useFindSuggestedIndustriesQuery,
     useSnoozeStudentMutation,
     useUnSnoozeStudentMutation,
+
+    // ---- LOGBOOK ---- //
+    useSaveLogbookMutation,
+    useGetStudentLogbookQuery,
+    useGetStudentLogbookPagesCountQuery,
 
     // -- COUNT -- //
     useSubadminStatisticsQuery,
@@ -440,6 +447,11 @@ export const SubAdminApi = {
         useFindSuggestedIndustries: useFindSuggestedIndustriesQuery,
         useSnoozeStudent: useSnoozeStudentMutation,
         useUnSnoozeStudent: useUnSnoozeStudentMutation,
+    },
+    LogBook: {
+        useSaveLogbook: useSaveLogbookMutation,
+        useStudentLogbook: useGetStudentLogbookQuery,
+        useLogbookPagesCount: useGetStudentLogbookPagesCountQuery,
     },
     Industry: {
         useAddToPartner: useAddToPartnerMutation,
