@@ -1,7 +1,7 @@
 import { State } from 'country-state-city'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import 'react-phone-number-input/style.css'
 
 import _debounce from 'lodash/debounce'
@@ -35,6 +35,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 import { OptionType, StudentFormType } from '@types'
+import debounce from 'lodash/debounce'
 
 export const StudentSignUpForm = ({
     onSubmit,
@@ -45,7 +46,15 @@ export const StudentSignUpForm = ({
 
     const { notification } = useNotification()
 
-    const rtoResponse = AuthApi.useRtos({})
+    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
+    const [searchRto, setSearchRto] = useState<string>('')
+
+    const rtoResponse = AuthApi.useSearchRtos(
+        { search: searchRto },
+        {
+            skip: !searchRto,
+        }
+    )
 
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
     // const [selectedSector, setSelectedSector] = useState<any>(null)
@@ -53,7 +62,6 @@ export const StudentSignUpForm = ({
     // const [courseOptions, setCourseOptions] = useState<SelectOption[]>([])
     // const [courseLoading, setCourseLoading] = useState(false)
     // const [courseValues, setCourseValues] = useState<number[]>([])
-    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
     // const sectorOptions = sectorResponse.data?.length
     //     ? sectorResponse.data?.map((sector: any) => ({
@@ -228,11 +236,6 @@ export const StudentSignUpForm = ({
         }
     }, [courseOptions])
 
-    const stateOptions = State.getStatesOfCountry('AU')?.map(({ name }) => ({
-        label: name,
-        value: name,
-    }))
-
     const onHandleSubmit = (values: any) => {
         if (!onSuburbClicked) {
             notification.error({
@@ -261,6 +264,12 @@ export const StudentSignUpForm = ({
             value: '47-56',
         },
     ]
+
+    const debounceValue = useCallback(
+        debounce((query) => setSearchRto(query), 700),
+        []
+    )
+
     return (
         <FormProvider {...formMethods}>
             <form
@@ -367,6 +376,9 @@ export const StudentSignUpForm = ({
                                           defaultValue: storedData.sectors,
                                       }
                                     : {})}
+                                onInputChange={(e: any) => {
+                                    debounceValue(e)
+                                }}
                                 name={'rto'}
                                 options={rtoOptions}
                                 placeholder={'Select Rtos...'}

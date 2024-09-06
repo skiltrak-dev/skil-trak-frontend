@@ -1,24 +1,25 @@
 import {
+    AuthorizedUserComponent,
     Button,
     Card,
+    Checkbox,
     InitialAvatar,
     InputContentEditor,
     Select,
     TextInput,
     inputEditorErrorMessage,
 } from '@components'
-import React, { useEffect, useState } from 'react'
-import { Controller, FormProvider, useForm } from 'react-hook-form'
-import * as yup from 'yup'
+import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { AdminApi, AuthApi, SubAdminApi } from '@queries'
-import {
-    CourseSelectOption,
-    formatOptionLabel,
-    getUserCredentials,
-} from '@utils'
+import { AuthApi } from '@queries'
 import { Course, OptionType } from '@types'
+import { CourseSelectOption, formatOptionLabel } from '@utils'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import * as yup from 'yup'
+import { TicketCreator } from '../enum'
+import { UniqueIdSelect } from '../components'
 
 export enum ticketPriorityEnum {
     Low = 'low',
@@ -72,6 +73,8 @@ export const AddTicketForm = ({
         resolver: yupResolver(validationSchema),
     })
 
+    console.log('Watch', formMethods.watch().isInternal)
+
     const priorityOptions = [
         ...Object.entries(ticketPriorityEnum).map(([label, value]) => ({
             label,
@@ -106,13 +109,21 @@ export const AddTicketForm = ({
         label: opt?.title,
         value: opt?.id,
     }))
+   
+    // const uniqueIds: OptionType[] = Object.entries(TicketCreator).map(
+    //     ([label, value]: string[]) => ({
+    //         label: label?.split('_').join(' '),
+    //         value,
+    //         item: value,
+    //     })
+    // )
 
     return (
         <div>
             <Card>
                 <FormProvider {...formMethods}>
                     <form onSubmit={formMethods.handleSubmit(onSubmit)}>
-                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 ">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 items-center">
                             <Select
                                 label={'Assign TO'}
                                 name={'assignedTo'}
@@ -233,6 +244,16 @@ export const AddTicketForm = ({
                                 options={priorityOptions}
                                 onlyValue
                             />
+                            <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                                {formMethods.watch().isInternal ? (
+                                    <UniqueIdSelect />
+                                ) : null}
+                                <Checkbox
+                                    name={'isInternal'}
+                                    label={'Mark Ticket as Internal'}
+                                    showError={false}
+                                />
+                            </AuthorizedUserComponent>
                         </div>
                         <TextInput
                             label={'Subject'}

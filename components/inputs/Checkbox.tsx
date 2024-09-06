@@ -39,7 +39,7 @@ export const Checkbox = ({
     const formContext = useFormContext()
 
     return (
-        <>
+        <div>
             <label
                 htmlFor={`id_${name}`}
                 className="flex items-center gap-x-2.5 text-[13px]"
@@ -85,6 +85,6 @@ export const Checkbox = ({
             {showError ? <InputErrorMessage name={name} /> : null}
 
             <HelpText text={helpText} />
-        </>
+        </div>
     )
 }
