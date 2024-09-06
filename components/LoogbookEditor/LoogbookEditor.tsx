@@ -1,7 +1,7 @@
 import { EmptyData } from '@components/ActionAnimations'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import { LoadingAnimation } from '@components/LoadingAnimation'
-import { CommonApi } from '@queries'
+import { CommonApi, SubAdminApi } from '@queries'
 import { ReactNode, useEffect, useRef, useState } from 'react'
 import { uuid } from 'uuidv4'
 import {
@@ -12,8 +12,19 @@ import {
 import { Typography } from '@components/Typography'
 import { Button } from '@components/buttons'
 import { MdCancel } from 'react-icons/md'
+import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
+import { useNotification } from '@hooks'
+import { isNumber } from 'lodash'
 
-export const LoogbookEditor = ({ onCancel }: { onCancel?: () => void }) => {
+export const LoogbookEditor = ({
+    file,
+    onCancel,
+}: {
+    file: any
+    onCancel?: () => void
+}) => {
+    const { notification } = useNotification()
+
     const [draggableData, setDraggableData] = useState<any>()
     const [tabDropCoordinates, setTabDropCoordinates] = useState<any>(null)
     const [modal, setModal] = useState<ReactNode | null>(null)
@@ -37,79 +48,14 @@ export const LoogbookEditor = ({ onCancel }: { onCancel?: () => void }) => {
     const [lastSelectedItem, setLastSelectedItem] = useState<any>()
     const [tabsError, setTabsError] = useState<any>(null)
 
-    const pagesCount = CommonApi.ESign.useTamplatePagesCount(160)
-
-    // const handleScroll = () => {
-    //     const container = scrollContainerRef.current
-    //     if (container && pagesCount.data) {
-    //         const scrollTop = container.scrollTop
-    //         let accumulatedHeight = 0
-    //         let currentPageIndex = 0
-
-    //         for (let i = 0; i < pagesCount.data.size.length; i++) {
-    //             const pageHeight = pagesCount.data.size[i].height
-    //             if (scrollTop < accumulatedHeight + pageHeight) {
-    //                 currentPageIndex = i
-    //                 break
-    //             }
-    //             accumulatedHeight += pageHeight
-    //         }
-
-    //         const currentPageTop = scrollTop - accumulatedHeight
-    //         setCurrentPage(currentPageIndex)
-    //         setCurrentPageY(currentPageTop)
-    //         console.log({
-    //             currentPageIndex,
-    //             currentPageTopcurrentPageTopcurrentPageTopcurrentPageTop:
-    //                 currentPageTop,
-    //         })
-    //     }
-    // }
-
-    // const handleScroll = () => {
-    //     const container = scrollContainerRef.current
-    //     if (container && pagesCount.data) {
-    //         const scrollTop = container.scrollTop
-    //         const containerHeight = container.clientHeight
-    //         let accumulatedHeight = 0
-    //         let currentPageIndex = 0
-
-    //         for (let i = 0; i < pagesCount.data.size.length; i++) {
-    //             const pageHeight = pagesCount.data.size[i].height
-    //             accumulatedHeight += pageHeight
-
-    //             const nextPageThreshold = accumulatedHeight - pageHeight * 0.5 // 50% of the page height
-
-    //             // Check if the scrollTop has reached the threshold for the next page
-    //             if (
-    //                 scrollTop < nextPageThreshold ||
-    //                 i === pagesCount.data.size.length - 1
-    //             ) {
-    //                 currentPageIndex = i
-    //                 break
-    //             }
-    //         }
-
-    //         const previousPagesHeight =
-    //             accumulatedHeight -
-    //             pagesCount.data.size[currentPageIndex].height
-
-    //         // Calculate the currentPageTop correctly
-    //         const currentPageTop = Math.max(0, scrollTop - previousPagesHeight) // Ensure non-negative value
-
-    //         setCurrentPage(currentPageIndex)
-    //         setCurrentPageY(currentPageTop)
-
-    //         console.log({
-    //             currentPageIndex,
-    //             currentPageTop,
-    //             scrollTop,
-    //             accumulatedHeight,
-    //             containerHeight,
-    //             previousPagesHeight,
-    //         })
-    //     }
-    // }
+    const pagesCount = SubAdminApi.LogBook.useLogbookPagesCount(file?.id, {
+        skip: !file?.id,
+    })
+    const [saveLogbook, saveLogbookResult] =
+        SubAdminApi.LogBook.useSaveLogbook()
+    //     SubAdminApi
+    // LogBook
+    // useStudentLogbook
 
     useEffect(() => {
         const container = scrollContainerRef.current
@@ -126,12 +72,15 @@ export const LoogbookEditor = ({ onCancel }: { onCancel?: () => void }) => {
             const scrollTop = container.scrollTop
             let accumulatedHeight = 0
             let currentPageIndex = 0
+            const updatedRedered = renderedPagesHeight?.map(
+                (a: any, i: number) => (a ? a : pagesCount.data.size[i].height)
+            )
 
             // Loop through each page to find the current page index
             for (let i = 0; i < pagesCount.data.size.length; i++) {
                 // const pageHeight = (pagesCount.data.size[i].height * 96) / 100
                 // const pageHeight = pagesCount.data.size[i].height
-                const pageHeight = renderedPagesHeight[i]
+                const pageHeight = updatedRedered[i]
 
                 // const pageHeight =
                 //     (renderedPagesHeight[i] * 100) /
@@ -144,7 +93,7 @@ export const LoogbookEditor = ({ onCancel }: { onCancel?: () => void }) => {
                 }
 
                 // Check if the scrollTop is within the current accumulated height range
-                if (scrollTop < accumulatedHeight) {
+                if (scrollTop < accumulatedHeight && updatedRedered[i]) {
                     currentPageIndex = i
                     break
                 }
@@ -157,7 +106,7 @@ export const LoogbookEditor = ({ onCancel }: { onCancel?: () => void }) => {
 
             // Calculate the total height of all previous pages
             const previousPagesHeight =
-                accumulatedHeight - renderedPagesHeight[currentPageIndex]
+                accumulatedHeight - updatedRedered[currentPageIndex]
 
             // Calculate the current Y position relative to the top of the current page
             const currentPageTop = scrollTop - previousPagesHeight
@@ -170,293 +119,20 @@ export const LoogbookEditor = ({ onCancel }: { onCancel?: () => void }) => {
         }
     }
 
-    // const handleScroll = () => {
-    //     const container = scrollContainerRef.current
-    //     if (container && pagesCount.data) {
-    //         const scrollTop = container.scrollTop
-    //         const containerHeight = container.clientHeight
-
-    //         let accumulatedHeight = 0
-    //         let currentPageIndex = 0
-
-    //         for (let i = 0; i < pagesCount.data.size.length; i++) {
-    //             const pageHeight = pagesCount.data.size[i].height
-    //             accumulatedHeight += pageHeight
-
-    //             const nextPageThreshold = accumulatedHeight - pageHeight * 0.5 // 50% of the page height
-
-    //             // Check if the scrollTop has reached the threshold for the next page
-    //             if (
-    //                 scrollTop < nextPageThreshold ||
-    //                 i === pagesCount.data.size.length - 1
-    //             ) {
-    //                 currentPageIndex = i
-    //                 break
-    //             }
-    //         }
-
-    //         const previousPagesHeight =
-    //             accumulatedHeight -
-    //             pagesCount.data.size[currentPageIndex].height
-    //         const currentPageTop = scrollTop - previousPagesHeight
-
-    //         console.log({ scrollTop, currentPageIndex })
-
-    //         setCurrentPage(currentPageIndex)
-    //         setCurrentPageY(currentPageTop)
-
-    //         console.log({
-    //             currentPageIndex,
-    //             currentPageTop,
-    //             scrollTop,
-    //             accumulatedHeight,
-    //             containerHeight,
-    //         })
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     const container = scrollContainerRef.current
-    //     if (container) {
-    //         container.addEventListener('scroll', handleScroll)
-    //         return () => container.removeEventListener('scroll', handleScroll)
-    //     }
-    // }, [scrollContainerRef.current, pagesCount.data])
-
-    // const handleScroll = () => {
-    //     const container = scrollContainerRef.current
-    //     if (container && pagesCount.data) {
-    //         const scrollTop = container.scrollTop
-    //         let accumulatedHeight = 0
-    //         let currentPageIndex = 0
-    //         const tolerance = 5 // A small buffer to handle minor discrepancies
-
-    //         for (let i = 0; i < pagesCount.data.size.length; i++) {
-    //             const pageHeight = pagesCount.data.size[i].height
-    //             accumulatedHeight += pageHeight
-
-    //             if (
-    //                 scrollTop + tolerance < accumulatedHeight ||
-    //                 i === pagesCount.data.size.length - 1
-    //             ) {
-    //                 currentPageIndex = i
-    //                 break
-    //             }
-    //         }
-
-    //         const previousPagesHeight =
-    //             accumulatedHeight -
-    //             pagesCount.data.size[currentPageIndex].height
-    //         const currentPageTop = scrollTop - previousPagesHeight
-
-    //         setCurrentPage(currentPageIndex)
-    //         setCurrentPageY(currentPageTop)
-
-    //         console.log({
-    //             currentPageIndex,
-    //             currentPageTop,
-    //             scrollTop,
-    //             accumulatedHeight,
-    //         })
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     const container = scrollContainerRef.current
-    //     if (container) {
-    //         container.addEventListener('scroll', handleScroll)
-    //         return () => container.removeEventListener('scroll', handleScroll)
-    //     }
-    // }, [scrollContainerRef.current, pagesCount.data])
-
-    // const handleScroll = () => {
-    //     const container = scrollContainerRef.current
-    //     if (container && pagesCount.data) {
-    //         const scrollTop = container.scrollTop
-    //         let accumulatedHeight = 0
-    //         let currentPageIndex = 0
-
-    //         for (let i = 0; i < pagesCount.data.size.length; i++) {
-    //             const pageHeight = pagesCount.data.size[i].height
-    //             accumulatedHeight += pageHeight
-    //             if (
-    //                 scrollTop < accumulatedHeight ||
-    //                 i === pagesCount.data.size.length - 1
-    //             ) {
-    //                 currentPageIndex = i
-    //                 break
-    //             }
-    //         }
-
-    //         const previousPagesHeight =
-    //             accumulatedHeight -
-    //             pagesCount.data.size[currentPageIndex].height
-    //         const currentPageTop = scrollTop - previousPagesHeight
-    //         setCurrentPage(currentPageIndex)
-    //         setCurrentPageY(currentPageTop)
-    //         console.log({
-    //             currentPageIndex,
-    //             currentPageTop,
-    //             scrollTop,
-    //             accumulatedHeight,
-    //         })
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     const container = scrollContainerRef.current
-    //     if (container) {
-    //         container.addEventListener('scroll', handleScroll)
-    //         return () => container.removeEventListener('scroll', handleScroll)
-    //     }
-    // }, [scrollContainerRef.current, pagesCount.data])
-
-    // const handleScroll = () => {
-    //     const container = scrollContainerRef.current
-    //     if (container) {
-    //         const scrollTop = container.scrollTop
-    //         const containerHeight = container.clientHeight
-    //         const totalHeight = container.scrollHeight
-
-    //         // Calculate visible percentages for all pages
-    //         const newPageVisiblePercentages: { [key: number]: number } = {}
-    //         pagesCount.data.size.forEach((item: any, index: number) => {
-    //             const pageStart = index * containerHeight
-    //             const pageEnd = pageStart + containerHeight
-    //             const visibleStart = Math.max(pageStart, scrollTop)
-    //             const visibleEnd = Math.min(
-    //                 pageEnd,
-    //                 scrollTop + containerHeight
-    //             )
-    //             const visibleHeight = Math.max(0, visibleEnd - visibleStart)
-    //             const visiblePercentage =
-    //                 (visibleHeight / containerHeight) * 100
-    //             newPageVisiblePercentages[index] = visiblePercentage
-    //         })
-
-    //         setPageVisiblePercentages(newPageVisiblePercentages)
-    //     }
-    // }
-
-    // const handleScroll = () => {
-    //     const container = scrollContainerRef.current
-    //     if (container) {
-    //         const scrollTop = container.scrollTop
-    //         const containerHeight = container.clientHeight
-
-    //         // Calculate top offsets for all pages
-    //         const newPageTopOffsets: { [key: number]: number } = {}
-    //         pagesCount.data.size.forEach((item: any, index: number) => {
-    //             const pageStart = index * containerHeight
-    //             const pageTopOffset = Math.max(0, scrollTop - pageStart)
-    //             newPageTopOffsets[index] = pageTopOffset
-    //         })
-
-    //         setPageTopOffsets(newPageTopOffsets)
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     const container = scrollContainerRef.current
-    //     if (container) {
-    //         container.addEventListener('scroll', handleScroll)
-    //         return () => container.removeEventListener('scroll', handleScroll)
-    //     }
-    // }, [scrollContainerRef.current, pagesCount.data])
-
-    // const getPageTopOffset = (pageNumber: number) => {
-    //     const visiblePercentage = pageVisiblePercentages[pageNumber] || 0
-    //     return 100 - visiblePercentage
-    // }
+    const onChangeItemsData = (item: any) => {
+        const existingItem = items.find((x: any) => x.id === item.id)
+        if (existingItem) {
+            const updatedItems = items?.map((i: any) =>
+                i?.id === existingItem?.id
+                    ? { ...i, fieldValue: item?.data }
+                    : i
+            )
+            setItems(updatedItems)
+        }
+    }
 
     const getPageTopOffset = (pageNumber: number) =>
         pageTopOffsets[pageNumber] || 0
-
-    // useEffect(() => {
-    //     const container = scrollContainerRef.current
-    //     if (container) {
-    //         container.addEventListener('scroll', handleScroll)
-    //         return () => container.removeEventListener('scroll', handleScroll)
-    //     }
-    // }, [scrollContainerRef.current])
-
-    const handleDragEnd = (data: any) => {
-        const newLocX = tabDropCoordinates?.x
-        const newLocY = tabDropCoordinates?.y
-
-        if (data) {
-            const isCheckBox =
-                data.active.data.current?.type === FieldsTypeEnum.Checkbox
-
-            const [a, b, width, height] = tabDropCoordinates?.viewPortData
-
-            const newId = uuid()
-
-            const yValue = isCheckBox
-                ? newLocY > 0
-                    ? newLocY - 3
-                    : 0
-                : newLocY - 12 < 0
-                ? 0
-                : newLocY - 12
-
-            const xValue = isCheckBox
-                ? newLocX > 0
-                    ? newLocX - 3
-                    : 0
-                : newLocX - 60 < 0
-                ? 1
-                : newLocX - 60
-            const tab = {
-                id: newId,
-                page: data?.over?.id,
-                selected: true,
-                location: {
-                    x: width
-                        ? newLocX > Number(width)
-                            ? Number(width) - 50
-                            : xValue
-                        : xValue,
-                    y: height
-                        ? newLocY > Number(height)
-                            ? Number(height) - 25
-                            : yValue
-                        : yValue,
-                    page: data?.over?.id,
-                },
-                size: { width: 120, height: 24 },
-                data: {
-                    ...data.active.data.current,
-                    dataLabel: data.active.id,
-                    ...(data.active.data.current?.isCustom && !isCheckBox
-                        ? { isRequired: true }
-                        : {}),
-                },
-                parent: {
-                    width: data?.over?.rect.width,
-                    height: data?.over?.rect.height,
-                    left: data?.over?.rect.left,
-                    right: data?.over?.rect.right,
-                    top: data?.over?.rect.top,
-                    bottom: data?.over?.rect.bottom,
-                },
-                moving: false,
-                resizing: false,
-            }
-
-            if (tab?.page || tab?.page === 0) {
-                setItems((prevState: any) => [
-                    ...prevState?.map((item: any) => ({
-                        ...item,
-                        selected: false,
-                    })),
-                    tab,
-                ])
-                // setContextBar(tab)
-                // setLastSelectedItem(tab)
-            }
-        }
-    }
 
     const onItemResize = (data: any) => {
         const existingItem = items.find((x: any) => x.id === data.item.id)
@@ -616,16 +292,19 @@ export const LoogbookEditor = ({ onCancel }: { onCancel?: () => void }) => {
         }
     }
 
+    const yPosition =
+        (currentPageY / renderedPagesHeight[currentPage]) *
+        pagesCount?.data?.size?.[currentPage]?.height
+
     const checkPageIndexY =
         pagesCount?.isSuccess && pagesCount?.data
-            ? (currentPageY * 100) / pagesCount?.data?.size?.[0]?.height > 88
+            ? (yPosition * 100) / pagesCount?.data?.size?.[0]?.height > 88
             : false
 
     const onPasteTab = (item: any) => {
         const newId = uuid()
         const updatedCopiedText = {
             ...item,
-            data: { ...item?.data, fieldValue: items?.length },
             saved: false,
             id: newId,
             selected: true,
@@ -659,34 +338,25 @@ export const LoogbookEditor = ({ onCancel }: { onCancel?: () => void }) => {
     }
 
     const onSubmitSign = () => {
-        var dataURL = ref?.current?.toDataURL('image/svg+xml')
+        var dataURL = ref?.current?.toDataURL('image/jpg+xml')
         if (!ref?.current?.isEmpty()) {
             const newId = uuid()
             setItems([
                 ...items,
                 {
                     id: newId,
+                    isEditing: true,
                     page: checkPageIndexY ? currentPage + 1 : currentPage,
+                    fieldValue: dataURL,
+                    type: FieldsTypeEnum.Signature,
                     location: {
                         x: 0,
                         page: checkPageIndexY ? currentPage + 1 : currentPage,
-                        y: checkPageIndexY ? 30 : currentPageY,
+                        y: checkPageIndexY ? 30 : yPosition || currentPageY,
                     },
                     size: {
                         width: 200,
                         height: 130,
-                    },
-                    data: {
-                        role: 'industry',
-                        type: FieldsTypeEnum.Signature,
-                        color: '#10b981',
-                        dataLabel: 'input-industry-address',
-                        column: 'addressLine1',
-                        isCustom: false,
-                        placeholder: 'Industry Address',
-                        option: '',
-                        isRequired: false,
-                        fieldValue: dataURL,
                     },
                     saved: false,
                 },
@@ -698,8 +368,56 @@ export const LoogbookEditor = ({ onCancel }: { onCancel?: () => void }) => {
     const onCancelButtonClick = () => {
         onCancel && onCancel()
     }
+
+    const onEditingClicked = (item: any) => {
+        const existingItem = items.find((x: any) => x.id === item?.id)
+        if (existingItem) {
+            existingItem.isEditing = !existingItem.isEditing
+            const updatedList = items.filter(
+                (x: any) => x.id !== existingItem?.id
+            )
+            setItems([...updatedList, existingItem])
+        }
+    }
+
+    const onSaveLogBookClicked = () => {
+        const data = items
+            ?.filter((item: any) => {
+                if (
+                    typeof item?.location?.x === 'number' &&
+                    !isNaN(item?.location?.x) &&
+                    typeof item?.location?.y === 'number' &&
+                    !isNaN(item?.location?.y)
+                ) {
+                    return item
+                }
+            })
+            ?.map((item: any) => {
+                return {
+                    type: item?.type,
+                    value: item?.fieldValue,
+                    number: item?.page,
+                    position: `${item?.location?.x},${item?.location?.y + 47}`,
+                }
+            })
+        saveLogbook({
+            data,
+            id: pagesCount?.data?.id,
+        }).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: 'Logbook Updated',
+                    description: 'Logbook Updated Successfully',
+                })
+                if (onCancel) {
+                    onCancel()
+                }
+            }
+        })
+    }
     return (
         <>
+            <ShowErrorNotifications result={saveLogbookResult} />
             <div className="bg-white flex justify-center items-center flex-col w-full min-w-full lg:min-w-[700px] xl:min-w-[1024px] max-w-7xl border rounded-md">
                 <div className="w-full py-3.5 px-4 flex justify-between items-center">
                     <Typography variant="h4">Logbook</Typography>
@@ -732,9 +450,13 @@ export const LoogbookEditor = ({ onCancel }: { onCancel?: () => void }) => {
                                     (item: any, i: number) => (
                                         <div key={i} className="bg-white">
                                             <LoogBookSVGLoader
+                                                logbookId={pagesCount?.data?.id}
                                                 pageTopOffset={getPageTopOffset(
                                                     i
                                                 )}
+                                                onChangeItemsData={
+                                                    onChangeItemsData
+                                                }
                                                 onPageCoordinatesUpdate={(
                                                     page: number,
                                                     yPosition: number
@@ -776,6 +498,9 @@ export const LoogbookEditor = ({ onCancel }: { onCancel?: () => void }) => {
                                                 onItemResized={onItemResized}
                                                 onItemSelected={onItemSelected}
                                                 onPasteTab={onPasteTab}
+                                                onEditingClicked={
+                                                    onEditingClicked
+                                                }
                                             />
                                         </div>
                                     )
@@ -807,9 +532,12 @@ export const LoogbookEditor = ({ onCancel }: { onCancel?: () => void }) => {
                                         ...items,
                                         {
                                             id: newId,
+                                            isEditing: true,
                                             page: checkPageIndexY
                                                 ? currentPage + 1
                                                 : currentPage,
+                                            fieldValue: null,
+                                            type: item?.type,
                                             location: {
                                                 x: 0,
                                                 page: checkPageIndexY
@@ -817,24 +545,14 @@ export const LoogbookEditor = ({ onCancel }: { onCancel?: () => void }) => {
                                                     : currentPage,
                                                 y: checkPageIndexY
                                                     ? 30
-                                                    : currentPageY,
+                                                    : yPosition || currentPageY,
+                                                // y: checkPageIndexY
+                                                //     ? 30
+                                                //     : currentPageY,
                                             },
                                             size: {
                                                 width: 200,
                                                 height: 80,
-                                            },
-                                            data: {
-                                                role: 'industry',
-                                                type: item?.type,
-                                                color: '#10b981',
-                                                dataLabel:
-                                                    'input-industry-address',
-                                                column: 'addressLine1',
-                                                isCustom: false,
-                                                placeholder: 'Industry Address',
-                                                option: '',
-                                                isRequired: false,
-                                                fieldValue: items?.length,
                                             },
                                             saved: false,
                                         },
@@ -844,7 +562,12 @@ export const LoogbookEditor = ({ onCancel }: { onCancel?: () => void }) => {
                             setDraggableData={setDraggableData}
                         />
                         <div className="absolute bottom-0 w-full py-2.5 flex items-end justify-center  border-t border-secondary-dark">
-                            <Button text="FINISH & SAVE" />
+                            <Button
+                                text="FINISH & SAVE"
+                                onClick={onSaveLogBookClicked}
+                                loading={saveLogbookResult.isLoading}
+                                disabled={saveLogbookResult.isLoading}
+                            />
                         </div>
                     </div>
                 </div>

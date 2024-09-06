@@ -26,8 +26,6 @@ const Login: NextPage = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const data: any = useSession()
 
-    console.log({ data })
-
     const [requested, setRequested] = useState(false)
     const [rejected, setRejected] = useState(false)
     const [archived, setArchived] = useState(false)
@@ -120,7 +118,6 @@ const Login: NextPage = () => {
     }, [data?.data])
 
     const handleSubmit = async (values: LoginCredentials, event: any) => {
-        console.log({ values, event })
         event.preventDefault()
 
         try {

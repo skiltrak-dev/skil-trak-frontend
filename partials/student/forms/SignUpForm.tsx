@@ -240,7 +240,7 @@ export const StudentSignUpForm = ({
                 description: 'You must select on Address Dropdown',
             })
         } else if (onSuburbClicked) {
-            onSubmit(values)
+            onSubmit({ ...values, suburb: 'N/A', state: 'N/A' })
         }
     }
     const ageOptions = [
