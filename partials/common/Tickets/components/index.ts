@@ -1,4 +1,5 @@
 export * from './TicketUser'
 export * from './TicketSubject'
+export * from './UniqueIdSelect'
 export * from './TicketMessageCard'
 export * from './TicketDetailHeaderCard'

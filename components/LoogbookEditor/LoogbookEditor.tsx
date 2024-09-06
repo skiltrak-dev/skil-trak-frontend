@@ -1,20 +1,19 @@
 import { EmptyData } from '@components/ActionAnimations'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import { LoadingAnimation } from '@components/LoadingAnimation'
-import { CommonApi, SubAdminApi } from '@queries'
+import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
+import { Typography } from '@components/Typography'
+import { Button } from '@components/buttons'
+import { useNotification } from '@hooks'
+import { SubAdminApi } from '@queries'
 import { ReactNode, useEffect, useRef, useState } from 'react'
+import { MdCancel } from 'react-icons/md'
 import { uuid } from 'uuidv4'
 import {
     LogbookSignature,
     LoogbookSidebar,
     LoogBookSVGLoader,
 } from './components'
-import { Typography } from '@components/Typography'
-import { Button } from '@components/buttons'
-import { MdCancel } from 'react-icons/md'
-import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
-import { useNotification } from '@hooks'
-import { isNumber } from 'lodash'
 
 export const LoogbookEditor = ({
     file,
@@ -387,7 +386,8 @@ export const LoogbookEditor = ({
                     typeof item?.location?.x === 'number' &&
                     !isNaN(item?.location?.x) &&
                     typeof item?.location?.y === 'number' &&
-                    !isNaN(item?.location?.y)
+                    !isNaN(item?.location?.y) &&
+                    item?.fieldValue
                 ) {
                     return item
                 }

@@ -48,12 +48,21 @@ export const TicketSubject = ({ ticket }: { ticket: any }) => {
                     {ticket?.priority}
                 </div>
             </div>
-            <Typography variant={'label'}>
-                <span className="font-bold cursor-pointer">
-                    [#{String(ticket?.id)?.padStart(5, '0')}]{' '}
-                    {ellipsisText(ticket?.subject, 28)}
-                </span>
-            </Typography>
+            <div className="flex items-center gap-x-2">
+                <Typography variant={'label'}>
+                    <span className="font-bold cursor-pointer">
+                        [#{String(ticket?.id)?.padStart(5, '0')}]{' '}
+                        {ellipsisText(ticket?.subject, 28)}
+                    </span>
+                </Typography>
+                {ticket?.isInternal ? (
+                    <div
+                        className={`rounded-full bg-primary uppercase text-[11px] font-semibold text-white px-1.5 whitespace-pre`}
+                    >
+                        Internal Ticket
+                    </div>
+                ) : null}
+            </div>
             <Typography variant={'xs'} capitalize>
                 <span className="whitespace-pre">
                     {moment(ticket?.createdAt).fromNow()}

@@ -36,7 +36,6 @@ export const authApi = createApi({
                 body,
             }),
         }),
-        
 
         registerRto: builder.mutation<any, any>({
             query: (body) => ({
@@ -62,6 +61,13 @@ export const authApi = createApi({
             query: () => `${PREFIX}rtos`,
             providesTags: ['Rtos'],
         }),
+        searchRto: builder.query<any, { search?: string }>({
+            query: (params) => ({
+                url: `rtos/rto/search`,
+                params,
+            }),
+            providesTags: ['Rtos'],
+        }),
         rtoPackages: builder.query<Packages[], void>({
             query: () => `${PREFIX}rto-packages`,
             providesTags: ['Packages'],
@@ -80,17 +86,17 @@ export const authApi = createApi({
                 url: `${PREFIX}forgot-password`,
                 method: 'POST',
                 body,
-            })
+            }),
         }),
         resetPassword: builder.mutation<any, any>({
-            query: ({body, token}) => {
-                return ({
+            query: ({ body, token }) => {
+                return {
                     url: `${PREFIX}reset-password`,
                     method: 'POST',
                     body,
-                    params:{token}
-                })
-            }
+                    params: { token },
+                }
+            },
         }),
 
         checkAbn: builder.mutation<any, any>({
@@ -124,6 +130,7 @@ const {
     useRegisterStudentMutation,
     useRtoPackagesQuery,
     useGetRtosQuery,
+    useSearchRtoQuery,
 } = authApi
 
 export const AuthApi = {
@@ -140,6 +147,7 @@ export const AuthApi = {
     useRegisterRto: useRegisterRtoMutation,
     useRegisterStudent: useRegisterStudentMutation,
     useRtos: useGetRtosQuery,
+    useSearchRtos: useSearchRtoQuery,
     useForgotPassword: useForgotPasswordMutation,
     useResetPassword: useResetPasswordMutation,
 

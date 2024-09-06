@@ -23,6 +23,8 @@ import { NextPageWithLayout, OptionType, SubAdmin } from '@types'
 import { useRouter } from 'next/router'
 import { BsFillTicketDetailedFill } from 'react-icons/bs'
 import { AdminApi, CommonApi } from '@queries'
+import { UniqueIdSelect } from '@partials/common/Tickets'
+import { removeEmptyValues } from '@utils'
 
 enum TicketType {
     MyOpenTickets = 'my-open-tickets',
@@ -37,6 +39,10 @@ const Tickets: NextPageWithLayout = () => {
     const [selectedSubadmin, setSelectedSubadmin] = useState<number | null>(
         null
     )
+    const [selectedUniqueId, setSelectedUniqueId] = useState<string | null>(
+        null
+    )
+    console.log({ selectedUniqueId })
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
@@ -44,12 +50,30 @@ const Tickets: NextPageWithLayout = () => {
         setTitle('Tickets')
     }, [])
 
+    console.log(
+        'ISSSSSSSSSSSS',
+        !selectedSubadmin || !selectedUniqueId,
+        `${JSON.stringify(
+            removeEmptyValues({
+                subAdminId: selectedSubadmin,
+                uniqueId: selectedUniqueId,
+            })
+        )
+            .replaceAll('{', '')
+            .replaceAll('}', '')
+            .replaceAll('"', '')
+            .trim()}`
+    )
+
     const subadmins = AdminApi.Workplace.subadminForAssignWorkplace()
     const filteredTickets = CommonApi.Tickets.useGetAllTicket(
         {
-            search: `${JSON.stringify({
-                subAdminId: selectedSubadmin,
-            })
+            search: `${JSON.stringify(
+                removeEmptyValues({
+                    subAdminId: selectedSubadmin,
+                    uniqueId: selectedUniqueId,
+                })
+            )
                 .replaceAll('{', '')
                 .replaceAll('}', '')
                 .replaceAll('"', '')
@@ -57,7 +81,10 @@ const Tickets: NextPageWithLayout = () => {
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         },
-        { skip: !selectedSubadmin, refetchOnMountOrArgChange: true }
+        {
+            skip: !selectedSubadmin && !selectedUniqueId,
+            refetchOnMountOrArgChange: true,
+        }
     )
 
     const subAdminOptions = subadmins?.data?.map((subAdmin: SubAdmin) => ({
@@ -127,10 +154,18 @@ const Tickets: NextPageWithLayout = () => {
                             showError={false}
                         />
                     </div>
+                    <div className="w-72">
+                        <UniqueIdSelect
+                            onChange={(e: string) => {
+                                setSelectedUniqueId(e)
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
-            {selectedSubadmin && filteredTickets.isError && <TechnicalError />}
-            {selectedSubadmin ? (
+            {(selectedSubadmin || selectedUniqueId) &&
+                filteredTickets.isError && <TechnicalError />}
+            {selectedSubadmin || selectedUniqueId ? (
                 filteredTickets.isLoading ? (
                     <LoadingAnimation />
                 ) : (
@@ -145,7 +180,7 @@ const Tickets: NextPageWithLayout = () => {
                 )
             ) : null}
 
-            {!selectedSubadmin && (
+            {!selectedSubadmin && !selectedUniqueId && (
                 <TabNavigation tabs={tabs}>
                     {({ header, element }: any) => {
                         return (
