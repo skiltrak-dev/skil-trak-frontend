@@ -1,7 +1,11 @@
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import { useState } from 'react'
 
-export const LogbookCheckBox = () => {
+export const LogbookCheckBox = ({
+    onChange,
+}: {
+    onChange: (e: any) => void
+}) => {
     const [first, setfirst] = useState(false)
 
     return (
@@ -25,8 +29,9 @@ export const LogbookCheckBox = () => {
             // className={`noDefault z-10  ${
             //     true ? 'border-primary border-2' : 'border-gray-500 border'
             // }  rounded-sm text-sm p-1 outline-none`}
-            onChange={() => {
+            onChange={(e: any) => {
                 setfirst(!first)
+                onChange(e)
             }}
             // onChange={(e: any) => {
             //     onAddCustomFieldsData({

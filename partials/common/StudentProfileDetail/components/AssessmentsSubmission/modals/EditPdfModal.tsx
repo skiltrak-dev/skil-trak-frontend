@@ -1,11 +1,17 @@
 import { GlobalModal, LoogbookEditor } from '@components'
 import React from 'react'
 
-export const EditPdfModal = ({ onCancel }: { onCancel: () => void }) => {
+export const EditPdfModal = ({
+    file,
+    onCancel,
+}: {
+    file: any
+    onCancel: () => void
+}) => {
     return (
         <GlobalModal>
             <div className="">
-                <LoogbookEditor onCancel={onCancel} />
+                <LoogbookEditor file={file} onCancel={onCancel} />
             </div>
         </GlobalModal>
     )

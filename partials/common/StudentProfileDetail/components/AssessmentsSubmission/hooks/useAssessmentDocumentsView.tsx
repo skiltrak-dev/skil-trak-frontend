@@ -8,9 +8,9 @@ export const useAssessmentDocumentsView = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const onCancelClicked = () => setModal(null)
 
-    const onModalCancel = (value?: boolean) => {
-        if (value) {
-            setModal(<EditPdfModal onCancel={onCancelClicked} />)
+    const onModalCancel = (file?: boolean) => {
+        if (file) {
+            setModal(<EditPdfModal onCancel={onCancelClicked} file={file} />)
         } else {
             onCancelClicked()
         }
@@ -65,6 +65,7 @@ export const useAssessmentDocumentsView = () => {
             setModal(
                 <PdfDocumentView
                     url={url}
+                    file={file}
                     downloadUrl={file?.file}
                     onCancelButtonClick={onModalCancel}
                     extension={file?.extension}

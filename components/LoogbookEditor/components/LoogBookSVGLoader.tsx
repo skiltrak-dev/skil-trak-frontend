@@ -1,22 +1,26 @@
 import { CursorCoordinates } from '@components/Esign'
-import { CommonApi } from '@queries'
+import { CommonApi, SubAdminApi } from '@queries'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { Waypoint } from 'react-waypoint'
 import { LogbookDraggableTab } from './LogbookDraggableTab'
+import { NoData } from '@components/ActionAnimations'
 
 export const LoogBookSVGLoader = ({
     size,
     items,
     tabsError,
+    logbookId,
     pageNumber,
     setCurrentPage,
     onItemLocationChanged,
+    onEditingClicked,
     onChangedLocation,
     onItemResize,
     onItemResized,
     onItemSelected,
     setTabDropCoordinates,
+    onChangeItemsData,
     onItemMove,
     onItemRemove,
     isPageScrolled,
@@ -27,10 +31,12 @@ export const LoogBookSVGLoader = ({
     onPasteTab,
 }: {
     onPasteTab: (item: any) => void
+    onEditingClicked: (item: any) => void
     setRenderedPagesHeight: any
     isPageScrolled: boolean
     pageTopOffset: number
     currentPageY: number
+    logbookId: number
     size: any
     items: any[]
     tabsError: any
@@ -45,23 +51,29 @@ export const LoogBookSVGLoader = ({
     onItemMove: (eventData: any) => void
     onItemRemove: (item: any) => void
     onPageCoordinatesUpdate: (pageNumber: number, coordinates: any) => void
+    onChangeItemsData: (val: any) => void
 }) => {
     const [svgContent, setSvgContent] = useState('')
     const [viewport, setViewport] = useState<string | null>('')
     const dimensionRef = useRef<HTMLDivElement>(null)
+    const [timerId, setTimerId] = useState<any>(null)
+    const [loadSvg, setLoadSvg] = useState(false)
     const pageRef = useRef<HTMLDivElement>(null) // Ref for the page container
 
     // const onPageCoordinatesUpdate = (pageIndex: number, yPosition: number) => {
     //     setCurrentPageY(yPosition) // Update the Y position of the current page
     // }
 
-    const template = CommonApi.ESign.useEsignTemplate({
-        id: 160,
-        pageNumber: pageNumber - 1,
-    })
+    const template = SubAdminApi.LogBook.useStudentLogbook(
+        {
+            id: logbookId,
+            pageNumber: pageNumber - 1,
+        },
+        { skip: !logbookId || !loadSvg }
+    )
 
     useEffect(() => {
-        const path = template?.data?.data?.[0]
+        const path = template?.data?.data
         const parser = new DOMParser()
         const xmlDoc = parser.parseFromString(path, 'image/svg+xml')
         const root = xmlDoc.documentElement
@@ -78,12 +90,7 @@ export const LoogBookSVGLoader = ({
     }, [template?.data?.data, pageNumber])
 
     useEffect(() => {
-        if (
-            pageRef.current &&
-            isPageScrolled &&
-            template?.isSuccess &&
-            svgContent
-        ) {
+        if (pageRef.current && isPageScrolled) {
             const pageHeight = pageRef.current.getBoundingClientRect().height
             setRenderedPagesHeight((prevVal: number[]) => {
                 let updatedVal = [...prevVal]
@@ -93,6 +100,14 @@ export const LoogBookSVGLoader = ({
             })
         }
     }, [currentPageY, template, isPageScrolled, svgContent])
+
+    useEffect(() => {
+        return () => {
+            if (timerId) {
+                clearTimeout(timerId)
+            }
+        }
+    }, [timerId])
 
     const handleVisibilityChange = useCallback(
         (entries: any) => {
@@ -127,7 +142,18 @@ export const LoogBookSVGLoader = ({
         }
     }, [handleVisibilityChange])
 
-    const handleEnter = () => {}
+    const handleEnter = () => {
+        if (timerId) {
+            clearTimeout(timerId)
+        }
+
+        // Set a timeout to make the API call after 1 second of inactivity
+        const id = setTimeout(() => {
+            setLoadSvg(true)
+        }, 1000)
+
+        setTimerId(id)
+    }
 
     return (
         <div
@@ -135,8 +161,19 @@ export const LoogBookSVGLoader = ({
             className="page-container"
             data-page-index={pageNumber - 1}
         >
-            <Waypoint onEnter={handleEnter} onLeave={() => {}}>
+            <Waypoint
+                onEnter={handleEnter}
+                onLeave={() => {
+                    setLoadSvg(false)
+                    if (timerId) {
+                        clearTimeout(timerId)
+                    }
+                }}
+            >
                 <div>
+                    {template.isError ? (
+                        <NoData text="There is some technical issue!" />
+                    ) : null}
                     {template?.data ? (
                         <div ref={dimensionRef} className="relative">
                             {dimensionRef.current && (
@@ -170,8 +207,14 @@ export const LoogBookSVGLoader = ({
                                                 onChangedLocation={
                                                     onChangedLocation
                                                 }
+                                                onChangeItemsData={
+                                                    onChangeItemsData
+                                                }
                                                 viewport={viewport}
                                                 onResize={onItemResize}
+                                                onEditingClicked={() => {
+                                                    onEditingClicked(item)
+                                                }}
                                                 onResized={onItemResized}
                                                 onItemSelected={onItemSelected}
                                                 onRemove={onItemRemove}
@@ -182,12 +225,12 @@ export const LoogBookSVGLoader = ({
                                 </svg>
                             </div>
                         </div>
-                    ) : (
+                    ) : template?.isLoading ? (
                         <Skeleton
                             className="w-full rounded-lg z-10"
                             style={{ height: `${size?.height}px` }}
                         />
-                    )}
+                    ) : null}
                 </div>
             </Waypoint>
         </div>
