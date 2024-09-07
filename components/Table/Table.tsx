@@ -90,9 +90,9 @@ export const Table = <Type,>({
         const status = row?.original?.user?.status
 
         return [
-            isUnanswered ? 'blink-green' : '',
+            isUnanswered ? 'blink' : '',
             awaitingAgreements ? 'blink' : '',
-            expiringInNext45Days ? 'blink-yellow' : '',
+            expiringInNext45Days ? 'blink' : '',
             status === UserStatus.Blocked || status === UserStatus.Rejected
                 ? '!bg-error-light'
                 : status === UserStatus.Pending

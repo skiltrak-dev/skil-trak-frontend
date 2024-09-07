@@ -88,7 +88,7 @@ export const AllStudents = () => {
     // ================= Blinking/Flashing rows of students ================
     const findCallLogsUnanswered = data?.data?.filter((student: any) => {
         const unansweredCalls = student?.callLog?.filter((call: any) => {
-            if (call.isAnswered === null) {
+            if (call?.isAnswered === null) {
                 const callDate = new Date(call?.createdAt)
                 const currentDate = new Date()
                 const timeDiff = currentDate.getTime() - callDate.getTime()
@@ -129,37 +129,70 @@ export const AllStudents = () => {
                 !student?.nonContactable &&
                 student?.workplace?.some((workplace: any) => {
                     const industriesExist = workplace?.industries?.length > 0
+                    const currentStatusInterview =
+                        workplace?.currentStatus === 'interview'
+                    const currentStatusMeeting =
+                        workplace?.currentStatus === 'meeting'
                     return (
-                        industriesExist &&
-                        workplace?.industries?.some((industry: any) => {
-                            const applied = industry?.applied === true
-                            const agreementNotSigned =
-                                industry?.AgreementSigned === false
-                            const agreementDateNull =
-                                industry?.AgreementSignedDate === null
-                            const awaitingAgreement =
-                                industry?.awaitingAgreementSigned === true
-                            const isMoreThanSevenDays =
-                                moment().diff(
-                                    moment(
-                                        industry?.awaitingAgreementSignedDate
-                                    ),
-                                    'days'
-                                ) > 8
-                            return (
-                                applied &&
-                                agreementNotSigned &&
-                                agreementDateNull &&
-                                awaitingAgreement &&
-                                isMoreThanSevenDays
-                            )
-                        })
+                        currentStatusInterview ||
+                        currentStatusMeeting ||
+                        (industriesExist &&
+                            workplace?.industries?.some((industry: any) => {
+                                const applied = industry?.applied === true
+
+                                const agreementNotSigned =
+                                    industry?.AgreementSigned !== true
+
+                                const agreementDateNull =
+                                    industry?.AgreementSignedDate === null
+
+                                const awaitingAgreement =
+                                    industry?.awaitingAgreementSigned === true
+                                const isThanSevenDaysOfAwaitingAgreementSinged =
+                                    moment().diff(
+                                        moment(
+                                            industry?.awaitingAgreementSignedDate
+                                        ),
+                                        'days'
+                                    ) > 7
+                                const interviewDate =
+                                    industry?.interviewDate !== null
+                                const isCompletedDate =
+                                    industry?.isCompletedDate === null
+                                const placementStartedDate =
+                                    industry?.placementStartedDate === null
+                                const createdAt = new Date(workplace?.createdAt)
+                                const currentDate = new Date()
+                                const timeDiff =
+                                    createdAt.getTime() - currentDate.getTime()
+                                const daysDiff = Math.ceil(
+                                    timeDiff / (1000 * 60 * 60 * 24)
+                                )
+                                const isMoreThanSevenDays =
+                                    moment().diff(
+                                        moment(workplace?.createdAt),
+                                        'days'
+                                    ) > 7
+                                return (
+                                    currentStatusInterview ||
+                                    currentStatusMeeting ||
+                                    (applied &&
+                                        isCompletedDate &&
+                                        placementStartedDate &&
+                                        ((interviewDate &&
+                                            agreementNotSigned &&
+                                            isMoreThanSevenDays) ||
+                                            (agreementNotSigned &&
+                                                isThanSevenDaysOfAwaitingAgreementSinged &&
+                                                agreementDateNull &&
+                                                awaitingAgreement)))
+                                )
+                            }))
                     )
                 })
             )
         }
     )
-
     // ============================= END ====================================
 
     const onModalCancelClicked = () => {
