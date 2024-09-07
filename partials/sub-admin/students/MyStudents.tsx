@@ -38,6 +38,7 @@ import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { getUserCredentials, setLink } from '@utils'
 import { FaFileExport } from 'react-icons/fa'
+import moment from 'moment'
 
 export const MyStudents = () => {
     const router = useRouter()
@@ -61,6 +62,116 @@ export const MyStudents = () => {
                 refetchOnMountOrArgChange: true,
             }
         )
+
+    // ================= Blinking/Flashing rows of students ================
+    const findCallLogsUnanswered = data?.data?.filter((student: any) => {
+        const unansweredCalls = student?.callLog?.filter((call: any) => {
+            if (call?.isAnswered === null) {
+                const callDate = new Date(call?.createdAt)
+                const currentDate = new Date()
+                const timeDiff = currentDate.getTime() - callDate.getTime()
+                const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24))
+
+                return daysDiff >= 7
+            }
+            return false
+        })
+        return (
+            !student?.isHighPriority &&
+            !student?.isSnoozed &&
+            !student?.nonContactable &&
+            unansweredCalls.length > 0
+        )
+    })
+    const findExpiringInNext45Days = data?.data?.filter((student: any) => {
+        const expiryDate = new Date(student.expiryDate)
+        const currentDate = new Date()
+        const timeDiff = expiryDate.getTime() - currentDate.getTime()
+        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24))
+
+        return (
+            !student?.isHighPriority &&
+            !student?.isSnoozed &&
+            !student?.nonContactable &&
+            student?.workplace?.length === 0 &&
+            daysDiff <= 45 &&
+            daysDiff >= 0
+        )
+    })
+
+    const filterAwaitingAgreementBeyondSevenDays = data?.data?.filter(
+        (student: any) => {
+            return (
+                !student?.isHighPriority &&
+                !student?.isSnoozed &&
+                !student?.nonContactable &&
+                student?.workplace?.some((workplace: any) => {
+                    const industriesExist = workplace?.industries?.length > 0
+                    const currentStatusInterview =
+                        workplace?.currentStatus === 'interview'
+                    const currentStatusMeeting =
+                        workplace?.currentStatus === 'meeting'
+                    return (
+                        currentStatusInterview ||
+                        currentStatusMeeting ||
+                        (industriesExist &&
+                            workplace?.industries?.some((industry: any) => {
+                                const applied = industry?.applied === true
+
+                                const agreementNotSigned =
+                                    industry?.AgreementSigned !== true
+
+                                const agreementDateNull =
+                                    industry?.AgreementSignedDate === null
+
+                                const awaitingAgreement =
+                                    industry?.awaitingAgreementSigned === true
+                                const isThanSevenDaysOfAwaitingAgreementSinged =
+                                    moment().diff(
+                                        moment(
+                                            industry?.awaitingAgreementSignedDate
+                                        ),
+                                        'days'
+                                    ) > 7
+                                const interviewDate =
+                                    industry?.interviewDate !== null
+                                const isCompletedDate =
+                                    industry?.isCompletedDate === null
+                                const placementStartedDate =
+                                    industry?.placementStartedDate === null
+                                const createdAt = new Date(workplace?.createdAt)
+                                const currentDate = new Date()
+                                const timeDiff =
+                                    createdAt.getTime() - currentDate.getTime()
+                                const daysDiff = Math.ceil(
+                                    timeDiff / (1000 * 60 * 60 * 24)
+                                )
+                                const isMoreThanSevenDays =
+                                    moment().diff(
+                                        moment(workplace?.createdAt),
+                                        'days'
+                                    ) > 7
+                                return (
+                                    currentStatusInterview ||
+                                    currentStatusMeeting ||
+                                    (applied &&
+                                        isCompletedDate &&
+                                        placementStartedDate &&
+                                        ((interviewDate &&
+                                            agreementNotSigned &&
+                                            isMoreThanSevenDays) ||
+                                            (agreementNotSigned &&
+                                                isThanSevenDaysOfAwaitingAgreementSinged &&
+                                                agreementDateNull &&
+                                                awaitingAgreement)))
+                                )
+                            }))
+                    )
+                })
+            )
+        }
+    )
+    // ============================= END ====================================
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -276,6 +387,11 @@ export const MyStudents = () => {
                         data={data.data}
                         // quickActions={quickActionsElements}
                         enableRowSelection
+                        awaitingAgreementBeyondSevenDays={
+                            filterAwaitingAgreementBeyondSevenDays
+                        }
+                        findCallLogsUnanswered={findCallLogsUnanswered}
+                        findExpiringInNext45Days={findExpiringInNext45Days}
                     >
                         {({
                             table,
