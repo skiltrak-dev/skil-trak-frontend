@@ -109,11 +109,11 @@ export const ApprovedStudent = () => {
             !student?.isHighPriority &&
             !student?.isSnoozed &&
             !student?.nonContactable &&
-            unansweredCalls.length > 0
+            unansweredCalls?.length > 0
         )
     })
     const findExpiringInNext45Days = data?.data?.filter((student: any) => {
-        const expiryDate = new Date(student.expiryDate)
+        const expiryDate = new Date(student?.expiryDate)
         const currentDate = new Date()
         const timeDiff = expiryDate.getTime() - currentDate.getTime()
         const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24))
