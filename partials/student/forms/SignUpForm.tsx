@@ -370,7 +370,7 @@ export const StudentSignUpForm = ({
                         required
                      /> */}
                             <Select
-                                label={'RTOs'}
+                                label={'Search RTOs'}
                                 {...(storedData
                                     ? {
                                           defaultValue: storedData.sectors,
@@ -381,7 +381,7 @@ export const StudentSignUpForm = ({
                                 }}
                                 name={'rto'}
                                 options={rtoOptions}
-                                placeholder={'Select Rtos...'}
+                                placeholder={'Search Rtos...'}
                                 loading={rtoResponse.isLoading}
                                 // onChange={}
                                 validationIcons
