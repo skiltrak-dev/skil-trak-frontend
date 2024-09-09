@@ -1,5 +1,6 @@
 export * from './home'
 export * from './home2'
+export * from './modal'
+export * from './ourStory'
 export * from './OurServices'
 export * from './privacyPolicy'
-export * from './ourStory'
