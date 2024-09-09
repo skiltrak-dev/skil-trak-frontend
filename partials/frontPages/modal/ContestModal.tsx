@@ -14,16 +14,19 @@ export const ContestModal = ({ onCancel }: { onCancel: () => void }) => {
                     />
                 </div>
                 <Image
-                    src={'/images/banner.jpg'}
+                    src={'/images/banner.png'}
                     alt={'Banner'}
                     width={0}
                     height={0}
                     sizes={'100vh 100vw'}
                     className="w-full h-full"
                 />
-                <div className="mx-auto w-full mt-2 flex items-center justify-center">
+                <div className="absolute bottom-4 right-12 lg:bottom-10 lg:right-28 lg:w-48 lg:h-12">
                     <Button
                         text="Apply Now"
+                        fullHeight
+                        variant="primaryNew"
+                        fullWidth
                         onClick={() => {
                             if (isBrowser()) {
                                 window.open(
