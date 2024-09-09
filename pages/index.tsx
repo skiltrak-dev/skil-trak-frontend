@@ -1,10 +1,11 @@
-import { ReactElement, lazy, useRef } from 'react'
+import { ReactElement, lazy, useRef, useState } from 'react'
 
 // Components
 // site components
 import { JumboSection } from '@components/site/JumboSection'
 import { SiteLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
+import { ContestModal } from '@partials/frontPages'
 
 const LatestUpdates = lazy(
     () => import('@partials/frontPages/home2/LatestUpdates/LatestUpdates')
@@ -43,8 +44,13 @@ const KeyFeatures = lazy(
 
 const Home3: NextPageWithLayout = ({ data }: any) => {
     const contactUsRef = useRef(null)
+    const [modal, setModal] = useState<boolean>(true)
+
+    const onCancelModal = () => setModal(false)
+
     return (
         <div>
+            {modal ? <ContestModal onCancel={onCancelModal} /> : null}
             <JumboSection />
             {/* Key Features */}
             <KeyFeatures />
