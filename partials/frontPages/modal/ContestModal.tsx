@@ -6,7 +6,7 @@ import { isBrowser } from '@utils'
 export const ContestModal = ({ onCancel }: { onCancel: () => void }) => {
     return (
         <GlobalModal>
-            <div className="relative !z-[999999] w-full lg:max-w-4xl xl:max-w-5xl h-auto md:h-[63vh] lg:h-[80vh]">
+            <div className="relative !z-[999999] w-full lg:max-w-4xl h-auto md:h-[63vh] lg:h-[70vh]">
                 <div className="p-1 bg-white absolute -top-2 -right-2 hover:rotate-90 transition-all duration-700 rounded-full">
                     <LiaTimesSolid
                         onClick={onCancel}
@@ -21,7 +21,7 @@ export const ContestModal = ({ onCancel }: { onCancel: () => void }) => {
                     sizes={'100vh 100vw'}
                     className="w-full h-full"
                 />
-                <div className="absolute bottom-4 right-12 lg:bottom-10 lg:right-28 lg:w-48 lg:h-12">
+                <div className="absolute bottom-4 right-12 lg:bottom-8 lg:right-24 lg:w-48 lg:h-12">
                     <Button
                         text="Apply Now"
                         fullHeight

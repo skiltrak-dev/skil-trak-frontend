@@ -4,24 +4,16 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import {
-    AccountStatus,
-    AuthNavbar,
-    Footer,
-    LoginForm,
-    LottieAnimation,
-    Typography,
-} from '@components'
+import { AccountStatus, LoginForm, Typography } from '@components'
 
-import { Animations } from '@animations'
-import { AuthLayout } from '@layouts'
+import { UserRoles } from '@constants'
+import { LoginErrorAfterHoursModal } from '@modals'
+import { ContestModal } from '@partials/frontPages'
 import { AuthApi } from '@queries'
 import { LoginCredentials, StatusType, UserStatus } from '@types'
 import { AuthUtils, isBrowser } from '@utils'
-import { UserRoles } from '@constants'
-import { LoginErrorAfterHoursModal } from '@modals'
-import Image from 'next/image'
 import Head from 'next/head'
+import Image from 'next/image'
 
 const Login: NextPage = () => {
     const router = useRouter()
@@ -29,6 +21,7 @@ const Login: NextPage = () => {
     const [login, loginResult] = AuthApi.useLogin()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [contestModal, setContestModal] = useState<boolean>(true)
 
     const [requested, setRequested] = useState(false)
     const [rejected, setRejected] = useState(false)
@@ -143,9 +136,14 @@ const Login: NextPage = () => {
         })
     }
 
+    const onContestCancelModal = () => setContestModal(false)
+
     return (
         <>
             {modal}
+            {contestModal ? (
+                <ContestModal onCancel={onContestCancelModal} />
+            ) : null}
             {requested && <AccountStatus status={UserStatus.Pending} />}
             {rejected && <AccountStatus status={UserStatus.Rejected} />}
             {archived && <AccountStatus status={UserStatus.Archived} />}
