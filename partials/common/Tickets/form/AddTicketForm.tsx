@@ -73,8 +73,6 @@ export const AddTicketForm = ({
         resolver: yupResolver(validationSchema),
     })
 
-    console.log('Watch', formMethods.watch().isInternal)
-
     const priorityOptions = [
         ...Object.entries(ticketPriorityEnum).map(([label, value]) => ({
             label,
@@ -109,7 +107,7 @@ export const AddTicketForm = ({
         label: opt?.title,
         value: opt?.id,
     }))
-   
+
     // const uniqueIds: OptionType[] = Object.entries(TicketCreator).map(
     //     ([label, value]: string[]) => ({
     //         label: label?.split('_').join(' '),
@@ -117,6 +115,24 @@ export const AddTicketForm = ({
     //         item: value,
     //     })
     // )
+
+    const uniqueIds: OptionType[] = [
+        {
+            label: 'YASEEN KHAN',
+            value: TicketCreator.YASEEN_KHAN,
+            item: { color: 'bg-blue-200' },
+        },
+        {
+            label: 'JULIE CLARKE',
+            value: TicketCreator.JULIE_CLARKE,
+            item: { color: 'bg-gray-300' },
+        },
+        {
+            label: 'QANDEEL TANOLI',
+            value: TicketCreator.QANDEEL_TANOLI,
+            item: { color: 'bg-green-300' },
+        },
+    ]
 
     return (
         <div>
