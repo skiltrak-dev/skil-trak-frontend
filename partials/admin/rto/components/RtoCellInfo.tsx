@@ -15,7 +15,7 @@ export const RtoCellInfo = ({ rto, short }: { rto: Rto; short?: boolean }) => {
                 onClick={() => {
                     sessionStorage.setItem('rto', `${router.pathname}?${query}`)
                 }}
-                className="flex items-center gap-x-2"
+                className="flex items-center gap-x-2 relative z-10"
             >
                 <div className="shadow-inner-image rounded-full">
                     {rto?.user?.name && (

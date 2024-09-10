@@ -22,7 +22,7 @@ export const IndustryCell = ({ industry }: { industry: Industry }) => {
                     )
                 }}
             >
-                <div className="flex items-center gap-x-2">
+                <div className="flex items-center gap-x-2 relative z-10">
                     <div className="shadow-inner-image rounded-full relative">
                         {industry?.user?.name && (
                             <InitialAvatar

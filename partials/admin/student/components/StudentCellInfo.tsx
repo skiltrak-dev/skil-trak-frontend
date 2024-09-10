@@ -86,7 +86,7 @@ export const StudentCellInfo = ({
                         sessionStorage.setItem('scrollId', student?.studentId)
                     }
                 }}
-                className="flex items-center gap-x-2 cursor-pointer"
+                className="flex items-center gap-x-2 cursor-pointer relative z-10"
             >
                 <div className="" id={student?.studentId}>
                     <ErrorBoundary>

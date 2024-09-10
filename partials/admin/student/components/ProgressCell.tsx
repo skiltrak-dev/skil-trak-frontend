@@ -155,7 +155,8 @@ export const ProgressCell = ({
     const contextBar = useContextBar()
 
     const classes = classNames({
-        'px-2 py-1 rounded-md flex items-center gap-x-2 min-w-max': true,
+        'px-2 py-1 z-20 relative rounded-md flex items-center gap-x-2 min-w-max':
+            true,
         'bg-white':
             currentStatus.status !==
             WorkplaceRequestProgress()['9-PlacementStarted'].status,

@@ -279,12 +279,12 @@ export const Table = <Type,>({
                     {table.getRowModel().rows.map((row: any, idx: number) => {
                         return (
                             <React.Fragment key={row.id}>
-                                <tr className={`table-row content`}>
+                                <tr className={`table-row`}>
                                     {row
                                         .getVisibleCells()
                                         .map((cell: any, idx: number) => (
                                             <td
-                                                className={`${getTdClassNames(
+                                                className={`content ${getTdClassNames(
                                                     row
                                                 )}`}
                                                 key={cell.id}
@@ -321,27 +321,6 @@ export const Table = <Type,>({
                                                         cell.getContext()
                                                     )}
                                                 </div>
-                                                {/* {hasMatchingIndustry &&
-                                                    hasMatchingIndustry.length && (
-                                                        <span
-                                                            className={`!w-full !h-24 z-10 top-0 left-0 absolute  ${
-                                                                hasMatchingIndustry
-                                                                    .map(
-                                                                        (
-                                                                            data: any
-                                                                        ) =>
-                                                                            data?.id
-                                                                    )
-                                                                    .includes(
-                                                                        row
-                                                                            ?.original
-                                                                            ?.id
-                                                                    )
-                                                                    ? 'blink !bg-red-400'
-                                                                    : ''
-                                                            }`}
-                                                        ></span>
-                                                    )} */}
                                             </td>
                                         ))}
                                 </tr>
