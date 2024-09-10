@@ -49,7 +49,7 @@ export const IndustryCellInfo = ({
             }
         >
             <a
-                className="flex items-center gap-x-2"
+                className="flex items-center gap-x-2 relative z-10"
                 onClick={() => {
                     setLink('subadmin-industries', router)
                 }}

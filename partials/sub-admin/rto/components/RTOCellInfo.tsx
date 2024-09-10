@@ -14,7 +14,7 @@ export const RTOCellInfo = ({ rto }: { rto: Rto }) => {
             href={`/portals/sub-admin/users/rtos/${rto?.id}?tab=overview`}
         >
             <a
-                className="flex items-center gap-x-2"
+                className="flex items-center gap-x-2 relative z-10"
                 onClick={() => {
                     setLink('subadmin-rtos', router)
                 }}
