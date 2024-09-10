@@ -32,28 +32,8 @@ export const UniqueIdSelect = ({
             placeholder={'Select Unique Id'}
             options={uniqueIds}
             onlyValue
-            onChange={(e: string) => {
-                if (onChange) {
-                    onChange(e)
-                }
-            }}
+            {...(onChange ? { onChange } : {})}
             showError={false}
-            components={{
-                Option: (optionItem: any) => (
-                    <div
-                        ref={optionItem.innerRef}
-                        {...optionItem.innerProps}
-                        className="cursor-pointer flex items-center justify-between text-sm px-2 py-2 hover:bg-gray-100 border-b border-secondary-dark"
-                    >
-                        <p>{optionItem.data?.label}</p>
-                        <p
-                            className={`py-0.5 px-1.5 rounded text-[10px] text-gray-600 ${optionItem.data?.item?.color}`}
-                        >
-                            {optionItem.data?.value}
-                        </p>
-                    </div>
-                ),
-            }}
         />
     )
 }
