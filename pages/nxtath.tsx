@@ -4,11 +4,7 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import {
-    AccountStatus,
-    LoginForm,
-    Typography
-} from '@components'
+import { AccountStatus, LoginForm, Typography } from '@components'
 
 import { UserRoles } from '@constants'
 import { AuthApi } from '@queries'
@@ -125,7 +121,6 @@ const Login: NextPage = () => {
                 ...values,
                 redirect: false,
             })
-            // console.log({ result })
             if (result?.error) {
                 const error = JSON.parse(result.error)
                 console.error('Sign in failed: ', error)

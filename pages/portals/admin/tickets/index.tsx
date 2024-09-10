@@ -42,28 +42,12 @@ const Tickets: NextPageWithLayout = () => {
     const [selectedUniqueId, setSelectedUniqueId] = useState<string | null>(
         null
     )
-    console.log({ selectedUniqueId })
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
     useEffect(() => {
         setTitle('Tickets')
     }, [])
-
-    console.log(
-        'ISSSSSSSSSSSS',
-        !selectedSubadmin || !selectedUniqueId,
-        `${JSON.stringify(
-            removeEmptyValues({
-                subAdminId: selectedSubadmin,
-                uniqueId: selectedUniqueId,
-            })
-        )
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`
-    )
 
     const subadmins = AdminApi.Workplace.subadminForAssignWorkplace()
     const filteredTickets = CommonApi.Tickets.useGetAllTicket(

@@ -72,9 +72,7 @@ export const useTicketsColumns = () => {
         },
         {
             accessorKey: 'createdBy',
-            cell: (info) => (
-                <TicketUser ticket={info?.row?.original?.createdBy} />
-            ),
+            cell: (info) => <TicketUser ticket={info?.row?.original} />,
             header: () => <span>Created By</span>,
         },
         {
