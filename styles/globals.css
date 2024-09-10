@@ -616,7 +616,6 @@ ul.landing-content {
 
 .blink-green {
     position: relative;
-    overflow: hidden;
 }
 
 
@@ -641,7 +640,8 @@ ul.landing-content {
 
 .blink {
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */
+    
 }
 
 
@@ -660,12 +660,11 @@ ul.landing-content {
 
 .blink .content {
     position: relative; 
-    z-index: 1; 
+    z-index: 10; 
 }
 
 .blink-yellow {
     position: relative;
-    overflow: hidden;
 }
 
 

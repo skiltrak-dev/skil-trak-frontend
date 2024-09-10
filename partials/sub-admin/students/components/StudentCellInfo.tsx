@@ -38,7 +38,7 @@ export const StudentCellInfo = ({
 
     const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
     return (
-        <div className="flex items-center relative" id={student?.studentId}>
+        <div className="flex items-center relative z-10" id={student?.studentId}>
             <div className="flex items-center gap-x-2">
                 <div>
                     {student?.user?.name && (
