@@ -139,7 +139,7 @@ export const IndustryStatus = ({
                                         ? selectedRequestType
                                         : (0 as any)
                                 ]?.primaryText
-                            }
+                            } 
                         </Typography>
 
                         <IoIosArrowDown

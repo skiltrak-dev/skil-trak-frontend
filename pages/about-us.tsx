@@ -85,21 +85,21 @@ const Page = () => {
                 <div className="w-11/12 mx-auto">
                     <div className="flex flex-col md:flex-row justify-between">
                         <AboutUsCard
-                            heading={'WE PRIDE OURSELVES ON CUSTOMER INTIMACY.'}
+                            heading={'WE PRIDE OURSELVES ON CUSTOMER INTIMACY'}
                             description={`We take the time to understand your needs and develop solutions to
           meet or exceed them. We build long-term loyalty by a commitment to
           customer satisfaction.`}
                             imageIndex={0}
                         />
                         <AboutUsCard
-                            heading={'WE ARE THERE WHEN YOU NEED IT MOST.'}
+                            heading={'WE ARE THERE WHEN YOU NEED IT MOST'}
                             description={`We have knowledgeable and friendly professionals available to schedule 
               an appointment or answer any questions you have. Call us today!
               `}
                             imageIndex={1}
                         />
                         <AboutUsCard
-                            heading={'WE LISTEN.'}
+                            heading={'WE LISTEN'}
                             description={`We want to hear from you! Expect to receive a customer satisfaction call 
               or email from us after our work is complete. We want to earn your referrals!`}
                             imageIndex={2}
