@@ -2,7 +2,7 @@ import { InitialAvatar } from '@components/InitialAvatar'
 import { Typography } from '@components/Typography'
 import { UserRoles } from '@constants'
 import { Student, User } from '@types'
-import Link from 'next/link'
+import { State } from 'country-state-city'
 import React from 'react'
 import {
     FaEnvelope,
@@ -27,6 +27,10 @@ export const UserCellInfo = ({ user }: { user: User }) => {
                 : profile
             : profile
         : {}
+
+    const stateCodes = State.getStatesOfCountry('AU')?.map(
+        (state) => state?.isoCode
+    )
 
     return (
         <div className="flex items-center relative">
@@ -64,8 +68,27 @@ export const UserCellInfo = ({ user }: { user: User }) => {
                     <div className="flex items-center gap-x-2 text-sm">
                         <FaMapMarkerAlt className="text-gray-400" />
                         <Typography variant={'label'} color={'text-gray-500'}>
-                            {userProfile?.addressLine1}, {userProfile?.suburb},{' '}
-                            {userProfile?.state}
+                            {userProfile?.isAddressUpdated
+                                ? userProfile?.addressLine1
+                                : `${profile?.addressLine1
+                                      ?.replace(/Australia/i, '')
+                                      ?.replace(
+                                          new RegExp(
+                                              stateCodes?.join('|'),
+                                              'g'
+                                          ),
+                                          ''
+                                      )} ${
+                                      profile?.suburb
+                                          ?.replace(/Australia/i, '')
+                                          ?.replace(
+                                              new RegExp(
+                                                  stateCodes?.join('|'),
+                                                  'g'
+                                              ),
+                                              ''
+                                          ) || ''
+                                  } ${profile?.state || ''}, Australia`}
                         </Typography>
                     </div>
                     {user?.role === UserRoles.INDUSTRY ? (

@@ -3,8 +3,8 @@ import { useNotification } from '@hooks'
 import { AvailabilityForm } from '@partials/common'
 import { ShowErrorNotifications } from '@components'
 import { useSubAdminRequestWorkplaceMutation } from '@queries'
-import { useShowErrorNotification } from '@components/ShowErrorNotifications/useShowErrorNotification'
 import { WorkplaceCreatedModal } from './modal'
+import { useShowErrorNotification } from '@components/ShowErrorNotifications/useShowErrorNotification'
 
 type AvailabilityProps = {
     setActive: any
@@ -23,6 +23,8 @@ export const Availability = ({
     // query
     const [workplaceRequest, workplaceRequestResult] =
         useSubAdminRequestWorkplaceMutation()
+
+    console.log({ personalInfoData })
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 

@@ -211,9 +211,21 @@ export const usePermission = () => {
         })
     }
 
+    const onCanViewAllStudentsClicked = (subAdmin: SubAdmin) => {
+        queries.canViewAllStudents(subAdmin?.id).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: `Status Changed`,
+                    description: `subAdmin "${subAdmin?.user?.name}" Change Status For SubAdmins.`,
+                })
+            }
+        })
+    }
+
     return {
         results,
         Actions: {
+            onCanViewAllStudentsClicked,
             onAllowRtoListingClicked,
             onAllowIndustryListingClicked,
             onAllowAsAdminClicked,

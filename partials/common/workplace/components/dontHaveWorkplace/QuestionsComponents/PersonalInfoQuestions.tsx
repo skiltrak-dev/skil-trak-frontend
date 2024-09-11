@@ -3,6 +3,7 @@ import { questionList } from '../questionListData'
 import { TextTypeQuestions } from './TextTypeQuestions'
 import { TextAreaQuestions } from './TextAreaQuestions'
 import { DefaultQuestions } from './DefaultQuestions'
+import { DaysQuestions } from './DaysQuestions'
 
 export const PersonalInfoQuestions = ({
     formMethods,
@@ -26,6 +27,16 @@ export const PersonalInfoQuestions = ({
                             ques={ques}
                             textTypeLength={textTypeLength}
                             formMethods={formMethods}
+                        />
+                    )
+                }
+                if (ques?.type === 'days') {
+                    return (
+                        <DaysQuestions
+                            key={i}
+                            index={i}
+                            ques={ques}
+                            textTypeLength={textTypeLength}
                         />
                     )
                 }

@@ -3,6 +3,7 @@ import { ReactElement } from 'react'
 
 //components
 import {
+    MyStudents,
     RtoSubadminStudent,
     SubadminStudents,
 } from '@partials/sub-admin/students'
@@ -42,8 +43,10 @@ const Students: NextPageWithLayout = (props: Props) => {
             ) : profile?.isSuccess ? (
                 profile?.data?.isAssociatedWithRto ? (
                     <RtoSubadminStudent />
-                ) : (
+                ) : profile?.data?.canViewAllStudents ? (
                     <SubadminStudents />
+                ) : (
+                    <MyStudents />
                 )
             ) : null}
         </div>

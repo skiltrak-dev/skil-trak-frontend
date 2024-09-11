@@ -56,7 +56,7 @@ export const questionList = [
     {
         name: workplaceQuestionsKeys.supervisorMeeting,
         index: 2,
-        type: 'text',
+        type: 'days',
         title: 'Availability for Supervisor Meeting:',
         fullWidth: true,
         inputValues: [

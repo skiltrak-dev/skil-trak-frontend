@@ -291,30 +291,6 @@ export const StepReviewInfo = () => {
                                         variant={'xs'}
                                         color={'text-gray-500'}
                                     >
-                                        State
-                                    </Typography>
-                                    <Typography variant={'label'}>
-                                        {formData.state || '-'}
-                                    </Typography>
-                                </InfoboxCard>
-
-                                <InfoboxCard>
-                                    <Typography
-                                        variant={'xs'}
-                                        color={'text-gray-500'}
-                                    >
-                                        Suburb
-                                    </Typography>
-                                    <Typography variant={'label'}>
-                                        {formData.suburb || '-'}
-                                    </Typography>
-                                </InfoboxCard>
-
-                                <InfoboxCard>
-                                    <Typography
-                                        variant={'xs'}
-                                        color={'text-gray-500'}
-                                    >
                                         Zip Code
                                     </Typography>
                                     <Typography variant={'label'}>
