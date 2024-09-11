@@ -1,4 +1,4 @@
-import { Button, Select, SelectOption, TextInput } from '@components'
+import { Button, Select, SelectOption } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -101,6 +101,8 @@ export const PersonalInfoForm = ({
             onSubmit(values)
         }
     }
+
+    // Get the short names of the weekdays
 
     return (
         <div className="flex flex-col gap-y-3">

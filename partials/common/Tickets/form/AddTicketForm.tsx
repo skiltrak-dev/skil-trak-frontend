@@ -41,6 +41,7 @@ export const AddTicketForm = ({
     const sectorResponse = AuthApi.useSectors({})
 
     const [selectedStudent, setSelectedStudent] = useState<number | null>(null)
+    const [isInternal, setIsInternal] = useState<boolean>(false)
 
     const router = useRouter()
 
@@ -120,17 +121,14 @@ export const AddTicketForm = ({
         {
             label: 'YASEEN KHAN',
             value: TicketCreator.YASEEN_KHAN,
-            item: { color: 'bg-blue-200' },
         },
         {
             label: 'JULIE CLARKE',
             value: TicketCreator.JULIE_CLARKE,
-            item: { color: 'bg-gray-300' },
         },
         {
             label: 'QANDEEL TANOLI',
             value: TicketCreator.QANDEEL_TANOLI,
-            item: { color: 'bg-green-300' },
         },
     ]
 
@@ -261,13 +259,22 @@ export const AddTicketForm = ({
                                 onlyValue
                             />
                             <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
-                                {formMethods.watch().isInternal ? (
-                                    <UniqueIdSelect />
+                                {isInternal ? (
+                                    <Select
+                                        name={'uniqueId'}
+                                        placeholder={'Select Unique Id'}
+                                        options={uniqueIds}
+                                        onlyValue
+                                        showError={false}
+                                    />
                                 ) : null}
                                 <Checkbox
                                     name={'isInternal'}
                                     label={'Mark Ticket as Internal'}
                                     showError={false}
+                                    onChange={(e: any) => {
+                                        setIsInternal(e?.target?.checked)
+                                    }}
                                 />
                             </AuthorizedUserComponent>
                         </div>

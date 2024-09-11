@@ -354,7 +354,7 @@ export const LoogbookEditor = ({
                         y: checkPageIndexY ? 30 : yPosition || currentPageY,
                     },
                     size: {
-                        width: 200,
+                        width: 160,
                         height: 130,
                     },
                     saved: false,
@@ -379,6 +379,8 @@ export const LoogbookEditor = ({
         }
     }
 
+    console.log({ items })
+
     const onSaveLogBookClicked = () => {
         const data = items
             ?.filter((item: any) => {
@@ -392,14 +394,12 @@ export const LoogbookEditor = ({
                     return item
                 }
             })
-            ?.map((item: any) => {
-                return {
-                    type: item?.type,
-                    value: item?.fieldValue,
-                    number: item?.page,
-                    position: `${item?.location?.x},${item?.location?.y + 47}`,
-                }
-            })
+            ?.map((item: any) => ({
+                type: item?.type,
+                value: item?.fieldValue,
+                number: item?.page,
+                position: `${item?.location?.x},${item?.location?.y + 47}`,
+            }))
         saveLogbook({
             data,
             id: pagesCount?.data?.id,
@@ -420,7 +420,9 @@ export const LoogbookEditor = ({
             <ShowErrorNotifications result={saveLogbookResult} />
             <div className="bg-white flex justify-center items-center flex-col w-full min-w-full lg:min-w-[700px] xl:min-w-[1024px] max-w-7xl border rounded-md">
                 <div className="w-full py-3.5 px-4 flex justify-between items-center">
-                    <Typography variant="h4">Logbook</Typography>
+                    <Typography variant="h4" capitalize>
+                        {pagesCount?.data?.filename || null}
+                    </Typography>
                     {onCancel && (
                         <MdCancel
                             onClick={onCancelButtonClick}

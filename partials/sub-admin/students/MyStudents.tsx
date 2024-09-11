@@ -40,6 +40,7 @@ import { getUserCredentials, setLink } from '@utils'
 import { FaFileExport } from 'react-icons/fa'
 import moment from 'moment'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
+import { PageHeading } from '@components/headings'
 
 export const MyStudents = () => {
     const router = useRouter()
@@ -313,6 +314,12 @@ export const MyStudents = () => {
     return (
         <div>
             {modal}
+            <div className="mb-2">
+                <PageHeading
+                    title={'My Students'}
+                    subtitle={'List of My Students'}
+                />
+            </div>
             <Card noPadding>
                 {isError && <TechnicalError />}
 

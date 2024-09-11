@@ -1,14 +1,13 @@
+import moment from 'moment'
 import Image from 'next/image'
 import { UserRoles } from '@constants'
+import { useNotification } from '@hooks'
 import { Button } from '@components/buttons'
-import { CiSquareCheck } from 'react-icons/ci'
-import { useEffect, useRef, useState } from 'react'
 import { Typography } from '@components/Typography'
+import { useEffect, useRef, useState } from 'react'
 import { RiDeleteBinLine, RiFileCopy2Line } from 'react-icons/ri'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import { LogbookCheckBox, LogBookDateField, LogbookTextField } from './Fields'
-import { useNotification } from '@hooks'
-import moment from 'moment'
 
 export const LogbookDraggableTab = ({
     item,
@@ -278,7 +277,7 @@ export const LogbookDraggableTab = ({
                                 alt={''}
                                 width={200}
                                 height={100}
-                                className="border rounded-md border-secondary-dark bg-white"
+                                className="border rounded-md border-secondary-dark"
                             />
                         </div>
                     ) : null}

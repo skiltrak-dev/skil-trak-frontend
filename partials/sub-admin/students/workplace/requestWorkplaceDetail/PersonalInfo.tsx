@@ -21,7 +21,6 @@ export const PersonalInfo = ({
     courses,
 }: PersonalInfoProps) => {
     const router = useRouter()
-    const { id } = router.query
 
     const onSubmit = (values: any) => {
         let questions: {

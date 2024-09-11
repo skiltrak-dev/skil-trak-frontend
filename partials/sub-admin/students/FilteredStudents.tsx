@@ -15,11 +15,11 @@ import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { Student, UserStatus } from '@types'
 import {
-    WorkplaceCurrentStatus,
+    activeWorkplace,
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
+    latestWorkplace,
     setLink,
-    studentsListWorkplace,
 } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
@@ -204,42 +204,52 @@ export const FilteredStudents = ({
             header: () => <span>Progress</span>,
             cell: (info) => {
                 const student = info.row.original
-                const appliedIndustry = studentsListWorkplace(
-                    student?.workplace
+
+                const activeWP = activeWorkplace(student?.workplace)
+                const workplace = latestWorkplace(activeWP)
+                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+                    workplace?.industries as WorkplaceWorkIndustriesType[]
                 )
-                const workplace = student?.workplace?.reduce(
-                    (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
-                    {
-                        currentStatus: WorkplaceCurrentStatus.NotRequested,
-                    }
-                )
+
+                const updatedAlliedIndustry = {
+                    ...appliedIndustry,
+                    appliedDate:
+                        appliedIndustry?.appliedDate || workplace?.createdAt,
+                    interviewDate:
+                        appliedIndustry?.interviewDate ||
+                        workplace?.interviewDate,
+                    appointmentBookedDate:
+                        appliedIndustry?.appointmentBookedDate ||
+                        workplace?.appointmentDate,
+                }
+
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
 
                 return !student?.workplace?.length &&
                     student?.industries?.length ? (
                     <ProgressCell
-                        appliedIndustry={appliedIndustry}
+                        appliedIndustry={updatedAlliedIndustry}
                         studentId={student?.id}
                         assigned={student?.subadmin}
                         step={9}
                     />
                 ) : student?.workplace && student?.workplace?.length > 0 ? (
                     <ProgressCell
-                        appliedIndustry={appliedIndustry}
+                        appliedIndustry={updatedAlliedIndustry}
                         studentId={student?.id}
                         assigned={student?.subadmin}
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     />
                 ) : student?.subadmin ? (
                     <ProgressCell
-                        appliedIndustry={appliedIndustry}
+                        appliedIndustry={updatedAlliedIndustry}
                         studentId={student?.id}
                         step={3}
                         assigned={student?.subadmin}
                     />
                 ) : (
                     <ProgressCell
-                        appliedIndustry={appliedIndustry}
+                        appliedIndustry={updatedAlliedIndustry}
                         studentId={student?.id}
                         step={1}
                         assigned={student?.subadmin}

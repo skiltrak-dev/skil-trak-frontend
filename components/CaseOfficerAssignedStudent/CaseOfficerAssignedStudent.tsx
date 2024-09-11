@@ -48,6 +48,16 @@ export const CaseOfficerAssignedStudent = ({
     const appliedIndustry = getStudentWorkplaceAppliedIndustry(
         updatedWorkplace?.industries
     )
+    const updatedAlliedIndustry = {
+        ...appliedIndustry,
+        appliedDate:
+            appliedIndustry?.appliedDate || updatedWorkplace?.createdAt,
+        interviewDate:
+            appliedIndustry?.interviewDate || updatedWorkplace?.interviewDate,
+        appointmentBookedDate:
+            appliedIndustry?.appointmentBookedDate ||
+            updatedWorkplace?.appointmentDate,
+    }
 
     const onCancelModal = () => setModal(null)
 
@@ -57,7 +67,7 @@ export const CaseOfficerAssignedStudent = ({
     const WorkplaceStatus = [
         {
             text: 'Request Sent',
-            date: appliedIndustry?.appliedDate,
+            date: updatedAlliedIndustry?.appliedDate,
         },
         {
             text: 'Coordinator Assigned',
@@ -65,42 +75,46 @@ export const CaseOfficerAssignedStudent = ({
         },
         {
             text: 'Interview',
-            date: appliedIndustry?.interviewDate,
+            date: updatedAlliedIndustry?.interviewDate,
         },
         {
             text: 'Meeting',
-            date: appliedIndustry?.appointmentBookedDate,
+            date: updatedAlliedIndustry?.appointmentBookedDate,
         },
         {
             text: 'Awaiting Workplace Responce',
-            date: appliedIndustry?.awaitingWorkplaceResponseDate,
+            date: updatedAlliedIndustry?.awaitingWorkplaceResponseDate,
         },
         {
             text: 'Agreement and Eligibility Pending',
-            date: appliedIndustry?.awaitingAgreementSignedDate,
+            date: updatedAlliedIndustry?.awaitingAgreementSignedDate,
         },
         {
             text: 'Agreement Signed',
-            date: appliedIndustry?.AgreementSignedDate,
+            date: updatedAlliedIndustry?.AgreementSignedDate,
         },
         {
             text: 'Placement Started',
-            date: appliedIndustry?.placementStartedDate,
+            date: updatedAlliedIndustry?.placementStartedDate,
         },
         {
             text: 'Placement Completed',
-            date: appliedIndustry?.isCompletedDate,
+            date: updatedAlliedIndustry?.isCompletedDate,
         },
     ]
 
     const updatedStatus = WorkplaceStatus?.filter((wpStatus) => wpStatus?.date)
+
+    console.log({ updatedStatus })
+
+    console.log({ appliedIndustry })
 
     return (
         <div className="w-[280px]">
             {modal}
             {workplaceFilter ? (
                 <ProgressCell
-                    appliedIndustry={appliedIndustry}
+                    appliedIndustry={updatedAlliedIndustry}
                     studentId={student?.id}
                     assigned={student?.subadmin}
                     step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
@@ -111,7 +125,7 @@ export const CaseOfficerAssignedStudent = ({
                 />
             ) : student?.workplace && student?.workplace?.length > 0 ? (
                 <ProgressCell
-                    appliedIndustry={appliedIndustry}
+                    appliedIndustry={updatedAlliedIndustry}
                     studentId={student?.id}
                     assigned={student?.subadmin}
                     step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
@@ -130,7 +144,7 @@ export const CaseOfficerAssignedStudent = ({
                             ? 4
                             : studentStatus
                     }
-                    appliedIndustry={appliedIndustry}
+                    appliedIndustry={updatedAlliedIndustry}
                     studentProvidedWorkplace={
                         updatedWorkplace?.studentProvidedWorkplace ||
                         updatedWorkplace?.byExistingAbn
@@ -138,7 +152,7 @@ export const CaseOfficerAssignedStudent = ({
                 />
             ) : student?.subadmin ? (
                 <ProgressCell
-                    appliedIndustry={appliedIndustry}
+                    appliedIndustry={updatedAlliedIndustry}
                     studentId={student?.id}
                     step={3}
                     assigned={student?.subadmin}
@@ -149,7 +163,7 @@ export const CaseOfficerAssignedStudent = ({
                 />
             ) : (
                 <ProgressCell
-                    appliedIndustry={appliedIndustry}
+                    appliedIndustry={updatedAlliedIndustry}
                     studentId={student?.id}
                     step={1}
                     assigned={student?.subadmin}
@@ -177,7 +191,6 @@ export const CaseOfficerAssignedStudent = ({
                 <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                     {workplace &&
                     checkKeysLength(workplace) &&
-                    appliedIndustry &&
                     updatedStatus?.length > 0 ? (
                         <div
                             className={

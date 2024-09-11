@@ -47,9 +47,13 @@ export const AssessmentFiles = ({
     const [archiveFile, archiveFileResult] =
         SubAdminApi.AssessmentEvidence.archiveUploadedFile()
 
-    const filteredFiles = getAssessmentResponse?.data?.files?.filter(
-        (file: any) => file
-    )
+    const filteredFiles = getAssessmentResponse?.data?.files
+        ?.filter((file: any) => file)
+        ?.sort(
+            (a: any, b: any) =>
+                new Date(a.createdAt).getTime() -
+                new Date(b.createdAt).getTime()
+        )
 
     const deleteUploadedFileAction = (fileId: number) => {
         return (

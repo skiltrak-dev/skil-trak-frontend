@@ -41,9 +41,12 @@ export const usePermissionQueries = () => {
 
     const [canViewRTODetail, resultCanViewRTODetail] =
         AdminApi.SubAdmins.useAccessRtoProfile()
+    const [canViewAllStudents, resultCanViewAllStudents] =
+        AdminApi.SubAdmins.useCanViewAllStudents()
     return {
         queries: {
             allowRtoListing,
+            canViewAllStudents,
             allowIndustryListing,
             canAdmin,
             canLogin,
@@ -79,6 +82,7 @@ export const usePermissionQueries = () => {
             resultCanViewRTODetail,
             resultCanAccessSubAdmin,
             resultCanAddStudents,
+            resultCanViewAllStudents,
         },
     }
 }

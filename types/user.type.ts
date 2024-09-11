@@ -174,6 +174,7 @@ export interface SubAdmin extends BaseResponse {
     canBookAppointments: boolean
     canAccessSubadmin: boolean
     canAddStudents: boolean
+    canViewAllStudents: boolean
 }
 
 export interface Industry extends BaseResponse {

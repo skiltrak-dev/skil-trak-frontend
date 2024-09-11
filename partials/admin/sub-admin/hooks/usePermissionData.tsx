@@ -57,6 +57,13 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             Icon: MdOutlineAssignmentReturn,
         },
         {
+            text: 'Can View All Students',
+            onClick: () => Actions?.onCanViewAllStudentsClicked(subadmin),
+            toggle: subadmin?.canViewAllStudents,
+            isLoading: results?.resultCanViewAllStudents.isLoading,
+            Icon: MdOutlineAssignmentReturn,
+        },
+        {
             text: 'Can Access RTO Profile',
             onClick: () => Actions?.onCanViewRTODetailClicked(subadmin),
             toggle: subadmin?.canAccessRtoProfile,

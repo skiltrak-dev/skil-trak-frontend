@@ -286,8 +286,8 @@ export const subAdminEndpoints = (
         query: (id) => ({
             url: `${PREFIX}/subadmin/${id}/can-view-subadmin/toggle`,
             method: 'PATCH',
-    }),
-    invalidatesTags: ['SubAdmins'],
+        }),
+        invalidatesTags: ['SubAdmins'],
     }),
     toggleCanAddStudents: builder.mutation<any, number>({
         query: (id) => ({
@@ -295,5 +295,12 @@ export const subAdminEndpoints = (
             method: 'PATCH',
         }),
         invalidatesTags: ['SubAdmins'],
-    })
+    }),
+    toggleCanViewAllStudents: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/subadmin/${id}/can-view-students/toggle`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdmins'],
+    }),
 })

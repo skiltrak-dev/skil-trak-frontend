@@ -6,28 +6,27 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import moment from 'moment'
-import dynamic from 'next/dynamic'
 import { UserRoles } from '@constants'
-import { useRouter } from 'next/router'
-import { FaTimes } from 'react-icons/fa'
-import { useEffect, useState } from 'react'
-import { ProfileViewCB } from './ContextBar'
 import { useAlert, useContextBar } from '@hooks'
 import { StudentStatusEnum, UserStatus } from '@types'
 import { getLink, getUserCredentials } from '@utils'
+import moment from 'moment'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { FaTimes } from 'react-icons/fa'
 import { IoIosArrowRoundBack } from 'react-icons/io'
 import { IoArrowBackOutline } from 'react-icons/io5'
 import { ProfileAppointments } from '../ProfileAppointments'
 import { SubAdminApi, useGetSubAdminStudentDetailQuery } from '@queries'
 import {
-    Notes,
-    Tickets,
-    Schedule,
-    Workplace,
-    MailsCommunication,
     AssessmentSubmissions,
+    MailsCommunication,
+    Notes,
+    Schedule,
+    Tickets,
+    Workplace,
 } from './components'
+import { ProfileViewCB } from './ContextBar'
 
 export const StudentProfileDetail = () => {
     const contextBar = useContextBar()
