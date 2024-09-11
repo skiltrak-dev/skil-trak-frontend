@@ -144,7 +144,7 @@ export const useRequestType = ({
             color: 'text-primary-dark',
             onClick: () => {},
             status: WorkplaceCurrentStatus.Applied,
-            date: appliedIndustry?.appliedDate,
+            date: appliedIndustry?.appliedDate || workplace?.createdAt,
         },
         {
             primaryText: 'Assigned',
@@ -163,7 +163,7 @@ export const useRequestType = ({
                 onInterviewClicked()
             },
             status: WorkplaceCurrentStatus.Interview,
-            date: appliedIndustry?.interviewDate,
+            date: appliedIndustry?.interviewDate || workplace?.interviewDate,
         },
         {
             primaryText: 'Meeting',
@@ -184,7 +184,9 @@ export const useRequestType = ({
                 }
             },
             status: WorkplaceCurrentStatus.AppointmentBooked,
-            date: appliedIndustry?.appointmentBookedDate,
+            date:
+                appliedIndustry?.appointmentBookedDate ||
+                workplace?.appointmentDate,
         },
         {
             primaryText: 'Waiting',
@@ -358,7 +360,7 @@ export const useRequestType = ({
             color: 'text-primary-dark',
             onClick: () => {},
             status: 'applied',
-            date: appliedIndustry?.appliedDate,
+            date: appliedIndustry?.appliedDate || workplace?.createdAt,
         },
         {
             primaryText: 'Assigned',
@@ -377,8 +379,8 @@ export const useRequestType = ({
                 // interView(appliedIndustry?.id)
                 onInterviewClicked()
             },
-            status: 'interview',
-            date: appliedIndustry?.interviewDate,
+            status: WorkplaceCurrentStatus.Interview,
+            date: appliedIndustry?.interviewDate || workplace?.interviewDate,
         },
         {
             primaryText: 'Agreement & Eligibility (Pending)',
@@ -513,7 +515,7 @@ export const useRequestType = ({
             color: 'text-primary-dark',
             onClick: () => {},
             status: 'applied',
-            date: appliedIndustry?.appliedDate,
+            date: appliedIndustry?.appliedDate || workplace?.createdAt,
         },
         {
             primaryText: 'Assigned',

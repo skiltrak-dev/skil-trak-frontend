@@ -76,6 +76,9 @@ export interface IWorkplaceIndustries {
     prefferableLocation?: string
     status?: string
     updatedAt?: Date
+
+    interviewDate?: Date
+    appointmentDate?: Date
     industries?: WorkplaceWorkIndustriesType[]
     courses?: Course[]
     student?: Student

@@ -30,7 +30,7 @@ export const ContestModal = ({ onCancel }: { onCancel: () => void }) => {
                         onClick={() => {
                             if (isBrowser()) {
                                 window.open(
-                                    'https://docs.google.com/forms/d/e/1FAIpQLSfRQO5RUSOhGps_afKHLDupZLK16rQ20NB8bHbHfZ_QT313eg/viewform?vc=0&c=0&w=1&flr=0'
+                                    'https://docs.google.com/forms/d/e/1FAIpQLSdl0EKVqOUpJlbj95DyzdPNmRhxc3yOLAEeCyul3hzJ6yyqNg/viewform?vc=0&c=0&w=1&flr=0'
                                 )
                             }
                         }}
