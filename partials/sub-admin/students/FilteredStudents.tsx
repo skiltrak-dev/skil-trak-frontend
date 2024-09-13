@@ -35,6 +35,8 @@ import {
     BlockModal,
     ChangeStudentStatusModal,
 } from './modals'
+import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
+import moment from 'moment'
 
 export const FilteredStudents = ({
     filter,
@@ -52,6 +54,73 @@ export const FilteredStudents = ({
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
+    // ================= Blinking/Flashing rows of students ================
+    const findCallLogsUnanswered = student?.data?.data?.filter(
+        (student: any) => {
+            const unansweredCalls = student?.callLog?.filter((call: any) => {
+                if (call?.isAnswered === null) {
+                    const isMoreThanSevenDays =
+                        moment().diff(moment(call?.createdAt), 'days') >= 7
+                    return isMoreThanSevenDays
+                }
+                return false
+            })
+
+            const checkPlacementStarted =
+                student?.workplace?.length &&
+                student?.workplace?.some(
+                    (placement: any) =>
+                        placement?.currentStatus === 'completed' ||
+                        placement?.currentStatus === 'placementStarted'
+                )
+
+            return (
+                !student?.hasIssue &&
+                !student?.isSnoozed &&
+                !student?.nonContactable &&
+                !checkPlacementStarted &&
+                unansweredCalls?.length > 0
+            )
+        }
+    )
+    const findExpiringInNext45Days = student?.data?.data?.filter(
+        (student: any) => {
+            const expiryDate = new Date(student?.expiryDate)
+            const currentDate = new Date()
+            const timeDiff = expiryDate.getTime() - currentDate.getTime()
+            const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24))
+            const checkPlacementStarted =
+                student?.workplace?.length &&
+                student?.workplace?.some(
+                    (placement: any) =>
+                        placement?.currentStatus === 'completed' ||
+                        placement?.currentStatus === 'placementStarted'
+                )
+            return (
+                !student?.hasIssue &&
+                !student?.isSnoozed &&
+                !student?.nonContactable &&
+                !checkPlacementStarted &&
+                // student?.workplace?.length === 0 &&
+                daysDiff <= 45 &&
+                daysDiff >= 0
+            )
+        }
+    )
+
+    const filterAwaitingAgreementBeyondSevenDays = student?.data?.data?.filter(
+        (student: any) => {
+            return (
+                !student?.hasIssue &&
+                !student?.isSnoozed &&
+                !student?.nonContactable &&
+                student?.workplace?.some((workplace: any) =>
+                    isWorkplaceValid(workplace)
+                )
+            )
+        }
+    )
+    // ============================= END ====================================
     const onModalCancelClicked = () => {
         setModal(null)
     }
@@ -344,6 +413,11 @@ export const FilteredStudents = ({
                             data={student?.data.data}
                             quickActions={quickActionsElements}
                             enableRowSelection
+                            awaitingAgreementBeyondSevenDays={
+                                filterAwaitingAgreementBeyondSevenDays
+                            }
+                            findCallLogsUnanswered={findCallLogsUnanswered}
+                            findExpiringInNext45Days={findExpiringInNext45Days}
                         >
                             {({
                                 table,
