@@ -1,22 +1,19 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 import { StudentLayout } from '@layouts'
 import { Industry, NextPageWithLayout } from '@types'
 
 // query
+import { Button, Card, LoadingAnimation } from '@components'
+import { useJoyRide } from '@hooks'
+import { IndustryCard } from '@partials/student'
 import {
     useGetStudentIndustriesQuery,
     useGetWorkplaceIndustriesQuery,
 } from '@queries'
-import Link from 'next/link'
-import { Card, Button, LoadingAnimation } from '@components'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useJoyRide } from '@hooks'
 import { IoBriefcase } from 'react-icons/io5'
-import { FaBriefcase, FaMapMarkerAlt } from 'react-icons/fa'
-import { MdPermContactCalendar, MdPhone } from 'react-icons/md'
-import { IndustryCard } from '@partials/student'
 
 type Props = {}
 

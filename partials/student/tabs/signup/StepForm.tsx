@@ -5,17 +5,18 @@ import {
     StepIndicator,
     Typography,
 } from '@components'
+import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { StepAccountInfo } from './StepAccountInfo'
 import { StepCreate } from './StepCreate'
-import { StepNotificationMethod } from './StepNotificationMethod'
 import { StepReviewInfo } from './StepReviewInfo'
-import Image from 'next/image'
-import Link from 'next/link'
 
 export const StepForm = () => {
     const router = useRouter()
     const { query } = router
+
+    console.log({ saad: 'Saad' })
 
     const FormSteps: IndicatorStep[] = [
         {
@@ -46,6 +47,8 @@ export const StepForm = () => {
     ]
 
     const currentStep = FormSteps.find((step) => query.step === step.query)
+
+    console.log({ currentStep, FormSteps })
 
     return (
         <div>

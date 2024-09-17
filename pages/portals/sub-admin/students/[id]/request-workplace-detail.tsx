@@ -11,20 +11,20 @@ import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
 // query
+import { CompleteProfileBeforeWpModal } from '@partials/common/StudentProfileDetail/components'
 import {
     Availability,
-    PersonalInfo,
     IndustrySelection,
+    PersonalInfo,
 } from '@partials/sub-admin/students'
-import {
-    useGetSubAdminStudentDetailQuery,
-    SubAdminApi,
-    useGetSubAdminStudentWorkplaceQuery,
-} from '@queries'
-import { useRouter } from 'next/router'
-import { WorkplaceCurrentStatus, checkStudentProfileCompletion } from '@utils'
-import { CompleteProfileBeforeWpModal } from '@partials/common/StudentProfileDetail/components'
 import { AlreadyWPCreatedModal } from '@partials/sub-admin/students/workplace/requestWorkplaceDetail/modal'
+import {
+    SubAdminApi,
+    useGetSubAdminStudentDetailQuery,
+    useGetSubAdminStudentWorkplaceQuery
+} from '@queries'
+import { WorkplaceCurrentStatus, checkStudentProfileCompletion } from '@utils'
+import { useRouter } from 'next/router'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
 
 type Props = {}

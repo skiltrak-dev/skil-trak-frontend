@@ -17,6 +17,7 @@ export const workplaceEndpoints = (
         query: () => `${PREFIX}/workindustry/list`,
         providesTags: ['Workplace'],
     }),
+
     getPlacementProgress: builder.query<any, void>({
         query: () => `${PREFIX}/work-place-request/view`,
         providesTags: ['Workplace'],
@@ -30,7 +31,7 @@ export const workplaceEndpoints = (
         },
         providesTags: ['Workplace'],
     }),
-    getIndustryFolders:builder.query<any, any>({
+    getIndustryFolders: builder.query<any, any>({
         query: (params) => {
             return {
                 url: `/industries/document/required-by-industry/list`,
@@ -104,5 +105,10 @@ export const workplaceEndpoints = (
             body,
         }),
         invalidatesTags: ['Workplace'],
+    }),
+
+    getWorkplaceApprovalRequest: builder.query<any, void>({
+        query: () => `${PREFIX}/workplace/approval-request/get`,
+        providesTags: ['Workplace'],
     }),
 })

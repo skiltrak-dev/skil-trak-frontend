@@ -166,12 +166,12 @@ const Login: NextPage = () => {
                             <div className="flex justify-center items-center gap-x-1.5 w-full">
                                 <div className="w-36">
                                     <Image
-                                        src={'/images/skiltrak_IOS.svg'}
-                                        alt="Skiltrak App"
                                         width={200}
                                         height={200}
                                         sizes="100vw"
+                                        alt="Skiltrak App"
                                         className="object-contain"
+                                        src={'/images/skiltrak_IOS.svg'}
                                     />
                                 </div>
                                 <div className="w-36">
