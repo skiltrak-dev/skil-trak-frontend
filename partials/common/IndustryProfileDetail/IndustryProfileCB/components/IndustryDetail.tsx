@@ -76,7 +76,10 @@ export const IndustryDetail = ({ industry }: { industry: Industry }) => {
                         )}
                         onClick={() => {
                             if (canAssessData) {
-                                if (!industry?.isSnoozed) {
+                                if (
+                                    !industry?.isSnoozed &&
+                                    industry?.phoneNumber
+                                ) {
                                     navigator.clipboard.writeText(
                                         industry?.phoneNumber
                                     )

@@ -17,6 +17,7 @@ import {
     getLatLng,
     getPostalCode,
     getRemovedCoursesFromList,
+    getSectorsDetail,
     isEmailValid,
     onlyAlphabets,
     sectorsCoursesOptions,
@@ -48,6 +49,12 @@ export const StudentSignUpForm = ({
 
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
     const [searchRto, setSearchRto] = useState<string>('')
+    const [selectedRto, setSelectedRto] = useState<number | null>(null)
+    const [selectedSector, setSelectedSector] = useState<any>(null)
+    const [removedCourses, setRemovedCourses] = useState<number[] | null>(null)
+    const [courseOptions, setCourseOptions] = useState<SelectOption[]>([])
+    const [courseLoading, setCourseLoading] = useState(false)
+    const [courseValues, setCourseValues] = useState<number[]>([])
 
     const rtoResponse = AuthApi.useSearchRtos(
         { search: searchRto },
@@ -56,19 +63,38 @@ export const StudentSignUpForm = ({
         }
     )
 
-    const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
-    // const [selectedSector, setSelectedSector] = useState<any>(null)
-    // const [removedCourses, setRemovedCourses] = useState<number[] | null>(null)
-    // const [courseOptions, setCourseOptions] = useState<SelectOption[]>([])
-    // const [courseLoading, setCourseLoading] = useState(false)
-    // const [courseValues, setCourseValues] = useState<number[]>([])
+    const sectorResponse = AuthApi.useSectorsByRto(Number(selectedRto), {
+        skip: !selectedRto,
+    })
 
-    // const sectorOptions = sectorResponse.data?.length
-    //     ? sectorResponse.data?.map((sector: any) => ({
-    //           label: sector.name,
-    //           value: sector.id,
-    //       }))
-    //     : []
+    const hader = router?.pathname?.split('/')?.[4]
+
+    useEffect(() => {
+        if (hader) {
+            setSearchRto(hader)
+        }
+    }, [hader])
+
+    useEffect(() => {
+        if (hader) {
+            setSelectedRto(rtoResponse?.data?.[0]?.id)
+        }
+    }, [hader, rtoResponse?.data])
+
+    console.log({ rtoResponse, sectorResponse })
+
+    const sectorsDetails = getSectorsDetail(sectorResponse?.data)
+
+    console.log({ sectorsDetails })
+
+    const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
+
+    const sectorOptions = sectorsDetails?.length
+        ? sectorsDetails?.map((sector: any) => ({
+              label: sector.name,
+              value: sector.id,
+          }))
+        : []
 
     const rtoOptions = rtoResponse.data?.length
         ? rtoResponse?.data?.map((rto: any) => ({
@@ -76,6 +102,8 @@ export const StudentSignUpForm = ({
               value: rto.id,
           }))
         : []
+
+    console.log({ courseOptionscourseOptionscourseOptions: courseOptions })
 
     const [storedData, setStoredData] = useState<any>(null)
 
@@ -92,40 +120,52 @@ export const StudentSignUpForm = ({
         }, 300)()
     }
 
-    const {
-        courseLoading,
-        courseOptions,
-        onCourseChange,
-        onSectorChanged,
-        sectorOptions,
-        courseValues,
-        setCourseOptions,
-        sectorLoading,
-    } = useSectorsAndCoursesOptions()
+    // const {
+    //     courseLoading,
+    //     courseOptions,
+    //     onCourseChange,
+    //     onSectorChanged,
+    //     sectorOptions,
+    //     courseValues,
+    //     setCourseOptions,
+    //     sectorLoading,
+    // } = useSectorsAndCoursesOptions()
 
-    // const onSectorChanged = (sectors: any) => {
-    //     setSelectedSector(sectors)
-    //     setCourseLoading(true)
+    const onSectorChanged = (sectors: any) => {
+        console.log({ sectors })
+        setSelectedSector(sectors)
+        setCourseLoading(true)
 
-    //     const newCourseOptions = sectorsCoursesOptions(
-    //         sectors,
-    //         sectorResponse?.data
-    //     )
-    //     setCourseOptions(newCourseOptions)
+        const newCourseOptions = sectorResponse?.data
+            ?.filter((course: any) =>
+                sectors?.map((s: any) => s?.value)?.includes(course?.sector?.id)
+            )
+            ?.map((course: any) => ({
+                label: course?.title,
+                value: course?.id,
+                item: course,
+            }))
 
-    //     const newSelectedCoursesOptions = courseOptionsWhenSectorChange(
-    //         newCourseOptions,
-    //         removedCourses as number[]
-    //     )
-    //     setCourseValues(newSelectedCoursesOptions)
-    //     setCourseLoading(false)
-    // }
+        console.log({ abcabcabcabc: newCourseOptions })
 
-    // const onCourseChange = (e: number[]) => {
-    //     setCourseValues(e)
-    //     const removedValue = getRemovedCoursesFromList(courseOptions, e)
-    //     setRemovedCourses(removedValue)
-    // }
+        // const newCourseOptions = sectorsCoursesOptions(sectors, sectorsDetails)
+        setCourseOptions(newCourseOptions)
+        console.log({ newCourseOptionsnewCourseOptions: newCourseOptions })
+
+        const newSelectedCoursesOptions = courseOptionsWhenSectorChange(
+            newCourseOptions,
+            removedCourses as number[]
+        )
+        console.log({ newSelectedCoursesOptions })
+        setCourseValues(newCourseOptions)
+        setCourseLoading(false)
+    }
+
+    const onCourseChange = (e: number[]) => {
+        setCourseValues(e)
+        // const removedValue = getRemovedCoursesFromList(courseOptions, e)
+        // setRemovedCourses(removedValue)
+    }
     // const onRtoChange = (rto: any) => {
     //    const filteredCourses = rto.map((selectedRto: any) => {
     //       const rtoExisting = rtoResponse.data?.find(
@@ -136,6 +176,8 @@ export const StudentSignUpForm = ({
     //       }
     //    })
     // }
+
+    console.log({ path: router?.pathname?.split('/')?.[4] })
 
     const validationSchema = yup.object({
         // Profile Information
@@ -230,11 +272,11 @@ export const StudentSignUpForm = ({
         resolver: yupResolver(validationSchema),
     })
 
-    useEffect(() => {
-        if (courseOptions && courseOptions?.length > 0) {
-            formMethods.setValue('courses', courseOptions)
-        }
-    }, [courseOptions])
+    // useEffect(() => {
+    //     if (courseOptions && courseOptions?.length > 0) {
+    //         formMethods.setValue('courses', courseOptions)
+    //     }
+    // }, [courseOptions])
 
     const onHandleSubmit = (values: any) => {
         if (!onSuburbClicked) {
@@ -383,9 +425,13 @@ export const StudentSignUpForm = ({
                                 options={rtoOptions}
                                 placeholder={'Search Rtos...'}
                                 loading={rtoResponse.isLoading}
-                                // onChange={}
+                                onChange={(e: any) => {
+                                    console.log({ eeeee: e })
+                                    setSelectedRto(e)
+                                }}
                                 validationIcons
                                 onlyValue
+                                {...(hader ? { value: rtoOptions?.[0] } : {})}
                             />
                         </div>
                     </div>
@@ -414,7 +460,7 @@ export const StudentSignUpForm = ({
                                 options={sectorOptions}
                                 placeholder={'Select Sectors...'}
                                 multi
-                                loading={sectorLoading}
+                                loading={sectorResponse?.isLoading}
                                 onChange={onSectorChanged}
                                 validationIcons
                             />
@@ -439,9 +485,7 @@ export const StudentSignUpForm = ({
                                         : courseOptions?.length === 0
                                 }
                                 onChange={(e: any) => {
-                                    onCourseChange(
-                                        e?.map((c: OptionType) => c?.value)
-                                    )
+                                    onCourseChange(e)
                                 }}
                                 multi
                                 validationIcons

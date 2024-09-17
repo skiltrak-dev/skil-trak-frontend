@@ -1,3 +1,4 @@
+import { WPApprovalStatus } from '@partials/student/workplace/components/WorkplaceApproval/enum'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 import { PaginatedResponse, PaginationValues } from '@types'
@@ -308,5 +309,17 @@ export const workplaceEndpoints = (
     getWorkplaceCourseIndustries: builder.query<any, any>({
         query: (id) => `subadmin/course/${id}/list/industries`,
         providesTags: ['SubAdminWorkplace', 'SubAdminIndustries'],
+    }),
+
+    changeWorkplaceApprovalReqStatus: builder.mutation<
+        any,
+        { id: number; status: WPApprovalStatus }
+    >({
+        query: ({ id, ...params }) => ({
+            url: `${PREFIX}industry/approve/${id}`,
+            method: 'PATCH',
+            params,
+        }),
+        invalidatesTags: ['Workplace'],
     }),
 })

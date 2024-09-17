@@ -143,6 +143,7 @@ export const {
     useGetSubAdminMapStudentDetailQuery,
     useGetSubAdminMapIndustriesQuery,
     useGetWorkplaceCourseIndustriesQuery,
+    useChangeWorkplaceApprovalReqStatusMutation,
     useGetSubAdminRtosForMapQuery,
     useGetSubAdminStudentSuburbsForMapQuery,
     useSubadminCoursesQuery,
@@ -515,6 +516,7 @@ export const SubAdminApi = {
         useSubAdminMapSuggestedIndustryDetail:
             useGetSubAdminMapSuggestedIndustryDetailQuery,
         useWorkplaceCourseIndustries: useGetWorkplaceCourseIndustriesQuery,
+        changeWpReqStatus: useChangeWorkplaceApprovalReqStatusMutation,
     },
 
     Courses: {

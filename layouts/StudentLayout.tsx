@@ -17,13 +17,18 @@ import {
     StudentContextBar,
     studentProfileKeys,
 } from '@partials/student/components'
-import { CommonApi, useGetStudentProfileDetailQuery } from '@queries'
+import {
+    CommonApi,
+    StudentApi,
+    useGetStudentProfileDetailQuery,
+} from '@queries'
 import { UserStatus } from '@types'
 import { EsignDocumentStatus, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
+import { WorkplaceApprovalModal } from '@partials/student/workplace/modal'
 
 interface StudentLayoutProps {
     pageTitle?: PageTitleProps
@@ -69,6 +74,8 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
             refetchOnMountOrArgChange: true,
         }
     )
+    const wpApprovalRequest = StudentApi.Workplace.wpApprovalRequest()
+
     const joyride = useJoyRide()
 
     // useEffect(() => {
@@ -128,6 +135,13 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                     <ProfileModal
                         profileCompletion={profileCompletion}
                         keys={studentProfileKeys}
+                    />
+                )
+            } else if (wpApprovalRequest?.data) {
+                setModal(
+                    <WorkplaceApprovalModal
+                        onCancel={onCancel}
+                        wpApprovalRequest={wpApprovalRequest?.data}
                     />
                 )
             } else if (pendingDocuments.isSuccess) {

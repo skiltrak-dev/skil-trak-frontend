@@ -4,7 +4,7 @@ import { NextPageWithLayout } from '@types'
 import Head from 'next/head'
 import { ReactElement } from 'react'
 
-const StudentSignUp: NextPageWithLayout = () => {
+const RtoStudentSignUp: NextPageWithLayout = () => {
     return (
         <>
             <Head>
@@ -22,8 +22,8 @@ const StudentSignUp: NextPageWithLayout = () => {
     )
 }
 
-StudentSignUp.getLayout = (page: ReactElement) => {
+RtoStudentSignUp.getLayout = (page: ReactElement) => {
     return <SimpleLayout>{page}</SimpleLayout>
 }
 
-export default StudentSignUp
+export default RtoStudentSignUp
