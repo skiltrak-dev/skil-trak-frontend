@@ -82,6 +82,7 @@ export const {
     useUploadDocumentsMutation,
     useUploadAgreementMutation,
     useCancelWorkplaceRequestMutation,
+    useGetWorkplaceApprovalRequestQuery,
     useGetIndustryFoldersQuery,
     useApplyForWorkplaceMutation,
     useUpdateFindAbnMutation,
@@ -163,6 +164,8 @@ export const StudentApi = {
         useUploadDocumentsMutation,
         useUploadAgreementMutation,
         useCancelWorkplaceRequestMutation,
+        wpApprovalRequest: useGetWorkplaceApprovalRequestQuery,
+
         useApplyForWorkplaceMutation,
         useUpdateFindAbnMutation,
         useAddWorkplaceMutation,

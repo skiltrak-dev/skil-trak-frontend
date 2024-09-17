@@ -12,7 +12,7 @@ import {
 } from '@hooks'
 import { Theme, applyTheme, getCurrentTheme } from '@theme'
 import type { AppProps } from 'next/app'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import 'react-loading-skeleton/dist/skeleton.css'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
@@ -26,7 +26,7 @@ import { store } from '../redux/store'
 
 import { HeadWrapper } from '@layouts'
 
-import { Socket } from '@components'
+import { LoadingAnimation, Socket } from '@components'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -45,6 +45,8 @@ type AppPropsWithLayout = AppProps & {
 }
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
+    const [loading, setLoading] = useState<boolean>(true)
+
     // Apply theme from local storage
     useEffect(() => {
         applyTheme((Theme as any)[getCurrentTheme()].theme)
@@ -64,6 +66,10 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         // }
     }, [])
 
+    useEffect(() => {
+        setLoading(false)
+    }, [])
+
     const getLayout = Component.getLayout ?? ((page) => page)
 
     // console.clear()
@@ -74,39 +80,43 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
             {/* <SessionProvider session={pageProps?.session}> */}
             <Provider store={store}>
                 {/* <AutoLogoutProvider> */}
-                <ErrorBoundaryContext>
-                    <JoyRideProvider>
-                        <NoteScrollProvider>
-                            <DownloadAssessmentProvider>
-                                <AlertProvider>
-                                    <NotificationProvider>
-                                        <NavbarProvider>
-                                            <ContextBarProvider>
-                                                <HeaderWrapperProvider>
-                                                    <SocketListenerProvider>
-                                                        <Socket>
-                                                            <NetworkProvider>
-                                                                <HeadWrapper>
-                                                                    {/* <LogoutAfterHours> */}
-                                                                    {getLayout(
-                                                                        <Component
-                                                                            {...pageProps}
-                                                                        />
-                                                                    )}
-                                                                    {/* </LogoutAfterHours> */}
-                                                                </HeadWrapper>
-                                                            </NetworkProvider>
-                                                        </Socket>
-                                                    </SocketListenerProvider>
-                                                </HeaderWrapperProvider>
-                                            </ContextBarProvider>
-                                        </NavbarProvider>
-                                    </NotificationProvider>
-                                </AlertProvider>
-                            </DownloadAssessmentProvider>
-                        </NoteScrollProvider>
-                    </JoyRideProvider>
-                </ErrorBoundaryContext>
+                {loading ? (
+                    <LoadingAnimation />
+                ) : (
+                    <ErrorBoundaryContext>
+                        <JoyRideProvider>
+                            <NoteScrollProvider>
+                                <DownloadAssessmentProvider>
+                                    <AlertProvider>
+                                        <NotificationProvider>
+                                            <NavbarProvider>
+                                                <ContextBarProvider>
+                                                    <HeaderWrapperProvider>
+                                                        <SocketListenerProvider>
+                                                            <Socket>
+                                                                <NetworkProvider>
+                                                                    <HeadWrapper>
+                                                                        {/* <LogoutAfterHours> */}
+                                                                        {getLayout(
+                                                                            <Component
+                                                                                {...pageProps}
+                                                                            />
+                                                                        )}
+                                                                        {/* </LogoutAfterHours> */}
+                                                                    </HeadWrapper>
+                                                                </NetworkProvider>
+                                                            </Socket>
+                                                        </SocketListenerProvider>
+                                                    </HeaderWrapperProvider>
+                                                </ContextBarProvider>
+                                            </NavbarProvider>
+                                        </NotificationProvider>
+                                    </AlertProvider>
+                                </DownloadAssessmentProvider>
+                            </NoteScrollProvider>
+                        </JoyRideProvider>
+                    </ErrorBoundaryContext>
+                )}
                 {/* </AutoLogoutProvider> */}
             </Provider>
             {/* </SessionProvider> */}

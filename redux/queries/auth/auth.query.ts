@@ -68,6 +68,10 @@ export const authApi = createApi({
             }),
             providesTags: ['Rtos'],
         }),
+        getSectorsByRto: builder.query<any, number>({
+            query: (id) => `rtos/${id}/courses/get`,
+            providesTags: ['Sectors'],
+        }),
         rtoPackages: builder.query<Packages[], void>({
             query: () => `${PREFIX}rto-packages`,
             providesTags: ['Packages'],
@@ -131,6 +135,7 @@ const {
     useRtoPackagesQuery,
     useGetRtosQuery,
     useSearchRtoQuery,
+    useGetSectorsByRtoQuery,
 } = authApi
 
 export const AuthApi = {
@@ -152,4 +157,5 @@ export const AuthApi = {
     useResetPassword: useResetPasswordMutation,
 
     useAbn: useCheckAbnMutation,
+    useSectorsByRto: useGetSectorsByRtoQuery,
 }

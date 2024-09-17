@@ -43,7 +43,7 @@ export const AllowAutoCompleteModal = ({
                     rto?.allowAutoComplete ? 'remove' : 'allow'
                 } <em>"${
                     rto?.user?.name
-                }"</em> atocomplete. Do you wish to continue?`}
+                }"</em> auto complete placement. Do you wish to continue?`}
                 onConfirm={onConfirmClicked}
                 onCancel={onCancel}
                 input

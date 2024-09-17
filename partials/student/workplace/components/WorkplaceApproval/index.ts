@@ -1,2 +1,1 @@
-export * from './IndustryCard'
 export * from './WorkplaceApproval'

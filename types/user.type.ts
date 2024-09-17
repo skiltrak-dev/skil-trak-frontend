@@ -194,6 +194,7 @@ export interface Industry extends BaseResponse {
     branches: Industry[]
     createdBy: any
     channel: string
+    website: string
     addressLine1: string
     addressLine2: string
     suburb: string
