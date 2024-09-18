@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect, useMemo } from 'react'
 import {
     Marker,
     InfoBox,
@@ -51,81 +51,85 @@ export const WorkplaceMapView = ({
     const [travelInfo, setTravelInfo] = useState<TravelInfo[]>([])
     const [showInfoBox, setShowInfoBox] = useState<boolean>(true)
 
-    const { isLoaded } = useJsApiLoader({
+    const { isLoaded, loadError } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: process.env.googleDirectionApi as string, // places api
+        googleMapsApiKey: process.env.googleDirectionApi as string,
         libraries: ['places'],
     })
 
-    const industryLocationCoordinates = {
-        lat: +industryLocation?.[0],
-        lng: +industryLocation?.[1],
-    }
+    const industryLocationCoordinates = useMemo(
+        () => ({
+            lat: +industryLocation?.[0],
+            lng: +industryLocation?.[1],
+        }),
+        [industryLocation]
+    )
 
-    const studentLocationCoordinates = {
-        lat: +studentLocation?.[0],
-        lng: +studentLocation?.[1],
-    }
+    const studentLocationCoordinates = useMemo(
+        () => ({
+            lat: +studentLocation?.[0],
+            lng: +studentLocation?.[1],
+        }),
+        [studentLocation]
+    )
 
     const fetchDirections = useCallback(
         (travelMode: google.maps.TravelMode) => {
-            if (!map) return
+            if (!map || !isLoaded) return
 
-            if (isLoaded) {
-                const directionsService = new google.maps.DirectionsService()
-                directionsService.route(
-                    {
-                        origin: studentLocationCoordinates,
-                        destination: industryLocationCoordinates,
-                        travelMode: travelMode,
-                    },
-                    (result, status) => {
-                        if (
-                            status === google.maps.DirectionsStatus.OK &&
-                            result
-                        ) {
-                            if (travelMode === google.maps.TravelMode.DRIVING) {
-                                setDirections(result)
-                                console.log({ result })
-                            }
-                            setTravelInfo((prevInfo) => [
-                                ...prevInfo.filter(
-                                    (info) => info.mode !== travelMode
-                                ),
-                                {
-                                    mode: travelMode,
-                                    duration:
-                                        result.routes[0].legs[0].duration
-                                            ?.text || null,
-                                    distance:
-                                        result.routes[0].legs[0].distance
-                                            ?.text || null,
-                                },
-                            ])
+            const directionsService = new google.maps.DirectionsService()
+            directionsService.route(
+                {
+                    origin: studentLocationCoordinates,
+                    destination: industryLocationCoordinates,
+                    travelMode: travelMode,
+                },
+                (result, status) => {
+                    if (status === google.maps.DirectionsStatus.OK && result) {
+                        if (travelMode === google.maps.TravelMode.DRIVING) {
+                            setDirections(result)
                         }
+                        setTravelInfo((prevInfo) => [
+                            ...prevInfo.filter(
+                                (info) => info.mode !== travelMode
+                            ),
+                            {
+                                mode: travelMode,
+                                duration:
+                                    result.routes[0].legs[0].duration?.text ||
+                                    null,
+                                distance:
+                                    result.routes[0].legs[0].distance?.text ||
+                                    null,
+                            },
+                        ])
                     }
-                )
-            }
+                }
+            )
         },
-        [map, isLoaded]
+        [map, isLoaded, industryLocationCoordinates, studentLocationCoordinates]
     )
 
     useEffect(() => {
-        if (map) {
-            fetchDirections(google.maps.TravelMode.DRIVING)
-            fetchDirections(google.maps.TravelMode.TRANSIT)
-            fetchDirections(google.maps.TravelMode.WALKING)
+        if (map && isLoaded) {
+            const travelModes = [
+                google.maps.TravelMode.DRIVING,
+                google.maps.TravelMode.TRANSIT,
+                google.maps.TravelMode.WALKING,
+            ]
+            travelModes.forEach((mode) => fetchDirections(mode))
         }
-    }, [map, fetchDirections])
+    }, [map, isLoaded, fetchDirections])
 
     const onMapLoad = useCallback((map: google.maps.Map) => {
         setMap(map)
     }, [])
 
-    const toggleInfoBox = () => {
-        setShowInfoBox(!showInfoBox)
-    }
+    const toggleInfoBox = useCallback(() => {
+        setShowInfoBox((prev) => !prev)
+    }, [])
 
+    if (loadError) return <div>Error loading maps</div>
     if (!isLoaded) return <div>Loading...</div>
 
     const infoBoxOptions: any = {
@@ -148,7 +152,7 @@ export const WorkplaceMapView = ({
                 onLoad={onMapLoad}
                 options={{ styles: customMapStyles }}
             >
-                {directions ? (
+                {directions && (
                     <DirectionsRenderer
                         directions={directions}
                         options={{
@@ -159,7 +163,7 @@ export const WorkplaceMapView = ({
                             },
                         }}
                     />
-                ) : null}
+                )}
                 <Marker
                     icon={{
                         url: '/images/icons/student-red-map-pin.png',
@@ -206,7 +210,7 @@ export const WorkplaceMapView = ({
                                 </Typography>
                             </div>
 
-                            <div className="flex  gap-x-4">
+                            <div className="flex gap-x-4">
                                 {travelInfo.map((info, index) => (
                                     <div
                                         key={index}
