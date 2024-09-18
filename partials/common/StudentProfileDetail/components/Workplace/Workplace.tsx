@@ -324,19 +324,50 @@ export const Workplace = ({
                             selectedWorkplace?.workplaceApprovaleRequest &&
                             selectedWorkplace?.workplaceApprovaleRequest
                                 ?.length > 0 ? (
-                                <div className="h-[400px] overflow-auto custom-scrollbar">
-                                    <WorkplaceApprovalReq
-                                        wpReqApproval={{
-                                            ...selectedWorkplace
-                                                ?.workplaceApprovaleRequest?.[0],
-                                            student: {
-                                                location:
-                                                    selectedWorkplace?.student
-                                                        ?.location,
-                                            },
-                                        }}
-                                    />
-                                </div>
+                                <>
+                                    <div className="h-[380px] overflow-auto custom-scrollbar">
+                                        <WorkplaceApprovalReq
+                                            wpReqApproval={{
+                                                ...selectedWorkplace
+                                                    ?.workplaceApprovaleRequest?.[0],
+                                                student: {
+                                                    location:
+                                                        selectedWorkplace
+                                                            ?.student?.location,
+                                                },
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="px-3 mt-1">
+                                        <AuthorizedUserComponent
+                                            roles={[
+                                                UserRoles.ADMIN,
+                                                UserRoles.RTO,
+                                            ]}
+                                        >
+                                            <ActionButton
+                                                variant={'error'}
+                                                onClick={async () => {
+                                                    onCancelWPClicked()
+                                                }}
+                                            >
+                                                Cancel Request
+                                            </ActionButton>
+                                        </AuthorizedUserComponent>
+                                        <AuthorizedUserComponent
+                                            roles={[UserRoles.SUBADMIN]}
+                                        >
+                                            <ActionButton
+                                                variant={'error'}
+                                                onClick={async () => {
+                                                    onCancelWPRequestClicked()
+                                                }}
+                                            >
+                                                Cancel Request
+                                            </ActionButton>
+                                        </AuthorizedUserComponent>
+                                    </div>
+                                </>
                             ) : (
                                 <div>
                                     <div className="pt-2.5 pb-1 px-4 border-b border-secondary-dark flex flex-col lg:flex-row justify-between gap-x-4">
