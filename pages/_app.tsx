@@ -39,6 +39,7 @@ import 'swiper/css/scrollbar'
 
 //test
 import { GoogleAnalyticsScript } from '@scripts'
+import { isBrowser } from '@utils'
 
 type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout
@@ -66,13 +67,30 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         // }
     }, [])
 
+    // useEffect(() => {
+    //     setLoading(false)
+    // }, [])
     useEffect(() => {
-        setLoading(false)
+        const handleComplete = () => setLoading(false)
+
+        // Check if window is defined to avoid SSR issues
+        if (isBrowser()) {
+            if (document.readyState === 'complete') {
+                handleComplete()
+            } else {
+                window.addEventListener('load', handleComplete)
+                return () => window.removeEventListener('load', handleComplete)
+            }
+        }
     }, [])
 
     const getLayout = Component.getLayout ?? ((page) => page)
 
-    // console.clear()
+    console.log({
+        loading,
+        sec: new Date().getSeconds(),
+        miliSec: new Date().getMilliseconds(),
+    })
 
     return (
         <>

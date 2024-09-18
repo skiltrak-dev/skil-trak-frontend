@@ -53,7 +53,7 @@ export const WorkplaceMapView = ({
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: 'AIzaSyApOsp5NyUUJyW3vlZtvQ4IYf8urG7rrKA', // places api
+        googleMapsApiKey: process.env.googleDirectionApi as string, // places api
         libraries: ['places'],
     })
 
@@ -71,38 +71,43 @@ export const WorkplaceMapView = ({
         (travelMode: google.maps.TravelMode) => {
             if (!map) return
 
-            const directionsService = new google.maps.DirectionsService()
-            directionsService.route(
-                {
-                    origin: studentLocationCoordinates,
-                    destination: industryLocationCoordinates,
-                    travelMode: travelMode,
-                },
-                (result, status) => {
-                    if (status === google.maps.DirectionsStatus.OK && result) {
-                        if (travelMode === google.maps.TravelMode.DRIVING) {
-                            setDirections(result)
-                            console.log({ result })
+            if (isLoaded) {
+                const directionsService = new google.maps.DirectionsService()
+                directionsService.route(
+                    {
+                        origin: studentLocationCoordinates,
+                        destination: industryLocationCoordinates,
+                        travelMode: travelMode,
+                    },
+                    (result, status) => {
+                        if (
+                            status === google.maps.DirectionsStatus.OK &&
+                            result
+                        ) {
+                            if (travelMode === google.maps.TravelMode.DRIVING) {
+                                setDirections(result)
+                                console.log({ result })
+                            }
+                            setTravelInfo((prevInfo) => [
+                                ...prevInfo.filter(
+                                    (info) => info.mode !== travelMode
+                                ),
+                                {
+                                    mode: travelMode,
+                                    duration:
+                                        result.routes[0].legs[0].duration
+                                            ?.text || null,
+                                    distance:
+                                        result.routes[0].legs[0].distance
+                                            ?.text || null,
+                                },
+                            ])
                         }
-                        setTravelInfo((prevInfo) => [
-                            ...prevInfo.filter(
-                                (info) => info.mode !== travelMode
-                            ),
-                            {
-                                mode: travelMode,
-                                duration:
-                                    result.routes[0].legs[0].duration?.text ||
-                                    null,
-                                distance:
-                                    result.routes[0].legs[0].distance?.text ||
-                                    null,
-                            },
-                        ])
                     }
-                }
-            )
+                )
+            }
         },
-        [map]
+        [map, isLoaded]
     )
 
     useEffect(() => {
