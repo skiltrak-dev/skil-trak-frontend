@@ -2,7 +2,8 @@ import { Typography } from '@components'
 import { WorkplaceAvailableSlots } from '@partials/student/workplace/components/WorkplaceApproval/WorkplaceAvailableSlots'
 import { WorkplaceInfo } from '@partials/student/workplace/components/WorkplaceApproval/WorkplaceInfo'
 import { WorkplaceMapView } from '@partials/student/workplace/components/WorkplaceApproval/WorkplaceMapView'
-import React from 'react'
+import React, { Suspense } from 'react'
+import { PulseLoader } from 'react-spinners'
 
 export const WorkplaceApprovalReq = ({
     wpReqApproval,
@@ -33,14 +34,16 @@ export const WorkplaceApprovalReq = ({
                         Workplace on map
                     </Typography>
                     <div className="rounded-xl w-full overflow-hidden mt-2">
-                        <WorkplaceMapView
-                            industryLocation={wpReqApproval?.industry?.location?.split(
-                                ','
-                            )}
-                            studentLocation={wpReqApproval?.student?.location?.split(
-                                ','
-                            )}
-                        />
+                        <Suspense fallback={<PulseLoader />}>
+                            <WorkplaceMapView
+                                industryLocation={wpReqApproval?.industry?.location?.split(
+                                    ','
+                                )}
+                                studentLocation={wpReqApproval?.student?.location?.split(
+                                    ','
+                                )}
+                            />
+                        </Suspense>
                     </div>
                 </div>
             </div>
