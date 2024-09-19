@@ -22,7 +22,9 @@ export const useAssessmentDocumentsView = () => {
                 title=""
                 subtitle=""
                 url={file?.file}
-                onCancelButtonClick={onModalCancel}
+                onCancelButtonClick={() => {
+                    onModalCancel()
+                }}
             >
                 <div className="max-w-[650px] relative">
                     <Image
@@ -90,7 +92,9 @@ export const useAssessmentDocumentsView = () => {
                     // url={url}
                     url={file?.file}
                     downloadUrl={file?.file}
-                    onCancelButtonClick={onModalCancel}
+                    onCancelButtonClick={() => {
+                        onModalCancel()
+                    }}
                 />
             )
         }
