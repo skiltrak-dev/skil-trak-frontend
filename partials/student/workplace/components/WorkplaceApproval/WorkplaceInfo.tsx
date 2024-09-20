@@ -40,7 +40,7 @@ export const WorkplaceInfo = ({
                         Website
                     </Typography>
                     <Typography variant="small" semibold color="text-[#24556D]">
-                        {industry?.website}
+                        {industry?.website || '---'}
                     </Typography>
                 </div>
             </div>

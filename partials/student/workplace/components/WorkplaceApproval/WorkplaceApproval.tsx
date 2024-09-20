@@ -31,6 +31,7 @@ export const WorkplaceApproval = ({
                             studentLocation={wpApprovalData?.student?.location?.split(
                                 ','
                             )}
+                            showMap
                         />
                     </div>
                 </div>

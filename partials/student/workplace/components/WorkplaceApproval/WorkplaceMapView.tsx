@@ -1,12 +1,12 @@
-import React, { useCallback, useState, useEffect, useMemo } from 'react'
-import {
-    Marker,
-    InfoBox,
-    GoogleMap,
-    useJsApiLoader,
-    DirectionsRenderer,
-} from '@react-google-maps/api'
 import { Typography } from '@components'
+import { useGoogleMaps } from '@hooks'
+import {
+    DirectionsRenderer,
+    GoogleMap,
+    InfoBox,
+    Marker,
+} from '@react-google-maps/api'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { RxCross2 } from 'react-icons/rx'
 
 const center = {
@@ -38,12 +38,16 @@ interface TravelInfo {
     distance: string | null
 }
 
+// Move the useJsApiLoader hook outside of the component
+
 export const WorkplaceMapView = ({
-    industryLocation,
     studentLocation,
+    industryLocation,
+    showMap,
 }: {
-    industryLocation: string[]
     studentLocation: string[]
+    industryLocation: string[]
+    showMap: boolean
 }) => {
     const [map, setMap] = useState<google.maps.Map | null>(null)
     const [directions, setDirections] =
@@ -51,11 +55,9 @@ export const WorkplaceMapView = ({
     const [travelInfo, setTravelInfo] = useState<TravelInfo[]>([])
     const [showInfoBox, setShowInfoBox] = useState<boolean>(true)
 
-    const { isLoaded, loadError } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: process.env.googleDirectionApi as string,
-        libraries: ['places'],
-    })
+    console.log({ directions })
+
+    const { isLoaded, loadError } = useGoogleMaps()
 
     const industryLocationCoordinates = useMemo(
         () => ({
@@ -112,6 +114,7 @@ export const WorkplaceMapView = ({
 
     useEffect(() => {
         if (map && isLoaded) {
+            console.log('fetching Directions!!!!!!!!')
             const travelModes = [
                 google.maps.TravelMode.DRIVING,
                 google.maps.TravelMode.TRANSIT,
@@ -122,6 +125,7 @@ export const WorkplaceMapView = ({
     }, [map, isLoaded, fetchDirections])
 
     const onMapLoad = useCallback((map: google.maps.Map) => {
+        console.log('On Map Load!!!!!!!!!')
         setMap(map)
     }, [])
 
@@ -131,6 +135,7 @@ export const WorkplaceMapView = ({
 
     if (loadError) return <div>Error loading maps</div>
     if (!isLoaded) return <div>Loading...</div>
+    if (!showMap) return <div>Workplace information here</div>
 
     const infoBoxOptions: any = {
         closeBoxURL: '',
