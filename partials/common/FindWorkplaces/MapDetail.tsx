@@ -10,6 +10,7 @@ import {
 import { debounce } from 'lodash'
 import { useCallback, useEffect, useState } from 'react'
 import { InfoBoxCard } from './InfoBoxCard'
+import { useGoogleMaps } from '@hooks'
 
 const containerStyle = {
     width: '100%',
@@ -33,10 +34,7 @@ export const MapDetail = ({
     const [showInfoBox, setShowInfoBox] = useState<any>(false)
     // const [visibleMarkers, setVisibleMarkers] = useState<any[]>([])
 
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: 'AIzaSyCMEGspm5WHyXte3TN4Lfrkcg9DchsbYEk',
-    })
+    const { isLoaded } = useGoogleMaps()
     const latLngLocation = resultList?.map((industry: any) => {
         const lat = industry?.geometry?.location.lat()
         const lng = industry?.geometry?.location.lng()
@@ -104,7 +102,6 @@ export const MapDetail = ({
         imagePath:
             'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m', // so you must have m1.png, m2.png, m3.png, m4.png, m5.png and m6.png in that folder
     }
-
 
     return isLoaded ? (
         <GoogleMap

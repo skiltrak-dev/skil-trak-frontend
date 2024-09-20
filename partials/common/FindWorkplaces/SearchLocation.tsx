@@ -136,7 +136,8 @@ export const SearchLocation = () => {
         <>
             <div>
                 <LoadScript
-                    googleMapsApiKey="AIzaSyCMEGspm5WHyXte3TN4Lfrkcg9DchsbYEk"
+                    googleMapsApiKey="AIzaSyApOsp5NyUUJyW3vlZtvQ4IYf8urG7rrKA"
+                    // googleMapsApiKey="AIzaSyCMEGspm5WHyXte3TN4Lfrkcg9DchsbYEk"
                     libraries={libraries}
                     region="AU"
                 >

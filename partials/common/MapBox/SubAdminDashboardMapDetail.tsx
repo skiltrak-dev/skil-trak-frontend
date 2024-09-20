@@ -1,22 +1,21 @@
 // src/components/MapComponent.tsx
 import { Button, Card, LoadingAnimation, NoData } from '@components'
+import { useGoogleMaps } from '@hooks'
 import { CommonApi, SubAdminApi } from '@queries'
 import {
     GoogleMap,
     InfoBox,
     Marker,
     MarkerClusterer,
-    useJsApiLoader,
 } from '@react-google-maps/api'
-import { ellipsisText, isBrowser, removeEmptyValues } from '@utils'
+import { ellipsisText, removeEmptyValues } from '@utils'
 import { useCallback, useEffect, useState } from 'react'
-import {
-    StudentInfoBoxCard,
-    IndustryInfoBoxCard,
-    FutureIndustryInfoBoxCard,
-} from './components'
-import { Industry } from '@types'
 import { IndustryPlacementStatus } from '../IndustryProfileDetail'
+import {
+    FutureIndustryInfoBoxCard,
+    IndustryInfoBoxCard,
+    StudentInfoBoxCard,
+} from './components'
 
 const containerStyle = {
     width: '100%',
@@ -100,10 +99,11 @@ const SubAdminDashboardMapDetail = ({
     setSearchInitiated: any
     showFutureIndustries?: any
 }) => {
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: process.env.NEXT_PUBLIC_MAP_KEY as string,
-    })
+    const { isLoaded } = useGoogleMaps()
+    // const { isLoaded } = useJsApiLoader({
+    //     id: 'google-map-script',
+    //     googleMapsApiKey: process.env.NEXT_PUBLIC_MAP_KEY as string,
+    // })
     // Select fields states
     const [location, setLocation] = useState('')
 
