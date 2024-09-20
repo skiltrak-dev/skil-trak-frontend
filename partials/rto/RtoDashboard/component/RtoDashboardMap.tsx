@@ -1,15 +1,10 @@
-import React, { useCallback, useState, useEffect } from 'react'
-import {
-    GoogleMap,
-    InfoBox,
-    Marker,
-    MarkerClusterer,
-    useJsApiLoader,
-} from '@react-google-maps/api'
 import { Typography } from '@components'
 import { UserRoles } from '@constants'
-import { RtoApi, CommonApi } from '@queries'
-import { fromAddress, geocode, GeocodeOptions, setKey } from 'react-geocode'
+import { useGoogleMaps } from '@hooks'
+import { CommonApi, RtoApi } from '@queries'
+import { GoogleMap, Marker, MarkerClusterer } from '@react-google-maps/api'
+import { useCallback, useEffect, useState } from 'react'
+import { fromAddress, setKey } from 'react-geocode'
 
 const containerStyle = {
     width: '100%',
@@ -105,10 +100,7 @@ export const RtoDashboardMap = ({ address }: { address: string }) => {
         getLatLngFromAddress()
     }, [address, map])
 
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: process.env.NEXT_PUBLIC_MAP_KEY as string,
-    })
+    const { isLoaded } = useGoogleMaps()
 
     const industries = RtoApi.Rto.rtoMapIndustries()
     const futureIndustries = CommonApi.FindWorkplace.mapFutureIndustries(
