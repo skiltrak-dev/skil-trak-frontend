@@ -1,6 +1,5 @@
-import React, { useEffect, useState, ChangeEvent } from 'react'
+import { useEffect, useState } from 'react'
 import Calendar from 'react-calendar'
-import { Paginate } from '@components/Paginate/Paginate'
 // import 'react-calendar/dist/Calendar.css'
 
 import { CalendarStyles } from './style'

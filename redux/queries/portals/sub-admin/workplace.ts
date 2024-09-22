@@ -222,8 +222,9 @@ export const workplaceEndpoints = (
         providesTags: ['SubAdminWorkplace'],
     }),
     addExistingIndustries: builder.mutation<any, any>({
-        query: ({ workplaceId, industryId }) => ({
+        query: ({ workplaceId, industryId, ...body }) => ({
             url: `${PREFIX}industry/select/${workplaceId}/${industryId}`,
+            body,
             method: 'POST',
         }),
         invalidatesTags: ['SubAdminWorkplace'],
