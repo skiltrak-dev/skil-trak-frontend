@@ -29,6 +29,7 @@ export type InputType =
     | 'url'
     | 'color'
     | 'file'
+    | 'datetime-local'
 
 export type TextInputProps = InputProps & {
     type?: InputType

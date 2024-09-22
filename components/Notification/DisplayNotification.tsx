@@ -53,7 +53,7 @@ export const DisplayNotifications = () => {
                         return (
                             <div
                                 key={key}
-                                className={`${classes} flex gap-y-1 fixed z-[49] p-4`}
+                                className={`${classes} flex gap-y-1 fixed z-[9999999] p-4`}
                             >
                                 {values?.map((notification: any) => (
                                     <div

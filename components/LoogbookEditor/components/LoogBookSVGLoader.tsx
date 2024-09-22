@@ -1,10 +1,10 @@
+import { NoData } from '@components/ActionAnimations'
 import { CursorCoordinates } from '@components/Esign'
-import { CommonApi, SubAdminApi } from '@queries'
+import { SubAdminApi } from '@queries'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { Waypoint } from 'react-waypoint'
 import { LogbookDraggableTab } from './LogbookDraggableTab'
-import { NoData } from '@components/ActionAnimations'
 
 export const LoogBookSVGLoader = ({
     size,
@@ -56,7 +56,6 @@ export const LoogBookSVGLoader = ({
     const [svgContent, setSvgContent] = useState('')
     const [viewport, setViewport] = useState<string | null>('')
     const dimensionRef = useRef<HTMLDivElement>(null)
-    const [timerId, setTimerId] = useState<any>(null)
     const [loadSvg, setLoadSvg] = useState(false)
     const pageRef = useRef<HTMLDivElement>(null) // Ref for the page container
 
@@ -101,14 +100,6 @@ export const LoogBookSVGLoader = ({
         }
     }, [currentPageY, template, isPageScrolled, svgContent])
 
-    useEffect(() => {
-        return () => {
-            if (timerId) {
-                clearTimeout(timerId)
-            }
-        }
-    }, [timerId])
-
     const handleVisibilityChange = useCallback(
         (entries: any) => {
             entries.forEach((entry: any) => {
@@ -143,16 +134,10 @@ export const LoogBookSVGLoader = ({
     }, [handleVisibilityChange])
 
     const handleEnter = () => {
-        if (timerId) {
-            clearTimeout(timerId)
-        }
-
         // Set a timeout to make the API call after 1 second of inactivity
-        const id = setTimeout(() => {
+        setTimeout(() => {
             setLoadSvg(true)
-        }, 1000)
-
-        setTimerId(id)
+        }, 700)
     }
 
     return (
@@ -165,9 +150,6 @@ export const LoogBookSVGLoader = ({
                 onEnter={handleEnter}
                 onLeave={() => {
                     setLoadSvg(false)
-                    if (timerId) {
-                        clearTimeout(timerId)
-                    }
                 }}
             >
                 <div>

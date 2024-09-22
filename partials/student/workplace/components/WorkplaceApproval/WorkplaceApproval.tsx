@@ -4,6 +4,7 @@ import { WorkplaceAvailableSlots } from './WorkplaceAvailableSlots'
 import { WorkplaceDetail } from './WorkplaceDetail'
 import { WorkplaceInfo } from './WorkplaceInfo'
 import { WorkplaceMapView } from './WorkplaceMapView'
+import { AvailableMeetingDates } from './AvailableMeetingDates'
 
 export const WorkplaceApproval = ({
     onCancel,
@@ -47,6 +48,8 @@ export const WorkplaceApproval = ({
                     />
                 </div>
             </div>
+
+            <AvailableMeetingDates dates={wpApprovalData?.dates} />
 
             {/*  */}
             <WorkplaceApprovalActions

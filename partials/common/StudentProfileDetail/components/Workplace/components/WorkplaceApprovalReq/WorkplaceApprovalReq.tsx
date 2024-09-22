@@ -6,6 +6,8 @@ import { WorkplaceMapView } from '@partials/student/workplace/components/Workpla
 import { getUserCredentials } from '@utils'
 import React, { Suspense, useEffect, useState } from 'react'
 import { SubAdminApi } from '@queries'
+import moment from 'moment'
+import { AvailableMeetingDates } from '@partials/student'
 
 export const WorkplaceApprovalReq = ({
     wpReqApproval,
@@ -79,6 +81,7 @@ export const WorkplaceApprovalReq = ({
                             industry={wpReqApproval?.industry}
                         />
                     </div>
+                    <AvailableMeetingDates dates={wpReqApproval?.dates} />
                 </div>
 
                 {/*  */}
