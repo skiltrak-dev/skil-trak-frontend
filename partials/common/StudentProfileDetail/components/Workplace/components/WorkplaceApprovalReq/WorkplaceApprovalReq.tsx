@@ -81,7 +81,9 @@ export const WorkplaceApprovalReq = ({
                             industry={wpReqApproval?.industry}
                         />
                     </div>
-                    <AvailableMeetingDates dates={wpReqApproval?.dates} />
+                    {wpReqApproval?.dates ? (
+                        <AvailableMeetingDates dates={wpReqApproval?.dates} />
+                    ) : null}
                 </div>
 
                 {/*  */}
