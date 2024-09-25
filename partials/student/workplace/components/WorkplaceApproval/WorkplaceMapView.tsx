@@ -57,8 +57,6 @@ export const WorkplaceMapView = ({
     const [travelInfo, setTravelInfo] = useState<TravelInfo[]>([])
     const [showInfoBox, setShowInfoBox] = useState<boolean>(true)
 
-    console.log({ directions })
-
     const { isLoaded, loadError } = useGoogleMaps()
 
     const industryLocationCoordinates = useMemo(
@@ -116,7 +114,6 @@ export const WorkplaceMapView = ({
 
     useEffect(() => {
         if (map && isLoaded) {
-            console.log('fetching Directions!!!!!!!!')
             const travelModes = [
                 google.maps.TravelMode.DRIVING,
                 google.maps.TravelMode.TRANSIT,
@@ -127,7 +124,6 @@ export const WorkplaceMapView = ({
     }, [map, isLoaded, fetchDirections])
 
     const onMapLoad = useCallback((map: google.maps.Map) => {
-        console.log('On Map Load!!!!!!!!!')
         setMap(map)
     }, [])
 

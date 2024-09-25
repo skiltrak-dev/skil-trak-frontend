@@ -1,4 +1,3 @@
-import { State } from 'country-state-city'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
@@ -7,20 +6,17 @@ import 'react-phone-number-input/style.css'
 import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
-import { useNotification, useSectorsAndCoursesOptions } from '@hooks'
+import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
 import {
     courseOptionsWhenSectorChange,
     CourseSelectOption,
     formatOptionLabel,
-    getDate,
     getLatLng,
     getPostalCode,
-    getRemovedCoursesFromList,
     getSectorsDetail,
     isEmailValid,
     onlyAlphabets,
-    sectorsCoursesOptions,
     SignUpUtils,
 } from '@utils'
 
@@ -34,9 +30,9 @@ import {
     Typography,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { FormProvider, useForm } from 'react-hook-form'
-import { OptionType, StudentFormType } from '@types'
+import { StudentFormType } from '@types'
 import debounce from 'lodash/debounce'
+import { FormProvider, useForm } from 'react-hook-form'
 
 export const StudentSignUpForm = ({
     onSubmit,
@@ -81,11 +77,7 @@ export const StudentSignUpForm = ({
         }
     }, [hader, rtoResponse?.data])
 
-    console.log({ rtoResponse, sectorResponse })
-
     const sectorsDetails = getSectorsDetail(sectorResponse?.data)
-
-    console.log({ sectorsDetails })
 
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
@@ -102,8 +94,6 @@ export const StudentSignUpForm = ({
               value: rto.id,
           }))
         : []
-
-    console.log({ courseOptionscourseOptionscourseOptions: courseOptions })
 
     const [storedData, setStoredData] = useState<any>(null)
 
@@ -132,7 +122,6 @@ export const StudentSignUpForm = ({
     // } = useSectorsAndCoursesOptions()
 
     const onSectorChanged = (sectors: any) => {
-        console.log({ sectors })
         setSelectedSector(sectors)
         setCourseLoading(true)
 
@@ -146,17 +135,13 @@ export const StudentSignUpForm = ({
                 item: course,
             }))
 
-        console.log({ abcabcabcabc: newCourseOptions })
-
         // const newCourseOptions = sectorsCoursesOptions(sectors, sectorsDetails)
         setCourseOptions(newCourseOptions)
-        console.log({ newCourseOptionsnewCourseOptions: newCourseOptions })
 
         const newSelectedCoursesOptions = courseOptionsWhenSectorChange(
             newCourseOptions,
             removedCourses as number[]
         )
-        console.log({ newSelectedCoursesOptions })
         setCourseValues(newCourseOptions)
         setCourseLoading(false)
     }
@@ -176,8 +161,6 @@ export const StudentSignUpForm = ({
     //       }
     //    })
     // }
-
-    console.log({ path: router?.pathname?.split('/')?.[4] })
 
     const validationSchema = yup.object({
         // Profile Information
@@ -426,7 +409,6 @@ export const StudentSignUpForm = ({
                                 placeholder={'Search Rtos...'}
                                 loading={rtoResponse.isLoading}
                                 onChange={(e: any) => {
-                                    console.log({ eeeee: e })
                                     setSelectedRto(e)
                                 }}
                                 validationIcons

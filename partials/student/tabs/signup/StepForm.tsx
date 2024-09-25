@@ -16,8 +16,6 @@ export const StepForm = () => {
     const router = useRouter()
     const { query } = router
 
-    console.log({ saad: 'Saad' })
-
     const FormSteps: IndicatorStep[] = [
         {
             label: 'Account Info',
@@ -47,8 +45,6 @@ export const StepForm = () => {
     ]
 
     const currentStep = FormSteps.find((step) => query.step === step.query)
-
-    console.log({ currentStep, FormSteps })
 
     return (
         <div>
