@@ -4,6 +4,7 @@ import { Student } from '@types'
 import { useEffect } from 'react'
 import { FaBan } from 'react-icons/fa'
 import { useChangeStatus } from '../hooks'
+import { WorkplaceCancelInfoModal } from '@modals'
 
 export const BlockModal = ({
     item,
@@ -11,7 +12,7 @@ export const BlockModal = ({
     setResult,
 }: {
     item: Student
-    onCancel: Function
+    onCancel: () => void
     setResult?: Function
 }) => {
     const { alert } = useAlert()
@@ -41,18 +42,22 @@ export const BlockModal = ({
     return (
         <>
             <ShowErrorNotifications result={changeStatusResult} />
-            <ActionModal
-                Icon={FaBan}
-                variant="error"
-                title="Are you sure!"
-                description={`You are about to block <em>"${item?.user?.name}"</em>. Do you wish to continue?`}
-                onConfirm={onConfirmClicked}
-                onCancel={onCancel}
-                input
-                inputKey={item?.user?.email}
-                actionObject={item}
-                loading={changeStatusResult.isLoading}
-            />
+            {item?.workplace && item?.workplace?.length > 0 ? (
+                <WorkplaceCancelInfoModal onCancel={onCancel} />
+            ) : (
+                <ActionModal
+                    Icon={FaBan}
+                    variant="error"
+                    title="Are you sure!"
+                    description={`You are about to block <em>"${item?.user?.name}"</em>. Do you wish to continue?`}
+                    onConfirm={onConfirmClicked}
+                    onCancel={onCancel}
+                    input
+                    inputKey={item?.user?.email}
+                    actionObject={item}
+                    loading={changeStatusResult.isLoading}
+                />
+            )}
         </>
     )
 }

@@ -37,7 +37,6 @@ import { AssignMultipleCoordinatorModal } from './modals/AssignMultipleCoordinat
 export const ApprovedStudent = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const [changeExpiryData, setChangeExpiryData] = useState(false)
     const [isExcelDownload, setIsExcelDownload] = useState<boolean>(false)
     const userId = getUserCredentials()?.id
 
@@ -56,12 +55,6 @@ export const ApprovedStudent = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-
-    useEffect(() => {
-        if (changeExpiryData) {
-            refetch()
-        }
-    }, [changeExpiryData])
 
     // Download excel
     useEffect(() => {

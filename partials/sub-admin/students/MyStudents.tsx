@@ -16,11 +16,7 @@ import {
     TableAction,
     UserCreatedAt,
 } from '@components'
-import {
-    StudentCallLogDetail,
-    StudentCellInfo,
-    SubadminStudentIndustries,
-} from './components'
+import { StudentCallLogDetail, SubadminStudentIndustries } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useGetSubAdminMyStudentsQuery } from '@queries'
@@ -34,13 +30,13 @@ import {
     UnAssignStudentModal,
 } from './modals'
 
+import { PageHeading } from '@components/headings'
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { getUserCredentials, setLink } from '@utils'
-import { FaFileExport } from 'react-icons/fa'
 import moment from 'moment'
+import { FaFileExport } from 'react-icons/fa'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
-import { PageHeading } from '@components/headings'
 
 export const MyStudents = () => {
     const router = useRouter()
