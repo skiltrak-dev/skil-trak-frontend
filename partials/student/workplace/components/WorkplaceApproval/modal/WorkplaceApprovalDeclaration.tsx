@@ -2,7 +2,13 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import { MdCancel } from 'react-icons/md'
 import { SubAdminApi } from '@queries'
-import { Button, Checkbox, GlobalModal, Typography } from '@components'
+import {
+    Button,
+    Checkbox,
+    GlobalModal,
+    ShowErrorNotifications,
+    Typography,
+} from '@components'
 import { WPApprovalStatus } from '../enum'
 import { useNotification } from '@hooks'
 
@@ -36,59 +42,66 @@ export const WorkplaceApprovalDeclaration = ({
         }
     }
     return (
-        <GlobalModal>
-            <div className="relative max-w-5xl w-full">
-                <MdCancel
-                    onClick={() => {
-                        onCancel()
-                    }}
-                    className="absolute -top-1 -right-1 transition-all duration-500 text-black hover:text-black text-3xl cursor-pointer hover:rotate-90"
-                />
-                <div className="flex flex-col gap-y-2.5 p-3">
-                    <Typography
-                        capitalize
-                        color="text-[#24556D]"
-                        variant="subtitle"
-                        bold
-                    >
-                        Student Placement Declaration
-                    </Typography>
-
-                    <div
-                        className="border rounded p-2 bg-[#F7910F26] h-40 md:h-80 xl:h-auto custom-scrollbar overflow-auto"
-                        style={{
-                            fontSize: '85%',
-                            // lineHeight: '25px',
-                        }}
-                    >
-                        <span
-                            className="content-editor list-style-inside"
-                            dangerouslySetInnerHTML={{
-                                __html: declaration,
-                            }}
-                        />
-                    </div>
-                    <Checkbox
-                        name={'agreedWithPrivacyPolicy'}
-                        label={
-                            'I have read, understood, and agree to the terms and conditions outlined in the above declaration'
-                        }
-                        onChange={(e: any) => setIsChecked(e?.target?.checked)}
-                        showError={false}
-                    />
-                    <Button
+        <>
+            <ShowErrorNotifications result={changeStatusResult} />
+            <GlobalModal>
+                <div className="relative max-w-5xl w-full">
+                    <MdCancel
                         onClick={() => {
-                            onChangeStatusClicked(WPApprovalStatus.Approved)
+                            onCancel()
                         }}
-                        text="Approve"
-                        loading={changeStatusResult.isLoading}
-                        disabled={changeStatusResult.isLoading || !isChecked}
-                        variant="success"
+                        className="absolute -top-1 -right-1 transition-all duration-500 text-black hover:text-black text-3xl cursor-pointer hover:rotate-90"
                     />
+                    <div className="flex flex-col gap-y-2.5 p-3">
+                        <Typography
+                            capitalize
+                            color="text-[#24556D]"
+                            variant="subtitle"
+                            bold
+                        >
+                            Student Placement Declaration
+                        </Typography>
 
-                    {/*  */}
+                        <div
+                            className="border rounded p-2 bg-[#F7910F26] h-40 md:h-80 xl:h-auto custom-scrollbar overflow-auto"
+                            style={{
+                                fontSize: '85%',
+                                // lineHeight: '25px',
+                            }}
+                        >
+                            <span
+                                className="content-editor list-style-inside"
+                                dangerouslySetInnerHTML={{
+                                    __html: declaration,
+                                }}
+                            />
+                        </div>
+                        <Checkbox
+                            name={'agreedWithPrivacyPolicy'}
+                            label={
+                                'I have read, understood, and agree to the terms and conditions outlined in the above declaration'
+                            }
+                            onChange={(e: any) =>
+                                setIsChecked(e?.target?.checked)
+                            }
+                            showError={false}
+                        />
+                        <Button
+                            onClick={() => {
+                                onChangeStatusClicked(WPApprovalStatus.Approved)
+                            }}
+                            text="Approve"
+                            loading={changeStatusResult.isLoading}
+                            disabled={
+                                changeStatusResult.isLoading || !isChecked
+                            }
+                            variant="success"
+                        />
+
+                        {/*  */}
+                    </div>
                 </div>
-            </div>
-        </GlobalModal>
+            </GlobalModal>
+        </>
     )
 }
