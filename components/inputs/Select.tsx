@@ -14,9 +14,9 @@ import {
 
 import { getThemeColors } from '@theme'
 import { OptionType } from '@types'
+import { forwardRef, useEffect } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { InputProps } from './InputPropType'
-import { forwardRef, useEffect } from 'react'
 
 const Colors = getThemeColors()
 
@@ -74,7 +74,7 @@ export const Select = forwardRef(
         const formContext = useFormContext()
 
         useEffect(() => {
-            if (value && formContext) {
+            if ((value || defaultValue) && formContext) {
                 formContext.setValue(name, handleChange(value))
             }
         }, [value])
