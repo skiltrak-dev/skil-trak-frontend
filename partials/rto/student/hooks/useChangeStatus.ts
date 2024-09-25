@@ -18,7 +18,10 @@ export const useChangeStatus = () => {
     }
 
     const onBlock = async (student: Student) => {
-        await changeStatus({ id: student.id, status: UserStatus.Blocked })
+        return await changeStatus({
+            id: student.id,
+            status: UserStatus.Blocked,
+        })
     }
 
     return {

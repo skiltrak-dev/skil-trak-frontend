@@ -44,7 +44,7 @@ export const TicketDetailHeaderCard = ({
             {modal}
             <div>
                 <div className="flex flex-col gap-y-3 py-2">
-                    <div className="border-b pb-3">
+                    <div className="border-b pb-3 relative z-20">
                         {(ticket?.assignedTo?.id === userId ||
                             ticket?.createdBy?.id === userId) && (
                             <ForwardTicket ticketDetail={ticket} />
@@ -53,7 +53,7 @@ export const TicketDetailHeaderCard = ({
                     <div></div>
                     <div className="flex flex-col px-4 gap-y-2 pb-4">
                         {ticket?.student && (
-                            <div className="border-b py-2">
+                            <div className="border-b py-2 relative z-10">
                                 <AuthorizedUserComponent
                                     roles={[UserRoles.ADMIN]}
                                 >

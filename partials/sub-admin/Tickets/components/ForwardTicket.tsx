@@ -32,8 +32,8 @@ export const ForwardTicket = ({ ticketDetail }: any) => {
         })
     )
 
-    const onSubmit = (values: any) => {
-        setSubAdminId(values?.assignedTo)
+    const onSubmit = () => {
+        forwardTicket({ userId: subAdminId, id: ticketDetail?.id })
     }
     return (
         <>
@@ -54,7 +54,7 @@ export const ForwardTicket = ({ ticketDetail }: any) => {
             <Button
                 text="Forward Ticket"
                 onClick={() => {
-                    forwardTicket({ userId: subAdminId, id: ticketDetail?.id })
+                    onSubmit()
                 }}
                 loading={resultForwardTicket?.isLoading}
                 disabled={resultForwardTicket?.isLoading || subAdminId === null}

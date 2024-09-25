@@ -1,20 +1,17 @@
 import { Typography } from '@components'
 import { Course } from '@types'
-import { ellipsisText } from '@utils'
-import React from 'react'
 
 export const CourseWorkplaceCell = ({ course }: { course: Course }) => {
     return (
         <div
             title={course?.title}
-            className="flex items-center gap-x-2 cursor-pointer"
+            className="flex flex-col items-center gap-x-2 cursor-pointer"
         >
-            <Typography variant="small" medium>
+            <Typography variant="xs" color="text-gray-500" semibold>
                 {course?.code ?? 'N/A'}
             </Typography>
-            -
-            <Typography variant="small" medium>
-                {ellipsisText(course?.title, 15) ?? 'N/A'}
+            <Typography variant="small" semibold>
+                {course?.title ?? 'N/A'}
             </Typography>
         </div>
     )
