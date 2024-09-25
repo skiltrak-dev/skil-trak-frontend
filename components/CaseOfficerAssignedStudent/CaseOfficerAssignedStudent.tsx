@@ -105,10 +105,6 @@ export const CaseOfficerAssignedStudent = ({
 
     const updatedStatus = WorkplaceStatus?.filter((wpStatus) => wpStatus?.date)
 
-    console.log({ updatedStatus })
-
-    console.log({ appliedIndustry })
-
     return (
         <div className="w-[280px]">
             {modal}

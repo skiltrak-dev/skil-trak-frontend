@@ -379,8 +379,6 @@ export const LoogbookEditor = ({
         }
     }
 
-    console.log({ items })
-
     const onSaveLogBookClicked = () => {
         const data = items
             ?.filter((item: any) => {

@@ -104,7 +104,6 @@ export const AddTicketForm = ({
             const stdCourse = studentsOptions?.find(
                 (s: OptionType) => s?.value === selectedStudent
             )?.item?.courses?.[0]?.id
-            console.log({ stdCourse, selectedStudent, studentsOptions })
             setSelectedCourse(stdCourse)
         }
     }, [selectedStudent, studentsOptions])

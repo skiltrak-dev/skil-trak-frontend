@@ -87,12 +87,6 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
 
     const getLayout = Component.getLayout ?? ((page) => page)
 
-    console.log({
-        loading,
-        sec: new Date().getSeconds(),
-        miliSec: new Date().getMilliseconds(),
-    })
-
     return (
         <>
             <GoogleAnalyticsScript />

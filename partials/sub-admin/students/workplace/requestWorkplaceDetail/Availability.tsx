@@ -24,8 +24,6 @@ export const Availability = ({
     const [workplaceRequest, workplaceRequestResult] =
         useSubAdminRequestWorkplaceMutation()
 
-    console.log({ personalInfoData })
-
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const onCancelModal = () => setModal(null)
