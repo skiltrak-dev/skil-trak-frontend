@@ -64,7 +64,6 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     const onCancel = () => {
         setModal(null)
     }
-    const { alert, setAlerts } = useAlert()
     const userData = getUserCredentials()
     const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
         {
