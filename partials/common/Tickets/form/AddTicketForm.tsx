@@ -15,7 +15,7 @@ import { AuthApi } from '@queries'
 import { Course, OptionType } from '@types'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { TicketCreator } from '../enum'
@@ -52,13 +52,18 @@ export const AddTicketForm = ({
         }
     }, [router])
 
-    const courses = sectorResponse?.data
-        ?.map((sector: any) => {
-            return sector?.courses?.map((course: any) => {
-                return course
-            })
-        })
-        .flat()
+    const courses = useMemo(
+        () =>
+            sectorResponse?.data
+                ?.map((sector: any) => {
+                    return sector?.courses?.map((course: any) => {
+                        return course
+                    })
+                })
+                .flat(),
+        [sectorResponse?.data]
+    )
+
     const validationSchema = yup.object({
         assignedTo: yup.number().required('Must provide Assign To'),
         subject: yup.string().required('Must provide Subject'),
@@ -88,19 +93,24 @@ export const AddTicketForm = ({
     //           value: student?.id,
     //       }))
     //     : []
-    const studentsOptions = students?.data?.length
-        ? students?.data?.map((student: any) => ({
-              label:
-                  student?.user?.name +
-                  student?.studentId +
-                  student?.familyName,
-              value: student?.id,
-              item: student,
-          }))
-        : []
+    const studentsOptions = useMemo(
+        () =>
+            students?.data?.length
+                ? students?.data?.map((student: any) => ({
+                      label:
+                          student?.user?.name +
+                          student?.studentId +
+                          student?.familyName,
+                      value: student?.id,
+                      item: student,
+                  }))
+                : [],
+        [students?.data]
+    )
 
     useEffect(() => {
         if (selectedStudent) {
+            console.log('Shunnnrrrr!!!!')
             const stdCourse = studentsOptions?.find(
                 (s: OptionType) => s?.value === selectedStudent
             )?.item?.courses?.[0]?.id
@@ -149,6 +159,8 @@ export const AddTicketForm = ({
             value: TicketCreator.QANDEEL_TANOLI,
         },
     ]
+
+    console.log('Khanka banka')
 
     return (
         <div>
@@ -279,18 +291,11 @@ export const AddTicketForm = ({
                                 label={'Priority'}
                                 name={'priority'}
                                 placeholder={'Priority...'}
-                                value={
-                                    formMethods?.watch()?.priority
-                                        ? priorityOptions?.find(
-                                              (a: any) =>
-                                                  a?.value ===
-                                                  formMethods?.watch()?.priority
-                                          )
-                                        : priorityOptions?.reverse()?.[0]
-                                }
+                                defaultValue={priorityOptions?.reverse()?.[0]}
                                 options={priorityOptions}
                                 onlyValue
                             />
+
                             <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                                 {isInternal ? (
                                     <Select
