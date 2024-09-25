@@ -40,6 +40,7 @@ export const AddTicketForm = ({
 }) => {
     const sectorResponse = AuthApi.useSectors({})
 
+    const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
     const [selectedStudent, setSelectedStudent] = useState<number | null>(null)
     const [isInternal, setIsInternal] = useState<boolean>(false)
 
@@ -98,12 +99,30 @@ export const AddTicketForm = ({
           }))
         : []
 
+    useEffect(() => {
+        if (selectedStudent) {
+            const stdCourse = studentsOptions?.find(
+                (s: OptionType) => s?.value === selectedStudent
+            )?.item?.courses?.[0]?.id
+            console.log({ stdCourse, selectedStudent, studentsOptions })
+            setSelectedCourse(stdCourse)
+        }
+    }, [selectedStudent, studentsOptions])
+
     const subAdminOptions = subadmins?.data?.map((subAdmin: any) => ({
         label: subAdmin?.user?.name,
         value: subAdmin?.user?.id,
     }))
 
-    const courseOptions = courses?.map((opt: Course) => ({
+    const opt = studentsOptions
+        ?.find((s: OptionType) => s?.value === selectedStudent)
+        ?.item?.courses?.map(({ id }: { id: number }) => id)
+
+    const coursesData = selectedStudent
+        ? courses?.filter((s: Course) => opt?.includes(s?.id))
+        : courses
+
+    const courseOptions = coursesData?.map((opt: Course) => ({
         item: opt,
         label: opt?.title,
         value: opt?.id,
@@ -244,6 +263,12 @@ export const AddTicketForm = ({
                                 placeholder={'Select Course'}
                                 options={courseOptions}
                                 onlyValue
+                                value={courseOptions?.find(
+                                    (c: any) => c?.value === selectedCourse
+                                )}
+                                onChange={(e: number) => {
+                                    setSelectedCourse(e)
+                                }}
                                 loading={sectorResponse.isLoading}
                                 disabled={sectorResponse?.isLoading}
                                 components={{
@@ -255,6 +280,15 @@ export const AddTicketForm = ({
                                 label={'Priority'}
                                 name={'priority'}
                                 placeholder={'Priority...'}
+                                value={
+                                    formMethods?.watch()?.priority
+                                        ? priorityOptions?.find(
+                                              (a: any) =>
+                                                  a?.value ===
+                                                  formMethods?.watch()?.priority
+                                          )
+                                        : priorityOptions?.reverse()?.[0]
+                                }
                                 options={priorityOptions}
                                 onlyValue
                             />

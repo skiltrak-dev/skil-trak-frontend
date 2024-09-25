@@ -43,8 +43,10 @@ interface TravelInfo {
 export const WorkplaceMapView = ({
     studentLocation,
     industryLocation,
+    workplaceName,
     showMap,
 }: {
+    workplaceName: string
     studentLocation: string[]
     industryLocation: string[]
     showMap: boolean
@@ -144,7 +146,7 @@ export const WorkplaceMapView = ({
             opacity: 1,
             width: 'auto',
         },
-        pixelOffset: new google.maps.Size(-140, -42),
+        pixelOffset: new google.maps.Size(20, 15),
         alignBottom: true,
     }
 
@@ -208,7 +210,7 @@ export const WorkplaceMapView = ({
                             />
                             <div className="mb-2">
                                 <Typography variant="xs" semibold>
-                                    Workplace Name Here
+                                    {workplaceName}
                                 </Typography>
                                 <Typography variant="xxs" bold>
                                     Distance From Student Location

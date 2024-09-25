@@ -1,16 +1,20 @@
-import React from 'react'
+import React, { ReactElement, useState } from 'react'
 import { SubAdminApi } from '@queries'
 import { WPApprovalStatus } from './enum'
 import { useNotification } from '@hooks'
 import { Button, ShowErrorNotifications } from '@components'
+import { WorkplaceApprovalDeclaration } from './modal'
 
 export const WorkplaceApprovalActions = ({
     onCancel,
+    declaration,
     wpApprovalId,
 }: {
+    declaration: string
     onCancel?: () => void
     wpApprovalId: number
 }) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const { notification } = useNotification()
 
     const [changeStatus, changeStatusResult] =
@@ -29,8 +33,30 @@ export const WorkplaceApprovalActions = ({
             }
         }
     }
+
+    const onCancelApprovelDeclaration = () => setModal(null)
+
+    const onApprovelClicked = (declaration: string) => {
+        setModal(
+            <WorkplaceApprovalDeclaration
+                onCancel={(val?: boolean) => {
+                    if (val) {
+                        onCancelApprovelDeclaration()
+                        if (onCancel) {
+                            onCancel()
+                        }
+                    } else {
+                        onCancelApprovelDeclaration()
+                    }
+                }}
+                declaration={declaration}
+                wpApprovalId={wpApprovalId}
+            />
+        )
+    }
     return (
         <>
+            {modal}
             <ShowErrorNotifications result={changeStatusResult} />
             <div className="w-72 flex flex-col gap-y-1 items-center justify-center mx-auto py-2">
                 <div className="h-10 w-full">
@@ -38,7 +64,8 @@ export const WorkplaceApprovalActions = ({
                         fullWidth
                         fullHeight
                         onClick={() => {
-                            onChangeStatusClicked(WPApprovalStatus.Approved)
+                            // onChangeStatusClicked(WPApprovalStatus.Approved)
+                            onApprovelClicked(declaration)
                         }}
                         text="Approve"
                         loading={changeStatusResult.isLoading}

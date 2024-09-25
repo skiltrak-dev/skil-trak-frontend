@@ -147,12 +147,9 @@ export const ViewQuestionsModal = ({
                                                                         ]
                                                                     }
                                                                 </Typography>
+
                                                                 <Badge
-                                                                    text={moment(
-                                                                        value
-                                                                    ).format(
-                                                                        'DD MMM YYYY'
-                                                                    )}
+                                                                    text={value}
                                                                     variant={
                                                                         'success'
                                                                     }

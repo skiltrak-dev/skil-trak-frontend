@@ -2,7 +2,7 @@ import { forwardRef } from 'react'
 import SignatureCanvas from 'react-signature-canvas'
 
 // components
-import { Button, Typography } from '@components'
+import { Button } from '@components'
 
 export const Signature = forwardRef(({ industryName }: any, ref: any) => {
     const onClear = () => {

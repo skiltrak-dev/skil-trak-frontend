@@ -159,6 +159,7 @@ export const Workplace = ({
             />
         )
     }
+
     const onViewPlacementStartedAnswers = (wpId: number) => {
         setModal(
             <ViewPlacementStartedAnswersModal
@@ -240,7 +241,33 @@ export const Workplace = ({
                                 WorkplaceCurrentStatus.Completed
                         )?.length === 1 ? (
                             <div className="whitespace-pre">
-                                <Button
+                                <AuthorizedUserComponent
+                                    roles={[UserRoles.SUBADMIN]}
+                                >
+                                    <AddWorkplaceAction
+                                        id={student?.id}
+                                        profileCompletion={100}
+                                        text={'Add Another Workplace'}
+                                        onButtonClick={() => {
+                                            if (
+                                                firstWorkplaceCurrentStatus ===
+                                                WorkplaceCurrentStatus.PlacementStarted
+                                            ) {
+                                                return false
+                                            } else {
+                                                setModal(
+                                                    <UpdatePrvWPStatusModal
+                                                        onCancel={() => {
+                                                            onCancelModal()
+                                                        }}
+                                                    />
+                                                )
+                                                return true
+                                            }
+                                        }}
+                                    />
+                                </AuthorizedUserComponent>
+                                {/* <Button
                                     onClick={() => {
                                         if (
                                             firstWorkplaceCurrentStatus ===
@@ -267,7 +294,7 @@ export const Workplace = ({
                                     }}
                                 >
                                     Add Another Workplace
-                                </Button>
+                                </Button> */}
                             </div>
                         ) : studentWorkplace?.data?.length === 0 ? (
                             <AuthorizedUserComponent

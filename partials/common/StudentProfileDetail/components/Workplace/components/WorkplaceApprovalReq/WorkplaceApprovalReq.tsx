@@ -66,6 +66,9 @@ export const WorkplaceApprovalReq = ({
                                     studentLocation={wpReqApproval?.student?.location?.split(
                                         ','
                                     )}
+                                    workplaceName={
+                                        wpReqApproval?.industry?.user?.name
+                                    }
                                     showMap
                                 />
                             ) : null}
@@ -81,7 +84,11 @@ export const WorkplaceApprovalReq = ({
                             industry={wpReqApproval?.industry}
                         />
                     </div>
-                    {wpReqApproval?.dates ? (
+                    {wpReqApproval?.dates &&
+                    Object.keys(wpReqApproval?.dates)?.length > 0 &&
+                    Object.values(wpReqApproval?.dates)?.some(
+                        (date) => date
+                    ) ? (
                         <AvailableMeetingDates dates={wpReqApproval?.dates} />
                     ) : null}
                 </div>
