@@ -113,12 +113,12 @@ export const AddTicketForm = ({
         value: subAdmin?.user?.id,
     }))
 
-    const opt = studentsOptions
+    const courseIds = studentsOptions
         ?.find((s: OptionType) => s?.value === selectedStudent)
         ?.item?.courses?.map(({ id }: { id: number }) => id)
 
     const coursesData = selectedStudent
-        ? courses?.filter((s: Course) => opt?.includes(s?.id))
+        ? courses?.filter((s: Course) => courseIds?.includes(s?.id))
         : courses
 
     const courseOptions = coursesData?.map((opt: Course) => ({
