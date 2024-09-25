@@ -100,7 +100,7 @@ export const IndustryDetail = ({
                         {appliedIndustry?.AgreementSigned && (
                             <AgreementView workplace={workplace} />
                         )}
-                        <Typography variant={'small'} color={'text-info'}>
+                        {/* <Typography variant={'small'} color={'text-info'}>
                             <span
                                 className="font-semibold cursor-pointer whitespace-pre"
                                 onClick={() => {
@@ -117,7 +117,7 @@ export const IndustryDetail = ({
                             >
                                 View Contacted Industry
                             </span>
-                        </Typography>
+                        </Typography> */}
                         {!appliedIndustry &&
                         !workplace?.byExistingAbn &&
                         !workplace?.studentProvidedWorkplace ? (

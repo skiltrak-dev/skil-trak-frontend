@@ -530,6 +530,14 @@ tr[aria-hidden] td {
     list-style-type: number !important;
 }
 
+.list-style-inside ol{
+    list-style: inside;
+}
+
+.list-style-inside ul{
+    list-style: inside;
+}
+
 
 .content-editor ul,
 ul.landing-content {
@@ -684,4 +692,9 @@ ul.landing-content {
 .blink-yellow .content {
     position: relative; 
     z-index: 1; 
+}
+
+
+.small-font {
+    font-size: 50% !important; /* Enforce 50% font size */
 }

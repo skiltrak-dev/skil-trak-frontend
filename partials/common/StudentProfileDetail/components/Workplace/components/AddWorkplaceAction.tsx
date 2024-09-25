@@ -8,7 +8,9 @@ export const AddWorkplaceAction = ({
     id,
     text,
     profileCompletion,
+    onButtonClick,
 }: {
+    onButtonClick?: () => boolean
     id: number
     text?: string
     profileCompletion: number
@@ -55,8 +57,11 @@ export const AddWorkplaceAction = ({
                 <Button
                     text={text || 'Add Workplace'}
                     onClick={() => {
-                        if (id)
+                        if (onButtonClick && onButtonClick()) {
+                            onButtonClick()
+                        } else if (id) {
                             setAddWorkplace((workplace: boolean) => !workplace)
+                        }
                     }}
                     disabled={!id}
                 />

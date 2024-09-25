@@ -2,7 +2,6 @@ import { forwardRef } from 'react'
 import SignatureCanvas from 'react-signature-canvas'
 
 // components
-import { Button, Typography } from '@components'
 
 export const DocumentSignature = forwardRef(
     ({ industryName }: any, ref: any) => {

@@ -137,7 +137,7 @@ export const LoogBookSVGLoader = ({
         // Set a timeout to make the API call after 1 second of inactivity
         setTimeout(() => {
             setLoadSvg(true)
-        }, 700)
+        }, 400)
     }
 
     return (

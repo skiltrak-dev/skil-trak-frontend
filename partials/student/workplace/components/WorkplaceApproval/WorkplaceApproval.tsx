@@ -32,6 +32,7 @@ export const WorkplaceApproval = ({
                             studentLocation={wpApprovalData?.student?.location?.split(
                                 ','
                             )}
+                            workplaceName={wpApprovalData?.industry?.user?.name}
                             showMap
                         />
                     </div>
@@ -49,7 +50,9 @@ export const WorkplaceApproval = ({
                 </div>
             </div>
 
-            {wpApprovalData?.dates ? (
+            {wpApprovalData?.dates &&
+            Object.keys(wpApprovalData?.dates)?.length > 0 &&
+            Object.values(wpApprovalData?.dates)?.some((date) => date) ? (
                 <AvailableMeetingDates dates={wpApprovalData?.dates} />
             ) : null}
 
@@ -60,6 +63,7 @@ export const WorkplaceApproval = ({
                         onCancel()
                     }
                 }}
+                declaration={wpApprovalData?.declaration}
                 wpApprovalId={wpApprovalData?.id}
             />
         </div>
