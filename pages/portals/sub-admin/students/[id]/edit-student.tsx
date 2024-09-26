@@ -35,6 +35,10 @@ const EditStudentDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const { id } = router.query
 
+    useEffect(() => {
+        router.back()
+    }, [])
+
     const student = useGetSubAdminStudentDetailQuery(Number(id), {
         skip: !id,
         refetchOnMountOrArgChange: true,

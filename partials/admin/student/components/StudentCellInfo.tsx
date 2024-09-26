@@ -180,7 +180,7 @@ export const StudentCellInfo = ({
                                 <MdEmail />
                             </span>
                             <HideRestrictedData type={UserRoles.STUDENT}>
-                                {student?.user?.email}
+                                {true ? '---' : student?.user?.email}
                             </HideRestrictedData>
                         </p>
                     </div>

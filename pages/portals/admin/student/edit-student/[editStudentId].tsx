@@ -19,6 +19,10 @@ const EditStudent: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const { notification } = useNotification()
 
+    useEffect(() => {
+        router.back()
+    }, [])
+
     const student = AdminApi.Students.useProfile(editStudentId, {
         skip: !editStudentId,
         refetchOnMountOrArgChange: true,
