@@ -38,7 +38,10 @@ export const StudentCellInfo = ({
 
     const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
     return (
-        <div className="flex items-center relative z-10" id={student?.studentId}>
+        <div
+            className="flex items-center relative z-10"
+            id={student?.studentId}
+        >
             <div className="flex items-center gap-x-2">
                 <div>
                     {student?.user?.name && (
@@ -173,7 +176,7 @@ export const StudentCellInfo = ({
                                 <FaEnvelope />
                             </span>
                             <p className="text-gray-500">
-                                {student?.user?.email}
+                                {true ? '---' : student?.user?.email}
                             </p>
                         </div>
                         <div className="flex items-center gap-x-2 text-sm">
