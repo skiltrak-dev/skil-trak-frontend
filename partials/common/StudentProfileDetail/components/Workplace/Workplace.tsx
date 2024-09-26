@@ -239,8 +239,8 @@ export const Workplace = ({
                             (wp: IWorkplaceIndustries) =>
                                 wp?.currentStatus !==
                                 WorkplaceCurrentStatus.Completed
-                        )?.length === 1 ? (
-                            <div className="whitespace-pre">
+                        )?.length <= 1 ? (
+                            <div className="">
                                 <AuthorizedUserComponent
                                     roles={[UserRoles.SUBADMIN]}
                                 >
