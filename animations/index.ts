@@ -6,6 +6,7 @@ import pageNotFound from './common/404.json'
 import pageNotFound2 from './common/404-sleeping-cat.json'
 import appointmentBox from './common/appointments.json'
 import WorkplaceInfo from './common/workplaceInfo.json'
+import PageLoading from './common/page-loading.json'
 
 import help from './common/help.json'
 import help1 from './common/help1.json'
@@ -110,6 +111,7 @@ export const Animations = {
         Help: help,
         Help1: help1,
         WorkplaceInfo,
+        PageLoading,
     },
 
     Auth: {

@@ -27,7 +27,7 @@ import { store } from '../redux/store'
 
 import { HeadWrapper } from '@layouts'
 
-import { LoadingAnimation, Socket } from '@components'
+import { PrePageLoading, Socket } from '@components'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -87,51 +87,50 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
 
     const getLayout = Component.getLayout ?? ((page) => page)
 
+    if (loading) return <PrePageLoading />
+
     return (
         <>
             <GoogleAnalyticsScript />
             {/* <SessionProvider session={pageProps?.session}> */}
             <Provider store={store}>
                 {/* <AutoLogoutProvider> */}
-                {loading ? (
-                    <LoadingAnimation />
-                ) : (
-                    <ErrorBoundaryContext>
-                        <JoyRideProvider>
-                            <GoogleMapsProvider>
-                                <NoteScrollProvider>
-                                    <DownloadAssessmentProvider>
-                                        <AlertProvider>
-                                            <NotificationProvider>
-                                                <NavbarProvider>
-                                                    <ContextBarProvider>
-                                                        <HeaderWrapperProvider>
-                                                            <SocketListenerProvider>
-                                                                <Socket>
-                                                                    <NetworkProvider>
-                                                                        <HeadWrapper>
-                                                                            {/* <LogoutAfterHours> */}
-                                                                            {getLayout(
-                                                                                <Component
-                                                                                    {...pageProps}
-                                                                                />
-                                                                            )}
-                                                                            {/* </LogoutAfterHours> */}
-                                                                        </HeadWrapper>
-                                                                    </NetworkProvider>
-                                                                </Socket>
-                                                            </SocketListenerProvider>
-                                                        </HeaderWrapperProvider>
-                                                    </ContextBarProvider>
-                                                </NavbarProvider>
-                                            </NotificationProvider>
-                                        </AlertProvider>
-                                    </DownloadAssessmentProvider>
-                                </NoteScrollProvider>
-                            </GoogleMapsProvider>
-                        </JoyRideProvider>
-                    </ErrorBoundaryContext>
-                )}
+                <ErrorBoundaryContext>
+                    <JoyRideProvider>
+                        <GoogleMapsProvider>
+                            <NoteScrollProvider>
+                                <DownloadAssessmentProvider>
+                                    <AlertProvider>
+                                        <NotificationProvider>
+                                            <NavbarProvider>
+                                                <ContextBarProvider>
+                                                    <HeaderWrapperProvider>
+                                                        <SocketListenerProvider>
+                                                            <Socket>
+                                                                <NetworkProvider>
+                                                                    <HeadWrapper>
+                                                                        {/* <LogoutAfterHours> */}
+                                                                        {getLayout(
+                                                                            <Component
+                                                                                {...pageProps}
+                                                                            />
+                                                                        )}
+                                                                        {/* </LogoutAfterHours> */}
+                                                                    </HeadWrapper>
+                                                                </NetworkProvider>
+                                                            </Socket>
+                                                        </SocketListenerProvider>
+                                                    </HeaderWrapperProvider>
+                                                </ContextBarProvider>
+                                            </NavbarProvider>
+                                        </NotificationProvider>
+                                    </AlertProvider>
+                                </DownloadAssessmentProvider>
+                            </NoteScrollProvider>
+                        </GoogleMapsProvider>
+                    </JoyRideProvider>
+                </ErrorBoundaryContext>
+
                 {/* </AutoLogoutProvider> */}
             </Provider>
             {/* </SessionProvider> */}
