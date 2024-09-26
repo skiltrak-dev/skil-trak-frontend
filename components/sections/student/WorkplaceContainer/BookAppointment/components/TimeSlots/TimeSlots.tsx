@@ -77,11 +77,58 @@ export const TimeSlots = ({
     const [currentItems, setCurrentItems] = useState(Array())
     const [timeAvailability, setTimeAvailability] = useState(Array())
     const [daysAvailability, setDaysAvailability] = useState(Array())
+    const [isDateOutSideFromScheduleTime, setIsDateOutSideFromScheduleTime] =
+        useState<boolean>(false)
+
+    const day = moment(selectedDate).format('dddd')?.toLocaleLowerCase()
+    const dayData = appointmentAvailability?.find((d: any) => d?.name === day)
 
     useEffect(() => {
         const available = appointmentAvailability?.map(
             (a: SubadminAvailabilitiesList) => a?.name
         )
+
+        if (appointmentWith === 'Self') {
+            const isTimeInRange = (
+                startTime: string,
+                endTime: string,
+                openingTime: string,
+                closingTime: string
+            ) => {
+                // Parse times using moment
+                const selectedStart = moment(startTime, 'HH:mm')
+                const selectedEnd = moment(endTime, 'HH:mm')
+                const openTime = moment(openingTime, 'HH:mm')
+                const closeTime = moment(closingTime, 'HH:mm')
+
+                // Check if the selected times are within the range
+                const isStartInRange = selectedStart.isBetween(
+                    openTime,
+                    closeTime,
+                    null,
+                    '[]'
+                )
+                const isEndInRange = selectedEnd.isBetween(
+                    openTime,
+                    closeTime,
+                    null,
+                    '[]'
+                )
+
+                // Return true only if both start and end times are within the range
+                return isStartInRange && isEndInRange
+            }
+            const isTime = isTimeInRange(
+                selectedTime?.startTime + '',
+                selectedTime?.endTime + '',
+                dayData?.openingTime + '',
+                dayData?.closingTime + ''
+            )
+            setIsDateOutSideFromScheduleTime(!isTime)
+            console.log({ selectedDate, day, dayData, selectedTime, isTime })
+        } else {
+            setIsDateOutSideFromScheduleTime(false)
+        }
 
         const daysId = days
             .filter((f) => available?.includes(f?.day))
@@ -96,9 +143,11 @@ export const TimeSlots = ({
                 : [0, 1, 2, 3, 4, 5, 6]
         )
         setTimeAvailability(appointmentAvailability)
-    }, [appointmentAvailability, appointmentWith])
+    }, [appointmentAvailability, appointmentWith, selectedTime, selectedDate])
 
     const role = getUserCredentials()?.role
+
+    console.log({ selectedTime })
 
     return (
         <div className="">
@@ -152,11 +201,40 @@ export const TimeSlots = ({
                         <Typography variant="label" color="text-gray-700">
                             Custom Range
                         </Typography>
+                        {selectedTime?.startTime && selectedTime?.endTime ? (
+                            isDateOutSideFromScheduleTime ? (
+                                <div
+                                    className={
+                                        'bg-primary-light  px-2 rounded py-1 my-1'
+                                    }
+                                >
+                                    <Typography
+                                        variant="small"
+                                        color={''}
+                                        medium
+                                    >
+                                        Your availability is not between the
+                                        selected time, please choose a time
+                                        between{' '}
+                                        {moment(
+                                            dayData?.openingTime,
+                                            'HH:mm'
+                                        ).format('hh:mm a')}{' '}
+                                        to{' '}
+                                        {moment(
+                                            dayData?.closingTime,
+                                            'HH:mm'
+                                        ).format('hh:mm a')}
+                                    </Typography>
+                                </div>
+                            ) : null
+                        ) : null}
                         <div className="flex items-center gap-x-2">
                             <TextInput
                                 name={'startTime'}
                                 type={'time'}
                                 label={'Start Time'}
+                                showError={false}
                                 onChange={(
                                     e: ChangeEvent<HTMLInputElement>
                                 ) => {
@@ -170,6 +248,7 @@ export const TimeSlots = ({
                                 name={'endTime'}
                                 type={'time'}
                                 label={'End Time'}
+                                showError={false}
                                 onChange={(
                                     e: ChangeEvent<HTMLInputElement>
                                 ) => {

@@ -10,6 +10,7 @@ import {
     TabProps,
     TechnicalError,
 } from '@components'
+import { UserRoles } from '@constants'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import {
@@ -22,7 +23,7 @@ import {
 import { AddSubAdminCB } from '@partials/admin/sub-admin/contextBar'
 import { AdminApi } from '@queries'
 import { AdminSubadminFilter, NextPageWithLayout, UserStatus } from '@types'
-import { checkFilteredDataLength } from '@utils'
+import { AuthUtils, checkFilteredDataLength } from '@utils'
 
 const filterKeys = ['name', 'email', 'status', 'courseId']
 
@@ -37,6 +38,8 @@ const SubAdminList: NextPageWithLayout = () => {
         {} as AdminSubadminFilter
     )
 
+    const role = AuthUtils.getUserCredentials()?.role
+
     const filteredSubAdmins = AdminApi.SubAdmins.useListQuery({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
@@ -46,6 +49,7 @@ const SubAdminList: NextPageWithLayout = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+
     const { isLoading, data } = AdminApi.SubAdmins.useCountQuery(undefined, {
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true,
@@ -117,6 +121,39 @@ const SubAdminList: NextPageWithLayout = () => {
     }
 
     const filteredDataLength = checkFilteredDataLength(filter)
+
+    if (role === UserRoles.SUBADMIN) {
+        return (
+            <div>
+                <SetDetaultQueryFilteres<AdminSubadminFilter>
+                    filterKeys={filterKeys}
+                    setFilter={setFilter}
+                />
+                {/* <div className="px-4">
+                    <div className="flex justify-end mb-2">{filterAction}</div>
+                    <Filter<AdminSubadminFilter>
+                        component={SubAdminFilters}
+                        initialValues={filter}
+                        setFilterAction={setFilterAction}
+                        setFilter={setFilter}
+                        filterKeys={filterKeys}
+                    />
+                </div> */}
+
+                <div className="px-6 flex items-end justify-end">
+                    <Button
+                        text={'Add Sub Admin'}
+                        variant={'primary'}
+                        onClick={onAddSubAdmin}
+                    />
+                </div>
+
+                <div className="p-4">
+                    <ActiveSubAdmin />
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div>
