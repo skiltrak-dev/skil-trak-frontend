@@ -144,7 +144,9 @@ export const SubAdminStudentProfile = ({
                     </p>
                     <div className="flex items-center gap-x-2">
                         <p className="text-sm text-gray-400">
-                            {ellipsisText(student?.user?.email, 30)}
+                            {true
+                                ? '---'
+                                : ellipsisText(student?.user?.email, 30)}
                         </p>
                         <span className="text-blue-500">
                             <MdVerified />
