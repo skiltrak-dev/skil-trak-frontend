@@ -48,9 +48,6 @@ export const CreateAppointments = () => {
         AppointmentDataType[] | null
     >(null)
 
-    const [selectedAppointmentType, setSelectedAppointmentType] = useState<
-        string | null
-    >(null)
     const [selectedUser, setSelectedUser] = useState<SelectedUserType>({
         selectedAppointmentForUser: null,
         selectedAppointmentWithUser: null,
@@ -64,15 +61,6 @@ export const CreateAppointments = () => {
         null
     )
     const [slots, setSlots] = useState(true)
-
-    // const [date, setDate] = useState(selectedDate)
-    // useEffect(() => {
-    //     let date = selectedDate
-    //     date?.setDate(date.getDate() + 1)
-    //     setDate(date)
-    // }, [selectedDate])
-
-    // date?.setDate(date.getDate() + 1)
 
     const { notification } = useNotification()
 
@@ -163,6 +151,8 @@ export const CreateAppointments = () => {
         skip: selectedPerson.selectedAppointmentWith !== 'Self',
         refetchOnMountOrArgChange: true,
     })
+
+    console.log({ availabilityList })
 
     const onCancel = () => {
         setModal(null)

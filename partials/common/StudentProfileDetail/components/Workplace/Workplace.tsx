@@ -234,12 +234,8 @@ export const Workplace = ({
                                   </ActionButton>
                               )
                             : null}
-                        {studentWorkplace?.data &&
-                        studentWorkplace?.data?.filter(
-                            (wp: IWorkplaceIndustries) =>
-                                wp?.currentStatus !==
-                                WorkplaceCurrentStatus.Completed
-                        )?.length <= 1 ? (
+                        {ignoreCompletedWP &&
+                        ignoreCompletedWP?.length === 1 ? (
                             <div className="">
                                 <AuthorizedUserComponent
                                     roles={[UserRoles.SUBADMIN]}
@@ -250,8 +246,12 @@ export const Workplace = ({
                                         text={'Add Another Workplace'}
                                         onButtonClick={() => {
                                             if (
-                                                firstWorkplaceCurrentStatus ===
-                                                WorkplaceCurrentStatus.PlacementStarted
+                                                [
+                                                    WorkplaceCurrentStatus.PlacementStarted,
+                                                    WorkplaceCurrentStatus.Completed,
+                                                ].includes(
+                                                    firstWorkplaceCurrentStatus
+                                                )
                                             ) {
                                                 return false
                                             } else {
@@ -296,7 +296,8 @@ export const Workplace = ({
                                     Add Another Workplace
                                 </Button> */}
                             </div>
-                        ) : studentWorkplace?.data?.length === 0 ? (
+                        ) : null}
+                        {!ignoreCompletedWP?.length ? (
                             <AuthorizedUserComponent
                                 roles={[UserRoles.SUBADMIN]}
                             >
