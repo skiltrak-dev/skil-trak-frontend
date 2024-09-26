@@ -47,7 +47,7 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                     </Typography>
                     <HideRestrictedData type={UserRoles.STUDENT}>
                         <Typography variant="xs" color="text-[#6B7280]">
-                            {profile?.user?.email}
+                            {true ? '---' : profile?.user?.email}
                         </Typography>
                     </HideRestrictedData>
                 </div>
