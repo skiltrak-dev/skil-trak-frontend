@@ -1,28 +1,24 @@
-import { useState } from 'react'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 import * as Yup from 'yup'
-import { Form, Formik } from 'formik'
 
-import { AuthLayout } from '@layouts'
-import { Animations } from '@animations'
 import {
+    BackButton,
     Button,
+    Card,
+    DisplayNotifications,
+    ShowErrorNotifications,
     TextInput,
     Typography,
-    BackButton,
-    LottieAnimation,
-    Card,
-    ShowErrorNotifications,
-    DisplayNotifications,
 } from '@components'
-import Link from 'next/link'
-import Image from 'next/image'
-import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AuthApi } from '@queries'
 import Head from 'next/head'
+import Image from 'next/image'
+import Link from 'next/link'
+import { FormProvider, useForm } from 'react-hook-form'
 
 const ResetPassword: NextPage = () => {
     const router = useRouter()
@@ -48,7 +44,7 @@ const ResetPassword: NextPage = () => {
 
     const onSubmit = async (values: any) => {
         // send reset password email
-        await resetPassword({
+        const res: any = await resetPassword({
             body: {
                 password: values.newPassword,
                 confirmPassword: values.confirmPassword,
@@ -56,7 +52,10 @@ const ResetPassword: NextPage = () => {
             token: router.query.token,
         })
         setEmailSent(true)
-        router.push('/auth/login')
+
+        if (res?.data) {
+            router.push('/auth/login')
+        }
     }
 
     const onBackToLogin = () => {
