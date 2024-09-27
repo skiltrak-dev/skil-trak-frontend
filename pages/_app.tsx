@@ -1,5 +1,6 @@
 import {
     AlertProvider,
+    AutoLogoutProvider,
     ContextBarProvider,
     DownloadAssessmentProvider,
     GoogleMapsProvider,
@@ -94,44 +95,43 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
             <GoogleAnalyticsScript />
             {/* <SessionProvider session={pageProps?.session}> */}
             <Provider store={store}>
-                {/* <AutoLogoutProvider> */}
-                <ErrorBoundaryContext>
-                    <JoyRideProvider>
-                        <GoogleMapsProvider>
-                            <NoteScrollProvider>
-                                <DownloadAssessmentProvider>
-                                    <AlertProvider>
-                                        <NotificationProvider>
-                                            <NavbarProvider>
-                                                <ContextBarProvider>
-                                                    <HeaderWrapperProvider>
-                                                        <SocketListenerProvider>
-                                                            <Socket>
-                                                                <NetworkProvider>
-                                                                    <HeadWrapper>
-                                                                        {/* <LogoutAfterHours> */}
-                                                                        {getLayout(
-                                                                            <Component
-                                                                                {...pageProps}
-                                                                            />
-                                                                        )}
-                                                                        {/* </LogoutAfterHours> */}
-                                                                    </HeadWrapper>
-                                                                </NetworkProvider>
-                                                            </Socket>
-                                                        </SocketListenerProvider>
-                                                    </HeaderWrapperProvider>
-                                                </ContextBarProvider>
-                                            </NavbarProvider>
-                                        </NotificationProvider>
-                                    </AlertProvider>
-                                </DownloadAssessmentProvider>
-                            </NoteScrollProvider>
-                        </GoogleMapsProvider>
-                    </JoyRideProvider>
-                </ErrorBoundaryContext>
-
-                {/* </AutoLogoutProvider> */}
+                <AutoLogoutProvider>
+                    <ErrorBoundaryContext>
+                        <JoyRideProvider>
+                            <GoogleMapsProvider>
+                                <NoteScrollProvider>
+                                    <DownloadAssessmentProvider>
+                                        <AlertProvider>
+                                            <NotificationProvider>
+                                                <NavbarProvider>
+                                                    <ContextBarProvider>
+                                                        <HeaderWrapperProvider>
+                                                            <SocketListenerProvider>
+                                                                <Socket>
+                                                                    <NetworkProvider>
+                                                                        <HeadWrapper>
+                                                                            {/* <LogoutAfterHours> */}
+                                                                            {getLayout(
+                                                                                <Component
+                                                                                    {...pageProps}
+                                                                                />
+                                                                            )}
+                                                                            {/* </LogoutAfterHours> */}
+                                                                        </HeadWrapper>
+                                                                    </NetworkProvider>
+                                                                </Socket>
+                                                            </SocketListenerProvider>
+                                                        </HeaderWrapperProvider>
+                                                    </ContextBarProvider>
+                                                </NavbarProvider>
+                                            </NotificationProvider>
+                                        </AlertProvider>
+                                    </DownloadAssessmentProvider>
+                                </NoteScrollProvider>
+                            </GoogleMapsProvider>
+                        </JoyRideProvider>
+                    </ErrorBoundaryContext>
+                </AutoLogoutProvider>
             </Provider>
             {/* </SessionProvider> */}
         </>
