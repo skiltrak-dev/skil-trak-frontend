@@ -24,7 +24,7 @@ export const ProfileOptionButton = ({
                 setCredentials(AuthUtils.getUserCredentials())
             }
         }
-    }, [credentials])
+    }, [credentials, AuthUtils.getUserCredentials()])
 
     const classes = classNames({
         'flex items-center cursor-pointer hover:bg-gray-100 py-2 rounded-md':
