@@ -1,4 +1,5 @@
 import {
+    AuthorizedUserComponent,
     HideRestrictedData,
     InitialAvatar,
     Tooltip,
@@ -174,16 +175,18 @@ export const StudentCellInfo = ({
                             </div>
                         ) : null}
                     </div>
-                    <div className="font-medium text-xs text-gray-500">
-                        <p className="flex items-center gap-x-1">
-                            <span>
-                                <MdEmail />
-                            </span>
-                            <HideRestrictedData type={UserRoles.STUDENT}>
-                                {true ? '---' : student?.user?.email}
-                            </HideRestrictedData>
-                        </p>
-                    </div>
+                    <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                        <div className="font-medium text-xs text-gray-500">
+                            <p className="flex items-center gap-x-1">
+                                <span>
+                                    <MdEmail />
+                                </span>
+                                <HideRestrictedData type={UserRoles.STUDENT}>
+                                    {student?.user?.email}
+                                </HideRestrictedData>
+                            </p>
+                        </div>
+                    </AuthorizedUserComponent>
                     <div className="font-medium text-xs text-gray-500">
                         <p className="flex items-center gap-x-1">
                             <span>
