@@ -1,13 +1,12 @@
 import { Typography } from '@components'
 import { UserRoles } from '@constants'
+import { AvailableMeetingDates } from '@partials/student'
 import { WorkplaceAvailableSlots } from '@partials/student/workplace/components/WorkplaceApproval/WorkplaceAvailableSlots'
 import { WorkplaceInfo } from '@partials/student/workplace/components/WorkplaceApproval/WorkplaceInfo'
 import { WorkplaceMapView } from '@partials/student/workplace/components/WorkplaceApproval/WorkplaceMapView'
-import { getUserCredentials } from '@utils'
-import React, { Suspense, useEffect, useState } from 'react'
 import { SubAdminApi } from '@queries'
-import moment from 'moment'
-import { AvailableMeetingDates } from '@partials/student'
+import { getUserCredentials } from '@utils'
+import { useEffect, useState } from 'react'
 
 export const WorkplaceApprovalReq = ({
     wpReqApproval,
@@ -84,13 +83,8 @@ export const WorkplaceApprovalReq = ({
                             industry={wpReqApproval?.industry}
                         />
                     </div>
-                    {wpReqApproval?.dates &&
-                    Object.keys(wpReqApproval?.dates)?.length > 0 &&
-                    Object.values(wpReqApproval?.dates)?.some(
-                        (date) => date
-                    ) ? (
-                        <AvailableMeetingDates dates={wpReqApproval?.dates} />
-                    ) : null}
+
+                    <AvailableMeetingDates dates={wpReqApproval?.dates} />
                 </div>
 
                 {/*  */}

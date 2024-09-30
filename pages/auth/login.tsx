@@ -8,7 +8,6 @@ import { AccountStatus, LoginForm, Typography } from '@components'
 
 import { UserRoles } from '@constants'
 import { LoginErrorAfterHoursModal } from '@modals'
-import { ContestModal } from '@partials/frontPages'
 import { AuthApi } from '@queries'
 import { LoginCredentials, StatusType, UserStatus } from '@types'
 import { AuthUtils, isBrowser } from '@utils'
@@ -21,7 +20,6 @@ const Login: NextPage = () => {
     const [login, loginResult] = AuthApi.useLogin()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const [contestModal, setContestModal] = useState<boolean>(true)
 
     const [requested, setRequested] = useState(false)
     const [rejected, setRejected] = useState(false)
@@ -136,14 +134,9 @@ const Login: NextPage = () => {
         })
     }
 
-    const onContestCancelModal = () => setContestModal(false)
-
     return (
         <>
             {modal}
-            {contestModal ? (
-                <ContestModal onCancel={onContestCancelModal} />
-            ) : null}
             {requested && <AccountStatus status={UserStatus.Pending} />}
             {rejected && <AccountStatus status={UserStatus.Rejected} />}
             {archived && <AccountStatus status={UserStatus.Archived} />}
