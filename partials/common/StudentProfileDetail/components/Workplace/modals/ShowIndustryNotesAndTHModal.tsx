@@ -1,10 +1,17 @@
-import { Button, Checkbox, GlobalModal, Typography } from '@components'
+import {
+    Button,
+    Checkbox,
+    GlobalModal,
+    ShowErrorNotifications,
+    Typography,
+} from '@components'
 import { useNotification } from '@hooks'
 import { IndustryShiftingHours } from '@partials/common/IndustryProfileDetail/components'
 import { ReactElement, useState } from 'react'
 import { MdCancel } from 'react-icons/md'
 import { IndustryPinnedNotes } from '../components'
 import { SelectAppointDateModal } from './SelectAppointDateModal'
+import { useAddExistingIndustriesMutation } from '@queries'
 
 export const ShowIndustryNotesAndTHModal = ({
     industryUserName,
@@ -21,12 +28,36 @@ export const ShowIndustryNotesAndTHModal = ({
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [isChecked, setIsChecked] = useState<boolean>(false)
+    const [isWithoutAppointmentDates, setIsWithoutAppointmentDates] =
+        useState<boolean>(false)
+
+    const { notification } = useNotification()
+
+    const [addExistingIndustry, addExistingIndustryResult] =
+        useAddExistingIndustriesMutation()
 
     const onCancelClicked = () => setModal(null)
+
+    const onApply = () => {
+        addExistingIndustry({
+            workplaceId,
+            industryId,
+        }).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: 'Industry Added Successfully',
+                    description: 'Industry Added Successfully',
+                })
+
+                onCancel()
+            }
+        })
+    }
 
     return (
         <>
             {modal}
+            <ShowErrorNotifications result={addExistingIndustryResult} />
             <GlobalModal>
                 <div className="relative w-full lg:max-w-5xl h-full p-2">
                     <MdCancel
@@ -69,6 +100,14 @@ export const ShowIndustryNotesAndTHModal = ({
                             }
                             showError={false}
                         />
+                        <Checkbox
+                            name="appointmentDates"
+                            onChange={(e: any) => {
+                                setIsWithoutAppointmentDates(e?.target?.checked)
+                            }}
+                            label={<>Continue without appointment dates</>}
+                            showError={false}
+                        />
                         <div className={'flex items-center gap-x-4  '}>
                             <Button
                                 text="Cancel"
@@ -77,19 +116,28 @@ export const ShowIndustryNotesAndTHModal = ({
                                     onCancel()
                                 }}
                             />
+
                             <Button
                                 text={'Proceed'}
                                 variant="success"
                                 onClick={() => {
-                                    setModal(
-                                        <SelectAppointDateModal
-                                            onCancel={onCancelClicked}
-                                            industryId={industryId}
-                                            workplaceId={workplaceId}
-                                        />
-                                    )
+                                    if (isWithoutAppointmentDates) {
+                                        onApply()
+                                    } else {
+                                        setModal(
+                                            <SelectAppointDateModal
+                                                onCancel={onCancelClicked}
+                                                industryId={industryId}
+                                                workplaceId={workplaceId}
+                                            />
+                                        )
+                                    }
                                 }}
-                                disabled={!isChecked}
+                                loading={addExistingIndustryResult?.isLoading}
+                                disabled={
+                                    addExistingIndustryResult?.isLoading ||
+                                    !isChecked
+                                }
                             />
                         </div>
                     </div>

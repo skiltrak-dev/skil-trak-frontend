@@ -2,6 +2,7 @@ import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import axios from 'axios'
 import jwt from 'jwt-decode'
+import { debounce } from 'lodash'
 
 interface User {
     id: string
@@ -20,9 +21,157 @@ interface Token {
     user: User
 }
 
-const REFRESH_TOKEN_THRESHOLD = 60 // seconds
+const REFRESH_TOKEN_THRESHOLD = 60 * 29 // seconds
+
+const getUserCredentials = (access_token: string) => {
+    try {
+        return jwt(access_token) as { exp: number }
+    } catch (error) {
+        console.error('Error decoding JWT:', error)
+        return null
+    }
+}
+
+let isRefreshing = false
+let refreshPromise: Promise<any> | null = null
+
+const logger = (message: string, data?: any) => {
+    console.log(
+        `[${new Date().toISOString()}] ${message}`,
+        data ? JSON.stringify(data, null, 2) : ''
+    )
+}
+
+// const refreshAccessToken = async (token: Token): Promise<Token> => {
+//     const now = Date.now()
+//     if (now - lastRefreshTime < REFRESH_COOLDOWN) {
+//         logger('Refresh attempt too soon, returning current token')
+//         return token
+//     }
+
+//     lastRefreshTime = now
+//     logger('Attempting to refresh access token', {
+//         tokenExp: token.accessTokenExpires,
+//     })
+
+//     try {
+//         const response = await axios.post(
+//             `${process.env.NEXT_PUBLIC_END_POINT}/auth/refresh/token`,
+//             {},
+//             {
+//                 headers: {
+//                     authorization: `Bearer ${token.refreshToken}`,
+//                 },
+//             }
+//         )
+
+//         logger('Refresh token response', {
+//             status: response.status,
+//             data: response.data,
+//         })
+
+//         if (!response.data.access_token) {
+//             throw new Error('Failed to refresh access token')
+//         }
+
+//         const decodedToken = getUserCredentials(response.data.access_token)
+//         if (!decodedToken) {
+//             throw new Error('Invalid access token received')
+//         }
+
+//         logger('Successfully refreshed token', {
+//             newExp: decodedToken.exp * 1000,
+//         })
+
+//         return {
+//             id: response.data.sub,
+//             role: response.data.role,
+//             status: response.data.status,
+//             name: response.data.name,
+//             email: response.data.email,
+//             accessToken: response.data.access_token,
+//             refreshToken: response.data.refreshToken,
+//             accessTokenExpires: decodedToken?.exp * 1000,
+//         } as any
+//     } catch (error) {
+//         logger('Error refreshing access token', error)
+//         return {
+//             ...token,
+//             error: 'RefreshAccessTokenError',
+//         }
+//     }
+// }
+
+// const refreshAccessToken = async (token: Token): Promise<Token> => {
+//     logger('Attempting to refresh access token', {
+//         tokenExp: token.accessTokenExpires,
+//     })
+
+//     try {
+//         const response = await axios.post(
+//             `${process.env.NEXT_PUBLIC_END_POINT}/auth/refresh/token`,
+//             {},
+//             {
+//                 headers: {
+//                     authorization: `Bearer ${token.refreshToken}`,
+//                 },
+//             }
+//         )
+
+//         logger('Refresh token response', {
+//             status: response.status,
+//             data: response.data,
+//         })
+
+//         if (!response.data.access_token) {
+//             throw new Error('Failed to refresh access token')
+//         }
+
+//         const decodedToken = getUserCredentials(response.data.access_token)
+//         if (!decodedToken) {
+//             throw new Error('Invalid access token received')
+//         }
+
+//         logger('Successfully refreshed token', {
+//             newExp: decodedToken.exp * 1000,
+//         })
+
+//         return {
+//             id: response.data.sub,
+//             role: response.data.role,
+//             status: response.data.status,
+//             name: response.data.name,
+//             email: response.data.email,
+//             accessToken: response.data.access_token,
+//             refreshToken: response.data.refreshToken,
+//             accessTokenExpires: decodedToken?.exp * 1000,
+//         } as any
+//     } catch (error) {
+//         logger('Error refreshing access token', error)
+//         return {
+//             ...token,
+//             error: 'RefreshAccessTokenError',
+//         }
+//     }
+// }
+
+let refreshing = false
+let lastRefreshAttempt = 0
+const REFRESH_COOLDOWN = 5000
 
 const refreshAccessToken = async (token: Token): Promise<Token> => {
+    logger('Attempting to refresh access token', {
+        tokenExp: token.accessTokenExpires,
+        refreshToken: token.refreshToken.slice(-10), // Log last 10 characters of refresh token
+    })
+
+    if (refreshing || Date.now() - lastRefreshAttempt < REFRESH_COOLDOWN) {
+        return token
+    }
+
+    refreshing = true
+    lastRefreshAttempt = Date.now()
+
     try {
         const response = await axios.post(
             `${process.env.NEXT_PUBLIC_END_POINT}/auth/refresh/token`,
@@ -34,35 +183,71 @@ const refreshAccessToken = async (token: Token): Promise<Token> => {
             }
         )
 
+        logger('Refresh token response', {
+            status: response.status,
+            data: response.data,
+        })
+
         if (!response.data.access_token) {
-            throw new Error('Failed to refresh access token')
+            throw new Error(
+                'Failed to refresh access token: No access_token in response'
+            )
         }
+
+        const decodedToken = getUserCredentials(response.data.access_token)
+        if (!decodedToken) {
+            throw new Error('Invalid access token received')
+        }
+
+        logger('Successfully refreshed token', {
+            newExp: decodedToken.exp * 1000,
+            newRefreshToken: response.data.refreshToken
+                ? 'Present'
+                : 'Not present',
+        })
 
         return {
             ...token,
-            user: {
-                ...token?.user,
-                accessToken: response.data.access_token,
-                refreshToken: response.data.refreshToken ?? token.refreshToken,
-            },
             accessToken: response.data.access_token,
-            accessTokenExpires: Date.now() + response.data.expiresIn * 1000,
-            refreshToken: response.data.refreshToken ?? token.refreshToken,
-        }
+            refreshToken: response.data.refreshToken || token.refreshToken,
+            accessTokenExpires: decodedToken.exp * 1000,
+            error: undefined,
+        } as any
     } catch (error) {
+        logger('Error refreshing access token', error)
         if (axios.isAxiosError(error)) {
-            console.error('Axios error refreshing token:', error.response?.data)
-            return error.response?.data
-        } else {
-            console.error('Unknown error refreshing token:', error)
+            logger('Axios error details', {
+                response: error.response?.data,
+                status: error.response?.status,
+            })
         }
-        // console.error('Error refreshing access token', error)
         return {
             ...token,
             error: 'RefreshAccessTokenError',
         }
     }
 }
+
+const debouncedRefreshAccessToken = debounce(
+    async (token: Token): Promise<Token> => {
+        if (refreshing || Date.now() - lastRefreshAttempt < REFRESH_COOLDOWN) {
+            return token
+        }
+
+        refreshing = true
+        lastRefreshAttempt = Date.now()
+
+        try {
+            const refreshedToken = await refreshAccessToken(token)
+            refreshing = false
+            return refreshedToken
+        } catch (error) {
+            refreshing = false
+            return { ...token, error: 'RefreshAccessTokenError' }
+        }
+    },
+    100
+)
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -83,14 +268,11 @@ export const authOptions: NextAuthOptions = {
                         credentials
                     )
 
+                    const decodedData = getUserCredentials(
+                        response.data.access_token
+                    )
+
                     if (response?.data) {
-                        const getUserCredentials: any = () => {
-                            const tokenData = response.data.access_token
-                            if (tokenData) {
-                                return jwt(tokenData)
-                            }
-                            return null
-                        }
                         return {
                             id: response.data.id,
                             role: response.data.role,
@@ -99,8 +281,9 @@ export const authOptions: NextAuthOptions = {
                             email: response.data.email,
                             accessToken: response.data.access_token,
                             refreshToken: response.data.refreshToken,
-                            accessTokenExpires:
-                                getUserCredentials()?.exp * 1000,
+                            accessTokenExpires: decodedData
+                                ? decodedData?.exp * 1000
+                                : null,
                         }
                     }
                     return null
@@ -113,6 +296,11 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         async jwt({ token, user, account }: any) {
+            console.log({
+                tokenExpireeeeeeeeeee:
+                    token.accessTokenExpires - REFRESH_TOKEN_THRESHOLD * 1000,
+            })
+            console.log({ khankabankaToken: token })
             // Initial sign in
             if (account && user) {
                 return user
@@ -124,21 +312,62 @@ export const authOptions: NextAuthOptions = {
                 }
             }
 
-            return token
+            // return token
 
             // Return previous token if the access token has not expired yet
             // if (
+            //     token.accessTokenExpires &&
             //     Date.now() <
-            //     token.accessTokenExpires - REFRESH_TOKEN_THRESHOLD * 1000
+            //         token.accessTokenExpires - REFRESH_TOKEN_THRESHOLD * 1000
             // ) {
-            //     return token
+            //     return token // Token is still valid
             // }
+            if (
+                token.accessTokenExpires &&
+                Date.now() >=
+                    token.accessTokenExpires - REFRESH_TOKEN_THRESHOLD * 1000
+            ) {
+                logger('Token expired, attempting refresh')
+                // const refreshedToken = await refreshAccessToken(token)
+
+                // if (refreshedToken.error) {
+                //     logger('Refresh failed, forcing re-authentication')
+                //     // Force re-authentication
+                //     return { ...token, error: 'RefreshAccessTokenError' }
+                // }
+
+                // return refreshedToken
+                let refreshedToken = null
+                let abc = true
+                if (abc) {
+                    abc = false
+                    console.log('cheenu peenu')
+                    refreshedToken = await refreshAccessToken(token)
+                    setTimeout(() => {
+                        abc = true
+                    }, 5000)
+                }
+                if (refreshedToken) {
+                    return refreshedToken
+                }
+            }
+
+            return token
 
             // // Access token has expired or will expire soon, try to update it
-            // return await refreshAccessToken(token)
         },
         async session({ session, token }: any) {
+            if (!token) {
+                logger('Token is undefined in session callback')
+                return { ...session, error: 'TokenUndefinedError' }
+            }
+
+            if (token.error) {
+                logger('Error in session callback', { error: token.error })
+                return { ...session, error: token.error }
+            }
             session = token
+            console.log({ session })
             return session
             session.user = token.user as User
             session.accessToken = token.accessToken

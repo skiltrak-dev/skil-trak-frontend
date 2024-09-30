@@ -33,6 +33,12 @@ const RtoProfile = () => {
     })
 
     useEffect(() => {
+        if (subadmin?.data && subadmin?.data?.isAdmin) {
+            router?.back()
+        }
+    }, [subadmin])
+
+    useEffect(() => {
         navBar.setTitle('RTO Detail')
         navBar.setSubTitle(rto?.data?.user?.name)
     }, [rto.data])

@@ -1,6 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 
 import {
+    EmptyData,
     Filter,
     LoadingAnimation,
     RtoFilters,
@@ -19,10 +20,15 @@ import {
     PendingRto,
     RejectedRto,
 } from '@partials'
-import { AdminApi } from '@queries'
+import { AdminApi, SubAdminApi } from '@queries'
 import { NextPageWithLayout, RTOFilterType, UserStatus } from '@types'
-import { checkFilteredDataLength, getFilterQuery } from '@utils'
+import {
+    checkFilteredDataLength,
+    getFilterQuery,
+    getUserCredentials,
+} from '@utils'
 import { useRouter } from 'next/router'
+import { UserRoles } from '@constants'
 
 const filterKeys = ['name', 'email', 'code', 'status', 'courseId']
 
@@ -35,6 +41,18 @@ const RtoList: NextPageWithLayout = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState<RTOFilterType>({} as RTOFilterType)
+
+    const role = getUserCredentials()?.role
+
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: role !== UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+        // refetchOnFocus: true,
+    })
+
+    useEffect(() => {
+        navBar.setTitle('RTO')
+    }, [])
 
     const filteredRtos = AdminApi.Rtos.useListQuery(
         {
@@ -51,10 +69,6 @@ const RtoList: NextPageWithLayout = () => {
         }
     )
     const count = AdminApi.Rtos.useCountQuery()
-
-    useEffect(() => {
-        navBar.setTitle('RTO')
-    }, [])
 
     const tabs: TabProps[] = [
         {
@@ -120,6 +134,18 @@ const RtoList: NextPageWithLayout = () => {
     ]
 
     const filteredDataLength = checkFilteredDataLength(filter)
+
+    if (role === UserRoles.SUBADMIN) {
+        return (
+            <>
+                <EmptyData
+                    title={'No RTOS in your Search!'}
+                    description={'No RTOS in your Search yet'}
+                    height={'50vh'}
+                />
+            </>
+        )
+    }
 
     return (
         <div>

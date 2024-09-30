@@ -17,6 +17,7 @@ import {
     useGetWorkplaceFoldersQuery,
 } from '@queries'
 import ReactStars from 'react-stars'
+import { FaInfoCircle } from 'react-icons/fa'
 
 import { useContextBar } from '@hooks'
 import { AddSecondWPCB } from '@partials/sub-admin/students/contextBar'
@@ -45,6 +46,7 @@ import { IndustryDetail } from './components/IndustryDetail'
 import {
     CancelWorkplaceModal,
     CancelWorkplaceRequestModal,
+    ShowRejectedRequestModal,
     UpdatePrvWPStatusModal,
     ViewPlacementStartedAnswersModal,
     ViewQuestionsModal,
@@ -171,6 +173,17 @@ export const Workplace = ({
         )
     }
 
+    const onShowRejectedRequestModal = (content: string) => {
+        setModal(
+            <ShowRejectedRequestModal
+                onCancel={() => {
+                    onCancelModal()
+                }}
+                content={content}
+            />
+        )
+    }
+
     const ignoreCompletedWP = studentWorkplace?.data?.filter(
         (wp: IWorkplaceIndustries) =>
             wp?.currentStatus !== WorkplaceCurrentStatus.Completed
@@ -200,6 +213,17 @@ export const Workplace = ({
             />
         )
     }
+
+    const latestWorkplaceApprovaleRequest =
+        selectedWorkplace?.workplaceApprovaleRequest?.reduce(
+            (latest: any, current: any) => {
+                return new Date(current?.createdAt) >
+                    new Date(latest?.createdAt)
+                    ? current
+                    : latest
+            },
+            selectedWorkplace?.workplaceApprovaleRequest?.[0]
+        )
 
     return (
         <>
@@ -348,16 +372,16 @@ export const Workplace = ({
                                 </Typography>
                             </div>
                         ) : studentWorkplace?.data &&
-                          studentWorkplace?.data?.length > 0 ? (
-                            selectedWorkplace?.workplaceApprovaleRequest &&
-                            selectedWorkplace?.workplaceApprovaleRequest
-                                ?.length > 0 ? (
+                          studentWorkplace?.data?.length > 0 &&
+                          studentWorkplace?.isSuccess ? (
+                            latestWorkplaceApprovaleRequest &&
+                            latestWorkplaceApprovaleRequest?.status ===
+                                'pending' ? (
                                 <>
                                     <div className="h-[380px] overflow-auto custom-scrollbar">
                                         <WorkplaceApprovalReq
                                             wpReqApproval={{
-                                                ...selectedWorkplace
-                                                    ?.workplaceApprovaleRequest?.[0],
+                                                ...latestWorkplaceApprovaleRequest,
                                                 student: {
                                                     location:
                                                         selectedWorkplace
@@ -549,6 +573,31 @@ export const Workplace = ({
                                                         />
                                                     </div>
                                                 )
+                                            ) : null}
+                                            {latestWorkplaceApprovaleRequest?.status ===
+                                            'rejected' ? (
+                                                <div className="w-48 flex items-center gap-x-2">
+                                                    <Typography
+                                                        variant="xs"
+                                                        color={
+                                                            'text-error-dark'
+                                                        }
+                                                    >
+                                                        Workplace Approvel
+                                                        Request was cancelled by
+                                                        student
+                                                    </Typography>
+                                                    <div>
+                                                        <FaInfoCircle
+                                                            onClick={() => {
+                                                                onShowRejectedRequestModal(
+                                                                    latestWorkplaceApprovaleRequest?.comment
+                                                                )
+                                                            }}
+                                                            className="text-error-dark cursor-pointer"
+                                                        />
+                                                    </div>
+                                                </div>
                                             ) : null}
                                             {selectedWorkplace
                                                 ? appliedIndustry?.placementStarted &&
