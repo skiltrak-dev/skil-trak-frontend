@@ -50,11 +50,7 @@ export const WorkplaceApproval = ({
                 </div>
             </div>
 
-            {wpApprovalData?.dates &&
-            Object.keys(wpApprovalData?.dates)?.length > 0 &&
-            Object.values(wpApprovalData?.dates)?.some((date) => date) ? (
-                <AvailableMeetingDates dates={wpApprovalData?.dates} />
-            ) : null}
+            <AvailableMeetingDates dates={wpApprovalData?.dates} />
 
             {/*  */}
             <WorkplaceApprovalActions
