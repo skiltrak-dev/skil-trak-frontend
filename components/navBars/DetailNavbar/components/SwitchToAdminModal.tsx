@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { FaBan } from 'react-icons/fa'
 import { MdAdminPanelSettings } from 'react-icons/md'
 import { CommonApi } from '@queries'
+import { isBrowser } from '@utils'
 
 export const SwitchToAdminModal = ({
     subAdmin,
@@ -29,6 +30,11 @@ export const SwitchToAdminModal = ({
                 description: `subAdmin "${subAdmin?.user?.name}" has been switched to Admin.`,
             })
             onCancel()
+            if (isBrowser()) {
+                setTimeout(() => {
+                    location.reload()
+                }, 500)
+            }
         }
         if (resultSwitchUserRole?.isError) {
             notification.error({

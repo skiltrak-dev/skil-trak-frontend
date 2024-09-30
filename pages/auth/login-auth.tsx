@@ -13,11 +13,10 @@ import { AuthUtils, isBrowser } from '@utils'
 import { signIn, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Image from 'next/image'
+import { LoginErrorAfterHoursModal } from '@modals'
 
 const Login: NextPage = () => {
     const router = useRouter()
-
-    const [login, loginResult] = AuthApi.useLogin()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
     const data: any = useSession()
@@ -26,6 +25,10 @@ const Login: NextPage = () => {
     const [rejected, setRejected] = useState(false)
     const [archived, setArchived] = useState(false)
     const [blocked, setBlocked] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const [isSuccess, setIsSuccess] = useState(false)
+    const [isError, setIsError] = useState(false)
+
     const [rememberLogin, setRememberLogin] = useState<boolean>(false)
     const [autoLogoutUrl, setAutoLogoutUrl] = useState<{
         url: URL | null
@@ -88,26 +91,6 @@ const Login: NextPage = () => {
                 break
         }
     }
-    // useEffect(() => {
-    //     if (loginResult.isSuccess) {
-    //         if (loginResult.data) {
-    //             if (rememberLogin) {
-    //                 AuthUtils.setToken(loginResult.data.access_token)
-    //                 AuthUtils.setRefreshToken(loginResult.data.refreshToken)
-    //                 if (isBrowser()) {
-    //                     localStorage.setItem('rememberMe', 'true')
-    //                 }
-    //             } else {
-    //                 AuthUtils.setTokenToSession(loginResult.data.access_token)
-    //                 AuthUtils.setRefreshTokenToSessionStorage(
-    //                     loginResult.data.refreshToken
-    //                 )
-    //             }
-
-    //             onLogin(loginResult.data.status, loginResult.data?.role)
-    //         }
-    //     }
-    // }, [loginResult.isSuccess])
 
     useEffect(() => {
         if (data?.data) onLogin(data?.data?.status, data?.data?.role)
@@ -115,6 +98,8 @@ const Login: NextPage = () => {
 
     const handleSubmit = async (values: LoginCredentials, event: any) => {
         event.preventDefault()
+        setIsLoading(true)
+        setIsError(false)
 
         try {
             const result = await signIn('credentials', {
@@ -122,14 +107,26 @@ const Login: NextPage = () => {
                 redirect: false,
             })
             if (result?.error) {
+                setIsLoading(false)
+                setIsError(true)
                 const error = JSON.parse(result.error)
-                console.error('Sign in failed: ', error)
+                if (error?.error === 'ahle') {
+                    setModal(
+                        <LoginErrorAfterHoursModal
+                            onCancel={() => {
+                                setModal(null)
+                            }}
+                            error={error}
+                        />
+                    )
+                }
                 // Handle error (e.g., show error message to user)
             } else if (result?.ok) {
+                setIsLoading(false)
             }
         } catch (error) {
+            setIsLoading(false)
             console.error('Sign in error:', error)
-            // Handle error (e.g., show error message to user)
         }
     }
 
@@ -146,18 +143,6 @@ const Login: NextPage = () => {
         AuthUtils.logout()
         setRememberLogin(values?.remember as boolean)
         handleSubmit(values, event)
-        // await login(values).then((res: any) => {
-        //     if (res?.error?.data?.error === 'ahle') {
-        //         setModal(
-        //             <LoginErrorAfterHoursModal
-        //                 onCancel={() => {
-        //                     setModal(null)
-        //                 }}
-        //                 error={res?.error?.data}
-        //             />
-        //         )
-        //     }
-        // })
     }
 
     return (
@@ -277,15 +262,22 @@ const Login: NextPage = () => {
                             </Typography>
                         </div>
 
-                        {loginResult.isError && (
+                        {isError && (
                             <p className="text-sm text-error w-full border border-error px-2 py-1 rounded shadow text-center">
                                 Invalid Email or Password
                             </p>
                         )}
 
-                        <LoginForm onSubmit={onSubmit} result={loginResult} />
+                        <LoginForm
+                            onSubmit={onSubmit}
+                            result={{
+                                isLoading,
+                                isError,
+                                isSuccess,
+                            }}
+                        />
 
-                        {!loginResult.isLoading || !loginResult.isSuccess ? (
+                        {!isLoading || !isSuccess ? (
                             <div className="mt-16">
                                 <Typography variant="small" medium>
                                     Don&apos;t have account?{' '}

@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { FaBan } from 'react-icons/fa'
 import { MdAdminPanelSettings } from 'react-icons/md'
 import { CommonApi } from '@queries'
+import { isBrowser } from '@utils'
 
 export const SwitchBackToSubAdmin = ({
     // subAdmin,
@@ -29,6 +30,11 @@ export const SwitchBackToSubAdmin = ({
                 description: `Subadmin as admin has been switched back to subadmin.`,
             })
             onCancel()
+            if (isBrowser()) {
+                setTimeout(() => {
+                    location.reload()
+                }, 500)
+            }
         }
         if (resultSwitchUserRole?.isError) {
             notification.error({
@@ -47,8 +53,8 @@ export const SwitchBackToSubAdmin = ({
             onConfirm={onConfirmClicked}
             onCancel={onCancel}
             input
-            inputKey={"subAdmin"}
-            actionObject={"subAdmin"}
+            inputKey={'subAdmin'}
+            actionObject={'subAdmin'}
             loading={resultSwitchUserRole?.isLoading}
         />
     )

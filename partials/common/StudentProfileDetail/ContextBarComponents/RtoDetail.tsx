@@ -51,36 +51,44 @@ export const RtoDetail = ({ rto }: { rto: Rto }) => {
                     <Typography variant="small" semibold>
                         {rto?.user?.name}
                     </Typography>
-                    <HideRestrictedData type={UserRoles.STUDENT}>
-                        <Typography variant="xs" normal>
-                            {rto?.user?.email}
-                        </Typography>
-                    </HideRestrictedData>
+                    <AuthorizedUserComponent
+                        roles={[UserRoles.ADMIN, UserRoles.RTO]}
+                    >
+                        <HideRestrictedData type={UserRoles.STUDENT}>
+                            <Typography variant="xs" normal>
+                                {rto?.user?.email}
+                            </Typography>
+                        </HideRestrictedData>
+                    </AuthorizedUserComponent>
                 </div>
 
                 {/*  */}
-                <div className="grid grid-cols-2">
-                    <div>
-                        <Typography variant="xxs" color="text-[#979797]">
-                            RTO Phone Number
-                        </Typography>
-                        <HideRestrictedData type={UserRoles.STUDENT}>
-                            <Typography variant="xs" normal>
-                                {rto?.phone}
+                <AuthorizedUserComponent
+                    roles={[UserRoles.ADMIN, UserRoles.RTO]}
+                >
+                    <div className="grid grid-cols-2">
+                        <div>
+                            <Typography variant="xxs" color="text-[#979797]">
+                                RTO Phone Number
                             </Typography>
-                        </HideRestrictedData>
-                    </div>
-                    <div>
-                        <Typography variant="xxs" color="text-[#979797]">
-                            Contact Person Number
-                        </Typography>
-                        <HideRestrictedData type={UserRoles.STUDENT}>
-                            <Typography variant="xs" normal>
-                                {rto?.phone}
+                            <HideRestrictedData type={UserRoles.STUDENT}>
+                                <Typography variant="xs" normal>
+                                    {rto?.phone}
+                                </Typography>
+                            </HideRestrictedData>
+                        </div>
+                        <div>
+                            <Typography variant="xxs" color="text-[#979797]">
+                                Contact Person Number
                             </Typography>
-                        </HideRestrictedData>
+                            <HideRestrictedData type={UserRoles.STUDENT}>
+                                <Typography variant="xs" normal>
+                                    {rto?.phone}
+                                </Typography>
+                            </HideRestrictedData>
+                        </div>
                     </div>
-                </div>
+                </AuthorizedUserComponent>
             </div>
         </div>
     )
