@@ -82,20 +82,26 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
             },
         },
         {
-            text: 'Edit Profile',
-            Icon: RiEditFill,
-            onClick: () => {
-                router.push(
-                    role === UserRoles.ADMIN || subadmin?.data?.isAdmin
-                        ? `/portals/admin/student/edit-student/${profile?.id}`
-                        : role === UserRoles.SUBADMIN
-                        ? `/portals/sub-admin/students/${profile?.id}/edit-student`
-                        : role === UserRoles.RTO
-                        ? `/portals/rto/students/${profile?.id}/edit-student`
-                        : '#'
-                )
-            },
+            ...(!subadmin?.data?.isAdmin
+                ? {
+                      text: 'Edit Profile',
+                      Icon: RiEditFill,
+                      onClick: () => {
+                          router.push(
+                              role === UserRoles.ADMIN ||
+                                  subadmin?.data?.isAdmin
+                                  ? `/portals/admin/student/edit-student/${profile?.id}`
+                                  : role === UserRoles.SUBADMIN
+                                  ? `/portals/sub-admin/students/${profile?.id}/edit-student`
+                                  : role === UserRoles.RTO
+                                  ? `/portals/rto/students/${profile?.id}/edit-student`
+                                  : '#'
+                          )
+                      },
+                  }
+                : {}),
         },
+
         {
             text: profile?.isSnoozed ? 'Un-Snooze' : 'Snooze',
             Icon: MdSnooze,

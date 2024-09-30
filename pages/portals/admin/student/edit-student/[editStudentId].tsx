@@ -11,6 +11,8 @@ import {
     useUpdateStudentProfileMutation,
 } from '@queries'
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 const EditStudent: NextPageWithLayout = () => {
     const router = useRouter()
@@ -19,10 +21,13 @@ const EditStudent: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const { notification } = useNotification()
 
-    useEffect(() => {
-        router.back()
-    }, [])
+    const role = getUserCredentials()?.role
 
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: role !== UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+        // refetchOnFocus: true,
+    })
     const student = AdminApi.Students.useProfile(editStudentId, {
         skip: !editStudentId,
         refetchOnMountOrArgChange: true,
@@ -31,6 +36,12 @@ const EditStudent: NextPageWithLayout = () => {
         skip: !editStudentId,
         refetchOnMountOrArgChange: true,
     })
+
+    useEffect(() => {
+        if (subadmin?.data && subadmin?.data?.isAdmin) {
+            router.back()
+        }
+    }, [subadmin])
 
     const [updateProfile, updateProfileResult] =
         useUpdateStudentProfileMutation()
