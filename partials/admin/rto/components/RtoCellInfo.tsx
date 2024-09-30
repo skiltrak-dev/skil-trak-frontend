@@ -1,4 +1,8 @@
-import { HideRestrictedData, InitialAvatar } from '@components'
+import {
+    AuthorizedUserComponent,
+    HideRestrictedData,
+    InitialAvatar,
+} from '@components'
 import { UserRoles } from '@constants'
 import { Rto } from '@types'
 import { QueryType, queryToUrl } from '@utils'
@@ -30,14 +34,16 @@ export const RtoCellInfo = ({ rto, short }: { rto: Rto; short?: boolean }) => {
                         {rto?.user?.name}
                     </p>
                     <div className="font-medium text-xs text-gray-500">
-                        <HideRestrictedData type={UserRoles.RTO}>
-                            <p className="flex items-center gap-x-1">
-                                <span>
-                                    <MdEmail />
-                                </span>
-                                {rto?.user?.email}
-                            </p>
-                        </HideRestrictedData>
+                        <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                            <HideRestrictedData type={UserRoles.RTO}>
+                                <p className="flex items-center gap-x-1">
+                                    <span>
+                                        <MdEmail />
+                                    </span>
+                                    {rto?.user?.email}
+                                </p>
+                            </HideRestrictedData>
+                        </AuthorizedUserComponent>
 
                         <HideRestrictedData type={UserRoles.RTO}>
                             {!short && (

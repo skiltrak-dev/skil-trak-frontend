@@ -41,11 +41,16 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                             {profile?.user?.name} {profile?.familyName}
                         </span>
                     </Typography>
-                    <HideRestrictedData type={UserRoles.STUDENT}>
-                        <Typography variant="xs" color="text-[#6B7280]">
-                            {true ? '---' : profile?.user?.email}
-                        </Typography>
-                    </HideRestrictedData>
+
+                    <AuthorizedUserComponent
+                        roles={[UserRoles.ADMIN, UserRoles.RTO]}
+                    >
+                        <HideRestrictedData type={UserRoles.STUDENT}>
+                            <Typography variant="xs" color="text-[#6B7280]">
+                                {profile?.user?.email}
+                            </Typography>
+                        </HideRestrictedData>
+                    </AuthorizedUserComponent>
                 </div>
                 <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
                     <AssignToMeStudent student={profile} />
