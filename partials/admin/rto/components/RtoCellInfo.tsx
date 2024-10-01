@@ -34,16 +34,14 @@ export const RtoCellInfo = ({ rto, short }: { rto: Rto; short?: boolean }) => {
                         {rto?.user?.name}
                     </p>
                     <div className="font-medium text-xs text-gray-500">
-                        <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
-                            <HideRestrictedData type={UserRoles.RTO}>
-                                <p className="flex items-center gap-x-1">
-                                    <span>
-                                        <MdEmail />
-                                    </span>
-                                    {rto?.user?.email}
-                                </p>
-                            </HideRestrictedData>
-                        </AuthorizedUserComponent>
+                        <HideRestrictedData type={'canViewRtoList'}>
+                            <p className="flex items-center gap-x-1">
+                                <span>
+                                    <MdEmail />
+                                </span>
+                                {rto?.user?.email}
+                            </p>
+                        </HideRestrictedData>
 
                         <HideRestrictedData type={UserRoles.RTO}>
                             {!short && (
