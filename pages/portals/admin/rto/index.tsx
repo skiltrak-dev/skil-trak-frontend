@@ -9,6 +9,7 @@ import {
     TabNavigation,
     TabProps,
     TechnicalError,
+    useIsRestricted,
 } from '@components'
 import { useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
@@ -33,7 +34,7 @@ import { UserRoles } from '@constants'
 const filterKeys = ['name', 'email', 'code', 'status', 'courseId']
 
 const RtoList: NextPageWithLayout = () => {
-    const router = useRouter()
+    const canAccess = useIsRestricted('canViewRtoList')
 
     const navBar = useNavbar()
 
@@ -135,7 +136,7 @@ const RtoList: NextPageWithLayout = () => {
 
     const filteredDataLength = checkFilteredDataLength(filter)
 
-    if (role === UserRoles.SUBADMIN) {
+    if (!canAccess) {
         return (
             <>
                 <EmptyData

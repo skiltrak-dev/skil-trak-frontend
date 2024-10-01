@@ -23,6 +23,8 @@ export const useRestricted = (type: RestrictedDataTypes, isAdmin: boolean) => {
                 return 'canAddStudents'
             case 'canCreateInternalTicket':
                 return 'canCreateInternalTicket'
+            case 'canViewRtoList':
+                return 'canViewRtoList'
 
             default:
                 return null

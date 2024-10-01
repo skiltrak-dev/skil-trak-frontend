@@ -14,3 +14,4 @@ export type RestrictedDataTypes =
     | ReducedUserRoleType
     | 'canAddStudents'
     | 'canCreateInternalTicket'
+    | 'canViewRtoList'
