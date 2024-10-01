@@ -211,6 +211,7 @@ const {
     useSubscribeMutation,
 
     // ------ SUB ADMINS ------ //
+    useToggleCanViewRtoListMutation,
     useToggleCanAccessRTOProfileMutation,
     useToggleCanDownloadReportMutation,
     useToggleCanViewStudentDetailMutation,
@@ -370,6 +371,7 @@ export const AdminApi = {
 
     SubAdmins: {
         useListQuery: useSubAdminsQuery,
+        useCanViewRtoList: useToggleCanViewRtoListMutation,
         useAccessRtoProfile: useToggleCanAccessRTOProfileMutation,
         useCanDownloadReport: useToggleCanDownloadReportMutation,
         useCanViewStudentDetail: useToggleCanViewStudentDetailMutation,

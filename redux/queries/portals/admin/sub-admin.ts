@@ -310,4 +310,11 @@ export const subAdminEndpoints = (
         }),
         invalidatesTags: ['SubAdmins'],
     }),
+    toggleCanViewRtoList: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/subadmin/${id}/can-view-rto/list`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdmins'],
+    }),
 })
