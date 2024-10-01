@@ -10,4 +10,7 @@ type ReducedUserRoleType = Exclude<
     | UserRoles.SUBADMIN
 >
 
-export type RestrictedDataTypes = ReducedUserRoleType | 'canAddStudents'
+export type RestrictedDataTypes =
+    | ReducedUserRoleType
+    | 'canAddStudents'
+    | 'canCreateInternalTicket'

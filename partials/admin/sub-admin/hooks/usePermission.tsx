@@ -222,6 +222,17 @@ export const usePermission = () => {
         })
     }
 
+    const onCanCreateInternalTicketClicked = (subAdmin: SubAdmin) => {
+        queries.canToggleInternalTicket(subAdmin?.id).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: `Status Changed`,
+                    description: `subAdmin "${subAdmin?.user?.name}" Change Status For SubAdmins.`,
+                })
+            }
+        })
+    }
+
     return {
         results,
         Actions: {
@@ -243,6 +254,7 @@ export const usePermission = () => {
             onCanAccessBlogsClicked,
             onCanAccessSubAdminClicked,
             onCanAddStudentsClicked,
+            onCanCreateInternalTicketClicked,
         },
     }
 }
