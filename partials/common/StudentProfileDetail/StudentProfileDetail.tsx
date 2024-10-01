@@ -83,6 +83,7 @@ export const StudentProfileDetail = () => {
             contextBar.show(false)
             contextBar.setContent(<ProfileViewCB profile={profile?.data} />)
         }
+
         return () => {
             contextBar.hide()
             contextBar.setContent(null)
@@ -358,7 +359,8 @@ export const StudentProfileDetail = () => {
                         >
                             <ProfileAppointments
                                 link={
-                                    role === UserRoles.ADMIN
+                                    role === UserRoles.ADMIN ||
+                                    subadmin?.data?.isAdmin
                                         ? {
                                               pathname:
                                                   '/portals/admin/appointment-type/create-appointment',

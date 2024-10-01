@@ -303,4 +303,11 @@ export const subAdminEndpoints = (
         }),
         invalidatesTags: ['SubAdmins'],
     }),
+    toggleCanCreateInternalTicket: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/subadmin/${id}/can-create-internal/ticket`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdmins'],
+    }),
 })

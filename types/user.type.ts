@@ -175,6 +175,7 @@ export interface SubAdmin extends BaseResponse {
     canAccessSubadmin: boolean
     canAddStudents: boolean
     canViewAllStudents: boolean
+    canCreateInternalTicket: boolean
 }
 
 export interface Industry extends BaseResponse {

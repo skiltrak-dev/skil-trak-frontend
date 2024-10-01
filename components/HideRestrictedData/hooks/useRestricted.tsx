@@ -3,7 +3,7 @@ import { SubAdminApi } from '@queries'
 import { getUserCredentials } from '@utils'
 import { RestrictedDataTypes } from '../types'
 
-export const useRestricted = (type: RestrictedDataTypes) => {
+export const useRestricted = (type: RestrictedDataTypes, isAdmin: boolean) => {
     const role = getUserCredentials()?.role
 
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
@@ -21,6 +21,8 @@ export const useRestricted = (type: RestrictedDataTypes) => {
                 return 'canAccessRtoProfile'
             case 'canAddStudents':
                 return 'canAddStudents'
+            case 'canCreateInternalTicket':
+                return 'canCreateInternalTicket'
 
             default:
                 return null
@@ -29,7 +31,7 @@ export const useRestricted = (type: RestrictedDataTypes) => {
 
     const key = checkType()
 
-    if (role === UserRoles.SUBADMIN && subadmin?.data?.isAdmin) {
+    if (role === UserRoles.SUBADMIN && (!isAdmin || subadmin?.data?.isAdmin)) {
         const canAccess = key ? subadmin?.data?.[key] : false
         return canAccess
     }
