@@ -140,6 +140,13 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             isLoading: results?.resultCanToggleInternalTicket.isLoading,
             Icon: MdOutlineAssignmentReturn,
         },
+        {
+            text: 'Can View Rto List',
+            onClick: () => Actions.onCanViewRtoList(subadmin),
+            toggle: subadmin?.canViewRtoList,
+            isLoading: results?.resultCanToggleRtoList.isLoading,
+            Icon: MdOutlineAssignmentReturn,
+        },
     ]
 
     const responses = Object.values(results)
