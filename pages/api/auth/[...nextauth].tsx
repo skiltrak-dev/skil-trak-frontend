@@ -3,6 +3,8 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import { JWT } from 'next-auth/jwt'
 import axios from 'axios'
 import jwt from 'jwt-decode'
+import mem from 'mem'
+import { throttle } from 'lodash'
 
 interface User {
     id: string
@@ -22,6 +24,7 @@ interface Token {
 }
 
 const REFRESH_TOKEN_THRESHOLD = 60 // seconds
+const THROTTLE_INTERVAL = 30 * 1000
 
 const getUserCredentials = (access_token: string) => {
     try {
@@ -74,6 +77,16 @@ async function refreshAccessToken(token: JWT): Promise<JWT> {
         }
     }
 }
+
+const throttledRefreshAccessToken = throttle(
+    refreshAccessToken,
+    THROTTLE_INTERVAL
+)
+
+const memoizedRefreshAccessToken = mem(refreshAccessToken, {
+    maxAge: 30 * 1000, // Cache for 30 seconds
+    cacheKey: (args) => args[0].refreshToken, // Use the refreshToken as the cache key
+})
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -143,7 +156,7 @@ export const authOptions: NextAuthOptions = {
             }
 
             // Access token has expired, try to update it
-            const refreshToken = await refreshAccessToken(token)
+            const refreshToken = await memoizedRefreshAccessToken(token)
             console.log({ refreshToken })
             return refreshToken
         },
@@ -155,7 +168,7 @@ export const authOptions: NextAuthOptions = {
     },
     events: {
         async signOut({ token }) {
-            await refreshAccessToken(token)
+            await memoizedRefreshAccessToken(token)
         },
     },
     pages: {

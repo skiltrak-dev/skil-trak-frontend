@@ -133,6 +133,13 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             isLoading: results?.resultCanAddStudents.isLoading,
             Icon: MdOutlineAssignmentReturn,
         },
+        {
+            text: 'Can Create Internal Ticket',
+            onClick: () => Actions.onCanCreateInternalTicketClicked(subadmin),
+            toggle: subadmin?.canCreateInternalTicket,
+            isLoading: results?.resultCanToggleInternalTicket.isLoading,
+            Icon: MdOutlineAssignmentReturn,
+        },
     ]
 
     const responses = Object.values(results)

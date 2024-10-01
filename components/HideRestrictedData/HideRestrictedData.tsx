@@ -7,6 +7,4 @@ export const HideRestrictedData = ({
 }: {
     type: RestrictedDataTypes
     children: ReactNode
-}) => {
-    return useRestrictedData(children, type)
-}
+}) => useRestrictedData(children, type)
