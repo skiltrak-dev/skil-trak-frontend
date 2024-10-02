@@ -77,7 +77,7 @@ export const AddIndustryCB = ({
     return (
         <>
             <ShowErrorNotifications result={addExistingIndustryResult} />
-            <div
+            {/* <div
                 onClick={() => {
                     setIsAddCustomIndustry(!isAddCustomIndustry)
                 }}
@@ -88,7 +88,7 @@ export const AddIndustryCB = ({
                         ? 'Select From Existing'
                         : '+ Add Custom Industry'}
                 </Typography>
-            </div>
+            </div> */}
             {!isAddCustomIndustry ? (
                 <div className="flex flex-col gap-y-2">
                     <Select

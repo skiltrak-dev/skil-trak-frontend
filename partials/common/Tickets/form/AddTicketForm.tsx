@@ -8,6 +8,7 @@ import {
     Select,
     TextInput,
     inputEditorErrorMessage,
+    useIsRestricted,
 } from '@components'
 import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -19,7 +20,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { TicketCreator } from '../enum'
-import { UniqueIdSelect } from '../components'
 
 export enum ticketPriorityEnum {
     Low = 'low',
@@ -39,6 +39,9 @@ export const AddTicketForm = ({
     subadmins: any
 }) => {
     const sectorResponse = AuthApi.useSectors({})
+    const canAccess = useIsRestricted('canCreateInternalTicket', false)
+
+    console.log({ canAccesscanAccesscanAccesscanAccess: canAccess })
 
     const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
     const [selectedStudent, setSelectedStudent] = useState<number | null>(null)
@@ -67,7 +70,6 @@ export const AddTicketForm = ({
     const validationSchema = yup.object({
         assignedTo: yup.number().required('Must provide Assign To'),
         subject: yup.string().required('Must provide Subject'),
-        // message: yup.string().,
         message: yup
             .mixed()
             .test('Message', 'Must Provide Message', (value) =>
@@ -296,24 +298,32 @@ export const AddTicketForm = ({
                                 onlyValue
                             />
 
-                            <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
-                                {isInternal ? (
-                                    <Select
-                                        name={'uniqueId'}
-                                        placeholder={'Select Unique Id'}
-                                        options={uniqueIds}
-                                        onlyValue
-                                        showError={false}
-                                    />
+                            <AuthorizedUserComponent
+                                roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                            >
+                                {canAccess ? (
+                                    <>
+                                        {isInternal ? (
+                                            <Select
+                                                name={'uniqueId'}
+                                                placeholder={'Select Unique Id'}
+                                                options={uniqueIds}
+                                                onlyValue
+                                                showError={false}
+                                            />
+                                        ) : null}
+                                        <Checkbox
+                                            name={'isInternal'}
+                                            label={'Mark Ticket as Internal'}
+                                            showError={false}
+                                            onChange={(e: any) => {
+                                                setIsInternal(
+                                                    e?.target?.checked
+                                                )
+                                            }}
+                                        />
+                                    </>
                                 ) : null}
-                                <Checkbox
-                                    name={'isInternal'}
-                                    label={'Mark Ticket as Internal'}
-                                    showError={false}
-                                    onChange={(e: any) => {
-                                        setIsInternal(e?.target?.checked)
-                                    }}
-                                />
                             </AuthorizedUserComponent>
                         </div>
                         <TextInput

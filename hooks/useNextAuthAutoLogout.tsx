@@ -30,14 +30,11 @@ export const NextAuthAutoLogoutProvider = ({
 }: {
     children: ReactElement | ReactNode
 }) => {
-    const { data }: any = useSession()
     const router = useRouter()
-    const seconds = 1 * 30 * 1000
-    // const seconds = 25 * 60 * 1000
+    const seconds = 10 * 60 * 1000
+    const { data }: any = useSession()
     const [isUserActive, setIsUserActive] = useState(seconds)
     const [modal, setModal] = useState<ReactNode | null>(null)
-
-    console.log({ datadatadatadata: data })
 
     const [logoutActivity] = CommonApi.LogoutActivity.perFormAcivityOnLogout()
 
@@ -69,7 +66,7 @@ export const NextAuthAutoLogoutProvider = ({
         let time: any = null
 
         if (!!data?.accessToken) {
-            const intervalTime = 1.1 * 1000
+            const intervalTime = 5 * 1000
 
             if (isUserActive > 0) {
                 time = setInterval(() => {

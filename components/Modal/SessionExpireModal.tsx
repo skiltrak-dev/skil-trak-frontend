@@ -1,12 +1,11 @@
-import React from 'react'
-import { Modal } from './Modal'
-import { useRouter } from 'next/router'
-import { AuthUtils, isBrowser } from '@utils'
-import { AiFillWarning } from 'react-icons/ai'
-import { CommonApi } from '@queries'
-import { LogoutType } from '@hooks'
 import { Portal } from '@components/Portal'
-import { UserRoles } from '@constants'
+import { LogoutType } from '@hooks'
+import { CommonApi } from '@queries'
+import { AuthUtils, isBrowser } from '@utils'
+import { signOut } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { AiFillWarning } from 'react-icons/ai'
+import { Modal } from './Modal'
 
 export const SessionExpireModal = ({ onCancel }: { onCancel: () => void }) => {
     const router = useRouter()
@@ -29,7 +28,21 @@ export const SessionExpireModal = ({ onCancel }: { onCancel: () => void }) => {
                         // } else {
                         //     AuthUtils.logout(router)
                         // }
-                        AuthUtils.logout(router)
+                        // AuthUtils.logout(router)
+
+                        const isManagementPath = router?.pathname?.startsWith(
+                            '/portals/management'
+                        )
+
+                        await signOut({
+                            redirect: true,
+                            callbackUrl: isManagementPath
+                                ? 'auth/management-login-auth'
+                                : '/auth/login-auth',
+                        })
+
+                        console.log({ isManagementPath })
+
                         if (isBrowser()) {
                             localStorage.setItem(
                                 'autoLogoutPath',

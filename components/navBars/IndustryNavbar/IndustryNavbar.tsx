@@ -24,7 +24,11 @@ const Routes = {
     Schedule: `${PREFIX}/tasks/add-a-schedule`,
 }
 
-export const IndustryNavbar = () => {
+export const IndustryNavbar = ({
+    pendingDocumentsCount,
+}: {
+    pendingDocumentsCount: number
+}) => {
     const router = useRouter()
     const talentPoolProfileCount =
         IndustryApi.TalentPool.useTalentPoolProfileCount()
@@ -87,6 +91,7 @@ export const IndustryNavbar = () => {
             Icon: FaFileSignature,
             activeClasses: 'text-slate-700',
             inActiveClasses: 'hover:bg-green-100 hover:text-green-700',
+            count: pendingDocumentsCount,
         },
         {
             link: Routes.Schedule,

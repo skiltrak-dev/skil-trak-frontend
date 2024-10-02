@@ -81,21 +81,21 @@ export const getRefreshTokenFromSession = () => {
 const token = () => getToken() || getTokenFromSession()
 const refreshToken = () => getRefreshToken() || getRefreshTokenFromSession()
 export const getUserCredentials: any = () => {
-    // updateSessionData()
-    const tokenData = token()
-    // const tokenData = sessionData
+    updateSessionData()
+    // const tokenData = token()
+    const tokenData = sessionData
     if (tokenData) {
-        // return tokenData
-        return jwt(tokenData)
+        return tokenData
+        // return jwt(tokenData)
     }
     return null
 }
 
 export const isAuthenticated = () => {
-    // updateSessionData()
-    // return !!sessionData?.accessToken
-    const tokenData = token()
-    return tokenData !== null
+    updateSessionData()
+    return !!sessionData?.accessToken
+    // const tokenData = token()
+    // return tokenData !== null
 }
 
 export const logout = (router?: any) => {

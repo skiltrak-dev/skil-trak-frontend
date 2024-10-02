@@ -234,7 +234,11 @@ export const IndustryLayout = ({
                     {modal && modal}
                     <div className="md:px-8 px-2 mb-24">
                         <div className="mb-3">
-                            <IndustryNavbar />
+                            <IndustryNavbar
+                                pendingDocumentsCount={
+                                    pendingDocuments?.data?.length
+                                }
+                            />
                             <DisplayAlerts />
                         </div>
                         {pageTitle && pageTitle.title && (

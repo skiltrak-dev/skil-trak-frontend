@@ -176,7 +176,7 @@ export const StudentCellInfo = ({
                                 <FaEnvelope />
                             </span>
                             <p className="text-gray-500">
-                                {true ? '---' : student?.user?.email}
+                                {false ? '---' : student?.user?.email}
                             </p>
                         </div>
                         <div className="flex items-center gap-x-2 text-sm">

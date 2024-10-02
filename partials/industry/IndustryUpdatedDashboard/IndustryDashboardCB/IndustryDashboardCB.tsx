@@ -12,10 +12,8 @@ export const IndustryDashboardCB = ({ industry }: { industry: Industry }) => {
             <div className="shadow-profiles rounded-md border border-[#6B7280] bg-white p-2.5">
                 <UpdatedCourseList sectorsWithCourses={sectorsWithCourses} />
             </div>
-
-            <ApplyForRPL short />
-
             <IndustryDashboardAppointments />
+            <ApplyForRPL short />
         </div>
     )
 }
