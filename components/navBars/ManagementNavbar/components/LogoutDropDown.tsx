@@ -1,12 +1,10 @@
-import Image from 'next/image'
-import { LogoutAvatar } from './LogoutAvatar'
 import { Typography } from '@components/Typography'
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 import { CommonApi, managementApi } from '@queries'
 import { AuthUtils, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 import { useDispatch } from 'react-redux'
-import { signOut } from 'next-auth/react'
+import { LogoutAvatar } from './LogoutAvatar'
 export const LogoutDropDown = ({ isExpanded, setIsExpanded }: any) => {
     const router = useRouter()
     const [logoutActivity] = CommonApi.LogoutActivity.perFormAcivityOnLogout()
@@ -41,11 +39,11 @@ export const LogoutDropDown = ({ isExpanded, setIsExpanded }: any) => {
                         if (AuthUtils.getToken()) {
                             await logoutActivity({})
                         }
-                        await signOut({
-                            redirect: true,
-                            callbackUrl: '/auth/management-login-auth',
-                        })
-                        // AuthUtils.managerLogout(router)
+                        // await signOut({
+                        //     redirect: true,
+                        //     callbackUrl: '/auth/management-login-auth',
+                        // })
+                        AuthUtils.managerLogout(router)
                         dispatch(managementApi.util.resetApiState())
                     }}
                     className="text-sm text-slate-700 text-center font-medium hover:bg-primaryNew hover:text-white px-6 rounded-md py-2 transition-all "
