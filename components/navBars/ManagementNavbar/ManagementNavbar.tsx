@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 // import { linksData } from './linksData'
 import { getUserCredentials } from '@utils'
+import { useSession } from 'next-auth/react'
 
 type ManagementNavbarProps = {
     // handleTabChange: any
@@ -20,8 +21,9 @@ export const ManagementNavbar = ({
     setIsExpanded,
     isExpanded,
 }: ManagementNavbarProps) => {
-    const router = useRouter()
-    const user = getUserCredentials()
+    const {
+        data: { role },
+    }: any = useSession()
     const linksData = [
         {
             href: '/portals/management/dashboard',
@@ -30,19 +32,19 @@ export const ManagementNavbar = ({
                 '/portals/management/dashboard',
                 '/portals/management/dashboard/[id]',
             ],
-            visible: user?.role !== 'marketing',
+            visible: role !== 'marketing',
         },
         {
             href: '/portals/management/student-list',
             label: 'Student List',
             activePaths: ['/portals/management/student-list'],
-            visible: user?.role !== 'marketing',
+            visible: role !== 'marketing',
         },
         {
             href: '/portals/management/blogs?tab=published&page=1&pageSize=50',
             label: 'Blogs',
             activePaths: ['/portals/management/blogs'],
-            visible: user?.role === 'marketing',
+            visible: role === 'marketing',
         },
         // Add more links as needed
     ]

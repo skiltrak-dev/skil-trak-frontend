@@ -1,6 +1,4 @@
-import { Card } from '@components/cards'
 import { Typography } from '@components/Typography'
-import React, { useEffect } from 'react'
 import { ESignTitleCard } from '../components'
 
 type Props = {

@@ -217,12 +217,12 @@ export const IndustryDashboardStudents = () => {
                 <div className="relative">
                     <div
                         className={
-                            'group flex justify-center items-end absolute top-0 left-0 w-full h-full z-20 bg-gradient-black-to-white'
+                            'group flex justify-center items- absolute top-0 left-0 w-full h-full z-20 bg-gradient-black-to-white'
                         }
                     >
                         <div
                             className={
-                                'transition-all mb-7 hidden group-hover:block'
+                                'transition-all mt-5 hidden group-hover:block'
                             }
                         >
                             <Button

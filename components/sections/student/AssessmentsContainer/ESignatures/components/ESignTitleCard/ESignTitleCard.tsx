@@ -1,4 +1,5 @@
 import { Typography } from '@components/Typography'
+import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
 import React from 'react'
 import { FaFileSignature } from 'react-icons/fa'
@@ -17,6 +18,10 @@ export const ESignTitleCard = ({
 
     const { status } =
         doc?.signers?.find((d: any) => d?.user?.role === role) || {}
+
+    const student = selectedFolder?.signers?.find(
+        (s: any) => s?.user?.role === UserRoles?.STUDENT
+    )?.user?.name
     return (
         <div
             onClick={() => {
@@ -31,12 +36,17 @@ export const ESignTitleCard = ({
                     <div>
                         <FaFileSignature className="text-orange-400" />
                     </div>
-                    <div>
-                        <Typography variant="label">
-                            <span className="cursor-pointer">
+                    <div className="flex flex-col">
+                        <div>
+                            <Typography variant="small">
                                 {doc?.template?.name}
-                            </span>
-                        </Typography>
+                            </Typography>
+                        </div>
+                        <div>
+                            <Typography variant="label" block medium>
+                                {student}
+                            </Typography>
+                        </div>
                     </div>
                 </div>
                 <div

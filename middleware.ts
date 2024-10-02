@@ -11,8 +11,7 @@ const protectedRoutes: Record<string, UserRoles[]> = {
     '/portals/student': [UserRoles.STUDENT],
     '/portals/industry': [UserRoles.INDUSTRY],
     '/portals/sub-admin': [UserRoles.SUBADMIN],
-    '/portals/management': [UserRoles.MANAGER],
-    '/portals/marketing': [UserRoles.MARKETING],
+    '/portals/management': [UserRoles.MANAGER, UserRoles.MARKETING],
 }
 
 async function checkSubadminStatus(token: string): Promise<boolean> {
@@ -46,6 +45,8 @@ export async function middleware(request: NextRequest) {
     })
     const userRole: UserRoles = user?.role as UserRoles
 
+    console.log({ userRole })
+
     // Check if the path starts with '/portals/'
     if (path.startsWith('/portals/')) {
         if (!user) {
@@ -66,6 +67,8 @@ export async function middleware(request: NextRequest) {
             path.startsWith(route)
         )
 
+        console.log({ matchingRoute })
+
         if (matchingRoute) {
             if (userRole === UserRoles.SUBADMIN) {
                 if (isSubadminAdmin) {
@@ -84,6 +87,28 @@ export async function middleware(request: NextRequest) {
                             new URL('/portals/sub-admin', request.url)
                         )
                     }
+                }
+            } else if (userRole === UserRoles.MARKETING) {
+                if (path.startsWith('/portals/management/blogs')) {
+                    return NextResponse.next()
+                } else {
+                    return NextResponse.redirect(
+                        new URL(
+                            `/portals/management/blogs?tab=published&page=1&pageSize=50`,
+                            request.url
+                        )
+                    )
+                }
+            } else if (userRole === UserRoles.MANAGER) {
+                if (
+                    path.startsWith('/portals/management') &&
+                    !path.startsWith('/portals/management/blogs')
+                ) {
+                    return NextResponse.next()
+                } else {
+                    return NextResponse.redirect(
+                        new URL(`/portals/management/dashboard`, request.url)
+                    )
                 }
             } else {
                 // For other roles, check if the user's role is allowed for this route

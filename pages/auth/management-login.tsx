@@ -20,6 +20,10 @@ const Login: NextPage = () => {
 
     const [rememberLogin, setRememberLogin] = useState<boolean>(false)
 
+    useEffect(() => {
+        router?.push('/auth/management-login-auth')
+    }, [router])
+
     const nextDestination = (role: string) => {
         if (role === UserRoles.MANAGER) {
             router.push('/portals/management/dashboard') // Assuming '/portals/manager' is the correct destination

@@ -108,12 +108,12 @@ export const IndustryCellInfo = ({
                         )} */}
                     </div>
                     <div className="font-medium text-xs text-gray-500">
-                        <p className="flex items-center gap-x-1">
+                        {/* <p className="flex items-center gap-x-1">
                             <span>
                                 <MdEmail />
                             </span>
                             {industry?.user?.email}
-                        </p>
+                        </p> */}
                         <p className="flex items-center gap-x-1">
                             <span>
                                 <MdPhoneIphone />
