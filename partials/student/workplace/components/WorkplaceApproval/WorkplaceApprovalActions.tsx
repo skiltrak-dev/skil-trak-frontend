@@ -1,8 +1,6 @@
-import React, { ReactElement, useState } from 'react'
-import { SubAdminApi } from '@queries'
-import { WPApprovalStatus } from './enum'
+import { Button } from '@components'
 import { useNotification } from '@hooks'
-import { Button, ShowErrorNotifications } from '@components'
+import { ReactElement, useState } from 'react'
 import { WorkplaceApprovalDeclaration, WorkplaceRejectedModal } from './modal'
 
 export const WorkplaceApprovalActions = ({
@@ -41,7 +39,16 @@ export const WorkplaceApprovalActions = ({
     const onRejectedClicked = () => {
         setModal(
             <WorkplaceRejectedModal
-                onCancel={onCancelModal}
+                onCancel={(val?: boolean) => {
+                    if (val) {
+                        onCancelModal()
+                        if (onCancel) {
+                            onCancel()
+                        }
+                    } else {
+                        onCancelModal()
+                    }
+                }}
                 wpApprovalId={wpApprovalId}
             />
         )

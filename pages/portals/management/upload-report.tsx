@@ -1,18 +1,8 @@
-import { ReactElement, useEffect, useState } from 'react'
-import { AdminLayout, ManagementLayout } from '@layouts'
+import { ManagementNavbar } from '@components'
+import { UploadReportKpiForm } from '@partials/management'
 import { NextPageWithLayout } from '@types'
-import { ManagementNavbar, ManagementSideBar, Typography } from '@components'
-import {
-    ManagementStudentList,
-    SubAdminKpiForm,
-    TeamSelectionTab,
-    UploadReportKpiForm,
-} from '@partials/management'
 import { useRouter } from 'next/router'
-import {
-    SourcingSidebarTab,
-    SubAdminSidebarTab,
-} from '@components/sideBars/SideBar/components'
+import { useState } from 'react'
 
 type TabOption = 'subadmin' | 'sourcing'
 const UploadReport: NextPageWithLayout = () => {

@@ -15,7 +15,11 @@ import {
 import { SearchedUserCard } from './SearchedUserCard'
 
 // query
-import { useSearchSubAdminUsersQuery, useSearchUserQuery } from '@queries'
+import {
+    SubAdminApi,
+    useSearchSubAdminUsersQuery,
+    useSearchUserQuery,
+} from '@queries'
 import { getUserCredentials } from '@utils'
 import { RequiredStar } from '@components/inputs/components'
 import { UserRoles } from '@constants'
@@ -46,6 +50,10 @@ export const SearchUserCard = ({
 
     const role = getUserCredentials()?.role
 
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: role !== UserRoles.SUBADMIN,
+    })
+
     const subAdminUsers = useSearchSubAdminUsersQuery(
         {
             search,
@@ -56,7 +64,11 @@ export const SearchUserCard = ({
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         },
-        { skip: !search || role === 'admin' }
+        {
+            skip:
+                !search ||
+                (role === UserRoles.ADMIN && subadmin?.data?.isAdmin),
+        }
     )
     const adminUsers = useSearchUserQuery(
         {
@@ -68,7 +80,11 @@ export const SearchUserCard = ({
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         },
-        { skip: !search || role === 'subadmin' }
+        {
+            skip:
+                !search ||
+                (role === UserRoles.SUBADMIN && !subadmin?.data?.isAdmin),
+        }
     )
 
     useEffect(() => {

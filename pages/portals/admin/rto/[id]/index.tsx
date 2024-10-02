@@ -26,17 +26,6 @@ const RtoProfile = () => {
         skip: !router.query?.id,
         refetchOnMountOrArgChange: true,
     })
-    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
-        skip: role !== UserRoles.SUBADMIN,
-        refetchOnMountOrArgChange: true,
-        // refetchOnFocus: true,
-    })
-
-    useEffect(() => {
-        if (subadmin?.data && subadmin?.data?.isAdmin) {
-            router?.back()
-        }
-    }, [subadmin])
 
     useEffect(() => {
         navBar.setTitle('RTO Detail')

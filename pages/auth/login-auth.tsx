@@ -68,6 +68,18 @@ const Login: NextPage = () => {
                     ? router.push(autoLogoutUrl.url as URL)
                     : router.push('/portals/sub-admin')
                 break
+            case UserRoles.MARKETING:
+                chkRoleAndUrl(role)
+                    ? router.push(autoLogoutUrl.url as URL)
+                    : router.push(
+                          '/portals/management/blogs?tab=published&page=1&pageSize=50'
+                      )
+                break
+            case UserRoles.MANAGER:
+                chkRoleAndUrl(role)
+                    ? router.push(autoLogoutUrl.url as URL)
+                    : router.push('/portals/management/dashboard')
+                break
         }
     }
 
