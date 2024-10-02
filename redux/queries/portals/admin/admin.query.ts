@@ -1,3 +1,4 @@
+import { RemoveCoordinator } from './../../../../partials/rto/student/modals/RemoveCoordinator'
 import { talentPoolEndpoints } from './talentPool'
 import { courseEndpoints } from './course'
 import { industryEndpoints } from './industry'
@@ -18,7 +19,7 @@ import { subscriberEndpoints } from './subscribers'
 import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
 import { blogsEndpoints } from './blogs'
-
+import { departmentEndpoints } from './department'
 const PREFIX = 'admin'
 
 export const adminApi = emptySplitApi.injectEndpoints({
@@ -78,6 +79,7 @@ export const adminApi = emptySplitApi.injectEndpoints({
         ...industryRplEndpoints(build),
         ...appointmentTypeEndpoints(build),
         ...talentPoolEndpoints(build),
+        ...departmentEndpoints(build),
     }),
     // overrideExisting: false,
 })
@@ -109,6 +111,28 @@ const {
     useDeleteBlogCategoryMutation,
     useGetCategoriesQuery,
     useGetBlogsCountQuery,
+
+    // Departments
+    useGetDepartmentCoordinatorsQuery,
+    useAddDepartmentMutation,
+    useGetDepartmentsQuery,
+    useGetDepartmentDetailsQuery,
+    useGetDeptCoordinatorsListQuery,
+    useGetDeptCoordinatorsDropdownListQuery,
+    useToggleHodMutation,
+    useChangeHodMutation,
+    useRemoveDepartmentCoordinatorMutation,
+    useAddDepartmentMembersMutation,
+    useGetDepartmentCountsQuery,
+    useGetDepartmentChartStatsQuery,
+    useDepartmentCoursesQuery,
+    useGetDepartmentStudentsForMapQuery,
+    useGetDepartmentIndustriesForMapQuery,
+    useGetDepartmentFutureIndustriesForMapQuery,
+    useGetStudentsSuburbsForMapQuery,
+    useDeleteDepartmentMutation,
+    useGetDeptStudentsListQuery,
+    useGetDepartmentSectorsQuery,
 
     // ------ RTO ------ //
     useRtoCountQuery,
@@ -315,6 +339,30 @@ export const AdminApi = {
         useAllowRtoListing: useAllowRtoListingMutation,
         allowIndustryListing: useAllowIndustryListingMutation,
         useDashboardChartCounts: useGetDashboardChartCountsQuery,
+    },
+    Department: {
+        useDepartmentCoordinators: useGetDepartmentCoordinatorsQuery,
+        useAddDepartment: useAddDepartmentMutation,
+        useDepartments: useGetDepartmentsQuery,
+        useDepartmentDetails: useGetDepartmentDetailsQuery,
+        useDeptCoordinatorsList: useGetDeptCoordinatorsListQuery,
+        useDeptCoordinatorsDropdownList:
+            useGetDeptCoordinatorsDropdownListQuery,
+        useToggleHod: useToggleHodMutation,
+        useChangeHod: useChangeHodMutation,
+        useRemoveDepartmentCoordinator: useRemoveDepartmentCoordinatorMutation,
+        useAddDepartmentMembers: useAddDepartmentMembersMutation,
+        useDepartmentCounts: useGetDepartmentCountsQuery,
+        useDepartmentChartStats: useGetDepartmentChartStatsQuery,
+        useDepartmentCourses: useDepartmentCoursesQuery,
+        useDepartmentStudentsForMap: useGetDepartmentStudentsForMapQuery,
+        useDepartmentIndustriesForMap: useGetDepartmentIndustriesForMapQuery,
+        useDepartmentFutureIndustriesForMap:
+            useGetDepartmentFutureIndustriesForMapQuery,
+        useStudentsSuburbsForMap: useGetStudentsSuburbsForMapQuery,
+        useDeleteDepartment: useDeleteDepartmentMutation,
+        useDeptStudentsList: useGetDeptStudentsListQuery,
+        useDepartmentSectors: useGetDepartmentSectorsQuery,
     },
     Rtos: {
         useCountQuery: useRtoCountQuery,

@@ -1,0 +1,194 @@
+import {
+    AuthorizedUserComponent,
+    Button,
+    Card,
+    GlobalModal,
+    Typography,
+} from '@components'
+import { UserRoles } from '@constants'
+import { ProfileActions } from '@partials/admin/sub-admin/SubadminProfileDetail/components/ProfileDetail/ProfileActions'
+import { ProfileCard } from '@partials/admin/sub-admin/SubadminProfileDetail/components/ProfileDetail/ProfileCard'
+import { ProfileLinks } from '@partials/admin/sub-admin/SubadminProfileDetail/components/ProfileDetail/ProfileLinks'
+
+import { SubAdmin } from '@types'
+import { BsPatchCheckFill } from 'react-icons/bs'
+import { AdminApi } from '@queries'
+import { useRouter } from 'next/router'
+import { DepartmentCounts } from './DepartmentCounts'
+import { ProgressChart } from '@partials/sub-admin/components'
+import { ReactElement, useState } from 'react'
+import { AllowPermissionModal } from '@partials/admin/sub-admin/modals'
+import { MarkAsHodModalVII } from '../modal/MarkAsHodModalVII'
+import { getUserCredentials } from '@utils'
+import { AddCoordinatorModal } from '../modal'
+
+export const HodProfileDetail = ({ subadmin }: any) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
+    const router = useRouter()
+    const id = router.query.id
+
+    const chartCounts = AdminApi.Department.useDepartmentChartStats(id, {
+        skip: !id,
+    })
+    const mapApiDataToChartData = (apiData: any) => {
+        if (!apiData) {
+            return []
+        }
+
+        const colorPalette = [
+            '#34B53A',
+            '#4339F2',
+            '#FF3A29',
+            '#02A0FC',
+            '#21516A',
+        ]
+
+        // Explicitly map only the require d keys to their titles
+        const mapping = [
+            { key: 'placementStarted', title: 'Placement Started' },
+            { key: 'inProcess', title: 'In Progress' },
+            { key: 'awaitingAgreementSigned', title: 'Agreement Pending' },
+            { key: 'appointmentBooked', title: 'Appointment' },
+            { key: 'dontHaveWorkplace', title: `Don't Have Workplace` },
+        ]
+        const total = mapping.reduce(
+            (sum, item) => sum + (apiData[item.key] ?? 0),
+            0
+        )
+
+        return mapping.map((item, index) => ({
+            title: item?.title,
+            percent: ((apiData[item?.key] ?? 0) / total) * 100,
+            color: colorPalette[index],
+        }))
+    }
+    const data = mapApiDataToChartData(chartCounts?.data)
+
+    const coordinators = AdminApi.Department.useDeptCoordinatorsDropdownList(
+        id,
+        { skip: !id }
+    )
+
+    const onModalCancelClicked = () => {
+        setModal(null)
+    }
+    const onAllowPermissionClicked = () => {
+        setModal(
+            <AllowPermissionModal
+                subadmin={subadmin}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+    const onChangeHod = () => {
+        setModal(
+            <GlobalModal>
+                <MarkAsHodModalVII
+                    data={coordinators?.data}
+                    onCancel={onModalCancelClicked}
+                />
+            </GlobalModal>
+        )
+    }
+    const onAddMembers = () => {
+        setModal(
+            <GlobalModal>
+                <AddCoordinatorModal onCancel={onModalCancelClicked} />
+            </GlobalModal>
+        )
+    }
+    const role = getUserCredentials()?.role
+    const checkIsAdmin = role === UserRoles.ADMIN
+    return (
+        <>
+            {modal && modal}
+            <Card shadowType="profile" fullHeight>
+                <div className="relative w-full">
+                    {/* <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                        <div className="absolute right-0">
+                            <ProfileLinks subadmin={subadmin} />
+                        </div>
+                    </AuthorizedUserComponent> */}
+
+                    {/*  */}
+                    <div className="w-full flex justify-between items-center gap-x-10 px-4 py-2">
+                        <div className="flex items-center  gap-x-5">
+                            <img
+                                className="w-24 h-24  p-1"
+                                src={
+                                    subadmin?.user?.avatar ||
+                                    '/images/avatar.png'
+                                }
+                                alt="RTO Logo"
+                            />
+                            <div>
+                                <Typography variant={'title'}>
+                                    {subadmin?.user?.name}
+                                </Typography>
+                                <div className="flex items-center gap-x-2">
+                                    <Typography
+                                        center
+                                        variant={'label'}
+                                        color={'text-gray-500'}
+                                    >
+                                        {subadmin?.user?.email}
+                                    </Typography>
+                                    <BsPatchCheckFill className="text-link" />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex flex-col w-1/3 gap-y-2 mt-2">
+                            <ProfileCard
+                                title="Sub-Admin Id"
+                                detail={subadmin?.coordinatorId}
+                            />
+                            <ProfileCard
+                                title="Phone"
+                                detail={subadmin?.phone}
+                            />
+                            {/* <ProfileCard
+                            title="Address"
+                            detail={subadmin?.addressLine1}
+                        /> */}
+                        </div>
+                        {checkIsAdmin && (
+                            <div className=" flex items-center gap-x-2 whitespace-nowrap">
+                                <Button
+                                    text={'Permissions'}
+                                    onClick={onAllowPermissionClicked}
+                                />
+                                <Button
+                                    text={'Change HOD'}
+                                    variant="info"
+                                    onClick={onChangeHod}
+                                />
+                                <Button
+                                    text={'Add Member'}
+                                    variant="success"
+                                    outline
+                                    onClick={onAddMembers}
+                                />
+                            </div>
+                        )}
+                    </div>
+
+                    {/* <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                        <div className="mt-3">
+                            <ProfileActions subadmin={subadmin} />
+                        </div>
+                    </AuthorizedUserComponent> */}
+                </div>
+            </Card>
+            <div className="flex gap-x-5 w-full mt-10">
+                <div className="w-1/2">
+                    <DepartmentCounts />
+                </div>
+                <div className="w-1/2">
+                    <Card>
+                        <ProgressChart data={data} />
+                    </Card>
+                </div>
+            </div>
+        </>
+    )
+}

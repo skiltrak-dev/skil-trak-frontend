@@ -25,10 +25,10 @@ export const SubAdminCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                 className="flex items-center gap-x-2"
             >
                 <div className="shadow-inner-image rounded-full relative">
-                    {subAdmin.user.name && (
+                    {subAdmin?.user?.name && (
                         <InitialAvatar
-                            name={subAdmin.user.name}
-                            imageUrl={subAdmin.user?.avatar}
+                            name={subAdmin?.user.name}
+                            imageUrl={subAdmin?.user?.avatar}
                         />
                     )}
                 </div>

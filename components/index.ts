@@ -103,3 +103,5 @@ export * from './avatars'
 export * from './StudentTimer'
 
 export * from './PaymentModal'
+
+export * from './Skeleton'
