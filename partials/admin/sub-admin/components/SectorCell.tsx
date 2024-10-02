@@ -23,14 +23,14 @@ export const SectorCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                     <span className="whitespace-pre">View / Edit</span>
                 </ActionButton>
                 <div className="flex flex-wrap justify-center gap-1">
-                    {subAdmin.courses.map((c: Course) => (
-                        <div className="relative group" key={c.id}>
+                    {subAdmin?.courses?.map((c: Course) => (
+                        <div className="relative group" key={c?.id}>
                             <div className="w-[9px] h-[9px] rounded-full bg-gray-400 cursor-pointer"></div>
                             <div className="bg-white p-2 rounded-xl shadow-xl z-20 absolute whitespace-nowrap hidden group-hover:block">
                                 <p className="text-xs font-medium text-gray-400">
-                                    {c.sector.name}
+                                    {c?.sector?.name}
                                 </p>
-                                <p>{c.title}</p>
+                                <p>{c?.title}</p>
                             </div>
                         </div>
                     ))}

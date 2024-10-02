@@ -85,6 +85,47 @@ export const AllStudents = () => {
                 refetchOnMountOrArgChange: true,
             }
         )
+    const sevenDaysAgo = new Date()
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
+    // const hasMatchingIndustry = data?.data?.map((student: any) => {
+    //     return (
+    //         student &&
+    //         student?.workplace?.filter((workplace: any) =>
+    //             workplace?.industries?.filter((industry: any) => {
+    //                 const awaitingAgreementSignedDate = new Date(
+    //                     industry?.awaitingAgreementSignedDate
+    //                 )
+    //                 const isMoreThanSevenDays =
+    //                     awaitingAgreementSignedDate <= sevenDaysAgo
+    //                 const isAwaitingAgreementSigned =
+    //                     industry?.awaitingAgreementSigned
+    //                 const agreementSigned = !industry?.AgreementSigned
+    //                 const isAgreementNotSigned =
+    //                     industry?.AgreementSignedDate === null
+
+    //                 return {
+    //                     isMatching:
+    //                         industry?.applied &&
+    //                         isAwaitingAgreementSigned &&
+    //                         isAgreementNotSigned &&
+    //                         agreementSigned &&
+    //                         isMoreThanSevenDays,
+    //                     id: student?.id,
+    //                 }
+    //             })
+    //         )
+    //     )
+    // })
+    // const industryIds = hasMatchingIndustry?.flat(1).map((item: any) => item)
+
+
+    const findWorkplaces = data?.data.filter(
+        (student: any) => student?.workplace?.length
+    )
+    // .filter((workplace: any) => workplace?.industries?.length)
+    const hasMatchingIndustry = findWorkplaces?.filter(
+        (workplace: any) => workplace?.industries?.length
+    )
 
     // ================= Blinking/Flashing rows of students ================
     const findCallLogsUnanswered = data?.data?.filter((student: any) => {

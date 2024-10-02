@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 
-import { CommonApi } from '@queries'
+import { CommonApi, SubAdminApi } from '@queries'
 import {
     FaClipboardList,
     FaFileSignature,
@@ -10,6 +10,7 @@ import { HiDocumentReport, HiUsers } from 'react-icons/hi'
 import { IoMdSettings } from 'react-icons/io'
 import { MdEmail, MdSpaceDashboard } from 'react-icons/md'
 import { NavLinkItem } from '../NavLinkItem'
+import { useEffect } from 'react'
 
 const PREFIX = '/portals/sub-admin'
 const Routes = {
@@ -26,10 +27,13 @@ const Routes = {
     ESign: `${PREFIX}/e-sign?tab=all`,
     VolunteerRequest: `${PREFIX}/volunteer-requests?tab=pending`,
     TalentPool: `${PREFIX}/talent-pool`,
+    CoordinatorsList: `${PREFIX}/coordinators`,
 }
 
 export const SubAdminNavbar = () => {
     const router = useRouter()
+    const subadmin = SubAdminApi.SubAdmin.useProfile()
+    const checkIsHod = subadmin?.data?.departmentMember?.isHod
 
     const pendingDocsCount = CommonApi.ESign.pendingDocsCount(undefined, {
         refetchOnMountOrArgChange: true,
@@ -87,6 +91,17 @@ export const SubAdminNavbar = () => {
             inActiveClasses: 'text-slate-700',
             count: pendingDocsCount?.data,
         },
+        ...(checkIsHod
+            ? [
+                  {
+                      link: Routes.CoordinatorsList,
+                      text: 'Coordinators',
+                      Icon: FaFileSignature,
+                      activeClasses: 'bg-green-100 text-green-700',
+                      inActiveClasses: 'text-slate-700',
+                  },
+              ]
+            : []),
     ]
 
     const additionalMenuItems = [
@@ -106,9 +121,19 @@ export const SubAdminNavbar = () => {
         },
     ]
 
+    useEffect(() => {
+        if (
+            !checkIsHod &&
+            (router.pathname === '/portals/sub-admin/coordinators' ||
+                router.pathname === '/portals/sub-admin/coordinators/[id]')
+        ) {
+            router.replace('/portals/sub-admin') // Redirect to Dashboard or any other page
+        }
+    }, [router.pathname])
+
     return (
         <div className="flex justify-between items-center">
-            <ul className="flex gap-x-2 py-4 w-[780px] overflow-auto custom-scrollbar">
+            <ul className="flex gap-x-2 py-4 w-[900px] overflow-auto custom-scrollbar">
                 {navBarData.map((nav, i) => (
                     <NavLinkItem key={i} nav={nav} PREFIX={PREFIX} />
                 ))}

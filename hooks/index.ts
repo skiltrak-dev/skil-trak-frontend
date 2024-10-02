@@ -20,3 +20,5 @@ export * from './useDownloadAssessment'
 export * from './useHeaderWrapperTitle'
 export * from './useNextAuthAutoLogout'
 export * from './useSectorsAndCoursesOptions'
+
+export * from './useOutsideClick'

@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react'
 
 import {
+    Card,
+    EmptyData,
     Filter,
     LoadingAnimation,
     PageTitle,
     SetDetaultQueryFilteres,
     SubadminEsignFilter,
     TabNavigation,
+    TabNavigationVII,
     TabProps,
+    TabPropsVII,
     TechnicalError,
 } from '@components'
 import { FigureCard } from '@components/sections/subAdmin'
@@ -24,6 +28,15 @@ import {
     RTOEsignDocuments,
     ReleasedEsignDocuments,
     StudentsEsignDocuments,
+    AllEsignDocumentsUpdated,
+    ReleasedEsignDocumentsUpdated,
+    StudentsEsignDocumentsUpdated,
+    IndustriesEsignDocumentsUpdated,
+    RTOEsignDocumentsUpdated,
+    CancelEsignDocumentsUpdated,
+    FilterdEsignDocumentsUpdated,
+    SignedEsignDocuments,
+    PendingEsignDocuments,
 } from './tabs'
 
 const filterKeys = [
@@ -73,42 +86,40 @@ export const SubadminESign = () => {
         navBar.setTitle('RTO')
     }, [])
 
-    const tabs: TabProps[] = [
+    const tabs: TabPropsVII[] = [
         {
             label: 'All Documents',
             href: {
                 pathname: '/portals/sub-admin/e-sign',
                 query: { tab: 'all' },
             },
-
-            element: <AllEsignDocuments />,
+            icon: 'all-docs.svg',
+            count: count?.data?.all,
+            // element: <AllEsignDocuments />,
+            element: <AllEsignDocumentsUpdated />,
         },
         {
-            label: 'Released By Documents',
+            label: 'Pending Documents',
             href: {
                 pathname: '/portals/sub-admin/e-sign',
-                query: { tab: 'initiated' },
+                query: { tab: 'pending' },
             },
+            icon: 'pending-docs.svg',
+            count: count?.data?.pending,
 
-            element: <ReleasedEsignDocuments />,
+            // element: <CancelEsignDocuments />,
+            element: <PendingEsignDocuments />,
         },
         {
-            label: 'Students Documents',
+            label: 'Singed Documents',
             href: {
                 pathname: '/portals/sub-admin/e-sign',
-                query: { tab: 'student' },
+                query: { tab: 'signed' },
             },
-
-            element: <StudentsEsignDocuments />,
-        },
-        {
-            label: 'Industry Documents',
-            href: {
-                pathname: '/portals/sub-admin/e-sign',
-                query: { tab: 'industry' },
-            },
-
-            element: <IndustriesEsignDocuments />,
+            icon: 'signed-docs.svg',
+            count: count?.data?.signed,
+            // element: <CancelEsignDocuments />,
+            element: <SignedEsignDocuments />,
         },
         {
             label: 'RTO Documents',
@@ -116,8 +127,46 @@ export const SubadminESign = () => {
                 pathname: '/portals/sub-admin/e-sign',
                 query: { tab: 'rto' },
             },
+            icon: 'rto-docs.svg',
+            count: count?.data?.rto,
+            // element: <RTOEsignDocuments />,
+            element: <RTOEsignDocumentsUpdated />,
+        },
+        {
+            label: 'Released By Documents',
+            href: {
+                pathname: '/portals/sub-admin/e-sign',
+                query: { tab: 'initiated' },
+            },
+            icon: 'released-docs.svg',
+            count: count?.data?.initiated,
 
-            element: <RTOEsignDocuments />,
+            // element: <ReleasedEsignDocuments />,
+            element: <ReleasedEsignDocumentsUpdated />,
+        },
+        {
+            label: 'Students Documents',
+            href: {
+                pathname: '/portals/sub-admin/e-sign',
+                query: { tab: 'student' },
+            },
+            icon: 'student-docs.svg',
+            count: count?.data?.student,
+
+            // element: <StudentsEsignDocuments />,
+            element: <StudentsEsignDocumentsUpdated />,
+        },
+        {
+            label: 'Industry Documents',
+            href: {
+                pathname: '/portals/sub-admin/e-sign',
+                query: { tab: 'industry' },
+            },
+            icon: 'industry-docs.svg',
+            count: count?.data?.industry,
+
+            // element: <IndustriesEsignDocuments />,
+            element: <IndustriesEsignDocumentsUpdated />,
         },
         {
             label: 'Cancel Documents',
@@ -125,8 +174,11 @@ export const SubadminESign = () => {
                 pathname: '/portals/sub-admin/e-sign',
                 query: { tab: 'cancel' },
             },
+            icon: 'canceled-docs.svg',
+            count: count?.data?.canceled,
 
-            element: <CancelEsignDocuments />,
+            // element: <CancelEsignDocuments />,
+            element: <CancelEsignDocumentsUpdated />,
         },
     ]
 
@@ -154,7 +206,7 @@ export const SubadminESign = () => {
                     />
                 </div>
 
-                <div className="grid grid-cols-4 gap-3 py-4">
+                {/* <div className="grid grid-cols-4 gap-3 py-4">
                     <FigureCard
                         imageUrl="/images/documents/allDocuments.png"
                         count={count?.data?.all}
@@ -177,14 +229,8 @@ export const SubadminESign = () => {
                         loading={false}
                         link="/portals/sub-admin/e-sign?tab=all&page=1&pageSize=50&status=signed"
                     />
-                    {/* <FigureCard
-                    imageUrl="/images/icons/rto.png"
-                    count={10}
-                    title={'RTOs'}
-                    loading={false}
-                    // link="admin/rto?tab=approved&page=1&pageSize=50"
-                /> */}
-                </div>
+                   
+                </div> */}
             </div>
 
             {filteredDataLength && documents.isError && <TechnicalError />}
@@ -193,7 +239,7 @@ export const SubadminESign = () => {
                     <LoadingAnimation />
                 ) : (
                     documents.isSuccess && (
-                        <FilterdEsignDocuments
+                        <FilterdEsignDocumentsUpdated
                             setPage={setPage}
                             itemPerPage={itemPerPage}
                             eSign={documents}
@@ -203,16 +249,16 @@ export const SubadminESign = () => {
                 )
             ) : null}
             {!filteredDataLength && (
-                <TabNavigation tabs={tabs}>
+                <TabNavigationVII tabs={tabs}>
                     {({ header, element }: any) => {
                         return (
-                            <div>
-                                <div>{header}</div>
-                                <div className="p-4">{element}</div>
+                            <div className="mt-5">
+                                {/* <Card>{header}</Card> */}
+                                <div className="mt-4">{element}</div>
                             </div>
                         )
                     }}
-                </TabNavigation>
+                </TabNavigationVII>
             )}
         </div>
     )

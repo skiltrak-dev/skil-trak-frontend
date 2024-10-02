@@ -44,6 +44,7 @@ import 'swiper/css/scrollbar'
 import { GoogleAnalyticsScript } from '@scripts'
 import { isBrowser } from '@utils'
 import { SessionProvider } from 'next-auth/react'
+import { CrudModal, ModalProvider } from '@partials/admin/departments'
 
 type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout
@@ -100,44 +101,48 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                     {/* <AutoLogoutProvider> */}
                     <NextAuthAutoLogoutProvider>
                         <ErrorBoundaryContext>
-                            <JoyRideProvider>
-                                <GoogleMapsProvider>
-                                    <NoteScrollProvider>
-                                        <DownloadAssessmentProvider>
-                                            <AlertProvider>
-                                                <NotificationProvider>
-                                                    <NavbarProvider>
-                                                        <ContextBarProvider>
-                                                            <HeaderWrapperProvider>
-                                                                <SocketListenerProvider>
-                                                                    <Socket>
-                                                                        <NetworkProvider>
-                                                                            <HeadWrapper>
-                                                                                {/* <LogoutAfterHours> */}
-                                                                                {getLayout(
-                                                                                    <Component
-                                                                                        {...pageProps}
-                                                                                    />
-                                                                                )}
-                                                                                {/* </LogoutAfterHours> */}
-                                                                            </HeadWrapper>
-                                                                        </NetworkProvider>
-                                                                    </Socket>
-                                                                </SocketListenerProvider>
-                                                            </HeaderWrapperProvider>
-                                                        </ContextBarProvider>
-                                                    </NavbarProvider>
-                                                </NotificationProvider>
-                                            </AlertProvider>
-                                        </DownloadAssessmentProvider>
-                                    </NoteScrollProvider>
-                                </GoogleMapsProvider>
-                            </JoyRideProvider>
+                            <ModalProvider>
+                                <JoyRideProvider>
+                                    <GoogleMapsProvider>
+                                        <NoteScrollProvider>
+                                            <DownloadAssessmentProvider>
+                                                <AlertProvider>
+                                                    <NotificationProvider>
+                                                        <NavbarProvider>
+                                                            <ContextBarProvider>
+                                                                <HeaderWrapperProvider>
+                                                                    <SocketListenerProvider>
+                                                                        <Socket>
+                                                                            <NetworkProvider>
+                                                                                <HeadWrapper>
+                                                                                    {/* <LogoutAfterHours> */}
+                                                                                    {getLayout(
+                                                                                        <Component
+                                                                                            {...pageProps}
+                                                                                        />
+                                                                                    )}
+                                                                                    {/* </LogoutAfterHours> */}
+                                                                                </HeadWrapper>
+                                                                            </NetworkProvider>
+                                                                        </Socket>
+                                                                    </SocketListenerProvider>
+                                                                </HeaderWrapperProvider>
+                                                            </ContextBarProvider>
+                                                        </NavbarProvider>
+                                                    </NotificationProvider>
+                                                </AlertProvider>
+                                            </DownloadAssessmentProvider>
+                                        </NoteScrollProvider>
+                                    </GoogleMapsProvider>
+                                </JoyRideProvider>
+
+                                <CrudModal />
+                            </ModalProvider>
                         </ErrorBoundaryContext>
                     </NextAuthAutoLogoutProvider>
-                    {/* </AutoLogoutProvider> */}
                 </Provider>
             </SessionProvider>
+            {/* </SessionProvider> */}
         </>
     )
 }
