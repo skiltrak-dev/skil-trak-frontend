@@ -31,7 +31,6 @@ export const SearchUser = ({
                 setStudentIndustry={setStudentIndustry}
                 setSelectedPerson={setSelectedPerson}
             />
-
             <SearchAppointmentWithUser
                 selectedPerson={selectedPerson}
                 setSelectedUser={setSelectedUser}
