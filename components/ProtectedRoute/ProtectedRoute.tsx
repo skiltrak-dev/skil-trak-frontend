@@ -6,16 +6,15 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
-    return children
-    const data: any = useSession()
-    const authenticated = !!data?.data?.accessToken
-    console.log({ authenticated })
+    // const data: any = useSession()
+    // const authenticated = !!data?.data?.accessToken
+    // console.log({ authenticated })
 
     const [authorized, setAuthorized] = useState(false)
     const router = useRouter()
-    const role = data?.data?.role
-    // const role = AuthUtils.getUserCredentials()?.role
-    // const authenticated = AuthUtils.isAuthenticated()
+    // const role = data?.data?.role
+    const role = AuthUtils.getUserCredentials()?.role
+    const authenticated = AuthUtils.isAuthenticated()
 
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
         skip: role !== UserRoles.SUBADMIN,

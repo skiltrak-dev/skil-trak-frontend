@@ -7,16 +7,16 @@ export const stripeApi = createApi({
         baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/stripe/`,
         prepareHeaders: async (headers, { getState }) => {
             // const token = AuthUtils.getToken()
-            // const token = AuthUtils.token()
+            const token = AuthUtils.token()
 
-            const session: any = await getSession()
+            // const session: any = await getSession()
 
-            // if (token) {
-            //     headers.set('authorization', `Bearer ${token}`)
-            // }
-            if (session?.accessToken) {
-                headers.set('authorization', `Bearer ${session?.accessToken}`)
+            if (token) {
+                headers.set('authorization', `Bearer ${token}`)
             }
+            // if (session?.accessToken) {
+            //     headers.set('authorization', `Bearer ${session?.accessToken}`)
+            // }
 
             return headers
         },

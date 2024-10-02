@@ -1,15 +1,13 @@
-import { useEffect, useState } from 'react'
 import { UserRoles } from '@constants'
-import { SubAdminApi } from '@queries'
 import { AuthUtils } from '@utils'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 export const ManagementProtectedRoute = ({
     children,
 }: {
     children: JSX.Element
 }) => {
-    return children
     const [authorized, setAuthorized] = useState(false)
     const router = useRouter()
     const role = AuthUtils.getUserCredentials()?.role
