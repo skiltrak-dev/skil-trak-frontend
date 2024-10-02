@@ -13,6 +13,7 @@ import { CommonApi } from '@queries'
 import { Industry, OptionType, SubAdmin } from '@types'
 import { AuthUtils, getUserCredentials } from '@utils'
 import axios from 'axios'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import { MdEmail } from 'react-icons/md'
@@ -112,6 +113,8 @@ export const InitiateSignStudent = ({
     const [isSelectAnotherCoordinator, setIsSelectAnotherCoordinator] =
         useState<boolean>(false)
     const [secondaryMails, setSecondaryMails] = useState<any>([])
+
+    const { data }: any = useSession()
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [isError, setIsError] = useState<boolean>(false)
@@ -243,8 +246,8 @@ export const InitiateSignStudent = ({
             // Add an interceptor to include the authorization token in the headers
             axiosInstance.interceptors.request.use(
                 (config) => {
-                    const authToken = AuthUtils.token() // Replace with your actual authentication token
-
+                    // const authToken = AuthUtils.token() // Replace with your actual authentication token
+                    const authToken = data?.accessToken
                     if (authToken) {
                         config.headers.Authorization = `Bearer ${authToken}`
                     }

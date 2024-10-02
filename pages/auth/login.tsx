@@ -34,6 +34,10 @@ const Login: NextPage = () => {
         role: '',
     })
 
+    useEffect(() => {
+        router?.push('/auth/login-auth')
+    }, [router])
+
     const chkRoleAndUrl = (role: string) =>
         autoLogoutUrl.url && autoLogoutUrl.role === role
 

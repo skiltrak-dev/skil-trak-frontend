@@ -8,7 +8,7 @@
 @import './site.css';
 
 .bg-gradient-black-to-white:hover{
-    background: linear-gradient(to bottom, #ffffff01 80%, #24556D 100%);
+    background: linear-gradient(to top, #ffffff01 65%, #24556D 100%);
     transition: background 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

@@ -1,6 +1,5 @@
 import axios from 'axios'
 import jwt from 'jwt-decode'
-import { throttle } from 'lodash'
 import mem from 'mem'
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import { JWT } from 'next-auth/jwt'
@@ -27,7 +26,7 @@ interface ExtendedCredentials extends Record<'email' | 'password', string> {
     url?: string
 }
 
-const REFRESH_TOKEN_THRESHOLD = 60 // seconds
+const REFRESH_TOKEN_THRESHOLD = 60 * 5 // seconds
 const THROTTLE_INTERVAL = 30 * 1000
 
 const getUserCredentials = (access_token: string) => {
@@ -82,10 +81,10 @@ async function refreshAccessToken(token: JWT): Promise<JWT> {
     }
 }
 
-const throttledRefreshAccessToken = throttle(
-    refreshAccessToken,
-    THROTTLE_INTERVAL
-)
+// const throttledRefreshAccessToken = throttle(
+//     refreshAccessToken,
+//     THROTTLE_INTERVAL
+// )
 
 const memoizedRefreshAccessToken = mem(refreshAccessToken, {
     maxAge: 30 * 1000, // Cache for 30 seconds
@@ -112,7 +111,7 @@ export const authOptions: NextAuthOptions = {
                 try {
                     const response = await axios.post(
                         `${process.env.NEXT_PUBLIC_END_POINT}/auth/${
-                            url || '/login'
+                            url || 'login'
                         }`,
                         restCredentials
                     )

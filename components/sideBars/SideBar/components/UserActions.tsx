@@ -15,6 +15,7 @@ import { adminApi, commonApi, CommonApi } from '@queries'
 import { LogoutType, useContextBar } from '@hooks'
 import { UserRoles } from '@constants'
 import { SwitchBackToSubAdmin } from './SwitchBackToSubAdmin'
+import { signOut } from 'next-auth/react'
 
 export const UserActions = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -49,7 +50,7 @@ export const UserActions = () => {
                 setCredentials(AuthUtils.getUserCredentials())
             }
         }
-    }, [credentials])
+    }, [credentials, AuthUtils.isAuthenticated()])
     const newOptionForSubAdmin: any = {
         text: 'Switch to Sub Admin',
         // link: '#',
@@ -88,7 +89,11 @@ export const UserActions = () => {
                 if (AuthUtils.token()) {
                     await logoutActivity({})
                 }
-                AuthUtils.logout(router)
+                await signOut({
+                    redirect: true,
+                    callbackUrl: '/auth/login-auth',
+                })
+                // AuthUtils.logout(router)
                 contextBar.setContent(null)
                 contextBar.setTitle(null)
                 contextBar.hide()

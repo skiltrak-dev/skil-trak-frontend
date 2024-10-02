@@ -9,6 +9,7 @@ export const ManagementProtectedRoute = ({
 }: {
     children: JSX.Element
 }) => {
+    return children
     const [authorized, setAuthorized] = useState(false)
     const router = useRouter()
     const role = AuthUtils.getUserCredentials()?.role
@@ -23,7 +24,6 @@ export const ManagementProtectedRoute = ({
                 ? UserRoles.MARKETING
                 : assessRole
             : assessRole
-
 
     useEffect(() => {
         if (!authenticated) {

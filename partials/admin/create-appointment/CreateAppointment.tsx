@@ -122,16 +122,16 @@ export const CreateAppointmentContainer = () => {
                 title: 'Appointment Created',
                 description: 'Appointment Created Successfully',
             })
-            router.push('/portals/admin/appointment-type')
+            router.back()
         }
     }, [createAppointmentResult])
 
     const onSubmit = () => {
         setSlots(false)
-        let date = selectedDate
-        date?.setDate(date.getDate() + 1)
+        // let date = selectedDate
+        // date?.setDate(date.getDate() + 1)
         createAppointment({
-            date,
+            date: selectedDate as Date,
             note,
             course: selectedCourse,
             ...selectedTime,

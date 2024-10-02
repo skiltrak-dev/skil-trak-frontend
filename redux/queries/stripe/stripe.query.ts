@@ -1,15 +1,21 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AuthUtils } from '@utils'
+import { getSession } from 'next-auth/react'
 export const stripeApi = createApi({
     reducerPath: 'stripeApi',
     baseQuery: fetchBaseQuery({
         baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/stripe/`,
-        prepareHeaders: (headers, { getState }) => {
-            const token = AuthUtils.token()
+        prepareHeaders: async (headers, { getState }) => {
+            // const token = AuthUtils.getToken()
+            // const token = AuthUtils.token()
 
-            // // If we have a token set in state, let's assume that we should be passing it.
-            if (token) {
-                headers.set('authorization', `Bearer ${token}`)
+            const session: any = await getSession()
+
+            // if (token) {
+            //     headers.set('authorization', `Bearer ${token}`)
+            // }
+            if (session?.accessToken) {
+                headers.set('authorization', `Bearer ${session?.accessToken}`)
             }
 
             return headers
