@@ -1,10 +1,10 @@
-import NextAuth, { NextAuthOptions } from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
-import { JWT } from 'next-auth/jwt'
 import axios from 'axios'
 import jwt from 'jwt-decode'
-import mem from 'mem'
 import { throttle } from 'lodash'
+import mem from 'mem'
+import NextAuth, { NextAuthOptions } from 'next-auth'
+import { JWT } from 'next-auth/jwt'
+import CredentialsProvider from 'next-auth/providers/credentials'
 
 interface User {
     id: string
@@ -21,6 +21,10 @@ interface Token {
     accessTokenExpires: number
     error: string
     user: User
+}
+
+interface ExtendedCredentials extends Record<'email' | 'password', string> {
+    url?: string
 }
 
 const REFRESH_TOKEN_THRESHOLD = 60 // seconds
@@ -95,16 +99,22 @@ export const authOptions: NextAuthOptions = {
             credentials: {
                 email: { label: 'Email', type: 'email' },
                 password: { label: 'Password', type: 'password' },
+                url: { label: 'Login URL', type: 'text' },
             },
             async authorize(credentials) {
+                const { url, ...restCredentials } =
+                    credentials as ExtendedCredentials
+
                 if (!credentials?.email || !credentials?.password) {
                     throw new Error('Email and password required')
                 }
 
                 try {
                     const response = await axios.post(
-                        `${process.env.NEXT_PUBLIC_END_POINT}/auth/login`,
-                        credentials
+                        `${process.env.NEXT_PUBLIC_END_POINT}/auth/${
+                            url || '/login'
+                        }`,
+                        restCredentials
                     )
 
                     const decodedData = getUserCredentials(
