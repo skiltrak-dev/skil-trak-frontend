@@ -2,19 +2,36 @@ import { FaSchool } from 'react-icons/fa'
 import { MdAdminPanelSettings, MdOutlineAssignmentReturn } from 'react-icons/md'
 import { usePermission } from '../hooks'
 import { SubAdmin } from '@types'
+import { SubAdminApi } from '@queries'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
+import { useCheckPermission } from '@partials/admin/hooks'
 
 export const usePermissionData = (subadmin: SubAdmin) => {
     const { Actions, results } = usePermission()
+    const role = getUserCredentials()?.role
+    const subAdmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: role !== UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+    })
+    const {
+        isAdmin,
+        isHod,
+        subAdminRole,
+        permissions: truePermissions,
+    } = useCheckPermission()
 
-    const permissions = [
+    const allPermissions = [
         {
             text: 'Allow Rto Listing',
             onClick: () => Actions?.onAllowRtoListingClicked(subadmin),
             toggle: subadmin?.allowRtoListing,
             isLoading: results?.allowRtoListingResult.isLoading,
             Icon: FaSchool,
+            key: 'allowRtoListing',
         },
         {
+            key: 'allowIndustryListing',
             text: 'Allow Industry Listing',
             onClick: () => Actions?.onAllowIndustryListingClicked(subadmin),
             toggle: subadmin?.allowIndustryListing,
@@ -22,6 +39,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             Icon: FaSchool,
         },
         {
+            key: 'canAdmin',
             text: 'Allow as Admin',
             onClick: () => Actions?.onAllowAsAdminClicked(subadmin),
             toggle: subadmin?.canAdmin,
@@ -29,6 +47,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             Icon: MdAdminPanelSettings,
         },
         {
+            key: 'allowLogin',
             text: 'Allow Login',
             onClick: () => Actions?.onAllowLoginClicked(subadmin),
             toggle: subadmin?.user?.after_hours_access,
@@ -36,6 +55,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             Icon: MdAdminPanelSettings,
         },
         {
+            key: 'removeOnPlacementStart',
             text: 'Allow Student on Placement',
             onClick: () => Actions?.onAllowPlacementClicked(subadmin),
             toggle: subadmin?.removeOnPlacementStart,
@@ -43,6 +63,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             Icon: MdAdminPanelSettings,
         },
         {
+            key: 'canCancelWorkPlaceRequest',
             text: 'Allow Cancelation Workplace',
             onClick: () => Actions?.onAllowWpCancelationClicked(subadmin),
             toggle: subadmin?.canCancelWorkPlaceRequest,
@@ -50,6 +71,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             Icon: MdAdminPanelSettings,
         },
         {
+            key: 'allowAutoAssignment',
             text: 'Allow Auto Assignment',
             onClick: () => Actions?.onAutoAssignClicked(subadmin),
             toggle: subadmin?.allowAutoAssignment,
@@ -57,6 +79,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             Icon: MdOutlineAssignmentReturn,
         },
         {
+            key: 'canViewAllStudents',
             text: 'Can View All Students',
             onClick: () => Actions?.onCanViewAllStudentsClicked(subadmin),
             toggle: subadmin?.canViewAllStudents,
@@ -64,6 +87,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             Icon: MdOutlineAssignmentReturn,
         },
         {
+            key: 'canAccessRtoProfile',
             text: 'Can Access RTO Profile',
             onClick: () => Actions?.onCanViewRTODetailClicked(subadmin),
             toggle: subadmin?.canAccessRtoProfile,
@@ -71,6 +95,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             Icon: MdOutlineAssignmentReturn,
         },
         {
+            key: 'canDownloadReport',
             text: 'Can Download Report',
             onClick: () => Actions?.onCanReportDownloadClicked(subadmin),
             toggle: subadmin?.canDownloadReport,
@@ -78,6 +103,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             Icon: MdOutlineAssignmentReturn,
         },
         {
+            key: 'canViewStudentDetails',
             text: 'Can View Student Detail',
             onClick: () => Actions?.onCanViewStudentDetailClicked(subadmin),
             toggle: subadmin?.canViewStudentDetails,
@@ -85,6 +111,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             Icon: MdOutlineAssignmentReturn,
         },
         {
+            key: 'canViewIndustryDetails',
             text: 'Can View Industry Detail',
             onClick: () => Actions?.onCanViewIndustryDetailClicked(subadmin),
             toggle: subadmin?.canViewIndustryDetails,
@@ -92,6 +119,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             Icon: MdOutlineAssignmentReturn,
         },
         {
+            key: 'canAccessRpl',
             text: 'Can Access RPL Detail',
             onClick: () => Actions?.onCanAccessRPLClicked(subadmin),
             toggle: subadmin?.canAccessRpl,
@@ -99,6 +127,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             Icon: MdOutlineAssignmentReturn,
         },
         {
+            key: 'canAccessTalentPool',
             text: 'Can Access Talent Pool',
             onClick: () => Actions?.onCanAccessTalentPoolClicked(subadmin),
             toggle: subadmin?.canAccessTalentPool,
@@ -106,6 +135,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             Icon: MdOutlineAssignmentReturn,
         },
         {
+            key: 'canAccessQueries',
             text: 'Can Access Queries',
             onClick: () => Actions?.onCanAccessQueriesClicked(subadmin),
             toggle: subadmin?.canAccessQueries,
@@ -113,6 +143,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             Icon: MdOutlineAssignmentReturn,
         },
         {
+            key: 'canAccessBlogs',
             text: 'Can Access Blogs',
             onClick: () => Actions?.onCanAccessBlogsClicked(subadmin),
             toggle: subadmin?.canAccessBlogs,
@@ -120,6 +151,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             Icon: MdOutlineAssignmentReturn,
         },
         {
+            key: 'canAccessSubadmin',
             text: 'Can Access SubAdmin',
             onClick: () => Actions?.onCanAccessSubAdminClicked(subadmin),
             toggle: subadmin?.canAccessSubadmin,
@@ -127,6 +159,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             Icon: MdOutlineAssignmentReturn,
         },
         {
+            key: 'canAddStudents',
             text: 'Can Add Students',
             onClick: () => Actions.onCanAddStudentsClicked(subadmin),
             toggle: subadmin?.canAddStudents,
@@ -149,7 +182,26 @@ export const usePermissionData = (subadmin: SubAdmin) => {
         },
     ]
 
+    // const responses = Object.values(results)
+
+    // return { permissions, responses }
+    const filteredPermissions = allPermissions.filter((permission: any) => {
+        if (role === UserRoles.ADMIN) {
+            return true
+        }
+        if (subAdminRole && isAdmin && isHod) {
+            // Check if the key exists in truePermissions and its value is true
+            return (
+                Object.prototype.hasOwnProperty.call(
+                    truePermissions,
+                    permission.key
+                ) && truePermissions[permission.key] === true
+            )
+        }
+        return false
+    })
+
     const responses = Object.values(results)
 
-    return { permissions, responses }
+    return { permissions: filteredPermissions, responses }
 }

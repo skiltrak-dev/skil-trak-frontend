@@ -5,6 +5,7 @@ import {
     LoadingAnimation,
     Table,
     TableAction,
+    TableSkeleton,
     TechnicalError,
     TruncatedTextWithTooltip,
     Typography,
@@ -327,7 +328,8 @@ export const ActiveSubAdmin = () => {
                 <Card noPadding>
                     {isError && <TechnicalError />}
                     {isLoading || isFetching ? (
-                        <LoadingAnimation height="h-[60vh]" />
+                        // <LoadingAnimation height="h-[60vh]" />
+                        <TableSkeleton arrayLength={data?.data?.length || 1} />
                     ) : data && data?.data.length ? (
                         <Table
                             columns={columns}

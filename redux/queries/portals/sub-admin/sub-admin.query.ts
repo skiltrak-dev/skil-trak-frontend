@@ -114,6 +114,13 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
             }),
             invalidatesTags: ['RtosListing'],
         }),
+        getHodCoordinatorsList: build.query<any, any>({
+            query: (params) => ({
+                url: `department/hod/coordinators/list`,
+                params,
+            }),
+            providesTags: ['RtosListing'],
+        }),
 
         ...notesEndpoints(build),
         ...subAdminReports(build),
@@ -150,6 +157,7 @@ export const {
     useUpdateSubAdminProfileMutation,
     useChangeSubAdminUserStatusMutation,
     useSaveCoordinatesForMapMutation,
+    useGetHodCoordinatorsListQuery,
     // -------- Rtos Listing --------//
     useImportRtosListMutation,
     useGetAllRtosListQuery,
@@ -399,6 +407,7 @@ export const SubAdminApi = {
         useUpdateRtoListing: useUpdateRtoListingMutation,
         useDeleteRtoListing: useDeleteRtoListingMutation,
         useAllRtosList: useGetAllRtosListQuery,
+        useHodCoordinatorsList: useGetHodCoordinatorsListQuery,
     },
     Todo: {
         todoListCount: useTodoListCountQuery,

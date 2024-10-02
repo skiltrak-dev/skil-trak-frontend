@@ -1,123 +1,134 @@
-import { Typography } from '@components/Typography'
-import { ReactElement, useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { FaChevronDown } from 'react-icons/fa'
+import { createPopper } from '@popperjs/core'
 
 export interface TableActionOption {
-    text?: string | ReactElement
-    onClick?: Function
-    Icon?: any
+    text?: string | React.ReactElement
+    onClick?: (rowItem: any) => void
+    Icon?: React.ElementType
     color?: string
 }
 
 interface TableActionProps {
     text?: string
-    options: TableActionOption[]
+    options: (TableActionOption | {})[]
     rowItem: any
     lastIndex?: boolean
 }
+
 export const TableAction = ({
     text,
     options,
     rowItem,
     lastIndex,
 }: TableActionProps) => {
-    const [isOverButton, setIsOverButton] = useState(false)
-    const [isOverList, setIsOverList] = useState(false)
+    const [showPopper, setShowPopper] = useState(false)
+    const buttonRef = useRef<HTMLButtonElement>(null)
+    const popperRef = useRef<HTMLUListElement>(null)
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-    // const [referenceElement, setReferenceElement] =
-    //     useState<HTMLElement | null>(null)
-    // const [popperElement, setPopperElement] = useState<HTMLElement | null>(null)
-    // const [arrowElement, setArrowElement] = useState<HTMLElement | null>(null)
+    useEffect(() => {
+        if (buttonRef.current && popperRef.current) {
+            const popper = createPopper(buttonRef.current, popperRef.current, {
+                placement: 'bottom-end',
+                modifiers: [
+                    {
+                        name: 'offset',
+                        options: {
+                            offset: [0, 8],
+                        },
+                    },
+                    {
+                        name: 'preventOverflow',
+                        options: {
+                            boundary: 'viewport',
+                        },
+                    },
+                ],
+            })
 
-    // const { styles, attributes } = usePopper(referenceElement, popperElement, {
-    //     modifiers: [
-    //         {
-    //             name: 'arrow',
-    //             options: { element: arrowElement },
-    //         },
-    //     ],
-    // })
+            return () => {
+                popper.destroy()
+            }
+        }
+    }, [showPopper])
+
+    const handleMouseEnter = () => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current)
+        setShowPopper(true)
+    }
+
+    const handleMouseLeave = () => {
+        timeoutRef.current = setTimeout(() => {
+            setShowPopper(false)
+        }, 100)
+    }
+
+    const validOptions = options.filter(
+        (option): option is TableActionOption => Object.keys(option).length > 0
+    )
 
     return (
-        <div
-            className="relative w-fit"
-            onMouseEnter={() => {
-                setIsOverButton(true)
-            }}
-            onMouseLeave={() => {
-                setIsOverButton(false)
-            }}
-        >
-            <button className="text-xs rounded px-4 py-2 uppercase font-medium bg-white hover:bg-gray-100 text-gray-800 flex gap-x-2 items-center">
+        <div className="relative w-fit" onMouseLeave={handleMouseLeave}>
+            <button
+                ref={buttonRef}
+                className="text-xs rounded px-4 py-2 uppercase font-medium bg-white hover:bg-gray-100 text-gray-800 flex gap-x-2 items-center"
+                onMouseEnter={handleMouseEnter}
+            >
                 {text || 'More'}
                 <FaChevronDown />
             </button>
 
-            {options && (isOverButton || isOverList) && (
+            {showPopper && (
                 <ul
-                    className={`bg-white rounded-xl shadow-xl min-w-[130px] max-w-[175px] absolute ${
-                        lastIndex ? 'bottom-full' : 'top-full'
-                    } right-0 z-10`}
-                    // className={`bg-white rounded-xl shadow-xl min-w-[130px] max-w-[175px] ${
-                    //     isOverButton || isOverList ? 'block' : 'hidden'
-                    // } absolute ${
-                    //     lastIndex ? 'bottom-full' : 'top-full'
-                    // } right-0 z-10`}
-                    // ref={setPopperElement}
-                    // style={styles.popper}
-                    // {...attributes.popper}
-                    onMouseEnter={() => {
-                        setIsOverList(true)
-                    }}
-                    onMouseLeave={() => {
-                        setIsOverList(false)
-                    }}
+                    ref={popperRef}
+                    className="bg-white border border-gray-200 rounded shadow-lg z-10 min-w-[130px] max-w-[175px]"
+                    onMouseEnter={handleMouseEnter}
                 >
-                    {options?.map(
-                        (option, idx) =>
-                            Object.keys(option)?.length > 0 && (
-                                <li
+                    {validOptions.map((option, idx) => (
+                        <li
+                            key={idx}
+                            className={`${
+                                option?.color
+                                    ? option?.color
+                                    : 'text-gray-700 hover:bg-gray-100'
+                            } text-xs cursor-pointer px-4 py-2 font-medium border-b whitespace-nowrap ${
+                                idx === 0 ? 'rounded-t-xl' : ''
+                            } ${
+                                idx === validOptions.length - 1
+                                    ? 'rounded-b-xl border-none'
+                                    : ''
+                            } flex items-center gap-x-1`}
+                            onClick={() => {
+                                setShowPopper(false)
+                                if (option?.onClick) {
+                                    option?.onClick(rowItem)
+                                }
+                            }}
+                        >
+                            {option?.Icon && (
+                                <span
                                     className={`${
                                         option?.color
                                             ? option?.color
-                                            : 'text-gray-700 hover:bg-gray-100'
-                                    } text-xs cursor-pointer px-4 py-2 font-medium border-b whitespace-nowrap ${
-                                        idx === 0 ? 'rounded-t-xl' : ''
-                                    } ${
-                                        idx === options?.length - 1
-                                            ? 'rounded-b-xl'
-                                            : ''
-                                    } flex items-center gap-x-1`}
-                                    onClick={() =>
-                                        option?.onClick &&
-                                        option?.onClick(rowItem)
-                                    }
-                                    key={idx}
+                                            : 'text-gray-400'
+                                    }`}
                                 >
-                                    {option?.Icon && (
-                                        <span
-                                            className={`${
-                                                option?.color
-                                                    ? option?.color
-                                                    : 'text-gray-400'
-                                            }`}
-                                        >
-                                            <option.Icon />
-                                        </span>
-                                    )}
-                                    <div
-                                        className="break-all relative group"
-                                        style={{
-                                            overflow: 'hidden',
-                                            whiteSpace: 'nowrap',
-                                            textOverflow: 'ellipsis',
-                                        }}
-                                    >
-                                        {option?.text}
-                                    </div>
-                                </li>
-                            )
-                    )}
+                                    <option.Icon />
+                                </span>
+                            )}
+                            <div
+                                className="break-all relative group"
+                                style={{
+                                    overflow: 'hidden',
+                                    whiteSpace: 'nowrap',
+                                    textOverflow: 'ellipsis',
+                                }}
+                            >
+                                {option?.text}
+                            </div>
+                        </li>
+                    ))}
                 </ul>
             )}
         </div>

@@ -106,7 +106,7 @@ export const AssignedCoordinators = () => {
             header: () => 'Action',
             accessorKey: 'Action',
             cell: ({ row }: any) => {
-                const tableActionOption: TableActionOption[] =
+                const tableActionOption =
                     tableActionOptions(row?.original)
                 return (
                     <TableAction

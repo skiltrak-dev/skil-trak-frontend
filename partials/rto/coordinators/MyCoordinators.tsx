@@ -148,8 +148,7 @@ export const MyCoordinators = () => {
             header: () => 'Action',
             accessorKey: 'Action',
             cell: ({ row }: any) => {
-                const tableActionOption: TableActionOption[] =
-                    tableActionOptions(row?.original)
+                const tableActionOption = tableActionOptions(row?.original)
                 return (
                     <TableAction
                         rowItem={row?.original}

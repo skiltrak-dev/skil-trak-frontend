@@ -46,6 +46,7 @@ const urls = [
     `/notifications/all-notifications`,
     `/tasks/my-students-report`,
     `/tasks/industry-listing`,
+    
 ]
 
 const redirectUrls = urls?.map((url: string) => `${getRoutePath}${url}`)

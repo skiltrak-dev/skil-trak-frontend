@@ -129,6 +129,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             router.events.off('routeChangeComplete', handleRouteChange)
         }
     }, [router])
+    const checkIsHod = subadmin?.data?.departmentMember?.isHod
 
     const routesData: RouteNavLink[] = [
         {
@@ -163,6 +164,12 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             path: getRoutePath('/sub-admin?tab=active&page=1&pageSize=50'),
             Icon: RiShieldUserFill,
             visible: subadmin?.data?.canAccessSubadmin,
+        },
+        {
+            text: 'Departments',
+            path: getRoutePath('/departments'),
+            Icon: RiShieldUserFill,
+            visible: checkIsHod,
         },
         {
             type: 'divider',
@@ -314,6 +321,17 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
     ]
 
     const routes = routesData?.filter((route) => route?.visible !== false)
+    const checkAdmin = role === UserRoles.ADMIN
+    useEffect(() => {
+        if (
+            !checkAdmin &&
+            !checkIsHod &&
+            (router.pathname === '/portals/admin/departments' ||
+                router.pathname === '/portals/admin/departments/[id]')
+        ) {
+            router.replace('/portals/admin')
+        }
+    }, [router.pathname])
 
     return (
         <RedirectRestrictedUsers

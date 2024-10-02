@@ -26,8 +26,8 @@ const googleReviews = [
         link: 'https://maps.app.goo.gl/1Q2vtH8y1Mggqo1z8',
     },
     {
-        name:"Allen Lahaylahay",
-        review:`Layla Ballard has been incredibly helpful and respectful throughout the process of 
+        name: 'Allen Lahaylahay',
+        review: `Layla Ballard has been incredibly helpful and respectful throughout the process of 
         arranging my work placement. She efficiently managed all the requirements she called to provide 
         updates, and today, she informed me that everything is set. I truly appreciate all her help—thank 
         God for her assistance.`,
@@ -35,21 +35,23 @@ const googleReviews = [
         link: 'https://maps.app.goo.gl/Gr7oMkbB1CswFCGK9',
     },
     {
-        name:"Subash Poudel",
-        review:`Emma Willians is doing a great job of helping students to find a facility for 
+        name: 'Subash Poudel',
+        review: `Emma Willians is doing a great job of helping students to find a facility for 
         work placement. He constantly gives feedback and updates regarding the status of the application. 
         Great job mate! Keep up the good work! Cheers!`,
         rating: 5,
         link: 'https://maps.app.goo.gl/FWXjE3w4n9wi2Umg7',
     },
     {
-        name:"Ash Riddell",
-        review:`Sara was lovely and found me a work placement after months of me having. 
+        name: 'Ash Riddell',
+        review: `Sara was lovely and found me a work placement after months of me having. 
         No success. Sara also followed up on every step of the way and reassured me things were progressing.`,
         rating: 5,
         link: 'https://maps.app.goo.gl/SxDRmcSpVCaEgFGC6',
-    }
+    },
 ]
+
+
 export const GoogleReviewSlider = () => {
     return (
         <div className="mx-auto max-w-7xl my-12 overflow-hidden">
@@ -64,13 +66,12 @@ export const GoogleReviewSlider = () => {
                 breakpoints={{
                     320: {
                         slidesPerView: 1,
-                        spaceBetween: 20
-                      },
-                      // when window width is >= 480px
-                      480: {
+                        spaceBetween: 20,
+                    },
+                    480: {
                         slidesPerView: 1,
-                        spaceBetween: 30
-                      },
+                        spaceBetween: 30,
+                    },
                     640: {
                         slidesPerView: 1,
                         spaceBetween: 10,
@@ -85,20 +86,6 @@ export const GoogleReviewSlider = () => {
                     },
                 }}
                 modules={[Autoplay, Pagination]}
-                // className=""
-                // observeParents
-                // observer
-                // pagination={{
-                //     clickable: true,
-                //     el: '.review-pagination',
-                //     renderBullet: (index: any, className: any) => {
-                //         return `
-                //         <div
-                //                 class="w-14 lg:w-24 max-h-72 rounded-full mr-3 mb-2 block"
-                //             ></div>
-                //     `
-                //     },
-                // }}
             >
                 {googleReviews?.map((review, i) => (
                     <SwiperSlide key={i}>
