@@ -51,7 +51,7 @@ export const EsignFilter = ({ onFilterChange, filter }: ItemFilterProps) => {
                 <TextInput
                     name="name"
                     label={'Name'}
-                    placeholder={'Search by Student Name ...'}
+                    placeholder={'Search by Document Name ...'}
                     value={filter?.name}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, name: e.target.value })
