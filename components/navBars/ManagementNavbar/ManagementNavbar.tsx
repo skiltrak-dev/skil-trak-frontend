@@ -1,13 +1,8 @@
-import { Typography } from '@components/Typography'
 import Image from 'next/image'
-import { useState } from 'react'
-import { LogoutDropDown, ManagementNavLink } from './components'
 import OutsideClickHandler from 'react-outside-click-handler'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { LogoutDropDown, ManagementNavLink } from './components'
 // import { linksData } from './linksData'
 import { getUserCredentials } from '@utils'
-import { useSession } from 'next-auth/react'
 
 type ManagementNavbarProps = {
     // handleTabChange: any
@@ -21,9 +16,10 @@ export const ManagementNavbar = ({
     setIsExpanded,
     isExpanded,
 }: ManagementNavbarProps) => {
-    const {
-        data: { role },
-    }: any = useSession()
+    // const {
+    //     data: { role },
+    // }: any = useSession()
+    const role = getUserCredentials()?.role
     const linksData = [
         {
             href: '/portals/management/dashboard',
