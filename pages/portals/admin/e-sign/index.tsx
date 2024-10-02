@@ -6,7 +6,6 @@ import {
     Filter,
     LoadingAnimation,
     SetDetaultQueryFilteres,
-    StudentFilters,
     TabNavigation,
     TabProps,
     TechnicalError,
@@ -15,7 +14,7 @@ import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { ApprovedEsigns, ArchivedEsigns, FilteredEsigns } from '@partials'
 import { CommonApi } from '@queries'
-import { NextPageWithLayout, StudentsFilterType, eSignFilterType } from '@types'
+import { NextPageWithLayout, eSignFilterType } from '@types'
 import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
 import { FaFileSignature } from 'react-icons/fa'
@@ -48,7 +47,7 @@ const ESign: NextPageWithLayout = () => {
     )
 
     useEffect(() => {
-        navBar.setTitle('Students')
+        navBar.setTitle('E-Sign')
         contextBar.hide()
     }, [])
 
