@@ -238,9 +238,11 @@ export const IndustryProfile = ({ data }: Props) => {
                             {data?.user?.name || 'N/A'}
                         </p>
                         <div className="flex items-center gap-x-2">
-                            <p className="text-sm text-gray-400">
-                                {data?.user?.email || 'N/A'}
-                            </p>
+                            <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                                <p className="text-sm text-gray-400">
+                                    {data?.user?.email || 'N/A'}
+                                </p>
+                            </AuthorizedUserComponent>
                             <span className="text-blue-500">
                                 <MdVerified />
                             </span>
