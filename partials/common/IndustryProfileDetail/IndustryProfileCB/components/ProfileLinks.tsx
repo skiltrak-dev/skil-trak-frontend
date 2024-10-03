@@ -9,6 +9,7 @@ import { BsUnlockFill } from 'react-icons/bs'
 import { IoMdEyeOff } from 'react-icons/io'
 import { RiEditFill } from 'react-icons/ri'
 import { AcceptingStudentModal } from '../../modal'
+import { SubAdminApi } from '@queries'
 
 export const ProfileLinks = ({ industry }: { industry: Industry }) => {
     const router = useRouter()
@@ -17,6 +18,12 @@ export const ProfileLinks = ({ industry }: { industry: Industry }) => {
 
     const role = getUserCredentials()?.role
 
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: role !== UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+        // refetchOnFocus: true,
+    })
+
     const onCancelModal = () => setModal(null)
 
     const profileLinks = [
@@ -24,7 +31,7 @@ export const ProfileLinks = ({ industry }: { industry: Industry }) => {
             text: 'Edit Profile',
             Icon: RiEditFill,
             onClick: () => {
-                if (role === UserRoles.ADMIN) {
+                if (role === UserRoles.ADMIN || subadmin?.data?.isAdmin) {
                     router.push(
                         `/portals/admin/industry/edit-industry/${industry?.id}`
                     )

@@ -1,4 +1,4 @@
-import { useContextBar, useNavbar, useNotification } from '@hooks'
+import { useContextBar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout, OptionType } from '@types'
 import { useRouter } from 'next/router'
@@ -10,26 +10,30 @@ import {
     ShowErrorNotifications,
     TechnicalError,
 } from '@components'
+import { UserRoles } from '@constants'
 import { IndustryProfileFrom } from '@partials/common'
 import { AdminApi, useUpdateIndustryProfileMutation } from '@queries'
-import { useState } from 'react'
+import { getUserCredentials } from '@utils'
 
 const EditRto: NextPageWithLayout = () => {
-    const [formData, setFormData] = useState<any>('')
-
     const router = useRouter()
     const editIndustryId = Number(router.query.editIndustryId || -1)
-    const navBar = useNavbar()
     const contextBar = useContextBar()
+    const role = getUserCredentials()?.role
 
     const industry = AdminApi.Industries.useDetail(editIndustryId, {
         skip: !editIndustryId,
         refetchOnMountOrArgChange: true,
     })
 
-    const { notification } = useNotification()
     const [updateProfile, updateProfileResult] =
         useUpdateIndustryProfileMutation()
+
+    useEffect(() => {
+        if (role === UserRoles.SUBADMIN) {
+            router.back()
+        }
+    }, [role])
 
     useEffect(() => {
         contextBar.setContent(null)
