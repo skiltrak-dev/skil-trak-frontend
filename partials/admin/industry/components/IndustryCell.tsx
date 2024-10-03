@@ -1,4 +1,8 @@
-import { HideRestrictedData, InitialAvatar } from '@components'
+import {
+    AuthorizedUserComponent,
+    HideRestrictedData,
+    InitialAvatar,
+} from '@components'
 import { UserRoles } from '@constants'
 import { Industry } from '@types'
 import { QueryType, queryToUrl } from '@utils'
@@ -45,6 +49,7 @@ export const IndustryCell = ({ industry }: { industry: Industry }) => {
                             <p className="font-semibold">
                                 {industry?.user?.name}
                             </p>
+
                             {industry?.isHiring ? (
                                 <div>
                                     <HiOutlineSpeakerphone className="text-lg" />
@@ -55,14 +60,16 @@ export const IndustryCell = ({ industry }: { industry: Industry }) => {
                         </div>
                         {/* snoozedDate */}
                         <div className="font-medium text-xs text-gray-500">
-                            <HideRestrictedData type={UserRoles.INDUSTRY}>
-                                <p className="flex items-center gap-x-1">
-                                    <span>
-                                        <MdEmail />
-                                    </span>
-                                    {industry?.user?.email}
-                                </p>
-                            </HideRestrictedData>
+                            <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                                <HideRestrictedData type={UserRoles.INDUSTRY}>
+                                    <p className="flex items-center gap-x-1">
+                                        <span>
+                                            <MdEmail />
+                                        </span>
+                                        {industry?.user?.email}
+                                    </p>
+                                </HideRestrictedData>
+                            </AuthorizedUserComponent>
 
                             <HideRestrictedData type={UserRoles.INDUSTRY}>
                                 <p className="flex items-center gap-x-1">

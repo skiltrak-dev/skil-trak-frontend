@@ -20,7 +20,7 @@ export const requiredQuestionsValidation = () => {
             fields[field] = yup
                 .array()
                 .of(yup.string().required('Item must be a non-empty string'))
-                .min(1, 'Array must contain at least one item')
+                .min(1, 'Item must contain at least one item')
                 .required()
         } else {
             fields[field] = yup.string().nullable(true).required('Required!')

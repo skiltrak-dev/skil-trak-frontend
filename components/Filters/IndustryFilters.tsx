@@ -196,6 +196,21 @@ export const IndustryFilters = ({
                         showError={false}
                     />
                 </div>
+                <div className={'mt-7'}>
+                    <Checkbox
+                        label={'Snoozed'}
+                        name={'isSnoozed'}
+                        onChange={(e: any) => {
+                            onFilterChange({
+                                ...filter,
+                                isSnoozed: e?.target?.checked
+                                    ? true
+                                    : undefined,
+                            })
+                        }}
+                        showError={false}
+                    />
+                </div>
             </div>
         </>
     )

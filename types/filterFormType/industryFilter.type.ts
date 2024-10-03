@@ -12,4 +12,5 @@ export interface AdminIndustryFormFilter {
     suburb: string
     isPartner: boolean
     isHiring: boolean | undefined
+    isSnoozed: boolean | undefined
 }
