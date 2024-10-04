@@ -275,12 +275,12 @@ export const RtoDashboardStudents = () => {
                 <div className="relative">
                     <div
                         className={
-                            'group flex justify-center items-end absolute top-0 left-0 w-full h-full z-20 bg-gradient-black-to-white'
+                            'group flex justify-center absolute top-0 left-0 w-full h-full z-20 bg-gradient-black-to-white'
                         }
                     >
                         <div
                             className={
-                                'transition-all mb-7 hidden group-hover:block'
+                                'transition-all mt-9 hidden group-hover:block'
                             }
                         >
                             <Button

@@ -20,15 +20,19 @@ export const StudentReport = ({ workplace }: { workplace: any }) => {
         )
     }
     return (
-        <div>
+        <div className="w-full">
             {modal}
-            <Button
-                text={'REPORT'}
-                onClick={() => {
-                    onReportClicked()
-                }}
-                variant="info"
-            />
+            <div className="w-full h-10">
+                <Button
+                    fullWidth
+                    fullHeight
+                    text={'REPORT'}
+                    onClick={() => {
+                        onReportClicked()
+                    }}
+                    variant="info"
+                />
+            </div>
         </div>
     )
 }
