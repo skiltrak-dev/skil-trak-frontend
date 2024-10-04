@@ -7,7 +7,7 @@ const nextConfig = {
         googleDirectionApi: "AIzaSyApOsp5NyUUJyW3vlZtvQ4IYf8urG7rrKA"
     },
     async rewrites() {
-        return { 
+        return {
             beforeFiles: [
                 // These rewrites are checked after headers/redirects
                 // and before all files including _next/public files which

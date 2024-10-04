@@ -1,17 +1,14 @@
 import {
     Button,
     EmptyData,
-    LoadingAnimation,
     PageSize,
     Pagination,
     TechnicalError,
     Typography,
 } from '@components'
-import { useContextBar } from '@hooks'
+import { UserRoles } from '@constants'
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
-import { ReactElement, useEffect, useState } from 'react'
-import { AdminApi, SubAdminApi } from '@queries'
+import Modal from '@modals/Modal'
 import {
     AddDepartmentCB,
     DepartmentCard,
@@ -19,9 +16,10 @@ import {
     DepartmentListSkeleton,
     useDepartmentList,
 } from '@partials/admin/departments'
+import { SubAdminApi } from '@queries'
+import { NextPageWithLayout } from '@types'
 import { getUserCredentials } from '@utils'
-import { UserRoles } from '@constants'
-import Modal from '@modals/Modal'
+import { ReactElement } from 'react'
 
 const Departments: NextPageWithLayout = () => {
     const {
@@ -83,7 +81,7 @@ const Departments: NextPageWithLayout = () => {
             {isLoading ? (
                 <DepartmentListSkeleton />
             ) : data?.data?.length ? (
-                <div className="flex flex-col gap-y-5 overflow-auto remove-scrollbar my-5 mx-5 ">
+                <div className="flex flex-col gap-y-5  my-5 mx-5 ">
                     {data?.data && data?.data?.length && (
                         <>
                             {checkIsHod ? (

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { useModal } from '../hooks'
 import { Button } from '@components'
 
@@ -14,6 +14,7 @@ export const ActionModalType: any = {
 
 export const CrudModal = () => {
     const { modalConfig, closeModal } = useModal()
+    const [isLoading, setIsloading] = useState<boolean>(false)
     const dialogRef = useRef<any>(null)
 
     useEffect(() => {
@@ -37,9 +38,13 @@ export const CrudModal = () => {
         loading,
     } = modalConfig
 
-    const handleConfirm = () => {
-        onConfirm()
-        closeModal()
+    const handleConfirm = async () => {
+        setIsloading(true)
+        const res = await onConfirm()
+        setIsloading(false)
+        if (res?.data) {
+            closeModal()
+        }
     }
 
     return (
@@ -71,8 +76,8 @@ export const CrudModal = () => {
                 <Button
                     onClick={handleConfirm}
                     variant={variant || 'info'}
-                    loading={loading}
-                    disabled={loading}
+                    loading={loading || isLoading}
+                    disabled={loading || isLoading}
                 >
                     {confirmText || 'Confirm'}
                 </Button>

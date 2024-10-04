@@ -30,11 +30,11 @@ export const SwitchToAdminModal = ({
                 description: `subAdmin "${subAdmin?.user?.name}" has been switched to Admin.`,
             })
             onCancel()
-            if (isBrowser()) {
-                setTimeout(() => {
-                    location.reload()
-                }, 500)
-            }
+            // if (isBrowser()) {
+            //     setTimeout(() => {
+            //         location.reload()
+            //     }, 500)
+            // }
         }
         if (resultSwitchUserRole?.isError) {
             notification.error({

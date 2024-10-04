@@ -69,7 +69,7 @@ export const DepartmentCard = ({ department }: DepartmentCardProps) => {
             confirmText: 'Delete',
             variant: 'error',
             onConfirm: () => {
-                deleteDepartment(department?.id)
+                return deleteDepartment(department?.id)
             },
         })
     }
@@ -108,7 +108,7 @@ export const DepartmentCard = ({ department }: DepartmentCardProps) => {
     return (
         <>
             <ShowErrorNotifications result={deleteDepartmentResult} />
-           
+
             <Card noPadding>
                 <div className="flex gap-x-8 w-full pr-5">
                     <div className="bg-primaryNew whitespace-nowrap min-w-[272px] rounded-lg p-5 flex items-start gap-x-5">
