@@ -1,14 +1,6 @@
-import { AdminApi } from '@queries'
-import { AdminLayout } from '@layouts'
-import { useRouter } from 'next/router'
-import React, { ReactElement, useEffect, useState } from 'react'
-import { AdminSubadminFilter, NextPageWithLayout } from '@types'
-import { ProfileDetail, SubadminProfileDetail } from '@partials/admin/sub-admin'
 import {
-    Card,
     EmptyData,
     Filter,
-    LoadingAnimation,
     NoData,
     SetDetaultQueryFilteres,
     SubAdminFilters,
@@ -16,9 +8,10 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
+import { AdminLayout } from '@layouts'
+import { AdminSubadminFilter, NextPageWithLayout } from '@types'
+import { ReactElement } from 'react'
 
-import { checkFilteredDataLength } from '@utils'
-import { PageHeading } from '@components/headings'
 import {
     DepartmentCoordinatorsList,
     DepartmentCoordinatorsListProvider,
@@ -29,8 +22,6 @@ import {
     SectorAndCoursesList,
     useDepartmentDetailContext,
 } from '@partials/admin/departments'
-import { UpdatedCourseList } from '@partials/common'
-import { FaSchool } from 'react-icons/fa'
 import { DepartmentMap } from '@partials/admin/departments/map'
 
 const filterKeys = ['name', 'email', 'status', 'courseId']
