@@ -44,7 +44,7 @@ import 'swiper/css/scrollbar'
 import { GoogleAnalyticsScript } from '@scripts'
 import { isBrowser } from '@utils'
 import { SessionProvider } from 'next-auth/react'
-import { ModalProvider } from '@partials/admin/departments'
+import { CrudModal, ModalProvider } from '@partials/admin/departments'
 
 type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout
@@ -136,6 +136,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                                     </GoogleMapsProvider>
                                 </JoyRideProvider>
                             </ErrorBoundaryContext>
+                            <CrudModal />
                             {/* </NextAuthAutoLogoutProvider> */}
                         </AutoLogoutProvider>
                     </ModalProvider>

@@ -30,11 +30,11 @@ export const SwitchBackToSubAdmin = ({
                 description: `Subadmin as admin has been switched back to subadmin.`,
             })
             onCancel()
-            if (isBrowser()) {
-                setTimeout(() => {
-                    location.reload()
-                }, 500)
-            }
+            // if (isBrowser()) {
+            //     setTimeout(() => {
+            //         location.reload()
+            //     }, 500)
+            // }
         }
         if (resultSwitchUserRole?.isError) {
             notification.error({

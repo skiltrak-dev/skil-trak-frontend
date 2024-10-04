@@ -66,8 +66,8 @@ export const RtoProfileProgress = ({
                 <Typography semibold center>
                     <span className="text-[15px]">Progress</span>
                 </Typography>
-                <div className="flex items-center">
-                    <div>
+                <div className="flex justify-center items-center">
+                    {/* <div>
                         {Object.entries(countsArr)?.map(
                             ([key, value]: [string, number]) => (
                                 <div className="flex items-center gap-x-1">
@@ -81,7 +81,7 @@ export const RtoProfileProgress = ({
                                 </div>
                             )
                         )}
-                    </div>
+                    </div> */}
                     <ProgressChart data={progressData} />
                 </div>
             </div>

@@ -66,8 +66,8 @@ export const CourseDocuments = ({ course }: { course: Course }) => {
                 <div>
                     <div>
                         <Typography variant="label" medium>
-                            Please select documents you want to require from
-                            students
+                            Please select the documents required from the
+                            student.
                         </Typography>
                         <Typography variant={'small'}>
                             Only selected documents will be required

@@ -67,7 +67,8 @@ export const SearchUserCard = ({
         {
             skip:
                 !search ||
-                (role === UserRoles.ADMIN && subadmin?.data?.isAdmin),
+                role === UserRoles.ADMIN ||
+                (role === UserRoles.SUBADMIN && subadmin?.data?.isAdmin),
         }
     )
     const adminUsers = useSearchUserQuery(
@@ -86,6 +87,8 @@ export const SearchUserCard = ({
                 (role === UserRoles.SUBADMIN && !subadmin?.data?.isAdmin),
         }
     )
+
+    console.log({ adminUsers, subAdminUsers })
 
     useEffect(() => {
         setSearchAppointment(adminUsers)

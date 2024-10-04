@@ -19,6 +19,7 @@ import {
 } from './components'
 import { IndustryPlacementStatus } from '../IndustryProfileDetail'
 import { useGoogleMaps } from '@hooks'
+import { UserRoles } from '@constants'
 
 const containerStyle = {
     width: '780px',
@@ -383,7 +384,7 @@ export const ViewOnMapIndustriesModal = ({
                                                                         ?.role &&
                                                                     marker?.user
                                                                         ?.role ===
-                                                                        'student'
+                                                                        UserRoles.STUDENT
                                                                         ? '/images/icons/student-red-map-pin.png'
                                                                         : marker?.placementStatus ===
                                                                           IndustryPlacementStatus.ACCEPTING_STUDENTS
