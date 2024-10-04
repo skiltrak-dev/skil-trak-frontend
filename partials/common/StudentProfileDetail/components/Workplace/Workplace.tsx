@@ -390,45 +390,53 @@ export const Workplace = ({
                                             }}
                                         />
                                     </div>
-                                    {!selectedWorkplace?.cancelledRequests
-                                        ?.length ? (
-                                        <div className="px-3 mt-1">
-                                            <AuthorizedUserComponent
-                                                roles={[
-                                                    UserRoles.ADMIN,
-                                                    UserRoles.RTO,
-                                                ]}
-                                            >
-                                                <ActionButton
-                                                    variant={'error'}
-                                                    onClick={async () => {
-                                                        onCancelWPClicked()
-                                                    }}
+                                    <div className="flex justify-between items-center px-5 py-2">
+                                        {!selectedWorkplace?.cancelledRequests
+                                            ?.length ? (
+                                            <div className="px-3 mt-1">
+                                                <AuthorizedUserComponent
+                                                    roles={[
+                                                        UserRoles.ADMIN,
+                                                        UserRoles.RTO,
+                                                    ]}
                                                 >
-                                                    Cancel Request
-                                                </ActionButton>
-                                            </AuthorizedUserComponent>
-                                            <AuthorizedUserComponent
-                                                roles={[UserRoles.SUBADMIN]}
-                                            >
-                                                <ActionButton
-                                                    variant={'error'}
-                                                    onClick={async () => {
-                                                        onCancelWPRequestClicked()
-                                                    }}
+                                                    <ActionButton
+                                                        variant={'error'}
+                                                        onClick={async () => {
+                                                            onCancelWPClicked()
+                                                        }}
+                                                    >
+                                                        Cancel Request
+                                                    </ActionButton>
+                                                </AuthorizedUserComponent>
+                                                <AuthorizedUserComponent
+                                                    roles={[UserRoles.SUBADMIN]}
                                                 >
-                                                    Cancel Request
-                                                </ActionButton>
-                                            </AuthorizedUserComponent>
-                                        </div>
-                                    ) : (
-                                        <div className="w-64 px-3 mt-1">
-                                            <Badge
-                                                variant="warning"
-                                                text="WP Cancelation Request Sent to Admin, wait for approvel!"
-                                            />
-                                        </div>
-                                    )}
+                                                    <ActionButton
+                                                        variant={'error'}
+                                                        onClick={async () => {
+                                                            onCancelWPRequestClicked()
+                                                        }}
+                                                    >
+                                                        Cancel Request
+                                                    </ActionButton>
+                                                </AuthorizedUserComponent>
+                                            </div>
+                                        ) : (
+                                            <div className="w-64 px-3 mt-1">
+                                                <Badge
+                                                    variant="warning"
+                                                    text="WP Cancelation Request Sent to Admin, wait for approvel!"
+                                                />
+                                            </div>
+                                        )}
+                                        <Typography variant="small" medium>
+                                            Recieved On:{' '}
+                                            {moment(
+                                                selectedWorkplace?.createdAt
+                                            ).format('Do MMM, YYYY')}
+                                        </Typography>
+                                    </div>
                                 </>
                             ) : (
                                 <div>

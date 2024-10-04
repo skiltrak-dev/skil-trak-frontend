@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react'
 import { IndustryCard } from './components'
 import { GlobalModal, NoData, Portal, Typography } from '@components'
 import { Course, Student } from '@types'
-import { WorkplaceCurrentStatus } from '@utils'
+import { getUserCredentials, WorkplaceCurrentStatus } from '@utils'
 import { ViewMoreIndustriesModal } from '@partials/sub-admin/workplace/modals'
 import { useContextBar, useNotification } from '@hooks'
 import { AddIndustryCB } from '@partials/sub-admin/workplace/contextBar'
@@ -15,6 +15,7 @@ import {
     IWorkplaceIndustries,
     WorkplaceWorkIndustriesType,
 } from 'redux/queryTypes'
+import { UserRoles } from '@constants'
 
 export const IndustryDetail = ({
     course,
@@ -29,6 +30,8 @@ export const IndustryDetail = ({
     const { notification } = useNotification()
     const [showMap, setShowMap] = useState<boolean>(false)
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const role = getUserCredentials()?.role
 
     const suggestedIndustries = workplace?.industries?.filter(
         (i: any) => !i.applied
@@ -120,7 +123,8 @@ export const IndustryDetail = ({
                         </Typography> */}
                         {!appliedIndustry &&
                         !workplace?.byExistingAbn &&
-                        !workplace?.studentProvidedWorkplace ? (
+                        !workplace?.studentProvidedWorkplace &&
+                        role !== UserRoles.RTO ? (
                             <>
                                 {/* <Typography
                                     variant={'small'}
@@ -218,16 +222,18 @@ export const IndustryDetail = ({
                                         potential workplaces to apply for
                                         student.
                                     </Typography>
-                                    <p
-                                        className={
-                                            'underline text-white text-center text-[15px] cursor-pointer'
-                                        }
-                                        onClick={() => {
-                                            onViewOnMap()
-                                        }}
-                                    >
-                                        VIEW MAP
-                                    </p>
+                                    {role !== UserRoles.RTO ? (
+                                        <p
+                                            className={
+                                                'underline text-white text-center text-[15px] cursor-pointer'
+                                            }
+                                            onClick={() => {
+                                                onViewOnMap()
+                                            }}
+                                        >
+                                            VIEW MAP
+                                        </p>
+                                    ) : null}
                                 </div>
                             ) : null}
                         </div>

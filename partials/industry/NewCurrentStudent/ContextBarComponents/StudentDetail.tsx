@@ -32,7 +32,7 @@ export const StudentDetail = ({ profile }: { profile: any }) => {
                 />
                 <StudentDetailCard
                     title="Location"
-                    detail={`${profile?.student?.suburb}, ${profile?.student?.state}, ${profile?.student?.addressLine1}`}
+                    detail={profile?.student?.addressLine1}
                 />
             </div>
         </div>

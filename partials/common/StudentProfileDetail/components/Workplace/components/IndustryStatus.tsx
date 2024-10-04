@@ -3,10 +3,11 @@ import { useRouter } from 'next/router'
 import { Typography } from '@components'
 import { useNotification } from '@hooks'
 import { useEffect, useState } from 'react'
-import { WorkplaceCurrentStatus } from '@utils'
+import { getUserCredentials, WorkplaceCurrentStatus } from '@utils'
 import { IoIosArrowDown } from 'react-icons/io'
 import OutsideClickHandler from 'react-outside-click-handler'
 import { useRequestType } from '@partials/common/StudentProfileDetail/hooks'
+import { UserRoles } from '@constants'
 
 export const IndustryStatus = ({
     folders,
@@ -22,6 +23,8 @@ export const IndustryStatus = ({
         number | null
     >(0)
     const router = useRouter()
+
+    const role = getUserCredentials()?.role
 
     const { notification } = useNotification()
 
@@ -75,37 +78,40 @@ export const IndustryStatus = ({
                 <div className="w-40 mt-2 relative">
                     <div
                         onClick={() => {
-                            if (
-                                workplace?.cancelledRequests &&
-                                workplace?.cancelledRequests?.length > 0
-                            ) {
-                                notification.warning({
-                                    title: 'Workplace Cancelation Request Sent !',
-                                    description:
-                                        'Workplace Cancelation Request already sent to the admin!',
-                                    dissmissTimer: 6666,
-                                    position: 'bottomleft',
-                                })
-                            } else if (true) {
-                                if (workplace?.assignedTo) {
-                                    if (
-                                        !appliedIndustry?.terminated &&
-                                        !appliedIndustry?.isCompleted &&
-                                        !appliedIndustry?.cancelled
-                                    ) {
-                                        setIsOpened(!isOpened)
+                            if (role !== UserRoles.RTO) {
+                                if (
+                                    workplace?.cancelledRequests &&
+                                    workplace?.cancelledRequests?.length > 0
+                                ) {
+                                    notification.warning({
+                                        title: 'Workplace Cancelation Request Sent !',
+                                        description:
+                                            'Workplace Cancelation Request already sent to the admin!',
+                                        dissmissTimer: 6666,
+                                        position: 'bottomleft',
+                                    })
+                                } else if (true) {
+                                    if (workplace?.assignedTo) {
+                                        if (
+                                            !appliedIndustry?.terminated &&
+                                            !appliedIndustry?.isCompleted &&
+                                            !appliedIndustry?.cancelled
+                                        ) {
+                                            setIsOpened(!isOpened)
+                                        } else {
+                                            notification.warning({
+                                                title: 'Action cant perform',
+                                                description:
+                                                    'Action cant perform',
+                                            })
+                                        }
                                     } else {
                                         notification.warning({
-                                            title: 'Action cant perform',
-                                            description: 'Action cant perform',
+                                            title: 'Assign the workplace',
+                                            description:
+                                                'Assign the workplace before changing status',
                                         })
                                     }
-                                } else {
-                                    notification.warning({
-                                        title: 'Assign the workplace',
-                                        description:
-                                            'Assign the workplace before changing status',
-                                    })
                                 }
                             }
                         }}
@@ -139,17 +145,19 @@ export const IndustryStatus = ({
                                         ? selectedRequestType
                                         : (0 as any)
                                 ]?.primaryText
-                            } 
+                            }
                         </Typography>
 
-                        <IoIosArrowDown
-                            className={
-                                workplace?.currentStatus ===
-                                WorkplaceCurrentStatus.PlacementStarted
-                                    ? 'text-white'
-                                    : 'text-[#128C7E]'
-                            }
-                        />
+                        {role !== UserRoles.RTO ? (
+                            <IoIosArrowDown
+                                className={
+                                    workplace?.currentStatus ===
+                                    WorkplaceCurrentStatus.PlacementStarted
+                                        ? 'text-white'
+                                        : 'text-[#128C7E]'
+                                }
+                            />
+                        ) : null}
                     </div>
                     <div
                         className={`w-auto  bg-white shadow-md rounded-md z-10 absolute top-full left-0 overflow-auto custom-scrollbar transition-all duration-500 ${
