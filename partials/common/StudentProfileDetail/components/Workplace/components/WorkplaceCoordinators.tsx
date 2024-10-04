@@ -2,6 +2,8 @@ import { Select, ShowErrorNotifications, Typography } from '@components'
 import { AdminApi, useAssignToSubAdminMutation } from '@queries'
 import { ReactElement, useState } from 'react'
 import { CoordinatorChangeModal } from '../modals'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 export const WorkplaceCoordinators = ({
     workplace,
@@ -11,6 +13,8 @@ export const WorkplaceCoordinators = ({
     appliedIndustryId: number
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const role = getUserCredentials()?.role
 
     const subadmins = AdminApi.Workplace.subadminForAssignWorkplace()
     const [assignToMe, assignToMeResult] = useAssignToSubAdminMutation()
@@ -67,7 +71,8 @@ export const WorkplaceCoordinators = ({
                             disabled={
                                 subadmins?.isLoading ||
                                 assignToMeResult.isLoading ||
-                                workplace?.cancelledRequests?.length > 0
+                                workplace?.cancelledRequests?.length > 0 ||
+                                role === UserRoles.RTO
                             }
                             onChange={(e: any) => {
                                 onChangeCoordinator(e?.value)

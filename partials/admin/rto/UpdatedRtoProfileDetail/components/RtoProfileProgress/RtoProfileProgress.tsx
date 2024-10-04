@@ -27,8 +27,8 @@ export const RtoProfileProgress = ({
         0
     )
 
-    const percentData = (count: number) =>
-        (((count * 100) / addedData).toFixed(1) || 0) as number
+    const percentData = (count: number): number =>
+        (+((count * 100) / addedData).toFixed(1) || 0) as number
 
     const progressData: RtoProfileProgressTypes[] = [
         {
@@ -57,6 +57,8 @@ export const RtoProfileProgress = ({
             percent: percentData(countsArr?.noWorkPlace),
         },
     ]
+
+    console.log('progressData', progressData)
 
     return (
         <div>

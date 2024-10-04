@@ -27,14 +27,18 @@ export const StudentFeedBack = ({ workplace }: { workplace: any }) => {
         )
     }
     return (
-        <div>
+        <div className="w-full">
             {modal}
-            <Button
-                text={'FeedBack'}
-                onClick={() => {
-                    onFeedBackClicked()
-                }}
-            />
+            <div className="w-full h-10">
+                <Button
+                    fullWidth
+                    fullHeight
+                    text={'FeedBack'}
+                    onClick={() => {
+                        onFeedBackClicked()
+                    }}
+                />
+            </div>
         </div>
     )
 }
