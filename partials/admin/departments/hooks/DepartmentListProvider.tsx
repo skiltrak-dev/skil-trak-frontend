@@ -1,9 +1,6 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
 import { useContextBar } from '@hooks'
 import { AdminApi } from '@queries'
-import { EmptyData, TechnicalError } from '@components'
-import { DepartmentListSkeleton } from '../skeletonLoader'
-import { AddDepartmentCB } from '../contextBar'
+import { createContext, useContext, useState } from 'react'
 
 // Define the user structure
 interface User {

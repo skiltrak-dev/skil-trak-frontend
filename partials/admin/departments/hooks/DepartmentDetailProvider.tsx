@@ -6,15 +6,19 @@ import { checkFilteredDataLength } from '@utils'
 
 // Define the shape of our context
 interface DepartmentDetailContextType {
-    departmentDetail: ReturnType<typeof AdminApi.Department.useDepartmentDetails>
-    coordinatorsList: ReturnType<typeof AdminApi.Department.useDeptCoordinatorsList>
+    departmentDetail: ReturnType<
+        typeof AdminApi.Department.useDepartmentDetails
+    >
+    coordinatorsList: ReturnType<
+        typeof AdminApi.Department.useDeptCoordinatorsList
+    >
     deptCourses: ReturnType<typeof AdminApi.Department.useDepartmentCourses>
-    hodDetails: any 
+    hodDetails: any
     sectorsOptions: { label: string; value: number }[]
-    groupedCourses: Record<string, any[]> 
+    groupedCourses: Record<string, any[]>
     filter: AdminSubadminFilter
     setFilter: React.Dispatch<React.SetStateAction<AdminSubadminFilter>>
-    filterAction: any 
+    filterAction: any
     setFilterAction: React.Dispatch<React.SetStateAction<any>>
     itemPerPage: number
     setItemPerPage: React.Dispatch<React.SetStateAction<number>>
@@ -23,12 +27,16 @@ interface DepartmentDetailContextType {
     filteredDataLength: boolean
 }
 
-const DepartmentDetailContext = createContext<DepartmentDetailContextType | undefined>(undefined)
+const DepartmentDetailContext = createContext<
+    DepartmentDetailContextType | undefined
+>(undefined)
 
 export const useDepartmentDetailContext = () => {
     const context = useContext(DepartmentDetailContext)
     if (context === undefined) {
-        throw new Error('useDepartmentDetailContext must be used within a DepartmentDetailProvider')
+        throw new Error(
+            'useDepartmentDetailContext must be used within a DepartmentDetailProvider'
+        )
     }
     return context
 }
@@ -38,7 +46,7 @@ export const DepartmentDetailProvider: React.FC<{
 }> = ({ children }) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    
+
     const [filterAction, setFilterAction] = useState(null)
     const [filter, setFilter] = useState<AdminSubadminFilter>(
         {} as AdminSubadminFilter
@@ -73,6 +81,7 @@ export const DepartmentDetailProvider: React.FC<{
             },
         },
         {
+            skip: !departmentId,
             refetchOnMountOrArgChange: true,
         }
     )
@@ -99,14 +108,17 @@ export const DepartmentDetailProvider: React.FC<{
         value: sector?.id,
     }))
 
-    const groupedCourses = deptCourses?.data?.reduce((acc: any, course: any) => {
-        const sectorName = course?.sector?.name
-        if (!acc[sectorName]) {
-            acc[sectorName] = []
-        }
-        acc[sectorName].push(course)
-        return acc
-    }, {})
+    const groupedCourses = deptCourses?.data?.reduce(
+        (acc: any, course: any) => {
+            const sectorName = course?.sector?.name
+            if (!acc[sectorName]) {
+                acc[sectorName] = []
+            }
+            acc[sectorName].push(course)
+            return acc
+        },
+        {}
+    )
 
     const filteredDataLength = checkFilteredDataLength(filter)
 

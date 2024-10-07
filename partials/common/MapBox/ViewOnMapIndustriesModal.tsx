@@ -325,6 +325,13 @@ export const ViewOnMapIndustriesModal = ({
     const studentCenter: any = visibleMarkers.find(
         (student: any) => student?.user && student?.user?.role === 'student'
     )
+
+    const indind = studentDetails?.data?.student?.industryContacts?.map(
+        (i: any) => i?.industry?.id
+    )
+
+    console.log({ indind })
+
     return (
         <div className="w-full h-[80vh] lg:h-full overflow-hidden">
             <div className="flex justify-between cursor-pointer border-b py-0.5 px-2 mb-2">
@@ -392,11 +399,15 @@ export const ViewOnMapIndustriesModal = ({
                                                                         : marker?.placementStatus ===
                                                                           IndustryPlacementStatus.NOT_ACCEPTING_STUDENTS
                                                                         ? '/images/icons/industry-pin-map-pin-uncheck.png'
+                                                                        : indind?.includes(
+                                                                              marker?.id
+                                                                          )
+                                                                        ? '/images/icons/industryContacted.png'
                                                                         : '/images/icons/industry-pin-map-pin.png',
                                                                 scaledSize:
                                                                     new google.maps.Size(
-                                                                        29,
-                                                                        38
+                                                                        31,
+                                                                        41
                                                                     ),
                                                             }}
                                                             key={marker.id}
@@ -548,6 +559,7 @@ export const ViewOnMapIndustriesModal = ({
                                                                             onCancel={
                                                                                 onCancel
                                                                             }
+                                                                            industryContacted
                                                                         />
                                                                     )}
                                                                 </InfoBox>
@@ -590,11 +602,15 @@ export const ViewOnMapIndustriesModal = ({
                                                                         : marker?.placementStatus ===
                                                                           IndustryPlacementStatus.NOT_ACCEPTING_STUDENTS
                                                                         ? '/images/icons/industry-pin-map-pin-uncheck.png'
+                                                                        : indind?.includes(
+                                                                              marker?.id
+                                                                          )
+                                                                        ? '/images/icons/industryContacted.png'
                                                                         : '/images/icons/industry-pin-map-pin.png',
                                                                 scaledSize:
                                                                     new google.maps.Size(
-                                                                        29,
-                                                                        38
+                                                                        31,
+                                                                        41
                                                                     ),
                                                             }}
                                                             key={marker.id}
@@ -729,6 +745,7 @@ export const ViewOnMapIndustriesModal = ({
                                                                             onCancel={
                                                                                 onCancel
                                                                             }
+                                                                            industryContacted
                                                                         />
                                                                     )}
                                                                 </InfoBox>
@@ -771,6 +788,10 @@ export const ViewOnMapIndustriesModal = ({
                                                                         : marker?.placementStatus ===
                                                                           IndustryPlacementStatus.NOT_ACCEPTING_STUDENTS
                                                                         ? '/images/icons/partnered-industry-marker-uncheck.png'
+                                                                        : indind?.includes(
+                                                                              marker?.id
+                                                                          )
+                                                                        ? '/images/icons/partnerIndustryContacted.png'
                                                                         : '/images/icons/partnered-industry-marker.png',
                                                                 scaledSize:
                                                                     new google.maps.Size(
@@ -906,6 +927,7 @@ export const ViewOnMapIndustriesModal = ({
                                                                             onCancel={
                                                                                 onCancel
                                                                             }
+                                                                            industryContacted
                                                                         />
                                                                     )}
                                                                 </InfoBox>

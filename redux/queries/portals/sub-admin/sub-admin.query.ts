@@ -216,6 +216,7 @@ export const {
     useAddExistingIndustriesMutation,
     useChangeCustomIndustryStatusMutation,
     useSendMeetingNotificationMutation,
+    useContactWorkplaceIndustryMutation,
 
     // ----- STUDENTS-------//
     useGetSubAdminStudentsQuery,
@@ -522,6 +523,7 @@ export const SubAdminApi = {
         useCancelRequestWP: useCancelRequestWorkplaceMutation,
         subadminCancelationRequest: useSubadminWpCancellationRequestsListQuery,
         useSendMeetingNotification: useSendMeetingNotificationMutation,
+        contactWorkplaceIndustry: useContactWorkplaceIndustryMutation,
         useSubAdminMapSuggestedIndustryDetail:
             useGetSubAdminMapSuggestedIndustryDetailQuery,
         useWorkplaceCourseIndustries: useGetWorkplaceCourseIndustriesQuery,

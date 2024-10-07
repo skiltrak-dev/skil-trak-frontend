@@ -167,11 +167,13 @@ export const questionList = [
         index: 12,
         title: 'Awareness of Unpaid Placement:',
         required: true,
+        onlyAccept: true,
     },
     {
         name: workplaceQuestionsKeys.understandingOfDocumentation,
         index: 13,
         title: 'Understanding of Documentation:',
         required: true,
+        onlyAccept: true,
     },
 ]

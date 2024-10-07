@@ -5,25 +5,29 @@ import {
     TextInput,
     Typography,
 } from '@components'
-import React, { useEffect } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
-import { AuthApi, AdminApi } from '@queries'
-import { IoMdCloseCircleOutline } from 'react-icons/io'
-import { AddSectorsAndCourses } from './AddSectorsAndCourses'
-import { useNotification } from '@hooks'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useNotification } from '@hooks'
+import { AdminApi } from '@queries'
+import { useEffect, useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { IoMdCloseCircleOutline } from 'react-icons/io'
 import * as yup from 'yup'
 export const AddDepartmentCB = ({
     setAddDepartment,
     addDepartment,
     onCloseModal,
 }: any) => {
+    const [selectedSector, setSelectedSector] = useState<number[]>([])
+
+    console.log({ selectedSector })
+
     const getSectors = AdminApi.Department.useDepartmentSectors()
     const { notification } = useNotification()
     const [addDept, addDeptResult] = AdminApi.Department.useAddDepartment()
     const departmentCoordinators =
-        AdminApi.Department.useDepartmentCoordinators()
-    console.log('Department coordinator', getSectors?.data)
+        AdminApi.Department.useDepartmentCoordinators(selectedSector, {
+            skip: !selectedSector?.length,
+        })
     const coordinatorOptions = departmentCoordinators?.data?.map(
         (coordinator: any) => ({
             label: `${coordinator?.user?.name}`,
@@ -116,25 +120,33 @@ export const AddDepartmentCB = ({
                         required
                     />
                     <Select
-                        options={coordinatorOptions}
-                        name="departmentMembers"
-                        label="Add Member"
-                        placeholder="Select Member"
-                        multi
-                        // onlyValue
-                        required
-                        loading={departmentCoordinators.isLoading}
-                    />
-                    <Select
                         options={sectorOptions}
                         name="sectors"
                         label="Select Sector"
                         placeholder="Select Sector"
                         multi
                         onlyValue
+                        onChange={(e: number[]) => setSelectedSector(e)}
+                        required
+                        disabled={getSectors.isLoading}
+                        loading={getSectors.isLoading}
+                    />
+                    <Select
+                        options={coordinatorOptions}
+                        name="departmentMembers"
+                        label="Add Member"
+                        placeholder="Select Member"
+                        multi
+                        disabled={
+                            !selectedSector?.length ||
+                            !coordinatorOptions?.length ||
+                            departmentCoordinators.isLoading
+                        }
+                        // onlyValue
                         required
                         loading={departmentCoordinators.isLoading}
                     />
+
                     <Button
                         text="Add"
                         submit
