@@ -29,7 +29,7 @@ export const AddCoordinatorModal = ({ onCancel }: any) => {
     }, [addDeptMembersResult])
 
     const departmentCoordinators =
-        AdminApi.Department.useDepartmentCoordinators()
+        AdminApi.Department.useDepartmentCoordinators(undefined)
     const coordinatorOptions = departmentCoordinators?.data?.map(
         (coordinator: any) => ({
             label: `${coordinator?.user?.name}`,

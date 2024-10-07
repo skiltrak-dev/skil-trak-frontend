@@ -111,7 +111,10 @@ export const DepartmentCard = ({ department }: DepartmentCardProps) => {
 
             <Card noPadding>
                 <div className="flex gap-x-8 w-full pr-5">
-                    <div className="bg-primaryNew whitespace-nowrap min-w-[272px] rounded-lg p-5 flex items-start gap-x-5">
+                    <div
+                        onClick={() => handleViewDetails()}
+                        className="cursor-pointer bg-primaryNew whitespace-nowrap min-w-[272px] rounded-lg p-5 flex items-start gap-x-5"
+                    >
                         <div className="flex flex-col gap-y-1.5 items-start">
                             <Typography
                                 variant="xs"

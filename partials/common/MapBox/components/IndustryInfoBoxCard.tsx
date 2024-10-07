@@ -1,7 +1,7 @@
 import { Badge, NoData, ShowErrorNotifications, Typography } from '@components'
 import { useContextBar } from '@hooks'
 import { ShowIndustryNotesAndTHModal } from '@partials/common/StudentProfileDetail/components'
-import { useAddExistingIndustriesMutation } from '@queries'
+import { useAddExistingIndustriesMutation, SubAdminApi } from '@queries'
 import { ellipsisText, getSectorsDetail } from '@utils'
 import Image from 'next/image'
 import { ReactElement, useState } from 'react'
@@ -9,6 +9,7 @@ import { FaTimes } from 'react-icons/fa'
 import { PulseLoader } from 'react-spinners'
 import { IndustryDetailCB } from '../contextBar'
 import { CopyInfoData } from './CopyInfoData'
+import { useRouter } from 'next/router'
 
 type IndustryInfoBoxCardProps = {
     item: any
@@ -30,8 +31,10 @@ export const IndustryInfoBoxCard = ({
     appliedIndustry,
     workplaceMapCard = false,
     onCancel,
+    industryContacted,
 }: any) => {
     const workplaceId = workplace?.id
+    const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -40,6 +43,8 @@ export const IndustryInfoBoxCard = ({
     // apply for industry
     const [addExistingIndustry, addExistingIndustryResult] =
         useAddExistingIndustriesMutation()
+    const [contactWorkplaceIndustry, contactWorkplaceIndustryResult] =
+        SubAdminApi.Workplace.contactWorkplaceIndustry()
     const sectors = getSectorsDetail(selectedBox?.courses)
 
     const onModalCancelClicked = () => setModal(null)
@@ -183,7 +188,18 @@ export const IndustryInfoBoxCard = ({
                                                 ) ?? 'NA'}
                                             </Typography>
 
-                                            <div className="relative group w-fit">
+                                            <div
+                                                className="relative group w-fit"
+                                                onClick={() => {
+                                                    contactWorkplaceIndustry({
+                                                        studentId: Number(
+                                                            router?.query?.id
+                                                        ),
+                                                        industryId,
+                                                        wpId: workplaceId,
+                                                    })
+                                                }}
+                                            >
                                                 <Typography variant="xs">
                                                     {item?.data
                                                         ?.contactPersonNumber ??

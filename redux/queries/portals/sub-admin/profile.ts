@@ -70,6 +70,6 @@ export const profileEndpoints = (
             url: `students/student/${id}/detail/for-map`,
             // params,
         }),
-        providesTags: ['SubAdmin'],
+        providesTags: ['SubAdmin', 'Workplace'],
     }),
 })

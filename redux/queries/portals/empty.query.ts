@@ -24,6 +24,7 @@ const adminTagTypes = [
     'SubAdmins',
     'Industries',
     'Workplaces',
+    'Departments',
     'Subscribers',
     'BlogCategories',
     'AllowRtoListing',

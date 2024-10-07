@@ -45,6 +45,7 @@ export const DefaultQuestions = ({
                     onClick={(answer: string) => {
                         formMethods.setValue(ques?.name, answer)
                     }}
+                    onlyAccept={ques?.onlyAccept}
                     index={ques?.index - 1}
                     data={updateQuestionData(ques?.name)}
                     name={ques?.name}

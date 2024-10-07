@@ -117,7 +117,7 @@ export const Footer4 = () => {
                             variant={isMobile ? 'label' : 'body'}
                             color="text-gray-300"
                         >
-                            <span className="whitespace-pre"> Abouts</span>
+                            <span className="whitespace-pre">About Us</span>
                         </Typography>
                     </Link>
                 </div>

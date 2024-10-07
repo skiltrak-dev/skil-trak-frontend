@@ -324,4 +324,16 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['Workplace'],
     }),
+
+    contactWorkplaceIndustry: builder.mutation<
+        any,
+        { studentId: number; wpId: number; industryId: number }
+    >({
+        query: ({ studentId, wpId, ...params }) => ({
+            url: `${PREFIX}students/${studentId}/workplace-requests/${wpId}`,
+            method: 'POST',
+            params,
+        }),
+        invalidatesTags: ['Workplace'],
+    }),
 })

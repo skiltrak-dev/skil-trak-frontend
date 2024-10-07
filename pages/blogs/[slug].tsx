@@ -75,7 +75,7 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                             Published by : {blogData?.author}
                         </p>
                         <p className="text-slate-400 text-xs">
-                            {moment(blogData?.createdAt).format('Do MMM YYYY')}
+                            {moment(blogData?.updatedAt).format('Do MMM YYYY')}
                         </p>
                     </div>
                     <h1 className="font-bold text-xl md:text-[40px] md:leading-10 uppercase my-2 md:my-10">
@@ -117,7 +117,6 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                                                         }
                                                     />
                                                 </div>
-                                                
                                             )
                                         }
                                     )}
