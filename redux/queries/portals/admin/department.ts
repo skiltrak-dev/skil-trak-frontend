@@ -5,8 +5,15 @@ const PREFIX = 'admin'
 export const departmentEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    getDepartmentCoordinators: builder.query<any, void>({
-        query: () => `${PREFIX}/subadmin/list-for-department`,
+    getDepartmentCoordinators: builder.query<any, number[] | undefined>({
+        query: (sectorIds) => {
+            const params =
+                sectorIds && sectorIds?.length > 0 ? { sectorIds } : {}
+            return {
+                url: `${PREFIX}/subadmin/list-for-department`,
+                params,
+            }
+        },
         providesTags: ['Departments'],
     }),
     getDepartments: builder.query<any, any>({

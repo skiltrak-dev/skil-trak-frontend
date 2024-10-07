@@ -21,6 +21,7 @@ export const WorkplaceQuestionCard = ({
     onClick,
     children,
     required,
+    onlyAccept,
     customAnswers,
     showOnlyAnswer,
     multipleSelection,
@@ -32,6 +33,7 @@ export const WorkplaceQuestionCard = ({
     height?: string
     required?: boolean
     children?: ReactNode
+    onlyAccept?: boolean
     customAnswers?: string[]
     showOnlyAnswer?: boolean
     multipleSelection?: boolean
@@ -77,7 +79,11 @@ export const WorkplaceQuestionCard = ({
         })
     }
 
-    const selectAnswers = customAnswers ? customAnswers : answersData
+    const selectAnswers = customAnswers
+        ? customAnswers
+        : onlyAccept
+        ? [WorkplaceAnswerEnum.Yes]
+        : answersData
 
     return (
         <div>

@@ -104,6 +104,7 @@ export const DepartmentCoordinatorsListProvider = ({ children }: any) => {
                 },
             },
             {
+                skip: !router.query.id,
                 refetchOnMountOrArgChange: true,
             }
         )
@@ -217,7 +218,7 @@ export const DepartmentCoordinatorsListProvider = ({ children }: any) => {
                       }
                     : {}),
             },
-            
+
             {
                 ...(!subAdmin?.isHod
                     ? {
@@ -366,9 +367,7 @@ export const DepartmentCoordinatorsListProvider = ({ children }: any) => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info: any) => {
-                const actions = tableActionOptions(
-                    info?.row?.original
-                )
+                const actions = tableActionOptions(info?.row?.original)
                 const length = checkListLength<SubAdmin>(
                     data?.data as SubAdmin[]
                 )

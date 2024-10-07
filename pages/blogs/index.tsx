@@ -66,7 +66,7 @@ const Blogs: NextPageWithLayout = ({ data }: any) => {
                                             <p className="text-[#DADADA] text-xs">
                                                 {moment(
                                                     filterFeaturedBlogs?.[0]
-                                                        ?.createdAt
+                                                        ?.updatedAt
                                                 ).format('Do MMM YYYY')}
                                             </p>
                                         </div>
@@ -116,7 +116,7 @@ const Blogs: NextPageWithLayout = ({ data }: any) => {
                                                 featuredImage={
                                                     blog?.featuredImage
                                                 }
-                                                date={blog?.createdAt}
+                                                date={blog?.updatedAt}
                                                 id={blog?.id}
                                                 author={blog?.author}
                                                 slug={blog?.slug}
@@ -143,7 +143,7 @@ const Blogs: NextPageWithLayout = ({ data }: any) => {
                                 title={blog?.title}
                                 content={blog?.content}
                                 featuredImage={blog?.featuredImage}
-                                date={blog?.createdAt}
+                                date={blog?.updatedAt}
                                 id={blog.id}
                                 slug={blog?.slug}
                                 author={blog?.author}
