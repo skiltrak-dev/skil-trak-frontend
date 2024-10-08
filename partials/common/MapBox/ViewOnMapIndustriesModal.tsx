@@ -393,16 +393,16 @@ export const ViewOnMapIndustriesModal = ({
                                                                         ?.role ===
                                                                         UserRoles.STUDENT
                                                                         ? '/images/icons/student-red-map-pin.png'
+                                                                        : indind?.includes(
+                                                                              marker?.id
+                                                                          )
+                                                                        ? '/images/icons/industryContacted.png'
                                                                         : marker?.placementStatus ===
                                                                           IndustryPlacementStatus.ACCEPTING_STUDENTS
                                                                         ? '/images/icons/industry-pin-map-pin-check.png'
                                                                         : marker?.placementStatus ===
                                                                           IndustryPlacementStatus.NOT_ACCEPTING_STUDENTS
                                                                         ? '/images/icons/industry-pin-map-pin-uncheck.png'
-                                                                        : indind?.includes(
-                                                                              marker?.id
-                                                                          )
-                                                                        ? '/images/icons/industryContacted.png'
                                                                         : '/images/icons/industry-pin-map-pin.png',
                                                                 scaledSize:
                                                                     new google.maps.Size(
@@ -596,16 +596,16 @@ export const ViewOnMapIndustriesModal = ({
                                                                         ?.role ===
                                                                         'student'
                                                                         ? '/images/icons/student-red-map-pin.png'
+                                                                        : indind?.includes(
+                                                                              marker?.id
+                                                                          )
+                                                                        ? '/images/icons/industryContacted.png'
                                                                         : marker?.placementStatus ===
                                                                           IndustryPlacementStatus.ACCEPTING_STUDENTS
                                                                         ? '/images/icons/industry-pin-map-pin-check.png'
                                                                         : marker?.placementStatus ===
                                                                           IndustryPlacementStatus.NOT_ACCEPTING_STUDENTS
                                                                         ? '/images/icons/industry-pin-map-pin-uncheck.png'
-                                                                        : indind?.includes(
-                                                                              marker?.id
-                                                                          )
-                                                                        ? '/images/icons/industryContacted.png'
                                                                         : '/images/icons/industry-pin-map-pin.png',
                                                                 scaledSize:
                                                                     new google.maps.Size(
@@ -782,16 +782,16 @@ export const ViewOnMapIndustriesModal = ({
                                                                         ?.role ===
                                                                         'student'
                                                                         ? '/images/icons/student-red-map-pin.png'
+                                                                        : indind?.includes(
+                                                                              marker?.id
+                                                                          )
+                                                                        ? '/images/icons/partnerIndustryContacted.png'
                                                                         : marker?.placementStatus ===
                                                                           IndustryPlacementStatus.ACCEPTING_STUDENTS
                                                                         ? '/images/icons/partnered-industry-marker-check.png'
                                                                         : marker?.placementStatus ===
                                                                           IndustryPlacementStatus.NOT_ACCEPTING_STUDENTS
                                                                         ? '/images/icons/partnered-industry-marker-uncheck.png'
-                                                                        : indind?.includes(
-                                                                              marker?.id
-                                                                          )
-                                                                        ? '/images/icons/partnerIndustryContacted.png'
                                                                         : '/images/icons/partnered-industry-marker.png',
                                                                 scaledSize:
                                                                     new google.maps.Size(
