@@ -318,7 +318,7 @@ export const StudentProfileDetail = () => {
                     <div
                         className={`${activeBorder(
                             ProfileIds['Assessment Evidence']
-                        )}  px-2`}
+                        )} px-2`}
                         id={`student-profile-${ProfileIds['Assessment Evidence']}`}
                     >
                         <AssessmentSubmissions student={profile?.data} />
