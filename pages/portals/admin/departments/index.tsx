@@ -7,6 +7,7 @@ import {
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
+import { useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import Modal from '@modals/Modal'
 import {
@@ -19,9 +20,14 @@ import {
 import { SubAdminApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { getUserCredentials } from '@utils'
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 const Departments: NextPageWithLayout = () => {
+    const { setTitle } = useNavbar()
+    useEffect(() => {
+        setTitle('Department')
+    }, [])
+
     const {
         data,
         setItemPerPage,

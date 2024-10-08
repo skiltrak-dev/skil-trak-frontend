@@ -1,4 +1,5 @@
 import { ActionButton } from '@components/buttons'
+import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import { Note as NoteType } from '@types'
@@ -51,7 +52,11 @@ export const Note = ({ note }: { note: NoteType }) => {
         <div
             id={`pinned-notes-${note?.id}`}
             className={`relative w-full ${
-                note?.isPinned ? 'bg-red-400' : 'bg-[#FEF6E6] '
+                note?.isPinned
+                    ? 'bg-red-400'
+                    : note?.author?.role === UserRoles.RTO
+                    ? 'bg-[#bfe7f6]'
+                    : 'bg-[#FEF6E6] '
             } p-4 rounded-xl shadow-lg`}
         >
             <button
@@ -112,7 +117,10 @@ export const Note = ({ note }: { note: NoteType }) => {
                                         : 'text-gray-500'
                                 } `}
                             >
-                                {note?.author?.name}
+                                {note?.author?.name}{' '}
+                                <span className="text-[11px] font-medium capitalize">
+                                    ({note?.author?.role})
+                                </span>
                             </p>
                             <p
                                 className={`text-[11px] font-medium ${

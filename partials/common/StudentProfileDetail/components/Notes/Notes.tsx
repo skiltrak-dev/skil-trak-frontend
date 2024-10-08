@@ -68,17 +68,9 @@ export const Notes = ({
                                         </Typography>
                                     </div>
                                 ) : notes?.data && notes?.data?.length > 0 ? (
-                                    [...notes?.data]
-                                        ?.sort(
-                                            (a: any, b: any) =>
-                                                b?.isPinned - a?.isPinned
-                                        )
-                                        ?.map((note: any) => (
-                                            <NoteCard
-                                                key={note?.id}
-                                                note={note}
-                                            />
-                                        ))
+                                    notes?.data?.map((note: any) => (
+                                        <NoteCard key={note?.id} note={note} />
+                                    ))
                                 ) : (
                                     notes.isSuccess && (
                                         <EmptyData
