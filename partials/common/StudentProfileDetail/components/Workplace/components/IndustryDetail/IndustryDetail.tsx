@@ -16,6 +16,7 @@ import {
     WorkplaceWorkIndustriesType,
 } from 'redux/queryTypes'
 import { UserRoles } from '@constants'
+import { ViewContactedIndustryModal } from '../../modals'
 
 export const IndustryDetail = ({
     course,
@@ -39,26 +40,30 @@ export const IndustryDetail = ({
 
     const onCancelClicked = () => setModal(null)
 
-    const onViewMoreIndustries = () => {
-        setModal(
-            <ViewMoreIndustriesModal
-                onCancel={onCancelClicked}
-                workplaceId={Number(workplace?.id)}
-                title={'View More Industries'}
-                subtitle={'View More Industries'}
-                suggestedIndustriesIds={
-                    suggestedIndustries
-                        ?.filter(
-                            (industry: any) =>
-                                industry?.industryResponse !==
-                                    WorkplaceCurrentStatus.Rejected &&
-                                industry?.industryResponse !==
-                                    WorkplaceCurrentStatus.NoResponse
-                        )
-                        ?.map((ind: any) => ind?.industry?.id) as number[]
-                }
-            />
-        )
+    // const onViewMoreIndustries = () => {
+    //     setModal(
+    //         <ViewMoreIndustriesModal
+    //             onCancel={onCancelClicked}
+    //             workplaceId={Number(workplace?.id)}
+    //             title={'View More Industries'}
+    //             subtitle={'View More Industries'}
+    //             suggestedIndustriesIds={
+    //                 suggestedIndustries
+    //                     ?.filter(
+    //                         (industry: any) =>
+    //                             industry?.industryResponse !==
+    //                                 WorkplaceCurrentStatus.Rejected &&
+    //                             industry?.industryResponse !==
+    //                                 WorkplaceCurrentStatus.NoResponse
+    //                     )
+    //                     ?.map((ind: any) => ind?.industry?.id) as number[]
+    //             }
+    //         />
+    //     )
+    // }
+
+    const onViewContactedIndustries = () => {
+        setModal(<ViewContactedIndustryModal onCancel={onCancelClicked} />)
     }
 
     const onViewOnMap = () => {
@@ -103,12 +108,12 @@ export const IndustryDetail = ({
                         {appliedIndustry?.AgreementSigned && (
                             <AgreementView workplace={workplace} />
                         )}
-                        {/* <Typography variant={'small'} color={'text-info'}>
+                        <Typography variant={'small'} color={'text-info'}>
                             <span
                                 className="font-semibold cursor-pointer whitespace-pre"
                                 onClick={() => {
                                     if (!appliedIndustry) {
-                                        onViewMoreIndustries()
+                                        onViewContactedIndustries()
                                     } else {
                                         notification.warning({
                                             title: 'Already Applied',
@@ -120,7 +125,7 @@ export const IndustryDetail = ({
                             >
                                 View Contacted Industry
                             </span>
-                        </Typography> */}
+                        </Typography>
                         {!appliedIndustry &&
                         !workplace?.byExistingAbn &&
                         !workplace?.studentProvidedWorkplace &&

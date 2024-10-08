@@ -35,7 +35,7 @@ export const UploadKpiModal = ({ onCancel, member }: UploadKpiModalProps) => {
         for (const key in row) {
             if (row.hasOwnProperty(key)) {
                 const newKey = key.replace(/\s+/g, '')
-                newRow[newKey] = row[key]
+                newRow[newKey?.toLocaleLowerCase()] = row[key]
             }
         }
         return newRow
@@ -50,7 +50,8 @@ export const UploadKpiModal = ({ onCancel, member }: UploadKpiModalProps) => {
         if (sheets.length) {
             let rows = utils.sheet_to_json(wb.Sheets[sheets[0]])
             rows = rows?.map(removeSpacesFromKeys)
-            setKpi(rows)
+            console.log({ rows })
+            // setKpi(rows)
         }
     }
 
