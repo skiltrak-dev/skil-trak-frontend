@@ -104,14 +104,7 @@ export const HodProfileDetail = ({ subadmin }: any) => {
             {modal && modal}
             <Card shadowType="profile" fullHeight>
                 <div className="relative w-full">
-                    {/* <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
-                        <div className="absolute right-0">
-                            <ProfileLinks subadmin={subadmin} />
-                        </div>
-                    </AuthorizedUserComponent> */}
-
-                    {/*  */}
-                    <div className="w-full flex justify-between items-center gap-x-10 px-4 py-2">
+                    <div className="w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 items-center gap-x-10 px-4 lg:py-2 gap-y-4">
                         <div className="flex items-center  gap-x-5">
                             <img
                                 className="w-24 h-24  p-1"
@@ -137,7 +130,7 @@ export const HodProfileDetail = ({ subadmin }: any) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-col w-1/3 gap-y-2 mt-2">
+                        <div className="flex flex-col  gap-y-2">
                             <ProfileCard
                                 title="Sub-Admin Id"
                                 detail={subadmin?.coordinatorId}
@@ -146,13 +139,9 @@ export const HodProfileDetail = ({ subadmin }: any) => {
                                 title="Phone"
                                 detail={subadmin?.phone}
                             />
-                            {/* <ProfileCard
-                            title="Address"
-                            detail={subadmin?.addressLine1}
-                        /> */}
                         </div>
                         {checkIsAdmin && (
-                            <div className=" flex items-center gap-x-2 whitespace-nowrap">
+                            <div className="flex items-center gap-x-2 whitespace-nowrap">
                                 <Button
                                     text={'Permissions'}
                                     onClick={onAllowPermissionClicked}
@@ -171,19 +160,13 @@ export const HodProfileDetail = ({ subadmin }: any) => {
                             </div>
                         )}
                     </div>
-
-                    {/* <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
-                        <div className="mt-3">
-                            <ProfileActions subadmin={subadmin} />
-                        </div>
-                    </AuthorizedUserComponent> */}
                 </div>
             </Card>
-            <div className="flex gap-x-5 w-full mt-10">
-                <div className="w-1/2">
+            <div className="flex flex-col lg:flex-row gap-x-5 w-full mt-10 gap-y-6">
+                <div className="w-full lg:w-1/2">
                     <DepartmentCounts />
                 </div>
-                <div className="w-1/2">
+                <div className="w-full lg:w-1/2">
                     <Card>
                         <ProgressChart data={data} />
                     </Card>
