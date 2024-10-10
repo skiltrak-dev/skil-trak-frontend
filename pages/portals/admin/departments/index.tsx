@@ -42,7 +42,6 @@ const Departments: NextPageWithLayout = () => {
     const subAdmin = SubAdminApi.SubAdmin.useProfile(undefined, {
         skip: role !== UserRoles.SUBADMIN,
         refetchOnMountOrArgChange: true,
-        // refetchOnFocus: true,
     })
     const checkIsHod =
         role === UserRoles.SUBADMIN && subAdmin?.data?.departmentMember?.isHod

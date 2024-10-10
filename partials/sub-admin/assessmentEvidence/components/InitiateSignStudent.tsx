@@ -64,6 +64,7 @@ const UserCellInfo = ({
                         const findUser = sMail?.find(
                             (a: any) => profile?.user?.id === a?.user
                         )
+                        console.log({ profile })
                         const usersMails = sMail?.map((a: any) =>
                             profile?.user?.id === a?.user
                                 ? {
@@ -198,6 +199,8 @@ export const InitiateSignStudent = ({
         [subadmins]
     )
 
+    console.log({ selectedIndustry })
+
     const userIds = () => {
         const ids = {
             [UserRoles.INDUSTRY]: Number(selectedIndustry?.user?.id),
@@ -306,14 +309,18 @@ export const InitiateSignStudent = ({
             secondaryMails?.filter((s: any) => s?.user)?.length <
                 template?.recipients?.length
         ) {
+            console.log('Banka Ustad!!!')
             setSecondaryMails(
-                Object.values(userIds())?.map((id: any) => ({
+                Object.entries(userIds())?.map(([role, id]: any) => ({
                     user: id,
                     email: null,
+                    role,
                 }))
             )
         }
-    }, [userIds()])
+    }, [userIds(), template?.recipients, secondaryMails])
+
+    console.log({ uuuuuu: userIds(), secondaryMails })
 
     return (
         <>
@@ -445,6 +452,28 @@ export const InitiateSignStudent = ({
                                                     setIsSelectAnotherIndustry(
                                                         false
                                                     )
+                                                    setSecondaryMails(
+                                                        (preVal: any) => {
+                                                            const ind =
+                                                                preVal?.find(
+                                                                    (i: any) =>
+                                                                        i?.role ===
+                                                                        UserRoles.INDUSTRY
+                                                                )
+
+                                                            return [
+                                                                ...preVal?.filter(
+                                                                    (i: any) =>
+                                                                        i?.role !==
+                                                                        UserRoles.INDUSTRY
+                                                                ),
+                                                                {
+                                                                    ...ind,
+                                                                    user: ind?.item,
+                                                                },
+                                                            ]
+                                                        }
+                                                    )
                                                 }}
                                             />
                                         ) : (
@@ -520,6 +549,28 @@ export const InitiateSignStudent = ({
                                                     )
                                                     setIsSelectAnotherCoordinator(
                                                         false
+                                                    )
+                                                    setSecondaryMails(
+                                                        (preVal: any) => {
+                                                            const coordinator =
+                                                                preVal?.find(
+                                                                    (i: any) =>
+                                                                        i?.role ===
+                                                                        UserRoles.SUBADMIN
+                                                                )
+
+                                                            return [
+                                                                ...preVal?.filter(
+                                                                    (i: any) =>
+                                                                        i?.role !==
+                                                                        UserRoles.SUBADMIN
+                                                                ),
+                                                                {
+                                                                    ...coordinator,
+                                                                    user: coordinator?.item,
+                                                                },
+                                                            ]
+                                                        }
                                                     )
                                                 }}
                                             />
