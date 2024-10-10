@@ -334,8 +334,10 @@ export const Workplace = ({
                     </div>
                 </div>
 
-                {studentWorkplace?.data &&
-                studentWorkplace?.data?.length > 0 ? (
+                {studentWorkplace?.isLoading ? (
+                    <LoadingAnimation />
+                ) : studentWorkplace?.data &&
+                  studentWorkplace?.data?.length > 0 ? (
                     <>
                         {studentWorkplace?.data &&
                             studentWorkplace?.data?.length > 1 && (
