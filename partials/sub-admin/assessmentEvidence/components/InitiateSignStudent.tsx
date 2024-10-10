@@ -189,6 +189,8 @@ export const InitiateSignStudent = ({
         [ind]
     )
 
+    console.log({ industryOptions })
+
     const subAdminOptions = useMemo(
         () =>
             subadmins?.data?.map((subAdmin: SubAdmin) => ({
@@ -404,8 +406,7 @@ export const InitiateSignStudent = ({
                                             >
                                                 Industry
                                             </Typography>
-                                            {student?.data?.industries?.length >
-                                                0 && (
+                                            {industryOptions?.length > 0 && (
                                                 <Typography
                                                     variant="small"
                                                     color={'text-info'}
