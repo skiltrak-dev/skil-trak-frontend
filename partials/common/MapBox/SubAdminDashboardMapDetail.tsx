@@ -114,7 +114,6 @@ const SubAdminDashboardMapDetail = ({
     const [showInfoBox, setShowInfoBox] = useState<any>(false)
     const [visibleMarkers, setVisibleMarkers] = useState<any>([])
     const [map, setMap] = useState<google.maps.Map | null>(null)
-    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
     // bounds
     const [mapCenter, setMapCenter] = useState(center)

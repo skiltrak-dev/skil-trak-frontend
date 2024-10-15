@@ -11,10 +11,6 @@ import Skeleton from 'react-loading-skeleton'
 import OutsideClickHandler from 'react-outside-click-handler'
 
 const ReactDateRanges = () => {
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: 'AIzaSyCMEGspm5WHyXte3TN4Lfrkcg9DchsbYEk',
-    })
     const [selectedDate, setSelectedDate] = useState<any>([
         {
             startDate: new Date(),
@@ -48,12 +44,7 @@ const ReactDateRanges = () => {
                     />
                 </div>
             ))}
-            {/* <GooglePlacesAutocomplete
-                apiKey={'AIzaSyCMEGspm5WHyXte3TN4Lfrkcg9DchsbYEk'}
-                // secret={SECRET}
-                query={searchPlace}
-                onPlaceSelected={onPlaceSelected}
-            /> */}
+
             <TextInput
                 name={'month'}
                 label={'Set Months'}

@@ -18,6 +18,7 @@ import {
     StudentInfoBoxCard,
 } from './components'
 import { IndustryPlacementStatus } from '@partials/common'
+import { useGoogleMaps } from '@hooks'
 
 const containerStyle = {
     width: '780px',
@@ -96,10 +97,7 @@ export const ViewOnMapIndustriesModal = ({
     appliedIndustry,
     courseId,
 }: ViewMoreIndustriesModalProps) => {
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: 'AIzaSyCMEGspm5WHyXte3TN4Lfrkcg9DchsbYEk',
-    })
+    const { isLoaded } = useGoogleMaps()
     const [visibleMarkers, setVisibleMarkers] = useState<any>([])
     const [visibleIndustries, setVisibleIndustries] = useState<any>([])
     const [selectedMarker, setSelectedMarker] = useState<null | {
