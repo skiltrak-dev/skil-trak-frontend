@@ -166,7 +166,7 @@ export const RtoDashboardMap = ({ address }: { address: string }) => {
         <div className={'flex flex-col gap-y-1 h-full'}>
             {/* {JSON.stringify(abc())} */}
             <Typography center variant="label" semibold>
-                Industries On Skiltrak Data Base According Your Courses
+                Industries On Skiltrak Data Base According To Your Courses
             </Typography>
             <div className={'rounded-md overflow-hidden h-full'}>
                 {isLoaded ? (
