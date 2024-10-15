@@ -16,7 +16,6 @@ import {
 } from '@components'
 
 // queries
-import { UploadFile } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/AssessmentFolderDetailX/UploadFile'
 import { Result } from '@constants'
 import { useNotification } from '@hooks'
 import {
@@ -26,9 +25,8 @@ import {
     useMaulallyReopenSubmissionRequestMutation,
     useStudentAssessmentCoursesQuery,
 } from '@queries'
-import { ellipsisText, getCourseResult, getUserCredentials } from '@utils'
+import { ellipsisText, getCourseResult } from '@utils'
 import { useRouter } from 'next/router'
-import { AiFillDelete } from 'react-icons/ai'
 import { MdOutlineUnarchive } from 'react-icons/md'
 
 export const ArchivedAssessmentDetail = ({
@@ -59,8 +57,6 @@ export const ArchivedAssessmentDetail = ({
             skip: !selectedCourse,
         }
     )
-    const [uploadDocs, uploadDocsResult] =
-        SubAdminApi.AssessmentEvidence.uploadDocs()
 
     const getArchivedAssessmentResponse = useGetArchivedAssessmentResponseQuery(
         {
@@ -109,15 +105,6 @@ export const ArchivedAssessmentDetail = ({
             })
         }
     }, [manuallyReopenSubmissionResult])
-
-    useEffect(() => {
-        if (uploadDocsResult.isSuccess) {
-            notification.success({
-                title: 'Document Uploaded',
-                description: 'Document Uploaded Successfully',
-            })
-        }
-    }, [uploadDocsResult])
 
     const onDownloadFiles = () => {
         downloadFiles({
