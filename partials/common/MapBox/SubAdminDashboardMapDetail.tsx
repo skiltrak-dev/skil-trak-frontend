@@ -100,10 +100,7 @@ const SubAdminDashboardMapDetail = ({
     showFutureIndustries?: any
 }) => {
     const { isLoaded } = useGoogleMaps()
-    // const { isLoaded } = useJsApiLoader({
-    //     id: 'google-map-script',
-    //     googleMapsApiKey: process.env.NEXT_PUBLIC_MAP_KEY as string,
-    // })
+
     // Select fields states
     const [location, setLocation] = useState('')
 
