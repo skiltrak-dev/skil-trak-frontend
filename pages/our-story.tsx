@@ -1,7 +1,7 @@
 import { Typography } from '@components'
 import { SiteLayout } from '@layouts'
 import {
-    GoogleReviewCard,
+    GoogleReviewSlider,
     OurStoryInternationalVentureSection,
     OurStoryLetsCollaborateSection,
     OurStoryLmsSection,
@@ -9,12 +9,9 @@ import {
     OurStoryProfilesSections,
     OurStorySkiltrakAppSection,
     OurStorySkiltrakIsWorkingWithSection,
+    RtoReviewSlider,
     Services,
     WhoAreWe,
-    OurStoryStudentSection,
-    GoogleReviewSlider,
-    RtoReviewCard,
-    RtoReviewSlider,
 } from '@partials/frontPages'
 import OurPartners from '@partials/frontPages/home2/OurPartners/OurPartners'
 import { OurTrustedPartner } from '@partials/frontPages/ourStory/components/OurTrustedPartner'
