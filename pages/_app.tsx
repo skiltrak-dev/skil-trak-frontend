@@ -51,7 +51,7 @@ type AppPropsWithLayout = AppProps & {
 }
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
-    const [loading, setLoading] = useState<boolean>(true)
+    // const [loading, setLoading] = useState<boolean>(true)
 
     // Apply theme from local storage
     useEffect(() => {
@@ -75,23 +75,23 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
     // useEffect(() => {
     //     setLoading(false)
     // }, [])
-    useEffect(() => {
-        const handleComplete = () => setLoading(false)
+    // useEffect(() => {
+    //     const handleComplete = () => setLoading(false)
 
-        // Check if window is defined to avoid SSR issues
-        if (isBrowser()) {
-            if (document.readyState === 'complete') {
-                handleComplete()
-            } else {
-                window.addEventListener('load', handleComplete)
-                return () => window.removeEventListener('load', handleComplete)
-            }
-        }
-    }, [])
+    //     // Check if window is defined to avoid SSR issues
+    //     if (isBrowser()) {
+    //         if (document.readyState === 'complete') {
+    //             handleComplete()
+    //         } else {
+    //             window.addEventListener('load', handleComplete)
+    //             return () => window.removeEventListener('load', handleComplete)
+    //         }
+    //     }
+    // }, [])
 
     const getLayout = Component.getLayout ?? ((page) => page)
 
-    if (loading) return <PrePageLoading />
+    // if (loading) return <PrePageLoading />
 
     return (
         <>
