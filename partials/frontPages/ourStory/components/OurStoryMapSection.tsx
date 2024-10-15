@@ -4,6 +4,8 @@ import { fromAddress, geocode, GeocodeOptions, setKey } from 'react-geocode'
 import { MapView } from './MapView'
 import { AuthApi } from '@queries'
 
+setKey(process.env.NEXT_PUBLIC_MAP_KEY as string)
+
 export const OurStoryMapSection = () => {
     const [suburbLocation, setSuburbLocation] = useState<any>(null)
     const [searchInitiated, setSearchInitiated] = useState(false)

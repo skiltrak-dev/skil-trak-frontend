@@ -1,5 +1,6 @@
 // src/components/MapComponent.tsx
 import { Button, Card, LoadingAnimation, NoData } from '@components'
+import { useGoogleMaps } from '@hooks'
 import { CommonApi, commonApi, SubAdminApi } from '@queries'
 import {
     GoogleMap,
@@ -62,10 +63,7 @@ export const MapView = ({
     setSearchInitiated: any
     showFutureIndustries?: any
 }) => {
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: process.env.NEXT_PUBLIC_MAP_KEY as string,
-    })
+    const { isLoaded } = useGoogleMaps()
     // Select fields states
     const [location, setLocation] = useState('')
 
