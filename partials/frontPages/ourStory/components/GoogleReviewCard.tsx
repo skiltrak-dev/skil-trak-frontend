@@ -1,7 +1,5 @@
 import { Typography } from '@components'
-import React from 'react'
 import { FcGoogle } from 'react-icons/fc'
-import { RiStarSFill } from 'react-icons/ri'
 import StarRatings from 'react-star-ratings'
 export const GoogleReviewCard = ({ review, name, rating, link }: any) => {
     return (

@@ -28,13 +28,11 @@ interface GoogleMapsProviderProps {
 export const GoogleMapsProvider: React.FC<GoogleMapsProviderProps> = ({
     children,
 }) => {
-
     const { isLoaded, loadError } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: process.env.googleDirectionApi as string,
         libraries: ['places'],
     })
-    
 
     return (
         <GoogleMapsContext.Provider value={{ isLoaded, loadError }}>
