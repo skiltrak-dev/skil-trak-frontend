@@ -8,14 +8,13 @@ import {
     JoyRideProvider,
     NavbarProvider,
     NetworkProvider,
-    NextAuthAutoLogoutProvider,
     NoteScrollProvider,
     NotificationProvider,
     SocketListenerProvider,
 } from '@hooks'
 import { Theme, applyTheme, getCurrentTheme } from '@theme'
 import type { AppProps } from 'next/app'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import 'react-loading-skeleton/dist/skeleton.css'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
@@ -29,7 +28,7 @@ import { store } from '../redux/store'
 
 import { HeadWrapper } from '@layouts'
 
-import { PrePageLoading, Socket } from '@components'
+import { Socket } from '@components'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -41,10 +40,9 @@ import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 
 //test
-import { GoogleAnalyticsScript } from '@scripts'
-import { isBrowser } from '@utils'
-import { SessionProvider } from 'next-auth/react'
 import { CrudModal, ModalProvider } from '@partials/admin/departments'
+import { GoogleAnalyticsScript } from '@scripts'
+import { SessionProvider } from 'next-auth/react'
 
 type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout
