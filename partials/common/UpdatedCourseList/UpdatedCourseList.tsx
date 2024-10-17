@@ -86,7 +86,7 @@ export const UpdatedCourseList = ({
                 {sectorsWithCourses ? (
                     <div
                         className={
-                            'max-h-96 overflow-auto custom-scrollbar flex flex-col gap-y-4 mt-5'
+                            'max-h-96 overflow-auto custom-scrollbar flex flex-col px-2 gap-y-4 mt-5'
                         }
                     >
                         {Object.keys(sectorsWithCourses).map((sector) => {

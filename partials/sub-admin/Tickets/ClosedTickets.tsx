@@ -10,7 +10,7 @@ import {
 import { PageHeading } from '@components/headings'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { BsFillTicketDetailedFill } from 'react-icons/bs'
 import { useSubadminTicketsColumns } from './hooks'
 import moment from 'moment'
@@ -32,7 +32,7 @@ export const ClosedTickets = () => {
             { refetchOnMountOrArgChange: true }
         )
 
-    const { columns } = useSubadminTicketsColumns()
+    const { columns } = useMemo(() => useSubadminTicketsColumns(), [])
 
     columns.splice(columns?.length - 3, 0, {
         accessorKey: 'closedAt',

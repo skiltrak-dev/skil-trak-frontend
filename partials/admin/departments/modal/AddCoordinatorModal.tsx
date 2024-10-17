@@ -15,16 +15,10 @@ export const AddCoordinatorModal = ({ onCancel }: any) => {
     useEffect(() => {
         if (addDeptMembersResult.isSuccess) {
             notification.success({
-                title: `Request Coordinator(s) Added`,
-                description: `Coordinator is successfully Coordinator(s) Added`,
+                title: `Coordinator Added`,
+                description: `Coordinator Added Successfully!`,
             })
             onCancel()
-        }
-        if (addDeptMembersResult.isError) {
-            notification.error({
-                title: 'Request Coordinator(s) Added',
-                description: `Your request for adding coordinator(s)`,
-            })
         }
     }, [addDeptMembersResult])
 

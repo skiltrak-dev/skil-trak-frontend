@@ -49,6 +49,7 @@ const subadminTagTypes = [
     'AssessmentEvidence',
     'Coordinates',
     'SubAdminIndustries',
+    'Department',
 ]
 
 const rtoTagTypes = [

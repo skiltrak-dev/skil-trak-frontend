@@ -48,7 +48,7 @@ export const SubadminProgress = ({
 
     const percentData = (count: number) =>
         count > 0
-            ? ((((count * 100) / addedData).toFixed(1) || 0) as number)
+            ? (+(((count * 100) / addedData).toFixed(1) || 0) as number)
             : 0
 
     const progressData: RtoProfileProgressTypes[] = [

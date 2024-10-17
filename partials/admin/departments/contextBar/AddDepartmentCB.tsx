@@ -48,15 +48,16 @@ export const AddDepartmentCB = ({
             .string()
             .required('Department code is required')
             .min(2, 'Department code must be at least 2 characters long'),
+        sectors: yup
+            .array()
+            .of(yup.number())
+            .min(1, 'Must select at least 1 sector')
+            .required('Sectors are required'),
         departmentMembers: yup
             .array()
-            .of(
-                yup.object().shape({
-                    value: yup.string().required('Coordinator is required'),
-                })
-            )
-            .min(1, 'At least one member is required'),
-        // sectors:
+            .of(yup.number())
+            .min(1, 'Must select at least 1 member')
+            .required('Members are required'),
     })
     const methods = useForm({
         mode: 'all',
@@ -71,7 +72,6 @@ export const AddDepartmentCB = ({
                 subadmin: member?.value,
             })),
         }
-        // console.log('dept: ', dept)
         addDept(dept)
     }
 
@@ -126,7 +126,10 @@ export const AddDepartmentCB = ({
                         placeholder="Select Sector"
                         multi
                         onlyValue
-                        onChange={(e: number[]) => setSelectedSector(e)}
+                        onChange={(e: number[]) => {
+                            setSelectedSector(e)
+                            methods.setValue('sectors', e)
+                        }}
                         required
                         disabled={getSectors.isLoading}
                         loading={getSectors.isLoading}

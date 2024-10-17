@@ -16,30 +16,31 @@ import { useMemo, useState } from 'react'
 import { BsFillTicketDetailedFill } from 'react-icons/bs'
 import { useSubadminTicketsColumns } from './hooks'
 
-export const OpenTickets = () => {
+export const DepartmentTickets = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [isHighPriority, setIsHighPriority] = useState<string | null>(null)
+    const [coordinatorId, setCoordinatorId] = useState<string | null>(null)
 
     const router = useRouter()
-    // const { data: departmentCoordinators } =
-    //     SubAdminApi.SubAdmin.useCoordinatorsDropDown()
 
-    // const coordinatorsOptions = departmentCoordinators?.map(
-    //     (coordinator: any) => ({
-    //         label: coordinator?.user?.name,
-    //         value: coordinator?.id,
-    //     })
-    // )
+    const { data: departmentCoordinators } =
+        SubAdminApi.SubAdmin.useCoordinatorsDropDown()
 
+    const coordinatorsOptions = departmentCoordinators?.map(
+        (coordinator: any) => ({
+            label: coordinator?.user?.name,
+            value: coordinator?.user?.id,
+        })
+    )
     const { isLoading, isFetching, data, isError } =
-        CommonApi.Tickets.useGetTicket(
+        CommonApi.Tickets.useDepartmentTicket(
             {
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
                 search: `${JSON.stringify(
                     removeEmptyValues({
-                        priority: isHighPriority,
+                        subAdminId: coordinatorId,
                     })
                 )
                     .replaceAll('{', '')
@@ -54,6 +55,9 @@ export const OpenTickets = () => {
 
     const onFilterChange = (value: string) => {
         setIsHighPriority(value)
+    }
+    const onFilterByCoordinator = (value: string) => {
+        setCoordinatorId(value)
     }
 
     const priorityOptions = [
@@ -71,13 +75,13 @@ export const OpenTickets = () => {
                 >
                     <div className="w-64">
                         <Select
-                            label={'Select Priority'}
-                            name={'priority'}
-                            placeholder={'Select Priority...'}
-                            options={priorityOptions}
+                            label={'Select Coordinator'}
+                            name={'coordinator'}
+                            placeholder={'Select Coordinator...'}
+                            options={coordinatorsOptions}
                             onlyValue
                             onChange={(e: any) => {
-                                onFilterChange(e)
+                                onFilterByCoordinator(e)
                             }}
                         />
                     </div>

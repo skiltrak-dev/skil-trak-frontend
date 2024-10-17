@@ -444,6 +444,7 @@ const {
 
     // ---- TICKETS ---- //
     useGetTicketQuery,
+    useGetDepartmentTicketQuery,
     useAddReplyMutation,
     useUpdateReplyMutation,
     useGetAllTicketQuery,
@@ -481,6 +482,7 @@ const {
     useAddFutureIndustryListingNoteMutation,
     useMultipleIndustriesStatusChangeMutation,
     useImportIndustriesWithoutEmailListMutation,
+    useGetDepartmentFutureIndustriesListQuery,
 
     // Impersonation
     useImpersonationToggleMutation,
@@ -704,6 +706,7 @@ export const CommonApi = {
     },
     Tickets: {
         useGetTicket: useGetTicketQuery,
+        useDepartmentTicket: useGetDepartmentTicketQuery,
         useAddReply: useAddReplyMutation,
         useUpdateReply: useUpdateReplyMutation,
         useGetAllTicket: useGetAllTicketQuery,
@@ -742,6 +745,8 @@ export const CommonApi = {
         useRemoveMultiFutureIndustry: useRemoveMultiFutureIndustryMutation,
         useMultipleStatusChange: useMultipleIndustriesStatusChangeMutation,
         importListWithoutEmail: useImportIndustriesWithoutEmailListMutation,
+        useDepartmentFutureIndustriesList:
+            useGetDepartmentFutureIndustriesListQuery,
     },
     Impersonation: {
         useImpersonationToggle: useImpersonationToggleMutation,

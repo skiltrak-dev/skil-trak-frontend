@@ -1,46 +1,66 @@
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, useEffect, useMemo } from 'react'
 // Layouts
 import { SubAdminLayout } from '@layouts'
 // Types
 import { BackButton, TabNavigation, TabProps } from '@components'
 import { useNavbar } from '@hooks'
-import { ClosedTickets, OpenTickets } from '@partials/sub-admin/Tickets'
+import {
+    ClosedTickets,
+    DepartmentTickets,
+    OpenTickets,
+} from '@partials/sub-admin/Tickets'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
+import { SubAdminApi } from '@queries'
 
 enum TicketType {
     ClosedTickets = 'closed-tickets',
     AllTickets = 'all-tickets',
+    DepartmentTickets = 'department-tickets',
 }
 
 const Tickets: NextPageWithLayout = () => {
     const router = useRouter()
     const { setTitle } = useNavbar()
-
     useEffect(() => {
         setTitle('Tickets')
     }, [])
+    const { data } = SubAdminApi.SubAdmin.useProfile()
+    const isHod = data?.departmentMember?.isHod
 
-    const tabs: TabProps[] = [
-        {
-            label: 'All Tickets',
-            href: {
-                pathname: 'tickets',
-                query: { tab: TicketType.AllTickets },
+    const tabs: TabProps[] = useMemo(() => {
+        const baseTabs = [
+            {
+                label: 'All Tickets',
+                href: {
+                    pathname: 'tickets',
+                    query: { tab: TicketType.AllTickets },
+                },
+                element: <OpenTickets />,
             },
-
-            element: <OpenTickets />,
-        },
-        {
-            label: 'Closed Tickets',
-            href: {
-                pathname: 'tickets',
-                query: { tab: TicketType.ClosedTickets },
+            {
+                label: 'Closed Tickets',
+                href: {
+                    pathname: 'tickets',
+                    query: { tab: TicketType.ClosedTickets },
+                },
+                element: <ClosedTickets />,
             },
+        ]
 
-            element: <ClosedTickets />,
-        },
-    ]
+        if (isHod) {
+            baseTabs.splice(1, 0, {
+                label: 'Department Tickets',
+                href: {
+                    pathname: 'tickets',
+                    query: { tab: TicketType.DepartmentTickets },
+                },
+                element: <DepartmentTickets />,
+            })
+        }
+
+        return baseTabs
+    }, [isHod])
 
     return (
         <div className="px-4">

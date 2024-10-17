@@ -12,8 +12,10 @@ const StyledModal = styled.div`
     background-color: #fff;
     border-radius: 9x;
     box-shadow: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.12);
-    padding: 3.2rem 4rem;
+    padding: 2.5rem 4rem;
     transition: all 0.5s;
+    max-height: 90vh;
+    overflow: auto;
 `
 
 const Overlay = styled.div`
@@ -31,7 +33,7 @@ const Overlay = styled.div`
 const Button = styled.button`
     background: none;
     border: none;
-    padding: 0.4rem;
+    padding: 0.1rem;
     border-radius: 5px;
     transform: translateX(0.8rem);
     transition: all 0.2s;
@@ -44,8 +46,8 @@ const Button = styled.button`
     }
 
     & svg {
-        width: 2.4rem;
-        height: 2.4rem;
+        width: 1.8rem;
+        height: 1.8rem;
         /* Sometimes we need both */
         /* fill: #6b7280;
     stroke: #6b7280; */
@@ -88,7 +90,7 @@ const Window = ({ children, name }: any) => {
 
     return createPortal(
         <Overlay>
-            <StyledModal ref={ref}>
+            <StyledModal className=" custom-scrollbar" ref={ref}>
                 <Button onClick={close}>
                     <HiXMark />
                 </Button>

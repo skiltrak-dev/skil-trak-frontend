@@ -7,7 +7,7 @@ export default function Document() {
                     name="google-site-verification"
                     content="GTslJTTqv87p3WbfdzlrmIId4pMc1vNepwDTHaOWpbc"
                 />
-                <script
+                {/* <script
                     dangerouslySetInnerHTML={{
                         __html: `
               !function(f,b,e,v,n,t,s)
@@ -22,15 +22,15 @@ export default function Document() {
               fbq('track', 'PageView');
             `,
                     }}
-                />
-                <noscript>
+                /> */}
+                {/* <noscript>
                     <img
                         height="1"
                         width="1"
                         style={{ display: 'none' }}
                         src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"
                     />
-                </noscript>
+                </noscript> */}
             </Head>
             <body>
                 <Main />
