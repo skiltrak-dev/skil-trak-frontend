@@ -81,7 +81,8 @@ export const UploadKpiModal = ({ onCancel, member }: UploadKpiModalProps) => {
     const onSubmit = async (values: any) => {
         const { from, to } = values
         const kpiReportData = kpi
-        if (kpiReportData && kpiReportData?.length === 0) {
+        console.log('kpiReportData', kpiReportData)
+        if (!kpiReportData && kpiReportData?.length === 0) {
             methods.setError('list', {
                 type: 'mix',
                 message: 'File must be selected',
