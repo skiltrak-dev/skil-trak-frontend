@@ -99,6 +99,17 @@ export const Over3Weeks = () => {
             },
         },
         {
+            accessorKey: 'currentStatus',
+            header: () => <span>Current Status</span>,
+            cell: ({ row }: any) => (
+                <div className="px-2 py-1 rounded-md">
+                    <Typography variant="small" capitalize semibold>
+                        {row?.original?.currentStatus}
+                    </Typography>
+                </div>
+            ),
+        },
+        {
             header: () => 'RTO',
             accessorKey: 'rto',
             cell: ({ row }: any) => (
