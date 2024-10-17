@@ -526,7 +526,7 @@ export const Workplace = ({
                                         <div className="flex items-center gap-x-2.5">
                                             {WPStatusForCancelButon.includes(
                                                 selectedWorkplace?.currentStatus
-                                            ) || true ? (
+                                            ) ? (
                                                 !selectedWorkplace
                                                     ?.cancelledRequests
                                                     ?.length ? (

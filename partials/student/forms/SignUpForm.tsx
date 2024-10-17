@@ -12,6 +12,7 @@ import {
     courseOptionsWhenSectorChange,
     CourseSelectOption,
     formatOptionLabel,
+    getAddressData,
     getLatLng,
     getPostalCode,
     getSectorsDetail,
@@ -547,6 +548,10 @@ export const StudentSignUpForm = ({
                                         setOnSuburbClicked(false)
                                         if (e?.target?.value?.length > 4) {
                                             try {
+                                                const { state } =
+                                                    await getAddressData(
+                                                        e?.target?.value
+                                                    )
                                                 const latLng = await getLatLng(
                                                     e?.target?.value
                                                 )
@@ -557,6 +562,12 @@ export const StudentSignUpForm = ({
                                                     formMethods.setValue(
                                                         'zipCode',
                                                         postalCode
+                                                    )
+                                                }
+                                                if (state) {
+                                                    formMethods.setValue(
+                                                        'state',
+                                                        state
                                                     )
                                                 }
                                             } catch (error) {
