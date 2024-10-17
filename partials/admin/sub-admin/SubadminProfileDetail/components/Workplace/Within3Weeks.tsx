@@ -101,6 +101,17 @@ export const Within3Weeks = () => {
             },
         },
         {
+            accessorKey: 'currentStatus',
+            header: () => <span>Current Status</span>,
+            cell: ({ row }: any) => (
+                <div className="px-2 py-1 rounded-md">
+                    <Typography variant="small" capitalize semibold>
+                        {row?.original?.currentStatus}
+                    </Typography>
+                </div>
+            ),
+        },
+        {
             header: () => 'RTO',
             accessorKey: 'rto',
             cell: ({ row }: any) => (
@@ -155,7 +166,7 @@ export const Within3Weeks = () => {
                     {({ table, pagination, pageSize, quickActions }: any) => {
                         return (
                             <div>
-                                <div className="p-6 mb-2 flex justify-between">
+                                <div className="px-6 flex justify-between">
                                     {pageSize(
                                         itemPerPage,
                                         setItemPerPage,
@@ -170,7 +181,7 @@ export const Within3Weeks = () => {
                                     </div>
                                 </div>
 
-                                <div className="overflow-x-auto remove-scrollbar">
+                                <div className="overflow-x-auto custom-scrollbar">
                                     <div
                                         className="px-6 w-full"
                                         id={'studentScrollId'}
@@ -178,24 +189,6 @@ export const Within3Weeks = () => {
                                         {table}
                                     </div>
                                 </div>
-                                {subAdminWorkplace?.data?.data?.length > 10 && (
-                                    <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(
-                                            itemPerPage,
-                                            setItemPerPage,
-                                            subAdminWorkplace?.data?.data
-                                                ?.length
-                                        )}
-                                        <div className="flex gap-x-2">
-                                            {quickActions}
-                                            {pagination(
-                                                subAdminWorkplace?.data
-                                                    ?.pagination,
-                                                setPage
-                                            )}
-                                        </div>
-                                    </div>
-                                )}
                             </div>
                         )
                     }}

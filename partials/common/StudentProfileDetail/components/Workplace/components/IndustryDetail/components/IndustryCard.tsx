@@ -118,8 +118,8 @@ export const IndustryCard = ({
                             </div>
                             <Typography variant={'muted'} color={'gray'}>
                                 {industry?.location
-                                    ? `${industry?.location?.suburb}, ${industry?.location?.address}`
-                                    : `${industry?.industry?.suburb}, ${industry?.industry?.state}, ${industry?.industry?.addressLine1}`}
+                                    ? `${industry?.location?.address}`
+                                    : `${industry?.industry?.addressLine1}`}
                             </Typography>
                         </div>
                     </Link>

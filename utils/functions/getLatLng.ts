@@ -14,6 +14,18 @@ export const getLatLng = async (value: string) => {
     return { lat, lng }
 }
 
+export const getAddressData = async (value: string) => {
+    const { results } = await fromAddress(value)
+    const addressComponents = results[0].address_components
+    const stateComponent = addressComponents.find((component: any) =>
+        component.types.includes('administrative_area_level_1')
+    )
+    return {
+        state: stateComponent?.long_name,
+        stateCode: stateComponent?.short_name,
+    }
+}
+
 export const getPostalCode = async ({
     lat,
     lng,

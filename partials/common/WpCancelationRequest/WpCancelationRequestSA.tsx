@@ -4,11 +4,14 @@ import {
     Button,
     Card,
     EmptyData,
+    Filter,
     InitialAvatar,
     LoadingAnimation,
+    SetDetaultQueryFilteres,
     Table,
     TechnicalError,
     Typography,
+    WPCancelationReqFilters,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -26,6 +29,17 @@ import {
     RejectRequestModal,
     ViewWpRequestNoteModal,
 } from './modals'
+import { WpCancelationReqFilter } from '@types'
+
+const filterKeys = [
+    'name',
+    'email',
+    'phone',
+    'status',
+    'courseId',
+    'studentId',
+    'coordinatorId',
+]
 
 export const WpCancelationRequestSA = () => {
     const router = useRouter()
@@ -33,7 +47,7 @@ export const WpCancelationRequestSA = () => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState({} as WpCancelationReqFilter)
     const role = getUserCredentials()?.role
 
     useEffect(() => {
@@ -41,10 +55,13 @@ export const WpCancelationRequestSA = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    // hooks
-
     const { isLoading, isFetching, data, isError } =
         SubAdminApi.Workplace.subadminCancelationRequest({
+            search: `${JSON.stringify(filter)
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
@@ -217,10 +234,23 @@ export const WpCancelationRequestSA = () => {
     return (
         <>
             {modal}
+            <SetDetaultQueryFilteres<WpCancelationReqFilter>
+                filterKeys={filterKeys}
+                setFilter={setFilter}
+            />
             <div className="flex flex-col gap-y-4 mb-32 px-4">
                 <PageHeading
                     title={'Workplace Cancellation Requests'}
                     subtitle={'List of Workplace Cancellation Requests'}
+                >
+                    <div className="flex-shrink-0">{filterAction}</div>
+                </PageHeading>
+                <Filter<WpCancelationReqFilter>
+                    setFilter={setFilter}
+                    initialValues={filter}
+                    filterKeys={filterKeys}
+                    component={WPCancelationReqFilters}
+                    setFilterAction={setFilterAction}
                 />
 
                 <Card noPadding>

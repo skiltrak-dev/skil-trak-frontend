@@ -25,6 +25,7 @@ import {
     CourseSelectOption,
     ageOptions,
     formatOptionLabel,
+    getAddressData,
     getLatLng,
     getPostalCode,
     getUserCredentials,
@@ -276,7 +277,6 @@ export const StudentProfileForm = ({
         } else if (onSuburbClicked) {
             onSubmit({
                 ...values,
-                state: 'N/A',
                 suburb: 'N/A',
                 isAddressUpdated,
             })
@@ -676,6 +676,13 @@ export const StudentProfileForm = ({
                                                     e?.target?.value?.length > 4
                                                 ) {
                                                     try {
+                                                        const { state } =
+                                                            await getAddressData(
+                                                                e?.target?.value
+                                                            )
+                                                        console.log({
+                                                            state,
+                                                        })
                                                         const latLng =
                                                             await getLatLng(
                                                                 e?.target?.value
@@ -693,6 +700,12 @@ export const StudentProfileForm = ({
                                                             formMethods.setValue(
                                                                 'zipCode',
                                                                 postalCode
+                                                            )
+                                                        }
+                                                        if (state) {
+                                                            formMethods.setValue(
+                                                                'state',
+                                                                state
                                                             )
                                                         }
                                                     } catch (error) {
