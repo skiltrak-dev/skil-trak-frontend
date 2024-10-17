@@ -32,7 +32,10 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
 
     const onMailPasswordToStudent = (student: Student) => {
         setModal(
-            <MailPasswordModal onCancel={onCancelClicked} student={student} />
+            <MailPasswordModal
+                user={student?.user}
+                onCancel={onCancelClicked}
+            />
         )
     }
 

@@ -76,7 +76,7 @@ export const workplaceEndpoints = (
     }),
     wpCancellationRequestsList: builder.query<
         PaginatedResponse<any>,
-        PaginationValues
+        PaginationWithSearch
     >({
         query: (params) => ({
             url: `${PREFIX}/get/workplace-cancelation/requests/list`,

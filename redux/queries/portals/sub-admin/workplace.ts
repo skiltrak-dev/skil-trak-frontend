@@ -1,7 +1,11 @@
 import { WPApprovalStatus } from '@partials/student/workplace/components/WorkplaceApproval/enum'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { PaginatedResponse, PaginationValues } from '@types'
+import {
+    PaginatedResponse,
+    PaginationValues,
+    PaginationWithSearch,
+} from '@types'
 
 const PREFIX = 'subadmin/'
 export const workplaceEndpoints = (
@@ -164,7 +168,7 @@ export const workplaceEndpoints = (
     }),
     subadminWpCancellationRequestsList: builder.query<
         PaginatedResponse<any>,
-        PaginationValues
+        PaginationWithSearch
     >({
         query: (params) => ({
             url: `${PREFIX}get/workplace-cancelation/requests/list`,

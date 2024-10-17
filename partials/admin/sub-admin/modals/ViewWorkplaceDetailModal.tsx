@@ -34,13 +34,15 @@ export const ViewWorkplaceDetailModal = ({
             subtitle="View Workplace Detail"
             onCancelClick={onCancel}
         >
-            <div className="w-full lg:min-w-[800px]">
+            <div className="w-full lg:min-w-[800px] lg:max-w-5xl xl:max-w-6xl">
                 <Tabs tabs={tabs} defaultTabSelected={0}>
                     {({ header, element }: any) => {
                         return (
                             <div>
                                 <div>{header}</div>
-                                <div className="p-4">{element}</div>
+                                <div className="px-4 h-[40vh] lg:h-[55vh] xl:h-[60vh] overflow-auto custom-scrollbar ">
+                                    {element}
+                                </div>
                             </div>
                         )
                     }}

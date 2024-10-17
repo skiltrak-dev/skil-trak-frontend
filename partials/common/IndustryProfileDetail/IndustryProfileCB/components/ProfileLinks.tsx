@@ -10,6 +10,9 @@ import { IoMdEyeOff } from 'react-icons/io'
 import { RiEditFill } from 'react-icons/ri'
 import { AcceptingStudentModal } from '../../modal'
 import { SubAdminApi } from '@queries'
+import { CiUnlock } from 'react-icons/ci'
+import { User } from '@types'
+import { MailPasswordModal } from '@partials/common/StudentProfileDetail/modals'
 
 export const ProfileLinks = ({ industry }: { industry: Industry }) => {
     const router = useRouter()
@@ -25,6 +28,10 @@ export const ProfileLinks = ({ industry }: { industry: Industry }) => {
     })
 
     const onCancelModal = () => setModal(null)
+
+    const onMailPasswordToStudent = (user: User) => {
+        setModal(<MailPasswordModal user={user} onCancel={onCancelModal} />)
+    }
 
     const profileLinks = [
         {
@@ -52,6 +59,13 @@ export const ProfileLinks = ({ industry }: { industry: Industry }) => {
                       },
                   }
                 : {}),
+        },
+        {
+            text: 'Send Password',
+            Icon: CiUnlock,
+            onClick: () => {
+                onMailPasswordToStudent(industry?.user)
+            },
         },
         {
             text: 'View Password',
