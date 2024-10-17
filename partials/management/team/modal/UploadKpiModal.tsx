@@ -51,7 +51,7 @@ export const UploadKpiModal = ({ onCancel, member }: UploadKpiModalProps) => {
             let rows = utils.sheet_to_json(wb.Sheets[sheets[0]])
             rows = rows?.map(removeSpacesFromKeys)
             console.log({ rows })
-            // setKpi(rows)
+            setKpi(rows)
         }
     }
 
@@ -81,7 +81,6 @@ export const UploadKpiModal = ({ onCancel, member }: UploadKpiModalProps) => {
     const onSubmit = async (values: any) => {
         const { from, to } = values
         const kpiReportData = kpi
-        console.log('kpiReportData', kpiReportData)
         if (!kpiReportData && kpiReportData?.length === 0) {
             methods.setError('list', {
                 type: 'mix',
