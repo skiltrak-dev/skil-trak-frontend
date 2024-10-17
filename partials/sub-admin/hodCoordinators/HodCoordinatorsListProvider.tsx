@@ -178,7 +178,7 @@ export const HodCoordinatorsListProvider = ({ children }: any) => {
                 text: 'View',
                 onClick: (subAdmin: any) => {
                     router.push(
-                        `/portals/sub-admin/coordinators/${subAdmin?.id}?tab=notes`
+                        `/portals/sub-admin/department/${subAdmin?.id}?tab=notes`
                     )
                 },
                 Icon: FaEye,
@@ -225,31 +225,6 @@ export const HodCoordinatorsListProvider = ({ children }: any) => {
         ]
     }
 
-    // const hodColumn: any =
-    //     role === UserRoles.ADMIN
-    //         ? {
-    //               accessorKey: 'isHod',
-    //               header: () => <span>HOD</span>,
-    //               cell: (info: any) => {
-    //                   return !info?.row?.original?.isHod ? (
-    //                       <div className="whitespace-nowrap">
-    //                           <Button
-    //                               text="Change HOD"
-    //                               variant="info"
-    //                               onClick={() => {
-    //                                   onChangeHODClicked(info?.row?.original)
-    //                               }}
-    //                           />
-    //                       </div>
-    //                   ) : (
-    //                       info?.row?.original?.isHod && (
-    //                           <Badge text="HOD" variant="success" />
-    //                       )
-    //                   )
-    //               },
-    //           }
-    //         : null // Render null if not admin
-
     const columns: ColumnDef<SubAdmin>[] = [
         {
             accessorKey: 'user.name',
@@ -257,6 +232,10 @@ export const HodCoordinatorsListProvider = ({ children }: any) => {
                 return <HodCoordinatorCell subAdmin={info.row.original} />
             },
             header: () => <span>Sub Admin</span>,
+        },
+        {
+            accessorKey: 'studentsCount',
+            header: () => <span>Students Count</span>,
         },
         {
             accessorKey: 'sector',

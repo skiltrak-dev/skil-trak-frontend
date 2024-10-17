@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import { CommonApi, SubAdminApi } from '@queries'
@@ -10,7 +11,7 @@ import { HiDocumentReport, HiUsers } from 'react-icons/hi'
 import { IoMdSettings } from 'react-icons/io'
 import { MdEmail, MdSpaceDashboard } from 'react-icons/md'
 import { NavLinkItem } from '../NavLinkItem'
-import { useEffect } from 'react'
+import { GrUserAdmin } from 'react-icons/gr'
 
 const PREFIX = '/portals/sub-admin'
 const Routes = {
@@ -27,7 +28,7 @@ const Routes = {
     ESign: `${PREFIX}/e-sign?tab=all`,
     VolunteerRequest: `${PREFIX}/volunteer-requests?tab=pending`,
     TalentPool: `${PREFIX}/talent-pool`,
-    CoordinatorsList: `${PREFIX}/coordinators`,
+    CoordinatorsList: `${PREFIX}/department`,
 }
 
 export const SubAdminNavbar = () => {
@@ -95,8 +96,8 @@ export const SubAdminNavbar = () => {
             ? [
                   {
                       link: Routes.CoordinatorsList,
-                      text: 'Coordinators',
-                      Icon: FaFileSignature,
+                      text: 'Dept Coordinators',
+                      Icon: GrUserAdmin,
                       activeClasses: 'bg-green-100 text-green-700',
                       inActiveClasses: 'text-slate-700',
                   },
@@ -123,17 +124,22 @@ export const SubAdminNavbar = () => {
 
     useEffect(() => {
         if (
-            !checkIsHod &&
-            (router.pathname === '/portals/sub-admin/coordinators' ||
-                router.pathname === '/portals/sub-admin/coordinators/[id]')
+            (!checkIsHod &&
+                (router.pathname === '/portals/sub-admin/department' ||
+                    router.pathname ===
+                        '/portals/sub-admin/department/students' ||
+                    router.pathname ===
+                        '/portals/sub-admin/department/[id]')) ||
+            router.pathname ===
+                '/portals/sub-admin/tickets?tab=department-tickets'
         ) {
-            router.replace('/portals/sub-admin') // Redirect to Dashboard or any other page
+            router.replace('/portals/sub-admin')
         }
     }, [router.pathname])
 
     return (
         <div className="flex justify-between items-center">
-            <ul className="flex gap-x-2 py-4 w-[900px] overflow-auto custom-scrollbar">
+            <ul className="flex gap-x-2 py-4 w-[950px] overflow-auto custom-scrollbar">
                 {navBarData.map((nav, i) => (
                     <NavLinkItem key={i} nav={nav} PREFIX={PREFIX} />
                 ))}

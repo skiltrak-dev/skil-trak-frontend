@@ -16,6 +16,7 @@ import {
     ActiveIndustries,
     WithoutEmailListing,
     AddIndustry,
+    DepartmentFutureIndustries,
 } from '@partials/common'
 import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
 import { ImportIndustriesListWithOTP } from '@partials/common/FindWorkplaces/contextBar'
@@ -23,7 +24,7 @@ import { CommonApi, commonApi, SubAdminApi } from '@queries'
 import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
 import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
-import { ReactElement, useCallback, useEffect, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
 import { FaIndustry } from 'react-icons/fa'
 import { IoWarning } from 'react-icons/io5'
 import { MdAddBusiness } from 'react-icons/md'
@@ -52,6 +53,7 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
 
     const profile = SubAdminApi.SubAdmin.useProfile()
+    const isHod = profile?.data?.departmentMember?.isHod
     const filteredIndustries = commonApi.useGetAllFindWorkplacesQuery({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
@@ -67,34 +69,61 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
         setIndustryData(data)
     }, [])
 
-    const tabs: TabProps[] = [
-        {
-            label: 'All',
-            href: {
-                pathname: 'industry-listing',
-                query: { tab: 'all', page: 1, pageSize: 50 },
+    const tabs: TabProps[] = useMemo(() => {
+        const baseTabs = [
+            {
+                label: 'All',
+                href: {
+                    pathname: 'industry-listing',
+                    query: { tab: 'all', page: 1, pageSize: 50 },
+                },
+                badge: {
+                    text: count?.data?.all,
+                    loading: count?.isLoading,
+                },
+                element: (
+                    <ActiveIndustries onSetIndustryData={onSetIndustryData} />
+                ),
             },
-            badge: {
-                text: count?.data?.all,
-                loading: count?.isLoading,
+            {
+                label: 'Partial Listing',
+                href: {
+                    pathname: 'industry-listing',
+                    query: { tab: 'partial-listing', page: 1, pageSize: 50 },
+                },
+                badge: {
+                    text: count?.data?.noEmail,
+                    loading: count?.isLoading,
+                },
+                element: (
+                    <WithoutEmailListing
+                        onSetIndustryData={onSetIndustryData}
+                    />
+                ),
             },
-            element: <ActiveIndustries onSetIndustryData={onSetIndustryData} />,
-        },
-        {
-            label: 'Partial Listing',
-            href: {
-                pathname: 'industry-listing',
-                query: { tab: 'partial-listing', page: 1, pageSize: 50 },
-            },
-            badge: {
-                text: count?.data?.noEmail,
-                loading: count?.isLoading,
-            },
-            element: (
-                <WithoutEmailListing onSetIndustryData={onSetIndustryData} />
-            ),
-        },
-    ]
+        ]
+
+        if (isHod) {
+            baseTabs.splice(1, 0, {
+                label: 'Department',
+                href: {
+                    pathname: 'industry-listing',
+                    query: { tab: 'department', page: 1, pageSize: 50 },
+                },
+                badge: {
+                    text: count?.data?.department,
+                    loading: count?.isLoading,
+                },
+                element: (
+                    <DepartmentFutureIndustries
+                        onSetIndustryData={onSetIndustryData}
+                    />
+                ),
+            })
+        }
+
+        return baseTabs
+    }, [count, onSetIndustryData, isHod])
     const filteredDataLength = checkFilteredDataLength(filter)
 
     useEffect(() => {

@@ -134,4 +134,12 @@ export const findWorkplaceEndpoints = (
         }),
         invalidatesTags: ['Industries'],
     }),
+    // get department industry listing
+    getDepartmentFutureIndustriesList: builder.query<any, any>({
+        query: (params) => ({
+            url: `department/future/industries/list`,
+            params,
+        }),
+        providesTags: ['Industries'],
+    }),
 })

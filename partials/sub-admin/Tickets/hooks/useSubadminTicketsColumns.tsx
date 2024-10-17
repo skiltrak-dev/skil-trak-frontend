@@ -1,5 +1,9 @@
 import { TableAction, TableActionOption, Typography } from '@components'
-import { TicketSubject, TicketUser } from '@partials/common/Tickets/components'
+import {
+    TicketSubject,
+    TicketUser,
+    TicketUserAssignedTo,
+} from '@partials/common/Tickets/components'
 import { RTOCellInfo } from '@partials/sub-admin/rto/components'
 import { StudentCellInfo } from '@partials/sub-admin/students'
 import { ColumnDef } from '@tanstack/react-table'
@@ -63,7 +67,9 @@ export const useSubadminTicketsColumns = () => {
         {
             accessorKey: 'assignedTo',
             cell: (info) => (
-                <TicketUser ticket={info?.row?.original?.assignedTo} />
+                <TicketUserAssignedTo
+                    ticket={info?.row?.original?.assignedTo}
+                />
             ),
             header: () => <span>Assigned To</span>,
         },

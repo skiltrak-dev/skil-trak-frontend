@@ -14,6 +14,16 @@ export const ticketEndpoints = (
         }),
         providesTags: ['Tickets'],
     }),
+    getDepartmentTicket: builder.query<
+        PaginatedResponse<any>,
+        PaginationWithSearch
+    >({
+        query: (params) => ({
+            url: `department/tickets/list`,
+            params,
+        }),
+        providesTags: ['Tickets'],
+    }),
     getTicket: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}`,

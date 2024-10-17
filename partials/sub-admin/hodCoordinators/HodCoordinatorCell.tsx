@@ -13,7 +13,7 @@ export const HodCoordinatorCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
     return (
         <Link
             legacyBehavior
-            href={`/portals/sub-admin/coordinators/${subAdmin?.id}`}
+            href={`/portals/sub-admin/department/${subAdmin?.id}`}
         >
             <a
                 onClick={() => {
