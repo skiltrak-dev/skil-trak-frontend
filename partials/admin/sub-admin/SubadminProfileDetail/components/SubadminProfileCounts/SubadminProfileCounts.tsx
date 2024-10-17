@@ -1,5 +1,8 @@
+import { UserRoles } from '@constants'
 import { ProfileCountsCard, RtoProfileCountDataType } from '@partials/admin/rto'
 import { ViewWorkplaceDetailModal } from '@partials/admin/sub-admin/modals'
+import { getUserCredentials } from '@utils'
+import { useRouter } from 'next/router'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { CgFileDocument } from 'react-icons/cg'
 import { HiOutlineDocumentDuplicate, HiUserCircle } from 'react-icons/hi'
@@ -7,12 +10,18 @@ import {
     SiHomeassistantcommunitystore,
     SiSimpleanalytics,
 } from 'react-icons/si'
+import { SubAdminApi } from '@queries'
 
 export const SubadminProfileCounts = ({
     subAdminProfileCount,
 }: {
     subAdminProfileCount: any
 }) => {
+    const router = useRouter()
+    const role = getUserCredentials()?.role
+    const subAdmin = SubAdminApi.SubAdmin.useProfile()
+    const checkIsAdmin = role === UserRoles.SUBADMIN && subAdmin?.data?.isAdmin
+    console.log('SubAdmin', subAdmin)
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [countsData, setCountsData] = useState<RtoProfileCountDataType[]>([])
 
@@ -33,14 +42,22 @@ export const SubadminProfileCounts = ({
                     Icon: HiUserCircle,
                     loading: false,
                     link: {
-                        pathname: '/portals/admin/student',
-                        query: {
-                            tab: 'completed',
-                            page: 1,
-                            pageSize: 50,
-                            // rtoId: Number(router?.query?.id),
-                            // status: UserStatus.Approved,
-                        },
+                        pathname:
+                            role === UserRoles.ADMIN || checkIsAdmin
+                                ? '/portals/admin/student'
+                                : `/portals/sub-admin/department/${
+                                      router.query.id || ''
+                                  }`,
+
+                        ...((role === UserRoles.ADMIN || checkIsAdmin) && {
+                            query: {
+                                tab: 'completed-students',
+                                page: 1,
+                                pageSize: 50,
+                                // rtoId: Number(router?.query?.id),
+                                // status: UserStatus.Approved,
+                            },
+                        }),
                     },
                     background: {
                         from: '#FF7300',
@@ -53,14 +70,22 @@ export const SubadminProfileCounts = ({
                     Icon: SiHomeassistantcommunitystore,
                     loading: false,
                     link: {
-                        pathname: '/portals/admin/student',
-                        query: {
-                            tab: 'archive',
-                            page: 1,
-                            pageSize: 50,
-                            // rtoId: Number(router?.query?.id),
-                            // status: UserStatus.Archived,
-                        },
+                        pathname:
+                            role === UserRoles.ADMIN || checkIsAdmin
+                                ? '/portals/admin/student'
+                                : `/portals/sub-admin/department/${
+                                      router.query.id || ''
+                                  }`,
+
+                        ...(role === UserRoles.ADMIN && {
+                            query: {
+                                tab: 'archive',
+                                page: 1,
+                                pageSize: 50,
+                                // rtoId: Number(router?.query?.id),
+                                // status: UserStatus.Archived,
+                            },
+                        }),
                     },
                     background: {
                         from: '#286788',
@@ -73,14 +98,22 @@ export const SubadminProfileCounts = ({
                     Icon: HiUserCircle,
                     loading: false,
                     link: {
-                        pathname: '/portals/admin/student',
-                        query: {
-                            tab: 'active',
-                            page: 1,
-                            pageSize: 50,
-                            // rtoId: Number(router?.query?.id),
-                            // status: UserStatus.Approved,
-                        },
+                        pathname:
+                            role === UserRoles.ADMIN || checkIsAdmin
+                                ? '/portals/admin/student'
+                                : `/portals/sub-admin/department/${
+                                      router.query.id || ''
+                                  }`,
+
+                        ...((role === UserRoles.ADMIN || checkIsAdmin) && {
+                            query: {
+                                tab: 'active',
+                                page: 1,
+                                pageSize: 50,
+                                // rtoId: Number(router?.query?.id),
+                                // status: UserStatus.Approved,
+                            },
+                        }),
                     },
                     background: {
                         from: '#6971DD',
@@ -93,14 +126,20 @@ export const SubadminProfileCounts = ({
                     Icon: SiHomeassistantcommunitystore,
                     loading: false,
                     link: {
-                        pathname: '/portals/admin/student',
-                        query: {
-                            tab: 'active',
-                            page: 1,
-                            pageSize: 50,
-                            // rtoId: Number(router?.query?.id),
-                            // status: UserStatus.Pending,
-                        },
+                        pathname:
+                            role === UserRoles.ADMIN || checkIsAdmin
+                                ? '/portals/admin/student'
+                                : '#',
+
+                        ...((role === UserRoles.ADMIN || checkIsAdmin) && {
+                            query: {
+                                tab: 'active',
+                                page: 1,
+                                pageSize: 50,
+                                // rtoId: Number(router?.query?.id),
+                                // status: UserStatus.Pending,
+                            },
+                        }),
                     },
                     background: {
                         from: '#4339F2',
@@ -140,14 +179,19 @@ export const SubadminProfileCounts = ({
                     Icon: HiUserCircle,
                     loading: false,
                     link: {
-                        pathname: '/portals/admin/student',
-                        query: {
-                            tab: 'active',
-                            page: 1,
-                            pageSize: 50,
-                            // rtoId: Number(router?.query?.id),
-                            // status: UserStatus.Pending,
-                        },
+                        pathname:
+                            role === UserRoles.ADMIN || checkIsAdmin
+                                ? '/portals/admin/student'
+                                : '#',
+                        ...((role === UserRoles.ADMIN || checkIsAdmin) && {
+                            query: {
+                                tab: 'active',
+                                page: 1,
+                                pageSize: 50,
+                                // rtoId: Number(router?.query?.id),
+                                // status: UserStatus.Pending,
+                            },
+                        }),
                     },
                     background: {
                         from: '#02A0FC',

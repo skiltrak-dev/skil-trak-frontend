@@ -119,8 +119,20 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
                 url: `department/hod/coordinators/list`,
                 params,
             }),
-            providesTags: ['RtosListing'],
+            providesTags: ['Department'],
         }),
+        getCoordinatorsDropDown: build.query<any, void>({
+            query: () => `department/hod/coordinators`,
+            providesTags: ['SubAdminStudents'],
+        }),
+        getDepartmentStudents: build.query<any, any>({
+            query: (params) => ({
+                url: `department/students`,
+                params,
+            }),
+            providesTags: ['SubAdminStudents'],
+        }),
+      
 
         ...notesEndpoints(build),
         ...subAdminReports(build),
@@ -158,6 +170,8 @@ export const {
     useChangeSubAdminUserStatusMutation,
     useSaveCoordinatesForMapMutation,
     useGetHodCoordinatorsListQuery,
+    useGetCoordinatorsDropDownQuery,
+    useGetDepartmentStudentsQuery,
     // -------- Rtos Listing --------//
     useImportRtosListMutation,
     useGetAllRtosListQuery,
@@ -409,6 +423,8 @@ export const SubAdminApi = {
         useDeleteRtoListing: useDeleteRtoListingMutation,
         useAllRtosList: useGetAllRtosListQuery,
         useHodCoordinatorsList: useGetHodCoordinatorsListQuery,
+        useCoordinatorsDropDown: useGetCoordinatorsDropDownQuery,
+        useDepartmentStudents: useGetDepartmentStudentsQuery,
     },
     Todo: {
         todoListCount: useTodoListCountQuery,

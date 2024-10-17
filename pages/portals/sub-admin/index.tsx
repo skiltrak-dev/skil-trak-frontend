@@ -28,6 +28,7 @@ import { useRouter } from 'next/router'
 
 const SubAdminDashboard: NextPageWithLayout = () => {
     const status = getUserCredentials()?.status
+    const role = getUserCredentials()?.role
 
     const contextBar = useContextBar()
     const [credentials, setCredentials] = useState<any>(null)
@@ -36,6 +37,9 @@ const SubAdminDashboard: NextPageWithLayout = () => {
 
     const subadminCourses = CommonApi.Courses.subadminCoursesList()
     const subadmin = SubAdminApi.SubAdmin.useProfile()
+
+    const checkIsHod = subadmin?.data?.departmentMember?.isHod
+
     const statistics = SubAdminApi.Count.statistics(undefined, {
         skip: status !== UserStatus.Approved,
     })
@@ -134,21 +138,6 @@ const SubAdminDashboard: NextPageWithLayout = () => {
         }
     }, [pendingIndustries?.data?.data])
 
-    // const onMapClick = () => {
-    //     setModal(
-    //         <GlobalModal>
-    //             <div className="w-full p-5 ">
-    //                 <div
-    //                     onClick={onCancel}
-    //                     className="flex justify-end cursor-pointer border-b py-2 mb-2"
-    //                 >
-    //                     <IoMdCloseCircle size={20} className="text-red-500" />
-    //                 </div>
-    //                 <SubAdminDashboardMap sectorsOptions={sectorsOptions} />
-    //             </div>
-    //         </GlobalModal>
-    //     )
-    // }
     const mapApiDataToChartData = (apiData: any) => {
         if (!apiData) {
             return []
@@ -191,6 +180,24 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                 <div className="flex flex-col gap-y-4">
                     <div className="flex items-end justify-between gap-x-2.5 w-full mt-2">
                         <div className="grid grid-cols-2 gap-x-2.5 gap-y-8 w-1/2">
+                            {/* {checkIsHod && (
+                                <>
+                                    <FigureCardVII
+                                        imageUrl="/images/figure-card/fig-card-1.svg"
+                                        count={0}
+                                        title={'My Coordinators'}
+                                        link={'sub-admin/department'}
+                                    />
+                                    <FigureCardVII
+                                        imageUrl="/images/figure-card/fig-card-1.svg"
+                                        count={0}
+                                        title={'Tickets'}
+                                        link={
+                                            'sub-admin/tickets?tab=all-tickets'
+                                        }
+                                    />
+                                </>
+                            )} */}
                             <FigureCardVII
                                 imageUrl="/images/figure-card/fig-card-1.svg"
                                 count={statistics?.data?.rto}
