@@ -5,11 +5,11 @@ import {
 } from '@partials/common/StudentProfileDetail/components'
 import { Rto, SubAdmin } from '@types'
 import {
-    RtoAssessmentTools,
-    RtoProfileStatistics,
-    RtoProfileTopbar,
     RtoReports,
     RtoSectors,
+    RtoProfileTopbar,
+    RtoAssessmentTools,
+    RtoProfileStatistics,
 } from './components'
 import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
