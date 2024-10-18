@@ -59,7 +59,7 @@ export const SubadminProfileCounts = ({
                             : {
                                   query: {
                                       tab: 'all-students',
-                                      coordinator: router?.query?.id,
+                                      coordinator: router?.query?.id + '',
                                       page: 1,
                                       pageSize: 50,
                                   },
