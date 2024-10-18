@@ -70,7 +70,7 @@ const DepartmentStudent: NextPageWithLayout = () => {
     //     }, 700),
     //     []
     // )
-
+    
     const filteredDataLength = checkFilteredDataLength({
         ...filter,
         ...(studentId?.studentId ? studentId : {}),
