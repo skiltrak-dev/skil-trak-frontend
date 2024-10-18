@@ -680,9 +680,7 @@ export const StudentProfileForm = ({
                                                             await getAddressData(
                                                                 e?.target?.value
                                                             )
-                                                        console.log({
-                                                            state,
-                                                        })
+
                                                         const latLng =
                                                             await getLatLng(
                                                                 e?.target?.value

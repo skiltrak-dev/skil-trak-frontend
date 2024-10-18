@@ -125,7 +125,6 @@ export const TimeSlots = ({
                 dayData?.closingTime + ''
             )
             setIsDateOutSideFromScheduleTime(!isTime)
-            console.log({ selectedDate, day, dayData, selectedTime, isTime })
         } else {
             setIsDateOutSideFromScheduleTime(false)
         }
@@ -146,8 +145,6 @@ export const TimeSlots = ({
     }, [appointmentAvailability, appointmentWith, selectedTime, selectedDate])
 
     const role = getUserCredentials()?.role
-
-    console.log({ selectedTime })
 
     return (
         <div className="">

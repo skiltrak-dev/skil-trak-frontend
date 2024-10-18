@@ -58,8 +58,6 @@ export const RtoProfileProgress = ({
         },
     ]
 
-    console.log('progressData', progressData)
-
     return (
         <div>
             <div>

@@ -40,8 +40,6 @@ export const SessionExpireModal = ({ onCancel }: { onCancel: () => void }) => {
                         //         : '/auth/login-auth',
                         // })
 
-                        // console.log({ isManagementPath })
-
                         if (isBrowser()) {
                             localStorage.setItem(
                                 'autoLogoutPath',
