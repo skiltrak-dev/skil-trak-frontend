@@ -235,7 +235,7 @@ export const HodCoordinatorsListProvider = ({ children }: any) => {
         },
         {
             accessorKey: 'studentsCount',
-            header: () => <span>Students Count</span>,
+            header: () => <span>Assigned Students</span>,
         },
         {
             accessorKey: 'sector',
@@ -247,10 +247,10 @@ export const HodCoordinatorsListProvider = ({ children }: any) => {
             header: () => <span>RTOs</span>,
             cell: (info) => <RtoCell subAdmin={info.row.original} />,
         },
-        {
-            accessorKey: 'subadmin.studentCount',
-            header: () => <span>Assigned Students</span>,
-        },
+        // {
+        //     accessorKey: 'subadmin.studentCount',
+        //     header: () => <span>Assigned Students</span>,
+        // },
         {
             accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
@@ -261,24 +261,24 @@ export const HodCoordinatorsListProvider = ({ children }: any) => {
                 />
             ),
         },
-        {
-            accessorKey: 'associated',
-            header: () => <span>associated</span>,
-            cell: (info: any) => {
-                return (
-                    <ActionButton
-                        onClick={() => {
-                            onAssociatedWithRtoClicked(
-                                info?.row?.original?.id,
-                                info?.row?.original?.rtos
-                            )
-                        }}
-                    >
-                        Associated With Rto
-                    </ActionButton>
-                )
-            },
-        },
+        // {
+        //     accessorKey: 'associated',
+        //     header: () => <span>associated</span>,
+        //     cell: (info: any) => {
+        //         return (
+        //             <ActionButton
+        //                 onClick={() => {
+        //                     onAssociatedWithRtoClicked(
+        //                         info?.row?.original?.id,
+        //                         info?.row?.original?.rtos
+        //                     )
+        //                 }}
+        //             >
+        //                 Associated With Rto
+        //             </ActionButton>
+        //         )
+        //     },
+        // },
         {
             accessorKey: 'createdBy.role',
             header: () => <span>Created By</span>,

@@ -14,7 +14,7 @@ export const DepartmentCounts = () => {
     return (
         <>
             <div className="grid grid-cols-2 gap-x-5 gap-y-10">
-                <div className="col-span-2 grid grid-cols-2 md:grid-cols-3 gap-x-2 gap-y-10">
+                <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-10">
                     <FigureCardVII
                         imageUrl="/images/figure-card/fig-card-1.svg"
                         count={departmentCounts?.data?.rtosCount}
@@ -29,12 +29,12 @@ export const DepartmentCounts = () => {
                         title={'All Students'}
                         link={`/portals/admin/departments/${id}/students`}
                     />{' '}
-                    <FigureCardVII
+                    {/* <FigureCardVII
                         imageUrl="/images/figure-card/fig-card-4.svg"
                         count={departmentCounts?.data?.flaggedStudents}
                         title={'Flashing Students'}
                         link={'#'}
-                    />
+                    /> */}
                 </div>
                 <FigureCardVII
                     imageUrl="/images/figure-card/fig-card-3.svg"
