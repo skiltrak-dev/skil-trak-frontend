@@ -104,7 +104,7 @@ export const DepartmentStudentsListProvider = ({ children }: any) => {
                 refetchOnMountOrArgChange: true,
             }
         )
-
+    
     useEffect(() => {
         const getScrollId = sessionStorage.getItem('scrollId')
         if (getScrollId) {
