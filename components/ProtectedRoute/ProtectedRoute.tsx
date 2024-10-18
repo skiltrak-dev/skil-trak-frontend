@@ -1,14 +1,12 @@
 import { UserRoles } from '@constants'
 import { SubAdminApi } from '@queries'
 import { AuthUtils, isBrowser } from '@utils'
-import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
     // const data: any = useSession()
     // const authenticated = !!data?.data?.accessToken
-    // console.log({ authenticated })
 
     const [authorized, setAuthorized] = useState(false)
     const router = useRouter()

@@ -19,8 +19,6 @@ export const AddDepartmentCB = ({
 }: any) => {
     const [selectedSector, setSelectedSector] = useState<number[]>([])
 
-    console.log({ selectedSector })
-
     const getSectors = AdminApi.Department.useDepartmentSectors()
     const { notification } = useNotification()
     const [addDept, addDeptResult] = AdminApi.Department.useAddDepartment()

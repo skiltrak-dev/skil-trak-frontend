@@ -88,8 +88,6 @@ export const SearchUserCard = ({
         }
     )
 
-    console.log({ adminUsers, subAdminUsers })
-
     useEffect(() => {
         setSearchAppointment(adminUsers)
     }, [adminUsers])

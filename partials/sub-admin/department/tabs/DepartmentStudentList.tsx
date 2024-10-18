@@ -1,6 +1,6 @@
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout, Student } from '@types'
-import React, { ReactElement, useState } from 'react'
+import { NextPageWithLayout, OptionType, Student } from '@types'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { SubAdminApi } from '@queries'
 import {
     getStudentWorkplaceAppliedIndustry,
@@ -49,6 +49,12 @@ export const DepartmentStudentList = () => {
     const [coordinatorId, setCoordinatorId] = useState<string | null>(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    useEffect(() => {
+        if (router?.query?.coordinator) {
+            setCoordinatorId(router?.query?.coordinator + '')
+        }
+    }, [router])
 
     const { data, isLoading, isError, isFetching, isSuccess } =
         SubAdminApi.SubAdmin.useDepartmentStudents(
@@ -295,16 +301,18 @@ export const DepartmentStudentList = () => {
             {modal}
             {isError && <TechnicalError />}
             <div className="w-full flex justify-end">
-                <div className="min-w-64">
+                <div className="min-w-64 relative z-30">
                     <Select
                         label={'Filter by Coordinator'}
                         name={'coordinator'}
                         placeholder={'Filter by Coordinator...'}
                         options={coordinatorsOptions}
+                        value={coordinatorsOptions?.find(
+                            (c: OptionType) =>
+                                c?.value === Number(coordinatorId)
+                        )}
                         onlyValue
-                        onChange={(e: any) => {
-                            onFilterByCoordinator(e)
-                        }}
+                        onChange={(e: any) => onFilterByCoordinator(e)}
                     />
                 </div>
             </div>

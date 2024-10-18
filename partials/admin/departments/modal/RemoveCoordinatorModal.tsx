@@ -13,7 +13,6 @@ export const RemoveCoordinatorModal = ({
     item: SubAdmin | undefined
     onCancel: Function
 }) => {
-    console.log('items::::::', item)
     const { alert } = useAlert()
     const { notification } = useNotification()
     const [removeCoordinator, removeCoordinatorResult] =

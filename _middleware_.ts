@@ -45,8 +45,6 @@ export async function middleware(request: NextRequest) {
     })
     const userRole: UserRoles = user?.role as UserRoles
 
-    console.log({ userRole })
-
     // Check if the path starts with '/portals/'
     if (path.startsWith('/portals/')) {
         if (!user) {
@@ -66,8 +64,6 @@ export async function middleware(request: NextRequest) {
         const matchingRoute = Object.keys(protectedRoutes).find((route) =>
             path.startsWith(route)
         )
-
-        console.log({ matchingRoute })
 
         if (matchingRoute) {
             if (userRole === UserRoles.SUBADMIN) {

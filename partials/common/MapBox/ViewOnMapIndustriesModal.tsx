@@ -330,8 +330,6 @@ export const ViewOnMapIndustriesModal = ({
         (i: any) => i?.industry?.id
     )
 
-    console.log({ indind })
-
     return (
         <div className="w-full h-[80vh] lg:h-full overflow-hidden">
             <div className="flex justify-between cursor-pointer border-b py-0.5 px-2 mb-2">

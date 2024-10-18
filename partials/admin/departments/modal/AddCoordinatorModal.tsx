@@ -51,7 +51,6 @@ export const AddCoordinatorModal = ({ onCancel }: any) => {
         }))
 
         setSelectedCoordinators(structuredMembers)
-        console.log('structuredMembers', structuredMembers)
     }
     return (
         <>

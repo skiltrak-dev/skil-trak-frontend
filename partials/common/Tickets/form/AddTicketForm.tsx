@@ -41,8 +41,6 @@ export const AddTicketForm = ({
     const sectorResponse = AuthApi.useSectors({})
     const canAccess = useIsRestricted('canCreateInternalTicket', false)
 
-    console.log({ canAccesscanAccesscanAccesscanAccess: canAccess })
-
     const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
     const [selectedStudent, setSelectedStudent] = useState<number | null>(null)
     const [isInternal, setIsInternal] = useState<boolean>(false)
@@ -112,7 +110,6 @@ export const AddTicketForm = ({
 
     useEffect(() => {
         if (selectedStudent) {
-            console.log('Shunnnrrrr!!!!')
             const stdCourse = studentsOptions?.find(
                 (s: OptionType) => s?.value === selectedStudent
             )?.item?.courses?.[0]?.id
@@ -161,8 +158,6 @@ export const AddTicketForm = ({
             value: TicketCreator.QANDEEL_TANOLI,
         },
     ]
-
-    console.log('Khanka banka')
 
     return (
         <div>

@@ -25,7 +25,6 @@ export const ViewContactedIndustryModal = ({
         router?.query?.id,
         { skip: !router?.query?.id }
     )
-    console.log({ studentDetails })
     const industries = studentDetails?.data?.student?.industryContacts
 
     const role = getUserCredentials()?.role

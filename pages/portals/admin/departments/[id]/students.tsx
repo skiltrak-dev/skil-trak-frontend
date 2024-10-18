@@ -77,8 +77,6 @@ const DepartmentStudent: NextPageWithLayout = () => {
         ...(studentName?.name ? studentName : {}),
     })
 
-    console.log('filteredData', studentNameValue)
-
     return (
         <>
             {passwordModal && passwordModal}
