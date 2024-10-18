@@ -39,7 +39,6 @@ const getUserCredentials = (access_token: string) => {
 }
 
 async function refreshAccessToken(token: JWT): Promise<JWT> {
-    console.log({ RefrenshFtnToken: token })
     try {
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_END_POINT}/auth/refresh/token`,

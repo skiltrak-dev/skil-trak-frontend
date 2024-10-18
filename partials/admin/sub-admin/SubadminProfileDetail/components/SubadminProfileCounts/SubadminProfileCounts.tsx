@@ -21,7 +21,6 @@ export const SubadminProfileCounts = ({
     const role = getUserCredentials()?.role
     const subAdmin = SubAdminApi.SubAdmin.useProfile()
     const checkIsAdmin = role === UserRoles.SUBADMIN && subAdmin?.data?.isAdmin
-    console.log('SubAdmin', subAdmin)
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [countsData, setCountsData] = useState<RtoProfileCountDataType[]>([])
 
@@ -45,19 +44,26 @@ export const SubadminProfileCounts = ({
                         pathname:
                             role === UserRoles.ADMIN || checkIsAdmin
                                 ? '/portals/admin/student'
-                                : `/portals/sub-admin/department/${
-                                      router.query.id || ''
-                                  }`,
+                                : `/portals/sub-admin/department/students`,
 
-                        ...((role === UserRoles.ADMIN || checkIsAdmin) && {
-                            query: {
-                                tab: 'completed-students',
-                                page: 1,
-                                pageSize: 50,
-                                // rtoId: Number(router?.query?.id),
-                                // status: UserStatus.Approved,
-                            },
-                        }),
+                        ...(role === UserRoles.ADMIN || checkIsAdmin
+                            ? {
+                                  query: {
+                                      tab: 'completed-students',
+                                      page: 1,
+                                      pageSize: 50,
+                                      // rtoId: Number(router?.query?.id),
+                                      // status: UserStatus.Approved,
+                                  },
+                              }
+                            : {
+                                  query: {
+                                      tab: 'all-students',
+                                      coordinator: router?.query?.id,
+                                      page: 1,
+                                      pageSize: 50,
+                                  },
+                              }),
                     },
                     background: {
                         from: '#FF7300',

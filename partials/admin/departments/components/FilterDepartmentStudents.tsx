@@ -134,14 +134,11 @@ export const FilterDepartmentStudents = () => {
     // )
     // ============================= END ====================================
 
-    console.log('student filtered', data)
     return (
         <>
             {passwordModal && passwordModal}
             {modal && modal}
             <div className="flex flex-col gap-y-4 p-4">
-                
-
                 <Card noPadding>
                     {isLoading || isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
