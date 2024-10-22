@@ -92,11 +92,9 @@ export const EmploymentHub = () => {
             >
                 <div className="max-w-7xl mx-auto">
                     <div className="max-w-6xl mx-auto flex flex-col gap-y-7 px-8 md:px-6 xl:px-0">
-                        <Typography bold center>
-                            <h1 className="text-xl md:text-3xl lg:text-[47px]">
-                                Employment Hub
-                            </h1>
-                        </Typography>
+                        <h1 className="font-bold text-center text-xl md:text-3xl lg:text-[47px]">
+                            Employment Hub
+                        </h1>
                         <div className="flex flex-col gap-y-2.5">
                             <Typography
                                 center

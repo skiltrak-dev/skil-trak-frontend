@@ -27,6 +27,8 @@ import { ellipsisText } from '@utils'
 const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
     const [activeAccordion, setActiveAccordion] = useState<number | null>(null)
 
+    console.log({ blogData })
+
     const handleToggle = (index: number) => {
         if (activeAccordion === index) {
             setActiveAccordion(null) // Close the accordion if it's already open
@@ -55,76 +57,92 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                     key="desc"
                 />
             </Head>
-            <HeroSectionBlog />
-            <div className="md:p-10 p-0 mt-8 md:mt-0 mx-auto max-w-7xl">
-                <div className="rounded-xl md:px-8 px-4 py-8 md:py-4 bg-white">
-                    <div className="md:h-[600px] h-[250px] w-full relative overflow-hidden rounded-xl">
-                        <Image
-                            src={
-                                blogData?.featuredImage ||
-                                '/images/blogs/blog.jpg'
-                            }
-                            alt="blog-card"
-                            fill
-                            sizes="100vw"
-                            className="object-contain w-full"
-                        />
-                    </div>
-                    <div className="flex items-center justify-between my-3">
-                        <p className="text-slate-400 text-xs font-bold">
-                            Published by : {blogData?.author}
-                        </p>
-                        <p className="text-slate-400 text-xs">
-                            {moment(blogData?.updatedAt).format('Do MMM YYYY')}
-                        </p>
-                    </div>
-                    <h1 className="font-bold text-xl md:text-[40px] md:leading-10 uppercase my-2 md:my-10">
-                        {blogData?.title}
-                    </h1>
-                    <div
-                        className="blog-content block text-sm md:text-normal mr-0 md:mr-6 text-gray-600 leading-6"
-                        dangerouslySetInnerHTML={{
-                            __html: blogData?.content,
-                        }}
-                    />
-                    {blogData?.blogQuestions &&
-                        blogData?.blogQuestions?.length > 0 && (
-                            <div className="md:mt-20 mt-8">
-                                <h2 className="font-semibold text-xl md:text-3xl md:leading-10 uppercase my-2 md:my-4">
-                                    FAQ's
-                                </h2>
-                                <div
-                                    // type="single"
-                                    // collapsible
-                                    className="w-full flex flex-col "
-                                >
-                                    {blogData?.blogQuestions?.map(
-                                        (faq: any, index: any) => {
-                                            return (
-                                                <div key={faq?.id}>
-                                                    <Accordion
-                                                        question={faq?.question}
-                                                        answer={faq?.answer}
-                                                        index={index + 1}
-                                                        isOpen={
-                                                            activeAccordion ===
-                                                            index + 1
-                                                        }
-                                                        onToggle={() =>
-                                                            handleToggle(
-                                                                index + 1
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
-                                            )
-                                        }
-                                    )}
-                                </div>
+            {blogData?.error ? (
+                <TechnicalError />
+            ) : (
+                <>
+                    {' '}
+                    <HeroSectionBlog />
+                    <div className="md:p-10 p-0 mt-8 md:mt-0 mx-auto max-w-7xl">
+                        <div className="rounded-xl md:px-8 px-4 py-8 md:py-4 bg-white">
+                            <div className="md:h-[600px] h-[250px] w-full relative overflow-hidden rounded-xl">
+                                <Image
+                                    src={
+                                        blogData?.featuredImage ||
+                                        '/images/blogs/blog.jpg'
+                                    }
+                                    alt="blog-card"
+                                    fill
+                                    sizes="100vw"
+                                    className="object-contain w-full"
+                                />
                             </div>
-                        )}
-                </div>
-            </div>
+                            <div className="flex items-center justify-between my-3">
+                                <p className="text-slate-400 text-xs font-bold">
+                                    Published by : {blogData?.author}
+                                </p>
+                                <p className="text-slate-400 text-xs">
+                                    {moment(blogData?.updatedAt).format(
+                                        'Do MMM YYYY'
+                                    )}
+                                </p>
+                            </div>
+                            <h1 className="font-bold text-xl md:text-[40px] md:leading-10 uppercase my-2 md:my-10">
+                                {blogData?.title}
+                            </h1>
+                            <div
+                                className="blog-content block text-sm md:text-normal mr-0 md:mr-6 text-gray-600 leading-6"
+                                dangerouslySetInnerHTML={{
+                                    __html: blogData?.content,
+                                }}
+                            />
+                            {blogData?.blogQuestions &&
+                                blogData?.blogQuestions?.length > 0 && (
+                                    <div className="md:mt-20 mt-8">
+                                        <h2 className="font-semibold text-xl md:text-3xl md:leading-10 uppercase my-2 md:my-4">
+                                            FAQ's
+                                        </h2>
+                                        <div
+                                            // type="single"
+                                            // collapsible
+                                            className="w-full flex flex-col "
+                                        >
+                                            {blogData?.blogQuestions?.map(
+                                                (faq: any, index: any) => {
+                                                    return (
+                                                        <div key={faq?.id}>
+                                                            <Accordion
+                                                                question={
+                                                                    faq?.question
+                                                                }
+                                                                answer={
+                                                                    faq?.answer
+                                                                }
+                                                                index={
+                                                                    index + 1
+                                                                }
+                                                                isOpen={
+                                                                    activeAccordion ===
+                                                                    index + 1
+                                                                }
+                                                                onToggle={() =>
+                                                                    handleToggle(
+                                                                        index +
+                                                                            1
+                                                                    )
+                                                                }
+                                                            />
+                                                        </div>
+                                                    )
+                                                }
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     )
 }

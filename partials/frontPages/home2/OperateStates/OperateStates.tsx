@@ -24,19 +24,36 @@ const OperateStates = () => {
     }
 
     const states = [
-        'Western Australia',
-        'Northern Territory',
-        'Queens Land',
-        'Southern Australia',
-        'New South Wales',
-        'Victoria',
-        'Tasmania',
+        {
+            state: 'Western Australia',
+            image: 'student placements western australia',
+        },
+        {
+            state: 'Northern Territory',
+            image: 'student placements in northern territory',
+        },
+        {
+            state: 'Queens Land',
+            image: 'student placement queensland',
+        },
+        {
+            state: 'Southern Australia',
+            image: 'student placement southern australia',
+        },
+        {
+            state: 'New South Wales',
+            image: 'student placement new south wales',
+        },
+        { state: 'Victoria', image: 'student placements victoria' },
+        { state: 'Tasmania', image: 'student placements tasmania' },
     ]
 
-    const imagesTexts = states?.map((state: string) => ({
-        state,
-        courses: Object.values(courses),
-    }))
+    const imagesTexts = states?.map(
+        (state: { state: string; image: string }) => ({
+            ...state,
+            courses: Object.values(courses),
+        })
+    )
 
     const handleImageClick = (index: number) => {
         setActive(index)
@@ -129,7 +146,7 @@ const OperateStates = () => {
                                     )}
                             </div>
                             <Image
-                                src={`/images/site/states/state${i + 2}.webp`}
+                                src={`/images/site/states/${detail?.image}.webp`}
                                 alt={''}
                                 width={0}
                                 height={0}

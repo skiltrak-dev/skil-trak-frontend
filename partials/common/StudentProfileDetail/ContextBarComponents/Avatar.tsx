@@ -9,7 +9,7 @@ export const Avatar = ({
     name: string
 }) => {
     return (
-        <div className="w-[70px] h-[70px] rounded-full overflow-hidden shadow-[0_1px_2px_0px_rgba(0,0,0,0.25)]">
+        <div className="w-[60px] h-[60px] p-2 rounded-full overflow-hidden shadow-[0_1px_2px_0px_rgba(0,0,0,0.25)]">
             <Image
                 src={avatar ? avatar : '/images/icons/avatars/std-girl.png'}
                 alt={name}

@@ -71,17 +71,9 @@ export const Actions = ({
         }
     }
 
-    const onChangeStatusToSigned = () => {
-        setModal(
-            <AgreementSignedModal
-                onCancel={onModalCancelClicked}
-                workplaceId={workplace?.id}
-            />
-        )
-    }
     return (
         <div>
-            {modal}
+        {modal}
             <ShowErrorNotifications result={updateStatusResult} />
             <ShowErrorNotifications result={industryResponseResult} />
             {currentStatus ===
@@ -146,16 +138,10 @@ export const Actions = ({
                         courseId={course?.id}
                         eSignDocument={eSignDocument}
                     />
-                    <Button
+                    {/* <Button
                         text="Agreement Signed"
                         onClick={() => onChangeStatusToSigned()}
                         variant="info"
-                    />
-                    {/* <SignAgreement
-                        student={student}
-                        courses={courses}
-                        studentId={Number(student?.id)}
-                        appliedIndustryId={appliedIndustry?.id}
                     /> */}
                 </div>
             ) : null}
