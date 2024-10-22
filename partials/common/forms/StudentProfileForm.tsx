@@ -269,18 +269,18 @@ export const StudentProfileForm = ({
     }, [courseValues])
 
     const onHandleSubmit = (values: any) => {
-        if (!onSuburbClicked) {
-            notification.error({
-                title: 'You must select on Address Dropdown',
-                description: 'You must select on Address Dropdown',
-            })
-        } else if (onSuburbClicked) {
-            onSubmit({
-                ...values,
-                suburb: 'N/A',
-                isAddressUpdated,
-            })
-        }
+        // if (!onSuburbClicked) {
+        //     notification.error({
+        //         title: 'You must select on Address Dropdown',
+        //         description: 'You must select on Address Dropdown',
+        //     })
+        // } else if (onSuburbClicked) {
+        onSubmit({
+            ...values,
+            suburb: 'N/A',
+            isAddressUpdated,
+        })
+        // }
     }
 
     const onCancel = () => setModal(null)

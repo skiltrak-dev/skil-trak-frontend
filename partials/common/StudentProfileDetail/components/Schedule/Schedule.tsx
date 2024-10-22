@@ -57,9 +57,6 @@ export const Schedule = ({
         {
             skip: !selectedCourse || !selectedIndustry || !isEntered,
         }
-        // {
-        //     skip: true,
-        // }
     )
 
     const industriesOptions = useMemo(

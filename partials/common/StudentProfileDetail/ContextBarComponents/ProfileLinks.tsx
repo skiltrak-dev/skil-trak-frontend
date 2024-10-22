@@ -11,10 +11,12 @@ import { RiEditFill } from 'react-icons/ri'
 import {
     MailPasswordModal,
     SnoozeStudentModal,
+    StudentMessageModal,
     UnSnoozeStudentModal,
 } from '../modals'
 import { CiUnlock } from 'react-icons/ci'
 import { MdSnooze } from 'react-icons/md'
+import { TbMessage2Up } from 'react-icons/tb'
 
 export const ProfileLinks = ({ profile }: { profile: Student }) => {
     const router = useRouter()
@@ -51,6 +53,11 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
                 onCancel={onCancelClicked}
                 student={profile}
             />
+        )
+    }
+    const onMessageSendClicked = () => {
+        setModal(
+            <StudentMessageModal onCancel={onCancelClicked} student={profile} />
         )
     }
 
@@ -105,6 +112,13 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
                 : {}),
         },
 
+        {
+            text: 'Send Message',
+            Icon: TbMessage2Up,
+            onClick: () => {
+                onMessageSendClicked()
+            },
+        },
         {
             text: profile?.isSnoozed ? 'Un-Snooze' : 'Snooze',
             Icon: MdSnooze,

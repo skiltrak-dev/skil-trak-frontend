@@ -15,6 +15,15 @@ import { useMediaQuery } from 'react-responsive'
 export const Footer4 = () => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
 
+    const links = [
+        { href: '/', label: 'Home' },
+        { href: '/about-us', label: 'About Us' },
+        { href: '/our-services', label: 'Services' },
+        { href: '/features', label: 'Features' },
+        { href: '/contact-us', label: 'Contact Us' },
+        { href: '/blogs', label: 'Blogs' },
+    ]
+
     return (
         <div className="footer-bg w-full">
             <div className="max-w-7xl mx-auto px-4 py-8 md:py-0 md:pt-12 md:pb-2">
@@ -80,46 +89,18 @@ export const Footer4 = () => {
 
                 {/*  */}
                 <div className="px-2 md:px-0 flex justify-between md:justify-center md:gap-12 gap-y-4 border-y border-[#F6910F] py-4 md:py-5">
-                    <Link href="/">
-                        <Typography
-                            variant={isMobile ? 'label' : 'body'}
-                            color="text-gray-300"
-                        >
-                            <span className="whitespace-pre">Home</span>
-                        </Typography>
-                    </Link>
-                    <Link href="/our-services">
-                        <Typography
-                            variant={isMobile ? 'label' : 'body'}
-                            color="text-gray-300"
-                        >
-                            <span className="whitespace-pre">Services</span>
-                        </Typography>
-                    </Link>
-                    <Link href="/features">
-                        <Typography
-                            variant={isMobile ? 'label' : 'body'}
-                            color="text-gray-300"
-                        >
-                            <span className="whitespace-pre">Features</span>
-                        </Typography>
-                    </Link>
-                    <Link href="/contact-us">
-                        <Typography
-                            variant={isMobile ? 'label' : 'body'}
-                            color="text-gray-300"
-                        >
-                            <span className="whitespace-pre">Contact Us</span>
-                        </Typography>
-                    </Link>
-                    <Link href="/about-us">
-                        <Typography
-                            variant={isMobile ? 'label' : 'body'}
-                            color="text-gray-300"
-                        >
-                            <span className="whitespace-pre">About Us</span>
-                        </Typography>
-                    </Link>
+                    {links.map((link, index) => (
+                        <Link href={link.href} key={index}>
+                            <Typography
+                                variant={isMobile ? 'label' : 'body'}
+                                color="text-gray-300"
+                            >
+                                <span className="whitespace-pre">
+                                    {link.label}
+                                </span>
+                            </Typography>
+                        </Link>
+                    ))}
                 </div>
 
                 {/* Copyright */}

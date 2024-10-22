@@ -17,6 +17,7 @@ import { BiLogoBlogger } from 'react-icons/bi'
 import { BsFillTicketDetailedFill } from 'react-icons/bs'
 import {
     FaClipboardList,
+    FaCode,
     FaFileInvoiceDollar,
     FaFileSignature,
     FaMapMarkedAlt,
@@ -202,6 +203,11 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             path: getRoutePath('/future-industries?tab=all&page=1&pageSize=50'),
             Icon: MdFindInPage,
             visible: subadmin?.data?.allowIndustryListing,
+        },
+        {
+            text: 'Generate Key',
+            path: getRoutePath('/generate-rto-api'),
+            Icon: FaCode,
         },
         {
             text: 'Sectors',
