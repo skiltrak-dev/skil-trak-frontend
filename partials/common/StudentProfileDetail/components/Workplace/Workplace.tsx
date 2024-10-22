@@ -25,7 +25,7 @@ import { ForwardModal } from '@partials/sub-admin/workplace/modals'
 import { Student } from '@types'
 import { checkStudentProfileCompletion, WorkplaceCurrentStatus } from '@utils'
 import moment from 'moment'
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useMemo, useState } from 'react'
 import {
     IWorkplaceIndustries,
     WorkplaceWorkIndustriesType,
@@ -214,16 +214,15 @@ export const Workplace = ({
         )
     }
 
-    const latestWorkplaceApprovaleRequest =
-        selectedWorkplace?.workplaceApprovaleRequest?.reduce(
-            (latest: any, current: any) => {
-                return new Date(current?.createdAt) >
-                    new Date(latest?.createdAt)
+    const latestWorkplaceApprovaleRequest = useMemo(() => {
+        return selectedWorkplace?.workplaceApprovaleRequest?.reduce(
+            (latest: any, current: any) =>
+                new Date(current?.createdAt) > new Date(latest?.createdAt)
                     ? current
-                    : latest
-            },
+                    : latest,
             selectedWorkplace?.workplaceApprovaleRequest?.[0]
         )
+    }, [selectedWorkplace?.workplaceApprovaleRequest])
 
     return (
         <>

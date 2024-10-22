@@ -149,6 +149,18 @@ export const SubadminStudents = () => {
             element: <MyStudents />,
         },
         {
+            label: 'Placement Started Students',
+            badge: {
+                text: studentCount?.placementStarted,
+                loading: count.isLoading,
+            },
+            href: {
+                pathname: 'students',
+                query: { tab: 'placement-started-students' },
+            },
+            element: <PlacementStartedStudents />,
+        },
+        {
             label: 'Urgent Students',
             badge: {
                 text: studentCount?.urgentStudents,
@@ -178,18 +190,7 @@ export const SubadminStudents = () => {
             },
             element: <NonContactableStudents />,
         },
-        {
-            label: 'Placement Started Students',
-            badge: {
-                text: studentCount?.placementStarted,
-                loading: count.isLoading,
-            },
-            href: {
-                pathname: 'students',
-                query: { tab: 'placement-started-students' },
-            },
-            element: <PlacementStartedStudents />,
-        },
+
         {
             label: 'Snoozed Students',
             badge: {

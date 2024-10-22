@@ -545,4 +545,21 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['Students', 'SubAdminStudents'],
     }),
+
+    sendStudentMssage: builder.mutation<
+        Student,
+        { message: string; phoneNumber: string; recipient: number }
+    >({
+        query: (body) => ({
+            url: `twilio-messages/send`,
+            body,
+            method: 'POST',
+        }),
+        invalidatesTags: ['StudentMessages'],
+    }),
+
+    getStudentMessagesList: builder.query<any, number>({
+        query: (id) => `twilio-messages/user/${id}`,
+        providesTags: ['StudentMessages'],
+    }),
 })

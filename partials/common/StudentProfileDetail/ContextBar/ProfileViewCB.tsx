@@ -86,7 +86,7 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
 
             {/* Student Detail */}
             <StudentDetail profile={profile} />
-            <RtoDetail rto={profile?.rto} />
+            {/* <RtoDetail rto={profile?.rto} /> */}
             <EmergencyContact profile={profile} />
 
             {/* Student Status */}

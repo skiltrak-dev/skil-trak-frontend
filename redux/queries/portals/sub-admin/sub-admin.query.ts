@@ -132,7 +132,6 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
             }),
             providesTags: ['SubAdminStudents'],
         }),
-      
 
         ...notesEndpoints(build),
         ...subAdminReports(build),
@@ -288,6 +287,8 @@ export const {
     useFindSuggestedIndustriesQuery,
     useSnoozeStudentMutation,
     useUnSnoozeStudentMutation,
+    useSendStudentMssageMutation,
+    useGetStudentMessagesListQuery,
 
     // ---- LOGBOOK ---- //
     useSaveLogbookMutation,
@@ -474,6 +475,8 @@ export const SubAdminApi = {
         useFindSuggestedIndustries: useFindSuggestedIndustriesQuery,
         useSnoozeStudent: useSnoozeStudentMutation,
         useUnSnoozeStudent: useUnSnoozeStudentMutation,
+        sendStudentMssage: useSendStudentMssageMutation,
+        studentMessagesList: useGetStudentMessagesListQuery,
     },
     LogBook: {
         useSaveLogbook: useSaveLogbookMutation,

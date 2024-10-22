@@ -152,39 +152,44 @@ export const IndustryDetail = ({
                                         View More Industry
                                     </span>
                                 </Typography> */}
-                                <Typography
-                                    variant={'small'}
-                                    color={'text-info'}
-                                >
-                                    <span
-                                        className="font-semibold cursor-pointer whitespace-pre"
-                                        onClick={() => {
-                                            if (!appliedIndustry) {
-                                                contextBar.setContent(
-                                                    <AddIndustryCB
-                                                        studentId={
-                                                            workplace?.student
-                                                                ?.id
-                                                        }
-                                                        workplaceId={
-                                                            workplace?.id
-                                                        }
-                                                        courseId={course?.id}
-                                                    />
-                                                )
-                                                contextBar.show()
-                                            } else {
-                                                notification.warning({
-                                                    title: 'Already Applied',
-                                                    description:
-                                                        'Student have already applied to industry',
-                                                })
-                                            }
-                                        }}
+                                {process.env.NODE_ENV === 'development' ? (
+                                    <Typography
+                                        variant={'small'}
+                                        color={'text-info'}
                                     >
-                                        + Add Industry
-                                    </span>
-                                </Typography>
+                                        <span
+                                            className="font-semibold cursor-pointer whitespace-pre"
+                                            onClick={() => {
+                                                if (!appliedIndustry) {
+                                                    contextBar.setContent(
+                                                        <AddIndustryCB
+                                                            studentId={
+                                                                workplace
+                                                                    ?.student
+                                                                    ?.id
+                                                            }
+                                                            workplaceId={
+                                                                workplace?.id
+                                                            }
+                                                            courseId={
+                                                                course?.id
+                                                            }
+                                                        />
+                                                    )
+                                                    contextBar.show()
+                                                } else {
+                                                    notification.warning({
+                                                        title: 'Already Applied',
+                                                        description:
+                                                            'Student have already applied to industry',
+                                                    })
+                                                }
+                                            }}
+                                        >
+                                            + Add Industry
+                                        </span>
+                                    </Typography>
+                                ) : null}
                                 {/* <button
                                     onClick={onViewOnMap}
                                     className="text-blue-500 underline text-sm whitespace-nowrap"
