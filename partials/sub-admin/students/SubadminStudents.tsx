@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from 'react'
 import {
     Filter,
     LoadingAnimation,
+    MyStudentQuickFilters,
     PageTitle,
     SubAdminStudentFilters,
     TabNavigation,
@@ -56,7 +57,7 @@ const filterKeys = [
     'currentStatus',
     'flagged',
     'snoozed',
-    'nonContactable'
+    'nonContactable',
 ]
 
 export const SubadminStudents = () => {
@@ -71,6 +72,12 @@ export const SubadminStudents = () => {
     const [studentIdValue, setStudentIdValue] = useState<string>('')
     const [studentName, setStudentName] = useState<any | null>(null)
     const [studentNameValue, setStudentNameValue] = useState<string>('')
+
+    const [snoozed, setSnoozed] = useState<boolean | undefined>(undefined)
+    const [nonContactable, setNonContactable] = useState<boolean | undefined>(
+        undefined
+    )
+    const [flagged, setFlagged] = useState<boolean | undefined>(undefined)
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
@@ -92,6 +99,9 @@ export const SubadminStudents = () => {
                 ...filter,
                 ...studentId,
                 ...studentName,
+                ...(flagged === true && { flagged }),
+                ...(snoozed === true && { snoozed }),
+                ...(nonContactable === true && { nonContactable }),
             })
                 .replaceAll('{', '')
                 .replaceAll('}', '')
@@ -105,6 +115,9 @@ export const SubadminStudents = () => {
                 ...filter,
                 ...(studentId?.studentId ? studentId : {}),
                 ...(studentName?.name ? studentName : {}),
+                ...(flagged === true && { flagged }),
+                ...(snoozed === true && { snoozed }),
+                ...(nonContactable === true && { nonContactable }),
             }).length,
         }
     )
@@ -269,6 +282,9 @@ export const SubadminStudents = () => {
         ...filter,
         ...(studentId?.studentId ? studentId : {}),
         ...(studentName?.name ? studentName : {}),
+        ...(flagged === true && { flagged }),
+        ...(snoozed === true && { snoozed }),
+        ...(nonContactable === true && { nonContactable }),
     })
 
     return (
@@ -276,7 +292,12 @@ export const SubadminStudents = () => {
             <div className="flex justify-between items-end">
                 <PageTitle title={'Students'} backTitle={'Users'} />
 
-                <div className="flex gap-x-2">
+                <div className="flex items-center gap-x-2">
+                    <MyStudentQuickFilters
+                        setNonContactable={setNonContactable}
+                        setSnoozed={setSnoozed}
+                        setFlagged={setFlagged}
+                    />
                     <div className="w-60">
                         <TextInput
                             name={'name'}
@@ -286,6 +307,7 @@ export const SubadminStudents = () => {
                                 setStudentNameValue(e.target.value)
                                 delayedNameSearch(e.target.value)
                             }}
+                            showError={false}
                         />
                     </div>
                     <div>
@@ -297,8 +319,10 @@ export const SubadminStudents = () => {
                                 setStudentIdValue(e.target.value)
                                 delayedSearch(e.target.value)
                             }}
+                            showError={false}
                         />
                     </div>
+
                     <div className="flex-shrink-0">{filterAction}</div>
                     {/* <div>
                         <a

@@ -195,7 +195,7 @@ export const SubAdminStudentFilters = ({
                     showError={false}
                 />
             </div>
-            <div className="flex items-center gap-2 mt-4">
+            {/* <div className="flex items-center gap-2 mt-4">
                 <Checkbox
                     label={'Flagged'}
                     name={'flagged'}
@@ -220,7 +220,6 @@ export const SubAdminStudentFilters = ({
                     }}
                     showError={false}
                 />
-                {/* nonContactable */}
                 <Checkbox
                     label={'Non Contactable'}
                     name={'nonContactable'}
@@ -233,7 +232,7 @@ export const SubAdminStudentFilters = ({
                     }}
                     showError={false}
                 />
-            </div>
+            </div> */}
         </>
     )
 }

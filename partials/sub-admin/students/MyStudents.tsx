@@ -12,6 +12,7 @@ import {
     Filter,
     InitialAvatar,
     LoadingAnimation,
+    MyStudentQuickFilters,
     MyStudentsFilters,
     StudentExpiryDaysLeft,
     Table,
@@ -66,6 +67,11 @@ export const MyStudents = () => {
     const [filter, setFilter] = useState<SubAdminStudentsFilterType>(
         {} as SubAdminStudentsFilterType
     )
+    const [snoozed, setSnoozed] = useState<boolean | undefined>(undefined)
+    const [nonContactable, setNonContactable] = useState<boolean | undefined>(
+        undefined
+    )
+    const [flagged, setFlagged] = useState<boolean | undefined>(undefined)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
@@ -86,6 +92,9 @@ export const MyStudents = () => {
                 limit: itemPerPage,
                 search: `${JSON.stringify({
                     ...filter,
+                    ...(flagged === true && { flagged }),
+                    ...(snoozed === true && { snoozed }),
+                    ...(nonContactable === true && { nonContactable }),
                 })
                     .replaceAll('{', '')
                     .replaceAll('}', '')
@@ -343,6 +352,7 @@ export const MyStudents = () => {
             },
         },
     ]
+
     return (
         <div>
             {modal}
@@ -352,7 +362,14 @@ export const MyStudents = () => {
                     subtitle={'List of My Students'}
                 />
             </div>
-            <div className="flex justify-end">{filterAction}</div>
+            <div className="flex justify-end items-center gap-x-3 mb-4">
+                <MyStudentQuickFilters
+                    setNonContactable={setNonContactable}
+                    setSnoozed={setSnoozed}
+                    setFlagged={setFlagged}
+                />
+                {filterAction}
+            </div>
             <div className="w-full py-4">
                 <Filter<SubAdminStudentsFilterType>
                     setFilter={(f: SubAdminStudentsFilterType) => {
