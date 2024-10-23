@@ -4,11 +4,11 @@ import React from 'react'
 export const MailTitle = ({ mailFrom }: { mailFrom: string }) => {
     return (
         <div
-            className={`flex flex-col lg:flex-row lg:items-center gap-2 py-1.5 px-3 bg-white border-b border-secondary-dark hover:bg-[#C2DBFF] cursor-pointer`}
+            className={`flex flex-col lg:flex-row lg:items-center gap-2 py-1.5 px-3 bg-white border-b border-secondary-dark`}
         >
-            <div className="flex items-center gap-x-0.5 w-full lg:w-56">
+            <div className="flex items-center gap-x-0.5 w-64">
                 <Typography variant="small" bold>
-                    Subject
+                    {mailFrom}
                 </Typography>
             </div>
             <div className="w-full flex items-center gap-x-1 relative">
@@ -16,7 +16,7 @@ export const MailTitle = ({ mailFrom }: { mailFrom: string }) => {
                     <div className={'flex items-center gap-x-1'}>
                         {' '}
                         <Typography variant="small" bold>
-                            {mailFrom}
+                            Subject
                         </Typography>
                     </div>
                     <div>

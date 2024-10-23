@@ -29,4 +29,7 @@ export interface SubAdminStudentsFilterType {
     currentStatus: WorkplaceCurrentStatus
     suburb: string
     nowp: string
+    flagged: boolean
+    snoozed: boolean
+    nonContactable: boolean
 }

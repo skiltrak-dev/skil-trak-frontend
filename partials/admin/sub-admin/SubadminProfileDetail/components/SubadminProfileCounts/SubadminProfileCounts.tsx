@@ -18,12 +18,14 @@ export const SubadminProfileCounts = ({
     subAdminProfileCount: any
 }) => {
     const router = useRouter()
+    const id = router?.query?.id as string
     const role = getUserCredentials()?.role
     const subAdmin = SubAdminApi.SubAdmin.useProfile()
     const checkIsAdmin = role === UserRoles.SUBADMIN && subAdmin?.data?.isAdmin
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [countsData, setCountsData] = useState<RtoProfileCountDataType[]>([])
 
+    console.log('subAdmin', subAdmin?.data?.id)
     const onCancelModalClicked = () => setModal(null)
 
     const onViewWorkplaceClicked = () => {
@@ -209,6 +211,12 @@ export const SubadminProfileCounts = ({
                     count: subAdminProfileCount?.data?.openTicket || 0,
                     Icon: HiOutlineDocumentDuplicate,
                     loading: false,
+                    // link: {
+                    //     pathname:
+                    //         role === UserRoles.ADMIN || checkIsAdmin
+                    //             ? '/portals/admin/student'
+                    //             : `/portals/sub-admin/tickets?tab=department-tickets&subAdminId=${subAdmin?.data?.user?.id}`,
+                    // },
                     background: {
                         from: '#6A6A6A',
                         to: '#5A5570',

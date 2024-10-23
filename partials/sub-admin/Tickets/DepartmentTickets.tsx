@@ -12,7 +12,7 @@ import { ticketPriorityEnum } from '@partials/common/Tickets'
 import { CommonApi, SubAdminApi } from '@queries'
 import { removeEmptyValues } from '@utils'
 import { useRouter } from 'next/router'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { BsFillTicketDetailedFill } from 'react-icons/bs'
 import { useSubadminTicketsColumns } from './hooks'
 
@@ -20,9 +20,12 @@ export const DepartmentTickets = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [isHighPriority, setIsHighPriority] = useState<string | null>(null)
-    const [coordinatorId, setCoordinatorId] = useState<string | null>(null)
-
     const router = useRouter()
+    const [coordinatorId, setCoordinatorId] = useState<string | null>(() => {
+        // Initialize from URL query parameter if it exists
+        return (router.query.subAdminId as string) || null
+    })
+
 
     const { data: departmentCoordinators } =
         SubAdminApi.SubAdmin.useCoordinatorsDropDown()
@@ -33,6 +36,26 @@ export const DepartmentTickets = () => {
             value: coordinator?.user?.id,
         })
     )
+
+    useEffect(() => {
+        const query = { ...router.query }
+
+        if (coordinatorId) {
+            query.subAdminId = coordinatorId
+        } else {
+            delete query.subAdminId
+        }
+
+        router.push(
+            {
+                pathname: router.pathname,
+                query,
+            },
+            undefined,
+            { shallow: true }
+        )
+    }, [coordinatorId])
+
     const { isLoading, isFetching, data, isError } =
         CommonApi.Tickets.useDepartmentTicket(
             {
@@ -70,8 +93,8 @@ export const DepartmentTickets = () => {
         <div>
             <div className="ml-4 mb-2">
                 <PageHeading
-                    title={'Ticket'}
-                    subtitle={'You can find all Tickets here'}
+                    title={'Department Tickets'}
+                    subtitle={'You can find all Department Tickets here'}
                 >
                     <div className="w-64">
                         <Select

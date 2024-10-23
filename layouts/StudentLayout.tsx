@@ -173,6 +173,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
 
     const parts = router?.pathname.split('/')
     const talentPoolLink = '/' + parts.slice(1, 4).join('/')
+    const mailsLink = '/' + parts.slice(1, 4).join('/')
 
     return (
         <RedirectUnApprovedUsers
@@ -182,9 +183,10 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
             {modal}
             <UserLayout>
                 <>
-                    {talentPoolLink !== '/portals/student/talent-pool' && (
+                    {/* {(talentPoolLink !== '/portals/student/talent-pool' ||
+                        mailsLink !== '/portals/student/mails') && (
                         <StudentContextBar />
-                    )}
+                    )} */}
                     <div className="px-4 mb-32 md:px-8">
                         <div>
                             <div className="flex items-center gap-x-3 justify-between mb-2">

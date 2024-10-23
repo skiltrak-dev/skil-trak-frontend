@@ -292,24 +292,24 @@ export const DepartmentCoordinatorsListProvider = ({ children }: any) => {
                 />
             ),
         },
-        {
-            accessorKey: 'associated',
-            header: () => <span>associated</span>,
-            cell: (info: any) => {
-                return (
-                    <ActionButton
-                        onClick={() => {
-                            onAssociatedWithRtoClicked(
-                                info?.row?.original?.subadmin?.id,
-                                info?.row?.original?.subadmin?.rtos
-                            )
-                        }}
-                    >
-                        Associated With Rto
-                    </ActionButton>
-                )
-            },
-        },
+        // {
+        //     accessorKey: 'associated',
+        //     header: () => <span>associated</span>,
+        //     cell: (info: any) => {
+        //         return (
+        //             <ActionButton
+        //                 onClick={() => {
+        //                     onAssociatedWithRtoClicked(
+        //                         info?.row?.original?.subadmin?.id,
+        //                         info?.row?.original?.subadmin?.rtos
+        //                     )
+        //                 }}
+        //             >
+        //                 Associated With Rto
+        //             </ActionButton>
+        //         )
+        //     },
+        // },
         {
             accessorKey: 'createdBy.role',
             header: () => <span>Created By</span>,

@@ -12,6 +12,7 @@ import {
 } from '@partials/admin/departments'
 import {
     Card,
+    DepartmentStudentFilter,
     EmptyData,
     Filter,
     LoadingAnimation,
@@ -70,7 +71,7 @@ const DepartmentStudent: NextPageWithLayout = () => {
     //     }, 700),
     //     []
     // )
-    
+
     const filteredDataLength = checkFilteredDataLength({
         ...filter,
         ...(studentId?.studentId ? studentId : {}),
@@ -120,7 +121,7 @@ const DepartmentStudent: NextPageWithLayout = () => {
                             }}
                             initialValues={filter}
                             filterKeys={filterKeys}
-                            component={StudentFilters}
+                            component={DepartmentStudentFilter}
                             setFilterAction={setFilterAction}
                         />
                     </div>

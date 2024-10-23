@@ -13,6 +13,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
+import Head from 'next/head'
 
 interface SubAdminLayoutProps {
     pageTitle?: PageTitleProps
@@ -46,7 +47,6 @@ const urls = [
     `/notifications/all-notifications`,
     `/tasks/my-students-report`,
     `/tasks/industry-listing`,
-    
 ]
 
 const redirectUrls = urls?.map((url: string) => `${getRoutePath}${url}`)
@@ -116,6 +116,11 @@ export const SubAdminLayout = ({
             <UserLayout>
                 <>
                     {modal}
+
+                    <Head>
+                        <title>{pageTitle?.title}</title>
+                    </Head>
+
                     <div className="px-2 lg:px-8">
                         <div className="mb-2">
                             <SubAdminNavbar />

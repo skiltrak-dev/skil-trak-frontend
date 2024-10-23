@@ -11,7 +11,6 @@ export const ProfileCountsCard = ({
     data: RtoProfileCountDataType
 }) => {
     const router = useRouter()
-    console.log('data?.link', data?.link, data?.title)
     return (
         <Card noPadding>
             <div

@@ -53,7 +53,11 @@ const Students: NextPageWithLayout = (props: Props) => {
     )
 }
 Students.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout>{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout pageTitle={{ title: 'Students' }}>
+            {page}
+        </SubAdminLayout>
+    )
 }
 
 export default Students

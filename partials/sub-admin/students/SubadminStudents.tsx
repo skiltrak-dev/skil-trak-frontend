@@ -54,6 +54,9 @@ const filterKeys = [
     'studentId',
     'industryId',
     'currentStatus',
+    'flagged',
+    'snoozed',
+    'nonContactable'
 ]
 
 export const SubadminStudents = () => {
