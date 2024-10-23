@@ -194,45 +194,45 @@ export const SubAdminStudentFilters = ({
                     }}
                     showError={false}
                 />
-                <div className="flex justify-center flex-col gap-2">
-                    <Checkbox
-                        label={'Flagged'}
-                        name={'flagged'}
-                        value={filter?.flagged}
-                        onChange={(e: any) => {
-                            onFilterChange({
-                                ...filter,
-                                flagged: e?.target.checked,
-                            })
-                        }}
-                        showError={false}
-                    />
-                    <Checkbox
-                        label={'Snoozed'}
-                        name={'snoozed'}
-                        value={filter?.snoozed}
-                        onChange={(e: any) => {
-                            onFilterChange({
-                                ...filter,
-                                snoozed: e?.target.checked,
-                            })
-                        }}
-                        showError={false}
-                    />
-                    {/* nonContactable */}
-                    <Checkbox
-                        label={'Non Contactable'}
-                        name={'nonContactable'}
-                        value={filter?.nonContactable}
-                        onChange={(e: any) => {
-                            onFilterChange({
-                                ...filter,
-                                nonContactable: e?.target.checked,
-                            })
-                        }}
-                        showError={false}
-                    />
-                </div>
+            </div>
+            <div className="flex items-center gap-2 mt-4">
+                <Checkbox
+                    label={'Flagged'}
+                    name={'flagged'}
+                    value={filter?.flagged}
+                    onChange={(e: any) => {
+                        onFilterChange({
+                            ...filter,
+                            flagged: e?.target.checked,
+                        })
+                    }}
+                    showError={false}
+                />
+                <Checkbox
+                    label={'Snoozed'}
+                    name={'snoozed'}
+                    value={filter?.snoozed}
+                    onChange={(e: any) => {
+                        onFilterChange({
+                            ...filter,
+                            snoozed: e?.target.checked,
+                        })
+                    }}
+                    showError={false}
+                />
+                {/* nonContactable */}
+                <Checkbox
+                    label={'Non Contactable'}
+                    name={'nonContactable'}
+                    value={filter?.nonContactable}
+                    onChange={(e: any) => {
+                        onFilterChange({
+                            ...filter,
+                            nonContactable: e?.target.checked,
+                        })
+                    }}
+                    showError={false}
+                />
             </div>
         </>
     )
