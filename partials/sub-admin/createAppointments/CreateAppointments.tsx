@@ -152,8 +152,6 @@ export const CreateAppointments = () => {
         refetchOnMountOrArgChange: true,
     })
 
-    console.log({ availabilityList })
-
     const onCancel = () => {
         setModal(null)
     }

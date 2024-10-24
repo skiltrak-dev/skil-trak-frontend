@@ -1,19 +1,13 @@
-import { ReactElement, useState } from 'react'
 import Head from 'next/head'
+import { ReactElement, useState } from 'react'
 
+import { Accordion, NoData, TechnicalError } from '@components'
 import { SiteLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
-import { adminApi } from '@queries'
-import { useRouter } from 'next/router'
-import {
-    LoadingAnimation,
-    NoData,
-    TechnicalError,
-    Accordion,
-} from '@components'
-import Image from 'next/image'
-import moment from 'moment'
 import { HeroSectionBlog } from '@partials/common/Blogs'
+import { NextPageWithLayout } from '@types'
+import moment from 'moment'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
 // Accordion Shadcn
 // import {
 //     Accordion,
@@ -21,13 +15,10 @@ import { HeroSectionBlog } from '@partials/common/Blogs'
 //     AccordionItem,
 //     AccordionTrigger,
 // } from '@radix-ui/react-accordion'
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 import { ellipsisText } from '@utils'
 
 const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
     const [activeAccordion, setActiveAccordion] = useState<number | null>(null)
-
-    console.log({ blogData })
 
     const handleToggle = (index: number) => {
         if (activeAccordion === index) {

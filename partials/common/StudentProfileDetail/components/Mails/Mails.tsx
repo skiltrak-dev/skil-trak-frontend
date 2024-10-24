@@ -44,19 +44,7 @@ export const Mails = ({ user }: { user: User }) => {
         >
             <div className="h-full">
                 {modal}
-                {/* <Card noPadding> */}
-                {/* <div className="px-4 py-3.5 flex justify-between items-center border-b border-secondary-dark">
-                        <Typography variant="label" semibold>
-                            Mails
-                        </Typography>
-                        <Button
-                            onClick={() => {
-                                onComposeMail()
-                            }}
-                        >
-                            Compose Mail
-                        </Button>
-                    </div> */}
+
                 <div
                     className={`w-full bg-gray-50 rounded-lg p-4 h-full overflow-auto custom-scrollbar`}
                 >

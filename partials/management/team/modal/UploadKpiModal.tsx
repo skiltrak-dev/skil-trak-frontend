@@ -50,7 +50,6 @@ export const UploadKpiModal = ({ onCancel, member }: UploadKpiModalProps) => {
         if (sheets.length) {
             let rows = utils.sheet_to_json(wb.Sheets[sheets[0]])
             rows = rows?.map(removeSpacesFromKeys)
-            console.log({ rows })
             setKpi(rows)
         }
     }

@@ -20,6 +20,10 @@ import {
 import { IndustryPlacementStatus } from '../IndustryProfileDetail'
 import { useGoogleMaps } from '@hooks'
 import { UserRoles } from '@constants'
+import { getThemeColors } from '@theme'
+
+// Colors
+const colors = getThemeColors()
 
 const containerStyle = {
     width: '780px',
@@ -468,7 +472,34 @@ export const ViewOnMapIndustriesModal = ({
                                                             radius={20000}
                                                             options={{
                                                                 fillColor:
+                                                                    colors
+                                                                        .success
+                                                                        .dark,
+                                                                fillOpacity: 0.2,
+                                                                strokeColor:
                                                                     '#AA0000',
+                                                                strokeOpacity: 0.7,
+                                                                strokeWeight: 1,
+                                                                clickable:
+                                                                    false,
+                                                                draggable:
+                                                                    false,
+                                                                editable: false,
+                                                                visible: true,
+                                                                zIndex: 1,
+                                                            }}
+                                                        />
+                                                        <Circle
+                                                            center={{
+                                                                lat: -37.8207394,
+                                                                lng: 144.9480769,
+                                                            }}
+                                                            radius={20000}
+                                                            options={{
+                                                                fillColor:
+                                                                    colors
+                                                                        .primary
+                                                                        .DEFAULT,
                                                                 fillOpacity: 0.2,
                                                                 strokeColor:
                                                                     '#AA0000',

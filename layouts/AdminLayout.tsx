@@ -289,7 +289,11 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             path: getRoutePath('/sub-admin-as-admin-activities'),
             Icon: MdHistory,
         },
-        // sub-admin-as-admin-activities
+        {
+            text: 'Rto Observer',
+            path: getRoutePath('/rto-observer'),
+            Icon: MdHistory,
+        },
         {
             type: 'divider',
         },

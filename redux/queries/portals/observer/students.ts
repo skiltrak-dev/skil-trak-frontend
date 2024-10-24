@@ -1,22 +1,17 @@
-import { VolunteerRequestEnum } from '@partials'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import {
-    PaginatedResponse,
-    PaginationWithSearch,
-    VolunteerRequest,
-} from '@types'
+import { PaginatedResponse, PaginationWithSearch } from '@types'
 
-const PREFIX = 'admin/'
+const PREFIX = 'rto-observer/'
 export const studentsEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
     getRtoContactPersonStudents: builder.query<
-        PaginatedResponse<VolunteerRequest>,
+        PaginatedResponse<any>,
         PaginationWithSearch
     >({
         query: (params) => ({
-            url: `${PREFIX}volunteer-requests/list/asjdashbd`,
+            url: `${PREFIX}students/list`,
             params,
         }),
         providesTags: ['Volunteer'],

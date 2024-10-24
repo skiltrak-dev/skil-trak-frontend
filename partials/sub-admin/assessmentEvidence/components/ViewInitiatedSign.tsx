@@ -1,4 +1,4 @@
-import { ActionButton, Button } from '@components'
+import { ActionButton, AuthorizedUserComponent, Button } from '@components'
 import { DocumentsView } from '@hooks'
 import { AssessmentEvidenceDetailType, Folder, Rto } from '@types'
 import { EsignDocumentStatus, isBrowser } from '@utils'
@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { CancelInitiateSign, InitiateSigningModal } from '../modal'
 import { CheckAgreementSignedStatus } from './CheckAgreementSignedStatus'
+import { UserRoles } from '@constants'
 
 export const ViewInitiatedSign = ({
     document,
@@ -96,26 +97,30 @@ export const ViewInitiatedSign = ({
                 </div>
             )} */}
             <div className="flex items-center justify-between gap-x-3">
-                <div className="flex items-center gap-x-2 px-4 pt-2">
-                    <ActionButton
-                        onClick={() => {
-                            onInitiateSigning()
-                        }}
-                        variant="info"
-                    >
-                        Initiate Another Signing
-                    </ActionButton>
+                <AuthorizedUserComponent excludeRoles={[UserRoles.OBSERVER]}>
+                    <div className="flex items-center gap-x-2 px-4 pt-2">
+                        <ActionButton
+                            onClick={() => {
+                                onInitiateSigning()
+                            }}
+                            variant="info"
+                        >
+                            Initiate Another Signing
+                        </ActionButton>
 
-                    {selectedDocument?.status !==
-                        EsignDocumentStatus.SIGNED && (
-                        <div className="flex">
-                            <Button
-                                text="Cancel Sign"
-                                onClick={() => onCancelInitiateSignClicked()}
-                            />
-                        </div>
-                    )}
-                </div>
+                        {selectedDocument?.status !==
+                            EsignDocumentStatus.SIGNED && (
+                            <div className="flex">
+                                <Button
+                                    text="Cancel Sign"
+                                    onClick={() =>
+                                        onCancelInitiateSignClicked()
+                                    }
+                                />
+                            </div>
+                        )}
+                    </div>
+                </AuthorizedUserComponent>
                 {document?.length > 0 && (
                     <div className="flex items-center gap-x-3 text-xs font-semibold mt-3 px-3">
                         <button

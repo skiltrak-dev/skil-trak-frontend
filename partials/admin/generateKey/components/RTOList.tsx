@@ -39,7 +39,6 @@ export const RTOList = () => {
     }
 
     const onDeactivateClicked = (key: any) => {
-        console.log({ khankabanka: key })
         setModal(<DeactivateKeyModal onCancel={onCancel} keyData={key} />)
     }
 

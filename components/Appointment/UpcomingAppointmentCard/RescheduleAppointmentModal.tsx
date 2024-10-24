@@ -29,15 +29,11 @@ export const RescheduleAppointmentModal = ({
 
     const [slots, setSlots] = useState(true)
 
-    console.log('appointment?.date', appointment?.date)
-
     useEffect(() => {
         if (appointment?.date) {
             setSelectedDate(new Date(appointment?.date))
         }
     }, [appointment])
-
-    console.log({ selectedDate })
 
     useEffect(() => {
         setSelectedTime(null)

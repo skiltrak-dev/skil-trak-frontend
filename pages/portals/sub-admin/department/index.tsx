@@ -1,5 +1,10 @@
-import React, { ReactElement, useEffect } from 'react'
-import { AdminSubadminFilter, NextPageWithLayout } from '@types'
+import {
+    Filter,
+    HodCoordinatorsFilters,
+    SetDetaultQueryFilteres,
+    TableSkeleton,
+    TechnicalError,
+} from '@components'
 import { SubAdminLayout } from '@layouts'
 import {
     FilterHodCoordinators,
@@ -7,16 +12,9 @@ import {
     HodCoordinatorsListProvider,
     useHodCoordinatorsList,
 } from '@partials/sub-admin/hodCoordinators'
-import { useRouter } from 'next/router'
-import {
-    Filter,
-    HodCoordinatorsFilters,
-    SetDetaultQueryFilteres,
-    SubAdminFilters,
-    TableSkeleton,
-    TechnicalError,
-} from '@components'
+import { AdminSubadminFilter, NextPageWithLayout } from '@types'
 import Link from 'next/link'
+import { ReactElement } from 'react'
 
 const filterKeys = ['name', 'email', 'courseId']
 

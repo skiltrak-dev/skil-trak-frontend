@@ -4,10 +4,12 @@ import { SubAdminApi } from '@queries'
 import React, { useEffect } from 'react'
 
 export const ContactStatus = ({
+    disabled,
     studentId,
     nonContactable,
 }: {
     studentId: number
+    disabled: boolean
     nonContactable: boolean
 }) => {
     const [notContactable, notContactableResult] =
@@ -51,7 +53,9 @@ export const ContactStatus = ({
                                 }}
                                 defaultChecked={nonContactable}
                                 loading={notContactableResult.isLoading}
-                                disabled={notContactableResult.isLoading}
+                                disabled={
+                                    notContactableResult.isLoading || disabled
+                                }
                             />
                         </div>
                         <Typography variant="small" normal>

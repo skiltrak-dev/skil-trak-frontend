@@ -1,9 +1,14 @@
-import { Typography, useIsRestricted, useRestrictedData } from '@components'
+import {
+    AuthorizedUserComponent,
+    Typography,
+    useIsRestricted,
+    useRestrictedData,
+} from '@components'
 import { useNotification } from '@hooks'
 import { CallLogsModal } from '@partials/sub-admin/students/modals'
 import { SubAdminApi } from '@queries'
 import { Student } from '@types'
-import { getGender } from '@utils'
+import { getGender, getUserCredentials } from '@utils'
 import moment from 'moment'
 import { ReactElement, useState } from 'react'
 import { State } from 'country-state-city'
@@ -14,7 +19,8 @@ import { UserRoles } from '@constants'
 
 export const StudentDetail = ({ profile }: { profile: Student }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
-    // const [callType, setCallType] = useState<string>(CallType.Answer)
+
+    const role = getUserCredentials()?.role
 
     const canAccess = useIsRestricted(UserRoles.STUDENT)
 
@@ -73,7 +79,7 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
                             UserRoles.STUDENT
                         )}
                         onClick={() => {
-                            if (canAccess) {
+                            if (canAccess && role !== UserRoles.OBSERVER) {
                                 navigator.clipboard.writeText(profile?.phone)
                                 callLog({
                                     student: profile?.id,
@@ -92,19 +98,23 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
                             }
                         }}
                     >
-                        <div
-                            className="bg-primaryNew py-1.5 px-2.5 rounded"
-                            onClick={onViewCallLogs}
+                        <AuthorizedUserComponent
+                            excludeRoles={[UserRoles.OBSERVER]}
                         >
-                            <Typography
-                                variant="xs"
-                                color="text-white"
-                                bold
-                                underline
+                            <div
+                                className="bg-primaryNew py-1.5 px-2.5 rounded"
+                                onClick={onViewCallLogs}
                             >
-                                Call Log
-                            </Typography>
-                        </div>
+                                <Typography
+                                    variant="xs"
+                                    color="text-white"
+                                    bold
+                                    underline
+                                >
+                                    Call Log
+                                </Typography>
+                            </div>
+                        </AuthorizedUserComponent>
                     </UserProfileDetailCard>
                     {profile?.callLog?.[0] &&
                     profile?.callLog?.[0]?.isAnswered === null ? (

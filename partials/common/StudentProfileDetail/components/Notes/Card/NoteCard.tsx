@@ -1,4 +1,9 @@
-import { ActionButton, ShowErrorNotifications, Typography } from '@components'
+import {
+    ActionButton,
+    AuthorizedUserComponent,
+    ShowErrorNotifications,
+    Typography,
+} from '@components'
 import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
@@ -66,35 +71,39 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
                         <Typography variant="label" semibold>
                             {note.title}
                         </Typography>
-                        <div className="flex items-center gap-x-1">
-                            <div
-                                onClick={togglePin}
-                                className={`${
-                                    note?.isPinned
-                                        ? 'bg-base-light'
-                                        : 'bg-gray-100'
-                                }  w-6 h-6 flex justify-center items-center rounded-[5px] cursor-pointer`}
-                            >
-                                {statusChangeResult.isLoading ? (
-                                    <PuffLoader size={20} color="white" />
-                                ) : (
-                                    <TiPin
-                                        size={16}
-                                        className={
-                                            note?.isPinned
-                                                ? 'text-white'
-                                                : 'text-primaryNew'
-                                        }
-                                    />
-                                )}
+                        <AuthorizedUserComponent
+                            excludeRoles={[UserRoles.OBSERVER]}
+                        >
+                            <div className="flex items-center gap-x-1">
+                                <div
+                                    onClick={togglePin}
+                                    className={`${
+                                        note?.isPinned
+                                            ? 'bg-base-light'
+                                            : 'bg-gray-100'
+                                    }  w-6 h-6 flex justify-center items-center rounded-[5px] cursor-pointer`}
+                                >
+                                    {statusChangeResult.isLoading ? (
+                                        <PuffLoader size={20} color="white" />
+                                    ) : (
+                                        <TiPin
+                                            size={16}
+                                            className={
+                                                note?.isPinned
+                                                    ? 'text-white'
+                                                    : 'text-primaryNew'
+                                            }
+                                        />
+                                    )}
+                                </div>
+                                <div
+                                    className="bg-white text-[#BF0000] w-6 h-6 flex justify-center items-center rounded-[5px]"
+                                    onClick={() => setDeleting(true)}
+                                >
+                                    <RiDeleteBinLine size={16} />
+                                </div>
                             </div>
-                            <div
-                                className="bg-white text-[#BF0000] w-6 h-6 flex justify-center items-center rounded-[5px]"
-                                onClick={() => setDeleting(true)}
-                            >
-                                <RiDeleteBinLine size={16} />
-                            </div>
-                        </div>
+                        </AuthorizedUserComponent>
                     </div>
                     <div>
                         <div className={`text-sm mt-1 mb-2`}>

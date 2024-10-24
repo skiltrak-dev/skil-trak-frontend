@@ -12,7 +12,6 @@ export const DeactivateKeyModal = ({
     keyData: any
     onCancel: Function
 }) => {
-    console.log({ keykeykey: keyData })
     const { notification } = useNotification()
     const [deactivateKey, deactivateKeyResult] =
         AdminApi.GenerateKey.useDeactivateKey()

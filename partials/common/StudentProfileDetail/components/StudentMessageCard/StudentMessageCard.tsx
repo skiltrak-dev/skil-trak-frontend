@@ -7,7 +7,6 @@ export const StudentMessageCard = ({
 }: {
     studentMessage: any
 }) => {
-    console.log({ studentMessage })
     return (
         <div className="w-full p-4 rounded-md bg-[#6971DD24] flex flex-col gap-y-[5px]">
             <Typography color="text-[#77757F]" variant="small">

@@ -6,5 +6,5 @@ export enum UserRoles {
     SUBADMIN = 'subadmin',
     MANAGER = 'manager',
     MARKETING = 'marketing',
-    RTOCONTACTPERSON = 'rtocontactperson',
+    OBSERVER = 'observer',
 }

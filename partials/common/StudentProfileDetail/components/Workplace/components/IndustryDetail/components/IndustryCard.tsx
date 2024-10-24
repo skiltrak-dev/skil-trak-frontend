@@ -1,5 +1,6 @@
 import {
     ActionButton,
+    AuthorizedUserComponent,
     InitialAvatar,
     ShowErrorNotifications,
     Typography,
@@ -127,17 +128,21 @@ export const IndustryCard = ({
                         {applied &&
                             !workplace?.byExistingAbn &&
                             !workplace?.studentProvidedWorkplace && (
-                                <div className="flex justify-end gap-x-2 top-0 right-0">
-                                    <ActionButton
-                                        rounded
-                                        Icon={MdDelete}
-                                        variant={'error'}
-                                        onClick={() =>
-                                            onDeleteIndustry(industry)
-                                        }
-                                        title="Delete Industry"
-                                    />
-                                </div>
+                                <AuthorizedUserComponent
+                                    excludeRoles={[UserRoles.OBSERVER]}
+                                >
+                                    <div className="flex justify-end gap-x-2 top-0 right-0">
+                                        <ActionButton
+                                            rounded
+                                            Icon={MdDelete}
+                                            variant={'error'}
+                                            onClick={() =>
+                                                onDeleteIndustry(industry)
+                                            }
+                                            title="Delete Industry"
+                                        />
+                                    </div>
+                                </AuthorizedUserComponent>
                             )}
                         {industry?.applied &&
                             industry?.industryResponse !== 'noResponse' &&
