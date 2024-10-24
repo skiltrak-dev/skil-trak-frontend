@@ -80,7 +80,7 @@ export const RTOList = () => {
                 )
 
             default:
-                break
+                return <></>
         }
     }
 
