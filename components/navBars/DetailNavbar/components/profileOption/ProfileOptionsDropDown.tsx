@@ -73,9 +73,12 @@ export const ProfileOptionsDropDown = ({
         <>
             {modal && modal}
             <div
+                tabIndex={0}
                 className={`absolute top-14 overflow-scroll right-0 z-40 bg-white w-48 transition-all rounded-lg remove-scrollbar ${
                     !expanded ? 'max-h-0' : 'max-h-96 shadow-md border'
                 } `}
+                aria-expanded={expanded}
+                role="menu"
             >
                 <ul>
                     <li

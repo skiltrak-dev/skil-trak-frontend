@@ -23,6 +23,7 @@ import {
     ImportantDocuments,
     PortalQuestions,
     ProfileCompletetionStatus,
+    StudentContextBar,
 } from '@partials/student/components'
 
 import { useGetStudentProfileDetailQuery, StudentApi } from '@queries'
@@ -98,6 +99,7 @@ const StudentDashboard: NextPageWithLayout = () => {
     return (
         <>
             {modalComponent && modalComponent}
+            <StudentContextBar />
             <div className="flex flex-col gap-y-6 pb-8">
                 {/* Question Section */}
                 <PortalQuestions />

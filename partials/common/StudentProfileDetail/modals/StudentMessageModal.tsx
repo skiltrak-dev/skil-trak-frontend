@@ -31,26 +31,23 @@ export const StudentMessageModal = ({
         SubAdminApi.Student.sendStudentMssage()
 
     const onSubmit = async (values: { message: string }) => {
-        console.log({ values })
         const res: any = await sendMessage({
             ...values,
             phoneNumber: student?.phone,
             recipient: student?.user?.id,
         })
-        console.log({ res })
         if (res?.data) {
             notification.success({
                 title: 'Message Sent',
                 description: 'Message Sent Successfully!',
             })
-            onCancel()
         }
     }
     return (
         <GlobalModal>
             <ShowErrorNotifications result={sendMessageResult} />
 
-            <div className="px-[25px] pt-[5px] pb-[15px] relative max-w-2xl xl:max-w-3xl h-[95vh] lg:h-auto overflow-auto custom-scrollbar">
+            <div className="px-[25px] pt-[5px] pb-[15px] relative max-w-3xl xl:max-w-3xl md:min-w-[600px] lg:min-w-[700px] h-[95vh] lg:h-auto overflow-auto custom-scrollbar">
                 <LiaTimesSolid
                     size={20}
                     onClick={onCancel}

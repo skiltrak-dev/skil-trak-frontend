@@ -9,8 +9,11 @@ import {
     Card,
     CaseOfficerAssignedStudent,
     EmptyData,
+    Filter,
     InitialAvatar,
     LoadingAnimation,
+    MyStudentQuickFilters,
+    MyStudentsFilters,
     StudentExpiryDaysLeft,
     Table,
     TableAction,
@@ -20,7 +23,7 @@ import { StudentCallLogDetail, SubadminStudentIndustries } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useGetSubAdminMyStudentsQuery } from '@queries'
-import { Student } from '@types'
+import { Student, SubAdminStudentsFilterType } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock, MdPriorityHigh } from 'react-icons/md'
 import {
@@ -33,21 +36,53 @@ import {
 import { PageHeading } from '@components/headings'
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import { getUserCredentials, setLink } from '@utils'
+import { getFilterQuery, getUserCredentials, setLink } from '@utils'
 import moment from 'moment'
 import { FaFileExport } from 'react-icons/fa'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
+
+const filterKeys = [
+    'nowp',
+    'name',
+    'email',
+    'phone',
+    'rtoId',
+    'suburb',
+    'status',
+    'courseId',
+    'completed',
+    'studentId',
+    'industryId',
+    'currentStatus',
+    'flagged',
+    'snoozed',
+    'nonContactable',
+]
 
 export const MyStudents = () => {
     const router = useRouter()
     const userId = getUserCredentials()?.id
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [filterAction, setFilterAction] = useState(null)
+    const [filter, setFilter] = useState<SubAdminStudentsFilterType>(
+        {} as SubAdminStudentsFilterType
+    )
+    const [snoozed, setSnoozed] = useState<boolean | undefined>(undefined)
+    const [nonContactable, setNonContactable] = useState<boolean | undefined>(
+        undefined
+    )
+    const [flagged, setFlagged] = useState<boolean | undefined>(undefined)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
+        const query = getFilterQuery<SubAdminStudentsFilterType>({
+            router,
+            filterKeys,
+        })
+        setFilter(query as SubAdminStudentsFilterType)
     }, [router])
 
     const { isLoading, isFetching, data, isError, refetch } =
@@ -55,6 +90,16 @@ export const MyStudents = () => {
             {
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
+                search: `${JSON.stringify({
+                    ...filter,
+                    ...(flagged === true && { flagged }),
+                    ...(snoozed === true && { snoozed }),
+                    ...(nonContactable === true && { nonContactable }),
+                })
+                    .replaceAll('{', '')
+                    .replaceAll('}', '')
+                    .replaceAll('"', '')
+                    .trim()}`,
             },
             {
                 refetchOnMountOrArgChange: true,
@@ -307,6 +352,7 @@ export const MyStudents = () => {
             },
         },
     ]
+
     return (
         <div>
             {modal}
@@ -314,6 +360,26 @@ export const MyStudents = () => {
                 <PageHeading
                     title={'My Students'}
                     subtitle={'List of My Students'}
+                />
+            </div>
+            <div className="flex justify-end items-center gap-x-3 mb-4">
+                <MyStudentQuickFilters
+                    setNonContactable={setNonContactable}
+                    setSnoozed={setSnoozed}
+                    setFlagged={setFlagged}
+                />
+                {filterAction}
+            </div>
+            <div className="w-full py-4">
+                <Filter<SubAdminStudentsFilterType>
+                    setFilter={(f: SubAdminStudentsFilterType) => {
+                        // setStudentId(null)
+                        setFilter(f)
+                    }}
+                    initialValues={filter}
+                    filterKeys={filterKeys}
+                    setFilterAction={setFilterAction}
+                    component={MyStudentsFilters}
                 />
             </div>
             <Card noPadding>

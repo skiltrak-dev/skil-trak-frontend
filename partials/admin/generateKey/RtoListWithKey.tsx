@@ -1,14 +1,29 @@
-import React, { ReactElement, useEffect, useState } from 'react'
-import { ApiAccessModal, OTPVerificationModal } from './modal'
+import { ReactElement, useEffect, useState } from 'react'
+import { RTOList } from './components'
+import { ApiAccessModal, AuthenticateUserModal } from './modal'
+import { EmptyData } from '@components'
 
 export const RtoListWithKey = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
 
     const onCancel = () => setModal(null)
 
     useEffect(() => {
-        setModal(<OTPVerificationModal onCancel={onCancel} />)
+        setModal(
+            <AuthenticateUserModal
+                onCancel={() => {
+                    setIsAuthenticated(true)
+                    onCancel()
+                }}
+            />
+        )
     }, [])
 
-    return <div>{modal}</div>
+    return (
+        <div className="px-4 py-6">
+            {modal}
+            {isAuthenticated ? <RTOList /> : <EmptyData />}
+        </div>
+    )
 }

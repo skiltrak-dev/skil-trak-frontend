@@ -13,7 +13,8 @@ export const NavLinkItem = ({ nav, PREFIX }: { PREFIX: string; nav: any }) => {
     // const isActive = (pathname: string) => {
     //     return isActiveRoute(pathname, router, PREFIX, true)
     // }
-    const isActive = router?.pathname?.split('/')[3] === nav?.link?.split('/')[3]
+    const isActive =
+        router?.pathname?.split('/')[3] === nav?.link?.split('/')[3]
     // e-sign === e-sign
 
     const defaultClasses =
@@ -25,6 +26,7 @@ export const NavLinkItem = ({ nav, PREFIX }: { PREFIX: string; nav: any }) => {
                     className={`${
                         isActive ? nav.activeClasses : nav.inActiveClasses
                     } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
+                    aria-label={`${nav.link}`}
                 >
                     <span>
                         <nav.Icon size={isMobile || nav?.mini ? 24 : 14} />

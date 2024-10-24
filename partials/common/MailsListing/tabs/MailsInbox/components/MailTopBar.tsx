@@ -55,8 +55,8 @@ export const MailTopBar = ({
     return (
         <>
             {modal}
-            <div className="px-6 py-2.5">
-                <div className="flex items-center gap-x-12 justify-between bg-white shadow-[inset_0_-1px_0_0_#EDEFF1] px-5 py-3.5">
+            <div className="py-2.5">
+                <div className="flex items-center gap-x-12 justify-between bg-white shadow-[inset_0_-1px_0_0_#EDEFF1] px-3 py-3.5">
                     <div className="flex items-center gap-x-4">
                         <div className="flex items-center relative">
                             <Checkbox
@@ -91,6 +91,7 @@ export const MailTopBar = ({
                                                 variant="small"
                                                 semibold
                                                 color="text-gray-500"
+                                                cursorPointer
                                             >
                                                 {text}
                                             </Typography>

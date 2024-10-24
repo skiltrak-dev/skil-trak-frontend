@@ -7,6 +7,7 @@ import { useContextBar } from '@hooks'
 import { AllMails, ReadMail, SendMail, UnReadMail } from '@partials/common'
 import { CommonApi } from '@queries'
 import { NextPageWithLayout } from '@types'
+import { MailsListing } from '@partials/common/MailsListing'
 
 const SubAdminEmailsNotifications: NextPageWithLayout = () => {
     const [selectedMessage, setSelectedMessage] = useState<any>(null)

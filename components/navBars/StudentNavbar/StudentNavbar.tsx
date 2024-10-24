@@ -5,7 +5,9 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { FaBriefcase } from 'react-icons/fa'
-import { MdAssessment, MdNotifications, MdSpaceDashboard } from 'react-icons/md'
+import { MdAssessment, MdSpaceDashboard } from 'react-icons/md'
+import { IoMdMail } from 'react-icons/io'
+
 import { LiaCertificateSolid } from 'react-icons/lia'
 
 import { NavLinkItem } from '../NavLinkItem'
@@ -18,7 +20,7 @@ const Routes = {
     Workplace: `${PREFIX}/workplace`,
     Jobs: `${PREFIX}/jobs?tab=jobs`,
     Assessments: `${PREFIX}/assessments`,
-    Notifications: `${PREFIX}/notifications`,
+    Mails: `${PREFIX}/mails`,
     TalentPool: `${PREFIX}/talent-pool`,
 }
 
@@ -80,9 +82,9 @@ export const StudentNavbar = () => {
             id: 'assessments',
         },
         {
-            link: `${Routes.Notifications}`,
-            text: 'Notifications',
-            Icon: MdNotifications,
+            link: `${Routes.Mails}`,
+            text: 'Mails',
+            Icon: IoMdMail,
             activeClasses: 'bg-blue-100 text-blue-700',
             inActiveClasses: 'text-slate-700',
         },

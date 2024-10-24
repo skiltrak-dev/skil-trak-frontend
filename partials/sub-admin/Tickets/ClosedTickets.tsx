@@ -32,25 +32,60 @@ export const ClosedTickets = () => {
             { refetchOnMountOrArgChange: true }
         )
 
-    const { columns } = useMemo(() => useSubadminTicketsColumns(), [])
+    // const { columns } = useMemo(() => useSubadminTicketsColumns(), [])
 
-    columns.splice(columns?.length - 3, 0, {
-        accessorKey: 'closedAt',
-        cell: (info) => (
-            <Typography variant="small" semibold>
-                <span className="whitespace-pre">
-                    {moment(info.row.original?.closedAt).format('DD, MMM YYYY')}
-                </span>
-            </Typography>
-        ),
-        header: () => <span>Closed At</span>,
-    })
+    // columns.splice(columns?.length - 3, 0, {
+    //     accessorKey: 'closedAt',
+    //     cell: (info) => {
+    //         console.log(
+    //             'info.row.original?.closedAt',
+    //             info.row.original?.closedAt.slice(0, 10)
+    //         )
+    //         return (
+    //             <Typography variant="small" semibold>
+    //                 <span className="whitespace-pre">
+    //                     {moment(info.row.original?.closedAt).format(
+    //                         'DD, MMM YYYY'
+    //                     )}
+    //                 </span>
+    //             </Typography>
+    //         )
+    //     },
+    //     header: () => <span>Closed At</span>,
+    // })
+
+    const { columns: originalColumns } = useMemo(
+        () => useSubadminTicketsColumns(),
+        []
+    )
+
+    const columns = useMemo(() => {
+        const newColumns = [...originalColumns]
+
+        newColumns.splice(newColumns.length - 3, 0, {
+            accessorKey: 'closedAt',
+            cell: (info) => {
+                const closedAt = info.row.original?.closedAt
+                return (
+                    <Typography variant="small" semibold>
+                        <span className="whitespace-pre">
+                            {moment(closedAt).format('DD, MMM YYYY')}
+                        </span>
+                    </Typography>
+                )
+            },
+            header: () => <span>Closed At</span>,
+        })
+
+        return newColumns
+    }, [originalColumns])
+
     return (
         <div>
             <div className="ml-4 mb-2">
                 <PageHeading
-                    title={'Ticket'}
-                    subtitle={'You can find all Tickets here'}
+                    title={'Closed Tickets'}
+                    subtitle={'You can find all Closed Tickets here'}
                 >
                     <Button
                         variant={'dark'}

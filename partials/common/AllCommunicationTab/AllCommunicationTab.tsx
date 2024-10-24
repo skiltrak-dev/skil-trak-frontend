@@ -21,6 +21,7 @@ import { HistoryCard } from '../History'
 import { TicketSubject, TicketUser } from '../Tickets'
 import { useState } from 'react'
 import { Waypoint } from 'react-waypoint'
+import { StudentMessageCard } from '../StudentProfileDetail/components'
 
 export const AllCommunicationTab = ({ user }: { user: any }) => {
     const contextBar = useContextBar()
@@ -83,6 +84,21 @@ export const AllCommunicationTab = ({ user }: { user: any }) => {
                                                                 : item?.createdAt
                                                         )
                                                     ) {
+                                                        if (
+                                                            item?.type ===
+                                                            'twilio'
+                                                        ) {
+                                                            return (
+                                                                <StudentMessageCard
+                                                                    key={
+                                                                        item?.id
+                                                                    }
+                                                                    studentMessage={
+                                                                        item
+                                                                    }
+                                                                />
+                                                            )
+                                                        }
                                                         if (item?.calledBy) {
                                                             return (
                                                                 <HistoryCard

@@ -161,6 +161,7 @@ export const TimeSlots = ({
                     <SidebarCalendar
                         enabledDays={daysAvailability || [0, 1, 2, 3, 4, 5, 6]}
                         // enabledDays={[1, 2, 3, 4, 5]}
+                        selectedDate={selectedDate}
                         setSelectedDate={setSelectedDate}
                     />
                 </div>
