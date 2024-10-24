@@ -1,3 +1,4 @@
+import { UserRoles } from '@constants'
 import { ReportingType } from '@partials/admin/rto/enum'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
@@ -300,9 +301,15 @@ export const rtoEndpoints = (
 
     addRtoObserver: builder.mutation<
         any,
-        { id: number; allowAutoReport: boolean; reportType: ReportingType }
+        {
+            password: string
+            role: UserRoles
+            name: string
+            email: string
+            phone: string
+        }
     >({
-        query: ({ id, ...body }) => ({
+        query: (body) => ({
             url: `${PREFIX}/rto-observer/create`,
             method: 'POST',
             body,
