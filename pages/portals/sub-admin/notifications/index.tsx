@@ -90,7 +90,7 @@ const Notifications: NextPageWithLayout = () => {
 
 Notifications.getLayout = (page: ReactElement) => {
     return (
-        <SubAdminLayout pageTitle={{ title: 'Tasks' }}>{page}</SubAdminLayout>
+        <SubAdminLayout pageTitle={{ title: 'Mails' }}>{page}</SubAdminLayout>
     )
 }
 

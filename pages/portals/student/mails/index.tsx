@@ -16,19 +16,20 @@ import {
 import { EmailsCard, RecentAppointment } from '@partials/common'
 // Hooks
 import { useContextBar, useJoyRide } from '@hooks'
+import { MailsListing } from '@partials/common/MailsListing'
 
-const Notifications: NextPageWithLayout = () => {
-    const { setContent } = useContextBar()
+const Mails: NextPageWithLayout = () => {
+    // const { setContent } = useContextBar()
 
-    useEffect(() => {
-        setContent(
-            <>
-                <Button variant={'dark'} text={'My Schedule'} />
-                <SidebarCalendar />
-                <RtoContextBarData />
-            </>
-        )
-    }, [setContent])
+    // useEffect(() => {
+    //     setContent(
+    //         <>
+    //             <Button variant={'dark'} text={'My Schedule'} />
+    //             <SidebarCalendar />
+    //             <RtoContextBarData />
+    //         </>
+    //     )
+    // }, [setContent])
 
     const PrimaryLinks = [
         {
@@ -65,7 +66,7 @@ const Notifications: NextPageWithLayout = () => {
             // },
         },
     ]
-
+    return <MailsListing />
     // WORKPLACE JOY RIDE - END
     return (
         <div className="flex flex-col">
@@ -84,8 +85,8 @@ const Notifications: NextPageWithLayout = () => {
     )
 }
 
-Notifications.getLayout = (page: ReactElement) => {
-    return <StudentLayout pageTitle={{ title: 'Tasks' }}>{page}</StudentLayout>
+Mails.getLayout = (page: ReactElement) => {
+    return <StudentLayout pageTitle={{ title: 'Mails' }}>{page}</StudentLayout>
 }
 
-export default Notifications
+export default Mails

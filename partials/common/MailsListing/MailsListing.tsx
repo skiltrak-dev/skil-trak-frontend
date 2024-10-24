@@ -17,6 +17,9 @@ export const MailsListing = () => {
                 return '/portals/sub-admin/notifications'
             case UserRoles.INDUSTRY:
                 return '/portals/industry/notifications/e-mails'
+            case UserRoles.STUDENT:
+                return '/portals/student/mails'
+            // case UserRoles.RTO:
 
             default:
                 return null
@@ -61,7 +64,7 @@ export const MailsListing = () => {
 
     const DefaultComponent = mailsTabs?.[0]?.component
     return (
-        <div>
+        <div className="mb-6">
             <TopBar mailsTabs={mailsTabs} />
 
             {/* Component */}

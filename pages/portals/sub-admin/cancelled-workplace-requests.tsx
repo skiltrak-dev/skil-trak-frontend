@@ -56,7 +56,13 @@ const CancelledWorkplaceRequests: NextPageWithLayout = () => {
 }
 
 CancelledWorkplaceRequests.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout>{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout
+            pageTitle={{ title: 'Workplace Cancellation Requests' }}
+        >
+            {page}
+        </SubAdminLayout>
+    )
 }
 
 export default CancelledWorkplaceRequests

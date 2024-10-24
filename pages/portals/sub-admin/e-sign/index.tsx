@@ -11,7 +11,9 @@ const ESignnn: NextPageWithLayout = (props: Props) => {
     return <SubadminESign />
 }
 ESignnn.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout>{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout pageTitle={{ title: 'E-Sign' }}>{page}</SubAdminLayout>
+    )
 }
 
 export default ESignnn

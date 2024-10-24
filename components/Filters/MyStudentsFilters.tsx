@@ -13,7 +13,7 @@ interface ItemFilterProps {
     onFilterChange: (values: SubAdminStudentsFilterType) => void
     filter: SubAdminStudentsFilterType
 }
-export const SubAdminStudentFilters = ({
+export const MyStudentsFilters = ({
     onFilterChange,
     filter,
 }: ItemFilterProps) => {

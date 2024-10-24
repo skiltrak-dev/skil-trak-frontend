@@ -6,6 +6,7 @@ import { MessageItem } from './MessageItem'
 import { PulseLoader } from 'react-spinners'
 import { NoData } from '@components/ActionAnimations'
 import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 interface MessagesDropDown {
     expanded: boolean
@@ -51,6 +52,8 @@ export const MessageDropDown = ({
                     href={
                         getRole?.role === 'admin'
                             ? `/portals/admin/e-mails?tab=all-mails`
+                            : getRole?.role === 'student'
+                            ? '/portals/student/mails?tab=notification'
                             : `/portals/${role(
                                   getRole?.role
                               )}/notifications/e-mails?tab=all-mails`

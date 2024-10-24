@@ -1,6 +1,6 @@
 import { ShowErrorNotifications, Tooltip, Typography } from '@components'
 import { CommonApi } from '@queries'
-import { HtmlToPlainText, ellipsisText } from '@utils'
+import { HtmlToPlainText, ellipsisText, plainTextWithSpaces } from '@utils'
 import moment from 'moment'
 import React from 'react'
 import { IoNotificationsOutline } from 'react-icons/io5'
@@ -60,7 +60,9 @@ export const NotificationViewCard = ({
                             variant="small"
                             semibold={notification.isRead ? false : true}
                         >
-                            {HtmlToPlainText(notification?.description)}
+                            {plainTextWithSpaces(
+                                ellipsisText(notification?.description, 450)
+                            )}
                         </Typography>
                     </div>
                 </div>

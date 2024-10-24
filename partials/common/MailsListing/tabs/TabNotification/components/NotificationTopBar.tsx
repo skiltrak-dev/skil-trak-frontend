@@ -19,7 +19,7 @@ export const NotificationTopBar = ({
         useState<boolean>(false)
 
     return (
-        <div className="px-6 py-2.5">
+        <div className="py-2.5">
             <div className="flex items-center gap-x-12 justify-between bg-white shadow-[inset_0_-1px_0_0_#EDEFF1] px-5 py-3.5">
                 <div className="flex items-center gap-x-4">
                     <TbReload

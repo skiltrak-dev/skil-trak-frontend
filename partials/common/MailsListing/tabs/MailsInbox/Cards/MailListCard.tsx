@@ -7,6 +7,7 @@ import {
     ellipsisText,
     getUserCredentials,
     htmltotext,
+    plainTextWithSpaces,
 } from '@utils'
 import { useMediaQuery } from 'react-responsive'
 import { MediaQueries, UserRoles } from '@constants'
@@ -55,11 +56,15 @@ export const MailListCard = ({
                     `/portals/industry/notifications/e-mails/${mailDetail?.id}`
                 )
                 break
+            case UserRoles.STUDENT:
+                router.push(`/portals/student/mails/${mailDetail?.id}`)
+                break
 
             default:
                 break
         }
     }
+
     return (
         <>
             {modal}
@@ -80,7 +85,7 @@ export const MailListCard = ({
                     mailDetail?.isSeen ? 'bg-gray-200' : 'bg-white'
                 }  border-b border-secondary-dark hover:bg-[#C2DBFF] cursor-pointer`}
             >
-                <div className="flex items-center gap-x-0.5 w-full lg:w-56">
+                <div className="flex gap-x-0.5 w-64">
                     <Checkbox
                         name="slectMail"
                         value={selectedMail}
@@ -90,24 +95,30 @@ export const MailListCard = ({
                             e.stopPropagation()
                             onSelectMails()
                         }}
+                        showError={false}
                     />
-
                     <Typography
                         variant="small"
                         bold={mailDetail?.isSeen ? false : true}
                     >
-                        {ellipsisText(mailDetail?.subject, isTablet ? 40 : 16)}
+                        {user?.name}
                     </Typography>
                 </div>
                 <div className="w-full flex items-center gap-x-1 relative">
                     <div className={'w-full flex justify-between items-center'}>
-                        <div className={'flex items-center gap-x-1'}>
-                            <Typography
-                                variant="small"
-                                bold={mailDetail?.isSeen ? false : true}
-                            >
-                                {user?.name}
-                            </Typography>
+                        <div className={'flex items-center gap-x-1 col-span-9'}>
+                            <div className="w-48 truncate">
+                                <Typography
+                                    variant="small"
+                                    bold={mailDetail?.isSeen ? false : true}
+                                >
+                                    {/* {ellipsisText(
+                                    mailDetail?.subject,
+                                    isTablet ? 40 : 20
+                                )} */}
+                                    {mailDetail?.subject?.substring(0, 40)}
+                                </Typography>
+                            </div>
                             <Typography
                                 variant="small"
                                 bold
@@ -119,9 +130,15 @@ export const MailListCard = ({
                                 variant="small"
                                 color="text-[#0000008A]"
                             >
-                                {HtmlToPlainText(
-                                    ellipsisText(mailDetail?.message, 155)
-                                )}
+                                {
+                                    ellipsisText(
+                                        plainTextWithSpaces(
+                                            mailDetail?.message
+                                        ),
+                                        100
+                                    )
+                                    // mailDetail?.message
+                                }
                             </Typography>
                         </div>
                         <div>
