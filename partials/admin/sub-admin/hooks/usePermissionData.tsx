@@ -56,7 +56,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
         },
         {
             key: 'removeOnPlacementStart',
-            text: 'Allow Student on Placement',
+            text: 'Remove on Placement Started',
             onClick: () => Actions?.onAllowPlacementClicked(subadmin),
             toggle: subadmin?.removeOnPlacementStart,
             isLoading: results?.allowPlacementResult.isLoading,

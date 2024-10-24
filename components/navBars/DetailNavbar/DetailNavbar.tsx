@@ -221,33 +221,42 @@ export const DetailNavbar = () => {
                     </div>
                 </OutsideClickHandler> */}
 
-                <OutsideClickHandler
-                    onOutsideClick={() => {
-                        setNotificationsExpanded(false)
-                    }}
+                <AuthorizedUserComponent
+                    excludeRoles={[UserRoles.RTOCONTACTPERSON]}
                 >
-                    <div className="relative">
-                        <BadgeButton
-                            icon={IoMdNotifications}
-                            count={count || 0}
-                            max={9}
-                            onClick={() =>
-                                setNotificationsExpanded(!notificationsExpanded)
-                            }
-                            text={'Notifications'}
-                        />
+                    {' '}
+                    <OutsideClickHandler
+                        onOutsideClick={() => {
+                            setNotificationsExpanded(false)
+                        }}
+                    >
+                        <div className="relative">
+                            <BadgeButton
+                                icon={IoMdNotifications}
+                                count={count || 0}
+                                max={9}
+                                onClick={() =>
+                                    setNotificationsExpanded(
+                                        !notificationsExpanded
+                                    )
+                                }
+                                text={'Notifications'}
+                            />
 
-                        <NotificationDropDown
-                            expanded={notificationsExpanded}
-                            data={data?.data}
-                            isReadNotification={isReadNotification}
-                            resultIsReadNotification={resultIsReadNotification}
-                            setNotificationsExpanded={(value: boolean) => {
-                                setNotificationsExpanded(value)
-                            }}
-                        />
-                    </div>
-                </OutsideClickHandler>
+                            <NotificationDropDown
+                                expanded={notificationsExpanded}
+                                data={data?.data}
+                                isReadNotification={isReadNotification}
+                                resultIsReadNotification={
+                                    resultIsReadNotification
+                                }
+                                setNotificationsExpanded={(value: boolean) => {
+                                    setNotificationsExpanded(value)
+                                }}
+                            />
+                        </div>
+                    </OutsideClickHandler>
+                </AuthorizedUserComponent>
                 <AuthorizedUserComponent roles={[UserRoles.RTO]}>
                     <OutsideClickHandler
                         onOutsideClick={() => {
