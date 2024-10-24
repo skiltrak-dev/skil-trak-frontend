@@ -50,7 +50,6 @@ export const FilterHodCoordinators = ({
 }) => {
     const { modal, passwordModal, columns, quickActionsElements } =
         useHodCoordinatorsList()
-    // console.log('subAdmin:::: filter', subAdmin?.data?.data)
 
     return (
         <>

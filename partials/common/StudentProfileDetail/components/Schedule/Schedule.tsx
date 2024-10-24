@@ -1,4 +1,5 @@
 import {
+    AuthorizedUserComponent,
     Button,
     Card,
     EmptyData,
@@ -21,6 +22,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import { AddSchedule, ScheduleTimetable } from './components'
 import { Waypoint } from 'react-waypoint'
+import { UserRoles } from '@constants'
 
 export const Schedule = ({
     user,
@@ -178,19 +180,23 @@ export const Schedule = ({
                                     </div>
                                 </div>
 
-                                <div className="mt-1 ml-auto">
-                                    <Button
-                                        text={
-                                            schedules?.data?.schedule
-                                                ? 'Edit Schedule'
-                                                : 'Add Schedule'
-                                        }
-                                        variant={'info'}
-                                        onClick={() => {
-                                            setAddSchedule(true)
-                                        }}
-                                    />
-                                </div>
+                                <AuthorizedUserComponent
+                                    excludeRoles={[UserRoles.OBSERVER]}
+                                >
+                                    <div className="mt-1 ml-auto">
+                                        <Button
+                                            text={
+                                                schedules?.data?.schedule
+                                                    ? 'Edit Schedule'
+                                                    : 'Add Schedule'
+                                            }
+                                            variant={'info'}
+                                            onClick={() => {
+                                                setAddSchedule(true)
+                                            }}
+                                        />
+                                    </div>
+                                </AuthorizedUserComponent>
                             </div>
                             <div className="mt-3">
                                 {schedules.isError && <TechnicalError />}

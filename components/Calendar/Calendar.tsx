@@ -31,8 +31,6 @@ export const SidebarCalendar = ({
         }
     }, [])
 
-    console.log({ selectedDateselectedDateselectedDate: selectedDate })
-
     return mounted ? (
         <CalendarStyles>
             <Calendar

@@ -335,6 +335,10 @@ const {
     useGetKeysQuery,
     useGenerateKeyMutation,
     useDeactivateGeneratedKeyMutation,
+
+    // ---- RTO-OBSERVER ---- //
+    useRtoObserverListQuery,
+    useAddRtoObserverMutation,
 } = adminApi
 
 export const AdminApi = {
@@ -582,5 +586,9 @@ export const AdminApi = {
         getKeys: useGetKeysQuery,
         generateKey: useGenerateKeyMutation,
         useDeactivateKey: useDeactivateGeneratedKeyMutation,
+    },
+    RtoObserver: {
+        useObserList: useRtoObserverListQuery,
+        useAddRtoObserver: useAddRtoObserverMutation,
     },
 }

@@ -41,7 +41,7 @@ const urls = [
     `/tasks/appointments/set-unavailability`,
     `/tasks/assessment-evidence`,
     `/notifications/e-mails`,
-    `notifications/bulk-email`,
+    `/notifications/bulk-email`,
     `/email-draft`,
     `/create-email-draft`,
     `/notifications/all-notifications`,

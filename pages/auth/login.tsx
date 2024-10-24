@@ -64,10 +64,10 @@ const Login: NextPage = () => {
                     ? router.push(autoLogoutUrl.url as URL)
                     : router.push('/portals/sub-admin')
                 break
-            case UserRoles.RTOCONTACTPERSON:
+            case UserRoles.OBSERVER:
                 chkRoleAndUrl(role)
                     ? router.push(autoLogoutUrl.url as URL)
-                    : router.push('/portals/rtocontactperson')
+                    : router.push('/portals/observer')
                 break
         }
     }

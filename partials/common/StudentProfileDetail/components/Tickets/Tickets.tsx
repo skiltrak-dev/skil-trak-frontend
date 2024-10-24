@@ -1,4 +1,5 @@
 import {
+    AuthorizedUserComponent,
     Button,
     Card,
     EmptyData,
@@ -40,31 +41,35 @@ export const Tickets = ({ studentId }: { studentId: number }) => {
                         <Typography variant="label" semibold>
                             Tickets
                         </Typography>
-                        <Button
-                            onClick={() => {
-                                role === UserRoles.ADMIN
-                                    ? router.push({
-                                          pathname:
-                                              '/portals/admin/tickets/add-ticket',
-                                          query: { student: studentId },
-                                      })
-                                    : role === UserRoles.SUBADMIN
-                                    ? router.push({
-                                          pathname:
-                                              '/portals/sub-admin/tickets/add-ticket',
-                                          query: { student: studentId },
-                                      })
-                                    : role === UserRoles.RTO
-                                    ? router.push({
-                                          pathname:
-                                              '/portals/rto/tickets/add-ticket',
-                                          query: { student: studentId },
-                                      })
-                                    : ''
-                            }}
+                        <AuthorizedUserComponent
+                            excludeRoles={[UserRoles.OBSERVER]}
                         >
-                            Create Ticket
-                        </Button>
+                            <Button
+                                onClick={() => {
+                                    role === UserRoles.ADMIN
+                                        ? router.push({
+                                              pathname:
+                                                  '/portals/admin/tickets/add-ticket',
+                                              query: { student: studentId },
+                                          })
+                                        : role === UserRoles.SUBADMIN
+                                        ? router.push({
+                                              pathname:
+                                                  '/portals/sub-admin/tickets/add-ticket',
+                                              query: { student: studentId },
+                                          })
+                                        : role === UserRoles.RTO
+                                        ? router.push({
+                                              pathname:
+                                                  '/portals/rto/tickets/add-ticket',
+                                              query: { student: studentId },
+                                          })
+                                        : ''
+                                }}
+                            >
+                                Create Ticket
+                            </Button>
+                        </AuthorizedUserComponent>
                     </div>
 
                     <div className="px-4">

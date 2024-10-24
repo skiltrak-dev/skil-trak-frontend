@@ -1,10 +1,11 @@
-import { Button, Card, Typography } from '@components'
+import { AuthorizedUserComponent, Button, Card, Typography } from '@components'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { ProfileUpcommingAppointments } from './ProfileUpcommingAppointments'
 import { ProfilePastAppointments } from './ProfilePastAppointments'
 import { ProfileCancelledAppointments } from './ProfileCancelledAppointments'
 import { Waypoint } from 'react-waypoint'
+import { UserRoles } from '@constants'
 
 export const ProfileAppointments = ({
     userId,
@@ -40,14 +41,18 @@ export const ProfileAppointments = ({
                         <Typography semibold>
                             <span className="text-[15px]">Appointment</span>
                         </Typography>
-                        <Button
-                            text="Book Appointment"
-                            onClick={() => {
-                                if (link) {
-                                    router.push(link)
-                                }
-                            }}
-                        />
+                        <AuthorizedUserComponent
+                            excludeRoles={[UserRoles.OBSERVER]}
+                        >
+                            <Button
+                                text="Book Appointment"
+                                onClick={() => {
+                                    if (link) {
+                                        router.push(link)
+                                    }
+                                }}
+                            />
+                        </AuthorizedUserComponent>
                     </div>
 
                     {/*  */}

@@ -1,8 +1,7 @@
 import { emptySplitApi } from '../empty.query'
 import { studentsEndpoints } from './students'
-const PREFIX = 'admin'
 
-export const adminApi = emptySplitApi.injectEndpoints({
+export const observerApi = emptySplitApi.injectEndpoints({
     // ---------- ADMIN ENDPOINTS ---------- //
     endpoints: (build) => ({
         ...studentsEndpoints(build),
@@ -13,9 +12,9 @@ export const adminApi = emptySplitApi.injectEndpoints({
 const {
     // ------ ADMIN ------ //
     useGetRtoContactPersonStudentsQuery,
-} = adminApi
+} = observerApi
 
-export const RtoContactPersonApi = {
+export const ObserverApi = {
     Admin: {
         useStudents: useGetRtoContactPersonStudentsQuery,
     },

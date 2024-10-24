@@ -5,9 +5,11 @@ import { useNotification } from '@hooks'
 import { FlagStudentModal } from '../../modals'
 
 export const ProblamaticStudent = ({
-    studentId,
     hasIssue,
+    disabled,
+    studentId,
 }: {
+    disabled: boolean
     hasIssue: boolean
     studentId: number
 }) => {
@@ -60,7 +62,10 @@ export const ProblamaticStudent = ({
                                 defaultChecked={hasIssue}
                                 value={hasIssue}
                                 loading={problamaticStudentResult.isLoading}
-                                disabled={problamaticStudentResult.isLoading}
+                                disabled={
+                                    problamaticStudentResult.isLoading ||
+                                    disabled
+                                }
                             />
                         </div>
                         <Typography variant="small" normal>

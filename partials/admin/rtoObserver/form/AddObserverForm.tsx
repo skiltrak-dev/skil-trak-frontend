@@ -1,0 +1,94 @@
+import * as Yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { FormProvider, useForm } from 'react-hook-form'
+
+// components
+import { Button, Select, TextInput } from '@components'
+import { CommonApi } from '@queries'
+import { Rto } from '@types'
+
+export const AddObserverForm = ({
+    edit,
+    onSubmit,
+    isLoading,
+    initialValues,
+}: {
+    edit?: boolean
+    isLoading: boolean
+    onSubmit: (values: any) => void
+    initialValues?: any
+}) => {
+    const getRtos = CommonApi.Filter.useRtos()
+
+    const validationSchema = Yup.object({
+        name: Yup.string().required('Name is required!'),
+        email: Yup.string().required('Email is required!'),
+        phone: Yup.string().required('Phone is required!'),
+    })
+
+    const methods = useForm({
+        mode: 'all',
+        defaultValues: initialValues,
+        resolver: yupResolver(validationSchema),
+    })
+
+    const rtoOptions = getRtos?.data?.map((rto: Rto) => ({
+        value: rto?.id,
+        label: rto?.user?.name,
+    }))
+    return (
+        <div>
+            <FormProvider {...methods}>
+                <form
+                    className="mt-2 w-full"
+                    onSubmit={methods.handleSubmit(onSubmit)}
+                >
+                    <div className="">
+                        <Select
+                            label={'Search By Rto'}
+                            name={'rto'}
+                            options={rtoOptions}
+                            placeholder={'Select Search By Rto...'}
+                            loading={getRtos.isLoading}
+                            disabled={getRtos.isLoading}
+                            onlyValue
+                        />
+
+                        <TextInput
+                            label={'Name'}
+                            name={'name'}
+                            placeholder={'Your Name Here...'}
+                            validationIcons
+                            required
+                        />
+                        <TextInput
+                            label={'Email'}
+                            name={'email'}
+                            placeholder={'Your Email Here...'}
+                            validationIcons
+                            required
+                        />
+                        <TextInput
+                            label={'Phone'}
+                            name={'phone'}
+                            placeholder={'Your Phone Here...'}
+                            validationIcons
+                            required
+                        />
+                    </div>
+
+                    <div className="mt-4 flex items-center justify-between">
+                        <Button
+                            submit
+                            disabled={isLoading}
+                            loading={isLoading}
+                            variant={edit ? 'secondary' : 'primary'}
+                        >
+                            {edit ? 'Update' : 'Add'}
+                        </Button>
+                    </div>
+                </form>
+            </FormProvider>
+        </div>
+    )
+}

@@ -11,7 +11,8 @@ import {
     subAdminApi,
     studentApi,
     refreshTokenApi,
-    managementApi
+    managementApi,
+    observerApi,
 } from '@queries'
 
 export const store = configureStore({
@@ -27,6 +28,7 @@ export const store = configureStore({
         [rtoApi.reducerPath]: rtoApi.reducer,
         [subAdminApi.reducerPath]: subAdminApi.reducer,
         [stripeApi.reducerPath]: stripeApi.reducer,
+        [observerApi.reducerPath]: observerApi.reducer,
     },
     // Adding the api middleware enables caching, invalidation, polling,
     // and other useful features of `rtk-query`.
@@ -42,6 +44,7 @@ export const store = configureStore({
             rtoApi.middleware,
             subAdminApi.middleware,
             stripeApi.middleware,
+            observerApi.middleware,
         ]),
 })
 

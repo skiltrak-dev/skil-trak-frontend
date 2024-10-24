@@ -64,7 +64,6 @@ const UserCellInfo = ({
                         const findUser = sMail?.find(
                             (a: any) => profile?.user?.id === a?.user
                         )
-                        console.log({ profile })
                         const usersMails = sMail?.map((a: any) =>
                             profile?.user?.id === a?.user
                                 ? {
@@ -189,8 +188,6 @@ export const InitiateSignStudent = ({
         [ind]
     )
 
-    console.log({ industryOptions })
-
     const subAdminOptions = useMemo(
         () =>
             subadmins?.data?.map((subAdmin: SubAdmin) => ({
@@ -200,8 +197,6 @@ export const InitiateSignStudent = ({
             })),
         [subadmins]
     )
-
-    console.log({ selectedIndustry })
 
     const userIds = () => {
         const ids = {
@@ -311,7 +306,6 @@ export const InitiateSignStudent = ({
             secondaryMails?.filter((s: any) => s?.user)?.length <
                 template?.recipients?.length
         ) {
-            console.log('Banka Ustad!!!')
             setSecondaryMails(
                 Object.entries(userIds())?.map(([role, id]: any) => ({
                     user: id,
@@ -321,8 +315,6 @@ export const InitiateSignStudent = ({
             )
         }
     }, [userIds(), template?.recipients, secondaryMails])
-
-    console.log({ uuuuuu: userIds(), secondaryMails })
 
     return (
         <>

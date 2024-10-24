@@ -56,6 +56,8 @@ export const DepartmentStudentList = () => {
         if (router?.query?.coordinator) {
             setCoordinatorId(router?.query?.coordinator + '')
         }
+        setPage(Number(router.query?.page || 1))
+        setItemPerPage(Number(router.query?.pageSize || 50))
     }, [router])
 
     const { data, isLoading, isError, isFetching, isSuccess } =

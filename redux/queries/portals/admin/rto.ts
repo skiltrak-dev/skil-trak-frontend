@@ -289,4 +289,24 @@ export const rtoEndpoints = (
         query: (id: number) => `${PREFIX}/rtos/view/${id}`,
         providesTags: ['STUDENT EMAILS'],
     }),
+
+    rtoObserverList: builder.query<
+        PaginatedResponse<any>,
+        PaginationWithSearch
+    >({
+        query: () => `${PREFIX}/rto-observer/list`,
+        providesTags: ['RTOS'],
+    }),
+
+    addRtoObserver: builder.mutation<
+        any,
+        { id: number; allowAutoReport: boolean; reportType: ReportingType }
+    >({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}/rto-observer/create`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['RTOS'],
+    }),
 })

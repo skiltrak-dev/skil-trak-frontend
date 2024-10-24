@@ -1,5 +1,5 @@
-import { Button } from '@components'
-import { Result } from '@constants'
+import { AuthorizedUserComponent, Button } from '@components'
+import { Result, UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { useSubmitStudentAssessmentMutation } from '@queries'
 import { Student } from '@types'
@@ -72,13 +72,15 @@ export const SubmitAssessmentSubmission = ({
     }
     return (
         <div>
-            <Button
-                text="Submit Assessment"
-                onClick={onSubmit}
-                variant="info"
-                loading={submitAssessmentResult.isLoading}
-                disabled={submitAssessmentResult.isLoading}
-            />
+            <AuthorizedUserComponent excludeRoles={[UserRoles.OBSERVER]}>
+                <Button
+                    text="Submit Assessment"
+                    onClick={onSubmit}
+                    variant="info"
+                    loading={submitAssessmentResult.isLoading}
+                    disabled={submitAssessmentResult.isLoading}
+                />
+            </AuthorizedUserComponent>
         </div>
     )
 }
