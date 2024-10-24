@@ -36,7 +36,7 @@ export const AddObserverCB = () => {
             <ShowErrorNotifications result={addObserverResult} />
             <AddObserverForm
                 onSubmit={onSubmit}
-                isLoading={addObserverResult?.isLoading}
+                isLoading={addObserverResult?.isLoading as boolean}
             />
         </div>
     )

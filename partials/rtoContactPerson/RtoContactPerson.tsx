@@ -38,8 +38,6 @@ export const RtoContactPerson = () => {
             limit: itemPerPage,
         })
 
-    console.log({ data })
-
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
