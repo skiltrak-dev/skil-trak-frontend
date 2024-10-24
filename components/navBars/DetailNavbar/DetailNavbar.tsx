@@ -222,7 +222,7 @@ export const DetailNavbar = () => {
                 </OutsideClickHandler> */}
 
                 <AuthorizedUserComponent
-                    excludeRoles={[UserRoles.RTOCONTACTPERSON]}
+                    excludeRoles={[UserRoles.OBSERVER]}
                 >
                     {' '}
                     <OutsideClickHandler
