@@ -1,24 +1,33 @@
 import {
+    Button,
     Card,
     EmptyData,
     LoadingAnimation,
     Table,
+    TableAction,
     TechnicalError,
     Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 
-import { ObserverApi } from '@queries'
+import { AdminApi } from '@queries'
 import { Student } from '@types'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
-import { SectorCell, StudentCellInfo } from './components'
+import { useActionModal, useContextBar } from '@hooks'
+import { AddObserverCB } from './contextBar'
+import { RtoCellInfo } from '../rto/components'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { RtoObserCellInfo } from './components'
 
-export const RtoContactPerson = () => {
+export const RtoObserverList = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const contextBar = useContextBar()
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -32,28 +41,37 @@ export const RtoContactPerson = () => {
     // hooks
 
     const { isLoading, isFetching, data, isError, isSuccess } =
-        ObserverApi.Admin.useStudents({
+        AdminApi.RtoObserver.useObserList({
             search: ``,
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
 
-    console.log({ data })
+    const onAddObserver = () => {
+        contextBar.show()
+        contextBar.setTitle('Add Rto Contact Person')
+        contextBar.setContent(<AddObserverCB />)
+    }
 
-    const columns: ColumnDef<Student>[] = [
+    const tableActionOptions = [
         {
-            accessorKey: 'user.name',
-            cell: (info) => {
-                return <StudentCellInfo student={info.row.original} />
-            },
-            header: () => <span>Student</span>,
+            text: 'View Password',
+            onClick: (student: Student) =>
+                onViewPassword({ user: student?.user }),
+            Icon: RiLockPasswordFill,
+        },
+    ]
+
+    const columns: ColumnDef<any>[] = [
+        {
+            accessorKey: 'contactPerson',
+            header: () => <span>Contact Person</span>,
+            cell: (info) => <RtoObserCellInfo observer={info?.row?.original} />,
         },
         {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell courses={info.row.original?.courses} />
-            },
+            accessorKey: 'rto',
+            header: () => <span>Rto</span>,
+            cell: (info) => <RtoCellInfo rto={info?.row?.original?.rto} />,
         },
         {
             accessorKey: 'createdAt',
@@ -79,22 +97,41 @@ export const RtoContactPerson = () => {
                 )
             },
         },
+        {
+            accessorKey: 'action',
+            header: () => <span>Action</span>,
+            cell: (info) => (
+                <div className="flex gap-x-1 items-center">
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={info?.row?.original}
+                    />
+                </div>
+            ),
+        },
     ]
-
     return (
         <>
-            {modal && modal}
-            <div className="flex flex-col gap-y-4 mb-32">
+            {modal}
+            {passwordModal}
+            <div className="flex flex-col gap-y-4 mb-32 p-5">
                 <PageHeading
                     title={'All Students'}
                     subtitle={'List of All Students'}
-                />
+                >
+                    <Button
+                        text="Add Rto Contact Person"
+                        onClick={() => {
+                            onAddObserver()
+                        }}
+                    />
+                </PageHeading>
 
                 <Card noPadding>
                     {isError && <TechnicalError />}
                     {isLoading || isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : data && data?.data.length && isSuccess ? (
+                    ) : data && data?.data?.length && isSuccess ? (
                         <Table columns={columns} data={data?.data}>
                             {({
                                 table,

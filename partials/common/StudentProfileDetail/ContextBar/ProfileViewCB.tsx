@@ -18,8 +18,10 @@ import {
     StudentExpireTime,
     StudentStatus,
 } from '../ContextBarComponents'
+import { getUserCredentials } from '@utils'
 
 export const ProfileViewCB = ({ profile }: { profile: Student }) => {
+    const role = getUserCredentials()?.role
     return (
         <div>
             <div className="flex justify-between items-center">
@@ -30,7 +32,9 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                         gender={profile?.gender}
                     />
                 </div>
-                <ProfileLinks profile={profile} />
+                <AuthorizedUserComponent excludeRoles={[UserRoles.OBSERVER]}>
+                    <ProfileLinks profile={profile} />
+                </AuthorizedUserComponent>
             </div>
 
             {/* User */}
@@ -70,18 +74,21 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
             <ProfilePriority
                 studentId={profile?.id}
                 isHighPriority={profile?.isHighPriority}
+                disabled={role === UserRoles.OBSERVER}
             />
 
             {/* Contact Status */}
             <ContactStatus
                 studentId={profile?.id}
                 nonContactable={profile?.nonContactable}
+                disabled={role === UserRoles.OBSERVER}
             />
 
             {/*  */}
             <ProblamaticStudent
                 studentId={profile?.id}
                 hasIssue={profile?.hasIssue}
+                disabled={role === UserRoles.OBSERVER}
             />
 
             {/* Student Detail */}
@@ -90,10 +97,12 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
             <EmergencyContact profile={profile} />
 
             {/* Student Status */}
-            <StudentStatus
-                studentUserId={profile?.user?.id}
-                studentStatus={profile?.studentStatus}
-            />
+            <AuthorizedUserComponent excludeRoles={[UserRoles.OBSERVER]}>
+                <StudentStatus
+                    studentUserId={profile?.user?.id}
+                    studentStatus={profile?.studentStatus}
+                />
+            </AuthorizedUserComponent>
 
             {/* RTO */}
         </div>

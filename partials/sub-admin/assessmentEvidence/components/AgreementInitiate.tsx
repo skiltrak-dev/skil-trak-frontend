@@ -1,6 +1,7 @@
-import { Button } from '@components'
+import { AuthorizedUserComponent, Button } from '@components'
 import { ReactElement, useState } from 'react'
 import { InitiateSigningModal } from '../modal'
+import { UserRoles } from '@constants'
 
 export const AgreementInitiate = ({
     rto,
@@ -35,16 +36,18 @@ export const AgreementInitiate = ({
     return (
         <>
             {modal}
-            <div className="p-3 flex justify-center items-center h-full">
-                <div className="w-60 border border-dashed h-24 flex flex-col gap-y-2 justify-center items-center">
-                    <Button
-                        text="Initiate Signing"
-                        onClick={() => {
-                            onInitiateSigning()
-                        }}
-                    />
+            <AuthorizedUserComponent excludeRoles={[UserRoles.OBSERVER]}>
+                <div className="p-3 flex justify-center items-center h-full">
+                    <div className="w-60 border border-dashed h-24 flex flex-col gap-y-2 justify-center items-center">
+                        <Button
+                            text="Initiate Signing"
+                            onClick={() => {
+                                onInitiateSigning()
+                            }}
+                        />
+                    </div>
                 </div>
-            </div>
+            </AuthorizedUserComponent>
         </>
     )
 }

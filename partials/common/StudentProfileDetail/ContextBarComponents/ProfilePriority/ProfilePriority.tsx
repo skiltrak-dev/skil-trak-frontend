@@ -6,9 +6,11 @@ import { useNotification } from '@hooks'
 export const ProfilePriority = ({
     studentId,
     isHighPriority,
+    disabled,
 }: {
-    isHighPriority: boolean
+    disabled: boolean
     studentId: number
+    isHighPriority: boolean
 }) => {
     const [makeAsHighPriority, makeAsHighPriorityResult] =
         CommonApi.StudentAssessmentFiles.useMakeAsHighPriority()
@@ -54,7 +56,10 @@ export const ProfilePriority = ({
                                 }}
                                 defaultChecked={isHighPriority}
                                 loading={makeAsHighPriorityResult.isLoading}
-                                disabled={makeAsHighPriorityResult.isLoading}
+                                disabled={
+                                    makeAsHighPriorityResult.isLoading ||
+                                    disabled
+                                }
                             />
                         </div>
                         <Typography variant="small" normal>

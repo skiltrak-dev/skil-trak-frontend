@@ -1,4 +1,5 @@
 import {
+    AuthorizedUserComponent,
     Button,
     Card,
     CreateNote,
@@ -12,6 +13,7 @@ import { CommonApi } from '@queries'
 import { Waypoint } from 'react-waypoint'
 import { NoteCard } from './Card'
 import { useState } from 'react'
+import { UserRoles } from '@constants'
 
 export const Notes = ({
     userId,
@@ -47,7 +49,11 @@ export const Notes = ({
                         <Typography variant="label" semibold>
                             Notes
                         </Typography>
-                        <Button onClick={onAddNote}>Add Note</Button>
+                        <AuthorizedUserComponent
+                            excludeRoles={[UserRoles.OBSERVER]}
+                        >
+                            <Button onClick={onAddNote}>Add Note</Button>
+                        </AuthorizedUserComponent>
                     </div>
 
                     <div className="px-4 py-3 box-border">

@@ -48,7 +48,7 @@ export const StudentCellInfo = ({
     const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
 
     return (
-        <Link legacyBehavior href={`#`}>
+        <Link legacyBehavior href={`/portals/observer/${student?.id}`}>
             <a
                 onClick={() => {
                     setLink('student', router)

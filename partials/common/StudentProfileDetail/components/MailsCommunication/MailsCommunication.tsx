@@ -1,10 +1,11 @@
-import { Button, Card, TabProps } from '@components'
+import { AuthorizedUserComponent, Button, Card, TabProps } from '@components'
 import { User } from '@types'
 import { ReactElement, useCallback, useState } from 'react'
 import { ComposeMailModal } from '../../modals'
 import { AllCommunication } from '../AllCommunication'
 import { Mails } from '../Mails/Mails'
 import { Tabs } from '../Tabs'
+import { UserRoles } from '@constants'
 
 export const MailsCommunication = ({ user }: { user: User }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -55,15 +56,19 @@ export const MailsCommunication = ({ user }: { user: User }) => {
                             <div className="h-full">
                                 <div className="flex items-center justify-between pr-3 pl-1 py-3 border-b border-secondary-dark">
                                     <div>{header}</div>
-                                    {selectedTab?.label === 'Mails' ? (
-                                        <Button
-                                            onClick={() => {
-                                                onComposeMail()
-                                            }}
-                                        >
-                                            Compose Mail
-                                        </Button>
-                                    ) : null}
+                                    <AuthorizedUserComponent
+                                        excludeRoles={[UserRoles.OBSERVER]}
+                                    >
+                                        {selectedTab?.label === 'Mails' ? (
+                                            <Button
+                                                onClick={() => {
+                                                    onComposeMail()
+                                                }}
+                                            >
+                                                Compose Mail
+                                            </Button>
+                                        ) : null}
+                                    </AuthorizedUserComponent>
                                 </div>
                                 <div className="p-4 !h-[calc(633px-70px)] overflow-hidden">
                                     {element}

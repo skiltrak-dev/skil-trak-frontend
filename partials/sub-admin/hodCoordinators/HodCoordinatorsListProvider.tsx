@@ -1,49 +1,42 @@
 import React, {
     createContext,
-    useContext,
-    useState,
-    useEffect,
     ReactElement,
+    useContext,
+    useEffect,
+    useState,
 } from 'react'
 
-import { useActionModal, useContextBar } from '@hooks'
-import { AdminApi, commonApi, SubAdminApi } from '@queries'
 import {
     ActionButton,
-    Badge,
-    Button,
-    Card,
-    EmptyData,
     TableAction,
-    TableSkeleton,
-    TechnicalError,
     TruncatedTextWithTooltip,
     Typography,
 } from '@components'
+import { useActionModal, useContextBar } from '@hooks'
+import { commonApi, SubAdminApi } from '@queries'
 import { AdminSubadminFilter, Rto, SubAdmin, User } from '@types'
 import { useRouter } from 'next/router'
 
 // Modals
+import { UserRoles } from '@constants'
+import { RtoCellInfo } from '@partials/admin/rto/components'
+import { RtoCell, SectorCell, SubAdminCell } from '@partials/admin/sub-admin'
+import { AddSubAdminCB } from '@partials/admin/sub-admin/contextBar'
 import {
-    BlockModal,
+    AllowPermissionModal,
     ArchiveModal,
     AssociatedWithRTOModal,
-    AllowPermissionModal,
+    BlockModal,
 } from '@partials/admin/sub-admin/modals'
-import { AddSubAdminCB } from '@partials/admin/sub-admin/contextBar'
+import { ColumnDef } from '@tanstack/react-table'
 import {
     checkFilteredDataLength,
     checkListLength,
     getUserCredentials,
 } from '@utils'
 import { FaEdit, FaEye } from 'react-icons/fa'
-import { UserRoles } from '@constants'
 import { PiCellSignalLowFill } from 'react-icons/pi'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import { BsArchiveFill } from 'react-icons/bs'
-import { ColumnDef } from '@tanstack/react-table'
-import { RtoCell, SectorCell, SubAdminCell } from '@partials/admin/sub-admin'
-import { RtoCellInfo } from '@partials/admin/rto/components'
 import { HodCoordinatorCell } from './HodCoordinatorCell'
 
 // interface CoordinatorsList extends SubAdmin {
