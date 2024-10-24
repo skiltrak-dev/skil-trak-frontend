@@ -162,8 +162,8 @@ export const IndustrySelection = ({
                                 Your request has been successfully received. Our
                                 placement team will now review your information.
                                 One of our coordinators will reach out to you
-                                with workplace details within 48 hours.
-                                regarding your workplace placement.
+                                within 48 hours. regarding your workplace
+                                placement.
                             </Typography>
                             <div>
                                 <Typography

@@ -9,6 +9,7 @@ import { appointmentTypeEndpoints } from './appointment-type'
 import { documentsEndpoints } from './documents'
 import { folderEndpoints } from './folder'
 import { industryRplEndpoints } from './industyRpl'
+import { generateKeysEndpoints } from './generate-key'
 import { jobEndpoints } from './job'
 import { profileEndpoints } from './profile'
 import { rtoEndpoints } from './rto'
@@ -77,6 +78,7 @@ export const adminApi = emptySplitApi.injectEndpoints({
         ...documentsEndpoints(build),
         ...subscriberEndpoints(build),
         ...industryRplEndpoints(build),
+        ...generateKeysEndpoints(build),
         ...appointmentTypeEndpoints(build),
         ...talentPoolEndpoints(build),
         ...departmentEndpoints(build),
@@ -328,6 +330,11 @@ const {
     useGetTalentPoolProfileQuery,
     useGetTalentPoolProfilesCountQuery,
     useReadTalentPoolProfilesCountMutation,
+
+    // ----- GENERATE KEY ----- //
+    useGetKeysQuery,
+    useGenerateKeyMutation,
+    useDeactivateGeneratedKeyMutation,
 } = adminApi
 
 export const AdminApi = {
@@ -570,5 +577,10 @@ export const AdminApi = {
     },
     Blogs: {
         useBlogsCount: useGetBlogsCountQuery,
+    },
+    GenerateKey: {
+        getKeys: useGetKeysQuery,
+        generateKey: useGenerateKeyMutation,
+        useDeactivateKey: useDeactivateGeneratedKeyMutation,
     },
 }

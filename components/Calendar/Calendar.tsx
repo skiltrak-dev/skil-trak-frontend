@@ -6,9 +6,11 @@ import { CalendarStyles } from './style'
 
 export const SidebarCalendar = ({
     enabledDays,
+    selectedDate,
     setSelectedDate,
 }: {
     enabledDays?: number[]
+    selectedDate?: Date | null
     setSelectedDate?: (date: Date) => void
 }) => {
     const [isDateChange, setIsDateChange] = useState(false)
@@ -29,6 +31,8 @@ export const SidebarCalendar = ({
         }
     }, [])
 
+    console.log({ selectedDateselectedDateselectedDate: selectedDate })
+
     return mounted ? (
         <CalendarStyles>
             <Calendar
@@ -43,7 +47,7 @@ export const SidebarCalendar = ({
                     setDate(e)
                     setIsDateChange(true)
                 }}
-                value={date}
+                value={selectedDate || date}
             />
         </CalendarStyles>
     ) : null
