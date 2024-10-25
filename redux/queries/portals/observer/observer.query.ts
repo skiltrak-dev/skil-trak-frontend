@@ -11,11 +11,15 @@ export const observerApi = emptySplitApi.injectEndpoints({
 
 const {
     // ------ ADMIN ------ //
+    useRtoObserverProfileQuery,
     useGetRtoContactPersonStudentsQuery,
+    useRtoObserverProfileUpdateMutation,
 } = observerApi
 
 export const ObserverApi = {
-    Admin: {
+    Students: {
+        myProfile: useRtoObserverProfileQuery,
         useStudents: useGetRtoContactPersonStudentsQuery,
+        useRtoObserverProfileUpdate: useRtoObserverProfileUpdateMutation,
     },
 }
