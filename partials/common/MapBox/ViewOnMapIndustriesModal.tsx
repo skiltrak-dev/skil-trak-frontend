@@ -489,7 +489,7 @@ export const ViewOnMapIndustriesModal = ({
                                                                 zIndex: 1,
                                                             }}
                                                         />
-                                                        <Circle
+                                                        {/* <Circle
                                                             center={{
                                                                 lat: -37.8207394,
                                                                 lng: 144.9480769,
@@ -513,7 +513,7 @@ export const ViewOnMapIndustriesModal = ({
                                                                 visible: true,
                                                                 zIndex: 1,
                                                             }}
-                                                        />
+                                                        /> */}
                                                         {selectedBox &&
                                                             showInfoBox &&
                                                             selectedBox.id ===

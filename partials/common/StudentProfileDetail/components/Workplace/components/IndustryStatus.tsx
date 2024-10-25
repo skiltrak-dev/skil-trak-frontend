@@ -61,6 +61,8 @@ export const IndustryStatus = ({
         }
     }, [findStatusIndex, workplace?.currentStatus])
 
+    const excludedRoles = [UserRoles.RTO, UserRoles.OBSERVER]
+
     return (
         <div className="flex flex-col gap-y-1.5">
             {modal}
@@ -78,7 +80,7 @@ export const IndustryStatus = ({
                 <div className="w-40 mt-2 relative">
                     <div
                         onClick={() => {
-                            if (role !== UserRoles.RTO) {
+                            if (!excludedRoles.includes(role)) {
                                 if (
                                     workplace?.cancelledRequests &&
                                     workplace?.cancelledRequests?.length > 0
