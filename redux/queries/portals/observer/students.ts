@@ -16,4 +16,25 @@ export const studentsEndpoints = (
         }),
         providesTags: ['Volunteer'],
     }),
+
+    rtoObserverProfile: builder.query<any, void>({
+        query: () => `${PREFIX}profile`,
+        providesTags: ['RTOS'],
+    }),
+
+    rtoObserverProfileUpdate: builder.mutation<
+        any,
+        {
+            name: string
+            email: string
+            phone: string
+        }
+    >({
+        query: (body) => ({
+            url: `${PREFIX}profile`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['RTOS'],
+    }),
 })

@@ -316,4 +316,29 @@ export const rtoEndpoints = (
         }),
         invalidatesTags: ['RTOS'],
     }),
+
+    updateRtoObserver: builder.mutation<
+        any,
+        {
+            id: number
+            name: string
+            email: string
+            phone: string
+        }
+    >({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}/rto-observer/update/${id}`,
+            body,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['RTOS'],
+    }),
+
+    removeRtoObserver: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/rto-observer/${id}`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['RTOS'],
+    }),
 })
