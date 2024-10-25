@@ -1,6 +1,12 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import { IndustryCard } from './components'
-import { GlobalModal, NoData, Portal, Typography } from '@components'
+import {
+    AuthorizedUserComponent,
+    GlobalModal,
+    NoData,
+    Portal,
+    Typography,
+} from '@components'
 import { Course, Student } from '@types'
 import { getUserCredentials, WorkplaceCurrentStatus } from '@utils'
 import { ViewMoreIndustriesModal } from '@partials/sub-admin/workplace/modals'
@@ -232,7 +238,12 @@ export const IndustryDetail = ({
                                         potential workplaces to apply for
                                         student.
                                     </Typography>
-                                    {role !== UserRoles.RTO ? (
+                                    <AuthorizedUserComponent
+                                        excludeRoles={[
+                                            UserRoles.OBSERVER,
+                                            UserRoles.RTO,
+                                        ]}
+                                    >
                                         <p
                                             className={
                                                 'underline text-white text-center text-[15px] cursor-pointer'
@@ -243,7 +254,7 @@ export const IndustryDetail = ({
                                         >
                                             VIEW MAP
                                         </p>
-                                    ) : null}
+                                    </AuthorizedUserComponent>
                                 </div>
                             ) : null}
                         </div>
@@ -263,43 +274,53 @@ export const IndustryDetail = ({
                                         courseId={course?.id}
                                     />
                                     {/*  */}
-                                    {workplace.studentProvidedWorkplace ? (
-                                        <StudentProvidedActions
-                                            workplace={workplace}
-                                            student={
-                                                workplace?.student as Student
-                                            }
-                                            appliedIndustry={appliedIndustry}
-                                            courses={
-                                                workplace?.courses as Course[]
-                                            }
-                                        />
-                                    ) : workplace?.byExistingAbn ? (
-                                        <StudentProvidedABNActions
-                                            workplace={workplace}
-                                            student={
-                                                workplace?.student as Student
-                                            }
-                                            courses={
-                                                workplace?.courses as Course[]
-                                            }
-                                            appliedIndustry={appliedIndustry}
-                                        />
-                                    ) : (
-                                        <Actions
-                                            appliedIndustry={appliedIndustry}
-                                            currentStatus={
-                                                workplace?.currentStatus
-                                            }
-                                            student={
-                                                workplace?.student as Student
-                                            }
-                                            courses={
-                                                workplace?.courses as Course[]
-                                            }
-                                            workplace={workplace}
-                                        />
-                                    )}
+                                    <AuthorizedUserComponent
+                                        excludeRoles={[UserRoles.OBSERVER]}
+                                    >
+                                        {workplace.studentProvidedWorkplace ? (
+                                            <StudentProvidedActions
+                                                workplace={workplace}
+                                                student={
+                                                    workplace?.student as Student
+                                                }
+                                                appliedIndustry={
+                                                    appliedIndustry
+                                                }
+                                                courses={
+                                                    workplace?.courses as Course[]
+                                                }
+                                            />
+                                        ) : workplace?.byExistingAbn ? (
+                                            <StudentProvidedABNActions
+                                                workplace={workplace}
+                                                student={
+                                                    workplace?.student as Student
+                                                }
+                                                courses={
+                                                    workplace?.courses as Course[]
+                                                }
+                                                appliedIndustry={
+                                                    appliedIndustry
+                                                }
+                                            />
+                                        ) : (
+                                            <Actions
+                                                appliedIndustry={
+                                                    appliedIndustry
+                                                }
+                                                currentStatus={
+                                                    workplace?.currentStatus
+                                                }
+                                                student={
+                                                    workplace?.student as Student
+                                                }
+                                                courses={
+                                                    workplace?.courses as Course[]
+                                                }
+                                                workplace={workplace}
+                                            />
+                                        )}
+                                    </AuthorizedUserComponent>
                                 </>
                             )}
 

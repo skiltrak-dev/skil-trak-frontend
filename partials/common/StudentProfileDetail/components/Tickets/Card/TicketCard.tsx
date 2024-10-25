@@ -1,4 +1,4 @@
-import { Typography } from '@components'
+import { AuthorizedUserComponent, Typography } from '@components'
 import { ellipsisText, getUserCredentials } from '@utils'
 import React from 'react'
 import { TicketDataCard } from './TicketDataCard'
@@ -35,26 +35,33 @@ export const TicketCard = ({ ticket }: { ticket: any }) => {
                     text={moment(ticket?.updatedAt).fromNow()}
                 />
             </div>
-            <div
-                onClick={() => {
-                    router.push(
-                        `${
-                            role === UserRoles.ADMIN
-                                ? `/portals/admin/tickets/detail/${ticket?.id}`
-                                : role === UserRoles.SUBADMIN
-                                ? `/portals/sub-admin/tickets/detail/${ticket?.id}`
-                                : role === UserRoles.RTO
-                                ? `/portals/rto/tickets/detail/${ticket?.id}`
-                                : ''
-                        }`
-                    )
-                }}
-                className="flex justify-center items-center mt-4 cursor-pointer"
-            >
-                <Typography underline variant="xs" bold color="text-[#F67F1E]">
-                    VIEW DETAILS
-                </Typography>
-            </div>
+            <AuthorizedUserComponent excludeRoles={[UserRoles.OBSERVER]}>
+                <div
+                    onClick={() => {
+                        router.push(
+                            `${
+                                role === UserRoles.ADMIN
+                                    ? `/portals/admin/tickets/detail/${ticket?.id}`
+                                    : role === UserRoles.SUBADMIN
+                                    ? `/portals/sub-admin/tickets/detail/${ticket?.id}`
+                                    : role === UserRoles.RTO
+                                    ? `/portals/rto/tickets/detail/${ticket?.id}`
+                                    : ''
+                            }`
+                        )
+                    }}
+                    className="flex justify-center items-center mt-4 cursor-pointer"
+                >
+                    <Typography
+                        underline
+                        variant="xs"
+                        bold
+                        color="text-[#F67F1E]"
+                    >
+                        VIEW DETAILS
+                    </Typography>
+                </div>
+            </AuthorizedUserComponent>
         </div>
     )
 }

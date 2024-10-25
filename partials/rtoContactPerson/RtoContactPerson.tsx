@@ -158,8 +158,6 @@ export const RtoContactPerson = () => {
                         }
                     )
 
-                console.log({ workplace })
-
                 return (
                     <div className="bg-gray-200 w-fit px-2 py-1 rounded-md">
                         <Typography variant="small" uppercase>

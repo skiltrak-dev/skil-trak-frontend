@@ -19,9 +19,7 @@ export const AddObserverCB = () => {
             password: 'N/A',
             role: UserRoles.OBSERVER,
         })
-        console.log({ res })
         if (res?.data) {
-            console.log('sasasasas')
             notification.success({
                 title: 'Contact Person added',
                 description: 'Contact Person Added',

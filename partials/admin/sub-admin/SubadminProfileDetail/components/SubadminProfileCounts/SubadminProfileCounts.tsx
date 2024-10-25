@@ -25,7 +25,6 @@ export const SubadminProfileCounts = ({
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [countsData, setCountsData] = useState<RtoProfileCountDataType[]>([])
 
-    console.log('subAdmin', subAdmin?.data?.id)
     const onCancelModalClicked = () => setModal(null)
 
     const onViewWorkplaceClicked = () => {

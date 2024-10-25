@@ -95,6 +95,7 @@ export interface Rto extends BaseResponse {
     courses: Course[]
     subadmin: SubAdmin[]
     students: Student[]
+    contactPersons: any
 }
 
 export interface Student extends BaseResponse {
