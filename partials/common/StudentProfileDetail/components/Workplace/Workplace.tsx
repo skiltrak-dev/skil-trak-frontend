@@ -23,7 +23,11 @@ import { useContextBar } from '@hooks'
 import { AddSecondWPCB } from '@partials/sub-admin/students/contextBar'
 import { ForwardModal } from '@partials/sub-admin/workplace/modals'
 import { Student } from '@types'
-import { checkStudentProfileCompletion, WorkplaceCurrentStatus } from '@utils'
+import {
+    checkStudentProfileCompletion,
+    getUserCredentials,
+    WorkplaceCurrentStatus,
+} from '@utils'
 import moment from 'moment'
 import { ReactNode, useEffect, useMemo, useState } from 'react'
 import {
@@ -128,13 +132,17 @@ export const Workplace = ({
         }
     }, [sortedWorkplace])
 
+    const excludedRoles = [UserRoles.RTO, UserRoles.OBSERVER]
+    const role = getUserCredentials()?.role
+
     useEffect(() => {
         if (
             selectedWorkplace &&
             appliedIndustry &&
             !appliedIndustry?.awaitingWorkplaceResponseDate &&
             selectedWorkplace?.assignedTo &&
-            !selectedWorkplace?.studentProvidedWorkplace
+            !selectedWorkplace?.studentProvidedWorkplace &&
+            !excludedRoles.includes(role)
         ) {
             const onForwardClicked = () => {
                 setModal(
@@ -147,7 +155,7 @@ export const Workplace = ({
             }
             onForwardClicked()
         }
-    }, [selectedWorkplace, appliedIndustry])
+    }, [selectedWorkplace, appliedIndustry, excludedRoles, role])
 
     const onCancelModal = () => setModal(null)
 

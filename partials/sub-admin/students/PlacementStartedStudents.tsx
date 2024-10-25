@@ -152,7 +152,7 @@ export const PlacementStartedStudents = () => {
         },
         {
             accessorKey: 'expiry',
-            header: () => <span>Expiry Date</span>,
+            header: () => <span>Expiry Countdown</span>,
             cell: (info) => (
                 <StudentExpiryDaysLeft
                     expiryDate={info.row.original?.expiryDate}

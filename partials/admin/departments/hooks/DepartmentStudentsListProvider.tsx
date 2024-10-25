@@ -104,7 +104,7 @@ export const DepartmentStudentsListProvider = ({ children }: any) => {
                 refetchOnMountOrArgChange: true,
             }
         )
-    
+
     useEffect(() => {
         const getScrollId = sessionStorage.getItem('scrollId')
         if (getScrollId) {
@@ -284,7 +284,7 @@ export const DepartmentStudentsListProvider = ({ children }: any) => {
         },
         {
             accessorKey: 'expiry',
-            header: () => <span>Expiry Date</span>,
+            header: () => <span>Expiry Countdown</span>,
             cell: (info) => (
                 <StudentExpiryDaysLeft
                     expiryDate={info.row.original?.expiryDate}
