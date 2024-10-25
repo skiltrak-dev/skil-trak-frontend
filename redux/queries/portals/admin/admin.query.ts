@@ -339,6 +339,8 @@ const {
     // ---- RTO-OBSERVER ---- //
     useRtoObserverListQuery,
     useAddRtoObserverMutation,
+    useRemoveRtoObserverMutation,
+    useUpdateRtoObserverMutation,
 } = adminApi
 
 export const AdminApi = {
@@ -589,6 +591,8 @@ export const AdminApi = {
     },
     RtoObserver: {
         useObserList: useRtoObserverListQuery,
+        useRemove: useRemoveRtoObserverMutation,
         useAddRtoObserver: useAddRtoObserverMutation,
+        useUpdateRtoObserver: useUpdateRtoObserverMutation,
     },
 }

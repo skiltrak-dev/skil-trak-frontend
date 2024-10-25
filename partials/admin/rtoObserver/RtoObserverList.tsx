@@ -17,10 +17,11 @@ import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { useActionModal, useContextBar } from '@hooks'
-import { AddObserverCB } from './contextBar'
+import { AddObserverCB, EditObserverCB } from './contextBar'
 import { RtoCellInfo } from '../rto/components'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { RtoObserCellInfo } from './components'
+import { DeleteModal } from './modal'
 
 export const RtoObserverList = () => {
     const router = useRouter()
@@ -47,17 +48,48 @@ export const RtoObserverList = () => {
             limit: itemPerPage,
         })
 
+    const onCancel = () => setModal(null)
+
     const onAddObserver = () => {
         contextBar.show()
         contextBar.setTitle('Add Rto Contact Person')
         contextBar.setContent(<AddObserverCB />)
     }
 
+    const onEditObserver = (observer: any) => {
+        const initialValues = {
+            id: observer?.id,
+            name: observer?.user?.name,
+            email: observer?.user?.email,
+            phone: observer?.phone,
+            rto: { label: observer?.rto?.user?.name, value: observer?.rto?.id },
+        }
+        contextBar.show()
+        contextBar.setTitle('Edit Rto Contact Person')
+        contextBar.setContent(
+            <EditObserverCB edit initialValues={initialValues} />
+        )
+    }
+
+    const onRemoveObserver = (rtoObserver: any) => {
+        setModal(<DeleteModal onCancel={onCancel} rtoObserver={rtoObserver} />)
+    }
+
     const tableActionOptions = [
         {
+            text: 'Edit',
+            onClick: (observer: any) => onEditObserver(observer),
+            Icon: RiLockPasswordFill,
+        },
+        {
             text: 'View Password',
-            onClick: (student: Student) =>
-                onViewPassword({ user: student?.user }),
+            onClick: (observer: any) =>
+                onViewPassword({ user: observer?.user }),
+            Icon: RiLockPasswordFill,
+        },
+        {
+            text: 'Delete',
+            onClick: (observer: any) => onRemoveObserver(observer),
             Icon: RiLockPasswordFill,
         },
     ]

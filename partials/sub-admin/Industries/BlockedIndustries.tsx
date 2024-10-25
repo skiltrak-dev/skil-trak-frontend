@@ -16,7 +16,7 @@ import {
 } from '@components'
 
 import { useActionModal } from '@hooks'
-import { SubAdminApi, useGetSubAdminIndustriesQuery } from '@queries'
+import { useGetSubAdminIndustriesQuery } from '@queries'
 import { Industry, SubAdmin, UserStatus } from '@types'
 import { getUserCredentials, setLink } from '@utils'
 import { CgUnblock } from 'react-icons/cg'

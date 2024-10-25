@@ -1,7 +1,12 @@
 import {
     Card,
     EmptyData,
+    Filter,
     LoadingAnimation,
+    ObserverStudentFilters,
+    SetDetaultQueryFilteres,
+    StudentExpiryDaysLeft,
+    StudentFilters,
     Table,
     TechnicalError,
     Typography,
@@ -10,11 +15,31 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 
 import { ObserverApi } from '@queries'
-import { Student } from '@types'
+import { Student, StudentsFilterType } from '@types'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
-import { SectorCell, StudentCellInfo } from './components'
+import { IndustryCellInfo, SectorCell, StudentCellInfo } from './components'
+import {
+    IWorkplaceIndustries,
+    WorkplaceWorkIndustriesType,
+} from 'redux/queryTypes'
+import {
+    activeWorkplace,
+    getStudentWorkplaceAppliedIndustry,
+    WorkplaceCurrentStatus,
+} from '@utils'
+
+const filterKeys = [
+    'name',
+    'email',
+    'phone',
+    'studentId',
+    'status',
+    'industryId',
+    'courseId',
+    'currentStatus',
+]
 
 export const RtoContactPerson = () => {
     const router = useRouter()
@@ -22,7 +47,8 @@ export const RtoContactPerson = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState({} as StudentsFilterType)
+    const [filterAction, setFilterAction] = useState(null)
 
     useEffect(() => {
         setPage(Number(router.query.page) || 1)
@@ -32,8 +58,12 @@ export const RtoContactPerson = () => {
     // hooks
 
     const { isLoading, isFetching, data, isError, isSuccess } =
-        ObserverApi.Admin.useStudents({
-            search: ``,
+        ObserverApi.Students.useStudents({
+            search: `${JSON.stringify(filter)
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
@@ -41,17 +71,112 @@ export const RtoContactPerson = () => {
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <StudentCellInfo student={info.row.original} />
-            },
+            cell: (info) => <StudentCellInfo student={info.row.original} />,
             header: () => <span>Student</span>,
         },
         {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
+            accessorKey: 'industry',
+            header: () => <span>Industry</span>,
             cell: (info) => {
-                return <SectorCell courses={info.row.original?.courses} />
+                const workplace = info.row.original?.workplace
+                const industries = info.row.original?.industries
+
+                const olderWorkplace = (workplace: IWorkplaceIndustries[]) => {
+                    return workplace?.reduce(
+                        (a: IWorkplaceIndustries, b: IWorkplaceIndustries) =>
+                            (a?.createdAt ?? 0) < (b?.createdAt ?? 0) ? a : b,
+                        {
+                            currentStatus: WorkplaceCurrentStatus.NotRequested,
+                        }
+                    )
+                }
+                const studentsListWorkplace = (
+                    workplace: IWorkplaceIndustries[]
+                ) => {
+                    const activeWP = activeWorkplace(workplace)
+
+                    const latestWP = olderWorkplace(activeWP)
+
+                    const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+                        latestWP?.industries as WorkplaceWorkIndustriesType[]
+                    )?.industry
+
+                    return appliedIndustry
+                }
+
+                const appliedIndustry = studentsListWorkplace(workplace)
+
+                return workplace && workplace?.length > 0 && appliedIndustry ? (
+                    <IndustryCellInfo industry={appliedIndustry} />
+                ) : industries && industries?.length > 0 ? (
+                    <IndustryCellInfo
+                        industry={info.row.original?.industries?.[0]}
+                    />
+                ) : (
+                    <Typography center>N/A</Typography>
+                )
             },
+        },
+        {
+            accessorKey: 'courses',
+            header: () => <span>Courses</span>,
+            cell: (info) => <SectorCell courses={info.row.original?.courses} />,
+        },
+        {
+            accessorKey: 'progress',
+            header: () => <span>Progress</span>,
+            cell: (info) => {
+                const student = info?.row?.original
+
+                // const status = {
+                //     'Not Requested': WorkplaceCurrentStatus.NotRequested,
+                //     Applied = 'applied',
+                //     CaseOfficerAssigned = 'caseOfficerAssigned',
+                //     Interview = 'interview',
+                //     AwaitingWorkplaceResponse = 'awaitingWorkplaceResponse',
+                //     AppointmentBooked = 'appointmentBooked',
+                //     AwaitingAgreementSigned = 'awaitingAgreementSigned',
+                //     AgreementSigned = 'AgreementSigned',
+                //     PlacementStarted = 'placementStarted',
+                //     Cancelled = 'cancelled',
+                //     Completed = 'completed',
+                //     NoResponse = 'noResponse',
+                //     Rejected = 'rejected',
+                //     Terminated = 'terminated',
+                // }
+                const workplace = student?.workplace
+                    ?.filter(
+                        (w: any) =>
+                            w?.currentStatus !==
+                            WorkplaceCurrentStatus.Cancelled
+                    )
+                    ?.reduce(
+                        (a: any, b: any) =>
+                            b?.createdAt > a?.createdAt ? a : b,
+                        {
+                            currentStatus: WorkplaceCurrentStatus.NotRequested,
+                        }
+                    )
+
+                console.log({ workplace })
+
+                return (
+                    <div className="bg-gray-200 w-fit px-2 py-1 rounded-md">
+                        <Typography variant="small" uppercase>
+                            {workplace?.currentStatus}
+                        </Typography>
+                    </div>
+                )
+            },
+        },
+        {
+            accessorKey: 'expiry',
+            header: () => <span>Expiry Date</span>,
+            cell: (info) => (
+                <StudentExpiryDaysLeft
+                    expiryDate={info.row.original?.expiryDate}
+                />
+            ),
         },
         {
             accessorKey: 'createdAt',
@@ -82,10 +207,24 @@ export const RtoContactPerson = () => {
     return (
         <>
             {modal && modal}
+            <SetDetaultQueryFilteres<StudentsFilterType>
+                filterKeys={filterKeys}
+                setFilter={setFilter}
+            />
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'All Students'}
                     subtitle={'List of All Students'}
+                >
+                    {' '}
+                    <div className="flex-shrink-0">{filterAction}</div>
+                </PageHeading>
+                <Filter<StudentsFilterType>
+                    component={ObserverStudentFilters}
+                    initialValues={filter}
+                    setFilterAction={setFilterAction}
+                    setFilter={setFilter}
+                    filterKeys={filterKeys}
                 />
 
                 <Card noPadding>
