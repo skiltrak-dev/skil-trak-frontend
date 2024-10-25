@@ -47,7 +47,11 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                     </Typography>
 
                     <AuthorizedUserComponent
-                        roles={[UserRoles.ADMIN, UserRoles.RTO]}
+                        roles={[
+                            UserRoles.ADMIN,
+                            UserRoles.RTO,
+                            UserRoles.OBSERVER,
+                        ]}
                     >
                         <HideRestrictedData type={UserRoles.STUDENT}>
                             <Typography variant="xs" color="text-[#6B7280]">

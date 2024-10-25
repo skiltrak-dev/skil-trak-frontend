@@ -72,7 +72,7 @@ export const RtoContactPerson = () => {
         {
             accessorKey: 'user.name',
             cell: (info) => <StudentCellInfo student={info.row.original} />,
-            header: () => <span>Student</span>,
+            header: () => <span>Student Name</span>,
         },
         {
             accessorKey: 'industry',
@@ -171,7 +171,7 @@ export const RtoContactPerson = () => {
         },
         {
             accessorKey: 'expiry',
-            header: () => <span>Expiry Date</span>,
+            header: () => <span>Expiry Countdown</span>,
             cell: (info) => (
                 <StudentExpiryDaysLeft
                     expiryDate={info.row.original?.expiryDate}

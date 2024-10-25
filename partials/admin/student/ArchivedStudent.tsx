@@ -191,7 +191,7 @@ export const ArchivedStudent = () => {
 
         {
             accessorKey: 'expiry',
-            header: () => <span>Expiry Date</span>,
+            header: () => <span>Expiry Countdown</span>,
             cell: (info) => (
                 <>
                     <Typography variant={'small'} color={'text-primary'}>
