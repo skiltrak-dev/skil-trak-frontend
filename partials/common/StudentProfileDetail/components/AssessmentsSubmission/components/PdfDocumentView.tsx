@@ -7,8 +7,9 @@ import { useEffect, useState } from 'react'
 import { Document, Page } from 'react-pdf'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { Typography } from '@components/Typography'
-import { Button } from '@components'
+import { AuthorizedUserComponent, Button } from '@components'
 import { isBrowser } from '@utils'
+import { UserRoles } from '@constants'
 
 interface PdfViewModalProps {
     url: string
@@ -51,15 +52,19 @@ export const PdfDocumentView = ({
                         <span className="text-[15px]">{filename}</span>
                     </Typography>
                     <div className="flex items-center gap-x-2.5">
-                        <Button
-                            text="Edit Document"
-                            variant="info"
-                            onClick={() => {
-                                if (onCancelButtonClick) {
-                                    onCancelButtonClick(file)
-                                }
-                            }}
-                        />
+                        <AuthorizedUserComponent
+                            excludeRoles={[UserRoles.OBSERVER]}
+                        >
+                            <Button
+                                text="Edit Document"
+                                variant="info"
+                                onClick={() => {
+                                    if (onCancelButtonClick) {
+                                        onCancelButtonClick(file)
+                                    }
+                                }}
+                            />
+                        </AuthorizedUserComponent>
                         <Button
                             text="Download Document"
                             onClick={() => {

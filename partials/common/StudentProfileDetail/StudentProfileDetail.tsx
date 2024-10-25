@@ -211,6 +211,8 @@ export const StudentProfileDetail = () => {
                                 ? router.push(
                                       '/portals/rto/students?tab=active'
                                   )
+                                : role === UserRoles.OBSERVER
+                                ? router.push('/portals/observer')
                                 : '#'
                         }}
                     >
@@ -261,7 +263,7 @@ export const StudentProfileDetail = () => {
                             setQuickSearch(true)
                         }}
                         className={`${
-                            role !== UserRoles.ADMIN ? 'lg:-mr-9' : ''
+                            role !== UserRoles.ADMIN ? 'lg:-mr-4' : ''
                         } flex justify-end ml-auto w-fit items-center gap-x-4 bg-white rounded-l-[10px] py-2 px-5 shadow-md cursor-pointer`}
                     >
                         <IoIosArrowRoundBack />
@@ -333,20 +335,6 @@ export const StudentProfileDetail = () => {
                         >
                             <MailsCommunication user={profile?.data?.user} />
                         </div>
-                        {/* <div
-                            id={`student-profile-${ProfileIds.Mails}`}
-                            className={`${activeBorder(ProfileIds.Mails)} `}
-                        >
-                            <Mails user={profile?.data?.user} />
-                        </div>
-                        <div
-                            className={`${activeBorder(
-                                ProfileIds['All Communications']
-                            )} `}
-                            id={`student-profile-${ProfileIds['All Communications']}`}
-                        >
-                            <AllCommunication user={profile?.data?.user} />
-                        </div> */}
                     </div>
                     <div
                         className={`h-[600px] px-3 grid grid-cols-1 xl:grid-cols-2 gap-y-5 gap-x-3 `}

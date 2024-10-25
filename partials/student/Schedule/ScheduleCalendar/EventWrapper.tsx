@@ -5,6 +5,8 @@ import classNames from 'classnames'
 import moment from 'moment'
 import { ReactElement, useState } from 'react'
 import { UpdateScheduleModal } from '../modal'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 // export const EventWrapper = <T extends object>(event: EventWrapperProps<T>) => {
 export const EventWrapper = <T extends object>(event: any) => {
@@ -49,7 +51,6 @@ export const EventWrapper = <T extends object>(event: any) => {
         'text-white': event.event?.appointment?.isCancelled,
     })
 
-
     const subtitleClasses = classNames({
         'text-[11px]': true,
         'text-indigo-800':
@@ -79,6 +80,9 @@ export const EventWrapper = <T extends object>(event: any) => {
         )
     }
 
+    const excludedRoles = [UserRoles.OBSERVER]
+    const role = getUserCredentials()?.role
+
     return (
         <>
             {modal}
@@ -91,7 +95,9 @@ export const EventWrapper = <T extends object>(event: any) => {
                 }}
                 className={`${classes} `}
                 onClick={() => {
-                    onClicked(event.event?.schedule)
+                    if (!excludedRoles?.includes(role)) {
+                        onClicked(event.event?.schedule)
+                    }
                 }}
             >
                 <p className={labelClasses}>

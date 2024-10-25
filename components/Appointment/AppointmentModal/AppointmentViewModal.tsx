@@ -219,66 +219,76 @@ export const AppointmentViewModal = ({
                                                                     }}
                                                                 />
                                                             </AuthorizedUserComponent>
-                                                            <ActionButton
-                                                                Icon={
-                                                                    TbCalendarTime
-                                                                }
-                                                                mini
-                                                                title={
-                                                                    'Reschedule Appointment'
-                                                                }
-                                                                variant={'info'}
-                                                                onClick={() => {
-                                                                    onRescheduleClicked()
-                                                                }}
-                                                                loading={
-                                                                    cancellAppointmentResult?.isLoading
-                                                                }
-                                                                disabled={
-                                                                    cancellAppointmentResult?.isLoading
-                                                                }
-                                                            />
-                                                            {/* <GiNotebook /> */}
-                                                            <ActionButton
-                                                                Icon={FaTimes}
-                                                                mini
-                                                                title={
-                                                                    'Cancell Appointment'
-                                                                }
-                                                                variant={
-                                                                    'error'
-                                                                }
-                                                                onClick={(
-                                                                    e: MouseEvent<HTMLElement>
-                                                                ) => {
-                                                                    e?.stopPropagation()
-                                                                    if (
-                                                                        !isLessThan24HoursDifference(
-                                                                            appointment
-                                                                                ?.data
-                                                                                ?.date
-                                                                        ) ||
-                                                                        role ===
-                                                                            UserRoles.ADMIN
-                                                                    ) {
-                                                                        onCancelAppointment()
-                                                                    } else {
-                                                                        notification.error(
-                                                                            {
-                                                                                title: 'Appointment Cant be cancel',
-                                                                                description:
-                                                                                    'Appointment Cant cancel before 1 day',
-                                                                            }
-                                                                        )
+                                                            <AuthorizedUserComponent
+                                                                excludeRoles={[
+                                                                    UserRoles.OBSERVER,
+                                                                ]}
+                                                            >
+                                                                <ActionButton
+                                                                    Icon={
+                                                                        TbCalendarTime
                                                                     }
-                                                                }}
-                                                                loading={
-                                                                    cancellAppointmentResult?.isLoading
-                                                                }
-                                                                disabled={
-                                                                    cancellAppointmentResult?.isLoading
-                                                                }
-                                                            />
+                                                                    mini
+                                                                    title={
+                                                                        'Reschedule Appointment'
+                                                                    }
+                                                                    variant={
+                                                                        'info'
+                                                                    }
+                                                                    onClick={() => {
+                                                                        onRescheduleClicked()
+                                                                    }}
+                                                                    loading={
+                                                                        cancellAppointmentResult?.isLoading
+                                                                    }
+                                                                    disabled={
+                                                                        cancellAppointmentResult?.isLoading
+                                                                    }
+                                                                />
+                                                                {/* <GiNotebook /> */}
+                                                                <ActionButton
+                                                                    Icon={
+                                                                        FaTimes
+                                                                    }
+                                                                    mini
+                                                                    title={
+                                                                        'Cancell Appointment'
+                                                                    }
+                                                                    variant={
+                                                                        'error'
+                                                                    }
+                                                                    onClick={(
+                                                                        e: MouseEvent<HTMLElement>
+                                                                    ) => {
+                                                                        e?.stopPropagation()
+                                                                        if (
+                                                                            !isLessThan24HoursDifference(
+                                                                                appointment
+                                                                                    ?.data
+                                                                                    ?.date
+                                                                            ) ||
+                                                                            role ===
+                                                                                UserRoles.ADMIN
+                                                                        ) {
+                                                                            onCancelAppointment()
+                                                                        } else {
+                                                                            notification.error(
+                                                                                {
+                                                                                    title: 'Appointment Cant be cancel',
+                                                                                    description:
+                                                                                        'Appointment Cant cancel before 1 day',
+                                                                                }
+                                                                            )
+                                                                        }
+                                                                    }}
+                                                                    loading={
+                                                                        cancellAppointmentResult?.isLoading
+                                                                    }
+                                                                    disabled={
+                                                                        cancellAppointmentResult?.isLoading
+                                                                    }
+                                                                />
+                                                            </AuthorizedUserComponent>
                                                         </>
                                                     ) : null}
                                                 </div>

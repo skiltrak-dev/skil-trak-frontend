@@ -1,13 +1,9 @@
 import { ReactElement, useEffect } from 'react'
 
 import { RtoContactPersonLayout } from '@layouts'
-import { RTOProfileEditForm } from '@partials/common'
 import { NextPageWithLayout } from '@types'
 
 // query
-import { useActionModal, useContextBar, useNotification } from '@hooks'
-import { RtoApi, ObserverApi } from '@queries'
-import { useRouter } from 'next/router'
 import {
     Button,
     Card,
@@ -16,7 +12,10 @@ import {
     ShowErrorNotifications,
     TechnicalError,
 } from '@components'
+import { useActionModal, useContextBar, useNotification } from '@hooks'
 import { AddObserverForm } from '@partials/admin/rtoObserver/form'
+import { ObserverApi } from '@queries'
+import { useRouter } from 'next/router'
 
 const MyProfile: NextPageWithLayout = () => {
     const router = useRouter()
@@ -34,8 +33,8 @@ const MyProfile: NextPageWithLayout = () => {
         contextBar.hide()
     }, [])
 
-    const onSubmit = (values: any) => {
-        const res: any = updateProfile(values)
+    const onSubmit = async (values: any) => {
+        const res: any = await updateProfile(values)
 
         if (res?.data) {
             notification.success({
@@ -77,7 +76,9 @@ const MyProfile: NextPageWithLayout = () => {
                             onSubmit={onSubmit}
                             edit
                             initialValues={initialValues}
-                            isLoading={false as boolean}
+                            isLoading={
+                                updateProfileResult?.isLoading as boolean
+                            }
                         />
                     </Card>
                 ) : profile?.isSuccess ? (

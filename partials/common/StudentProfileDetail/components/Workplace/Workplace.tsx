@@ -155,7 +155,7 @@ export const Workplace = ({
             }
             onForwardClicked()
         }
-    }, [selectedWorkplace, appliedIndustry, excludedRoles, role])
+    }, [selectedWorkplace, appliedIndustry])
 
     const onCancelModal = () => setModal(null)
 

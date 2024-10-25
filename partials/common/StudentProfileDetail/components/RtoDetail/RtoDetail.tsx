@@ -42,7 +42,7 @@ export const RtoDetail = ({ rto }: { rto: Rto }) => {
                     />
                     <ProfileCard
                         title="Contact Person Number"
-                        detail={rto?.phone || '---'}
+                        detail={rto?.contactPersons?.[0]?.phone || '---'}
                     />
                 </div>
 

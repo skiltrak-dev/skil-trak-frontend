@@ -76,10 +76,10 @@ export const AddObserverForm = ({
                 >
                     <div className="">
                         <Select
-                            label={'Search By Rto'}
+                            label={'Rto Name'}
                             name={'rto'}
                             options={rtoOptions}
-                            placeholder={'Select Search By Rto...'}
+                            placeholder={'Select Rto Name...'}
                             loading={getRtos.isLoading}
                             disabled={getRtos.isLoading || edit}
                             onlyValue
