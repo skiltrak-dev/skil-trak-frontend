@@ -21,7 +21,6 @@ export const AddObserverForm = ({
 }) => {
     const getRtos = CommonApi.Filter.useRtos()
     useState
-    console.log({ initialValues })
 
     const validationSchema = Yup.object({
         name: Yup.string().required('Name is required!'),
@@ -59,14 +58,6 @@ export const AddObserverForm = ({
         }
     }, [rtoOptions])
 
-    console.log(
-        'Khanka banka',
-        rtoOptions?.find(
-            (option: SelectOption) =>
-                option.value === methods.watch('rto')?.value
-        )
-    )
-
     return (
         <div>
             <FormProvider {...methods}>
@@ -76,10 +67,10 @@ export const AddObserverForm = ({
                 >
                     <div className="">
                         <Select
-                            label={'Search By Rto'}
+                            label={'Rto Name'}
                             name={'rto'}
                             options={rtoOptions}
-                            placeholder={'Select Search By Rto...'}
+                            placeholder={'Select Rto Name...'}
                             loading={getRtos.isLoading}
                             disabled={getRtos.isLoading || edit}
                             onlyValue
