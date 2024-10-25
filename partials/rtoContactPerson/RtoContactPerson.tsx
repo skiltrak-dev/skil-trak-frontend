@@ -58,7 +58,7 @@ export const RtoContactPerson = () => {
     // hooks
 
     const { isLoading, isFetching, data, isError, isSuccess } =
-        ObserverApi.Admin.useStudents({
+        ObserverApi.Students.useStudents({
             search: `${JSON.stringify(filter)
                 .replaceAll('{', '')
                 .replaceAll('}', '')
