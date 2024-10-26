@@ -22,6 +22,7 @@ import { TicketSubject, TicketUser } from '../Tickets'
 import { useState } from 'react'
 import { Waypoint } from 'react-waypoint'
 import { StudentMessageCard } from '../StudentProfileDetail/components'
+import { NoteCard } from '../StudentProfileDetail/components/Notes/Card'
 
 export const AllCommunicationTab = ({ user }: { user: any }) => {
     const contextBar = useContextBar()
@@ -308,9 +309,17 @@ export const AllCommunicationTab = ({ user }: { user: any }) => {
                                                                 key={item.id}
                                                                 note={item}
                                                             /> */}
-                                                                    <Note
+                                                                    {/* <Note
                                                                         key={
                                                                             item.id
+                                                                        }
+                                                                        note={
+                                                                            item
+                                                                        }
+                                                                    /> */}
+                                                                    <NoteCard
+                                                                        key={
+                                                                            item?.id
                                                                         }
                                                                         note={
                                                                             item
