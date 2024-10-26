@@ -25,13 +25,15 @@ export const studentsEndpoints = (
     rtoObserverProfileUpdate: builder.mutation<
         any,
         {
-            name: string
-            email: string
             phone: string
+            user: {
+                name: string
+                email: string
+            }
         }
     >({
         query: (body) => ({
-            url: `${PREFIX}profile`,
+            url: `${PREFIX}update`,
             method: 'PATCH',
             body,
         }),

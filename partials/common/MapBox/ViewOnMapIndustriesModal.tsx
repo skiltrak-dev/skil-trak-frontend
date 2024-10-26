@@ -119,6 +119,7 @@ export const ViewOnMapIndustriesModal = ({
     const [industryId, setIndustryId] = useState('')
     const [showInfoBox, setShowInfoBox] = useState<any>(false)
     const [showFutureIndustries, setShowFutureIndustries] = useState(false)
+    const [showSecondaryLocation, setShowSecondaryLocation] = useState(false)
     const onMarkerHover = useCallback((marker: any) => {
         setSelectedMarker(marker)
     }, [])
@@ -148,6 +149,8 @@ export const ViewOnMapIndustriesModal = ({
         { skip: !router?.query?.id }
     )
 
+    console.log('sdkbhfskfsfskbhj', workplace?.student)
+
     useEffect(() => {
         if (
             workplaceCourseIndustries?.data?.length > 0 ||
@@ -174,12 +177,16 @@ export const ViewOnMapIndustriesModal = ({
             }
 
             if (workplace?.student?.location) {
-                const [lat, lng] = workplace.student.location
-                    .split(',')
-                    .map(Number)
+                const [lat, lng] = workplace?.student?.location
+                    ?.split(',')
+                    ?.map(Number)
+                const [lat2, lng2] = workplace?.student?.location2
+                    ? workplace?.student?.location2?.split(',')?.map(Number)
+                    : []
                 const studentMarker = {
                     ...workplace.student,
                     location: { lat, lng },
+                    location2: { lat: lat2, lng: lng2 },
                 }
                 markers.push(studentMarker)
             }
@@ -337,14 +344,46 @@ export const ViewOnMapIndustriesModal = ({
     return (
         <div className="w-full h-[80vh] lg:h-full overflow-hidden">
             <div className="flex justify-between cursor-pointer border-b py-0.5 px-2 mb-2">
-                <Checkbox
-                    name={'futureIndustry'}
-                    onChange={() =>
-                        setShowFutureIndustries(!showFutureIndustries)
-                    }
-                    defaultChecked={showFutureIndustries}
-                    label={'Show Industry Listing'}
-                />
+                <div className="flex items-center gap-x-2">
+                    <Checkbox
+                        name={'futureIndustry'}
+                        onChange={() =>
+                            setShowFutureIndustries(!showFutureIndustries)
+                        }
+                        defaultChecked={showFutureIndustries}
+                        label={'Show Industry Listing'}
+                        showError={false}
+                    />
+                    {workplace?.student?.location2 && (
+                        <Checkbox
+                            name={'secondaryLocation'}
+                            onChange={() => {
+                                const [lat, lng] = workplace?.student?.location
+                                    ? workplace?.student?.location
+                                          ?.split(',')
+                                          ?.map(Number)
+                                    : []
+                                const [lat2, lng2] = workplace?.student
+                                    ?.location2
+                                    ? workplace?.student?.location2
+                                          ?.split(',')
+                                          ?.map(Number)
+                                    : []
+                                if (map) {
+                                    if (showSecondaryLocation) {
+                                        map?.panTo({ lat, lng })
+                                    } else {
+                                        map?.panTo({ lat: lat2, lng: lng2 })
+                                    }
+                                }
+                                setShowSecondaryLocation(!showSecondaryLocation)
+                            }}
+                            defaultChecked={showSecondaryLocation}
+                            label={'Show Student Secondary Location'}
+                            showError={false}
+                        />
+                    )}
+                </div>
                 <MdCancel
                     onClick={onCancel}
                     className="transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
@@ -489,31 +528,35 @@ export const ViewOnMapIndustriesModal = ({
                                                                 zIndex: 1,
                                                             }}
                                                         />
-                                                        {/* <Circle
-                                                            center={{
-                                                                lat: -37.8207394,
-                                                                lng: 144.9480769,
-                                                            }}
-                                                            radius={20000}
-                                                            options={{
-                                                                fillColor:
-                                                                    colors
-                                                                        .primary
-                                                                        .DEFAULT,
-                                                                fillOpacity: 0.2,
-                                                                strokeColor:
-                                                                    '#AA0000',
-                                                                strokeOpacity: 0.7,
-                                                                strokeWeight: 1,
-                                                                clickable:
-                                                                    false,
-                                                                draggable:
-                                                                    false,
-                                                                editable: false,
-                                                                visible: true,
-                                                                zIndex: 1,
-                                                            }}
-                                                        /> */}
+                                                        {marker.location2 &&
+                                                        showSecondaryLocation ? (
+                                                            <Circle
+                                                                center={
+                                                                    marker.location2
+                                                                }
+                                                                radius={20000}
+                                                                options={{
+                                                                    fillColor:
+                                                                        colors
+                                                                            .primary
+                                                                            .DEFAULT,
+                                                                    fillOpacity: 0.2,
+                                                                    strokeColor:
+                                                                        '#AA0000',
+                                                                    strokeOpacity: 0.7,
+                                                                    strokeWeight: 1,
+                                                                    clickable:
+                                                                        false,
+                                                                    draggable:
+                                                                        false,
+                                                                    editable:
+                                                                        false,
+                                                                    visible:
+                                                                        true,
+                                                                    zIndex: 1,
+                                                                }}
+                                                            />
+                                                        ) : null}
                                                         {selectedBox &&
                                                             showInfoBox &&
                                                             selectedBox.id ===

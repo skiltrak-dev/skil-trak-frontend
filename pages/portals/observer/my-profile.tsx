@@ -5,6 +5,7 @@ import { NextPageWithLayout } from '@types'
 
 // query
 import {
+    Avatar,
     Button,
     Card,
     EmptyData,
@@ -34,7 +35,14 @@ const MyProfile: NextPageWithLayout = () => {
     }, [])
 
     const onSubmit = async (values: any) => {
-        const res: any = await updateProfile(values)
+        const data = {
+            phone: values?.phone,
+            user: {
+                name: values?.name,
+                email: values?.email,
+            },
+        }
+        const res: any = await updateProfile(data)
 
         if (res?.data) {
             notification.success({
@@ -65,21 +73,34 @@ const MyProfile: NextPageWithLayout = () => {
                     <LoadingAnimation />
                 ) : profile?.data && profile?.isSuccess ? (
                     <Card>
-                        <Button
-                            text="Update Password"
-                            onClick={() => {
-                                onUpdatePassword(profile?.data)
-                            }}
-                        />
+                        <div className="grid grid-cols-3 gap-x-5">
+                            <div className="flex flex-col gap-y-8">
+                                <div>
+                                    <Button
+                                        text="Update Password"
+                                        onClick={() => {
+                                            onUpdatePassword(profile?.data)
+                                        }}
+                                    />
+                                </div>
 
-                        <AddObserverForm
-                            onSubmit={onSubmit}
-                            edit
-                            initialValues={initialValues}
-                            isLoading={
-                                updateProfileResult?.isLoading as boolean
-                            }
-                        />
+                                <Avatar
+                                    user={profile?.data?.user?.id}
+                                    avatar={profile?.data?.user?.avatar}
+                                />
+                            </div>
+
+                            <div className="col-span-2">
+                                <AddObserverForm
+                                    onSubmit={onSubmit}
+                                    edit
+                                    initialValues={initialValues}
+                                    isLoading={
+                                        updateProfileResult?.isLoading as boolean
+                                    }
+                                />
+                            </div>
+                        </div>
                     </Card>
                 ) : profile?.isSuccess ? (
                     <EmptyData />
