@@ -47,8 +47,6 @@ export const StudentProfileForm = ({
     courses: any
     student?: boolean
 }) => {
-    const { notification } = useNotification()
-
     const sectorResponse = AuthApi.useSectors({})
     const rtoResponse = AuthApi.useRtos({})
     const [sectorDefaultOptions, setSectorDefaultOptions] = useState<any>([])
@@ -726,74 +724,16 @@ export const StudentProfileForm = ({
                                 </div>
 
                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">
-                                    {/* <TextInput
-                                        label={'Suburb'}
-                                        name={'suburb'}
-                                        placeholder={'Suburb...'}
-                                        validationIcons
-                                        required
-                                        placesSuggetions
-                                        onChange={async (e: any) => {
-                                            setOnSuburbClicked(false)
-                                            if (e?.target?.value?.length > 4) {
-                                                const latLng = await getLatLng(
-                                                    e?.target?.value
-                                                )
-                                                // getPostalCode(latLng).then(
-                                                //     (res: any) => {
-                                                //         formMethods.setValue(
-                                                //             'zipCode',
-                                                //             res
-                                                //         )
-                                                //     }
-                                                // )
-                                                try {
-                                                    const latLng =
-                                                        await getLatLng(
-                                                            e?.target?.value
-                                                        )
-                                                    const postalCode =
-                                                        await getPostalCode(
-                                                            latLng
-                                                        )
-
-                                                    if (postalCode) {
-                                                        formMethods.setValue(
-                                                            'zipCode',
-                                                            postalCode
-                                                        )
-                                                    }
-                                                } catch (error) {
-                                                    console.error(
-                                                        'Error fetching postal code:',
-                                                        error
-                                                    )
-                                                }
-                                                // const postalCode =
-                                                //     await getPostalCode(latLng)
-
-                                                // if (postalCode) {
-                                                //     formMethods.setValue(
-                                                //         'zipCode',
-                                                //         postalCode
-                                                //     )
-                                                // }
+                                    <div className="col-span-2">
+                                        <TextInput
+                                            label={'Address Line 2'}
+                                            name={'addressLine2'}
+                                            placeholder={
+                                                'Your Address Line 2...'
                                             }
-                                        }}
-                                        onPlaceSuggetions={{
-                                            placesSuggetions: onSuburbClicked,
-                                            setIsPlaceSelected:
-                                                setOnSuburbClicked,
-                                        }}
-                                    /> */}
-
-                                    {/* <TextInput
-                                        label={'State'}
-                                        name={'state'}
-                                        placeholder={'State...'}
-                                        validationIcons
-                                        required
-                                    /> */}
+                                            placesSuggetions
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>

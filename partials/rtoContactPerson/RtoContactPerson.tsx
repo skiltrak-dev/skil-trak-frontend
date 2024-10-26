@@ -15,7 +15,7 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 
 import { ObserverApi } from '@queries'
-import { Student, StudentsFilterType } from '@types'
+import { Student, StudentsFilterType, UserStatus } from '@types'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
@@ -174,6 +174,25 @@ export const RtoContactPerson = () => {
                 <StudentExpiryDaysLeft
                     expiryDate={info.row.original?.expiryDate}
                 />
+            ),
+        },
+        {
+            accessorKey: 'user.status',
+            header: () => <span>Status</span>,
+            cell: (info) => (
+                <Typography
+                    uppercase
+                    variant={'badge'}
+                    color={
+                        info.row.original?.user?.status === UserStatus.Blocked
+                            ? 'text-error'
+                            : 'text-black'
+                    }
+                >
+                    <span className="font-bold">
+                        {info.row.original?.user?.status}
+                    </span>
+                </Typography>
             ),
         },
         {

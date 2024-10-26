@@ -228,16 +228,40 @@ export const IndustryDetail = ({
                         <div className="relative w-full h-full">
                             {!showMap ? (
                                 <div className="px-4 absolute top-0 left-0 w-full h-full bg-[#00000095] flex flex-col gap-y-1.5 justify-center">
-                                    <Typography
-                                        variant="small"
-                                        color={'text-white'}
-                                        center
+                                    <AuthorizedUserComponent
+                                        excludeRoles={[
+                                            UserRoles.OBSERVER,
+                                            UserRoles.RTO,
+                                        ]}
                                     >
-                                        Click here to view nearby industries on
-                                        the map, facilitating your search for
-                                        potential workplaces to apply for
-                                        student.
-                                    </Typography>
+                                        <Typography
+                                            variant="small"
+                                            color={'text-white'}
+                                            center
+                                        >
+                                            Click here to view nearby industries
+                                            on the map, facilitating your search
+                                            for potential workplaces to apply
+                                            for student.
+                                        </Typography>
+                                    </AuthorizedUserComponent>
+                                    <AuthorizedUserComponent
+                                        roles={[
+                                            UserRoles.OBSERVER,
+                                            UserRoles.RTO,
+                                        ]}
+                                    >
+                                        <Typography
+                                            variant="small"
+                                            color={'text-white'}
+                                            center
+                                        >
+                                            Skiltrak coordinators are actively
+                                            working to find the best suitable
+                                            workplace for student. Thank you
+                                            for your patience!
+                                        </Typography>{' '}
+                                    </AuthorizedUserComponent>
                                     <AuthorizedUserComponent
                                         excludeRoles={[
                                             UserRoles.OBSERVER,
