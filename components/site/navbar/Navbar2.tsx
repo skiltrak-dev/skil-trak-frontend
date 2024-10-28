@@ -114,6 +114,9 @@ export function Navbar2() {
                             </Link>
                             <Link href={'/'}>
                                 <img
+                                    width={0}
+                                    height={0}
+                                    sizes={'100vh 100vw'}
                                     className="hidden lg:block h-12 w-auto"
                                     src={'/images/site/logo-light.webp'}
                                     alt="Skiltrak Logo"
