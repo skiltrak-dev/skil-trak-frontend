@@ -43,6 +43,7 @@ import { RiShieldUserFill, RiVoiceRecognitionLine } from 'react-icons/ri'
 import { AdminApi, CommonApi, SubAdminApi } from '@queries'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
+import { TbEyeSearch } from 'react-icons/tb'
 
 export type RouteNavLinkCountType = {
     loading: boolean
@@ -292,7 +293,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
         {
             text: 'Rto Observer',
             path: getRoutePath('/rto-observer'),
-            Icon: MdHistory,
+            Icon: TbEyeSearch,
         },
         {
             type: 'divider',

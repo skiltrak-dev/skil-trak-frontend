@@ -341,7 +341,7 @@ export const AddRtoListing = ({
                                 <TextInput
                                     label={'Address'}
                                     name={FormKeys.Address}
-                                    placeholder={'Your Address Line 1...'}
+                                    placeholder={'Your Primary Address...'}
                                     validationIcons
                                     placesSuggetions
                                 />

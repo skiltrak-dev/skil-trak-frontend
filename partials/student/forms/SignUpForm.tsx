@@ -64,6 +64,8 @@ export const StudentSignUpForm = ({
         skip: !selectedRto,
     })
 
+    console.log({ sectorResponsesectorResponse: sectorResponse })
+
     const hader = router?.pathname?.split('/')?.[4]
 
     useEffect(() => {
@@ -539,9 +541,9 @@ export const StudentSignUpForm = ({
                         <div className="grid grid-cols-4 gap-x-3">
                             <div className="col-span-3">
                                 <TextInput
-                                    label={'Address Line 1'}
+                                    label={'Primary Address'}
                                     name={'addressLine1'}
-                                    placeholder={'Your Address Line 1...'}
+                                    placeholder={'Your Primary Address...'}
                                     validationIcons
                                     placesSuggetions
                                     onChange={async (e: any) => {
@@ -590,6 +592,15 @@ export const StudentSignUpForm = ({
                                 placeholder={'Zip Code...'}
                                 validationIcons
                             />
+                            <div className="col-span-3">
+                                <TextInput
+                                    label={'Secondary Address (optional)'}
+                                    name={'addressLine2'}
+                                    placeholder={'Your Secondary Address...'}
+                                    validationIcons
+                                    placesSuggetions
+                                />
+                            </div>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">

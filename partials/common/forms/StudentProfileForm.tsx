@@ -654,10 +654,10 @@ export const StudentProfileForm = ({
                                 <div className="grid grid-cols-3 gap-x-8">
                                     <div className="col-span-2">
                                         <TextInput
-                                            label={'Address Line 1'}
+                                            label={'Primary Address'}
                                             name={'addressLine1'}
                                             placeholder={
-                                                'Your Address Line 1...'
+                                                'Your Primary Address...'
                                             }
                                             validationIcons
                                             required
@@ -726,10 +726,12 @@ export const StudentProfileForm = ({
                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">
                                     <div className="col-span-2">
                                         <TextInput
-                                            label={'Address Line 2'}
+                                            label={
+                                                'Secondary Address (optional)'
+                                            }
                                             name={'addressLine2'}
                                             placeholder={
-                                                'Your Address Line 2...'
+                                                'Your Secondary Address...'
                                             }
                                             placesSuggetions
                                         />

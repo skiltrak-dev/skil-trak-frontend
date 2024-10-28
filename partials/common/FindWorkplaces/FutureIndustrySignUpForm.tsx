@@ -420,9 +420,9 @@ export const FutureIndustrySignUpForm = ({
                             <div className="grid grid-cols-4 gap-x-3">
                                 <div className="col-span-3">
                                     <TextInput
-                                        label={'Address Line 1'}
+                                        label={'Primary Address'}
                                         name={'addressLine1'}
-                                        placeholder={'Your Address Line 1...'}
+                                        placeholder={'Your Primary Address...'}
                                         validationIcons
                                         placesSuggetions
                                         onChange={async (e: any) => {
