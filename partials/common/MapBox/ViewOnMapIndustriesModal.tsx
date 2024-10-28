@@ -504,30 +504,7 @@ export const ViewOnMapIndustriesModal = ({
                                                                 )
                                                             }}
                                                         />
-                                                        <Circle
-                                                            center={
-                                                                marker.location
-                                                            }
-                                                            radius={20000}
-                                                            options={{
-                                                                fillColor:
-                                                                    colors
-                                                                        .success
-                                                                        .dark,
-                                                                fillOpacity: 0.2,
-                                                                strokeColor:
-                                                                    '#AA0000',
-                                                                strokeOpacity: 0.7,
-                                                                strokeWeight: 1,
-                                                                clickable:
-                                                                    false,
-                                                                draggable:
-                                                                    false,
-                                                                editable: false,
-                                                                visible: true,
-                                                                zIndex: 1,
-                                                            }}
-                                                        />
+
                                                         {marker.location2 &&
                                                         showSecondaryLocation ? (
                                                             <Circle
@@ -556,7 +533,34 @@ export const ViewOnMapIndustriesModal = ({
                                                                     zIndex: 1,
                                                                 }}
                                                             />
-                                                        ) : null}
+                                                        ) : (
+                                                            <Circle
+                                                                center={
+                                                                    marker.location
+                                                                }
+                                                                radius={20000}
+                                                                options={{
+                                                                    fillColor:
+                                                                        colors
+                                                                            .success
+                                                                            .dark,
+                                                                    fillOpacity: 0.2,
+                                                                    strokeColor:
+                                                                        '#AA0000',
+                                                                    strokeOpacity: 0.7,
+                                                                    strokeWeight: 1,
+                                                                    clickable:
+                                                                        false,
+                                                                    draggable:
+                                                                        false,
+                                                                    editable:
+                                                                        false,
+                                                                    visible:
+                                                                        true,
+                                                                    zIndex: 1,
+                                                                }}
+                                                            />
+                                                        )}
                                                         {selectedBox &&
                                                             showInfoBox &&
                                                             selectedBox.id ===

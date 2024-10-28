@@ -43,7 +43,7 @@ export const ProfileAppointmentsCard = ({
 
     const appointmentWithUserProfile = appointmentUser
         ? appointmentUser?.role === UserRoles.SUBADMIN
-            ? appointmentWithUser[0]
+            ? appointmentWithUser?.[0]
             : appointmentWithUser
         : appointment?.coordinator
 

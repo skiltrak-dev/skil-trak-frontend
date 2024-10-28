@@ -106,7 +106,7 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
         // Address Validation
         addressLine1: yup
             .string()
-            .required('Address Line 1 is required field!'),
+            .required('Primary Address is required field!'),
         zipCode: yup.string().required('ZipCode is required field!'),
         suburb: yup.string().required('Suburb is required field!'),
         state: yup.string().required('State is required field!'),

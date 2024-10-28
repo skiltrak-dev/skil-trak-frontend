@@ -333,9 +333,9 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
 
                     {/* Address Information */}
                     <TextInput
-                        label={'Address Line 1'}
+                        label={'Primary Address'}
                         name={'addressLine1'}
-                        placeholder={'Your Address Line 1...'}
+                        placeholder={'Your Primary Address...'}
                         validationIcons
                         placesSuggetions
                     />

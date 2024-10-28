@@ -392,10 +392,10 @@ export const RTOProfileEditForm = ({
                                     <div className="flex flex-col gap-x-16 border-t py-4">
                                         <div className="grid grid-cols-1 gap-x-8">
                                             <TextInput
-                                                label={'Address Line 1'}
+                                                label={'Primary Address'}
                                                 name={'addressLine1'}
                                                 placeholder={
-                                                    'Your Address Line 1...'
+                                                    'Your Primary Address...'
                                                 }
                                                 validationIcons
                                                 placesSuggetions
