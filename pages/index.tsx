@@ -65,15 +65,15 @@ const Home3: NextPageWithLayout = ({ data }: any) => {
         { Component: LatestUpdates, height: 600 },
     ]
 
-    return (
-        <div>
-            {/* JumboSection stays outside virtualization since it's above the fold */}
-            {/* <JumboSection /> */}
+    // return (
+    //     <div>
+    //         {/* JumboSection stays outside virtualization since it's above the fold */}
+    //         {/* <JumboSection /> */}
 
-            {/* Virtualized content */}
-            <VirtualizedPageContent sections={sections} />
-        </div>
-    )
+    //         {/* Virtualized content */}
+    //         <VirtualizedPageContent sections={sections} />
+    //     </div>
+    // )
     return (
         <div>
             <JumboSection />
