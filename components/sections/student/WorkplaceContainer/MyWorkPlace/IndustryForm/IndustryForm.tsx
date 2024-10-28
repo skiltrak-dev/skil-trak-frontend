@@ -319,9 +319,9 @@ export const IndustryForm = ({
                         <div className="w-4/6">
                             <div className="grid grid-cols-1 gap-x-8">
                                 <TextInput
-                                    label={'Address Line 1'}
+                                    label={'Primary Address'}
                                     name={'addressLine1'}
-                                    placeholder={'Your Address Line 1...'}
+                                    placeholder={'Your Primary Address...'}
                                     validationIcons
                                     placesSuggetions
                                 />

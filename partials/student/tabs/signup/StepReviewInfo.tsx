@@ -279,7 +279,7 @@ export const StepReviewInfo = () => {
                                         variant={'xs'}
                                         color={'text-gray-500'}
                                     >
-                                        Address Line 1
+                                        Primary Address
                                     </Typography>
                                     <Typography variant={'label'}>
                                         {formData.addressLine1 || '-'}

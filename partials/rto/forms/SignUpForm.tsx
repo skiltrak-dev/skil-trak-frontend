@@ -391,9 +391,9 @@ export const RtoSignUpForm = ({
                     <div className="w-full">
                         <div className="grid grid-cols-1 gap-x-8">
                             <TextInput
-                                label={'Address Line 1'}
+                                label={'Primary Address'}
                                 name={'addressLine1'}
-                                placeholder={'Your Address Line 1...'}
+                                placeholder={'Your Primary Address...'}
                                 validationIcons
                                 placesSuggetions
                             />

@@ -263,10 +263,10 @@ export const AddCustomIndustryForm = ({
                                 <div className="grid grid-cols-4 gap-x-8">
                                     <div className="col-span-3">
                                         <TextInput
-                                            label={'Address Line 1'}
+                                            label={'Primary Address'}
                                             name={'addressLine1'}
                                             placeholder={
-                                                'Your Address Line 1...'
+                                                'Your Primary Address...'
                                             }
                                             validationIcons
                                             placesSuggetions
