@@ -1,5 +1,4 @@
 import { Typography } from '@components/Typography'
-import { Button } from '@components/buttons'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { AiOutlineArrowRight } from 'react-icons/ai'
@@ -306,32 +305,32 @@ export const OurPackage = ({
                                 .filter((pack) =>
                                     pack.packageType.includes(title)
                                 )
-                                .map((feature, index) => {
-                                    return (
-                                        <div key={index} className={``}>
-                                            <div className="flex gap-x-2 items-start">
-                                                <GiCheckMark
-                                                    className={`${btnTextColor} w-1/3 mb-2`}
-                                                    size={18}
-                                                />
-                                                <div className="w-full mb-2 pb-2">
-                                                    <Typography
-                                                        variant="label"
-                                                        color={`${
-                                                            title=== "Placement Management Portal"
-                                                                ? 'text-[#98c4ec]'
-                                                                : title === "The Startup Package"
-                                                                ? 'text-[#e5641a]'
-                                                                : 'text-white'
-                                                        } `}
-                                                    >
-                                                        {feature?.text}
-                                                    </Typography>
-                                                </div>
+                                .map((feature, index) => (
+                                    <div key={index} className={``}>
+                                        <div className="flex gap-x-2 items-start">
+                                            <GiCheckMark
+                                                className={`${btnTextColor} w-1/3 mb-2`}
+                                                size={18}
+                                            />
+                                            <div className="w-full mb-2 pb-2">
+                                                <Typography
+                                                    variant="label"
+                                                    color={`${
+                                                        title ===
+                                                        'Placement Management Portal'
+                                                            ? 'text-[#98c4ec]'
+                                                            : title ===
+                                                              'The Startup Package'
+                                                            ? 'text-[#e5641a]'
+                                                            : 'text-white'
+                                                    } `}
+                                                >
+                                                    {feature?.text}
+                                                </Typography>
                                             </div>
                                         </div>
-                                    )
-                                })}
+                                    </div>
+                                ))}
                         </div>
                     </div>
                 </div>

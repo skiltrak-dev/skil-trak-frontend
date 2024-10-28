@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
-export const JumboSection = () => {
+const JumboSection = () => {
     const [scrollPosition, setScrollPosition] = useState(0)
     const containerHeight = 1000
 
@@ -178,3 +178,5 @@ export const JumboSection = () => {
         </div>
     )
 }
+
+export default JumboSection

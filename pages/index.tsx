@@ -2,10 +2,17 @@ import { ReactElement, lazy, useRef } from 'react'
 
 // Components
 // site components
-import { JumboSection } from '@components/site/JumboSection'
+// import { JumboSection } from '@components/site/JumboSection'
 import { SiteLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
+import dynamic from 'next/dynamic'
 
+const VirtualizedPageContent = dynamic(
+    () => import('@components/VirtualizedPageContent'),
+    { ssr: false }
+)
+
+const JumboSection = lazy(() => import('@components/site/JumboSection'))
 const LatestUpdates = lazy(
     () => import('@partials/frontPages/home2/LatestUpdates/LatestUpdates')
 )
@@ -44,6 +51,29 @@ const KeyFeatures = lazy(
 const Home3: NextPageWithLayout = ({ data }: any) => {
     const contactUsRef = useRef(null)
 
+    const sections = [
+        { Component: JumboSection, height: 400 },
+        { Component: KeyFeatures, height: 600 },
+        { Component: StudentPlacementManagement, height: 800 },
+        { Component: OurPackages, height: 600 },
+        { Component: OurPartners, height: 400 },
+        { Component: OperateStates, height: 500 },
+        { Component: GetStarted, height: 400 },
+        { Component: RecentJobs, height: 600 },
+        { Component: ContactUs, height: 500 },
+        { Component: TechnicalPartners, height: 400 },
+        { Component: LatestUpdates, height: 600 },
+    ]
+
+    return (
+        <div>
+            {/* JumboSection stays outside virtualization since it's above the fold */}
+            {/* <JumboSection /> */}
+
+            {/* Virtualized content */}
+            <VirtualizedPageContent sections={sections} />
+        </div>
+    )
     return (
         <div>
             <JumboSection />
