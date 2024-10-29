@@ -64,15 +64,15 @@ export const PdfDocumentView = ({
                                     }
                                 }}
                             />
+                            <Button
+                                text="Download Document"
+                                onClick={() => {
+                                    if (isBrowser()) {
+                                        window.open(downloadUrl)
+                                    }
+                                }}
+                            />
                         </AuthorizedUserComponent>
-                        <Button
-                            text="Download Document"
-                            onClick={() => {
-                                if (isBrowser()) {
-                                    window.open(downloadUrl)
-                                }
-                            }}
-                        />
                         <MdCancel
                             onClick={() => {
                                 if (onCancelButtonClick) {
