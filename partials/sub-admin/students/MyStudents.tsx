@@ -22,7 +22,7 @@ import {
 import { StudentCallLogDetail, SubadminStudentIndustries } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { useGetSubAdminMyStudentsQuery } from '@queries'
+import { SubAdminApi, useGetSubAdminMyStudentsQuery } from '@queries'
 import { Student, SubAdminStudentsFilterType } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock, MdPriorityHigh } from 'react-icons/md'
@@ -67,13 +67,14 @@ export const MyStudents = () => {
     const [filter, setFilter] = useState<SubAdminStudentsFilterType>(
         {} as SubAdminStudentsFilterType
     )
-    const [snoozed, setSnoozed] = useState<boolean | undefined>(undefined)
-    const [nonContactable, setNonContactable] = useState<boolean | undefined>(
-        undefined
-    )
-    const [flagged, setFlagged] = useState<boolean | undefined>(undefined)
+    const [snoozed, setSnoozed] = useState<boolean>(false)
+    const [nonContactable, setNonContactable] = useState<boolean>(false)
+    const [flagged, setFlagged] = useState<boolean>(false)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    const subadmin = SubAdminApi.SubAdmin.useProfile()
+    const canViewAllStudents = subadmin?.data?.canViewAllStudents
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -356,20 +357,25 @@ export const MyStudents = () => {
     return (
         <div>
             {modal}
-            <div className="mb-2">
+            {/* <div className="mb-2">
                 <PageHeading
                     title={'My Students'}
                     subtitle={'List of My Students'}
                 />
-            </div>
-            <div className="flex justify-end items-center gap-x-3 mb-4">
-                <MyStudentQuickFilters
-                    setNonContactable={setNonContactable}
-                    setSnoozed={setSnoozed}
-                    setFlagged={setFlagged}
-                />
-                {filterAction}
-            </div>
+            </div> */}
+            {!canViewAllStudents && (
+                <div className="flex justify-end items-center gap-x-3 mb-4">
+                    <MyStudentQuickFilters
+                        setSnoozed={setSnoozed}
+                        setFlagged={setFlagged}
+                        setNonContactable={setNonContactable}
+                        snoozed={snoozed}
+                        flagged={flagged}
+                        nonContactable={nonContactable}
+                    />
+                    {filterAction}
+                </div>
+            )}
             <div className="w-full py-4">
                 <Filter<SubAdminStudentsFilterType>
                     setFilter={(f: SubAdminStudentsFilterType) => {

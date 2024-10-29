@@ -3,6 +3,8 @@ import { MdCancel } from 'react-icons/md'
 
 // components
 import { ReactNode } from 'react'
+import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
+import { UserRoles } from '@constants'
 
 interface FileViewModalProps {
     title: string
@@ -31,14 +33,18 @@ export const FileViewModal = ({
                             {subtitle}
                         </Typography>
                     </div> */}
-                    <div>
-                        <a
-                            href={url}
-                            className="text-sm font-semibold text-info"
-                        >
-                            Download
-                        </a>
-                    </div>
+                    <AuthorizedUserComponent
+                        excludeRoles={[UserRoles.OBSERVER]}
+                    >
+                        <div>
+                            <a
+                                href={url}
+                                className="text-sm font-semibold text-info"
+                            >
+                                Download
+                            </a>
+                        </div>
+                    </AuthorizedUserComponent>
                     <MdCancel
                         onClick={onCancelButtonClick}
                         className="transition-all duration-300 text-gray-400 hover:text-black text-2xl cursor-pointer"

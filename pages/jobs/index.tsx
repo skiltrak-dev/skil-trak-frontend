@@ -1,27 +1,15 @@
 import { ReactElement, useState } from 'react'
 // Components
-import {
-    EmptyData,
-    LoadingAnimation,
-    NoData,
-    PageSize,
-    Paginate,
-    Pagination,
-    TechnicalError,
-} from '@components'
+import { NoData } from '@components'
 import { RecentJobCard } from '@components/site/jobs/RecentJobCard'
 // react icons
 //Queries
-import { commonApi } from '@queries'
 //  site components
-import { Footer3 } from '@components/site/Footer3'
-import { Navbar2 } from '@components/site/navbar'
 import { SiteLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
-import { NextPage } from 'next'
 import { PaginatedItems } from '@partials/common'
+import { NextPageWithLayout } from '@types'
 
-const Jobs: NextPageWithLayout = ({data}:any) => {
+const Jobs: NextPageWithLayout = ({ data }: any) => {
     const [itemPerPage, setItemPerPage] = useState(10)
     const [page, setPage] = useState(1)
     const [currentItems, setCurrentItems] = useState([])
@@ -38,13 +26,12 @@ const Jobs: NextPageWithLayout = ({data}:any) => {
                     <h1 className="font-bold text-2xl md:text-4xl mb-4">
                         Jobs
                     </h1>
-                    
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
-                            {currentItems?.map((job: any) => (
-                                <RecentJobCard key={job.id} {...job} />
-                            ))}
-                        </div>
-                   
+
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+                        {currentItems?.map((job: any) => (
+                            <RecentJobCard key={job.id} {...job} />
+                        ))}
+                    </div>
 
                     <div className="flex items-center justify-end mb-4">
                         {data?.data && data.data.length > 0 && (
@@ -56,7 +43,7 @@ const Jobs: NextPageWithLayout = ({data}:any) => {
                                     data={data?.data}
                                     itemsPerPage={12}
                                     setCurrentItems={setCurrentItems}
-                                    url='/jobs'
+                                    url="/jobs"
                                 />
                             </div>
                         )}

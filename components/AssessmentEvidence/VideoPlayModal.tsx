@@ -13,6 +13,8 @@ import { BsFillPlayCircleFill } from 'react-icons/bs'
 
 // utills
 import { isBrowser } from '@utils'
+import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
+import { UserRoles } from '@constants'
 
 interface VideoPlayModalProps {
     url: string
@@ -63,14 +65,17 @@ export const VideoPlayModal = ({
                         className="transition-all duration-300 text-gray-400 hover:text-black text-2xl cursor-pointer"
                     />
                 </div>
-                <div>
-                    <a
-                        href={downloadUrl}
-                        className="text-sm font-semibold text-info"
-                    >
-                        Download
-                    </a>
-                </div>
+
+                <AuthorizedUserComponent excludeRoles={[UserRoles.OBSERVER]}>
+                    <div>
+                        <a
+                            href={downloadUrl}
+                            className="text-sm font-semibold text-info"
+                        >
+                            Download
+                        </a>
+                    </div>
+                </AuthorizedUserComponent>
 
                 <div className="w-full relative">
                     {isBrowser() && (
