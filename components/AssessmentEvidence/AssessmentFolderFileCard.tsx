@@ -46,27 +46,29 @@ export const AssessmentFolderFileCard = ({
     return (
         <div className="relative w-full file-view-group">
             <div className=" absolute top-0 z-20 flex justify-between w-full items-center gap-x-1 px-0.5">
-                {file?.uploadedBy && (
-                    <div className="file-view-icon transition-all duration-500 bg-white rounded-full shadow-md border border-gray-600 cursor-pointer relative">
-                        <BsInfo className="text-black text-sm" />
+                <AuthorizedUserComponent excludeRoles={[UserRoles.OBSERVER]}>
+                    {file?.uploadedBy && (
+                        <div className="file-view-icon transition-all duration-500 bg-white rounded-full shadow-md border border-gray-600 cursor-pointer relative">
+                            <BsInfo className="text-black text-sm" />
 
-                        <div className="file-view-detail transition-all duration-500 absolute top-full mt-1 w-auto h-auto p-1 rounded bg-white border text-[10px]">
-                            <div className="whitespace-pre">
-                                Uploaded By: {file?.uploadedBy?.name}(
-                                {file?.uploadedBy?.role})
-                            </div>
-                            <div className="whitespace-pre">
-                                email: {file?.uploadedBy?.email}
-                            </div>
-                            <div className="whitespace-pre">
-                                Uploaded AT:{' '}
-                                {moment(file?.createdAt)?.format(
-                                    'ddd, DD.MMM.YYYY [at] hh:mm a'
-                                )}
+                            <div className="file-view-detail transition-all duration-500 absolute top-full mt-1 w-auto h-auto p-1 rounded bg-white border text-[10px]">
+                                <div className="whitespace-pre">
+                                    Uploaded By: {file?.uploadedBy?.name}(
+                                    {file?.uploadedBy?.role})
+                                </div>
+                                <div className="whitespace-pre">
+                                    email: {file?.uploadedBy?.email}
+                                </div>
+                                <div className="whitespace-pre">
+                                    Uploaded AT:{' '}
+                                    {moment(file?.createdAt)?.format(
+                                        'ddd, DD.MMM.YYYY [at] hh:mm a'
+                                    )}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                )}
+                    )}
+                </AuthorizedUserComponent>
                 <AuthorizedUserComponent
                     roles={[UserRoles.ADMIN, UserRoles.RTO, UserRoles.SUBADMIN]}
                 >

@@ -195,31 +195,6 @@ export const SubadminStudents = () => {
             element: <AgreementPendingStudents />,
         },
         {
-            label: 'Non Contactable Students',
-            badge: {
-                text: studentCount?.contContactable,
-                loading: count.isLoading,
-            },
-            href: {
-                pathname: 'students',
-                query: { tab: 'non-contactable-students' },
-            },
-            element: <NonContactableStudents />,
-        },
-
-        {
-            label: 'Snoozed Students',
-            badge: {
-                text: studentCount?.snoozed,
-                loading: count.isLoading,
-            },
-            href: {
-                pathname: 'students',
-                query: { tab: 'snoozed-students' },
-            },
-            element: <SnoozedStudents />,
-        },
-        {
             label: 'Rejected',
             href: { pathname: 'students', query: { tab: UserStatus.Rejected } },
             badge: {
