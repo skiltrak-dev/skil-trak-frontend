@@ -1,4 +1,4 @@
-import { Button, Card, Typography } from '@components'
+import { Button, Card, HideRestrictedData, Typography } from '@components'
 import React, { ReactElement, useCallback, useRef, useState } from 'react'
 import { AiOutlineDownload } from 'react-icons/ai'
 import { BsDownload, BsFiletypeXls } from 'react-icons/bs'
@@ -53,7 +53,7 @@ export const RtoReports = ({
                         </Typography>
                     </div>
 
-                    {subadmin?.canDownloadReport ? (
+                    <HideRestrictedData type="canDownloadReport">
                         <div className="flex items-center gap-x-2.5">
                             <div
                                 className="relative"
@@ -142,7 +142,7 @@ export const RtoReports = ({
                                 }}
                             />
                         </div>
-                    ) : null}
+                    </HideRestrictedData>
                 </div>
 
                 {/*  */}

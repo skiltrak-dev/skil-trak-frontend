@@ -40,6 +40,7 @@ const filterKeys = [
     'phone',
     'studentId',
     'status',
+    'state',
     'industryId',
     'courseId',
     'currentStatus',

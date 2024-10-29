@@ -15,6 +15,7 @@ import { RequestResign, ResendMailModal } from '../modal'
 import { RiMailSendLine } from 'react-icons/ri'
 import { FaSignature } from 'react-icons/fa'
 import { CommonApi } from '@queries'
+import { AgreementSignStatusCard } from './AgreementSignStatusCard'
 
 export const CheckAgreementSignedStatus = ({
     document,
@@ -48,7 +49,7 @@ export const CheckAgreementSignedStatus = ({
     return (
         <div>
             {modal}
-            <div className="flex justify-center items-center border-2 border-dashed m-3 px-4 py-0.5">
+            <div className="flex justify-center items-center border-2 border-dashed m-1 px-1 py-0.5">
                 <div>
                     <div className="flex flex-col gap-y-1">
                         <div className="flex justify-between items-center gap-x-2">
@@ -151,6 +152,13 @@ export const CheckAgreementSignedStatus = ({
                                 </Typography>
                             </AuthorizedUserComponent>
                         </div>
+
+                        {/* {document?.signers?.map((signer: any) => (
+                            <AgreementSignStatusCard
+                                signer={signer}
+                                document={document}
+                            />
+                        ))} */}
 
                         {document?.signers?.map((signer: any, i: number) => (
                             <>

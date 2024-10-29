@@ -15,3 +15,4 @@ export type RestrictedDataTypes =
     | 'canAddStudents'
     | 'canCreateInternalTicket'
     | 'canViewRtoList'
+    | 'canDownloadReport'
