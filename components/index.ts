@@ -36,6 +36,7 @@ export * from './StudentExpiryDaysLeft'
 export * from './CustomDropdown'
 export * from './HideRestrictedData'
 export * from './PrePageLoading'
+export * from './VisibilityObserver'
 
 export * from './LoogbookEditor'
 

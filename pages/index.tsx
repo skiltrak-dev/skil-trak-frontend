@@ -6,6 +6,7 @@ import { ReactElement, lazy, useRef } from 'react'
 import { SiteLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import dynamic from 'next/dynamic'
+import { VisibilityObserver } from '@components'
 
 const VirtualizedPageContent = dynamic(
     () => import('@components/VirtualizedPageContent'),
@@ -78,29 +79,50 @@ const Home3: NextPageWithLayout = ({ data }: any) => {
         <div>
             <JumboSection />
             {/* Key Features */}
-            <KeyFeatures />
+            <VisibilityObserver>
+                <KeyFeatures />
+            </VisibilityObserver>
             {/* Student Placement Management System */}
-            <StudentPlacementManagement />
+
+            <VisibilityObserver>
+                <StudentPlacementManagement />
+            </VisibilityObserver>
             <div className="relative">
                 {/* Our packages */}
-                <OurPackages />
+                <VisibilityObserver>
+                    <OurPackages />
+                </VisibilityObserver>
             </div>
             {/* Our Partners */}
-            <OurPartners />
+            <VisibilityObserver>
+                <OurPartners />
+            </VisibilityObserver>
             {/* We Operate in the Following States */}
 
-            <OperateStates />
+            <VisibilityObserver>
+                <OperateStates />
+            </VisibilityObserver>
 
-            <GetStarted contactUsRef={contactUsRef} />
+            <VisibilityObserver>
+                <GetStarted contactUsRef={contactUsRef} />
+            </VisibilityObserver>
 
-            <RecentJobs />
+            <VisibilityObserver>
+                <RecentJobs />
+            </VisibilityObserver>
 
-            <ContactUs />
+            <VisibilityObserver>
+                <ContactUs />
+            </VisibilityObserver>
 
             {/*  */}
-            <TechnicalPartners />
+            <VisibilityObserver>
+                <TechnicalPartners />
+            </VisibilityObserver>
 
-            <LatestUpdates />
+            <VisibilityObserver>
+                <LatestUpdates />
+            </VisibilityObserver>
         </div>
     )
 }

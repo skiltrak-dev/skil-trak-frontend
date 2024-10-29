@@ -88,16 +88,20 @@ export const PdfDocumentView = ({
                     <div className="min-w-[100%] flex flex-col items-center">
                         <div className="w-full px-4 flex justify-between">
                             <div>
-                                <div>
-                                    <a
-                                        href={downloadUrl}
-                                        target="_blank"
-                                        rel={'noreferrer'}
-                                        className="text-sm font-semibold text-info"
-                                    >
-                                        Download
-                                    </a>
-                                </div>
+                                <AuthorizedUserComponent
+                                    excludeRoles={[UserRoles.OBSERVER]}
+                                >
+                                    <div>
+                                        <a
+                                            href={downloadUrl}
+                                            target="_blank"
+                                            rel={'noreferrer'}
+                                            className="text-sm font-semibold text-info"
+                                        >
+                                            Download
+                                        </a>
+                                    </div>
+                                </AuthorizedUserComponent>
                                 <p className="text-sm">
                                     <span className="text-gray-500">Page</span>{' '}
                                     <span className="font-semibold">

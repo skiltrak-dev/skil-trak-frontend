@@ -457,11 +457,17 @@ export const Workplace = ({
                                         />
                                         <div className="w-full">
                                             <div className="flex justify-end divide-x-2 ">
-                                                <ContactPersonDetail
-                                                    appliedIndustry={
-                                                        appliedIndustry
-                                                    }
-                                                />
+                                                <AuthorizedUserComponent
+                                                    excludeRoles={[
+                                                        UserRoles.OBSERVER,
+                                                    ]}
+                                                >
+                                                    <ContactPersonDetail
+                                                        appliedIndustry={
+                                                            appliedIndustry
+                                                        }
+                                                    />
+                                                </AuthorizedUserComponent>
                                                 <WorkplaceHistory
                                                     wpId={selectedWorkplace?.id}
                                                 />
@@ -533,7 +539,7 @@ export const Workplace = ({
                                         <div className="flex items-center gap-x-2.5">
                                             {WPStatusForCancelButon.includes(
                                                 selectedWorkplace?.currentStatus
-                                            ) ? (
+                                            ) || true ? (
                                                 !selectedWorkplace
                                                     ?.cancelledRequests
                                                     ?.length ? (
