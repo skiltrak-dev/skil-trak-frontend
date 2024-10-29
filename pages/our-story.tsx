@@ -119,6 +119,14 @@ const OurStory: NextPageWithLayout = () => {
     )
 }
 
+export async function getStaticProps() {
+    return {
+        props: {
+            data: [],
+        },
+    }
+}
+
 OurStory.getLayout = (page: ReactElement) => {
     return <SiteLayout>{page}</SiteLayout>
 }

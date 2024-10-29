@@ -1,10 +1,10 @@
 import { Animations } from '@animations'
-import { LottieAnimation, Navbar, Typography, Button } from '@components'
+import { Button, LottieAnimation, Navbar } from '@components'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
-import { useMediaQuery } from 'react-responsive'
 import { MediaQueries } from '@constants'
+import { useMediaQuery } from 'react-responsive'
 
 const UnderConstruction: NextPage = () => {
     const router = useRouter()
@@ -16,7 +16,7 @@ const UnderConstruction: NextPage = () => {
         <div className="w-full">
             <Navbar />
             <div className="flex flex-col items-center justify-center">
-                <div className=''>
+                <div className="">
                     <div>
                         <LottieAnimation
                             height={width}
@@ -45,6 +45,14 @@ const UnderConstruction: NextPage = () => {
             </div>
         </div>
     )
+}
+
+export async function getStaticProps() {
+    return {
+        props: {
+            data: [],
+        },
+    }
 }
 
 export default UnderConstruction

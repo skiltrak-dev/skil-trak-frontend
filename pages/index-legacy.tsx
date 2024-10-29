@@ -91,8 +91,7 @@ const Page: NextPage = () => {
                     setSliderNews(res.data.slice(4, res.data.length))
                 }
             })
-            .catch((err) => {
-            })
+            .catch((err) => {})
     }, [])
 
     const showNewsOrLoader = () => {
@@ -545,6 +544,14 @@ const Page: NextPage = () => {
             </Wrapper>
         </SiteLayout>
     )
+}
+
+export async function getStaticProps() {
+    return {
+        props: {
+            data: [],
+        },
+    }
 }
 
 export default Page

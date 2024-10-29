@@ -21,4 +21,12 @@ const PageNotFound: NextPage = () => {
     )
 }
 
+export async function getStaticProps() {
+    return {
+        props: {
+            data: [],
+        },
+    }
+}
+
 export default PageNotFound

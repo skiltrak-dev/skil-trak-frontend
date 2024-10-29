@@ -182,4 +182,13 @@ const Home2: NextPageWithLayout = () => {
 Home2.getLayout = (page: ReactElement) => {
     return <SiteLayout>{page}</SiteLayout>
 }
+
+export async function getStaticProps() {
+    return {
+        props: {
+            data: [],
+        },
+    }
+}
+
 export default Home2
