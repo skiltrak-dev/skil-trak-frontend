@@ -1,5 +1,5 @@
-.blog-bg{
-    background-image: url("/images/site/blog-hero-image.jpeg");
+.blog-bg {
+    background-image: url('/images/site/blog-hero-image.jpeg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -9,7 +9,6 @@
     overflow: hidden;
 }
 /* Features Page */
-
 
 .feat-card {
     position: relative;
@@ -61,7 +60,7 @@
 .jumbo-bg {
     background: linear-gradient(90deg, #0a56b0 0%, rgba(52, 91, 135, 0) 100%);
     @media (max-width: 767px) {
-        background: #0a56b0; 
+        background: #0a56b0;
     }
 }
 .footer-bg {
@@ -420,21 +419,21 @@ img {
     position: absolute;
     animation: mobOrbit4 30s linear infinite;
     /* transform: rotate(0deg) translateX(-90px) translateY(-60px) rotate(0deg); */
-     top: 50% !important;
+    top: 50% !important;
     left: -80% !important;
 }
 .mob-ellipse5 {
     position: absolute;
     animation: mobOrbit5 30s linear infinite;
     /* transform: rotate(0deg) translateX(-90px) translateY(30px) rotate(0deg); */
-     top: 50% !important;
+    top: 50% !important;
     left: -80% !important;
 }
 .mob-ellipse6 {
     position: absolute;
     animation: mobOrbit6 30s linear infinite;
     /* transform: rotate(0deg) translateX(5px) translateY(100px) rotate(0deg); */
-     top: 50% !important;
+    top: 50% !important;
     left: -80% !important;
 }
 
@@ -454,7 +453,8 @@ img {
         transform: rotate(0deg) translateX(90px) translateY(-50px) rotate(0deg);
     }
     to {
-        transform: rotate(360deg) translateX(90px) translateY(-50px) rotate(-360deg);
+        transform: rotate(360deg) translateX(90px) translateY(-50px)
+            rotate(-360deg);
     }
 }
 @keyframes mobOrbit3 {
@@ -471,13 +471,13 @@ img {
         transform: rotate(0deg) translateX(-90px) translateY(-60px) rotate(0deg);
     }
     to {
-        transform: rotate(360deg) translateX(-90px) translateY(-60px) rotate(-360deg);
+        transform: rotate(360deg) translateX(-90px) translateY(-60px)
+            rotate(-360deg);
     }
 }
 @keyframes mobOrbit5 {
     from {
-        transform: rotate(0deg) translateX(-100px) translateY(30px)
-            rotate(0deg);
+        transform: rotate(0deg) translateX(-100px) translateY(30px) rotate(0deg);
     }
     to {
         transform: rotate(360deg) translateX(-100px) translateY(30px)
@@ -487,8 +487,7 @@ img {
 
 @keyframes mobOrbit6 {
     from {
-        transform: rotate(0deg) translateX(5px) translateY(100px)
-            rotate(0deg);
+        transform: rotate(0deg) translateX(5px) translateY(100px) rotate(0deg);
     }
     to {
         transform: rotate(360deg) translateX(5px) translateY(100px)
@@ -535,26 +534,26 @@ img {
 }
 @media (max-width: 768px) {
     .waves {
-      height:40px;
-      min-height:40px;
+        height: 40px;
+        min-height: 40px;
     }
-  }
+}
 
-  /* Package card flip */
+/* Package card flip */
 /* CSS in your component's stylesheet or global stylesheet */
 /* CSS in your component's stylesheet or global stylesheet */
 
 .card__side--back {
     background-color: #fff;
     transform: rotateY(180deg);
-  }
-  .card:hover .card__side--back {
+}
+.card:hover .card__side--back {
     transform: rotateY(0);
-  }
-  .card:hover .card__side--front {
+}
+.card:hover .card__side--front {
     transform: rotateY(-180deg);
-  }
-  .card__side {
+}
+.card__side {
     /* height: 52rem; */
     transition: all 0.8s ease;
     /* position: absolute; */
@@ -562,22 +561,22 @@ img {
     left: 0; */
     width: 100%;
     -webkit-backface-visibility: hidden;
-    
+
     backface-visibility: hidden;
-   
+
     border-radius: 10px;
     overflow: hidden;
-   
+
     box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.15);
-  }
-  
-  /* Blogs */
-  .ql-align-center{
+}
+
+/* Blogs */
+.ql-align-center {
     display: flex;
     justify-content: center;
-  }
+}
 
-.blog-content p{
+.blog-content p {
     word-break: keep-all;
 }
 
@@ -592,8 +591,7 @@ img {
     @apply bg-orange-400 text-white  px-3 py-1 rounded-md;
 }
 
-
-.management-portal-log{
+.management-portal-log {
     background-image: url('/images/management-portal/management-portal-login-bg.png');
     background-repeat: no-repeat;
     background-size: cover;
@@ -603,7 +601,7 @@ img {
 }
 
 /* Our story */
-.skiltrak-is-working-with-bg{
+.skiltrak-is-working-with-bg {
     background-image: url('/images/our-story/bg-boxes.png');
     background-repeat: no-repeat;
     background-size: cover;
@@ -612,20 +610,41 @@ img {
     width: 100%;
 }
 
-.border-gradient{
-    background: radial-gradient(circle at 100% 100%, #ffffff 0, #ffffff 3px, transparent 3px) 0% 0%/8px 8px no-repeat,
-            radial-gradient(circle at 0 100%, #ffffff 0, #ffffff 3px, transparent 3px) 100% 0%/8px 8px no-repeat,
-            radial-gradient(circle at 100% 0, #ffffff 0, #ffffff 3px, transparent 3px) 0% 100%/8px 8px no-repeat,
-            radial-gradient(circle at 0 0, #ffffff 0, #ffffff 3px, transparent 3px) 100% 100%/8px 8px no-repeat,
-            linear-gradient(#ffffff, #ffffff) 50% 50%/calc(100% - 4px) calc(100% - 7px) no-repeat,
-            linear-gradient(#ffffff, #ffffff) 50% 50%/calc(100% - 7px) calc(100% - 4px) no-repeat,
-            linear-gradient(90deg, #f6910f 0%, #24536B 100%);
+.border-gradient {
+    background: radial-gradient(
+                circle at 100% 100%,
+                #ffffff 0,
+                #ffffff 3px,
+                transparent 3px
+            )
+            0% 0%/8px 8px no-repeat,
+        radial-gradient(
+                circle at 0 100%,
+                #ffffff 0,
+                #ffffff 3px,
+                transparent 3px
+            )
+            100% 0%/8px 8px no-repeat,
+        radial-gradient(
+                circle at 100% 0,
+                #ffffff 0,
+                #ffffff 3px,
+                transparent 3px
+            )
+            0% 100%/8px 8px no-repeat,
+        radial-gradient(circle at 0 0, #ffffff 0, #ffffff 3px, transparent 3px)
+            100% 100%/8px 8px no-repeat,
+        linear-gradient(#ffffff, #ffffff) 50% 50% / calc(100% - 4px)
+            calc(100% - 7px) no-repeat,
+        linear-gradient(#ffffff, #ffffff) 50% 50% / calc(100% - 7px)
+            calc(100% - 4px) no-repeat,
+        linear-gradient(90deg, #f6910f 0%, #24536b 100%);
     border-radius: 8px;
     padding: 2px;
     box-sizing: border-box;
 }
 
-.gradient-bg{
+.gradient-bg {
     background-image: url('/images/our-story/gradient-bg.png');
     background-repeat: no-repeat;
     background-size: cover;
@@ -636,14 +655,14 @@ img {
 @media only screen and (max-width: 600px) {
     .gradient-bg {
         background-image: url('/images/our-story/gradient-bg-mobile.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 777px;
-    width: 100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        height: 777px;
+        width: 100%;
     }
 }
-.gradient-bg-app-section{
+.gradient-bg-app-section {
     background-image: url('/images/our-story/gradient-bg.png');
     background-repeat: no-repeat;
     background-size: cover;
@@ -654,11 +673,11 @@ img {
 @media only screen and (max-width: 600px) {
     .gradient-bg-app-section {
         background-image: url('/images/our-story/skiltrak-app-mobile-bg.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 777px;
-    width: 100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        height: 777px;
+        width: 100%;
     }
 }
 
@@ -669,8 +688,8 @@ img {
     background-position: center;
     height: 180px;
     width: 100%;
-  }
-  @media only screen and (max-width: 600px) {
+}
+@media only screen and (max-width: 600px) {
     .philippines-bg {
         height: 62px;
     }
@@ -682,12 +701,12 @@ img {
     background-position: center;
     height: 180px;
     width: 100%;
+}
+@media only screen and (max-width: 600px) {
+    .france-bg {
+        height: 62px;
     }
-    @media only screen and (max-width: 600px) {
-        .france-bg {
-            height: 62px;
-        }
-    }
+}
 
 .mauritius-bg {
     background-image: url('/images/our-story/countries/mauritius.png');
@@ -696,12 +715,12 @@ img {
     background-position: center;
     height: 180px;
     width: 100%;
+}
+@media only screen and (max-width: 600px) {
+    .mauritius-bg {
+        height: 62px;
     }
-    @media only screen and (max-width: 600px) {
-        .mauritius-bg {
-            height: 62px;
-        }
-    }
+}
 /* seychelles */
 .seychelles-bg {
     background-image: url('/images/our-story/countries/seychelles.png');
@@ -710,15 +729,15 @@ img {
     background-position: center;
     height: 180px;
     width: 100%;
+}
+@media only screen and (max-width: 600px) {
+    .seychelles-bg {
+        height: 62px;
     }
-    @media only screen and (max-width: 600px) {
-        .seychelles-bg {
-            height: 62px;
-        }
-    }
-.country-name{
+}
+.country-name {
     -webkit-text-stroke-width: 1.5px;
-    -webkit-text-stroke-color: #FFF;
+    -webkit-text-stroke-color: #fff;
     color: transparent;
     font-family: 'Poppins', sans-serif;
     font-size: 58px;
@@ -728,16 +747,16 @@ img {
     letter-spacing: 0; /* Adjust if Figma has letter-spacing */
     word-spacing: 0; /* Adjust if Figma has word-spacing */
     text-transform: none;
-     /* Adjust if Figma has text-transform */
+    /* Adjust if Figma has text-transform */
 }
 @media only screen and (max-width: 600px) {
     .country-name {
-        font-size: 30px; 
-        line-height: 30px; 
+        font-size: 30px;
+        line-height: 30px;
     }
 }
 
-.signup-bg{
+.signup-bg {
     background-image: url('/images/auth/signup-bg.png');
     background-repeat: no-repeat;
     background-size: cover;
@@ -748,11 +767,11 @@ img {
 
 @media only screen and (max-width: 600px) {
     .signup-bg {
-       height: 362px;
+        height: 362px;
     }
 }
 
-.choose-portal-type-bg{
+.choose-portal-type-bg {
     background-image: url('/images/auth/signup-bg.png');
     background-repeat: no-repeat;
     background-size: cover;
@@ -763,7 +782,7 @@ img {
 
 @media only screen and (max-width: 600px) {
     .choose-portal-type-bg {
-       height: 100%;
-       padding: 20px 0;
+        height: 100%;
+        padding: 20px 0;
     }
 }

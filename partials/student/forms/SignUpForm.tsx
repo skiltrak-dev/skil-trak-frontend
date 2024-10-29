@@ -64,8 +64,6 @@ export const StudentSignUpForm = ({
         skip: !selectedRto,
     })
 
-    console.log({ sectorResponsesectorResponse: sectorResponse })
-
     const hader = router?.pathname?.split('/')?.[4]
 
     useEffect(() => {
@@ -271,7 +269,7 @@ export const StudentSignUpForm = ({
                 description: 'You must select on Address Dropdown',
             })
         } else if (onSuburbClicked) {
-            onSubmit({ ...values, suburb: 'N/A', state: 'N/A' })
+            onSubmit({ ...values, suburb: 'N/A' })
         }
     }
     const ageOptions = [

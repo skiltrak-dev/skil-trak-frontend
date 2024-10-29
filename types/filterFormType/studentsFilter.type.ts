@@ -8,6 +8,7 @@ export interface StudentsFilterType {
     studentId: string
     subadminId: number
     suburb: string
+    state: string
     status: UserStatus
     rtoId: number
     industryId: number

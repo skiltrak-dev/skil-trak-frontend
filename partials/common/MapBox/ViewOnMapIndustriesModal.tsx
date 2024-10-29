@@ -112,7 +112,6 @@ export const ViewOnMapIndustriesModal = ({
         name: string
     }>(null)
 
-    console.log({ visibleMarkers })
     const [futureIndustryId, setFutureIndustryId] = useState<any>(null)
     const [map, setMap] = useState<google.maps.Map | null>(null)
 
@@ -150,8 +149,6 @@ export const ViewOnMapIndustriesModal = ({
         router?.query?.id,
         { skip: !router?.query?.id }
     )
-
-    console.log('sdkbhfskfsfskbhj', workplace?.student)
 
     useEffect(() => {
         if (
