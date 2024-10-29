@@ -1,5 +1,5 @@
-import { Button, Typography } from '@components'
-import { Result } from '@constants'
+import { AuthorizedUserComponent, Button, Typography } from '@components'
+import { Result, UserRoles } from '@constants'
 import {
     CommonApi,
     useGetAssessmentEvidenceDetailQuery,
@@ -498,21 +498,22 @@ export const Courses = ({
                         />
                     </div>
                 )}
-                {((allCommentsAdded &&
-                    ((result?.result !== Result.Competent &&
-                        result?.isSubmitted) ||
-                        manualReOpen)) ||
-                    editAssessment) && (
-                    <div className="p-4">
-                        <SubmitFinalResult
-                            course={selectedCourse as Course}
-                            result={result}
-                            setEditAssessment={() => {}}
-                            studentId={student?.id}
-                        />
-                    </div>
-                )}
-
+                <AuthorizedUserComponent excludeRoles={[UserRoles.OBSERVER]}>
+                    {((allCommentsAdded &&
+                        ((result?.result !== Result.Competent &&
+                            result?.isSubmitted) ||
+                            manualReOpen)) ||
+                        editAssessment) && (
+                        <div className="p-4">
+                            <SubmitFinalResult
+                                course={selectedCourse as Course}
+                                result={result}
+                                setEditAssessment={() => {}}
+                                studentId={student?.id}
+                            />
+                        </div>
+                    )}
+                </AuthorizedUserComponent>
                 {selectedCourse &&
                     selectedCourse?.results &&
                     selectedCourse?.results?.length > 0 && (
