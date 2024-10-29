@@ -111,6 +111,8 @@ export const ViewOnMapIndustriesModal = ({
         lng: number
         name: string
     }>(null)
+
+    console.log({ visibleMarkers })
     const [futureIndustryId, setFutureIndustryId] = useState<any>(null)
     const [map, setMap] = useState<google.maps.Map | null>(null)
 
@@ -420,228 +422,246 @@ export const ViewOnMapIndustriesModal = ({
                                                     (marker: any) =>
                                                         marker?.user &&
                                                         marker?.user?.role ===
-                                                            'student' &&
+                                                            UserRoles.STUDENT &&
                                                         !marker?.department
                                                 )
-                                                .map((marker: any) => (
-                                                    <>
-                                                        <Marker
-                                                            icon={{
-                                                                url:
-                                                                    marker?.user
-                                                                        ?.role &&
-                                                                    marker?.user
-                                                                        ?.role ===
-                                                                        UserRoles.STUDENT
-                                                                        ? '/images/icons/student-red-map-pin.png'
-                                                                        : indind?.includes(
-                                                                              marker?.id
-                                                                          )
-                                                                        ? '/images/icons/industryContacted.png'
-                                                                        : marker?.placementStatus ===
-                                                                          IndustryPlacementStatus.ACCEPTING_STUDENTS
-                                                                        ? '/images/icons/industry-pin-map-pin-check.png'
-                                                                        : marker?.placementStatus ===
-                                                                          IndustryPlacementStatus.NOT_ACCEPTING_STUDENTS
-                                                                        ? '/images/icons/industry-pin-map-pin-uncheck.png'
-                                                                        : '/images/icons/industry-pin-map-pin.png',
-                                                                scaledSize:
-                                                                    new google.maps.Size(
-                                                                        31,
-                                                                        41
-                                                                    ),
-                                                            }}
-                                                            key={marker.id}
-                                                            position={
-                                                                marker.location
-                                                            }
-                                                            clusterer={
-                                                                clusterer
-                                                            }
-                                                            onMouseOver={(
-                                                                e: any
-                                                            ) => {
-                                                                // handleMarkerClick(
-                                                                //     marker
-                                                                // )
-                                                                setIndustryId(
-                                                                    marker?.id
-                                                                )
-                                                                setSelectedBox({
-                                                                    ...marker,
-                                                                    position: {
-                                                                        lat: e.latLng.lat(),
-                                                                        lng: e.latLng.lng(),
-                                                                    },
-                                                                })
-                                                                setShowInfoBox(
-                                                                    true
-                                                                )
-                                                            }}
-                                                            onMouseOut={() =>
-                                                                setSelectedMarker(
-                                                                    null
-                                                                )
-                                                            }
-                                                            onClick={(
-                                                                e: any
-                                                            ) => {
-                                                                // handleMarkerClick(
-                                                                //     marker
-                                                                // )
-                                                                setIndustryId(
-                                                                    marker?.id
-                                                                )
-                                                                setSelectedBox({
-                                                                    ...marker,
-                                                                    position: {
-                                                                        lat: e.latLng.lat(),
-                                                                        lng: e.latLng.lng(),
-                                                                    },
-                                                                })
-                                                                setShowInfoBox(
-                                                                    true
-                                                                )
-                                                            }}
-                                                        />
+                                                .map((marker: any) => {
+                                                    return (
+                                                        <>
+                                                            <Marker
+                                                                icon={{
+                                                                    url:
+                                                                        marker
+                                                                            ?.user
+                                                                            ?.role &&
+                                                                        marker
+                                                                            ?.user
+                                                                            ?.role ===
+                                                                            UserRoles.STUDENT
+                                                                            ? '/images/icons/student-red-map-pin.png'
+                                                                            : indind?.includes(
+                                                                                  marker?.id
+                                                                              )
+                                                                            ? '/images/icons/industryContacted.png'
+                                                                            : marker?.placementStatus ===
+                                                                              IndustryPlacementStatus.ACCEPTING_STUDENTS
+                                                                            ? '/images/icons/industry-pin-map-pin-check.png'
+                                                                            : marker?.placementStatus ===
+                                                                              IndustryPlacementStatus.NOT_ACCEPTING_STUDENTS
+                                                                            ? '/images/icons/industry-pin-map-pin-uncheck.png'
+                                                                            : '/images/icons/industry-pin-map-pin.png',
+                                                                    scaledSize:
+                                                                        new google.maps.Size(
+                                                                            31,
+                                                                            41
+                                                                        ),
+                                                                }}
+                                                                key={marker.id}
+                                                                position={
+                                                                    marker.location2 &&
+                                                                    showSecondaryLocation
+                                                                        ? marker.location2
+                                                                        : marker.location
+                                                                }
+                                                                clusterer={
+                                                                    clusterer
+                                                                }
+                                                                onMouseOver={(
+                                                                    e: any
+                                                                ) => {
+                                                                    // handleMarkerClick(
+                                                                    //     marker
+                                                                    // )
+                                                                    setIndustryId(
+                                                                        marker?.id
+                                                                    )
+                                                                    setSelectedBox(
+                                                                        {
+                                                                            ...marker,
+                                                                            position:
+                                                                                {
+                                                                                    lat: e.latLng.lat(),
+                                                                                    lng: e.latLng.lng(),
+                                                                                },
+                                                                        }
+                                                                    )
+                                                                    setShowInfoBox(
+                                                                        true
+                                                                    )
+                                                                }}
+                                                                onMouseOut={() =>
+                                                                    setSelectedMarker(
+                                                                        null
+                                                                    )
+                                                                }
+                                                                onClick={(
+                                                                    e: any
+                                                                ) => {
+                                                                    // handleMarkerClick(
+                                                                    //     marker
+                                                                    // )
+                                                                    setIndustryId(
+                                                                        marker?.id
+                                                                    )
+                                                                    setSelectedBox(
+                                                                        {
+                                                                            ...marker,
+                                                                            position:
+                                                                                {
+                                                                                    lat: e.latLng.lat(),
+                                                                                    lng: e.latLng.lng(),
+                                                                                },
+                                                                        }
+                                                                    )
+                                                                    setShowInfoBox(
+                                                                        true
+                                                                    )
+                                                                }}
+                                                            />
 
-                                                        {marker.location2 &&
-                                                        showSecondaryLocation ? (
-                                                            <Circle
-                                                                center={
-                                                                    marker.location2
-                                                                }
-                                                                radius={20000}
-                                                                options={{
-                                                                    fillColor:
-                                                                        colors
-                                                                            .primary
-                                                                            .DEFAULT,
-                                                                    fillOpacity: 0.2,
-                                                                    strokeColor:
-                                                                        '#AA0000',
-                                                                    strokeOpacity: 0.7,
-                                                                    strokeWeight: 1,
-                                                                    clickable:
-                                                                        false,
-                                                                    draggable:
-                                                                        false,
-                                                                    editable:
-                                                                        false,
-                                                                    visible:
-                                                                        true,
-                                                                    zIndex: 1,
-                                                                }}
-                                                            />
-                                                        ) : (
-                                                            <Circle
-                                                                center={
-                                                                    marker.location
-                                                                }
-                                                                radius={20000}
-                                                                options={{
-                                                                    fillColor:
-                                                                        colors
-                                                                            .success
-                                                                            .dark,
-                                                                    fillOpacity: 0.2,
-                                                                    strokeColor:
-                                                                        '#AA0000',
-                                                                    strokeOpacity: 0.7,
-                                                                    strokeWeight: 1,
-                                                                    clickable:
-                                                                        false,
-                                                                    draggable:
-                                                                        false,
-                                                                    editable:
-                                                                        false,
-                                                                    visible:
-                                                                        true,
-                                                                    zIndex: 1,
-                                                                }}
-                                                            />
-                                                        )}
-                                                        {selectedBox &&
-                                                            showInfoBox &&
-                                                            selectedBox.id ===
-                                                                marker.id &&
-                                                            !marker?.department && (
-                                                                <InfoBox
-                                                                    position={
-                                                                        selectedBox?.position
+                                                            {marker.location2 &&
+                                                            showSecondaryLocation ? (
+                                                                <Circle
+                                                                    center={
+                                                                        marker.location2
                                                                     }
-                                                                    onCloseClick={() => {
-                                                                        setSelectedBox(
-                                                                            null
-                                                                        )
-                                                                        setShowInfoBox(
-                                                                            false
-                                                                        )
-                                                                        setIndustryId(
-                                                                            ''
-                                                                        )
-                                                                    }}
+                                                                    radius={
+                                                                        20000
+                                                                    }
                                                                     options={{
-                                                                        closeBoxURL: ``,
-                                                                        enableEventPropagation:
+                                                                        fillColor:
+                                                                            colors
+                                                                                .primary
+                                                                                .DEFAULT,
+                                                                        fillOpacity: 0.2,
+                                                                        strokeColor:
+                                                                            '#AA0000',
+                                                                        strokeOpacity: 0.7,
+                                                                        strokeWeight: 1,
+                                                                        clickable:
+                                                                            false,
+                                                                        draggable:
+                                                                            false,
+                                                                        editable:
+                                                                            false,
+                                                                        visible:
                                                                             true,
+                                                                        zIndex: 1,
                                                                     }}
-                                                                >
-                                                                    {marker
-                                                                        ?.user
-                                                                        ?.role &&
-                                                                    marker?.user
-                                                                        ?.role ===
-                                                                        'student' ? (
-                                                                        <StudentInfoBoxCard
-                                                                            item={
-                                                                                studentDetails
-                                                                            }
-                                                                            selectedBox={
-                                                                                selectedBox
-                                                                            }
-                                                                            studentId={
-                                                                                router
-                                                                                    ?.query
-                                                                                    ?.id
-                                                                            }
-                                                                            setSelectedBox={
-                                                                                setSelectedBox
-                                                                            }
-                                                                        />
-                                                                    ) : (
-                                                                        <IndustryInfoBoxCard
-                                                                            item={
-                                                                                industryDetails
-                                                                            }
-                                                                            selectedBox={
-                                                                                selectedBox
-                                                                            }
-                                                                            industryId={
-                                                                                industryId
-                                                                            }
-                                                                            setSelectedBox={
-                                                                                setSelectedBox
-                                                                            }
-                                                                            workplace={
-                                                                                workplace
-                                                                            }
-                                                                            appliedIndustry={
-                                                                                appliedIndustry
-                                                                            }
-                                                                            workplaceMapCard={
-                                                                                true
-                                                                            }
-                                                                            onCancel={
-                                                                                onCancel
-                                                                            }
-                                                                            industryContacted
-                                                                        />
-                                                                    )}
-                                                                </InfoBox>
+                                                                />
+                                                            ) : (
+                                                                <Circle
+                                                                    center={
+                                                                        marker.location
+                                                                    }
+                                                                    radius={
+                                                                        20000
+                                                                    }
+                                                                    options={{
+                                                                        fillColor:
+                                                                            colors
+                                                                                .success
+                                                                                .dark,
+                                                                        fillOpacity: 0.2,
+                                                                        strokeColor:
+                                                                            '#AA0000',
+                                                                        strokeOpacity: 0.7,
+                                                                        strokeWeight: 1,
+                                                                        clickable:
+                                                                            false,
+                                                                        draggable:
+                                                                            false,
+                                                                        editable:
+                                                                            false,
+                                                                        visible:
+                                                                            true,
+                                                                        zIndex: 1,
+                                                                    }}
+                                                                />
                                                             )}
-                                                    </>
-                                                ))}
+                                                            {selectedBox &&
+                                                                showInfoBox &&
+                                                                selectedBox.id ===
+                                                                    marker.id &&
+                                                                !marker?.department && (
+                                                                    <InfoBox
+                                                                        position={
+                                                                            selectedBox?.position
+                                                                        }
+                                                                        onCloseClick={() => {
+                                                                            setSelectedBox(
+                                                                                null
+                                                                            )
+                                                                            setShowInfoBox(
+                                                                                false
+                                                                            )
+                                                                            setIndustryId(
+                                                                                ''
+                                                                            )
+                                                                        }}
+                                                                        options={{
+                                                                            closeBoxURL: ``,
+                                                                            enableEventPropagation:
+                                                                                true,
+                                                                        }}
+                                                                    >
+                                                                        {marker
+                                                                            ?.user
+                                                                            ?.role &&
+                                                                        marker
+                                                                            ?.user
+                                                                            ?.role ===
+                                                                            'student' ? (
+                                                                            <StudentInfoBoxCard
+                                                                                item={
+                                                                                    studentDetails
+                                                                                }
+                                                                                selectedBox={
+                                                                                    selectedBox
+                                                                                }
+                                                                                studentId={
+                                                                                    router
+                                                                                        ?.query
+                                                                                        ?.id
+                                                                                }
+                                                                                setSelectedBox={
+                                                                                    setSelectedBox
+                                                                                }
+                                                                            />
+                                                                        ) : (
+                                                                            <IndustryInfoBoxCard
+                                                                                item={
+                                                                                    industryDetails
+                                                                                }
+                                                                                selectedBox={
+                                                                                    selectedBox
+                                                                                }
+                                                                                industryId={
+                                                                                    industryId
+                                                                                }
+                                                                                setSelectedBox={
+                                                                                    setSelectedBox
+                                                                                }
+                                                                                workplace={
+                                                                                    workplace
+                                                                                }
+                                                                                appliedIndustry={
+                                                                                    appliedIndustry
+                                                                                }
+                                                                                workplaceMapCard={
+                                                                                    true
+                                                                                }
+                                                                                onCancel={
+                                                                                    onCancel
+                                                                                }
+                                                                                industryContacted
+                                                                            />
+                                                                        )}
+                                                                    </InfoBox>
+                                                                )}
+                                                        </>
+                                                    )
+                                                })}
                                         </>
                                     )}
                                 </MarkerClusterer>
