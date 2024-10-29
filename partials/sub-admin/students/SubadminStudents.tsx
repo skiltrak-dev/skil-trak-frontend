@@ -73,11 +73,9 @@ export const SubadminStudents = () => {
     const [studentName, setStudentName] = useState<any | null>(null)
     const [studentNameValue, setStudentNameValue] = useState<string>('')
 
-    const [snoozed, setSnoozed] = useState<boolean | undefined>(undefined)
-    const [nonContactable, setNonContactable] = useState<boolean | undefined>(
-        undefined
-    )
-    const [flagged, setFlagged] = useState<boolean | undefined>(undefined)
+    const [snoozed, setSnoozed] = useState<boolean>(false)
+    const [nonContactable, setNonContactable] = useState<boolean>(false)
+    const [flagged, setFlagged] = useState<boolean>(false)
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
@@ -264,14 +262,17 @@ export const SubadminStudents = () => {
 
     return (
         <>
-            <div className="flex justify-between items-end">
-                <PageTitle title={'Students'} backTitle={'Users'} />
+            <div className="flex justify-end items-end">
+                {/* <PageTitle title={'Students'} backTitle={'Users'} /> */}
 
                 <div className="flex items-center gap-x-2">
                     <MyStudentQuickFilters
                         setNonContactable={setNonContactable}
                         setSnoozed={setSnoozed}
                         setFlagged={setFlagged}
+                        snoozed={snoozed}
+                        flagged={flagged}
+                        nonContactable={nonContactable}
                     />
                     <div className="w-60">
                         <TextInput
