@@ -487,18 +487,20 @@ export const Courses = ({
 
             {/*  */}
             <div>
-                {result?.isAssessed && (
-                    <div className="flex px-4 pt-2">
-                        <Button
-                            text={editAssessment ? 'Cancel' : 'Change Result'}
-                            onClick={() => {
-                                setEditAssessment(!editAssessment)
-                            }}
-                            variant={editAssessment ? 'primary' : 'info'}
-                        />
-                    </div>
-                )}
                 <AuthorizedUserComponent excludeRoles={[UserRoles.OBSERVER]}>
+                    {result?.isAssessed && (
+                        <div className="flex px-4 pt-2">
+                            <Button
+                                text={
+                                    editAssessment ? 'Cancel' : 'Change Result'
+                                }
+                                onClick={() => {
+                                    setEditAssessment(!editAssessment)
+                                }}
+                                variant={editAssessment ? 'primary' : 'info'}
+                            />
+                        </div>
+                    )}
                     {((allCommentsAdded &&
                         ((result?.result !== Result.Competent &&
                             result?.isSubmitted) ||
