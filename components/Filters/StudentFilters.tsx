@@ -177,12 +177,12 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     showError={false}
                 />
                 <TextInput
-                    name="suburb"
-                    label={'Suburb'}
+                    name="state"
+                    label={'State'}
                     value={filter?.suburb}
-                    placeholder={'Search by Student Suburb ...'}
+                    placeholder={'Search by Student State ...'}
                     onChange={(e: any) => {
-                        onFilterChange({ ...filter, suburb: e.target.value })
+                        onFilterChange({ ...filter, state: e.target.value })
                     }}
                     showError={false}
                 />

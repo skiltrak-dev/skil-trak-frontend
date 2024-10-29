@@ -15,6 +15,7 @@ export interface StudentFormType {
     password: string
     confirmPassword: string
     addressLine1: string
+    addressLine2: string
     suburb: string
     state: string
     zipCode: string

@@ -297,6 +297,19 @@ export const StepReviewInfo = () => {
                                         {formData.zipCode || '-'}
                                     </Typography>
                                 </InfoboxCard>
+                                {formData.addressLine2 ? (
+                                    <InfoboxCard>
+                                        <Typography
+                                            variant={'xs'}
+                                            color={'text-gray-500'}
+                                        >
+                                            Secondary Address
+                                        </Typography>
+                                        <Typography variant={'label'}>
+                                            {formData.addressLine2 || '-'}
+                                        </Typography>
+                                    </InfoboxCard>
+                                ) : null}
                             </div>
                         </Card>
                     </div>

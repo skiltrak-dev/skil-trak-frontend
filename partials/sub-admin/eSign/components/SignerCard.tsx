@@ -7,8 +7,6 @@ import { getStatusColor } from './EsignListRowCard'
 export const SignerCard = ({ signer }: any) => {
     // #128C7F1A
 
-    
-
     const getPhoneNumber = (user: any) => {
         if (!user) return 'NA'
 
