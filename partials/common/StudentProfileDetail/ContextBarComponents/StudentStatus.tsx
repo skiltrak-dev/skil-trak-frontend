@@ -58,6 +58,10 @@ export const StudentStatus = ({
             label: 'Cancelled',
             value: StudentStatusEnum.CANCELLED,
         },
+        {
+            label: 'Expired',
+            value: StudentStatusEnum.EXPIRED,
+        },
     ]
     return (
         <>
@@ -98,7 +102,7 @@ export const StudentStatus = ({
                                 <IoIosArrowDown />
                             </div>
                             <div
-                                className={`w-auto px-2 bg-white shadow-md rounded-md absolute top-full left-0 overflow-hidden transition-all duration-500 ${
+                                className={`w-auto px-2 bg-white shadow-md rounded-md absolute bottom-full left-0 overflow-hidden transition-all duration-500 ${
                                     isOpened ? 'max-h-40' : 'max-h-0'
                                 }`}
                             >

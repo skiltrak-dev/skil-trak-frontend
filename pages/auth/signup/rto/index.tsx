@@ -2,19 +2,14 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
 import { UserRoles } from '@constants'
-import { AuthLayout } from '@layouts'
 import { SignUpUtils } from '@utils'
 
-import {
-    AuthBreadCrumb,
-    BackButton,
-    IndicatorStep,
-    Typography,
-} from '@components'
+import { IndicatorStep, Typography } from '@components'
 
 import { StepForm } from '@partials/rto/tabs'
-import { useState } from 'react'
 import Head from 'next/head'
+import { useState } from 'react'
+import Link from 'next/link'
 
 const FormSteps: IndicatorStep[] = [
     {
@@ -86,7 +81,12 @@ const RtoSignUp: NextPage = () => {
                         ]}
                     />
                 </div> */}
-
+                <Typography variant="small" color="text-gray-500">
+                    Already have an account{' '}
+                    <Link href={'/auth/login'} className="text-blue-500">
+                        Login
+                    </Link>
+                </Typography>
                 <StepForm />
             </div>
         </>

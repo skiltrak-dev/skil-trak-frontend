@@ -1,16 +1,16 @@
+import { AuthorizedUserComponent, Typography } from '@components'
 import { StudentStatusProgressCell } from '@components/StudentStatusProgressCell'
+import { UserRoles } from '@constants'
 import { ProgressCell } from '@partials/admin/student/components'
-import { Student, StudentStatusEnum, SubAdmin } from '@types'
+import { ViewStatusChangeHistoryModal } from '@partials/admin/student/modals'
+import { Student } from '@types'
 import {
     WorkplaceCurrentStatus,
     checkStudentStatus,
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
 } from '@utils'
-import React, { ReactElement, useState } from 'react'
-import { AuthorizedUserComponent, Typography } from '@components'
-import { UserRoles } from '@constants'
-import { ViewStatusChangeHistoryModal } from '@partials/admin/student/modals'
+import { ReactElement, useState } from 'react'
 import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
 
 export const CaseOfficerAssignedStudent = ({
@@ -23,22 +23,42 @@ export const CaseOfficerAssignedStudent = ({
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [isSecondWorkplace, setIsSecondWorkplace] = useState<boolean>(false)
 
-    const workplace = student?.workplace
-        ?.filter(
-            (w: any) => w?.currentStatus !== WorkplaceCurrentStatus.Cancelled
-        )
-        ?.reduce((a: any, b: any) => (b?.createdAt > a?.createdAt ? a : b), {
-            currentStatus: WorkplaceCurrentStatus.NotRequested,
-        })
+    const sortedWorkplace =
+        student?.workplace && student?.workplace?.length > 0
+            ? [...student?.workplace].sort((a: any, b: any) => {
+                  // Check if either status is "completed"
+                  if (
+                      a.currentStatus === WorkplaceCurrentStatus.Completed &&
+                      b.currentStatus !== WorkplaceCurrentStatus.Completed
+                  ) {
+                      return 1 // a goes after b
+                  }
+                  if (
+                      a.currentStatus !== WorkplaceCurrentStatus.Completed &&
+                      b.currentStatus === WorkplaceCurrentStatus.Completed
+                  ) {
+                      return -1 // a goes before b
+                  }
+                  // If neither or both are "completed", sort by createdAt date
+                  return Date.parse(a.createdAt) - Date.parse(b.createdAt)
+              })
+            : []
 
-    const secondWorkplace = student?.workplace
-        ?.filter((w: any) => w?.id !== workplace?.id)
+    const workplace = sortedWorkplace?.filter(
+        (w: any) => w?.currentStatus !== WorkplaceCurrentStatus.Cancelled
+    )?.[0]
+    // ?.reduce((a: any, b: any) => (b?.createdAt > a?.createdAt ? a : b), {
+    //     currentStatus: WorkplaceCurrentStatus.NotRequested,
+    // })
+
+    const secondWorkplace = sortedWorkplace
+        // ?.filter((w: any) => w?.id !== workplace?.id)
         ?.filter(
             (w: any) => w?.currentStatus !== WorkplaceCurrentStatus.Cancelled
-        )
-        ?.reduce((a: any, b: any) => (b?.createdAt > a?.createdAt ? a : b), {
-            currentStatus: WorkplaceCurrentStatus.NotRequested,
-        })
+        )?.[1]
+    // ?.reduce((a: any, b: any) => (b?.createdAt > a?.createdAt ? a : b), {
+    //     currentStatus: WorkplaceCurrentStatus.NotRequested,
+    // })
 
     const updatedWorkplace = isSecondWorkplace ? secondWorkplace : workplace
 
@@ -46,7 +66,7 @@ export const CaseOfficerAssignedStudent = ({
     const steps = checkWorkplaceStatus(updatedWorkplace?.currentStatus)
     const studentStatus = checkStudentStatus(student?.studentStatus)
     const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-        updatedWorkplace?.industries
+        updatedWorkplace?.industries as WorkplaceWorkIndustriesType[]
     )
     const updatedAlliedIndustry = {
         ...appliedIndustry,
