@@ -11,7 +11,7 @@ import { useDepartmentStudentList } from '../hooks'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 import moment from 'moment'
 
-export const DepartmentStudentList = ({ status }: { status: any }) => {
+export const NonContactableDepartmentStudents = ({ status }: { status?: any }) => {
     const {
         isError,
         isLoading,
@@ -24,6 +24,7 @@ export const DepartmentStudentList = ({ status }: { status: any }) => {
         itemPerPage,
         setItemPerPage,
         setPage,
+        // setStatusFilter,
     } = useDepartmentStudentList(status)
 
     const findCallLogsUnanswered = data?.data?.filter((student: any) => {

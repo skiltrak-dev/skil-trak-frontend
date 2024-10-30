@@ -8,6 +8,9 @@ import {
     DepartmentStudentList,
     DepartmentStudentsListProvider,
     FilterDepartmentStudents,
+    FlaggedDepartmentStudents,
+    NonContactableDepartmentStudents,
+    SnoozedDepartmentStudents,
     useDepartmentStudentList,
 } from '@partials/admin/departments'
 import {
@@ -20,6 +23,8 @@ import {
     StudentFilters,
     Table,
     TableChildrenProps,
+    TabNavigation,
+    TabProps,
     TechnicalError,
     TextInput,
 } from '@components'
@@ -48,7 +53,8 @@ const DepartmentStudent: NextPageWithLayout = () => {
     const [studentIdValue, setStudentIdValue] = useState<string>('')
     const [studentName, setStudentName] = useState<any | null>(null)
     const [studentNameValue, setStudentNameValue] = useState<string>('')
-
+    const router = useRouter()
+    const { id } = router.query
     const {
         filter,
         setFilter,
@@ -77,6 +83,61 @@ const DepartmentStudent: NextPageWithLayout = () => {
         ...(studentId?.studentId ? studentId : {}),
         ...(studentName?.name ? studentName : {}),
     })
+
+    const tabs: TabProps[] = [
+        {
+            label: 'Department Student',
+            href: {
+                pathname: `/portals/admin/departments/${id}/students`,
+                query: { tab: 'all' },
+            },
+            // badge: {
+            //     text: studentCount?.pending,
+            //     loading: count.isLoading,
+            // },
+            element: <DepartmentStudentList status={{ all: true }} />,
+        },
+        {
+            label: 'Snoozed',
+            href: {
+                pathname: `/portals/admin/departments/${id}/students`,
+                query: { tab: 'snoozed' },
+            },
+            // badge: {
+            //     text: studentCount?.pending,
+            //     loading: count.isLoading,
+            // },
+            element: <SnoozedDepartmentStudents status={{ snoozed: true }} />,
+        },
+        {
+            label: 'Flagged',
+            href: {
+                pathname: `/portals/admin/departments/${id}/students`,
+                query: { tab: 'flagged' },
+            },
+            // badge: {
+            //     text: studentCount?.pending,
+            //     loading: count.isLoading,
+            // },
+            element: <FlaggedDepartmentStudents status={{ flagged: true }} />,
+        },
+        {
+            label: 'Non Contactable',
+            href: {
+                pathname: `/portals/admin/departments/${id}/students`,
+                query: { tab: 'non-contactable' },
+            },
+            // badge: {
+            //     text: studentCount?.pending,
+            //     loading: count.isLoading,
+            // },
+            element: (
+                <NonContactableDepartmentStudents
+                    status={{ nonContactable: true }}
+                />
+            ),
+        },
+    ]
 
     return (
         <>
@@ -136,7 +197,18 @@ const DepartmentStudent: NextPageWithLayout = () => {
                 {filteredDataLength && <FilterDepartmentStudents />}
 
                 {/* Table */}
-                {!filteredDataLength && <DepartmentStudentList />}
+                {!filteredDataLength && (
+                    <TabNavigation tabs={tabs}>
+                        {({ header, element }: any) => {
+                            return (
+                                <div>
+                                    <div>{header}</div>
+                                    <div className="p-4">{element}</div>
+                                </div>
+                            )
+                        }}
+                    </TabNavigation>
+                )}
             </div>
         </>
     )

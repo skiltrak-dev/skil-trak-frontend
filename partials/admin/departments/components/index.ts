@@ -8,3 +8,6 @@ export * from './SectorAndCoursesList'
 export * from './DepartmentStudentList'
 export * from './FilterDepartmentStudents'
 
+export * from './SnoozedDepartmentStudents'
+export * from './FlaggedDepartmentStudents'
+export * from './NonContactableDepartmentStudents'
