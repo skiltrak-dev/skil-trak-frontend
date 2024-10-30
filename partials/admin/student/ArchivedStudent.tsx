@@ -25,13 +25,11 @@ import {
     checkStudentStatus,
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
-    studentsListWorkplace,
 } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import { IndustryCell } from '../industry/components'
 import { RtoCellInfo } from '../rto/components'
 import { SectorCell, StudentCellInfo, StudentIndustries } from './components'
 import { ChangeStatusModal, DeleteModal } from './modals'
@@ -61,8 +59,6 @@ export const ArchivedStudent = () => {
                 refetchOnMountOrArgChange: true,
             }
         )
-
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -157,23 +153,6 @@ export const ArchivedStudent = () => {
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            // cell: (info: any) => {
-            //     const industry = info.row.original?.industries
-
-            //     const appliedIndustry = studentsListWorkplace(
-            //         info.row.original?.workplace
-            //     )
-
-            //     return industry && industry?.length > 0 ? (
-            //         <IndustryCell industry={industry[0]} />
-            //     ) : info.row.original?.workplace &&
-            //       info.row.original?.workplace?.length > 0 &&
-            //       appliedIndustry ? (
-            //         <IndustryCell industry={appliedIndustry} />
-            //     ) : (
-            //         <Typography center>N/A</Typography>
-            //     )
-            // },
             cell: (info) => (
                 <StudentIndustries
                     industries={info.row.original?.industries}
@@ -184,25 +163,21 @@ export const ArchivedStudent = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell student={info.row.original} />
-            },
+            cell: (info) => <SectorCell student={info.row.original} />,
         },
 
         {
             accessorKey: 'expiry',
             header: () => <span>Expiry Countdown</span>,
             cell: (info) => (
-                <>
-                    <Typography variant={'small'} color={'text-primary'}>
-                        <span className="font-semibold whitespace-pre">
-                            {moment(
-                                info?.row?.original?.oldExpiry ||
-                                    info?.row?.original?.expiryDate
-                            ).format('Do MMM YYYY')}
-                        </span>
-                    </Typography>
-                </>
+                <Typography variant={'small'} color={'text-primary'}>
+                    <span className="font-semibold whitespace-pre">
+                        {moment(
+                            info?.row?.original?.oldExpiry ||
+                                info?.row?.original?.expiryDate
+                        ).format('Do MMM YYYY')}
+                    </span>
+                </Typography>
             ),
         },
         {
@@ -257,6 +232,7 @@ export const ArchivedStudent = () => {
                 const appliedIndustry = getStudentWorkplaceAppliedIndustry(
                     workplace?.industries
                 )
+
                 return (
                     <StudentStatusProgressCell
                         assigned={
