@@ -58,6 +58,7 @@ const filterKeys = [
     'flagged',
     'snoozed',
     'nonContactable',
+    'coordinator',
 ]
 
 export const SubadminStudents = () => {

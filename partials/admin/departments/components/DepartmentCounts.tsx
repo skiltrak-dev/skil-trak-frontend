@@ -27,7 +27,7 @@ export const DepartmentCounts = () => {
                         imageUrl="/images/figure-card/fig-card-2.svg"
                         count={departmentCounts?.data?.studentsCount}
                         title={'All Students'}
-                        link={`/portals/admin/departments/${id}/students`}
+                        link={`/portals/admin/departments/${id}/students?tab=all`}
                     />{' '}
                     {/* <FigureCardVII
                         imageUrl="/images/figure-card/fig-card-4.svg"
