@@ -33,4 +33,5 @@ export interface SubAdminStudentsFilterType {
     flagged: boolean
     snoozed: boolean
     nonContactable: boolean
+    coordinator: string
 }

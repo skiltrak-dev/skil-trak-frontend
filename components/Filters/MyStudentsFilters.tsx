@@ -1,7 +1,7 @@
 import { Checkbox, Select, TextInput } from '@components/inputs'
 
 // query
-import { CommonApi } from '@queries'
+import { CommonApi, SubAdminApi } from '@queries'
 
 import { SetQueryFilters } from './SetQueryFilters'
 import { StatusOptions } from './StatusOptions'
@@ -21,6 +21,17 @@ export const MyStudentsFilters = ({
     const getIndustries = CommonApi.Filter.useIndustries()
     const getRtos = CommonApi.Filter.useSubAdminRtos()
     const getCourses = CommonApi.Filter.useCourses()
+    const { data: departmentCoordinators } =
+        SubAdminApi.SubAdmin.useCoordinatorsDropDown()
+
+    const coordinatorsOptions = departmentCoordinators?.map(
+        (coordinator: any) => ({
+            label: coordinator?.user?.name,
+            value: coordinator?.id,
+        })
+    )
+    const subadmin = SubAdminApi.SubAdmin.useProfile()
+    const checkIsHod = subadmin?.data?.departmentMember?.isHod
 
     const industryOptions = getIndustries?.data?.map((industry: any) => ({
         value: industry?.id,
@@ -194,6 +205,22 @@ export const MyStudentsFilters = ({
                     }}
                     showError={false}
                 />
+                {checkIsHod && (
+                    <Select
+                        label={'Filter by Coordinator'}
+                        name={'coordinator'}
+                        options={coordinatorsOptions}
+                        placeholder={'Filter by Coordinator...'}
+                        value={coordinatorsOptions?.find(
+                            (c: OptionType) =>
+                                c?.value === Number(filter.coordinator)
+                        )}
+                        // onlyValue
+                        onChange={(e: any) =>
+                            onFilterChange({ ...filter, coordinator: e?.value })
+                        }
+                    />
+                )}
             </div>
             {/* <div className="flex items-center gap-2 mt-4">
                 <Checkbox

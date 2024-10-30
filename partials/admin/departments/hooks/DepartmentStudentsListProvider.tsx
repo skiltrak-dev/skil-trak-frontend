@@ -45,13 +45,30 @@ import { useStudentActionModal } from './useStudentActionModal'
 
 const DepartmentStudentsListContext = createContext<any>(null)
 
-export const useDepartmentStudentList = () => {
+type StatusFilters = {
+    snoozed?: boolean
+    flagged?: boolean
+    nonContactable?: boolean
+}
+export const useDepartmentStudentList = (initialStatus?: StatusFilters) => {
     const context = useContext(DepartmentStudentsListContext)
     if (context === null || context === undefined) {
         throw new Error(
             'DepartmentStudentsListContext must be used within a DepartmentStudentsListProvider'
         )
     }
+    React.useEffect(() => {
+        const currentFilter = context.statusFilter
+        const hasFilterChanged =
+            initialStatus &&
+            Object.entries(initialStatus).some(
+                ([key, value]) => currentFilter[key] !== value
+            )
+
+        if (hasFilterChanged) {
+            context.setStatusFilter(initialStatus)
+        }
+    }, [])
     return context
 }
 export const DepartmentStudentsListProvider = ({ children }: any) => {
@@ -64,6 +81,8 @@ export const DepartmentStudentsListProvider = ({ children }: any) => {
     // filter
     const [filterAction, setFilterAction] = useState(null)
     const [filter, setFilter] = useState<any>({} as any)
+
+    const [statusFilter, setStatusFilter] = useState<StatusFilters>({})
 
     const listingRef = useRef<any>(null)
 
@@ -84,14 +103,17 @@ export const DepartmentStudentsListProvider = ({ children }: any) => {
     }, [router])
 
     const { passwordModal, onViewPassword } = useActionModal()
-
+    console.log('statusFilter:::::', statusFilter)
     // data fetching
     const { data, isLoading, isFetching, isError, isSuccess } =
         AdminApi.Department.useDeptStudentsList(
             {
                 id: id,
                 params: {
-                    search: `${JSON.stringify(filter)
+                    search: `${JSON.stringify({
+                        ...filter,
+                        ...statusFilter,
+                    })
                         .replaceAll('{', '')
                         .replaceAll('}', '')
                         .replaceAll('"', '')
@@ -398,8 +420,18 @@ export const DepartmentStudentsListProvider = ({ children }: any) => {
                 localStorage.setItem('lastScroll', listingRef.current.scrollTop)
         }
     }
-
+    const setStatusFilterSafe = useCallback((newFilter: StatusFilters) => {
+        setStatusFilter((prev: any) => {
+            // Only update if there are actual changes
+            const hasChanges = Object.entries(newFilter).some(
+                ([key, value]) => prev[key] !== value
+            )
+            return hasChanges ? newFilter : prev
+        })
+    }, [])
     const contextValue = {
+        statusFilter,
+        setStatusFilter: setStatusFilterSafe,
         data,
         isLoading,
         isFetching,

@@ -14,8 +14,26 @@ import { useRouter } from 'next/router'
 //     AccordionContent,
 //     AccordionItem,
 //     AccordionTrigger,
+import dynamic from 'next/dynamic'
 // } from '@radix-ui/react-accordion'
 import { ellipsisText } from '@utils'
+
+const FacebookShare = dynamic<any>(
+    () => import('react-share-kit').then((mod) => mod.FacebookShare),
+    { ssr: false }
+)
+const LinkedinShare = dynamic<any>(
+    () => import('react-share-kit').then((mod) => mod.LinkedinShare),
+    { ssr: false }
+)
+const PinterestShare = dynamic<any>(
+    () => import('react-share-kit').then((mod) => mod.PinterestShare),
+    { ssr: false }
+)
+const TwitterShare = dynamic<any>(
+    () => import('react-share-kit').then((mod) => mod.TwitterShare),
+    { ssr: false }
+)
 
 const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
     const [activeAccordion, setActiveAccordion] = useState<number | null>(null)
@@ -29,11 +47,11 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
     }
     const router = useRouter()
     const blogId = router.query?.slug as string
-    const [activeKey, setActiveKey] = useState(null)
-    // const { data, isLoading, isFetching, isError } =
+    const [activeKey, setActiveKey] = useState(null) // const { data, isLoading, isFetching, isError } =
     //     adminApi.useGetBlogDetailQuery(blogId, {
     //         skip: !blogId,
     //     })
+    const shareUrl = `https://www.skiltrak.com.au/blogs/${router.query.slug}`
 
     return (
         <div className="">
@@ -54,39 +72,88 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                 <>
                     {' '}
                     <HeroSectionBlog />
-                    <div className="md:p-10 p-0 mt-8 md:mt-0 mx-auto max-w-7xl">
+                    <main className="max-w-4xl mx-auto px-4 py-8 md:py-16">
                         <div className="rounded-xl md:px-8 px-4 py-8 md:py-4 bg-white">
-                            <div className="md:h-[600px] h-[250px] w-full relative overflow-hidden rounded-xl">
+                            <div className="relative h-[300px] md:h-[500px] w-full">
                                 <Image
                                     src={
                                         blogData?.featuredImage ||
                                         '/images/blogs/blog.jpg'
                                     }
-                                    alt="blog-card"
+                                    alt={blogData?.title}
                                     fill
                                     sizes="100vw"
-                                    className="object-contain w-full"
+                                    className="object-cover"
+                                    priority
                                 />
                             </div>
-                            <div className="flex items-center justify-between my-3">
-                                <p className="text-slate-400 text-xs font-bold">
-                                    Published by : {blogData?.author}
-                                </p>
-                                <p className="text-slate-400 text-xs">
-                                    {moment(blogData?.updatedAt).format(
-                                        'Do MMM YYYY'
-                                    )}
-                                </p>
+                            <div className="flex items-center space-x-4 my-6">
+                                <div className="flex items-center">
+                                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                        <span className="text-blue-600 font-semibold">
+                                            {blogData?.author?.[0]?.toUpperCase()}
+                                        </span>
+                                    </div>
+                                    <div className="ml-3">
+                                        <p className="text-sm font-medium text-gray-900">
+                                            {blogData?.author}
+                                        </p>
+                                        <p className="text-xs text-gray-500">
+                                            {moment(blogData?.updatedAt).format(
+                                                'MMMM DD, YYYY'
+                                            )}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                            <h1 className="font-bold text-xl md:text-[40px] md:leading-10 uppercase my-2 md:my-10">
+                            {/* Title */}
+                            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight mb-6">
                                 {blogData?.title}
                             </h1>
-                            <div
-                                className="blog-content block text-sm md:text-normal mr-0 md:mr-6 text-gray-600 leading-6"
-                                dangerouslySetInnerHTML={{
-                                    __html: blogData?.content,
-                                }}
-                            />
+                            <div className="prose prose-lg max-w-none">
+                                <div
+                                    className="blog-content text-gray-700 leading-relaxed"
+                                    dangerouslySetInnerHTML={{
+                                        __html: blogData?.content,
+                                    }}
+                                />
+                            </div>
+                            {/* Social Share */}
+                            <div className="border-t border-gray-100 mt-8 pt-6 flex flex-col justify-center items-end">
+                                <p className="text-sm text-gray-600 mb-3">
+                                    Share this article
+                                </p>
+                                <div className="flex space-x-2">
+                                    <FacebookShare
+                                        url={shareUrl}
+                                        quote={blogData?.title}
+                                        round
+                                        size={36}
+                                    />
+                                    <LinkedinShare
+                                        url={shareUrl}
+                                        // quote={blogData?.title}
+                                        round
+                                        size={36}
+                                    />
+                                    <PinterestShare
+                                        url={shareUrl}
+                                        media={
+                                            blogData?.featuredImage ||
+                                            '/images/blogs/blog.jpg'
+                                        }
+                                        round
+                                        size={36}
+                                    />
+                                    <TwitterShare
+                                        url={shareUrl}
+                                        title={blogData?.title}
+                                        round
+                                        size={36}
+                                    />
+                                </div>
+                            </div>
+
                             {blogData?.blogQuestions &&
                                 blogData?.blogQuestions?.length > 0 && (
                                     <div className="md:mt-20 mt-8">
@@ -131,7 +198,7 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                                     </div>
                                 )}
                         </div>
-                    </div>
+                    </main>
                 </>
             )}
         </div>
