@@ -113,10 +113,23 @@ export const Workplace = ({
 
     const sortedWorkplace =
         studentWorkplace?.data && studentWorkplace?.data?.length > 0
-            ? [...studentWorkplace?.data]?.sort(
-                  (a: any, b: any) =>
-                      Date.parse(a.createdAt) - Date.parse(b.createdAt)
-              )
+            ? [...studentWorkplace?.data].sort((a: any, b: any) => {
+                  // Check if either status is "completed"
+                  if (
+                      a.currentStatus === WorkplaceCurrentStatus.Completed &&
+                      b.currentStatus !== WorkplaceCurrentStatus.Completed
+                  ) {
+                      return 1 // a goes after b
+                  }
+                  if (
+                      a.currentStatus !== WorkplaceCurrentStatus.Completed &&
+                      b.currentStatus === WorkplaceCurrentStatus.Completed
+                  ) {
+                      return -1 // a goes before b
+                  }
+                  // If neither or both are "completed", sort by createdAt date
+                  return Date.parse(a.createdAt) - Date.parse(b.createdAt)
+              })
             : []
 
     useEffect(() => {
