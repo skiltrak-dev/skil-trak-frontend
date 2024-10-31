@@ -144,7 +144,16 @@ export const FutureIndustrySignUpForm = ({
         // Contact Person Information
         contactPerson: yup
             .string()
-            .matches(onlyAlphabets(), 'Please enter valid name'),
+            .matches(onlyAlphabets(), 'Please enter valid name')
+            .test(
+                'min-words',
+                'Name must contain at least 2 words',
+                (value) => {
+                    if (!value) return false
+                    const words = value.trim().split(/\s+/)
+                    return words.length >= 2
+                }
+            ),
         contactPersonEmail: yup.string().email('Must be a valid email'),
         contactPersonNumber: yup.string(),
 

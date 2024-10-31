@@ -33,7 +33,6 @@ import {
     UnAssignStudentModal,
 } from './modals'
 
-import { PageHeading } from '@components/headings'
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { getFilterQuery, getUserCredentials, setLink } from '@utils'
@@ -57,7 +56,7 @@ const filterKeys = [
     'flagged',
     'snoozed',
     'nonContactable',
-    'coordinator'
+    'coordinator',
 ]
 
 export const MyStudents = () => {
