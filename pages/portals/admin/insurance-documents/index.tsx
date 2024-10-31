@@ -31,6 +31,8 @@ const InsuranceDocuments: NextPageWithLayout = () => {
                     <DocumentTypeCard
                         key={i}
                         index={i}
+                        active={false}
+                        onClick={() => {}}
                         label="Worker compensation insurance"
                     />
                 ))}
