@@ -21,6 +21,9 @@ import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
+import { AllowPermissionModal } from './modals'
+import { ReactElement, useState } from 'react'
+import { PiCellSignalLowFill } from 'react-icons/pi'
 
 export const FilteredSubAdmins = ({
     subAdmin,
@@ -33,6 +36,7 @@ export const FilteredSubAdmins = ({
     itemPerPage: any
     setItemPerPage: any
 }) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
 
     const contextBar = useContextBar()
@@ -45,6 +49,17 @@ export const FilteredSubAdmins = ({
         contextBar.setContent(<AddSubAdminCB edit subAdmin={subAdmin} />)
         contextBar.setTitle('Edit SubAdmin')
         contextBar.show()
+    }
+
+    const onModalCancelClicked = () => setModal(null)
+
+    const onAllowPermissionClicked = (subadmin: SubAdmin) => {
+        setModal(
+            <AllowPermissionModal
+                subadmin={subadmin}
+                onCancel={onModalCancelClicked}
+            />
+        )
     }
 
     const tableActionOptions: TableActionOption[] = [
@@ -84,6 +99,16 @@ export const FilteredSubAdmins = ({
             text: 'Edit',
             onClick: (subadmin: SubAdmin) => onEditSubAdmin(subadmin),
             Icon: FaEdit,
+        },
+        {
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'Permissions',
+                      onClick: (subAdmin: SubAdmin) =>
+                          onAllowPermissionClicked(subAdmin),
+                      Icon: PiCellSignalLowFill,
+                  }
+                : {}),
         },
         {
             ...(role === UserRoles.ADMIN

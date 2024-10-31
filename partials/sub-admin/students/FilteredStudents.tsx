@@ -294,6 +294,9 @@ export const FilteredStudents = ({
 
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
 
+                const documentInitiates =
+                    student?.user?.signers && student?.user?.signers?.length > 0
+
                 return !student?.workplace?.length &&
                     student?.industries?.length ? (
                     <ProgressCell
@@ -301,6 +304,7 @@ export const FilteredStudents = ({
                         studentId={student?.id}
                         assigned={student?.subadmin}
                         step={9}
+                        documentInitiates={documentInitiates}
                     />
                 ) : student?.workplace && student?.workplace?.length > 0 ? (
                     <ProgressCell
@@ -308,6 +312,7 @@ export const FilteredStudents = ({
                         studentId={student?.id}
                         assigned={student?.subadmin}
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                        documentInitiates={documentInitiates}
                     />
                 ) : student?.subadmin ? (
                     <ProgressCell
@@ -315,6 +320,7 @@ export const FilteredStudents = ({
                         studentId={student?.id}
                         step={3}
                         assigned={student?.subadmin}
+                        documentInitiates={documentInitiates}
                     />
                 ) : (
                     <ProgressCell
@@ -322,6 +328,7 @@ export const FilteredStudents = ({
                         studentId={student?.id}
                         step={1}
                         assigned={student?.subadmin}
+                        documentInitiates={documentInitiates}
                     />
                 )
             },

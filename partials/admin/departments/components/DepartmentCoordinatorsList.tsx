@@ -21,7 +21,7 @@ export const DepartmentCoordinatorsList = () => {
         isFetching,
         isError,
     } = useDepartmentCoordinatorsList()
-
+    console.log({ datadatadata: data })
     return (
         <>
             {modal && modal}
