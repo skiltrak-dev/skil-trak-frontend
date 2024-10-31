@@ -201,7 +201,16 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         // Contact Person Information
         contactPerson: yup
             .string()
-            .matches(onlyAlphabets(), 'Must be a valid name'),
+            .matches(onlyAlphabets(), 'Must be a valid name')
+            .test(
+                'min-words',
+                'Name must contain at least 2 words',
+                (value) => {
+                    if (!value) return false
+                    const words = value.trim().split(/\s+/)
+                    return words.length >= 2
+                }
+            ),
         contactPersonEmail: yup.string().email('Must be a valid email'),
         contactPersonNumber: yup.string(),
 

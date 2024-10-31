@@ -339,7 +339,7 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                                         description={
                                             'This prompt should be shown, when some long or multiprocess has been completed, and now user need to return to home or some other page.'
                                         }
-                                        variant={'primary' || 'info' || 'error'}
+                                        variant={'primary'}
                                         primaryAction={{
                                             text: 'Go Back',
                                             onClick: () => {

@@ -2,12 +2,12 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
+import * as yup from 'yup'
 import _debounce from 'lodash/debounce'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
-import * as yup from 'yup'
 
-import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
+import { useNotification } from '@hooks'
 import {
     CourseSelectOption,
     formatOptionLabel,
@@ -29,8 +29,7 @@ import {
     TextInput,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Course, IndustryFormType, ProvideIndustryDetail } from '@types'
-import { IoIosArrowRoundBack } from 'react-icons/io'
+import { Course, ProvideIndustryDetail } from '@types'
 
 export const AddCustomIndustryForm = ({
     setWorkplaceData,
@@ -93,7 +92,16 @@ export const AddCustomIndustryForm = ({
         // Contact Person Information
         contactPerson: yup
             .string()
-            .matches(onlyAlphabets(), 'Please enter valid name'),
+            .matches(onlyAlphabets(), 'Please enter valid name')
+            .test(
+                'min-words',
+                'Name must contain at least 2 words',
+                (value) => {
+                    if (!value) return false
+                    const words = value.trim().split(/\s+/)
+                    return words.length >= 2
+                }
+            ),
         contactPersonEmail: yup.string().email('Must be a valid email'),
         contactPersonNumber: yup.string(),
 
