@@ -1,42 +1,29 @@
 import { useEffect, useState } from 'react'
 
 import {
-    Card,
-    EmptyData,
     Filter,
     LoadingAnimation,
-    PageTitle,
     SetDetaultQueryFilteres,
     SubadminEsignFilter,
-    TabNavigation,
     TabNavigationVII,
-    TabProps,
     TabPropsVII,
     TechnicalError,
 } from '@components'
-import { FigureCard } from '@components/sections/subAdmin'
 import { useNavbar } from '@hooks'
 import { CommonApi } from '@queries'
 import { SubadminESignFilterType } from '@types'
 import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
 import {
-    AllEsignDocuments,
-    CancelEsignDocuments,
-    FilterdEsignDocuments,
-    IndustriesEsignDocuments,
-    RTOEsignDocuments,
-    ReleasedEsignDocuments,
-    StudentsEsignDocuments,
     AllEsignDocumentsUpdated,
-    ReleasedEsignDocumentsUpdated,
-    StudentsEsignDocumentsUpdated,
-    IndustriesEsignDocumentsUpdated,
-    RTOEsignDocumentsUpdated,
     CancelEsignDocumentsUpdated,
     FilterdEsignDocumentsUpdated,
-    SignedEsignDocuments,
+    IndustriesEsignDocumentsUpdated,
     PendingEsignDocuments,
+    RTOEsignDocumentsUpdated,
+    ReleasedEsignDocumentsUpdated,
+    SignedEsignDocuments,
+    StudentsEsignDocumentsUpdated,
 } from './tabs'
 
 const filterKeys = [
@@ -232,7 +219,6 @@ export const SubadminESign = () => {
                    
                 </div> */}
             </div>
-
             {filteredDataLength && documents.isError && <TechnicalError />}
             {filteredDataLength ? (
                 documents?.isLoading ? (
@@ -248,6 +234,7 @@ export const SubadminESign = () => {
                     )
                 )
             ) : null}
+
             {!filteredDataLength && (
                 <TabNavigationVII tabs={tabs}>
                     {({ header, element }: any) => {

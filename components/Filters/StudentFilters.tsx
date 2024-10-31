@@ -22,6 +22,7 @@ import { SetQueryFilters } from './SetQueryFilters'
 import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
 import { useMemo } from 'react'
+import { Country, State } from 'country-state-city'
 
 interface ItemFilterProps {
     onFilterChange: (values: StudentsFilterType) => void
@@ -92,6 +93,8 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
     const getIndustries = CommonApi.Filter.useIndustries()
     const coordinators = AdminApi.SubAdmins.useSubAdminsFilterList()
 
+    const states = State.getStatesOfCountry('AU')
+
     const industryOptions = getIndustries?.data?.map((industry: Industry) => ({
         value: industry?.id,
         label: industry?.user?.name,
@@ -106,6 +109,10 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
         item: course,
         value: course?.id,
         label: course?.title,
+    }))
+    const stateCodeOptions = states?.map((state: any) => ({
+        value: state?.name,
+        label: state?.name,
     }))
 
     const sectorOptions = useMemo(
@@ -176,7 +183,20 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     }}
                     showError={false}
                 />
-                <TextInput
+                <Select
+                    label={'Search by State'}
+                    name={'state'}
+                    options={stateCodeOptions}
+                    placeholder={'Select State...'}
+                    value={stateCodeOptions?.find(
+                        (state: SelectOption) => state.value === filter?.state
+                    )}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, state: e?.value })
+                    }}
+                    showError={false}
+                />
+                {/* <TextInput
                     name="state"
                     label={'State'}
                     value={filter?.suburb}
@@ -185,7 +205,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                         onFilterChange({ ...filter, state: e.target.value })
                     }}
                     showError={false}
-                />
+                /> */}
                 <Select
                     label={'Status'}
                     name={'status'}

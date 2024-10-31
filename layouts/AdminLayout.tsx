@@ -114,13 +114,13 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
     }
     useEffect(() => {
         const handleRouteChange = () => {
-            // if (childrenRef.current) {
-            //     childrenRef.current.scrollTo({
-            //         top: 0,
-            //         left: 0,
-            //         behavior: 'smooth',
-            //     })
-            // }
+            if (childrenRef.current) {
+                childrenRef.current.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: 'smooth',
+                })
+            }
         }
 
         // Add event listener for route changes
@@ -265,6 +265,11 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             path: getRoutePath('/documents'),
             Icon: HiOutlineDocumentText,
         },
+        // {
+        //     text: 'Insurance Documents',
+        //     path: getRoutePath('/insurance-documents'),
+        //     Icon: HiOutlineDocumentText,
+        // },
         {
             text: 'E-Sign',
             path: getRoutePath('/e-sign?tab=approved&page=1&pageSize=50'),

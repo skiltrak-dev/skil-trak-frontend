@@ -125,6 +125,9 @@ export const CaseOfficerAssignedStudent = ({
 
     const updatedStatus = WorkplaceStatus?.filter((wpStatus) => wpStatus?.date)
 
+    const documentInitiates =
+        student?.user?.signers && student?.user?.signers?.length > 0
+
     return (
         <div className="w-[280px]">
             {modal}
@@ -138,6 +141,7 @@ export const CaseOfficerAssignedStudent = ({
                         updatedWorkplace?.studentProvidedWorkplace ||
                         updatedWorkplace?.byExistingAbn
                     }
+                    documentInitiates={documentInitiates}
                 />
             ) : student?.workplace && student?.workplace?.length > 0 ? (
                 <ProgressCell
@@ -149,6 +153,7 @@ export const CaseOfficerAssignedStudent = ({
                         updatedWorkplace?.studentProvidedWorkplace ||
                         updatedWorkplace?.byExistingAbn
                     }
+                    documentInitiates={documentInitiates}
                 />
             ) : industries?.length > 0 ? (
                 <StudentStatusProgressCell
@@ -176,6 +181,7 @@ export const CaseOfficerAssignedStudent = ({
                         updatedWorkplace?.studentProvidedWorkplace ||
                         updatedWorkplace?.byExistingAbn
                     }
+                    documentInitiates={documentInitiates}
                 />
             ) : (
                 <ProgressCell
@@ -187,6 +193,7 @@ export const CaseOfficerAssignedStudent = ({
                         updatedWorkplace?.studentProvidedWorkplace ||
                         updatedWorkplace?.byExistingAbn
                     }
+                    documentInitiates={documentInitiates}
                 />
             )}
             <div className="flex items-center justify-between gap-x-2 mt-1">

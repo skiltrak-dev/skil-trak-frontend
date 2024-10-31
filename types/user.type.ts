@@ -40,6 +40,7 @@ export interface User extends BaseResponse {
     appointmentFor: any
     statusChangeHistory: StatusChangeHistory
     after_hours_access: boolean
+    signers: any
 }
 
 export interface UserCount {

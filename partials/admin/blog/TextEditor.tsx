@@ -69,7 +69,6 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                     'Title must be between 5 and 160 characters and only contain special characters',
                 excludeEmptyString: true,
             }),
-
         author: yup
             .string()
             .required('Author is required')
@@ -109,8 +108,10 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
             [{ list: 'ordered' }, { list: 'bullet' }],
             [{ indent: '-1' }, { indent: '+1' }, { align: [] }],
             ['link', 'image', 'video'],
+            ['table'],
             ['clean'],
         ],
+        // table: true,
     }
 
     const onSubmit: any = (data: any, publish: boolean) => {
