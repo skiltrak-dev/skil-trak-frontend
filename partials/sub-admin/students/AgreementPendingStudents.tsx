@@ -197,6 +197,10 @@ export const AgreementPendingStudents = () => {
                 const appliedIndustry = getStudentWorkplaceAppliedIndustry(
                     workplace?.industries
                 )
+
+                const documentInitiates =
+                    student?.user?.signers && student?.user?.signers?.length > 0
+
                 return (
                     <ProgressCell
                         appliedIndustry={appliedIndustry}
@@ -207,6 +211,7 @@ export const AgreementPendingStudents = () => {
                             workplace?.studentProvidedWorkplace ||
                             workplace?.byExistingAbn
                         }
+                        documentInitiates={documentInitiates}
                     />
                 )
             },

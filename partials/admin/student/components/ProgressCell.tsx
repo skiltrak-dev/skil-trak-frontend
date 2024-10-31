@@ -5,6 +5,7 @@ import { SubAdmin } from '@types'
 import classNames from 'classnames'
 import moment from 'moment'
 import { ReactElement, useState } from 'react'
+import { FaFileSignature } from 'react-icons/fa'
 
 type WorkplaceRequestStatus =
     | '1-NotRequested'
@@ -132,6 +133,7 @@ const WorkplaceRequestProgress = (appliedIndustry?: any) => {
 }
 
 export const ProgressCell = ({
+    documentInitiates,
     studentId,
     status,
     step,
@@ -145,6 +147,7 @@ export const ProgressCell = ({
     assigned?: SubAdmin
     appliedIndustry: any
     studentProvidedWorkplace?: boolean
+    documentInitiates?: boolean
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     // const currentStatus = WorkplaceRequestProgress[status]
@@ -193,18 +196,34 @@ export const ProgressCell = ({
                     >
                         {currentStatus.status}
                     </p>
-                    {assigned ? (
-                        <Typography variant={'xs'} color={'text-gray-500'}>
-                            <span className="font-semibold">
-                                <span className="text-gray-400">CO-</span>{' '}
-                                {assigned?.user?.name}
-                            </span>
-                        </Typography>
-                    ) : (
-                        <p className="text-[11px] text-gray-400 whitespace-nowrap">
-                            {currentStatus.description}
-                        </p>
-                    )}
+                    <div className="flex justify-between items-center">
+                        <div>
+                            {assigned ? (
+                                <Typography
+                                    variant={'xs'}
+                                    color={'text-gray-500'}
+                                >
+                                    <span className="font-semibold">
+                                        <span className="text-gray-400">
+                                            CO-
+                                        </span>{' '}
+                                        {assigned?.user?.name}
+                                    </span>
+                                </Typography>
+                            ) : (
+                                <p className="text-[11px] text-gray-400 whitespace-nowrap">
+                                    {currentStatus.description}
+                                </p>
+                            )}
+                        </div>
+                        {documentInitiates ? (
+                            <FaFileSignature
+                                size={18}
+                                className="text-success-dark"
+                            />
+                        ) : null}
+                    </div>
+
                     <p className="text-xs font-semibold text-gray-700 whitespace-nowrap">
                         {studentProvidedWorkplace
                             ? 'Student Provided Workplace'
