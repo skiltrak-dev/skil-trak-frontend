@@ -257,8 +257,9 @@ export const eSignEndpoints = (
     addCustomFieldData: builder.mutation<
         any,
         {
-            documentId: number
+            userId?: number
             tabsResponse: any
+            documentId: number
         }
     >({
         query: ({ documentId, ...body }) => ({

@@ -17,7 +17,6 @@ export const SubAdminStudentFilters = ({
     onFilterChange,
     filter,
 }: ItemFilterProps) => {
-    console.log('filter', filter)
     // query
     const getIndustries = CommonApi.Filter.useIndustries()
     const getRtos = CommonApi.Filter.useSubAdminRtos()

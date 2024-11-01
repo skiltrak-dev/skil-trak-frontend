@@ -1,22 +1,20 @@
 import {
     Button,
-    PageTitle,
-    GlobalModal,
-    StudentTimer,
-    PaymentModal,
-    StudentNavbar,
     DisplayAlerts,
+    GlobalModal,
+    PageTitle,
     PageTitleProps,
+    PaymentModal,
     RedirectUnApprovedUsers,
+    StudentNavbar,
+    StudentTimer,
 } from '@components'
 
-import { useAlert, useJoyRide } from '@hooks'
+import { useJoyRide } from '@hooks'
 import { UsersPendingEsignModal } from '@partials'
 import { ProfileModal } from '@partials/student/Profile/modal/ProfileModal'
-import {
-    StudentContextBar,
-    studentProfileKeys,
-} from '@partials/student/components'
+import { studentProfileKeys } from '@partials/student/components'
+import { WorkplaceApprovalModal } from '@partials/student/workplace/modal'
 import {
     CommonApi,
     StudentApi,
@@ -28,7 +26,6 @@ import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
-import { WorkplaceApprovalModal } from '@partials/student/workplace/modal'
 
 interface StudentLayoutProps {
     pageTitle?: PageTitleProps

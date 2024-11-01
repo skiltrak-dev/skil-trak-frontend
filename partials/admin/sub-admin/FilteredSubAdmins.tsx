@@ -211,7 +211,8 @@ export const FilteredSubAdmins = ({
 
     return (
         <>
-            {passwordModal && passwordModal}
+            {modal}
+            {passwordModal}
             <div className="flex flex-col gap-y-4 p-4">
                 <PageHeading
                     title={'Filtered Sub Admins'}

@@ -153,12 +153,14 @@ export const CheckAgreementSignedStatus = ({
                             </AuthorizedUserComponent>
                         </div>
 
-                        {/* {document?.signers?.map((signer: any) => (
-                            <AgreementSignStatusCard
-                                signer={signer}
-                                document={document}
-                            />
-                        ))} */}
+                        {/* <div className="flex flex-col gap-y-2">
+                            {document?.signers?.map((signer: any) => (
+                                <AgreementSignStatusCard
+                                    signer={signer}
+                                    document={document}
+                                />
+                            ))}
+                        </div> */}
 
                         {document?.signers?.map((signer: any, i: number) => (
                             <>

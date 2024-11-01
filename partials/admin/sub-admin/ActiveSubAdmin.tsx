@@ -367,6 +367,26 @@ export const ActiveSubAdmin = () => {
                                                 {table}
                                             </div>
                                         </div>
+                                        {data?.data?.length > 10 && (
+                                            <div className="p-6 mb-2 flex justify-between">
+                                                {pageSize
+                                                    ? pageSize(
+                                                          itemPerPage,
+                                                          setItemPerPage,
+                                                          data?.data?.length
+                                                      )
+                                                    : null}
+                                                <div className="flex gap-x-2">
+                                                    {quickActions}
+                                                    {pagination
+                                                        ? pagination(
+                                                              data?.pagination,
+                                                              setPage
+                                                          )
+                                                        : null}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 )
                             }}
