@@ -142,14 +142,14 @@ export const AgreementSignStatusCard = ({
                                             ? moment(signer?.updatedAt).format(
                                                   'DD MMM, YYYY'
                                               )
-                                            : 'Not Signed'}
+                                            : 'Not Submitted'}
                                     </Typography>
                                 </div>
                             </div>
                             <AuthorizedUserComponent
                                 roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                             >
-                                <div>
+                                <div className="border-r border-gray-300">
                                     <Typography
                                         variant="xs"
                                         color="text-gray-400"
@@ -182,7 +182,7 @@ export const AgreementSignStatusCard = ({
                             <AuthorizedUserComponent
                                 roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                             >
-                                <div className="relative group">
+                                <div className="relative group border-r border-gray-300">
                                     <Typography
                                         variant="xs"
                                         color="text-gray-400"
@@ -220,7 +220,7 @@ export const AgreementSignStatusCard = ({
                             <AuthorizedUserComponent
                                 roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                             >
-                                <div>
+                                <div className="border-r border-gray-300">
                                     <Typography
                                         variant="xs"
                                         color="text-gray-400"
@@ -240,50 +240,34 @@ export const AgreementSignStatusCard = ({
                                     />
                                 </div>
                             </AuthorizedUserComponent>
-                            <AuthorizedUserComponent
-                                roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
-                            >
-                                <div>
-                                    <Typography
-                                        variant="xs"
-                                        color="text-gray-400"
-                                    >
-                                        Sign Status
-                                    </Typography>
-                                    <Typography
-                                        variant="muted"
-                                        color={getStatusColor(
-                                            signResponse?.id
-                                                ? 'signed'
-                                                : 'pending'
-                                        )}
-                                        semibold
-                                    >
-                                        {signResponse?.id
-                                            ? 'Signed'
-                                            : 'Pending'}
-                                    </Typography>
-                                </div>
-                            </AuthorizedUserComponent>
-                            <AuthorizedUserComponent
-                                roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
-                            >
-                                <div>
-                                    <Typography
-                                        variant="xs"
-                                        color="text-gray-400"
-                                    >
-                                        Sign Date
-                                    </Typography>
-                                    <Typography variant="muted" semibold>
-                                        {signResponse?.id
-                                            ? moment(
-                                                  signResponse?.createdAt
-                                              ).format('DD MMM, YYYY')
-                                            : 'Not Signed'}
-                                    </Typography>
-                                </div>
-                            </AuthorizedUserComponent>
+
+                            <div className="border-r border-gray-300">
+                                <Typography variant="xs" color="text-gray-400">
+                                    Sign Status
+                                </Typography>
+                                <Typography
+                                    variant="muted"
+                                    color={getStatusColor(
+                                        signResponse?.id ? 'signed' : 'pending'
+                                    )}
+                                    semibold
+                                >
+                                    {signResponse?.id ? 'Signed' : 'Pending'}
+                                </Typography>
+                            </div>
+
+                            <div className="border-r border-gray-300">
+                                <Typography variant="xs" color="text-gray-400">
+                                    Sign Date
+                                </Typography>
+                                <Typography variant="muted" semibold>
+                                    {signResponse?.id
+                                        ? moment(
+                                              signResponse?.createdAt
+                                          ).format('DD MMM, YYYY')
+                                        : 'Not Signed'}
+                                </Typography>
+                            </div>
                             <AuthorizedUserComponent
                                 roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                             >
