@@ -1,4 +1,4 @@
-import { Typography } from '@components'
+import { AuthorizedUserComponent, Typography } from '@components'
 import { UserRoles } from '@constants'
 import { AvailableMeetingDates } from '@partials/student'
 import { WorkplaceAvailableSlots } from '@partials/student/workplace/components/WorkplaceApproval/WorkplaceAvailableSlots'
@@ -30,70 +30,202 @@ export const WorkplaceApprovalReq = ({
     }, [])
 
     return (
-        <div className="p-3 h-full">
-            <div>
-                <Typography variant="label" semibold block>
-                    Workplace Approval Request has been sent to the student.
-                    Once the student approves, you will be able to update the
-                    request status
+        <div className="h-full">
+            <div className="grid grid-cols-3 gap-x-6 items-center border-b border-[#F7910F] px-4 py-2">
+                <Typography variant="label" semibold block capitalize>
+                    eligible workplace option for placement
                 </Typography>
+                <div className="col-span-2">
+                    <Typography variant="small" medium color="text-[#24556D]">
+                        Workplace Approval Request has been sent to the student
+                        once the student approves, you will be able to update
+                        the request status.{' '}
+                    </Typography>
+                </div>
             </div>
-            <div className="flex flex-col gap-y-3 mt-1">
-                <div
-                    className={`grid gap-y-2 grid-cols-1 ${
-                        role === UserRoles?.ADMIN || subadmin?.data?.isAdmin
-                            ? 'xl:grid-cols-4'
-                            : ''
-                    } gap-x-3`}
-                >
-                    <div
-                        className={`w-full  ${
-                            role === UserRoles?.ADMIN || subadmin?.data?.isAdmin
-                                ? 'xl:col-span-3'
-                                : ''
-                        } `}
-                    >
-                        <Typography variant="label" medium center block>
-                            Workplace on map
-                        </Typography>
-                        <div className="rounded-xl w-full overflow-hidden mt-2">
-                            {mount ? (
-                                <WorkplaceMapView
-                                    industryLocation={wpReqApproval?.industry?.location?.split(
-                                        ','
-                                    )}
-                                    studentLocation={wpReqApproval?.student?.location?.split(
-                                        ','
-                                    )}
-                                    workplaceName={
-                                        wpReqApproval?.industry?.user?.name
-                                    }
-                                    showMap
-                                />
-                            ) : null}
+
+            <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                <div className="px-4 py-2.5 grid grid-cols-7 gap-x-4 gap-y-3">
+                    <div className="col-span-5">
+                        <div>
+                            <Typography variant="label" medium block>
+                                Workplace on map
+                            </Typography>
+                            <div className="rounded-xl w-full overflow-hidden mt-2">
+                                {mount ? (
+                                    <WorkplaceMapView
+                                        industryLocation={wpReqApproval?.industry?.location?.split(
+                                            ','
+                                        )}
+                                        studentLocation={wpReqApproval?.student?.location?.split(
+                                            ','
+                                        )}
+                                        workplaceName={
+                                            wpReqApproval?.industry?.user?.name
+                                        }
+                                        showMap
+                                    />
+                                ) : null}
+                            </div>
+                        </div>
+
+                        {/*  */}
+                        <div className="h-52">
+                            <WorkplaceAvailableSlots
+                                workingHours={
+                                    wpReqApproval?.industry?.workingHours
+                                }
+                            />
                         </div>
                     </div>
-                    <div>
-                        <WorkplaceInfo
-                            {...(role !== UserRoles?.ADMIN &&
-                            !subadmin?.data?.isAdmin
-                                ? { direction: 'flex-row justify-between px-4' }
-                                : {})}
-                            // direction="flex-row justify-between px-4"
-                            industry={wpReqApproval?.industry}
-                        />
+
+                    {/*  */}
+                    <div className="col-span-2 flex flex-col gap-y-3 h-full">
+                        <div className="flex flex-col gap-y-1.5">
+                            <Typography variant="small" medium>
+                                Assigned Coordinator
+                            </Typography>
+                            <div className="p-3 flex justify-between items-center bg-[#E6F2FE] border border-[#D5D5D5] rounded-md">
+                                <div>
+                                    <Typography
+                                        variant="small"
+                                        medium
+                                        color="text-[#333333]"
+                                    >
+                                        John Doe
+                                    </Typography>
+                                    <Typography
+                                        variant="xxs"
+                                        medium
+                                        color="text-[#24556D]"
+                                    >
+                                        mail@mymail.com{' '}
+                                    </Typography>
+                                </div>
+                                <Typography
+                                    variant="xxs"
+                                    medium
+                                    color="text-[#24556D]"
+                                >
+                                    +912721617819
+                                </Typography>
+                            </div>
+                        </div>
+
+                        {/*  */}
+                        <div className="h-full">
+                            <WorkplaceInfo
+                                {...(role !== UserRoles?.ADMIN &&
+                                !subadmin?.data?.isAdmin
+                                    ? {
+                                          direction:
+                                              'flex-row justify-between px-4',
+                                      }
+                                    : {})}
+                                // direction="flex-row justify-between px-4"
+                                industry={wpReqApproval?.industry}
+                            />
+                        </div>
+
+                        {/*  */}
+                        <AvailableMeetingDates dates={wpReqApproval?.dates} />
+                    </div>
+                </div>
+            </AuthorizedUserComponent>
+            <AuthorizedUserComponent excludeRoles={[UserRoles.ADMIN]}>
+                <div className="px-4 py-2.5 flex flex-col gap-x-4 gap-y-3">
+                    <div className="grid grid-cols-2 gap-x-4 h-full">
+                        <div className="flex flex-col">
+                            <div className="flex-grow">
+                                <div className="h-full flex flex-col gap-y-3">
+                                    <div className="flex flex-col gap-y-1.5">
+                                        <Typography variant="small" medium>
+                                            Assigned Coordinator
+                                        </Typography>
+                                        <div className="p-3 flex justify-between items-center bg-[#E6F2FE] border border-[#D5D5D5] rounded-md">
+                                            <div>
+                                                <Typography
+                                                    variant="small"
+                                                    medium
+                                                    color="text-[#333333]"
+                                                >
+                                                    John Doe
+                                                </Typography>
+                                                <Typography
+                                                    variant="xxs"
+                                                    medium
+                                                    color="text-[#24556D]"
+                                                >
+                                                    mail@mymail.com{' '}
+                                                </Typography>
+                                            </div>
+                                            <Typography
+                                                variant="xxs"
+                                                medium
+                                                color="text-[#24556D]"
+                                            >
+                                                +912721617819
+                                            </Typography>
+                                        </div>
+                                    </div>
+
+                                    {/*  */}
+                                    <div className="h-full">
+                                        <WorkplaceInfo
+                                            industry={wpReqApproval?.industry}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/*  */}
+                        <div className="flex flex-col">
+                            <div className="flex-grow ">
+                                <div className="h-full">
+                                    <AvailableMeetingDates
+                                        dates={wpReqApproval?.dates}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="">
+                        <div>
+                            <Typography variant="label" medium block>
+                                Workplace on map
+                            </Typography>
+                            <div className="rounded-xl w-full overflow-hidden mt-2">
+                                {mount ? (
+                                    <WorkplaceMapView
+                                        industryLocation={wpReqApproval?.industry?.location?.split(
+                                            ','
+                                        )}
+                                        studentLocation={wpReqApproval?.student?.location?.split(
+                                            ','
+                                        )}
+                                        workplaceName={
+                                            wpReqApproval?.industry?.user?.name
+                                        }
+                                        showMap
+                                    />
+                                ) : null}
+                            </div>
+                        </div>
+
+                        {/*  */}
+                        <div className="h-52">
+                            <WorkplaceAvailableSlots
+                                workingHours={
+                                    wpReqApproval?.industry?.workingHours
+                                }
+                            />
+                        </div>
                     </div>
 
-                    <AvailableMeetingDates dates={wpReqApproval?.dates} />
+                    {/*  */}
                 </div>
-
-                {/*  */}
-                <div className="">
-                    <WorkplaceAvailableSlots
-                        workingHours={wpReqApproval?.industry?.workingHours}
-                    />
-                </div>
-            </div>
+            </AuthorizedUserComponent>
         </div>
     )
 }

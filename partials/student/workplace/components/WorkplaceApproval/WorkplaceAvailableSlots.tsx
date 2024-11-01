@@ -83,7 +83,7 @@ export const WorkplaceAvailableSlots = ({
     return (
         <div className=" flex flex-col h-full">
             <Typography variant="label" medium>
-                Workplace Trading Hours
+                Trading Hours
             </Typography>
             <div className="border border-[#D5D5D5] rounded-[10px] px-2.5 py-2 flex flex-col gap-y-1.5 flex-grow">
                 <div className="bg-[#F7910F26] rounded-[5px] py-[5px] grid grid-cols-7">

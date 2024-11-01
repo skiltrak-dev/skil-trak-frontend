@@ -87,7 +87,7 @@ export const StudentAvailability = ({ wpId }: { wpId: number }) => {
               studentAvailability?.data?.length > 0 ? (
                 <div className="w-[700px]">
                     <Typography variant={'label'} color={'text-gray-400'}>
-                        Student Availability Khanchu
+                        Student Availability
                     </Typography>
 
                     <div className="border border-dashed border-gray-400 rounded-lg p-1 flex flex-col justify-between gap-y-3">

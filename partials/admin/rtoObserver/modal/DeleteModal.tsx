@@ -1,9 +1,7 @@
-import { ActionModal, ShowErrorNotifications } from '@components'
-import { useNotification } from '@hooks'
 import { AdminApi } from '@queries'
-
+import { useNotification } from '@hooks'
 import { FaTrash } from 'react-icons/fa'
-
+import { ActionModal, ShowErrorNotifications } from '@components'
 export const DeleteModal = ({
     onCancel,
     rtoObserver,
@@ -15,7 +13,7 @@ export const DeleteModal = ({
     const [remove, removeResult] = AdminApi.RtoObserver.useRemove()
 
     const onConfirmUClicked = async (rtoObserver: any) => {
-        const res: any = await remove(rtoObserver?.id)
+        const res: any = await remove(rtoObserver?.user?.id)
         if (res?.data) {
             notification.error({
                 title: `RTO Deleted`,
