@@ -103,7 +103,6 @@ export const DepartmentStudentsListProvider = ({ children }: any) => {
     }, [router])
 
     const { passwordModal, onViewPassword } = useActionModal()
-    console.log('statusFilter:::::', statusFilter)
     // data fetching
     const { data, isLoading, isFetching, isError, isSuccess } =
         AdminApi.Department.useDeptStudentsList(

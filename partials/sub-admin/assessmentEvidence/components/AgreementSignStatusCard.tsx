@@ -78,7 +78,6 @@ export const AgreementSignStatusCard = ({
     }
 
     const signResponse = signer?.document?.template?.tabs?.[0]?.responses?.[0]
-    console.log({ signResponse })
 
     return (
         <>
