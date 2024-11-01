@@ -9,14 +9,14 @@ import {
     createContext,
     useContext,
     useEffect,
+    useRef,
     useState,
+    useCallback,
 } from 'react'
 
-// utils
-
 interface AutoLogoutType {
-    isUserActive: number
-    setIsUserActive: any
+    isUserActive: boolean
+    resetTimer: () => void
 }
 
 export const AutoLogoutContext = createContext<AutoLogoutType | null>(null)
@@ -26,242 +26,161 @@ export enum LogoutType {
     Manual = 'manual',
 }
 
+const INACTIVITY_TIMEOUT = 25 * 60 * 1000 // 25 minutes
+const TOKEN_REFRESH_INTERVAL = 4 * 60 * 1000 // 4 minutes
+const TOKEN_REFRESH_BEFORE_EXPIRY = 5 * 60 * 1000 // 5 minutes before expiry
+
 export const AutoLogoutProvider = ({
     children,
 }: {
     children: ReactElement | ReactNode
 }) => {
     const router = useRouter()
-    const seconds = 25 * 60 * 1000
-    // const seconds = 2 * 60 * 1000
-    const [isUserActive, setIsUserActive] = useState(seconds)
+    const [isUserActive, setIsUserActive] = useState(true)
     const [modal, setModal] = useState<ReactNode | null>(null)
+    const lastActivityTime = useRef(Date.now())
+    const refreshTokenTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+    const inactivityTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-    const [logoutActivity, logoutActivityResult] =
-        CommonApi.LogoutActivity.perFormAcivityOnLogout()
-
+    const [logoutActivity] = CommonApi.LogoutActivity.perFormAcivityOnLogout()
     const [refreshToken, refreshTokenResult] = useRefreshTokenMutation()
 
-    const onCancelClicked = () => setModal(null)
+    const clearAllTimeouts = useCallback(() => {
+        if (refreshTokenTimeoutRef.current) {
+            clearTimeout(refreshTokenTimeoutRef.current)
+        }
+        if (inactivityTimeoutRef.current) {
+            clearTimeout(inactivityTimeoutRef.current)
+        }
+    }, [])
 
-    const getExpAndCurrTime = () => {
-        const timestamp = moment().valueOf()
-        const expTime = AuthUtils.getUserCredentials()?.exp * 1000
-
-        const expireTime = moment(expTime)
-        const currentTime = moment(timestamp)
-
-        return { expireTime, currentTime, expTime, timestamp }
-    }
-
-    const path = router.asPath?.split('/')
-
-    useEffect(() => {
-        let time: any = null
-
-        if (AuthUtils.isAuthenticated() && path?.includes('portals')) {
-            const { expTime, timestamp } = getExpAndCurrTime()
-
-            const intervalTime = expTime - 1000 * 1770 - timestamp
-
-            if (timestamp < expTime && !refreshTokenResult.isLoading) {
-                time = setInterval(() => {
-                    refreshToken().then((res: any) => {
-                        if (res?.data) {
-                            if (isBrowser()) {
-                                const rememberLogin =
-                                    localStorage.getItem('rememberMe')
-                                if (rememberLogin) {
-                                    AuthUtils.setToken(res?.data?.access_token)
-                                    AuthUtils.setRefreshToken(
-                                        res?.data?.refreshToken
-                                    )
-                                } else {
-                                    AuthUtils.setTokenToSession(
-                                        res?.data?.access_token
-                                    )
-                                    AuthUtils.setRefreshTokenToSessionStorage(
-                                        res?.data?.refreshToken
-                                    )
-                                }
-                            }
-                        }
-                    })
-                }, 30 * 1000)
-            } else {
-                setModal(<SessionExpireModal onCancel={onCancelClicked} />)
+    const handleLogout = useCallback(async () => {
+        if (AuthUtils.token()) {
+            try {
+                await logoutActivity({ type: LogoutType.Auto })
+                AuthUtils.logout()
+                setIsUserActive(false)
+                setModal(<SessionExpireModal onCancel={() => setModal(null)} />)
+            } catch (error) {
+                console.error('Logout failed:', error)
             }
         }
+    }, [logoutActivity])
 
-        return () => {
-            clearInterval(time)
+    const updateTokens = useCallback(async () => {
+        try {
+            const result: any = await refreshToken()
+            if (result?.data) {
+                const rememberLogin =
+                    isBrowser() && localStorage.getItem('rememberMe')
+                if (rememberLogin) {
+                    AuthUtils.setToken(result.data.access_token)
+                    AuthUtils.setRefreshToken(result.data.refreshToken)
+                } else {
+                    AuthUtils.setTokenToSession(result.data.access_token)
+                    AuthUtils.setRefreshTokenToSessionStorage(
+                        result.data.refreshToken
+                    )
+                }
+                return true
+            }
+            return false
+        } catch (error) {
+            console.error('Token refresh failed:', error)
+            return false
         }
+    }, [refreshToken])
+
+    const setupTokenRefresh = useCallback(() => {
+        if (!AuthUtils.isAuthenticated()) return
+
+        const credentials = AuthUtils.getUserCredentials()
+        if (!credentials?.exp) return
+
+        const expiryTime = credentials.exp * 1000
+        const currentTime = Date.now()
+        const timeUntilRefresh = Math.max(
+            0,
+            expiryTime - TOKEN_REFRESH_BEFORE_EXPIRY - currentTime
+        )
+
+        clearTimeout(refreshTokenTimeoutRef.current!)
+        refreshTokenTimeoutRef.current = setTimeout(async () => {
+            const success = await updateTokens()
+            if (success) {
+                setupTokenRefresh() // Setup next refresh only if current one succeeded
+            } else {
+                handleLogout()
+            }
+        }, timeUntilRefresh)
+    }, [updateTokens, handleLogout])
+
+    const resetInactivityTimer = useCallback(() => {
+        lastActivityTime.current = Date.now()
+        clearTimeout(inactivityTimeoutRef.current!)
+
+        inactivityTimeoutRef.current = setTimeout(() => {
+            handleLogout()
+        }, INACTIVITY_TIMEOUT)
+    }, [handleLogout])
+
+    // Setup initial timers
+    useEffect(() => {
+        const path = router.asPath?.split('/')
+        if (AuthUtils.isAuthenticated() && path?.includes('portals')) {
+            setupTokenRefresh()
+            resetInactivityTimer()
+        }
+
+        return clearAllTimeouts
     }, [
-        router,
-        refreshTokenResult,
-        // getExpAndCurrTime(),
-        AuthUtils.getUserCredentials(),
+        router.asPath,
+        setupTokenRefresh,
+        resetInactivityTimer,
+        clearAllTimeouts,
     ])
 
-    // useEffect(() => {
-    //     let time: any = null
-
-    //     if (AuthUtils.isAuthenticated() && path?.includes('portals')) {
-    //         const { expTime, timestamp } = getExpAndCurrTime()
-
-    //         const secondIntervalTime = expTime - 1000 * 1725 - timestamp
-
-    //         if (
-    //             secondIntervalTime &&
-    //             secondIntervalTime > 0 &&
-    //             !refreshTokenResult.isLoading
-    //         ) {
-    //             time = setInterval(() => {
-    //                 console.log(
-    //                     '2',
-    //                     secondIntervalTime,
-    //                     timestamp && moment(timestamp).format('YYYY-MM-DD')
-    //                 )
-    //                 refreshToken()
-    //             }, secondIntervalTime)
-    //         }
-    //     }
-
-    //     return () => {
-    //         clearInterval(time)
-    //     }
-    // }, [router, AuthUtils.getUserCredentials(), refreshTokenResult])
-
+    // Broadcast channel setup for multi-tab synchronization
     useEffect(() => {
-        const { expireTime, currentTime, expTime, timestamp } =
-            getExpAndCurrTime()
-        const intervalTime = expTime - 1000 * 1500 - timestamp
-        if (
-            intervalTime < 0 &&
-            currentTime.isBefore(expireTime) &&
-            !refreshTokenResult.isLoading
-        ) {
-            refreshToken()
-        }
-    }, [])
+        const channel = new BroadcastChannel('autoLogoutChannel')
 
-    useEffect(() => {
-        if (AuthUtils.isAuthenticated() && path?.includes('portals')) {
-            // Get the timestamp in milliseconds
-            const { expireTime, currentTime } = getExpAndCurrTime()
-            if (expireTime.isBefore(currentTime)) {
-                setModal(<SessionExpireModal onCancel={onCancelClicked} />)
+        const handleMessage = (event: MessageEvent) => {
+            if (event.data === 'activity') {
+                resetInactivityTimer()
+            } else if (event.data === 'logout') {
+                handleLogout()
             }
         }
-    }, [router])
 
-    useEffect(() => {
-        if (refreshTokenResult.isSuccess) {
-            if (refreshTokenResult.data) {
-                if (isBrowser()) {
-                    const rememberLogin = localStorage.getItem('rememberMe')
-                    if (rememberLogin) {
-                        AuthUtils.setToken(refreshTokenResult.data.access_token)
-                        AuthUtils.setRefreshToken(
-                            refreshTokenResult.data.refreshToken
-                        )
-                    } else {
-                        AuthUtils.setTokenToSession(
-                            refreshTokenResult.data.access_token
-                        )
-                        AuthUtils.setRefreshTokenToSessionStorage(
-                            refreshTokenResult.data.refreshToken
-                        )
-                    }
-                }
-            }
-        }
-    }, [refreshTokenResult.isSuccess])
-
-    useEffect(() => {
-        let time: any = null
-
-        if (AuthUtils.isAuthenticated()) {
-            const intervalTime = 31 * 1000
-
-            if (isUserActive > 0) {
-                time = setInterval(() => {
-                    setIsUserActive(isUserActive - intervalTime)
-                }, intervalTime)
-            }
-            isBrowser()
-                ? localStorage.setItem('autoLogout', String(isUserActive))
-                : ''
-            broadcastData(isUserActive)
-        }
+        channel.addEventListener('message', handleMessage)
         return () => {
-            clearInterval(time)
+            channel.removeEventListener('message', handleMessage)
+            channel.close()
         }
-    }, [isUserActive, router])
+    }, [resetInactivityTimer, handleLogout])
 
-    useEffect(() => {
-        let time: any = null
-        if (AuthUtils.isAuthenticated() && path?.includes('portals')) {
-            time = setTimeout(async () => {
-                if (AuthUtils.token()) {
-                    await logoutActivity({ type: LogoutType.Auto })
-                }
-                setModal(<SessionExpireModal onCancel={onCancelClicked} />)
-                AuthUtils.logout()
-                setIsUserActive(0)
-            }, isUserActive)
-        }
+    const handleUserActivity = useCallback(() => {
+        if (!AuthUtils.isAuthenticated()) return
 
-        return () => {
-            clearTimeout(time)
-        }
-    }, [isUserActive])
-
-    const broadcastData = (data: any) => {
-        const channel = new BroadcastChannel('sharedDataChannel')
-        channel.postMessage(data)
-    }
-
-    useEffect(() => {
-        const handleIncomingMessage = (e: any) => {
-            setIsUserActive(e?.data)
-        }
-
-        const channel = new BroadcastChannel('sharedDataChannel')
-        channel.addEventListener('message', handleIncomingMessage)
-
-        return () => {
-            channel.removeEventListener('message', handleIncomingMessage)
-        }
-    }, [])
-
-    const onEventOccur = () => {
-        setIsUserActive((preval) =>
-            preval <= seconds ? seconds : seconds + 0.1
-        )
-    }
+        resetInactivityTimer()
+        const channel = new BroadcastChannel('autoLogoutChannel')
+        channel.postMessage('activity')
+        channel.close()
+    }, [resetInactivityTimer])
 
     const value = {
         isUserActive,
-        setIsUserActive,
+        resetTimer: handleUserActivity,
     }
 
     return (
         <AutoLogoutContext.Provider value={value}>
             {modal}
             <div
-                onClick={() => {
-                    onEventOccur()
-                }}
-                onKeyDown={() => {
-                    onEventOccur()
-                }}
-                onMouseMove={() => {
-                    onEventOccur()
-                }}
-                onScroll={() => {
-                    onEventOccur()
-                }}
+                onClick={handleUserActivity}
+                onKeyDown={handleUserActivity}
+                onMouseMove={handleUserActivity}
+                onScroll={handleUserActivity}
             >
                 {children}
             </div>
