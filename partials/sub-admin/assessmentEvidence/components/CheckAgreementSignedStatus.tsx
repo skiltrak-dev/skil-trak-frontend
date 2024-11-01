@@ -95,7 +95,7 @@ export const CheckAgreementSignedStatus = ({
                     </div>
 
                     <div className="mt-1 p-1">
-                        <div
+                        {/* <div
                             className={`grid ${
                                 role === UserRoles.ADMIN ||
                                 role === UserRoles.SUBADMIN
@@ -151,18 +151,18 @@ export const CheckAgreementSignedStatus = ({
                                     Reminder
                                 </Typography>
                             </AuthorizedUserComponent>
-                        </div>
+                        </div> */}
 
-                        {/* <div className="flex flex-col gap-y-2">
+                        <div className="flex flex-col gap-y-2">
                             {document?.signers?.map((signer: any) => (
                                 <AgreementSignStatusCard
                                     signer={signer}
                                     document={document}
                                 />
                             ))}
-                        </div> */}
+                        </div>
 
-                        {document?.signers?.map((signer: any, i: number) => (
+                        {/* {document?.signers?.map((signer: any, i: number) => (
                             <>
                                 <div
                                     className={`grid ${
@@ -309,7 +309,7 @@ export const CheckAgreementSignedStatus = ({
                                     </AuthorizedUserComponent>
                                 </div>
                             </>
-                        ))}
+                        ))} */}
                     </div>
                 </div>
             </div>
