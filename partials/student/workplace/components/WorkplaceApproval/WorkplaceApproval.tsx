@@ -50,7 +50,10 @@ export const WorkplaceApproval = ({
                 </div>
             </div>
 
-            <AvailableMeetingDates dates={wpApprovalData?.dates} />
+            <div>
+                {' '}
+                <AvailableMeetingDates dates={wpApprovalData?.dates} />
+            </div>
 
             {/*  */}
             <WorkplaceApprovalActions
