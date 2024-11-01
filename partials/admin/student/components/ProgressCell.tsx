@@ -1,4 +1,4 @@
-import { Typography } from '@components'
+import { Tooltip, Typography } from '@components'
 import { useContextBar } from '@hooks'
 import { ChangeWorkplaceStatus } from '@partials/common'
 import { SubAdmin } from '@types'
@@ -217,10 +217,13 @@ export const ProgressCell = ({
                             )}
                         </div>
                         {documentInitiates ? (
-                            <FaFileSignature
-                                size={18}
-                                className="text-success-dark"
-                            />
+                            <div className="relative group">
+                                <FaFileSignature
+                                    size={18}
+                                    className="text-success-dark"
+                                />
+                                <Tooltip>Agreement Initiated</Tooltip>
+                            </div>
                         ) : null}
                     </div>
 

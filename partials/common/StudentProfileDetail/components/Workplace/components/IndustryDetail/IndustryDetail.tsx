@@ -100,6 +100,15 @@ export const IndustryDetail = ({
     //     }
     // }, [appliedIndustry, suggestedIndustries])
 
+    console.log({
+        appliedIndustry:
+            !appliedIndustry &&
+            !workplace?.byExistingAbn &&
+            !workplace?.studentProvidedWorkplace &&
+            role !== UserRoles.RTO,
+        workplace,
+    })
+
     return (
         <>
             {modal}
@@ -209,7 +218,7 @@ export const IndustryDetail = ({
                     </div>
                 </div>
                 <div className="h-48 overflow-auto custom-scrollbar flex flex-col gap-y-2 border border-[#6B7280] rounded-md  mt-2.5">
-                    {!appliedIndustry && suggestedIndustries?.length === 0 ? (
+                    {!appliedIndustry ? (
                         // <div onClick={onViewOnMap}>
 
                         //     <ViewOnMapIndustriesModal
