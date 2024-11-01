@@ -5,14 +5,19 @@ import { WorkplaceAvailableSlots } from '@partials/student/workplace/components/
 import { WorkplaceInfo } from '@partials/student/workplace/components/WorkplaceApproval/WorkplaceInfo'
 import { WorkplaceMapView } from '@partials/student/workplace/components/WorkplaceApproval/WorkplaceMapView'
 import { SubAdminApi } from '@queries'
+import { SubAdmin } from '@types'
 import { getUserCredentials } from '@utils'
 import { useEffect, useState } from 'react'
+import { AssignedCoordinator } from './AssignedCoordinator'
 
 export const WorkplaceApprovalReq = ({
     wpReqApproval,
+    coordinator,
 }: {
+    coordinator: SubAdmin
     wpReqApproval: any
 }) => {
+    console.log({ coordinator })
     const [mount, setMount] = useState<boolean>(false)
 
     const role = getUserCredentials()?.role
@@ -82,34 +87,7 @@ export const WorkplaceApprovalReq = ({
                     {/*  */}
                     <div className="col-span-2 flex flex-col gap-y-3 h-full">
                         <div className="flex flex-col gap-y-1.5">
-                            <Typography variant="small" medium>
-                                Assigned Coordinator
-                            </Typography>
-                            <div className="p-3 flex justify-between items-center bg-[#E6F2FE] border border-[#D5D5D5] rounded-md">
-                                <div>
-                                    <Typography
-                                        variant="small"
-                                        medium
-                                        color="text-[#333333]"
-                                    >
-                                        John Doe
-                                    </Typography>
-                                    <Typography
-                                        variant="xxs"
-                                        medium
-                                        color="text-[#24556D]"
-                                    >
-                                        mail@mymail.com{' '}
-                                    </Typography>
-                                </div>
-                                <Typography
-                                    variant="xxs"
-                                    medium
-                                    color="text-[#24556D]"
-                                >
-                                    +912721617819
-                                </Typography>
-                            </div>
+                            <AssignedCoordinator assignedTo={coordinator} />
                         </div>
 
                         {/*  */}
@@ -139,34 +117,9 @@ export const WorkplaceApprovalReq = ({
                             <div className="flex-grow">
                                 <div className="h-full flex flex-col gap-y-3">
                                     <div className="flex flex-col gap-y-1.5">
-                                        <Typography variant="small" medium>
-                                            Assigned Coordinator
-                                        </Typography>
-                                        <div className="p-3 flex justify-between items-center bg-[#E6F2FE] border border-[#D5D5D5] rounded-md">
-                                            <div>
-                                                <Typography
-                                                    variant="small"
-                                                    medium
-                                                    color="text-[#333333]"
-                                                >
-                                                    John Doe
-                                                </Typography>
-                                                <Typography
-                                                    variant="xxs"
-                                                    medium
-                                                    color="text-[#24556D]"
-                                                >
-                                                    mail@mymail.com{' '}
-                                                </Typography>
-                                            </div>
-                                            <Typography
-                                                variant="xxs"
-                                                medium
-                                                color="text-[#24556D]"
-                                            >
-                                                +912721617819
-                                            </Typography>
-                                        </div>
+                                        <AssignedCoordinator
+                                            assignedTo={coordinator}
+                                        />
                                     </div>
 
                                     {/*  */}

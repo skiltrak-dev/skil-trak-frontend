@@ -410,6 +410,9 @@ export const Workplace = ({
                                                             ?.student?.location,
                                                 },
                                             }}
+                                            coordinator={
+                                                selectedWorkplace?.assignedTo
+                                            }
                                         />
                                     </div>
                                     <div className="flex justify-between items-center px-5 py-2">
