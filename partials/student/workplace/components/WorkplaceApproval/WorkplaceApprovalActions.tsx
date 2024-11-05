@@ -1,23 +1,23 @@
 import { Button } from '@components'
-import { useNotification } from '@hooks'
 import { ReactElement, useState } from 'react'
 import { WorkplaceApprovalDeclaration, WorkplaceRejectedModal } from './modal'
+import { isBrowser } from '@utils'
 
 export const WorkplaceApprovalActions = ({
     onCancel,
     declaration,
     wpApprovalId,
+    dates,
 }: {
     declaration: string
     onCancel?: () => void
     wpApprovalId: number
+    dates: any
 }) => {
-    const [modal, setModal] = useState<ReactElement | null>(null)
-    const { notification } = useNotification()
-
     const onCancelModal = () => setModal(null)
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const onApprovelClicked = (declaration: string) => {
+    const onApprovalClicked = (declaration: string) => {
         setModal(
             <WorkplaceApprovalDeclaration
                 onCancel={(val?: boolean) => {
@@ -56,19 +56,58 @@ export const WorkplaceApprovalActions = ({
     return (
         <>
             {modal}
-            <div className="w-72 flex flex-col gap-y-1 items-center justify-center mx-auto py-2">
-                <div className="h-10 w-full">
-                    <Button
-                        fullWidth
-                        fullHeight
-                        onClick={() => {
-                            // onChangeStatusClicked(WPApprovalStatus.Approved)
-                            onApprovelClicked(declaration)
-                        }}
-                        text="Approve"
-                        variant="success"
-                    />
-                </div>
+            <div className="w-full md:w-96 flex flex-col gap-y-1 items-center justify-center mx-auto py-2">
+                {Object.values(dates)?.filter((date) => {
+                    if (date) {
+                        return date
+                    }
+                })?.length > 0 ? (
+                    <div className="h-10 w-full flex items-center gap-x-6">
+                        <Button
+                            fullHeight
+                            onClick={() => {
+                                if (isBrowser()) {
+                                    window?.open(
+                                        `${process.env.NEXT_PUBLIC_END_POINT}/subadmin/workplace/approval-request/${wpApprovalId}/update-status?status=approved&date=${dates?.date1}`
+                                    )
+                                }
+                                if (onCancel) {
+                                    onCancel()
+                                }
+                            }}
+                            text="Approve With Date 1"
+                            variant="success"
+                        />
+                        <Button
+                            fullHeight
+                            onClick={() => {
+                                if (isBrowser()) {
+                                    window?.open(
+                                        `${process.env.NEXT_PUBLIC_END_POINT}/subadmin/workplace/approval-request/${wpApprovalId}/update-status?status=approved&date=${dates?.date2}`
+                                    )
+                                }
+                                if (onCancel) {
+                                    onCancel()
+                                }
+                            }}
+                            text="Approve With Date 2"
+                            variant="success"
+                        />
+                    </div>
+                ) : (
+                    <div className="h-10 w-full">
+                        <Button
+                            fullWidth
+                            fullHeight
+                            onClick={() => {
+                                // onChangeStatusClicked(WPApprovalStatus.Approved)
+                                onApprovalClicked(declaration)
+                            }}
+                            text="Approve"
+                            variant="success"
+                        />
+                    </div>
+                )}
                 <div className="h-10 w-full">
                     <Button
                         fullWidth

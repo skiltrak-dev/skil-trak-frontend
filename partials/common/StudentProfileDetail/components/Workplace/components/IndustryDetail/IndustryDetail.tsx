@@ -23,12 +23,15 @@ import {
 } from 'redux/queryTypes'
 import { UserRoles } from '@constants'
 import { ViewContactedIndustryModal } from '../../modals'
+import { AvailabelMeetingDate } from '@partials/student/workplace/components/WorkplaceApproval/AvailabelMeetingDate'
 
 export const IndustryDetail = ({
     course,
     workplace,
     appliedIndustry,
+    approvalDate,
 }: {
+    approvalDate: string
     course: Course
     workplace: IWorkplaceIndustries
     appliedIndustry: WorkplaceWorkIndustriesType
@@ -354,6 +357,16 @@ export const IndustryDetail = ({
                                             />
                                         )}
                                     </AuthorizedUserComponent>
+                                    {approvalDate ? (
+                                        <div className="mt-3 w-fit">
+                                            <Typography variant="small" medium>
+                                                Accepted Date
+                                            </Typography>
+                                            <AvailabelMeetingDate
+                                                date={approvalDate}
+                                            />
+                                        </div>
+                                    ) : null}
                                 </>
                             )}
 
