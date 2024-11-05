@@ -67,7 +67,7 @@ export const FlaggedDepartmentStudentList = () => {
                 limit: itemPerPage,
                 search: `${JSON.stringify(
                     removeEmptyValues({
-                        subadminId: coordinatorId,
+                        // subadminId: coordinatorId,
                         flagged: true,
                     })
                 )
@@ -367,7 +367,7 @@ export const FlaggedDepartmentStudentList = () => {
         <div>
             {modal}
             {isError && <TechnicalError />}
-            <div className="w-full flex justify-end">
+            {/* <div className="w-full flex justify-end">
                 <div className="min-w-64 relative z-30">
                     <Select
                         label={'Filter by Coordinator'}
@@ -382,7 +382,7 @@ export const FlaggedDepartmentStudentList = () => {
                         onChange={(e: any) => onFilterByCoordinator(e)}
                     />
                 </div>
-            </div>
+            </div> */}
             <Card noPadding>
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
