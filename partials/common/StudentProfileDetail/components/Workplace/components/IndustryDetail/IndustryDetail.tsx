@@ -103,15 +103,6 @@ export const IndustryDetail = ({
     //     }
     // }, [appliedIndustry, suggestedIndustries])
 
-    console.log({
-        appliedIndustry:
-            !appliedIndustry &&
-            !workplace?.byExistingAbn &&
-            !workplace?.studentProvidedWorkplace &&
-            role !== UserRoles.RTO,
-        workplace,
-    })
-
     return (
         <>
             {modal}
