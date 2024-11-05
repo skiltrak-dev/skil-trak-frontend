@@ -42,45 +42,15 @@ import {
 } from '@components'
 
 // useDepartmentStudents
-export const DepartmentPendingStudents = () => {
+export const FilterDepartmentStudents = ({
+    setPage,
+    itemPerPage,
+    setItemPerPage,
+    data,
+}: any) => {
     const router = useRouter()
-    const userId = getUserCredentials()?.id
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const [coordinatorId, setCoordinatorId] = useState<string | null>(null)
-    const [itemPerPage, setItemPerPage] = useState(50)
-    const [page, setPage] = useState(1)
 
-    const { data, isLoading, isError, isFetching, isSuccess } =
-        SubAdminApi.SubAdmin.useDepartmentStudents(
-            {
-                skip: itemPerPage * page - itemPerPage,
-                limit: itemPerPage,
-                search: `status: 'pending'`
-                // search: `${JSON.stringify(
-                //     removeEmptyValues({
-                //         status: 'pending',
-                //         subadminId: coordinatorId,
-                //     })
-                // )
-                //     .replaceAll('{', '')
-                //     .replaceAll('}', '')
-                //     .replaceAll('"', '')
-                //     .trim()}`,
-            },
-            {
-                refetchOnMountOrArgChange: true,
-            }
-        )
-
-    const { data: departmentCoordinators } =
-        SubAdminApi.SubAdmin.useCoordinatorsDropDown()
-
-    const coordinatorsOptions = departmentCoordinators?.map(
-        (coordinator: any) => ({
-            label: coordinator?.user?.name,
-            value: coordinator?.id,
-        })
-    )
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -288,36 +258,21 @@ export const DepartmentPendingStudents = () => {
         },
     ]
 
-    const onFilterByCoordinator = (value: string) => {
-        setCoordinatorId(value)
-    }
+
 
     return (
         <div>
             {modal}
-            {isError && <TechnicalError />}
-            <div className="w-full flex justify-end">
-                <div className="min-w-64">
-                    <Select
-                        label={'Filter by Coordinator'}
-                        name={'coordinator'}
-                        placeholder={'Filter by Coordinator...'}
-                        options={coordinatorsOptions}
-                        onlyValue
-                        onChange={(e: any) => {
-                            onFilterByCoordinator(e)
-                        }}
-                    />
-                </div>
-            </div>
+            {data.isError && <TechnicalError />}
+
             <Card noPadding>
-                {isLoading || isFetching ? (
+                {data.isLoading || data.isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length && !isError ? (
+                ) : data && data?.data?.data?.length && !data.isError ? (
                     <>
                         <Table
                             columns={Columns}
-                            data={data.data}
+                            data={data?.data?.data}
                             enableRowSelection
                             // awaitingAgreementBeyondSevenDays={
                             //     filterAwaitingAgreementBeyondSevenDays
@@ -337,12 +292,12 @@ export const DepartmentPendingStudents = () => {
                                             {pageSize(
                                                 itemPerPage,
                                                 setItemPerPage,
-                                                data?.data?.length
+                                                data?.data?.data?.length
                                             )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
                                                 {pagination(
-                                                    data?.pagination,
+                                                    data?.data?.pagination,
                                                     setPage
                                                 )}
                                             </div>
@@ -356,17 +311,17 @@ export const DepartmentPendingStudents = () => {
                                                 {table}
                                             </div>
                                         </div>
-                                        {data?.data?.length > 10 && (
+                                        {data?.data?.data?.length > 10 && (
                                             <div className="p-6 mb-2 flex justify-between">
                                                 {pageSize(
                                                     itemPerPage,
                                                     setItemPerPage,
-                                                    data?.data?.length
+                                                    data?.data?.data?.length
                                                 )}
                                                 <div className="flex gap-x-2">
                                                     {quickActions}
                                                     {pagination(
-                                                        data?.pagination,
+                                                        data?.data?.pagination,
                                                         setPage
                                                     )}
                                                 </div>
@@ -378,10 +333,10 @@ export const DepartmentPendingStudents = () => {
                         </Table>
                     </>
                 ) : (
-                    !isError && (
+                    !data?.isError && (
                         <EmptyData
-                            title={'No Pending Students'}
-                            description={'You have not pending Students yet'}
+                            title={'No Filtered Students'}
+                            description={'You have not filtered Students yet'}
                             height={'50vh'}
                         />
                     )

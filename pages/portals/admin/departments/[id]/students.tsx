@@ -1,6 +1,6 @@
 import { AdminApi } from '@queries'
 import { AdminLayout } from '@layouts'
-import React, { ReactElement, useCallback, useState } from 'react'
+import React, { ReactElement, useCallback, useMemo, useState } from 'react'
 import { NextPageWithLayout, StudentsFilterType } from '@types'
 import { useRouter } from 'next/router'
 import { checkFilteredDataLength } from '@utils'
@@ -30,6 +30,10 @@ import {
 } from '@components'
 import { debounce } from 'lodash'
 import { PageHeading } from '@components/headings'
+import { FigureCard } from '@components/sections/subAdmin'
+import { FaFlag, FaUserFriends } from 'react-icons/fa'
+import { BiSolidAlarmSnooze } from 'react-icons/bi'
+import { FiPhoneOff } from 'react-icons/fi'
 
 const filterKeys = [
     'nowp',
@@ -62,21 +66,39 @@ const DepartmentStudent: NextPageWithLayout = () => {
         setFilterAction,
         modal,
         passwordModal,
+        data,
+        isLoading,
     } = useDepartmentStudentList()
 
-    // const delayedSearch = useCallback(
-    //     debounce((value) => {
-    //         setStudentId({ studentId: value })
-    //     }, 700),
-    //     []
-    // )
+    // Memoized student counts calculation
+    const studentCounts = useMemo((): any => {
+        if (!data?.data) {
+            return {
+                active: 0,
+                flagged: 0,
+                snoozed: 0,
+                nonContactable: 0,
+            }
+        }
 
-    // const delayedNameSearch = useCallback(
-    //     debounce((value) => {
-    //         setStudentName({ name: value })
-    //     }, 700),
-    //     []
-    // )
+        // Single pass through the data to calculate all counts
+        return data?.data?.reduce(
+            (counts: any, student: any) => {
+                if (student.hasIssue) counts.flagged++
+                else if (student.isSnoozed) counts.snoozed++
+                else if (student.nonContactable) counts.nonContactable++
+                else counts.active++
+
+                return counts
+            },
+            {
+                active: 0,
+                flagged: 0,
+                snoozed: 0,
+                nonContactable: 0,
+            }
+        )
+    }, [data?.data])
 
     const filteredDataLength = checkFilteredDataLength({
         ...filter,
@@ -86,7 +108,7 @@ const DepartmentStudent: NextPageWithLayout = () => {
 
     const tabs: TabProps[] = [
         {
-            label: 'Department Student',
+            label: 'Active',
             href: {
                 pathname: `/portals/admin/departments/${id}/students`,
                 query: { tab: 'all' },
@@ -138,6 +160,42 @@ const DepartmentStudent: NextPageWithLayout = () => {
             ),
         },
     ]
+
+    const StudentStats = useMemo(
+        () => (
+            <div className="flex gap-x-4 gap-y-2 mb-5">
+                <FigureCard
+                    count={studentCounts?.active}
+                    title="Active Students"
+                    Icon={FaUserFriends}
+                    iconClassName="text-green-400"
+                    loading={isLoading}
+                />
+                <FigureCard
+                    count={studentCounts?.flagged}
+                    title="Flagged Students"
+                    Icon={FaFlag}
+                    iconClassName="text-red-500"
+                    loading={isLoading}
+                />
+                <FigureCard
+                    count={studentCounts?.snoozed}
+                    title="Snoozed Students"
+                    Icon={BiSolidAlarmSnooze}
+                    iconClassName="text-indigo-400"
+                    loading={isLoading}
+                />
+                <FigureCard
+                    count={studentCounts?.nonContactable}
+                    title="Non-Contactable Students"
+                    Icon={FiPhoneOff}
+                    iconClassName="text-red-400"
+                    loading={isLoading}
+                />
+            </div>
+        ),
+        [studentCounts]
+    )
 
     return (
         <>
@@ -194,7 +252,12 @@ const DepartmentStudent: NextPageWithLayout = () => {
                     />
                 </div>
                 {/* Filter table */}
-                {filteredDataLength && <FilterDepartmentStudents />}
+                {filteredDataLength && (
+                    <>
+                        {StudentStats}
+                        <FilterDepartmentStudents />
+                    </>
+                )}
 
                 {/* Table */}
                 {!filteredDataLength && (
@@ -203,7 +266,7 @@ const DepartmentStudent: NextPageWithLayout = () => {
                             return (
                                 <div>
                                     <div>{header}</div>
-                                    <div className="p-4">{element}</div>
+                                    <div className="py-4">{element}</div>
                                 </div>
                             )
                         }}
