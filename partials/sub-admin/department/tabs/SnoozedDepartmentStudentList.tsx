@@ -65,10 +65,9 @@ export const SnoozedDepartmentStudentList = () => {
             {
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
-
                 search: `${JSON.stringify(
                     removeEmptyValues({
-                        subadminId: coordinatorId,
+                        // subadminId: coordinatorId,
                         snoozed: true,
                     })
                 )
@@ -368,7 +367,7 @@ export const SnoozedDepartmentStudentList = () => {
         <div>
             {modal}
             {isError && <TechnicalError />}
-            <div className="w-full flex justify-end">
+            {/* <div className="w-full flex justify-end">
                 <div className="min-w-64 relative z-30">
                     <Select
                         label={'Filter by Coordinator'}
@@ -383,7 +382,7 @@ export const SnoozedDepartmentStudentList = () => {
                         onChange={(e: any) => onFilterByCoordinator(e)}
                     />
                 </div>
-            </div>
+            </div> */}
             <Card noPadding>
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />

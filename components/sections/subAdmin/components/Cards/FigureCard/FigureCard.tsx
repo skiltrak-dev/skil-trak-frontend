@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { Card } from '@components/cards'
 import { PuffLoader } from 'react-spinners'
 import Link from 'next/link'
+import { ReactNode } from 'react'
 
 type FigureCardProps = {
     imageUrl?: string | undefined
@@ -11,6 +12,8 @@ type FigureCardProps = {
     title: string
     loading?: boolean
     link?: string
+    Icon?: any
+    iconClassName?: string
     onClick?: () => void
 }
 
@@ -21,6 +24,8 @@ export const FigureCard = ({
     loading,
     link,
     onClick,
+    iconClassName,
+    Icon,
 }: FigureCardProps) => {
     return (
         <Link legacyBehavior href={link || '#'}>
@@ -34,7 +39,15 @@ export const FigureCard = ({
             >
                 <Card>
                     <div className="flex justify-between">
-                        {imageUrl && (
+                        {Icon && !imageUrl && (
+                            <Icon
+                                className={`${
+                                    iconClassName || 'text-gray-400'
+                                } `}
+                                size={40}
+                            />
+                        )}
+                        {imageUrl && !Icon && (
                             <div className="flex items-center gap-x-2 justify-between">
                                 <Image
                                     src={imageUrl || ''}
