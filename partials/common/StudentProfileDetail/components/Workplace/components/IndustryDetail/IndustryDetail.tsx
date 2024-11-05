@@ -23,12 +23,15 @@ import {
 } from 'redux/queryTypes'
 import { UserRoles } from '@constants'
 import { ViewContactedIndustryModal } from '../../modals'
+import { AvailabelMeetingDate } from '@partials/student/workplace/components/WorkplaceApproval/AvailabelMeetingDate'
 
 export const IndustryDetail = ({
     course,
     workplace,
     appliedIndustry,
+    approvalDate,
 }: {
+    approvalDate: string
     course: Course
     workplace: IWorkplaceIndustries
     appliedIndustry: WorkplaceWorkIndustriesType
@@ -99,15 +102,6 @@ export const IndustryDetail = ({
     //         onCancelClicked()
     //     }
     // }, [appliedIndustry, suggestedIndustries])
-
-    console.log({
-        appliedIndustry:
-            !appliedIndustry &&
-            !workplace?.byExistingAbn &&
-            !workplace?.studentProvidedWorkplace &&
-            role !== UserRoles.RTO,
-        workplace,
-    })
 
     return (
         <>
@@ -354,6 +348,16 @@ export const IndustryDetail = ({
                                             />
                                         )}
                                     </AuthorizedUserComponent>
+                                    {approvalDate ? (
+                                        <div className="mt-3 w-fit">
+                                            <Typography variant="small" medium>
+                                                Accepted Date
+                                            </Typography>
+                                            <AvailabelMeetingDate
+                                                date={approvalDate}
+                                            />
+                                        </div>
+                                    ) : null}
                                 </>
                             )}
 

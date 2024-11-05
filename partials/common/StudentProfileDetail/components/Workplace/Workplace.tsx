@@ -245,6 +245,8 @@ export const Workplace = ({
         )
     }, [selectedWorkplace?.workplaceApprovaleRequest])
 
+    console.log({ latestWorkplaceApprovaleRequest })
+
     return (
         <>
             {modal}
@@ -451,7 +453,7 @@ export const Workplace = ({
                                             <div className="w-64 px-3 mt-1">
                                                 <Badge
                                                     variant="warning"
-                                                    text="WP Cancelation Request Sent to Admin, wait for approvel!"
+                                                    text="WP Cancelation Request Sent to Admin, wait for approval!"
                                                 />
                                             </div>
                                         )}
@@ -547,6 +549,9 @@ export const Workplace = ({
                                                     appliedIndustry
                                                 }
                                                 course={course}
+                                                approvalDate={
+                                                    latestWorkplaceApprovaleRequest?.approvalDate
+                                                }
                                             />
                                         </div>
                                     </div>
@@ -608,7 +613,7 @@ export const Workplace = ({
                                                     <div className="w-56">
                                                         <Badge
                                                             variant="warning"
-                                                            text="WP Cancelation Request Sent to Admin, wait for approvel!"
+                                                            text="WP Cancelation Request Sent to Admin, wait for approval!"
                                                         />
                                                     </div>
                                                 )
@@ -622,7 +627,7 @@ export const Workplace = ({
                                                             'text-error-dark'
                                                         }
                                                     >
-                                                        Workplace Approvel
+                                                        Workplace Approval
                                                         Request was cancelled by
                                                         student
                                                     </Typography>

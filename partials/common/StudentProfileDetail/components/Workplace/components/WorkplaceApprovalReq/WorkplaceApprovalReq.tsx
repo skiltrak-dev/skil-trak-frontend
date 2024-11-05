@@ -17,7 +17,6 @@ export const WorkplaceApprovalReq = ({
     coordinator: SubAdmin
     wpReqApproval: any
 }) => {
-    console.log({ coordinator })
     const [mount, setMount] = useState<boolean>(false)
 
     const role = getUserCredentials()?.role
