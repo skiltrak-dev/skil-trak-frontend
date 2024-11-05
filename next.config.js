@@ -4,7 +4,8 @@ const nextConfig = {
     // reactStrictMode: true,
     swcMinify: true,
     env: {
-        googleDirectionApi: "AIzaSyApOsp5NyUUJyW3vlZtvQ4IYf8urG7rrKA"
+        googleDirectionApi: "AIzaSyApOsp5NyUUJyW3vlZtvQ4IYf8urG7rrKA",
+        mapBoxApi: "pk.eyJ1Ijoic2tpbHRyYWsiLCJhIjoiY20zMm1oZG9wMTRzMTJrc2N2dHluN3ZjOCJ9.J0XKK9V8faX1iTWj1ED3Kg"
     },
     async rewrites() {
         return {
