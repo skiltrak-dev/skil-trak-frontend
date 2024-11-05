@@ -93,7 +93,7 @@ const MapBoxTesting: React.FC<MapBoxTestingProps> = ({
             const mapboxMarker = new mapboxgl.Marker(el)
                 .setLngLat([marker.lng, marker.lat])
                 .setPopup(popup)
-                .addTo(map.current)
+                .addTo(map.current as any)
 
             // Add click event if callback provided
             if (handleMarkerClick) {
