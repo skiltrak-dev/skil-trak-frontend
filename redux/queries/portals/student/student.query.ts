@@ -1,18 +1,15 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { AuthUtils } from '@utils'
-
 import { Rto } from '@types'
 import { emptySplitApi } from '../empty.query'
 import { coursesEndpoints } from './course'
-import { studentEndpoints } from './studentAppointment'
-import { assessmentToolEndpoints } from './studentAssessmentTool'
-import { studentAssessmentEvidenceEndpoints } from './studentAssessmentEvidence'
-import { studentJobEndpoints } from './studentsJobs'
-import { profileEndpoints } from './profile'
-import { workplaceEndpoints } from './workplace'
-import { studentsScheduleEndpoints } from './schedule'
 import { documentsEndpoints } from './documents'
+import { profileEndpoints } from './profile'
+import { studentsScheduleEndpoints } from './schedule'
+import { studentEndpoints } from './studentAppointment'
+import { studentAssessmentEvidenceEndpoints } from './studentAssessmentEvidence'
+import { assessmentToolEndpoints } from './studentAssessmentTool'
+import { studentJobEndpoints } from './studentsJobs'
 import { talentPoolEndpoints } from './talentPool'
+import { workplaceEndpoints } from './workplace'
 
 export const studentApi = emptySplitApi.injectEndpoints({
     // ---------- RTO ENDPOINTS ---------- //
@@ -27,10 +24,10 @@ export const studentApi = emptySplitApi.injectEndpoints({
         ...workplaceEndpoints(build),
         ...documentsEndpoints(build),
         ...studentJobEndpoints(build),
+        ...talentPoolEndpoints(build),
         ...assessmentToolEndpoints(build),
         ...studentsScheduleEndpoints(build),
         ...studentAssessmentEvidenceEndpoints(build),
-        ...talentPoolEndpoints(build),
     }),
     // overrideExisting: true,
 })
@@ -87,6 +84,7 @@ export const {
     useApplyForWorkplaceMutation,
     useUpdateFindAbnMutation,
     useAddWorkplaceMutation,
+    useChangeStatusWpApprrovalReqQuery,
     useApplyWorkplaceWithAbnIndustryMutation,
 
     // ----- SCHEDULE ----- //
@@ -169,6 +167,7 @@ export const StudentApi = {
         useApplyForWorkplaceMutation,
         useUpdateFindAbnMutation,
         useAddWorkplaceMutation,
+        changeStatusWpApprroval: useChangeStatusWpApprrovalReqQuery,
         useApplyWorkplaceWithAbnIndustryMutation,
         useGetIndustryFoldersQuery,
     },
