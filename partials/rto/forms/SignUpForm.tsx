@@ -10,6 +10,9 @@ import { AuthApi } from '@queries'
 import {
     CourseSelectOption,
     formatOptionLabel,
+    getAddressData,
+    getLatLng,
+    getPostalCode,
     isEmailValid,
     onlyAlphabets,
     onlyNumbersAcceptedInYup,
@@ -152,8 +155,7 @@ export const RtoSignUpForm = ({
 
         // Address Information
         addressLine1: yup.string().required('Must provide address'),
-        state: yup.string().required('Must provide name of state'),
-        suburb: yup.string().required('Must provide suburb name'),
+
         zipCode: yup.string().required('Must provide zip code for your state'),
 
         agreedWithPrivacyPolicy: yup
@@ -389,18 +391,55 @@ export const RtoSignUpForm = ({
                 </div>
                 <div className="flex flex-col lg:flex-row gap-x-16 border-t lg:py-4 pt-4 lg:pt-0">
                     <div className="w-full">
-                        <div className="grid grid-cols-1 gap-x-8">
-                            <TextInput
-                                label={'Primary Address'}
-                                name={'addressLine1'}
-                                placeholder={'Your Primary Address...'}
-                                validationIcons
-                                placesSuggetions
-                            />
-                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-x-6">
+                            <div className="md:col-span-2">
+                                <TextInput
+                                    label={'Primary Address'}
+                                    name={'addressLine1'}
+                                    placeholder={'Your Primary Address...'}
+                                    validationIcons
+                                    placesSuggetions
+                                    onChange={async (e: any) => {
+                                        setOnSuburbClicked(false)
+                                        if (e?.target?.value?.length > 4) {
+                                            try {
+                                                const { state } =
+                                                    await getAddressData(
+                                                        e?.target?.value
+                                                    )
+                                                const latLng = await getLatLng(
+                                                    e?.target?.value
+                                                )
+                                                const postalCode =
+                                                    await getPostalCode(latLng)
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8">
-                            <TextInput
+                                                if (postalCode) {
+                                                    formMethods.setValue(
+                                                        'zipCode',
+                                                        postalCode
+                                                    )
+                                                }
+                                                if (state) {
+                                                    formMethods.setValue(
+                                                        'state',
+                                                        state
+                                                    )
+                                                }
+                                            } catch (error) {
+                                                console.error(
+                                                    'Error fetching postal code:',
+                                                    error
+                                                )
+                                            }
+                                        }
+                                    }}
+                                    onPlaceSuggetions={{
+                                        placesSuggetions: onSuburbClicked,
+                                        setIsPlaceSelected: setOnSuburbClicked,
+                                    }}
+                                />
+                            </div>
+                            {/* <TextInput
                                 label={'Suburb'}
                                 name={'suburb'}
                                 placeholder={'Suburb...'}
@@ -420,7 +459,7 @@ export const RtoSignUpForm = ({
                                 name={'state'}
                                 placeholder={'State...'}
                                 validationIcons
-                            />
+                            /> */}
 
                             <TextInput
                                 label={'Zip Code'}

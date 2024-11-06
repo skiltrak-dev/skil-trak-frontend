@@ -13,8 +13,10 @@ import {
 import { SubAdminApi } from '@queries'
 
 export const SubadminProfileCounts = ({
+    subadminUserId,
     subAdminProfileCount,
 }: {
+    subadminUserId?: number
     subAdminProfileCount: any
 }) => {
     const router = useRouter()
@@ -210,12 +212,24 @@ export const SubadminProfileCounts = ({
                     count: subAdminProfileCount?.data?.openTicket || 0,
                     Icon: HiOutlineDocumentDuplicate,
                     loading: false,
-                    // link: {
-                    //     pathname:
-                    //         role === UserRoles.ADMIN || checkIsAdmin
-                    //             ? '/portals/admin/student'
-                    //             : `/portals/sub-admin/tickets?tab=department-tickets&subAdminId=${subAdmin?.data?.user?.id}`,
-                    // },
+                    link: {
+                        pathname:
+                            role === UserRoles.ADMIN || checkIsAdmin
+                                ? '/portals/admin/student'
+                                : `/portals/sub-admin/tickets`,
+                        ...(role === UserRoles.ADMIN || checkIsAdmin
+                            ? {}
+                            : {
+                                  query: {
+                                      tab: 'department-tickets',
+                                      page: 1,
+                                      pageSize: 50,
+                                      subAdminId: Number(subadminUserId),
+                                      // rtoId: Number(router?.query?.id),
+                                      // status: UserStatus.Pending,
+                                  },
+                              }),
+                    },
                     background: {
                         from: '#6A6A6A',
                         to: '#5A5570',
