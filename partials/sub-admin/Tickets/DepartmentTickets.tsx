@@ -4,11 +4,11 @@ import {
     EmptyData,
     LoadingAnimation,
     Select,
+    SelectOption,
     Table,
     TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
-import { ticketPriorityEnum } from '@partials/common/Tickets'
 import { CommonApi, SubAdminApi } from '@queries'
 import { removeEmptyValues } from '@utils'
 import { useRouter } from 'next/router'
@@ -19,13 +19,18 @@ import { useSubadminTicketsColumns } from './hooks'
 export const DepartmentTickets = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [isHighPriority, setIsHighPriority] = useState<string | null>(null)
-    const router = useRouter()
-    const [coordinatorId, setCoordinatorId] = useState<string | null>(() => {
-        // Initialize from URL query parameter if it exists
-        return (router.query.subAdminId as string) || null
-    })
 
+    const router = useRouter()
+
+    const [coordinatorId, setCoordinatorId] = useState<number | null>(() => {
+        // Initialize from URL query parameter if it exists
+        return Number(router.query.subAdminId) || null
+    })
+    useEffect(() => {
+        if (router?.query?.subAdminId) {
+            setCoordinatorId(+router?.query?.subAdminId)
+        }
+    }, [router])
 
     const { data: departmentCoordinators } =
         SubAdminApi.SubAdmin.useCoordinatorsDropDown()
@@ -36,25 +41,6 @@ export const DepartmentTickets = () => {
             value: coordinator?.user?.id,
         })
     )
-
-    useEffect(() => {
-        const query = { ...router.query }
-
-        if (coordinatorId) {
-            query.subAdminId = coordinatorId
-        } else {
-            delete query.subAdminId
-        }
-
-        router.push(
-            {
-                pathname: router.pathname,
-                query,
-            },
-            undefined,
-            { shallow: true }
-        )
-    }, [coordinatorId])
 
     const { isLoading, isFetching, data, isError } =
         CommonApi.Tickets.useDepartmentTicket(
@@ -76,19 +62,10 @@ export const DepartmentTickets = () => {
 
     const { columns } = useMemo(() => useSubadminTicketsColumns(), [])
 
-    const onFilterChange = (value: string) => {
-        setIsHighPriority(value)
-    }
-    const onFilterByCoordinator = (value: string) => {
+    const onFilterByCoordinator = (value: number) => {
         setCoordinatorId(value)
     }
 
-    const priorityOptions = [
-        ...Object.entries(ticketPriorityEnum).map(([label, value]) => ({
-            label,
-            value,
-        })),
-    ]
     return (
         <div>
             <div className="ml-4 mb-2">
@@ -102,6 +79,9 @@ export const DepartmentTickets = () => {
                             name={'coordinator'}
                             placeholder={'Select Coordinator...'}
                             options={coordinatorsOptions}
+                            value={coordinatorsOptions?.find(
+                                (c: SelectOption) => c?.value === coordinatorId
+                            )}
                             onlyValue
                             onChange={(e: any) => {
                                 onFilterByCoordinator(e)

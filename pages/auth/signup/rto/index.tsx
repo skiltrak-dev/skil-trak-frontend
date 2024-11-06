@@ -8,8 +8,10 @@ import { IndicatorStep, Typography } from '@components'
 
 import { StepForm } from '@partials/rto/tabs'
 import Head from 'next/head'
-import { useState } from 'react'
+import { ReactElement, useState } from 'react'
 import Link from 'next/link'
+import { AdminLayout, SimpleLayout } from '@layouts'
+import { NextPageWithLayout } from '@types'
 
 const FormSteps: IndicatorStep[] = [
     {
@@ -35,7 +37,7 @@ const FormSteps: IndicatorStep[] = [
     },
 ]
 
-const RtoSignUp: NextPage = () => {
+const RtoSignUp: NextPageWithLayout = () => {
     const router = useRouter()
 
     const [currentStep, setCurrentStep] = useState<IndicatorStep>(FormSteps[0])
@@ -91,6 +93,10 @@ const RtoSignUp: NextPage = () => {
             </div>
         </>
     )
+}
+
+RtoSignUp.getLayout = (page: ReactElement) => {
+    return <SimpleLayout>{page}</SimpleLayout>
 }
 
 export default RtoSignUp

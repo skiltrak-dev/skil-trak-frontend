@@ -63,36 +63,42 @@ export const WorkplaceApprovalActions = ({
                     }
                 })?.length > 0 ? (
                     <div className="h-10 w-full flex items-center gap-x-6">
-                        <Button
-                            fullHeight
-                            onClick={() => {
-                                if (isBrowser()) {
-                                    window?.open(
-                                        `${process.env.NEXT_PUBLIC_END_POINT}/subadmin/workplace/approval-request/${wpApprovalId}/update-status?status=approved&date=${dates?.date1}`
-                                    )
-                                }
-                                if (onCancel) {
-                                    onCancel()
-                                }
-                            }}
-                            text="Approve With Date 1"
-                            variant="success"
-                        />
-                        <Button
-                            fullHeight
-                            onClick={() => {
-                                if (isBrowser()) {
-                                    window?.open(
-                                        `${process.env.NEXT_PUBLIC_END_POINT}/subadmin/workplace/approval-request/${wpApprovalId}/update-status?status=approved&date=${dates?.date2}`
-                                    )
-                                }
-                                if (onCancel) {
-                                    onCancel()
-                                }
-                            }}
-                            text="Approve With Date 2"
-                            variant="success"
-                        />
+                        {dates?.date1 ? (
+                            <Button
+                                fullHeight
+                                fullWidth
+                                onClick={() => {
+                                    if (isBrowser()) {
+                                        window?.open(
+                                            `${process.env.NEXT_PUBLIC_END_POINT}/subadmin/workplace/approval-request/${wpApprovalId}/update-status?status=approved&date=${dates?.date1}`
+                                        )
+                                    }
+                                    if (onCancel) {
+                                        onCancel()
+                                    }
+                                }}
+                                text="Approve With Date 1"
+                                variant="success"
+                            />
+                        ) : null}
+                        {dates?.date2 ? (
+                            <Button
+                                fullHeight
+                                fullWidth
+                                onClick={() => {
+                                    if (isBrowser()) {
+                                        window?.open(
+                                            `${process.env.NEXT_PUBLIC_END_POINT}/subadmin/workplace/approval-request/${wpApprovalId}/update-status?status=approved&date=${dates?.date2}`
+                                        )
+                                    }
+                                    if (onCancel) {
+                                        onCancel()
+                                    }
+                                }}
+                                text="Approve With Date 2"
+                                variant="success"
+                            />
+                        ) : null}
                     </div>
                 ) : (
                     <div className="h-10 w-full">

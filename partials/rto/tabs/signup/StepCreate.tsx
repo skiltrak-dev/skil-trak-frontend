@@ -25,6 +25,7 @@ export const StepCreate = () => {
                     ),
                     package: formData?.package?.id,
                     role: UserRoles.RTO,
+                    suburb: 'N/A',
                 }
 
                 await register(values)

@@ -5,14 +5,13 @@ import {
     StepIndicator,
     Typography,
 } from '@components'
+import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { StepAccountInfo } from './StepAccountInfo'
 import { StepCreate } from './StepCreate'
-import { StepNotificationMethod } from './StepNotificationMethod'
 import { StepPackageSelection } from './StepPackageSelection'
 import { StepReviewInfo } from './StepReviewInfo'
-import Image from 'next/image'
-import Link from 'next/link'
 
 export const StepForm = () => {
     const router = useRouter()

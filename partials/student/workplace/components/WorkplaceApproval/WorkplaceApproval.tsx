@@ -1,10 +1,10 @@
 import { Typography } from '@components'
+import { AvailableMeetingDates } from './AvailableMeetingDates'
+import { StudentWorkplaceInfo } from './StudentWorkplaceInfo'
 import { WorkplaceApprovalActions } from './WorkplaceApprovalActions'
 import { WorkplaceAvailableSlots } from './WorkplaceAvailableSlots'
 import { WorkplaceDetail } from './WorkplaceDetail'
-import { WorkplaceInfo } from './WorkplaceInfo'
 import { WorkplaceMapView } from './WorkplaceMapView'
-import { AvailableMeetingDates } from './AvailableMeetingDates'
 
 export const WorkplaceApproval = ({
     onCancel,
@@ -15,12 +15,16 @@ export const WorkplaceApproval = ({
 }) => {
     return (
         <div className="px-4 py-2 w-full max-w-[inherit] h-full bg-white rounded-[10px]">
-            <div className="grid grid-cols-7 gap-x-10">
-                <div className="col-span-3 ">
+            <div className="grid grid-cols-5 gap-x-5">
+                <div className="col-span-2">
                     <WorkplaceDetail />
                 </div>
 
-                <div className="col-span-4 w-full">
+                <div className="">
+                    <AvailableMeetingDates dates={wpApprovalData?.dates} />
+                </div>
+
+                <div className="col-span-2 w-full">
                     <Typography variant="label" medium center block>
                         Workplace on map
                     </Typography>
@@ -40,18 +44,16 @@ export const WorkplaceApproval = ({
             </div>
 
             {/*  */}
-            <div className="w-full border border-[#D5D5D5] rounded-md p-3 grid grid-cols-3 gap-x-2.5 mt-3">
-                <WorkplaceInfo industry={wpApprovalData?.industry} />
-
+            <div className="w-full border border-[#D5D5D5] rounded-md p-3 grid grid-cols-5 gap-x-2.5 mt-3">
                 <div className="col-span-2">
+                    <StudentWorkplaceInfo industry={wpApprovalData?.industry} />
+                </div>
+
+                <div className="col-span-3">
                     <WorkplaceAvailableSlots
                         workingHours={wpApprovalData?.industry?.workingHours}
                     />
                 </div>
-            </div>
-
-            <div>
-                <AvailableMeetingDates dates={wpApprovalData?.dates} />
             </div>
 
             {/*  */}

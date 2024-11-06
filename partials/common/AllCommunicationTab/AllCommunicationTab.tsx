@@ -208,7 +208,7 @@ export const AllCommunicationTab = ({ user }: { user: any }) => {
                                                                                 </div>
                                                                                 <TicketUser
                                                                                     ticket={
-                                                                                        item?.createdBy
+                                                                                        item
                                                                                     }
                                                                                 />
                                                                             </td>
@@ -223,9 +223,11 @@ export const AllCommunicationTab = ({ user }: { user: any }) => {
                                                                                     </Typography>
                                                                                 </div>
                                                                                 <TicketUser
-                                                                                    ticket={
-                                                                                        item?.assignedTo
-                                                                                    }
+                                                                                    ticket={{
+                                                                                        ...item,
+                                                                                        createdBy:
+                                                                                            item?.assignedTo,
+                                                                                    }}
                                                                                 />
                                                                             </td>
                                                                             <td>
