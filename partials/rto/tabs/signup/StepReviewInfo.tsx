@@ -242,34 +242,10 @@ export const StepReviewInfo = () => {
                                         variant={'muted'}
                                         color={'text-gray-500'}
                                     >
-                                        Address Line 2
-                                    </Typography>
-                                    <Typography variant={'label'}>
-                                        {formData.addressLine2 || '-'}
-                                    </Typography>
-                                </InfoboxCard>
-
-                                <InfoboxCard>
-                                    <Typography
-                                        variant={'muted'}
-                                        color={'text-gray-500'}
-                                    >
                                         State
                                     </Typography>
                                     <Typography variant={'label'}>
                                         {formData.state || '-'}
-                                    </Typography>
-                                </InfoboxCard>
-
-                                <InfoboxCard>
-                                    <Typography
-                                        variant={'muted'}
-                                        color={'text-gray-500'}
-                                    >
-                                        Suburb
-                                    </Typography>
-                                    <Typography variant={'label'}>
-                                        {formData.suburb || '-'}
                                     </Typography>
                                 </InfoboxCard>
 

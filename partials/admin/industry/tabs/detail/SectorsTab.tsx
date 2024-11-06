@@ -1,14 +1,9 @@
-import React from 'react'
-
 // hooks
-import { useContextBar } from '@hooks'
 
 // components
-import { ContextBarLoading, EmptyData, NoData, Typography } from '@components'
-import { SectorCard } from '@partials/admin/components'
+import { ContextBarLoading, NoData, Typography } from '@components'
 
 // hooks
-import { useGetSectors } from '@hooks'
 import { CourseList } from '@partials/common'
 
 const getSectors = (courses: any) => {

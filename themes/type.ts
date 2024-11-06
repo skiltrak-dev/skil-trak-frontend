@@ -1,5 +1,3 @@
-import { ThemeColors } from '@utils'
-
 export interface ColorSet {
     DEFAULT: string
     dark: string
