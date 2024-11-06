@@ -1,7 +1,7 @@
 import { Button } from '@components'
-import { ReactElement, useState } from 'react'
+import { StudentApi } from '@queries'
+import { ReactElement, useEffect, useState } from 'react'
 import { WorkplaceApprovalDeclaration, WorkplaceRejectedModal } from './modal'
-import { isBrowser } from '@utils'
 
 export const WorkplaceApprovalActions = ({
     onCancel,
@@ -16,6 +16,31 @@ export const WorkplaceApprovalActions = ({
 }) => {
     const onCancelModal = () => setModal(null)
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [reqData, setReqData] = useState<{
+        status: string
+        date: string
+    }>(
+        {} as {
+            status: string
+            date: string
+        }
+    )
+
+    const changeWpApprovalReq = StudentApi.Workplace.changeStatusWpApprroval(
+        { id: wpApprovalId, ...reqData },
+        {
+            skip: !Object.values(reqData)?.length,
+        }
+    )
+
+    useEffect(() => {
+        if (changeWpApprovalReq.isSuccess) {
+            if (onCancel) {
+                onCancel()
+            }
+            onCancelModal()
+        }
+    }, [changeWpApprovalReq.isSuccess])
 
     const onApprovalClicked = (declaration: string) => {
         setModal(
@@ -53,31 +78,64 @@ export const WorkplaceApprovalActions = ({
             />
         )
     }
+
+    const updatedDates = {
+        'Option 1': dates?.date1,
+        'Option 2': dates?.date2,
+    }
     return (
         <>
             {modal}
-            <div className="w-full md:w-96 flex flex-col gap-y-1 items-center justify-center mx-auto py-2">
+            <div className="w-full md:w-[400px] flex flex-col gap-y-1 items-center justify-center mx-auto py-2">
                 {Object.values(dates)?.filter((date) => {
                     if (date) {
                         return date
                     }
                 })?.length > 0 ? (
                     <div className="h-10 w-full flex items-center gap-x-6">
-                        {dates?.date1 ? (
+                        {Object.entries(dates)
+                            ?.filter(([_, value]) => {
+                                if (value) {
+                                    return value
+                                }
+                            })
+                            ?.map(([key, value], i) => (
+                                <Button
+                                    fullHeight
+                                    fullWidth
+                                    onClick={() => {
+                                        setReqData({
+                                            date: String(value),
+                                            status: 'approved',
+                                        })
+                                    }}
+                                    loading={changeWpApprovalReq?.isLoading}
+                                    disabled={changeWpApprovalReq?.isLoading}
+                                    text={`Approve With Option ${i + 1}`}
+                                    variant="success"
+                                />
+                            ))}
+                        {/* {dates?.date1 ? (
                             <Button
                                 fullHeight
                                 fullWidth
                                 onClick={() => {
-                                    if (isBrowser()) {
-                                        window?.open(
-                                            `${process.env.NEXT_PUBLIC_END_POINT}/subadmin/workplace/approval-request/${wpApprovalId}/update-status?status=approved&date=${dates?.date1}`
-                                        )
-                                    }
-                                    if (onCancel) {
-                                        onCancel()
-                                    }
+                                    setReqData({
+                                        date: dates?.date1,
+                                        status: 'approved',
+                                    })
+                                    // if (isBrowser()) {
+                                    //     window?.open(
+                                    //         `${process.env.NEXT_PUBLIC_END_POINT}/subadmin/workplace/approval-request/${wpApprovalId}/update-status?status=approved&date=${dates?.date1}`
+                                    //     )
+                                    // }
+                                    // if (onCancel) {
+                                    //     onCancel()
+                                    // }
                                 }}
-                                text="Approve With Date 1"
+                                loading={changeWpApprovalReq?.isLoading}
+                                disabled={changeWpApprovalReq?.isLoading}
+                                text="Approve With Option 1"
                                 variant="success"
                             />
                         ) : null}
@@ -86,19 +144,25 @@ export const WorkplaceApprovalActions = ({
                                 fullHeight
                                 fullWidth
                                 onClick={() => {
-                                    if (isBrowser()) {
-                                        window?.open(
-                                            `${process.env.NEXT_PUBLIC_END_POINT}/subadmin/workplace/approval-request/${wpApprovalId}/update-status?status=approved&date=${dates?.date2}`
-                                        )
-                                    }
-                                    if (onCancel) {
-                                        onCancel()
-                                    }
+                                    setReqData({
+                                        date: dates?.date1,
+                                        status: 'approved',
+                                    })
+                                    // if (isBrowser()) {
+                                    //     window?.open(
+                                    //         `${process.env.NEXT_PUBLIC_END_POINT}/subadmin/workplace/approval-request/${wpApprovalId}/update-status?status=approved&date=${dates?.date2}`
+                                    //     )
+                                    // }
+                                    // if (onCancel) {
+                                    //     onCancel()
+                                    // }
                                 }}
-                                text="Approve With Date 2"
+                                loading={changeWpApprovalReq?.isLoading}
+                                disabled={changeWpApprovalReq?.isLoading}
+                                text="Approve With Option 2"
                                 variant="success"
                             />
-                        ) : null}
+                        ) : null} */}
                     </div>
                 ) : (
                     <div className="h-10 w-full">

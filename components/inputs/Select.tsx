@@ -75,9 +75,9 @@ export const Select = forwardRef(
 
         useEffect(() => {
             if ((value || defaultValue) && formContext) {
-                formContext.setValue(name, handleChange(value))
+                formContext.setValue(name, handleChange(value || defaultValue))
             }
-        }, [value])
+        }, [value, defaultValue])
 
         const CustomStyle = {
             control: (
