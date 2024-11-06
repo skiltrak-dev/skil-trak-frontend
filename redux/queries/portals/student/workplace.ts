@@ -111,4 +111,15 @@ export const workplaceEndpoints = (
         query: () => `${PREFIX}/workplace/approval-request/get`,
         providesTags: ['Workplace'],
     }),
+
+    changeStatusWpApprrovalReq: builder.query<
+        any,
+        { id: number; status: string; date: string }
+    >({
+        query: ({ id, ...params }) => ({
+            url: `subadmin/workplace/approval-request/${id}/update-status`,
+            params,
+        }),
+        providesTags: ['Workplace'],
+    }),
 })

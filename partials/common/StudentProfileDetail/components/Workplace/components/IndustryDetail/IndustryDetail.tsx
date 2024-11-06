@@ -350,12 +350,19 @@ export const IndustryDetail = ({
                                     </AuthorizedUserComponent>
                                     {approvalDate ? (
                                         <div className="mt-3 w-fit">
-                                            <Typography variant="small" medium>
-                                                Accepted Date
+                                            <Typography
+                                                variant="xs"
+                                                color={'text-gray-600'}
+                                            >
+                                                Student has accepted the
+                                                industry approval request and
+                                                requested an appointment for
                                             </Typography>
-                                            <AvailabelMeetingDate
-                                                date={approvalDate}
-                                            />
+                                            <div className="w-fit">
+                                                <AvailabelMeetingDate
+                                                    date={approvalDate}
+                                                />
+                                            </div>
                                         </div>
                                     ) : null}
                                 </>

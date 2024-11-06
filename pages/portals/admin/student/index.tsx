@@ -36,6 +36,7 @@ const filterKeys = [
     'email',
     'phone',
     'rtoId',
+    'state',
     'suburb',
     'status',
     'sectorId',
