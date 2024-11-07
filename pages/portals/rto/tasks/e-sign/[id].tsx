@@ -1,5 +1,5 @@
 import { RtoLayout } from '@layouts'
-import { ViewDocumentAndSign } from '@partials'
+import { ViewDocumentAndSign } from '@partials/eSign/ViewDocumentAndSign'
 import { NextPageWithLayout } from '@types'
 import { ReactElement } from 'react'
 

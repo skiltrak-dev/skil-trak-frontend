@@ -5,15 +5,19 @@ import {
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
+import {
+    FillEsignFieldsModal,
+    SubmitDocumentModal,
+} from '@partials/common/StudentProfileDetail/modals'
 import { getStatusColor } from '@partials/sub-admin/eSign/components'
 import { CommonApi } from '@queries'
-import { ReactElement, useState } from 'react'
-import { RequestResign, ResendMailModal, SubmitDocModal } from '../modal'
-import { FaSignature } from 'react-icons/fa'
 import { EsignDocumentStatus } from '@utils'
-import { RiMailSendLine } from 'react-icons/ri'
 import moment from 'moment'
+import { ReactElement, useState } from 'react'
+import { FaSignature } from 'react-icons/fa'
 import { IoMdSend } from 'react-icons/io'
+import { RiMailSendLine } from 'react-icons/ri'
+import { RequestResign, ResendMailModal } from '../modal'
 
 export const AgreementSignStatusCard = ({
     signer,
@@ -67,12 +71,26 @@ export const AgreementSignStatusCard = ({
         )
     }
 
+    const fillDocumentFields = () => {
+        setModal(
+            <FillEsignFieldsModal
+                documentId={document?.id}
+                onCancel={onCancelClicked}
+                signerId={signer?.user?.id}
+            />
+        )
+    }
+
     const onSubmitDocClicked = (signerUser: number) => {
         setModal(
-            <SubmitDocModal
-                onCancel={onCancelClicked}
-                documentId={document?.id}
-                signerUser={signerUser}
+            <SubmitDocumentModal
+                onCancel={(isOpen?: boolean) => {
+                    if (isOpen) {
+                        fillDocumentFields()
+                    } else {
+                        onCancelClicked()
+                    }
+                }}
             />
         )
     }

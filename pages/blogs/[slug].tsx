@@ -46,11 +46,7 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
         }
     }
     const router = useRouter()
-    const blogId = router.query?.slug as string
-    const [activeKey, setActiveKey] = useState(null) // const { data, isLoading, isFetching, isError } =
-    //     adminApi.useGetBlogDetailQuery(blogId, {
-    //         skip: !blogId,
-    //     })
+
     const shareUrl = `https://www.skiltrak.com.au/blogs/${router.query.slug}`
 
     return (

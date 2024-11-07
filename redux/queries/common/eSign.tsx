@@ -207,7 +207,7 @@ export const eSignEndpoints = (
 
     getUserSignatureTabForTemplate: builder.query<
         any,
-        { template: number; docId: number }
+        { template: number; docId: number; signerId?: number }
     >({
         query: ({ template, ...params }) => ({
             url: `${PREFIX}/signature-tab/retrieve-for-document/${template}`,

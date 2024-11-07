@@ -149,7 +149,6 @@ export const ProgressCell = ({
     studentProvidedWorkplace?: boolean
     documentInitiates?: boolean
 }) => {
-    const [modal, setModal] = useState<ReactElement | null>(null)
     // const currentStatus = WorkplaceRequestProgress[status]
     const currentStatus: CurrentStatus = Object.values(
         WorkplaceRequestProgress(appliedIndustry)
@@ -176,7 +175,6 @@ export const ProgressCell = ({
 
     return (
         <>
-            {modal}
             <div
                 className={`${classes} ${step > 1 ? 'cursor-pointer' : ''}`}
                 onClick={() => {

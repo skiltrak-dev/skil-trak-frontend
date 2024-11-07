@@ -1,23 +1,20 @@
 import { Footer4 } from '@components/site'
 import { Navbar2 } from '@components/site/navbar'
-import { useHeaderWrapperTitle } from '@hooks'
 import { TalentPool } from '@partials/frontPages'
-import React, { useEffect } from 'react'
+import Head from 'next/head'
 
 const TalentPoolPage = () => {
-    const { setTitle } = useHeaderWrapperTitle()
-
-    useEffect(() => {
-        setTitle('Talent Pool')
-        return () => setTitle('')
-    }, [])
-
     return (
-        <div>
-            <Navbar2 />
-            <TalentPool />
-            <Footer4 />
-        </div>
+        <>
+            <Head>
+                <title> Talent Pool </title>
+            </Head>
+            <div>
+                <Navbar2 />
+                <TalentPool />
+                <Footer4 />
+            </div>
+        </>
     )
 }
 
