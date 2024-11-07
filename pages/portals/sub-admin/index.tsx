@@ -153,7 +153,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
 
         // Explicitly map only the require d keys to their titles
         const mapping = [
-            { key: 'placementStarted', title: 'Placement Started' },
+            { key: 'placementStarted', title: 'Workplace Started' },
             { key: 'inProcess', title: 'In Progress' },
             { key: 'awaitingAgreementSigned', title: 'Agreement Pending' },
             { key: 'appointmentBooked', title: 'Appointment' },

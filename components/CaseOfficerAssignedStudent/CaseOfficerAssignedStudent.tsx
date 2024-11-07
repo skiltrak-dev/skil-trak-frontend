@@ -3,7 +3,7 @@ import { StudentStatusProgressCell } from '@components/StudentStatusProgressCell
 import { UserRoles } from '@constants'
 import { ProgressCell } from '@partials/admin/student/components'
 import { ViewStatusChangeHistoryModal } from '@partials/admin/student/modals'
-import { Student } from '@types'
+import { Student, UserStatus } from '@types'
 import {
     WorkplaceCurrentStatus,
     checkStudentStatus,
@@ -127,6 +127,10 @@ export const CaseOfficerAssignedStudent = ({
 
     const documentInitiates =
         student?.user?.signers && student?.user?.signers?.length > 0
+            ? student?.user?.signers?.find(
+                  (signer: any) => signer?.document?.status === 'pending'
+              )
+            : false
 
     return (
         <div className="w-[280px]">
@@ -156,6 +160,22 @@ export const CaseOfficerAssignedStudent = ({
                     documentInitiates={documentInitiates}
                 />
             ) : industries?.length > 0 ? (
+                <StudentStatusProgressCell
+                    assigned={student?.subadmin}
+                    studentId={student?.id}
+                    step={
+                        workplace?.currentStatus ===
+                        WorkplaceCurrentStatus.Cancelled
+                            ? 4
+                            : studentStatus
+                    }
+                    appliedIndustry={updatedAlliedIndustry}
+                    studentProvidedWorkplace={
+                        updatedWorkplace?.studentProvidedWorkplace ||
+                        updatedWorkplace?.byExistingAbn
+                    }
+                />
+            ) : student?.user?.status === UserStatus.Archived ? (
                 <StudentStatusProgressCell
                     assigned={student?.subadmin}
                     studentId={student?.id}

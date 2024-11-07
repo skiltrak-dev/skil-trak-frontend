@@ -11,7 +11,7 @@ import {
 } from '@components'
 
 import { useJoyRide } from '@hooks'
-import { UsersPendingEsignModal } from '@partials'
+import { UsersPendingEsignModal } from '@partials/eSign/modal/UsersPendingEsignModal'
 import { ProfileModal } from '@partials/student/Profile/modal/ProfileModal'
 import { studentProfileKeys } from '@partials/student/components'
 import { WorkplaceApprovalModal } from '@partials/student/workplace/modal'
