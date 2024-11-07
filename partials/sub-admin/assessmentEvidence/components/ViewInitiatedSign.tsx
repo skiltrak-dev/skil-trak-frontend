@@ -1,12 +1,12 @@
 import { ActionButton, AuthorizedUserComponent, Button } from '@components'
+import { UserRoles } from '@constants'
 import { DocumentsView } from '@hooks'
-import { AssessmentEvidenceDetailType, Folder, Rto } from '@types'
-import { EsignDocumentStatus, isBrowser } from '@utils'
+import { AssessmentEvidenceDetailType, Rto } from '@types'
+import { EsignDocumentStatus } from '@utils'
 import { useEffect, useState } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { CancelInitiateSign, InitiateSigningModal } from '../modal'
 import { CheckAgreementSignedStatus } from './CheckAgreementSignedStatus'
-import { UserRoles } from '@constants'
 
 export const ViewInitiatedSign = ({
     document,

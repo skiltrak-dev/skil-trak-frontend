@@ -32,7 +32,7 @@ export const RtoProfileProgress = ({
 
     const progressData: RtoProfileProgressTypes[] = [
         {
-            title: 'Placement Started',
+            title: 'Workplace Started',
             color: '#34B53A',
             percent: percentData(countsArr?.placementStarted),
         },

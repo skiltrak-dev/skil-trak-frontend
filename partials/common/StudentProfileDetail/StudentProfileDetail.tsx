@@ -202,7 +202,8 @@ export const StudentProfileDetail = () => {
                                       `/${getLink('student')}` ||
                                           'portals/admin/student?tab=active&page=1&pageSize=50'
                                   )
-                                : role === UserRoles.SUBADMIN
+                                : role === UserRoles.SUBADMIN &&
+                                  !subadmin?.data?.isAdmin
                                 ? router.push(
                                       `/${getLink('subadmin-student')}` ||
                                           '/portals/sub-admin/students?tab=all'

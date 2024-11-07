@@ -1,4 +1,5 @@
 import {
+    Button,
     Card,
     EmptyData,
     LoadingAnimation,
@@ -7,14 +8,23 @@ import {
 } from '@components'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import { useNotification } from '@hooks'
+import { SubmitDocModal } from '@partials/sub-admin/assessmentEvidence/modal'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import { IoMdArrowDropleftCircle } from 'react-icons/io'
-import { DownloadEsignDocument, SVGView } from './components'
-import { EsignSignatureModal, FinishSignModal } from './modal'
+import { EsignSVGView } from './components'
+// import { FinishSignModal } from './modal'
 
-export const ViewDocumentAndSign = () => {
+export const FillEsignFields = ({
+    signerId,
+    onCancel,
+    documentId,
+}: {
+    onCancel: any
+    signerId: number
+    documentId: number
+}) => {
     const router = useRouter()
 
     const [showSignersField, setShowSignersField] = useState<boolean>(true)
@@ -37,22 +47,26 @@ export const ViewDocumentAndSign = () => {
     const { notification } = useNotification()
 
     const documentsTotalPages = CommonApi.ESign.useGetDocumentTotalPages(
-        Number(router.query?.id),
+        Number(documentId),
         {
-            skip: !router.query?.id,
+            skip: !documentId,
         }
     )
+    console.log({ documentsTotalPages })
 
     const tabs = CommonApi.ESign.useSignatureTabForTemplate(
         {
+            signerId,
             template: documentsTotalPages?.data?.templateId,
-            docId: Number(router.query?.id),
+            docId: Number(documentId),
         },
         {
-            skip: !documentsTotalPages?.data || !router.query?.id,
+            skip: !documentsTotalPages?.data || !documentId,
             refetchOnMountOrArgChange: true,
         }
     )
+
+    console.log({ tabs })
 
     // useEffect(() => {
     //     if (tabs?.data && tabs?.data?.length > 0) {
@@ -207,9 +221,14 @@ export const ViewDocumentAndSign = () => {
             })
         } else {
             setModal(
-                <FinishSignModal
-                    onCancel={onCancelClicked}
+                <SubmitDocModal
+                    onCancel={() => {
+                        onCancelClicked()
+                        onCancel()
+                    }}
                     customFieldsData={customFieldsData}
+                    documentId={documentId}
+                    signerUser={signerId}
                 />
             )
         }
@@ -419,23 +438,14 @@ export const ViewDocumentAndSign = () => {
         setCustomFieldsSelectedId(0)
     }
 
+    const remainingFields = sortedPositions?.filter(
+        (field: any) => !field?.fieldValue && field?.required
+    )
+
     return (
         <div>
             {modal}
-            <DownloadEsignDocument />
-            {isSignature && isDocumentLoaded?.isSuccess ? (
-                <EsignSignatureModal
-                    tab={selectedSign}
-                    onCancel={(cancel?: boolean, isSigned?: boolean) => {
-                        onSignatureCancelClicked(cancel, isSigned)
-                    }}
-                    allSignAdded={allSignAdded}
-                    customFieldsData={customFieldsData}
-                    success={
-                        !tabs?.isLoading && !tabs?.isFetching && tabs?.isSuccess
-                    }
-                />
-            ) : null}
+
             {!showSignersField && (
                 <div
                     onClick={() => {
@@ -466,33 +476,7 @@ export const ViewDocumentAndSign = () => {
             ) : documentsTotalPages.isSuccess && documentsTotalPages?.data ? (
                 <>
                     <div className="grid grid-cols-1 lg:grid-cols-6 gap-x-2.5 relative">
-                        <div className="block lg:hidden">
-                            {/* <div className="flex justify-end items-center ">
-                                <div
-                                    onClick={() =>
-                                        setShowSignersField(!showSignersField)
-                                    }
-                                >
-                                    <Typography variant="small" semibold>
-                                        Show Fields
-                                    </Typography>
-                                </div>
-                                {showSignersField && (
-                                    <div className="absolute top-5 z-20 w-3/4">
-                                        <ScrollTabsView
-                                            onClick={() => {}}
-                                            customFieldsAndSign={
-                                                customFieldsAndSign
-                                            }
-                                            scrollToPage={scrollToPage}
-                                            setSelectedFillDataField={
-                                                setSelectedFillDataField
-                                            }
-                                        />
-                                    </div>
-                                )}
-                            </div> */}
-                        </div>
+                        <div className="block lg:hidden"></div>
 
                         <div
                             className={`${
@@ -501,17 +485,6 @@ export const ViewDocumentAndSign = () => {
                                     : 'lg:col-span-6'
                             } max-w- lg:pl-20 mx-auto flex flex-col gap-y-3 relative w-full`}
                         >
-                            {/* <div className="flex justify-end items-center gap-x-2">
-                                <input
-                                    type={'checkbox'}
-                                    onChange={(e: any) => {
-                                        onSelectAll(e)
-                                    }}
-                                    id={'selectAll'}
-                                />
-                                <label htmlFor="selectAll">Select All</label>
-                            </div> */}
-
                             {[
                                 ...Array(
                                     Number(documentsTotalPages?.data?.pageCount)
@@ -533,8 +506,9 @@ export const ViewDocumentAndSign = () => {
                                                 {i + 1}
                                             </Typography>
                                         </div>
-                                        <SVGView
+                                        <EsignSVGView
                                             index={i}
+                                            documentId={documentId}
                                             scrollToPage={scrollToPage}
                                             sortedPositions={sortedPositions}
                                             onDocumentScrollArrow={() => {
@@ -576,6 +550,31 @@ export const ViewDocumentAndSign = () => {
                                     </Card>
                                 </div>
                             ))}
+                        </div>
+
+                        <div className="flex justify-center w-full col-span-6">
+                            <div className="w-80 h-14 mt-5">
+                                <Button
+                                    variant={
+                                        customFieldsData &&
+                                        customFieldsData?.length > 0
+                                            ? 'primary'
+                                            : 'secondary'
+                                    }
+                                    disabled={remainingFields?.length > 0}
+                                    fullHeight
+                                    fullWidth
+                                    onClick={() => {
+                                        if (
+                                            customFieldsData &&
+                                            customFieldsData?.length > 0
+                                        ) {
+                                            onFinishSignModal()
+                                        }
+                                    }}
+                                    text={'Finish Signing'}
+                                />
+                            </div>
                         </div>
 
                         {/* {showSignersField && (

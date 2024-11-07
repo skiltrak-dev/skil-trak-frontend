@@ -8,10 +8,12 @@ export const SubmitDocModal = ({
     onCancel,
     signerUser,
     documentId,
+    customFieldsData,
 }: {
     signerUser: number
     documentId: number
     onCancel: Function
+    customFieldsData: any
 }) => {
     const { notification } = useNotification()
     const [submitDoc, submitDocResult] = CommonApi.ESign.addCustomFieldData()
@@ -19,7 +21,12 @@ export const SubmitDocModal = ({
     const onConfirmUClicked = async (eSign: any) => {
         const res: any = await submitDoc({
             documentId,
-            tabsResponse: [],
+            tabsResponse: customFieldsData
+                ?.filter((data: any) => data?.isCustom && data?.fieldValue)
+                ?.map((tab: any) => ({
+                    tab: tab?.id,
+                    data: tab?.fieldValue,
+                })),
             userId: signerUser,
         })
         if (res?.data) {

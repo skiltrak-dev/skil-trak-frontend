@@ -5,6 +5,9 @@ import * as yup from 'yup'
 import {
     CourseSelectOption,
     formatOptionLabel,
+    getAddressData,
+    getLatLng,
+    getPostalCode,
     onlyAlphabets,
     removeEmptySpaces,
 } from '@utils'
@@ -164,8 +167,7 @@ export const RTOProfileEditForm = ({
 
         // Address Information
         addressLine1: yup.string().required('Must provide address'),
-        state: yup.string().required('Must provide name of state'),
-        suburb: yup.string().required('Must provide suburb name'),
+
         zipCode: yup.string().required('Must provide zip code for your state'),
     })
 
@@ -227,7 +229,7 @@ export const RTOProfileEditForm = ({
                 description: 'You must select on Suburb Dropdown',
             })
         } else if (onSuburbClicked) {
-            onSubmit(values)
+            onSubmit({ ...values, suburb: 'N/A' })
         }
     }
 
@@ -390,49 +392,76 @@ export const RTOProfileEditForm = ({
 
                                     {/* Address Information */}
                                     <div className="flex flex-col gap-x-16 border-t py-4">
-                                        <div className="grid grid-cols-1 gap-x-8">
-                                            <TextInput
-                                                label={'Primary Address'}
-                                                name={'addressLine1'}
-                                                placeholder={
-                                                    'Your Primary Address...'
-                                                }
-                                                validationIcons
-                                                placesSuggetions
-                                                onFocus={(e: any) => {
-                                                    setIsPlaceSelected({
-                                                        ...isPlaceSelected,
-                                                        isFocused: true,
-                                                    })
-                                                }}
-                                            />
-                                        </div>
+                                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-x-8">
+                                            <div className="col-span-2">
+                                                <TextInput
+                                                    label={'Primary Address'}
+                                                    name={'addressLine1'}
+                                                    placeholder={
+                                                        'Your Primary Address...'
+                                                    }
+                                                    validationIcons
+                                                    placesSuggetions
+                                                    onChange={async (
+                                                        e: any
+                                                    ) => {
+                                                        setOnSuburbClicked(
+                                                            false
+                                                        )
+                                                        if (
+                                                            e?.target?.value
+                                                                ?.length > 4
+                                                        ) {
+                                                            try {
+                                                                const {
+                                                                    state,
+                                                                } =
+                                                                    await getAddressData(
+                                                                        e
+                                                                            ?.target
+                                                                            ?.value
+                                                                    )
+                                                                const latLng =
+                                                                    await getLatLng(
+                                                                        e
+                                                                            ?.target
+                                                                            ?.value
+                                                                    )
+                                                                const postalCode =
+                                                                    await getPostalCode(
+                                                                        latLng
+                                                                    )
 
-                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">
-                                            <TextInput
-                                                label={'Suburb'}
-                                                name={'suburb'}
-                                                placeholder={'Suburb...'}
-                                                validationIcons
-                                                placesSuggetions
-                                                onChange={() => {
-                                                    setOnSuburbClicked(false)
-                                                }}
-                                                onPlaceSuggetions={{
-                                                    placesSuggetions:
-                                                        onSuburbClicked,
-                                                    setIsPlaceSelected:
-                                                        setOnSuburbClicked,
-                                                }}
-                                            />
-
-                                            <TextInput
-                                                label={'State'}
-                                                name={'state'}
-                                                placeholder={'State...'}
-                                                validationIcons
-                                            />
-
+                                                                if (
+                                                                    postalCode
+                                                                ) {
+                                                                    formMethods.setValue(
+                                                                        'zipCode',
+                                                                        postalCode
+                                                                    )
+                                                                }
+                                                                if (state) {
+                                                                    formMethods.setValue(
+                                                                        'state',
+                                                                        state
+                                                                    )
+                                                                }
+                                                            } catch (error) {
+                                                                console.error(
+                                                                    'Error fetching postal code:',
+                                                                    error
+                                                                )
+                                                            }
+                                                        }
+                                                    }}
+                                                    onPlaceSuggetions={{
+                                                        placesSuggetions:
+                                                            onSuburbClicked,
+                                                        setIsPlaceSelected:
+                                                            setOnSuburbClicked,
+                                                    }}
+                                                />
+                                            </div>
                                             <TextInput
                                                 label={'Zip Code'}
                                                 name={'zipCode'}
