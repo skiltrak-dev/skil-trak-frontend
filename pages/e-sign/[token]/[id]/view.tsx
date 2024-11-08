@@ -10,7 +10,11 @@ import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import { PageHeading } from '@components/headings'
 import { useNotification } from '@hooks'
 import { SiteLayout } from '@layouts'
-import { EsignSignatureModal, FinishEmailSignModal, SVGView } from '@partials'
+import {
+    EsignSignatureModal,
+    FinishEmailSignModal,
+} from '@partials/eSign/modal'
+import { SVGView } from '@partials/eSign/components'
 import { CommonApi } from '@queries'
 import jwt from 'jwt-decode'
 import { useRouter } from 'next/router'
