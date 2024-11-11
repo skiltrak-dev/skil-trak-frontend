@@ -113,27 +113,29 @@ export const FillEsignFields = ({
         } else if (tabs?.data && tabs.isSuccess && tabs?.data?.length > 0) {
             setCustomFieldsDataUpdated(true)
             setCustomFieldsData(
-                tabs?.data?.map((tab: any) => {
-                    const response = tab?.responses?.reduce(
-                        (accumulator: any, current: any) => {
-                            // Convert timestamps to Date objects for comparison
-                            const accumulatorDate = new Date(
-                                accumulator.updatedAt
-                            )
-                            const currentDate = new Date(current.updatedAt)
+                tabs?.data
+                    ?.filter((s: any) => s?.type !== FieldsTypeEnum.Signature)
+                    ?.map((tab: any) => {
+                        const response = tab?.responses?.reduce(
+                            (accumulator: any, current: any) => {
+                                // Convert timestamps to Date objects for comparison
+                                const accumulatorDate = new Date(
+                                    accumulator.updatedAt
+                                )
+                                const currentDate = new Date(current.updatedAt)
 
-                            // Return the item with the later updatedAt timestamp
-                            return currentDate > accumulatorDate
-                                ? current
-                                : accumulator
-                        },
-                        tab?.responses[0]
-                    )
-                    return {
-                        ...tab,
-                        fieldValue: response ? response?.data : '',
-                    }
-                })
+                                // Return the item with the later updatedAt timestamp
+                                return currentDate > accumulatorDate
+                                    ? current
+                                    : accumulator
+                            },
+                            tab?.responses[0]
+                        )
+                        return {
+                            ...tab,
+                            fieldValue: response ? response?.data : '',
+                        }
+                    })
             )
         }
     }, [tabs])
@@ -205,16 +207,7 @@ export const FillEsignFields = ({
             (data: any) => data?.isCustom && !data?.fieldValue && data?.required
         )
 
-        if (
-            customFieldsData
-                ?.filter((s: any) => s?.type === FieldsTypeEnum.Signature)
-                ?.filter((s: any) => !s?.responses?.length)?.length > 0
-        ) {
-            notification.warning({
-                title: 'Sign',
-                description: 'Please sign before finish signing',
-            })
-        } else if (customValues && customValues?.length > 0) {
+        if (customValues && customValues?.length > 0) {
             notification.warning({
                 title: 'Please fill all required fields',
                 description: 'Please fill all required fields',

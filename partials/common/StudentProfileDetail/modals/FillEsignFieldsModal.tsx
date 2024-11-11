@@ -18,7 +18,7 @@ export const FillEsignFieldsModal = ({
             <div className="max-w-6xl relative flex flex-col gap-y-3 ">
                 <div className="flex justify-between items-center border-b border-border px-5 py-3 shadow-profile">
                     <Typography variant="title" semibold>
-                        Fill Esign Documents Fields
+                        Esign Document
                     </Typography>
                     <MdCancel
                         onClick={() => {
