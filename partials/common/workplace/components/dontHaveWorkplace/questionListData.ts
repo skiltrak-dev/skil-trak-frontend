@@ -159,7 +159,7 @@ export const questionList = [
         name: workplaceQuestionsKeys.commutePlan,
         index: 11,
         title: 'Commute Plan:',
-        customAnswers: ['My Own', 'Public transportation?'],
+        customAnswers: ['My Own', 'Public transportation'],
         required: true,
     },
     {

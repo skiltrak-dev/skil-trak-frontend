@@ -1,11 +1,9 @@
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 
-import { Select, Button } from '@components'
+import { Select } from '@components'
 import { useGetIndustrySectorsQuery } from '@queries'
-import { useEffect, useState } from 'react'
 import { CourseSelectOption, SignUpUtils, formatOptionLabel } from '@utils'
+import { useEffect, useState } from 'react'
 export const BrowseCandidateForm = ({ setCourseId }: any) => {
     const sectorResponse = useGetIndustrySectorsQuery()
     const [sectorOptions, setSectorOptions] = useState([])
