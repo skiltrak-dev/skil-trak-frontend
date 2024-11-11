@@ -169,9 +169,7 @@ export const ApprovedIndustry = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell industry={info?.row?.original} />
-            },
+            cell: (info) => <SectorCell industry={info?.row?.original} />,
         },
         {
             accessorKey: 'suburb',

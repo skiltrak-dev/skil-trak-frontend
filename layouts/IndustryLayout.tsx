@@ -15,11 +15,11 @@ import { UserLayout } from './UserLayout'
 
 // utils
 import { useAlert, useContextBar, useJoyRide } from '@hooks'
+import { UsersPendingEsignModal } from '@partials/eSign/modal/UsersPendingEsignModal'
+import { ProfileModal } from '@partials/industry'
+import { CommonApi, useIndustryProfileQuery } from '@queries'
 import { UserStatus } from '@types'
 import { AuthUtils, EsignDocumentStatus } from '@utils'
-import { CommonApi, useIndustryProfileQuery } from '@queries'
-import { UsersPendingEsignModal, ViewUsersForEsignModal } from '@partials'
-import { ProfileModal } from '@partials/industry'
 
 const getRoutePath = `/portals/industry`
 
