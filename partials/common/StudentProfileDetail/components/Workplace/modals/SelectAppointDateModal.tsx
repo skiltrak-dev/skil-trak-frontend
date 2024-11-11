@@ -77,6 +77,7 @@ export const SelectAppointDateModal = ({
                             setDate2(e?.target?.value)
                             setShowError(false)
                         }}
+                        disabled={!date1}
                     />
                 </div>
                 {showError ? (
