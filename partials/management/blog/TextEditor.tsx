@@ -99,6 +99,30 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
         name: 'blogQuestions',
     })
     const modules = {
+        table: {
+            operationMenu: {
+                items: {
+                    insertColumnRight: {
+                        text: 'Insert Column Right',
+                    },
+                    insertColumnLeft: {
+                        text: 'Insert Column Left',
+                    },
+                    insertRowUp: {
+                        text: 'Insert Row Above',
+                    },
+                    insertRowDown: {
+                        text: 'Insert Row Below',
+                    },
+                    deleteColumn: {
+                        text: 'Delete Column',
+                    },
+                    deleteRow: {
+                        text: 'Delete Row',
+                    },
+                },
+            },
+        },
         toolbar: [
             [{ font: [] }],
             [{ header: [1, 2, 3, 4, 5, 6, false] }],

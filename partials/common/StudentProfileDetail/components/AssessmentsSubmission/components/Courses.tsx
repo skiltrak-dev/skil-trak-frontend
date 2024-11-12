@@ -369,86 +369,22 @@ export const Courses = ({
             >
                 <div className="grid grid-cols-1 lg:grid-cols-3 h-[inherit]">
                     <div className="py-4 border-r h-[inherit]">
-                        <AssessmentsFolders
-                            student={student}
-                            getFolders={getFolders}
-                            course={selectedCourse}
-                            selectedFolder={selectedFolder}
-                            onSelectFolder={onSelectFolder}
-                        />
-                    </div>
-                    <div className="lg:col-span-2 h-[inherit]">
-                        <div className="h-auto lg:h-[80%]">
-                            <AssessmentFiles
-                                selectedFolder={selectedFolder}
+                        <div className="h-[calc(100%-38px)]">
+                            <AssessmentsFolders
+                                student={student}
+                                getFolders={getFolders}
                                 course={selectedCourse}
-                                getAssessmentResponse={getAssessmentResponse}
-                            >
-                                {getAssessmentResponse?.isSuccess ? (
-                                    <InitiateSign
-                                        student={student}
-                                        folder={selectedFolder}
-                                        courseId={selectedCourse?.id}
-                                        eSignDocument={eSignDocument}
-                                    />
-                                ) : null}
-                            </AssessmentFiles>
+                                selectedFolder={selectedFolder}
+                                onSelectFolder={onSelectFolder}
+                            />
                         </div>
-                        <AuthorizedUserComponent
-                            excludeRoles={[UserRoles.OBSERVER]}
-                        >
-                            {getAssessmentResponse.isSuccess
-                                ? selectedCourse?.results?.length > 0
-                                    ? result?.totalSubmission < 3
-                                        ? (result?.result === Result.ReOpened ||
-                                              result?.result ===
-                                                  Result.ReOpened ||
-                                              result?.result ===
-                                                  Result.NotCompetent) && (
-                                              <div className="flex justify-center items-center mt-2">
-                                                  <SubmitAssessmentSubmission
-                                                      results={
-                                                          selectedCourse?.results
-                                                      }
-                                                      selectedCourseId={Number(
-                                                          selectedCourse?.id
-                                                      )}
-                                                      student={student}
-                                                      isFilesUploaded={
-                                                          isFilesUploaded
-                                                      }
-                                                      isResubmittedFiles={
-                                                          isResubmittedFiles
-                                                      }
-                                                  />
-                                              </div>
-                                          )
-                                        : !getAssessmentResponse.isLoading &&
-                                          !getAssessmentResponse.isFetching &&
-                                          getAssessmentResponse.isSuccess &&
-                                          result?.isManualSubmission && (
-                                              <div className="flex justify-center items-center mt-2">
-                                                  <SubmitAssessmentSubmission
-                                                      results={
-                                                          selectedCourse?.results
-                                                      }
-                                                      selectedCourseId={Number(
-                                                          selectedCourse?.id
-                                                      )}
-                                                      student={student}
-                                                      isFilesUploaded={
-                                                          isFilesUploaded
-                                                      }
-                                                      isResubmittedFiles={
-                                                          isResubmittedFiles
-                                                      }
-                                                  />
-                                              </div>
-                                          )
-                                    : !getAssessmentResponse.isLoading &&
-                                      !getAssessmentResponse.isFetching &&
-                                      getAssessmentResponse.isSuccess &&
-                                      selectedCourse && (
+                        {getAssessmentResponse.isSuccess
+                            ? selectedCourse?.results?.length > 0
+                                ? result?.totalSubmission < 3
+                                    ? (result?.result === Result.ReOpened ||
+                                          result?.result === Result.ReOpened ||
+                                          result?.result ===
+                                              Result.NotCompetent) && (
                                           <div className="flex justify-center items-center mt-2">
                                               <SubmitAssessmentSubmission
                                                   results={
@@ -467,7 +403,68 @@ export const Courses = ({
                                               />
                                           </div>
                                       )
-                                : null}
+                                    : !getAssessmentResponse.isLoading &&
+                                      !getAssessmentResponse.isFetching &&
+                                      getAssessmentResponse.isSuccess &&
+                                      result?.isManualSubmission && (
+                                          <div className="flex justify-center items-center mt-2">
+                                              <SubmitAssessmentSubmission
+                                                  results={
+                                                      selectedCourse?.results
+                                                  }
+                                                  selectedCourseId={Number(
+                                                      selectedCourse?.id
+                                                  )}
+                                                  student={student}
+                                                  isFilesUploaded={
+                                                      isFilesUploaded
+                                                  }
+                                                  isResubmittedFiles={
+                                                      isResubmittedFiles
+                                                  }
+                                              />
+                                          </div>
+                                      )
+                                : !getAssessmentResponse.isLoading &&
+                                  !getAssessmentResponse.isFetching &&
+                                  getAssessmentResponse.isSuccess &&
+                                  selectedCourse && (
+                                      <div className="flex justify-center items-center mt-2">
+                                          <SubmitAssessmentSubmission
+                                              results={selectedCourse?.results}
+                                              selectedCourseId={Number(
+                                                  selectedCourse?.id
+                                              )}
+                                              student={student}
+                                              isFilesUploaded={isFilesUploaded}
+                                              isResubmittedFiles={
+                                                  isResubmittedFiles
+                                              }
+                                          />
+                                      </div>
+                                  )
+                            : null}
+                    </div>
+                    <div className="lg:col-span-2 h-[inherit]">
+                        <div className="h-auto lg:h-[85%]">
+                            <AssessmentFiles
+                                selectedFolder={selectedFolder}
+                                course={selectedCourse}
+                                getAssessmentResponse={getAssessmentResponse}
+                            >
+                                {getAssessmentResponse?.isSuccess ? (
+                                    <InitiateSign
+                                        student={student}
+                                        folder={selectedFolder}
+                                        courseId={selectedCourse?.id}
+                                        eSignDocument={eSignDocument}
+                                    />
+                                ) : null}
+                            </AssessmentFiles>
+                        </div>
+                        <AuthorizedUserComponent
+                            excludeRoles={[UserRoles.OBSERVER]}
+                        >
                             {getAssessmentResponse?.isSuccess &&
                             getAssessmentResponse?.data &&
                             (result?.result === Result.Pending ||

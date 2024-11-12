@@ -45,6 +45,9 @@ export const MailListCard = ({
 
     const roleUrl = () => {
         switch (role) {
+            case UserRoles.ADMIN:
+                router.push(`/portals/admin/e-mails/${mailDetail?.id}`)
+                break
             case UserRoles.SUBADMIN:
                 router.push(
                     `/portals/sub-admin/notifications/e-mails/${mailDetail?.id}`
