@@ -33,7 +33,7 @@ export const AssessmentsFolders = ({
                         </Typography>
                     </div>
                 ) : getFolders?.data && getFolders?.data?.length > 0 ? (
-                    <div className="flex flex-col gap-y-2.5 h-[80%] overflow-auto custom-scrollbar pb-2">
+                    <div className="flex flex-col gap-y-2.5 h-full overflow-auto custom-scrollbar pb-2">
                         {getFolders?.data?.map(
                             (folder: AssessmentEvidenceDetailType) => (
                                 <FolderCard

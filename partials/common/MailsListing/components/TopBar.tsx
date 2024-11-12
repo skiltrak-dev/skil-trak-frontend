@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import React, { useCallback, useState } from 'react'
 import { ComposeMail } from '../tabs'
 import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 export const TopBar = ({ mailsTabs }: { mailsTabs: any }) => {
     const router = useRouter()
@@ -12,7 +13,7 @@ export const TopBar = ({ mailsTabs }: { mailsTabs: any }) => {
     const onCancelComposeMail = useCallback(() => {
         setIsComposeMail(false)
     }, [])
-
+    const role = getUserCredentials()?.role
     return (
         <div className="flex items-center gap-x-12 justify-between bg-white shadow-[inset_0_-1px_0_0_#EDEFF1] px-5">
             <div className="flex items-center gap-x-12">
@@ -58,20 +59,32 @@ export const TopBar = ({ mailsTabs }: { mailsTabs: any }) => {
             </div>
 
             <div className="flex items-center gap-x-2.5">
-                <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                <AuthorizedUserComponent
+                    roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                >
                     <>
                         <Button
                             onClick={() => {
-                                router.push(
-                                    '/portals/sub-admin/notifications/bulk-email'
-                                )
+                                if (role === UserRoles.ADMIN) {
+                                    router.push('/portals/admin/bulk-email')
+                                } else {
+                                    router.push(
+                                        '/portals/sub-admin/notifications/bulk-email'
+                                    )
+                                }
                             }}
                             text="Bulk Email"
                             variant="info"
                         />
                         <Button
                             onClick={() => {
-                                router.push('/portals/sub-admin/email-draft')
+                                if (role === UserRoles.ADMIN) {
+                                    router.push('/portals/admin/email-draft')
+                                } else {
+                                    router.push(
+                                        '/portals/sub-admin/email-draft'
+                                    )
+                                }
                             }}
                             text="Email Draft"
                             variant="info"

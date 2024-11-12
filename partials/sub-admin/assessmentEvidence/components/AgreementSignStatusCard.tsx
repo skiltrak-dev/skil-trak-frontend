@@ -1,4 +1,5 @@
 import {
+    ActionButton,
     AuthorizedUserComponent,
     Switch,
     Tooltip,
@@ -207,7 +208,16 @@ export const AgreementSignStatusCard = ({
                                     >
                                         Resend
                                     </Typography>
-                                    <RiMailSendLine
+                                    <ActionButton
+                                        mini
+                                        Icon={RiMailSendLine}
+                                        variant="info"
+                                        disabled={
+                                            signer?.status !==
+                                            EsignDocumentStatus.SIGNED
+                                                ? false
+                                                : true
+                                        }
                                         onClick={() => {
                                             if (
                                                 signer?.status !==
@@ -218,13 +228,8 @@ export const AgreementSignStatusCard = ({
                                                 )
                                             }
                                         }}
-                                        className={`text-xl ml-5 ${
-                                            signer?.status !==
-                                            EsignDocumentStatus.SIGNED
-                                                ? 'cursor-pointer text-primary'
-                                                : 'cursor-not-allowed text-muted'
-                                        }`}
                                     />
+
                                     <Tooltip>
                                         {signer?.status !==
                                         EsignDocumentStatus.SIGNED
@@ -294,9 +299,19 @@ export const AgreementSignStatusCard = ({
                                         variant="xs"
                                         color="text-gray-400"
                                     >
-                                        Submit Document
+                                        Edit/Submit Document
                                     </Typography>
-                                    <IoMdSend
+                                    <ActionButton
+                                        mini
+                                        Icon={IoMdSend}
+                                        variant="info"
+                                        disabled={
+                                            signResponse?.id &&
+                                            signer?.status !==
+                                                EsignDocumentStatus.SIGNED
+                                                ? false
+                                                : true
+                                        }
                                         onClick={() => {
                                             if (
                                                 signResponse?.id &&
@@ -308,14 +323,15 @@ export const AgreementSignStatusCard = ({
                                                 )
                                             }
                                         }}
-                                        className={`text-xl ml-5 ${
-                                            signResponse?.id &&
-                                            signer?.status !==
-                                                EsignDocumentStatus.SIGNED
-                                                ? 'cursor-pointer text-primary'
-                                                : 'cursor-not-allowed text-muted'
-                                        }`}
+                                        // className={`text-xl ml-5 ${
+                                        //     signResponse?.id &&
+                                        //     signer?.status !==
+                                        //         EsignDocumentStatus.SIGNED
+                                        //         ? 'cursor-pointer text-primary'
+                                        //         : 'cursor-not-allowed text-muted'
+                                        // }`}
                                     />
+
                                     {signResponse?.id &&
                                     signer?.status !==
                                         EsignDocumentStatus.SIGNED ? (
