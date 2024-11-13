@@ -5,7 +5,7 @@ import React from 'react'
 
 export const IndustryLocations = ({ industry }: { industry: Industry }) => {
     return (
-        <div>
+        <div className='mt-4'>
             <IndustryBranchesAddress industry={industry} />
         </div>
     )

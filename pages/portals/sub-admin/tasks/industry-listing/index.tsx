@@ -17,6 +17,7 @@ import {
     WithoutEmailListing,
     AddIndustry,
     DepartmentFutureIndustries,
+    PendingIndustries,
 } from '@partials/common'
 import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
 import { ImportIndustriesListWithOTP } from '@partials/common/FindWorkplaces/contextBar'
@@ -118,8 +119,23 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
                     <DepartmentFutureIndustries
                         onSetIndustryData={onSetIndustryData}
                     />
+                    // PendingIndustries
                 ),
             })
+            // baseTabs.push({
+            //     label: 'Pending Industries',
+            //     href: {
+            //         pathname: 'industry-listing',
+            //         query: { tab: 'pending', page: 1, pageSize: 50 },
+            //     },
+            //     badge: {
+            //         text: count?.data?.pending,
+            //         loading: count?.isLoading,
+            //     },
+            //     element: (
+            //         <PendingIndustries  />
+            //     ),
+            // })
         }
 
         return baseTabs

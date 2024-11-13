@@ -5,7 +5,7 @@ import React from 'react'
 
 export const IndustrySupervisor = ({ industry }: { industry: Industry }) => {
     return (
-        <div>
+        <div className='mt-4'>
             {/*  */}
             <Supervisor industry={industry} />
         </div>

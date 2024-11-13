@@ -163,4 +163,29 @@ export const subAdminIndustriesEndpoints = (
         }),
         invalidatesTags: ['SubAdminIndustries'],
     }),
+
+    //get indudstry students schedule
+    getIndustryStudentsSchedule: builder.query<any, any>({
+        query: ({ id, params }) => ({
+            url: `industries/${id}/schedules`,
+            params,
+        }),
+        providesTags: ['SubAdminIndustries'],
+    }),
+    // subadmin/industry/courses-add {body: industry:id,courses: [1,2,3], reference: ['ref', 'ref] }
+    requestToAddCoursesToIndustry: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `${PREFIX}/industry/courses-add`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['RequestToAddCourse'],
+    }),
+    getIndustryRequestedCourses: builder.query<any, any>({
+        query: ({ id, params }) => ({
+            url: `industries/${id}/course-requests`,
+            params,
+        }),
+        providesTags: ['RequestToAddCourse'],
+    }),
 })

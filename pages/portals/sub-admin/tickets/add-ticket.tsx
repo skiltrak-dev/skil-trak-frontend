@@ -39,7 +39,7 @@ const AddTicket: NextPageWithLayout = () => {
                 `/portals/sub-admin/tickets/detail/${createTicketResult.data?.id}`
             )
         }
-    }, [createTicketResult])
+    }, [createTicketResult.isSuccess])
 
     const onSubmit = (values: any) => {
         const message = draftToHtmlText(values?.message)

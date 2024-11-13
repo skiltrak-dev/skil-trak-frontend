@@ -20,6 +20,7 @@ import {
     SnoozeIndustrySwitch,
     ViewIndustryAnswers,
 } from './components'
+import { IndustryLocations, IndustrySupervisor } from '../components'
 
 export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
@@ -115,6 +116,10 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
             {/*  */}
             <IndustryDetail industry={industry} />
             <IndustryContactPerson industry={industry} />
+
+            {/* Add Supervisor  */}
+            <IndustrySupervisor industry={industry} />
+            <IndustryLocations industry={industry} />
 
             {/*  */}
             <IndustrySectors courses={industry?.courses} />
