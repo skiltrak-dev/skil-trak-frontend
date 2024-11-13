@@ -5,6 +5,20 @@
 @tailwind utilities;
 
 @layer components {
+    .schedule-cell {
+        @apply p-4 border-r border-gray-200 text-center;
+    }
+
+    .working-time {
+        @apply text-teal-600;
+    }
+
+    .off-day {
+        @apply text-red-600;
+    }
+}
+
+@layer components {
     .bg-gradient-black-to-white:hover {
         background: linear-gradient(to top, #ffffff01 65%, #24556d 100%);
         transition: background 1s cubic-bezier(0.4, 0, 0.2, 1);

@@ -152,7 +152,7 @@ export const Typography = ({
     return (
         <Component
             className={`${
-                (TypographyOptions as any)[variant].className
+                (TypographyOptions as any)[variant]?.className
             } ${classes}`}
             {...(htmlFor ? { htmlFor } : {})}
         >

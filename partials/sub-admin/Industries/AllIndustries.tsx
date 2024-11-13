@@ -13,9 +13,10 @@ import {
     TableAction,
     TechnicalError,
     Typography,
+    UserCreatedAt,
 } from '@components'
 
-import { useGetSubAdminIndustriesQuery } from '@queries'
+import { CommonApi, useGetSubAdminIndustriesQuery } from '@queries'
 import { Industry, SubAdmin, UserStatus } from '@types'
 import { getUserCredentials, setLink } from '@utils'
 import { MdBlock, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
@@ -45,7 +46,21 @@ export const AllIndustries = () => {
             refetchOnMountOrArgChange: true,
         }
     )
-
+    // 1- get api to retrieve the remaining industry courses on sector base
+    // 2- If the coordinator already/approved sent the request to HOD for course approval, remove it from the above get api
+    // 3-
+    // useDepartmentApprovedIndustryList
+    // const { isLoading, data, isError } =
+    //     CommonApi.FindWorkplace.useDepartmentApprovedIndustryList(
+    //         {
+    //             // search: `status:${UserStatus.Approved}`,
+    //             skip: itemPerPage * page - itemPerPage,
+    //             limit: itemPerPage,
+    //         },
+    //         {
+    //             refetchOnMountOrArgChange: true,
+    //         }
+    //     )
     const id = getUserCredentials()?.id
 
     const onCancelClicked = () => setModal(null)
@@ -74,7 +89,6 @@ export const AllIndustries = () => {
 
     const tableActionOptions = (industry: Industry) => {
         const subAdmin = isFavorite(industry?.subAdmin)
-
 
         return [
             {
@@ -158,7 +172,7 @@ export const AllIndustries = () => {
             cell: (info: any) => {
                 return (
                     <div className="flex justify-start">
-                        {info?.row?.original?.branches.length > 0 ? (
+                        {info?.row?.original?.branches?.length > 0 ? (
                             <BranchCell industry={info.row.original} />
                         ) : info.row.original.headQuarter !== null ? (
                             <div className="flex flex-col gap-y-1 items-center">
@@ -181,18 +195,18 @@ export const AllIndustries = () => {
             accessorKey: 'abn',
             header: () => <span>ABN</span>,
         },
-        {
-            header: () => 'Suburb',
-            accessorKey: 'suburb',
-            cell: ({ row }: any) => {
-                const { suburb } = row.original
-                return (
-                    <Typography variant={'label'} color={'black'}>
-                        {suburb}
-                    </Typography>
-                )
-            },
-        },
+        // {
+        //     header: () => 'Suburb',
+        //     accessorKey: 'suburb',
+        //     cell: ({ row }: any) => {
+        //         const { suburb } = row.original
+        //         return (
+        //             <Typography variant={'label'} color={'black'}>
+        //                 {suburb}
+        //             </Typography>
+        //         )
+        //     },
+        // },
         {
             header: () => 'Address',
             accessorKey: 'address',
@@ -205,18 +219,19 @@ export const AllIndustries = () => {
                 )
             },
         },
-        // {
-        //     header: () => 'Enrolled Students',
-        //     accessorKey: 'students',
-        //     cell: ({ row }: any) => {
-        //         const { enrolledStudents } = row.original
-        //         return (
-        //             <Typography variant={'muted'} color={'gray'}>
-        //                 {enrolledStudents}
-        //             </Typography>
-        //         )
-        //     },
-        // },
+        {
+            header: () => 'Enrolled Students',
+            accessorKey: 'students',
+            cell: ({ row }: any) => {
+                const { enrolledStudents } = row.original
+                return (
+                    <Typography variant={'muted'} color={'gray'}>
+                        {enrolledStudents}
+                    </Typography>
+                )
+            },
+        },
+
         {
             header: () => 'Contact Person',
             accessorKey: 'contactPersonNumber',
@@ -228,6 +243,26 @@ export const AllIndustries = () => {
                     </Typography>
                 )
             },
+        },
+        {
+            accessorKey: 'channel',
+            header: () => <span>Created By</span>,
+            cell: ({ row }: any) => (
+                <div>
+                    {row?.original?.createdBy !== null ? (
+                        <p>{row?.original?.createdBy?.name}</p>
+                    ) : (
+                        <p>{row?.original?.channel}</p>
+                    )}
+                </div>
+            ),
+        },
+        {
+            accessorKey: 'createdAt',
+            header: () => <span>Created At</span>,
+            cell: ({ row }: any) => (
+                <UserCreatedAt createdAt={row?.original?.createdAt} />
+            ),
         },
         {
             header: () => 'Action',

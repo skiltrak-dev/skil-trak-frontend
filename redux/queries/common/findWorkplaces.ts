@@ -12,7 +12,19 @@ export const findWorkplaceEndpoints = (
             url: `${PREFIX}/list`,
             params,
         }),
-        providesTags: ['Industries'],
+        providesTags: [''],
+    }),
+    changePendingIndustryStatus: builder.mutation<
+        any,
+        { params: any; body?: any }
+    >({
+        query: ({ params, body }) => ({
+            url: `department/industry-request/status`,
+            method: 'PATCH',
+            params,
+            body,
+        }),
+        invalidatesTags: ['Industries'],
     }),
     getFindWorkplacesCount: builder.query<any, void>({
         query: () => `${PREFIX}/count`,
@@ -135,6 +147,13 @@ export const findWorkplaceEndpoints = (
         invalidatesTags: ['Industries'],
     }),
     // get department industry listing
+    getDepartmentApprovedIndustryList: builder.query<any, any>({
+        query: (params) => ({
+            url: `department/industries/approved-list`,
+            params,
+        }),
+        providesTags: ['Industries'],
+    }),
     getDepartmentFutureIndustriesList: builder.query<any, any>({
         query: (params) => ({
             url: `department/future/industries/list`,

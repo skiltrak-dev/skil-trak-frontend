@@ -12,11 +12,13 @@ import {
     IndustrySupervisor,
 } from './components'
 import { ProfileAppointments } from '../ProfileAppointments'
-import { Alert, PageTitle } from '@components'
+import { Alert, Card, PageTitle } from '@components'
 import moment from 'moment'
 import { SubAdminApi } from '@queries'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
+import { CourseManagement } from './components/CourseManagement'
+import { StudentSchedule } from './components/StudentSchedule'
 
 export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -107,12 +109,27 @@ export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
                         autoDismiss={false}
                     />
                 )}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-3 h-[540px]">
-                    <IndustryShiftingHours
+                <div className="flex gap-x-4 min-h-[500px]">
+                    {/* <IndustryShiftingHours
                         industryUserId={industry?.user?.id}
-                    />
-                    <div className="h-full">
+                    /> */}
+                    <div className="w-2/3 ">
+                        <Card noPadding>
+                            <CourseManagement />
+                        </Card>
+                    </div>
+                    <div className=" w-1/3">
                         <Notes userId={industry?.user?.id} />
+                    </div>
+                </div>
+                <div className="flex gap-x-4 min-h-[500px]">
+                    <div className="w-2/3">
+                        <IndustryShiftingHours
+                            industryUserId={industry?.user?.id}
+                        />
+                    </div>
+                    <div className="w-1/3">
+                        <IndustryRequiredDocuments industry={industry} />
                     </div>
                 </div>
 
@@ -121,20 +138,8 @@ export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
                     <IndustryStudents industry={industry} />
                 </div>
 
-                <div>
-                    {/*  */}
-                    <IndustrySupervisor industry={industry} />
-                </div>
-
                 {/*  */}
-                <div>
-                    <IndustryLocations industry={industry} />
-                </div>
-
-                {/*  */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-3 h-[470px]">
-                    {/* Required Docs */}
-                    <IndustryRequiredDocuments industry={industry} />
+                <div className=" h-[470px]">
                     <div className="h-full">
                         <ProfileAppointments
                             link={
@@ -165,6 +170,9 @@ export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
 
                 {/* History */}
                 <IndustryHistory industry={industry} />
+
+                {/* Student schedule */}
+                <StudentSchedule />
 
                 {/*  */}
                 <div className="h-[640px] px-2  grid grid-cols-2 gap-x-3">
