@@ -44,7 +44,7 @@ const FeatureBlogs = ({ blogs }: { blogs: any }) => {
                     }}
                     // slidesPerView={2}
                     spaceBetween={43}
-                    slidesPerGroup={1}
+                    slidesPerGroup={3}
                     pagination={{
                         clickable: true,
                     }}
