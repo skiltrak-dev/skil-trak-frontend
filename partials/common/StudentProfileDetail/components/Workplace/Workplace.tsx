@@ -245,8 +245,6 @@ export const Workplace = ({
         )
     }, [selectedWorkplace?.workplaceApprovaleRequest])
 
-    console.log({ latestWorkplaceApprovaleRequest })
-
     return (
         <>
             {modal}

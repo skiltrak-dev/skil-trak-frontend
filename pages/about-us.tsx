@@ -14,8 +14,6 @@ const Page = ({ data }: any) => {
 
     const filterFeaturedBlogs = data?.filter((item: any) => item?.isFeatured)
 
-    console.log({ filterFeaturedBlogs, data })
-
     useEffect(() => {
         axios
             .get(`https://www.skiltrak.com.au/api/active-teams`)

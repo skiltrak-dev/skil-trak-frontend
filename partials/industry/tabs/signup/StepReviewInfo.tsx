@@ -9,8 +9,6 @@ export const StepReviewInfo = () => {
     const router = useRouter()
     const formData: any = SignUpUtils.getValuesFromStorage()
 
-    console.log({ formData })
-
     const onEditData = () => {
         SignUpUtils.setEditingMode(true)
         // navigate to form

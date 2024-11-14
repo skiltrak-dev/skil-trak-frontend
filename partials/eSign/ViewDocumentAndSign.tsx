@@ -302,8 +302,6 @@ export const ViewDocumentAndSign = () => {
         return a.sum - b.sum
     })
 
-    console.log({ sortedPositions })
-
     useEffect(() => {
         if (
             customFieldsSelectedId >= sortedPositions?.length ||
@@ -378,7 +376,6 @@ export const ViewDocumentAndSign = () => {
                             updatedIndex++
                         }
                     } else {
-                        console.log('banka Beeru')
                         scrollToPage(
                             -1,
                             documentsTotalPages?.data?.pageCount - 1,
@@ -404,7 +401,6 @@ export const ViewDocumentAndSign = () => {
                     sortedPositions?.[sortedPositions?.length - 1]?.id
             )
             setSelectedFillDataField(sortedPositions?.[0]?.id)
-            console.log('Beeru banka')
             scrollToPage(-1, documentsTotalPages?.data?.pageCount - 1, 'end')
             // setCustomFieldsSelectedId(0)
             // finishSign
@@ -439,8 +435,6 @@ export const ViewDocumentAndSign = () => {
         setIsLastSelected(false)
         setCustomFieldsSelectedId(0)
     }
-
-    console.log({ isSignature, isDocumentLoaded })
 
     return (
         <div>

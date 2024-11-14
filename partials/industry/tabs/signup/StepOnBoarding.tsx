@@ -49,7 +49,6 @@ export const StepOnBoarding = () => {
                 answer: data?.[key],
             })
         })
-        console.log({ questions })
 
         const values = SignUpUtils.getValuesFromStorage()
 

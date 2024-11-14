@@ -270,13 +270,7 @@ export const FutureIndustrySignUpForm = ({
             })
             // delete values?.[key]
         })
-        console.log({
-            ...values,
-            state: 'NA',
-            suburb: 'NA',
-            isAddressUpdated: true,
-            questions,
-        })
+
         if (!onSuburbClicked) {
             notification.error({
                 title: 'You must select on Address Dropdown',

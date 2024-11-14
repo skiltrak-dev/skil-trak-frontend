@@ -6,7 +6,6 @@ import Link from 'next/link'
 import React from 'react'
 
 export const BlogCard = ({ blog }: { blog: any }) => {
-    console.log({ blog })
     return (
         <div className="shadow-site rounded-xl p-2.5 bg-white">
             <div className="h-48 w-full rounded-2xl overflow-hidden">

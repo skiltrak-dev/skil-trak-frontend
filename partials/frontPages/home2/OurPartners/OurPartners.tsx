@@ -33,26 +33,32 @@ const OurPartners = () => {
         {
             image: 'multicap.png',
             width: 145,
+            link: 'https://multicap.org.au/',
         },
         {
             image: 'bupa.png',
             width: 140,
+            link: 'https://www.bupa.com.au/',
         },
         {
             image: 'opal-logo.svg',
             width: 100,
+            link: 'https://www.opalhealthcare.com.au/',
         },
         {
             image: 'BlueCross.svg',
             width: 100,
+            link: 'https://www.bluecross.com.au/',
         },
         {
             image: 'next.png',
             width: 100,
+            link: 'https://www.nextt.com.au/',
         },
         {
             image: 'salvation.png',
             width: 100,
+            link: 'https://www.salvationarmy.org.au/',
         },
     ]
     return (
