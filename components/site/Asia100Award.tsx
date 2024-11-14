@@ -1,7 +1,18 @@
 import { Typography } from '@components/Typography'
+import Image from 'next/image'
 import React from 'react'
 
 export const Asia100Award = () => {
+    return (
+        <Image
+            src={'/images/site/asiaLogoBg.png'}
+            alt={'asiaLogoBg'}
+            width={0}
+            height={0}
+            sizes="100vh 100vw"
+            className="w-full"
+        />
+    )
     return (
         <div className="w-full h-[114px] bg-[url('/images/site/asiaLogoBg.png')] mt-7 mb-0 md:mb-20 ">
             <div className="max-w-[1280px] mx-auto h-full flex items-center gap-x-12 px-4">

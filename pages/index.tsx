@@ -9,6 +9,7 @@ import {
 
 import { SiteLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
+import { Asia100Award } from '@components/site'
 
 const JumboSection = lazy(() => import('@components/site/JumboSection'))
 const FeatureBlogs = lazy(
@@ -62,7 +63,7 @@ const Home3: NextPageWithLayout = ({ data }: any) => {
             <Suspense fallback={<div>Loading...</div>}>
                 <JumboSection />
             </Suspense>
-            {/* <Asia100Award /> */}
+            <Asia100Award />
             {/* Key Features */}
             <Suspense fallback={<div>Loading...</div>}>
                 <KeyFeatures />{' '}
