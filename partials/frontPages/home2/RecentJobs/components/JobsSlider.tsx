@@ -7,15 +7,7 @@ import { JobCard } from '../cards'
 
 // import required modules
 
-export const JobsSlider = () => {
-    const [jobsView, setJobsView] = useState<boolean>(false)
-    const jobs = CommonApi.Industries.getAllAdvertisedJobs(
-        {},
-        {
-            skip: !jobsView,
-        }
-    )
-
+export const JobsSlider = ({ jobs }: { jobs: any }) => {
     const slides =
         jobs?.data?.data && jobs?.data?.data?.length > 0
             ? jobs?.data?.data?.length < 3
@@ -70,22 +62,20 @@ export const JobsSlider = () => {
         }
     }, [activeIndex])
 
-    const onEnterWaypoint = () => setJobsView(true)
-    const onLeaveWaypoint = () => setJobsView(false)
+  
 
     return (
-        <Waypoint
-            onEnter={() => {
-                onEnterWaypoint()
-            }}
-            onLeave={() => {
-                onLeaveWaypoint()
-            }}
-        >
-            <div className={'h-full'}>
+       
+            <div
+                className={`${slides && slides?.length > 0 ? 'h-full' : 'h-0'}`}
+            >
                 <div className="flex flex-col md:flex-row items-center gap-4">
                     <div className="w-full h-[380px] md:h-72 overflow-y-hidden px-2">
-                        <div className="relative w-full h-auto md:h-56">
+                        <div
+                            className={`relative w-full h-auto ${
+                                slides && slides?.length > 0 ? 'md:h-56' : ''
+                            } `}
+                        >
                             {jobs?.isError ? (
                                 <NoData text="There is some technical issue here" />
                             ) : null}
@@ -143,9 +133,7 @@ export const JobsSlider = () => {
                                     </div>
                                 ))
                             ) : (
-                                jobs?.isSuccess && (
-                                    <NoData text="There is no recent jobs here!" />
-                                )
+                                jobs?.isSuccess && null
                             )}
                         </div>
                     </div>
@@ -170,6 +158,6 @@ export const JobsSlider = () => {
                     ) : null}
                 </div>
             </div>
-        </Waypoint>
+      
     )
 }

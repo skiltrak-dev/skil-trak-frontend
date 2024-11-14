@@ -65,6 +65,7 @@ export const NavLink2 = ({
                         }}
                     /> */}
                     <Link
+                        rel="canonical"
                         className={
                             'bg-primary text-white hover:bg-primary-dark border-transparent ring-primary-light font-medium uppercase transition-all duration-300 border px-4 py-2 shadow focus:outline-none focus:ring-4 rounded-md'
                         }
@@ -90,7 +91,7 @@ export const NavLink2 = ({
                     }}
                     className="relative group inline-block text-left"
                 >
-                    <Link href={to} className={linkClasses}>
+                    <Link href={to} rel="canonical" className={linkClasses}>
                         {text}
                     </Link>
 
