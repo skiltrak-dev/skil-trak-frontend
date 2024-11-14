@@ -1,9 +1,12 @@
 import { Animations } from '@animations'
-import { Button, TextInput } from '@components'
+import { Button, TextInput, Typography } from '@components'
+import { industryQuestions } from '@partials/admin/industry/components'
+import { AddIndustryQuestionForm } from '@partials/common/IndustryProfileDetail/forms'
 import { OnBoardingLink } from '@partials/industry/components'
 import { SignUpUtils } from '@utils'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { MdOutlineTextsms } from 'react-icons/md'
 import { RiMailSendLine } from 'react-icons/ri'
 
@@ -32,7 +35,22 @@ export const StepOnBoarding = () => {
     const [studentCapacity, setStudentCapacity] = useState()
     const [selected, setSelected] = useState<any>()
 
-    const onSubmit = () => {
+    const methods = useForm({
+        mode: 'all',
+    })
+
+    const onSubmit = (data: any) => {
+        let questions: {
+            [key: string]: string
+        }[] = []
+        Object.entries(industryQuestions).forEach(([key, value]: any) => {
+            questions.push({
+                question: value,
+                answer: data?.[key],
+            })
+        })
+        console.log({ questions })
+
         const values = SignUpUtils.getValuesFromStorage()
 
         if (values) {
@@ -40,6 +58,7 @@ export const StepOnBoarding = () => {
                 ...values,
                 isPartner: selected === UsageType[1].type,
                 ...(studentCapacity ? { studentCapacity } : {}),
+                questions,
             })
             if (UsageType[0].type || UsageType[1].type) {
                 router.push({ query: { step: 'review-info' } })
@@ -52,7 +71,7 @@ export const StepOnBoarding = () => {
     }
 
     return (
-        <div className="w-full md:px-0 px-4 flex justify-center items-center md:mt-40">
+        <div className="w-full md:px-0 px-4 flex justify-center items-center md:mt-6">
             <div>
                 <div>
                     <p className="font-semibold text-lg">
@@ -88,9 +107,15 @@ export const StepOnBoarding = () => {
                             />
                         </div>
                     )}
+                    <div>
+                        <Typography variant="title">
+                            Provide answers for the questions
+                        </Typography>
+                        <AddIndustryQuestionForm methods={methods} />
+                    </div>
                     <Button
                         variant={'primary'}
-                        onClick={onSubmit}
+                        onClick={methods.handleSubmit(onSubmit)}
                         disabled={
                             (selected === UsageType[1].type &&
                                 !studentCapacity) ||

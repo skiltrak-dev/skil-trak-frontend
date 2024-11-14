@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from '@types'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 // layouts
 import {
@@ -19,6 +19,7 @@ import { getCommonDates, getUserCredentials, removeEmptyValues } from '@utils'
 import moment from 'moment'
 import { FigureCard } from '@components/sections/subAdmin'
 import { UserRoles } from '@constants'
+import { useRouter } from 'next/router'
 export enum FilterType {
     Today = 'today',
     '7Days' = '7days',
@@ -41,6 +42,13 @@ const SubAdminHistory: NextPageWithLayout = () => {
     })
     const [searchedValue, setSearchedValue] = useState<string>('')
     const [target, setTarget] = useState<string>('')
+
+    const router = useRouter()
+
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
+    }, [router])
 
     const { data, isError, isLoading, isFetching } =
         CommonApi.RecentActivities.useRecentActivities(

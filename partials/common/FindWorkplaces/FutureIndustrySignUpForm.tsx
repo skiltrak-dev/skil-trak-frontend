@@ -27,8 +27,11 @@ import {
     Select,
     SelectOption,
     TextInput,
+    Typography,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { AddIndustryQuestionForm } from '../IndustryProfileDetail/forms'
+import { industryQuestions } from '@partials/admin/industry/components'
 
 export const FutureIndustrySignUpForm = ({
     result,
@@ -257,6 +260,23 @@ export const FutureIndustrySignUpForm = ({
     }
 
     const onHandleSubmit = (values: any) => {
+        let questions: {
+            [key: string]: string
+        }[] = []
+        Object.entries(industryQuestions).forEach(([key, value]: any) => {
+            questions.push({
+                question: value,
+                answer: values?.[key],
+            })
+            // delete values?.[key]
+        })
+        console.log({
+            ...values,
+            state: 'NA',
+            suburb: 'NA',
+            isAddressUpdated: true,
+            questions,
+        })
         if (!onSuburbClicked) {
             notification.error({
                 title: 'You must select on Address Dropdown',
@@ -268,6 +288,7 @@ export const FutureIndustrySignUpForm = ({
                 state: 'NA',
                 suburb: 'NA',
                 isAddressUpdated: true,
+                questions,
             })
         }
     }
@@ -525,6 +546,13 @@ export const FutureIndustrySignUpForm = ({
                                     validationIcons
                                 />
                             </div> */}
+                        </div>
+
+                        <div>
+                            <Typography variant="title">
+                                Provide answers for the questions
+                            </Typography>
+                            <AddIndustryQuestionForm methods={formMethods} />
                         </div>
 
                         <div className="">

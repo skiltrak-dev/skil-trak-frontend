@@ -290,7 +290,7 @@ export const SubAdminForm = ({
                     </AuthorizedUserComponent>
 
                     <AuthorizedUserComponent
-                        roles={[UserRoles.ADMIN] || [UserRoles.SUBADMIN]}
+                        roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                     >
                         <Select
                             label={'RTOs'}

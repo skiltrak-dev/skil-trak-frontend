@@ -6,7 +6,7 @@ import {
     SubAdminNavbar,
 } from '@components'
 import { useContextBar, useJoyRide } from '@hooks'
-import { UsersPendingEsignModal } from '@partials'
+import { UsersPendingEsignModal } from '@partials/eSign/modal/UsersPendingEsignModal'
 import { CommonApi } from '@queries'
 import { EsignDocumentStatus } from '@utils'
 import { useRouter } from 'next/router'

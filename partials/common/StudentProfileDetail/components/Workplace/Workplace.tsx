@@ -453,7 +453,7 @@ export const Workplace = ({
                                             <div className="w-64 px-3 mt-1">
                                                 <Badge
                                                     variant="warning"
-                                                    text="WP Cancelation Request Sent to Admin, wait for approval!"
+                                                    text="WP Cancelation Request Sent to Admin, wait for APPROVAL!"
                                                 />
                                             </div>
                                         )}
@@ -613,7 +613,7 @@ export const Workplace = ({
                                                     <div className="w-56">
                                                         <Badge
                                                             variant="warning"
-                                                            text="WP Cancelation Request Sent to Admin, wait for approval!"
+                                                            text="WP Cancelation Request Sent to Admin, wait for APPROVAL!"
                                                         />
                                                     </div>
                                                 )

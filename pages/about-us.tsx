@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react'
 import { SiteLayout } from '@layouts'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
-import { Wrapper } from '../components/site/wrapper/Wrapper'
-import { Heading } from '../components/site/Heading'
 import { Button } from '../components/site/Button'
+import { Heading } from '../components/site/Heading'
 import { AboutUsCard } from '../components/site/aboutUsCard/AboutUsCard'
 import { AboutUsTeamCard } from '../components/site/aboutUsCard/AboutUsTeamCard'
-import { css } from '@emotion/react'
 
 import axios from 'axios'
 
-const Page = () => {
+const Page = ({ data }: any) => {
     const [teamList, setTeamList] = useState([])
+
+    const filterFeaturedBlogs = data?.filter((item: any) => item?.isFeatured)
+
+    console.log({ filterFeaturedBlogs, data })
 
     useEffect(() => {
         axios

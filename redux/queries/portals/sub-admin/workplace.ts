@@ -340,4 +340,12 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['Workplace'],
     }),
+
+    removeWorkplaceRequestApproval: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `students/workplace-requests/approval/${id}/delete`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['Workplace'],
+    }),
 })

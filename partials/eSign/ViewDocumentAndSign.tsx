@@ -261,7 +261,24 @@ export const ViewDocumentAndSign = () => {
 
     const processedItems = customFieldsAndSign
         .map(addNumberWithPosition)
-        ?.filter((sign: any) => !sign?.responses?.length)
+        ?.filter((sign: any) => {
+            const latestResponse = sign?.responses?.reduce(
+                (accumulator: any, current: any) => {
+                    // Convert timestamps to Date objects for comparison
+                    const accumulatorDate = new Date(accumulator.updatedAt)
+                    const currentDate = new Date(current.updatedAt)
+
+                    // Return the item with the later updatedAt timestamp
+                    return currentDate > accumulatorDate ? current : accumulator
+                },
+                sign?.responses[0]
+            )
+            if (!sign?.responses?.length) {
+                return sign
+            } else if (latestResponse?.reSignRequested) {
+                return sign
+            }
+        })
 
     const sortedPositions = processedItems.sort((a: any, b: any) => {
         // First, prioritize 'signature' type
@@ -284,6 +301,8 @@ export const ViewDocumentAndSign = () => {
         // If numbers are equal, sort by sum of position values
         return a.sum - b.sum
     })
+
+    console.log({ sortedPositions })
 
     useEffect(() => {
         if (
@@ -359,6 +378,7 @@ export const ViewDocumentAndSign = () => {
                             updatedIndex++
                         }
                     } else {
+                        console.log('banka Beeru')
                         scrollToPage(
                             -1,
                             documentsTotalPages?.data?.pageCount - 1,
@@ -384,6 +404,7 @@ export const ViewDocumentAndSign = () => {
                     sortedPositions?.[sortedPositions?.length - 1]?.id
             )
             setSelectedFillDataField(sortedPositions?.[0]?.id)
+            console.log('Beeru banka')
             scrollToPage(-1, documentsTotalPages?.data?.pageCount - 1, 'end')
             // setCustomFieldsSelectedId(0)
             // finishSign
@@ -418,6 +439,8 @@ export const ViewDocumentAndSign = () => {
         setIsLastSelected(false)
         setCustomFieldsSelectedId(0)
     }
+
+    console.log({ isSignature, isDocumentLoaded })
 
     return (
         <div>

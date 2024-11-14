@@ -6,7 +6,11 @@ import { useEffect, useState } from 'react'
 import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
-import { useAddressToPostCode, useNotification } from '@hooks'
+import {
+    useAddressToPostCode,
+    useNotification,
+    useSectorsAndCoursesOptions,
+} from '@hooks'
 import { AuthApi, CommonApi } from '@queries'
 import {
     CourseSelectOption,
@@ -20,7 +24,14 @@ import {
     removeEmptySpaces,
 } from '@utils'
 
-import { Button, Checkbox, Select, TextInput, Typography } from '@components'
+import {
+    Button,
+    Checkbox,
+    Select,
+    SelectOption,
+    TextInput,
+    Typography,
+} from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 import { OptionType } from '@types'
@@ -65,10 +76,10 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
     const [checkAbnExist, checkAbnExistResult] = AuthApi.useAbn()
 
-    const [sectorOptions, setSectorOptions] = useState<any>([])
-    const [selectedSector, setSelectedSector] = useState<any>(null)
-    const [courseOptions, setCourseOptions] = useState([])
-    const [courseLoading, setCourseLoading] = useState(false)
+    // const [sectorOptions, setSectorOptions] = useState<any>([])
+    // const [selectedSector, setSelectedSector] = useState<any>(null)
+    // const [courseOptions, setCourseOptions] = useState([])
+    // const [courseLoading, setCourseLoading] = useState(false)
 
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
@@ -123,34 +134,48 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         }, 300)()
     }
 
-    const onSectorChanged = (sectors: any) => {
-        setSelectedSector(sectors)
-        setCourseLoading(true)
-        const filteredCourses = sectors?.map((selectedSector: any) => {
-            const sectorExisting = sectorResponse?.data?.find(
-                (sector: any) => sector.id === selectedSector.value
-            )
-            if (sectorExisting && sectorExisting?.courses?.length) {
-                return sectorExisting.courses
-            }
-        })
+    // const onSectorChanged = (sectors: any) => {
+    //     setSelectedSector(sectors)
+    //     setCourseLoading(true)
+    //     const filteredCourses = sectors?.map((selectedSector: any) => {
+    //         const sectorExisting = sectorResponse?.data?.find(
+    //             (sector: any) => sector.id === selectedSector.value
+    //         )
+    //         if (sectorExisting && sectorExisting?.courses?.length) {
+    //             return sectorExisting.courses
+    //         }
+    //     })
 
-        const newCourseOptions: any = []
-        filteredCourses.map((courseList: any) => {
-            if (courseList && courseList.length) {
-                return courseList.map((course: any) =>
-                    newCourseOptions.push({
-                        item: course,
-                        value: course.id,
-                        label: course.title,
-                    })
-                )
-            }
-        })
+    //     const newCourseOptions: any = []
+    //     filteredCourses.map((courseList: any) => {
+    //         if (courseList && courseList.length) {
+    //             return courseList.map((course: any) =>
+    //                 newCourseOptions.push({
+    //                     item: course,
+    //                     value: course.id,
+    //                     label: course.title,
+    //                 })
+    //             )
+    //         }
+    //     })
 
-        setCourseOptions(newCourseOptions)
-        setCourseLoading(false)
-    }
+    //     setCourseOptions(newCourseOptions)
+    //     setCourseLoading(false)
+    // }
+
+    const {
+        courseLoading,
+        courseOptions,
+        courseValues,
+        onCourseChange,
+        onSectorChanged,
+        sectorOptions,
+        selectedSector,
+        setSelectedSector,
+        setCourseOptions,
+        sectorLoading,
+        setSelectedCourses,
+    } = useSectorsAndCoursesOptions()
 
     const validationSchema = yup.object({
         // Profile Information
@@ -228,15 +253,15 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
             ),
     })
 
-    useEffect(() => {
-        if (sectorResponse.data?.length) {
-            const options = sectorResponse.data?.map((sector: any) => ({
-                label: sector?.name,
-                value: sector?.id,
-            }))
-            setSectorOptions(options)
-        }
-    }, [sectorResponse?.data])
+    // useEffect(() => {
+    //     if (sectorResponse.data?.length) {
+    //         const options = sectorResponse.data?.map((sector: any) => ({
+    //             label: sector?.name,
+    //             value: sector?.id,
+    //         }))
+    //         setSectorOptions(options)
+    //     }
+    // }, [sectorResponse?.data])
 
     useEffect(() => {
         if (SignUpUtils.getEditingMode()) {
@@ -448,9 +473,18 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                             <Select
                                 label={'Courses'}
                                 name={'courses'}
+                                value={courseValues}
                                 defaultValue={courseOptions}
                                 options={courseOptions}
                                 multi
+                                onChange={(e: SelectOption[]) => {
+                                    onCourseChange(
+                                        e?.map(
+                                            (course: SelectOption) =>
+                                                course?.value
+                                        )
+                                    )
+                                }}
                                 loading={courseLoading}
                                 components={{
                                     Option: CourseSelectOption,

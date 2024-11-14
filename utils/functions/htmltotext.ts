@@ -1,9 +1,14 @@
+import { isBrowser } from 'utils/browser-supported'
+
 export const htmltotext = (value: string) => {
     return value?.replace(/<([A-z]+)([^>^/]*)>\s*<\/\1>/gim, '')
 }
 
 export const HtmlToPlainText = (html: string) => {
-    const div = document.createElement('div')
+    let div: any = {}
+    if (isBrowser()) {
+        div = document.createElement('div')
+    }
     div.innerHTML = html
 
     const plainText = div.textContent || div.innerText
