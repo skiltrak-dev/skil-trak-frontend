@@ -108,7 +108,7 @@ const Home3: NextPageWithLayout = ({ data }: any) => {
             </Suspense>
         </div>
     ) : (
-        'Loading...'
+        <p>Loading...</p>
     )
 }
 
