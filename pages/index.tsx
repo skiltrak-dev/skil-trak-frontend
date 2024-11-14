@@ -1,9 +1,15 @@
-import { lazy, ReactElement, useRef } from 'react'
+import {
+    lazy,
+    ReactElement,
+    Suspense,
+    useEffect,
+    useRef,
+    useState,
+} from 'react'
 
-import { NoData } from '@components'
 import { Asia100Award } from '@components/site'
-import { NextPageWithLayout } from '@types'
 import { SiteLayout } from '@layouts'
+import { NextPageWithLayout } from '@types'
 
 const JumboSection = lazy(() => import('@components/site/JumboSection'))
 const FeatureBlogs = lazy(
@@ -46,40 +52,63 @@ const KeyFeatures = lazy(
 
 const Home3: NextPageWithLayout = ({ data }: any) => {
     const contactUsRef = useRef(null)
+    const [mount, setMount] = useState(false)
 
-    return (
+    useEffect(() => {
+        setMount(true)
+    }, [])
+
+    return mount ? (
         <div>
-            <JumboSection />
+            <Suspense fallback={<div>Loading...</div>}>
+                <JumboSection />
+            </Suspense>
             <Asia100Award />
             {/* Key Features */}
-            <KeyFeatures />
+            <Suspense fallback={<div>Loading...</div>}>
+                <KeyFeatures />{' '}
+            </Suspense>
             {/* Student Placement Management System */}
 
-            <StudentPlacementManagement />
+            <Suspense fallback={<div>Loading...</div>}>
+                <StudentPlacementManagement />{' '}
+            </Suspense>
             <div className="relative">
                 {/* Our packages */}
-
-                <OurPackages />
+                <Suspense fallback={<div>Loading...</div>}>
+                    <OurPackages />{' '}
+                </Suspense>
             </div>
             {/* Our Partners */}
-
-            <OurPartners />
+            <Suspense fallback={<div>Loading...</div>}>
+                <OurPartners />{' '}
+            </Suspense>
             {/* We Operate in the Following States */}
-
-            <OperateStates />
-
-            <GetStarted contactUsRef={contactUsRef} />
-
-            <RecentJobs />
-            <ContactUs />
+            <Suspense fallback={<div>Loading...</div>}>
+                <OperateStates />{' '}
+            </Suspense>
+            <Suspense fallback={<div>Loading...</div>}>
+                <GetStarted contactUsRef={contactUsRef} />{' '}
+            </Suspense>
+            <Suspense fallback={<div>Loading...</div>}>
+                <RecentJobs />{' '}
+            </Suspense>
+            <Suspense fallback={<div>Loading...</div>}>
+                <ContactUs />{' '}
+            </Suspense>
             {/*  */}
-
-            <TechnicalPartners />
-
-            <FeatureBlogs blogs={data} />
-
-            <LatestUpdates />
+            <Suspense fallback={<div>Loading...</div>}>
+                <TechnicalPartners />{' '}
+            </Suspense>
+            <Suspense fallback={<div>Loading...</div>}>
+                <FeatureBlogs blogs={data} />{' '}
+            </Suspense>
+            <Suspense fallback={<div>Loading...</div>}>
+                <LatestUpdates />
+            </Suspense>
         </div>
+    ) : (
+        <p>Loading...</p>
     )
 }
 
@@ -88,16 +117,26 @@ Home3.getLayout = (page: ReactElement) => {
 }
 
 export async function getStaticProps() {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/blogs/site`)
-    const data = await res.json()
-    if (!data) {
-        return <NoData text="No Data" />
-    }
-    return {
-        props: {
-            data,
-        },
-        revalidate: 3600,
+    try {
+        const res = await fetch(
+            `${process.env.NEXT_PUBLIC_END_POINT}/blogs/site`
+        )
+        const data = await res.json()
+
+        return {
+            props: {
+                data: data || null, // Ensure data is never undefined
+            },
+            revalidate: 3600,
+        }
+    } catch (error) {
+        console.error('Error fetching blogs:', error)
+        return {
+            props: {
+                data: null,
+            },
+            revalidate: 3600,
+        }
     }
 }
 

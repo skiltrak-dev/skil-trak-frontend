@@ -17,7 +17,7 @@ const FeatureBlogs = ({ blogs }: { blogs: any }) => {
         <div className="w-full max-w-7xl mx-auto py-12">
             <div className="flex justify-between items-center">
                 <Typography variant="h2">Featured Blogs</Typography>
-                <Link href={'/blogs'}>
+                <Link href={'/blogs'} rel="canonical">
                     <Typography bold color={'text-primary'} underline>
                         View All Blogs
                     </Typography>
