@@ -49,11 +49,15 @@ type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout
 }
 
-import { Poppins } from 'next/font/google'
+import { Poppins, Roboto } from 'next/font/google'
 
 const poppins = Poppins({
     subsets: ['latin'],
     weight: ['400', '500', '600', '700'],
+})
+const roboto = Roboto({
+    subsets: ['latin'],
+    weight: ['300', '400', '500', '700', '900'],
 })
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
@@ -103,7 +107,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         <>
             <GoogleAnalyticsScript />
             {/* <SessionProvider session={pageProps?.session}> */}
-            <div className={poppins.className}>
+            <div className={`${poppins.className} ${roboto.className}`}>
                 <Provider store={store}>
                     <ModalProvider>
                         <AutoLogoutProvider>

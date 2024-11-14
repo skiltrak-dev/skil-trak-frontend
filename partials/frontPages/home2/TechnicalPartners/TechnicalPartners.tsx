@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Marquee from 'react-fast-marquee'
 import { useMediaQuery } from 'react-responsive'
 import { TechnicalPartnerStyleContainer } from './styles'
+import Link from 'next/link'
 
 const TechnicalPartners = () => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
@@ -12,14 +13,17 @@ const TechnicalPartners = () => {
         {
             image: 'google.png',
             width: 145,
+            link: 'https://www.google.com/',
         },
         {
             image: 'stripe.png',
             width: 140,
+            link: 'https://stripe.com/',
         },
         {
             image: 'zoom.png',
             width: 100,
+            link: 'https://zoom.us/',
         },
     ]
     return (
@@ -42,16 +46,18 @@ const TechnicalPartners = () => {
                                         className="!flex !items-center !mr-0"
                                     >
                                         <div className="py-1.5 px-2.5 flex justify-center items-center min-w-[130px] max-w-[131px] h-16 shadow-[0px_4px_34px_0px_rgba(177,177,177,0.25)] rounded-[10px]">
-                                            <Image
-                                                key={index}
-                                                className="w-full h-full object-contain"
-                                                src={`/images/site/partners/${image?.image}`}
-                                                width={0}
-                                                height={0}
-                                                sizes={'100vh 100vw'}
-                                                alt="Partners"
-                                                priority
-                                            />
+                                            <Link href={image?.link}>
+                                                <Image
+                                                    key={index}
+                                                    className="w-full h-full object-contain"
+                                                    src={`/images/site/partners/${image?.image}`}
+                                                    width={0}
+                                                    height={0}
+                                                    sizes={'100vh 100vw'}
+                                                    alt="Partners"
+                                                    priority
+                                                />
+                                            </Link>
                                         </div>
                                         {index % 2 === 0 ? (
                                             <div className="w-24 h-full">

@@ -29,6 +29,7 @@ const Routes = {
     VolunteerRequest: `${PREFIX}/volunteer-requests?tab=pending`,
     TalentPool: `${PREFIX}/talent-pool`,
     CoordinatorsList: `${PREFIX}/department`,
+    MyStudentsReports: `${PREFIX}/tasks/my-students-report`,
 }
 
 export const SubAdminNavbar = () => {
@@ -106,6 +107,13 @@ export const SubAdminNavbar = () => {
     ]
 
     const additionalMenuItems = [
+        {
+            link: Routes.MyStudentsReports,
+            text: 'My Students Reports',
+            Icon: HiDocumentReport,
+            activeClasses: 'bg-blue-100 text-blue-700',
+            inActiveClasses: 'text-slate-700',
+        },
         {
             link: Routes.Report,
             text: 'My Reports',

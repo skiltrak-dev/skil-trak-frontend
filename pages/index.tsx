@@ -1,9 +1,14 @@
-import { ReactElement, lazy, useRef } from 'react'
+import { lazy, ReactElement, useRef } from 'react'
 
-import { SiteLayout } from '@layouts'
+import { NoData } from '@components'
+import { Asia100Award } from '@components/site'
 import { NextPageWithLayout } from '@types'
+import { SiteLayout } from '@layouts'
 
 const JumboSection = lazy(() => import('@components/site/JumboSection'))
+const FeatureBlogs = lazy(
+    () => import('@components/site/FeatureBlogs/FeatureBlogs')
+)
 const LatestUpdates = lazy(
     () => import('@partials/frontPages/home2/LatestUpdates/LatestUpdates')
 )
@@ -45,6 +50,7 @@ const Home3: NextPageWithLayout = ({ data }: any) => {
     return (
         <div>
             <JumboSection />
+            <Asia100Award />
             {/* Key Features */}
             <KeyFeatures />
             {/* Student Placement Management System */}
@@ -70,6 +76,8 @@ const Home3: NextPageWithLayout = ({ data }: any) => {
 
             <TechnicalPartners />
 
+            <FeatureBlogs blogs={data} />
+
             <LatestUpdates />
         </div>
     )
@@ -80,10 +88,16 @@ Home3.getLayout = (page: ReactElement) => {
 }
 
 export async function getStaticProps() {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/blogs/site`)
+    const data = await res.json()
+    if (!data) {
+        return <NoData text="No Data" />
+    }
     return {
         props: {
-            data: [],
+            data,
         },
+        revalidate: 3600,
     }
 }
 

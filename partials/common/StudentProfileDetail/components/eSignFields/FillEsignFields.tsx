@@ -52,7 +52,6 @@ export const FillEsignFields = ({
             skip: !documentId,
         }
     )
-    console.log({ documentsTotalPages })
 
     const tabs = CommonApi.ESign.useSignatureTabForTemplate(
         {
@@ -65,8 +64,6 @@ export const FillEsignFields = ({
             refetchOnMountOrArgChange: true,
         }
     )
-
-    console.log({ tabs })
 
     // useEffect(() => {
     //     if (tabs?.data && tabs?.data?.length > 0) {

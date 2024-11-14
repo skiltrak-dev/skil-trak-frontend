@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Marquee from 'react-fast-marquee'
 import { useMediaQuery } from 'react-responsive'
 import { OurPartnerStyleContainer } from './styles'
+import Link from 'next/link'
 
 const OurPartners = () => {
     const isMobile = useMediaQuery({ maxWidth: 768 })
@@ -10,28 +11,54 @@ const OurPartners = () => {
 
     const images = [
         {
+            image: 'woolWorths.jpeg',
+            width: 145,
+            link: 'https://www.woolworths.com.au/',
+        },
+        {
+            image: 'officeWorks.jpeg',
+            width: 145,
+            link: 'https://www.officeworks.com.au/',
+        },
+        {
+            image: 'harrisScarfe.jpeg',
+            width: 145,
+            link: 'http://www.harrisscarfe.com.au/',
+        },
+        {
+            image: 'harvey.jpeg',
+            width: 145,
+            link: 'http://www.harveynormanholdings.com.au/',
+        },
+        {
             image: 'multicap.png',
             width: 145,
+            link: 'https://multicap.org.au/',
         },
         {
             image: 'bupa.png',
             width: 140,
+            link: 'https://www.bupa.com.au/',
         },
         {
             image: 'opal-logo.svg',
             width: 100,
+            link: 'https://www.opalhealthcare.com.au/',
         },
         {
             image: 'BlueCross.svg',
             width: 100,
+            link: 'https://www.bluecross.com.au/',
         },
         {
             image: 'next.png',
             width: 100,
+            link: 'https://www.nextt.com.au/',
         },
         {
             image: 'salvation.png',
             width: 100,
+            link: 'https://www.salvationarmy.org.au/',
         },
     ]
     return (
@@ -52,16 +79,21 @@ const OurPartners = () => {
                                         className="!flex !items-center !mr-0"
                                     >
                                         <div className="py-1.5 px-2.5 flex justify-center mx-4 md:mx-0 items-center min-w-[130px] max-w-[131px] h-16 shadow-[0px_4px_34px_0px_rgba(177,177,177,0.25)] rounded-[10px]">
-                                            <Image
-                                                key={index}
-                                                className="w-full h-full object-contain"
-                                                src={`/images/site/partners/${image?.image}`}
-                                                width={0}
-                                                height={0}
-                                                sizes={'100vh 100vw'}
-                                                alt="Partners"
-                                                priority
-                                            />
+                                            <Link
+                                                href={image?.link || '#'}
+                                                className="w-full h-full"
+                                            >
+                                                <Image
+                                                    key={index}
+                                                    className="w-full h-full object-contain"
+                                                    src={`/images/site/partners/${image?.image}`}
+                                                    width={0}
+                                                    height={0}
+                                                    sizes={'100vh 100vw'}
+                                                    alt="Partners"
+                                                    priority
+                                                />
+                                            </Link>
                                         </div>
                                         <div className="border border-dashed border-primary w-20 md:block hidden" />
                                     </div>

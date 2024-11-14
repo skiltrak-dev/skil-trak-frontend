@@ -1,15 +1,13 @@
-import { useEffect, useState } from 'react'
-import Link from 'next/link'
-import { RecentJobCard } from './RecentJobCard'
-import { RelatedJobCard } from './RelatedJobCard'
 import { useNotification } from '@hooks'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { RecentJobCard } from './RecentJobCard'
 
-import { AdminApi, IndustryApi, commonApi } from '@queries'
-import { LoadingAnimation } from '@components/LoadingAnimation'
-import { NoData } from '@components/ActionAnimations'
-import Image from 'next/image'
 import { TextInput } from '@components/inputs'
+import { LoadingAnimation } from '@components/LoadingAnimation'
 import { DisplayNotifications } from '@components/Notification'
+import { AdminApi, commonApi } from '@queries'
+import Image from 'next/image'
 
 export const RecentJobsFromOurPartner = () => {
     const { notification } = useNotification()
