@@ -60,52 +60,22 @@ const Home3: NextPageWithLayout = ({ data }: any) => {
 
     return mount ? (
         <div>
-            <Suspense fallback={<div>Loading...</div>}>
-                <JumboSection />
-            </Suspense>
+            <JumboSection />
             {/* <Asia100Award /> */}
             {/* Key Features */}
-            <Suspense fallback={<div>Loading...</div>}>
-                <KeyFeatures />{' '}
-            </Suspense>
-            {/* Student Placement Management System */}
-
-            <Suspense fallback={<div>Loading...</div>}>
-                <StudentPlacementManagement />{' '}
-            </Suspense>
+            <KeyFeatures /> {/* Student Placement Management System */}
+            <StudentPlacementManagement />{' '}
             <div className="relative">
                 {/* Our packages */}
-                <Suspense fallback={<div>Loading...</div>}>
-                    <OurPackages />{' '}
-                </Suspense>
+                <OurPackages />{' '}
             </div>
             {/* Our Partners */}
-            <Suspense fallback={<div>Loading...</div>}>
-                <OurPartners />{' '}
-            </Suspense>
-            {/* We Operate in the Following States */}
-            <Suspense fallback={<div>Loading...</div>}>
-                <OperateStates />{' '}
-            </Suspense>
-            <Suspense fallback={<div>Loading...</div>}>
-                <GetStarted contactUsRef={contactUsRef} />{' '}
-            </Suspense>
-            <Suspense fallback={<div>Loading...</div>}>
-                <RecentJobs />{' '}
-            </Suspense>
-            <Suspense fallback={<div>Loading...</div>}>
-                <ContactUs />{' '}
-            </Suspense>
-            {/*  */}
-            <Suspense fallback={<div>Loading...</div>}>
-                <TechnicalPartners />{' '}
-            </Suspense>
-            <Suspense fallback={<div>Loading...</div>}>
-                <FeatureBlogs blogs={data} />{' '}
-            </Suspense>
-            <Suspense fallback={<div>Loading...</div>}>
-                <LatestUpdates />
-            </Suspense>
+            <OurPartners /> {/* We Operate in the Following States */}
+            <OperateStates />
+            <GetStarted contactUsRef={contactUsRef} /> <RecentJobs />
+            <ContactUs /> {/*  */}
+            <TechnicalPartners />
+            <FeatureBlogs blogs={data} /> <LatestUpdates />
         </div>
     ) : (
         <p>Loading...</p>
