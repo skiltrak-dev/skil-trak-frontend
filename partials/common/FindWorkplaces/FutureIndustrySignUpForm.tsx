@@ -260,16 +260,16 @@ export const FutureIndustrySignUpForm = ({
     }
 
     const onHandleSubmit = (values: any) => {
-        let questions: {
-            [key: string]: string
-        }[] = []
-        Object.entries(industryQuestions).forEach(([key, value]: any) => {
-            questions.push({
-                question: value,
-                answer: values?.[key],
-            })
-            // delete values?.[key]
-        })
+        // let questions: {
+        //     [key: string]: string
+        // }[] = []
+        // Object.entries(industryQuestions).forEach(([key, value]: any) => {
+        //     questions.push({
+        //         question: value,
+        //         answer: values?.[key],
+        //     })
+        //     // delete values?.[key]
+        // })
 
         if (!onSuburbClicked) {
             notification.error({
@@ -282,7 +282,7 @@ export const FutureIndustrySignUpForm = ({
                 state: 'NA',
                 suburb: 'NA',
                 isAddressUpdated: true,
-                questions,
+                // questions,
             })
         }
     }
@@ -542,12 +542,12 @@ export const FutureIndustrySignUpForm = ({
                             </div> */}
                         </div>
 
-                        <div>
+                        {/* <div>
                             <Typography variant="title">
                                 Provide answers for the questions
                             </Typography>
                             <AddIndustryQuestionForm methods={formMethods} />
-                        </div>
+                        </div> */}
 
                         <div className="">
                             <div className="mb-6">
