@@ -21,8 +21,8 @@ import 'react-pdf/dist/Page/TextLayer.css'
 import { Provider } from 'react-redux'
 import 'react-tooltip/dist/react-tooltip.css'
 import { ErrorBoundaryContext } from 'react-use-error-boundary'
-import '../styles/globals.css'
 import '../styles/animations.css'
+import '../styles/globals.css'
 import '../styles/site.css'
 
 import { NextPageWithLayout } from '@types'
@@ -49,15 +49,11 @@ type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout
 }
 
-import { Poppins, Roboto } from 'next/font/google'
+import { Poppins } from 'next/font/google'
 
 const poppins = Poppins({
     subsets: ['latin'],
     weight: ['400', '500', '600', '700'],
-})
-const roboto = Roboto({
-    subsets: ['latin'],
-    weight: ['300', '400', '500', '700', '900'],
 })
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
@@ -107,7 +103,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         <>
             <GoogleAnalyticsScript />
             {/* <SessionProvider session={pageProps?.session}> */}
-            <div className={`${poppins.className} ${roboto.className}`}>
+            <div className={`${poppins.className} `}>
                 <Provider store={store}>
                     <ModalProvider>
                         <AutoLogoutProvider>

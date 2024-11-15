@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { MdCancel } from 'react-icons/md'
-import { SubAdminApi } from '@queries'
+import { StudentApi, SubAdminApi } from '@queries'
 import {
     Button,
     Checkbox,
@@ -16,17 +16,46 @@ export const WorkplaceApprovalDeclaration = ({
     onCancel,
     declaration,
     wpApprovalId,
+    rData,
 }: {
+    rData: {
+        status: string
+        date: string
+    }
     wpApprovalId: number
     declaration: string
     onCancel: (val?: boolean) => void
 }) => {
     const [isChecked, setIsChecked] = useState<boolean>(false)
+    const [reqData, setReqData] = useState<{
+        status: string
+        date: string
+    }>(
+        {} as {
+            status: string
+            date: string
+        }
+    )
+
+    const changeWpApprovalReq = StudentApi.Workplace.changeStatusWpApprroval(
+        { id: wpApprovalId, ...reqData },
+        {
+            skip: !Object.values(reqData)?.length,
+        }
+    )
 
     const [changeStatus, changeStatusResult] =
         SubAdminApi.Workplace.changeWpReqStatus()
 
     const { notification } = useNotification()
+
+    useEffect(() => {
+        if (changeWpApprovalReq.isSuccess) {
+            if (onCancel) {
+                onCancel(true)
+            }
+        }
+    }, [changeWpApprovalReq.isSuccess])
 
     const onChangeStatusClicked = async (status: WPApprovalStatus) => {
         const res: any = await changeStatus({ id: wpApprovalId, status })
@@ -88,12 +117,23 @@ export const WorkplaceApprovalDeclaration = ({
                         />
                         <Button
                             onClick={() => {
-                                onChangeStatusClicked(WPApprovalStatus.Approved)
+                                if (rData) {
+                                    setReqData(rData)
+                                } else {
+                                    onChangeStatusClicked(
+                                        WPApprovalStatus.Approved
+                                    )
+                                }
                             }}
                             text="Approve"
-                            loading={changeStatusResult.isLoading}
+                            loading={
+                                changeStatusResult.isLoading ||
+                                changeWpApprovalReq.isLoading
+                            }
                             disabled={
-                                changeStatusResult.isLoading || !isChecked
+                                changeStatusResult.isLoading ||
+                                changeWpApprovalReq.isLoading ||
+                                !isChecked
                             }
                             variant="success"
                         />

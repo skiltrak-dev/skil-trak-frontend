@@ -1,15 +1,7 @@
-import {
-    lazy,
-    ReactElement,
-    Suspense,
-    useEffect,
-    useRef,
-    useState,
-} from 'react'
+import { lazy, ReactElement, useEffect, useRef, useState } from 'react'
 
 import { SiteLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { Asia100Award } from '@components/site'
 
 const JumboSection = lazy(() => import('@components/site/JumboSection'))
 const FeatureBlogs = lazy(
@@ -58,7 +50,7 @@ const Home3: NextPageWithLayout = ({ data }: any) => {
         setMount(true)
     }, [])
 
-    return mount ? (
+    return (
         <div>
             <JumboSection />
             {/* <Asia100Award /> */}
@@ -77,8 +69,6 @@ const Home3: NextPageWithLayout = ({ data }: any) => {
             <TechnicalPartners />
             <FeatureBlogs blogs={data} /> <LatestUpdates />
         </div>
-    ) : (
-        <p>Loading...</p>
     )
 }
 
