@@ -40,15 +40,15 @@ export const StepOnBoarding = () => {
     })
 
     const onSubmit = (data: any) => {
-        let questions: {
-            [key: string]: string
-        }[] = []
-        Object.entries(industryQuestions).forEach(([key, value]: any) => {
-            questions.push({
-                question: value,
-                answer: data?.[key],
-            })
-        })
+        // let questions: {
+        //     [key: string]: string
+        // }[] = []
+        // Object.entries(industryQuestions).forEach(([key, value]: any) => {
+        //     questions.push({
+        //         question: value,
+        //         answer: data?.[key],
+        //     })
+        // })
 
         const values = SignUpUtils.getValuesFromStorage()
 
@@ -57,7 +57,7 @@ export const StepOnBoarding = () => {
                 ...values,
                 isPartner: selected === UsageType[1].type,
                 ...(studentCapacity ? { studentCapacity } : {}),
-                questions,
+                // questions,
             })
             if (UsageType[0].type || UsageType[1].type) {
                 router.push({ query: { step: 'review-info' } })
@@ -106,12 +106,12 @@ export const StepOnBoarding = () => {
                             />
                         </div>
                     )}
-                    <div>
+                    {/* <div>
                         <Typography variant="title">
                             Provide answers for the questions
                         </Typography>
                         <AddIndustryQuestionForm methods={methods} />
-                    </div>
+                    </div> */}
                     <Button
                         variant={'primary'}
                         onClick={methods.handleSubmit(onSubmit)}
