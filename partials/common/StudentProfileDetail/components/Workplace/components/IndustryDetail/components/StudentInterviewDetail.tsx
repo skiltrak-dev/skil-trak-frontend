@@ -18,6 +18,22 @@ export const StudentInterviewDetail = ({
             skip: !workplaceId,
         }
     )
+
+    const allQuestions = {
+        [workplaceQuestions[workplaceQuestionsKeys.supervisorMeeting]]:
+            'Availability for Supervisor Meeting',
+        [workplaceQuestions[workplaceQuestionsKeys.placementStartDate]]:
+            'Placement Start Date',
+        [workplaceQuestions[workplaceQuestionsKeys.medicalCondition]]:
+            'Do you have any medical conditions that may affect your ability to work?',
+        [workplaceQuestions[workplaceQuestionsKeys.commutePlan]]:
+            'How do you plan to commute to the workplace',
+        [workplaceQuestions[workplaceQuestionsKeys.placementPreferences]]:
+            'Specific Placement Preferences',
+        [workplaceQuestions[workplaceQuestionsKeys.preferredContactTime]]:
+            'Preferred Contact Time',
+    }
+
     return (
         <div className="px-4 py-6 h-full overflow-auto custom-scrollbar">
             <div>
@@ -43,55 +59,20 @@ export const StudentInterviewDetail = ({
                         <div className="grid grid-cols-1  gap-x-6 gap-y-2.5">
                             {workplaceAnswers?.data?.map(
                                 (data: WorkplaceQuestionType, i: number) => {
-                                    if (
-                                        data?.question ===
-                                        workplaceQuestions[
-                                            workplaceQuestionsKeys.suburb
-                                        ]
-                                    ) {
-                                        const suburb = JSON.parse(data?.answer)
-                                        return (
-                                            <div className="border border-[#6B728030] rounded-md px-2 py-2.5">
-                                                <Typography
-                                                    variant="xxs"
-                                                    color={'text-[#374151]'}
-                                                    medium
-                                                >
-                                                    {data?.question}
-                                                </Typography>
-                                                <div className="flex items-center gap-x-1">
-                                                    {Object.entries(
-                                                        suburb
-                                                    )?.map(
-                                                        ([key, value]: any) => (
-                                                            <div className="flex items-center gap-x-1">
-                                                                <Typography
-                                                                    variant={
-                                                                        'xxs'
-                                                                    }
-                                                                    capitalize
-                                                                >
-                                                                    {key}:
-                                                                </Typography>
-                                                                <Badge
-                                                                    text={value}
-                                                                    variant={
-                                                                        'success'
-                                                                    }
-                                                                />
-                                                            </div>
-                                                        )
-                                                    )}
-                                                </div>
-                                            </div>
-                                        )
+                                    if (!allQuestions[data?.question]) {
+                                        return null
                                     }
+
                                     if (
                                         data?.question ===
-                                        workplaceQuestions[
-                                            workplaceQuestionsKeys
-                                                .supervisorMeeting
-                                        ]
+                                        Object.keys(allQuestions)?.find(
+                                            (q) =>
+                                                q ===
+                                                workplaceQuestions[
+                                                    workplaceQuestionsKeys
+                                                        .supervisorMeeting
+                                                ]
+                                        )
                                     ) {
                                         const supervisorMeeting = JSON.parse(
                                             data?.answer
@@ -108,7 +89,11 @@ export const StudentInterviewDetail = ({
                                                     color={'text-[#374151]'}
                                                     medium
                                                 >
-                                                    {data?.question}
+                                                    {
+                                                        allQuestions[
+                                                            data?.question
+                                                        ]
+                                                    }
                                                 </Typography>
                                                 <div className="flex items-center gap-x-2">
                                                     {Object.entries(
@@ -147,49 +132,7 @@ export const StudentInterviewDetail = ({
                                             </div>
                                         )
                                     }
-                                    if (
-                                        data?.question ===
-                                        workplaceQuestions[
-                                            workplaceQuestionsKeys.possession
-                                        ]
-                                    ) {
-                                        return (
-                                            <div className="flex flex-col gap-y-1 border border-[#6B728030] rounded-md px-2 py-2.5">
-                                                <Typography
-                                                    variant="xxs"
-                                                    color={'text-[#374151]'}
-                                                    medium
-                                                >
-                                                    {data?.question}
-                                                </Typography>
-                                                <div className="flex flex-wrap items-center gap-2">
-                                                    {data?.answer
-                                                        ?.split(',')
-                                                        ?.map(
-                                                            (
-                                                                possession: any
-                                                            ) => (
-                                                                <div className="bg-[#128C7E1A] py-1 px-2 rounded-md">
-                                                                    <Typography
-                                                                        variant={
-                                                                            'xxs'
-                                                                        }
-                                                                        color="text-[#128C7E]"
-                                                                        capitalize
-                                                                    >
-                                                                        <span className="whitespace-pre">
-                                                                            {
-                                                                                possession
-                                                                            }
-                                                                        </span>
-                                                                    </Typography>
-                                                                </div>
-                                                            )
-                                                        )}
-                                                </div>
-                                            </div>
-                                        )
-                                    }
+
                                     return (
                                         <div className="flex flex-col gap-y-1.5 border border-[#6B728030] rounded-md px-2.5 py-2">
                                             <Typography
@@ -197,7 +140,7 @@ export const StudentInterviewDetail = ({
                                                 color={'text-[#374151]'}
                                                 medium
                                             >
-                                                {data?.question}
+                                                {allQuestions[data?.question]}
                                             </Typography>
                                             <div className="flex items-center gap-x-1">
                                                 <Typography

@@ -8,6 +8,8 @@ import {
 } from '@components'
 import { useAddExistingIndustriesMutation } from '@queries'
 import { useNotification } from '@hooks'
+import { getDate } from '@utils'
+import moment from 'moment'
 
 export const SelectAppointDateModal = ({
     onCancel,
@@ -68,6 +70,7 @@ export const SelectAppointDateModal = ({
                             setDate1(e?.target?.value)
                             setShowError(false)
                         }}
+                        min={moment().format('YYYY-MM-DDTHH:mm')}
                     />
                     <TextInput
                         name={'startTime'}
@@ -78,6 +81,7 @@ export const SelectAppointDateModal = ({
                             setShowError(false)
                         }}
                         disabled={!date1}
+                        min={moment(date1).format('YYYY-MM-DDTHH:mm')}
                     />
                 </div>
                 {showError ? (
