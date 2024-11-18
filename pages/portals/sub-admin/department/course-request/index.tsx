@@ -29,7 +29,7 @@ const CourseRequest: NextPageWithLayout = () => {
             }
         )
     return (
-        <div className="w-full mb-5">
+        <div className="mx-auto max-w-7xl mb-5 ">
             {isError && <TechnicalError />}
 
             {isLoading ? (
@@ -47,7 +47,7 @@ const CourseRequest: NextPageWithLayout = () => {
                             setPage={setPage}
                         />
                     </div>
-                    <div className="grid grid-cols-3 gap-5">
+                    <div className="grid grid-cols-3 gap-5 max-h-[40rem] mb-2 overflow-y-auto remove-scrollbar">
                         {data?.data?.map((request: any) => (
                             <CourseRequestCard
                                 key={request?.id}

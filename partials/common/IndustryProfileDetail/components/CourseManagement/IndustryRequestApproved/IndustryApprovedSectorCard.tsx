@@ -1,8 +1,8 @@
 import { Typography } from '@components'
-import { CourseList } from './CourseList'
+import { IndustryApprovedCourseList } from './IndustryApprovedCourseList'
 import { CiCircleInfo } from 'react-icons/ci'
 
-export const SectorCard = ({
+export const IndustryApprovedSectorCard = ({
     course,
     requestList,
 }: {
@@ -16,19 +16,22 @@ export const SectorCard = ({
                     Sector: {requestList?.courses?.[0]?.sector?.name ?? 'N/A'}
                 </h2>
                 <span className="px-3 py-1 bg-green-100 text-green-800 rounded-md text-sm">
-                    {requestList?.status === 'approved' && 'Approved'}
+                    {requestList?.industryApproval?.[0]?.status ===
+                        'approved' && 'Approved'}
                 </span>
                 <div className="flex gap-x-1">
                     <Typography variant="xxs" color="text-emerald-500">
                         Approved by:
                     </Typography>
-                    <Typography variant="muted" color="text-emerald-500">
-                        {requestList?.actionBy?.name ?? 'N/A'}
-                    </Typography>
+                    {requestList?.industryApproval?.map((item: any) => (
+                        <Typography variant="muted" color="text-emerald-500">
+                            {item?.status ?? 'N/A'}
+                        </Typography>
+                    ))}
                 </div>
                 {/* <CiCircleInfo className="text-gray-400 w-5 h-5" /> */}
             </div>
-            <CourseList requestList={requestList} />
+            <IndustryApprovedCourseList requestList={requestList} />
         </div>
     )
 }

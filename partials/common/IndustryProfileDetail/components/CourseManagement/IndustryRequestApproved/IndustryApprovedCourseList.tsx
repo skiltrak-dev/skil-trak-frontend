@@ -2,7 +2,7 @@ import { Typography } from '@components'
 import { ellipsisText } from '@utils'
 import { IoCheckmarkDoneOutline } from 'react-icons/io5'
 
-export const CourseItem = ({
+export const IndustryApprovedCourseList = ({
     course,
     requestList,
 }: {
@@ -22,26 +22,10 @@ export const CourseItem = ({
                     <Typography variant="small" color="text-gray-600">
                         COURSE
                     </Typography>
-                    {requestList?.courses && requestList?.courses.length > 1 ? (
+                    {requestList?.industryApproval &&
+                    requestList?.industryApproval?.length > 1 ? (
                         <div className="relative w-full flex items-center gap-x-1 gap-y-2 mt-2">
-                            {requestList?.courses?.map((course: any) => (
-                                <div key={course.id} className="relative group">
-                                    {/* Dot for course */}
-                                    <div className="size-2 bg-gray-500 rounded-full cursor-pointer"></div>
-
-                                    {/* Tooltip on hover */}
-                                    <div className="invisible group-hover:visible absolute left-0 top-2 z-10">
-                                        <div className="bg-white border rounded-md px-2 py-1 shadow-lg whitespace-nowrap">
-                                            <Typography
-                                                variant="small"
-                                                semibold
-                                            >
-                                                {course?.title} - {course?.code}
-                                            </Typography>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
+                            
                         </div>
                     ) : (
                         <Typography variant="muted">
@@ -56,15 +40,18 @@ export const CourseItem = ({
                         Course Hours
                     </Typography>
 
-                    <Typography variant="muted">30 Hours</Typography>
+                    <Typography variant="muted" center>
+                        30 Hours
+                    </Typography>
                 </div>
-
-                <div className="">
-                    <IoCheckmarkDoneOutline
-                        size={25}
-                        className="text-emerald-500"
-                    />
-                </div>
+                {requestList?.industryCourseApprovals?.length > 0 && (
+                    <div className="">
+                        <IoCheckmarkDoneOutline
+                            size={25}
+                            className="text-emerald-500"
+                        />
+                    </div>
+                )}
             </div>
 
             <div className="bg-emerald-700 text-white p-4 rounded-md mb-4 flex gap-x-5 items-start">
@@ -82,7 +69,7 @@ export const CourseItem = ({
                     </Typography>
                     <div className="" title={requestList?.description}>
                         <Typography variant="xs" color="text-white">
-                            {ellipsisText(requestList?.description, 160) ??
+                            {ellipsisText(requestList?.description, 130) ??
                                 'N/A'}
                             {/* {requestList.description || 'N/A'} */}
                         </Typography>
@@ -99,10 +86,10 @@ export const CourseItem = ({
                     <span className="text-gray-600">Reference URL: </span>
                     {isValidUrl(requestList?.reference?.[0]) ? (
                         <a
-                            href={requestList.reference[0]}
+                            href={requestList?.reference[0]}
                             className="text-blue-500 hover:underline"
                         >
-                            {requestList.reference[0]}
+                            {requestList?.reference[0]}
                         </a>
                     ) : (
                         <span>{requestList?.reference?.[0] ?? 'N/A'}</span>

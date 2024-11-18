@@ -1,5 +1,7 @@
 import { FC, useState, useRef, useEffect } from 'react'
 import { createPopper } from '@popperjs/core'
+import { HiDotsHorizontal } from 'react-icons/hi'
+import { IoClose } from 'react-icons/io5'
 
 interface TimeTable {
     id: number
@@ -209,24 +211,24 @@ export const EmployeeMonthlyScheduleRow: FC<ScheduleViewProps> = ({
                         onClick={() => setSelectedDate(null)}
                         className="text-gray-400 hover:text-gray-600"
                     >
-                        ×
+                        <IoClose size={20} />
                     </button>
                 </div>
                 <div className="max-h-72 overflow-y-auto space-y-3">
-                    {schedules.map((schedule, index) => (
+                    {schedules?.map((schedule, index) => (
                         <div
-                            key={`${schedule.timeTable.id}-${index}`}
+                            key={`${schedule?.timeTable?.id}-${index}`}
                             className="p-2 rounded-md bg-gray-50 border border-gray-100"
                         >
                             <div className="font-medium text-gray-900">
-                                {schedule.userName}
+                                {schedule?.userName}
                             </div>
                             <div className="text-sm text-gray-600">
-                                {schedule.timeTable.openingTime} -{' '}
-                                {schedule.timeTable.closingTime}
+                                {schedule?.timeTable?.openingTime ?? '--'} -{' '}
+                                {schedule?.timeTable?.closingTime}
                             </div>
                             <div className="text-xs text-gray-500">
-                                {schedule.userEmail}
+                                {schedule?.userEmail}
                             </div>
                         </div>
                     ))}
@@ -272,7 +274,7 @@ export const EmployeeMonthlyScheduleRow: FC<ScheduleViewProps> = ({
                                             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-md border-2 border-teal-500 bg-teal-100 text-center p-1 flex items-center justify-center group hover:bg-teal-200"
                                         >
                                             <div className="text-xs font-medium text-teal-700">
-                                                {schedulesForDay.length}
+                                                <HiDotsHorizontal size={20} />
                                             </div>
                                         </button>
                                     )}
