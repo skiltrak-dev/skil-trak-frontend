@@ -196,4 +196,24 @@ export const subAdminIndustriesEndpoints = (
         }),
         providesTags: ['RequestToAddCourse'],
     }),
+
+    getRejectedDepartmentIndustry: builder.query<any, any>({
+        query: (params) => ({
+            url: `department/rejected-list`,
+            params,
+        }),
+        providesTags: ['SubAdminIndustries', 'Industries'],
+    }),
+    getRejectedDepartmentIndustryCount: builder.query<any, void>({
+        query: () => ({
+            url: `department/rejected-count`,
+        }),
+        providesTags: ['SubAdminIndustries', 'Industries'],
+    }),
+    getPendingDepartmentIndustryCount: builder.query<any, void>({
+        query: () => ({
+            url: `department/pending-count`,
+        }),
+        providesTags: ['SubAdminIndustries', 'Industries'],
+    }),
 })

@@ -75,6 +75,12 @@ export const SubadminIndustries = () => {
     const isHod = profile?.data?.departmentMember?.isHod
 
     const count = useGetSubadminIndustriesCountQuery()
+    const rejectedCount =
+        SubAdminApi.Industry.useRejectedDepartmentIndustryCount()
+    const pendingCount =
+        SubAdminApi.Industry.usePendingDepartmentIndustryCount()
+    console.log('rejectedCount', rejectedCount?.data)
+    console.log('pendingCount', pendingCount?.data)
     // useEffect(() => {
     //     setContent(
     //         <>
@@ -145,8 +151,8 @@ export const SubadminIndustries = () => {
                 },
                 element: <RejectedIndustries />,
                 badge: {
-                    text: count.data?.rejected,
-                    loading: count.isLoading,
+                    text: rejectedCount?.data,
+                    loading: rejectedCount.isLoading,
                 },
             },
             {
@@ -182,8 +188,8 @@ export const SubadminIndustries = () => {
                     query: { tab: UserStatus.Pending },
                 },
                 badge: {
-                    text: count.data?.pending,
-                    loading: count.isLoading,
+                    text: pendingCount?.data,
+                    loading: pendingCount.isLoading,
                 },
                 element: <PendingIndustries />,
             })
