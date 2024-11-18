@@ -79,8 +79,7 @@ export const SubadminIndustries = () => {
         SubAdminApi.Industry.useRejectedDepartmentIndustryCount()
     const pendingCount =
         SubAdminApi.Industry.usePendingDepartmentIndustryCount()
-    console.log('rejectedCount', rejectedCount?.data)
-    console.log('pendingCount', pendingCount?.data)
+
     // useEffect(() => {
     //     setContent(
     //         <>

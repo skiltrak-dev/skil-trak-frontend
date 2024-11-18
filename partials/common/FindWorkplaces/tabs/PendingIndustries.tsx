@@ -156,6 +156,7 @@ import {
     TableActionOption,
     TechnicalError,
     TruncatedTextWithTooltip,
+    Typography,
     UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
@@ -318,7 +319,17 @@ export const PendingIndustries = () => {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
             cell: (info) => {
-                return <SectorCell industry={info.row.original.sector} />
+                return (
+                    <div className="flex items-center gap-x-1">
+                        <Typography variant={'muted'}>
+                            {info?.row?.original?.sector?.name ?? 'NA'}
+                        </Typography>{' '}
+                        -{' '}
+                        <Typography variant={'muted'}>
+                            {info?.row?.original?.sector?.code}
+                        </Typography>
+                    </div>
+                )
             },
         },
         {
@@ -378,10 +389,10 @@ export const PendingIndustries = () => {
                             Reject
                         </ActionButton>
 
-                        <TableAction
+                        {/* <TableAction
                             options={tableActionOptions}
                             rowItem={info.row.original?.industry}
-                        />
+                        /> */}
                     </div>
                 )
             },
