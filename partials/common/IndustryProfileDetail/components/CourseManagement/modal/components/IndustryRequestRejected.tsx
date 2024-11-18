@@ -17,9 +17,7 @@ export const IndustryRequestRejected = ({
     console.log('data:::: rejected', data)
     return (
         <div>
-            <Typography variant="subtitle">
-                Industry Request Rejected
-            </Typography>
+            <Typography variant="subtitle">Industry Sector Rejected</Typography>
             {data?.map((item) => (
                 <>
                     {item?.industryApproval?.map((industryReq: any) => (

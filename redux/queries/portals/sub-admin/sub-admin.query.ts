@@ -415,6 +415,10 @@ export const {
     useRequestToAddCoursesToIndustryMutation,
     useGetIndustryRequestedCoursesQuery,
     useGetIndustryCoursesOnAcceptanceQuery,
+    useGetRejectedDepartmentIndustryQuery,
+    useGetRejectedDepartmentIndustryCountQuery,
+    useGetPendingDepartmentIndustryCountQuery,
+
     // --- REPORTS --- //
     useGetAssignedStudentsReportQuery,
     useGetAssignedWorkplaceReportQuery,
@@ -544,6 +548,11 @@ export const SubAdminApi = {
             useRequestToAddCoursesToIndustryMutation,
         useIndustryRequestedCourses: useGetIndustryRequestedCoursesQuery,
         useIndustryCoursesOnAcceptance: useGetIndustryCoursesOnAcceptanceQuery,
+        useRejectedDepartmentIndustry: useGetRejectedDepartmentIndustryQuery,
+        useRejectedDepartmentIndustryCount:
+            useGetRejectedDepartmentIndustryCountQuery,
+        usePendingDepartmentIndustryCount:
+            useGetPendingDepartmentIndustryCountQuery,
     },
     Rto: {
         useRtoStatsCount: useSubadminRtoStatisticsCountQuery,

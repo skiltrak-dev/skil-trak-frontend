@@ -16,7 +16,7 @@ import {
 } from '@components'
 
 import { useActionModal } from '@hooks'
-import { useGetSubAdminIndustriesQuery } from '@queries'
+import { SubAdminApi, useGetSubAdminIndustriesQuery } from '@queries'
 import { Industry, SubAdmin, UserStatus } from '@types'
 import { getUserCredentials, setLink } from '@utils'
 import { AiFillCheckCircle } from 'react-icons/ai'
@@ -37,11 +37,12 @@ export const RejectedIndustries = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError } = useGetSubAdminIndustriesQuery({
-        search: `status:${UserStatus.Rejected}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, data, isError } =
+        SubAdminApi.Industry.useRejectedDepartmentIndustry({
+            search: `status:${UserStatus.Rejected}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     const id = getUserCredentials()?.id
 

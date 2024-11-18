@@ -1,5 +1,5 @@
+import React, { useEffect, useState } from 'react'
 import {
-    ActionModal,
     Button,
     GlobalModal,
     ShowErrorNotifications,
@@ -8,25 +8,23 @@ import {
 } from '@components'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
-import { Industry, IndustryStatus } from '@types'
-import { useEffect, useState } from 'react'
-import { FaBan } from 'react-icons/fa'
 import { IoMdClose } from 'react-icons/io'
 
-export const RejectModal = ({
-    industry,
-    onCancel,
-}: {
-    industry: any
-    onCancel: any
-}) => {
-    const { notification } = useNotification()
-    const [note, setNote] = useState<string>('')
+export const RejectModal = ({ industry, onCancel }: any) => {
+    const [note, setNote] = useState('')
+    const [error, setError] = useState('')
 
     const [changeStatus, changeStatusResult] =
         CommonApi.FindWorkplace.useChangePendingIndustryStatus()
+    const { notification } = useNotification()
 
     const onConfirmClicked = async () => {
+        if (!note.trim()) {
+            setError('Please add a note explaining the rejection reason')
+            return
+        }
+
+        setError('')
         await changeStatus({
             params: { id: industry?.id, status: 'rejected' },
             body: note,
@@ -36,7 +34,7 @@ export const RejectModal = ({
     useEffect(() => {
         if (changeStatusResult.isSuccess) {
             notification.error({
-                title: `Industry Reject`,
+                title: 'Industry Reject',
                 description: `Industry "${industry?.industry?.user?.name}" has been Rejected.`,
             })
             onCancel()
@@ -56,40 +54,41 @@ export const RejectModal = ({
                             className="flex justify-end cursor-pointer"
                             onClick={onCancel}
                         >
-                            <IoMdClose size={25} className=" " />
+                            <IoMdClose size={25} />
                         </div>
                     </div>
 
-                    <TextArea
-                        name="note"
-                        placeholder="Add Note here why you are rejecting"
-                        required
-                        onChange={(e: any) => setNote(e.target.value)}
-                        rows={5}
-                    />
-                    <div className="flex justify-center">
+                    <div className="space-y-2">
+                        <TextArea
+                            name="note"
+                            placeholder="Add Note here why you are rejecting"
+                            required
+                            onChange={(e: any) => {
+                                setNote(e?.target?.value)
+                                if (e.target.value.trim()) {
+                                    setError('')
+                                }
+                            }}
+                            rows={5}
+                        />
+                        {error && (
+                            <p className="text-red-500 text-sm">{error}</p>
+                        )}
+                    </div>
+
+                    <div className="flex justify-center mt-4">
                         <Button
                             variant="error"
                             text="Reject"
                             loading={changeStatusResult.isLoading}
-                            disabled={changeStatusResult.isLoading}
+                            disabled={
+                                changeStatusResult.isLoading || !note.trim()
+                            }
                             onClick={onConfirmClicked}
                         />
                     </div>
                 </div>
             </GlobalModal>
-            {/* <ActionModal
-                Icon={FaBan}
-                variant="error"
-                title="Are you sure!"
-                description={`You are about to reject <em>"${industry?.industry?.user?.name}"</em>. Do you wish to continue?`}
-                onConfirm={onConfirmClicked}
-                onCancel={onCancel}
-                input
-                inputKey={industry?.industry?.user?.email}
-                actionObject={industry}
-                loading={changeStatusResult.isLoading}
-            /> */}
         </>
     )
 }
