@@ -188,4 +188,12 @@ export const subAdminIndustriesEndpoints = (
         }),
         providesTags: ['RequestToAddCourse'],
     }),
+
+    getIndustryCoursesOnAcceptance: builder.query<any, any>({
+        query: ({ id, params }) => ({
+            url: `industries/${id}/approval-requests`,
+            params,
+        }),
+        providesTags: ['RequestToAddCourse'],
+    }),
 })

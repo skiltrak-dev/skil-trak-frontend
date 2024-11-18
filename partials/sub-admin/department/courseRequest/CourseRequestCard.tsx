@@ -11,7 +11,12 @@ export enum Status {
 }
 
 export const CourseRequestCard = ({ request }: any) => {
-    
+    const isValidUrl = (url: any) => {
+        const urlPattern =
+            /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
+        return urlPattern.test(url)
+    }
+
     return (
         <div>
             <Card noPadding>
@@ -82,7 +87,7 @@ export const CourseRequestCard = ({ request }: any) => {
                         <Typography variant="label">References:</Typography>
                         <div className="px-2 py-1 mt-1">
                             <ul>
-                                {request?.reference?.map(
+                                {/* {request?.reference?.map(
                                     (reference: any, index: number) => {
                                         return (
                                             <li
@@ -106,6 +111,20 @@ export const CourseRequestCard = ({ request }: any) => {
                                             </li>
                                         )
                                     }
+                                )} */}
+                                {isValidUrl(request?.reference?.[0]) ? (
+                                    <a
+                                        href={request.reference[0]}
+                                        className="text-blue-500 hover:underline"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {request?.reference[0]}
+                                    </a>
+                                ) : (
+                                    <span>
+                                        {request?.reference?.[0] ?? 'N/A'}
+                                    </span>
                                 )}
                             </ul>
                         </div>

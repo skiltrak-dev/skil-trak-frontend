@@ -36,7 +36,8 @@ export const ScheduleHeader: FC<ScheduleHeaderProps> = ({
     //     startDate.getMonth()
     // )
     // const [year, setYear] = useState<number>(startDate.getFullYear())
-    const monthRefs = useRef<HTMLDivElement[]>([])
+    const monthsContainerRef = useRef<any>(null)
+    const activeMonthRef = useRef<any>(null)
 
     const adjustedStartDate = getStartOfWeek(startDate)
     const endDate = new Date(adjustedStartDate)
@@ -48,10 +49,19 @@ export const ScheduleHeader: FC<ScheduleHeaderProps> = ({
     }, [startDate])
 
     useEffect(() => {
-        if (activeMonthIndex !== null && monthRefs.current[activeMonthIndex]) {
-            monthRefs.current[activeMonthIndex].scrollIntoView({
+        if (activeMonthRef.current && monthsContainerRef.current) {
+            const container = monthsContainerRef.current
+            const activeElement = activeMonthRef.current
+
+            // Calculate the scroll position to center the active month
+            const scrollLeft =
+                activeElement.offsetLeft -
+                container.clientWidth / 2 +
+                activeElement.clientWidth / 2
+
+            container.scrollTo({
+                left: scrollLeft,
                 behavior: 'smooth',
-                inline: 'center',
             })
         }
     }, [activeMonthIndex])
@@ -160,11 +170,22 @@ export const ScheduleHeader: FC<ScheduleHeaderProps> = ({
                 </div>
             </div>
 
-            <div className="flex items-center space-x-2 bg-[#FBFBFB] border rounded-md custom-scrollbar overflow-auto">
+            <div
+                ref={monthsContainerRef}
+                className="flex items-center space-x-2 bg-[#FBFBFB] border rounded-md custom-scrollbar overflow-auto"
+                style={{
+                    scrollbarWidth: 'thin',
+                    msOverflowStyle: 'none',
+                }}
+            >
                 {months.map((month, index) => (
                     <div key={index} className="flex items-center gap-x-4">
                         <div
-                            ref={(el: any) => (monthRefs.current[index] = el)}
+                            ref={
+                                index === activeMonthIndex
+                                    ? activeMonthRef
+                                    : null
+                            }
                             onClick={() => {
                                 setActiveMonthIndex(index)
                                 onMonth(index)

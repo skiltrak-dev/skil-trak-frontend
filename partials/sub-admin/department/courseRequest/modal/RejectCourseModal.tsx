@@ -32,9 +32,7 @@ export const RejectCourseModal = ({ request, onCloseModal }: any) => {
                 id: request.id,
                 status: 'rejected',
             },
-            body: {
-                note: rejectionNote,
-            },
+            body: rejectionNote,
         })
     }
 

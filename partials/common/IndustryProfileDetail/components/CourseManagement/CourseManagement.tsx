@@ -1,9 +1,12 @@
 import { SubAdminApi } from '@queries'
 import { SectorCardHeader } from './SectorCardHeader'
-import { SectorList } from './SectorList'
+
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { LoadingAnimation, NoData } from '@components'
+import { LoadingAnimation, NoData, Typography } from '@components'
+import { IndustryRequestApproved } from './IndustryRequestApproved/IndustryRequestApproved'
+import { IoCheckmarkDoneOutline } from 'react-icons/io5'
+import { CourseCard } from './CourseCard'
 
 export const CourseManagement = () => {
     // Call api here
@@ -25,24 +28,51 @@ export const CourseManagement = () => {
                 refetchOnMountOrArgChange: true,
             }
         )
+    const onIndustryAcceptanceCourses =
+        SubAdminApi.Industry.useIndustryCoursesOnAcceptance(
+            {
+                id: router.query.id,
+                params: {
+                    search: `status:approved`,
+                    skip: itemPerPage * page - itemPerPage,
+                    limit: itemPerPage,
+                },
+            },
+            {
+                skip: !router.query.id,
+                refetchOnMountOrArgChange: true,
+            }
+        )
+
     return (
         <div className="p-6">
             <SectorCardHeader />
-            <div className="overflow-auto custom-scrollbar h-[400px] mt-4">
-                {isError && <NoData text="Something went wrong" />}
-                {isLoading ? (
-                    <LoadingAnimation height="h-20" />
-                ) : data?.data?.length > 0 ? (
+            {(isError || onIndustryAcceptanceCourses.isError) && (
+                <NoData text={'Something went wrong'} />
+            )}
+            <div className="max-h-[450px] overflow-auto custom-scrollbar">
+                {isLoading || onIndustryAcceptanceCourses.isLoading ? (
+                    <LoadingAnimation height="32" />
+                ) : data?.data?.length > 0 ||
+                  onIndustryAcceptanceCourses?.data?.data?.length > 0 ? (
                     <>
-                        {data?.data?.map((course: any, i: number) => (
-                            <SectorList
-                                keys={course?.id}
-                                requestList={course}
-                            />
+                        {data?.data?.map((item: any) => (
+                            <CourseCard key={item.id} data={item} />
                         ))}
+                        {onIndustryAcceptanceCourses?.data?.data?.map(
+                            (item: any) => (
+                                <CourseCard
+                                    key={item.id}
+                                    data={item}
+                                    isIndustryAcceptance={true}
+                                />
+                            )
+                        )}
                     </>
                 ) : (
-                    !isError && <NoData text="No data found" />
+                    (!isError || !onIndustryAcceptanceCourses.isError) && (
+                        <NoData text={'No Data Found'} />
+                    )
                 )}
             </div>
         </div>

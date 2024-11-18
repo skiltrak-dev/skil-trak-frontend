@@ -137,7 +137,7 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
                 url: `department/industries-list`,
                 params,
             }),
-            providesTags: ['SubAdminIndustries'],
+            providesTags: ['SubAdminIndustries', 'Industries'],
         }),
 
         getDepartmentStudentsCount: build.query<any, void>({
@@ -414,6 +414,7 @@ export const {
     useGetIndustryStudentsScheduleQuery,
     useRequestToAddCoursesToIndustryMutation,
     useGetIndustryRequestedCoursesQuery,
+    useGetIndustryCoursesOnAcceptanceQuery,
     // --- REPORTS --- //
     useGetAssignedStudentsReportQuery,
     useGetAssignedWorkplaceReportQuery,
@@ -541,8 +542,8 @@ export const SubAdminApi = {
         useIndustryStudentsSchedule: useGetIndustryStudentsScheduleQuery,
         useRequestToAddCoursesToIndustry:
             useRequestToAddCoursesToIndustryMutation,
-        useIndustryRequestedCourses:
-            useGetIndustryRequestedCoursesQuery,
+        useIndustryRequestedCourses: useGetIndustryRequestedCoursesQuery,
+        useIndustryCoursesOnAcceptance: useGetIndustryCoursesOnAcceptanceQuery,
     },
     Rto: {
         useRtoStatsCount: useSubadminRtoStatisticsCountQuery,
