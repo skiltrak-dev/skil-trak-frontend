@@ -2,6 +2,7 @@ import { lazy, ReactElement, useEffect, useRef, useState } from 'react'
 
 import { SiteLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
+import { NoData } from '@components'
 
 const JumboSection = lazy(() => import('@components/site/JumboSection'))
 const FeatureBlogs = lazy(
@@ -43,6 +44,7 @@ const KeyFeatures = lazy(
 )
 
 const Home3: NextPageWithLayout = ({ data }: any) => {
+    console.log({ data })
     const contactUsRef = useRef(null)
     const [mount, setMount] = useState(false)
 
@@ -77,27 +79,41 @@ Home3.getLayout = (page: ReactElement) => {
 }
 
 export async function getStaticProps() {
-    try {
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_END_POINT}/blogs/site`
-        )
-        const data = await res.json()
-
-        return {
-            props: {
-                data: data || null, // Ensure data is never undefined
-            },
-            revalidate: 3600,
-        }
-    } catch (error) {
-        console.error('Error fetching blogs:', error)
-        return {
-            props: {
-                data: null,
-            },
-            revalidate: 3600,
-        }
+    const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/blogs/site`)
+    const data = await res.json()
+    if (!data) {
+        return <NoData text="No Data" />
+    }
+    return {
+        props: {
+            data,
+        },
+        revalidate: 3600,
     }
 }
+
+// export async function getStaticProps() {
+//     try {
+//         const res = await fetch(
+//             `${process.env.NEXT_PUBLIC_END_POINT}/blogs/site`
+//         )
+//         const data = await res.json()
+
+//         return {
+//             props: {
+//                 data: data || null, // Ensure data is never undefined
+//             },
+//             revalidate: 3600,
+//         }
+//     } catch (error) {
+//         console.error('Error fetching blogs:', error)
+//         return {
+//             props: {
+//                 data: null,
+//             },
+//             revalidate: 3600,
+//         }
+//     }
+// }
 
 export default Home3
