@@ -118,21 +118,21 @@ export const RejectedIndustries = () => {
             sort: true,
             cell: ({ row }: any) => (
                 <IndustryCellInfo
-                    industry={row.original}
+                    industry={row.original?.industry}
                     isFavorite={isFavorite}
                     call
                 />
             ),
         },
         {
-            accessorKey: 'abn',
+            accessorKey: 'industry.abn',
             header: () => <span>ABN</span>,
         },
         {
             header: () => 'Suburb',
             accessorKey: 'suburb',
             cell: ({ row }: any) => {
-                const { suburb } = row.original
+                const { suburb } = row.original?.industry
                 return (
                     <Typography variant={'label'} color={'black'}>
                         {suburb}
@@ -144,7 +144,7 @@ export const RejectedIndustries = () => {
             header: () => 'Address',
             accessorKey: 'address',
             cell: ({ row }: any) => {
-                const { addressLine1 } = row.original
+                const { addressLine1 } = row.original?.industry
                 return (
                     <Typography variant={'label'} color={'black'}>
                         {addressLine1}
@@ -165,13 +165,30 @@ export const RejectedIndustries = () => {
         //     },
         // },
         {
-            header: () => 'Contact Person',
-            accessorKey: 'contactPersonNumber',
+            accessorKey: 'sectors',
+            header: () => <span>Sectors</span>,
             cell: ({ row }: any) => {
-                const { contactPersonNumber } = row.original
+                return (
+                    <div className="flex items-center gap-x-1">
+                        <Typography variant={'muted'}>
+                            {row?.original?.sector?.name ?? 'NA'}
+                        </Typography>{' '}
+                        -{' '}
+                        <Typography variant={'muted'}>
+                            {row?.original?.sector?.code}
+                        </Typography>
+                    </div>
+                )
+            },
+        },
+        {
+            header: () => 'Contact Person',
+            accessorKey: 'contactPerson',
+            cell: ({ row }: any) => {
+                const { contactPerson } = row.original?.industry
                 return (
                     <Typography variant={'muted'} color={'gray'}>
-                        {contactPersonNumber}
+                        {contactPerson}
                     </Typography>
                 )
             },
@@ -182,7 +199,7 @@ export const RejectedIndustries = () => {
             cell: ({ row }: any) => (
                 <TableAction
                     options={tableActionOptions}
-                    rowItem={row.original}
+                    rowItem={row.original?.industry}
                 />
             ),
         },
