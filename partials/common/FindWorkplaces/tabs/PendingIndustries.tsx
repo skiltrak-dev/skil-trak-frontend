@@ -316,8 +316,8 @@ export const PendingIndustries = () => {
             },
         },
         {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
+            accessorKey: 'sector',
+            header: () => <span>Sector</span>,
             cell: (info) => {
                 return (
                     <div className="flex items-center gap-x-1">

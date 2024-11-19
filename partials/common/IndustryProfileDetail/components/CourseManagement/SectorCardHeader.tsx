@@ -13,17 +13,17 @@ export const SectorCardHeader = () => {
         skip: !id,
     })
     const userRole = getUserCredentials().role
-  
+
     return (
         <>
             <div className="flex justify-between items-center mb-6 pb-4  border-b">
-                <h1 className="text-xl font-semibold">Sector & Courses</h1>
+                <h1 className="text-xl font-semibold">Sectors & Courses</h1>
                 <div className="flex gap-4">
                     {/* View Rejected Sectors Modal */}
                     <Modal>
                         <Modal.Open opens="rejectedSectors">
                             <button className="text-link text-sm hover:underline">
-                                View Rejected Courses
+                                View Rejected Sectors & Courses
                             </button>
                         </Modal.Open>
                         <Modal.Window name="rejectedSectors">

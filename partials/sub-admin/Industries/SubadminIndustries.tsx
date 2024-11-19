@@ -194,7 +194,7 @@ export const SubadminIndustries = () => {
             })
         }
         return baseTabs
-    }, [count, isHod])
+    }, [count, isHod, rejectedCount, pendingCount])
 
     const filteredDataLength = checkFilteredDataLength(filter)
     return (

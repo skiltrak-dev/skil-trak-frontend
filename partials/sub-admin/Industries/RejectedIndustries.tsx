@@ -165,8 +165,8 @@ export const RejectedIndustries = () => {
         //     },
         // },
         {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
+            accessorKey: 'sector',
+            header: () => <span>Sector</span>,
             cell: ({ row }: any) => {
                 return (
                     <div className="flex items-center gap-x-1">
