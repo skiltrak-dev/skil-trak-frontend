@@ -127,18 +127,18 @@ export const BlockedIndustries = () => {
             accessorKey: 'abn',
             header: () => <span>ABN</span>,
         },
-        {
-            header: () => 'Suburb',
-            accessorKey: 'suburb',
-            cell: ({ row }: any) => {
-                const { suburb } = row.original
-                return (
-                    <Typography variant={'label'} color={'black'}>
-                        {suburb}
-                    </Typography>
-                )
-            },
-        },
+        // {
+        //     header: () => 'Suburb',
+        //     accessorKey: 'suburb',
+        //     cell: ({ row }: any) => {
+        //         const { suburb } = row.original
+        //         return (
+        //             <Typography variant={'label'} color={'black'}>
+        //                 {suburb}
+        //             </Typography>
+        //         )
+        //     },
+        // },
         {
             header: () => 'Address',
             accessorKey: 'address',
@@ -165,12 +165,12 @@ export const BlockedIndustries = () => {
         // },
         {
             header: () => 'Contact Person',
-            accessorKey: 'contactPersonNumber',
+            accessorKey: 'contactPerson',
             cell: ({ row }: any) => {
-                const { contactPersonNumber } = row.original
+                const { contactPerson } = row.original
                 return (
                     <Typography variant={'muted'} color={'gray'}>
-                        {contactPersonNumber}
+                        {contactPerson}
                     </Typography>
                 )
             },
