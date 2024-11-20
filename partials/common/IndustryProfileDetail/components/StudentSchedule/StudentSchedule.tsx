@@ -122,7 +122,6 @@ export const StudentSchedule = () => {
         }
     }
 
-    console.log('getDateDisplay', getDateDisplay().slice(12, 22))
     return (
         <div className="flex flex-col bg-gray-100">
             <ScheduleHeader

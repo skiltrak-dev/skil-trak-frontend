@@ -28,7 +28,6 @@ export const RejectCourseModal = ({ request, onCloseModal }: any) => {
 
     const onConfirmReject = () => {
         if (rejectionNote.trim()) {
-            console.log('Rejecting course request', rejectionNote)
             courseRequest({
                 params: {
                     id: request.id,
