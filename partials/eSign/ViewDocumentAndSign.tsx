@@ -261,7 +261,24 @@ export const ViewDocumentAndSign = () => {
 
     const processedItems = customFieldsAndSign
         .map(addNumberWithPosition)
-        ?.filter((sign: any) => !sign?.responses?.length)
+        ?.filter((sign: any) => {
+            const latestResponse = sign?.responses?.reduce(
+                (accumulator: any, current: any) => {
+                    // Convert timestamps to Date objects for comparison
+                    const accumulatorDate = new Date(accumulator.updatedAt)
+                    const currentDate = new Date(current.updatedAt)
+
+                    // Return the item with the later updatedAt timestamp
+                    return currentDate > accumulatorDate ? current : accumulator
+                },
+                sign?.responses[0]
+            )
+            if (!sign?.responses?.length) {
+                return sign
+            } else if (latestResponse?.reSignRequested) {
+                return sign
+            }
+        })
 
     const sortedPositions = processedItems.sort((a: any, b: any) => {
         // First, prioritize 'signature' type

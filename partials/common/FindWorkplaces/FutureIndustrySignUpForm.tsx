@@ -260,6 +260,7 @@ export const FutureIndustrySignUpForm = ({
     }
 
     const onHandleSubmit = (values: any) => {
+
         let questions: {
             [key: string]: string
         }[] = []
@@ -270,6 +271,7 @@ export const FutureIndustrySignUpForm = ({
             })
             // delete values?.[key]
         })
+
 
         if (!onSuburbClicked) {
             notification.error({
@@ -549,12 +551,12 @@ export const FutureIndustrySignUpForm = ({
                             </div> */}
                         </div>
 
-                        {/* <div>
+                         <div>
                             <Typography variant="title">
                                 Provide answers for the questions
                             </Typography>
                             <AddIndustryQuestionForm methods={formMethods} />
-                        </div> */}
+                        </div> 
 
                         <div className="">
                             <div className="mb-6">

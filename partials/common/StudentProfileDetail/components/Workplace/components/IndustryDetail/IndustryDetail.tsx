@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react'
-import { IndustryCard } from './components'
+import { IndustryCard, StudentInterviewDetail } from './components'
 import {
     AuthorizedUserComponent,
     GlobalModal,
@@ -80,10 +80,10 @@ export const IndustryDetail = ({
             <div
                 className={`bg-[#00000050] ${
                     contextBar.isVisible ? 'w-[calc(100%-321px)]' : 'w-full'
-                } h-screen flex items-center justify-center fixed top-0 left-0 px-2 z-40`}
+                } h-screen flex items-center justify-center gap-x-2 fixed top-0 left-0 px-2 z-40`}
             >
                 <div
-                    className="bg-white rounded-2xl modal-animation flex flex-col justify-between shadow-md w-full md:w-auto md:min-w-[450px]"
+                    className="h-[90vh] lg:h-[450px] xl:h-[530px] bg-white rounded-2xl modal-animation flex flex-col justify-between shadow-md w-full md:w-auto md:min-w-[420px]"
                     style={{ zIndex: 111 }}
                 >
                     <ViewOnMapIndustriesModal
@@ -92,6 +92,14 @@ export const IndustryDetail = ({
                         onCancel={onCancelClicked}
                         appliedIndustry={appliedIndustry}
                         suggestedIndustries={suggestedIndustries}
+                    />
+                </div>
+                <div
+                    className="h-[90vh] lg:h-[450px] xl:h-[530px] bg-white rounded-2xl modal-animation flex flex-col justify-between shadow-md w-full md:w-auto md:max-w-[388px]"
+                    style={{ zIndex: 111 }}
+                >
+                    <StudentInterviewDetail
+                        workplaceId={Number(workplace?.id)}
                     />
                 </div>
             </div>

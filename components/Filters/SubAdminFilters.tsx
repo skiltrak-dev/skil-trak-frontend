@@ -1,10 +1,9 @@
 import { Select, TextInput } from '@components/inputs'
 import { CommonApi } from '@queries'
-import { SetQueryFilters } from './SetQueryFilters'
-import { StatusOptions } from './StatusOptions'
-import { SelectOption } from './types'
 import { AdminSubadminFilter, Course, OptionType, UserStatus } from '@types'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
+import { SetQueryFilters } from './SetQueryFilters'
+import { StatusOptions } from './StatusOptions'
 
 interface ItemFilterProps {
     onFilterChange: (values: AdminSubadminFilter) => void
@@ -31,7 +30,7 @@ export const SubAdminFilters = ({
                 <TextInput
                     name="name"
                     label={'Name'}
-                    placeholder={'Search by Industry Name ...'}
+                    placeholder={'Search by Subadmin Name ...'}
                     value={filter?.name}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, name: e.target.value })
@@ -40,7 +39,7 @@ export const SubAdminFilters = ({
                 <TextInput
                     name="email"
                     label={'Email'}
-                    placeholder={'Search by Industry Email ...'}
+                    placeholder={'Search by Subadmin Email ...'}
                     type={'email'}
                     value={filter?.email}
                     onChange={(e: any) => {

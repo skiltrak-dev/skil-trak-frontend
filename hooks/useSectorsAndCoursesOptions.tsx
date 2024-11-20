@@ -89,8 +89,12 @@ export const useSectorsAndCoursesOptions = () => {
         [courseOptions]
     )
 
-    const courseValues = courseOptions?.filter((course: OptionType) =>
-        selectedCourses?.includes(course?.value as number)
+    const courseValues = useMemo(
+        () =>
+            courseOptions?.filter((course: OptionType) =>
+                selectedCourses?.includes(course?.value as number)
+            ),
+        [courseOptions, selectedCourses]
     )
 
     return {

@@ -1,6 +1,5 @@
 import { Button } from '@components'
-import { StudentApi } from '@queries'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useState } from 'react'
 import { WorkplaceApprovalDeclaration, WorkplaceRejectedModal } from './modal'
 
 export const WorkplaceApprovalActions = ({
@@ -16,33 +15,8 @@ export const WorkplaceApprovalActions = ({
 }) => {
     const onCancelModal = () => setModal(null)
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const [reqData, setReqData] = useState<{
-        status: string
-        date: string
-    }>(
-        {} as {
-            status: string
-            date: string
-        }
-    )
 
-    const changeWpApprovalReq = StudentApi.Workplace.changeStatusWpApprroval(
-        { id: wpApprovalId, ...reqData },
-        {
-            skip: !Object.values(reqData)?.length,
-        }
-    )
-
-    useEffect(() => {
-        if (changeWpApprovalReq.isSuccess) {
-            if (onCancel) {
-                onCancel()
-            }
-            onCancelModal()
-        }
-    }, [changeWpApprovalReq.isSuccess])
-
-    const onApprovalClicked = (declaration: string) => {
+    const onApprovalClicked = (declaration: string, reqData?: any) => {
         setModal(
             <WorkplaceApprovalDeclaration
                 onCancel={(val?: boolean) => {
@@ -55,6 +29,7 @@ export const WorkplaceApprovalActions = ({
                         onCancelModal()
                     }
                 }}
+                rData={reqData}
                 declaration={declaration}
                 wpApprovalId={wpApprovalId}
             />
@@ -79,10 +54,6 @@ export const WorkplaceApprovalActions = ({
         )
     }
 
-    const updatedDates = {
-        'Option 1': dates?.date1,
-        'Option 2': dates?.date2,
-    }
     return (
         <>
             {modal}
@@ -104,13 +75,15 @@ export const WorkplaceApprovalActions = ({
                                     fullHeight
                                     fullWidth
                                     onClick={() => {
-                                        setReqData({
+                                        onApprovalClicked(declaration, {
                                             date: String(value),
                                             status: 'approved',
                                         })
+                                        // setReqData({
+                                        //     date: String(value),
+                                        //     status: 'approved',
+                                        // })
                                     }}
-                                    loading={changeWpApprovalReq?.isLoading}
-                                    disabled={changeWpApprovalReq?.isLoading}
                                     text={`Approve With Option ${i + 1}`}
                                     variant="success"
                                 />

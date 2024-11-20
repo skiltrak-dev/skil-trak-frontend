@@ -21,8 +21,8 @@ import 'react-pdf/dist/Page/TextLayer.css'
 import { Provider } from 'react-redux'
 import 'react-tooltip/dist/react-tooltip.css'
 import { ErrorBoundaryContext } from 'react-use-error-boundary'
-import '../styles/globals.css'
 import '../styles/animations.css'
+import '../styles/globals.css'
 import '../styles/site.css'
 
 import { NextPageWithLayout } from '@types'
@@ -103,7 +103,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         <>
             <GoogleAnalyticsScript />
             {/* <SessionProvider session={pageProps?.session}> */}
-            <div className={poppins.className}>
+            <div className={`${poppins.className} `}>
                 <Provider store={store}>
                     <ModalProvider>
                         <AutoLogoutProvider>

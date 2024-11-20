@@ -48,8 +48,6 @@ export const EsignSVGView = ({
     selectedFillDataField?: any
     documentId: number
 }) => {
-    console.log({ sortedPositions })
-
     const router = useRouter()
     const [viewport, setViewport] = useState<string | null>('')
     const [showEndDocument, setShowEndDocument] = useState(true)
@@ -118,8 +116,6 @@ export const EsignSVGView = ({
         setViewport(svgViewport)
     }, [doc])
 
-    console.log({ doc })
-
     useEffect(() => {
         const signData = customFieldsData?.filter(
             (a: any) =>
@@ -173,25 +169,6 @@ export const EsignSVGView = ({
 
     const position =
         sortedPositions?.[customFieldsSelectedId]?.position?.split(',')?.[0]
-
-    console.log({
-        customFieldsSelectedId: Number(
-            sortedPositions?.[customFieldsSelectedId]?.position?.split(',')?.[1]
-        ),
-        height,
-        customFieldsData:
-            customFieldsSelectedId >= 0
-                ? `${
-                      (Number(
-                          sortedPositions?.[
-                              customFieldsSelectedId
-                          ]?.position?.split(',')?.[1]
-                      ) *
-                          100) /
-                      Number(height)
-                  }%`
-                : 0,
-    })
 
     return (
         <>

@@ -105,7 +105,7 @@ export const AddIndividualStudentForm = () => {
                 emergencyPerson: 'N/A',
                 emergencyPersonPhone: 'N/A',
                 gender: 'N/A',
-                addressLine1: 'N/A',
+                addressLine1: 'Australia',
                 state: 'N/A',
                 suburb: 'N/A',
                 zipCode: 'N/A',
@@ -131,8 +131,6 @@ export const AddIndividualStudentForm = () => {
             value: '47-56',
         },
     ]
-
-   
 
     return (
         <>

@@ -1,9 +1,13 @@
-import { ReactElement, lazy, useRef } from 'react'
+import { lazy, ReactElement, useEffect, useRef, useState } from 'react'
 
 import { SiteLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
+import { NoData } from '@components'
 
 const JumboSection = lazy(() => import('@components/site/JumboSection'))
+const FeatureBlogs = lazy(
+    () => import('@components/site/FeatureBlogs/FeatureBlogs')
+)
 const LatestUpdates = lazy(
     () => import('@partials/frontPages/home2/LatestUpdates/LatestUpdates')
 )
@@ -40,37 +44,32 @@ const KeyFeatures = lazy(
 )
 
 const Home3: NextPageWithLayout = ({ data }: any) => {
+    console.log({ data })
     const contactUsRef = useRef(null)
+    const [mount, setMount] = useState(false)
+
+    useEffect(() => {
+        setMount(true)
+    }, [])
 
     return (
         <div>
             <JumboSection />
+            {/* <Asia100Award /> */}
             {/* Key Features */}
-            <KeyFeatures />
-            {/* Student Placement Management System */}
-
-            <StudentPlacementManagement />
+            <KeyFeatures /> {/* Student Placement Management System */}
+            <StudentPlacementManagement />{' '}
             <div className="relative">
                 {/* Our packages */}
-
-                <OurPackages />
+                <OurPackages />{' '}
             </div>
             {/* Our Partners */}
-
-            <OurPartners />
-            {/* We Operate in the Following States */}
-
+            <OurPartners /> {/* We Operate in the Following States */}
             <OperateStates />
-
-            <GetStarted contactUsRef={contactUsRef} />
-
-            <RecentJobs />
-            <ContactUs />
-            {/*  */}
-
+            <GetStarted contactUsRef={contactUsRef} /> <RecentJobs />
+            <ContactUs /> {/*  */}
             <TechnicalPartners />
-
-            <LatestUpdates />
+            <FeatureBlogs blogs={data} /> <LatestUpdates />
         </div>
     )
 }
@@ -80,11 +79,41 @@ Home3.getLayout = (page: ReactElement) => {
 }
 
 export async function getStaticProps() {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/blogs/site`)
+    const data = await res.json()
+    if (!data) {
+        return <NoData text="No Data" />
+    }
     return {
         props: {
-            data: [],
+            data,
         },
+        revalidate: 3600,
     }
 }
+
+// export async function getStaticProps() {
+//     try {
+//         const res = await fetch(
+//             `${process.env.NEXT_PUBLIC_END_POINT}/blogs/site`
+//         )
+//         const data = await res.json()
+
+//         return {
+//             props: {
+//                 data: data || null, // Ensure data is never undefined
+//             },
+//             revalidate: 3600,
+//         }
+//     } catch (error) {
+//         console.error('Error fetching blogs:', error)
+//         return {
+//             props: {
+//                 data: null,
+//             },
+//             revalidate: 3600,
+//         }
+//     }
+// }
 
 export default Home3

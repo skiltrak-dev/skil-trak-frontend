@@ -51,6 +51,7 @@ export interface UserCount {
     archived: number | string
     snoozed: any
     completed: number
+    unAssigned: number
 }
 
 export interface SubadminCount extends UserCount {
