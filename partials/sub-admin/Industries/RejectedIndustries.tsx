@@ -130,17 +130,27 @@ export const RejectedIndustries = () => {
             header: () => <span>ABN</span>,
         },
         {
-            header: () => 'Suburb',
-            accessorKey: 'suburb',
-            cell: ({ row }: any) => {
-                const { suburb } = row.original?.industry
-                return (
-                    <Typography variant={'label'} color={'black'}>
-                        {suburb}
-                    </Typography>
-                )
-            },
+            accessorKey: 'industry.note',
+            header: () => <span>Rejection Note</span>,
+            cell: ({ row }: any) => (
+                <div title={row.original?.note}>
+                    {row.original?.note ?? 'NA'}
+                </div>
+            ),
         },
+
+        // {
+        //     header: () => 'Suburb',
+        //     accessorKey: 'suburb',
+        //     cell: ({ row }: any) => {
+        //         const { suburb } = row.original?.industry
+        //         return (
+        //             <Typography variant={'label'} color={'black'}>
+        //                 {suburb}
+        //             </Typography>
+        //         )
+        //     },
+        // },
         {
             header: () => 'Address',
             accessorKey: 'address',
