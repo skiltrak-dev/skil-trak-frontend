@@ -28,6 +28,7 @@ import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
+import { useActionModals } from './hooks'
 
 export const ArchivedIndustry = () => {
     const router = useRouter()
@@ -38,6 +39,8 @@ export const ArchivedIndustry = () => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
+
+    const { modal, onUnArchiveClicked, onDeleteClicked } = useActionModals()
 
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
@@ -84,13 +87,13 @@ export const ArchivedIndustry = () => {
         },
         {
             text: 'Unarchive',
-            onClick: () => {},
+            onClick: (industry) => onUnArchiveClicked(industry),
             Icon: MdUnarchive,
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
         {
             text: 'Delete',
-            onClick: () => {},
+            onClick: (industry) => onDeleteClicked(industry),
             Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -200,7 +203,8 @@ export const ArchivedIndustry = () => {
 
     return (
         <>
-            {passwordModal && passwordModal}
+            {modal}
+            {passwordModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Archived Industries'}

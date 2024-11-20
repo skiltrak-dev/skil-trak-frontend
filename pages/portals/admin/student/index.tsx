@@ -204,7 +204,7 @@ const StudentList: NextPageWithLayout = () => {
                 query: { tab: 'unassigned-students' },
             },
             badge: {
-                text: data?.snoozed,
+                text: data?.unAssigned,
                 loading: isLoading,
             },
             element: <UnAssignedStudent />,
