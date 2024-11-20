@@ -27,17 +27,20 @@ import { UserRoles } from '@constants'
 import { useActionModal } from '@hooks'
 import { getUserCredentials } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
+import { useActionModals } from './hooks'
 
 export const ApprovedIndustry = () => {
     const selectInputRef = useRef()
 
-    const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const role = getUserCredentials()?.role
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
+
+    const { modal, onArchiveClicked, onBlockClicked, onMultiBlockClicked } =
+        useActionModals()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -49,27 +52,6 @@ export const ApprovedIndustry = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-
-    const onModalCancelClicked = () => {
-        setModal(null)
-    }
-    const onBlockClicked = (industry: Industry) => {
-        setModal(
-            <BlockModal
-                industry={industry}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
-    const onMultiBlockClicked = (industries: Industry[]) => {
-        setModal(
-            <MultiBlockModal
-                industries={industries}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
 
     const tableActionOptions: TableActionOption[] = [
         {
@@ -102,6 +84,12 @@ export const ApprovedIndustry = () => {
                       Icon: RiLockPasswordFill,
                   }
                 : {}),
+        },
+        {
+            text: 'Archive',
+            onClick: (industry: Industry) => onArchiveClicked(industry),
+            Icon: MdBlock,
+            color: 'text-primary',
         },
         {
             text: 'Block',

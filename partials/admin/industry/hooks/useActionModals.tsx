@@ -10,6 +10,7 @@ import {
     DeleteModal,
     BlockModal,
     UnArchiveModal,
+    MultiBlockModal,
 } from '../modals'
 
 export const useActionModals = () => {
@@ -61,6 +62,15 @@ export const useActionModals = () => {
         )
     }
 
+    const onMultiBlockClicked = (industries: Industry[]) => {
+        setModal(
+            <MultiBlockModal
+                industries={industries}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     return {
         modal,
         onBlockClicked,
@@ -70,5 +80,6 @@ export const useActionModals = () => {
         onUnblockClicked,
         onArchiveClicked,
         onUnArchiveClicked,
+        onMultiBlockClicked,
     }
 }

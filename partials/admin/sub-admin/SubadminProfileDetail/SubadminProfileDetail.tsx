@@ -84,6 +84,7 @@ export const SubadminProfileDetail = ({ subadmin }: { subadmin: SubAdmin }) => {
                             <SubadminProfileCounts
                                 subAdminProfileCount={subAdminProfileCount}
                                 subadminUserId={subadmin?.user?.id}
+                                subadminId={subadmin?.id}
                             />
                         </div>
                     </div>

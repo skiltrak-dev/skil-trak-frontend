@@ -13,9 +13,11 @@ import {
 import { SubAdminApi } from '@queries'
 
 export const SubadminProfileCounts = ({
+    subadminId,
     subadminUserId,
     subAdminProfileCount,
 }: {
+    subadminId: number
     subadminUserId?: number
     subAdminProfileCount: any
 }) => {
@@ -55,6 +57,7 @@ export const SubadminProfileCounts = ({
                                       tab: 'completed-students',
                                       page: 1,
                                       pageSize: 50,
+                                      subadminId,
                                       // rtoId: Number(router?.query?.id),
                                       // status: UserStatus.Approved,
                                   },
