@@ -47,7 +47,7 @@ export const RejectedSectorModal = () => {
 
     return (
         <div className="min-w-96">
-            <Typography variant="h4">Rejected Sector(s) & Course(s)</Typography>
+            <Typography variant="h4">Rejected Course(s)</Typography>
 
             <div className="flex flex-col gap-y-4 w-full mt-4">
                 {isError && onIndustryAcceptanceCourses.isError && (
@@ -58,10 +58,10 @@ export const RejectedSectorModal = () => {
                 ) : data?.data?.length > 0 ||
                   onIndustryAcceptanceCourses?.data?.data?.length > 0 ? (
                     <>
-                        <IndustryRequestRejected
+                        {/* <IndustryRequestRejected
                             data={onIndustryAcceptanceCourses?.data?.data}
                             formatDate={formatDate}
-                        />
+                        /> */}
                         <CourseRequestRejected
                             data={data?.data || []}
                             formatDate={formatDate}

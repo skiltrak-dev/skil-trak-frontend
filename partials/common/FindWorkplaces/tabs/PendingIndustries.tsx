@@ -171,7 +171,11 @@ import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import { IndustryCell, SectorCell } from '@partials/admin/industry/components'
+import {
+    CourseDot,
+    IndustryCell,
+    SectorCell,
+} from '@partials/admin/industry/components'
 import {
     ApproveIndustryWithQuestionsModal,
     MultiAcceptModal,
@@ -179,6 +183,7 @@ import {
 } from '@partials/admin/industry/modals'
 import { useChangeStatus } from '@partials/admin/industry/hooks'
 import { AcceptModal, RejectModal } from '../modal'
+import { CoursesCell } from '@partials/rto/coordinators'
 
 export const PendingIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -311,6 +316,19 @@ export const PendingIndustries = () => {
                         <p className="text-xs text-gray-500">
                             {info.row.original.industry?.contactPersonNumber}
                         </p>
+                    </div>
+                )
+            },
+        },
+        {
+            accessorKey: 'courses',
+            header: () => <span>Courses</span>,
+            cell: (info) => {
+                return (
+                    <div className="flex gap-x-1">
+                        {info?.row?.original?.courses?.map((c: any) => (
+                            <CourseDot key={c?.id} course={c} />
+                        ))}
                     </div>
                 )
             },

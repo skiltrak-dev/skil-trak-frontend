@@ -39,14 +39,18 @@ export const IndustryRequestRejected = ({
                                         Courses
                                     </Typography>
                                     <div className="flex items-center gap-x-1 relative gap-y-2 flex-wrap mt-2">
-                                        {industryReq?.courses?.map(
+                                        {/* {industryReq?.courses?.map(
                                             (course: any) => (
                                                 <CourseTooltip
                                                     key={course.id}
                                                     course={course}
                                                 />
                                             )
-                                        )}
+                                        )} */}
+                                        <Typography variant="small">
+                                            {industryReq?.course?.title} -{' '}
+                                            {industryReq?.course?.code}
+                                        </Typography>
                                     </div>
                                 </div>
 

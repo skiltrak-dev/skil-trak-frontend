@@ -16,11 +16,6 @@ export const CourseRequestRejected = ({
 }: CourseRequestRejectedProps) => {
     return (
         <div>
-            {data?.length > 0 && (
-                <Typography variant="subtitle">
-                    Course(s) Request Rejected
-                </Typography>
-            )}
             {data.map((item) => (
                 <>
                     {item?.industryCourseApprovals?.length ? (
@@ -41,18 +36,17 @@ export const CourseRequestRejected = ({
                                                 variant="muted"
                                                 color="text-gray-500"
                                             >
-                                                Courses
+                                                Course
                                             </Typography>
-                                            <div className="flex items-center gap-x-1 relative gap-y-2 flex-wrap mt-2">
-                                                {industryCourseReq?.courses?.map(
-                                                    (course: any) => (
-                                                        <CourseTooltip
-                                                            key={course.id}
-                                                            course={course}
-                                                        />
-                                                    )
-                                                )}
-                                            </div>
+                                            <Typography
+                                                variant="muted"
+                                                color="text-gray-900"
+                                            >
+                                                {
+                                                    industryCourseReq?.course
+                                                        ?.title
+                                                }
+                                            </Typography>
                                         </div>
 
                                         <TextInfo

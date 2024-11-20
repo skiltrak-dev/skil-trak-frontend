@@ -2,9 +2,9 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
+import * as yup from 'yup'
 import _debounce from 'lodash/debounce'
 import { FormProvider, useForm } from 'react-hook-form'
-import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
 import { AuthApi, CommonApi } from '@queries'
@@ -27,8 +27,11 @@ import {
     Select,
     SelectOption,
     TextInput,
+    Typography,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { AddIndustryQuestionForm } from '../IndustryProfileDetail/forms'
+import { industryQuestions } from '@partials/admin/industry/components'
 
 export const FutureIndustrySignUpForm = ({
     result,
@@ -178,7 +181,7 @@ export const FutureIndustrySignUpForm = ({
         if (emailCheckResult.isError) {
             notification.error({
                 title: 'Email Exist',
-                description: `'${lastEnteredEmail}' is already being used.`,
+                description: `${lastEnteredEmail} is already being used`,
             })
         }
     }, [emailCheckResult])
@@ -257,17 +260,36 @@ export const FutureIndustrySignUpForm = ({
     }
 
     const onHandleSubmit = (values: any) => {
+        let questions: {
+            [key: string]: string
+        }[] = []
+        Object.entries(industryQuestions).forEach(([key, value]: any) => {
+            questions.push({
+                question: value,
+                answer: values?.[key],
+            })
+            // delete values?.[key]
+        })
+
         if (!onSuburbClicked) {
             notification.error({
                 title: 'You must select on Address Dropdown',
                 description: 'You must select on Address Dropdown',
             })
         } else if (onSuburbClicked) {
+            // console.log('questions', {
+            //     ...values,
+            //     state: 'NA',
+            //     suburb: 'NA',
+            //     isAddressUpdated: true,
+            //     questions,
+            // })
             onSubmit({
                 ...values,
                 state: 'NA',
                 suburb: 'NA',
                 isAddressUpdated: true,
+                questions,
             })
         }
     }
@@ -526,6 +548,13 @@ export const FutureIndustrySignUpForm = ({
                                 />
                             </div> */}
                         </div>
+
+                        {/* <div>
+                            <Typography variant="title">
+                                Provide answers for the questions
+                            </Typography>
+                            <AddIndustryQuestionForm methods={formMethods} />
+                        </div> */}
 
                         <div className="">
                             <div className="mb-6">

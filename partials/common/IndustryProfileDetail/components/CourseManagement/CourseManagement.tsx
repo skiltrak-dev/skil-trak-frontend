@@ -4,8 +4,6 @@ import { SectorCardHeader } from './SectorCardHeader'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { LoadingAnimation, NoData, Typography } from '@components'
-import { IndustryRequestApproved } from './IndustryRequestApproved/IndustryRequestApproved'
-import { IoCheckmarkDoneOutline } from 'react-icons/io5'
 import { CourseCard } from './CourseCard'
 
 export const CourseManagement = () => {
@@ -59,7 +57,7 @@ export const CourseManagement = () => {
                         {data?.data?.map((item: any) => (
                             <CourseCard key={item.id} data={item} />
                         ))}
-                        {onIndustryAcceptanceCourses?.data?.data?.map(
+                        {/* {onIndustryAcceptanceCourses?.data?.data?.map(
                             (item: any) => (
                                 <CourseCard
                                     key={item.id}
@@ -67,7 +65,7 @@ export const CourseManagement = () => {
                                     isIndustryAcceptance={true}
                                 />
                             )
-                        )}
+                        )} */}
                     </>
                 ) : (
                     (!isError || !onIndustryAcceptanceCourses.isError) && (
