@@ -22,6 +22,7 @@ import { getUserCredentials, setLink } from '@utils'
 import { AiFillCheckCircle } from 'react-icons/ai'
 import { IndustryCellInfo } from './components'
 import { AddToFavoriteModal, UnRejectModal } from './modals'
+import { CourseDot } from '@partials/admin/industry/components'
 
 export const RejectedIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -161,6 +162,19 @@ export const RejectedIndustries = () => {
         //             <Typography variant={'muted'} color={'gray'}>
         //                 {enrolledStudents}
         //             </Typography>
+        //         )
+        //     },
+        // },
+        // {
+        //     accessorKey: 'courses',
+        //     header: () => <span>Courses</span>,
+        //     cell: ({ row }: any) => {
+        //         return (
+        //             <div className="flex gap-x-1">
+        //                 {row?.original?.courses?.map((c: any) => (
+        //                     <CourseDot key={c?.id} course={c} />
+        //                 ))}
+        //             </div>
         //         )
         //     },
         // },
