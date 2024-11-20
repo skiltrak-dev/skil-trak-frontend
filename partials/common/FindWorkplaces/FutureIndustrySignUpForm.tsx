@@ -260,7 +260,6 @@ export const FutureIndustrySignUpForm = ({
     }
 
     const onHandleSubmit = (values: any) => {
-
         let questions: {
             [key: string]: string
         }[] = []
@@ -272,20 +271,12 @@ export const FutureIndustrySignUpForm = ({
             // delete values?.[key]
         })
 
-
         if (!onSuburbClicked) {
             notification.error({
                 title: 'You must select on Address Dropdown',
                 description: 'You must select on Address Dropdown',
             })
         } else if (onSuburbClicked) {
-            // console.log('questions', {
-            //     ...values,
-            //     state: 'NA',
-            //     suburb: 'NA',
-            //     isAddressUpdated: true,
-            //     questions,
-            // })
             onSubmit({
                 ...values,
                 state: 'NA',
@@ -551,12 +542,12 @@ export const FutureIndustrySignUpForm = ({
                             </div> */}
                         </div>
 
-                         <div>
+                        <div>
                             <Typography variant="title">
                                 Provide answers for the questions
                             </Typography>
                             <AddIndustryQuestionForm methods={formMethods} />
-                        </div> 
+                        </div>
 
                         <div className="">
                             <div className="mb-6">
