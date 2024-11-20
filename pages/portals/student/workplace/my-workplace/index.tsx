@@ -6,7 +6,7 @@ import { Industry, NextPageWithLayout } from '@types'
 // query
 import { Button, Card, LoadingAnimation } from '@components'
 import { useJoyRide } from '@hooks'
-import { IndustryCard } from '@partials/student'
+import { IndustryCard, StudentMyWorkplace } from '@partials/student'
 import {
     useGetStudentIndustriesQuery,
     useGetWorkplaceIndustriesQuery,
@@ -50,6 +50,8 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
         }
     }, [])
     // WORKPLACE JOY RIDE - END
+
+    // return <StudentMyWorkplace />
 
     return (
         <>

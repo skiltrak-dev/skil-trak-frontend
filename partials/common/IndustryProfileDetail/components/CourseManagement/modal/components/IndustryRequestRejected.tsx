@@ -14,7 +14,6 @@ export const IndustryRequestRejected = ({
     data,
     formatDate,
 }: IndustryRequestRejectedProps) => {
-    console.log('data:::: rejected', data)
     return (
         <div>
             <Typography variant="subtitle">Industry Sector Rejected</Typography>

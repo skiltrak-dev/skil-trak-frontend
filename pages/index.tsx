@@ -44,7 +44,6 @@ const KeyFeatures = lazy(
 )
 
 const Home3: NextPageWithLayout = ({ data }: any) => {
-    console.log({ data })
     const contactUsRef = useRef(null)
     const [mount, setMount] = useState(false)
 
