@@ -30,24 +30,21 @@ export const CourseRequestRejected = ({
                                             title="Industry Name"
                                             text={item?.user?.name}
                                         />
+                                        <TextInfo
+                                            title=" Course"
+                                            text={
+                                                industryCourseReq?.course
+                                                    ?.title ?? 'NA'
+                                            }
+                                        />
 
-                                        <div>
-                                            <Typography
-                                                variant="muted"
-                                                color="text-gray-500"
-                                            >
-                                                Course
-                                            </Typography>
-                                            <Typography
-                                                variant="muted"
-                                                color="text-gray-900"
-                                            >
-                                                {
-                                                    industryCourseReq?.course
-                                                        ?.title
-                                                }
-                                            </Typography>
-                                        </div>
+                                        <TextInfo
+                                            title="Requested By"
+                                            text={
+                                                industryCourseReq?.addedBy
+                                                    ?.name ?? 'NA'
+                                            }
+                                        />
 
                                         <TextInfo
                                             title="Department HOD"
@@ -59,7 +56,7 @@ export const CourseRequestRejected = ({
                                     </div>
 
                                     <RejectionNote
-                                        note={industryCourseReq?.note}
+                                        note={industryCourseReq?.note ?? 'N/A'}
                                     />
 
                                     <div className="flex justify-center text-xs mt-2">

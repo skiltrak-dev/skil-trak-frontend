@@ -27,13 +27,16 @@ export const RejectCourseModal = ({ request, onCloseModal }: any) => {
     }, [courseRequestResult.isSuccess])
 
     const onConfirmReject = () => {
-        courseRequest({
-            params: {
-                id: request.id,
-                status: 'rejected',
-            },
-            body: rejectionNote,
-        })
+        if (rejectionNote.trim()) {
+            console.log('Rejecting course request', rejectionNote)
+            courseRequest({
+                params: {
+                    id: request.id,
+                    status: 'rejected',
+                },
+                body: { note: rejectionNote?.replace(/[\r\n]+/g, ' ') },
+            })
+        }
     }
 
     return (
@@ -56,7 +59,9 @@ export const RejectCourseModal = ({ request, onCloseModal }: any) => {
                 text={'Confirm Reject'}
                 onClick={onConfirmReject}
                 loading={courseRequestResult.isLoading}
-                disabled={courseRequestResult.isLoading}
+                disabled={
+                    courseRequestResult.isLoading || !rejectionNote.trim()
+                }
             />
         </>
     )
