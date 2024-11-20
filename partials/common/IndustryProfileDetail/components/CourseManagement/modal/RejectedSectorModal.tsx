@@ -53,10 +53,9 @@ export const RejectedSectorModal = () => {
                 {isError && onIndustryAcceptanceCourses.isError && (
                     <NoData text="Something went wrong" />
                 )}
-                {isLoading || onIndustryAcceptanceCourses.isLoading ? (
+                {isLoading ? (
                     <LoadingAnimation height="h-20" />
-                ) : data?.data?.length > 0 ||
-                  onIndustryAcceptanceCourses?.data?.data?.length > 0 ? (
+                ) : data?.data?.length > 0 ? (
                     <>
                         {/* <IndustryRequestRejected
                             data={onIndustryAcceptanceCourses?.data?.data}
@@ -68,8 +67,7 @@ export const RejectedSectorModal = () => {
                         />
                     </>
                 ) : (
-                    !isError &&
-                    !onIndustryAcceptanceCourses.isError && (
+                    !isError && (
                         <NoData text="No Data found" />
                     )
                 )}

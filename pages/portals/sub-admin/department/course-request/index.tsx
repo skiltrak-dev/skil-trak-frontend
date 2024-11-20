@@ -14,7 +14,7 @@ import {
 import { CourseRequestCard } from '@partials/sub-admin'
 
 const CourseRequest: NextPageWithLayout = () => {
-    const [itemPerPage, setItemPerPage] = useState<any>(50)
+    const [itemPerPage, setItemPerPage] = useState<any>(10)
     const [page, setPage] = useState(1)
 
     const { data, isError, isLoading } =

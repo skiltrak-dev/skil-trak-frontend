@@ -48,7 +48,7 @@ export const CourseManagement = () => {
             {(isError || onIndustryAcceptanceCourses.isError) && (
                 <NoData text={'Something went wrong'} />
             )}
-            <div className="max-h-[450px] overflow-auto custom-scrollbar">
+            <div className="max-h-[572px] overflow-auto custom-scrollbar">
                 {isLoading || onIndustryAcceptanceCourses.isLoading ? (
                     <LoadingAnimation height="32" />
                 ) : data?.data?.length > 0 ||
