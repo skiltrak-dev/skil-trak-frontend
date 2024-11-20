@@ -31,8 +31,8 @@ export const AddCourseModal = ({ courses, onCloseModal }: any) => {
         SubAdminApi.Industry.useRequestToAddCoursesToIndustry()
 
     const validationSchema = yup.object().shape({
-        sector: yup.number().required('Sector are required'),
-        courses: yup.array().min(1, 'Must select at least 1 course'),
+        sector: yup.number().required('Sector is required'),
+        courses: yup.number().required('Course is required'),
         description: yup.string().required('Description is required'),
         // reference: yup.string().url('Invalid URL format'),
     })
@@ -78,6 +78,7 @@ export const AddCourseModal = ({ courses, onCloseModal }: any) => {
             }
         })
     })()
+    
     const sectorsOptions = uniqueSectors?.map((sector: any) => ({
         value: sector?.id,
         label: sector?.name,
@@ -98,10 +99,10 @@ export const AddCourseModal = ({ courses, onCloseModal }: any) => {
     }
 
     const onSubmit = (data: any) => {
-        const { courses, description } = data
+        const { course, description } = data
         const { reference } = tags
         addCourse({
-            courses: courses,
+            course: course,
             description: description,
             reference: reference,
             industry: router.query.id,
@@ -151,12 +152,12 @@ export const AddCourseModal = ({ courses, onCloseModal }: any) => {
                             </div>
                             <div className="w-1/2">
                                 <Select
-                                    name="courses"
+                                    name="course"
                                     options={courseOptions}
                                     label={'Course'}
                                     onlyValue
                                     disabled={!selectedSector}
-                                    multi
+                                    // multi
                                     required
                                 />
                             </div>

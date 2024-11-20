@@ -2,6 +2,7 @@ import { Button, Card, Typography } from '@components'
 import Modal from '@modals/Modal'
 import React from 'react'
 import { ApproveCourseModal, RejectCourseModal } from './modal'
+import { ellipsisText } from '@utils'
 
 // create enum for status peding, approved, rejected
 export enum Status {
@@ -24,7 +25,8 @@ export const CourseRequestCard = ({ request }: any) => {
                     <Typography variant="title" bold>
                         Request from -{' '}
                         <span className="uppercase">
-                            {request?.addedBy?.name ?? 'N/A'}
+                            {ellipsisText(request?.addedBy?.name, 10)}
+                            {/* {request?.addedBy?.name ?? 'N/A'} */}
                         </span>
                     </Typography>
                     <div
@@ -50,14 +52,15 @@ export const CourseRequestCard = ({ request }: any) => {
                                 Courses:
                             </Typography>
                             <div className="border rounded-md px-2 py-1 mt-1 flex flex-wrap gap-3">
-                                {request.courses.map((course: any) => (
+                                {/* {request?.courses?.map((course: any) => (
                                     <div className="flex items-center gap-x-2">
                                         <div className="size-1 bg-black rounded-full"></div>
                                         <Typography variant="muted">
                                             {course?.title ?? 'N/A'}
                                         </Typography>
                                     </div>
-                                ))}
+                                ))} */}
+                                {request?.course?.title ?? 'N/A'}
                             </div>
                         </div>
                         <div className="mt-2 border-b pb-2">
@@ -66,8 +69,7 @@ export const CourseRequestCard = ({ request }: any) => {
                             </Typography>
                             <div className=" px-2 py-1 mt-1">
                                 <Typography variant="muted">
-                                    {request?.courses?.[0]?.sector?.name ??
-                                        'N/A'}
+                                    {request?.course?.sector?.name ?? 'N/A'}
                                 </Typography>
                             </div>
                         </div>

@@ -23,7 +23,7 @@ export const SectorCardHeader = () => {
                     <Modal>
                         <Modal.Open opens="rejectedSectors">
                             <button className="text-link text-sm hover:underline">
-                                View Rejected Sectors & Courses
+                                View Rejected Courses
                             </button>
                         </Modal.Open>
                         <Modal.Window name="rejectedSectors">

@@ -2,6 +2,7 @@ import { ActionModal, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import { Industry, IndustryStatus } from '@types'
+import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { HiCheckBadge } from 'react-icons/hi2'
 
@@ -12,8 +13,8 @@ export const AcceptModal = ({
     industry: any
     onCancel: Function
 }) => {
-    
     const { notification } = useNotification()
+    const router = useRouter()
 
     const [changeStatus, changeStatusResult] =
         CommonApi.FindWorkplace.useChangePendingIndustryStatus()
@@ -33,6 +34,7 @@ export const AcceptModal = ({
                 title: `Industry Accept`,
                 description: `Industry "${industry?.industry?.user?.name}" has been accept.`,
             })
+            router.push('/portals/sub-admin/department/course-request')
             onCancel()
         }
     }, [changeStatusResult])
