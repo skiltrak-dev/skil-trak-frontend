@@ -132,11 +132,35 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
             }),
             providesTags: ['SubAdminStudents'],
         }),
+        getDepartmentPendingIndustries: build.query<any, any>({
+            query: (params) => ({
+                url: `department/industries-list`,
+                params,
+            }),
+            providesTags: ['SubAdminIndustries', 'Industries'],
+        }),
+
         getDepartmentStudentsCount: build.query<any, void>({
             query: () => ({
                 url: `department/students/count`,
             }),
             providesTags: ['SubAdminStudents'],
+        }),
+        getDepartmentCoursesRequestList: build.query<any, any>({
+            query: (params) => ({
+                url: `department/courses/request-list`,
+                params,
+            }),
+            providesTags: ['SubAdminCourses'],
+        }),
+        departmentCourseRequest: build.mutation<any, any>({
+            query: ({ params, body }) => ({
+                url: `department/course-request/status`,
+                method: 'PATCH',
+                params,
+                body,
+            }),
+            invalidatesTags: ['SubAdminCourses'],
         }),
 
         ...notesEndpoints(build),
@@ -178,6 +202,9 @@ export const {
     useGetCoordinatorsDropDownQuery,
     useGetDepartmentStudentsQuery,
     useGetDepartmentStudentsCountQuery,
+    useGetDepartmentPendingIndustriesQuery,
+    useGetDepartmentCoursesRequestListQuery,
+    useDepartmentCourseRequestMutation,
     // -------- Rtos Listing --------//
     useImportRtosListMutation,
     useGetAllRtosListQuery,
@@ -385,6 +412,13 @@ export const {
     useGetIndustryBranchesQuery,
     useRemoveIndustryBranchMutation,
     useChangeIndustryStudentsAcceptingStatusMutation,
+    useGetIndustryStudentsScheduleQuery,
+    useRequestToAddCoursesToIndustryMutation,
+    useGetIndustryRequestedCoursesQuery,
+    useGetIndustryCoursesOnAcceptanceQuery,
+    useGetRejectedDepartmentIndustryQuery,
+    useGetRejectedDepartmentIndustryCountQuery,
+    useGetPendingDepartmentIndustryCountQuery,
 
     // --- REPORTS --- //
     useGetAssignedStudentsReportQuery,
@@ -435,6 +469,10 @@ export const SubAdminApi = {
         useCoordinatorsDropDown: useGetCoordinatorsDropDownQuery,
         useDepartmentStudents: useGetDepartmentStudentsQuery,
         useDepartmentStudentsCount: useGetDepartmentStudentsCountQuery,
+        useDepartmentPendingIndustries: useGetDepartmentPendingIndustriesQuery,
+        useDepartmentCoursesRequestList:
+            useGetDepartmentCoursesRequestListQuery,
+        useDepartmentCourseRequest: useDepartmentCourseRequestMutation,
     },
     Todo: {
         todoListCount: useTodoListCountQuery,
@@ -506,6 +544,16 @@ export const SubAdminApi = {
         useStatusticsCount: useSubadminIndustryStatisticsCountQuery,
         useMakeIndustryHeadquarter: useMakeIndustryHeadquarterMutation,
         useRtoCoordinatorsIndustries: useGetRtoCoordinatorsIndustryQuery,
+        useIndustryStudentsSchedule: useGetIndustryStudentsScheduleQuery,
+        useRequestToAddCoursesToIndustry:
+            useRequestToAddCoursesToIndustryMutation,
+        useIndustryRequestedCourses: useGetIndustryRequestedCoursesQuery,
+        useIndustryCoursesOnAcceptance: useGetIndustryCoursesOnAcceptanceQuery,
+        useRejectedDepartmentIndustry: useGetRejectedDepartmentIndustryQuery,
+        useRejectedDepartmentIndustryCount:
+            useGetRejectedDepartmentIndustryCountQuery,
+        usePendingDepartmentIndustryCount:
+            useGetPendingDepartmentIndustryCountQuery,
     },
     Rto: {
         useRtoStatsCount: useSubadminRtoStatisticsCountQuery,

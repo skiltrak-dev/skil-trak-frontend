@@ -73,18 +73,27 @@ export const AddTicketForm = ({
             .test('Message', 'Must Provide Message', (value) =>
                 inputEditorErrorMessage(value)
             ),
+        priority: yup.string().required('Must provide Priority'),
     })
 
     const formMethods = useForm({
         mode: 'all',
         resolver: yupResolver(validationSchema),
+        // defaultValues: {
+        //     priority: ticketPriorityEnum.High, // Set default value here
+        // },
     })
 
+    // const priorityOptions = [
+    //     ...Object.entries(ticketPriorityEnum).map(([label, value]) => ({
+    //         label,
+    //         value,
+    //     })),
+    // ]
     const priorityOptions = [
-        ...Object.entries(ticketPriorityEnum).map(([label, value]) => ({
-            label,
-            value,
-        })),
+        { label: 'High', value: ticketPriorityEnum.High },
+        { label: 'Medium', value: ticketPriorityEnum.Medium },
+        { label: 'Low', value: ticketPriorityEnum.Low },
     ]
 
     // const studentsOptions = students?.data?.length
@@ -288,7 +297,7 @@ export const AddTicketForm = ({
                                 label={'Priority'}
                                 name={'priority'}
                                 placeholder={'Priority...'}
-                                defaultValue={priorityOptions?.reverse()?.[0]}
+                                defaultValue={priorityOptions?.[0]}
                                 options={priorityOptions}
                                 onlyValue
                             />

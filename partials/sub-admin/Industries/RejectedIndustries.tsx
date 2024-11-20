@@ -16,12 +16,13 @@ import {
 } from '@components'
 
 import { useActionModal } from '@hooks'
-import { useGetSubAdminIndustriesQuery } from '@queries'
+import { SubAdminApi, useGetSubAdminIndustriesQuery } from '@queries'
 import { Industry, SubAdmin, UserStatus } from '@types'
 import { getUserCredentials, setLink } from '@utils'
 import { AiFillCheckCircle } from 'react-icons/ai'
 import { IndustryCellInfo } from './components'
 import { AddToFavoriteModal, UnRejectModal } from './modals'
+import { CourseDot } from '@partials/admin/industry/components'
 
 export const RejectedIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -37,11 +38,12 @@ export const RejectedIndustries = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError } = useGetSubAdminIndustriesQuery({
-        search: `status:${UserStatus.Rejected}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, data, isError } =
+        SubAdminApi.Industry.useRejectedDepartmentIndustry({
+            search: `status:${UserStatus.Rejected}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     const id = getUserCredentials()?.id
 
@@ -117,33 +119,43 @@ export const RejectedIndustries = () => {
             sort: true,
             cell: ({ row }: any) => (
                 <IndustryCellInfo
-                    industry={row.original}
+                    industry={row.original?.industry}
                     isFavorite={isFavorite}
                     call
                 />
             ),
         },
         {
-            accessorKey: 'abn',
+            accessorKey: 'industry.abn',
             header: () => <span>ABN</span>,
         },
         {
-            header: () => 'Suburb',
-            accessorKey: 'suburb',
-            cell: ({ row }: any) => {
-                const { suburb } = row.original
-                return (
-                    <Typography variant={'label'} color={'black'}>
-                        {suburb}
-                    </Typography>
-                )
-            },
+            accessorKey: 'industry.note',
+            header: () => <span>Rejection Note</span>,
+            cell: ({ row }: any) => (
+                <div title={row.original?.note}>
+                    {row.original?.note ?? 'NA'}
+                </div>
+            ),
         },
+
+        // {
+        //     header: () => 'Suburb',
+        //     accessorKey: 'suburb',
+        //     cell: ({ row }: any) => {
+        //         const { suburb } = row.original?.industry
+        //         return (
+        //             <Typography variant={'label'} color={'black'}>
+        //                 {suburb}
+        //             </Typography>
+        //         )
+        //     },
+        // },
         {
             header: () => 'Address',
             accessorKey: 'address',
             cell: ({ row }: any) => {
-                const { addressLine1 } = row.original
+                const { addressLine1 } = row.original?.industry
                 return (
                     <Typography variant={'label'} color={'black'}>
                         {addressLine1}
@@ -163,14 +175,44 @@ export const RejectedIndustries = () => {
         //         )
         //     },
         // },
+        // {
+        //     accessorKey: 'courses',
+        //     header: () => <span>Courses</span>,
+        //     cell: ({ row }: any) => {
+        //         return (
+        //             <div className="flex gap-x-1">
+        //                 {row?.original?.courses?.map((c: any) => (
+        //                     <CourseDot key={c?.id} course={c} />
+        //                 ))}
+        //             </div>
+        //         )
+        //     },
+        // },
+        {
+            accessorKey: 'sector',
+            header: () => <span>Sector</span>,
+            cell: ({ row }: any) => {
+                return (
+                    <div className="flex items-center gap-x-1">
+                        <Typography variant={'muted'}>
+                            {row?.original?.sector?.name ?? 'NA'}
+                        </Typography>{' '}
+                        -{' '}
+                        <Typography variant={'muted'}>
+                            {row?.original?.sector?.code}
+                        </Typography>
+                    </div>
+                )
+            },
+        },
         {
             header: () => 'Contact Person',
-            accessorKey: 'contactPersonNumber',
+            accessorKey: 'contactPerson',
             cell: ({ row }: any) => {
-                const { contactPersonNumber } = row.original
+                const { contactPerson } = row.original?.industry
                 return (
                     <Typography variant={'muted'} color={'gray'}>
-                        {contactPersonNumber}
+                        {contactPerson}
                     </Typography>
                 )
             },
@@ -181,7 +223,7 @@ export const RejectedIndustries = () => {
             cell: ({ row }: any) => (
                 <TableAction
                     options={tableActionOptions}
-                    rowItem={row.original}
+                    rowItem={row.original?.industry}
                 />
             ),
         },

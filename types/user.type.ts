@@ -218,6 +218,11 @@ export interface Industry extends BaseResponse {
     placementStatus: IndustryPlacementStatus
 }
 
+export interface PendingIndustry extends Industry {
+    industry: Industry
+    sector: any
+}
+
 export interface IndustryBranchesAddressType extends BaseResponse {
     address: string
     contactPerson: string

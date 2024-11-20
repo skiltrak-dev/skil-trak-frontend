@@ -79,9 +79,20 @@ export const DepartmentTickets = () => {
                             name={'coordinator'}
                             placeholder={'Select Coordinator...'}
                             options={coordinatorsOptions}
-                            value={coordinatorsOptions?.find(
-                                (c: SelectOption) => c?.value === coordinatorId
-                            )}
+                            // value={
+                            //     coordinatorsOptions?.filter((option: any) =>
+                            //         coordinatorId?.includes(option?.value)
+                            //     ) ?? []
+                            // }
+                            value={
+                                coordinatorId
+                                    ? coordinatorsOptions?.find(
+                                          (option: any) =>
+                                              option.value.toString() ===
+                                              coordinatorId.toString()
+                                      )
+                                    : ''
+                            }
                             onlyValue
                             onChange={(e: any) => {
                                 onFilterByCoordinator(e)

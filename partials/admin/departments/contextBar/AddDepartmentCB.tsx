@@ -51,11 +51,11 @@ export const AddDepartmentCB = ({
             .of(yup.number())
             .min(1, 'Must select at least 1 sector')
             .required('Sectors are required'),
-        departmentMembers: yup
-            .array()
-            .of(yup.number())
-            .min(1, 'Must select at least 1 member')
-            .required('Members are required'),
+        // departmentMembers: yup
+        //     .array()
+        //     .of(yup.number())
+        //     .min(1, 'Must select at least 1 member')
+        //     .required('Members are required'),
     })
     const methods = useForm({
         mode: 'all',

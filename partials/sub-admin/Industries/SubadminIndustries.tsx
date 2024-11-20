@@ -20,18 +20,19 @@ import {
     BlockedIndustries,
     FavoriteIndustries,
     FilteredIndustry,
-    PendingIndustries,
     RejectedIndustries,
     SnoozedIndustrySubAdmin,
 } from '@partials/sub-admin/Industries'
 import { checkFilteredDataLength } from '@utils'
 //query
 import {
+    SubAdminApi,
     useGetSubAdminIndustriesQuery,
     useGetSubadminIndustriesCountQuery,
 } from '@queries'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { PendingIndustries } from '@partials/common'
 
 type Props = {}
 const filterKeys = [
@@ -70,8 +71,15 @@ export const SubadminIndustries = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    const profile = SubAdminApi.SubAdmin.useProfile()
+    const isHod = profile?.data?.departmentMember?.isHod
 
     const count = useGetSubadminIndustriesCountQuery()
+    const rejectedCount =
+        SubAdminApi.Industry.useRejectedDepartmentIndustryCount()
+    const pendingCount =
+        SubAdminApi.Industry.usePendingDepartmentIndustryCount()
+
     // useEffect(() => {
     //     setContent(
     //         <>
@@ -88,88 +96,106 @@ export const SubadminIndustries = () => {
     //     }
     // }, [setContent])
 
-    const tabs: TabProps[] = [
-        {
-            label: 'Pending',
-            href: {
-                pathname: 'industries',
-                query: { tab: UserStatus.Pending },
+    const tabs: TabProps[] = useMemo(() => {
+        const baseTabs = [
+            // {
+            //     label: 'Pending',
+            //     href: {
+            //         pathname: 'industries',
+            //         query: { tab: UserStatus.Pending },
+            //     },
+            //     element: <PendingIndustries />,
+            //     badge: {
+            //         text: count.data?.pending,
+            //         loading: count.isLoading,
+            //     },
+            // },
+            {
+                label: 'All',
+                href: { pathname: 'industries', query: { tab: 'all' } },
+                element: <AllIndustries />,
+                badge: {
+                    text: count.data?.approved,
+                    loading: count.isLoading,
+                },
             },
-            element: <PendingIndustries />,
-            badge: {
-                text: count.data?.pending,
-                loading: count.isLoading,
+            {
+                label: 'Snoozed',
+                href: { pathname: 'industries', query: { tab: 'snoozed' } },
+                element: <SnoozedIndustrySubAdmin />,
+                badge: {
+                    text: count.data?.snoozed,
+                    loading: count.isLoading,
+                },
             },
-        },
-        {
-            label: 'All',
-            href: { pathname: 'industries', query: { tab: 'all' } },
-            element: <AllIndustries />,
-            badge: {
-                text: count.data?.approved,
-                loading: count.isLoading,
+            {
+                label: 'Favourite Industries',
+                href: { pathname: 'industries', query: { tab: 'favorite' } },
+                element: <FavoriteIndustries />,
+                badge: {
+                    text: count.data?.favorite,
+                    loading: count.isLoading,
+                },
             },
-        },
-        {
-            label: 'Snoozed',
-            href: { pathname: 'industries', query: { tab: 'snoozed' } },
-            element: <SnoozedIndustrySubAdmin />,
-            badge: {
-                text: count.data?.snoozed,
-                loading: count.isLoading,
+            // {
+            //     label: 'Hiring Industries',
+            //     href: { pathname: 'industries', query: { tab: 'hiring' } },
+            //     element: <IsHiringIndustries />,
+            // },
+            {
+                label: 'Rejected',
+                href: {
+                    pathname: 'industries',
+                    query: { tab: UserStatus.Rejected },
+                },
+                element: <RejectedIndustries />,
+                badge: {
+                    text: rejectedCount?.data,
+                    loading: rejectedCount.isLoading,
+                },
             },
-        },
-        {
-            label: 'Favourite Industries',
-            href: { pathname: 'industries', query: { tab: 'favorite' } },
-            element: <FavoriteIndustries />,
-            badge: {
-                text: count.data?.favorite,
-                loading: count.isLoading,
+            {
+                label: 'Blocked',
+                href: {
+                    pathname: 'industries',
+                    query: { tab: UserStatus.Blocked },
+                },
+                element: <BlockedIndustries />,
+                badge: {
+                    text: count.data?.blocked,
+                    loading: count.isLoading,
+                },
             },
-        },
-        // {
-        //     label: 'Hiring Industries',
-        //     href: { pathname: 'industries', query: { tab: 'hiring' } },
-        //     element: <IsHiringIndustries />,
-        // },
-        {
-            label: 'Rejected',
-            href: {
-                pathname: 'industries',
-                query: { tab: UserStatus.Rejected },
+            {
+                label: 'Archived',
+                href: {
+                    pathname: 'industries',
+                    query: { tab: UserStatus.Archived },
+                },
+                element: <ArchivedIndustries />,
+                badge: {
+                    text: count.data?.archived,
+                    loading: count.isLoading,
+                },
             },
-            element: <RejectedIndustries />,
-            badge: {
-                text: count.data?.rejected,
-                loading: count.isLoading,
-            },
-        },
-        {
-            label: 'Blocked',
-            href: {
-                pathname: 'industries',
-                query: { tab: UserStatus.Blocked },
-            },
-            element: <BlockedIndustries />,
-            badge: {
-                text: count.data?.blocked,
-                loading: count.isLoading,
-            },
-        },
-        {
-            label: 'Archived',
-            href: {
-                pathname: 'industries',
-                query: { tab: UserStatus.Archived },
-            },
-            element: <ArchivedIndustries />,
-            badge: {
-                text: count.data?.archived,
-                loading: count.isLoading,
-            },
-        },
-    ]
+        ]
+        if (isHod) {
+            baseTabs.push({
+                label: 'Pending',
+                href: {
+                    pathname: 'industries',
+                    query: { tab: UserStatus.Pending },
+                },
+                badge: {
+                    text: pendingCount?.data,
+                    loading: pendingCount.isLoading,
+                },
+                element: <PendingIndustries />,
+            })
+        }
+        return baseTabs
+    }, [count, isHod, rejectedCount, pendingCount])
+
     const filteredDataLength = checkFilteredDataLength(filter)
     return (
         <>

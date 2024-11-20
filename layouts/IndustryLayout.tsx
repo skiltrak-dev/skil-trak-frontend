@@ -183,7 +183,7 @@ export const IndustryLayout = ({
         'contactPersonNumber',
         'zipCode',
         'addressLine1',
-        'courses',
+        // 'courses',
     ]
 
     let totalValues = keys?.length

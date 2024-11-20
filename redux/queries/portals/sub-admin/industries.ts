@@ -163,4 +163,57 @@ export const subAdminIndustriesEndpoints = (
         }),
         invalidatesTags: ['SubAdminIndustries'],
     }),
+
+    //get indudstry students schedule
+    getIndustryStudentsSchedule: builder.query<any, any>({
+        query: ({ id, params }) => ({
+            url: `industries/${id}/schedules`,
+            params,
+        }),
+        providesTags: ['SubAdminIndustries'],
+    }),
+    // subadmin/industry/courses-add {body: industry:id,courses: [1,2,3], reference: ['ref', 'ref] }
+    requestToAddCoursesToIndustry: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `${PREFIX}/industry/courses-add`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['RequestToAddCourse'],
+    }),
+    getIndustryRequestedCourses: builder.query<any, any>({
+        query: ({ id, params }) => ({
+            url: `industries/${id}/course-requests`,
+            params,
+        }),
+        providesTags: ['RequestToAddCourse'],
+    }),
+
+    getIndustryCoursesOnAcceptance: builder.query<any, any>({
+        query: ({ id, params }) => ({
+            url: `industries/${id}/approval-requests`,
+            params,
+        }),
+        providesTags: ['RequestToAddCourse'],
+    }),
+
+    getRejectedDepartmentIndustry: builder.query<any, any>({
+        query: (params) => ({
+            url: `department/rejected-list`,
+            params,
+        }),
+        providesTags: ['SubAdminIndustries', 'Industries'],
+    }),
+    getRejectedDepartmentIndustryCount: builder.query<any, void>({
+        query: () => ({
+            url: `department/rejected-count`,
+        }),
+        providesTags: ['SubAdminIndustries', 'Industries'],
+    }),
+    getPendingDepartmentIndustryCount: builder.query<any, void>({
+        query: () => ({
+            url: `department/pending-count`,
+        }),
+        providesTags: ['SubAdminIndustries', 'Industries'],
+    }),
 })

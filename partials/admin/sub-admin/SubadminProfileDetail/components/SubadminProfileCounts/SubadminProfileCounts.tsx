@@ -16,10 +16,12 @@ export const SubadminProfileCounts = ({
     subadminId,
     subadminUserId,
     subAdminProfileCount,
+    profileDetail,
 }: {
     subadminId: number
     subadminUserId?: number
     subAdminProfileCount: any
+    profileDetail?: any
 }) => {
     const router = useRouter()
     const id = router?.query?.id as string
@@ -232,6 +234,10 @@ export const SubadminProfileCounts = ({
                                       // status: UserStatus.Pending,
                                   },
                               }),
+                        query: {
+                            tab: 'department-tickets',
+                            subAdminId: profileDetail?.user?.id,
+                        },
                     },
                     background: {
                         from: '#6A6A6A',

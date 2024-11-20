@@ -165,7 +165,6 @@ export const authOptions: NextAuthOptions = {
 
             // Access token has expired, try to update it
             const refreshToken = await memoizedRefreshAccessToken(token)
-            console.log({ refreshToken })
             return refreshToken
         },
         async session({ session, token }: any) {

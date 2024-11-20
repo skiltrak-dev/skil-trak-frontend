@@ -20,10 +20,10 @@ export const CourseDot = ({course}:{course:Course}) => {
             }`}
          >
             <p className="text-[11px] text-slate-300 whitespace-nowrap">
-               {course.sector.name}
+               {course?.sector?.name}
             </p>
             <p className="text-xs font-medium text-slate-200 whitespace-nowrap">
-               {course.title}
+               {course?.title}
             </p>
             <p className="text-[10px] font-medium text-white bg-green-500 px-1 rounded-full">
                Active

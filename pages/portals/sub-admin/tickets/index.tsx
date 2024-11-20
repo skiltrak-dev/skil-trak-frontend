@@ -31,7 +31,7 @@ const Tickets: NextPageWithLayout = () => {
     const tabs: TabProps[] = useMemo(() => {
         const baseTabs = [
             {
-                label: 'All Tickets',
+                label: 'My Tickets',
                 href: {
                     pathname: 'tickets',
                     query: { tab: TicketType.AllTickets },
@@ -39,7 +39,7 @@ const Tickets: NextPageWithLayout = () => {
                 element: <OpenTickets />,
             },
             {
-                label: 'Closed Tickets',
+                label: 'Closed Department Tickets',
                 href: {
                     pathname: 'tickets',
                     query: { tab: TicketType.ClosedTickets },
@@ -50,7 +50,7 @@ const Tickets: NextPageWithLayout = () => {
 
         if (isHod) {
             baseTabs.splice(1, 0, {
-                label: 'Department Tickets',
+                label: 'Open Department Tickets',
                 href: {
                     pathname: 'tickets',
                     query: { tab: TicketType.DepartmentTickets },
