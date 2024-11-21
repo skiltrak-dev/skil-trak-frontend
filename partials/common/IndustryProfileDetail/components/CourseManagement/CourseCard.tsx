@@ -7,13 +7,33 @@ import { FaRegEdit } from 'react-icons/fa'
 import { UserRoles } from '@constants'
 import Modal from '@modals/Modal'
 import { AddPrevCourseDescription } from './modal'
+import Link from 'next/link'
+import { ellipsisText } from '@utils'
 
 export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
     const approvals = isPreviousCourses
         ? data?.courses || []
         : data?.industryCourseApprovals || []
 
-    
+    const isValidUrl = (url: any) => {
+        const urlPattern =
+            /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
+        return urlPattern.test(url)
+    }
+
+    const getCleanExternalUrl = (url: string | undefined | null): string => {
+        if (!url) return '#'
+
+        // Remove any prefix of the current domain
+        const cleanUrl = url.replace(
+            /^(https?:\/\/)?(skiltrak\.com\.au\/)?/,
+            ''
+        )
+
+        // Add 'https://' if no protocol is present
+        return cleanUrl.startsWith('http') ? cleanUrl : `https://${cleanUrl}`
+    }
+
     return (
         <div className="flex flex-col gap-4 mt-4">
             {approvals?.map((approval: any, index: any) => (
@@ -143,11 +163,35 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                 </span>
                                 <span>{approval?.addedBy?.name || 'N/A'}</span>
                             </div>
-                            <div>
+                            {/* <div>
                                 <span className="text-gray-600">
                                     Reference URL:{' '}
                                 </span>
                                 <span>{approval?.reference?.[0] || 'N/A'}</span>
+                            </div> */}
+                            <div>
+                                <span className="text-gray-600">
+                                    Reference URL:{' '}
+                                </span>
+
+                                {isValidUrl(approval?.reference?.[0]) ? (
+                                    <a
+                                        href={getCleanExternalUrl(
+                                            approval?.reference?.[0]
+                                        )}
+                                        className="text-blue-500 hover:underline"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {getCleanExternalUrl(
+                                            approval?.reference?.[0]
+                                        ) || 'N/A'}
+                                    </a>
+                                ) : (
+                                    <span>
+                                        {approval?.reference?.[0] ?? 'N/A'}
+                                    </span>
+                                )}
                             </div>
                             <div>
                                 <span className="text-gray-600">DATE: </span>
