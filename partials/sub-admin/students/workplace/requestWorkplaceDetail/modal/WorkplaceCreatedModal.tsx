@@ -2,11 +2,13 @@ import { GlobalModal, Typography } from '@components'
 import { useRouter } from 'next/router'
 import Lottie from 'react-lottie'
 import { Animations } from '@animations'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 export const WorkplaceCreatedModal = ({
     onCancel,
 }: {
-    onCancel: () => void
+    onCancel?: () => void
 }) => {
     const router = useRouter()
 
@@ -15,6 +17,8 @@ export const WorkplaceCreatedModal = ({
         autoplay: true,
         animationData: Animations.Common.Success,
     }
+
+    const role = getUserCredentials()?.role
     return (
         <GlobalModal>
             <div className="max-w-2xl p-5 relative flex flex-col gap-y-2 py-10">
@@ -44,9 +48,13 @@ export const WorkplaceCreatedModal = ({
                 <div className="mx-auto mt-5">
                     <div
                         onClick={() => {
-                            router.push(
-                                `/portals/sub-admin/students/${router.query?.id}/detail`
-                            )
+                            if (role === UserRoles.STUDENT) {
+                                router.back()
+                            } else {
+                                router.push(
+                                    `/portals/sub-admin/students/${router.query?.id}/detail`
+                                )
+                            }
                         }}
                         className="cursor-pointer w-40 h-14 flex items-center justify-center text-lg font-medium uppercase transition-all duration-300 border px-4 py-2 shadow focus:outline-none focus:ring-4 rounded-md bg-success text-white hover:bg-success-dark border-transparent ring-success-light"
                     >

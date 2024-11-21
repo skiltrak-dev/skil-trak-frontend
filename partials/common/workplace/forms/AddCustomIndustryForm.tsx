@@ -27,9 +27,11 @@ import {
     Checkbox,
     Select,
     TextInput,
+    Typography,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Course, ProvideIndustryDetail } from '@types'
+import { WorkplaceProgress } from '@partials/student'
 
 export const AddCustomIndustryForm = ({
     setWorkplaceData,
@@ -164,13 +166,23 @@ export const AddCustomIndustryForm = ({
 
     return (
         <>
-            <BackButton
-                onClick={() => {
-                    setActive(1)
-                }}
-            />
-            <Card>
-                <div className="">
+            <div className="relative flex justify-center items-center w-full my-5">
+                <div className="absolute top-0 left-0">
+                    <BackButton
+                        onClick={() => {
+                            setActive(1)
+                        }}
+                    />
+                </div>{' '}
+                <Typography center variant="h2" color="text-[#170F49]">
+                    Workplace Not Found
+                </Typography>
+            </div>
+            <Card noPadding>
+                <div className="w-full py-7 border-b border-[#D9DBE9]">
+                    <WorkplaceProgress progressNumber={3} activeNumber={2} />
+                </div>
+                <div className="p-4">
                     <FormProvider {...formMethods}>
                         <form
                             className="flex flex-col gap-y-4"
