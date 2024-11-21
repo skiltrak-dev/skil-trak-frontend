@@ -181,6 +181,14 @@ export const subAdminIndustriesEndpoints = (
         }),
         invalidatesTags: ['RequestToAddCourse'],
     }),
+    addPrevCourseDescription: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `${PREFIX}/industry/course/add-info`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['RequestToAddCourse', 'SubAdminIndustries'],
+    }),
     getIndustryRequestedCourses: builder.query<any, any>({
         query: ({ id, params }) => ({
             url: `industries/${id}/course-requests`,
@@ -195,6 +203,13 @@ export const subAdminIndustriesEndpoints = (
             params,
         }),
         providesTags: ['RequestToAddCourse'],
+    }),
+
+    getPreviousIndustryCourses: builder.query<any, any>({
+        query: (id) => ({
+            url: `industries/${id}/courses`,
+        }),
+        providesTags: ['SubAdminIndustries', 'Industries'],
     }),
 
     getRejectedDepartmentIndustry: builder.query<any, any>({

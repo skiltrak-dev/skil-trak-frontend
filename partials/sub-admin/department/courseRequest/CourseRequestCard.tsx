@@ -18,6 +18,19 @@ export const CourseRequestCard = ({ request }: any) => {
         return urlPattern.test(url)
     }
 
+    const getCleanExternalUrl = (url: string | undefined | null): string => {
+        if (!url) return '#'
+
+        // Remove any prefix of the current domain
+        const cleanUrl = url.replace(
+            /^(https?:\/\/)?(skiltrak\.com\.au\/)?/,
+            ''
+        )
+
+        // Add 'https://' if no protocol is present
+        return cleanUrl.startsWith('http') ? cleanUrl : `https://${cleanUrl}`
+    }
+
     return (
         <div>
             <Card noPadding>
@@ -116,12 +129,16 @@ export const CourseRequestCard = ({ request }: any) => {
                                 )} */}
                                 {isValidUrl(request?.reference?.[0]) ? (
                                     <a
-                                        href={request.reference[0]}
+                                        href={getCleanExternalUrl(
+                                            request?.reference?.[0]
+                                        )}
                                         className="text-blue-500 hover:underline"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
-                                        {request?.reference[0]}
+                                        {getCleanExternalUrl(
+                                            request?.reference?.[0]
+                                        ) || 'N/A'}
                                     </a>
                                 ) : (
                                     <span>

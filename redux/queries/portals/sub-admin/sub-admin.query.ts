@@ -1,3 +1,4 @@
+import { AddPrevCourseDescription } from './../../../../partials/common/IndustryProfileDetail/components/CourseManagement/modal/AddPrevCourseDescription'
 import { SubAdmin, UserStatus } from '@types'
 import { notesEndpoints } from './notes'
 import { subAdminReports } from './reports'
@@ -414,11 +415,13 @@ export const {
     useChangeIndustryStudentsAcceptingStatusMutation,
     useGetIndustryStudentsScheduleQuery,
     useRequestToAddCoursesToIndustryMutation,
+    useAddPrevCourseDescriptionMutation,
     useGetIndustryRequestedCoursesQuery,
     useGetIndustryCoursesOnAcceptanceQuery,
     useGetRejectedDepartmentIndustryQuery,
     useGetRejectedDepartmentIndustryCountQuery,
     useGetPendingDepartmentIndustryCountQuery,
+    useGetPreviousIndustryCoursesQuery,
 
     // --- REPORTS --- //
     useGetAssignedStudentsReportQuery,
@@ -547,6 +550,8 @@ export const SubAdminApi = {
         useIndustryStudentsSchedule: useGetIndustryStudentsScheduleQuery,
         useRequestToAddCoursesToIndustry:
             useRequestToAddCoursesToIndustryMutation,
+        useAddPrevCourseDescription:
+            useAddPrevCourseDescriptionMutation,
         useIndustryRequestedCourses: useGetIndustryRequestedCoursesQuery,
         useIndustryCoursesOnAcceptance: useGetIndustryCoursesOnAcceptanceQuery,
         useRejectedDepartmentIndustry: useGetRejectedDepartmentIndustryQuery,
@@ -554,6 +559,7 @@ export const SubAdminApi = {
             useGetRejectedDepartmentIndustryCountQuery,
         usePendingDepartmentIndustryCount:
             useGetPendingDepartmentIndustryCountQuery,
+        usePreviousIndustryCourses: useGetPreviousIndustryCoursesQuery,
     },
     Rto: {
         useRtoStatsCount: useSubadminRtoStatisticsCountQuery,

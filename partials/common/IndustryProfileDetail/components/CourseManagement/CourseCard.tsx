@@ -1,13 +1,38 @@
 import React from 'react'
-import { Typography } from '@components'
+import { AuthorizedUserComponent, Typography } from '@components'
 import { IoCheckmarkDoneOutline } from 'react-icons/io5'
 import { ApprovedCourseTooltip } from './ApprovedCourseTooltip'
 import { ApprovedSectorTooltip } from './ApprovedSectorTooltip'
+import { FaRegEdit } from 'react-icons/fa'
+import { UserRoles } from '@constants'
+import Modal from '@modals/Modal'
+import { AddPrevCourseDescription } from './modal'
+import Link from 'next/link'
+import { ellipsisText } from '@utils'
 
-export const CourseCard = ({ data, isIndustryAcceptance = false }: any) => {
-    const approvals = isIndustryAcceptance
-        ? data?.industryApproval || []
+export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
+    const approvals = isPreviousCourses
+        ? data?.courses || []
         : data?.industryCourseApprovals || []
+
+    const isValidUrl = (url: any) => {
+        const urlPattern =
+            /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
+        return urlPattern.test(url)
+    }
+
+    const getCleanExternalUrl = (url: string | undefined | null): string => {
+        if (!url) return '#'
+
+        // Remove any prefix of the current domain
+        const cleanUrl = url.replace(
+            /^(https?:\/\/)?(skiltrak\.com\.au\/)?/,
+            ''
+        )
+
+        // Add 'https://' if no protocol is present
+        return cleanUrl.startsWith('http') ? cleanUrl : `https://${cleanUrl}`
+    }
 
     return (
         <div className="flex flex-col gap-4 mt-4">
@@ -21,12 +46,15 @@ export const CourseCard = ({ data, isIndustryAcceptance = false }: any) => {
                             courses={approval?.courses || []}
                         /> */}
                         <Typography variant="subtitle">
-                            {approval?.course?.sector?.name}
+                            {approval?.course?.sector?.name ??
+                                approval?.sector?.name}
                         </Typography>
-                        <span className="px-3 py-1 bg-green-100 text-green-800 rounded-md text-sm">
-                            Approved
-                        </span>
-                        {approval?.actionBy && (
+                        {!isPreviousCourses && (
+                            <span className="px-3 py-1 bg-green-100 text-green-800 rounded-md text-sm">
+                                Approved
+                            </span>
+                        )}
+                        {!isPreviousCourses && approval?.actionBy && (
                             <div className="flex gap-x-1">
                                 <Typography
                                     variant="xxs"
@@ -49,8 +77,8 @@ export const CourseCard = ({ data, isIndustryAcceptance = false }: any) => {
                                 </Typography>
 
                                 <Typography variant="muted">
-                                    {approval?.course?.title} -
-                                    {approval?.course?.code}
+                                    {approval?.course?.title ?? approval?.title}{' '}
+                                    - {approval?.course?.code ?? approval?.code}
                                 </Typography>
                             </div>
                             <div className="text-right">
@@ -61,20 +89,28 @@ export const CourseCard = ({ data, isIndustryAcceptance = false }: any) => {
                                     Course Hours
                                 </Typography>
                                 <Typography variant="muted" center>
-                                    {approval?.course.hours}
+                                    {approval?.course?.hours ?? approval?.hours}
                                 </Typography>
                             </div>
 
-                            {!isIndustryAcceptance && (
-                                <div>
-                                    <IoCheckmarkDoneOutline
-                                        size={25}
-                                        className="text-emerald-500"
-                                    />
-                                </div>
-                            )}
+                            {!isPreviousCourses &&
+                                !approval?.isPreviousCourse &&
+                                approval?.isCoordinatorAdded && (
+                                    <div>
+                                        <IoCheckmarkDoneOutline
+                                            size={25}
+                                            className="text-emerald-500"
+                                        />
+                                    </div>
+                                )}
                         </div>
-                        <div className="bg-emerald-700 text-white p-4 rounded-md mb-4 flex gap-x-5 items-start">
+                        <div
+                            className={`${
+                                isPreviousCourses
+                                    ? 'bg-red-500'
+                                    : 'bg-emerald-700'
+                            }  text-white p-4 rounded-md w-full mb-4 flex gap-x-5 items-start`}
+                        >
                             <div className="mb-2 whitespace-nowrap flex flex-col">
                                 <Typography variant="small" color="white">
                                     Action Perform
@@ -87,13 +123,37 @@ export const CourseCard = ({ data, isIndustryAcceptance = false }: any) => {
                                 <Typography variant="label" color="white">
                                     Description
                                 </Typography>
-                                <div title={approval?.description}>
+                                <div
+                                    title={approval?.description}
+                                    className="w-full"
+                                >
                                     <Typography variant="xs" color="text-white">
                                         {approval?.description ||
                                             'No description available'}
                                     </Typography>
                                 </div>
                             </div>
+                            {isPreviousCourses && (
+                                <div className="flex justify-end w-full">
+                                    <AuthorizedUserComponent
+                                        roles={[UserRoles.SUBADMIN]}
+                                    >
+                                        <Modal>
+                                            <Modal.Open opens="addCourseDescription">
+                                                <FaRegEdit
+                                                    className="text-white cursor-pointer"
+                                                    size={20}
+                                                />
+                                            </Modal.Open>
+                                            <Modal.Window name="addCourseDescription">
+                                                <AddPrevCourseDescription
+                                                    courseId={approval?.id}
+                                                />
+                                            </Modal.Window>
+                                        </Modal>
+                                    </AuthorizedUserComponent>
+                                </div>
+                            )}
                         </div>
 
                         <div className="flex justify-between text-[10px]">
@@ -103,11 +163,35 @@ export const CourseCard = ({ data, isIndustryAcceptance = false }: any) => {
                                 </span>
                                 <span>{approval?.addedBy?.name || 'N/A'}</span>
                             </div>
-                            <div>
+                            {/* <div>
                                 <span className="text-gray-600">
                                     Reference URL:{' '}
                                 </span>
                                 <span>{approval?.reference?.[0] || 'N/A'}</span>
+                            </div> */}
+                            <div>
+                                <span className="text-gray-600">
+                                    Reference URL:{' '}
+                                </span>
+
+                                {isValidUrl(approval?.reference?.[0]) ? (
+                                    <a
+                                        href={getCleanExternalUrl(
+                                            approval?.reference?.[0]
+                                        )}
+                                        className="text-blue-500 hover:underline"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {getCleanExternalUrl(
+                                            approval?.reference?.[0]
+                                        ) || 'N/A'}
+                                    </a>
+                                ) : (
+                                    <span>
+                                        {approval?.reference?.[0] ?? 'N/A'}
+                                    </span>
+                                )}
                             </div>
                             <div>
                                 <span className="text-gray-600">DATE: </span>

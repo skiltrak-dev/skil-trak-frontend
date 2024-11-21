@@ -64,7 +64,7 @@ export const Notes = ({
                                 imageUrl={'/images/icons/common/notesError.png'}
                             />
                         ) : null}
-                        <div className="h-[410px] custom-scrollbar overflow-auto">
+                        <div className="h-[380px] custom-scrollbar overflow-auto">
                             <div className="flex flex-col gap-y-3">
                                 {notes.isLoading ? (
                                     <div className="flex flex-col items-center justify-center h-60">
