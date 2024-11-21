@@ -21,6 +21,7 @@ export const ViewIndustryAnswersModal = ({
             subtitle="View Industry"
             onCancelClick={onCancel}
             title="View Industry Answers"
+            showActions={false}
         >
             <div className="h-[75vh] lg:h-[65vh] overflow-auto custom-scrollbar max-w-5xl">
                 {industryQuestions.isError ? <TechnicalError /> : null}

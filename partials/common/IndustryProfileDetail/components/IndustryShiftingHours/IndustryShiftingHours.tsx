@@ -16,9 +16,11 @@ export const IndustryShiftingHours = ({
 }) => {
     const contextBar = useContextBar()
 
+    const [isEntered, setIsEntered] = useState<boolean>(false)
+
     const industryAvailableHours =
         AdminApi.Industries.useIndustryAvailableHours(industryUserId, {
-            skip: !industryUserId,
+            skip: !industryUserId || !isEntered,
         })
 
     const [workingHoursTime, setWorkingHoursTime] = useState<any | null>([
@@ -56,7 +58,14 @@ export const IndustryShiftingHours = ({
         }
     }, [industryAvailableHours])
     return (
-        <Waypoint onEnter={() => {}}>
+        <Waypoint
+            onEnter={() => {
+                setIsEntered(true)
+            }}
+            onLeave={() => {
+                setIsEntered(false)
+            }}
+        >
             <div>
                 <Card fullHeight shadowType="profile" noPadding>
                     {showTitle ? (

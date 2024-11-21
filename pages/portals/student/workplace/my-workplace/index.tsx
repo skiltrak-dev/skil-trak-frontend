@@ -51,7 +51,7 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
     }, [])
     // WORKPLACE JOY RIDE - END
 
-    // return <StudentMyWorkplace />
+    return <StudentMyWorkplace />
 
     return (
         <>

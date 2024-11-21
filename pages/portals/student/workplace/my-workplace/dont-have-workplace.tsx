@@ -115,8 +115,8 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
                                 {active === 2 && (
                                     <Availability
                                         setActive={setActive}
-                                        personalInfoData={personalInfoData}
                                         availabilities={availabilities}
+                                        personalInfoData={personalInfoData}
                                         setAvailabilities={setAvailabilities}
                                     />
                                 )}

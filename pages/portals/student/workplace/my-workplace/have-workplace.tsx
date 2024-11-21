@@ -3,6 +3,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import {
     ActionAlert,
     ActionButton,
+    BackButton,
     Card,
     LoadingAnimation,
     StepIndicator,
@@ -10,13 +11,19 @@ import {
 } from '@components'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 import { StudentLayout } from '@layouts'
-import { NextPageWithLayout, UserStatus } from '@types'
+import { Industry, NextPageWithLayout, UserStatus } from '@types'
 
 // query
 import { MediaQueries, UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { AddCustomIndustryForm, FindWorkplaceForm } from '@partials/common'
-import { AppliedIndustry, ExistingIndustryCard } from '@partials/student'
+import {
+    AppliedIndustry,
+    ExistingIndustryCard,
+    UpdatedExistingIndustry,
+    UpdatedExistingIndustryByName,
+    UpdatedPersonalInfo,
+} from '@partials/student'
 import {
     useAddWorkplaceMutation,
     useCancelWorkplaceRequestMutation,
@@ -33,7 +40,12 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
     const [active, setActive] = useState(1)
     const [personalInfoData, setPersonalInfoData] = useState({})
-    const [industryABN, setIndustryABN] = useState<string | null>(null)
+    const [industrySearchValue, setIndustrySearchValue] = useState<
+        string | null
+    >(null)
+    const [findIndustryType, setFindIndustryType] = useState<string | null>(
+        null
+    )
 
     const [industryNotFound, setIndustryNotFound] = useState(false)
 
@@ -140,8 +152,14 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     ]
 
     const onSubmit = (values: any) => {
-        findAbn(values)
-        setIndustryABN(values?.abn)
+        if (values?.type === 'abn') {
+            findAbn({ abn: values?.value })
+        }
+        if (values?.type == 'name') {
+            setActive(2)
+        }
+        setFindIndustryType(values?.type)
+        setIndustrySearchValue(values?.value)
         // setActive((active: number) => active + 1)
     }
 
@@ -164,17 +182,17 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                     {/* <GoBackButton>Workplace Choice</GoBackButton> */}
 
                     {/*  */}
-                    <div className="py-4 w-full md:w-[25%]">
+                    {/* <div className="py-4 w-full md:w-[25%]">
                         <StepIndicator
                             steps={StepIndicatorOptions}
                             currentStep={StepIndicatorOptions[active - 1]}
                             vertical={!isMobile}
                         />
-                    </div>
+                    </div> */}
 
-                    <div className="w-full md:w-[75%]">
+                    <div className="max-w-5xl w-full mx-auto">
                         {active === 1 && (
-                            <div>
+                            <div className="w-full">
                                 {industryNotFound ? (
                                     <div className="bg-red-200 rounded-lg px-2 py-1 mb-2">
                                         <p className="text-sm font-semibold text-red-500">
@@ -187,7 +205,11 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                                         </p>
                                     </div>
                                 ) : null}
-                                <FindWorkplaceForm
+                                {/* <FindWorkplaceForm
+                                    onSubmit={onSubmit}
+                                    result={result}
+                                /> */}
+                                <UpdatedPersonalInfo
                                     onSubmit={onSubmit}
                                     result={result}
                                 />
@@ -195,25 +217,41 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                         )}
 
                         {active === 2 &&
-                            (!result?.data ? (
+                            (!result?.data &&
+                            (findIndustryType === 'abn' ||
+                                !findIndustryType) ? (
                                 <div className="mb-4">
                                     <AddCustomIndustryForm
                                         onSubmit={onAddIndustry}
                                         setWorkplaceData={setWorkplaceData}
                                         result={addWorkplaceResult}
-                                        industryABN={industryABN}
+                                        industryABN={industrySearchValue}
                                         setActive={setActive}
                                         courses={courses?.data}
                                     />
                                 </div>
                             ) : (
-                                <ExistingIndustryCard
-                                    setActive={setActive}
-                                    personalInfoData={personalInfoData}
-                                    res={result}
-                                    industry={result?.data}
-                                    setWorkplaceData={setWorkplaceData}
-                                />
+                                <div>
+                                    <BackButton
+                                        onClick={() => {
+                                            setActive(1)
+                                        }}
+                                    />
+                                    {findIndustryType === 'abn' ? (
+                                        <UpdatedExistingIndustry
+                                            industry={result?.data as Industry}
+                                        />
+                                    ) : (
+                                        <UpdatedExistingIndustryByName
+                                            industrySearchValue={
+                                                industrySearchValue
+                                            }
+                                            setFindIndustryType={
+                                                setFindIndustryType
+                                            }
+                                        />
+                                    )}
+                                </div>
                             ))}
 
                         {active === 3 && (
@@ -279,7 +317,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                                     description={
                                         'This prompt should be shown, when some long or multiprocess has been completed, and now user need to return to home or some other page.'
                                     }
-                                    variant={'primary' || 'info' || 'error'}
+                                    variant={'primary'}
                                     primaryAction={{
                                         text: 'Go Back',
                                         onClick: () => {

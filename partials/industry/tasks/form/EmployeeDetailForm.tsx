@@ -25,6 +25,7 @@ import { useNotification } from '@hooks'
 
 // utils
 import { trimString } from '@utils'
+import { MdDelete } from 'react-icons/md'
 
 // import { EmployeeData } from "context";
 
@@ -124,7 +125,7 @@ export const EmployeeDetailForm = ({ onVolunteer, employeeDetail }: any) => {
                             {fields.map((item, index) => (
                                 <div
                                     className="flex flex-col md:flex-row items-start gap-x-6 px-2 py-1"
-                                    key={index}
+                                    key={item?.id}
                                 >
                                     <TextInput
                                         placeholder="Enter your First Name"
@@ -138,10 +139,19 @@ export const EmployeeDetailForm = ({ onVolunteer, employeeDetail }: any) => {
                                         placeholder="Enter your Mobile No"
                                         name={`employee.${index}.mobileNo`}
                                     />
-                                    <TextInput
-                                        placeholder="Enter your Email"
-                                        name={`employee.${index}.email`}
-                                    />
+                                    <div>
+                                        <TextInput
+                                            placeholder="Enter your Email"
+                                            name={`employee.${index}.email`}
+                                        />
+                                        <MdDelete
+                                            className="text-error"
+                                            size={18}
+                                            onClick={() => {
+                                                remove(index)
+                                            }}
+                                        />
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -166,7 +176,7 @@ export const EmployeeDetailForm = ({ onVolunteer, employeeDetail }: any) => {
                     </div>
 
                     <div className="mt-2">
-                    <Checkbox name={'isInvite'} label={'Send an invite'} />
+                        <Checkbox name={'isInvite'} label={'Send an invite'} />
                     </div>
 
                     <Button

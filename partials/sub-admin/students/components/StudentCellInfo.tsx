@@ -164,7 +164,7 @@ export const StudentCellInfo = ({
                             {student?.isSnoozed ? (
                                 <div className="w-4 h-4 rounded  relative group">
                                     <MdSnooze
-                                        size={14}
+                                        size={17}
                                         className="text-red-500"
                                     />
                                     <Tooltip>Student Snoozed</Tooltip>

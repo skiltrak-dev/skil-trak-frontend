@@ -72,7 +72,7 @@ export const StudentMyWorkplace = () => {
                         >
                             <Typography
                                 semibold
-                                color={'text-[#284886]'}
+                                color={'!text-[#284886]'}
                                 center
                             >
                                 Currently employed / Arrangements in relevant
