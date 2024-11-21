@@ -8,8 +8,8 @@ import {
 import React, { useEffect, useState } from 'react'
 import { SubAdminApi } from '@queries'
 import { useNotification } from '@hooks'
-import { FormProvider, useForm } from 'react-hook-form'
 import { LabelTag } from '@partials/student/talentPool'
+import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 

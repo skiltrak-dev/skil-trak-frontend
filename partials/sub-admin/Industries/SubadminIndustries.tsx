@@ -142,18 +142,7 @@ export const SubadminIndustries = () => {
             //     href: { pathname: 'industries', query: { tab: 'hiring' } },
             //     element: <IsHiringIndustries />,
             // },
-            {
-                label: 'Rejected',
-                href: {
-                    pathname: 'industries',
-                    query: { tab: UserStatus.Rejected },
-                },
-                element: <RejectedIndustries />,
-                badge: {
-                    text: rejectedCount?.data,
-                    loading: rejectedCount.isLoading,
-                },
-            },
+
             {
                 label: 'Blocked',
                 href: {
@@ -191,7 +180,19 @@ export const SubadminIndustries = () => {
                     loading: pendingCount.isLoading,
                 },
                 element: <PendingIndustries />,
-            })
+            }),
+                baseTabs.push({
+                    label: 'Rejected',
+                    href: {
+                        pathname: 'industries',
+                        query: { tab: UserStatus.Rejected },
+                    },
+                    element: <RejectedIndustries />,
+                    badge: {
+                        text: rejectedCount?.data,
+                        loading: rejectedCount.isLoading,
+                    },
+                })
         }
         return baseTabs
     }, [count, isHod, rejectedCount, pendingCount])
