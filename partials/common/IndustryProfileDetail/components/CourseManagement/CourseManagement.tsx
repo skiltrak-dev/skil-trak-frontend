@@ -11,6 +11,7 @@ export const CourseManagement = () => {
     const [itemPerPage, setItemPerPage] = useState<any>(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
+
     const { data, isLoading, isError, isFetching } =
         SubAdminApi.Industry.useIndustryRequestedCourses(
             {
@@ -26,49 +27,38 @@ export const CourseManagement = () => {
                 refetchOnMountOrArgChange: true,
             }
         )
-    const onIndustryAcceptanceCourses =
-        SubAdminApi.Industry.useIndustryCoursesOnAcceptance(
-            {
-                id: router.query.id,
-                params: {
-                    search: `status:approved`,
-                    skip: itemPerPage * page - itemPerPage,
-                    limit: itemPerPage,
-                },
-            },
-            {
-                skip: !router.query.id,
-                refetchOnMountOrArgChange: true,
-            }
-        )
 
+    const industryPreviousCourses =
+        SubAdminApi.Industry.usePreviousIndustryCourses(router.query.id, {
+            skip: !router.query.id,
+        })
+        
     return (
         <div className="p-6">
             <SectorCardHeader />
-            {(isError || onIndustryAcceptanceCourses.isError) && (
+            {(isError || industryPreviousCourses.isError) && (
                 <NoData text={'Something went wrong'} />
             )}
-            <div className="max-h-[572px] overflow-auto custom-scrollbar">
-                {isLoading || onIndustryAcceptanceCourses.isLoading ? (
+            <div className="max-h-[380px] min-h-[370px] overflow-auto custom-scrollbar">
+                {isLoading || industryPreviousCourses.isLoading ? (
                     <LoadingAnimation height="32" />
                 ) : data?.data?.length > 0 ||
-                  onIndustryAcceptanceCourses?.data?.data?.length > 0 ? (
+                  industryPreviousCourses?.data?.data?.length > 0 ? (
                     <>
-                        {data?.data?.map((item: any) => (
-                            <CourseCard key={item.id} data={item} />
+                        {industryPreviousCourses?.data?.map((item: any) => (
+                            <CourseCard
+                                key={item.id}
+                                data={item}
+                                isPreviousCourses={true}
+                            />
                         ))}
-                        {/* {onIndustryAcceptanceCourses?.data?.data?.map(
-                            (item: any) => (
-                                <CourseCard
-                                    key={item.id}
-                                    data={item}
-                                    isIndustryAcceptance={true}
-                                />
-                            )
-                        )} */}
+                        {data?.data?.map((item: any) => (
+                            <CourseCard key={item?.id} data={item} />
+                        ))}
                     </>
                 ) : (
-                    (!isError || !onIndustryAcceptanceCourses.isError) && (
+                    !isError &&
+                    !industryPreviousCourses.isError && (
                         <NoData text={'No Data Found'} />
                     )
                 )}
