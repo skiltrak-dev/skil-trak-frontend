@@ -43,7 +43,7 @@ export const CourseManagement = () => {
                 {isLoading || industryPreviousCourses.isLoading ? (
                     <LoadingAnimation height="32" />
                 ) : data?.data?.length > 0 ||
-                  industryPreviousCourses?.data?.data?.length > 0 ? (
+                  industryPreviousCourses?.data?.length > 0 ? (
                     <>
                         {industryPreviousCourses?.data?.map((item: any) => (
                             <CourseCard
