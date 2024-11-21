@@ -447,6 +447,7 @@ const SubAdminDashboardMapDetail = ({
             }
         }
     }, [visibleMarkers])
+    
 
     return (
         <div className="w-full flex flex-col gap-y-2.5">

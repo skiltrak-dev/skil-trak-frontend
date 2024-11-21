@@ -242,9 +242,9 @@ export const EmployeeMonthlyScheduleRow: FC<ScheduleViewProps> = ({
     return (
         <div className="flex w-full">
             <div className="flex-1">
-                {weeks.map((week, weekIndex) => (
+                {weeks?.map((week, weekIndex) => (
                     <div key={weekIndex} className="grid grid-cols-7">
-                        {week.map((date, dayIndex) => {
+                        {week?.map((date, dayIndex) => {
                             const isWeekend = dayIndex >= 5
                             const isCurrentMonth =
                                 date.getMonth() === startDate.getMonth()
@@ -274,7 +274,8 @@ export const EmployeeMonthlyScheduleRow: FC<ScheduleViewProps> = ({
                                             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-md border-2 border-teal-500 bg-teal-100 text-center p-1 flex items-center justify-center group hover:bg-teal-200"
                                         >
                                             <div className="text-xs font-medium text-teal-700">
-                                                <HiDotsHorizontal size={20} />
+                                                {/* <HiDotsHorizontal size={20} /> */}
+                                                {schedulesForDay?.length}
                                             </div>
                                         </button>
                                     )}
