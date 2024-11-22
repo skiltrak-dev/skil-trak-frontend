@@ -51,6 +51,9 @@ export const IndustryRequiredDocuments = ({
             onEnter={() => {
                 setIsViewd(true)
             }}
+            onLeave={() => {
+                setIsViewd(false)
+            }}
         >
             <div>
                 <Card fullHeight shadowType="profile" noPadding>

@@ -153,6 +153,7 @@ export const CourseForm = ({
                             placeholder={'Course Description...'}
                             required
                             validationIcons
+                            rows={6}
                         />
                     </div>
 

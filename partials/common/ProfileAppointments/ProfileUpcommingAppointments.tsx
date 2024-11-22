@@ -16,10 +16,15 @@ export const ProfileUpcommingAppointments = ({
     isEntered: boolean
     short?: boolean
 }) => {
-    const futureAppointments = CommonApi.Appointments.useBookedAppointments({
-        userId,
-        status: 'future',
-    })
+    const futureAppointments = CommonApi.Appointments.useBookedAppointments(
+        {
+            userId,
+            status: 'future',
+        },
+        {
+            skip: !isEntered,
+        }
+    )
     return (
         <div>
             <Typography variant="label">Upcoming</Typography>

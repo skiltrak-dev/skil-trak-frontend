@@ -111,8 +111,6 @@ export const IndustryDetail = ({
     //     }
     // }, [appliedIndustry, suggestedIndustries])
 
-    
-
     return (
         <>
             {modal}
