@@ -34,8 +34,8 @@ export type InputType =
 export type TextInputProps = InputProps & {
     type?: InputType
     placeholder?: string
-    min?: string
-    max?: string
+    min?: string | number
+    max?: string | number
     onPlaceSuggetions?: {
         placesSuggetions: boolean
         setIsPlaceSelected: any //(value: boolean) => void

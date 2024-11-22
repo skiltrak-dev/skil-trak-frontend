@@ -70,6 +70,9 @@ export const AssessmentsEvidence = ({
                                                 <AssessmentFolderCard
                                                     key={folder.id}
                                                     id={folder.id}
+                                                    isAgreement={
+                                                        folder?.isAgreement
+                                                    }
                                                     name={folder.name}
                                                     isActive={folder.isActive}
                                                     response={

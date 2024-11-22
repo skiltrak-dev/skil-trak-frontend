@@ -8,7 +8,7 @@ type AssessmentFolderCardProps = {
     assessment?: boolean
     isAgreement?: boolean
 }
-import { Badge } from '@components'
+import { Badge, Tooltip } from '@components'
 import { Typography } from '@components/Typography'
 import classNames from 'classnames'
 import { FaFolder } from 'react-icons/fa'
@@ -96,7 +96,12 @@ export const AssessmentFolderCard = ({
                         </div>
                         <div className="flex gap-x-3">
                             <Typography variant="label">{name}</Typography>
-                            {isAgreement && <PiHandshakeDuotone />}
+                            {isAgreement && (
+                                <div className="relative group">
+                                    <PiHandshakeDuotone />
+                                    <Tooltip> Agreement Folder </Tooltip>
+                                </div>
+                            )}
                         </div>
                         <Typography variant={'small'}>
                             {response?.files?.length &&

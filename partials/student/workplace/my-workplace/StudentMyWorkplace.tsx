@@ -18,7 +18,7 @@ export const StudentMyWorkplace = () => {
                     >
                         Create Your Workplace Request
                     </Typography>
-                    <div className="flex flex-col gap-y-2 items-center mx-auto max-w-2xl mt-4">
+                    <div className="flex flex-col gap-y-2.5 items-center mx-auto max-w-2xl mt-4">
                         <Image
                             src={'/images/workplace/darkTab.png'}
                             alt={'Workplace Icon'}
