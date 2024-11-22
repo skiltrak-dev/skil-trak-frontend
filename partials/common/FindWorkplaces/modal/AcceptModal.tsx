@@ -45,14 +45,15 @@ export const AcceptModal = ({
             <ActionModal
                 Icon={HiCheckBadge}
                 variant="success"
-                title="Are you sure!"
-                description={`You are about to accept <em>"${industry?.industry?.user?.name}"</em>. Do you wish to continue?`}
+                title="Confirm Sector Approval"
+                description={`You are about to approve the selected sector for this industry. Once approved, you will be redirected to the Courses Approval Page.<br/><br/> <strong>On the next page, you will need to:</strong> <br/> <br/>Provide a description for each course in this sector. Add a relevant reference URL for each course. Please ensure all information is accurate and complete before finalizing the industry approval.`}
                 onConfirm={onConfirmClicked}
                 onCancel={onCancel}
                 input
                 inputKey={industry?.industry?.user?.email}
                 actionObject={industry}
                 loading={changeStatusResult.isLoading}
+                confirmText={'Approve Sector'}
             />
         </>
     )

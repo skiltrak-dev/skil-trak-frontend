@@ -64,7 +64,11 @@ export const ActionModal = ({
                 <div className="flex flex-col items-center gap-y-2">
                     <p className="text-lg font-semibold">{title}</p>
                     <p
-                        className="text-gray-500 max-w-[400px] text-center"
+                        className={`text-gray-500 max-w-[400px] ${
+                            confirmText === 'Approve Sector'
+                                ? 'text-left'
+                                : 'text-center'
+                        }`}
                         dangerouslySetInnerHTML={{ __html: description }}
                     >
                         {/* {description} */}

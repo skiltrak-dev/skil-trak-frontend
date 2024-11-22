@@ -47,7 +47,7 @@ export const AddIndustryQuestionsModal = ({
             <ShowErrorNotifications result={saveQuestionsResult} />
             <Modal
                 title="Provide Answers"
-                subtitle="Provide answers for the questions"
+                subtitle="We kindly request you to provide detailed responses to the following questions to help us better understand your organization's requirements and preferences for student placements."
                 onConfirmClick={methods.handleSubmit(onSubmit)}
                 onCancelClick={onCancel}
                 loading={saveQuestionsResult.isLoading}
