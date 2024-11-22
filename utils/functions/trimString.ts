@@ -16,8 +16,4 @@ export const trimText = (text: string) => text?.replace(/\\t|\s+/g, '')?.trim()
 
 export const removeEmptySpaces = (formMethods: any, abn: string) => {
     formMethods.setValue('abn', abn?.replace(/\s/g, ''))
-    formMethods.setError('abn', {
-        type: 'manual',
-        message: undefined,
-    })
 }

@@ -41,7 +41,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
     const [active, setActive] = useState(1)
     const [personalInfoData, setPersonalInfoData] = useState({})
-    const [modal, setModal] = useState(<EmployerDocuments />)
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const [industrySearchValue, setIndustrySearchValue] = useState<
         string | null
     >(null)
@@ -172,6 +172,22 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
             role: UserRoles.INDUSTRY,
             password: 'NA',
         })
+        // setModal(
+        //     <EmployerDocuments
+        //         onCancel={() => {
+        //             setModal(null)
+        //         }}
+        //         action={() =>
+        //             addWorkplace({
+        //                 ...values,
+        //                 courses: [values?.courses],
+        //                 role: UserRoles.INDUSTRY,
+        //                 password: 'NA',
+        //             })
+        //         }
+        //         result={addWorkplaceResult}
+        //     />
+        // )
     }
 
     return (
@@ -243,6 +259,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                                     {findIndustryType === 'abn' ? (
                                         <UpdatedExistingIndustry
                                             industry={result?.data as Industry}
+                                            abn={industrySearchValue}
                                         />
                                     ) : (
                                         <UpdatedExistingIndustryByName

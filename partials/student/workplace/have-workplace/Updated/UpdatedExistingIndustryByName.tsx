@@ -71,7 +71,10 @@ export const UpdatedExistingIndustryByName = ({
                             center
                             normal
                         >
-                            Result Found From Given ABN 12312312
+                            Result Found From Given Name{' '}
+                            <span className="font-semibold">
+                                {industrySearchValue}
+                            </span>
                         </Typography>
 
                         {/*  */}
@@ -96,7 +99,7 @@ export const UpdatedExistingIndustryByName = ({
                                     ) : industries?.data &&
                                       industries?.data?.length > 0 &&
                                       industries?.isSuccess ? (
-                                        <div className="flex flex-col gap-y-1 p-3 h-auto overflow-auto custom-scrollbar">
+                                        <div className="flex flex-col gap-y-3 p-3 h-auto overflow-auto custom-scrollbar">
                                             {industries?.data?.map(
                                                 (industry: Industry) => (
                                                     <UpdatedExistingIndustryCard

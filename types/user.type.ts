@@ -52,6 +52,7 @@ export interface UserCount {
     snoozed: any
     completed: number
     unAssigned: number
+    placementStarted: number
 }
 
 export interface SubadminCount extends UserCount {

@@ -32,6 +32,8 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AddIndustryQuestionForm } from '../IndustryProfileDetail/forms'
 import { industryQuestions } from '@partials/admin/industry/components'
+import { IndustryQuestionsEnum } from '@partials/admin/industry/enum'
+import { OptionType } from '@types'
 
 export const FutureIndustrySignUpForm = ({
     result,
@@ -174,6 +176,11 @@ export const FutureIndustrySignUpForm = ({
             ),
         sectors: yup.array().min(1, 'Must select at least 1 sector'),
         courses: yup.array().min(1, 'Must select at least 1 course'),
+        // [IndustryQuestionsEnum.CAPACITY]: yup
+        //     .string()
+        //     .required('Must provide Capacity')
+        //     .min(1, 'Min Capacity is 1')
+        //     .max(10, 'Max Capacity is 10'),
     })
 
     // useEffect For Email
@@ -226,6 +233,10 @@ export const FutureIndustrySignUpForm = ({
         formMethods.setValue('phoneNumber', selectedRowData?.phone || '')
         formMethods.setValue('addressLine1', selectedRowData?.address || '')
         formMethods.setValue('sectors', sectors || [])
+        formMethods.setValue(
+            IndustryQuestionsEnum.SECTOR,
+            sectors?.map((sector: OptionType) => sector?.label)?.join(', ')
+        )
         setSelectedSector(selectedRowData?.sector ? sectors : [])
     }, [formMethods.setValue, selectedRowDataString])
     useEffect(() => {
@@ -544,11 +555,11 @@ export const FutureIndustrySignUpForm = ({
 
                         <div>
                             <Typography variant="title">
-                                We kindly request you to provide detailed
-                                responses to the following questions to help us
-                                better understand your organization's
-                                requirements and preferences for student
-                                placements.
+                                You are about to register a new industry from
+                                the future industry list. Please provide
+                                accurate and detailed information about the
+                                industry to ensure smooth onboarding and
+                                collaboration.
                             </Typography>
                             <AddIndustryQuestionForm methods={formMethods} />
                         </div>
