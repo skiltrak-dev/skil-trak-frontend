@@ -182,8 +182,9 @@ import {
     MultiRejectModal,
 } from '@partials/admin/industry/modals'
 import { useChangeStatus } from '@partials/admin/industry/hooks'
-import { AcceptModal, RejectModal } from '../modal'
+import { AcceptModal, RejectModal, ViewIndustryReviewAnswers } from '../modal'
 import { CoursesCell } from '@partials/rto/coordinators'
+import Modal from '@modals/Modal'
 
 export const PendingIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -228,6 +229,7 @@ export const PendingIndustries = () => {
         //     />
         // )
     }
+
     const onRejectClicked = (industry: Industry) => {
         setModal(
             <RejectModal
@@ -385,11 +387,30 @@ export const PendingIndustries = () => {
             ),
         },
         {
+            accessorKey: 'industry.approvalReviewQuestions',
+            header: () => <span>Industry Answer </span>,
+            cell: (info) => (
+                <Modal>
+                    <Modal.Open opens="viewIndustryAnswers">
+                        <Button variant="info" text="VIEW" outline />
+                    </Modal.Open>
+                    <Modal.Window name="viewIndustryAnswers">
+                        <ViewIndustryReviewAnswers
+                            industryQuestions={
+                                info?.row?.original?.industry
+                                    ?.approvalReviewQuestion
+                            }
+                        />
+                    </Modal.Window>
+                </Modal>
+            ),
+        },
+        {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info: any) => {
                 return (
-                    <div className="flex gap-x-1 items-center">
+                    <div className="flex gap-x-2 items-center">
                         <ActionButton
                             variant="success"
                             onClick={() => onAcceptClicked(info.row?.original)}

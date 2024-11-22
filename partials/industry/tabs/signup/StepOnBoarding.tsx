@@ -74,7 +74,7 @@ export const StepOnBoarding = () => {
             <div>
                 <div>
                     <p className="font-semibold text-lg">
-                        How Would You Like to Engage with Us?
+                        How Would You Like to Collaborate with Skiltrak?
                     </p>
                     <p className="font-medium text-sm text-gray-400">
                         Choose your preferred way to use our platform:
@@ -111,7 +111,10 @@ export const StepOnBoarding = () => {
 
                     <div>
                         <Typography variant="title">
-                            Provide answers for the questions
+                            We kindly request you to provide detailed responses
+                            to the following questions to help us better
+                            understand your organization's requirements and
+                            preferences for student placements.
                         </Typography>
                         <AddIndustryQuestionForm methods={methods} />
                     </div>
