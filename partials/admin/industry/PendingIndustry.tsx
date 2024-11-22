@@ -26,7 +26,7 @@ import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell, SectorCell } from './components'
 import { useChangeStatus } from './hooks'
 import {
-    ApproveIndustryWithQuestionsModal,
+    AcceptModal,
     MultiAcceptModal,
     MultiRejectModal,
     RejectModal,
@@ -61,18 +61,18 @@ export const PendingIndustry = () => {
     }
 
     const onAcceptClicked = (industry: Industry) => {
-        // setModal(
-        //     <AcceptModal
-        //         industry={industry}
-        //         onCancel={() => onModalCancelClicked()}
-        //     />
-        // )
         setModal(
-            <ApproveIndustryWithQuestionsModal
+            <AcceptModal
                 industry={industry}
                 onCancel={() => onModalCancelClicked()}
             />
         )
+        // setModal(
+        //     <ApproveIndustryWithQuestionsModal
+        //         industry={industry}
+        //         onCancel={() => onModalCancelClicked()}
+        //     />
+        // )
     }
     const onRejectClicked = (industry: Industry) => {
         setModal(

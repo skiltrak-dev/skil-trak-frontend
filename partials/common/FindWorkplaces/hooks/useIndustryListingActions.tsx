@@ -164,9 +164,15 @@ export const useIndustryListingActions = (
                         'signup-data',
                         JSON.stringify(industry)
                     )
-                    router.push(
-                        `/portals/sub-admin/tasks/industry-listing/signup-future-industry`
-                    )
+                    if (role === UserRoles.ADMIN) {
+                        router.push(
+                            `/portals/admin/future-industries/signup-future-industry`
+                        )
+                    } else if (role === UserRoles.SUBADMIN) {
+                        router.push(
+                            `/portals/sub-admin/tasks/industry-listing/signup-future-industry`
+                        )
+                    }
                 },
                 Icon: FiLogIn,
             },

@@ -5,6 +5,9 @@ import { AdminApi } from '@queries'
 import { Industry } from '@types'
 import { useForm } from 'react-hook-form'
 import { AddIndustryQuestionForm } from '../forms'
+import { getSectors } from '@utils'
+import { useEffect } from 'react'
+import { IndustryQuestionsEnum } from '@partials/admin/industry/enum'
 
 export const AddIndustryQuestionsModal = ({
     industry,
@@ -13,6 +16,8 @@ export const AddIndustryQuestionsModal = ({
     industry: Industry
     onCancel: () => void
 }) => {
+    const sectors = getSectors(industry?.courses)
+    console.log({ sectors })
     const [saveQuestions, saveQuestionsResult] =
         AdminApi.Industries.saveIndustryQuestions()
 
@@ -21,6 +26,16 @@ export const AddIndustryQuestionsModal = ({
     const methods = useForm({
         mode: 'all',
     })
+
+    useEffect(() => {
+        const sectorsKeys = Object.keys(sectors)
+        if (sectorsKeys && sectorsKeys?.length > 0) {
+            methods.setValue(
+                IndustryQuestionsEnum.SECTOR,
+                sectorsKeys?.join(', ')
+            )
+        }
+    }, [sectors])
 
     const onSubmit = (values: any) => {
         let questions: {
@@ -47,7 +62,7 @@ export const AddIndustryQuestionsModal = ({
             <ShowErrorNotifications result={saveQuestionsResult} />
             <Modal
                 title="Provide Answers"
-                subtitle="We kindly request you to provide detailed responses to the following questions to help us better understand your organization's requirements and preferences for student placements."
+                subtitle="This industry is already registered but some essential details are missing. To ensure proper functioning and collaboration, please provide the following information."
                 onConfirmClick={methods.handleSubmit(onSubmit)}
                 onCancelClick={onCancel}
                 loading={saveQuestionsResult.isLoading}

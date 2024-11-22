@@ -11,5 +11,5 @@ export const onlyNumbersAcceptedInYup = (yup: any) =>
             'Only numbers are accepted',
             (value: any) => !value || /^[0-9]+$/.test(value.toString())
         )
-        .min(0)
-        .max(100)
+        .min(11, 'ABN must be exactly 11 digits')
+        .max(11, 'ABN must be exactly 11 digits')

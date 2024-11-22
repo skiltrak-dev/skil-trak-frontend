@@ -1,7 +1,8 @@
 import { Tooltip, TooltipPosition, Typography } from '@components'
 import { Student } from '@types'
-import { ellipsisText } from '@utils'
+import { ellipsisText, setLink } from '@utils'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React from 'react'
 import { BiMessageRoundedDots } from 'react-icons/bi'
 import { FiPhoneOff } from 'react-icons/fi'
@@ -9,6 +10,7 @@ import { LuFlagTriangleRight } from 'react-icons/lu'
 import { MdSnooze } from 'react-icons/md'
 
 export const StudentWorkplaceCellInfo = ({ student }: { student: Student }) => {
+    const router = useRouter()
     return (
         <div>
             <div className="flex items-center gap-x-2">
@@ -58,10 +60,18 @@ export const StudentWorkplaceCellInfo = ({ student }: { student: Student }) => {
                 {student?.addressLine1 ?? 'N/A'}
             </Typography>
             <Link
+                legacyBehavior
                 href={`/portals/admin/student/${student?.id}/detail`}
                 className="text-blue-500 text-xs"
             >
-                View Details
+                <a
+                    onClick={() => {
+                        setLink('student', router)
+                    }}
+                >
+                    {' '}
+                    View Details
+                </a>
             </Link>
         </div>
     )

@@ -1,11 +1,13 @@
 import { Animations } from '@animations'
 import { Button, TextInput, Typography } from '@components'
 import { industryQuestions } from '@partials/admin/industry/components'
+import { IndustryQuestionsEnum } from '@partials/admin/industry/enum'
 import { AddIndustryQuestionForm } from '@partials/common/IndustryProfileDetail/forms'
 import { OnBoardingLink } from '@partials/industry/components'
+import { OptionType } from '@types'
 import { SignUpUtils } from '@utils'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { MdOutlineTextsms } from 'react-icons/md'
 import { RiMailSendLine } from 'react-icons/ri'
@@ -39,6 +41,22 @@ export const StepOnBoarding = () => {
         mode: 'all',
     })
 
+    const values = SignUpUtils.getValuesFromStorage()
+
+    useEffect(() => {
+        if (values?.sectors && values?.sectors?.length > 0) {
+            methods.setValue(
+                IndustryQuestionsEnum.SECTOR,
+                values?.sectors
+                    ?.map((sector: OptionType) => sector?.label)
+                    ?.join(', ')
+            )
+        }
+        if (selected === UsageType[0].type) {
+            methods.setValue(IndustryQuestionsEnum.CAPACITY, 1)
+        }
+    }, [values])
+
     const onSubmit = (data: any) => {
         let questions: {
             [key: string]: string
@@ -49,8 +67,6 @@ export const StepOnBoarding = () => {
                 answer: data?.[key],
             })
         })
-
-        const values = SignUpUtils.getValuesFromStorage()
 
         if (values) {
             SignUpUtils.setValuesToStorage({
@@ -99,12 +115,16 @@ export const StepOnBoarding = () => {
                             <TextInput
                                 onChange={(e: any) => {
                                     setStudentCapacity(e.target.value)
+                                    methods.setValue(
+                                        IndustryQuestionsEnum.CAPACITY,
+                                        e.target.value
+                                    )
                                 }}
                                 name={'studentCapacity'}
                                 label={'Student Capacity'}
                                 type={'number'}
                                 min={1}
-                                max={10}
+                                max={9}
                             />
                         </div>
                     )}
@@ -116,7 +136,10 @@ export const StepOnBoarding = () => {
                             understand your organization's requirements and
                             preferences for student placements.
                         </Typography>
-                        <AddIndustryQuestionForm methods={methods} />
+                        <AddIndustryQuestionForm
+                            methods={methods}
+                            capacityDisabled
+                        />
                     </div>
 
                     <Button

@@ -9,7 +9,9 @@ import { UpdatedIndustryCourse } from './UpdatedIndustryCourse'
 
 export const UpdatedExistingIndustry = ({
     industry,
+    abn,
 }: {
+    abn: string
     industry: Industry
 }) => {
     const [selectedCourse, setselectedCourse] = useState<number | null>(null)
@@ -41,7 +43,8 @@ export const UpdatedExistingIndustry = ({
                             center
                             normal
                         >
-                            Result Found From Given ABN 12312312
+                            Result Found From Given ABN{' '}
+                            <span className="font-semibold">{abn}</span>
                         </Typography>
 
                         {/*  */}
