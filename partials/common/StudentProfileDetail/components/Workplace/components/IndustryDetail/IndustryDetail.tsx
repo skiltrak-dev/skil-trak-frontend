@@ -1,29 +1,22 @@
-import React, { ReactElement, useEffect, useState } from 'react'
-import { IndustryCard, StudentInterviewDetail } from './components'
-import {
-    AuthorizedUserComponent,
-    GlobalModal,
-    NoData,
-    Portal,
-    Typography,
-} from '@components'
-import { Course, Student } from '@types'
-import { getUserCredentials, WorkplaceCurrentStatus } from '@utils'
-import { ViewMoreIndustriesModal } from '@partials/sub-admin/workplace/modals'
+import { AuthorizedUserComponent, NoData, Typography } from '@components'
+import { UserRoles } from '@constants'
 import { useContextBar, useNotification } from '@hooks'
-import { AddIndustryCB } from '@partials/sub-admin/workplace/contextBar'
-import { Actions } from './Actions'
-import { StudentProvidedActions } from './StudentProvidedActions'
-import { StudentProvidedABNActions } from './StudentProvidedABNActions'
-import { AgreementView } from '../AgreementView'
 import { ViewOnMapIndustriesModal } from '@partials/common/MapBox'
+import { AvailabelMeetingDate } from '@partials/student/workplace/components/WorkplaceApproval/AvailabelMeetingDate'
+import { AddIndustryCB } from '@partials/sub-admin/workplace/contextBar'
+import { Course, Student } from '@types'
+import { getUserCredentials } from '@utils'
+import { ReactElement, useState } from 'react'
 import {
     IWorkplaceIndustries,
     WorkplaceWorkIndustriesType,
 } from 'redux/queryTypes'
-import { UserRoles } from '@constants'
 import { ViewContactedIndustryModal } from '../../modals'
-import { AvailabelMeetingDate } from '@partials/student/workplace/components/WorkplaceApproval/AvailabelMeetingDate'
+import { AgreementView } from '../AgreementView'
+import { Actions } from './Actions'
+import { IndustryCard, StudentInterviewDetail } from './components'
+import { StudentProvidedABNActions } from './StudentProvidedABNActions'
+import { StudentProvidedActions } from './StudentProvidedActions'
 
 export const IndustryDetail = ({
     course,

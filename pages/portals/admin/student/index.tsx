@@ -21,6 +21,7 @@ import {
     CompletedStudents,
     FilteredStudents,
     PendingStudent,
+    PlacementStartedStudents,
     RejectedStudent,
     SnoozedStudents,
     UnAssignedStudent,
@@ -172,6 +173,18 @@ const StudentList: NextPageWithLayout = () => {
                 loading: isLoading,
             },
             element: <ArchivedStudent />,
+        },
+        {
+            label: 'Placement Started Students',
+            href: {
+                pathname: 'student',
+                query: { tab: 'placementStarted', page: 1, pageSize: 50 },
+            },
+            badge: {
+                text: data?.placementStarted,
+                loading: isLoading,
+            },
+            element: <PlacementStartedStudents />,
         },
         {
             label: 'Completed Students',

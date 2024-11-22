@@ -37,7 +37,10 @@ import {
     useGetSubAdminStudentWorkplaceQuery,
     useSubAdminCancelStudentWorkplaceRequestMutation,
 } from '@queries'
-import { checkStudentProfileCompletion, WorkplaceCurrentStatus } from '@utils'
+import {
+    checkStudentProfileCompletion,
+    WorkplaceCurrentStatus
+} from '@utils'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
 
 type Props = {}
