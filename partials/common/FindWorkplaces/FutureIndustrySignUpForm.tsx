@@ -544,7 +544,11 @@ export const FutureIndustrySignUpForm = ({
 
                         <div>
                             <Typography variant="title">
-                                Provide answers for the questions
+                                We kindly request you to provide detailed
+                                responses to the following questions to help us
+                                better understand your organization's
+                                requirements and preferences for student
+                                placements.
                             </Typography>
                             <AddIndustryQuestionForm methods={formMethods} />
                         </div>
