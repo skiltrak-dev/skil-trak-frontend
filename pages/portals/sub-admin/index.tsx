@@ -118,7 +118,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
         // Check if there are pending industry requests
         if (
             pendingIndustries?.data?.data?.length > 0 &&
-            viewedPendingIndustriesModal === 0
+            viewedPendingIndustriesModal === 0 && checkIsHod 
         ) {
             // If there are pending requests, display the modal
             setModal(
