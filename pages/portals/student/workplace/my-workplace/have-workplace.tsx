@@ -259,7 +259,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                                     {findIndustryType === 'abn' ? (
                                         <UpdatedExistingIndustry
                                             industry={result?.data as Industry}
-                                            abn={industrySearchValue}
+                                            abn={industrySearchValue + ''}
                                         />
                                     ) : (
                                         <UpdatedExistingIndustryByName
