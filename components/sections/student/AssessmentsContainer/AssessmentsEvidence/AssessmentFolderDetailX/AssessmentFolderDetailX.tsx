@@ -152,88 +152,94 @@ export const AssessmentFolderDetailX = ({
                             </Typography>
                         </div>
                         <div className="ml-auto">
-                            {fileUpload ? (
-                                result?.result !== Result.Competent ? (
-                                    <FileUpload
-                                        onChange={(docs: any) => {
-                                            const formData = new FormData()
+                            {!folder?.isAgreement ? (
+                                fileUpload ? (
+                                    result?.result !== Result.Competent ? (
+                                        <FileUpload
+                                            onChange={(docs: any) => {
+                                                const formData = new FormData()
 
-                                            const filteredDocs = [
-                                                ...docs,
-                                            ]?.filter((doc) => {
-                                                const docSize =
-                                                    doc?.size / 1024 / 1024
-                                                return docSize <= 50
-                                            })
-
-                                            if (
-                                                filteredDocs?.length <
-                                                docs?.length
-                                            ) {
-                                                notification.warning({
-                                                    title: 'Files Removed',
-                                                    description: `${
-                                                        docs?.length -
-                                                        filteredDocs?.length
-                                                    } ${
-                                                        docs?.length -
-                                                            filteredDocs?.length ===
-                                                        1
-                                                            ? 'File'
-                                                            : 'Files'
-                                                    } were Removed because its size was greater than 50mb, try to upload the file which has less then 50mb size`,
+                                                const filteredDocs = [
+                                                    ...docs,
+                                                ]?.filter((doc) => {
+                                                    const docSize =
+                                                        doc?.size / 1024 / 1024
+                                                    return docSize <= 50
                                                 })
-                                            }
-                                            filteredDocs.forEach((doc: any) => {
-                                                formData.append(
-                                                    `${folder?.name}`,
-                                                    doc
+
+                                                if (
+                                                    filteredDocs?.length <
+                                                    docs?.length
+                                                ) {
+                                                    notification.warning({
+                                                        title: 'Files Removed',
+                                                        description: `${
+                                                            docs?.length -
+                                                            filteredDocs?.length
+                                                        } ${
+                                                            docs?.length -
+                                                                filteredDocs?.length ===
+                                                            1
+                                                                ? 'File'
+                                                                : 'Files'
+                                                        } were Removed because its size was greater than 50mb, try to upload the file which has less then 50mb size`,
+                                                    })
+                                                }
+                                                filteredDocs.forEach(
+                                                    (doc: any) => {
+                                                        formData.append(
+                                                            `${folder?.name}`,
+                                                            doc
+                                                        )
+                                                    }
                                                 )
-                                            })
 
-                                            if (filteredDocs?.length) {
-                                                uploadDocs({
-                                                    id: folder?.id,
-                                                    body: formData,
-                                                })
+                                                if (filteredDocs?.length) {
+                                                    uploadDocs({
+                                                        id: folder?.id,
+                                                        body: formData,
+                                                    })
+                                                }
+                                            }}
+                                            name={folder?.name}
+                                            component={
+                                                uploadDocsResult.isLoading
+                                                    ? Loading
+                                                    : UploadFile
                                             }
-                                        }}
-                                        name={folder?.name}
-                                        component={
-                                            uploadDocsResult.isLoading
-                                                ? Loading
-                                                : UploadFile
-                                        }
-                                        limit={
-                                            folder?.capacity -
-                                            (getAssessmentResponse?.data?.files
-                                                ?.length || 0)
-                                        }
-                                        acceptTypes={getDocType(folder?.type)}
-                                        multiple
-                                    />
-                                ) : null
-                            ) : (
-                                <div>
-                                    {folder.isActive ? (
-                                        <Badge
-                                            text="Approved"
-                                            variant="success"
+                                            limit={
+                                                folder?.capacity -
+                                                (getAssessmentResponse?.data
+                                                    ?.files?.length || 0)
+                                            }
+                                            acceptTypes={getDocType(
+                                                folder?.type
+                                            )}
+                                            multiple
                                         />
-                                    ) : (
-                                        <Badge
-                                            text="Not Approved"
-                                            variant="error"
-                                        />
-                                    )}
-                                    <Typography
-                                        variant="body"
-                                        color={'text-green-500'}
-                                    >
-                                        Assessed On
-                                    </Typography>
-                                </div>
-                            )}
+                                    ) : null
+                                ) : (
+                                    <div>
+                                        {folder.isActive ? (
+                                            <Badge
+                                                text="Approved"
+                                                variant="success"
+                                            />
+                                        ) : (
+                                            <Badge
+                                                text="Not Approved"
+                                                variant="error"
+                                            />
+                                        )}
+                                        <Typography
+                                            variant="body"
+                                            color={'text-green-500'}
+                                        >
+                                            Assessed On
+                                        </Typography>
+                                    </div>
+                                )
+                            ) : null}
                         </div>
                     </div>
                 )}

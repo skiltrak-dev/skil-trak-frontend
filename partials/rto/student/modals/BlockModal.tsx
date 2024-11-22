@@ -29,7 +29,7 @@ export const BlockModal = ({
     return (
         <>
             <ShowErrorNotifications result={changeStatusResult} />
-            {item?.workplace && item?.workplace?.length > 0 ? (
+            {item?.workplace && item?.workplace?.length > 0 && false ? (
                 <WorkplaceCancelInfoModal onCancel={onCancel} />
             ) : (
                 <ActionModal
