@@ -50,7 +50,6 @@ export const StepOnBoarding = () => {
             })
         })
 
-
         const values = SignUpUtils.getValuesFromStorage()
 
         if (values) {
@@ -59,7 +58,6 @@ export const StepOnBoarding = () => {
                 isPartner: selected === UsageType[1].type,
                 ...(studentCapacity ? { studentCapacity } : {}),
                 questions,
-
             })
             if (UsageType[0].type || UsageType[1].type) {
                 router.push({ query: { step: 'review-info' } })
@@ -105,12 +103,13 @@ export const StepOnBoarding = () => {
                                 name={'studentCapacity'}
                                 label={'Student Capacity'}
                                 type={'number'}
+                                min={1}
+                                max={10}
                             />
                         </div>
                     )}
 
                     <div>
-
                         <Typography variant="title">
                             Provide answers for the questions
                         </Typography>

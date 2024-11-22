@@ -74,39 +74,34 @@ export const AssessmentFilesUpload = ({
     return (
         <div>
             <ShowErrorNotifications result={uploadDocsResult} />
-            {results?.result !== Result.Competent ||
-                (true && (
-                    <div className="flex items-center gap-x-2 mb-1">
-                        <div>
-                            {(selectedFolder &&
-                                results !== Result.NotSubmitted &&
-                                selectedFolder) ||
-                            true ? (
-                                <FileUpload
-                                    onChange={onUploadDocs}
-                                    name={'folder?.name'}
-                                    component={AddFileButton}
-                                    multiple
-                                    limit={
-                                        Number(selectedFolder?.capacity) -
-                                        Number(
-                                            selectedFolder?.studentResponse
-                                                ?.length > 0
-                                                ? selectedFolder
-                                                      ?.studentResponse[0]
-                                                      ?.files?.length
-                                                : 0
-                                        )
-                                    }
-                                    acceptTypes={getDocType(
-                                        selectedFolder?.type
-                                    )}
-                                    showError={false}
-                                />
-                            ) : null}
-                        </div>
+            {results?.result !== Result.Competent && (
+                <div className="flex items-center gap-x-2 mb-1">
+                    <div>
+                        {selectedFolder &&
+                        results !== Result.NotSubmitted &&
+                        selectedFolder ? (
+                            <FileUpload
+                                onChange={onUploadDocs}
+                                name={'folder?.name'}
+                                component={AddFileButton}
+                                multiple
+                                limit={
+                                    Number(selectedFolder?.capacity) -
+                                    Number(
+                                        selectedFolder?.studentResponse
+                                            ?.length > 0
+                                            ? selectedFolder?.studentResponse[0]
+                                                  ?.files?.length
+                                            : 0
+                                    )
+                                }
+                                acceptTypes={getDocType(selectedFolder?.type)}
+                                showError={false}
+                            />
+                        ) : null}
                     </div>
-                ))}
+                </div>
+            )}
         </div>
     )
 }

@@ -33,6 +33,7 @@ import {
 } from '@queries'
 import { useMediaQuery } from 'react-responsive'
 import { WorkplaceCurrentStatus } from '@utils'
+import { EmployerDocuments } from '@partials/student/workplace/modal'
 
 type Props = {}
 
@@ -40,6 +41,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
     const [active, setActive] = useState(1)
     const [personalInfoData, setPersonalInfoData] = useState({})
+    const [modal, setModal] = useState(<EmployerDocuments />)
     const [industrySearchValue, setIndustrySearchValue] = useState<
         string | null
     >(null)
@@ -174,6 +176,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
 
     return (
         <>
+            {modal}
             <ShowErrorNotifications result={addWorkplaceResult} />
             {workplace?.isLoading || workplace?.isLoading ? (
                 <LoadingAnimation />
