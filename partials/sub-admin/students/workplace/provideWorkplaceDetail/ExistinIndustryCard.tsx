@@ -1,25 +1,10 @@
-import {
-    BackButton,
-    Button,
-    Card,
-    InitialAvatar,
-    Select,
-    SelectOption,
-    ShowErrorNotifications,
-    Typography,
-    useShowErrorNotification,
-} from '@components'
+import { BackButton, Card, Select, SelectOption, Typography } from '@components'
 import { ReactElement, useEffect, useState } from 'react'
 
 // query
-import { useNotification } from '@hooks'
-import {
-    SubAdminApi,
-    useApplyWorkplaceOnExistingIndustryMutation,
-} from '@queries'
+import { SubAdminApi } from '@queries'
 import { Course } from '@types'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
-import { WorkplaceCreatedModal } from '../requestWorkplaceDetail/modal'
 import { IndustryCard } from './IndustryCard'
 
 export const ExistinIndustryCard = ({
@@ -32,20 +17,11 @@ export const ExistinIndustryCard = ({
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [selectedCourse, setselectedCourse] = useState<number | null>(null)
 
-    const [applyForWorkplace, applyForWorkplaceResult] =
-        useApplyWorkplaceOnExistingIndustryMutation()
-
     const courses = SubAdminApi.Student.useCourses(studentId, {
         skip: !studentId,
         refetchOnMountOrArgChange: true,
     })
 
-    useEffect(() => {
-        if (applyForWorkplaceResult.isSuccess) {
-            setWorkplaceData(applyForWorkplaceResult?.data?.workplaceRequest)
-            setActive((active: number) => active + 1)
-        }
-    }, [applyForWorkplaceResult])
     useEffect(() => {
         if (courses?.data && courses?.data?.length) {
             setselectedCourse(courses?.data?.[0]?.id)
@@ -61,14 +37,9 @@ export const ExistinIndustryCard = ({
               }))
             : []
 
-    const showErrorNotifications = useShowErrorNotification()
-
-    const onCancelModal = () => setModal(null)
-
     return (
         <>
             {modal}
-            {/* <ShowErrorNotifications result={applyForWorkplaceResult} /> */}
             <BackButton
                 onClick={() => {
                     setActive(1)

@@ -4,30 +4,35 @@ import { ReactElement, useEffect, useState } from 'react'
 import {
     ActionAlert,
     ActionButton,
+    BackButton,
+    Button,
     Card,
     LoadingAnimation,
     PageTitle,
-    StepIndicator,
     Typography,
 } from '@components'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 import { SubAdminLayout } from '@layouts'
 import {
+    Industry,
     NextPageWithLayout,
     ProvideIndustryDetail,
-    Student,
     UserStatus,
 } from '@types'
 
 // query
 import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
-import { AddCustomIndustryForm, FindWorkplace } from '@partials/common'
+import { AddCustomIndustryForm } from '@partials/common'
 import { CompleteProfileBeforeWpModal } from '@partials/common/StudentProfileDetail/components'
 import {
-    ExistinIndustryCard,
-    IndustrySelection,
-} from '@partials/sub-admin/students'
+    UpdatedExistingIndustry,
+    UpdatedExistingIndustryByName,
+    UpdatedPersonalInfo,
+    WorkplaceProgress,
+} from '@partials/student'
+import { EmployerDocuments } from '@partials/student/workplace/modal'
+import { IndustrySelection } from '@partials/sub-admin/students'
 import { AlreadyWPCreatedModal } from '@partials/sub-admin/students/workplace/requestWorkplaceDetail/modal'
 import {
     SubAdminApi,
@@ -37,10 +42,7 @@ import {
     useGetSubAdminStudentWorkplaceQuery,
     useSubAdminCancelStudentWorkplaceRequestMutation,
 } from '@queries'
-import {
-    checkStudentProfileCompletion,
-    WorkplaceCurrentStatus
-} from '@utils'
+import { checkStudentProfileCompletion, WorkplaceCurrentStatus } from '@utils'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
 
 type Props = {}
@@ -54,6 +56,17 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     const [isCancelled, setIsCancelled] = useState<boolean>(false)
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [workplaceData, setWorkplaceData] = useState<any | null>(null)
+    const [industrySearchValue, setIndustrySearchValue] = useState<
+        string | null
+    >(null)
+    const [findIndustryType, setFindIndustryType] = useState<string | null>(
+        null
+    )
+    const [showEmployerDocModal, setShowEmployerDocModal] = useState<
+        boolean | null
+    >(null)
+    const [cIndustryDetail, setCIndustryDetail] = useState<any>({})
+
     const { notification } = useNotification()
 
     // query
@@ -207,13 +220,23 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     ]
 
     const onSubmit = (values: any) => {
-        findAbn(values?.abn)
-        setIndustryABN(values?.abn)
+        if (values?.type === 'abn') {
+            findAbn(values?.value)
+        }
+
+        if (values?.type == 'name') {
+            setActive(2)
+        }
+        console.log({ values })
+        setFindIndustryType(values?.type)
+        setIndustrySearchValue(values?.value)
+        // findAbn(values?.abn)
+        // setIndustryABN(values?.abn)
         // setActive((active: number) => active + 1)
     }
 
     const onIndustryAdd = (values: ProvideIndustryDetail) => {
-        addWorkplace({
+        setCIndustryDetail({
             id: data?.user?.id,
             body: {
                 ...values,
@@ -222,16 +245,41 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                 password: 'NA',
             },
         })
+        setShowEmployerDocModal(true)
+        // addWorkplace({
+        //     id: data?.user?.id,
+        //     body: {
+        //         ...values,
+        //         courses: [values?.courses],
+        //         role: UserRoles.INDUSTRY,
+        //         password: 'NA',
+        //     },
+        // })
     }
 
     return (
         <>
             {modal}
+            {showEmployerDocModal && (
+                <EmployerDocuments
+                    onCancel={() => {
+                        setShowEmployerDocModal(null)
+                    }}
+                    action={async (document: any) => {
+                        return await addWorkplace({
+                            ...cIndustryDetail,
+                            document: document?.id,
+                        })
+                    }}
+                    result={addWorkplaceResult}
+                    setActive={setActive}
+                />
+            )}
             <PageTitle
                 title="Provide Workplace Detail"
                 backTitle="Student Detail"
             />
-            <div className="mt-10">
+            <div className="mt-3">
                 {workplace?.isLoading ? (
                     <LoadingAnimation />
                 ) : (
@@ -240,36 +288,53 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                         {/* <GoBackButton>Workplace Choice</GoBackButton> */}
                         {/*  */}
 
-                        <div className="py-4 w-[25%]">
+                        {/* <div className="py-4 w-[25%]">
                             <StepIndicator
                                 steps={StepIndicatorOptions}
                                 currentStep={StepIndicatorOptions[active - 1]}
                                 vertical
                             />
-                        </div>
-                        <div className="w-[75%]">
+                        </div> */}
+                        <div className="max-w-5xl w-full mx-auto">
                             {active === 1 && (
-                                <FindWorkplace
-                                    result={result}
-                                    onSubmit={onSubmit}
-                                    setActive={setActive}
-                                    setWorkplaceData={setWorkplaceData}
-                                    student={data as Student}
-                                />
+                                <div className="w-full">
+                                    {/* <FindWorkplace
+                                        result={result}
+                                        onSubmit={onSubmit}
+                                        setActive={setActive}
+                                        setWorkplaceData={setWorkplaceData}
+                                        student={data as Student}
+                                    /> */}
+                                    {/* {industryNotFound ? (
+                                        <div className="bg-red-200 rounded-lg px-2 py-1 mb-2">
+                                            <p className="text-sm font-semibold text-red-500">
+                                                Industry for provided ABN not
+                                                found
+                                            </p>
+                                            <p className="text-xs text-red-400">
+                                                You will be redirected to
+                                                Industry Form so you can add
+                                                your industry&apos;s information
+                                            </p>
+                                        </div>
+                                    ) : null} */}
+                                    {/* <FindWorkplaceForm
+                                     onSubmit={onSubmit}
+                                     result={result}
+                                 /> */}
+                                    <div className="h-[420px] overflow-auto custom-scrollbar">
+                                        <UpdatedPersonalInfo
+                                            onSubmit={onSubmit}
+                                            result={result}
+                                        />
+                                    </div>
+                                </div>
                             )}
 
                             {active === 2 &&
-                                (result?.data ? (
-                                    <ExistinIndustryCard
-                                        setActive={setActive}
-                                        personalInfoData={personalInfoData}
-                                        res={result}
-                                        industry={result?.data}
-                                        setWorkplaceData={setWorkplaceData}
-                                        student={data?.user?.id}
-                                        studentId={data?.id}
-                                    />
-                                ) : (
+                                (!result?.data &&
+                                (findIndustryType === 'abn' ||
+                                    !findIndustryType) ? (
                                     <AddCustomIndustryForm
                                         setWorkplaceData={setWorkplaceData}
                                         result={addWorkplaceResult}
@@ -278,6 +343,44 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                                         setActive={setActive}
                                         courses={courses?.data}
                                     />
+                                ) : (
+                                    // <ExistinIndustryCard
+                                    //     setActive={setActive}
+                                    //     personalInfoData={personalInfoData}
+                                    //     res={result}
+                                    //     industry={result?.data}
+                                    //     setWorkplaceData={setWorkplaceData}
+                                    //     student={data?.user?.id}
+                                    //     studentId={data?.id}
+                                    // />
+                                    <div>
+                                        <BackButton
+                                            onClick={() => {
+                                                setActive(1)
+                                            }}
+                                        />
+                                        {findIndustryType === 'abn' ? (
+                                            <UpdatedExistingIndustry
+                                                industry={
+                                                    result?.data as Industry
+                                                }
+                                                student={data?.user?.id}
+                                                abn={industrySearchValue + ''}
+                                                setActive={setActive}
+                                            />
+                                        ) : (
+                                            <UpdatedExistingIndustryByName
+                                                industrySearchValue={
+                                                    industrySearchValue
+                                                }
+                                                student={data?.user?.id}
+                                                setActive={setActive}
+                                                setFindIndustryType={
+                                                    setFindIndustryType
+                                                }
+                                            />
+                                        )}
+                                    </div>
                                 ))}
 
                             {active === 3 && (
@@ -334,23 +437,43 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                             )}
 
                             {active === 4 && (
-                                <Card>
-                                    <ActionAlert
-                                        title={
-                                            'Your Request Has Been Place Successfully!'
-                                        }
-                                        description={
-                                            'This prompt should be shown, when some long or multiprocess has been completed, and now user need to return to home or some other page.'
-                                        }
-                                        variant={'primary'}
-                                        primaryAction={{
-                                            text: 'Go Back',
-                                            onClick: () => {
-                                                setActive(1)
-                                            },
-                                        }}
-                                    />
-                                </Card>
+                                <div className="flex flex-col gap-y-7 items-center">
+                                    <Card>
+                                        <div className="w-full ">
+                                            <div className="w-full py-7 border-b border-[#D9DBE9]">
+                                                <WorkplaceProgress
+                                                    progressNumber={3}
+                                                    activeNumber={3}
+                                                />
+                                            </div>
+
+                                            {/*  */}
+                                            <div className="w-full px-10 pt-5 pb-9">
+                                                <ActionAlert
+                                                    title={
+                                                        'Workplace Request Successfully Added'
+                                                    }
+                                                    description={
+                                                        'We have successfully processed your workplace request. A case officer will be assigned to your case promptly to assist you further.'
+                                                    }
+                                                    variant={'primary'}
+                                                    redirect
+                                                />
+                                            </div>
+                                        </div>
+                                    </Card>
+                                    <div className="w-44">
+                                        <Button
+                                            text="Done"
+                                            fullWidth
+                                            onClick={() => {
+                                                router.push(
+                                                    `/portals/sub-admin/students/${router?.query?.id}/detail`
+                                                )
+                                            }}
+                                        />
+                                    </div>
+                                </div>
                             )}
                         </div>
                     </div>

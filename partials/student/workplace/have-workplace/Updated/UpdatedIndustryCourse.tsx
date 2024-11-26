@@ -1,19 +1,37 @@
 import React from 'react'
-import { useGetStudentProfileDetailQuery } from '@queries'
+import { SubAdminApi, useGetStudentProfileDetailQuery } from '@queries'
 import { Course } from '@types'
-import { CourseSelectOption, formatOptionLabel } from '@utils'
+import {
+    CourseSelectOption,
+    formatOptionLabel,
+    getUserCredentials,
+} from '@utils'
 import { Select } from '@components'
+import { useRouter } from 'next/router'
+import { UserRoles } from '@constants'
 
 export const UpdatedIndustryCourse = ({
     setselectedCourse,
 }: {
     setselectedCourse: (e: number) => void
 }) => {
-    const { data, isLoading } = useGetStudentProfileDetailQuery()
+    const router = useRouter()
+    const role = getUserCredentials()?.role
+
+    const { data, isLoading } = useGetStudentProfileDetailQuery(undefined, {
+        skip: role !== UserRoles.STUDENT,
+    })
+    const courses = SubAdminApi.Student.useCourses(Number(router.query?.id), {
+        skip: !router.query?.id || role !== UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+    })
+
+    const coursesData =
+        role === UserRoles.STUDENT ? data?.courses : courses?.data
 
     const courseOptions =
-        data?.courses && data?.courses?.length > 0
-            ? data?.courses?.map((course: Course) => ({
+        coursesData && coursesData?.length > 0
+            ? coursesData?.map((course: Course) => ({
                   item: course,
                   value: course?.id,
                   label: course?.title,

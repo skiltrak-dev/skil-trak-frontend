@@ -18,10 +18,12 @@ interface PdfViewModalProps {
     extension?: string
     filename: string
     file: any
+    showEdit?: boolean
 }
 
 export const PdfDocumentView = ({
     filename,
+    showEdit = true,
     url,
     onCancelButtonClick,
     downloadUrl,
@@ -55,15 +57,17 @@ export const PdfDocumentView = ({
                         <AuthorizedUserComponent
                             excludeRoles={[UserRoles.OBSERVER]}
                         >
-                            <Button
-                                text="Edit Document"
-                                variant="info"
-                                onClick={() => {
-                                    if (onCancelButtonClick) {
-                                        onCancelButtonClick(file)
-                                    }
-                                }}
-                            />
+                            {showEdit ? (
+                                <Button
+                                    text="Edit Document"
+                                    variant="info"
+                                    onClick={() => {
+                                        if (onCancelButtonClick) {
+                                            onCancelButtonClick(file)
+                                        }
+                                    }}
+                                />
+                            ) : null}
                             <Button
                                 text="Download Document"
                                 onClick={() => {

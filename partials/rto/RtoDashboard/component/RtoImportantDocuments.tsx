@@ -9,7 +9,7 @@ import classNames from 'classnames'
 
 // query
 import { useNotification } from '@hooks'
-import { CommonApi } from '@queries'
+import { CommonApi, RtoApi } from '@queries'
 import Image from 'next/image'
 import { ReactElement, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -30,9 +30,15 @@ export const RtoImportantDocuments = ({
 
     const { notification } = useNotification()
 
-    const documents = CommonApi.Documents.useGetSpecificUserDocuments(rto?.id, {
-        skip: !rto?.id,
-    })
+    // const documents = CommonApi.Documents.useGetSpecificUserDocuments(rto?.id, {
+    //     skip: !rto?.id,
+    // })
+
+    const documents = RtoApi.RtoDocument.useGetRtoDocuments(
+        Number(rto?.user?.id)
+    )
+
+    console.log({ docudocu: documents?.data })
 
     const titleClasses = classNames({
         'mb-2': true,
@@ -61,7 +67,7 @@ export const RtoImportantDocuments = ({
 
     const onDocumentView = (docType: string) => {
         const document = getDocument(docType)
-        const extension = document?.file?.split('.').reverse()[0]
+        const extension = document?.file?.split('.').reverse()[0] || ''
 
         if (document) {
             setModal(
@@ -81,7 +87,7 @@ export const RtoImportantDocuments = ({
                                     width={0}
                                     height={0}
                                     sizes="100vw 100vh"
-                                    src={document?.file}
+                                    src={document?.file + ''}
                                     alt=""
                                     className="w-[inherit] h-full object-contain"
                                     blurDataURL={'/images/blur_image.png'}
@@ -92,14 +98,14 @@ export const RtoImportantDocuments = ({
                               extension.toLowerCase()
                           ) ? (
                             <VideoPlayModal
-                                downloadUrl={document?.file}
-                                url={document?.file}
+                                downloadUrl={document?.file + ''}
+                                url={document?.file + ''}
                                 onCancelButtonClick={onCancel}
                             />
                         ) : ['pdf'].includes(extension.toLowerCase()) ? (
                             <PdfViewModal
-                                downloadUrl={document?.file}
-                                url={document?.file}
+                                downloadUrl={document?.file + ''}
+                                url={document?.file + ''}
                                 onCancelButtonClick={onModalCancel}
                             />
                         ) : null
@@ -107,7 +113,7 @@ export const RtoImportantDocuments = ({
                         <div className="px-5 min-w-full md:min-w-[600px] max-w-4xl min-h-[40vh] max-h-[calc(100vh-250px)] overflow-auto custom-scrollbar">
                             <div
                                 dangerouslySetInnerHTML={{
-                                    __html: document?.content,
+                                    __html: document?.content + '',
                                 }}
                             />
                         </div>

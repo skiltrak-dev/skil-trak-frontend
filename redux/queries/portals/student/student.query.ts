@@ -84,6 +84,8 @@ export const {
     useApplyForWorkplaceMutation,
     useUpdateFindAbnMutation,
     useAddWorkplaceMutation,
+    useGetWPContractQuery,
+    useUploadWPContractMutation,
     useChangeStatusWpApprrovalReqQuery,
     useApplyWorkplaceWithAbnIndustryMutation,
 
@@ -167,6 +169,8 @@ export const StudentApi = {
         useApplyForWorkplaceMutation,
         useUpdateFindAbnMutation,
         useAddWorkplaceMutation,
+        uploadWPContract: useUploadWPContractMutation,
+        getWPContract: useGetWPContractQuery,
         changeStatusWpApprroval: useChangeStatusWpApprrovalReqQuery,
         useApplyWorkplaceWithAbnIndustryMutation,
         useGetIndustryFoldersQuery,

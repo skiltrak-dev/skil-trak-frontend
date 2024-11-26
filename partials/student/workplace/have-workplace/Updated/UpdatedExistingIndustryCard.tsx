@@ -1,36 +1,61 @@
-import { Button, InitialAvatar, Typography } from '@components'
+import {
+    Button,
+    InitialAvatar,
+    ShowErrorNotifications,
+    Typography,
+} from '@components'
+import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
+import {
+    useApplyWorkplaceOnExistingIndustryMutation,
+    useApplyWorkplaceWithAbnIndustryMutation,
+} from '@queries'
 import { Industry } from '@types'
-import React, { ReactElement, useState } from 'react'
-import { useApplyWorkplaceWithAbnIndustryMutation } from '@queries'
-import { WorkplaceCreatedModal } from '@partials/sub-admin/students/workplace/requestWorkplaceDetail/modal'
+import { getUserCredentials } from '@utils'
+import { ReactElement, useState } from 'react'
+import { EmployerDocuments } from '../../modal'
+
+interface IndustryExtend extends Industry {
+    locationId?: number
+}
 
 export const UpdatedExistingIndustryCard = ({
+    student,
+    setActive,
     industry,
     selectedCourse,
 }: {
-    industry: Industry
+    student?: number
+    setActive: any
+    industry: IndustryExtend
     selectedCourse: number | null
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [showEmployerDocModal, setShowEmployerDocModal] =
+        useState<boolean>(false)
     const { notification } = useNotification()
+
+    const role = getUserCredentials()?.role
 
     const [applyForWorkplace, applyForWorkplaceResult] =
         useApplyWorkplaceWithAbnIndustryMutation()
+    const [applyForWorkplaceSubadmin, applyForWorkplaceSubadminResult] =
+        useApplyWorkplaceOnExistingIndustryMutation()
 
     const onApplyForWorkplace = async () => {
         if (selectedCourse) {
-            const wp: any = await applyForWorkplace({
-                IndustryId: industry?.id,
-                courseId: selectedCourse,
-            })
-            if (wp?.data) {
-                notification.success({
-                    title: 'Workplace Created',
-                    description: 'Workplace Created Successfully',
-                })
-                setModal(<WorkplaceCreatedModal onCancel={() => {}} />)
-            }
+            setShowEmployerDocModal(true)
+            // const wp: any = await applyForWorkplace({
+            //     IndustryId: industry?.id,
+            //     courseId: selectedCourse,
+            // })
+            // if (wp?.data) {
+            //     notification.success({
+            //         title: 'Workplace Created',
+            //         description: 'Workplace Created Successfully',
+            //     })
+            //     setModal(<WorkplaceCreatedModal onCancel={() => {}} />)
+            // }
         } else {
             notification.warning({
                 title: 'Course Required',
@@ -39,34 +64,66 @@ export const UpdatedExistingIndustryCard = ({
         }
     }
     return (
-        <div className="-mt-2 bg-gray-100 py-2 px-4 rounded-lg flex justify-between items-center">
-            <div className="flex items-center gap-x-2">
-                <InitialAvatar
-                    name={industry?.user?.name}
-                    imageUrl={industry?.user?.avatar}
-                    large
+        <>
+            <ShowErrorNotifications result={applyForWorkplaceSubadminResult} />
+            {showEmployerDocModal && (
+                <EmployerDocuments
+                    onCancel={() => {
+                        setShowEmployerDocModal(false)
+                    }}
+                    action={async (document: any) => {
+                        if (role === UserRoles.SUBADMIN) {
+                            return await applyForWorkplaceSubadmin({
+                                student: Number(student),
+                                IndustryId: industry?.id,
+                                courseId: Number(selectedCourse),
+                                location: industry?.locationId,
+                                document: document?.id,
+                            })
+                        }
+                        return await applyForWorkplace({
+                            IndustryId: industry?.id,
+                            courseId: Number(selectedCourse),
+                            document: document?.id,
+                        })
+                    }}
+                    result={
+                        role === UserRoles.SUBADMIN
+                            ? applyForWorkplaceSubadminResult
+                            : applyForWorkplaceResult
+                    }
+                    setActive={setActive}
                 />
-                <div>
-                    {/* <Typography variant={'muted'} color={'gray'}>
+            )}
+            <div className="-mt-2 bg-gray-100 py-2 px-4 rounded-lg flex justify-between items-center">
+                <div className="flex items-center gap-x-2">
+                    <InitialAvatar
+                        name={industry?.user?.name}
+                        imageUrl={industry?.user?.avatar}
+                        large
+                    />
+                    <div>
+                        {/* <Typography variant={'muted'} color={'gray'}>
                         5km away
                     </Typography> */}
-                    <Typography variant={'label'}>
-                        {industry?.user?.name}
-                    </Typography>
-                    <Typography variant={'muted'} color={'gray'}>
-                        {industry?.addressLine1}, {industry?.addressLine2}
-                    </Typography>
+                        <Typography variant={'label'}>
+                            {industry?.user?.name}
+                        </Typography>
+                        <Typography variant={'muted'} color={'gray'}>
+                            {industry?.addressLine1}, {industry?.addressLine2}
+                        </Typography>
+                    </div>
                 </div>
+                <Button
+                    variant={'primary'}
+                    text={'Add Workplace'}
+                    onClick={async () => {
+                        onApplyForWorkplace()
+                    }}
+                    loading={applyForWorkplaceResult.isLoading}
+                    disabled={applyForWorkplaceResult.isLoading}
+                />
             </div>
-            <Button
-                variant={'primary'}
-                text={'Add Workplace'}
-                onClick={async () => {
-                    onApplyForWorkplace()
-                }}
-                loading={applyForWorkplaceResult.isLoading}
-                disabled={applyForWorkplaceResult.isLoading}
-            />
-        </div>
+        </>
     )
 }

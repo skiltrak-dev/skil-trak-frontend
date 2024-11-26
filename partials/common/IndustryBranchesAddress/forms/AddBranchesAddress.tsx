@@ -65,6 +65,7 @@ export const AddBranchesAddress = ({
                         name={'address'}
                         placeholder={'Address Here...'}
                         validationIcons
+                        placesSuggetions
                         required
                     />
                     <TextInput

@@ -7,6 +7,7 @@ import pageNotFound2 from './common/404-sleeping-cat.json'
 import appointmentBox from './common/appointments.json'
 import WorkplaceInfo from './common/workplaceInfo.json'
 import PageLoading from './common/page-loading.json'
+import Snow from './common/snow.json'
 
 import help from './common/help.json'
 import help1 from './common/help1.json'
@@ -93,6 +94,7 @@ export const ANIM_ERROR = error
 export const ANIM_PAGE_NOT_FOUND = pageNotFound
 export const Animations = {
     Common: {
+        Snow,
         NoConnection: noInternetConnection,
         EmptyBox: emptyBox,
         ShakeEmptyBox: shakeEmptyBox,

@@ -4,6 +4,7 @@ import {
     ActionAlert,
     ActionButton,
     BackButton,
+    Button,
     Card,
     LoadingAnimation,
     StepIndicator,
@@ -23,6 +24,7 @@ import {
     UpdatedExistingIndustry,
     UpdatedExistingIndustryByName,
     UpdatedPersonalInfo,
+    WorkplaceProgress,
 } from '@partials/student'
 import {
     useAddWorkplaceMutation,
@@ -48,6 +50,10 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     const [findIndustryType, setFindIndustryType] = useState<string | null>(
         null
     )
+    const [cIndustryDetail, setCIndustryDetail] = useState<any>({})
+    const [showEmployerDocModal, setShowEmployerDocModal] = useState<
+        boolean | null
+    >(null)
 
     const [industryNotFound, setIndustryNotFound] = useState(false)
 
@@ -160,18 +166,26 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
         if (values?.type == 'name') {
             setActive(2)
         }
+        console.log({ values })
         setFindIndustryType(values?.type)
         setIndustrySearchValue(values?.value)
         // setActive((active: number) => active + 1)
     }
 
     const onAddIndustry = (values: any) => {
-        addWorkplace({
+        setCIndustryDetail({
             ...values,
             courses: [values?.courses],
             role: UserRoles.INDUSTRY,
             password: 'NA',
         })
+        setShowEmployerDocModal(true)
+        // addWorkplace({
+        //     ...values,
+        //     courses: [values?.courses],
+        //     role: UserRoles.INDUSTRY,
+        //     password: 'NA',
+        // })
         // setModal(
         //     <EmployerDocuments
         //         onCancel={() => {
@@ -190,9 +204,26 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
         // )
     }
 
+    console.log({ industrySearchValue })
+
     return (
         <>
             {modal}
+            {showEmployerDocModal && (
+                <EmployerDocuments
+                    onCancel={() => {
+                        setShowEmployerDocModal(null)
+                    }}
+                    action={async (document: any) => {
+                        return await addWorkplace({
+                            ...cIndustryDetail,
+                            document: document?.id,
+                        })
+                    }}
+                    result={addWorkplaceResult}
+                    setActive={setActive}
+                />
+            )}
             <ShowErrorNotifications result={addWorkplaceResult} />
             {workplace?.isLoading || workplace?.isLoading ? (
                 <LoadingAnimation />
@@ -260,12 +291,14 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                                         <UpdatedExistingIndustry
                                             industry={result?.data as Industry}
                                             abn={industrySearchValue + ''}
+                                            setActive={setActive}
                                         />
                                     ) : (
                                         <UpdatedExistingIndustryByName
                                             industrySearchValue={
                                                 industrySearchValue
                                             }
+                                            setActive={setActive}
                                             setFindIndustryType={
                                                 setFindIndustryType
                                             }
@@ -329,23 +362,41 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                         )}
 
                         {active === 4 && (
-                            <Card>
-                                <ActionAlert
-                                    title={
-                                        'Your Request Has Been Place Successfully!'
-                                    }
-                                    description={
-                                        'This prompt should be shown, when some long or multiprocess has been completed, and now user need to return to home or some other page.'
-                                    }
-                                    variant={'primary'}
-                                    primaryAction={{
-                                        text: 'Go Back',
-                                        onClick: () => {
-                                            setActive(1)
-                                        },
-                                    }}
-                                />
-                            </Card>
+                            <div className="flex flex-col gap-y-7 items-center">
+                                <Card>
+                                    <div className="w-full ">
+                                        <div className="w-full py-7 border-b border-[#D9DBE9]">
+                                            <WorkplaceProgress
+                                                progressNumber={3}
+                                                activeNumber={3}
+                                            />
+                                        </div>
+
+                                        {/*  */}
+                                        <div className="w-full px-10 pt-5 pb-9">
+                                            <ActionAlert
+                                                title={
+                                                    'Workplace Request Successfully Added'
+                                                }
+                                                description={
+                                                    'We have successfully processed your workplace request. A case officer will be assigned to your case promptly to assist you further.'
+                                                }
+                                                variant={'primary'}
+                                                redirect
+                                            />
+                                        </div>
+                                    </div>
+                                </Card>
+                                <div className="w-44">
+                                    <Button
+                                        text="Done"
+                                        fullWidth
+                                        onClick={() => {
+                                            workplace?.refetch()
+                                        }}
+                                    />
+                                </div>
+                            </div>
                         )}
                     </div>
                 </div>

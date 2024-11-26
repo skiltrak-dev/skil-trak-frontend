@@ -8,9 +8,13 @@ import { UpdatedExistingIndustryCard } from './UpdatedExistingIndustryCard'
 import { UpdatedIndustryCourse } from './UpdatedIndustryCourse'
 
 export const UpdatedExistingIndustryByName = ({
+    student,
+    setActive,
     setFindIndustryType,
     industrySearchValue,
 }: {
+    student?: number
+    setActive: any
     setFindIndustryType: (e: null) => void
     industrySearchValue: string | null
 }) => {
@@ -107,6 +111,8 @@ export const UpdatedExistingIndustryByName = ({
                                                         selectedCourse={
                                                             selectedCourse
                                                         }
+                                                        setActive={setActive}
+                                                        student={student}
                                                     />
                                                 )
                                             )}
