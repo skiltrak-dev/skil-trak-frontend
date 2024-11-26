@@ -43,6 +43,7 @@ export const useAssessmentDocumentsView = () => {
     }
 
     const onFileClicked = (file: any) => {
+        console.log({ file })
         if (
             [
                 'jpg',
@@ -72,6 +73,7 @@ export const useAssessmentDocumentsView = () => {
                     onCancelButtonClick={onModalCancel}
                     extension={file?.extension}
                     filename={file?.filename}
+                    showEdit={file?.showEdit}
                 />
             )
         } else if (

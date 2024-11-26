@@ -407,24 +407,25 @@ export const studentsEndpoints = (
     applyWorkplaceOnExistingIndustry: builder.mutation<
         any,
         {
-            studentId: number
+            student: number
             IndustryId: number
             courseId: number
             location?: number
+            document: number
         }
     >({
-        query: ({ studentId, IndustryId, courseId, location }) => ({
+        query: ({ IndustryId, ...params }) => ({
             url: `${PREFIX}/student/workplace/existing-industry/${IndustryId}`,
             method: 'POST',
-            params: { student: studentId, courseId, location },
+            params,
         }),
         invalidatesTags: ['SubAdminStudents'],
     }),
     addCustomIndustyForWorkplace: builder.mutation<any, any>({
-        query: ({ id, body }) => ({
+        query: ({ id, document, body }) => ({
             url: `${PREFIX}/student/add/workplace`,
             method: 'POST',
-            params: { student: id },
+            params: { student: id, document },
             body,
         }),
         invalidatesTags: ['SubAdminStudents'],

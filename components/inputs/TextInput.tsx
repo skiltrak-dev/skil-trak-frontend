@@ -104,9 +104,9 @@ export const TextInput = ({
         },
         options: {
             types: ['address'],
-            // componentRestrictions: {
-            //     country: 'au',
-            // },
+            componentRestrictions: {
+                country: 'au',
+            },
         },
     })
 
