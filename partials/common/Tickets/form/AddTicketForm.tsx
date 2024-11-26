@@ -268,7 +268,7 @@ export const AddTicketForm = ({
                                                 {' - '}
                                             </span>
                                             <span>
-                                                {option?.item?.faimlyName}
+                                                {option?.item?.familyName}
                                             </span>
                                         </div>
                                     )

@@ -68,6 +68,7 @@ export const RtoImportantDocuments = ({
                 <Modal
                     title=""
                     subtitle=""
+                    showActions={false}
                     onCancelClick={onCancel}
                     onConfirmClick={onCancel}
                 >

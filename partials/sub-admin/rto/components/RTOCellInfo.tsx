@@ -11,7 +11,8 @@ export const RTOCellInfo = ({ rto }: { rto: Rto }) => {
     return (
         <Link
             legacyBehavior
-            href={`/portals/sub-admin/users/rtos/${rto?.id}?tab=overview`}
+            href={`#`}
+            // href={`/portals/sub-admin/users/rtos/${rto?.id}?tab=overview`}
         >
             <a
                 className="flex items-center gap-x-2 relative z-10"

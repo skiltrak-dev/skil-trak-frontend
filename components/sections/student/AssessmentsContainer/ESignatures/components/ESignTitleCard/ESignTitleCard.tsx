@@ -19,9 +19,13 @@ export const ESignTitleCard = ({
     const { status } =
         doc?.signers?.find((d: any) => d?.user?.role === role) || {}
 
-    const student = selectedFolder?.signers?.find(
+    const studentUser = doc?.signers?.find(
         (s: any) => s?.user?.role === UserRoles?.STUDENT
-    )?.user?.name
+    )
+
+    const student = `${studentUser?.user?.name} ${
+        studentUser?.user?.student?.familyName || ''
+    }`
     return (
         <div
             onClick={() => {
