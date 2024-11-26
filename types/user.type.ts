@@ -218,6 +218,7 @@ export interface Industry extends BaseResponse {
     isAddressUpdated: boolean
     placementStatus: IndustryPlacementStatus
     approvalReviewQuestion: any
+    locations: any
 }
 
 export interface PendingIndustry extends Industry {

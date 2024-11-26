@@ -51,7 +51,7 @@ const subadminTagTypes = [
     'Coordinates',
     'SubAdminIndustries',
     'Department',
-    'RequestToAddCourse'
+    'RequestToAddCourse',
 ]
 
 const rtoTagTypes = [
@@ -95,12 +95,13 @@ const studentTagTypes = [
     'HighPriority',
     'StudentCourses',
     'StudentProfile',
+    'Workplace-Apply',
     'StudentSchedule',
     'StudentDocuments',
     'StudentAppointments',
-    'StudentAssessmentEvidence',
-    'StudentAssessmentEvidence',
     'TalentPoolRequiredDocs',
+    'StudentAssessmentEvidence',
+    'StudentAssessmentEvidence',
 ]
 
 const commonTagTypes = [

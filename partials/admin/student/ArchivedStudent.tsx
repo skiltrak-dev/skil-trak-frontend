@@ -1,6 +1,7 @@
 import {
     ActionButton,
     Card,
+    CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
     StudentStatusProgressCell,
@@ -232,6 +233,8 @@ export const ArchivedStudent = () => {
                 const appliedIndustry = getStudentWorkplaceAppliedIndustry(
                     workplace?.industries
                 )
+
+                return <CaseOfficerAssignedStudent student={row?.original} />
 
                 return (
                     <StudentStatusProgressCell
