@@ -1,25 +1,12 @@
 import { ReactElement } from 'react'
 
-import { RtoLayout } from '@layouts'
 import { RtoApi } from '@queries'
+import { RtoLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
-import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
+import { getSectors } from '@utils'
 import { CourseRequirementsDetail } from '@partials/common'
-
-const getSectors = (courses: any) => {
-    if (!courses) return {}
-    const sectors = {}
-    courses.forEach((c: any) => {
-        if ((sectors as any)[c.sector.name]) {
-            ;(sectors as any)[c.sector.name].push(c)
-        } else {
-            ;(sectors as any)[c.sector.name] = []
-            ;(sectors as any)[c.sector.name].push(c)
-        }
-    })
-    return sectors
-}
+import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 
 const CourseRequirements: NextPageWithLayout = () => {
     const { data: rto, isLoading, isError } = RtoApi.Rto.useProfile()

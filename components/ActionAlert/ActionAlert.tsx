@@ -22,7 +22,7 @@ interface ActionAlertProps {
     description: string
     primaryAction?: SubAction
     secondaryAction?: SubAction
-    redirect?: string
+    redirect?: boolean
     variant?: (typeof VariantOptions)[number]
 }
 
