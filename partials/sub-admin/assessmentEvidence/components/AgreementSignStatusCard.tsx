@@ -305,15 +305,13 @@ export const AgreementSignStatusCard = ({
                                         mini
                                         Icon={IoMdSend}
                                         variant="info"
-                                        disabled={
-                                            signResponse?.id ? false : true
-                                        }
+                                        // disabled={
+                                        //     signResponse?.id ? false : true
+                                        // }
                                         onClick={() => {
-                                            if (signResponse?.id) {
-                                                onSubmitDocClicked(
-                                                    signer?.user?.id
-                                                )
-                                            }
+                                            // if (signResponse?.id) {
+                                            onSubmitDocClicked(signer?.user?.id)
+                                            // }
                                         }}
                                         // className={`text-xl ml-5 ${
                                         //     signResponse?.id &&
