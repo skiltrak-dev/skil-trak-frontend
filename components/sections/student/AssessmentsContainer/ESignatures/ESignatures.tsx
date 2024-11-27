@@ -66,11 +66,7 @@ export const ESignatures = (props: Props) => {
                               pendingDocuments?.data?.length > 0 ? (
                                 <ESignTitleCards
                                     selectedFolder={selectedFolder}
-                                    pendingDocuments={
-                                        role === UserRoles.RTO
-                                            ? otherAllUserSigned
-                                            : pendingDocuments?.data
-                                    }
+                                    pendingDocuments={pendingDocuments?.data}
                                     setSelectedFolder={(e: any) => {
                                         setSelectedFolder(e)
                                     }}

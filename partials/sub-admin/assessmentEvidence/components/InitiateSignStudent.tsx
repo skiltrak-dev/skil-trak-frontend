@@ -14,7 +14,7 @@ import { Industry, OptionType, SubAdmin } from '@types'
 import { AuthUtils, getUserCredentials } from '@utils'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { useEffect, useMemo, useState } from 'react'
+import { ReactElement, useEffect, useMemo, useState } from 'react'
 import { MdEmail } from 'react-icons/md'
 import { PuffLoader } from 'react-spinners'
 
@@ -112,6 +112,7 @@ export const InitiateSignStudent = ({
     const [isSelectAnotherCoordinator, setIsSelectAnotherCoordinator] =
         useState<boolean>(false)
     const [secondaryMails, setSecondaryMails] = useState<any>([])
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [isError, setIsError] = useState<boolean>(false)
@@ -318,6 +319,7 @@ export const InitiateSignStudent = ({
 
     return (
         <>
+            {modal}
             <ShowErrorNotifications result={initiateSignResult} />
             {student.isError && (
                 <NoData text="There is some technical issue!" />

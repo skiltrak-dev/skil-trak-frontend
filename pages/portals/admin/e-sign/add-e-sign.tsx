@@ -1,5 +1,6 @@
 import { BackButton, Button, ShowErrorNotifications } from '@components'
 import { PageHeading } from '@components/headings'
+import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { AddEsignForm } from '@partials'
@@ -46,6 +47,13 @@ const AddESign = () => {
     }
 
     const onSubmit = (values: any) => {
+        if (!values?.recipients?.includes(UserRoles.STUDENT)) {
+            notification.warning({
+                title: 'Select Student as Signer',
+                description: 'Student must be in Recipients/Signers',
+            })
+            return
+        }
         setIsSaveAndNext(true)
         onSave(values)
     }
