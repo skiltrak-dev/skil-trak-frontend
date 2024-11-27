@@ -59,10 +59,10 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
             <div
                 id={`pinned-notes-${note?.id}`}
                 className={`relative w-full ${
-                    note?.isPinned
-                        ? 'bg-[#FFDCDC]'
-                        : note?.author?.role === UserRoles.RTO
+                    note?.author?.role === UserRoles.RTO
                         ? 'bg-[#bfe7f6]'
+                        : note?.isPinned
+                        ? 'bg-[#FFDCDC]'
                         : 'bg-[#FEF6E6] '
                 } p-4 rounded-xl shadow-lg `}
             >

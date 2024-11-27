@@ -322,6 +322,8 @@ const {
     // ------ Industry ------ //
     useGetAllIndustriesQuery,
     useSnoozeIndustryMutation,
+    useAddProfileVisitorQuery,
+    useViewProfileVisitorQuery,
     useUnSnoozeIndustryMutation,
     useIsIndustryHiringMutation,
     useAllGetIndustriesListQuery,
@@ -594,6 +596,8 @@ export const CommonApi = {
         jobsCount: useGetAdvertisedJobCountQuery,
         useList: useIndustryBranchesAddressListQuery,
         useSnoozeIndustry: useSnoozeIndustryMutation,
+        useAddProfileVisitor: useAddProfileVisitorQuery,
+        useProfileVisitors: useViewProfileVisitorQuery,
         useUnSnoozeIndustry: useUnSnoozeIndustryMutation,
         useIndustriesList: useAllGetIndustriesListQuery,
         useIsIndustryHiring: useIsIndustryHiringMutation,

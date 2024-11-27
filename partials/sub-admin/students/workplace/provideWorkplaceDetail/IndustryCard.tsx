@@ -57,10 +57,11 @@ export const IndustryCard = ({
                     onClick={async () => {
                         if (selectedCourse) {
                             await applyForWorkplace({
-                                studentId: student,
+                                student: student,
                                 IndustryId: industry?.id,
                                 courseId: selectedCourse,
                                 location: industry?.locationId,
+                                document: -1,
                             }).then((res: any) => {
                                 if (res?.error) {
                                     notification.error({

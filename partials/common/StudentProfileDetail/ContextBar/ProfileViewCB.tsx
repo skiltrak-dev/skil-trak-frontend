@@ -19,11 +19,28 @@ import {
     StudentStatus,
 } from '../ContextBarComponents'
 import { getUserCredentials } from '@utils'
+import { ViewProfileVisitorsModal } from '@partials/common/modal'
+import { ReactNode, useState } from 'react'
 
 export const ProfileViewCB = ({ profile }: { profile: Student }) => {
+    const [modal, setModal] = useState<ReactNode | null>(null)
+
+    const onCancelModal = () => setModal(null)
+
     const role = getUserCredentials()?.role
+
+    const onViewProfileVisitorsClicked = () => {
+        setModal(
+            <ViewProfileVisitorsModal
+                onCancel={onCancelModal}
+                userId={profile?.user.id}
+            />
+        )
+    }
+
     return (
         <div>
+            {modal}
             <div className="flex justify-between items-center">
                 <div>
                     <StudentAvatar
@@ -63,6 +80,13 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                 <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
                     <AssignToMeStudent student={profile} />
                 </AuthorizedUserComponent>
+            </div>
+
+            <div
+                onClick={onViewProfileVisitorsClicked}
+                className="cursor-pointer text-[11px] py-2 px-1 text-info hover:bg-gray-200 w-fit ml-auto"
+            >
+                View Visitors
             </div>
 
             {/* Expiry Date */}

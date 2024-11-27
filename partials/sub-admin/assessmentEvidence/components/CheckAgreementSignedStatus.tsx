@@ -87,10 +87,12 @@ export const CheckAgreementSignedStatus = ({
                         </div>
 
                         <Typography variant="small" color="text-muted-dark">
-                            Your document is currently undergoing signature from
-                            the necessary parties. Upon completion of the
-                            signing process, your document will be ready for
-                            download. Thank you for your patience.
+                            Your document was sent for signing on{' '}
+                            {moment(document?.createdAt).format('DD, MM YYYY')}{' '}
+                            and is currently undergoing signature from the
+                            necessary parties. Once the signing process is
+                            completed, your document will be available for
+                            download. Thank you for your patience
                         </Typography>
                     </div>
 

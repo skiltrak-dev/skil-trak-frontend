@@ -72,14 +72,14 @@ export const workplaceEndpoints = (
     }),
     applyWorkplaceWithAbnIndustry: builder.mutation<
         any,
-        { IndustryId: number; courseId: number }
+        { IndustryId: number; courseId: number; document: number }
     >({
-        query: ({ IndustryId, courseId }) => ({
+        query: ({ IndustryId, ...params }) => ({
             url: `${PREFIX}/add/work-place/existing-industry/${IndustryId}`,
-            params: { courseId },
+            params,
             method: 'POST',
         }),
-        invalidatesTags: ['Workplace'],
+        invalidatesTags: ['Workplace-Apply'],
     }),
     uploadAgreement: builder.mutation({
         query: ({ appliedIndustryId, course, body }) => ({
@@ -98,13 +98,14 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['Workplace'],
     }),
-    addWorkplace: builder.mutation({
-        query: (body: any) => ({
+    addWorkplace: builder.mutation<any, any>({
+        query: ({ document, ...body }) => ({
             url: `${PREFIX}/add/work-place`,
             method: 'POST',
+            params: { document },
             body,
         }),
-        invalidatesTags: ['Workplace'],
+        invalidatesTags: ['Workplace-Apply'],
     }),
 
     getWorkplaceApprovalRequest: builder.query<any, void>({
@@ -120,6 +121,20 @@ export const workplaceEndpoints = (
             url: `subadmin/workplace/approval-request/${id}/update-status`,
             params,
         }),
+        providesTags: ['Workplace'],
+    }),
+
+    uploadWPContract: builder.mutation({
+        query: (body: any) => ({
+            url: `employment-documents`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['Workplace-Apply'],
+    }),
+
+    getWPContract: builder.query<any, void>({
+        query: () => 'employment-documents',
         providesTags: ['Workplace'],
     }),
 })

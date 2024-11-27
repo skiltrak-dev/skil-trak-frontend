@@ -233,56 +233,72 @@ export const IndustryBranchesAddress = ({
                             ) : industries?.data &&
                               industries?.data?.data?.length ? (
                                 //
-                                industries?.data?.data?.map((industry: any) => (
-                                    <div
-                                        key={industry?.id}
-                                        className="p-2 flex flex-col gap-y-2 bg-[#24556D1A] bg-opacity-10 border border-[#A5A3A9] rounded-md"
-                                    >
-                                        <BranchContactPersonInfoCard
-                                            name={industry?.contactPerson}
-                                            email={industry?.contactPersonEmail}
-                                            phone={industry?.contactPersonPhone}
-                                        />
-                                        <InfoCard
-                                            title={'Address'}
-                                            data={industry?.address}
-                                        />
-                                        <InfoCard
-                                            title={'Suburb'}
-                                            data={industry?.suburb}
-                                        />
-                                        <div className="flex items-center gap-x-2 w-full">
-                                            <InfoCard
-                                                title={'Capacity'}
-                                                data={industry?.studentCapacity}
-                                            />
-                                            <InfoCard
-                                                title={'Enrolled'}
-                                                data={
-                                                    industry?.enrolledStudents
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex items-center gap-x-2 justify-center">
+                                <div className="flex flex-col gap-y-3">
+                                    {industries?.data?.data?.map(
+                                        (industry: any) => (
                                             <div
-                                                onClick={() => {
-                                                    onRemoveBranch(industry)
-                                                }}
-                                                className="bg-primaryNew p-2 rounded-md cursor-pointer"
+                                                key={industry?.id}
+                                                className="p-2 flex flex-col gap-y-2 bg-[#24556D1A] bg-opacity-10 border border-[#A5A3A9] rounded-md"
                                             >
-                                                <RiDeleteBin6Line className="text-white" />
+                                                <BranchContactPersonInfoCard
+                                                    name={
+                                                        industry?.contactPerson
+                                                    }
+                                                    email={
+                                                        industry?.contactPersonEmail
+                                                    }
+                                                    phone={
+                                                        industry?.contactPersonPhone
+                                                    }
+                                                />
+                                                <InfoCard
+                                                    title={'Address'}
+                                                    data={industry?.address}
+                                                />
+                                                <InfoCard
+                                                    title={'Suburb'}
+                                                    data={industry?.suburb}
+                                                />
+                                                <div className="flex items-center gap-x-2 w-full">
+                                                    <InfoCard
+                                                        title={'Capacity'}
+                                                        data={
+                                                            industry?.studentCapacity
+                                                        }
+                                                    />
+                                                    <InfoCard
+                                                        title={'Enrolled'}
+                                                        data={
+                                                            industry?.enrolledStudents
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="flex items-center gap-x-2 justify-center">
+                                                    <div
+                                                        onClick={() => {
+                                                            onRemoveBranch(
+                                                                industry
+                                                            )
+                                                        }}
+                                                        className="bg-primaryNew p-2 rounded-md cursor-pointer"
+                                                    >
+                                                        <RiDeleteBin6Line className="text-white" />
+                                                    </div>
+                                                    <div
+                                                        onClick={() => {
+                                                            onEditBranch(
+                                                                industry
+                                                            )
+                                                        }}
+                                                        className="bg-primaryNew p-2 rounded-md cursor-pointer"
+                                                    >
+                                                        <CiEdit className="text-white" />
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div
-                                                onClick={() => {
-                                                    onEditBranch(industry)
-                                                }}
-                                                className="bg-primaryNew p-2 rounded-md cursor-pointer"
-                                            >
-                                                <CiEdit className="text-white" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))
+                                        )
+                                    )}
+                                </div>
                             ) : (
                                 !industries.isError && (
                                     <div className="text-center p-3 text-[10px] whitespace-nowrap text-gray-400 border-2 border-dashed border-gray-200 rounded-md">

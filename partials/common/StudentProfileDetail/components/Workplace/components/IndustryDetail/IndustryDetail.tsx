@@ -1,4 +1,9 @@
-import { AuthorizedUserComponent, NoData, Typography } from '@components'
+import {
+    AuthorizedUserComponent,
+    NoData,
+    Typography,
+    VideoPreview,
+} from '@components'
 import { UserRoles } from '@constants'
 import { useContextBar, useNotification } from '@hooks'
 import { ViewOnMapIndustriesModal } from '@partials/common/MapBox'
@@ -17,6 +22,11 @@ import { Actions } from './Actions'
 import { IndustryCard, StudentInterviewDetail } from './components'
 import { StudentProvidedABNActions } from './StudentProvidedABNActions'
 import { StudentProvidedActions } from './StudentProvidedActions'
+import { IoMdDocument, IoMdDownload } from 'react-icons/io'
+import { useAssessmentDocumentsView } from '../../../AssessmentsSubmission'
+import Image from 'next/image'
+import { getDocType } from '@components/sections/student/AssessmentsContainer'
+import { WorkplaceEmploymentDocument } from '@partials/student'
 
 export const IndustryDetail = ({
     course,
@@ -33,6 +43,8 @@ export const IndustryDetail = ({
     const { notification } = useNotification()
     const [showMap, setShowMap] = useState<boolean>(false)
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const { onFileClicked, documentsViewModal } = useAssessmentDocumentsView()
 
     const role = getUserCredentials()?.role
 
@@ -104,9 +116,37 @@ export const IndustryDetail = ({
     //     }
     // }, [appliedIndustry, suggestedIndustries])
 
+    let fileName: any = workplace?.employmentDocument?.file
+    // ? workplace?.employmentDocument?.file?.split('\\')
+    // : ''
+    // if (fileName?.length === 1) {
+    //     fileName = workplace?.employmentDocument?.file?.split('/') + ''
+
+    //     if (fileName.length > 1) {
+    //         fileName = fileName[fileName?.length - 1]
+    //     }
+    // }
+
+    console.log({ fileName })
+
+    const extension = workplace?.employmentDocument?.file
+        ?.split('.')
+        ?.reverse()?.[0]
+    // ?.replaceAll('{"', '')
+    // .replaceAll('"}', '')
+    // ?.split('.')
+    // .reverse()[0]
+
+    const wpDocKeys = {
+        [WorkplaceEmploymentDocument.PAY_SLIP]: 'Pay Slip',
+        [WorkplaceEmploymentDocument.EMPLOYMENT_CONTRACT]:
+            'EMPLOYMENT CONTRACT',
+    }
+
     return (
         <>
             {modal}
+            {documentsViewModal}
             <div className="h-full">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center justify-between w-full">
@@ -349,6 +389,112 @@ export const IndustryDetail = ({
                                             />
                                         )}
                                     </AuthorizedUserComponent>
+
+                                    {workplace?.employmentDocument ? (
+                                        <div className="mt-3">
+                                            <Typography variant="small" bold>
+                                                Document Uploaded By Student
+                                            </Typography>
+
+                                            <div className="cursor-pointer relative w-fit file-view-group ">
+                                                <div
+                                                    className={` basis-1/6 border rounded py-2 px-1.5 bg-blue-100`}
+                                                    onClick={() => {
+                                                        onFileClicked({
+                                                            ...workplace?.employmentDocument,
+                                                            showEdit: false,
+                                                            file: workplace?.employmentDocument?.file
+                                                                .replaceAll(
+                                                                    '{"',
+                                                                    ''
+                                                                )
+                                                                .replaceAll(
+                                                                    '"}',
+                                                                    ''
+                                                                ),
+                                                            extension,
+                                                            type: 'all',
+                                                        })
+                                                    }}
+                                                >
+                                                    {workplace
+                                                        ?.employmentDocument
+                                                        ?.file && (
+                                                        <div className="relative w-full min-h-[40px] flex flex-col gap-y-1.5">
+                                                            {/* Video Preview */}
+                                                            {getDocType(
+                                                                'video'
+                                                            )?.includes(
+                                                                extension + ''
+                                                            ) && (
+                                                                // Preview Video
+                                                                <div className="bg-black w-24 h-24 overflow-hidden">
+                                                                    <div className="w-full h-full">
+                                                                        <VideoPreview
+                                                                            url={
+                                                                                workplace
+                                                                                    ?.employmentDocument
+                                                                                    ?.file
+                                                                            }
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                            {/* PDF Preview */}
+                                                            {getDocType(
+                                                                'docs'
+                                                            )?.includes(
+                                                                extension + ''
+                                                            ) && (
+                                                                <div className=" h-full flex justify-center items-center w-full text-gray-500">
+                                                                    <IoMdDocument className="text-3xl text-gray" />
+                                                                </div>
+                                                            )}
+                                                            {/* Image Preview */}
+                                                            {getDocType(
+                                                                'images'
+                                                            )?.includes(
+                                                                extension + ''
+                                                            ) && (
+                                                                <div className="w-full h-[70px] relative">
+                                                                    <Image
+                                                                        src={
+                                                                            workplace
+                                                                                ?.employmentDocument
+                                                                                ?.file
+                                                                        }
+                                                                        alt={''}
+                                                                        sizes="100vw 100vh"
+                                                                        fill
+                                                                        className="object-cover"
+                                                                        blurDataURL={
+                                                                            '/images/blur_image.png'
+                                                                        }
+                                                                        placeholder="blur"
+                                                                    />
+                                                                </div>
+                                                            )}
+
+                                                            <Typography
+                                                                variant="xxs"
+                                                                medium
+                                                                uppercase
+                                                            >
+                                                                {
+                                                                    wpDocKeys[
+                                                                        workplace
+                                                                            ?.employmentDocument
+                                                                            ?.key as keyof typeof wpDocKeys
+                                                                    ]
+                                                                }
+                                                            </Typography>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ) : null}
+
                                     {approvalDate ? (
                                         <div className="mt-3 w-fit">
                                             <Typography

@@ -17,7 +17,11 @@ import { FaTimes } from 'react-icons/fa'
 import { IoIosArrowRoundBack } from 'react-icons/io'
 import { IoArrowBackOutline } from 'react-icons/io5'
 import { ProfileAppointments } from '../ProfileAppointments'
-import { SubAdminApi, useGetSubAdminStudentDetailQuery } from '@queries'
+import {
+    CommonApi,
+    SubAdminApi,
+    useGetSubAdminStudentDetailQuery,
+} from '@queries'
 import {
     AssessmentSubmissions,
     MailsCommunication,
@@ -72,6 +76,10 @@ export const StudentProfileDetail = () => {
     const profile = useGetSubAdminStudentDetailQuery(Number(router.query?.id), {
         skip: !router.query?.id,
         refetchOnMountOrArgChange: true,
+    })
+    // its incresing the views of profile
+    CommonApi.Industries.useAddProfileVisitor(Number(profile?.data?.user?.id), {
+        skip: !profile?.data,
     })
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
         skip: role !== UserRoles.SUBADMIN,

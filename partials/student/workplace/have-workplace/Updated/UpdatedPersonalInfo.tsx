@@ -41,6 +41,7 @@ export const UpdatedPersonalInfo = ({
                             <UpdatedFindWPByForm
                                 type="name"
                                 submitValue={submitValue}
+                                onSubmit={onSubmit}
                                 onSubmitValue={({ type, value }) => {
                                     setSubmitValue({ type, value })
                                 }}
@@ -52,6 +53,7 @@ export const UpdatedPersonalInfo = ({
                             </div>
                             <UpdatedFindWPByForm
                                 type="abn"
+                                onSubmit={onSubmit}
                                 submitValue={submitValue}
                                 onSubmitValue={({ type, value }) => {
                                     setSubmitValue({ type, value })

@@ -1,16 +1,18 @@
-import { Card, Select, Typography } from '@components'
-import React, { useState } from 'react'
+import { Card, Typography } from '@components'
+import { Industry } from '@types'
+import { useState } from 'react'
 import { WorkplaceProgress } from '../../components'
-import { useGetStudentProfileDetailQuery } from '@queries'
-import { Course, Industry } from '@types'
-import { CourseSelectOption, formatOptionLabel } from '@utils'
 import { UpdatedExistingIndustryCard } from './UpdatedExistingIndustryCard'
 import { UpdatedIndustryCourse } from './UpdatedIndustryCourse'
 
 export const UpdatedExistingIndustry = ({
     industry,
     abn,
+    setActive,
+    student,
 }: {
+    student?: number
+    setActive: any
     abn: string
     industry: Industry
 }) => {
@@ -60,10 +62,33 @@ export const UpdatedExistingIndustry = ({
                                 <Typography center medium>
                                     Workplace
                                 </Typography>
-                                <UpdatedExistingIndustryCard
-                                    industry={industry}
-                                    selectedCourse={selectedCourse}
-                                />
+                                <div className="flex flex-col gap-y-4">
+                                    <UpdatedExistingIndustryCard
+                                        industry={industry}
+                                        selectedCourse={selectedCourse}
+                                        setActive={setActive}
+                                        student={student}
+                                    />
+
+                                    {industry?.locations?.map(
+                                        (location: any) => (
+                                            <UpdatedExistingIndustryCard
+                                                industry={{
+                                                    ...location,
+                                                    id: industry?.id,
+                                                    locationId: location?.id,
+                                                    addressLine1:
+                                                        location?.address,
+                                                    user: industry?.user,
+                                                }}
+                                                selectedCourse={selectedCourse}
+                                                setActive={setActive}
+                                                student={student}
+                                                // selectedCourse={Number(selectedCourse)}
+                                            />
+                                        )
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -173,7 +173,7 @@ export const AgreementSignStatusCard = ({
                                         variant="xs"
                                         color="text-gray-400"
                                     >
-                                        Resign
+                                        Resign Document
                                     </Typography>
                                     <FaSignature
                                         className={`text-2xl ${
@@ -206,7 +206,7 @@ export const AgreementSignStatusCard = ({
                                         variant="xs"
                                         color="text-gray-400"
                                     >
-                                        Resend
+                                        Resend Email
                                     </Typography>
                                     <ActionButton
                                         mini

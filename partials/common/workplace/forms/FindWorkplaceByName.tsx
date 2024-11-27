@@ -212,7 +212,9 @@ export const FindWorkplaceByName = ({
                                                                 )
                                                                 applyForWorkplace(
                                                                     {
-                                                                        studentId:
+                                                                        document:
+                                                                            -1,
+                                                                        student:
                                                                             Number(
                                                                                 student
                                                                                     ?.user

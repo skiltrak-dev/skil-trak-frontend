@@ -1,99 +1,194 @@
-import { Button, GlobalModal, Typography } from '@components'
+import {
+    Button,
+    GlobalModal,
+    ShowErrorNotifications,
+    Typography,
+} from '@components'
+import { StudentApi } from '@queries'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { MdCancel } from 'react-icons/md'
-import { DocUpload } from '../components'
+import { DocUpload, WorkplaceEmploymentDocument } from '../components'
+import { useNotification } from '@hooks'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
+import { useRouter } from 'next/router'
 
 export const EmployerDocuments = ({
     onCancel,
     action,
     result,
+    setActive,
 }: {
     result: any
     action: any
     onCancel: () => void
+    setActive: (val: number) => void
 }) => {
+    const router = useRouter()
+
     const [files, setFiles] = useState({})
-    console.log({ files })
+
+    const { notification } = useNotification()
+
+    const role = getUserCredentials()?.role
+
+    const getContract = StudentApi.Workplace.getWPContract()
+    const [upload, uploadResult] = StudentApi.Workplace.uploadWPContract()
+
+    const onProceed = async () => {
+        if (uploadResult?.data) {
+            const res: any = await action(uploadResult?.data)
+            if (res?.data) {
+                onCancel()
+                setActive(4)
+            }
+        } else {
+            notification.error({
+                title: 'Upload File',
+                description:
+                    'Please Upload one of the following file to proceed!',
+            })
+        }
+    }
+
+    const onUploadFile = async (e: any) => {
+        console.log({ e })
+        const formData = new FormData()
+        Object.entries(e)?.forEach(([key, value]: any) => {
+            formData.append(
+                key === 'name' ? 'workplaceDocumentType' : key,
+                value
+            )
+        })
+
+        if (role === UserRoles.SUBADMIN) {
+            formData.append('student', router?.query?.id + '')
+        }
+
+        const res: any = await upload(formData)
+
+        if (res?.data) {
+            notification.success({
+                title: 'File Uploaded',
+                description: 'File Uploaded Successfully!',
+            })
+        }
+    }
+
+    console.log({ uploadResult })
     return (
-        <GlobalModal>
-            <div className="w-full max-w-5xl px-24">
-                <MdCancel
-                    onClick={onCancel}
-                    className="absolute top-2 right-2 transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
-                />
+        <>
+            <ShowErrorNotifications result={uploadResult} />
+            <GlobalModal>
+                <div className="w-full max-w-5xl px-24">
+                    <MdCancel
+                        onClick={onCancel}
+                        className="absolute top-2 right-2 transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
+                    />
 
-                <div className="py-6 px">
-                    <div className="flex flex-col items-center gap-y-6">
-                        <Image
-                            src={'/images/workplace/document.png'}
-                            alt={''}
-                            width={50}
-                            height={50}
-                        />
-                        <Typography variant="title" normal>
-                            Please upload one of the following employer
-                            documents to add the workplace
-                        </Typography>
-                    </div>
+                    <div className="py-6 px">
+                        <div className="flex flex-col items-center gap-y-6">
+                            <Image
+                                src={'/images/workplace/document.png'}
+                                alt={''}
+                                width={50}
+                                height={50}
+                            />
+                            <Typography variant="title" normal>
+                                Please upload one of the following employer
+                                documents to add the workplace
+                            </Typography>
+                        </div>
 
-                    {/*  */}
-                    <div className="flex flex-col items-center gap-y-3 mt-7">
-                        <div className="w-full">
-                            <DocUpload
-                                name="paySlip"
-                                title="Pay Slip"
-                                setFile={(e) => {
-                                    setFiles((files) => {
-                                        return {
+                        {/*  */}
+                        <div className="flex flex-col items-center gap-y-3 mt-7">
+                            <div className="w-full">
+                                <DocUpload
+                                    name={WorkplaceEmploymentDocument.PAY_SLIP}
+                                    value={
+                                        files?.[
+                                            WorkplaceEmploymentDocument.PAY_SLIP as keyof typeof files
+                                        ]
+                                    }
+                                    title="Pay Slip"
+                                    setFile={(e) => {
+                                        onUploadFile(e)
+                                        setFiles((files) => {
+                                            return {
+                                                ...files,
+                                                paySlip: e,
+                                            }
+                                        })
+                                    }}
+                                    disabled={
+                                        uploadResult?.isLoading ||
+                                        uploadResult?.isSuccess
+                                    }
+                                    loading={uploadResult?.isLoading as boolean}
+                                />
+                            </div>
+                            <Typography
+                                variant="h4"
+                                color="text-[#6F6C90]"
+                                normal
+                            >
+                                OR
+                            </Typography>
+                            <div className="w-full">
+                                <DocUpload
+                                    name={
+                                        WorkplaceEmploymentDocument.EMPLOYMENT_CONTRACT
+                                    }
+                                    value={
+                                        files?.[
+                                            WorkplaceEmploymentDocument.EMPLOYMENT_CONTRACT as keyof typeof files
+                                        ]
+                                    }
+                                    title="Employment Contract"
+                                    setFile={(e) => {
+                                        onUploadFile(e)
+                                        setFiles((files) => ({
                                             ...files,
-                                            paySlip: e,
-                                        }
-                                    })
+                                            employmentContract: e,
+                                        }))
+                                    }}
+                                    disabled={
+                                        uploadResult?.isLoading ||
+                                        uploadResult?.isSuccess
+                                    }
+                                    loading={uploadResult?.isLoading as boolean}
+                                />
+                            </div>
+                        </div>
+
+                        {/*  */}
+                        <div className="w-40 mt-6 mx-auto">
+                            <Button
+                                text={'Proceed'}
+                                fullWidth
+                                loading={result?.isLoading}
+                                disabled={result?.isLoading}
+                                onClick={() => {
+                                    onProceed()
                                 }}
                             />
                         </div>
-                        <Typography variant="h4" color="text-[#6F6C90]" normal>
-                            OR
-                        </Typography>
-                        <div className="w-full">
-                            <DocUpload
-                                name="employmentContract"
-                                title="Employment Contract"
-                                setFile={(e) => {
-                                    setFiles((files) => ({
-                                        ...files,
-                                        employmentContract: e,
-                                    }))
-                                }}
-                            />
+
+                        {/*  */}
+                        <div className="max-w-lg w-full mx-auto mt-6">
+                            <Typography center>
+                                If you do not have these documents, please
+                                contact Skiltrak at{' '}
+                                <span className="font-bold">
+                                    (03) 9363-6378
+                                </span>
+                                . Our coordinator will be happy to assist you.
+                            </Typography>
                         </div>
-                    </div>
-
-                    {/*  */}
-                    <div className="w-40 mt-6 mx-auto">
-                        <Button
-                            text={'Proceed'}
-                            fullWidth
-                            loading={result?.isLoading}
-                            disabled={result?.isLoading}
-                            onClick={() => {
-                                action()
-                            }}
-                        />
-                    </div>
-
-                    {/*  */}
-                    <div className="max-w-lg w-full mx-auto mt-6">
-                        <Typography center>
-                            If you do not have these documents, please contact
-                            Skiltrak at{' '}
-                            <span className="font-bold">(03) 9363-6378</span>.
-                            Our coordinator will be happy to assist you.
-                        </Typography>
                     </div>
                 </div>
-            </div>
-        </GlobalModal>
+            </GlobalModal>
+        </>
     )
 }
