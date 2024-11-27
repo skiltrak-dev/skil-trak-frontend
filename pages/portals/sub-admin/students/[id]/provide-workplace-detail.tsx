@@ -322,7 +322,7 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                                      onSubmit={onSubmit}
                                      result={result}
                                  /> */}
-                                    <div className="h-[420px] overflow-auto custom-scrollbar">
+                                    <div className="">
                                         <UpdatedPersonalInfo
                                             onSubmit={onSubmit}
                                             result={result}

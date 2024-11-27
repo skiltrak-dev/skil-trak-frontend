@@ -5,8 +5,6 @@ import {
     LoadingAnimation,
     Table,
     TechnicalError,
-    Typography,
-    UserCreatedAt,
 } from '@components'
 
 // queries
@@ -14,15 +12,6 @@ import { AdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-import { ColumnDef } from '@tanstack/react-table'
-import { ellipsisText } from '@utils'
-import Link from 'next/link'
-import {
-    CourseWorkplaceCell,
-    RtoWorkplaceCell,
-    StudentWorkplaceCellInfo,
-    UpdatedWorkplaceRequest,
-} from './components'
 import { useColumns } from './hooks'
 
 export const UpdatedAllStudentProvidedWorkplace = () => {
