@@ -7,7 +7,6 @@ import {
     Button,
     Card,
     LoadingAnimation,
-    StepIndicator,
     Typography,
 } from '@components'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
@@ -17,15 +16,15 @@ import { Industry, NextPageWithLayout, UserStatus } from '@types'
 // query
 import { MediaQueries, UserRoles } from '@constants'
 import { useNotification } from '@hooks'
-import { AddCustomIndustryForm, FindWorkplaceForm } from '@partials/common'
+import { AddCustomIndustryForm } from '@partials/common'
 import {
     AppliedIndustry,
-    ExistingIndustryCard,
     UpdatedExistingIndustry,
     UpdatedExistingIndustryByName,
     UpdatedPersonalInfo,
     WorkplaceProgress,
 } from '@partials/student'
+import { EmployerDocuments } from '@partials/student/workplace/modal'
 import {
     useAddWorkplaceMutation,
     useCancelWorkplaceRequestMutation,
@@ -33,9 +32,8 @@ import {
     useGetWorkplaceIndustriesQuery,
     useUpdateFindAbnMutation,
 } from '@queries'
-import { useMediaQuery } from 'react-responsive'
 import { WorkplaceCurrentStatus } from '@utils'
-import { EmployerDocuments } from '@partials/student/workplace/modal'
+import { useMediaQuery } from 'react-responsive'
 
 type Props = {}
 
