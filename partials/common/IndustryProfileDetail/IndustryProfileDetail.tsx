@@ -14,7 +14,7 @@ import {
 import { ProfileAppointments } from '../ProfileAppointments'
 import { Alert, Card, PageTitle } from '@components'
 import moment from 'moment'
-import { SubAdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
 import { CourseManagement } from './components/CourseManagement'
@@ -24,7 +24,7 @@ export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
     // its incresing the views of profile
-    SubAdminApi.Industry.useAddProfileVisitor(industry?.user?.id, {
+    CommonApi.Industries.useAddProfileVisitor(industry?.user?.id, {
         skip: !industry,
     })
 

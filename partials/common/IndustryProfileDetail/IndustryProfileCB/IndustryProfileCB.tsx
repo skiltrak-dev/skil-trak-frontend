@@ -6,7 +6,6 @@ import {
 import { UserRoles } from '@constants'
 import { Industry } from '@types'
 import { ReactNode, useState } from 'react'
-import { ViewProfileVisitorsModal } from '../modal'
 import {
     AddIndustryAnswers,
     IndustryContactPerson,
@@ -21,6 +20,7 @@ import {
     ViewIndustryAnswers,
 } from './components'
 import { IndustryLocations, IndustrySupervisor } from '../components'
+import { ViewProfileVisitorsModal } from '@partials/common/modal'
 
 export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
@@ -31,7 +31,7 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
         setModal(
             <ViewProfileVisitorsModal
                 onCancel={onCancelModal}
-                industryUserId={industry?.user.id}
+                userId={industry?.user.id}
             />
         )
     }

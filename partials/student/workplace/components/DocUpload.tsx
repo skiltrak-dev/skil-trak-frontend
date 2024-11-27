@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { Button, Typography } from '@components'
 import { IoDocumentText } from 'react-icons/io5'
 
@@ -28,6 +28,8 @@ export const DocUpload = ({
     loading: boolean
     title: string
 }) => {
+    const [fileKey, setFileKey] = useState<number>(0)
+
     return (
         <div className="bg-[#E6E6E6] px-4 py-1.5 flex items-center justify-between rounded-[10px] ">
             <div className="pl-2 flex items-center gap-x-4">
@@ -44,12 +46,14 @@ export const DocUpload = ({
                 type={'file'}
                 name={name}
                 className="hidden"
-                onChange={(e: any) =>
+                onChange={(e: any) => {
                     setFile({
                         name,
                         file: e.target?.files?.[0],
                     })
-                }
+                    setFileKey(fileKey + 1)
+                }}
+                key={fileKey}
             />
         </div>
     )

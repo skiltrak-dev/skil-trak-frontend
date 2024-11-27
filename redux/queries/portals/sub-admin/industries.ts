@@ -11,14 +11,7 @@ export const subAdminIndustriesEndpoints = (
         query: (id) => `${PREFIX}/industry/students/count/${id}`,
         providesTags: ['Industries'],
     }),
-    addProfileVisitor: builder.query<any, number>({
-        query: (id) => `activity-logger/profile/${id}/add-profile-visitor`,
-        providesTags: ['IndustriesAddProfile'],
-    }),
-    viewProfileVisitor: builder.query<any, number>({
-        query: (id) => `activity-logger/profile/${id}/visitor-get`,
-        providesTags: ['IndustriesAddProfile'],
-    }),
+   
 
     getSubadminIndustriesCount: builder.query<any, void>({
         query: () => `${PREFIX}/industries/count`,

@@ -1,6 +1,6 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { Industry } from '@types'
+import { Industry, PaginationValues } from '@types'
 
 export const industriesEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
@@ -110,5 +110,21 @@ export const industriesEndpoints = (
             method: 'DELETE',
         }),
         invalidatesTags: ['IndustryBranchesAddress'],
+    }),
+    addProfileVisitor: builder.query<any, number>({
+        query: (id) => `activity-logger/profile/${id}/add-profile-visitor`,
+        providesTags: ['IndustriesAddProfile'],
+    }),
+    viewProfileVisitor: builder.query<
+        any,
+        PaginationValues & {
+            userId: number
+        }
+    >({
+        query: ({ userId, ...params }) => ({
+            url: `activity-logger/profile/${userId}/visitor-get`,
+            params,
+        }),
+        providesTags: ['IndustriesAddProfile'],
     }),
 })

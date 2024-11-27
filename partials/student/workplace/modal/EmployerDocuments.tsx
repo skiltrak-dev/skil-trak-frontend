@@ -28,13 +28,6 @@ export const EmployerDocuments = ({
     const router = useRouter()
 
     const [files, setFiles] = useState({})
-    console.log({
-        files: Object.values(files)?.filter((file: any) => {
-            if (file?.file) {
-                return true
-            }
-        }),
-    })
 
     const { notification } = useNotification()
 

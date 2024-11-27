@@ -394,8 +394,7 @@ export const {
     useSubAdminSettingMutation,
 
     // --- INDUSTRIES --- //
-    useAddProfileVisitorQuery,
-    useViewProfileVisitorQuery,
+
     useSubadminIndustryStatisticsCountQuery,
     useGetSnoozedIndustryQuery,
     useGetSubadminIndustriesCountQuery,
@@ -537,8 +536,6 @@ export const SubAdminApi = {
         useAddToPartner: useAddToPartnerMutation,
         useIndustryCallLog: useIndustryCallLogMutation,
         useGetIndustryCallLog: useGetIndustryCallLogQuery,
-        useAddProfileVisitor: useAddProfileVisitorQuery,
-        useProfileVisitors: useViewProfileVisitorQuery,
         useGetIndustryBranches: useGetIndustryBranchesQuery,
         useIndustryAnsweredCall: useIndustryAnsweredCallMutation,
         useRemoveIndustryBranch: useRemoveIndustryBranchMutation,
@@ -550,8 +547,7 @@ export const SubAdminApi = {
         useIndustryStudentsSchedule: useGetIndustryStudentsScheduleQuery,
         useRequestToAddCoursesToIndustry:
             useRequestToAddCoursesToIndustryMutation,
-        useAddPrevCourseDescription:
-            useAddPrevCourseDescriptionMutation,
+        useAddPrevCourseDescription: useAddPrevCourseDescriptionMutation,
         useIndustryRequestedCourses: useGetIndustryRequestedCoursesQuery,
         useIndustryCoursesOnAcceptance: useGetIndustryCoursesOnAcceptanceQuery,
         useRejectedDepartmentIndustry: useGetRejectedDepartmentIndustryQuery,

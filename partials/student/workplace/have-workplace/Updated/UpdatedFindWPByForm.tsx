@@ -11,9 +11,11 @@ export enum FindWPType {
 
 export const UpdatedFindWPByForm = ({
     submitValue,
+    onSubmit,
     type,
     onSubmitValue,
 }: {
+    onSubmit: any
     submitValue: {
         type: 'name' | 'abn'
         value: string
@@ -45,7 +47,16 @@ export const UpdatedFindWPByForm = ({
     return (
         <div>
             <FormProvider {...methods}>
-                <form className="mt-2 w-full">
+                <form
+                    className="mt-2 w-full"
+                    onSubmit={methods.handleSubmit((values) => {
+                        console.log({ values })
+                        onSubmit({
+                            type,
+                            value: values[type],
+                        })
+                    })}
+                >
                     <div className="flex flex-col gap-y-6">
                         <div className="flex flex-col gap-y-2.5">
                             <Typography variant="h4" color="text-[#170F49]">
