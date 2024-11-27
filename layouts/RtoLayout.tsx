@@ -6,7 +6,7 @@ import {
     RtoNavbar,
 } from '@components'
 import { useAlert, useContextBar, useJoyRide } from '@hooks'
-import { UsersPendingEsignModal } from '@partials'
+import { UsersPendingEsignModal } from '@partials/eSign/modal/UsersPendingEsignModal'
 import { CommonApi } from '@queries'
 import { AuthUtils, EsignDocumentStatus } from '@utils'
 import { useRouter } from 'next/router'
@@ -61,9 +61,15 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
             const allSigned = agreement.signers
                 ?.filter((signer: any) => signer?.user?.role !== 'rto')
                 ?.every((signer: any) => signer.status === 'signed')
+                
             return allSigned
         }
     )
+
+    console.log({
+        otherAllUserSigned,
+        pendingDocuments: pendingDocuments?.data,
+    })
 
     const status = AuthUtils.getUserCredentials()?.status
 

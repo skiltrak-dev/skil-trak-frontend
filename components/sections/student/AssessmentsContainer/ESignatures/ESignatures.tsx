@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { CommonApi } from '@queries'
 import { ESignTitleCards } from './ESignTitleCards'
 import { SignersStatus, WorkplaceAgreementDetail } from './components'
 import { PuffLoader } from 'react-spinners'
 import { Card, NoData } from '@components'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 type Props = {}
 
@@ -17,15 +19,31 @@ export const ESignatures = (props: Props) => {
         }
     )
 
+    const role = getUserCredentials()?.role
+
+    const otherAllUserSigned = useMemo(
+        () =>
+            pendingDocuments?.data?.filter((agreement: any) =>
+                agreement.signers
+                    ?.filter((signer: any) => signer?.user?.role !== 'rto')
+                    ?.every((signer: any) => signer.status === 'signed')
+            ),
+        [pendingDocuments?.data]
+    )
+
     useEffect(() => {
         if (
             pendingDocuments.isSuccess &&
             pendingDocuments?.data &&
             pendingDocuments?.data?.length > 0
         ) {
-            setSelectedFolder(pendingDocuments?.data?.[0])
+            if (role === UserRoles.RTO) {
+                setSelectedFolder(otherAllUserSigned?.[0])
+            } else {
+                setSelectedFolder(pendingDocuments?.data?.[0])
+            }
         }
-    }, [pendingDocuments])
+    }, [pendingDocuments, otherAllUserSigned])
 
     return (
         <>
@@ -48,7 +66,11 @@ export const ESignatures = (props: Props) => {
                               pendingDocuments?.data?.length > 0 ? (
                                 <ESignTitleCards
                                     selectedFolder={selectedFolder}
-                                    pendingDocuments={pendingDocuments?.data}
+                                    pendingDocuments={
+                                        role === UserRoles.RTO
+                                            ? otherAllUserSigned
+                                            : pendingDocuments?.data
+                                    }
                                     setSelectedFolder={(e: any) => {
                                         setSelectedFolder(e)
                                     }}

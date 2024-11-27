@@ -19,13 +19,18 @@ export const ESignTitleCard = ({
     const { status } =
         doc?.signers?.find((d: any) => d?.user?.role === role) || {}
 
-    const studentUser = doc?.signers?.find(
-        (s: any) => s?.user?.role === UserRoles?.STUDENT
-    )
+    const getRoleData = (role: UserRoles) =>
+        doc?.signers?.find((s: any) => s?.user?.role === role)
+
+    const studentUser = getRoleData(UserRoles.STUDENT)
+    const industryUser = getRoleData(UserRoles.INDUSTRY)
 
     const student = `${studentUser?.user?.name} ${
         studentUser?.user?.student?.familyName || ''
     }`
+    const industry = `${industryUser?.user?.name} (${
+        industryUser?.user?.role || ''
+    })`
     return (
         <div
             onClick={() => {
@@ -48,7 +53,7 @@ export const ESignTitleCard = ({
                         </div>
                         <div>
                             <Typography variant="label" block medium>
-                                {student}
+                                {studentUser ? student : industry}
                             </Typography>
                         </div>
                     </div>

@@ -9,6 +9,7 @@ import {
     Typography,
 } from '@components'
 import moment from 'moment'
+import { IoFootstepsSharp } from 'react-icons/io5'
 
 export const ViewProfileVisitorsModal = ({
     onCancel,
@@ -33,21 +34,25 @@ export const ViewProfileVisitorsModal = ({
     return (
         <Modal
             title="Visitors"
+            titleIcon={IoFootstepsSharp}
             showActions={false}
             onCancelClick={onCancel}
-            subtitle="Profile Visitors"
+            subtitle=" "
         >
-            <div className="flex items-center justify-between">
-                <PageSize
-                    itemPerPage={itemPerPage}
-                    setItemPerPage={setItemPerPage}
-                    records={profileVisitors.data?.data?.length}
-                />
-                <Pagination
-                    pagination={profileVisitors?.data?.pagination}
-                    setPage={setPage}
-                />
-            </div>
+            {profileVisitors.data?.data &&
+                profileVisitors.data?.data?.length > 0 && (
+                    <div className="flex items-center justify-between">
+                        <PageSize
+                            itemPerPage={itemPerPage}
+                            setItemPerPage={setItemPerPage}
+                            records={profileVisitors.data?.data?.length}
+                        />
+                        <Pagination
+                            pagination={profileVisitors?.data?.pagination}
+                            setPage={setPage}
+                        />
+                    </div>
+                )}
             {profileVisitors?.isError ? (
                 <NoData text="There is Some technical Error!" />
             ) : null}
@@ -107,7 +112,7 @@ export const ViewProfileVisitorsModal = ({
                     </table>
                 </div>
             ) : profileVisitors?.isSuccess ? (
-                <NoData text="There is No Last visitor" />
+                <NoData text="There is No visitors" />
             ) : null}
         </Modal>
     )
