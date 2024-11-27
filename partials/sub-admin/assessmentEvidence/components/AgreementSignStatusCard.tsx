@@ -306,18 +306,10 @@ export const AgreementSignStatusCard = ({
                                         Icon={IoMdSend}
                                         variant="info"
                                         disabled={
-                                            signResponse?.id &&
-                                            signer?.status !==
-                                                EsignDocumentStatus.SIGNED
-                                                ? false
-                                                : true
+                                            signResponse?.id ? false : true
                                         }
                                         onClick={() => {
-                                            if (
-                                                signResponse?.id &&
-                                                signer?.status !==
-                                                    EsignDocumentStatus.SIGNED
-                                            ) {
+                                            if (signResponse?.id) {
                                                 onSubmitDocClicked(
                                                     signer?.user?.id
                                                 )

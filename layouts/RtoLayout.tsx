@@ -61,7 +61,7 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
             const allSigned = agreement.signers
                 ?.filter((signer: any) => signer?.user?.role !== 'rto')
                 ?.every((signer: any) => signer.status === 'signed')
-                
+
             return allSigned
         }
     )
@@ -100,14 +100,14 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
             const route = `/portals/student/assessments/e-sign/${otherAllUserSigned?.[0]?.id}`
 
             if (
-                otherAllUserSigned &&
+                pendingDocuments?.data &&
                 viewAgreementModal === 0 &&
-                otherAllUserSigned?.length > 0 &&
+                pendingDocuments?.data?.length > 0 &&
                 router?.pathname !== `/portals/rto/tasks/e-sign/[id]`
             ) {
                 setModal(
                     <UsersPendingEsignModal
-                        documents={otherAllUserSigned}
+                        documents={pendingDocuments?.data}
                         onClick={() => router.push(route)}
                         route="/portals/rto/tasks/e-sign"
                         onCancel={() => {
