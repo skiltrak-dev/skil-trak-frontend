@@ -69,15 +69,18 @@ export const AddEsignForm = ({
             .required('File is required!'),
     })
 
-    const methods = useForm({
+    const methods = useForm<any>({
         resolver: yupResolver(validationSchema),
+        defaultValues: {
+            recipients: ['student'],
+        },
         mode: 'all',
     })
 
     useEffect(() => {
         if (data) {
             methods.setValue('name', data?.name)
-            methods.setValue('recipients', data?.recipients)
+            methods.setValue('recipients', [...data?.recipients, 'student'])
             methods.setValue('user', data?.user?.id)
             methods.setValue('course', data?.course?.id)
             methods.setValue('folder', data?.folder?.id)
