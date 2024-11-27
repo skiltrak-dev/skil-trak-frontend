@@ -99,6 +99,7 @@ export const ExistingIndustryCard = ({
                         onClick={async () => {
                             if (selectedCourse) {
                                 await applyForWorkplace({
+                                    document: -1,
                                     IndustryId: industry?.id,
                                     courseId: selectedCourse,
                                 })
