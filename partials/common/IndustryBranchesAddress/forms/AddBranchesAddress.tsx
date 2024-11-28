@@ -68,13 +68,13 @@ export const AddBranchesAddress = ({
                         placesSuggetions
                         required
                     />
-                    <TextInput
+                    {/* <TextInput
                         label={'Suburb'}
                         name={'suburb'}
                         placeholder={'Suburb Here...'}
                         validationIcons
                         required
-                    />
+                    /> */}
 
                     <TextInput
                         label={'Student Capacity'}
