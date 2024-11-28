@@ -217,17 +217,6 @@ const SubAdminDashboardMapDetail = ({
         setSelectedMarker(marker)
     }, [])
 
-    // useEffect(() => {
-    //     if (industriesList?.isSuccess) {
-    //         if (selectedBox) {
-    //             setTimeout(() => {
-    //                 map?.setCenter(selectedBox?.location)
-    //                 map?.setZoom(11)
-    //             }, 600)
-    //         }
-    //     }
-    // }, [industriesList, selectedBox])
-
     useEffect(() => {
         if (data || industriesList?.data || futureIndustries?.data) {
             const markers = []
@@ -371,21 +360,7 @@ const SubAdminDashboardMapDetail = ({
 
         setVisibleMarkers(updatedVisibleMarkers)
     }, [map])
-    // const onBoundChange = useCallback(() => {
-    //     if (map) {
-    //         const newCenter = map.getCenter()
-    //         const newZoom = map.getZoom()
-    //         if (newZoom !== undefined && newCenter !== undefined) {
-    //             setMapCenter({
-    //                 lat: newCenter.lat(),
-    //                 lng: newCenter.lng(),
-    //             })
-    //         }
-    //         if (newZoom !== undefined) {
-    //             setMapZoom(newZoom)
-    //         }
-    //     }
-    // }, [map])
+   
 
     const onMapLoad = useCallback(
         (map: any) => {
@@ -432,6 +407,7 @@ const SubAdminDashboardMapDetail = ({
         grid: 20,
         maxZoom: 15,
     }
+    
     const pinnedStudentId = localStorage.getItem('pinnedStudentId')
     useEffect(() => {
         if (pinnedStudentId) {

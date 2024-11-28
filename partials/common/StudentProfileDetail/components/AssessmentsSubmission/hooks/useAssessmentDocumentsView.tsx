@@ -26,14 +26,14 @@ export const useAssessmentDocumentsView = () => {
                     onModalCancel()
                 }}
             >
-                <div className="max-w-[650px] relative">
+                <div className="max-w-[650px] relative p-4">
                     <Image
                         width={0}
                         height={0}
                         sizes="100vw 100vh"
                         src={file?.file}
                         alt=""
-                        className="w-full h-full"
+                        className="w-full h-full rounded-lg"
                         blurDataURL={'/images/blur_image.png'}
                         placeholder="blur"
                     />

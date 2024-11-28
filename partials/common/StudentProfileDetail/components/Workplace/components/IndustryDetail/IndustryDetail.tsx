@@ -27,6 +27,7 @@ import { useAssessmentDocumentsView } from '../../../AssessmentsSubmission'
 import Image from 'next/image'
 import { getDocType } from '@components/sections/student/AssessmentsContainer'
 import { WorkplaceEmploymentDocument } from '@partials/student'
+import { FaFileImage } from 'react-icons/fa'
 
 export const IndustryDetail = ({
     course,
@@ -456,7 +457,7 @@ export const IndustryDetail = ({
                                                             )?.includes(
                                                                 extension + ''
                                                             ) && (
-                                                                <div className="w-full h-[70px] relative">
+                                                                <div className="w-full h-[50px] relative">
                                                                     <Image
                                                                         src={
                                                                             workplace
@@ -464,8 +465,13 @@ export const IndustryDetail = ({
                                                                                 ?.file
                                                                         }
                                                                         alt={''}
-                                                                        sizes="100vw 100vh"
-                                                                        fill
+                                                                        width={
+                                                                            50
+                                                                        }
+                                                                        height={
+                                                                            50
+                                                                        }
+                                                                        // fill
                                                                         className="object-cover"
                                                                         blurDataURL={
                                                                             '/images/blur_image.png'

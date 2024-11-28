@@ -15,7 +15,7 @@ export const StudentInfoBoxCard = ({
     const sectors = getSectorsDetail(selectedBox?.courses)
     return (
         <div className="min-w-64 ">
-            {item.isError && <NoData text="Something is not right...!" />}
+            {item?.isError && <NoData text="Something is not right...!" />}
             {item?.isLoading ? (
                 <PulseLoader />
             ) : (
