@@ -153,7 +153,7 @@ export const AgreementSignStatusCard = ({
                                         variant="xs"
                                         color="text-gray-400"
                                     >
-                                        Dated
+                                        Finish Date
                                     </Typography>
                                     <Typography variant="muted" semibold>
                                         {signer.status ===
@@ -285,10 +285,13 @@ export const AgreementSignStatusCard = ({
                                 </Typography>
                                 <Typography variant="muted" semibold>
                                     {signResponse?.id
-                                        ? moment(
-                                              signResponse?.createdAt
-                                          ).format('DD MMM, YYYY')
+                                        ? moment(signResponse?.data).format(
+                                              'DD MMM, YYYY'
+                                          )
                                         : 'Not Signed'}
+                                    {/* {moment(signer?.createdAt).format(
+                                        'DD MMM, YYYY'
+                                    )} */}
                                 </Typography>
                             </div>
                             <AuthorizedUserComponent
