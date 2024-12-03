@@ -10,8 +10,7 @@ import Map, {
 import { RxCross2 } from 'react-icons/rx'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-const MAPBOX_TOKEN =
-    'pk.eyJ1Ijoic2tpbHRyYWsiLCJhIjoiY20zMm1oZG9wMTRzMTJrc2N2dHluN3ZjOCJ9.J0XKK9V8faX1iTWj1ED3Kg'
+const MAPBOX_TOKEN = process.env.mapBoxApi as string
 
 const center = {
     latitude: -37.81374,
@@ -37,7 +36,7 @@ export const WorkplaceMapBoxView = ({
 }) => {
     const [directions, setDirections] = useState<any>(null)
     const [travelInfo, setTravelInfo] = useState<TravelInfo[]>([])
-    const [showPopup, setShowPopup] = useState<boolean>(false)
+    const [showPopup, setShowPopup] = useState<boolean>(true)
 
     const industryLocationCoordinates = useMemo(
         () => ({
@@ -126,7 +125,7 @@ export const WorkplaceMapBoxView = ({
                     ...center,
                     zoom: 11,
                 }}
-                style={{ width: '100%', height: '230px' }}
+                style={{ width: '100%', height: '280px' }}
                 mapStyle="mapbox://styles/mapbox/streets-v11"
             >
                 {showPopup && (
@@ -136,12 +135,16 @@ export const WorkplaceMapBoxView = ({
                         closeButton={false}
                         className="workplace-popup"
                         closeOnClick={false}
+                        style={{
+                            width: '280px',
+                            // height: '100%',
+                        }}
                     >
                         <RxCross2
                             className="absolute top-2 right-2 cursor-pointer"
                             onClick={() => setShowPopup(false)}
                         />
-                        <div className="mb-2">
+                        {/* <div className="mb-2">
                             <Typography variant="xs" semibold>
                                 {workplaceName}
                             </Typography>
@@ -165,8 +168,53 @@ export const WorkplaceMapBoxView = ({
                                     </Typography>
                                 </div>
                             ))}
+                        </div> */}
+                        <div
+                            // className="relative bg-white rounded-md shadow-md"
+                            style={{
+                                width: '280px',
+                                padding: '10px',
+                                overflow: 'hidden',
+                            }}
+                        >
+                            <div className="mb-2">
+                                <Typography variant="xs" semibold>
+                                    {workplaceName}
+                                </Typography>
+                                <Typography variant="xxs" bold>
+                                    Distance From Student Location
+                                </Typography>
+                            </div>
+
+                            <div className="flex gap-x-4">
+                                {travelInfo.map((info, index) => (
+                                    <div
+                                        key={index}
+                                        className="overflow-hidden"
+                                    >
+                                        <Typography variant="xxs">
+                                            {info.mode.charAt(0).toUpperCase() +
+                                                info.mode.slice(1)}
+                                        </Typography>
+                                        <Typography medium variant="xs">
+                                            {info.duration}
+                                        </Typography>
+                                        <Typography medium variant="xxs">
+                                            ({info.distance})
+                                        </Typography>
+                                    </div>
+                                ))}
+                            </div>
+                            <div
+                                className="absolute left-1/2 -bottom-2 w-0 h-0"
+                                style={{
+                                    borderLeft: '8px solid transparent',
+                                    borderRight: '8px solid transparent',
+                                    borderTop: '8px solid white',
+                                    transform: 'translateX(-50%)',
+                                }}
+                            />
                         </div>
-                        {/* </div> */}
                     </Popup>
                 )}
                 <NavigationControl />
