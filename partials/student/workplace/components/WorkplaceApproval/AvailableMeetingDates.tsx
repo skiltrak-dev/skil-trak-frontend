@@ -6,6 +6,9 @@ import { HiOutlineCalendarDays } from 'react-icons/hi2'
 import { AvailabelMeetingDate } from './AvailabelMeetingDate'
 
 export const AvailableMeetingDates = ({ dates }: { dates: any }) => {
+    console.log({
+        dates: moment('value').isValid(),
+    })
     return (
         <div className="h-full">
             <div>
@@ -16,7 +19,7 @@ export const AvailableMeetingDates = ({ dates }: { dates: any }) => {
                 Object.keys(dates)?.length > 0 &&
                 Object.values(dates)?.some((date) => date) ? (
                     Object.values(dates)?.map((value: any, i: number) =>
-                        value ? (
+                        moment(value).isValid() ? (
                             <div className="w-full">
                                 <Typography variant="small">
                                     Option {i + 1}

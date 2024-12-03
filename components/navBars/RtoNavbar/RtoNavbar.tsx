@@ -7,6 +7,7 @@ import { HiDocumentReport, HiUsers } from 'react-icons/hi'
 import { AiOutlineUsergroupAdd } from 'react-icons/ai'
 import { RiAdminFill, RiAdminLine } from 'react-icons/ri'
 import { NavLinkItem } from '../NavLinkItem'
+import { IoDocumentTextOutline } from 'react-icons/io5'
 
 const PREFIX = '/portals/rto'
 
@@ -19,6 +20,7 @@ const Routes = {
     Coordinators: `${PREFIX}/coordinators?tab=my-coordinators`,
     Notifications: `${PREFIX}/notifications`,
     Report: `${PREFIX}/report`,
+    InsuranceDocuments: `${PREFIX}/insurance-documents`,
 }
 
 export const RtoNavbar = () => {
@@ -79,6 +81,14 @@ export const RtoNavbar = () => {
             activeClasses: 'bg-blue-100 text-blue-700',
             inActiveClasses: 'text-slate-700',
             id: 'notifications',
+        },
+        {
+            link: Routes.InsuranceDocuments,
+            text: 'Insurance Documents',
+            Icon: IoDocumentTextOutline,
+            activeClasses: 'bg-blue-100 text-blue-700',
+            inActiveClasses: 'text-slate-700',
+            id: 'insuranceDocuments',
         },
     ]
 

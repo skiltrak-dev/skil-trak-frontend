@@ -85,6 +85,7 @@ export const UpdatedExistingIndustryCard = ({
                             IndustryId: industry?.id,
                             courseId: Number(selectedCourse),
                             document: document?.id,
+                            location: industry?.locationId,
                         })
                     }}
                     result={

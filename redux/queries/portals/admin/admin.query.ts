@@ -21,6 +21,7 @@ import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
 import { blogsEndpoints } from './blogs'
 import { departmentEndpoints } from './department'
+import { insuranceEndpoints } from './insurance'
 const PREFIX = 'admin'
 
 export const adminApi = emptySplitApi.injectEndpoints({
@@ -73,15 +74,16 @@ export const adminApi = emptySplitApi.injectEndpoints({
         ...profileEndpoints(build),
         ...subAdminEndpoints(build),
         ...industryEndpoints(build),
+        ...insuranceEndpoints(build),
         ...workplaceEndpoints(build),
         ...volunteerEndpoints(build),
         ...documentsEndpoints(build),
         ...subscriberEndpoints(build),
+        ...talentPoolEndpoints(build),
+        ...departmentEndpoints(build),
         ...industryRplEndpoints(build),
         ...generateKeysEndpoints(build),
         ...appointmentTypeEndpoints(build),
-        ...talentPoolEndpoints(build),
-        ...departmentEndpoints(build),
     }),
     // overrideExisting: false,
 })
@@ -341,6 +343,11 @@ const {
     useAddRtoObserverMutation,
     useRemoveRtoObserverMutation,
     useUpdateRtoObserverMutation,
+
+    // ---- INSURANCE ---- //
+    useGetInsuranceTypeQuery,
+    useAddInsuranceTypeMutation,
+    useGetRtoByInsuranceTypeQuery,
 } = adminApi
 
 export const AdminApi = {
@@ -594,5 +601,10 @@ export const AdminApi = {
         useRemove: useRemoveRtoObserverMutation,
         useAddRtoObserver: useAddRtoObserverMutation,
         useUpdateRtoObserver: useUpdateRtoObserverMutation,
+    },
+    Insurance: {
+        getInsuranceType: useGetInsuranceTypeQuery,
+        addInsuranceType: useAddInsuranceTypeMutation,
+        getRtoByInsuranceType: useGetRtoByInsuranceTypeQuery,
     },
 }

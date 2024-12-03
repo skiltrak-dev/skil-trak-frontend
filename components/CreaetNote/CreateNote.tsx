@@ -12,14 +12,7 @@ import * as Yup from 'yup'
 const htmlToDraft =
     typeof window === 'object' && require('html-to-draftjs').default
 
-import {
-    ContentState,
-    convertFromHTML,
-    convertToRaw,
-    EditorProps,
-    EditorState,
-} from 'draft-js'
-import draftToHtml from 'draftjs-to-html'
+import { ContentState, convertFromHTML, EditorState } from 'draft-js'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 // components
@@ -38,12 +31,12 @@ import {
 
 // query
 import { yupResolver } from '@hookform/resolvers/yup'
-import { CommonApi } from '@queries'
 import { useNotification } from '@hooks'
-import ClickAwayListener from 'react-click-away-listener'
-import { useRouter } from 'next/router'
+import { CommonApi } from '@queries'
 import { OptionType } from '@types'
 import { HtmlToPlainText } from '@utils'
+import { useRouter } from 'next/router'
+import ClickAwayListener from 'react-click-away-listener'
 
 interface onSubmitType {
     title: string

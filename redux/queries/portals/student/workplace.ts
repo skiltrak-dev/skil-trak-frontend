@@ -72,7 +72,12 @@ export const workplaceEndpoints = (
     }),
     applyWorkplaceWithAbnIndustry: builder.mutation<
         any,
-        { IndustryId: number; courseId: number; document: number }
+        {
+            IndustryId: number
+            courseId: number
+            document: number
+            location?: number
+        }
     >({
         query: ({ IndustryId, ...params }) => ({
             url: `${PREFIX}/add/work-place/existing-industry/${IndustryId}`,

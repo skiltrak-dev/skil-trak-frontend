@@ -265,11 +265,11 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             path: getRoutePath('/documents'),
             Icon: HiOutlineDocumentText,
         },
-        // {
-        //     text: 'Insurance Documents',
-        //     path: getRoutePath('/insurance-documents'),
-        //     Icon: HiOutlineDocumentText,
-        // },
+        {
+            text: 'Insurance Documents',
+            path: getRoutePath('/insurance-documents'),
+            Icon: HiOutlineDocumentText,
+        },
         {
             text: 'E-Sign',
             path: getRoutePath('/e-sign?tab=approved&page=1&pageSize=50'),

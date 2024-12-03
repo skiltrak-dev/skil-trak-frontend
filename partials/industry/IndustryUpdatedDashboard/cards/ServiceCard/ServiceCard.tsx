@@ -10,7 +10,7 @@ export const ServiceCard = ({ data }: { data: ServiceCardType }) => {
     const router = useRouter()
     return (
         <div
-            className="rounded-[10px] w-full h-40 xl:h-full"
+            className="rounded-[10px] w-full h-40 xl:h-full py-5"
             style={{
                 background: `
         linear-gradient(

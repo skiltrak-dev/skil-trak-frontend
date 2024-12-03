@@ -33,7 +33,6 @@ export const EmployerDocuments = ({
 
     const role = getUserCredentials()?.role
 
-    const getContract = StudentApi.Workplace.getWPContract()
     const [upload, uploadResult] = StudentApi.Workplace.uploadWPContract()
 
     const onProceed = async () => {

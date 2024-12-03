@@ -1,4 +1,4 @@
-import { talentPoolEndpoints } from './talentPool';
+import { talentPoolEndpoints } from './talentPool'
 import { emptySplitApi } from '../empty.query'
 import { appointmentsEndpoints } from './appointment'
 
@@ -18,6 +18,7 @@ import { studentsEndpoints } from './students'
 import { supervisorsEndpoints } from './supervisors'
 import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
+import { insuranceEndpoints } from './insurance'
 
 export const industryApi = emptySplitApi.injectEndpoints({
     // export const industryApi = createApi({
@@ -75,13 +76,14 @@ export const industryApi = emptySplitApi.injectEndpoints({
         ...branchesEndpoints(build),
         ...workplaceEndpoints(build),
         ...volunteerEndpoints(build),
+        ...insuranceEndpoints(build),
+        ...talentPoolEndpoints(build),
         ...supervisorsEndpoints(build),
         ...headQuarterEndpoints(build),
         ...employeeTaskEndpoints(build),
         ...appointmentsEndpoints(build),
         ...notificationsEndpoints(build),
         ...availableShiftsEndpoints(build),
-        ...talentPoolEndpoints(build),
     }),
     // overrideExisting: true,
 })
@@ -226,6 +228,10 @@ export const {
     useSentConnectionRequestMutation,
     useGetTalentPoolProfileCountQuery,
     useReadTalentPoolProfileCountMutation,
+
+    // ---- INSURANCE ---- //
+    useGetIndustryInsuranceDocsQuery,
+    useRequiredIndustryInsuranceTypeMutation,
 } = industryApi
 
 export const IndustryApi = {
@@ -367,6 +373,10 @@ export const IndustryApi = {
         useTalentPoolHiredProfiles: useGetTalentPoolHiredProfilesQuery,
         useTalentPoolCountBySector: useGetTalentPoolCountBySectorQuery,
         useTalentPoolProfileCount: useGetTalentPoolProfileCountQuery,
-        useReadTalentPoolProfileCount: useReadTalentPoolProfileCountMutation
+        useReadTalentPoolProfileCount: useReadTalentPoolProfileCountMutation,
+    },
+    Insurance: {
+        industryInsuranceDocs: useGetIndustryInsuranceDocsQuery,
+        requiredInduranceDoc: useRequiredIndustryInsuranceTypeMutation,
     },
 }

@@ -2,7 +2,13 @@ import { Button, Typography } from '@components'
 import moment from 'moment'
 import React from 'react'
 
-export const RtoDocumentCard = () => {
+export const RtoDocumentCard = ({
+    insDocument,
+    onViewDocument,
+}: {
+    onViewDocument: () => void
+    insDocument: any
+}) => {
     return (
         <div className="bg-[#24556D0D] py-3 px-3.5 rounded-md border-dashed border-[#24556D] grid grid-cols-11">
             <div className="col-span-5">
@@ -10,13 +16,13 @@ export const RtoDocumentCard = () => {
                     RTO Detail
                 </Typography>
                 <Typography variant="xxs" medium>
-                    Education Training and Employment Australia ETEA
+                    {insDocument?.rto?.user?.name}
                 </Typography>
                 <Typography variant="xxs" color="text-[#24556D]">
-                    +6182118126126
+                    {insDocument?.rto?.phone}
                 </Typography>
                 <Typography variant="xxs" color="text-[#24556D]">
-                    mail@mymail.com
+                    {insDocument?.rto?.user?.email}
                 </Typography>
             </div>
             <div className="col-span-2">
@@ -24,7 +30,7 @@ export const RtoDocumentCard = () => {
                     Confirm By
                 </Typography>
                 <Typography variant="xxs" medium>
-                    John Doe
+                    {insDocument?.confirmedBy}
                 </Typography>
             </div>
             <div className="col-span-2">
@@ -32,11 +38,11 @@ export const RtoDocumentCard = () => {
                     Expiry
                 </Typography>
                 <Typography variant="xxs" color="text-[#24556D]" medium>
-                    {moment(new Date()).format('DD-MM-YYYY')}
+                    {moment(insDocument?.expiryDate).format('DD-MM-YYYY')}
                 </Typography>
             </div>
             <div className="col-span-2 flex justify-end items-center">
-                <Button text="View" variant="info" />
+                <Button text="View" variant="info" onClick={onViewDocument} />
             </div>
         </div>
     )

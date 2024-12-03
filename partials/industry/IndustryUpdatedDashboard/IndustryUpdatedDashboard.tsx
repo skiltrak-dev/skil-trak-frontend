@@ -8,6 +8,7 @@ import {
     IndustryDashboardRD,
     IndustryShiftingHours,
     IndustryDashboardStudents,
+    IndustryDashboardTypeDocs,
 } from './components'
 import { IndustryDashboardCB } from './IndustryDashboardCB'
 import { ImportantDocuments, Supervisor } from '@partials/common'
@@ -60,11 +61,13 @@ export const IndustryUpdatedDashboard = () => {
                     <div className="lg:col-span-3 h-[490px] ">
                         <IndustryDashboardRD />
                     </div>
-                    <div className="lg:col-span-2 h-full ">
-                        <IndustryServices />
+                    <div className="lg:col-span-2 h-[490px] ">
+                        <IndustryDashboardTypeDocs />
+                        {/* <IndustryServices /> */}
                     </div>
                 </div>
             </div>
+            <IndustryServices />
 
             <IndustryDashboardStudents />
 
