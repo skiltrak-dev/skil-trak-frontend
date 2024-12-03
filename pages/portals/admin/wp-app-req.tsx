@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react'
 import { SubAdminApi } from '@queries'
-import { SubAdminLayout } from '@layouts'
+import { AdminLayout, SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { FormProvider, useForm } from 'react-hook-form'
 import { TextInput } from '@components'
@@ -30,7 +30,7 @@ const WpAppReq: NextPageWithLayout = () => {
 }
 
 WpAppReq.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout>{page}</SubAdminLayout>
+    return <AdminLayout>{page}</AdminLayout>
 }
 
 export default WpAppReq

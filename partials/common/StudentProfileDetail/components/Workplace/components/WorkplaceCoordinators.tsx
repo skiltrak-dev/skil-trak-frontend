@@ -1,7 +1,13 @@
-import { Select, ShowErrorNotifications, Typography } from '@components'
+import {
+    ActionButton,
+    AuthorizedUserComponent,
+    Select,
+    ShowErrorNotifications,
+    Typography,
+} from '@components'
 import { AdminApi, useAssignToSubAdminMutation } from '@queries'
 import { ReactElement, useState } from 'react'
-import { CoordinatorChangeModal } from '../modals'
+import { CoordinatorChangeModal, ViewQuestionsModal } from '../modals'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
 
@@ -37,6 +43,17 @@ export const WorkplaceCoordinators = ({
         )
     }
 
+    const onViewWorkplaceQuestions = (wpId: number) => {
+        setModal(
+            <ViewQuestionsModal
+                onCancel={() => {
+                    onCancel()
+                }}
+                wpId={wpId}
+            />
+        )
+    }
+
     return (
         <div className="h-full">
             {modal}
@@ -55,32 +72,57 @@ export const WorkplaceCoordinators = ({
                 </div>
 
                 {/*  */}
-                <div className="bg-primaryNew px-3 pt-3 rounded-lg flex flex-col gap-y-2 w-full">
-                    <Typography variant="xxs" normal color="text-white">
-                        Change Coordinator
-                    </Typography>
+                <AuthorizedUserComponent roles={[UserRoles.RTO]}>
                     <div className="w-full">
-                        <Select
-                            name={'subAdmin'}
-                            placeholder={'Select Sub Admin'}
-                            options={subAdminOptions}
-                            loading={
-                                subadmins?.isLoading ||
-                                assignToMeResult.isLoading
-                            }
-                            disabled={
-                                subadmins?.isLoading ||
-                                assignToMeResult.isLoading ||
-                                workplace?.cancelledRequests?.length > 0 ||
-                                role === UserRoles.RTO
-                            }
-                            onChange={(e: any) => {
-                                onChangeCoordinator(e?.value)
-                            }}
-                            menuPlacement={'top'}
-                        />
+                        {workplace
+                            ? !workplace?.studentProvidedWorkplace &&
+                              !workplace?.byExistingAbn &&
+                              workplace?.questions > 0 && (
+                                  <ActionButton
+                                      fullWidth
+                                      variant={'link'}
+                                      onClick={() => {
+                                          onViewWorkplaceQuestions(
+                                              workplace?.id
+                                          )
+                                      }}
+                                  >
+                                      View Answers
+                                  </ActionButton>
+                              )
+                            : null}
                     </div>
-                </div>
+                </AuthorizedUserComponent>
+                <AuthorizedUserComponent
+                    roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                >
+                    <div className="bg-primaryNew px-3 pt-3 rounded-lg flex flex-col gap-y-2 w-full">
+                        <Typography variant="xxs" normal color="text-white">
+                            Change Coordinator
+                        </Typography>
+                        <div className="w-full">
+                            <Select
+                                name={'subAdmin'}
+                                placeholder={'Select Sub Admin'}
+                                options={subAdminOptions}
+                                loading={
+                                    subadmins?.isLoading ||
+                                    assignToMeResult.isLoading
+                                }
+                                disabled={
+                                    subadmins?.isLoading ||
+                                    assignToMeResult.isLoading ||
+                                    workplace?.cancelledRequests?.length > 0 ||
+                                    role === UserRoles.RTO
+                                }
+                                onChange={(e: any) => {
+                                    onChangeCoordinator(e?.value)
+                                }}
+                                menuPlacement={'top'}
+                            />
+                        </div>
+                    </div>
+                </AuthorizedUserComponent>
             </div>
         </div>
     )

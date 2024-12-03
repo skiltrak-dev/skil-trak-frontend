@@ -5,13 +5,16 @@ import {
     ShowErrorNotifications,
     Typography,
 } from '@components'
-import { useNotification } from '@hooks'
+import { useNotification, useWorkplace } from '@hooks'
 import { IndustryShiftingHours } from '@partials/common/IndustryProfileDetail/components'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { MdCancel } from 'react-icons/md'
 import { IndustryPinnedNotes } from '../components'
 import { SelectAppointDateModal } from './SelectAppointDateModal'
 import { useAddExistingIndustriesMutation } from '@queries'
+import { PlacementOutSIde20KmModal } from './PlacementOutSIde20KmModal'
+import { InsuranceDocMisMatchModal } from './InsuranceDocMisMatchModal'
+import { calculateDistance } from '@utils'
 
 export const ShowIndustryNotesAndTHModal = ({
     industryUserName,
@@ -32,17 +35,67 @@ export const ShowIndustryNotesAndTHModal = ({
         useState<boolean>(false)
 
     const { notification } = useNotification()
+    const {
+        workplaceData,
+        studentLocation,
+        industryLocation,
+        setWorkplaceData,
+    } = useWorkplace()
 
     const [addExistingIndustry, addExistingIndustryResult] =
         useAddExistingIndustriesMutation()
 
+    const stdLocation = studentLocation?.split(',')?.map((a) => Number(a))
+    const indLocation = industryLocation?.split(',')?.map((a) => Number(a))
+
+    const dist = calculateDistance(
+        stdLocation?.[0],
+        stdLocation?.[1],
+        indLocation?.[0],
+        indLocation?.[1]
+    )
+
+    console.log({ distdistdist: dist })
+
+    console.log({ studentLocation, industryLocation })
+
+    useEffect(() => {
+        if (workplaceData?.type === 'docsMismatch') {
+            setModal(
+                <InsuranceDocMisMatchModal
+                    {...workplaceData?.dates}
+                    {...{ workplaceId, industryId }}
+                    onCancel={() => setModal(null)}
+                    industryName={industryUserName}
+                    rtoName={workplaceData?.rtoName}
+                    missingDocuments={workplaceData?.missingDocuments}
+                />
+            )
+            setWorkplaceData(null)
+        }
+        if (workplaceData?.type === 'placementOutSide20Km') {
+            setModal(
+                <PlacementOutSIde20KmModal
+                    {...workplaceData?.dates}
+                    {...{ workplaceId, industryId }}
+                    onCancel={() => setModal(null)}
+                    industryName={industryUserName}
+                    rtoName={workplaceData?.rtoName}
+                    missingDocuments={workplaceData?.missingDocuments}
+                />
+            )
+            setWorkplaceData(null)
+        }
+    }, [workplaceData])
+
     const onCancelClicked = () => setModal(null)
 
-    const onApply = () => {
-        addExistingIndustry({
-            workplaceId,
-            industryId,
-        }).then((res: any) => {
+    const onApply = async () => {
+        if (dist <= 20) {
+            const res: any = await addExistingIndustry({
+                workplaceId,
+                industryId,
+            })
             if (res?.data) {
                 notification.success({
                     title: 'Industry Added Successfully',
@@ -51,7 +104,26 @@ export const ShowIndustryNotesAndTHModal = ({
 
                 onCancel()
             }
-        })
+
+            if (res?.error?.data?.message === 'limitExceed') {
+                setWorkplaceData({
+                    name: industryUserName,
+                    type: 'limitExceed',
+                })
+            }
+            if (res?.error?.data?.message === 'docsMismatch') {
+                setWorkplaceData({
+                    type: 'docsMismatch',
+                    rtoName: res?.error?.data?.rtoName,
+                    missingDocuments: res?.error?.data?.missingDocuments,
+                })
+            }
+            console.log({ res })
+        } else {
+            setWorkplaceData({
+                type: 'placementOutSide20Km',
+            })
+        }
     }
 
     return (
@@ -126,8 +198,12 @@ export const ShowIndustryNotesAndTHModal = ({
                                     } else {
                                         setModal(
                                             <SelectAppointDateModal
+                                                dist={dist}
                                                 onCancel={onCancelClicked}
                                                 industryId={industryId}
+                                                industryUserName={
+                                                    industryUserName
+                                                }
                                                 workplaceId={workplaceId}
                                             />
                                         )

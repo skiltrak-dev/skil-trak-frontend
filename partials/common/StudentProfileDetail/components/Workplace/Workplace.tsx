@@ -2,7 +2,6 @@ import {
     ActionButton,
     AuthorizedUserComponent,
     Badge,
-    Button,
     Card,
     EmptyData,
     LoadingAnimation,
@@ -16,11 +15,9 @@ import {
     useGetSubAdminStudentWorkplaceDetailQuery,
     useGetWorkplaceFoldersQuery,
 } from '@queries'
-import ReactStars from 'react-stars'
 import { FaInfoCircle } from 'react-icons/fa'
+import ReactStars from 'react-stars'
 
-import { useContextBar } from '@hooks'
-import { AddSecondWPCB } from '@partials/sub-admin/students/contextBar'
 import { ForwardModal } from '@partials/sub-admin/workplace/modals'
 import { Student } from '@types'
 import {
@@ -76,8 +73,6 @@ export const Workplace = ({
 }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [selectedWorkplace, setSelectedWorkplace] = useState<any>(null)
-
-    const contextBar = useContextBar()
 
     const studentWorkplace = useGetSubAdminStudentWorkplaceDetailQuery(
         student?.id,
@@ -262,22 +257,28 @@ export const Workplace = ({
                         </span>
                     </Typography>
                     <div className="flex items-center gap-x-2">
-                        {selectedWorkplace
-                            ? !selectedWorkplace?.studentProvidedWorkplace &&
-                              !selectedWorkplace?.byExistingAbn &&
-                              selectedWorkplace?.questions > 0 && (
-                                  <ActionButton
-                                      variant={'link'}
-                                      onClick={() => {
-                                          onViewWorkplaceQuestions(
-                                              selectedWorkplace?.id
-                                          )
-                                      }}
-                                  >
-                                      View Answers
-                                  </ActionButton>
-                              )
-                            : null}
+                        <AuthorizedUserComponent
+                            roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                        >
+                            <div>
+                                {selectedWorkplace
+                                    ? !selectedWorkplace?.studentProvidedWorkplace &&
+                                      !selectedWorkplace?.byExistingAbn &&
+                                      selectedWorkplace?.questions > 0 && (
+                                          <ActionButton
+                                              variant={'link'}
+                                              onClick={() => {
+                                                  onViewWorkplaceQuestions(
+                                                      selectedWorkplace?.id
+                                                  )
+                                              }}
+                                          >
+                                              View Answers
+                                          </ActionButton>
+                                      )
+                                    : null}
+                            </div>
+                        </AuthorizedUserComponent>
                         {ignoreCompletedWP &&
                         ignoreCompletedWP?.length === 1 ? (
                             <div className="">

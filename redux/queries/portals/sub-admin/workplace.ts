@@ -1,3 +1,4 @@
+import { WorkplaceRequestWarningEnum } from '@partials/common/StudentProfileDetail/components'
 import { WPApprovalStatus } from '@partials/student/workplace/components/WorkplaceApproval/enum'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
@@ -347,5 +348,20 @@ export const workplaceEndpoints = (
             method: 'DELETE',
         }),
         invalidatesTags: ['Workplace'],
+    }),
+
+    getWarningPlacementAndInsuranceDocNote: builder.query<
+        any,
+        {
+            industryId: number
+            workplaceId: number
+            type: WorkplaceRequestWarningEnum
+        }
+    >({
+        query: ({ workplaceId, industryId, ...params }) => ({
+            url: `${PREFIX}find-existing/warning-note/${workplaceId}/${industryId}`,
+            params,
+        }),
+        providesTags: ['SubAdminWorkplace'],
     }),
 })

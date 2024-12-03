@@ -28,6 +28,7 @@ interface ButtonProps {
     submit?: boolean
     title?: string
     small?: boolean
+    fullWidth?: boolean
 }
 
 export const ActionButton = ({
@@ -43,6 +44,7 @@ export const ActionButton = ({
     submit,
     title,
     small,
+    fullWidth,
 }: ButtonProps) => {
     const classes = classNames({
         'text-xs font-medium uppercase transition-all duration-300 focus:outline-none shadow':
@@ -50,6 +52,7 @@ export const ActionButton = ({
         'rounded-full px-2 py-2': rounded && !small,
         'rounded px-4 py-2': !rounded && !small,
         'rounded px-1.5 py-1.5': small,
+        'w-full': fullWidth,
         'bg-red-100 text-red-500 hover:bg-red-200 hover:shadow-red-100':
             variant === 'error',
         'bg-green-100 text-green-500 hover:bg-green-200 hover:shadow-green-100':

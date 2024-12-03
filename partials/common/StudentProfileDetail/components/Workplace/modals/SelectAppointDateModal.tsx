@@ -7,18 +7,22 @@ import {
     Typography,
 } from '@components'
 import { useAddExistingIndustriesMutation } from '@queries'
-import { useNotification } from '@hooks'
+import { useNotification, useWorkplace } from '@hooks'
 import { getDate } from '@utils'
 import moment from 'moment'
 
 export const SelectAppointDateModal = ({
+    dist,
     onCancel,
     workplaceId,
     industryId,
+    industryUserName,
 }: {
+    dist: any
     workplaceId: number
     industryId: number
     onCancel: () => void
+    industryUserName: string
 }) => {
     const [addExistingIndustry, addExistingIndustryResult] =
         useAddExistingIndustriesMutation()
@@ -28,15 +32,18 @@ export const SelectAppointDateModal = ({
     const [showError, setShowError] = useState<boolean>(false)
 
     const { notification } = useNotification()
+    const { setWorkplaceData } = useWorkplace()
 
-    const onApply = () => {
+    const onApply = async () => {
         if (date1 || date2) {
-            addExistingIndustry({
-                workplaceId,
-                industryId,
-                date1,
-                date2,
-            }).then((res: any) => {
+            if (dist <= 20) {
+                const res: any = await addExistingIndustry({
+                    workplaceId,
+                    industryId,
+                    date1,
+                    date2,
+                })
+
                 if (res?.data) {
                     notification.success({
                         title: 'Industry Added Successfully',
@@ -45,7 +52,29 @@ export const SelectAppointDateModal = ({
 
                     onCancel()
                 }
-            })
+
+                if (res?.error?.data?.message === 'limitExceed') {
+                    setWorkplaceData({
+                        name: industryUserName,
+                        type: 'limitExceed',
+                    })
+                    onCancel()
+                }
+
+                if (res?.error?.data?.message === 'docsMismatch') {
+                    setWorkplaceData({
+                        type: 'docsMismatch',
+                        rtoName: res?.error?.data?.rtoName,
+                        missingDocuments: res?.error?.data?.missingDocuments,
+                        dates: { date1, date2 },
+                    })
+                }
+            } else {
+                setWorkplaceData({
+                    type: 'placementOutSide20Km',
+                    dates: { date1, date2 },
+                })
+            }
         } else {
             setShowError(true)
         }

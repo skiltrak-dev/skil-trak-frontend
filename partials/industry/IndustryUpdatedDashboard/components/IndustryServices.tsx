@@ -27,7 +27,7 @@ export const IndustryServices = () => {
         <div className="h-full">
             <Typography variant="title">SERVICES</Typography>
 
-            <div className="flex flex-col gap-y-3 h-[calc(100%-28px)]">
+            <div className="flex gap-x-5 h-[calc(100%-28px)]">
                 {serviceData.map((data, i) => (
                     <ServiceCard data={data} />
                 ))}

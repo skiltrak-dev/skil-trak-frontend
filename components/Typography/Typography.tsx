@@ -65,6 +65,7 @@ interface TypographyProps {
     cursorPointer?: boolean
     block?: boolean
     italic?: boolean
+    whiteSpacePre?: boolean
 }
 
 export const Typography = ({
@@ -99,6 +100,8 @@ export const Typography = ({
     cursorPointer,
 
     block,
+
+    whiteSpacePre,
 }: TypographyProps) => {
     let classes = `${color}`
 
@@ -144,6 +147,10 @@ export const Typography = ({
 
     if (block) {
         classes = `${classes} !block`
+    }
+
+    if (whiteSpacePre) {
+        classes = `${classes} !whitespace-pre`
     }
 
     const Component = `${

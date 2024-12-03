@@ -14,7 +14,7 @@ import { getStatusColor } from '@partials/sub-admin/eSign/components'
 import { CommonApi } from '@queries'
 import { EsignDocumentStatus } from '@utils'
 import moment from 'moment'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useMemo, useState } from 'react'
 import { FaSignature } from 'react-icons/fa'
 import { IoMdSend } from 'react-icons/io'
 import { RiMailSendLine } from 'react-icons/ri'
@@ -96,7 +96,21 @@ export const AgreementSignStatusCard = ({
         )
     }
 
-    const signResponse = signer?.document?.template?.tabs?.[0]?.responses?.[0]
+    const AllResponse = signer?.document?.template?.tabs?.find(
+        (t: any) => t?.type === 'date'
+    )?.responses
+
+    const signResponse = useMemo(() => {
+        return AllResponse?.reduce(
+            (latest: any, current: any) =>
+                new Date(current?.createdAt) > new Date(latest?.createdAt)
+                    ? current
+                    : latest,
+            AllResponse?.[0]
+        )
+    }, [AllResponse])
+
+    console.log({ signer })
 
     return (
         <>
@@ -153,7 +167,7 @@ export const AgreementSignStatusCard = ({
                                         variant="xs"
                                         color="text-gray-400"
                                     >
-                                        Dated
+                                        Finish Date
                                     </Typography>
                                     <Typography variant="muted" semibold>
                                         {signer.status ===
@@ -286,9 +300,13 @@ export const AgreementSignStatusCard = ({
                                 <Typography variant="muted" semibold>
                                     {signResponse?.id
                                         ? moment(
-                                              signResponse?.createdAt
+                                              signResponse?.data ||
+                                                  signer?.updatedAt
                                           ).format('DD MMM, YYYY')
                                         : 'Not Signed'}
+                                    {/* {moment(signer?.createdAt).format(
+                                        'DD MMM, YYYY'
+                                    )} */}
                                 </Typography>
                             </div>
                             <AuthorizedUserComponent

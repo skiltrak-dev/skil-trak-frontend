@@ -1,10 +1,13 @@
 import { Badge, NoData, ShowErrorNotifications, Typography } from '@components'
-import { useContextBar } from '@hooks'
-import { ShowIndustryNotesAndTHModal } from '@partials/common/StudentProfileDetail/components'
+import { useContextBar, useWorkplace } from '@hooks'
+import {
+    MaxReqLimitReachModal,
+    ShowIndustryNotesAndTHModal,
+} from '@partials/common/StudentProfileDetail/components'
 import { useAddExistingIndustriesMutation, SubAdminApi } from '@queries'
 import { ellipsisText, getSectorsDetail } from '@utils'
 import Image from 'next/image'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { PulseLoader } from 'react-spinners'
 import { IndustryDetailCB } from '../contextBar'
@@ -39,6 +42,26 @@ export const IndustryInfoBoxCard = ({
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const contextBar = useContextBar()
+    const {
+        workplaceData,
+        setWorkplaceData,
+        setStudentLocation,
+        setIndustryLocation,
+    } = useWorkplace()
+
+    console.log({ item })
+
+    useEffect(() => {
+        if (workplaceData?.type === 'limitExceed') {
+            setModal(
+                <MaxReqLimitReachModal
+                    onCancel={() => setModal(null)}
+                    industryName={workplaceData?.name}
+                />
+            )
+            setWorkplaceData(null)
+        }
+    }, [workplaceData])
 
     // apply for industry
     const [addExistingIndustry, addExistingIndustryResult] =
@@ -50,6 +73,8 @@ export const IndustryInfoBoxCard = ({
     const onModalCancelClicked = () => setModal(null)
 
     const onApplyIndustryModal = () => {
+        setIndustryLocation(item?.data?.location)
+        setStudentLocation(workplace?.student?.location)
         setModal(
             <ShowIndustryNotesAndTHModal
                 industryUserId={item?.data?.user?.id}

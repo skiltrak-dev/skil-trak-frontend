@@ -150,6 +150,8 @@ export const ViewOnMapIndustriesModal = ({
         { skip: !router?.query?.id }
     )
 
+    console.log({ studentDetails, industryDetails })
+
     useEffect(() => {
         if (
             workplaceCourseIndustries?.data?.length > 0 ||
