@@ -34,7 +34,7 @@ export const UpdatedExistingIndustryCard = ({
     const [showEmployerDocModal, setShowEmployerDocModal] =
         useState<boolean>(false)
     const { notification } = useNotification()
-
+    console.log('industry', industry)
     const role = getUserCredentials()?.role
 
     const [applyForWorkplace, applyForWorkplaceResult] =
@@ -106,9 +106,19 @@ export const UpdatedExistingIndustryCard = ({
                         {/* <Typography variant={'muted'} color={'gray'}>
                         5km away
                     </Typography> */}
-                        <Typography variant={'label'}>
-                            {industry?.user?.name}
-                        </Typography>
+                        <div className="flex gap-x-2 items-center">
+                            <Typography variant={'label'}>
+                                {industry?.user?.name}
+                            </Typography>
+                            {!industry?.locations && (
+                                <Typography
+                                    variant={'muted'}
+                                    color={'text-orange-500'}
+                                >
+                                    (Branch)
+                                </Typography>
+                            )}
+                        </div>
                         <Typography variant={'muted'} color={'gray'}>
                             {industry?.addressLine1}, {industry?.addressLine2}
                         </Typography>

@@ -1,6 +1,6 @@
 import { AuthorizedUserComponent, Typography } from '@components'
 import { UserRoles } from '@constants'
-import { AvailableMeetingDates } from '@partials/student'
+import { AvailableMeetingDates, WorkplaceMapBoxView } from '@partials/student'
 import { WorkplaceAvailableSlots } from '@partials/student/workplace/components/WorkplaceApproval/WorkplaceAvailableSlots'
 import { WorkplaceInfo } from '@partials/student/workplace/components/WorkplaceApproval/WorkplaceInfo'
 import { WorkplaceMapView } from '@partials/student/workplace/components/WorkplaceApproval/WorkplaceMapView'
@@ -57,7 +57,19 @@ export const WorkplaceApprovalReq = ({
                             </Typography>
                             <div className="rounded-xl w-full overflow-hidden mt-2">
                                 {mount ? (
-                                    <WorkplaceMapView
+                                    // <WorkplaceMapView
+                                    //     industryLocation={wpReqApproval?.industry?.location?.split(
+                                    //         ','
+                                    //     )}
+                                    //     studentLocation={wpReqApproval?.student?.location?.split(
+                                    //         ','
+                                    //     )}
+                                    //     workplaceName={
+                                    //         wpReqApproval?.industry?.user?.name
+                                    //     }
+                                    //     showMap
+                                    // />
+                                    <WorkplaceMapBoxView
                                         industryLocation={wpReqApproval?.industry?.location?.split(
                                             ','
                                         )}
@@ -149,7 +161,19 @@ export const WorkplaceApprovalReq = ({
                             </Typography>
                             <div className="rounded-xl w-full overflow-hidden mt-2">
                                 {mount ? (
-                                    <WorkplaceMapView
+                                    // <WorkplaceMapView
+                                    //     industryLocation={wpReqApproval?.industry?.location?.split(
+                                    //         ','
+                                    //     )}
+                                    //     studentLocation={wpReqApproval?.student?.location?.split(
+                                    //         ','
+                                    //     )}
+                                    //     workplaceName={
+                                    //         wpReqApproval?.industry?.user?.name
+                                    //     }
+                                    //     showMap
+                                    // />
+                                    <WorkplaceMapBoxView
                                         industryLocation={wpReqApproval?.industry?.location?.split(
                                             ','
                                         )}

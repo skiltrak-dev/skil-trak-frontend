@@ -174,13 +174,13 @@ export const AllIndustries = () => {
                     <div className="flex justify-start">
                         {info?.row?.original?.branches?.length > 0 ? (
                             <BranchCell industry={info.row.original} />
-                        ) : info.row.original.headQuarter !== null ? (
+                        ) : info?.row?.original?.headQuarter !== null ? (
                             <div className="flex flex-col gap-y-1 items-center">
                                 <p className="text-xs font-semibold text-blue-400">
                                     Head Quarter
                                 </p>
                                 <p className="text-xs font-semibold text-gray-400">
-                                    {info.row.original.headQuarter.user.name}
+                                    {info?.row?.original?.headQuarter?.user?.name}
                                 </p>
                             </div>
                         ) : (

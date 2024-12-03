@@ -5,6 +5,7 @@ import { WorkplaceApprovalActions } from './WorkplaceApprovalActions'
 import { WorkplaceAvailableSlots } from './WorkplaceAvailableSlots'
 import { WorkplaceDetail } from './WorkplaceDetail'
 import { WorkplaceMapView } from './WorkplaceMapView'
+import { WorkplaceMapBoxView } from './WorkplaceMapBoxView'
 
 export const WorkplaceApproval = ({
     onCancel,
@@ -29,7 +30,17 @@ export const WorkplaceApproval = ({
                         Workplace on map
                     </Typography>
                     <div className="rounded-xl w-full overflow-hidden mt-2">
-                        <WorkplaceMapView
+                        {/* <WorkplaceMapView
+                            industryLocation={wpApprovalData?.industry?.location?.split(
+                                ','
+                            )}
+                            studentLocation={wpApprovalData?.student?.location?.split(
+                                ','
+                            )}
+                            workplaceName={wpApprovalData?.industry?.user?.name}
+                            showMap
+                        /> */}
+                        <WorkplaceMapBoxView
                             industryLocation={wpApprovalData?.industry?.location?.split(
                                 ','
                             )}

@@ -7,6 +7,7 @@ import { SubAdminApi } from '@queries'
 import dynamic from 'next/dynamic'
 import { fromAddress, geocode, GeocodeOptions, setKey } from 'react-geocode'
 import { useContextBar } from '@hooks'
+import { MapBoxDetails } from './components'
 const SubAdminDashboardMapDetail = dynamic(
     () => import('./SubAdminDashboardMapDetail')
 )
@@ -171,6 +172,20 @@ export const SubAdminDashboardMap = ({ sectorsOptions }: any) => {
                     />
                 </div>
             ) : null}
+            {/* {isDelay ? (
+                <div>
+                    <MapBoxDetails
+                        rto={rto}
+                        sector={sector}
+                        // location={location}
+                        workplaceType={workplaceType}
+                        suburbLocation={suburbLocation}
+                        searchInitiated={searchInitiated}
+                        setSearchInitiated={setSearchInitiated}
+                        showFutureIndustries={showFutureIndustries}
+                    />
+                </div>
+            ) : null} */}
         </div>
     )
 }
