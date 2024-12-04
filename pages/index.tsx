@@ -68,7 +68,24 @@ const Home3: NextPageWithLayout = ({ data }: any) => {
             <GetStarted contactUsRef={contactUsRef} /> <RecentJobs />
             <ContactUs /> {/*  */}
             <TechnicalPartners />
-            <FeatureBlogs blogs={data} /> <LatestUpdates />
+            <FeatureBlogs blogs={data} />
+            <div
+                className="trustpilot-widget mb-2"
+                data-locale="en-US"
+                data-template-id="56278e9abfbbba0bdcd568bc"
+                data-businessunit-id="674fb3169ddbaeac9ead5f92"
+                data-style-height="52px"
+                data-style-width="100%"
+            >
+                <a
+                    href="https://www.trustpilot.com/review/skiltrak.com.au"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Trustpilot
+                </a>
+            </div>
+            <LatestUpdates />
         </div>
     )
 }
@@ -90,29 +107,5 @@ export async function getStaticProps() {
         revalidate: 3600,
     }
 }
-
-// export async function getStaticProps() {
-//     try {
-//         const res = await fetch(
-//             `${process.env.NEXT_PUBLIC_END_POINT}/blogs/site`
-//         )
-//         const data = await res.json()
-
-//         return {
-//             props: {
-//                 data: data || null, // Ensure data is never undefined
-//             },
-//             revalidate: 3600,
-//         }
-//     } catch (error) {
-//         console.error('Error fetching blogs:', error)
-//         return {
-//             props: {
-//                 data: null,
-//             },
-//             revalidate: 3600,
-//         }
-//     }
-// }
 
 export default Home3

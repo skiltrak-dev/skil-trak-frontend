@@ -8,7 +8,7 @@ export const UploadDocModal = ({
     onCancel,
     insuranceDocumentType,
 }: {
-    onCancel: () => void
+    onCancel: (val?: boolean) => void
     insuranceDocumentType: number
 }) => {
     const [upload, uploadDoc] = RtoApi.Insurance.uploadInsuranceDocs()
@@ -33,7 +33,7 @@ export const UploadDocModal = ({
                 title: 'Document Uploaded',
                 description: 'Document Uploaded Successfully',
             })
-            onCancel()
+            onCancel(true)
         }
     }
     return (

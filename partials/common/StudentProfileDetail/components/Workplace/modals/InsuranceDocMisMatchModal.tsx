@@ -33,6 +33,8 @@ export const InsuranceDocMisMatchModal = ({
 }) => {
     const [note, setNote] = useState('')
 
+    console.log({ date2 })
+
     const { notification } = useNotification()
 
     const noteData = SubAdminApi.Workplace.placementAndInsuranceDocNote(
@@ -60,6 +62,7 @@ export const InsuranceDocMisMatchModal = ({
             industryId,
             workplaceId,
             comment: note,
+            conditionSequence: 3,
             type: WorkplaceRequestWarningEnum.DocMissMatch,
         })
         if (res?.data) {
@@ -189,6 +192,7 @@ export const InsuranceDocMisMatchModal = ({
                                 rows={3}
                                 name={'note'}
                                 showError={false}
+                                placeholder="Please Enter Your Note....."
                                 onChange={(e: any) => setNote(e?.target?.value)}
                             />
                         </div>

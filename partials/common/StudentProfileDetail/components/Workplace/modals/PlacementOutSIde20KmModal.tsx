@@ -62,6 +62,7 @@ export const PlacementOutSIde20KmModal = ({
             industryId,
             workplaceId,
             comment: note,
+            conditionSequence: 2,
             type: WorkplaceRequestWarningEnum.OutSideRadiusPlacement,
         })
         if (res?.data) {
@@ -133,6 +134,7 @@ export const PlacementOutSIde20KmModal = ({
                                 value={note}
                                 name={'note'}
                                 showError={false}
+                                placeholder="Please Enter Your Note....."
                                 onChange={(e: any) => setNote(e?.target?.value)}
                             />
                         </div>

@@ -4,8 +4,12 @@ import moment from 'moment'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { useMediaQuery } from 'react-responsive'
+import { MediaQueries } from '@constants'
 
 export const BlogCard = ({ blog }: { blog: any }) => {
+    const isMobile = useMediaQuery(MediaQueries.Mobile)
+
     return (
         <div className="shadow-site rounded-xl p-2.5 bg-white">
             <div className="h-48 w-full rounded-2xl overflow-hidden">
@@ -30,7 +34,10 @@ export const BlogCard = ({ blog }: { blog: any }) => {
                 </Link>
                 <div className="h-12">
                     <Typography variant="label" color={'text-[#3E323280]'}>
-                        {ellipsisText(HtmlToPlainText(blog?.content), 95)}
+                        {ellipsisText(
+                            HtmlToPlainText(blog?.content),
+                            isMobile ? 45 : 77
+                        )}
                     </Typography>
                 </div>
             </div>

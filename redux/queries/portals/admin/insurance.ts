@@ -13,6 +13,10 @@ export const insuranceEndpoints = (
         query: (id) => `${PREFIX}/insurance-document/type/${id}`,
         providesTags: ['Insurance-Type'],
     }),
+    getIndustriesByInsuranceType: builder.query<any, number>({
+        query: (id) => `${PREFIX}/insurance-document/type/${id}/industries`,
+        providesTags: ['Insurance-Type'],
+    }),
 
     addInsuranceType: builder.mutation<any, { title: string }>({
         query: (body) => ({

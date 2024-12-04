@@ -1,6 +1,7 @@
 import { Button } from '@components'
 import { ReactElement, useState } from 'react'
 import { WorkplaceApprovalDeclaration, WorkplaceRejectedModal } from './modal'
+import moment from 'moment'
 
 export const WorkplaceApprovalActions = ({
     onCancel,
@@ -65,8 +66,8 @@ export const WorkplaceApprovalActions = ({
                 })?.length > 0 ? (
                     <div className="h-10 w-full flex items-center gap-x-6">
                         {Object.entries(dates)
-                            ?.filter(([_, value]) => {
-                                if (value) {
+                            ?.filter(([_, value]: any) => {
+                                if (moment(value).isValid()) {
                                     return value
                                 }
                             })
