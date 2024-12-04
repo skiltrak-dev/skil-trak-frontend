@@ -16,7 +16,7 @@ export const AvailableMeetingDates = ({ dates }: { dates: any }) => {
                 Object.keys(dates)?.length > 0 &&
                 Object.values(dates)?.some((date) => date) ? (
                     Object.values(dates)
-                        ?.filter((dates) => moment(dates).isValid())
+                        ?.filter((dates: any) => moment(dates).isValid())
                         ?.map((value: any, i: number) =>
                             moment(value).isValid() ? (
                                 <div className="w-full">
