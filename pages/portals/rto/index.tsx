@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useMemo, useState } from 'react'
 
 import { Animations } from '@animations'
 import {
@@ -19,14 +19,20 @@ import { useRouter } from 'next/router'
 import { FaSchool } from 'react-icons/fa'
 import { CallBackProps } from 'react-joyride'
 import { ImportantDocuments } from '@partials/rto/components'
-import { RtoDashboard } from '@partials/rto'
+import { InsuranceDocExpNoticeModal, RtoDashboard } from '@partials/rto'
+import moment from 'moment'
 
 const RTODashboard: NextPageWithLayout = () => {
     const contextBar = useContextBar()
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const [credentials, setCredentials] = useState<any>(null)
+
     const { data: rto, isLoading } = RtoApi.Rto.useProfile()
+    const rtoInsuranceList = RtoApi.Insurance.rtoInsuranceList()
     const count = RtoApi.Rto.useDashboard()
+
     const router = useRouter()
+
     const getSectors = (courses: any) => {
         if (!courses) return {}
         const sectors = {}
@@ -41,6 +47,34 @@ const RTODashboard: NextPageWithLayout = () => {
         return sectors
     }
     const sectorsWithCourses = getSectors(rto?.courses)
+
+    const currentDate = moment() // Get the current date using moment.js
+    const sevenDaysLater = moment().add(7, 'days') // Add 7 days to the current date
+    const nearExpiry = useMemo(
+        () =>
+            rtoInsuranceList?.data?.filter((item: any) => {
+                return item?.document?.some((doc: any) => {
+                    const expiryDate = moment(doc?.expiryDate) // Convert expiryDate to a moment object
+                    return expiryDate.isSameOrBefore(sevenDaysLater) // Check if expiryDate is within 7 days
+                })
+            }),
+        [rtoInsuranceList?.data]
+    )
+    console.log({ nearExpiry, docs: rtoInsuranceList?.data })
+
+    const onCancel = () => setModal(null)
+
+    useEffect(() => {
+        if (nearExpiry && nearExpiry?.length > 0) {
+            setModal(
+                <InsuranceDocExpNoticeModal
+                    onCancel={onCancel}
+                    industryName={-1}
+                    insuranceDoc={nearExpiry?.[0]}
+                />
+            )
+        }
+    }, [nearExpiry])
 
     const UserQuestions = [
         {
@@ -568,7 +602,12 @@ const RTODashboard: NextPageWithLayout = () => {
         }
     }, [credentials])
 
-    return <RtoDashboard rto={rto} />
+    return (
+        <>
+            {modal}
+            <RtoDashboard rto={rto} />
+        </>
+    )
 
     return (
         <div className="flex flex-col gap-y-6 pb-8">

@@ -1,20 +1,29 @@
 import React from 'react'
 import { RtoApi } from '@queries'
-import { LoadingAnimation, NoData, Typography } from '@components'
+import { Button, LoadingAnimation, NoData, Typography } from '@components'
 import { InsuranceDocumentCard } from './card'
 
 export const InsuranceDocuments = () => {
     const rtoInsuranceList = RtoApi.Insurance.rtoInsuranceList()
     return (
         <div className="bg-[#24556D0F] rounded-[5px] py-4 px-5">
-            <div>
-                <Typography variant="label" medium>
-                    Insurance Documents
-                </Typography>
-                <Typography variant="xs">
-                    Please select the appropriate insurance document for the
-                    student’s placement.
-                </Typography>
+            <div className="flex justify-between items-center">
+                <div>
+                    <Typography variant="label" medium>
+                        Insurance Documents
+                    </Typography>
+                    <Typography variant="xs">
+                        Please select the appropriate insurance document for the
+                        student’s placement.
+                    </Typography>
+                </div>
+                {rtoInsuranceList?.isError ? (
+                    <Button
+                        variant="action"
+                        text={'Refetch'}
+                        onClick={() => rtoInsuranceList?.refetch()}
+                    />
+                ) : null}
             </div>
 
             {/*  */}

@@ -36,43 +36,42 @@ export const SelectAppointDateModal = ({
 
     const onApply = async () => {
         if (date1 || date2) {
-            if (dist <= 20) {
-                const res: any = await addExistingIndustry({
-                    workplaceId,
-                    industryId,
-                    date1,
-                    date2,
+            const res: any = await addExistingIndustry({
+                workplaceId,
+                industryId,
+                date1,
+                date2,
+            })
+
+            if (res?.data) {
+                notification.success({
+                    title: 'Industry Added Successfully',
+                    description: 'Industry Added Successfully',
                 })
 
-                if (res?.data) {
-                    notification.success({
-                        title: 'Industry Added Successfully',
-                        description: 'Industry Added Successfully',
-                    })
+                onCancel()
+            }
 
-                    onCancel()
-                }
+            if (res?.error?.data?.message === 'limitExceed') {
+                setWorkplaceData({
+                    name: industryUserName,
+                    type: 'limitExceed',
+                })
+                onCancel()
+            }
 
-                if (res?.error?.data?.message === 'limitExceed') {
-                    setWorkplaceData({
-                        name: industryUserName,
-                        type: 'limitExceed',
-                    })
-                    onCancel()
-                }
+            if (res?.error?.data?.message === 'docsMismatch') {
+                setWorkplaceData({
+                    type: 'docsMismatch',
+                    rtoName: res?.error?.data?.rtoName,
+                    missingDocuments: res?.error?.data?.missingDocuments,
+                    dates: { date1, date2 },
+                })
+            }
 
-                if (res?.error?.data?.message === 'docsMismatch') {
-                    setWorkplaceData({
-                        type: 'docsMismatch',
-                        rtoName: res?.error?.data?.rtoName,
-                        missingDocuments: res?.error?.data?.missingDocuments,
-                        dates: { date1, date2 },
-                    })
-                }
-            } else {
+            if (res?.error?.data?.message === 'distanceExceededLimit') {
                 setWorkplaceData({
                     type: 'placementOutSide20Km',
-                    dates: { date1, date2 },
                 })
             }
         } else {

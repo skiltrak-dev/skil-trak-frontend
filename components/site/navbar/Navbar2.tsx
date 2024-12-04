@@ -107,8 +107,9 @@ export function Navbar2() {
                                     width={0}
                                     height={0}
                                     sizes={'100vh 100vw'}
-                                    className="block lg:hidden h-8 w-auto"
-                                    src={'/images/site/logo-light.webp'}
+                                    className="block lg:hidden h-28 w-auto"
+                                    src={'/images/skiltrak-christmas.gif'}
+                                    // src={'/images/site/logo-light.webp'}
                                     alt="Skiltrak Logo"
                                 />
                             </Link>

@@ -1,13 +1,10 @@
 import { Typography } from '@components'
 import moment from 'moment'
-import React from 'react'
-import { GoClock } from 'react-icons/go'
-import { HiOutlineCalendarDays } from 'react-icons/hi2'
 import { AvailabelMeetingDate } from './AvailabelMeetingDate'
 
 export const AvailableMeetingDates = ({ dates }: { dates: any }) => {
     console.log({
-        dates: moment('value').isValid(),
+        dates: Object.values(dates),
     })
     return (
         <div className="h-full">
@@ -18,16 +15,18 @@ export const AvailableMeetingDates = ({ dates }: { dates: any }) => {
                 {dates &&
                 Object.keys(dates)?.length > 0 &&
                 Object.values(dates)?.some((date) => date) ? (
-                    Object.values(dates)?.map((value: any, i: number) =>
-                        moment(value).isValid() ? (
-                            <div className="w-full">
-                                <Typography variant="small">
-                                    Option {i + 1}
-                                </Typography>
-                                <AvailabelMeetingDate date={value} />
-                            </div>
-                        ) : null
-                    )
+                    Object.values(dates)
+                        ?.filter((dates) => moment(dates).isValid())
+                        ?.map((value: any, i: number) =>
+                            moment(value).isValid() ? (
+                                <div className="w-full">
+                                    <Typography variant="small">
+                                        Option {i + 1}
+                                    </Typography>
+                                    <AvailabelMeetingDate date={value} />
+                                </div>
+                            ) : null
+                        )
                 ) : (
                     <div className="flex justify-center mx-auto">
                         <Typography variant={'small'} center>

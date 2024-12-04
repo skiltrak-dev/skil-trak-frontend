@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from 'react'
 
-import { Button } from '@components'
+import { Button, LoadingAnimation, NoData, Typography } from '@components'
 import { useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import {
@@ -48,29 +48,48 @@ const InsuranceDocuments: NextPageWithLayout = () => {
                         variant="dark"
                         onClick={onAddType}
                     />
-                    <Button text="Upload Document" />
                 </div>
 
                 {/*  */}
-                <div className="grid-cols-2 grid lg:grid-cols-3 xl:grid-cols-4 gap-5 px-6 mt-8">
-                    {getInsuranceType?.data?.map((type: any, i: number) => (
-                        <DocumentTypeCard
-                            key={type?.id}
-                            index={i}
-                            active={type?.id === selectedType}
-                            onClick={() => {
-                                setSelectedType(type?.id)
-                            }}
-                            label={type?.title}
+                {getInsuranceType?.isError ? (
+                    <NoData text="There is some technical issue getting Types!" />
+                ) : null}
+                {getInsuranceType?.isLoading ? (
+                    <div className="flex flex-col items-center">
+                        <LoadingAnimation size={50} />
+                        <Typography variant="small" semibold>
+                            Types Loading...
+                        </Typography>
+                    </div>
+                ) : getInsuranceType?.data &&
+                  getInsuranceType?.data?.length > 0 ? (
+                    <div className="grid-cols-2 grid lg:grid-cols-3 xl:grid-cols-4 gap-5 px-6 mt-8">
+                        {getInsuranceType?.data?.map((type: any, i: number) => (
+                            <DocumentTypeCard
+                                key={type?.id}
+                                index={i}
+                                active={type?.id === selectedType}
+                                onClick={() => {
+                                    setSelectedType(type?.id)
+                                }}
+                                count={type?.documentCount}
+                                label={type?.title}
+                            />
+                        ))}
+                    </div>
+                ) : getInsuranceType?.isSuccess ? (
+                    <NoData text="No Type was added!" />
+                ) : null}
+
+                {/*  */}
+                {getInsuranceType?.isSuccess ? (
+                    <div className="grid grid-cols-2 gap-x-5 px-6 mt-5">
+                        <RtoInsuranceDocuments selectedType={selectedType} />
+                        <IndustryInsuarabceDocuments
+                            selectedType={selectedType}
                         />
-                    ))}
-                </div>
-
-                {/*  */}
-                <div className="grid grid-cols-2 gap-x-5 px-6 mt-5">
-                    <RtoInsuranceDocuments selectedType={selectedType} />
-                    <IndustryInsuarabceDocuments />
-                </div>
+                    </div>
+                ) : null}
             </div>
         </>
     )

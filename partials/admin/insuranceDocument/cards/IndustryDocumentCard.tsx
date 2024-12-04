@@ -2,7 +2,8 @@ import React from 'react'
 import moment from 'moment'
 import { Button, Typography } from '@components'
 
-export const IndustryDocumentCard = () => {
+export const IndustryDocumentCard = ({ industries }: { industries: any }) => {
+    console.log({ industries })
     return (
         <div className="bg-[#6971DD1A] py-3 px-3.5 rounded-md border-dashed border-[#24556D] grid grid-cols-4">
             <div className="">
@@ -10,15 +11,7 @@ export const IndustryDocumentCard = () => {
                     Name
                 </Typography>
                 <Typography variant="xxs" medium>
-                    Industry Name
-                </Typography>
-            </div>
-            <div className="">
-                <Typography variant="xxs" color="text-[#767F8C]">
-                    Confirm By
-                </Typography>
-                <Typography variant="xxs" medium>
-                    John Doe
+                    {industries?.industry?.user?.name}
                 </Typography>
             </div>
             <div className="">
@@ -26,7 +19,15 @@ export const IndustryDocumentCard = () => {
                     Email
                 </Typography>
                 <Typography variant="xxs" medium>
-                    mail@mymail.com
+                    {industries?.industry?.user?.email}
+                </Typography>
+            </div>
+            <div className="">
+                <Typography variant="xxs" color="text-[#767F8C]">
+                    Phone
+                </Typography>
+                <Typography variant="xxs" medium>
+                    {industries?.industry?.phoneNumber}
                 </Typography>
             </div>
             <div className="">

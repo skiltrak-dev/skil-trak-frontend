@@ -40,7 +40,8 @@ export const RtoInsuranceDocuments = ({
                         <NoData text="There is some technical issue!" />
                     </div>
                 ) : null}
-                {getRtoByInsuranceType?.isLoading ? (
+                {getRtoByInsuranceType?.isLoading ||
+                getRtoByInsuranceType?.isFetching ? (
                     <LoadingAnimation size={90} />
                 ) : getRtoByInsuranceType?.data?.document &&
                   getRtoByInsuranceType?.data?.document?.length > 0 ? (
@@ -72,6 +73,7 @@ export const RtoInsuranceDocuments = ({
                         imageUrl="/images/workplace/document.png"
                         title="No Document Uploaded by Rto"
                         description="."
+                        height="100%"
                     />
                 ) : null}
             </div>

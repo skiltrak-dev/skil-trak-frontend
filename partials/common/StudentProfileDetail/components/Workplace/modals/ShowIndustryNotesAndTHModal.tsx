@@ -91,39 +91,44 @@ export const ShowIndustryNotesAndTHModal = ({
     const onCancelClicked = () => setModal(null)
 
     const onApply = async () => {
-        if (dist <= 20) {
-            const res: any = await addExistingIndustry({
-                workplaceId,
-                industryId,
+        // if (dist <= 20) {
+        const res: any = await addExistingIndustry({
+            workplaceId,
+            industryId,
+        })
+        if (res?.data) {
+            notification.success({
+                title: 'Industry Added Successfully',
+                description: 'Industry Added Successfully',
             })
-            if (res?.data) {
-                notification.success({
-                    title: 'Industry Added Successfully',
-                    description: 'Industry Added Successfully',
-                })
 
-                onCancel()
-            }
+            onCancel()
+        }
 
-            if (res?.error?.data?.message === 'limitExceed') {
-                setWorkplaceData({
-                    name: industryUserName,
-                    type: 'limitExceed',
-                })
-            }
-            if (res?.error?.data?.message === 'docsMismatch') {
-                setWorkplaceData({
-                    type: 'docsMismatch',
-                    rtoName: res?.error?.data?.rtoName,
-                    missingDocuments: res?.error?.data?.missingDocuments,
-                })
-            }
-            console.log({ res })
-        } else {
+        if (res?.error?.data?.message === 'limitExceed') {
+            setWorkplaceData({
+                name: industryUserName,
+                type: 'limitExceed',
+            })
+        }
+        if (res?.error?.data?.message === 'docsMismatch') {
+            setWorkplaceData({
+                type: 'docsMismatch',
+                rtoName: res?.error?.data?.rtoName,
+                missingDocuments: res?.error?.data?.missingDocuments,
+            })
+        }
+        if (res?.error?.data?.message === 'distanceExceededLimit') {
             setWorkplaceData({
                 type: 'placementOutSide20Km',
             })
         }
+        console.log({ res })
+        // } else {
+        //     setWorkplaceData({
+        //         type: 'placementOutSide20Km',
+        //     })
+        // }
     }
 
     return (
