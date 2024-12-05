@@ -2,6 +2,7 @@ import {
     ActionButton,
     AuthorizedUserComponent,
     Badge,
+    Button,
     Card,
     EmptyData,
     LoadingAnimation,
@@ -33,6 +34,7 @@ import {
 } from 'redux/queryTypes'
 import {
     AddWorkplaceAction,
+    CancelledWorkplaceCard,
     CancelledWorkplaceTable,
     ContactPersonDetail,
     IndustryStatus,
@@ -73,6 +75,7 @@ export const Workplace = ({
 }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [selectedWorkplace, setSelectedWorkplace] = useState<any>(null)
+    const [showPreviousWorkplace, setShowPreviousWorkplace] = useState(false)
 
     const studentWorkplace = useGetSubAdminStudentWorkplaceDetailQuery(
         student?.id,
@@ -86,8 +89,7 @@ export const Workplace = ({
         refetchOnMountOrArgChange: true,
     })
     const getCancelledWP = SubAdminApi.Student.getCancelledWP(student?.id, {
-        skip:
-            !studentWorkplace?.isSuccess && studentWorkplace?.data?.length > 0,
+        skip: !studentWorkplace?.isSuccess,
     })
 
     const appliedIndustry: WorkplaceWorkIndustriesType =
@@ -240,6 +242,12 @@ export const Workplace = ({
         )
     }, [selectedWorkplace?.workplaceApprovaleRequest])
 
+    const togglePreviousWorkplace = () => {
+        setShowPreviousWorkplace(!showPreviousWorkplace)
+    }
+
+    console.log('getCancelledWP?.data::::::::', getCancelledWP?.data)
+
     return (
         <>
             {modal}
@@ -257,6 +265,24 @@ export const Workplace = ({
                         </span>
                     </Typography>
                     <div className="flex items-center gap-x-2">
+                        <div>
+                            {getCancelledWP?.data &&
+                                getCancelledWP?.data?.length > 0 && (
+                                    <Button
+                                        text={
+                                            showPreviousWorkplace
+                                                ? 'Current WP'
+                                                : 'Cancelled WP'
+                                        }
+                                        variant={
+                                            showPreviousWorkplace
+                                                ? 'success'
+                                                : 'error'
+                                        }
+                                        onClick={togglePreviousWorkplace}
+                                    />
+                                )}
+                        </div>
                         <AuthorizedUserComponent
                             roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                         >
@@ -288,7 +314,7 @@ export const Workplace = ({
                                     <AddWorkplaceAction
                                         id={student?.id}
                                         profileCompletion={100}
-                                        text={'Add Another Workplace'}
+                                        text={'Add Another WP'}
                                         onButtonClick={() => {
                                             if (
                                                 [
@@ -347,6 +373,7 @@ export const Workplace = ({
                                 roles={[UserRoles.SUBADMIN]}
                             >
                                 <AddWorkplaceAction
+                                    text="Add WP"
                                     id={student?.id}
                                     profileCompletion={profileCompletion}
                                 />
@@ -357,361 +384,409 @@ export const Workplace = ({
 
                 {studentWorkplace?.isLoading ? (
                     <LoadingAnimation />
-                ) : studentWorkplace?.data &&
-                  studentWorkplace?.data?.length > 0 ? (
-                    <>
-                        {studentWorkplace?.data &&
-                            studentWorkplace?.data?.length > 1 && (
-                                <div className="border-b border-secondary-dark p-4 flex items-center gap-x-2.5 cursor-pointer">
-                                    {sortedWorkplace?.map(
-                                        (workplace: any, i: number) => (
-                                            <WorkplaceTab
-                                                index={i}
-                                                key={workplace.id}
-                                                active={
-                                                    selectedWorkplace?.id ===
-                                                    workplace?.id
-                                                }
-                                                onClick={() => {
-                                                    setSelectedWorkplace(
-                                                        workplace
-                                                    )
-                                                }}
-                                            />
-                                        )
-                                    )}
-                                </div>
-                            )}
-
-                        {/*  */}
-                        {studentWorkplace.isError ? (
-                            <TechnicalError height="h-64" description={false} />
-                        ) : null}
-                        {studentWorkplace?.isLoading ? (
-                            <div className="flex flex-col items-center justify-center h-60">
-                                <LoadingAnimation size={60} />
-                                <Typography variant="label">
-                                    Workplace Loading...
-                                </Typography>
-                            </div>
-                        ) : studentWorkplace?.data &&
-                          studentWorkplace?.data?.length > 0 &&
-                          studentWorkplace?.isSuccess ? (
-                            latestWorkplaceApprovaleRequest &&
-                            latestWorkplaceApprovaleRequest?.status ===
-                                'pending' ? (
-                                <>
-                                    <div className="h-[380px] overflow-auto custom-scrollbar">
-                                        <WorkplaceApprovalReq
-                                            wpReqApproval={{
-                                                ...latestWorkplaceApprovaleRequest,
-                                                student: {
-                                                    location:
-                                                        selectedWorkplace
-                                                            ?.student?.location,
-                                                },
-                                            }}
-                                            coordinator={
-                                                selectedWorkplace?.assignedTo
-                                            }
-                                        />
-                                    </div>
-                                    <div className="flex justify-between items-center px-5 py-2">
-                                        {!selectedWorkplace?.cancelledRequests
-                                            ?.length ? (
-                                            <div className="px-3 mt-1">
-                                                <AuthorizedUserComponent
-                                                    roles={[
-                                                        UserRoles.ADMIN,
-                                                        UserRoles.RTO,
-                                                    ]}
-                                                >
-                                                    <ActionButton
-                                                        variant={'error'}
-                                                        onClick={async () => {
-                                                            onCancelWPClicked()
-                                                        }}
-                                                    >
-                                                        Cancel Request
-                                                    </ActionButton>
-                                                </AuthorizedUserComponent>
-                                                <AuthorizedUserComponent
-                                                    roles={[UserRoles.SUBADMIN]}
-                                                >
-                                                    <ActionButton
-                                                        variant={'error'}
-                                                        onClick={async () => {
-                                                            onCancelWPRequestClicked()
-                                                        }}
-                                                    >
-                                                        Cancel Request
-                                                    </ActionButton>
-                                                </AuthorizedUserComponent>
-                                            </div>
-                                        ) : (
-                                            <div className="w-64 px-3 mt-1">
-                                                <Badge
-                                                    variant="warning"
-                                                    text="WP Cancelation Request Sent to Admin, wait for APPROVAL!"
+                ) : (
+                    studentWorkplace?.data &&
+                    studentWorkplace?.data?.length > 0 &&
+                    !showPreviousWorkplace && (
+                        <>
+                            {studentWorkplace?.data &&
+                                studentWorkplace?.data?.length > 1 && (
+                                    <div className="border-b border-secondary-dark p-4 flex items-center gap-x-2.5 cursor-pointer">
+                                        {sortedWorkplace?.map(
+                                            (workplace: any, i: number) => (
+                                                <WorkplaceTab
+                                                    index={i}
+                                                    key={workplace.id}
+                                                    active={
+                                                        selectedWorkplace?.id ===
+                                                        workplace?.id
+                                                    }
+                                                    onClick={() => {
+                                                        setSelectedWorkplace(
+                                                            workplace
+                                                        )
+                                                    }}
                                                 />
-                                            </div>
+                                            )
                                         )}
-                                        <Typography variant="small" medium>
-                                            Recieved On:{' '}
-                                            {moment(
-                                                selectedWorkplace?.createdAt
-                                            ).format('Do MMM, YYYY')}
-                                        </Typography>
                                     </div>
-                                </>
-                            ) : (
-                                <div>
-                                    <div className="pt-2.5 pb-1 px-4 border-b border-secondary-dark flex flex-col lg:flex-row justify-between gap-x-4">
-                                        <IndustryStatus
-                                            folders={folders}
-                                            workplace={selectedWorkplace}
-                                            appliedIndustry={appliedIndustry}
-                                        />
-                                        <div className="w-full">
-                                            <div className="flex justify-end divide-x-2 ">
-                                                <AuthorizedUserComponent
-                                                    excludeRoles={[
-                                                        UserRoles.OBSERVER,
-                                                    ]}
-                                                >
-                                                    <ContactPersonDetail
-                                                        appliedIndustry={
-                                                            appliedIndustry
-                                                        }
-                                                    />
-                                                </AuthorizedUserComponent>
-                                                <WorkplaceHistory
-                                                    wpId={selectedWorkplace?.id}
-                                                />
-                                                <div className="">
-                                                    <ViewAvailability
-                                                        wpId={
-                                                            selectedWorkplace?.id
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                            <WorkplaceStatusView
-                                                currentStatus={
-                                                    selectedWorkplace?.currentStatus
-                                                }
-                                            />
-                                            <div className="flex items-center gap-x-2">
-                                                <Typography
-                                                    variant="xs"
-                                                    semibold
-                                                >
-                                                    Course :{' '}
-                                                </Typography>
-                                                <div>
-                                                    <Typography variant="xs">
-                                                        {
-                                                            selectedWorkplace
-                                                                ?.courses?.[0]
-                                                                ?.code
-                                                        }
-                                                    </Typography>
-                                                    <Typography
-                                                        variant="small"
-                                                        semibold
-                                                    >
-                                                        {
-                                                            selectedWorkplace
-                                                                ?.courses?.[0]
-                                                                ?.title
-                                                        }
-                                                    </Typography>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                )}
 
-                                    {/*  */}
-                                    <div className="p-4 grid grid-cols-1 lg:grid-cols-10 gap-y-4 gap-x-3 border-b border-secondary-dark">
-                                        <div className="lg:col-span-3 h-full">
-                                            <WorkplaceCoordinators
-                                                appliedIndustryId={
-                                                    appliedIndustry?.id
+                            {/*  */}
+                            {studentWorkplace.isError ? (
+                                <TechnicalError
+                                    height="h-64"
+                                    description={false}
+                                />
+                            ) : null}
+                            {studentWorkplace?.isLoading ? (
+                                <div className="flex flex-col items-center justify-center h-60">
+                                    <LoadingAnimation size={60} />
+                                    <Typography variant="label">
+                                        Workplace Loading...
+                                    </Typography>
+                                </div>
+                            ) : studentWorkplace?.data &&
+                              studentWorkplace?.data?.length > 0 &&
+                              studentWorkplace?.isSuccess ? (
+                                latestWorkplaceApprovaleRequest &&
+                                latestWorkplaceApprovaleRequest?.status ===
+                                    'pending' ? (
+                                    <>
+                                        <div className="h-[380px] overflow-auto custom-scrollbar">
+                                            <WorkplaceApprovalReq
+                                                wpReqApproval={{
+                                                    ...latestWorkplaceApprovaleRequest,
+                                                    student: {
+                                                        location:
+                                                            selectedWorkplace
+                                                                ?.student
+                                                                ?.location,
+                                                    },
+                                                }}
+                                                coordinator={
+                                                    selectedWorkplace?.assignedTo
                                                 }
-                                                workplace={selectedWorkplace}
                                             />
                                         </div>
-                                        <div className="lg:col-span-7 h-full">
-                                            <IndustryDetail
+                                        <div className="flex justify-between items-center px-5 py-2">
+                                            {!selectedWorkplace
+                                                ?.cancelledRequests?.length ? (
+                                                <div className="px-3 mt-1">
+                                                    <AuthorizedUserComponent
+                                                        roles={[
+                                                            UserRoles.ADMIN,
+                                                            UserRoles.RTO,
+                                                        ]}
+                                                    >
+                                                        <ActionButton
+                                                            variant={'error'}
+                                                            onClick={async () => {
+                                                                onCancelWPClicked()
+                                                            }}
+                                                        >
+                                                            Cancel Request
+                                                        </ActionButton>
+                                                    </AuthorizedUserComponent>
+                                                    <AuthorizedUserComponent
+                                                        roles={[
+                                                            UserRoles.SUBADMIN,
+                                                        ]}
+                                                    >
+                                                        <ActionButton
+                                                            variant={'error'}
+                                                            onClick={async () => {
+                                                                onCancelWPRequestClicked()
+                                                            }}
+                                                        >
+                                                            Cancel Request
+                                                        </ActionButton>
+                                                    </AuthorizedUserComponent>
+                                                </div>
+                                            ) : (
+                                                <div className="w-64 px-3 mt-1">
+                                                    <Badge
+                                                        variant="warning"
+                                                        text="WP Cancelation Request Sent to Admin, wait for APPROVAL!"
+                                                    />
+                                                </div>
+                                            )}
+                                            <Typography variant="small" medium>
+                                                Recieved On:{' '}
+                                                {moment(
+                                                    selectedWorkplace?.createdAt
+                                                ).format('Do MMM, YYYY')}
+                                            </Typography>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div>
+                                        <div className="pt-2.5 pb-1 px-4 border-b border-secondary-dark flex flex-col lg:flex-row justify-between gap-x-4">
+                                            <IndustryStatus
+                                                folders={folders}
                                                 workplace={selectedWorkplace}
                                                 appliedIndustry={
                                                     appliedIndustry
                                                 }
-                                                course={course}
-                                                approvalDate={
-                                                    latestWorkplaceApprovaleRequest?.approvalDate
-                                                }
                                             />
-                                        </div>
-                                    </div>
-
-                                    <div className="flex justify-between items-center p-4">
-                                        <div className="flex items-center gap-x-2.5">
-                                            {WPStatusForCancelButon.includes(
-                                                selectedWorkplace?.currentStatus
-                                            ) ? (
-                                                !selectedWorkplace
-                                                    ?.cancelledRequests
-                                                    ?.length ? (
-                                                    <>
-                                                        <AuthorizedUserComponent
-                                                            roles={[
-                                                                UserRoles.ADMIN,
-                                                                UserRoles.RTO,
-                                                            ]}
-                                                        >
-                                                            <ActionButton
-                                                                variant={
-                                                                    'error'
-                                                                }
-                                                                onClick={async () => {
-                                                                    onCancelWPClicked()
-                                                                    // await cancelWorkplace(
-                                                                    //     Number(
-                                                                    //         selectedWorkplace?.id
-                                                                    //     )
-                                                                    // )
-                                                                }}
-                                                            >
-                                                                Cancel Request
-                                                            </ActionButton>
-                                                        </AuthorizedUserComponent>
-                                                        <AuthorizedUserComponent
-                                                            roles={[
-                                                                UserRoles.SUBADMIN,
-                                                            ]}
-                                                        >
-                                                            <ActionButton
-                                                                variant={
-                                                                    'error'
-                                                                }
-                                                                onClick={async () => {
-                                                                    onCancelWPRequestClicked()
-                                                                    // await cancelWorkplace(
-                                                                    //     Number(
-                                                                    //         selectedWorkplace?.id
-                                                                    //     )
-                                                                    // )
-                                                                }}
-                                                            >
-                                                                Cancel Request
-                                                            </ActionButton>
-                                                        </AuthorizedUserComponent>
-                                                    </>
-                                                ) : (
-                                                    <div className="w-56">
-                                                        <Badge
-                                                            variant="warning"
-                                                            text="WP Cancelation Request Sent to Admin, wait for APPROVAL!"
-                                                        />
-                                                    </div>
-                                                )
-                                            ) : null}
-                                            {latestWorkplaceApprovaleRequest?.status ===
-                                            'rejected' ? (
-                                                <div className="w-48 flex items-center gap-x-2">
-                                                    <Typography
-                                                        variant="xs"
-                                                        color={
-                                                            'text-error-dark'
-                                                        }
+                                            <div className="w-full">
+                                                <div className="flex justify-end divide-x-2 ">
+                                                    <AuthorizedUserComponent
+                                                        excludeRoles={[
+                                                            UserRoles.OBSERVER,
+                                                        ]}
                                                     >
-                                                        Workplace Approval
-                                                        Request was cancelled by
-                                                        student
-                                                    </Typography>
-                                                    <div>
-                                                        <FaInfoCircle
-                                                            onClick={() => {
-                                                                onShowRejectedRequestModal(
-                                                                    latestWorkplaceApprovaleRequest?.comment
-                                                                )
-                                                            }}
-                                                            className="text-error-dark cursor-pointer"
+                                                        <ContactPersonDetail
+                                                            appliedIndustry={
+                                                                appliedIndustry
+                                                            }
+                                                        />
+                                                    </AuthorizedUserComponent>
+                                                    <WorkplaceHistory
+                                                        wpId={
+                                                            selectedWorkplace?.id
+                                                        }
+                                                    />
+                                                    <div className="">
+                                                        <ViewAvailability
+                                                            wpId={
+                                                                selectedWorkplace?.id
+                                                            }
                                                         />
                                                     </div>
                                                 </div>
-                                            ) : null}
-                                            {selectedWorkplace
-                                                ? appliedIndustry?.placementStarted &&
-                                                  selectedWorkplace?.studentFeedBack >
-                                                      0 && (
-                                                      <>
-                                                          <ActionButton
-                                                              variant={'link'}
-                                                              onClick={() => {
-                                                                  onViewPlacementStartedAnswers(
-                                                                      selectedWorkplace?.id
-                                                                  )
-                                                              }}
-                                                          >
-                                                              Coordinators
-                                                              Feedback
-                                                          </ActionButton>
-                                                          <div className="flex items-center gap-x-1">
-                                                              <div className="flex items-center gap-x-2">
-                                                                  <ReactStars
-                                                                      count={5}
-                                                                      value={
-                                                                          selectedWorkplace
-                                                                              ?.studentFeedBacks?.[0]
-                                                                              ?.rating
-                                                                      }
-                                                                      edit={
-                                                                          false
-                                                                      }
-                                                                      size={27}
-                                                                      color2={
-                                                                          '#ffd700'
-                                                                      }
-                                                                  />
-                                                                  <Typography variant="label">
-                                                                      {
-                                                                          selectedWorkplace
-                                                                              ?.studentFeedBacks?.[0]
-                                                                              ?.rating
-                                                                      }
-                                                                  </Typography>
-                                                              </div>
-                                                          </div>
-                                                      </>
-                                                  )
-                                                : null}
+                                                <WorkplaceStatusView
+                                                    currentStatus={
+                                                        selectedWorkplace?.currentStatus
+                                                    }
+                                                />
+                                                <div className="flex items-center gap-x-2">
+                                                    <Typography
+                                                        variant="xs"
+                                                        semibold
+                                                    >
+                                                        Course :{' '}
+                                                    </Typography>
+                                                    <div>
+                                                        <Typography variant="xs">
+                                                            {
+                                                                selectedWorkplace
+                                                                    ?.courses?.[0]
+                                                                    ?.code
+                                                            }
+                                                        </Typography>
+                                                        <Typography
+                                                            variant="small"
+                                                            semibold
+                                                        >
+                                                            {
+                                                                selectedWorkplace
+                                                                    ?.courses?.[0]
+                                                                    ?.title
+                                                            }
+                                                        </Typography>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <Typography variant="small" medium>
-                                            Recieved On:{' '}
-                                            {moment(
-                                                selectedWorkplace?.createdAt
-                                            ).format('Do MMM, YYYY')}
-                                        </Typography>
+
+                                        {/*  */}
+                                        <div className="p-4 grid grid-cols-1 lg:grid-cols-10 gap-y-4 gap-x-3 border-b border-secondary-dark">
+                                            <div className="lg:col-span-3 h-full">
+                                                <WorkplaceCoordinators
+                                                    appliedIndustryId={
+                                                        appliedIndustry?.id
+                                                    }
+                                                    workplace={
+                                                        selectedWorkplace
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="lg:col-span-7 h-full">
+                                                <IndustryDetail
+                                                    workplace={
+                                                        selectedWorkplace
+                                                    }
+                                                    appliedIndustry={
+                                                        appliedIndustry
+                                                    }
+                                                    course={course}
+                                                    approvalDate={
+                                                        latestWorkplaceApprovaleRequest?.approvalDate
+                                                    }
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-between items-center p-4">
+                                            <div className="flex items-center gap-x-2.5">
+                                                {WPStatusForCancelButon.includes(
+                                                    selectedWorkplace?.currentStatus
+                                                ) ? (
+                                                    !selectedWorkplace
+                                                        ?.cancelledRequests
+                                                        ?.length ? (
+                                                        <>
+                                                            <AuthorizedUserComponent
+                                                                roles={[
+                                                                    UserRoles.ADMIN,
+                                                                    UserRoles.RTO,
+                                                                ]}
+                                                            >
+                                                                <ActionButton
+                                                                    variant={
+                                                                        'error'
+                                                                    }
+                                                                    onClick={async () => {
+                                                                        onCancelWPClicked()
+                                                                        // await cancelWorkplace(
+                                                                        //     Number(
+                                                                        //         selectedWorkplace?.id
+                                                                        //     )
+                                                                        // )
+                                                                    }}
+                                                                >
+                                                                    Cancel
+                                                                    Request
+                                                                </ActionButton>
+                                                            </AuthorizedUserComponent>
+                                                            <AuthorizedUserComponent
+                                                                roles={[
+                                                                    UserRoles.SUBADMIN,
+                                                                ]}
+                                                            >
+                                                                <ActionButton
+                                                                    variant={
+                                                                        'error'
+                                                                    }
+                                                                    onClick={async () => {
+                                                                        onCancelWPRequestClicked()
+                                                                        // await cancelWorkplace(
+                                                                        //     Number(
+                                                                        //         selectedWorkplace?.id
+                                                                        //     )
+                                                                        // )
+                                                                    }}
+                                                                >
+                                                                    Cancel
+                                                                    Request
+                                                                </ActionButton>
+                                                            </AuthorizedUserComponent>
+                                                        </>
+                                                    ) : (
+                                                        <div className="w-56">
+                                                            <Badge
+                                                                variant="warning"
+                                                                text="WP Cancelation Request Sent to Admin, wait for APPROVAL!"
+                                                            />
+                                                        </div>
+                                                    )
+                                                ) : null}
+                                                {latestWorkplaceApprovaleRequest?.status ===
+                                                'rejected' ? (
+                                                    <div className="w-48 flex items-center gap-x-2">
+                                                        <Typography
+                                                            variant="xs"
+                                                            color={
+                                                                'text-error-dark'
+                                                            }
+                                                        >
+                                                            Workplace Approval
+                                                            Request was
+                                                            cancelled by student
+                                                        </Typography>
+                                                        <div>
+                                                            <FaInfoCircle
+                                                                onClick={() => {
+                                                                    onShowRejectedRequestModal(
+                                                                        latestWorkplaceApprovaleRequest?.comment
+                                                                    )
+                                                                }}
+                                                                className="text-error-dark cursor-pointer"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                ) : null}
+                                                {selectedWorkplace
+                                                    ? appliedIndustry?.placementStarted &&
+                                                      selectedWorkplace?.studentFeedBack >
+                                                          0 && (
+                                                          <>
+                                                              <ActionButton
+                                                                  variant={
+                                                                      'link'
+                                                                  }
+                                                                  onClick={() => {
+                                                                      onViewPlacementStartedAnswers(
+                                                                          selectedWorkplace?.id
+                                                                      )
+                                                                  }}
+                                                              >
+                                                                  Coordinators
+                                                                  Feedback
+                                                              </ActionButton>
+                                                              <div className="flex items-center gap-x-1">
+                                                                  <div className="flex items-center gap-x-2">
+                                                                      <ReactStars
+                                                                          count={
+                                                                              5
+                                                                          }
+                                                                          value={
+                                                                              selectedWorkplace
+                                                                                  ?.studentFeedBacks?.[0]
+                                                                                  ?.rating
+                                                                          }
+                                                                          edit={
+                                                                              false
+                                                                          }
+                                                                          size={
+                                                                              27
+                                                                          }
+                                                                          color2={
+                                                                              '#ffd700'
+                                                                          }
+                                                                      />
+                                                                      <Typography variant="label">
+                                                                          {
+                                                                              selectedWorkplace
+                                                                                  ?.studentFeedBacks?.[0]
+                                                                                  ?.rating
+                                                                          }
+                                                                      </Typography>
+                                                                  </div>
+                                                              </div>
+                                                          </>
+                                                      )
+                                                    : null}
+                                            </div>
+                                            <Typography variant="small" medium>
+                                                Recieved On:{' '}
+                                                {moment(
+                                                    selectedWorkplace?.createdAt
+                                                ).format('Do MMM, YYYY')}
+                                            </Typography>
+                                        </div>
                                     </div>
-                                </div>
-                            )
-                        ) : (
-                            studentWorkplace?.isSuccess && (
-                                <EmptyData
-                                    imageUrl={'/images/workplace/icon.png'}
-                                    title="No Workplace Found"
-                                    description="Add a workplace to view workplace here"
-                                    height="40vh"
-                                />
-                            )
-                        )}
-                    </>
-                ) : getCancelledWP?.data && getCancelledWP?.data?.length > 0 ? (
+                                )
+                            ) : (
+                                studentWorkplace?.isSuccess && (
+                                    <EmptyData
+                                        imageUrl={'/images/workplace/icon.png'}
+                                        title="No Workplace Found"
+                                        description="Add a workplace to view workplace here"
+                                        height="40vh"
+                                    />
+                                )
+                            )}
+                        </>
+                    )
+                )}
+                {/* getCancelledWP?.data && getCancelledWP?.data?.length > 0 ? (
                     <CancelledWorkplaceTable
                         cancelledWp={getCancelledWP?.data}
                     />
+                ) : (
+                    studentWorkplace?.isSuccess && (
+                        <EmptyData
+                            imageUrl={'/images/workplace/icon.png'}
+                            title="No Workplace Found"
+                            description="Add a workplace to view workplace here"
+                            height="40vh"
+                        />
+                    )
+                )} */}
+
+                {showPreviousWorkplace &&
+                getCancelledWP?.data &&
+                getCancelledWP?.data?.length > 0 ? (
+                    <div className="flex flex-col gap-y-2 h-[27rem] overflow-auto custom-scrollbar">
+                        {getCancelledWP?.data?.map((cancelledWp: any) => (
+                            <CancelledWorkplaceCard cancelledWp={cancelledWp} />
+                        ))}
+                        {/* <CancelledWorkplaceTable
+                        cancelledWp={getCancelledWP?.data}
+                    /> */}
+                    </div>
                 ) : (
                     studentWorkplace?.isSuccess && (
                         <EmptyData

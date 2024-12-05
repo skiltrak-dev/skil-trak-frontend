@@ -148,13 +148,13 @@ export const MapBoxDetails = ({
             }
 
             if (industriesList?.data) {
-                const filteredIndustries = industriesList.data?.filter(
+                const filteredIndustries = industriesList?.data?.filter(
                     (industry: any) =>
-                        industry.location && industry.location !== 'NA'
+                        industry?.location && industry?.location !== 'NA'
                 )
                 const transformedIndustries = filteredIndustries?.map(
                     (industry: any) => {
-                        const [lat, lng] = industry.location
+                        const [lat, lng] = industry?.location
                             .split(',')
                             .map(Number)
                         return {
@@ -167,13 +167,13 @@ export const MapBoxDetails = ({
             }
 
             if (futureIndustries?.data?.length) {
-                const filteredIndustries = futureIndustries.data?.filter(
+                const filteredIndustries = futureIndustries?.data?.filter(
                     (industry: any) =>
-                        industry.location && industry.location !== 'NA'
+                        industry?.location && industry?.location !== 'NA'
                 )
                 const transformedFutureIndustries = filteredIndustries?.map(
                     (industry: any) => {
-                        const [lat, lng] = industry.location
+                        const [lat, lng] = industry?.location
                             .split(',')
                             .map(Number)
                         return {
@@ -192,8 +192,8 @@ export const MapBoxDetails = ({
     useEffect(() => {
         if (suburbLocation && isSuccess) {
             setViewState({
-                latitude: suburbLocation.lat,
-                longitude: suburbLocation.lng,
+                latitude: suburbLocation?.lat,
+                longitude: suburbLocation?.lng,
                 zoom: 12,
             })
         }
@@ -228,8 +228,8 @@ export const MapBoxDetails = ({
         setSelectedBox({
             ...marker,
             position: {
-                latitude: marker.location.latitude,
-                longitude: marker.location.longitude,
+                latitude: marker?.location?.latitude,
+                longitude: marker?.location?.longitude,
             },
         })
         setShowInfoBox(true)
@@ -244,9 +244,9 @@ export const MapBoxDetails = ({
             ) : visibleMarkers?.length > 0 && !isError ? (
                 <Card>
                     <Map
-                        mapboxAccessToken="pk.eyJ1Ijoic2tpbHRyYWsiLCJhIjoiY20zMm1oZG9wMTRzMTJrc2N2dHluN3ZjOCJ9.J0XKK9V8faX1iTWj1ED3Kg"
+                        mapboxAccessToken={process.env.mapBoxApi as string}
                         {...viewState}
-                        onMove={(evt: any) => setViewState(evt.viewState)}
+                        onMove={(evt: any) => setViewState(evt?.viewState)}
                         style={{ width: '100%', height: '600px' }}
                         mapStyle="mapbox://styles/mapbox/streets-v11"
                     >
@@ -260,8 +260,8 @@ export const MapBoxDetails = ({
                             ?.map((marker: any) => (
                                 <Marker
                                     key={marker.id}
-                                    latitude={marker.location.latitude}
-                                    longitude={marker.location.longitude}
+                                    latitude={marker?.location?.latitude}
+                                    longitude={marker?.location?.longitude}
                                     onClick={() => handleMarkerClick(marker)}
                                 >
                                     <img
@@ -296,9 +296,9 @@ export const MapBoxDetails = ({
                             .map((marker: any) => (
                                 <div key={marker?.id}>
                                     <Marker
-                                        key={marker.id}
-                                        latitude={marker.location.latitude}
-                                        longitude={marker.location.longitude}
+                                        key={marker?.id}
+                                        latitude={marker?.location?.latitude}
+                                        longitude={marker?.location?.longitude}
                                         onClick={() =>
                                             handleMarkerClick(marker)
                                         }
@@ -379,10 +379,10 @@ export const MapBoxDetails = ({
                                             <Marker
                                                 key={marker.id}
                                                 latitude={
-                                                    marker.location.latitude
+                                                    marker?.location?.latitude
                                                 }
                                                 longitude={
-                                                    marker.location.longitude
+                                                    marker?.location?.longitude
                                                 }
                                                 onClick={() => {
                                                     handleMarkerClick(marker)
@@ -408,8 +408,8 @@ export const MapBoxDetails = ({
                         )}
                         {selectedBox && showInfoBox && (
                             <Popup
-                                latitude={selectedBox.position.latitude}
-                                longitude={selectedBox.position.longitude}
+                                latitude={selectedBox?.position?.latitude}
+                                longitude={selectedBox?.position?.longitude}
                                 onClose={() => {
                                     setSelectedBox(null)
                                     setShowInfoBox(false)

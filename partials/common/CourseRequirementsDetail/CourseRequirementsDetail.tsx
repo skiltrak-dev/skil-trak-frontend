@@ -1,9 +1,11 @@
-import { BackButton, NoData } from '@components'
+import { BackButton, Button, NoData, Typography } from '@components'
 import { Course } from '@types'
 import React, { useEffect, useState } from 'react'
 import { FaBook } from 'react-icons/fa'
 import { MediaQueries } from '@constants'
 import { useMediaQuery } from 'react-responsive'
+import Modal from '@modals/Modal'
+import { AddCustomCourseRequirements } from './AddCustomCourseRequirements'
 
 const getFirstCourse = (sectorWithCourse: any) => {
     if (!sectorWithCourse) return undefined
@@ -35,6 +37,8 @@ export const CourseRequirementsDetail = ({
     const onCourseClicked = (course: Course) => {
         setSelectedCourse(course)
     }
+
+    // console.log('selectedCourse', selectedCourse?.courseRequirements?.[0])
     return (
         <>
             <div className="hidden md:block">
@@ -45,58 +49,61 @@ export const CourseRequirementsDetail = ({
                     }}
                 />
             </div>
-            <div className="flex items-start gap-x-2 min-h-[450px] mb-32">
+            <div className="flex items-start gap-x-2 min-h-[450px]">
                 <div
                     className={`${
                         selectedCourse ? 'md:block hidden' : 'block'
-                    } bg-gray-100 py-2 px-2 rounded-xl shadow-xl w-full md:w-2/5 sticky top-4`}
+                    } bg-gray-100 py-2 pl-2 rounded-xl shadow-xl w-full md:w-2/5 `}
                 >
                     <div className="text-sm font-medium text-gray-500">
                         Select a course
                     </div>
-                    {sectorsWithCourses ? (
-                        Object.keys(sectorsWithCourses).map(
-                            (sector: string) => {
-                                return (
-                                    <div className="mb-2 pt-2" key={sector}>
-                                        <p className="text-xs font-medium text-gray-400">
-                                            {sector}
-                                        </p>
+                    <div className="overflow-auto custom-scrollbar max-h-96 pr-4">
+                        {sectorsWithCourses ? (
+                            Object.keys(sectorsWithCourses).map(
+                                (sector: string) => {
+                                    return (
+                                        <div className="mb-2 pt-2" key={sector}>
+                                            <p className="text-xs font-medium text-gray-400 mb-2">
+                                                {sector}
+                                            </p>
 
-                                        {(sectorsWithCourses as any)[
-                                            sector
-                                        ].map((c: Course) => (
-                                            <div
-                                                key={c.id}
-                                                className={`px-2 py-1 flex gap-x-2 items-start cursor-pointer hover:bg-gray-300 rounded-md ${
-                                                    selectedCourse?.id === c.id
-                                                        ? 'bg-gray-300'
-                                                        : ''
-                                                }`}
-                                                onClick={() =>
-                                                    onCourseClicked(c)
-                                                }
-                                            >
-                                                <div className="pt-1 text-blue-600">
-                                                    <FaBook size={12} />
+                                            {(sectorsWithCourses as any)[
+                                                sector
+                                            ].map((c: Course) => (
+                                                <div
+                                                    key={c.id}
+                                                    className={`px-2 py-1 flex gap-x-2 items-start cursor-pointer hover:bg-gray-300 rounded-md ${
+                                                        selectedCourse?.id ===
+                                                        c.id
+                                                            ? 'bg-gray-300'
+                                                            : ''
+                                                    }`}
+                                                    onClick={() =>
+                                                        onCourseClicked(c)
+                                                    }
+                                                >
+                                                    <div className="pt-1 text-blue-600">
+                                                        <FaBook size={12} />
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-xs font-medium text-gray-500">
+                                                            {c.code}
+                                                        </p>
+                                                        <p className="text-sm font-medium text-gray-800">
+                                                            {c.title}
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <p className="text-xs font-medium text-gray-500">
-                                                        {c.code}
-                                                    </p>
-                                                    <p className="text-sm font-medium text-gray-800">
-                                                        {c.title}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )
-                            }
-                        )
-                    ) : (
-                        <NoData text={'No Sectors Assigned'} />
-                    )}
+                                            ))}
+                                        </div>
+                                    )
+                                }
+                            )
+                        ) : (
+                            <NoData text={'No Sectors Assigned'} />
+                        )}
+                    </div>
                 </div>
 
                 <div
@@ -104,27 +111,76 @@ export const CourseRequirementsDetail = ({
                         selectedCourse ? 'block' : 'hidden md:block'
                     } w-full md:w-3/5`}
                 >
-                    <div className={` w-full  bg-white rounded-xl shadow-xl`}>
+                    <div className={` w-full  bg-white rounded-xl shadow-xl `}>
                         <div className="bg-slate-100 rounded-t-xl p-2 text-sm">
                             {selectedCourse ? (
-                                <span>
-                                    {selectedCourse.code} -{' '}
-                                    {selectedCourse?.title}
-                                </span>
+                                <div className="flex justify-between items-center">
+                                    <span>
+                                        {selectedCourse.code} -{' '}
+                                        {selectedCourse?.title}
+                                    </span>
+                                    {selectedCourse &&
+                                        !selectedCourse?.courseRequirements &&
+                                        (selectedCourse.requirements?.trim() ===
+                                            '<p>null</p>' ||
+                                            selectedCourse.requirements ===
+                                                null) && (
+                                            <div>
+                                                <Modal>
+                                                    <Modal.Open opens="addRequirement">
+                                                        <Button text="Add Requirements" />
+                                                    </Modal.Open>
+                                                    <Modal.Window name="addRequirement">
+                                                        <AddCustomCourseRequirements
+                                                            id={
+                                                                selectedCourse?.id
+                                                            }
+                                                        />
+                                                    </Modal.Window>
+                                                </Modal>
+                                            </div>
+                                        )}
+                                </div>
                             ) : (
                                 'No Course Selected'
                             )}
                         </div>
-                        {selectedCourse ? (
-                            <div
-                                className="p-4 break-all"
-                                dangerouslySetInnerHTML={{
-                                    __html: selectedCourse.requirements,
-                                }}
-                            ></div>
-                        ) : (
-                            <div className="p-4">No Course Selected</div>
-                        )}
+                        <div className="overflow-auto custom-scrollbar min-h-[23rem] max-h-96">
+                            {selectedCourse?.courseRequirements &&
+                            selectedCourse?.courseRequirements?.length ? (
+                                <div className="p-4 flex flex-col gap-y-4">
+                                    <Typography variant="title" color='text-gray-500'>
+                                        RTO Added Requirements
+                                    </Typography>
+                                    <div
+                                        className="break-all text-xs leading-6"
+                                        dangerouslySetInnerHTML={{
+                                            __html: selectedCourse
+                                                ?.courseRequirements?.[0]
+                                                ?.requirements,
+                                        }}
+                                    />
+                                </div>
+                            ) : selectedCourse?.requirements &&
+                              selectedCourse?.requirements?.trim() !==
+                                  '<p>null</p>' ? (
+                                <div className="p-4 flex flex-col gap-y-4">
+                                    <Typography variant="title">
+                                        Admin Added Requirements
+                                    </Typography>
+                                    <div
+                                        className="break-all"
+                                        dangerouslySetInnerHTML={{
+                                            __html: selectedCourse?.requirements,
+                                        }}
+                                    />
+                                </div>
+                            ) : (
+                                <div className="p-4 h-full w-full flex justify-center items-center">
+                                    <NoData text="No Course Requirements added yet" />
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

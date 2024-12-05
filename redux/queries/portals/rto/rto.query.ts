@@ -102,6 +102,7 @@ export const {
     //  --- COURSES --- //
     useGetRTOCoursesQuery,
     useUpdateCourseHoursMutation,
+    useAddRtoCustomCourseRequirementsMutation,
 
     // --- INDUSTRIES --- //
     useGetIndustriesListQuery,
@@ -200,6 +201,8 @@ export const RtoApi = {
     Courses: {
         useRtoCourses: useGetRTOCoursesQuery,
         useUpdateCourseHours: useUpdateCourseHoursMutation,
+        useAddRtoCustomCourseRequirements:
+            useAddRtoCustomCourseRequirementsMutation,
     },
     RtoDocument: {
         useGetRtoDocuments: useGetRtoDocumentsQuery,

@@ -52,7 +52,6 @@ export const EmployerDocuments = ({
     }
 
     const onUploadFile = async (e: any) => {
-        console.log({ e })
         const formData = new FormData()
         Object.entries(e)?.forEach(([key, value]: any) => {
             formData.append(
@@ -75,7 +74,6 @@ export const EmployerDocuments = ({
         }
     }
 
-    console.log({ uploadResult })
     return (
         <>
             <ShowErrorNotifications result={uploadResult} />

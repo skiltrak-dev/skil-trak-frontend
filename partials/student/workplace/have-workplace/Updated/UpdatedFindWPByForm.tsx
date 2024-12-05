@@ -50,7 +50,6 @@ export const UpdatedFindWPByForm = ({
                 <form
                     className="mt-2 w-full"
                     onSubmit={methods.handleSubmit((values) => {
-                        console.log({ values })
                         onSubmit({
                             type,
                             value: values[type],

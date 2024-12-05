@@ -24,17 +24,18 @@ export const UpdatedExistingIndustryCard = ({
     setActive,
     industry,
     selectedCourse,
+    branch,
 }: {
     student?: number
     setActive: any
     industry: IndustryExtend
     selectedCourse: number | null
+    branch?: boolean
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [showEmployerDocModal, setShowEmployerDocModal] =
         useState<boolean>(false)
     const { notification } = useNotification()
-    console.log('industry', industry)
     const role = getUserCredentials()?.role
 
     const [applyForWorkplace, applyForWorkplaceResult] =
@@ -63,6 +64,7 @@ export const UpdatedExistingIndustryCard = ({
             })
         }
     }
+
     return (
         <>
             <ShowErrorNotifications result={applyForWorkplaceSubadminResult} />
@@ -111,7 +113,7 @@ export const UpdatedExistingIndustryCard = ({
                             <Typography variant={'label'}>
                                 {industry?.user?.name}
                             </Typography>
-                            {!industry?.locations && (
+                            {branch && (
                                 <Typography
                                     variant={'muted'}
                                     color={'text-orange-500'}

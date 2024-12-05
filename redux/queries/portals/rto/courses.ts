@@ -17,4 +17,12 @@ export const coursesEndpoints = (
         }),
         invalidatesTags: ['RTOCourses', 'RTO'],
     }),
+    addRtoCustomCourseRequirements: builder.mutation<any, any>({
+        query: ({ id, body }) => ({
+            url: `rtos/course/${id}/requirements-add`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['RTOCourses', 'RTO'],
+    }),
 })
