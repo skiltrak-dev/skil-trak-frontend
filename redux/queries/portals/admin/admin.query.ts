@@ -347,7 +347,9 @@ const {
     // ---- INSURANCE ---- //
     useGetInsuranceTypeQuery,
     useAddInsuranceTypeMutation,
+    useEditInsuranceTypeMutation,
     useGetRtoByInsuranceTypeQuery,
+    useRemoveInsuranceTypeMutation,
     useGetIndustriesByInsuranceTypeQuery,
 } = adminApi
 
@@ -606,6 +608,8 @@ export const AdminApi = {
     Insurance: {
         getInsuranceType: useGetInsuranceTypeQuery,
         addInsuranceType: useAddInsuranceTypeMutation,
+        editInsuranceType: useEditInsuranceTypeMutation,
+        removeInsuranceType: useRemoveInsuranceTypeMutation,
         getRtoByInsuranceType: useGetRtoByInsuranceTypeQuery,
         industriesByInsuranceType: useGetIndustriesByInsuranceTypeQuery,
     },

@@ -28,7 +28,9 @@ const InsuranceDocuments: NextPageWithLayout = () => {
             getInsuranceType?.data &&
             getInsuranceType?.data?.length > 0
         ) {
-            setSelectedType(getInsuranceType?.data?.[0]?.id)
+            setSelectedType(
+                selectedType ? selectedType : getInsuranceType?.data?.[0]?.id
+            )
         }
     }, [getInsuranceType])
 
@@ -68,6 +70,7 @@ const InsuranceDocuments: NextPageWithLayout = () => {
                             <DocumentTypeCard
                                 key={type?.id}
                                 index={i}
+                                id={type?.id}
                                 active={type?.id === selectedType}
                                 onClick={() => {
                                     setSelectedType(type?.id)

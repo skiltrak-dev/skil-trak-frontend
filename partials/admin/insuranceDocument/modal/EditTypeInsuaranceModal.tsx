@@ -5,30 +5,34 @@ import { MdCancel } from 'react-icons/md'
 import { AddInsuaranceTypeForm } from '../forms'
 import { GlobalModal, ShowErrorNotifications, Typography } from '@components'
 
-export const AddTypeInsuaranceModal = ({
+export const EditTypeInsuaranceModal = ({
+    id,
+    data,
     onCancel,
 }: {
+    id: number
+    data: string
     onCancel: () => void
 }) => {
-    const [addInsurance, addInsuranceResult] =
-        AdminApi.Insurance.addInsuranceType()
+    const [updateInsurance, updateInsuranceResult] =
+        AdminApi.Insurance.editInsuranceType()
 
     const { notification } = useNotification()
 
     const onSubmit = async (values: any) => {
-        const res: any = await addInsurance(values)
+        const res: any = await updateInsurance({ id, ...values })
 
         if (res?.data) {
             notification.success({
-                title: 'Type Added!',
-                description: 'Type Added Successfully',
+                title: 'Type Updated!',
+                description: 'Type Updated Successfully',
             })
             onCancel()
         }
     }
     return (
         <>
-            <ShowErrorNotifications result={addInsuranceResult} />
+            <ShowErrorNotifications result={updateInsuranceResult} />
             <GlobalModal>
                 <div className="max-w-2xl p-5 relative flex flex-col gap-y-2 py-5">
                     {onCancel ? (
@@ -44,14 +48,15 @@ export const AddTypeInsuaranceModal = ({
                     <div className="flex flex-col gap-y-2 justify-between items-center">
                         <div className="mx-auto">
                             <Typography center semibold>
-                                Add Insurance Type
+                                Edit Insurance Type
                             </Typography>
                         </div>
                     </div>
                     <div>
                         <AddInsuaranceTypeForm
+                            data={data}
                             onSubmit={onSubmit}
-                            result={addInsuranceResult}
+                            result={updateInsuranceResult}
                         />
                     </div>
                 </div>

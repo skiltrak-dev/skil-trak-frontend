@@ -5,9 +5,11 @@ import * as Yup from 'yup'
 import { Button, TextInput } from '@components'
 
 export const AddInsuaranceTypeForm = ({
+    data,
     result,
     onSubmit,
 }: {
+    data?: string
     result: any
     onSubmit: (values: any) => void
 }) => {
@@ -18,6 +20,9 @@ export const AddInsuaranceTypeForm = ({
     const methods = useForm({
         mode: 'all',
         resolver: yupResolver(validationSchema),
+        defaultValues: {
+            title: data,
+        },
     })
 
     return (
@@ -32,7 +37,8 @@ export const AddInsuaranceTypeForm = ({
                     <div className="flex justify-end">
                         <Button
                             submit
-                            text="Add Type"
+                            text={data ? 'Edit Type' : 'Add Type'}
+                            variant={data ? 'info' : 'primary'}
                             loading={result?.isLoading}
                             disabled={result?.isLoading}
                         />
