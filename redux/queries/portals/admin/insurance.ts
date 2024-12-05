@@ -26,4 +26,21 @@ export const insuranceEndpoints = (
         }),
         invalidatesTags: ['Insurance-Type'],
     }),
+
+    editInsuranceType: builder.mutation<any, { id: number; title: string }>({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}/insurance-document/type/${id}/update`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['Insurance-Type'],
+    }),
+
+    removeInsuranceType: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/insurance-document/type/${id}/remove`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['Insurance-Type'],
+    }),
 })

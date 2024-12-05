@@ -12,7 +12,7 @@ const StudentPlacementManagement = () => {
     const studentPlacement = [
         {
             title: 'Trust us with your student placement at Skiltrak',
-            content: `Entrust us with your student placement at Skiltrak, where our dedicated team ensures you find the ideal academic institution and program for a successful educational journey.`,
+            content: `Entrust us with your work placements at Skiltrak, where our dedicated team ensures you find the ideal academic institution and program for a successful educational journey.`,
         },
         {
             title: 'Get surrounded by an encouraging and supportive team',
@@ -20,11 +20,11 @@ const StudentPlacementManagement = () => {
         },
         {
             title: 'Receive our Student Placement Management Platform',
-            content: `Embrace our Student Placement Management Platform, designed to streamline and enhance your student placement experience.`,
+            content: `Embrace our Placement Management System, designed to streamline and enhance your student placement experience.`,
         },
         {
-            title: 'Track your student placement progress',
-            content: `Effortlessly monitor your student placement progress with our intuitive tracking system.`,
+            title: 'Track your placement progress',
+            content: `Effortlessly monitor your work placement progress with our intuitive tracking system.`,
         },
         {
             title: 'Create industry partners along the way',
