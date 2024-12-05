@@ -38,7 +38,6 @@ export const RtoImportantDocuments = ({
         Number(rto?.user?.id)
     )
 
-    console.log({ docudocu: documents?.data })
 
     const titleClasses = classNames({
         'mb-2': true,

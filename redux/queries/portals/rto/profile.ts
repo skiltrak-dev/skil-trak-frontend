@@ -33,4 +33,7 @@ export const profileEndpoints = (
         query: () => `${PREFIX}industries/list/for-map`,
         providesTags: ['SubAdmin'],
     }),
+
+    // Add custom course requirements
+    
 })

@@ -21,6 +21,7 @@ export interface Course extends BaseResponse {
     description: string
     hours: number
     requirements: string
+    courseRequirements?: any
     sector: Sector
     folders: Folder[]
     results: any

@@ -43,7 +43,6 @@ export const useAssessmentDocumentsView = () => {
     }
 
     const onFileClicked = (file: any) => {
-        console.log({ file })
         if (
             [
                 'jpg',

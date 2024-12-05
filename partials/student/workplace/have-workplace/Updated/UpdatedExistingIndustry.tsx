@@ -80,7 +80,9 @@ export const UpdatedExistingIndustry = ({
                                                     addressLine1:
                                                         location?.address,
                                                     user: industry?.user,
+                                    
                                                 }}
+                                                branch
                                                 selectedCourse={selectedCourse}
                                                 setActive={setActive}
                                                 student={student}

@@ -11,7 +11,8 @@ import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 const CourseRequirements: NextPageWithLayout = () => {
     const { data: rto, isLoading, isError } = RtoApi.Rto.useProfile()
     const sectorsWithCourses = getSectors(rto?.courses)
-
+    console.log('sectorsWithCourses', sectorsWithCourses)
+    
     return (
         <>
             {isError && <TechnicalError />}

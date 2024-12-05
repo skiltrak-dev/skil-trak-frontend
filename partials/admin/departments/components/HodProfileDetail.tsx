@@ -21,6 +21,7 @@ import { AllowPermissionModal } from '@partials/admin/sub-admin/modals'
 import { MarkAsHodModalVII } from '../modal/MarkAsHodModalVII'
 import { getUserCredentials } from '@utils'
 import { AddCoordinatorModal } from '../modal'
+import { ProgressLineChart } from '@partials/common'
 
 export const HodProfileDetail = ({ subadmin }: any) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -166,12 +167,14 @@ export const HodProfileDetail = ({ subadmin }: any) => {
                 <div className="w-full lg:w-1/2">
                     <DepartmentCounts />
                 </div>
+
                 <div className="w-full lg:w-1/2">
                     <Card>
                         <ProgressChart data={data} />
                     </Card>
                 </div>
             </div>
+            <ProgressLineChart />
         </>
     )
 }

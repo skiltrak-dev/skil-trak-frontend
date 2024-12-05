@@ -187,6 +187,14 @@ export const ActiveSubAdmin = () => {
             header: () => <span>Assigned Students</span>,
         },
         {
+            accessorKey: 'user.appointmentsCount',
+            header: () => <span>Appointments</span>,
+        },
+        {
+            accessorKey: 'user.workplaceVisitCount',
+            header: () => <span>Workplace Visit</span>,
+        },
+        {
             accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
             // cell: (info) => info.getValue(),

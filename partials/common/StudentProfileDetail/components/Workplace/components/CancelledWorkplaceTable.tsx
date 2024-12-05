@@ -34,6 +34,7 @@ export function CancelledWorkplaceTable({ cancelledWp }: { cancelledWp: any }) {
         { key: 'createdAt', text: 'Created At' },
         { key: 'cancelledAt', text: 'Cancelled At' },
     ]
+    console.log('cancelledWp', cancelledWp)
     return (
         <div className="px-4">
             <Typography medium variant="label">

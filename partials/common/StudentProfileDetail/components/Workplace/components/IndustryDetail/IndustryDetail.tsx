@@ -128,7 +128,6 @@ export const IndustryDetail = ({
     //     }
     // }
 
-    console.log({ fileName })
 
     const extension = workplace?.employmentDocument?.file
         ?.split('.')
