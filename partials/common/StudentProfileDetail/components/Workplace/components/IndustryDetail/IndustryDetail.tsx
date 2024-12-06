@@ -1,6 +1,7 @@
 import {
     AuthorizedUserComponent,
     NoData,
+    Tooltip,
     Typography,
     VideoPreview,
 } from '@components'
@@ -16,18 +17,22 @@ import {
     IWorkplaceIndustries,
     WorkplaceWorkIndustriesType,
 } from 'redux/queryTypes'
-import { ViewContactedIndustryModal } from '../../modals'
+import {
+    ShowPlacementCommentsModal,
+    ViewContactedIndustryModal,
+} from '../../modals'
 import { AgreementView } from '../AgreementView'
 import { Actions } from './Actions'
 import { IndustryCard, StudentInterviewDetail } from './components'
 import { StudentProvidedABNActions } from './StudentProvidedABNActions'
 import { StudentProvidedActions } from './StudentProvidedActions'
-import { IoMdDocument, IoMdDownload } from 'react-icons/io'
+import { IoIosWarning, IoMdDocument, IoMdDownload } from 'react-icons/io'
 import { useAssessmentDocumentsView } from '../../../AssessmentsSubmission'
 import Image from 'next/image'
 import { getDocType } from '@components/sections/student/AssessmentsContainer'
 import { WorkplaceEmploymentDocument } from '@partials/student'
 import { FaFileImage } from 'react-icons/fa'
+import { WorkplaceRequestWarningEnum } from '../../enum'
 
 export const IndustryDetail = ({
     course,
@@ -79,6 +84,15 @@ export const IndustryDetail = ({
 
     const onViewContactedIndustries = () => {
         setModal(<ViewContactedIndustryModal onCancel={onCancelClicked} />)
+    }
+
+    const onShowComments = () => {
+        setModal(
+            <ShowPlacementCommentsModal
+                onCancel={onCancelClicked}
+                warnings={workplace?.warnings}
+            />
+        )
     }
 
     const onViewOnMap = () => {
@@ -154,6 +168,15 @@ export const IndustryDetail = ({
                         </Typography>
                     </div>
                     <div className="flex items-center gap-x-3">
+                        <div
+                            className="relative group cursor-pointer"
+                            onClick={() => {
+                                onShowComments()
+                            }}
+                        >
+                            <IoIosWarning className="text-primary" size={20} />
+                            <Tooltip>Placement Comments</Tooltip>
+                        </div>
                         {appliedIndustry?.AgreementSigned && (
                             <AgreementView workplace={workplace} />
                         )}
