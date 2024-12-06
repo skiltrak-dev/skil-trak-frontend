@@ -55,10 +55,6 @@ export const ShowIndustryNotesAndTHModal = ({
         indLocation?.[1]
     )
 
-    console.log({ distdistdist: dist })
-
-    console.log({ studentLocation, industryLocation })
-
     useEffect(() => {
         if (workplaceData?.type === 'docsMismatch') {
             setModal(
@@ -89,7 +85,6 @@ export const ShowIndustryNotesAndTHModal = ({
     }, [workplaceData])
 
     const onCancelClicked = () => setModal(null)
-
     const onApply = async () => {
         // if (dist <= 20) {
         const res: any = await addExistingIndustry({
@@ -123,7 +118,6 @@ export const ShowIndustryNotesAndTHModal = ({
                 type: 'placementOutSide20Km',
             })
         }
-        console.log({ res })
         // } else {
         //     setWorkplaceData({
         //         type: 'placementOutSide20Km',

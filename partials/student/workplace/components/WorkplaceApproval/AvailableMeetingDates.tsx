@@ -3,9 +3,6 @@ import moment from 'moment'
 import { AvailabelMeetingDate } from './AvailabelMeetingDate'
 
 export const AvailableMeetingDates = ({ dates }: { dates: any }) => {
-    console.log({
-        dates: Object.values(dates),
-    })
     return (
         <div className="h-full">
             <div>

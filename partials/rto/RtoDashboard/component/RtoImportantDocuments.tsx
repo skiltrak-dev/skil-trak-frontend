@@ -38,7 +38,6 @@ export const RtoImportantDocuments = ({
         Number(rto?.user?.id)
     )
 
-
     const titleClasses = classNames({
         'mb-2': true,
         'text-xs font-medium text-gray-600': sidebar,

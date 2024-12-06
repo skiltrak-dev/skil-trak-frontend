@@ -17,7 +17,6 @@ export const AddIndustryQuestionsModal = ({
     onCancel: () => void
 }) => {
     const sectors = getSectors(industry?.courses)
-    console.log({ sectors })
     const [saveQuestions, saveQuestionsResult] =
         AdminApi.Industries.saveIndustryQuestions()
 

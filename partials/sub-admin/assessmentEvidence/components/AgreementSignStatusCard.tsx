@@ -110,8 +110,6 @@ export const AgreementSignStatusCard = ({
         )
     }, [AllResponse])
 
-    console.log({ signer })
-
     return (
         <>
             {modal}

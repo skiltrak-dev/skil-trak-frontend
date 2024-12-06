@@ -82,8 +82,6 @@ export const PlacementOutSIde20KmModal = ({
                 missingDocuments: res?.error?.data?.missingDocuments,
             })
         }
-
-        console.log({ res })
     }
     return (
         <GlobalModal>

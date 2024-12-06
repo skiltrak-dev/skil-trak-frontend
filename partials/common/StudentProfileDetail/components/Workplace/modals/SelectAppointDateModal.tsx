@@ -72,6 +72,7 @@ export const SelectAppointDateModal = ({
             if (res?.error?.data?.message === 'distanceExceededLimit') {
                 setWorkplaceData({
                     type: 'placementOutSide20Km',
+                    dates: { date1, date2 },
                 })
             }
         } else {

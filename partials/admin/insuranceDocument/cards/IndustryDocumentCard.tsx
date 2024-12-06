@@ -3,7 +3,6 @@ import moment from 'moment'
 import { Button, Typography } from '@components'
 
 export const IndustryDocumentCard = ({ industries }: { industries: any }) => {
-    console.log({ industries })
     return (
         <div className="bg-[#6971DD1A] py-3 px-3.5 rounded-md border-dashed border-[#24556D] grid grid-cols-4">
             <div className="">

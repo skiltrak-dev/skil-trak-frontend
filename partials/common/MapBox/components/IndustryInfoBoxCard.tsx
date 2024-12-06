@@ -49,8 +49,6 @@ export const IndustryInfoBoxCard = ({
         setIndustryLocation,
     } = useWorkplace()
 
-    console.log({ item })
-
     useEffect(() => {
         if (workplaceData?.type === 'limitExceed') {
             setModal(

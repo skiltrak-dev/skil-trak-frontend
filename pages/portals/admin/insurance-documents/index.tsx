@@ -75,7 +75,7 @@ const InsuranceDocuments: NextPageWithLayout = () => {
                                 onClick={() => {
                                     setSelectedType(type?.id)
                                 }}
-                                count={type?.documentCount}
+                                count={type?.docCount}
                                 label={type?.title}
                             />
                         ))}

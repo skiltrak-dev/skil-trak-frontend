@@ -19,10 +19,6 @@ export const RtoInsuranceDocuments = ({
         }
     )
 
-    console.log(
-        'getRtoByInsuranceType?.data?.documents',
-        getRtoByInsuranceType?.data?.document
-    )
     return (
         <>
             {documentsViewModal}

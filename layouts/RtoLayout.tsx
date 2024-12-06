@@ -66,11 +66,6 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
         }
     )
 
-    console.log({
-        otherAllUserSigned,
-        pendingDocuments: pendingDocuments?.data,
-    })
-
     const status = AuthUtils.getUserCredentials()?.status
 
     // useEffect(() => {

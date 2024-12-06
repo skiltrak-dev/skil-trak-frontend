@@ -227,7 +227,6 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         if (values?.type == 'name') {
             setActive(2)
         }
-        console.log({ values })
         setFindIndustryType(values?.type)
         setIndustrySearchValue(values?.value)
         // findAbn(values?.abn)

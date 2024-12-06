@@ -17,7 +17,6 @@ export const IndustryInsuarabceDocuments = ({
     const industriesListing =
         getIndustriesByInsuranceType?.data?.[0]?.industryRequiredDocuments
 
-    console.log({ industriesListing })
     return (
         <div className="px-3.5 py-3 rounded-[5px] bg-[#24556D0F]">
             <div className="flex justify-between items-center">
@@ -51,7 +50,7 @@ export const IndustryInsuarabceDocuments = ({
             ) : getIndustriesByInsuranceType?.isSuccess ? (
                 <EmptyData
                     imageUrl="/images/workplace/document.png"
-                    title="No Document Uploaded by Industry"
+                    title="No Document Required by Industry"
                     description="."
                     height="100%"
                 />

@@ -62,7 +62,7 @@ export const UploadInsuranceDocForm = ({
                         label={'Expiry Date'}
                         type="date"
                         placeholder="Add Expiry Date here..."
-                        min={getDate()}
+                        // min={getDate()}
                     />
                     <FileUpload
                         name={'file'}

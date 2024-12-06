@@ -60,7 +60,6 @@ const RTODashboard: NextPageWithLayout = () => {
             }),
         [rtoInsuranceList?.data]
     )
-    console.log({ nearExpiry, docs: rtoInsuranceList?.data })
 
     const onCancel = () => setModal(null)
 

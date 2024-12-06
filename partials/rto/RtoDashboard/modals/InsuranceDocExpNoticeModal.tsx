@@ -24,7 +24,7 @@ export const InsuranceDocExpNoticeModal = ({
     const [updateStatus, updateStatusResult] =
         useUpdateWorkplaceStatusMutation()
 
-    const doc = insuranceDoc?.document
+    const doc = insuranceDoc?.document?.[0]
 
     const onCancelUploadeDocModal = () => setModal(null)
 
