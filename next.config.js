@@ -17,6 +17,19 @@ const nextConfig = {
                     source: '/blogs/:slug/:id',
                     destination: '/blogs/:slug',
                 },
+                {
+                    source: '/blogs/skiltrak-opening-doors-for-disability-course-students-with-specialized',
+                    destination: '/blogs/find-the-best-disability-course-placement-in-australia',
+
+                },
+                {
+                    source: '/blogs/commercial-cookery-work-placements-skiltrak-opening-doors-for-culinary',
+                    destination: '/blogs/how-to-find-commercial-cookery-work-placements-in-australia',
+                },
+                {
+                    source: '/blogs/the-advantages-of-outsourcing-placement-services-for-a-training-organi',
+                    destination: '/blogs/how-registered-training-organisations-rtos-can-ensure-compliance-durin',
+                },
             ],
         }
     },

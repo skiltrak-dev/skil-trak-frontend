@@ -164,7 +164,6 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
         if (values?.type == 'name') {
             setActive(2)
         }
-        console.log({ values })
         setFindIndustryType(values?.type)
         setIndustrySearchValue(values?.value)
         // setActive((active: number) => active + 1)
@@ -201,8 +200,6 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
         //     />
         // )
     }
-
-    console.log({ industrySearchValue })
 
     return (
         <>

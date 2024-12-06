@@ -33,8 +33,6 @@ export const InsuranceDocMisMatchModal = ({
 }) => {
     const [note, setNote] = useState('')
 
-    console.log({ date2 })
-
     const { notification } = useNotification()
 
     const noteData = SubAdminApi.Workplace.placementAndInsuranceDocNote(
@@ -73,8 +71,6 @@ export const InsuranceDocMisMatchModal = ({
 
             onCancel()
         }
-
-        console.log({ res })
     }
     return (
         <GlobalModal>

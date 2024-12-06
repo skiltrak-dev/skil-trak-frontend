@@ -1,4 +1,4 @@
-import { Button, Typography } from '@components'
+import { ActionButton, Button, Typography } from '@components'
 import moment from 'moment'
 import { ReactElement, useMemo, useState } from 'react'
 import classNames from 'classnames'
@@ -24,6 +24,11 @@ export const InsuranceDocumentCard = ({ insurance }: { insurance: any }) => {
         )
     }, [insurance?.document])
 
+    const isExpired = moment(latestDocument?.expiryDate).isBefore(
+        moment(),
+        'day'
+    )
+
     const getButtons = () => {
         if (selected && !latestDocument) {
             return (
@@ -41,23 +46,38 @@ export const InsuranceDocumentCard = ({ insurance }: { insurance: any }) => {
             )
         } else if (latestDocument) {
             return (
-                <Button
-                    text="View"
-                    variant="info"
-                    onClick={() => {
-                        onFileClicked({
-                            ...latestDocument,
-                            showEdit: false,
-                            file: latestDocument?.file
-                                .replaceAll('{"', '')
-                                .replaceAll('"}', ''),
-                            extension: latestDocument?.file
-                                ?.split('.')
-                                ?.reverse()?.[0],
-                            type: 'all',
-                        })
-                    }}
-                />
+                <div className="flex items-center gap-x-2">
+                    <Button
+                        text="View"
+                        variant="info"
+                        onClick={() => {
+                            onFileClicked({
+                                ...latestDocument,
+                                showEdit: false,
+                                file: latestDocument?.file
+                                    .replaceAll('{"', '')
+                                    .replaceAll('"}', ''),
+                                extension: latestDocument?.file
+                                    ?.split('.')
+                                    ?.reverse()?.[0],
+                                type: 'all',
+                            })
+                        }}
+                    />
+                    <ActionButton
+                        variant="warning"
+                        onClick={() => {
+                            setModal(
+                                <UploadDocModal
+                                    onCancel={onCancel}
+                                    insuranceDocumentType={insurance?.id}
+                                />
+                            )
+                        }}
+                    >
+                        Update
+                    </ActionButton>
+                </div>
             )
         } else {
             return (
@@ -78,9 +98,9 @@ export const InsuranceDocumentCard = ({ insurance }: { insurance: any }) => {
         'bg-[#F7910F1A]': selected && !latestDocument,
         'bg-[#128C7E1A]': latestDocument,
         'bg-[#D9D9D966]': !selected && !latestDocument,
+        'bg-primary-light': isExpired,
     })
 
-    console.log({ latestDocument })
     return (
         <>
             {modal}
@@ -90,31 +110,15 @@ export const InsuranceDocumentCard = ({ insurance }: { insurance: any }) => {
                     {insurance?.title}
                 </Typography>{' '}
                 <div className="flex items-center gap-x-6">
-                    {latestDocument && (
-                        <>
+                    {latestDocument &&
+                        (isExpired ? (
                             <div className="flex items-center gap-x-1">
                                 <Typography
                                     variant="small"
                                     color={'text-[#24556D]'}
                                     whiteSpacePre
                                 >
-                                    Confirm by:
-                                </Typography>
-                                <Typography
-                                    variant="small"
-                                    medium
-                                    whiteSpacePre
-                                >
-                                    {latestDocument?.confirmedBy}
-                                </Typography>
-                            </div>
-                            <div className="flex items-center gap-x-1">
-                                <Typography
-                                    variant="small"
-                                    color={'text-[#24556D]'}
-                                    whiteSpacePre
-                                >
-                                    Expiry Date:
+                                    Expired:
                                 </Typography>
                                 <Typography
                                     variant="small"
@@ -126,8 +130,44 @@ export const InsuranceDocumentCard = ({ insurance }: { insurance: any }) => {
                                     )}
                                 </Typography>
                             </div>
-                        </>
-                    )}
+                        ) : (
+                            <>
+                                <div className="flex items-center gap-x-1">
+                                    <Typography
+                                        variant="small"
+                                        color={'text-[#24556D]'}
+                                        whiteSpacePre
+                                    >
+                                        Confirm by:
+                                    </Typography>
+                                    <Typography
+                                        variant="small"
+                                        medium
+                                        whiteSpacePre
+                                    >
+                                        {latestDocument?.confirmedBy}
+                                    </Typography>
+                                </div>
+                                <div className="flex items-center gap-x-1">
+                                    <Typography
+                                        variant="small"
+                                        color={'text-[#24556D]'}
+                                        whiteSpacePre
+                                    >
+                                        Expiry Date:
+                                    </Typography>
+                                    <Typography
+                                        variant="small"
+                                        medium
+                                        whiteSpacePre
+                                    >
+                                        {moment(
+                                            latestDocument?.expiryDate
+                                        ).format('DD/MM/YYYY')}
+                                    </Typography>
+                                </div>
+                            </>
+                        ))}
                     <div>{getButtons()}</div>
                     {/* */}
                 </div>
