@@ -65,7 +65,17 @@ export interface EmploymentDocument extends BaseResponse {
     workplaceDocumentType: WorkplaceEmploymentDocument
 }
 
+export interface Warning {
+    id: number
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    comment: string
+    type: string
+}
+
 export interface IWorkplaceIndustries {
+    warnings?: Warning
     approvalStatus?: string
     cancelledAt?: string
     byExistingAbn?: boolean

@@ -154,6 +154,14 @@ export const RtoSignUpForm = ({
         contactPersonNumber: yup.string(),
 
         // Address Information
+        // addressLine1: yup.string().when('onSuburbClicked', {
+        //     is: true,
+        //     then: (schema) =>
+        //         schema
+        //             .required('Address is required when the flag is true')
+        //             .min(5, 'Address must be at least 5 characters long'),
+        //     otherwise: (schema) => schema,
+        // }),
         addressLine1: yup.string().required('Must provide address'),
 
         zipCode: yup.string().required('Must provide zip code for your state'),
@@ -225,6 +233,8 @@ export const RtoSignUpForm = ({
             onSubmit(values)
         }
     }
+
+    console.log({ formMethods })
 
     return (
         <FormProvider {...formMethods}>
@@ -425,6 +435,14 @@ export const RtoSignUpForm = ({
                                                         state
                                                     )
                                                 }
+                                                // formMethods.setError(
+                                                //     'addressLine1',
+                                                //     {
+                                                //         type: 'address',
+                                                //         message:
+                                                //             'You must select on Suburb Dropdown',
+                                                //     }
+                                                // )
                                             } catch (error) {
                                                 console.error(
                                                     'Error fetching postal code:',
@@ -435,7 +453,9 @@ export const RtoSignUpForm = ({
                                     }}
                                     onPlaceSuggetions={{
                                         placesSuggetions: onSuburbClicked,
-                                        setIsPlaceSelected: setOnSuburbClicked,
+                                        setIsPlaceSelected: (e: any) => {
+                                            setOnSuburbClicked(e)
+                                        },
                                     }}
                                 />
                             </div>

@@ -8,6 +8,8 @@ interface CardProps {
     shadowColor?: string
     layout?: 'wrap' | 'fluid' | 'min'
     fullHeight?: boolean
+    border?: boolean
+    borderColor?: string
 }
 
 export const Card = ({
@@ -17,6 +19,8 @@ export const Card = ({
     shadowColor = 'shadow-black/5',
     layout = 'fluid',
     fullHeight,
+    border,
+    borderColor,
 }: CardProps) => {
     const classes = classNames({
         'w-full': layout === 'fluid',
@@ -30,6 +34,9 @@ export const Card = ({
         'shadow-profiles2': shadowType === 'profile2',
         'p-0': noPadding,
         'p-4': !noPadding,
+        border: border,
+        'border-[#6B728050]': !borderColor,
+        borderColor,
     })
     return <div className={`${classes} ${shadowColor}`}>{children}</div>
 }
