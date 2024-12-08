@@ -5,18 +5,23 @@ import {
     Typography,
     VideoPreview,
 } from '@components'
+import { getDocType } from '@components/sections/student/AssessmentsContainer'
 import { UserRoles } from '@constants'
 import { useContextBar, useNotification } from '@hooks'
 import { ViewOnMapIndustriesModal } from '@partials/common/MapBox'
+import { WorkplaceEmploymentDocument } from '@partials/student'
 import { AvailabelMeetingDate } from '@partials/student/workplace/components/WorkplaceApproval/AvailabelMeetingDate'
 import { AddIndustryCB } from '@partials/sub-admin/workplace/contextBar'
 import { Course, Student } from '@types'
 import { getUserCredentials } from '@utils'
+import Image from 'next/image'
 import { ReactElement, useState } from 'react'
+import { IoIosWarning, IoMdDocument } from 'react-icons/io'
 import {
     IWorkplaceIndustries,
     WorkplaceWorkIndustriesType,
 } from 'redux/queryTypes'
+import { useAssessmentDocumentsView } from '../../../AssessmentsSubmission'
 import {
     ShowPlacementCommentsModal,
     ViewContactedIndustryModal,
@@ -26,13 +31,6 @@ import { Actions } from './Actions'
 import { IndustryCard, StudentInterviewDetail } from './components'
 import { StudentProvidedABNActions } from './StudentProvidedABNActions'
 import { StudentProvidedActions } from './StudentProvidedActions'
-import { IoIosWarning, IoMdDocument, IoMdDownload } from 'react-icons/io'
-import { useAssessmentDocumentsView } from '../../../AssessmentsSubmission'
-import Image from 'next/image'
-import { getDocType } from '@components/sections/student/AssessmentsContainer'
-import { WorkplaceEmploymentDocument } from '@partials/student'
-import { FaFileImage } from 'react-icons/fa'
-import { WorkplaceRequestWarningEnum } from '../../enum'
 
 export const IndustryDetail = ({
     course,
@@ -168,15 +166,21 @@ export const IndustryDetail = ({
                         </Typography>
                     </div>
                     <div className="flex items-center gap-x-3">
-                        <div
-                            className="relative group cursor-pointer"
-                            onClick={() => {
-                                onShowComments()
-                            }}
-                        >
-                            <IoIosWarning className="text-primary" size={20} />
-                            <Tooltip>Placement Comments</Tooltip>
-                        </div>
+                        {workplace?.warnings &&
+                        workplace?.warnings?.length > 0 ? (
+                            <div
+                                className="relative group cursor-pointer"
+                                onClick={() => {
+                                    onShowComments()
+                                }}
+                            >
+                                <IoIosWarning
+                                    className="text-primary"
+                                    size={20}
+                                />
+                                <Tooltip>Placement Comments</Tooltip>
+                            </div>
+                        ) : null}
                         {appliedIndustry?.AgreementSigned && (
                             <AgreementView workplace={workplace} />
                         )}
