@@ -1,10 +1,27 @@
-import { BackButton, Button, NoData, Typography } from '@components'
+import {
+    AuthorizedUserComponent,
+    BackButton,
+    Button,
+    NoData,
+    Typography,
+} from '@components'
 import { Course } from '@types'
 import React, { useEffect, useState } from 'react'
 import { FaBook } from 'react-icons/fa'
-import { MediaQueries } from '@constants'
+import { MediaQueries, UserRoles } from '@constants'
 import { useMediaQuery } from 'react-responsive'
 import Modal from '@modals/Modal'
+import {
+    draftToHtmlText,
+    InputContentEditor,
+    ShowErrorNotifications,
+} from '@components'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { FormProvider, useForm } from 'react-hook-form'
+import { RtoApi } from '@queries'
+import * as yup from 'yup'
+import { useNotification } from '@hooks'
+import { convertFromHTML, ContentState, EditorState } from 'draft-js'
 import { AddCustomCourseRequirements } from './AddCustomCourseRequirements'
 
 const getFirstCourse = (sectorWithCourse: any) => {
@@ -38,7 +55,6 @@ export const CourseRequirementsDetail = ({
         setSelectedCourse(course)
     }
 
-    // console.log('selectedCourse', selectedCourse?.courseRequirements?.[0])
     return (
         <>
             <div className="hidden md:block">
@@ -119,27 +135,49 @@ export const CourseRequirementsDetail = ({
                                         {selectedCourse.code} -{' '}
                                         {selectedCourse?.title}
                                     </span>
-                                    {selectedCourse &&
-                                        !selectedCourse?.courseRequirements &&
-                                        (selectedCourse.requirements?.trim() ===
-                                            '<p>null</p>' ||
-                                            selectedCourse.requirements ===
-                                                null) && (
-                                            <div>
-                                                <Modal>
-                                                    <Modal.Open opens="addRequirement">
-                                                        <Button text="Add Requirements" />
-                                                    </Modal.Open>
-                                                    <Modal.Window name="addRequirement">
-                                                        <AddCustomCourseRequirements
-                                                            id={
-                                                                selectedCourse?.id
-                                                            }
-                                                        />
-                                                    </Modal.Window>
-                                                </Modal>
-                                            </div>
-                                        )}
+                                    <AuthorizedUserComponent
+                                        roles={[UserRoles.RTO]}
+                                    >
+                                        <div>
+                                            <Modal>
+                                                <Modal.Open opens="updateCourseRequirements">
+                                                    <Button
+                                                        text={
+                                                            selectedCourse
+                                                                ?.courseRequirements
+                                                                ?.length
+                                                                ? 'Edit Requirements'
+                                                                : 'Add Requirements'
+                                                        }
+                                                        variant={
+                                                            selectedCourse
+                                                                ?.courseRequirements
+                                                                ?.length
+                                                                ? 'info'
+                                                                : 'primary'
+                                                        }
+                                                    />
+                                                </Modal.Open>
+                                                <Modal.Window name="updateCourseRequirements">
+                                                    <AddCustomCourseRequirements
+                                                        courseId={
+                                                            selectedCourse?.id
+                                                        }
+                                                        initialRequirements={
+                                                            selectedCourse
+                                                                ?.courseRequirements?.[0]
+                                                                ?.requirements
+                                                        }
+                                                        requirementId={
+                                                            selectedCourse
+                                                                ?.courseRequirements?.[0]
+                                                                ?.id
+                                                        }
+                                                    />
+                                                </Modal.Window>
+                                            </Modal>
+                                        </div>
+                                    </AuthorizedUserComponent>
                                 </div>
                             ) : (
                                 'No Course Selected'
@@ -149,7 +187,10 @@ export const CourseRequirementsDetail = ({
                             {selectedCourse?.courseRequirements &&
                             selectedCourse?.courseRequirements?.length ? (
                                 <div className="p-4 flex flex-col gap-y-4">
-                                    <Typography variant="title" color='text-gray-500'>
+                                    <Typography
+                                        variant="title"
+                                        color="text-gray-500"
+                                    >
                                         RTO Added Requirements
                                     </Typography>
                                     <div

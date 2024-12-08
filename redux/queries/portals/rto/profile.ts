@@ -35,5 +35,4 @@ export const profileEndpoints = (
     }),
 
     // Add custom course requirements
-    
 })
