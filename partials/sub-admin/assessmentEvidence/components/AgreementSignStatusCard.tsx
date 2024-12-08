@@ -296,7 +296,7 @@ export const AgreementSignStatusCard = ({
                                     Sign Date
                                 </Typography>
                                 <Typography variant="muted" semibold>
-                                    {signResponse?.id
+                                     {signResponse?.id
                                         ? moment(
                                               signResponse?.data ||
                                                   signer?.updatedAt
