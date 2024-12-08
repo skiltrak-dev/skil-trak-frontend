@@ -2,7 +2,7 @@ import Image from 'next/image'
 import React from 'react'
 import { MdAdminPanelSettings } from 'react-icons/md'
 
-export const IndustryProfileAvatar = ({ avatar }: { avatar: string }) => {
+export const IndustryProfileAvatar = ({ avatar }: { avatar?: string }) => {
     return (
         <div className="mt-4">
             {avatar ? (

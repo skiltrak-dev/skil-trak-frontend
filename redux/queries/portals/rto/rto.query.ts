@@ -17,7 +17,7 @@ export const rtoApi = emptySplitApi.injectEndpoints({
     endpoints: (build) => ({
         rtoMyProfile: build.query<any, void>({
             query: () => `rtos/profile/view`,
-            providesTags: ['RTO', 'Avatar', 'Profile'],
+            providesTags: ['RTOCourses', 'RTO', 'Avatar', 'Profile'],
         }),
         dashboard: build.query<any, void>({
             query: () => `rtos/dashboard/count`,

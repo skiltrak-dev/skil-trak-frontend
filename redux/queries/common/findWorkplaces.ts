@@ -14,6 +14,28 @@ export const findWorkplaceEndpoints = (
         }),
         providesTags: [''],
     }),
+    getIndustryListingProfileDetails: builder.query<any, any>({
+        query: (id) => ({
+            url: `${PREFIX}/${id}/detail`,
+        }),
+        providesTags: [''],
+    }),
+    getIndustryListingNotes: builder.query<any, any>({
+        query: (id) => ({
+            url: `${PREFIX}/${id}/notes/list-all`,
+        }),
+        providesTags: [''],
+    }),
+    // ${PREFIX}/id/note-add body comment
+    addIndustryListingDetailsNote: builder.mutation<any, any>({
+        query: ({ id, body }) => ({
+            url: `${PREFIX}/${id}/note-add`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: [''],
+    }),
+
     changePendingIndustryStatus: builder.mutation<
         any,
         { params: any; body?: any }

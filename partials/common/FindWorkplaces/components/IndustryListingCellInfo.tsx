@@ -7,6 +7,7 @@ import {
 import Image from 'next/image'
 import { PiPhoneCallDuotone } from 'react-icons/pi'
 import { CopyData } from './CopyData'
+import Link from 'next/link'
 
 export const IndustryListingCellInfo = ({
     industryListing,
@@ -17,9 +18,13 @@ export const IndustryListingCellInfo = ({
 }) => {
     return (
         <div className={`flex items-center gap-x-1.5`}>
-            {industryListing?.businessName && (
-                <InitialAvatar name={industryListing?.businessName} />
-            )}
+            <Link
+                href={`/portals/sub-admin/tasks/industry-listing/${industryListing?.id}`}
+            >
+                {industryListing?.businessName && (
+                    <InitialAvatar name={industryListing?.businessName} />
+                )}
+            </Link>
             <div className="flex flex-col gap-y-1">
                 <div className="flex items-center gap-x-2">
                     <div className="group flex items-center gap-x-1">

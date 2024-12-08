@@ -11,52 +11,87 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { RtoApi } from '@queries'
 import * as yup from 'yup'
 import { useNotification } from '@hooks'
-export const AddCustomCourseRequirements = ({ onCloseModal, id }: any) => {
-    const [addCustomReq, addCustomReqResult] =
+import { convertFromHTML, ContentState, EditorState } from 'draft-js'
+
+export const AddCustomCourseRequirements = ({
+    onCloseModal,
+    courseId,
+    initialRequirements,
+    requirementId,
+}: {
+    onCloseModal?: () => void
+    courseId?: any
+    initialRequirements?: string
+    requirementId?: string
+}) => {
+    
+    const [submitCustomReq, submitCustomReqResult] =
         RtoApi.Courses.useAddRtoCustomCourseRequirements()
     const { notification } = useNotification()
 
-    useEffect(() => {
-        if (addCustomReqResult?.isSuccess) {
-            notification.success({
-                title: 'Course Requirements Added',
-                description: 'Custom Course Requirements Added Successfully',
-            })
-            onCloseModal()
+    const isEditMode = !!requirementId
+
+    const getInitialEditorState = () => {
+        if (initialRequirements) {
+            const blocksFromHTML = convertFromHTML(initialRequirements)
+            const contentState = ContentState.createFromBlockArray(
+                blocksFromHTML.contentBlocks,
+                blocksFromHTML.entityMap
+            )
+            return EditorState.createWithContent(contentState)
         }
-    }, [addCustomReqResult.isSuccess])
+        return EditorState.createEmpty()
+    }
+
+    useEffect(() => {
+        if (submitCustomReqResult.isSuccess) {
+            notification.success({
+                title: isEditMode
+                    ? 'Course Requirements Updated'
+                    : 'Course Requirements Added',
+                description: isEditMode
+                    ? 'Custom Course Requirements Updated Successfully'
+                    : 'Custom Course Requirements Added Successfully',
+            })
+            onCloseModal?.()
+        }
+    }, [submitCustomReqResult.isSuccess])
 
     const validationSchema = yup.object({
         requirements: yup.string().required('Required'),
-        description: yup.string().required('Required'),
     })
 
     const methods = useForm({
-        // resolver: yupResolver(validationSchema),
         mode: 'all',
+        defaultValues: {
+            requirements: getInitialEditorState(),
+        },
     })
 
     const onSubmit = async (values: any) => {
-        const requirement = draftToHtmlText(values?.requirements)
-        if (requirement === '<p></p>\n' || requirement.trim() === '<p></p>') {
+        const requirements = draftToHtmlText(values?.requirements)
+        if (requirements === '<p></p>\n' || requirements.trim() === '<p></p>') {
             methods.setError('requirements', {
                 type: 'requirements',
                 message: 'Must add requirements',
             })
             return
         }
-        const body = {
-            requirement,
-        }
-        console.log('body', body)
-        await addCustomReq({ body, id })
+
+        const body = { requirements }
+
+        // Use the same submit method for both add and update
+        await submitCustomReq({
+            body,
+            id: isEditMode ? requirementId : courseId,
+        })
     }
 
     return (
         <>
-            <ShowErrorNotifications result={addCustomReqResult} />
+            <ShowErrorNotifications result={submitCustomReqResult} />
             <Typography variant="title">
-                Add Custom Course Requirements
+                {isEditMode ? 'Edit' : 'Add'} Custom Course Requirements
             </Typography>
             <FormProvider {...methods}>
                 <form
@@ -69,10 +104,13 @@ export const AddCustomCourseRequirements = ({ onCloseModal, id }: any) => {
                     />
                     <Button
                         submit
-                        // disabled={!(isValid && dirty)}
-                        disabled={addCustomReqResult.isLoading}
-                        loading={addCustomReqResult.isLoading}
-                        text="Add Custom Requirement"
+                        disabled={submitCustomReqResult.isLoading}
+                        loading={submitCustomReqResult.isLoading}
+                        text={
+                            isEditMode
+                                ? 'Update Requirement'
+                                : 'Add Custom Requirement'
+                        }
                     />
                 </form>
             </FormProvider>

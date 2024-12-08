@@ -487,6 +487,9 @@ const {
     useGetDepartmentFutureIndustriesListQuery,
     useChangePendingIndustryStatusMutation,
     useGetDepartmentApprovedIndustryListQuery,
+    useGetIndustryListingProfileDetailsQuery,
+    useGetIndustryListingNotesQuery,
+    useAddIndustryListingDetailsNoteMutation,
 
     // Impersonation
     useImpersonationToggleMutation,
@@ -756,6 +759,10 @@ export const CommonApi = {
         useChangePendingIndustryStatus: useChangePendingIndustryStatusMutation,
         useDepartmentApprovedIndustryList:
             useGetDepartmentApprovedIndustryListQuery,
+        useIndustryListingProfileDetails:
+            useGetIndustryListingProfileDetailsQuery,
+        useIndustryListingNotes: useGetIndustryListingNotesQuery,
+        useAddIndustryListingDetailsNote: useAddIndustryListingDetailsNoteMutation,
     },
     Impersonation: {
         useImpersonationToggle: useImpersonationToggleMutation,
