@@ -75,7 +75,7 @@ export interface Warning {
 }
 
 export interface IWorkplaceIndustries {
-    warnings?: Warning
+    warnings?: Warning[]
     approvalStatus?: string
     cancelledAt?: string
     byExistingAbn?: boolean

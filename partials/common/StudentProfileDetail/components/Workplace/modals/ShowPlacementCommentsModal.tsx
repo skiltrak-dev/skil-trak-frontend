@@ -20,7 +20,7 @@ export const ShowPlacementCommentsModal = ({
 
     const notesComments = {
         'Placement Outside 20 Km Comment': outSide20Km,
-        ' Rto Documents MisMatch Comment': rtoDocsMisMatch,
+        'Rto Documents Mismatch Comment': rtoDocsMisMatch,
     }
 
     return (
