@@ -291,6 +291,8 @@ export const {
     useGetSubAdminStudentCoursesQuery,
     useGetSubAdminStudentDetailQuery,
     useUpdateStudentDateMutation,
+    useGetWorkplaceIndustryDetailQuery,
+    useGetWorkplaceStudentDetailQuery,
     useGetSubAdminStudentWorkplaceDetailQuery,
     useUpdateSubAdminCourseDurationMutation,
     useGetSubAdminMyStudentsQuery,
@@ -527,6 +529,8 @@ export const SubAdminApi = {
         useUnSnoozeStudent: useUnSnoozeStudentMutation,
         sendStudentMssage: useSendStudentMssageMutation,
         studentMessagesList: useGetStudentMessagesListQuery,
+        workplaceIndustryDetail: useGetWorkplaceIndustryDetailQuery,
+        workplaceStudentDetail: useGetWorkplaceStudentDetailQuery,
     },
     LogBook: {
         useSaveLogbook: useSaveLogbookMutation,

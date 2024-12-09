@@ -2,12 +2,24 @@ import React from 'react'
 import { RtoApi } from '@queries'
 import { Button, LoadingAnimation, NoData, Typography } from '@components'
 import { InsuranceDocumentCard } from './card'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
-export const InsuranceDocuments = () => {
-    const rtoInsuranceList = RtoApi.Insurance.rtoInsuranceList()
+export const InsuranceDocuments = ({ rtoUser }: { rtoUser?: number }) => {
+    console.log({
+        assa: UserRoles.ADMIN || UserRoles.SUBADMIN ? !rtoUser : false,
+    })
+
+    const role = getUserCredentials()?.role
+
+    const rtoInsuranceList = RtoApi.Insurance.rtoInsuranceList(rtoUser, {
+        skip:
+            (role === UserRoles.ADMIN || role === UserRoles.SUBADMIN) &&
+            !rtoUser,
+    })
     return (
-        <div className="bg-[#24556D0F] rounded-[5px] py-4 px-5">
-            <div className="flex justify-between items-center">
+        <div className="bg-[#24556D0F] rounded-[5px] py-4 px-5 w-full">
+            <div className="flex justify-between items-center w-full">
                 <div>
                     <Typography variant="label" medium>
                         Insurance Documents
@@ -35,11 +47,12 @@ export const InsuranceDocuments = () => {
             {rtoInsuranceList?.isLoading ? (
                 <LoadingAnimation size={90} />
             ) : rtoInsuranceList?.data && rtoInsuranceList?.data?.length > 0 ? (
-                <div className="flex flex-col gap-y-2.5 mt-3">
+                <div className="flex flex-col gap-y-2.5 mt-3 w-full">
                     {rtoInsuranceList?.data?.map((insurance: any) => (
                         <InsuranceDocumentCard
                             key={insurance?.id}
                             insurance={insurance}
+                            rtoUser={rtoUser}
                         />
                     ))}
                 </div>

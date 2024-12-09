@@ -56,6 +56,7 @@ export interface WorkplaceWorkIndustriesType {
     terminatedDate: Date
     updatedAt: Date
     industry: Industry
+    workplaceRequest: IWorkplaceIndustries
 }
 
 export interface EmploymentDocument extends BaseResponse {
