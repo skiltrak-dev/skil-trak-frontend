@@ -63,6 +63,7 @@ export const CourseRequirementsDetail = ({
                     onClick={() => {
                         setSelectedCourse(undefined)
                     }}
+                    link={'/portals/rto'}
                 />
             </div>
             <div className="flex items-start gap-x-2 min-h-[450px]">
@@ -168,11 +169,11 @@ export const CourseRequirementsDetail = ({
                                                                 ?.courseRequirements?.[0]
                                                                 ?.requirements
                                                         }
-                                                        requirementId={
-                                                            selectedCourse
-                                                                ?.courseRequirements?.[0]
-                                                                ?.id
-                                                        }
+                                                        // requirementId={
+                                                        //     selectedCourse
+                                                        //         ?.courseRequirements?.[0]
+                                                        //         ?.id
+                                                        // }
                                                     />
                                                 </Modal.Window>
                                             </Modal>

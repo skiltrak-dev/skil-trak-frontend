@@ -1,5 +1,6 @@
+import { PageTitle } from '@components'
 import { useContextBar } from '@hooks'
-import { SubAdminLayout } from '@layouts'
+import { AdminLayout } from '@layouts'
 import { CBListingProfile, ListingProfileDetails } from '@partials/common'
 import { CommonApi } from '@queries'
 import { NextPageWithLayout } from '@types'
@@ -10,6 +11,7 @@ const IndustryListingDetails: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const router = useRouter()
     const id = router.query.id
+    
     const { data, isSuccess, isLoading } =
         CommonApi.FindWorkplace.useIndustryListingProfileDetails(id, {
             skip: !id,
@@ -18,9 +20,7 @@ const IndustryListingDetails: NextPageWithLayout = () => {
     useEffect(() => {
         if (isSuccess) {
             contextBar.show(false)
-            contextBar.setContent(
-                <CBListingProfile industry={data} />
-            )
+            contextBar.setContent(<CBListingProfile industry={data} />)
         }
 
         return () => {
@@ -30,21 +30,19 @@ const IndustryListingDetails: NextPageWithLayout = () => {
     }, [data])
 
     return (
-        <div>
-            <ListingProfileDetails />
+        <div className="p-5">
+            <PageTitle
+                title="Industry Listing Details"
+                backTitle="Industry listing"
+            />
+            <div className="mt-8">
+                <ListingProfileDetails />
+            </div>
         </div>
     )
 }
 
 IndustryListingDetails.getLayout = (page: ReactElement) => {
-    return (
-        <SubAdminLayout
-            pageTitle={{
-                title: 'Industry Profile Details',
-            }}
-        >
-            {page}
-        </SubAdminLayout>
-    )
+    return <AdminLayout>{page}</AdminLayout>
 }
 export default IndustryListingDetails

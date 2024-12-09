@@ -1,19 +1,23 @@
-import { Button, Card, Typography } from '@components'
+import { Button, Card, LoadingAnimation, NoData, Typography } from '@components'
 import Modal from '@modals/Modal'
 import { NoteCard } from '@partials/common/StudentProfileDetail/components/Notes/Card'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { AddNoteModal } from '../modal'
+import { PulseLoader } from 'react-spinners'
 
 export const IndustryListingNotes = () => {
     const router = useRouter()
     const id = router.query.id
-    // /prefix/id/notes/list-all
-    const { data } = CommonApi.FindWorkplace.useIndustryListingNotes(id, {
-        skip: !id,
-    })
-    console.log('Notes::::: Listing', data)
+
+    // /futureindustries/id/notes/list-all
+    const { data, isLoading, isError } =
+        CommonApi.FindWorkplace.useIndustryListingNotes(id, {
+            skip: !id,
+        })
+
+
     return (
         <>
             <Card noPadding>
@@ -33,16 +37,24 @@ export const IndustryListingNotes = () => {
                     </div>
                 </div>
                 <div className="flex flex-col gap-y-3 px-4 py-2 max-h-96 overflow-auto custom-scrollbar">
-                    {data.map((note: any) => (
-                        <div className="bg-[#FFDCDC] p-3 rounded-lg">
-                            <div
-                                dangerouslySetInnerHTML={{
-                                    __html: note?.comment,
-                                }}
-                                className="block remove-text-bg"
-                            />
-                        </div>
-                    ))}
+                    {isError && <NoData text="something went wrong" />}
+                    {isLoading ? (
+                        <PulseLoader />
+                    ) : data?.length > 0 ? (
+                        data?.map((note: any) => (
+                            <div className="bg-[#FFDCDC] p-3 rounded-lg">
+                                <div
+                                    dangerouslySetInnerHTML={{
+                                        __html: note?.comment,
+                                    }}
+                                    className="block remove-text-bg"
+                                />
+                            </div>
+                        ))
+                    ) : (
+                        !isError && <NoData text="No Date Found" />
+                    )}
+
                     {/* <NoteCard key={1} note={'Notes'} /> */}
                 </div>
             </Card>
