@@ -8,6 +8,8 @@ import Image from 'next/image'
 import { PiPhoneCallDuotone } from 'react-icons/pi'
 import { CopyData } from './CopyData'
 import Link from 'next/link'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 export const IndustryListingCellInfo = ({
     industryListing,
@@ -16,11 +18,18 @@ export const IndustryListingCellInfo = ({
     isDuplicated: boolean
     industryListing: any
 }) => {
+    const { role } = getUserCredentials()
+
+    const basePath =
+        role === UserRoles.ADMIN
+            ? `/portals/admin/future-industries`
+            : role === UserRoles.SUBADMIN
+            ? `/portals/sub-admin/tasks/industry-listing`
+            : '#'
+
     return (
         <div className={`flex items-center gap-x-1.5`}>
-            <Link
-                href={`/portals/sub-admin/tasks/industry-listing/${industryListing?.id}`}
-            >
+            <Link href={`${basePath}/${industryListing?.id}`}>
                 {industryListing?.businessName && (
                     <InitialAvatar name={industryListing?.businessName} />
                 )}

@@ -55,7 +55,6 @@ export const AddNoteModal = ({ onCloseModal }: any) => {
         }
 
         const body = { comment }
-        console.log('bdy', { id, body })
         addNote({ id, body })
 
         // Use the same submit method for both add and update

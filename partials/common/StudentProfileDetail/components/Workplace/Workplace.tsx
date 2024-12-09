@@ -246,7 +246,7 @@ export const Workplace = ({
         setShowPreviousWorkplace(!showPreviousWorkplace)
     }
 
-    console.log('getCancelledWP?.data::::::::', getCancelledWP?.data)
+
 
     return (
         <>

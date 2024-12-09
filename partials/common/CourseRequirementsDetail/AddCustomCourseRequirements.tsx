@@ -17,19 +17,17 @@ export const AddCustomCourseRequirements = ({
     onCloseModal,
     courseId,
     initialRequirements,
-    requirementId,
 }: {
     onCloseModal?: () => void
     courseId?: any
     initialRequirements?: string
-    requirementId?: string
 }) => {
-    
+   
     const [submitCustomReq, submitCustomReqResult] =
         RtoApi.Courses.useAddRtoCustomCourseRequirements()
     const { notification } = useNotification()
 
-    const isEditMode = !!requirementId
+    const isEditMode = initialRequirements !== undefined
 
     const getInitialEditorState = () => {
         if (initialRequirements) {
@@ -83,7 +81,7 @@ export const AddCustomCourseRequirements = ({
         // Use the same submit method for both add and update
         await submitCustomReq({
             body,
-            id: isEditMode ? requirementId : courseId,
+            id: courseId,
         })
     }
 
