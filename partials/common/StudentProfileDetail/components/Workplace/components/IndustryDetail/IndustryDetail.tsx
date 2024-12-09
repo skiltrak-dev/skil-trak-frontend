@@ -33,11 +33,15 @@ import { StudentProvidedABNActions } from './StudentProvidedABNActions'
 import { StudentProvidedActions } from './StudentProvidedActions'
 
 export const IndustryDetail = ({
+    student,
     course,
+    wpIndustriesLength,
     workplace,
     appliedIndustry,
     approvalDate,
 }: {
+    student: Student
+    wpIndustriesLength: number
     approvalDate: string
     course: Course
     workplace: IWorkplaceIndustries
@@ -88,7 +92,7 @@ export const IndustryDetail = ({
         setModal(
             <ShowPlacementCommentsModal
                 onCancel={onCancelClicked}
-                warnings={workplace?.warnings}
+                warnings={appliedIndustry?.workplaceRequest?.warnings}
             />
         )
     }
@@ -105,7 +109,7 @@ export const IndustryDetail = ({
                     style={{ zIndex: 111 }}
                 >
                     <ViewOnMapIndustriesModal
-                        workplace={workplace}
+                        workplace={{ ...workplace, student }}
                         courseId={course?.id}
                         onCancel={onCancelClicked}
                         appliedIndustry={appliedIndustry}
@@ -166,8 +170,9 @@ export const IndustryDetail = ({
                         </Typography>
                     </div>
                     <div className="flex items-center gap-x-3">
-                        {workplace?.warnings &&
-                        workplace?.warnings?.length > 0 ? (
+                        {appliedIndustry?.workplaceRequest?.warnings &&
+                        appliedIndustry?.workplaceRequest?.warnings?.length >
+                            0 ? (
                             <div
                                 className="relative group cursor-pointer"
                                 onClick={() => {
@@ -240,9 +245,7 @@ export const IndustryDetail = ({
                                                     contextBar.setContent(
                                                         <AddIndustryCB
                                                             studentId={
-                                                                workplace
-                                                                    ?.student
-                                                                    ?.id
+                                                                student?.id
                                                             }
                                                             workplaceId={
                                                                 workplace?.id
@@ -354,7 +357,7 @@ export const IndustryDetail = ({
                         </div>
                     ) : (
                         <div className="p-2.5">
-                            {!workplace?.industries?.length ? (
+                            {!wpIndustriesLength ? (
                                 <NoData text="No Industries were found!" />
                             ) : (
                                 ''
@@ -365,6 +368,7 @@ export const IndustryDetail = ({
                                         industry={appliedIndustry}
                                         workplace={workplace}
                                         applied
+                                        student={student}
                                         courseId={course?.id}
                                     />
                                     {/*  */}
@@ -374,9 +378,7 @@ export const IndustryDetail = ({
                                         {workplace.studentProvidedWorkplace ? (
                                             <StudentProvidedActions
                                                 workplace={workplace}
-                                                student={
-                                                    workplace?.student as Student
-                                                }
+                                                student={student}
                                                 appliedIndustry={
                                                     appliedIndustry
                                                 }
@@ -387,9 +389,7 @@ export const IndustryDetail = ({
                                         ) : workplace?.byExistingAbn ? (
                                             <StudentProvidedABNActions
                                                 workplace={workplace}
-                                                student={
-                                                    workplace?.student as Student
-                                                }
+                                                student={student}
                                                 courses={
                                                     workplace?.courses as Course[]
                                                 }
@@ -405,9 +405,7 @@ export const IndustryDetail = ({
                                                 currentStatus={
                                                     workplace?.currentStatus
                                                 }
-                                                student={
-                                                    workplace?.student as Student
-                                                }
+                                                student={student}
                                                 courses={
                                                     workplace?.courses as Course[]
                                                 }
@@ -550,6 +548,7 @@ export const IndustryDetail = ({
                                 (industry: any, index: number) => (
                                     <IndustryCard
                                         key={industry?.id}
+                                        student={student}
                                         industry={industry}
                                         workplace={workplace}
                                         courseId={course?.id}

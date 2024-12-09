@@ -20,6 +20,7 @@ import { AddIndustryCB } from '@partials/sub-admin/workplace/contextBar'
 import { RemoveIndustryModal } from '@partials/sub-admin/workplace/modals'
 import { getUserCredentials } from '@utils'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
+import { Student } from '@types'
 
 export const IndustryCard = ({
     industry,
@@ -27,8 +28,10 @@ export const IndustryCard = ({
     workplace,
     applied,
     courseId,
+    student,
 }: {
     industry: any
+    student: Student
     appliedIndustry?: any
     workplace: IWorkplaceIndustries
     applied?: boolean
@@ -52,6 +55,8 @@ export const IndustryCard = ({
         }
     }, [applyForWorkplaceResult])
 
+    console.log({ student })
+
     const onEditIndustry = () => {
         contextBar.setContent(
             <AddIndustryCB
@@ -72,7 +77,7 @@ export const IndustryCard = ({
             <RemoveIndustryModal
                 industry={industry}
                 onCancel={onCancelClicked}
-                studentId={Number(workplace?.student?.id)}
+                studentId={Number(student?.id)}
             />
         )
     }

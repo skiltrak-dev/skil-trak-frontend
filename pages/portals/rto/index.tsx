@@ -3,33 +3,28 @@ import { ReactElement, useEffect, useMemo, useState } from 'react'
 import { Animations } from '@animations'
 import {
     Card,
-    NoData,
-    LottieAnimation,
-    HelpQuestionSet,
     ContextBarLoading,
+    HelpQuestionSet,
+    LottieAnimation,
+    NoData,
 } from '@components'
-import { FigureCard } from '@components/sections/subAdmin'
-import { useContextBar } from '@hooks'
 import { RtoLayout } from '@layouts'
-import { ViewProfileCB } from '@partials/rto/contextBar'
+import { InsuranceDocExpNoticeModal, RtoDashboard } from '@partials/rto'
+import { ImportantDocuments } from '@partials/rto/components'
 import { RtoApi } from '@queries'
 import { Course, NextPageWithLayout } from '@types'
 import { AuthUtils } from '@utils'
+import moment from 'moment'
 import { useRouter } from 'next/router'
 import { FaSchool } from 'react-icons/fa'
 import { CallBackProps } from 'react-joyride'
-import { ImportantDocuments } from '@partials/rto/components'
-import { InsuranceDocExpNoticeModal, RtoDashboard } from '@partials/rto'
-import moment from 'moment'
 
 const RTODashboard: NextPageWithLayout = () => {
-    const contextBar = useContextBar()
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [credentials, setCredentials] = useState<any>(null)
 
     const { data: rto, isLoading } = RtoApi.Rto.useProfile()
-    const rtoInsuranceList = RtoApi.Insurance.rtoInsuranceList()
-    const count = RtoApi.Rto.useDashboard()
+    const rtoInsuranceList = RtoApi.Insurance.rtoInsuranceList(undefined)
 
     const router = useRouter()
 

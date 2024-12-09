@@ -10,6 +10,7 @@ import {
     RtoProfileTopbar,
     RtoAssessmentTools,
     RtoProfileStatistics,
+    InsuranceDocumentsData,
 } from './components'
 import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
@@ -36,6 +37,10 @@ export const RtoProfileDetail = ({ rto }: { rto: Rto }) => {
                 <div className="h-full">
                     <Notes userId={rto?.user?.id} />
                 </div>
+            </div>
+
+            <div className="mt-5 h-[420px]">
+                <InsuranceDocumentsData userId={rto?.user?.id} />
             </div>
 
             {/* Appointments */}

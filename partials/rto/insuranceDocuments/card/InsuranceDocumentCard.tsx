@@ -5,7 +5,13 @@ import classNames from 'classnames'
 import { UploadDocModal } from '../modal'
 import { useAssessmentDocumentsView } from '@partials/common/StudentProfileDetail/components'
 
-export const InsuranceDocumentCard = ({ insurance }: { insurance: any }) => {
+export const InsuranceDocumentCard = ({
+    insurance,
+    rtoUser,
+}: {
+    insurance: any
+    rtoUser?: number
+}) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [selected, setSelected] = useState<boolean>(false)
     const { onFileClicked, documentsViewModal } = useAssessmentDocumentsView()
@@ -39,6 +45,7 @@ export const InsuranceDocumentCard = ({ insurance }: { insurance: any }) => {
                             <UploadDocModal
                                 onCancel={onCancel}
                                 insuranceDocumentType={insurance?.id}
+                                rtoUser={rtoUser}
                             />
                         )
                     }}
@@ -69,6 +76,7 @@ export const InsuranceDocumentCard = ({ insurance }: { insurance: any }) => {
                         onClick={() => {
                             setModal(
                                 <UploadDocModal
+                                    rtoUser={rtoUser}
                                     onCancel={onCancel}
                                     insuranceDocumentType={insurance?.id}
                                 />
@@ -93,7 +101,7 @@ export const InsuranceDocumentCard = ({ insurance }: { insurance: any }) => {
     }
 
     const classes = classNames({
-        'py-1 rounded border border-[#A5A3A9]  pl-4 pr-2 flex justify-between items-center':
+        'py-1 rounded border border-[#A5A3A9] w-full pl-4 pr-2 flex justify-between items-center':
             true,
         'bg-[#F7910F1A]': selected && !latestDocument,
         'bg-[#128C7E1A]': latestDocument,

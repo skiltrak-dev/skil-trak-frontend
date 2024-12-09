@@ -12,7 +12,7 @@ export const workplaceQuestions = {
     [workplaceQuestionsKeys.possession]:
         'Do you possess any of the following documents? Please ignore those that do not apply to you:',
     [workplaceQuestionsKeys.currentEmploymentStatus]:
-        'Are you currently employed? Would you mint providing the details?',
+        'Are you currently employed? Would you mind providing the details?',
     [workplaceQuestionsKeys.relaventExperience]:
         'Do you have any relevant experience in the field for which you are seeking placement?',
     [workplaceQuestionsKeys.placementGoals]:

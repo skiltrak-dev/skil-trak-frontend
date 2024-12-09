@@ -214,6 +214,7 @@ export const ApprovedStudent = () => {
             cell: (info) => {
                 return <StudentCellInfo student={info.row.original} call />
             },
+
             header: () => <span>Student</span>,
         },
         {

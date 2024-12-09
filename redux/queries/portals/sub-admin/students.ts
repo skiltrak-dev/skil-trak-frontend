@@ -215,6 +215,28 @@ export const studentsEndpoints = (
         ],
     }),
 
+    getWorkplaceIndustryDetail: builder.query<any, number>({
+        query: (id) => `${PREFIX}/workplace-request/${id}/details`,
+        providesTags: [
+            'SubAdminStudents',
+            'Notes',
+            'AllCommunications',
+            'AssessmentEvidence',
+            'SubAdminWorkplace',
+        ],
+    }),
+
+    getWorkplaceStudentDetail: builder.query<any, number>({
+        query: (id) => `${PREFIX}/workplace-request/${id}/student-details`,
+        providesTags: [
+            'SubAdminStudents',
+            'Notes',
+            'AllCommunications',
+            'AssessmentEvidence',
+            'SubAdminWorkplace',
+        ],
+    }),
+
     getSubAdminStudentWorkplace: builder.query<any, number>({
         query: (id) => `${PREFIX}/student/workplace-request/${id}`,
         providesTags: ['SubAdminStudents', 'SubAdminWorkplace'],

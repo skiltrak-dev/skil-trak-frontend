@@ -5,11 +5,13 @@ import { GlobalModal, ShowErrorNotifications, Typography } from '@components'
 import { useNotification } from '@hooks'
 
 export const UploadDocModal = ({
+    rtoUser,
     onCancel,
     insuranceDocumentType,
 }: {
-    onCancel: (val?: boolean) => void
+    rtoUser?: number
     insuranceDocumentType: number
+    onCancel: (val?: boolean) => void
 }) => {
     const [upload, uploadDoc] = RtoApi.Insurance.uploadInsuranceDocs()
 
@@ -25,6 +27,10 @@ export const UploadDocModal = ({
         })
         formData?.append('file', file?.[0])
         formData?.append('insuranceDocumentType', insuranceDocumentType + '')
+
+        if (rtoUser) {
+            formData?.append('userId', rtoUser + '')
+        }
 
         const res: any = await upload(formData)
 

@@ -5,8 +5,14 @@ const PREFIX = 'rtos/'
 export const insuranceEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    getRtoInsuranceType: builder.query<any, void>({
-        query: () => `${PREFIX}insurance/documents/type-list`,
+    getRtoInsuranceType: builder.query<any, number | undefined>({
+        query: (userId) => {
+            const params = userId ? { userId } : null
+            return {
+                url: `${PREFIX}insurance/documents/type-list`,
+                params,
+            }
+        },
         providesTags: ['Insurance-Type'],
     }),
     uploadRtoInsuranceDocs: builder.mutation<any, any>({
