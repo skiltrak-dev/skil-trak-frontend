@@ -1,13 +1,12 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 // components
 import { Button, LoadingAnimation, NoData, Typography } from '@components'
-import { Supervisor } from '@partials/common/IndustrySupervisor'
 
 // redux
 import { InsuranceDocCard } from '@partials/industry/IndustryUpdatedDashboard/components/IndustryDashboardRD/cards'
-import { IndustryApi, useGetIndustryCoursesQuery } from '@queries'
-import { MdKeyboardArrowDown } from 'react-icons/md'
+import { IndustryApi } from '@queries'
 import { Industry } from '@types'
+import { MdKeyboardArrowDown } from 'react-icons/md'
 
 export const IndustryInsuranceDoc = ({ industry }: { industry: Industry }) => {
     const [showInsuranceList, setShowInsuranceList] = useState<boolean>(false)
@@ -24,16 +23,6 @@ export const IndustryInsuranceDoc = ({ industry }: { industry: Industry }) => {
     const onClickShowInsuranceDocList = () => {
         setShowInsuranceList(!showInsuranceList)
     }
-
-    console.log({ industryDocsType })
-
-    // const abc = selectedWorkplace?.workplaceApprovaleRequest?.reduce(
-    //     (latest: any, current: any) =>
-    //         new Date(current?.createdAt) > new Date(latest?.createdAt)
-    //             ? current
-    //             : latest,
-    //     selectedWorkplace?.workplaceApprovaleRequest?.[0]
-    // )
 
     const required = useMemo(
         () =>
