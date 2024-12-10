@@ -1,6 +1,6 @@
 import { ActionModal } from '@components'
 import { useAlert, useNotification } from '@hooks'
-import { Student, SubAdmin } from '@types'
+import { Student } from '@types'
 import { useEffect } from 'react'
 import { HiCheckBadge } from 'react-icons/hi2'
 
