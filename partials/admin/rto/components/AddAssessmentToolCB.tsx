@@ -3,7 +3,14 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 
 // components
-import { Typography, Button, TextInput, Select } from '@components'
+import {
+    Typography,
+    Button,
+    TextInput,
+    Select,
+    Checkbox,
+    ShowErrorNotifications,
+} from '@components'
 
 // hoc
 import { FileUpload } from '@hoc'
@@ -66,8 +73,11 @@ export const AddAssessmentToolCB = ({ edit, assessment, rtoUser }: Props) => {
         }
     }, [createResult, updateResult])
 
+    console.log({ assessment })
+
     const assessmentValues = {
         title: assessment?.title,
+        isLogBook: assessment?.isLogBook,
     }
 
     const methods = useForm<RtoAssessmentToolFormType>({
@@ -90,6 +100,8 @@ export const AddAssessmentToolCB = ({ edit, assessment, rtoUser }: Props) => {
     }
     return (
         <div>
+            <ShowErrorNotifications result={createResult} />
+            <ShowErrorNotifications result={updateResult} />
             <Typography variant={'small'} color={'text-gray-500'}>
                 {edit ? 'Edit' : 'Add'} Assessment To:
             </Typography>
@@ -135,6 +147,7 @@ export const AddAssessmentToolCB = ({ edit, assessment, rtoUser }: Props) => {
                             validationIcons
                             required
                         />
+                        <Checkbox name="isLogBook" label={'isLogBook'} />
                         <FileUpload
                             onChange={(docs: any) => {
                                 setFileData(docs)

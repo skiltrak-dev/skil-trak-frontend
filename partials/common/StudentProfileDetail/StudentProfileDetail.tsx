@@ -290,7 +290,7 @@ export const StudentProfileDetail = () => {
                 <LoadingAnimation />
             ) : profile?.data && profile?.isSuccess ? (
                 <div className="flex flex-col gap-y-5 mt-8 mb-20 px-0 lg:px-2">
-                    <RtoDetail rto={profile?.data?.rto} />
+                    <RtoDetail studentId={profile?.data?.id} />
                     <div
                         className={`grid grid-cols-1 h-auto ${
                             role === UserRoles.ADMIN || subadmin?.data?.isAdmin

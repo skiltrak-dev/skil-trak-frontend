@@ -192,6 +192,17 @@ export const studentsEndpoints = (
         ],
     }),
 
+    getSubAdminStudentRtoDetail: builder.query<any, number>({
+        query: (id) => `${PREFIX}/student/${id}/rto-details`,
+        providesTags: [
+            'Notes',
+            'SubAdminStudents',
+            'AllCommunications',
+            'AssessmentEvidence',
+            'SubAdminWorkplace',
+        ],
+    }),
+
     updateStudentDate: builder.mutation<
         any,
         { id: number; range: { startDate: Date; endDate: Date } }
