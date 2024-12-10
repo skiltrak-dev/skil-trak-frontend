@@ -6,10 +6,6 @@ import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
 
 export const InsuranceDocuments = ({ rtoUser }: { rtoUser?: number }) => {
-    console.log({
-        assa: UserRoles.ADMIN || UserRoles.SUBADMIN ? !rtoUser : false,
-    })
-
     const role = getUserCredentials()?.role
 
     const rtoInsuranceList = RtoApi.Insurance.rtoInsuranceList(rtoUser, {
