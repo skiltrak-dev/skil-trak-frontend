@@ -1,10 +1,10 @@
 import {
-    AuthorizedUserComponent,
-    HideRestrictedData,
     Typography,
+    HideRestrictedData,
+    AuthorizedUserComponent,
 } from '@components'
-import { UserRoles } from '@constants'
 import { Industry } from '@types'
+import { UserRoles } from '@constants'
 import { ReactNode, useState } from 'react'
 import {
     AddIndustryAnswers,
@@ -19,7 +19,11 @@ import {
     SnoozeIndustrySwitch,
     ViewIndustryAnswers,
 } from './components'
-import { IndustryLocations, IndustrySupervisor } from '../components'
+import {
+    IndustryInsuranceDoc,
+    IndustryLocations,
+    IndustrySupervisor,
+} from '../components'
 import { ViewProfileVisitorsModal } from '@partials/common/modal'
 
 export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
@@ -117,6 +121,7 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
             <IndustryDetail industry={industry} />
             <IndustryContactPerson industry={industry} />
 
+            <IndustryInsuranceDoc industry={industry} />
             {/* Add Supervisor  */}
             <IndustrySupervisor industry={industry} />
             <IndustryLocations industry={industry} />

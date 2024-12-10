@@ -5,8 +5,15 @@ const PREFIX = 'industries'
 export const insuranceEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    getIndustryInsuranceDocs: builder.query<any, void>({
-        query: () => `${PREFIX}/insurance-document/type/list`,
+    getIndustryInsuranceDocs: builder.query<any, number | undefined>({
+        query: (userId) => {
+            const params = userId ? { userId } : null
+            console.log({ params })
+            return {
+                url: `${PREFIX}/insurance-document/type/list`,
+                params,
+            }
+        },
         providesTags: ['Insurance-Type'],
     }),
     requiredIndustryInsuranceType: builder.mutation<any, any>({

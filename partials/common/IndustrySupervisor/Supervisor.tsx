@@ -144,16 +144,6 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
                 {/*  */}
 
                 <div id="add-admin">
-                    {/* <Button
-                                text={'+ Add Supervisor'}
-                                onClick={() => {
-                                    contextBar.setTitle('Add Supervisor')
-                                    contextBar.show()
-                                    contextBar.setContent(
-                                        <AddSupervisor industry={industry} />
-                                    )
-                                }}
-                            /> */}
                     <div className="flex gap-x-2 border rounded-md p-2.5 items-center justify-between shadow-lg relative w-full">
                         <Typography variant={'label'}>Supervisors</Typography>
                         <div className="flex items-center gap-x-1 ">
