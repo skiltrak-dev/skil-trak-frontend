@@ -21,7 +21,10 @@ export const RtoDetail = ({ studentId }: { studentId: number }) => {
 
     const onViewRtoInsuranceDocs = () => {
         setModal(
-            <RtoInsuranceDocModal onCancel={onCancel} rtoUser={rto?.user} />
+            <RtoInsuranceDocModal
+                onCancel={onCancel}
+                rtoUser={rtoDetail?.data?.user}
+            />
         )
     }
     return (
@@ -90,7 +93,7 @@ export const RtoDetail = ({ studentId }: { studentId: number }) => {
                                 <div
                                     onClick={() => {
                                         router.push(
-                                            `/portals/admin/rto/${rto?.id}`
+                                            `/portals/admin/rto/${rtoDetail?.data?.id}`
                                         )
                                     }}
                                 >
