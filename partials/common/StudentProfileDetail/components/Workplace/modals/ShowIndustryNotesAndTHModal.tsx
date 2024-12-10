@@ -15,6 +15,7 @@ import { useAddExistingIndustriesMutation } from '@queries'
 import { PlacementOutSIde20KmModal } from './PlacementOutSIde20KmModal'
 import { InsuranceDocMisMatchModal } from './InsuranceDocMisMatchModal'
 import { calculateDistance } from '@utils'
+import { TradingHoursNotFoundModal } from './TradingHoursNotFoundModal'
 
 export const ShowIndustryNotesAndTHModal = ({
     industryUserName,
@@ -82,6 +83,12 @@ export const ShowIndustryNotesAndTHModal = ({
             )
             setWorkplaceData(null)
         }
+        if (workplaceData?.type === 'tradingHoursNotFound') {
+            setModal(
+                <TradingHoursNotFoundModal onCancel={() => setModal(null)} />
+            )
+            setWorkplaceData(null)
+        }
     }, [workplaceData])
 
     const onCancelClicked = () => setModal(null)
@@ -118,11 +125,11 @@ export const ShowIndustryNotesAndTHModal = ({
                 type: 'placementOutSide20Km',
             })
         }
-        // } else {
-        //     setWorkplaceData({
-        //         type: 'placementOutSide20Km',
-        //     })
-        // }
+        if (res?.error?.data?.message === 'tradingHoursNotFound') {
+            setWorkplaceData({
+                type: 'tradingHoursNotFound',
+            })
+        }
     }
 
     return (

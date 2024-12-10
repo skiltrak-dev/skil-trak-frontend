@@ -5,7 +5,7 @@ import {
     TextArea,
     Typography,
 } from '@components'
-import { useNotification } from '@hooks'
+import { useNotification, useWorkplace } from '@hooks'
 import { useAddExistingIndustriesMutation, SubAdminApi } from '@queries'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -34,6 +34,7 @@ export const InsuranceDocMisMatchModal = ({
     const [note, setNote] = useState('')
 
     const { notification } = useNotification()
+    const { setWorkplaceData } = useWorkplace()
 
     const noteData = SubAdminApi.Workplace.placementAndInsuranceDocNote(
         {
@@ -70,6 +71,11 @@ export const InsuranceDocMisMatchModal = ({
             })
 
             onCancel()
+        }
+        if (res?.error?.data?.message === 'tradingHoursNotFound') {
+            setWorkplaceData({
+                type: 'tradingHoursNotFound',
+            })
         }
     }
     return (

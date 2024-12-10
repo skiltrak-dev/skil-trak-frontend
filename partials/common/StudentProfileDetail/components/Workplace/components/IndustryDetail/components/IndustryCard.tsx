@@ -9,18 +9,17 @@ import { useEffect, useState } from 'react'
 import { BsDot } from 'react-icons/bs'
 
 // query
-import { useContextBar, useNotification } from '@hooks'
+import { useNotification } from '@hooks'
 import { useSubAdminApplyStudentWorkplaceMutation } from '@queries'
 import Link from 'next/link'
 import { MdDelete } from 'react-icons/md'
 import { PulseLoader } from 'react-spinners'
 
 import { UserRoles } from '@constants'
-import { AddIndustryCB } from '@partials/sub-admin/workplace/contextBar'
 import { RemoveIndustryModal } from '@partials/sub-admin/workplace/modals'
+import { Student } from '@types'
 import { getUserCredentials } from '@utils'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
-import { Student } from '@types'
 
 export const IndustryCard = ({
     industry,
@@ -41,8 +40,6 @@ export const IndustryCard = ({
     const [applyForWorkplace, applyForWorkplaceResult] =
         useSubAdminApplyStudentWorkplaceMutation()
 
-    const contextBar = useContextBar()
-
     // hooks
     const { notification } = useNotification()
 
@@ -54,19 +51,6 @@ export const IndustryCard = ({
             })
         }
     }, [applyForWorkplaceResult])
-
-    console.log({ student })
-
-    const onEditIndustry = () => {
-        contextBar.setContent(
-            <AddIndustryCB
-                studentId={workplace?.student?.id}
-                workplaceId={workplace?.id}
-                courseId={courseId}
-            />
-        )
-        contextBar.show()
-    }
 
     const onCancelClicked = () => {
         setModal(null)

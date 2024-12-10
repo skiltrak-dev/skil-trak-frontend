@@ -9,20 +9,15 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { ScheduleCalendar } from '@partials/student/Schedule'
-import {
-    StudentApi,
-    SubAdminApi,
-    useGetSubAdminStudentWorkplaceDetailQuery,
-} from '@queries'
+import { UserRoles } from '@constants'
+import { StudentApi, SubAdminApi } from '@queries'
 import { Course, Industry, User } from '@types'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
-import { AddSchedule, ScheduleTimetable } from './components'
 import { Waypoint } from 'react-waypoint'
-import { UserRoles } from '@constants'
+import { AddSchedule, ScheduleTimetable } from './components'
 
 export const Schedule = ({
     user,
@@ -43,7 +38,8 @@ export const Schedule = ({
         skip: !router.query?.id || !isEntered,
         refetchOnMountOrArgChange: true,
     })
-    const studentWorkplace = useGetSubAdminStudentWorkplaceDetailQuery(
+
+    const studentWorkplace = SubAdminApi.Student.getWorkplaceForSchedule(
         studentId,
         {
             skip: !studentId || !isEntered,
@@ -65,9 +61,7 @@ export const Schedule = ({
         () =>
             studentWorkplace?.data
                 ?.map((w: any) =>
-                    w?.industries
-                        ?.filter((i: any) => i?.applied)
-                        ?.map((ind: any) => ind?.industry)
+                    w?.industries?.map((ind: any) => ind?.industry)
                 )
                 ?.flat()
                 ?.map((ind: Industry) => ({

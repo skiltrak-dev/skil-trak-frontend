@@ -106,6 +106,16 @@ export const IndustryFilters = ({
                     }}
                     showError={false}
                 />
+                <TextInput
+                    name="abn"
+                    label={'Abn'}
+                    placeholder={'Search by Industry ABN ...'}
+                    value={filter?.abn}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, abn: e.target.value })
+                    }}
+                    showError={false}
+                />
                 <Select
                     label={'Is Partner'}
                     name={'isPartner'}
@@ -183,33 +193,37 @@ export const IndustryFilters = ({
                     showError={false}
                 />
 
-                <div className={'mt-7'}>
-                    <Checkbox
-                        label={'Hiring'}
-                        name={'isHiring'}
-                        onChange={(e: any) => {
-                            onFilterChange({
-                                ...filter,
-                                isHiring: e?.target?.checked ? true : undefined,
-                            })
-                        }}
-                        showError={false}
-                    />
-                </div>
-                <div className={'mt-7'}>
-                    <Checkbox
-                        label={'Snoozed'}
-                        name={'isSnoozed'}
-                        onChange={(e: any) => {
-                            onFilterChange({
-                                ...filter,
-                                isSnoozed: e?.target?.checked
-                                    ? true
-                                    : undefined,
-                            })
-                        }}
-                        showError={false}
-                    />
+                <div className="flex items-center gap-x-2">
+                    <div className={'mt-7'}>
+                        <Checkbox
+                            label={'Hiring'}
+                            name={'isHiring'}
+                            onChange={(e: any) => {
+                                onFilterChange({
+                                    ...filter,
+                                    isHiring: e?.target?.checked
+                                        ? true
+                                        : undefined,
+                                })
+                            }}
+                            showError={false}
+                        />
+                    </div>
+                    <div className={'mt-7'}>
+                        <Checkbox
+                            label={'Snoozed'}
+                            name={'isSnoozed'}
+                            onChange={(e: any) => {
+                                onFilterChange({
+                                    ...filter,
+                                    isSnoozed: e?.target?.checked
+                                        ? true
+                                        : undefined,
+                                })
+                            }}
+                            showError={false}
+                        />
+                    </div>
                 </div>
             </div>
         </>

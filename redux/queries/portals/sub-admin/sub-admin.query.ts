@@ -293,6 +293,7 @@ export const {
     useUpdateStudentDateMutation,
     useGetWorkplaceIndustryDetailQuery,
     useGetWorkplaceStudentDetailQuery,
+    useGetWorkplaceForScheduleQuery,
     useGetSubAdminStudentWorkplaceDetailQuery,
     useUpdateSubAdminCourseDurationMutation,
     useGetSubAdminMyStudentsQuery,
@@ -531,6 +532,7 @@ export const SubAdminApi = {
         studentMessagesList: useGetStudentMessagesListQuery,
         workplaceIndustryDetail: useGetWorkplaceIndustryDetailQuery,
         workplaceStudentDetail: useGetWorkplaceStudentDetailQuery,
+        getWorkplaceForSchedule: useGetWorkplaceForScheduleQuery,
     },
     LogBook: {
         useSaveLogbook: useSaveLogbookMutation,

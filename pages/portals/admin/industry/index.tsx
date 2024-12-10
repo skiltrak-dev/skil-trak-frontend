@@ -27,6 +27,7 @@ import { QueryType, checkFilteredDataLength, getFilterQuery } from '@utils'
 import { useRouter } from 'next/router'
 
 const filterKeys = [
+    'abn',
     'name',
     'email',
     'status',

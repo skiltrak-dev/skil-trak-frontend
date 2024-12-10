@@ -82,12 +82,16 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                 </AuthorizedUserComponent>
             </div>
 
-            <div
-                onClick={onViewProfileVisitorsClicked}
-                className="cursor-pointer text-[11px] py-2 px-1 text-info hover:bg-gray-200 w-fit ml-auto"
+            <AuthorizedUserComponent
+                roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
             >
-                View Visitors
-            </div>
+                <div
+                    onClick={onViewProfileVisitorsClicked}
+                    className="cursor-pointer text-[11px] py-2 px-1 text-info hover:bg-gray-200 w-fit ml-auto"
+                >
+                    View Visitors
+                </div>
+            </AuthorizedUserComponent>
 
             {/* Expiry Date */}
             <div className="flex items-center gap-x-5 mt-3">
