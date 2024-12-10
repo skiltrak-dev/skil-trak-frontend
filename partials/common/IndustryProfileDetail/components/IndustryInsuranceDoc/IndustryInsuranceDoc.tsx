@@ -11,8 +11,6 @@ import { MdKeyboardArrowDown } from 'react-icons/md'
 export const IndustryInsuranceDoc = ({ industry }: { industry: Industry }) => {
     const [showInsuranceList, setShowInsuranceList] = useState<boolean>(false)
 
-    console.log({ industry })
-
     const industryDocsType = IndustryApi.Insurance.industryInsuranceDocs(
         industry?.user?.id,
         {
@@ -92,7 +90,7 @@ export const IndustryInsuranceDoc = ({ industry }: { industry: Industry }) => {
                         showInsuranceList ? 'max-h-80' : 'max-h-60'
                     }`}
                 >
-                    <div className="h-full px-3.5 py-2.5">
+                    <div className="h-full px-3.5">
                         {industryDocsType?.isError && (
                             <div>
                                 <div className="flex justify-end">
@@ -117,6 +115,7 @@ export const IndustryInsuranceDoc = ({ industry }: { industry: Industry }) => {
                                     <InsuranceDocCard
                                         key={docs?.id}
                                         docs={docs}
+                                        industryUserId={industry?.user?.id}
                                     />
                                 ))}
                             </div>

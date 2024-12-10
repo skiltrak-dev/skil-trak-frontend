@@ -234,8 +234,6 @@ export const RtoSignUpForm = ({
         }
     }
 
-    console.log({ formMethods })
-
     return (
         <FormProvider {...formMethods}>
             <form

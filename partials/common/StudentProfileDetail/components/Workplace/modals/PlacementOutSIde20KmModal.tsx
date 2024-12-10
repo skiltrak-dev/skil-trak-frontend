@@ -82,6 +82,12 @@ export const PlacementOutSIde20KmModal = ({
                 missingDocuments: res?.error?.data?.missingDocuments,
             })
         }
+
+        if (res?.error?.data?.message === 'tradingHoursNotFound') {
+            setWorkplaceData({
+                type: 'tradingHoursNotFound',
+            })
+        }
     }
     return (
         <GlobalModal>

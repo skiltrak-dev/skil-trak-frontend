@@ -237,6 +237,16 @@ export const studentsEndpoints = (
         ],
     }),
 
+    getWorkplaceForSchedule: builder.query<any, number>({
+        query: (id) => `${PREFIX}/student/${id}/industries`,
+        providesTags: [
+            'SubAdminStudents',
+            'AllCommunications',
+            'AssessmentEvidence',
+            'SubAdminWorkplace',
+        ],
+    }),
+
     getSubAdminStudentWorkplace: builder.query<any, number>({
         query: (id) => `${PREFIX}/student/workplace-request/${id}`,
         providesTags: ['SubAdminStudents', 'SubAdminWorkplace'],

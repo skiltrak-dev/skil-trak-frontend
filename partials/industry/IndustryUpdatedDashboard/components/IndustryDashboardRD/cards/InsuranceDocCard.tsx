@@ -1,9 +1,14 @@
 import { ShowErrorNotifications, Switch, Typography } from '@components'
-import React, { useEffect, useState } from 'react'
-import { IndustryApi } from '@queries'
 import { useNotification } from '@hooks'
+import { IndustryApi } from '@queries'
 
-export const InsuranceDocCard = ({ docs }: { docs: any }) => {
+export const InsuranceDocCard = ({
+    docs,
+    industryUserId,
+}: {
+    docs: any
+    industryUserId?: number
+}) => {
     const [required, requiredResult] =
         IndustryApi.Insurance.requiredInduranceDoc()
 
@@ -12,7 +17,10 @@ export const InsuranceDocCard = ({ docs }: { docs: any }) => {
     const isDocRequired = docs?.industryRequiredDocuments?.[0]?.isRequired
 
     const onRequiredDocType = async () => {
-        const res: any = await required(docs?.id)
+        const res: any = await required({
+            docId: docs?.id,
+            userId: industryUserId,
+        })
 
         if (res?.data) {
             notification?.[isDocRequired ? 'error' : 'success']({

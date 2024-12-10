@@ -1,22 +1,13 @@
-import { useEffect, useState } from 'react'
 // components
 import { Button, LoadingAnimation, NoData, Typography } from '@components'
 
 // redux
-import { IndustryApi, useGetIndustryCoursesQuery } from '@queries'
+import { IndustryApi } from '@queries'
 import { InsuranceDocCard } from './cards'
 
 export const IndustryDashboardTypeDocs = () => {
-    const [isViewd, setIsViewd] = useState<boolean>(false)
-    const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
-    const { data, isError, isLoading } = useGetIndustryCoursesQuery(null)
-    const industryDocsType = IndustryApi.Insurance.industryInsuranceDocs(undefined)
-
-    useEffect(() => {
-        if (data && data?.length > 0) {
-            setSelectedCourse(data[0]?.id)
-        }
-    }, [data])
+    const industryDocsType =
+        IndustryApi.Insurance.industryInsuranceDocs(undefined)
 
     return (
         <div className="bg-[#E5F4FD] rounded-[10px] h-full">

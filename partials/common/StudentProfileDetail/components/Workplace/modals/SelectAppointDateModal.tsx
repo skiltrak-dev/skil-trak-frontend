@@ -75,6 +75,12 @@ export const SelectAppointDateModal = ({
                     dates: { date1, date2 },
                 })
             }
+
+            if (res?.error?.data?.message === 'tradingHoursNotFound') {
+                setWorkplaceData({
+                    type: 'tradingHoursNotFound',
+                })
+            }
         } else {
             setShowError(true)
         }

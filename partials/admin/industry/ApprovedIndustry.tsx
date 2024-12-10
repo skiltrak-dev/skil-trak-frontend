@@ -14,13 +14,12 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye } from 'react-icons/fa'
 
-import { AdminApi, commonApi } from '@queries'
+import { AdminApi } from '@queries'
 import { Industry, UserStatus } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { BranchCell, IndustryCell, SectorCell } from './components'
-import { BlockModal, MultiBlockModal } from './modals'
 
 // hooks
 import { UserRoles } from '@constants'
