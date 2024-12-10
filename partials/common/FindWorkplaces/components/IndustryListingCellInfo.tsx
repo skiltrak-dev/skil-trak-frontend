@@ -10,6 +10,7 @@ import { CopyData } from './CopyData'
 import Link from 'next/link'
 import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
+import { SubAdminApi } from '@queries'
 
 export const IndustryListingCellInfo = ({
     industryListing,
@@ -19,9 +20,15 @@ export const IndustryListingCellInfo = ({
     industryListing: any
 }) => {
     const { role } = getUserCredentials()
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: role !== UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+        // refetchOnFocus: true,
+    })
+    const checkCanAdmin = subadmin?.data?.canAdmin
 
     const basePath =
-        role === UserRoles.ADMIN
+        role === UserRoles.ADMIN || (checkCanAdmin && subadmin?.data?.isAdmin)
             ? `/portals/admin/future-industries`
             : role === UserRoles.SUBADMIN
             ? `/portals/sub-admin/tasks/industry-listing`

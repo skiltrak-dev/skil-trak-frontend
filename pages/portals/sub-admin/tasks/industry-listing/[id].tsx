@@ -18,9 +18,7 @@ const IndustryListingDetails: NextPageWithLayout = () => {
     useEffect(() => {
         if (isSuccess) {
             contextBar.show(false)
-            contextBar.setContent(
-                <CBListingProfile industry={data} />
-            )
+            contextBar.setContent(<CBListingProfile industry={data} />)
         }
 
         return () => {
@@ -40,7 +38,7 @@ IndustryListingDetails.getLayout = (page: ReactElement) => {
     return (
         <SubAdminLayout
             pageTitle={{
-                title: 'Industry Profile Details',
+                title: 'Industry Listing Profile Details',
             }}
         >
             {page}
