@@ -1,15 +1,63 @@
-import { Card } from '@components'
-import React from 'react'
-import { IndustryListingNotes } from './CBListingProfile'
+import { Button, Card, Typography } from '@components'
+import React, { useCallback, useState } from 'react'
+import {
+    ComposeListingIndustryMail,
+    IndustryListingNotes,
+} from './CBListingProfile'
+import { CommonApi } from '@queries'
+import { useRouter } from 'next/router'
+import { ListingIndustryAllCommunications } from './components'
 
 export const ListingProfileDetails = () => {
+    const [isComposeMail, setIsComposeMail] = useState<boolean>(false)
+    const router = useRouter()
+    const id = router.query.id
+
+    const onCancelComposeMail = useCallback(() => {
+        setIsComposeMail(false)
+    }, [])
+    // const mailListing = CommonApi.FindWorkplace.useListingIndustryMails(id, {
+    //     skip: !id,
+    // })
+    // console.log('mailListing', mailListing?.data);
+
     return (
         <div>
             <div className="flex gap-x-5 w-full">
-                <div className="w-2/3">
-                    <Card>All Communications</Card>
+                <Card noPadding>
+                    <div className="flex items-center justify-between border-b py-2">
+                        <div className="px-5">
+                            <Typography variant="label">
+                                All Communications
+                            </Typography>
+                        </div>
+                        <div className="px-5">
+                            <Button
+                                onClick={() => {
+                                    setIsComposeMail(!isComposeMail)
+                                    // contextBar.setTitle('Compose Mail')
+                                    // contextBar.setContent(<SendMail />)
+                                    // contextBar.show()
+                                }}
+                                text="Compose"
+                            />
+                        </div>
+                    </div>
+                    <div className="overflow-auto h-96 custom-scrollbar">
+                        <ListingIndustryAllCommunications />
+                    </div>
+                </Card>
+
+                <div
+                    className={`fixed bottom-0 right-0 z-[333]  ${
+                        isComposeMail ? 'block' : 'hidden'
+                    }`}
+                >
+                    <ComposeListingIndustryMail
+                        onCancelComposeMail={onCancelComposeMail}
+                    />
                 </div>
-                <div className="w-1/3">
+                <div className="w-2/5">
                     <IndustryListingNotes />
                 </div>
             </div>

@@ -1,3 +1,4 @@
+import { ComposeListingIndustryMail } from './../../../partials/common/FindWorkplaces/ListingProfileDetails/CBListingProfile/components/ComposeListingIndustryMail'
 import { rtosEndpoints } from './rtos'
 import { notesEndpoints } from './notes'
 import { mailsEndpoints } from './mails'
@@ -490,6 +491,8 @@ const {
     useGetIndustryListingProfileDetailsQuery,
     useGetIndustryListingNotesQuery,
     useAddIndustryListingDetailsNoteMutation,
+    useComposeListingIndustryMailMutation,
+    useGetListingIndustryMailsQuery,
 
     // Impersonation
     useImpersonationToggleMutation,
@@ -762,7 +765,10 @@ export const CommonApi = {
         useIndustryListingProfileDetails:
             useGetIndustryListingProfileDetailsQuery,
         useIndustryListingNotes: useGetIndustryListingNotesQuery,
-        useAddIndustryListingDetailsNote: useAddIndustryListingDetailsNoteMutation,
+        useAddIndustryListingDetailsNote:
+            useAddIndustryListingDetailsNoteMutation,
+        useComposeListingIndustryMail: useComposeListingIndustryMailMutation,
+        useListingIndustryMails: useGetListingIndustryMailsQuery,
     },
     Impersonation: {
         useImpersonationToggle: useImpersonationToggleMutation,

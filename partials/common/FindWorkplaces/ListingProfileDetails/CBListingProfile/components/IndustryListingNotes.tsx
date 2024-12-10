@@ -36,7 +36,7 @@ export const IndustryListingNotes = () => {
                         </Modal>
                     </div>
                 </div>
-                <div className="flex flex-col gap-y-3 px-4 py-2 max-h-96 overflow-auto custom-scrollbar">
+                <div className="flex flex-col gap-y-3 px-4 py-2 h-96 overflow-auto custom-scrollbar">
                     {isError && <NoData text="something went wrong" />}
                     {isLoading ? (
                         <PulseLoader />
@@ -52,7 +52,7 @@ export const IndustryListingNotes = () => {
                             </div>
                         ))
                     ) : (
-                        !isError && <NoData text="No Date Found" />
+                        !isError && <NoData text="No Data Found" />
                     )}
 
                     {/* <NoteCard key={1} note={'Notes'} /> */}

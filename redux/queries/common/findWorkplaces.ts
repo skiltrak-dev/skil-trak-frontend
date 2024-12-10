@@ -183,4 +183,19 @@ export const findWorkplaceEndpoints = (
         }),
         providesTags: ['Industries'],
     }),
+
+    composeListingIndustryMail: builder.mutation({
+        query: ({ body, id }) => ({
+            url: `${PREFIX}/${id}/mail/send`,
+            method: 'POST',
+            body: body,
+        }),
+        invalidatesTags: ['Industries'],
+    }),
+    getListingIndustryMails: builder.query<any, any>({
+        query: (id) => ({
+            url: `${PREFIX}/${id}/mails-list`,
+        }),
+        providesTags: ['Industries'],
+    }),
 })
