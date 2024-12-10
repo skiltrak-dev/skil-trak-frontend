@@ -21,7 +21,10 @@ export const RtoDetail = ({ studentId }: { studentId: number }) => {
 
     const onViewRtoInsuranceDocs = () => {
         setModal(
-            <RtoInsuranceDocModal onCancel={onCancel} rtoUser={rto?.user} />
+            <RtoInsuranceDocModal
+                onCancel={onCancel}
+                rtoUser={rtoDetail?.data?.user}
+            />
         )
     }
     return (
