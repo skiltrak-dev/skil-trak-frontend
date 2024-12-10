@@ -93,7 +93,7 @@ export const RtoDetail = ({ studentId }: { studentId: number }) => {
                                 <div
                                     onClick={() => {
                                         router.push(
-                                            `/portals/admin/rto/${rto?.id}`
+                                            `/portals/admin/rto/${rtoDetail?.data?.id}`
                                         )
                                     }}
                                 >
