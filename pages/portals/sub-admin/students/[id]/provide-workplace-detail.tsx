@@ -74,6 +74,10 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         useGetSubAdminStudentDetailQuery(Number(id), {
             skip: !id,
         })
+    const rtoDetail = SubAdminApi.Student.getStudentRtoDetail(Number(id), {
+        skip: !id,
+        refetchOnMountOrArgChange: true,
+    })
     const workplace = useGetSubAdminStudentWorkplaceQuery(Number(id), {
         skip: !id,
     })
@@ -86,6 +90,7 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         ...data,
         ...data?.user,
         courses: courses?.data,
+        rto: rtoDetail?.data,
     }
     const profileCompletion = checkStudentProfileCompletion(values)
 

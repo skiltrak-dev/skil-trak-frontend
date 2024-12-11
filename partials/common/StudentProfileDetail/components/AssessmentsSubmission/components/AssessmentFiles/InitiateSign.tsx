@@ -4,6 +4,7 @@ import { AssessmentEvidenceDetailType, Folder, Student } from '@types'
 import React, { useCallback } from 'react'
 import { AgreementInitiate } from '../../../../../../sub-admin/assessmentEvidence/components/AgreementInitiate'
 import { ViewInitiatedSign } from '../../../../../../sub-admin/assessmentEvidence/components/ViewInitiatedSign'
+import { useWorkplace } from '@hooks'
 
 export const InitiateSign = ({
     folder,
@@ -16,16 +17,22 @@ export const InitiateSign = ({
     eSignDocument: any
     courseId: number | undefined
 }) => {
+    const { workplaceRto } = useWorkplace()
+
+    console.log({ workplaceDataworkplaceDataqaqa: workplaceRto })
+
     const getTemplate = CommonApi.ESign.useESignTemplateDetail(
         {
             folder: Number(folder?.id),
-            userId: student?.rto?.user?.id,
+            userId: Number(workplaceRto?.user?.id),
         },
         {
-            skip: !folder || !student,
+            skip: !folder || !workplaceRto,
             refetchOnMountOrArgChange: true,
         }
     )
+
+    console.log({ getTemplate })
 
     const onEsignRefetch = useCallback(() => {
         eSignDocument.refetch()

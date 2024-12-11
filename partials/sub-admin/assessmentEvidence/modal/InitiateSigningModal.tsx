@@ -8,12 +8,13 @@ import {
 } from '@components'
 import { CommonApi } from '@queries'
 import { AssessmentEvidenceDetailType, Folder, Rto } from '@types'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
     DocumentView,
     InitiateSignStudent,
     PreviewAsSignerTemplate,
 } from '../components'
+import { useWorkplace } from '@hooks'
 
 interface PdfViewModalProps {
     onCancel: () => void
@@ -31,8 +32,12 @@ export const InitiateSigningModal = ({
     const [selectedDocument, setSelectedDocument] = useState<any>(null)
     const [userIds, setUserIds] = useState<any>({})
 
+    const { workplaceRto } = useWorkplace()
+
+    console.log({ workplaceRtoworkplaceRto: workplaceRto })
+
     const getTemplate = CommonApi.ESign.useESignTemplateDetail(
-        { folder: Number(folder?.id), userId: rto?.user?.id },
+        { folder: Number(folder?.id), userId: Number(workplaceRto?.user?.id) },
         {
             skip: !folder,
             refetchOnMountOrArgChange: true,
@@ -72,7 +77,7 @@ export const InitiateSigningModal = ({
                             setIsPreviewAsSigner(!isPreviewAsSigner)
                         }}
                         userIds={userIds}
-                        rto={rto}
+                        rto={workplaceRto as Rto}
                     />
                 ) : (
                     <div className={'h-[inherit]'}>

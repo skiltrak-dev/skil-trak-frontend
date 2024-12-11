@@ -19,7 +19,7 @@ import {
 // utils
 import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
-import { AuthApi } from '@queries'
+import { AuthApi, SubAdminApi } from '@queries'
 import { Course, StudentStatusEnum } from '@types'
 import {
     CourseSelectOption,
@@ -33,6 +33,7 @@ import {
 } from '@utils'
 import { IoInformationCircle } from 'react-icons/io5'
 import { UpdateDateModal } from '../StudentProfileDetail/modals'
+import { useRouter } from 'next/router'
 
 export const StudentProfileForm = ({
     profile,
@@ -47,8 +48,17 @@ export const StudentProfileForm = ({
     courses: any
     student?: boolean
 }) => {
+    const router = useRouter()
+
+    const { id } = router.query
+
     const sectorResponse = AuthApi.useSectors({})
     const rtoResponse = AuthApi.useRtos({})
+    const rtoDetail = SubAdminApi.Student.getStudentRtoDetail(Number(id), {
+        skip: !id,
+        refetchOnMountOrArgChange: true,
+    })
+
     const [sectorDefaultOptions, setSectorDefaultOptions] = useState<any>([])
 
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
@@ -77,10 +87,10 @@ export const StudentProfileForm = ({
               value: rto.id,
           }))
         : []
-    const rtoDefaultOptions = profile?.data?.rto
+    const rtoDefaultOptions = rtoDetail?.data
         ? {
-              label: profile?.data?.rto?.user?.name,
-              value: profile?.data?.rto?.id,
+              label: rtoDetail?.data?.user?.name,
+              value: rtoDetail?.data?.id,
           }
         : {}
 
@@ -629,7 +639,7 @@ export const StudentProfileForm = ({
                                                         UserRoles.RTO,
                                                         UserRoles.SUBADMIN,
                                                     ]?.includes(role) &&
-                                                    profile?.data?.rto
+                                                    rtoDetail?.data
                                                         ?.allowUpdate &&
                                                     profile?.data
                                                         ?.studentStatus ===

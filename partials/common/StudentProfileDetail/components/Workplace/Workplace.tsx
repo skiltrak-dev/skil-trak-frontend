@@ -54,6 +54,7 @@ import {
     ViewPlacementStartedAnswersModal,
     ViewQuestionsModal,
 } from './modals'
+import { useWorkplace } from '@hooks'
 
 const WPStatusForCancelButon = [
     WorkplaceCurrentStatus.Applied,
@@ -76,6 +77,8 @@ export const Workplace = ({
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [selectedWorkplace, setSelectedWorkplace] = useState<any>(null)
     const [showPreviousWorkplace, setShowPreviousWorkplace] = useState(false)
+
+    const { workplaceRto } = useWorkplace()
 
     const studentWorkplace = useGetSubAdminStudentWorkplaceDetailQuery(
         student?.id,
@@ -223,11 +226,18 @@ export const Workplace = ({
 
     const firstWorkplaceCurrentStatus = ignoreCompletedWP?.[0]?.currentStatus
 
-    const values = { ...student, ...student?.user, courses: courses?.data }
+    const values = {
+        ...student,
+        ...student?.user,
+        courses: courses?.data,
+        rto: workplaceRto,
+    }
 
     // const keys = Object.keys(values)
+    console.log({ workplaceRto })
 
     const profileCompletion = checkStudentProfileCompletion(values)
+    console.log({ profileCompletion })
 
     const onCancelWPClicked = () => {
         setModal(

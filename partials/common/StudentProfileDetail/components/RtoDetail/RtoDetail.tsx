@@ -4,18 +4,26 @@ import { Rto } from '@types'
 import { Avatar } from '../../ContextBarComponents'
 import { UserRoles } from '@constants'
 import { useRouter } from 'next/router'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { RtoInsuranceDocModal } from '../../modals'
 import { SubAdminApi } from '@queries'
+import { useWorkplace } from '@hooks'
 
 export const RtoDetail = ({ studentId }: { studentId: number }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const router = useRouter()
+    const { setWorkplaceRto } = useWorkplace()
 
     const rtoDetail = SubAdminApi.Student.getStudentRtoDetail(studentId, {
         skip: !studentId,
     })
+
+    useEffect(() => {
+        if (rtoDetail?.data && rtoDetail?.isSuccess) {
+            setWorkplaceRto(rtoDetail?.data)
+        }
+    }, [rtoDetail])
 
     const onCancel = () => setModal(null)
 
