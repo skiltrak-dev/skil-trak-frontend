@@ -8,7 +8,7 @@ import {
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
-import { useNotification } from '@hooks'
+import { useNotification, useWorkplace } from '@hooks'
 import { CommonApi } from '@queries'
 import { Industry, OptionType, SubAdmin } from '@types'
 import { AuthUtils, getUserCredentials } from '@utils'
@@ -101,6 +101,7 @@ export const InitiateSignStudent = ({
     setIsPreviewAsSigner: (userIds: any) => void
 }) => {
     const router = useRouter()
+    const { workplaceRto } = useWorkplace()
 
     const [selectedIndustry, setSelectedIndustry] = useState<Industry | null>(
         null
@@ -204,7 +205,7 @@ export const InitiateSignStudent = ({
             [UserRoles.INDUSTRY]: Number(selectedIndustry?.user?.id),
             [UserRoles.STUDENT]: student?.data?.user?.id,
             coordinator: Number(selectedCoordinator?.user?.id),
-            [UserRoles.RTO]: student?.data?.rto?.user?.id,
+            [UserRoles.RTO]: workplaceRto?.user?.id,
         }
         const updatedIds = {}
 
@@ -301,21 +302,60 @@ export const InitiateSignStudent = ({
         }
     }
 
+    // useEffect(() => {
+    //     if (
+    //         userIds() &&
+    //         secondaryMails?.filter((s: any) => s?.user)?.length <
+    //             template?.recipients?.length
+    //     ) {
+    //         setSecondaryMails(
+    //             Object.entries(userIds())?.map(([role, id]: any) => ({
+    //                 user: id,
+    //                 email: null,
+    //                 role,
+    //             }))
+    //         )
+    //     }
+    // }, [userIds(), template?.recipients, secondaryMails])
+
     useEffect(() => {
+        // Only proceed if userIds is a function and returns a truthy value
+        const userIdsValue = userIds()
+
         if (
-            userIds() &&
-            secondaryMails?.filter((s: any) => s?.user)?.length <
-                template?.recipients?.length
+            userIdsValue &&
+            (!secondaryMails ||
+                secondaryMails.filter((s: any) => s?.user)?.length <
+                    (template?.recipients?.length || 0))
         ) {
-            setSecondaryMails(
-                Object.entries(userIds())?.map(([role, id]: any) => ({
+            const newSecondaryMails = Object.entries(userIdsValue).map(
+                ([role, id]: [string, any]) => ({
                     user: id,
                     email: null,
                     role,
-                }))
+                })
             )
+
+            // Use functional update to ensure we're working with the most recent state
+            setSecondaryMails((prevMails: any) => {
+                // Avoid unnecessary updates if the new mails are the same as existing ones
+                const areSame =
+                    newSecondaryMails.length === prevMails.length &&
+                    newSecondaryMails.every(
+                        (mail, index) =>
+                            mail.user === prevMails[index]?.user &&
+                            mail.role === prevMails[index]?.role
+                    )
+
+                return areSame ? prevMails : newSecondaryMails
+            })
         }
-    }, [userIds(), template?.recipients, secondaryMails])
+    }, [
+        // Use a stable reference to the userIds object/function
+        userIds,
+        template?.recipients?.length,
+        secondaryMails?.length,
+    ])
 
     return (
         <>
@@ -366,7 +406,7 @@ export const InitiateSignStudent = ({
                                     RTO
                                 </Typography>
                                 <UserCellInfo
-                                    profile={student?.data?.rto}
+                                    profile={workplaceRto}
                                     setSecondaryMails={setSecondaryMails}
                                 />
                             </div>

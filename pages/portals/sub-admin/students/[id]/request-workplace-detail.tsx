@@ -21,11 +21,12 @@ import { AlreadyWPCreatedModal } from '@partials/sub-admin/students/workplace/re
 import {
     SubAdminApi,
     useGetSubAdminStudentDetailQuery,
-    useGetSubAdminStudentWorkplaceQuery
+    useGetSubAdminStudentWorkplaceQuery,
 } from '@queries'
 import { WorkplaceCurrentStatus, checkStudentProfileCompletion } from '@utils'
 import { useRouter } from 'next/router'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
+import { useWorkplace } from '@hooks'
 
 type Props = {}
 
@@ -44,6 +45,10 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         skip: !id,
         refetchOnMountOrArgChange: true,
     })
+    const rtoDetail = SubAdminApi.Student.getStudentRtoDetail(Number(id), {
+        skip: !id,
+        refetchOnMountOrArgChange: true,
+    })
     const workplace = useGetSubAdminStudentWorkplaceQuery(Number(id), {
         skip: !id,
         refetchOnMountOrArgChange: true,
@@ -58,6 +63,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         ...student?.data,
         ...student?.data?.user,
         courses: courses?.data,
+        rto: rtoDetail?.data,
     }
     const profileCompletion = checkStudentProfileCompletion(values)
 

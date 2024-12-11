@@ -1,3 +1,4 @@
+import { Rto } from '@types'
 import React, { createContext, useContext, useState } from 'react'
 
 interface NavbarContextType {
@@ -7,6 +8,8 @@ interface NavbarContextType {
     setStudentLocation: any
     industryLocation: string
     setIndustryLocation: any
+    workplaceRto: Rto | null
+    setWorkplaceRto: any
 }
 
 const WorkplaceContext = createContext<NavbarContextType | null>(null)
@@ -19,6 +22,7 @@ export const WorkplaceProvider = ({
     const [workplaceData, setWorkplaceData] = useState({})
     const [studentLocation, setStudentLocation] = useState('')
     const [industryLocation, setIndustryLocation] = useState('')
+    const [workplaceRto, setWorkplaceRto] = useState<Rto | null>(null)
 
     const values = {
         workplaceData,
@@ -27,6 +31,8 @@ export const WorkplaceProvider = ({
         setStudentLocation,
         industryLocation,
         setIndustryLocation,
+        workplaceRto,
+        setWorkplaceRto,
     }
 
     return (

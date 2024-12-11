@@ -30,6 +30,7 @@ export const Courses = ({
     onSetSelectedCourse: (id: number | undefined) => void
     student: Student
 }) => {
+    console.log({ studentstudentstudentstudentstudent: student })
     const [selectedSector, setSelectedSector] = useState<number | null>(null)
     const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
     const [selectedFolder, setSelectedFolder] =
@@ -68,6 +69,11 @@ export const Courses = ({
             skip: !selectedFolder || !student || !isEntered,
         }
     )
+
+    console.log({
+        std: student?.user?.id,
+        folder: Number(selectedFolder?.id),
+    })
 
     const eSignDocument = CommonApi.ESign.useStudentEsignDocument(
         {
