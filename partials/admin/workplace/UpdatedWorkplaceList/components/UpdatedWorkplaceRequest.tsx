@@ -1,30 +1,14 @@
 // Icons
-import { RiBook2Fill } from 'react-icons/ri'
 // components
-import {
-    ActionButton,
-    Button,
-    Card,
-    InitialAvatar,
-    Select,
-    ShowErrorNotifications,
-    Typography,
-} from '@components'
+import { ActionButton, ShowErrorNotifications } from '@components'
 
 // utils
-import {
-    CourseSelectOption,
-    WorkplaceCurrentStatus,
-    ellipsisText,
-    formatOptionLabel,
-    getUserCredentials,
-} from '@utils'
+import { WorkplaceCurrentStatus } from '@utils'
 
 // hooks
 
 // query
 import { useContextBar, useNotification } from '@hooks'
-import { ViewAgreement } from '@partials/common'
 import {
     SubAdminApi,
     useCancelWorkplaceStatusMutation,
@@ -34,16 +18,12 @@ import { Course } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 import { Waypoint } from 'react-waypoint'
 
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
-import Link from 'next/link'
-import { UserRoles } from '@constants'
-import { BsDot } from 'react-icons/bs'
 import {
     CancelWorkplaceModal,
     IndustryStatus,
 } from '@partials/common/StudentProfileDetail/components'
-import { GetFolders } from '@partials/sub-admin/workplace/hooks'
 import { AssignToMe } from '@partials/sub-admin/workplace/components'
+import { GetFolders } from '@partials/sub-admin/workplace/hooks'
 
 export const WPStatusForCancelButon = [
     WorkplaceCurrentStatus.Applied,
@@ -170,6 +150,7 @@ export const UpdatedWorkplaceRequest = ({
                                 folders={folders}
                                 workplace={workplace}
                                 appliedIndustry={appliedIndustry}
+                                student={workplace?.student}
                                 // isOpen={isOpen}
                             />
                         )}

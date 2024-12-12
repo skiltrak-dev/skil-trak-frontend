@@ -8,12 +8,15 @@ import { IoIosArrowDown } from 'react-icons/io'
 import OutsideClickHandler from 'react-outside-click-handler'
 import { useRequestType } from '@partials/common/StudentProfileDetail/hooks'
 import { UserRoles } from '@constants'
+import { Student } from '@types'
 
 export const IndustryStatus = ({
+    student,
     folders,
     workplace,
     appliedIndustry,
 }: {
+    student: Student
     folders: any
     workplace: any
     appliedIndustry?: any
@@ -37,6 +40,7 @@ export const IndustryStatus = ({
         folders,
         workplace,
         appliedIndustry,
+        student,
     })
 
     const requestsTypes = () => {
