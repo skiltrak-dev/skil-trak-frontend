@@ -1,31 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 // components
 import {
-    TechnicalError,
-    LoadingAnimation,
-    EmptyData,
-    PageSize,
-    Pagination,
-    Typography,
-    UserCreatedAt,
-    Table,
     Card,
+    EmptyData,
+    LoadingAnimation,
+    Table,
+    TechnicalError,
 } from '@components'
 
 // queries
 import { AdminApi } from '@queries'
 
 import { useRouter } from 'next/router'
-import { AdminWorkplaceRequest } from '../components'
-import {
-    CourseWorkplaceCell,
-    RtoWorkplaceCell,
-    StudentWorkplaceCellInfo,
-    UpdatedWorkplaceRequest,
-} from './components'
-import { ColumnDef } from '@tanstack/react-table'
-import { ellipsisText } from '@utils'
-import Link from 'next/link'
 import { useColumns } from './hooks'
 
 export const UpdatedAllRequestedWorkplace = () => {

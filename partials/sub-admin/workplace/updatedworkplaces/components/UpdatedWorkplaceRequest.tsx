@@ -150,6 +150,7 @@ export const UpdatedWorkplaceRequest = ({
                                 workplace={workplace}
                                 appliedIndustry={appliedIndustry}
                                 // isOpen={isOpen}
+                                student={workplace?.student}
                             />
                         )}
                     </div>

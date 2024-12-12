@@ -19,6 +19,7 @@ import {
 import { FaInfoCircle } from 'react-icons/fa'
 import ReactStars from 'react-stars'
 
+import { useWorkplace } from '@hooks'
 import { ForwardModal } from '@partials/sub-admin/workplace/modals'
 import { Student } from '@types'
 import {
@@ -35,7 +36,6 @@ import {
 import {
     AddWorkplaceAction,
     CancelledWorkplaceCard,
-    CancelledWorkplaceTable,
     ContactPersonDetail,
     IndustryStatus,
     ViewAvailability,
@@ -54,7 +54,6 @@ import {
     ViewPlacementStartedAnswersModal,
     ViewQuestionsModal,
 } from './modals'
-import { useWorkplace } from '@hooks'
 
 const WPStatusForCancelButon = [
     WorkplaceCurrentStatus.Applied,

@@ -2,25 +2,20 @@ import { useEffect, useState } from 'react'
 
 // components
 import {
-    PageSize,
-    EmptyData,
-    Pagination,
-    TechnicalError,
     LoadingAnimation,
-    UserCreatedAt,
-    Typography,
-    Table,
-    Card,
     NoData,
+    Table,
+    TechnicalError,
+    Typography,
+    UserCreatedAt,
 } from '@components'
 
 // query
-import { AdminApi, useGetMyStudentsWorkplacesQuery } from '@queries'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
+import { AdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { ellipsisText } from '@utils'
-import { IndustryStatus } from '@partials/common/StudentProfileDetail/components'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export const Within3Weeks = () => {
     const [page, setPage] = useState(1)
