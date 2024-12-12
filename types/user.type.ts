@@ -41,6 +41,7 @@ export interface User extends BaseResponse {
     statusChangeHistory: StatusChangeHistory
     after_hours_access: boolean
     signers: any
+    schedules: any
 }
 
 export interface UserCount {

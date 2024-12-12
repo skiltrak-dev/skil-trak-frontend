@@ -80,7 +80,7 @@ export const CheckAgreementSignedStatus = ({
                                             // setIsDownload(true)
                                         }}
                                     >
-                                        Download Documnet
+                                        Download Document
                                     </span>
                                 </Typography>
                             </div>

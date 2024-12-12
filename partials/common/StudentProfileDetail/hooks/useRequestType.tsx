@@ -8,7 +8,7 @@ import {
     TerminateWorkplaceModal,
 } from '@partials/sub-admin/workplace/modals'
 import { isClearedFunctionType } from '@partials/sub-admin/workplace/studentProvidedComponents/RequestTypeAbn'
-import { UserStatus } from '@types'
+import { Student, UserStatus } from '@types'
 import { WorkplaceCurrentStatus } from '@utils'
 import { ReactElement, useState } from 'react'
 import {
@@ -22,10 +22,12 @@ export const useRequestType = ({
     appliedIndustry,
     workplace,
     folders,
+    student,
 }: {
     appliedIndustry: any
     workplace: any
     folders: any
+    student: Student
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -58,7 +60,7 @@ export const useRequestType = ({
                 onCancel={onModalCancelClicked}
                 id={id}
                 agreementSigned={appliedIndustry?.AgreementSigned}
-                student={workplace?.student}
+                student={student}
                 course={workplace?.courses?.[0]}
                 wpId={workplace?.id}
                 industryId={appliedIndustry?.industry?.id}
@@ -90,7 +92,7 @@ export const useRequestType = ({
                 workIndustry={appliedIndustry?.id}
                 workplace={workplace?.id}
                 onCancel={onModalCancelClicked}
-                student={workplace?.student}
+                student={student}
             />
         )
     }
@@ -101,7 +103,7 @@ export const useRequestType = ({
                 workIndustry={appliedIndustry?.id}
                 workplace={workplace?.id}
                 onCancel={onModalCancelClicked}
-                student={workplace?.student}
+                student={student}
             />
         )
     }
@@ -275,8 +277,8 @@ export const useRequestType = ({
             color: 'text-success-dark',
             onClick: (isCleared: (bool: boolean) => void) => {
                 if (
-                    workplace?.student?.user?.schedules &&
-                    workplace?.student?.user?.schedules?.length > 0
+                    student?.user?.schedules &&
+                    student?.user?.schedules?.length > 0
                 ) {
                     if (
                         workplace?.currentStatus ===
@@ -444,8 +446,8 @@ export const useRequestType = ({
             color: 'text-success-dark',
             onClick: (isCleared: any) => {
                 if (
-                    workplace?.student?.user?.schedules &&
-                    workplace?.student?.user?.schedules?.length > 0
+                    student?.user?.schedules &&
+                    student?.user?.schedules?.length > 0
                 ) {
                     if (workplace?.currentStatus === 'AgreementSigned') {
                         onPlacementStartedClicked(Number(appliedIndustry?.id))
@@ -604,8 +606,8 @@ export const useRequestType = ({
             color: 'text-success-dark',
             onClick: (isCleared: isClearedFunctionType) => {
                 if (
-                    workplace?.student?.user?.schedules &&
-                    workplace?.student?.user?.schedules?.length > 0
+                    student?.user?.schedules &&
+                    student?.user?.schedules?.length > 0
                 ) {
                     if (
                         workplace?.currentStatus ===

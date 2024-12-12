@@ -20,6 +20,10 @@ export const RtoProfileProgress = ({
         appointmentBooked: statisticsCount?.data?.appointmentBooked || 0,
         awaitingAgreementSigned:
             statisticsCount?.data?.awaitingAgreementSigned || 0,
+        snoozedStudents: statisticsCount?.data?.snoozedStudents || 0,
+        notContactableStudent:
+            statisticsCount?.data?.notContactableStudent || 0,
+        flaggedStudents: statisticsCount?.data?.flaggedStudents || 0,
     }
 
     const addedData = Object.values(countsArr)?.reduce(
@@ -55,6 +59,21 @@ export const RtoProfileProgress = ({
             title: 'Students with no workplaces',
             color: '#21516A',
             percent: percentData(countsArr?.noWorkPlace),
+        },
+        {
+            title: 'Snoozed Students',
+            color: '#64748b',
+            percent: percentData(countsArr?.snoozedStudents),
+        },
+        {
+            title: 'Not Contactable Students',
+            color: '#EB4D4B',
+            percent: percentData(countsArr?.notContactableStudent),
+        },
+        {
+            title: 'Flagged Students',
+            color: '#FF7979',
+            percent: percentData(countsArr?.flaggedStudents),
         },
     ]
 

@@ -116,11 +116,6 @@ export const SVGView = ({
     }, [doc])
 
     useEffect(() => {
-        const signData = customFieldsData?.filter(
-            (a: any) =>
-                a?.type === FieldsTypeEnum.Signature && !a?.responses?.length
-        )
-
         if (
             sortedPositions &&
             sortedPositions?.length > 0 &&
@@ -130,7 +125,7 @@ export const SVGView = ({
                 setIsDocumentLoaded(documentSvgData)
             }
         }
-    }, [doc, index, customFieldsData])
+    }, [doc, index])
 
     const [timerId, setTimerId] = useState<any>(null)
 
@@ -151,7 +146,7 @@ export const SVGView = ({
         // Set a timeout to make the API call after 1 second of inactivity
         const id = setTimeout(() => {
             setLoadSvg(true)
-        }, 1000)
+        }, 500)
 
         setTimerId(id)
     }

@@ -519,6 +519,9 @@ export const Workplace = ({
                                             folders={folders}
                                             workplace={selectedWorkplace}
                                             appliedIndustry={appliedIndustry}
+                                            student={
+                                                workplaceStudentDetail?.data
+                                            }
                                         />
                                         <div className="w-full">
                                             <div className="flex justify-end divide-x-2 ">
