@@ -77,7 +77,6 @@ export const ComposeListingIndustryMail = ({
             body: draftToHtmlText(message),
             // type: 'email',
         }
-        console.log('emailData:', body)
 
         if (id) {
             sendMessage({ id: id, body: body }).then((res: any) => {

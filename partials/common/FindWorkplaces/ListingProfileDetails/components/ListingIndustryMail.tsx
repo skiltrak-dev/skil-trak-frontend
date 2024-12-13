@@ -17,7 +17,6 @@ import { InitialAvatar } from '@components/InitialAvatar'
 import { ellipsisText, userStatus } from '@utils'
 
 export const ListingIndustryMail = ({ message, sender, index }: any) => {
-    console.log('ListingIndustryMail', message)
     const [showOptions, setShowOptions] = useState(false)
     // const { setReplyMessage } = useMessage()
     const replyIconClasses =

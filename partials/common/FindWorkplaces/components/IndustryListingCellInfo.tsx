@@ -11,6 +11,7 @@ import Link from 'next/link'
 import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
 import { SubAdminApi } from '@queries'
+import { useMemo } from 'react'
 
 export const IndustryListingCellInfo = ({
     industryListing,
@@ -19,11 +20,10 @@ export const IndustryListingCellInfo = ({
     isDuplicated: boolean
     industryListing: any
 }) => {
-    const { role } = getUserCredentials()
+    const { role } = useMemo(() => getUserCredentials(), [])
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
         skip: role !== UserRoles.SUBADMIN,
         refetchOnMountOrArgChange: true,
-        // refetchOnFocus: true,
     })
     const checkCanAdmin = subadmin?.data?.canAdmin
 
@@ -36,66 +36,62 @@ export const IndustryListingCellInfo = ({
 
     return (
         <div className={`flex items-center gap-x-1.5`}>
-            <Link href={`${basePath}/${industryListing?.id}`}>
+            <Link
+                href={`${basePath}/${industryListing?.id}`}
+                className="flex items-center gap-x-1.5"
+            >
                 {industryListing?.businessName && (
                     <InitialAvatar name={industryListing?.businessName} />
                 )}
-            </Link>
-            <div className="flex flex-col gap-y-1">
-                <div className="flex items-center gap-x-2">
-                    <div className="group flex items-center gap-x-1">
-                        <Typography variant={'label'}>
-                            {industryListing?.businessName}
-                        </Typography>
-                        <CopyData
-                            text={industryListing?.businessName}
-                            type={'Industry Name'}
-                        />
-                    </div>
-                    {industryListing?.signedUp && (
-                        <div className="relative group">
-                            <Image
-                                src={'/images/signup.png'}
-                                alt={''}
-                                width={30}
-                                height={30}
-                            />
-                            <Tooltip>Signed Up</Tooltip>
-                        </div>
-                    )}
-                    {industryListing?.isContacted && (
-                        <div className="relative group">
-                            <PiPhoneCallDuotone
-                                size={20}
-                                className="text-success-dark"
-                            />
-                            <Tooltip>Called</Tooltip>
-                        </div>
-                    )}
-                </div>
-                {/* <Highlighter
-                                highlightClassName="YourHighlightClass"
-                                searchWords={
-                                    isDuplicated
-                                        ? [info?.row?.original?.email]
-                                        : ['']
-                                }
-                                autoEscape={true}
-                                textToHighlight={info?.row?.original?.email}
-                            /> */}
-                <div
-                    className={` relative group ${
-                        isDuplicated ? 'bg-gray-300' : ''
-                    } px-1.5 rounded-md`}
-                >
-                    <TruncatedTextWithTooltip
-                        text={industryListing?.email}
-                        maxLength={20}
-                    />
 
-                    {isDuplicated ? <Tooltip>Duplicated Found</Tooltip> : null}
+                <div className="flex flex-col gap-y-1">
+                    <div className="flex items-center gap-x-2">
+                        <div className="group flex items-center gap-x-1">
+                            <Typography variant={'label'}>
+                                {industryListing?.businessName}
+                            </Typography>
+                            <CopyData
+                                text={industryListing?.businessName}
+                                type={'Industry Name'}
+                            />
+                        </div>
+                        {industryListing?.signedUp && (
+                            <div className="relative group">
+                                <Image
+                                    src={'/images/signup.png'}
+                                    alt={''}
+                                    width={30}
+                                    height={30}
+                                />
+                                <Tooltip>Signed Up</Tooltip>
+                            </div>
+                        )}
+                        {industryListing?.isContacted && (
+                            <div className="relative group">
+                                <PiPhoneCallDuotone
+                                    size={20}
+                                    className="text-success-dark"
+                                />
+                                <Tooltip>Called</Tooltip>
+                            </div>
+                        )}
+                    </div>
+                    <div
+                        className={` relative group ${
+                            isDuplicated ? 'bg-gray-300' : ''
+                        } px-1.5 rounded-md`}
+                    >
+                        <TruncatedTextWithTooltip
+                            text={industryListing?.email}
+                            maxLength={20}
+                        />
+
+                        {isDuplicated ? (
+                            <Tooltip>Duplicated Found</Tooltip>
+                        ) : null}
+                    </div>
                 </div>
-            </div>
+            </Link>
         </div>
     )
 }

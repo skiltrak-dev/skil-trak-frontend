@@ -10,6 +10,7 @@ import {
     Typography,
 } from '@components'
 import { FigureCard } from '@components/sections/subAdmin'
+import { UserRoles } from '@constants'
 import { useContextBar } from '@hooks'
 import { SubAdminLayout } from '@layouts'
 import {
@@ -23,7 +24,7 @@ import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/Filter
 import { ImportIndustriesListWithOTP } from '@partials/common/FindWorkplaces/contextBar'
 import { CommonApi, commonApi, SubAdminApi } from '@queries'
 import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
-import { checkFilteredDataLength } from '@utils'
+import { checkFilteredDataLength, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
 import { FaIndustry } from 'react-icons/fa'
@@ -45,6 +46,7 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+    const { role } = useMemo(() => getUserCredentials(), [])
     const contextBar = useContextBar()
     const [filter, setFilter] = useState<FindWorkplaceFilter>(
         {} as FindWorkplaceFilter
@@ -53,7 +55,12 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
 
     const router = useRouter()
 
-    const profile = SubAdminApi.SubAdmin.useProfile()
+    // const profile = SubAdminApi.SubAdmin.useProfile()
+   
+    const profile = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: role !== UserRoles.SUBADMIN,
+        // refetchOnMountOrArgChange: true,
+    })
     const isHod = profile?.data?.departmentMember?.isHod
     const filteredIndustries = commonApi.useGetAllFindWorkplacesQuery({
         search: `${JSON.stringify(filter)

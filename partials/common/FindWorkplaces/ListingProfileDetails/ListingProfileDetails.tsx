@@ -4,14 +4,10 @@ import {
     ComposeListingIndustryMail,
     IndustryListingNotes,
 } from './CBListingProfile'
-import { CommonApi } from '@queries'
-import { useRouter } from 'next/router'
 import { ListingIndustryAllCommunications } from './components'
 
 export const ListingProfileDetails = () => {
     const [isComposeMail, setIsComposeMail] = useState<boolean>(false)
-    const router = useRouter()
-    const id = router.query.id
 
     const onCancelComposeMail = useCallback(() => {
         setIsComposeMail(false)
@@ -19,7 +15,6 @@ export const ListingProfileDetails = () => {
     // const mailListing = CommonApi.FindWorkplace.useListingIndustryMails(id, {
     //     skip: !id,
     // })
-    // console.log('mailListing', mailListing?.data);
 
     return (
         <div>
