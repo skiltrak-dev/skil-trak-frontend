@@ -11,7 +11,7 @@ export const IndustryListingNotes = () => {
     const router = useRouter()
     const id = router.query.id
 
-    // /futureindustries/id/notes/list-all
+    // futureindustries/id/notes/list-all
     const { data, isLoading, isError } =
         CommonApi.FindWorkplace.useIndustryListingNotes(id, {
             skip: !id,

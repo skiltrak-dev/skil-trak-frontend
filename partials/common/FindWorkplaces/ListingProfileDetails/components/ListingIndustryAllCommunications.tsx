@@ -35,7 +35,6 @@ export const ListingIndustryAllCommunications = () => {
             skip: !id,
         }
     )
-    console.log('mailListing', allCommunications?.data)
     return (
         <Waypoint
             onEnter={() => {
