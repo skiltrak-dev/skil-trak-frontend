@@ -49,6 +49,17 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
 
     const shareUrl = `https://www.skiltrak.com.au/blogs/${router.query.slug}`
 
+    const canonicalSlugs = [
+        'how-registered-training-organisations-rtos-can-ensure-compliance-durin',
+        'student-placement-unveiled-a-blueprint-for-career-excellence-with-skiltrak',
+        'how-can-we-find-the-best-work-placement-for-community-services',
+        'how-to-find-commercial-cookery-work-placements-in-australia',
+    ]
+
+    const shouldHaveCanonicalTag = canonicalSlugs.includes(
+        router?.query?.slug + ''
+    )
+
     return (
         <div className="">
             <Head>
@@ -61,6 +72,9 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                     }`}
                     key="desc"
                 />
+                {shouldHaveCanonicalTag && (
+                    <link rel="canonical" href={shareUrl} key="canonical" />
+                )}
             </Head>
             {blogData?.error ? (
                 <TechnicalError />

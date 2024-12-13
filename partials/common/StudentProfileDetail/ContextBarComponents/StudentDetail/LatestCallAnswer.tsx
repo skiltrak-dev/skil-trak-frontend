@@ -14,7 +14,7 @@ export const LatestCallAnswer = ({ callLog }: { callLog: CallLog }) => {
     const [isAnsweredCall, isAnsweredCallResult] =
         SubAdminApi.Student.useStudentAnsweredCall()
 
-    const ShowNotification = () => {
+    const ShowNotification = (callType: CallType) => {
         notification[
             callType === CallType.Answer
                 ? 'success'
@@ -43,7 +43,7 @@ export const LatestCallAnswer = ({ callLog }: { callLog: CallLog }) => {
                             status: 'false',
                         }).then((res: any) => {
                             if (res?.data) {
-                                ShowNotification()
+                                ShowNotification(CallType.NotAnswer)
                             }
                         })
                     }}
@@ -67,7 +67,7 @@ export const LatestCallAnswer = ({ callLog }: { callLog: CallLog }) => {
                             status: 'true',
                         }).then((res: any) => {
                             if (res?.data) {
-                                ShowNotification()
+                                ShowNotification(CallType.Answer)
                             }
                         })
                     }}

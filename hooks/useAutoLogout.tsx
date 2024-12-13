@@ -1,17 +1,16 @@
 import { SessionExpireModal } from '@components'
 import { CommonApi, useRefreshTokenMutation } from '@queries'
 import { AuthUtils, isBrowser } from '@utils'
-import moment from 'moment'
 import { useRouter } from 'next/router'
 import {
     ReactElement,
     ReactNode,
     createContext,
+    useCallback,
     useContext,
     useEffect,
     useRef,
     useState,
-    useCallback,
 } from 'react'
 
 interface AutoLogoutType {
