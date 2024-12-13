@@ -55,11 +55,16 @@ export const ArchivedStudents = () => {
     }, [router])
 
     const { isLoading, isFetching, data, isError, refetch } =
-        SubAdminApi.Student.useList({
-            search: `status:${UserStatus.Archived}`,
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+        SubAdminApi.Student.useList(
+            {
+                search: `status:${UserStatus.Archived}`,
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: 30,
+            }
+        )
 
     useEffect(() => {
         if (changeExpiryData) {

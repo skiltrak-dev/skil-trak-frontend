@@ -82,7 +82,7 @@ export const AllStudents = () => {
                 limit: itemPerPage,
             },
             {
-                refetchOnMountOrArgChange: true,
+                refetchOnMountOrArgChange: 30,
             }
         )
     const sevenDaysAgo = new Date()

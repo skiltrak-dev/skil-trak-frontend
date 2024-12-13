@@ -6,7 +6,6 @@ import { FaEye } from 'react-icons/fa'
 
 // components
 import {
-    ActionButton,
     Card,
     EmptyData,
     InitialAvatar,
@@ -20,10 +19,8 @@ import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { SubAdminApi } from '@queries'
-import { Student, UserStatus } from '@types'
+import { Student } from '@types'
 import { useEffect, useState } from 'react'
-import { MdBlock } from 'react-icons/md'
-import { AcceptModal, BlockModal, RejectModal } from './modals'
 
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
@@ -43,10 +40,15 @@ export const SnoozedStudents = () => {
     }, [router])
 
     const { isLoading, isFetching, data, isError } =
-        SubAdminApi.Student.useSnoozedStudents({
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+        SubAdminApi.Student.useSnoozedStudents(
+            {
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: 30,
+            }
+        )
 
     const onModalCancelClicked = () => setModal(null)
 

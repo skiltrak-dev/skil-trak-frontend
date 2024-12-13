@@ -6,7 +6,6 @@ import { FaEye } from 'react-icons/fa'
 // components
 import {
     Card,
-    CaseOfficerAssignedStudent,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
@@ -33,10 +32,8 @@ import {
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
     setLink,
-    studentsListWorkplace,
 } from '@utils'
 import moment from 'moment'
-import { IndustryCellInfo } from '../Industries'
 
 export const AgreementPendingStudents = () => {
     const router = useRouter()
@@ -59,13 +56,18 @@ export const AgreementPendingStudents = () => {
     //     })
 
     const { isLoading, isFetching, data, isError } =
-        SubAdminApi.Student.useList({
-            search: `currentStatus:${
-                WorkplaceCurrentStatus.AwaitingAgreementSigned
-            },myStudent:${true}`,
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+        SubAdminApi.Student.useList(
+            {
+                search: `currentStatus:${
+                    WorkplaceCurrentStatus.AwaitingAgreementSigned
+                },myStudent:${true}`,
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: 30,
+            }
+        )
 
     const onModalCancelClicked = () => {
         setModal(null)

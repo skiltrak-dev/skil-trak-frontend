@@ -50,7 +50,7 @@ export const UrgentStudents = () => {
                 limit: itemPerPage,
             },
             {
-                refetchOnMountOrArgChange: true,
+                refetchOnMountOrArgChange: 30,
             }
         )
 

@@ -118,6 +118,7 @@ export const SubadminStudents = () => {
                 ...(snoozed === true && { snoozed }),
                 ...(nonContactable === true && { nonContactable }),
             }).length,
+            refetchOnMountOrArgChange: 30,
         }
     )
     const [downloadCSV, downloadCSVResult] =

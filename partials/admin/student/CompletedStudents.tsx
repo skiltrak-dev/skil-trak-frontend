@@ -55,7 +55,9 @@ export const CompletedStudents = () => {
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
-            { refetchOnMountOrArgChange: true }
+            {
+                refetchOnMountOrArgChange: 30,
+            }
         )
 
     const onModalCancelClicked = useCallback(() => {

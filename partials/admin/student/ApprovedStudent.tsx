@@ -85,14 +85,14 @@ export const ApprovedStudent = () => {
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, isFetching, data, isError, refetch } =
+    const { isLoading, isFetching, data, isError } =
         AdminApi.Students.useListQuery(
             {
                 search: `status:${UserStatus.Approved}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
-            { refetchOnMountOrArgChange: true }
+            { refetchOnMountOrArgChange: 30 }
         )
 
     // ================= Blinking/Flashing rows of students ================
