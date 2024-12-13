@@ -32,9 +32,7 @@ import {
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
     setLink,
-    studentsListWorkplace,
 } from '@utils'
-import { IndustryCellInfo } from '../Industries'
 
 export const PlacementStartedStudents = () => {
     const router = useRouter()
@@ -52,11 +50,16 @@ export const PlacementStartedStudents = () => {
     }, [router])
 
     const { isLoading, isFetching, data, isError } =
-        SubAdminApi.Student.placementStartedStudents({
-            search: `currentStatus:${WorkplaceCurrentStatus.PlacementStarted},status:${UserStatus.Approved}`,
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+        SubAdminApi.Student.placementStartedStudents(
+            {
+                search: `currentStatus:${WorkplaceCurrentStatus.PlacementStarted},status:${UserStatus.Approved}`,
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: 30,
+            }
+        )
 
     const onModalCancelClicked = () => {
         setModal(null)

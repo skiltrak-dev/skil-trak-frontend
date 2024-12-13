@@ -50,7 +50,6 @@ export const PlacementStartedStudents = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const listingRef = useRef<any>(null)
 
     // Function to handle scrolling
 
@@ -69,7 +68,7 @@ export const PlacementStartedStudents = () => {
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
-            { refetchOnMountOrArgChange: true }
+            { refetchOnMountOrArgChange: 30 }
         )
 
     // ================= Blinking/Flashing rows of students ================

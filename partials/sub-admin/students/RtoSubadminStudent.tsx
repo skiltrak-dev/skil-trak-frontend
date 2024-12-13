@@ -2,23 +2,16 @@ import {
     Card,
     CaseOfficerAssignedStudent,
     EmptyData,
-    Filter,
     LoadingAnimation,
     PageTitle,
     StudentExpiryDaysLeft,
-    SubAdminStudentFilters,
     Table,
     TableAction,
     TechnicalError,
-    TextInput,
     UserCreatedAt,
 } from '@components'
 import { useContextBar } from '@hooks'
-import {
-    SubAdminApi,
-    useGetSubAdminMyStudentsQuery,
-    useGetSubAdminStudentsQuery,
-} from '@queries'
+import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { Student, SubAdminStudentsFilterType } from '@types'
 import { getFilterQuery, removeEmptyValues } from '@utils'
@@ -108,7 +101,7 @@ export const RtoSubadminStudent = () => {
             limit: itemPerPage,
         },
         {
-            refetchOnMountOrArgChange: true,
+            refetchOnMountOrArgChange: 30,
         }
     )
 

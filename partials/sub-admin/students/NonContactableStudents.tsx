@@ -32,8 +32,7 @@ import {
 
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import { setLink, studentsListWorkplace } from '@utils'
-import { IndustryCellInfo } from '../Industries'
+import { setLink } from '@utils'
 
 export const NonContactableStudents = () => {
     const router = useRouter()
@@ -49,10 +48,15 @@ export const NonContactableStudents = () => {
     }, [router])
 
     const { isLoading, isFetching, data, isError } =
-        SubAdminApi.Student.useNonContactableStudents({
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+        SubAdminApi.Student.useNonContactableStudents(
+            {
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: 30,
+            }
+        )
 
     const onModalCancelClicked = () => {
         setModal(null)

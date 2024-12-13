@@ -48,11 +48,16 @@ export const BlockedStudents = () => {
     }, [router])
 
     const { isLoading, isFetching, data, isError } =
-        SubAdminApi.Student.useList({
-            search: `status:${UserStatus.Blocked}`,
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+        SubAdminApi.Student.useList(
+            {
+                search: `status:${UserStatus.Blocked}`,
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: 30,
+            }
+        )
 
     const onModalCancelClicked = () => {
         setModal(null)

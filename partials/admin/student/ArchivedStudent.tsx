@@ -19,7 +19,7 @@ import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { useActionModal } from '@hooks'
 import { BulkDeleteModal } from '@modals'
-import { AdminApi, commonApi } from '@queries'
+import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import {
     WorkplaceCurrentStatus,
@@ -57,7 +57,7 @@ export const ArchivedStudent = () => {
                 limit: itemPerPage,
             },
             {
-                refetchOnMountOrArgChange: true,
+                refetchOnMountOrArgChange: 30,
             }
         )
 

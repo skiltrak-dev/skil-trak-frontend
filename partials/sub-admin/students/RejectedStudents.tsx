@@ -15,13 +15,11 @@ import {
     Table,
     TableAction,
     TableActionOption,
-    Typography,
     UserCreatedAt,
 } from '@components'
 import { StudentCellInfo, SubadminStudentIndustries } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { useActionModal } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
@@ -30,10 +28,8 @@ import { AcceptModal, AssignStudentModal, BlockModal } from './modals'
 
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import { setLink, studentsListWorkplace } from '@utils'
+import { setLink } from '@utils'
 import { AiFillCheckCircle } from 'react-icons/ai'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { IndustryCellInfo } from '../Industries'
 
 export const RejectedStudents = () => {
     const router = useRouter()
@@ -51,11 +47,16 @@ export const RejectedStudents = () => {
     }, [router])
 
     const { isLoading, isFetching, data, isError } =
-        SubAdminApi.Student.useList({
-            search: `status:${UserStatus.Rejected}`,
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+        SubAdminApi.Student.useList(
+            {
+                search: `status:${UserStatus.Rejected}`,
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: 30,
+            }
+        )
 
     const onModalCancelClicked = () => {
         setModal(null)

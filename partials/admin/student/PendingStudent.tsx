@@ -13,7 +13,7 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye } from 'react-icons/fa'
 
-import { useActionModal, useContextBar } from '@hooks'
+import { useActionModal } from '@hooks'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi, commonApi } from '@queries'
 import { Student, UserStatus } from '@types'
@@ -27,13 +27,10 @@ import { AcceptModal, RejectModal } from './modals'
 
 export const PendingStudent = () => {
     const router = useRouter()
-    const contextBar = useContextBar()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
 
     useEffect(() => {
         setPage(Number(router.query.page))
@@ -44,11 +41,16 @@ export const PendingStudent = () => {
     const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, isFetching, data, isError, isSuccess } =
-        AdminApi.Students.useListQuery({
-            search: `status:${UserStatus.Pending}`,
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+        AdminApi.Students.useListQuery(
+            {
+                search: `status:${UserStatus.Pending}`,
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: 30,
+            }
+        )
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     const { changeStatusResult } = useChangeStatus()

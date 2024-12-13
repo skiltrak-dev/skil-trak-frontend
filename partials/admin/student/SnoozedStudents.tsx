@@ -12,18 +12,16 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye } from 'react-icons/fa'
 
-import { useActionModal, useContextBar } from '@hooks'
+import { useActionModal } from '@hooks'
 import { RtoCellInfo } from '@partials/admin/rto/components'
-import { AdminApi, commonApi } from '@queries'
+import { UnSnoozeStudentModal } from '@partials/common/StudentProfileDetail/modals'
+import { AdminApi } from '@queries'
 import { Student } from '@types'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { SectorCell, StudentCellInfo } from './components'
-import { useChangeStatus } from './hooks'
-import { AcceptModal, RejectModal } from './modals'
-import { UnSnoozeStudentModal } from '@partials/common/StudentProfileDetail/modals'
 
 export const SnoozedStudents = () => {
     const router = useRouter()
@@ -47,6 +45,7 @@ export const SnoozedStudents = () => {
         },
         {
             skip: !itemPerPage || !page,
+            refetchOnMountOrArgChange: 30,
         }
     )
 

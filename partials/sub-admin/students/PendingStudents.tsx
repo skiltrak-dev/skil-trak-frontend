@@ -43,11 +43,16 @@ export const PendingStudents = () => {
     }, [router])
 
     const { isLoading, isFetching, data, isError } =
-        SubAdminApi.Student.useList({
-            search: `status:${UserStatus.Pending}`,
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+        SubAdminApi.Student.useList(
+            {
+                search: `status:${UserStatus.Pending}`,
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: 30,
+            }
+        )
 
     const onModalCancelClicked = () => {
         setModal(null)

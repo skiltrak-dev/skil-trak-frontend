@@ -44,11 +44,16 @@ export const RejectedStudent = () => {
     const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, isFetching, data, isError } =
-        AdminApi.Students.useListQuery({
-            search: `status:${UserStatus.Rejected}`,
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+        AdminApi.Students.useListQuery(
+            {
+                search: `status:${UserStatus.Rejected}`,
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: 30,
+            }
+        )
 
     const onModalCancelClicked = () => {
         setModal(null)

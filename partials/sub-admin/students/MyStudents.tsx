@@ -86,7 +86,7 @@ export const MyStudents = () => {
         setFilter(query as SubAdminStudentsFilterType)
     }, [router])
 
-    const { isLoading, isFetching, data, isError, refetch } =
+    const { isLoading, isFetching, data, isError } =
         useGetSubAdminMyStudentsQuery(
             {
                 skip: itemPerPage * page - itemPerPage,
@@ -103,7 +103,7 @@ export const MyStudents = () => {
                     .trim()}`,
             },
             {
-                refetchOnMountOrArgChange: true,
+                refetchOnMountOrArgChange: 30,
             }
         )
 

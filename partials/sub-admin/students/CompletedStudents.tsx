@@ -7,7 +7,6 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 // components
 import {
     Card,
-    CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
     StudentStatusProgressCell,
@@ -24,19 +23,16 @@ import { Student } from '@types'
 import { useEffect, useState } from 'react'
 import { ChangeStudentStatusModal } from './modals'
 
-import { ProgressCell, SectorCell } from '@partials/admin/student/components'
+import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import {
     WorkplaceCurrentStatus,
     checkListLength,
     checkStudentStatus,
-    checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
     setLink,
-    studentsListWorkplace,
 } from '@utils'
 import moment from 'moment'
-import { IndustryCellInfo } from '../Industries'
 import { RTOCellInfo } from '../rto/components'
 
 export const CompletedStudents = () => {
@@ -73,10 +69,15 @@ export const CompletedStudents = () => {
     }, [router])
 
     const { isSuccess, isLoading, data, isError, isFetching, refetch } =
-        SubAdminApi.Student.useCompletedStudents({
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+        SubAdminApi.Student.useCompletedStudents(
+            {
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: 30,
+            }
+        )
 
     const onModalCancelClicked = () => {
         setModal(null)

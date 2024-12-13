@@ -4,7 +4,6 @@ import {
     CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
-    StudentStatusProgressCell,
     Table,
     TableAction,
     TableChildrenProps,
@@ -18,13 +17,7 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Student } from '@types'
-import {
-    WorkplaceCurrentStatus,
-    checkListLength,
-    checkStudentStatus,
-    getStudentWorkplaceAppliedIndustry,
-    setLink,
-} from '@utils'
+import { checkListLength, setLink } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { RiLockPasswordFill } from 'react-icons/ri'
@@ -55,7 +48,7 @@ export const UnAssignedStudent = () => {
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
-            { refetchOnMountOrArgChange: true }
+            { refetchOnMountOrArgChange: 30 }
         )
 
     const onModalCancelClicked = useCallback(() => {

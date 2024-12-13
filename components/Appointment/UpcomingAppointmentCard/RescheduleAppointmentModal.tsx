@@ -71,13 +71,11 @@ export const RescheduleAppointmentModal = ({
         )
 
     const onSubmit = () => {
-        let date = selectedDate
-        date?.setDate(date.getDate() + 1)
         rescheduleAppointment({
             id: appointment?.id,
             body: {
                 ...selectedTime,
-                date: date as Date,
+                date: selectedDate as Date,
             },
         })
     }
