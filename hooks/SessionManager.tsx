@@ -14,8 +14,6 @@ const SessionManager: React.FC = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [lastActivity, setLastActivity] = useState(Date.now())
 
-    console.log({ lastActivity })
-
     const [logoutActivity] = CommonApi.LogoutActivity.perFormAcivityOnLogout()
     const [refreshToken] = useRefreshTokenMutation()
 

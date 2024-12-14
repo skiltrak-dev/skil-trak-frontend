@@ -42,7 +42,7 @@ export const ArchivedAssessments = ({
         Number(student?.id),
         {
             skip: !student?.id || !isEntered,
-            refetchOnMountOrArgChange: true,
+            refetchOnMountOrArgChange: 300,
         }
     )
 

@@ -34,8 +34,6 @@ export const InitiateSigningModal = ({
 
     const { workplaceRto } = useWorkplace()
 
-    console.log({ workplaceRtoworkplaceRto: workplaceRto })
-
     const getTemplate = CommonApi.ESign.useESignTemplateDetail(
         { folder: Number(folder?.id), userId: Number(workplaceRto?.user?.id) },
         {

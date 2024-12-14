@@ -32,6 +32,7 @@ export const AllCommunicationTab = ({ user }: { user: any }) => {
         user?.id,
         {
             skip: !user || !isEntered,
+            refetchOnMountOrArgChange: 20,
         }
     )
 

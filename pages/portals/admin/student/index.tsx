@@ -73,15 +73,24 @@ const StudentList: NextPageWithLayout = () => {
             refetchOnMountOrArgChange: true,
         }
     )
-    const filteredStudents = AdminApi.Students.useListQuery({
-        search: `${JSON.stringify({ ...filter, ...studentId, ...studentName })
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const filteredStudents = AdminApi.Students.useListQuery(
+        {
+            search: `${JSON.stringify({
+                ...filter,
+                ...studentId,
+                ...studentName,
+            })
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        {
+            refetchOnMountOrArgChange: 30,
+        }
+    )
 
     const [statusSuccessResult, setStatusSuccessResult] =
         useState<boolean>(false)

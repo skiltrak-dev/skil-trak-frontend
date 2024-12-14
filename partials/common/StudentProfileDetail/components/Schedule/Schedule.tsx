@@ -36,7 +36,7 @@ export const Schedule = ({
     const router = useRouter()
     const courses = SubAdminApi.Student.useCourses(Number(router.query?.id), {
         skip: !router.query?.id || !isEntered,
-        refetchOnMountOrArgChange: true,
+        refetchOnMountOrArgChange: 300,
     })
 
     const studentWorkplace = SubAdminApi.Student.getWorkplaceForSchedule(
@@ -54,6 +54,7 @@ export const Schedule = ({
         },
         {
             skip: !selectedCourse || !selectedIndustry || !isEntered,
+            refetchOnMountOrArgChange: 300,
         }
     )
 

@@ -17,6 +17,7 @@ export const RtoDetail = ({ studentId }: { studentId: number }) => {
 
     const rtoDetail = SubAdminApi.Student.getStudentRtoDetail(studentId, {
         skip: !studentId,
+        refetchOnMountOrArgChange: 300,
     })
 
     useEffect(() => {

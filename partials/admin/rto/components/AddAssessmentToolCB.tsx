@@ -73,8 +73,6 @@ export const AddAssessmentToolCB = ({ edit, assessment, rtoUser }: Props) => {
         }
     }, [createResult, updateResult])
 
-    console.log({ assessment })
-
     const assessmentValues = {
         title: assessment?.title,
         isLogBook: assessment?.isLogBook,

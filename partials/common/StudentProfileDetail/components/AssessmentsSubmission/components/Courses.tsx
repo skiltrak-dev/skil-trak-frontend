@@ -30,7 +30,6 @@ export const Courses = ({
     onSetSelectedCourse: (id: number | undefined) => void
     student: Student
 }) => {
-    console.log({ studentstudentstudentstudentstudent: student })
     const [selectedSector, setSelectedSector] = useState<number | null>(null)
     const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
     const [selectedFolder, setSelectedFolder] =
@@ -48,7 +47,7 @@ export const Courses = ({
         Number(student?.id),
         {
             skip: !student?.id || !isEntered,
-            refetchOnMountOrArgChange: true,
+            refetchOnMountOrArgChange: 300,
         }
     )
     const getFolders = useGetAssessmentEvidenceDetailQuery(
@@ -58,6 +57,7 @@ export const Courses = ({
         },
         {
             skip: !selectedCourse || !student?.id || !isEntered,
+            refetchOnMountOrArgChange: 60,
         }
     )
     const getAssessmentResponse = useGetAssessmentResponseQuery(
@@ -67,13 +67,9 @@ export const Courses = ({
         },
         {
             skip: !selectedFolder || !student || !isEntered,
+            refetchOnMountOrArgChange: 20,
         }
     )
-
-    console.log({
-        std: student?.user?.id,
-        folder: Number(selectedFolder?.id),
-    })
 
     const eSignDocument = CommonApi.ESign.useStudentEsignDocument(
         {
@@ -82,7 +78,7 @@ export const Courses = ({
         },
         {
             skip: !selectedFolder,
-            refetchOnMountOrArgChange: true,
+            refetchOnMountOrArgChange: 15,
         }
     )
 
