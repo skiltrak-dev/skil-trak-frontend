@@ -39,7 +39,7 @@ export const ScheduleTimetable = ({
         },
         {
             skip: !scheduleId,
-            refetchOnMountOrArgChange: true,
+            refetchOnMountOrArgChange: 150,
         }
     )
 

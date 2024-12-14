@@ -111,6 +111,7 @@ export const AddScheduleContainer = ({
         },
         {
             skip: !course,
+            refetchOnMountOrArgChange: 30,
         }
     )
     const timeSlots = StudentApi.Schedule.scheduleTimeSlots(
@@ -126,7 +127,7 @@ export const AddScheduleContainer = ({
         },
         {
             skip: !schedules?.isSuccess,
-            refetchOnMountOrArgChange: true,
+            refetchOnMountOrArgChange: 150,
         }
     )
 

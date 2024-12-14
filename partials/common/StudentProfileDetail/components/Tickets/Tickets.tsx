@@ -19,7 +19,7 @@ export const Tickets = ({ studentId }: { studentId: number }) => {
     const [isEntered, setIsEntered] = useState<boolean>(false)
     const tickets = CommonApi.Tickets.useStudentTicketsList(studentId, {
         skip: !isEntered,
-        refetchOnMountOrArgChange: true,
+        refetchOnMountOrArgChange: 300,
     })
 
     const router = useRouter()

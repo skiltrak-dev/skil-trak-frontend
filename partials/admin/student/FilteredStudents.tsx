@@ -14,17 +14,18 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 
+import { UserRoles } from '@constants'
 import { useActionModal } from '@hooks'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { Student, UserStatus } from '@types'
-import { getUserCredentials, studentsListWorkplace } from '@utils'
+import { getUserCredentials } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { CgUnblock } from 'react-icons/cg'
 import { MdBlock } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import { IndustryCell } from '../industry/components'
+import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 import { SectorCell, StudentCellInfo, StudentIndustries } from './components'
 import {
     AcceptModal,
@@ -36,8 +37,6 @@ import {
     RejectModal,
     UnblockModal,
 } from './modals'
-import { UserRoles } from '@constants'
-import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 
 interface StatusTableActionOption extends TableActionOption {
     status: string[]

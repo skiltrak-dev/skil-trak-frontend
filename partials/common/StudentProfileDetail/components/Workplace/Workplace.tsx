@@ -233,10 +233,8 @@ export const Workplace = ({
     }
 
     // const keys = Object.keys(values)
-    console.log({ workplaceRto })
 
     const profileCompletion = checkStudentProfileCompletion(values)
-    console.log({ profileCompletion })
 
     const onCancelWPClicked = () => {
         setModal(

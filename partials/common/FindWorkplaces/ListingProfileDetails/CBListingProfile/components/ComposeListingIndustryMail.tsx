@@ -71,7 +71,6 @@ export const ComposeListingIndustryMail = ({
     // }
     const onSubmit = (values: any) => {
         const { message, subject } = values
-        console.log('values', values)
         const body = {
             subject: subject,
             body: draftToHtmlText(message),

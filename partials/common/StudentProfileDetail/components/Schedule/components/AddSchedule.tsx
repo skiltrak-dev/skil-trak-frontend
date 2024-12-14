@@ -18,7 +18,7 @@ export const AddSchedule = ({
 }) => {
     const courses = useStudentAssessmentCoursesQuery(Number(studentId), {
         skip: !studentId,
-        refetchOnMountOrArgChange: true,
+        refetchOnMountOrArgChange: 300,
     })
     const course = courses?.data?.find(
         (c: Course) => c.id === Number(selectedCourse)

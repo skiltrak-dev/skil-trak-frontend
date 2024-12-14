@@ -1,17 +1,9 @@
-import {
-    Button,
-    Card,
-    EmptyData,
-    LoadingAnimation,
-    Mail,
-    TechnicalError,
-    Typography,
-} from '@components'
+import { EmptyData, LoadingAnimation, Mail, TechnicalError } from '@components'
 import { CommonApi } from '@queries'
 import { User } from '@types'
 import { ReactElement, useState } from 'react'
-import { ComposeMailModal } from '../../modals'
 import { Waypoint } from 'react-waypoint'
+import { ComposeMailModal } from '../../modals'
 
 export const Mails = ({ user }: { user: User }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -23,6 +15,7 @@ export const Mails = ({ user }: { user: User }) => {
         },
         {
             skip: !user?.id || !isEntered,
+            refetchOnMountOrArgChange: 20,
         }
     )
 

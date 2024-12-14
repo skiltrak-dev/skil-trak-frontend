@@ -23,6 +23,7 @@ export const ProfileUpcommingAppointments = ({
         },
         {
             skip: !isEntered,
+            refetchOnMountOrArgChange: 300,
         }
     )
     return (

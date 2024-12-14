@@ -19,8 +19,6 @@ export const InitiateSign = ({
 }) => {
     const { workplaceRto } = useWorkplace()
 
-    console.log({ workplaceDataworkplaceDataqaqa: workplaceRto })
-
     const getTemplate = CommonApi.ESign.useESignTemplateDetail(
         {
             folder: Number(folder?.id),
@@ -28,11 +26,9 @@ export const InitiateSign = ({
         },
         {
             skip: !folder || !workplaceRto,
-            refetchOnMountOrArgChange: true,
+            refetchOnMountOrArgChange: 30,
         }
     )
-
-    console.log({ getTemplate })
 
     const onEsignRefetch = useCallback(() => {
         eSignDocument.refetch()
