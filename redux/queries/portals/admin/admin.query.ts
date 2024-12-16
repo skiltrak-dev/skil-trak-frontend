@@ -137,6 +137,7 @@ const {
     useDeleteDepartmentMutation,
     useGetDeptStudentsListQuery,
     useGetDepartmentSectorsQuery,
+    useGetDepartmentLineChartCountsQuery,
 
     // ------ RTO ------ //
     useRtoCountQuery,
@@ -386,6 +387,8 @@ export const AdminApi = {
         useDeleteDepartment: useDeleteDepartmentMutation,
         useDeptStudentsList: useGetDeptStudentsListQuery,
         useDepartmentSectors: useGetDepartmentSectorsQuery,
+        useDepartmentLineChartCounts:
+            useGetDepartmentLineChartCountsQuery,
     },
     Rtos: {
         useCountQuery: useRtoCountQuery,
