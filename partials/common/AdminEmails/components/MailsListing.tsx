@@ -1,14 +1,12 @@
-import { useRouter } from 'next/router'
-import { CiMail } from 'react-icons/ci'
-import { IoNotificationsOutline } from 'react-icons/io5'
-import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
-import { TopBar } from '@partials/common/MailsListing/components'
 import {
     ReceiverMailsInbox,
     SenderMailsInbox,
-    TabNotification,
 } from '@partials/common/MailsListing'
+import { TopBar } from '@partials/common/MailsListing/components'
+import { getUserCredentials } from '@utils'
+import { useRouter } from 'next/router'
+import { CiMail } from 'react-icons/ci'
 
 export const MailsListing = () => {
     const router = useRouter()

@@ -295,6 +295,18 @@ export const studentsEndpoints = (
         invalidatesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
     }),
 
+    updateWorkplaceCourse: builder.mutation<
+        any,
+        { wpId: number; courseId: number }
+    >({
+        query: ({ wpId, courseId }) => ({
+            url: `admin/workplace/${wpId}/course/update`,
+            method: 'PATCH',
+            params: { courseId },
+        }),
+        invalidatesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
+    }),
+
     subAdminCancelStudentWorkplaceRequest: builder.mutation<any, any>({
         query: (id) => ({
             url: `${PREFIX}/student/workplace-request/cancel/${id}`,

@@ -208,7 +208,9 @@ const StudentDashboard: NextPageWithLayout = () => {
                                 <div className="w-8 h-8 bg-orange-100 text-orange-600 rounded-full flex justify-center items-center">
                                     <FaSchool size={16} />
                                 </div>
-                                <p className="text-sm font-semibold">My RTO</p>
+                                <p className="text-sm font-semibold">
+                                    Education Provider
+                                </p>
                             </div>
 
                             {/* Action */}
