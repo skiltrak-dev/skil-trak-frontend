@@ -51,9 +51,11 @@ import {
     CancelWorkplaceRequestModal,
     ShowRejectedRequestModal,
     UpdatePrvWPStatusModal,
+    UpdateWorkplaceCourseModal,
     ViewPlacementStartedAnswersModal,
     ViewQuestionsModal,
 } from './modals'
+import { RiPencilFill } from 'react-icons/ri'
 
 const WPStatusForCancelButon = [
     WorkplaceCurrentStatus.Applied,
@@ -184,6 +186,18 @@ export const Workplace = ({
     }, [selectedWorkplace, appliedIndustry])
 
     const onCancelModal = () => setModal(null)
+
+    const onUpdateWorkplaceCourseClicked = (
+        courseId: number,
+        workplaceId: number
+    ) => {
+        setModal(
+            <UpdateWorkplaceCourseModal
+                onCancel={onCancelModal}
+                {...{ courseId, workplaceId }}
+            />
+        )
+    }
 
     const onViewWorkplaceQuestions = (wpId: number) => {
         setModal(
@@ -556,24 +570,46 @@ export const Workplace = ({
                                                 >
                                                     Course :{' '}
                                                 </Typography>
-                                                <div>
-                                                    <Typography variant="xs">
-                                                        {
-                                                            selectedWorkplace
-                                                                ?.courses?.[0]
-                                                                ?.code
-                                                        }
-                                                    </Typography>
-                                                    <Typography
-                                                        variant="small"
-                                                        semibold
+                                                <div className="flex items-center gap-x-1">
+                                                    <div>
+                                                        <Typography variant="xs">
+                                                            {
+                                                                selectedWorkplace
+                                                                    ?.courses?.[0]
+                                                                    ?.code
+                                                            }
+                                                        </Typography>
+                                                        <Typography
+                                                            variant="small"
+                                                            semibold
+                                                        >
+                                                            {
+                                                                selectedWorkplace
+                                                                    ?.courses?.[0]
+                                                                    ?.title
+                                                            }
+                                                        </Typography>
+                                                    </div>
+                                                    <AuthorizedUserComponent
+                                                        roles={[
+                                                            UserRoles.ADMIN,
+                                                        ]}
                                                     >
-                                                        {
-                                                            selectedWorkplace
-                                                                ?.courses?.[0]
-                                                                ?.title
-                                                        }
-                                                    </Typography>
+                                                        <ActionButton
+                                                            Icon={RiPencilFill}
+                                                            mini
+                                                            rounded
+                                                            variant="info"
+                                                            onClick={() =>
+                                                                onUpdateWorkplaceCourseClicked(
+                                                                    selectedWorkplace
+                                                                        ?.courses?.[0]
+                                                                        ?.id,
+                                                                    selectedWorkplace?.id
+                                                                )
+                                                            }
+                                                        />
+                                                    </AuthorizedUserComponent>
                                                 </div>
                                             </div>
                                         </div>

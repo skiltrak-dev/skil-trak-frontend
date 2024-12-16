@@ -104,7 +104,7 @@ export const Approved = () => {
         },
         {
             accessorKey: 'rto',
-            header: () => <span>RTO</span>,
+            header: () => <span>Education Provider</span>,
             cell: (info) => {
                 const rto = info.row.original?.student?.rto
                 return (
