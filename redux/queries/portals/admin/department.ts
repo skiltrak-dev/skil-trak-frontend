@@ -150,4 +150,13 @@ export const departmentEndpoints = (
         }),
         providesTags: ['Departments'],
     }),
+
+    // Line graph
+    getDepartmentLineChartCounts: builder.query<any, any>({
+        query: (id) => ({
+            url: `${PREFIX}/department/${id}/students-count`,
+            // params,
+        }),
+        providesTags: ['Departments'],
+    }),
 })

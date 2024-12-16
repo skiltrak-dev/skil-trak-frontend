@@ -19,9 +19,10 @@ import { ProgressChart } from '@partials/sub-admin/components'
 import { ReactElement, useState } from 'react'
 import { AllowPermissionModal } from '@partials/admin/sub-admin/modals'
 import { MarkAsHodModalVII } from '../modal/MarkAsHodModalVII'
-import { getUserCredentials } from '@utils'
+import { getUserCredentials, removeEmptyValues } from '@utils'
 import { AddCoordinatorModal } from '../modal'
 import { ProgressLineChart } from '@partials/common'
+import { DepartmentLineChart } from './DepartmentLineChart'
 
 export const HodProfileDetail = ({ subadmin }: any) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -100,6 +101,7 @@ export const HodProfileDetail = ({ subadmin }: any) => {
     }
     const role = getUserCredentials()?.role
     const checkIsAdmin = role === UserRoles.ADMIN
+
     return (
         <>
             {modal && modal}
@@ -174,7 +176,7 @@ export const HodProfileDetail = ({ subadmin }: any) => {
                     </Card>
                 </div>
             </div>
-            <ProgressLineChart />
+            <DepartmentLineChart />
         </>
     )
 }

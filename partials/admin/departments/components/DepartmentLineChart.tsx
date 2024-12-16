@@ -13,33 +13,20 @@ import {
 import { AdminApi, AuthApi, CommonApi } from '@queries'
 import { Rto, SubAdmin } from '@types'
 import { removeEmptyValues } from '@utils'
-export const ProgressLineChart = () => {
+import { useRouter } from 'next/router'
+export const DepartmentLineChart = () => {
     const [rtoId, setRtoId] = useState(undefined)
     const [sectorId, setSectorId] = useState(undefined)
     const [year, setYear] = useState(new Date().getFullYear())
+
+    const router = useRouter()
+    const id = router.query.id
     // query
     const getRtos = CommonApi.Filter.useRtos()
     const sectorResponse = AuthApi.useSectors({})
-
-    const chartCount = AdminApi.Admin.useDashboardChartCounts(
-        {
-            search: `${JSON.stringify(
-                removeEmptyValues({
-                    sectorId: sectorId,
-                    rtoId: rtoId,
-                    year: year,
-                })
-            )
-                .replaceAll('{', '')
-                .replaceAll('}', '')
-                .replaceAll('"', '')
-                .trim()}`,
-        },
-        {
-            refetchOnMountOrArgChange: true,
-        }
-    )
-    
+    const chartCount = AdminApi.Department.useDepartmentLineChartCounts(id, {
+        skip: !id,
+    })
     const monthOrder = [
         'January',
         'February',
@@ -58,7 +45,7 @@ export const ProgressLineChart = () => {
         ? Object.entries(chartCount?.data)?.map(([month, value]: any) => ({
               name: month,
               studentsAdded: value?.studentsAdded,
-              workplaceRequests: value?.workplaceRequests,
+              workplaceRequest: value?.workplaceRequest,
               studentsPlaced: value?.studentsPlaced,
               studentsExpired: value?.studentsExpired,
           }))
@@ -98,7 +85,7 @@ export const ProgressLineChart = () => {
                 <div className="text-nowrap">
                     <Typography variant="h3">Statistics</Typography>
                 </div>
-                <div className="flex items-center justify-end w-full gap-x-2 xl:gap-x-4">
+                {/* <div className="flex items-center justify-end w-full gap-x-2 xl:gap-x-4">
                     <div className="w-44 lg:w-48 xl:w-64">
                         <Select
                             // label={'Search By Rto'}
@@ -146,7 +133,7 @@ export const ProgressLineChart = () => {
                             value={yearOptions.find((y) => y.value === year)}
                         />
                     </div>
-                </div>
+                </div> */}
             </div>
             <ResponsiveContainer width="100%" height={300}>
                 <LineChart
@@ -173,7 +160,7 @@ export const ProgressLineChart = () => {
                     />
                     <Line
                         type="monotone"
-                        dataKey="workplaceRequests"
+                        dataKey="workplaceRequest"
                         strokeWidth={4}
                         stroke="#6A5ACD"
                     />
