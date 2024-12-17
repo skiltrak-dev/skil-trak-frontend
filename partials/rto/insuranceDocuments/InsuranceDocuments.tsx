@@ -5,7 +5,13 @@ import { InsuranceDocumentCard } from './card'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
 
-export const InsuranceDocuments = ({ rtoUser }: { rtoUser?: number }) => {
+export const InsuranceDocuments = ({
+    rtoUser,
+    studentProfile,
+}: {
+    rtoUser?: number
+    studentProfile?: boolean
+}) => {
     const role = getUserCredentials()?.role
 
     const rtoInsuranceList = RtoApi.Insurance.rtoInsuranceList(rtoUser, {
@@ -49,6 +55,7 @@ export const InsuranceDocuments = ({ rtoUser }: { rtoUser?: number }) => {
                             key={insurance?.id}
                             insurance={insurance}
                             rtoUser={rtoUser}
+                            studentProfile={studentProfile}
                         />
                     ))}
                 </div>

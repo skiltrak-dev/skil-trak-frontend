@@ -53,12 +53,12 @@ const WorkplaceRequestProgress = (appliedIndustry?: any) => {
             image: 'case-officer.png',
             date: appliedIndustry?.caseOfficerAssignedDate,
         },
-        '4-Interview': {
-            status: 'Interview',
-            description: 'with Case Officer',
-            color: 'text-orange-500',
-            image: 'interview.png',
-            date: appliedIndustry?.interviewDate,
+        '4-Waiting For Student': {
+            status: 'Waiting For Student',
+            description: 'for Workplace Response',
+            color: 'text-indigo-400',
+            image: 'waiting.png',
+            date: appliedIndustry?.awaitingWorkplaceResponseDate,
         },
         '5-Waiting': {
             status: 'Waiting',
@@ -67,6 +67,14 @@ const WorkplaceRequestProgress = (appliedIndustry?: any) => {
             image: 'waiting.png',
             date: appliedIndustry?.awaitingWorkplaceResponseDate,
         },
+        '6-Interview': {
+            status: 'Interview',
+            description: 'with Case Officer',
+            color: 'text-orange-500',
+            image: 'interview.png',
+            date: appliedIndustry?.interviewDate,
+        },
+
         '6-Meeting': {
             status: 'Appointment',
             description: 'with Workplace Supervisor',
@@ -149,10 +157,13 @@ export const ProgressCell = ({
     studentProvidedWorkplace?: boolean
     documentInitiates?: boolean
 }) => {
+    console.log({ step })
     // const currentStatus = WorkplaceRequestProgress[status]
     const currentStatus: CurrentStatus = Object.values(
         WorkplaceRequestProgress(appliedIndustry)
     )[step - 1]
+
+    console.log({ currentStatus })
 
     const contextBar = useContextBar()
 

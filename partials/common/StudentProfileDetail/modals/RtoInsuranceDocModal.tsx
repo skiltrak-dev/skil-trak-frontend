@@ -26,7 +26,10 @@ export const RtoInsuranceDocModal = ({
                         </div>
                     </div>
                     <div className="mt-2 max-w-3xl lg:w-[800px]">
-                        <InsuranceDocuments rtoUser={rtoUser?.id} />
+                        <InsuranceDocuments
+                            rtoUser={rtoUser?.id}
+                            studentProfile
+                        />
                     </div>
                 </div>
             </div>

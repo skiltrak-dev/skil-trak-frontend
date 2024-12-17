@@ -4,28 +4,19 @@ import { useEffect, useState } from 'react'
 import { IoMdArrowDropdown } from 'react-icons/io'
 
 // components
-import {
-    LoadingAnimation,
-    ShowErrorNotifications,
-    Typography,
-} from '@components'
+import { LoadingAnimation, Typography } from '@components'
 
 // query
 import { useContextBar, useNotification } from '@hooks'
 import {
-    useGetSubAdminStudentWorkplaceQuery,
-    useSendInterviewNotificationMutation,
-} from '@queries'
-import { HiCheckBadge } from 'react-icons/hi2'
-import OutsideClickHandler from 'react-outside-click-handler'
-import {
-    ActionModal,
     CompleteWorkplaceModal,
     ForwardModal,
     InterviewModal,
     PlacementStartedModal,
     TerminateWorkplaceModal,
 } from '@partials/sub-admin/workplace/modals'
+import { useGetSubAdminStudentWorkplaceQuery } from '@queries'
+import OutsideClickHandler from 'react-outside-click-handler'
 import { WorkplaceCurrentStatus } from '@utils'
 
 export const ChangeWorkplaceStatus = ({
@@ -132,6 +123,15 @@ export const ChangeWorkplaceStatus = ({
             color: 'text-primary',
             onClick: () => {},
             status: 'caseOfficerAssigned',
+        },
+        {
+            primaryText: 'Waiting For Student',
+            secondaryText: 'Waiting For Student',
+            color: 'text-primary-light',
+            onClick: (isCleared: any) => {
+                isCleared(true)
+            },
+            status: WorkplaceCurrentStatus.AwaitingStudentResponse,
         },
         {
             primaryText: 'Interview',

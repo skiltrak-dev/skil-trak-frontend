@@ -7,9 +7,11 @@ import { LoadingAnimation, NoData } from '@components'
 import { currentMonthDates } from '@utils'
 
 export const ScheduleTimetable = ({
+    startDate,
     scheduleId,
     scheduleCourse,
 }: {
+    startDate?: Date
     scheduleId: number
     scheduleCourse: Course
 }) => {
@@ -79,6 +81,7 @@ export const ScheduleTimetable = ({
                 {mount && (
                     <ScheduleCalendar
                         events={events}
+                        startData={startDate as Date}
                         onSelectedDate={onSelectedDate}
                     />
                 )}

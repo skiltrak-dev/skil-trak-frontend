@@ -47,6 +47,7 @@ import {
 } from './components'
 import { IndustryDetail } from './components/IndustryDetail'
 import {
+    AddFeedbackModal,
     CancelWorkplaceModal,
     CancelWorkplaceRequestModal,
     ShowRejectedRequestModal,
@@ -163,6 +164,8 @@ export const Workplace = ({
     const excludedRoles = [UserRoles.RTO, UserRoles.OBSERVER]
     const role = getUserCredentials()?.role
 
+    const onCancelModal = () => setModal(null)
+
     useEffect(() => {
         if (
             selectedWorkplace &&
@@ -185,7 +188,27 @@ export const Workplace = ({
         }
     }, [selectedWorkplace, appliedIndustry])
 
-    const onCancelModal = () => setModal(null)
+    useEffect(() => {
+        if (
+            selectedWorkplace &&
+            selectedWorkplace?.currentStatus ===
+                WorkplaceCurrentStatus.AgreementSigned &&
+            !selectedWorkplace?.studentFeedBack &&
+            appliedIndustry
+        )
+            setModal(
+                <AddFeedbackModal
+                    onCancel={onCancelModal}
+                    id={appliedIndustry?.id}
+                    agreementSigned={appliedIndustry?.AgreementSigned}
+                    student={student}
+                    course={selectedWorkplace?.courses?.[0]}
+                    wpId={selectedWorkplace?.id}
+                    industryId={appliedIndustry?.industry?.id}
+                    isStartPlacement={false}
+                />
+            )
+    }, [selectedWorkplace, appliedIndustry])
 
     const onUpdateWorkplaceCourseClicked = (
         courseId: number,
@@ -734,8 +757,7 @@ export const Workplace = ({
                                                 </div>
                                             ) : null}
                                             {selectedWorkplace
-                                                ? appliedIndustry?.placementStarted &&
-                                                  selectedWorkplace?.studentFeedBack >
+                                                ? selectedWorkplace?.studentFeedBack >
                                                       0 && (
                                                       <>
                                                           <ActionButton

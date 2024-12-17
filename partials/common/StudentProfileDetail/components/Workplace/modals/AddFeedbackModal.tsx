@@ -31,6 +31,7 @@ export const AddFeedbackModal = ({
     onCancel,
     wpId,
     industryId,
+    isStartPlacement = true,
 }: {
     wpId: number
     industryId: number
@@ -39,6 +40,7 @@ export const AddFeedbackModal = ({
     student: any
     onCancel: any
     agreementSigned: any
+    isStartPlacement?: boolean
 }) => {
     const { notification } = useNotification()
 
@@ -63,15 +65,20 @@ export const AddFeedbackModal = ({
             industry: industryId,
         }).then((res: any) => {
             if (res?.data) {
-                startPlacement(id).then((placementRes: any) => {
-                    if (placementRes?.data) {
-                        notification.success({
-                            title: 'Feedback Added!',
-                            description: 'Feedback Added Successfully!',
-                        })
-                        onCancel()
-                    }
-                })
+                if (!isStartPlacement) {
+                    onCancel()
+                }
+                if (isStartPlacement) {
+                    startPlacement(id).then((placementRes: any) => {
+                        if (placementRes?.data) {
+                            notification.success({
+                                title: 'Feedback Added!',
+                                description: 'Feedback Added Successfully!',
+                            })
+                            onCancel()
+                        }
+                    })
+                }
             }
         })
     }
@@ -103,6 +110,7 @@ export const AddFeedbackModal = ({
                 </div>
 
                 <AddCoordinatorFeedbackForm
+                    isStartPlacement={isStartPlacement}
                     onSubmit={onHandleSubmit}
                     result={
                         addFeedbackResult?.isLoading
