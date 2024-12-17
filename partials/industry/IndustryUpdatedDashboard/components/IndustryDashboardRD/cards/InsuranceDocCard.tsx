@@ -40,7 +40,7 @@ export const InsuranceDocCard = ({
                     <Typography variant="xs" medium color="text-gray-500">
                         Title
                     </Typography>
-                    <Typography variant="label">{docs?.title}</Typography>
+                    <Typography variant="small">{docs?.title}</Typography>
                 </div>
                 <div>
                     <Typography variant="xs" medium color="text-gray-500">

@@ -77,8 +77,8 @@ export const UpdateWorkplaceCourseModal = ({
         <div>
             <ShowErrorNotifications result={updateWpCourseResult} />
             <Modal
-                title={'Update Workplace Course'}
-                subtitle={'Update Workplace Course'}
+                title={'Update Course'}
+                subtitle={'Update course for this request'}
                 onConfirmClick={methods.handleSubmit(onSubmit)}
                 onCancelClick={onCancel}
                 loading={updateWpCourseResult.isLoading}
@@ -86,7 +86,7 @@ export const UpdateWorkplaceCourseModal = ({
                 <FormProvider {...methods}>
                     <form className="mt-2 w-full">
                         <Select
-                            label={'Courses'}
+                            label={'Course'}
                             name={'course'}
                             value={courseDataValue}
                             options={courseAddedOptions}

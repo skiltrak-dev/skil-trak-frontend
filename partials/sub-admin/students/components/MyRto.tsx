@@ -17,11 +17,20 @@ import { ActionButton } from '@components'
 import { getUserCredentials } from '@utils'
 import { useMediaQuery } from 'react-responsive'
 import { MediaQueries } from '@constants'
+import { SubAdminApi } from '@queries'
 
-export const MyRto = ({ myRto }: any) => {
+export const MyRto = () => {
     const pathname = useRouter()
     const role = getUserCredentials()?.role
     const isLargeDevice = useMediaQuery(MediaQueries.Large)
+
+    const rtoDetail = SubAdminApi.Student.getStudentRtoDetail(
+        Number(pathname?.query?.id),
+        {
+            skip: !pathname?.query?.id,
+            refetchOnMountOrArgChange: 300,
+        }
+    )
 
     return (
         <Card fullHeight>
@@ -42,11 +51,11 @@ export const MyRto = ({ myRto }: any) => {
                             pathname.push(
                                 role === 'admin'
                                     ? {
-                                          pathname: `/portals/admin/rto/${myRto?.id}`,
+                                          pathname: `/portals/admin/rto/${rtoDetail?.data?.id}`,
                                           query: { tab: 'sectors' },
                                       }
                                     : {
-                                          pathname: `/portals/sub-admin/users/rtos/${myRto?.id}`,
+                                          pathname: `/portals/sub-admin/users/rtos/${rtoDetail?.data?.id}`,
                                           query: { tab: 'overview' },
                                       }
                             )
@@ -60,15 +69,18 @@ export const MyRto = ({ myRto }: any) => {
             {/* Card Body */}
             <div className="flex items-center gap-x-6 py-4">
                 <div className="flex-shrink-0">
-                    <RtoAvatar imageUrl={myRto?.user?.avatar} user={myRto?.user?.id} />
+                    <RtoAvatar
+                        imageUrl={rtoDetail?.data?.user?.avatar}
+                        user={rtoDetail?.data?.user?.id}
+                    />
                 </div>
                 <div>
                     <div>
                         <p className="font-medium text-sm 2xl:text-base">
-                            {myRto?.user?.name}
+                            {rtoDetail?.data?.user?.name}
                         </p>
                         <p className="text-slate-400 text-xs 2xl:text-sm">
-                            {myRto?.user?.email}
+                            {rtoDetail?.data?.user?.email}
                         </p>
                     </div>
                     <div className="flex gap-x-6 mt-1">
@@ -77,7 +89,7 @@ export const MyRto = ({ myRto }: any) => {
                                 <MdPermContactCalendar size={14} />
                             </span>
                             <span className="text-[11px] 2xl:text-xs">
-                                {myRto?.phone}
+                                {rtoDetail?.data?.phone}
                             </span>
                         </div>
                         <div className="flex gap-x-6 mt-1">
@@ -86,30 +98,36 @@ export const MyRto = ({ myRto }: any) => {
                                     <MdPhone size={14} />
                                 </span>
                                 <span className="text-[11px] 2xl:text-xs">
-                                    {myRto?.phone}
+                                    {rtoDetail?.data?.phone}
                                 </span>
                             </div>
                         </div>
                     </div>
 
                     <div className="flex justify-between gap-x-2 mt-3">
-                        {myRto?.rto?.subadmin?.length && (
+                        {rtoDetail?.data?.rto?.subadmin?.length && (
                             <div>
                                 <p className="text-[11px] text-gray-400">
                                     Coordinators
                                 </p>
                                 <p className="font-medium text-sm">
-                                    {myRto?.rto?.subadmin[0].user.name}
+                                    {
+                                        rtoDetail?.data?.rto?.subadmin[0].user
+                                            .name
+                                    }
                                 </p>
                                 <p className="text-xs font-medium text-slate-400">
-                                    {myRto?.rto?.subadmin[0].user.email}
+                                    {
+                                        rtoDetail?.data?.rto?.subadmin[0].user
+                                            .email
+                                    }
                                 </p>
                             </div>
                         )}
 
-                        {myRto?.rto?.subadmin?.length > 1 && (
+                        {rtoDetail?.data?.rto?.subadmin?.length > 1 && (
                             <InitialAvatarContainer show={2}>
-                                {myRto?.rto?.subadmin
+                                {rtoDetail?.data?.rto?.subadmin
                                     ?.slice(1)
                                     ?.map((subAdmin: SubAdmin, idx: number) => (
                                         <InitialAvatar
