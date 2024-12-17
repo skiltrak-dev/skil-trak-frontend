@@ -15,22 +15,59 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
         ? data?.courses || []
         : data?.industryCourseApprovals || []
 
-    const isValidUrl = (url: any) => {
-        const urlPattern =
-            /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
-        return urlPattern.test(url)
+    // const isValidUrl = (url: any) => {
+    //     const urlPattern =
+    //         /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
+    //     return urlPattern.test(url)
+    // }
+
+    // const getCleanExternalUrl = (url: string | undefined | null): string => {
+    //     if (!url) return '#'
+
+    //     // Remove any prefix of the current domain
+    //     const cleanUrl = url.replace(
+    //         /^(https?:\/\/)?(skiltrak\.com\.au\/)?/,
+    //         ''
+    //     )
+
+    //     // Add 'https://' if no protocol is present
+    //     return cleanUrl.startsWith('http') ? cleanUrl : `https://${cleanUrl}`
+    // }
+
+    const isValidUrl = (url: any): boolean => {
+        if (!url || typeof url !== 'string') return false
+
+        try {
+            // More comprehensive URL validation
+            const parsedUrl = new URL(
+                url.startsWith('http') ? url : `https://${url}`
+            )
+
+            // Additional checks
+            return (
+                parsedUrl.protocol === 'https:' ||
+                parsedUrl.protocol === 'http:'
+            )
+        } catch {
+            return false
+        }
     }
 
     const getCleanExternalUrl = (url: string | undefined | null): string => {
         if (!url) return '#'
 
-        // Remove any prefix of the current domain
-        const cleanUrl = url.replace(
-            /^(https?:\/\/)?(skiltrak\.com\.au\/)?/,
-            ''
-        )
+        // Trim whitespace
+        url = url.trim()
 
-        // Add 'https://' if no protocol is present
+        // Handle common prefixes and domains
+        const cleanUrl = url
+            .replace(/^(https?:\/\/)?(www\.)?(skiltrak\.com\.au\/)?/i, '')
+            .replace(/\s+/g, '') // Remove any whitespace
+
+        // If empty after cleaning, return fallback
+        if (!cleanUrl) return '#'
+
+        // Add protocol if missing
         return cleanUrl.startsWith('http') ? cleanUrl : `https://${cleanUrl}`
     }
 

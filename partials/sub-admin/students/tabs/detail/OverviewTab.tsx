@@ -51,7 +51,7 @@ export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
 
             <div className="w-full flex justify-between items-stretch gap-x-6 my-4">
                 <div className="w-full">
-                    <MyRto myRto={student?.rto} />
+                    <MyRto />
                 </div>
                 <div className="w-full">
                     <MyWorkplace student={student} />

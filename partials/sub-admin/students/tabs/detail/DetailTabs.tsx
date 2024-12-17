@@ -28,6 +28,7 @@ export const DetailTabs = ({
         role === UserRoles.ADMIN
             ? String(id)
             : `/portals/sub-admin/students/${String(id)}/old-detail`
+
     const tabs: TabProps[] = [
         {
             label: 'Overview',
@@ -62,7 +63,7 @@ export const DetailTabs = ({
                 <RequiredDocs
                     studentId={student?.id}
                     studentUserId={student?.user?.id}
-                    industry={student?.industries[0]}
+                    industry={student?.industries?.[0]}
                 />
             ),
         },

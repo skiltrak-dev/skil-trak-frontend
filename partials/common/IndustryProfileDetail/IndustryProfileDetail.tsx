@@ -1,24 +1,22 @@
+import { Alert, Card, PageTitle } from '@components'
+import { UserRoles } from '@constants'
 import { useAlert, useContextBar } from '@hooks'
-import React, { useEffect, useState } from 'react'
-import { IndustryProfileCB } from './IndustryProfileCB'
+import { CommonApi } from '@queries'
 import { Industry, UserStatus } from '@types'
+import { getUserCredentials } from '@utils'
+import moment from 'moment'
+import { useEffect, useState } from 'react'
+import { ProfileAppointments } from '../ProfileAppointments'
 import { MailsCommunication, Notes } from '../StudentProfileDetail/components'
 import {
     IndustryHistory,
-    IndustryLocations,
     IndustryRequiredDocuments,
     IndustryShiftingHours,
     IndustryStudents,
-    IndustrySupervisor,
 } from './components'
-import { ProfileAppointments } from '../ProfileAppointments'
-import { Alert, Card, PageTitle } from '@components'
-import moment from 'moment'
-import { CommonApi } from '@queries'
-import { UserRoles } from '@constants'
-import { getUserCredentials } from '@utils'
 import { CourseManagement } from './components/CourseManagement'
 import { StudentSchedule } from './components/StudentSchedule'
+import { IndustryProfileCB } from './IndustryProfileCB'
 
 export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
