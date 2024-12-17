@@ -73,11 +73,12 @@ export const Actions = ({
 
     return (
         <div>
-        {modal}
+            {modal}
             <ShowErrorNotifications result={updateStatusResult} />
             <ShowErrorNotifications result={industryResponseResult} />
             {currentStatus ===
-            WorkplaceCurrentStatus.AwaitingWorkplaceResponse ? (
+                WorkplaceCurrentStatus.AwaitingWorkplaceResponse ||
+            currentStatus === WorkplaceCurrentStatus.AppointmentBooked ? (
                 <div className="flex items-center gap-x-2">
                     <Button
                         variant={'secondary'}
