@@ -246,6 +246,11 @@ export const Schedule = ({
                                             scheduleId={
                                                 schedules?.data?.schedule?.id
                                             }
+                                            startDate={
+                                                new Date(
+                                                    schedules?.data?.schedule?.startDate
+                                                )
+                                            }
                                         />
                                     </>
                                 ) : (

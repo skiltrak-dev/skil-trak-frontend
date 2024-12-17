@@ -19,16 +19,17 @@ export const currentWeekDates = () => {
     return datesOfWeek
 }
 
-export const currentMonthDates = () => {
-    const monthDays = moment()
+export const currentMonthDates = (inputDate = new Date()) => {
+    // Use the provided date or the current date
+    const monthDays = inputDate ? moment(inputDate) : moment()
 
-    // Get the start of the current month
+    // Get the start of the month
     const startOfMonth = monthDays.clone().startOf('month')
 
-    // Get the end of the current month
+    // Get the end of the month
     const endOfMonth = monthDays.clone().endOf('month')
 
-    // Initialize an array to store the dates of the current month
+    // Initialize an array to store the dates of the month
     const datesOfMonth = []
 
     // Loop through each day of the month
@@ -39,10 +40,11 @@ export const currentMonthDates = () => {
     ) {
         // Add the current date to the array
         datesOfMonth.push(currentDate.clone())
+
         // Move to the next day
         currentDate.add(1, 'day')
     }
 
-    // Return the array of dates for the current month
+    // Return the array of dates for the specified or current month
     return datesOfMonth
 }

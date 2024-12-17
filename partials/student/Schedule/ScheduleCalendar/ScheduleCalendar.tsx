@@ -28,12 +28,15 @@ export const ScheduleCalendar = ({
     events,
     loading,
     onSelectedDate,
+    startData = new Date(),
 }: {
+    startData: Date
     events: CalendarEvent[]
     loading?: boolean
     onSelectedDate?: ({ start, end }: any) => void | undefined
 }) => {
-    const monthDays = currentMonthDates()
+    const monthDays = currentMonthDates(startData)
+    console.log({ monthDays: monthDays?.map((a) => a?.toDate()) })
     const dates = {
         start: monthDays?.[0]?.toDate(),
         end: monthDays?.[monthDays?.length - 1]?.toDate(),
@@ -87,7 +90,7 @@ export const ScheduleCalendar = ({
             }
         }
         onRangeChange()
-    }, [calanderView, rangeDates])
+    }, [calanderView, rangeDates, startData])
 
     return (
         <CalendarStyles>
@@ -99,6 +102,7 @@ export const ScheduleCalendar = ({
             <Calendar
                 localizer={localizer}
                 events={events || []}
+                date={startData}
                 defaultView={defaultView}
                 startAccessor="start"
                 endAccessor="end"
@@ -116,7 +120,9 @@ export const ScheduleCalendar = ({
                     setCalanderView(view)
                 }}
                 onRangeChange={(e: any) => {
-                    setRangeDates(e)
+                    setTimeout(() => {
+                        setRangeDates(e)
+                    }, 1000)
                 }}
             />
         </CalendarStyles>

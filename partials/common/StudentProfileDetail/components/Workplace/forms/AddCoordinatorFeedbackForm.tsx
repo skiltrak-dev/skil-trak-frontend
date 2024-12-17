@@ -14,8 +14,10 @@ import * as yup from 'yup'
 export const AddCoordinatorFeedbackForm = ({
     result,
     onSubmit,
+    isStartPlacement,
 }: {
     result: any
+    isStartPlacement: boolean
     onSubmit: (values: any) => void
 }) => {
     const [questionsData, setQuestionsData] = useState<any>(
@@ -99,7 +101,11 @@ export const AddCoordinatorFeedbackForm = ({
 
                     <div className="mt-7 flex items-center justify-center">
                         <Button
-                            text={'Start Placement'}
+                            text={
+                                isStartPlacement
+                                    ? 'Start Placement'
+                                    : 'Add Feedback'
+                            }
                             variant={'primary'}
                             submit
                             loading={result.isLoading}

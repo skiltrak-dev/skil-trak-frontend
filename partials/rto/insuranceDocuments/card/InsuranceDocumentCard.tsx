@@ -8,9 +8,11 @@ import { useAssessmentDocumentsView } from '@partials/common/StudentProfileDetai
 export const InsuranceDocumentCard = ({
     insurance,
     rtoUser,
+    studentProfile,
 }: {
     insurance: any
     rtoUser?: number
+    studentProfile?: boolean
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [selected, setSelected] = useState<boolean>(false)
@@ -35,6 +37,24 @@ export const InsuranceDocumentCard = ({
         'day'
     )
 
+    const ViewDocument = (
+        <Button
+            text="View"
+            variant="info"
+            onClick={() => {
+                onFileClicked({
+                    ...latestDocument,
+                    showEdit: false,
+                    file: latestDocument?.file
+                        .replaceAll('{"', '')
+                        .replaceAll('"}', ''),
+                    extension: latestDocument?.file?.split('.')?.reverse()?.[0],
+                    type: 'all',
+                })
+            }}
+        />
+    )
+
     const getButtons = () => {
         if (selected && !latestDocument) {
             return (
@@ -54,23 +74,7 @@ export const InsuranceDocumentCard = ({
         } else if (latestDocument) {
             return (
                 <div className="flex items-center gap-x-2">
-                    <Button
-                        text="View"
-                        variant="info"
-                        onClick={() => {
-                            onFileClicked({
-                                ...latestDocument,
-                                showEdit: false,
-                                file: latestDocument?.file
-                                    .replaceAll('{"', '')
-                                    .replaceAll('"}', ''),
-                                extension: latestDocument?.file
-                                    ?.split('.')
-                                    ?.reverse()?.[0],
-                                type: 'all',
-                            })
-                        }}
-                    />
+                    {ViewDocument}
                     <ActionButton
                         variant="warning"
                         onClick={() => {
@@ -101,7 +105,7 @@ export const InsuranceDocumentCard = ({
     }
 
     const classes = classNames({
-        'py-1 rounded border border-[#A5A3A9] w-full pl-4 pr-2 flex justify-between items-center':
+        'min-h-10 py-1 rounded border border-[#A5A3A9] w-full pl-4 pr-2 flex justify-between items-center':
             true,
         'bg-[#F7910F1A]': selected && !latestDocument,
         'bg-[#128C7E1A]': latestDocument,
@@ -176,7 +180,20 @@ export const InsuranceDocumentCard = ({
                                 </div>
                             </>
                         ))}
-                    <div>{getButtons()}</div>
+                    <div>
+                        {studentProfile ? (
+                            latestDocument ? (
+                                ViewDocument
+                            ) : (
+                                <Typography variant="xxs" uppercase bold>
+                                    {' '}
+                                    Not Uploaded{' '}
+                                </Typography>
+                            )
+                        ) : (
+                            getButtons()
+                        )}
+                    </div>
                     {/* */}
                 </div>
             </div>

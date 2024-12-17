@@ -2,9 +2,16 @@ import { GlobalModal, Typography } from '@components'
 import { MdCancel } from 'react-icons/md'
 import { PiWarningOctagonThin } from 'react-icons/pi'
 
+export enum AddScheduleStatus {
+    StartPlacement = 'START PLACEMENT',
+    AgreementSigned = 'AGREEMENT SIGNED',
+}
+
 export const ShowScheduleInfoModal = ({
+    status = AddScheduleStatus.StartPlacement,
     onCancel,
 }: {
+    status?: AddScheduleStatus
     onCancel: () => void
 }) => {
     return (
@@ -19,9 +26,7 @@ export const ShowScheduleInfoModal = ({
                     <div className="mx-auto">
                         <Typography center semibold>
                             Add Schedule before changing status to{' '}
-                            <span className="text-success">
-                                "START PLACEMENT"
-                            </span>
+                            <span className="text-success">"{status}"</span>
                         </Typography>
                     </div>
                 </div>
