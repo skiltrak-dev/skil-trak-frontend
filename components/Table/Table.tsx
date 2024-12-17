@@ -61,6 +61,7 @@ interface TableProps<Type> {
     awaitingAgreementBeyondSevenDays?: any
     findCallLogsUnanswered?: any
     findExpiringInNext45Days?: any
+    activeAndCompleted?: any
 }
 
 export const Table = <Type,>({
@@ -74,7 +75,9 @@ export const Table = <Type,>({
     awaitingAgreementBeyondSevenDays,
     findCallLogsUnanswered,
     findExpiringInNext45Days,
+    activeAndCompleted,
 }: TableProps<Type>) => {
+    console.log('findCallLogsUnanswered', findExpiringInNext45Days)
     //======================== Blinking rows ===========================
     const getTdClassNames = (row: any) => {
         const isUnanswered = findCallLogsUnanswered
@@ -86,11 +89,15 @@ export const Table = <Type,>({
         const expiringInNext45Days = findExpiringInNext45Days
             ?.map((student: any) => student?.id)
             ?.includes(row?.original?.id)
+        const completeAndActive = activeAndCompleted
+            ?.map((student: any) => student?.id)
+            ?.includes(row?.original?.id)
 
         const status = row?.original?.user?.status
 
         return [
             isUnanswered ? 'blink' : '',
+            completeAndActive ? 'blink-green' : '',
             awaitingAgreements ? 'blink' : '',
             expiringInNext45Days ? 'blink' : '',
             status === UserStatus.Blocked || status === UserStatus.Rejected

@@ -11,6 +11,8 @@ import {
 import { AddToPartnerModal } from '@partials/sub-admin/Industries/modals/AddToPartnerModal'
 import { IoInformationCircleSharp } from 'react-icons/io5'
 import { User } from '@types'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 export const MakeIndustryPartner = ({
     industryId,
@@ -52,6 +54,8 @@ export const MakeIndustryPartner = ({
             }
         )
     }
+    const { role } = getUserCredentials()
+    const checkRto = role === UserRoles.RTO
     return (
         <div>
             {modal}
@@ -86,7 +90,7 @@ export const MakeIndustryPartner = ({
                             defaultChecked={isPartner}
                             customStyleClass={'profileSwitch'}
                             loading={addToPartnerResult.isLoading}
-                            disabled={addToPartnerResult.isLoading}
+                            disabled={addToPartnerResult.isLoading || checkRto}
                         />
                     </div>
                     <Typography variant="small" bold>

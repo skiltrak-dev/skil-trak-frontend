@@ -48,7 +48,11 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
                         avatar={industry?.user?.avatar as string}
                     />
                 </div>
-                <ProfileLinks industry={industry} />
+                <AuthorizedUserComponent
+                    roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
+                >
+                    <ProfileLinks industry={industry} />
+                </AuthorizedUserComponent>
             </div>
 
             {/*  */}
@@ -89,12 +93,16 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
                 ) : (
                     <AddIndustryAnswers industry={industry} />
                 )}
-                <div
-                    onClick={onViewProfileVisitorsClicked}
-                    className="cursor-pointer text-[11px] py-2 px-1 text-info hover:bg-gray-200"
+                <AuthorizedUserComponent
+                    roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
                 >
-                    View Visitors
-                </div>
+                    <div
+                        onClick={onViewProfileVisitorsClicked}
+                        className="cursor-pointer text-[11px] py-2 px-1 text-info hover:bg-gray-200"
+                    >
+                        View Visitors
+                    </div>
+                </AuthorizedUserComponent>
             </div>
 
             {/*  */}
@@ -127,7 +135,7 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
             <IndustryLocations industry={industry} />
 
             {/*  */}
-            <IndustrySectors courses={industry?.courses} />
+            {/* <IndustrySectors courses={industry?.courses} /> */}
         </div>
     )
 }

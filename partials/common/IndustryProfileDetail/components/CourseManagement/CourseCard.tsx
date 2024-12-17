@@ -91,16 +91,20 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                 Approved
                             </span>
                         )}
-                        {!isPreviousCourses && approval?.actionBy && (
-                            <div className="flex gap-x-1">
-                                <Typography
-                                    variant="xxs"
-                                    color="text-emerald-500"
-                                >
-                                    Approved by: {approval?.actionBy?.name}
-                                </Typography>
-                            </div>
-                        )}
+                        <AuthorizedUserComponent
+                            roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                        >
+                            {!isPreviousCourses && approval?.actionBy && (
+                                <div className="flex gap-x-1">
+                                    <Typography
+                                        variant="xxs"
+                                        color="text-emerald-500"
+                                    >
+                                        Approved by: {approval?.actionBy?.name}
+                                    </Typography>
+                                </div>
+                            )}
+                        </AuthorizedUserComponent>
                     </div>
 
                     <div className="p-4 border rounded-md bg-[#95C6FB26] bg-opacity-15">
@@ -194,12 +198,18 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                         </div>
 
                         <div className="flex justify-between text-[10px]">
-                            <div>
-                                <span className="text-gray-600">
-                                    Requested by:{' '}
-                                </span>
-                                <span>{approval?.addedBy?.name || 'N/A'}</span>
-                            </div>
+                            <AuthorizedUserComponent
+                                roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
+                            >
+                                <div>
+                                    <span className="text-gray-600">
+                                        Requested by:{' '}
+                                    </span>
+                                    <span>
+                                        {approval?.addedBy?.name || 'N/A'}
+                                    </span>
+                                </div>
+                            </AuthorizedUserComponent>
                             {/* <div>
                                 <span className="text-gray-600">
                                     Reference URL:{' '}

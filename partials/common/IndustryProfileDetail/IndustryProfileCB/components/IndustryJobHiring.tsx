@@ -1,6 +1,8 @@
 import { ShowErrorNotifications, Switch, Typography } from '@components'
+import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
+import { getUserCredentials } from '@utils'
 import React from 'react'
 
 export const IndustryJobHiring = ({
@@ -25,6 +27,8 @@ export const IndustryJobHiring = ({
             }
         })
     }
+    const { role } = getUserCredentials()
+    const checkRto = role === UserRoles.RTO
     return (
         <div>
             {' '}
@@ -47,7 +51,7 @@ export const IndustryJobHiring = ({
                             defaultChecked={isHiringIndustry}
                             customStyleClass={'profileSwitch'}
                             loading={isHiringResult.isLoading}
-                            disabled={isHiringResult.isLoading}
+                            disabled={isHiringResult.isLoading || checkRto}
                         />
                     </div>
                     <Typography variant="small" bold>

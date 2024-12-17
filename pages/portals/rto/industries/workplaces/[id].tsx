@@ -14,6 +14,7 @@ import { ReactElement, useEffect, useState } from 'react'
 
 import { useGetRTOWorkplaceDetailQuery } from '@queries'
 import { MdPlace } from 'react-icons/md'
+import { IndustryProfileDetail } from '@partials/common'
 
 const Detail: NextPageWithLayout = () => {
     const router = useRouter()
@@ -21,7 +22,7 @@ const Detail: NextPageWithLayout = () => {
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
-    const { data, isLoading, isSuccess, isError } =
+    const industry =
         useGetRTOWorkplaceDetailQuery(Number(id), {
             skip: !id,
         })
@@ -30,8 +31,8 @@ const Detail: NextPageWithLayout = () => {
         contextBar.hide()
     }, [])
     return (
-        <Card>
-            {isError && <TechnicalError />}
+        <>
+            {/* {isError && <TechnicalError />}
             {isLoading ? (
                 <LoadingAnimation height={'h-[60vh]'} />
             ) : !data ? (
@@ -46,66 +47,93 @@ const Detail: NextPageWithLayout = () => {
             ) : (
                 <>
                     <div className="border-b border-secondary-dark pb-1">
-                        <Typography variant={'subtitle'} color={'text-gray-400'}>
+                        <Typography
+                            variant={'subtitle'}
+                            color={'text-gray-400'}
+                        >
                             Workplace Details
                         </Typography>
                     </div>
 
-                    {/* Appointment Details */}
-                    <div className="grid grid-cols-2 gap-y-4 py-4">
-                        {/* ID */}
-                        <div className="flex flex-col gap-y-1">
-                            <Typography variant={'subtitle'} color={'text-gray-400'}>
-                                Industry Id
-                            </Typography>
-                            <Typography color={'text-orange-400'} capitalize>
-                                {data?.id}
-                            </Typography>
-                            <Typography variant={'subtitle'} color={'text-gray-400'}>
-                                ABN
-                            </Typography>
-                            <Typography color={'text-orange-400'} capitalize>
-                                {data?.abn}
-                            </Typography>
+                    <div className="grid grid-cols-3 gap-x-5 gap-y-4 py-4">
+                        <div className="flex flex-col gap-y-4">
+                            <div className="bg-[#95C6FB] bg-opacity-15 rounded-md p-2 border border-[#6B7280]">
+                                <Typography
+                                    variant={'muted'}
+                                    color={'text-[#24556D]'}
+                                >
+                                    Industry Id
+                                </Typography>
+                                <Typography variant="body">
+                                    {data?.id}
+                                </Typography>
+                            </div>
+                            <div className="bg-[#95C6FB] bg-opacity-15 rounded-md p-2 border border-[#6B7280]">
+                                <Typography
+                                    variant={'muted'}
+                                    color={'text-[#24556D]'}
+                                >
+                                    ABN
+                                </Typography>
+                                <Typography variant="body">
+                                    {data?.abn}
+                                </Typography>
+                            </div>
                         </div>
 
-                        {/* Job Title */}
-                        <div className="flex flex-col gap-y-1">
-                            <Typography variant={'subtitle'} color={'text-gray-400'}>
-                                Industry Name
-                            </Typography>
-                            <Typography color={'text-orange-400'} capitalize>
-                                {data?.user?.name}
-                            </Typography>
+                        <div className="flex flex-col gap-y-4">
+                            <div className="bg-[#95C6FB] bg-opacity-15 rounded-md p-2 border border-[#6B7280]">
+                                <Typography
+                                    variant={'muted'}
+                                    color={'text-[#24556D]'}
+                                >
+                                    Industry Name
+                                </Typography>
+                                <Typography variant="body">
+                                    {' '}
+                                    {data?.user?.name}
+                                </Typography>
+                            </div>
+
+                            <div className="bg-[#95C6FB] bg-opacity-15 rounded-md p-2 border border-[#6B7280]">
+                                <Typography
+                                    variant={'muted'}
+                                    color={'text-[#24556D]'}
+                                >
+                                    Phones
+                                </Typography>
+                                <Typography variant="body">
+                                    {' '}
+                                    {data?.phoneNumber}
+                                </Typography>
+                            </div>
                         </div>
 
-                        {/* Employment Type */}
-                        <div className="flex flex-col gap-y-1">
-                            <Typography variant={'subtitle'} color={'text-gray-400'}>
-                                Email
-                            </Typography>
-                            <Typography color={'text-orange-400'}>
-                                {data?.user?.email}
-                            </Typography>
-                        </div>
-
-                        {/*  Salary */}
-                        <div className="flex flex-col gap-y-1">
-                            <Typography variant={'muted'} color={'text-gray-400'}>
-                                Phone
-                            </Typography>
-                            <Typography color={'text-orange-400'}>
-                                {data?.phoneNumber}
-                            </Typography>
-                        </div>
-
-                        <div className="flex flex-col gap-y-1">
-                            <Typography variant={'muted'} color={'text-gray-400'}>
-                                Address
-                            </Typography>
-                            <Typography color={'text-orange-400'}>
-                                {data?.addressLine1 || "N/A"}
-                            </Typography>
+                        <div className="flex flex-col gap-y-4">
+                            <div className="bg-[#95C6FB] bg-opacity-15 rounded-md p-2 border border-[#6B7280]">
+                                <Typography
+                                    variant={'muted'}
+                                    color={'text-[#24556D]'}
+                                >
+                                    Email
+                                </Typography>
+                                <Typography variant="body">
+                                    {' '}
+                                    {data?.user?.email}
+                                </Typography>
+                            </div>
+                            <div className="bg-[#95C6FB] bg-opacity-15 rounded-md p-2 border border-[#6B7280]">
+                                <Typography
+                                    variant={'muted'}
+                                    color={'text-[#24556D]'}
+                                >
+                                    Address
+                                </Typography>
+                                <Typography variant="body">
+                                    {' '}
+                                    {data?.addressLine1 || 'N/A'}
+                                </Typography>
+                            </div>
                         </div>
                     </div>
 
@@ -115,71 +143,119 @@ const Detail: NextPageWithLayout = () => {
                         </Typography>
                     </div>
 
-                    {/* Appointment Details */}
-                    {data?.students?.length > 0 && data.students.map((student: any) => (
-                        <div key={data?.id} className="border-b grid grid-cols-2 gap-y-4 py-4">
-                            {/* ID */}
-                            <div className="flex flex-col gap-y-1">
-                                <Typography variant={'subtitle'} color={'text-gray-400'}>
-                                    Student Id
-                                </Typography>
-                                <Typography color={'text-orange-400'} capitalize>
-                                    {student?.id}
-                                </Typography>
-                            </div>
+                    {data?.students?.length > 0 &&
+                        data.students.map((student: any, index: number) => (
+                            <>
+                                <div className="mt-2">
+                                    <Typography
+                                        variant={'muted'}
+                                        color={'text-[#24556D]'}
+                                    >
+                                        {index === 0 ? 1 : index + 1}
+                                    </Typography>
+                                </div>
+                                <div
+                                    key={data?.id}
+                                    className="border-b grid grid-cols-3 gap-x-5 gap-y-4 py-4"
+                                >
+                                    <div className="flex flex-col gap-y-4">
+                                        <div className="bg-[#95C6FB] bg-opacity-15 rounded-md p-2 border border-[#6B7280]">
+                                            <Typography
+                                                variant={'muted'}
+                                                color={'text-[#24556D]'}
+                                            >
+                                                Student Id
+                                            </Typography>
+                                            <Typography variant="body">
+                                                {student?.id}
+                                            </Typography>
+                                        </div>
+                                    </div>
 
-                            {/* Job Title */}
-                            <div className="flex flex-col gap-y-1">
-                                <Typography variant={'subtitle'} color={'text-gray-400'}>
-                                    Student Name
-                                </Typography>
-                                <Typography color={'text-orange-400'} capitalize>
-                                    {student?.user?.name}
-                                </Typography>
-                            </div>
+                                    <div className="flex flex-col gap-y-1">
+                                        <div className="bg-[#95C6FB] bg-opacity-15 rounded-md p-2 border border-[#6B7280]">
+                                            <Typography
+                                                variant={'muted'}
+                                                color={'text-[#24556D]'}
+                                            >
+                                                Student Name
+                                            </Typography>
+                                            <Typography variant="body">
+                                                {student?.user?.name}
+                                            </Typography>
+                                        </div>
+                                    </div>
 
-                            {/* Employment Type */}
-                            <div className="flex flex-col gap-y-1">
-                                <Typography variant={'subtitle'} color={'text-gray-400'}>
-                                    Student Email
-                                </Typography>
-                                <Typography color={'text-orange-400'}>
-                                    {student?.user?.email}
-                                </Typography>
-                            </div>
+                                    <div className="flex flex-col gap-y-4">
+                                        <div className="bg-[#95C6FB] bg-opacity-15 rounded-md p-2 border border-[#6B7280]">
+                                            <Typography
+                                                variant={'muted'}
+                                                color={'text-[#24556D]'}
+                                            >
+                                                Student Email
+                                            </Typography>
+                                            <Typography variant="body">
+                                                {student?.user?.email}
+                                            </Typography>
+                                        </div>
+                                    </div>
 
-                            {/*  Salary */}
-                            <div className="flex flex-col gap-y-1">
-                                <Typography variant={'subtitle'} color={'text-gray-400'}>
-                                    Student Phone
-                                </Typography>
-                                <Typography color={'text-orange-400'}>
-                                    {student?.phone}
-                                </Typography>
-                            </div>
+                                    <div className="flex flex-col gap-y-1">
+                                        <div className="bg-[#95C6FB] bg-opacity-15 rounded-md p-2 border border-[#6B7280]">
+                                            <Typography
+                                                variant={'muted'}
+                                                color={'text-[#24556D]'}
+                                            >
+                                                Student Phone
+                                            </Typography>
+                                            <Typography variant="body">
+                                                {student?.phone}
+                                            </Typography>
+                                        </div>
+                                    </div>
 
-                            <div className="flex flex-col gap-y-1">
-                                <Typography variant={'subtitle'} color={'text-gray-400'}>
-                                    Address
-                                </Typography>
-                                <Typography color={'text-orange-400'}>
-                                    {student?.addressLine1 || "N/A"}
-                                </Typography>
-                            </div>
-                        </div>
-                    ))}
+                                    <div className="flex flex-col gap-y-1">
+                                        <div className="bg-[#95C6FB] bg-opacity-15 rounded-md p-2 border border-[#6B7280]">
+                                            <Typography
+                                                variant={'muted'}
+                                                color={'text-[#24556D]'}
+                                            >
+                                                Address
+                                            </Typography>
+                                            <Typography variant="body">
+                                                {student?.addressLine1 || 'N/A'}
+                                            </Typography>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        ))}
                 </>
+            )} */}
+            {industry.isError && <TechnicalError />}
+            {industry.isLoading || industry?.isFetching ? (
+                <LoadingAnimation height={'h-[70vh]'} />
+            ) : industry.data ? (
+                <IndustryProfileDetail industry={industry?.data} />
+            ) : (
+                !industry.isError &&
+                industry.isSuccess && (
+                    <EmptyData
+                        title={'No Industry Found'}
+                        description={'No Industry Found on your request'}
+                    />
+                )
             )}
-        </Card>
+        </>
     )
 }
 
 Detail.getLayout = (page: ReactElement) => {
     return (
         <RtoLayout
-            pageTitle={{
-                title: 'Workplace',
-            }}
+            // pageTitle={{
+            //     title: 'Workplace',
+            // }}
         >
             {page}
         </RtoLayout>

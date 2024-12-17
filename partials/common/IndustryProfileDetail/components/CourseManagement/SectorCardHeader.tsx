@@ -20,16 +20,21 @@ export const SectorCardHeader = () => {
                 <h1 className="text-xl font-semibold">Sectors & Courses</h1>
                 <div className="flex gap-4">
                     {/* View Rejected Sectors Modal */}
-                    <Modal>
-                        <Modal.Open opens="rejectedSectors">
-                            <button className="text-link text-sm hover:underline">
-                                View Rejected Courses
-                            </button>
-                        </Modal.Open>
-                        <Modal.Window name="rejectedSectors">
-                            <RejectedSectorModal />
-                        </Modal.Window>
-                    </Modal>
+                    <AuthorizedUserComponent
+                        roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
+                    >
+                        <Modal>
+                            <Modal.Open opens="rejectedSectors">
+                                <button className="text-link text-sm hover:underline">
+                                    View Rejected Courses
+                                </button>
+                            </Modal.Open>
+                            <Modal.Window name="rejectedSectors">
+                                <RejectedSectorModal />
+                            </Modal.Window>
+                        </Modal>
+                    </AuthorizedUserComponent>
+
                     {/* Add Course Modal */}
                     <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
                         <Modal>

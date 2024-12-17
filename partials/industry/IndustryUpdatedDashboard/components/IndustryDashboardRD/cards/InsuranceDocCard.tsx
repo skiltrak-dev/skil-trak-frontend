@@ -1,6 +1,8 @@
 import { ShowErrorNotifications, Switch, Typography } from '@components'
+import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { IndustryApi } from '@queries'
+import { getUserCredentials } from '@utils'
 
 export const InsuranceDocCard = ({
     docs,
@@ -32,6 +34,9 @@ export const InsuranceDocCard = ({
         }
     }
 
+    const { role } = getUserCredentials()
+    const checkRto = role === UserRoles.RTO
+
     return (
         <>
             <ShowErrorNotifications result={requiredResult} />
@@ -51,7 +56,7 @@ export const InsuranceDocCard = ({
                         customStyleClass="profileSwitch"
                         onChange={(e: any) => onRequiredDocType()}
                         loading={requiredResult?.isLoading}
-                        disabled={requiredResult?.isLoading}
+                        disabled={requiredResult?.isLoading || checkRto}
                         defaultChecked={isDocRequired}
                     />
                 </div>
