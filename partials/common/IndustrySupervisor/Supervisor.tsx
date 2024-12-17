@@ -1,4 +1,5 @@
 import {
+    AuthorizedUserComponent,
     Button,
     Card,
     EmptyData,
@@ -26,6 +27,7 @@ import { PulseLoader } from 'react-spinners'
 import { InfoCard } from './components'
 import { CiEdit } from 'react-icons/ci'
 import { RiDeleteBin6Line } from 'react-icons/ri'
+import { UserRoles } from '@constants'
 
 export const Supervisor = ({ industry }: { industry?: Industry }) => {
     const [isViewed, setIsViewed] = useState<boolean>(false)
@@ -147,18 +149,24 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
                     <div className="flex gap-x-2 border rounded-md p-2.5 items-center justify-between shadow-lg relative w-full">
                         <Typography variant={'label'}>Supervisors</Typography>
                         <div className="flex items-center gap-x-1 ">
-                            <div
-                                onClick={() => {
-                                    contextBar.setTitle('Add Supervisor')
-                                    contextBar.show()
-                                    contextBar.setContent(
-                                        <AddSupervisor industry={industry} />
-                                    )
-                                }}
-                                className="border rounded-md p-1 cursor-pointer"
+                            <AuthorizedUserComponent
+                                roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
                             >
-                                <LuPlus />
-                            </div>
+                                <div
+                                    onClick={() => {
+                                        contextBar.setTitle('Add Supervisor')
+                                        contextBar.show()
+                                        contextBar.setContent(
+                                            <AddSupervisor
+                                                industry={industry}
+                                            />
+                                        )
+                                    }}
+                                    className="border rounded-md p-1 cursor-pointer"
+                                >
+                                    <LuPlus />
+                                </div>
+                            </AuthorizedUserComponent>
                             <div
                                 onClick={onClickShowSupervisorList}
                                 className="border rounded-md p-1 cursor-pointer"

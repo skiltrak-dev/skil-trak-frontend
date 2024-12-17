@@ -4,6 +4,8 @@ import { useNotification } from '@hooks'
 import { ReactElement, useState } from 'react'
 import { SnoozeIndustryModal } from '@partials/common/modal'
 import { ShowErrorNotifications, Switch, Typography } from '@components'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 export const SnoozeIndustrySwitch = ({
     industry,
@@ -40,6 +42,8 @@ export const SnoozeIndustrySwitch = ({
             }
         })
     }
+    const { role } = getUserCredentials()
+    const checkRto = role === UserRoles.RTO
     return (
         <div>
             {modal}
@@ -66,7 +70,7 @@ export const SnoozeIndustrySwitch = ({
                             defaultChecked={industry?.isSnoozed}
                             customStyleClass={'profileSwitch'}
                             loading={unSnoozeResult.isLoading}
-                            disabled={unSnoozeResult.isLoading}
+                            disabled={unSnoozeResult.isLoading || checkRto}
                         />
                     </div>
                     <Typography variant="small" bold>

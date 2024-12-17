@@ -2,6 +2,7 @@ import React, { ReactElement, useState } from 'react'
 import { Industry } from '@types'
 import { UserRoles } from '@constants'
 import {
+    AuthorizedUserComponent,
     ShowErrorNotifications,
     Typography,
     useIsRestricted,
@@ -12,6 +13,7 @@ import { UserProfileDetailCard } from '@partials/common/Cards'
 import { SubAdminApi } from '@queries'
 import { IndustryCallLogModal } from '@partials/sub-admin/Industries'
 import moment from 'moment'
+import { getUserCredentials } from '@utils'
 
 export const IndustryDetail = ({ industry }: { industry: Industry }) => {
     const { notification } = useNotification()
@@ -31,7 +33,9 @@ export const IndustryDetail = ({ industry }: { industry: Industry }) => {
             />
         )
     }
-
+    const { role } = getUserCredentials()
+    const checkRto = role === UserRoles.RTO
+    console.log('industry?.phoneNumber', industry?.phoneNumber)
     return (
         <div className="py-3.5 border-b border-secondary-dark flex flex-col gap-y-0.5">
             {modal}
@@ -70,10 +74,16 @@ export const IndustryDetail = ({ industry }: { industry: Industry }) => {
                     <UserProfileDetailCard
                         border={false}
                         title="Phone Number"
-                        detail={useRestrictedData(
-                            industry?.isSnoozed ? '---' : industry?.phoneNumber,
-                            UserRoles.INDUSTRY
-                        )}
+                        detail={
+                            checkRto
+                                ? industry?.phoneNumber
+                                : useRestrictedData(
+                                      industry?.isSnoozed
+                                          ? '---'
+                                          : industry?.phoneNumber,
+                                      UserRoles.INDUSTRY
+                                  )
+                        }
                         onClick={() => {
                             if (canAssessData) {
                                 if (
@@ -102,22 +112,26 @@ export const IndustryDetail = ({ industry }: { industry: Industry }) => {
                             }
                         }}
                     >
-                        <div
-                            className="bg-primaryNew py-1.5 px-2.5 rounded"
-                            onClick={(e) => {
-                                onViewCallLogs()
-                                e.stopPropagation()
-                            }}
+                        <AuthorizedUserComponent
+                            roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                         >
-                            <Typography
-                                variant="xs"
-                                color="text-white"
-                                bold
-                                underline
+                            <div
+                                className="bg-primaryNew py-1.5 px-2.5 rounded"
+                                onClick={(e) => {
+                                    onViewCallLogs()
+                                    e.stopPropagation()
+                                }}
                             >
-                                Call Log
-                            </Typography>
-                        </div>
+                                <Typography
+                                    variant="xs"
+                                    color="text-white"
+                                    bold
+                                    underline
+                                >
+                                    Call Log
+                                </Typography>
+                            </div>
+                        </AuthorizedUserComponent>
                     </UserProfileDetailCard>
                 </div>
                 <div>

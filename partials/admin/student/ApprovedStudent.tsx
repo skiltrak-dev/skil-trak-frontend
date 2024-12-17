@@ -96,6 +96,40 @@ export const ApprovedStudent = () => {
         )
 
     // ================= Blinking/Flashing rows of students ================
+    const activeAndCompleted = data?.data?.filter((student: any) => {
+        if (
+            student?.user?.status !== UserStatus.Approved &&
+            !student?.workplace?.length
+        ) {
+            // Skip if status is not Approved or no workplace
+
+            return false
+        }
+
+        const workplaceCount = student?.workplace?.length
+
+        if (
+            workplaceCount === 1 &&
+            student?.user?.status === UserStatus.Approved
+        ) {
+            // If only one workplace, check its status
+            return student?.workplace[0]?.currentStatus === 'completed'
+        } else if (
+            workplaceCount > 1 &&
+            student?.user?.status === UserStatus.Approved
+        ) {
+            // If multiple workplaces, all must have 'completed' status
+            // student.workplace.some(
+            //     (placement: any) => placement?.currentStatus === 'completed'
+            // )
+            return student?.workplace?.every(
+                (placement: any) => placement?.currentStatus === 'completed'
+            )
+        }
+
+        return false
+    })
+
     const findCallLogsUnanswered = data?.data?.filter((student: any) => {
         const unansweredCalls = student?.callLog?.filter((call: any) => {
             if (call?.isAnswered === null) {
@@ -472,6 +506,7 @@ export const ApprovedStudent = () => {
                             }
                             findCallLogsUnanswered={findCallLogsUnanswered}
                             findExpiringInNext45Days={findExpiringInNext45Days}
+                            activeAndCompleted={activeAndCompleted}
                         >
                             {({
                                 table,

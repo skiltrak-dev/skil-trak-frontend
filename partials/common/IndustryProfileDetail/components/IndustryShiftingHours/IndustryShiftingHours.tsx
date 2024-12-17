@@ -4,8 +4,16 @@ import { Waypoint } from 'react-waypoint'
 import { AddShiftsCB } from './contextBar'
 import { useEffect, useState } from 'react'
 import { FreeShifts, TradingHours } from './components'
-import { Button, Card, LoadingAnimation, NoData, Typography } from '@components'
+import {
+    AuthorizedUserComponent,
+    Button,
+    Card,
+    LoadingAnimation,
+    NoData,
+    Typography,
+} from '@components'
 import { initialSchedule } from '@partials/industry/AvailableShifts/components'
+import { UserRoles } from '@constants'
 
 export const IndustryShiftingHours = ({
     industryUserId,
@@ -73,36 +81,41 @@ export const IndustryShiftingHours = ({
                             <Typography semibold>
                                 <span className="text-[15px]">Overview</span>
                             </Typography>
-
-                            <Button
-                                text={
-                                    industryAvailableHours?.data &&
-                                    industryAvailableHours?.data?.length > 0
-                                        ? 'Edit Shifts'
-                                        : 'Add Shifts'
-                                }
-                                onClick={() => {
-                                    contextBar.show(false)
-                                    contextBar.setTitle('Add Shifts')
-                                    contextBar.setContent(
-                                        <AddShiftsCB
-                                            industryAvailableHours={
-                                                industryAvailableHours?.data
-                                            }
-                                            industryUserId={industryUserId}
-                                        />
-                                    )
-                                }}
-                                disabled={!industryAvailableHours?.isSuccess}
-                            />
+                            <AuthorizedUserComponent
+                                roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                            >
+                                <Button
+                                    text={
+                                        industryAvailableHours?.data &&
+                                        industryAvailableHours?.data?.length > 0
+                                            ? 'Edit Shifts'
+                                            : 'Add Shifts'
+                                    }
+                                    onClick={() => {
+                                        contextBar.show(false)
+                                        contextBar.setTitle('Add Shifts')
+                                        contextBar.setContent(
+                                            <AddShiftsCB
+                                                industryAvailableHours={
+                                                    industryAvailableHours?.data
+                                                }
+                                                industryUserId={industryUserId}
+                                            />
+                                        )
+                                    }}
+                                    disabled={
+                                        !industryAvailableHours?.isSuccess
+                                    }
+                                />
+                            </AuthorizedUserComponent>
                         </div>
                     ) : null}
 
                     {/*  */}
 
-                    {industryAvailableHours.isError ? (
+                    {industryAvailableHours.isError && (
                         <NoData text="There is some technical error!" />
-                    ) : null}
+                    )}
                     {industryAvailableHours?.isLoading ? (
                         <LoadingAnimation size={90} />
                     ) : (

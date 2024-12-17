@@ -5,6 +5,7 @@ import React from 'react'
 import { SubAdminApi } from '@queries'
 import { useNotification } from '@hooks'
 import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 export const IndustryContactPerson = ({ industry }: { industry: Industry }) => {
     const [callLog, callLogResult] = SubAdminApi.Industry.useIndustryCallLog()
@@ -12,7 +13,8 @@ export const IndustryContactPerson = ({ industry }: { industry: Industry }) => {
     const canAssessData = useIsRestricted(UserRoles.INDUSTRY)
 
     const { notification } = useNotification()
-
+    const { role } = getUserCredentials()
+    const checkRto = role === UserRoles.RTO
     return (
         <div className="py-3.5 border-b border-secondary-dark flex flex-col gap-y-0.5">
             <Typography variant="small" medium>
@@ -34,28 +36,36 @@ export const IndustryContactPerson = ({ industry }: { industry: Industry }) => {
                                 : industry?.contactPersonNumber,
                             UserRoles.INDUSTRY
                         )}
-                        onClick={() => {
-                            if (!industry?.isSnoozed && canAssessData) {
-                                navigator.clipboard.writeText(
-                                    industry?.contactPersonNumber
-                                )
-                                callLog({
-                                    industry: industry?.id,
-                                    receiver: UserRoles.INDUSTRY,
-                                }).then((res: any) => {
-                                    if (res?.data) {
-                                        notification.success({
-                                            title: 'Called Industry',
-                                            description: `Called Industry with Name: ${industry?.user?.name}`,
-                                        })
-                                    }
-                                })
-                                notification.success({
-                                    title: 'Copied',
-                                    description: 'Contact Person Number Copied',
-                                })
-                            }
-                        }}
+                        onClick={
+                            !checkRto
+                                ? () => {
+                                      if (
+                                          !industry?.isSnoozed &&
+                                          canAssessData
+                                      ) {
+                                          navigator.clipboard.writeText(
+                                              industry?.contactPersonNumber
+                                          )
+                                          callLog({
+                                              industry: industry?.id,
+                                              receiver: UserRoles.INDUSTRY,
+                                          }).then((res: any) => {
+                                              if (res?.data) {
+                                                  notification.success({
+                                                      title: 'Called Industry',
+                                                      description: `Called Industry with Name: ${industry?.user?.name}`,
+                                                  })
+                                              }
+                                          })
+                                          notification.success({
+                                              title: 'Copied',
+                                              description:
+                                                  'Contact Person Number Copied',
+                                          })
+                                      }
+                                  }
+                                : undefined
+                        }
                     />
                 </div>
             </div>

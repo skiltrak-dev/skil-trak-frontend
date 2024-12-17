@@ -1,4 +1,5 @@
 import {
+    AuthorizedUserComponent,
     Button,
     Card,
     EmptyData,
@@ -37,6 +38,7 @@ import { LuPlus } from 'react-icons/lu'
 import { CiEdit } from 'react-icons/ci'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import { BranchContactPersonInfoCard } from './BranchContactPersonInfoCard'
+import { UserRoles } from '@constants'
 
 export const IndustryBranchesAddress = ({
     industry,
@@ -198,13 +200,18 @@ export const IndustryBranchesAddress = ({
             >
                 <div className="flex gap-x-2 border rounded-md p-2.5 items-center justify-between shadow-lg relative w-full">
                     <Typography variant={'label'}>Branches</Typography>
+
                     <div className="flex items-center gap-x-1 ">
-                        <div
-                            onClick={onAddLocations}
-                            className="border rounded-md p-1 cursor-pointer"
+                        <AuthorizedUserComponent
+                            roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
                         >
-                            <LuPlus />
-                        </div>
+                            <div
+                                onClick={onAddLocations}
+                                className="border rounded-md p-1 cursor-pointer"
+                            >
+                                <LuPlus />
+                            </div>
+                        </AuthorizedUserComponent>
                         <div
                             onClick={onClickShowIndustryList}
                             className="border rounded-md p-1 cursor-pointer"

@@ -5,7 +5,7 @@ import { PuffLoader } from 'react-spinners'
 import { GiEmptyHourglass } from 'react-icons/gi'
 
 // components
-import { Button, Card, Typography } from '@components'
+import { AuthorizedUserComponent, Button, Card, Typography } from '@components'
 import { CustomRequirementForm } from '../../forms/CustomRequirementForm'
 import { CustomDocInput } from './CustomDocInput'
 import { DocumentInputField } from './DocumentInputField'
@@ -13,6 +13,7 @@ import { DocumentInputField } from './DocumentInputField'
 // redux
 import { useGetIndustryDocumentsQuery } from '@queries'
 import { Course, Industry } from '@types'
+import { UserRoles } from '@constants'
 
 export const CourseDocuments = ({
     course,
@@ -65,29 +66,33 @@ export const CourseDocuments = ({
                 />
             ) : (
                 <div>
-                    <div className="flex flex-col md:flex-row gap-x-4 md:justify-between">
-                        <div>
-                            <Typography variant="label" medium>
-                                Please select documents you want to require from
-                                students
-                            </Typography>
-                            <Typography variant={'small'}>
-                                Only selected documents will be required
-                            </Typography>
+                    <AuthorizedUserComponent
+                        roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
+                    >
+                        <div className="flex flex-col md:flex-row gap-x-4 md:justify-between">
+                            <div>
+                                <Typography variant="label" medium>
+                                    Please select documents you want to require
+                                    from students
+                                </Typography>
+                                <Typography variant={'small'}>
+                                    Only selected documents will be required
+                                </Typography>
+                            </div>
+                            <div className="flex items-start gap-x-2">
+                                <Button
+                                    variant="info"
+                                    onClick={() => {
+                                        setShowCustomRequirementForm(true)
+                                    }}
+                                >
+                                    <span className="whitespace-pre">
+                                        Add Custom
+                                    </span>
+                                </Button>
+                            </div>
                         </div>
-                        <div className="flex items-start gap-x-2">
-                            <Button
-                                variant="info"
-                                onClick={() => {
-                                    setShowCustomRequirementForm(true)
-                                }}
-                            >
-                                <span className="whitespace-pre">
-                                    Add Custom
-                                </span>
-                            </Button>
-                        </div>
-                    </div>
+                    </AuthorizedUserComponent>
 
                     {/* Checkboxes */}
                     {getRelatedData().length ? (
@@ -127,7 +132,7 @@ export const CourseDocuments = ({
                                 <GiEmptyHourglass />
                             </div>
                             <p className="text-sm font-semibold">
-                                No Current Courses Here
+                                No required documents here
                             </p>
                         </div>
                     )}
