@@ -168,27 +168,32 @@ export const useRequestType = ({
             date: appliedIndustry?.interviewDate || workplace?.interviewDate,
         },
         {
-            primaryText: 'Meeting',
-            secondaryText: 'with Workplace Supervisor (Orientation)',
-            color: 'text-info-dark',
+            primaryText: 'Waiting For Student',
+            secondaryText: 'for Workplace Response',
+            color: 'text-info-light',
             onClick: (isCleared: (bool: boolean) => void) => {
-                if (
-                    workplace?.currentStatus ===
-                    WorkplaceCurrentStatus.Interview
-                ) {
-                    isCleared(true)
-                    onMeetingClicked()
+                if (appliedIndustry) {
+                    if (appliedIndustry?.interview) {
+                        onForwardClicked(appliedIndustry)
+                        isCleared(true)
+                    } else {
+                        isCleared(false)
+                        notification.error({
+                            title: 'Take an Interview',
+                            description:
+                                'You Must have to take an Interview from student before sending request to industry',
+                        })
+                    }
                 } else {
                     notification.error({
-                        title: 'Take an Interview',
-                        description: 'Take an Interview From Student',
+                        title: 'Apply on Industry',
+                        description:
+                            'Apply on Industry before forwarding request',
                     })
                 }
             },
-            status: WorkplaceCurrentStatus.AppointmentBooked,
-            date:
-                appliedIndustry?.appointmentBookedDate ||
-                workplace?.appointmentDate,
+            status: WorkplaceCurrentStatus.AwaitingStudentResponse,
+            date: appliedIndustry?.awaitingStudentResponseDate,
         },
         {
             primaryText: 'Waiting',
@@ -217,6 +222,30 @@ export const useRequestType = ({
             },
             status: WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
             date: appliedIndustry?.awaitingWorkplaceResponseDate,
+        },
+        {
+            primaryText: 'Meeting',
+            secondaryText: 'with Workplace Supervisor (Orientation)',
+            color: 'text-info-dark',
+            onClick: (isCleared: (bool: boolean) => void) => {
+                if (
+                    workplace?.currentStatus ===
+                    WorkplaceCurrentStatus.AwaitingWorkplaceResponse
+                ) {
+                    isCleared(true)
+                    onMeetingClicked()
+                } else {
+                    notification.error({
+                        title: 'Forward Request to Industry',
+                        description:
+                            'Forward Request to Industry before meeting',
+                    })
+                }
+            },
+            status: WorkplaceCurrentStatus.AppointmentBooked,
+            date:
+                appliedIndustry?.appointmentBookedDate ||
+                workplace?.appointmentDate,
         },
         {
             primaryText: 'Agreement & Eligibility (Pending)',
