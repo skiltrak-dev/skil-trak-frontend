@@ -20,12 +20,22 @@ const SessionManager: React.FC = () => {
     const token = AuthUtils.token()
     const isAuthenticated = AuthUtils.isAuthenticated()
 
+    // Get the token ID (you might need to adjust this based on your token structure)
+    const getTokenId = useCallback(() => {
+        const userCredentials = AuthUtils.getUserCredentials()
+        return userCredentials?.id || null
+    }, [])
+
     // Broadcast channel setup for multi-tab synchronization
     const broadcastLogout = useCallback(() => {
         const channel = new BroadcastChannel('autoLogoutChannel')
-        channel.postMessage('logout')
+        // Include token ID in the message
+        channel.postMessage({
+            type: 'logout',
+            tokenId: getTokenId(),
+        })
         channel.close()
-    }, [])
+    }, [getTokenId])
 
     // Logout handler
     const handleLogout = useCallback(async () => {
@@ -53,19 +63,27 @@ const SessionManager: React.FC = () => {
 
         // Broadcast activity to other tabs
         const channel = new BroadcastChannel('autoLogoutChannel')
-        channel.postMessage('activity')
+        channel.postMessage({
+            type: 'activity',
+            tokenId: getTokenId(),
+        })
         channel.close()
-    }, [isAuthenticated])
+    }, [isAuthenticated, getTokenId])
 
     // Broadcast channel listener effect
     useEffect(() => {
         const channel = new BroadcastChannel('autoLogoutChannel')
 
         const handleMessage = (event: MessageEvent) => {
-            if (event.data === 'activity') {
+            // Check if the message has a tokenId and if it matches the current token's ID
+            if (!event.data || event.data.tokenId !== getTokenId()) {
+                return // Ignore messages from different token sessions
+            }
+
+            if (event.data.type === 'activity') {
                 // Reset local activity timer when another tab reports activity
                 setLastActivity(Date.now())
-            } else if (event.data === 'logout') {
+            } else if (event.data.type === 'logout') {
                 // Trigger logout if another tab signals logout
                 handleLogout()
             }
@@ -77,7 +95,7 @@ const SessionManager: React.FC = () => {
             channel.removeEventListener('message', handleMessage)
             channel.close()
         }
-    }, [handleLogout])
+    }, [handleLogout, getTokenId])
 
     // Inactivity and token management effect
     useEffect(() => {
@@ -94,7 +112,10 @@ const SessionManager: React.FC = () => {
             const currentTime = Date.now()
 
             // Check inactivity
-            if (currentTime - lastActivity > INACTIVITY_TIMEOUT) {
+            if (
+                currentTime - lastActivity > INACTIVITY_TIMEOUT ||
+                currentTime > AuthUtils.getUserCredentials()?.exp * 1000
+            ) {
                 handleLogout()
             }
 
@@ -151,6 +172,7 @@ const SessionManager: React.FC = () => {
         resetActivityTimer,
         refreshToken,
         router.asPath,
+        AuthUtils.getUserCredentials()?.exp,
     ])
 
     return <>{modal}</>
