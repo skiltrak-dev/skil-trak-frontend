@@ -174,7 +174,7 @@ export const IndustryStudents = ({ industry }: { industry: Industry }) => {
             cell: (info) =>
                 role === UserRoles.ADMIN ? (
                     <StudentCellInfo student={info?.row?.original} />
-                ) : role === UserRoles.SUBADMIN ? (
+                ) : role === UserRoles.SUBADMIN || role === UserRoles.RTO ? (
                     <SubadminStudentCellInfo student={info?.row.original} />
                 ) : null,
             header: () => <span>Student</span>,
