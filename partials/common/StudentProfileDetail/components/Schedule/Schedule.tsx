@@ -15,9 +15,10 @@ import { Course, Industry, User } from '@types'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
-import { useEffect, useMemo, useState } from 'react'
+import { ReactElement, useEffect, useMemo, useState } from 'react'
 import { Waypoint } from 'react-waypoint'
 import { AddSchedule, ScheduleTimetable } from './components'
+import { NoLogbookFound } from './modal'
 
 export const Schedule = ({
     user,
@@ -26,6 +27,7 @@ export const Schedule = ({
     studentId: number
     user: User
 }) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const [isEntered, setIsEntered] = useState<boolean>(false)
     const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
     const [selectedIndustry, setSelectedIndustry] = useState<number | null>(
@@ -82,6 +84,12 @@ export const Schedule = ({
         }
     }, [courses, industriesOptions])
 
+    const onCancel = () => setModal(null)
+
+    // useEffect(() => {
+    //     setModal(<NoLogbookFound onCancel={onCancel} />)
+    // }, [])
+
     const courseOptions = courses.data?.map((course: Course) => ({
         value: course?.id,
         label: course?.title,
@@ -89,178 +97,191 @@ export const Schedule = ({
     }))
 
     return (
-        <Waypoint
-            onEnter={() => {
-                setIsEntered(true)
-            }}
-            onLeave={() => {
-                setIsEntered(false)
-            }}
-        >
-            <div className="relative">
-                <ShowErrorNotifications result={schedules} />
+        <>
+            {modal}
+            <Waypoint
+                onEnter={() => {
+                    setIsEntered(true)
+                }}
+                onLeave={() => {
+                    setIsEntered(false)
+                }}
+            >
+                <div className="relative">
+                    <ShowErrorNotifications result={schedules} />
 
-                {addSchedule ? (
-                    <AddSchedule
-                        user={user}
-                        studentId={studentId}
-                        selectedCourse={Number(selectedCourse)}
-                        onAddStudentCourse={() => {
-                            setAddSchedule(false)
-                        }}
-                        workplace={
-                            industriesOptions?.find(
-                                (w: any) =>
-                                    w?.value === Number(selectedIndustry)
-                            )?.item
-                        }
-                    />
-                ) : (
-                    <>
-                        <Card noPadding>
-                            <div className="px-4 py-3.5 border-b border-secondary-dark">
-                                <Typography variant="label">
-                                    Schedule
-                                </Typography>
-                            </div>
-                            <div className="flex flex-col-reverse xl:flex-row justify-between px-4 py-2.5">
-                                <div className="flex flex-col md:flex-row gap-x-2">
-                                    <div className="w-72">
-                                        <Select
-                                            label={'Courses'}
-                                            name={'courses'}
-                                            value={courseOptions?.find(
-                                                (c: any) =>
-                                                    c?.value === selectedCourse
-                                            )}
-                                            options={courseOptions}
-                                            loading={courses.isLoading}
-                                            onlyValue
-                                            disabled={courses.isLoading}
-                                            validationIcons
-                                            components={{
-                                                Option: CourseSelectOption,
-                                            }}
-                                            formatOptionLabel={
-                                                formatOptionLabel
-                                            }
-                                            onChange={(e: any) => {
-                                                setSelectedCourse(e)
-                                            }}
-                                            showError={false}
-                                        />
-                                    </div>
-                                    <div className="w-72">
-                                        <Select
-                                            label={'Workplaces'}
-                                            name={'workplace'}
-                                            defaultValue={industriesOptions}
-                                            value={industriesOptions?.find(
-                                                (c: any) =>
-                                                    c?.value ===
-                                                    selectedIndustry
-                                            )}
-                                            options={industriesOptions}
-                                            loading={studentWorkplace.isLoading}
-                                            onlyValue
-                                            disabled={
-                                                studentWorkplace.isLoading
-                                            }
-                                            validationIcons
-                                            onChange={(e: any) => {
-                                                setSelectedIndustry(e)
-                                            }}
-                                            showError={false}
-                                        />
-                                    </div>
+                    {addSchedule ? (
+                        <AddSchedule
+                            user={user}
+                            studentId={studentId}
+                            selectedCourse={Number(selectedCourse)}
+                            onAddStudentCourse={() => {
+                                setAddSchedule(false)
+                            }}
+                            workplace={
+                                industriesOptions?.find(
+                                    (w: any) =>
+                                        w?.value === Number(selectedIndustry)
+                                )?.item
+                            }
+                        />
+                    ) : (
+                        <>
+                            <Card noPadding>
+                                <div className="px-4 py-3.5 border-b border-secondary-dark">
+                                    <Typography variant="label">
+                                        Schedule
+                                    </Typography>
                                 </div>
-
-                                <AuthorizedUserComponent
-                                    excludeRoles={[UserRoles.OBSERVER]}
-                                >
-                                    <div className="mt-1 ml-auto">
-                                        <Button
-                                            text={
-                                                schedules?.data?.schedule
-                                                    ? 'Edit Schedule'
-                                                    : 'Add Schedule'
-                                            }
-                                            variant={'info'}
-                                            onClick={() => {
-                                                setAddSchedule(true)
-                                            }}
-                                        />
-                                    </div>
-                                </AuthorizedUserComponent>
-                            </div>
-                            <div className="mt-3">
-                                {schedules.isError && <TechnicalError />}
-                                {schedules?.isLoading ||
-                                schedules?.isFetching ? (
-                                    <LoadingAnimation />
-                                ) : schedules?.data?.schedule ? (
-                                    <>
-                                        <div className="bg-[#e6f3ff] w-fit px-5 py-2 rounded-md mx-auto flex justify-center items-center gap-x-4">
-                                            <div>
-                                                <Typography variant="small">
-                                                    Start Date
-                                                </Typography>
-                                                <Typography variant="label">
-                                                    {moment(
-                                                        schedules?.data
-                                                            ?.schedule
-                                                            ?.startDate
-                                                    ).format('MMMM DD, YYYY')}
-                                                </Typography>
-                                            </div>
-                                            <div>
-                                                <Typography variant="small">
-                                                    End Date
-                                                </Typography>
-                                                <Typography variant="label">
-                                                    {moment(
-                                                        schedules?.data
-                                                            ?.schedule?.endDate
-                                                    ).format('MMMM DD, YYYY')}
-                                                </Typography>
-                                            </div>
-                                            <div>
-                                                <Typography variant="small">
-                                                    Total Hours
-                                                </Typography>
-                                                <Typography variant="label">
-                                                    {
-                                                        schedules?.data
-                                                            ?.schedule?.hours
-                                                    }{' '}
-                                                    : Hours
-                                                </Typography>
-                                            </div>
+                                <div className="flex flex-col-reverse xl:flex-row justify-between px-4 py-2.5">
+                                    <div className="flex flex-col md:flex-row gap-x-2">
+                                        <div className="w-72">
+                                            <Select
+                                                label={'Courses'}
+                                                name={'courses'}
+                                                value={courseOptions?.find(
+                                                    (c: any) =>
+                                                        c?.value ===
+                                                        selectedCourse
+                                                )}
+                                                options={courseOptions}
+                                                loading={courses.isLoading}
+                                                onlyValue
+                                                disabled={courses.isLoading}
+                                                validationIcons
+                                                components={{
+                                                    Option: CourseSelectOption,
+                                                }}
+                                                formatOptionLabel={
+                                                    formatOptionLabel
+                                                }
+                                                onChange={(e: any) => {
+                                                    setSelectedCourse(e)
+                                                }}
+                                                showError={false}
+                                            />
                                         </div>
+                                        <div className="w-72">
+                                            <Select
+                                                label={'Workplaces'}
+                                                name={'workplace'}
+                                                defaultValue={industriesOptions}
+                                                value={industriesOptions?.find(
+                                                    (c: any) =>
+                                                        c?.value ===
+                                                        selectedIndustry
+                                                )}
+                                                options={industriesOptions}
+                                                loading={
+                                                    studentWorkplace.isLoading
+                                                }
+                                                onlyValue
+                                                disabled={
+                                                    studentWorkplace.isLoading
+                                                }
+                                                validationIcons
+                                                onChange={(e: any) => {
+                                                    setSelectedIndustry(e)
+                                                }}
+                                                showError={false}
+                                            />
+                                        </div>
+                                    </div>
 
-                                        <ScheduleTimetable
-                                            scheduleCourse={
-                                                schedules?.data?.schedule
-                                                    ?.course
-                                            }
-                                            scheduleId={
-                                                schedules?.data?.schedule?.id
-                                            }
-                                            startDate={
-                                                new Date(
-                                                    schedules?.data?.schedule?.startDate
-                                                )
-                                            }
-                                        />
-                                    </>
-                                ) : (
-                                    <EmptyData />
-                                )}
-                            </div>
-                        </Card>
-                    </>
-                )}
-            </div>
-        </Waypoint>
+                                    <AuthorizedUserComponent
+                                        excludeRoles={[UserRoles.OBSERVER]}
+                                    >
+                                        <div className="mt-1 ml-auto">
+                                            <Button
+                                                text={
+                                                    schedules?.data?.schedule
+                                                        ? 'Edit Schedule'
+                                                        : 'Add Schedule'
+                                                }
+                                                variant={'info'}
+                                                onClick={() => {
+                                                    setAddSchedule(true)
+                                                }}
+                                            />
+                                        </div>
+                                    </AuthorizedUserComponent>
+                                </div>
+                                <div className="mt-3">
+                                    {schedules.isError && <TechnicalError />}
+                                    {schedules?.isLoading ||
+                                    schedules?.isFetching ? (
+                                        <LoadingAnimation />
+                                    ) : schedules?.data?.schedule ? (
+                                        <>
+                                            <div className="bg-[#e6f3ff] w-fit px-5 py-2 rounded-md mx-auto flex justify-center items-center gap-x-4">
+                                                <div>
+                                                    <Typography variant="small">
+                                                        Start Date
+                                                    </Typography>
+                                                    <Typography variant="label">
+                                                        {moment(
+                                                            schedules?.data
+                                                                ?.schedule
+                                                                ?.startDate
+                                                        ).format(
+                                                            'MMMM DD, YYYY'
+                                                        )}
+                                                    </Typography>
+                                                </div>
+                                                <div>
+                                                    <Typography variant="small">
+                                                        End Date
+                                                    </Typography>
+                                                    <Typography variant="label">
+                                                        {moment(
+                                                            schedules?.data
+                                                                ?.schedule
+                                                                ?.endDate
+                                                        ).format(
+                                                            'MMMM DD, YYYY'
+                                                        )}
+                                                    </Typography>
+                                                </div>
+                                                <div>
+                                                    <Typography variant="small">
+                                                        Total Hours
+                                                    </Typography>
+                                                    <Typography variant="label">
+                                                        {
+                                                            schedules?.data
+                                                                ?.schedule
+                                                                ?.hours
+                                                        }{' '}
+                                                        : Hours
+                                                    </Typography>
+                                                </div>
+                                            </div>
+
+                                            <ScheduleTimetable
+                                                scheduleCourse={
+                                                    schedules?.data?.schedule
+                                                        ?.course
+                                                }
+                                                scheduleId={
+                                                    schedules?.data?.schedule
+                                                        ?.id
+                                                }
+                                                startDate={
+                                                    new Date(
+                                                        schedules?.data?.schedule?.startDate
+                                                    )
+                                                }
+                                            />
+                                        </>
+                                    ) : (
+                                        <EmptyData />
+                                    )}
+                                </div>
+                            </Card>
+                        </>
+                    )}
+                </div>
+            </Waypoint>
+        </>
     )
 }

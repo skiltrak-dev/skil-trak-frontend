@@ -43,6 +43,10 @@ export const workplaceProgressOptions = [
         value: WorkplaceCurrentStatus.Interview,
     },
     {
+        label: 'Waiting For Student',
+        value: WorkplaceCurrentStatus.AwaitingStudentResponse,
+    },
+    {
         label: 'Waiting',
         value: WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
     },
