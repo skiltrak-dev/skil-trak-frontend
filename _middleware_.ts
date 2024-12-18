@@ -31,6 +31,7 @@ async function checkSubadminStatus(token: string): Promise<boolean> {
         const data = await response.json()
         return data?.isAdmin || false
     } catch (error) {
+        console.error('Error checking subadmin status:', error)
         return false
     }
 }
