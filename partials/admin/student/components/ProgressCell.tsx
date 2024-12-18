@@ -157,13 +157,10 @@ export const ProgressCell = ({
     studentProvidedWorkplace?: boolean
     documentInitiates?: boolean
 }) => {
-    console.log({ step })
     // const currentStatus = WorkplaceRequestProgress[status]
     const currentStatus: CurrentStatus = Object.values(
         WorkplaceRequestProgress(appliedIndustry)
     )[step - 1]
-
-    console.log({ currentStatus })
 
     const contextBar = useContextBar()
 

@@ -5,6 +5,8 @@ import { ShowErrorNotifications, Switch } from '@components'
 // query
 import { useAddOrUpdateRequiredDocumentMutation } from '@queries'
 import { Industry } from '@types'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 export const DocumentInputField = ({
     name,
@@ -41,6 +43,8 @@ export const DocumentInputField = ({
             setChecked(result.data?.checked)
         }
     }, [result])
+    const { role } = getUserCredentials()
+    const checkRto = role === UserRoles.RTO
 
     return (
         <>
@@ -52,12 +56,14 @@ export const DocumentInputField = ({
                         checked={isChecked}
                         label={name}
                         loading={result.isLoading}
+                        disabled={checkRto}
                     />
                 </div>
                 <Switch
                     name={name}
                     value={required}
                     customStyleClass={'profileSwitch'}
+                    disabled={checkRto}
                     // setFieldValue={isRequiredForCustomField}
                     // disabled={!isChecked}
                 />

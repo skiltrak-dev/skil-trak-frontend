@@ -77,7 +77,7 @@ export const Table = <Type,>({
     findExpiringInNext45Days,
     activeAndCompleted,
 }: TableProps<Type>) => {
-    console.log('findCallLogsUnanswered', findExpiringInNext45Days)
+
     //======================== Blinking rows ===========================
     const getTdClassNames = (row: any) => {
         const isUnanswered = findCallLogsUnanswered

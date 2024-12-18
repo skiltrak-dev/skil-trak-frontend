@@ -139,15 +139,13 @@ export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
                         <IndustryRequiredDocuments industry={industry} />
                     </div>
                 </div>
-
+                <div>
+                    <IndustryStudents industry={industry} />
+                </div>
                 {/*  */}
                 <AuthorizedUserComponent
                     roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                 >
-                    <div>
-                        <IndustryStudents industry={industry} />
-                    </div>
-
                     <div className=" h-[470px]">
                         <div className="h-full">
                             <ProfileAppointments

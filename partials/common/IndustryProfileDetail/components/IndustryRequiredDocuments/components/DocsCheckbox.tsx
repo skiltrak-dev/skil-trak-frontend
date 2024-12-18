@@ -1,7 +1,13 @@
 import React from 'react'
 import { ClipLoader } from 'react-spinners'
 
-export const DocsCheckbox = ({ checked, label, onChange, loading }: any) => {
+export const DocsCheckbox = ({
+    checked,
+    label,
+    onChange,
+    loading,
+    disabled,
+}: any) => {
     return (
         <label className="flex items-center gap-x-2.5 text-xs">
             {loading ? (
@@ -16,6 +22,7 @@ export const DocsCheckbox = ({ checked, label, onChange, loading }: any) => {
                     id=""
                     onChange={(event) => onChange(event)}
                     checked={checked}
+                    disabled={disabled}
                 />
             )}
             <p className="text-black text-xs font-medium">{label}</p>
