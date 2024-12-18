@@ -11,7 +11,8 @@ import { AssessmentEvidenceDetailType, Course } from '@types'
 import { getCourseResult } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactNode, useRef, useState } from 'react'
-import { RiDeleteBinLine } from 'react-icons/ri'
+import { IoIosArchive } from 'react-icons/io'
+
 import { PulseLoader } from 'react-spinners'
 import { AssessmentFilesUpload } from './AssessmentFilesUpload'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -20,6 +21,8 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 import { SliderStyleContainer } from '../../styles'
 import { UserRoles } from '@constants'
 import { useAssessmentDocumentsView } from '../../hooks'
+import Modal from '@modals/Modal'
+import { AssessmentFileArchiveModal } from './AssessmentFileArchiveModal'
 
 export const AssessmentFiles = ({
     course,
@@ -55,19 +58,46 @@ export const AssessmentFiles = ({
                 new Date(b.createdAt).getTime()
         )
 
+    const checkIsArchive = filteredFiles?.filter(
+        (file: any) => file?.isArchived
+    )
+
     const deleteUploadedFileAction = (fileId: number) => {
         return (
             <div
                 className="bg-white p-1 rounded-md shadow-md cursor-pointer"
-                onClick={() => {
-                    archiveFile(fileId)
-                }}
+                // onClick={() => {
+                //     archiveFile(fileId)
+                // }}
             >
                 {archiveFileResult?.isLoading &&
                 archiveFileResult?.originalArgs === fileId ? (
                     <PulseLoader size={3} />
                 ) : (
-                    <RiDeleteBinLine className="text-red-500 text-sm" />
+                    <>
+                        {checkIsArchive?.length > 0 ? (
+                            <div
+                                onClick={() => {
+                                    archiveFile(fileId)
+                                }}
+                            >
+                                <IoIosArchive className="text-red-500 text-sm" />
+                            </div>
+                        ) : (
+                            <Modal>
+                                <Modal.Open opens="archiveAssessmentFile">
+                                    <IoIosArchive className="text-red-500 text-sm" />
+                                </Modal.Open>
+                                <Modal.Window name="archiveAssessmentFile">
+                                    <AssessmentFileArchiveModal
+                                        archiveFileResult={archiveFileResult}
+                                        archiveFile={archiveFile}
+                                        fileId={fileId}
+                                    />
+                                </Modal.Window>
+                            </Modal>
+                        )}
+                    </>
                 )}
             </div>
         )

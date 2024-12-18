@@ -849,8 +849,8 @@ export const Workplace = ({
                         studentWorkplace?.isSuccess && (
                             <EmptyData
                                 imageUrl={'/images/workplace/icon.png'}
-                                title="No Workplace Found"
-                                description="Add a workplace to view workplace here"
+                                title="No Cancelled Workplace Found"
+                                description="There is no cancelled workplace found for this student."
                                 height="40vh"
                             />
                         )

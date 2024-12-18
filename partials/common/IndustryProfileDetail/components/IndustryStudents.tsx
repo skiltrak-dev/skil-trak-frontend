@@ -351,7 +351,7 @@ export const IndustryStudents = ({ industry }: { industry: Industry }) => {
                             {isError && <TechnicalError />}
                             {isLoading ? (
                                 <LoadingAnimation height="h-[60vh]" />
-                            ) : data && data?.data.length ? (
+                            ) : data && data?.data?.length ? (
                                 <Table
                                     columns={columns}
                                     data={data.data}
