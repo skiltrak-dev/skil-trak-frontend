@@ -1,11 +1,10 @@
-import { encode } from 'base-64'
-import { ReactElement, useEffect, useRef, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 import {
     LoadingAnimation,
     NoData,
     SectorCourseStudentCount,
-    Typography
+    Typography,
 } from '@components'
 import { FigureCard } from '@components/sections/subAdmin'
 import { useNavbar } from '@hooks'
@@ -14,17 +13,14 @@ import { ProgressLineChart } from '@partials/common'
 import { AdminApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { AuthUtils } from '@utils'
-import btoa from 'btoa'
 import { format } from 'date-fns'
-import html2canvas from 'html2canvas'
 import { useMediaQuery } from 'react-responsive'
-import { transitions } from 'react-stack-grid'
+import StackGrid, { transitions } from 'react-stack-grid'
 
 const { scaleDown } = transitions
 
 const AdminDashboard: NextPageWithLayout = () => {
     const navBar = useNavbar()
-    const textRef = useRef<any>(null)
 
     const isTablet = useMediaQuery({ maxWidth: 1080 })
     const isMobile = useMediaQuery({ maxWidth: 767 })
@@ -48,21 +44,6 @@ const AdminDashboard: NextPageWithLayout = () => {
         }
     }, [])
 
-    const textToEncode = 'This is some text to convert'
-    const encodedText = encode(textToEncode)
-    const encodedText2 = btoa(textToEncode)
-
-    const handleConvert = async () => {
-        try {
-            const canvas = await html2canvas(textRef.current)
-            const dataURL = canvas.toDataURL('image/png')
-
-            // setBase64Image(dataURL)
-        } catch (error) {
-            console.error('Error converting text to image:', error)
-            // Handle conversion errors gracefully (e.g., display error message)
-        }
-    }
     const initialData = [
         {
             name: 'January',
@@ -152,14 +133,6 @@ const AdminDashboard: NextPageWithLayout = () => {
 
     return (
         <div className="flex flex-col gap-y-6 pb-8 px-6 pt-6 ">
-            {/* <h1
-                className="text-2xl h-fit p-2 w-fit pt-0 mt-0 box-border"
-                ref={textRef}
-            >
-                Saad
-            </h1>
-            <button onClick={handleConvert}>Convert to Image</button> */}
-
             {/* Admin Welcome Message */}
             <div className="relative pt-6">
                 <div className="absolute right-8 -top-8">
@@ -263,19 +236,18 @@ const AdminDashboard: NextPageWithLayout = () => {
                     <LoadingAnimation size={80} height={'h-48'} />
                 ) : sectorsStudentsCount?.data &&
                   sectorsStudentsCount?.data?.length > 0 ? (
-                    // <StackGrid
-                    //     columnWidth={
-                    //         isMobile ? '100%' : isTablet ? '50%' : '33%'
-                    //     }
-                    //     gutterWidth={11}
-                    //     gutterHeight={11}
-                    //     appear={scaleDown.appear}
-                    //     appeared={scaleDown.appeared}
-                    //     enter={scaleDown.enter}
-                    //     entered={scaleDown.entered}
-                    //     leaved={scaleDown.leaved}
-                    // >
-                    <div className="grid grid-cols-3 gap-5">
+                    <StackGrid
+                        columnWidth={
+                            isMobile ? '100%' : isTablet ? '50%' : '33%'
+                        }
+                        gutterWidth={11}
+                        gutterHeight={11}
+                        appear={scaleDown.appear}
+                        appeared={scaleDown.appeared}
+                        enter={scaleDown.enter}
+                        entered={scaleDown.entered}
+                        leaved={scaleDown.leaved}
+                    >
                         {sectorsStudentsCount?.data?.map(
                             (sector: any, i: number) => (
                                 <SectorCourseStudentCount
@@ -287,7 +259,7 @@ const AdminDashboard: NextPageWithLayout = () => {
                                 />
                             )
                         )}
-                    </div>
+                    </StackGrid>
                 ) : (
                     sectorsStudentsCount.isSuccess && (
                         <NoData text={'No Sectors Student Count'} />
