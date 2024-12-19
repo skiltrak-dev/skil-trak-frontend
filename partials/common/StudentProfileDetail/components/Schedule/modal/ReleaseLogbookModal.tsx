@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { MdCancel } from 'react-icons/md'
 import { Button, GlobalModal, Typography } from '@components'
 
-export const ReleaseLogbook = ({ onCancel }: { onCancel: () => void }) => {
+export const ReleaseLogbookModal = ({ onCancel }: { onCancel: () => void }) => {
     return (
         <GlobalModal className="!max-w-5xl !w-full">
             <div className="min-w-full max-w-full mx-auto py-9 px-7 sm:px-16 md:px-32 xl:px-44 relative flex flex-col gap-y-4">

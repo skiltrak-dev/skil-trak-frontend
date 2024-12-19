@@ -5,6 +5,7 @@ import {
     ForwardModal,
     InterviewModal,
     MeetingModal,
+    PlacementStartedModal,
     TerminateWorkplaceModal,
 } from '@partials/sub-admin/workplace/modals'
 import { isClearedFunctionType } from '@partials/sub-admin/workplace/studentProvidedComponents/RequestTypeAbn'
@@ -48,25 +49,28 @@ export const useRequestType = ({
     }
 
     const onPlacementStartedClicked = (id: number) => {
-        // setModal(
-        //     <PlacementStartedModal
-        //         id={id}
-        //         agreementSigned={appliedIndustry?.AgreementSigned}
-        //         student={workplace?.student}
-        //         onCancel={() => onModalCancelClicked()}
-        //     />
-        // )
-        setModal(
-            <AddFeedbackModal
-                onCancel={onModalCancelClicked}
-                id={id}
-                agreementSigned={appliedIndustry?.AgreementSigned}
-                student={student}
-                course={workplace?.courses?.[0]}
-                wpId={workplace?.id}
-                industryId={appliedIndustry?.industry?.id}
-            />
-        )
+        if (workplace?.studentFeedBack > 0) {
+            setModal(
+                <PlacementStartedModal
+                    id={id}
+                    agreementSigned={appliedIndustry?.AgreementSigned}
+                    student={workplace?.student}
+                    onCancel={() => onModalCancelClicked()}
+                />
+            )
+        } else {
+            setModal(
+                <AddFeedbackModal
+                    onCancel={onModalCancelClicked}
+                    id={id}
+                    agreementSigned={appliedIndustry?.AgreementSigned}
+                    student={student}
+                    course={workplace?.courses?.[0]}
+                    wpId={workplace?.id}
+                    industryId={appliedIndustry?.industry?.id}
+                />
+            )
+        }
     }
 
     const onCompleteClicked = () => {
@@ -197,7 +201,7 @@ export const useRequestType = ({
             date: appliedIndustry?.awaitingStudentResponseDate,
         },
         {
-            primaryText: 'Waiting',
+            primaryText: 'Waiting For Industry',
             secondaryText: 'for Workplace Response',
             color: 'text-info-light',
             onClick: (isCleared: (bool: boolean) => void) => {
@@ -570,7 +574,7 @@ export const useRequestType = ({
             date: appliedIndustry?.caseOfficerAssignedDate,
         },
         {
-            primaryText: 'Waiting',
+            primaryText: 'Waiting For Industry',
             secondaryText: 'for Workplace Response',
             color: 'text-info-light',
             onClick: (isCleared: isClearedFunctionType) => {

@@ -1,3 +1,3 @@
-export * from './NoLogbookFound'
-export * from './ReleaseLogbook'
+export * from './NoLogbookFoundModal'
+export * from './ReleaseLogbookModal'
 export * from './LogbookNotReleasedModal'

@@ -5,7 +5,7 @@ import { PiWarningOctagonThin } from 'react-icons/pi'
 import React from 'react'
 import Image from 'next/image'
 
-export const NoLogbookFound = ({ onCancel }: { onCancel: () => void }) => {
+export const NoLogbookFoundModal = ({ onCancel }: { onCancel: () => void }) => {
     return (
         <GlobalModal className="!max-w-5xl !w-full">
             <div className="w-full px-7 sm:px-16 md:px-32 xl:px-44 relative flex flex-col gap-y-5 py-10">
